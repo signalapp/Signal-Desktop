@@ -52,3 +52,5 @@ function hexToArrayBuffer(str) {
     array[i] = parseInt(str.substr(i*2, 2), 16);
   return ret;
 };
+
+window.MockSocket.prototype.addEventListener = function() {};

@@ -18,7 +18,8 @@
                         assert.strictEqual(message.response.status, 200);
                         assert.strictEqual(message.response.id.toString(), request_id);
                         done();
-                    }
+                    },
+                    addEventListener: function() {},
                 };
 
                 // actual test
@@ -58,7 +59,8 @@
                         assert.strictEqual(message.request.path, '/some/path');
                         assertEqualArrayBuffers(message.request.body.toArrayBuffer(), new Uint8Array([1,2,3]).buffer);
                         request_id = message.request.id;
-                    }
+                    },
+                    addEventListener: function() {},
                 };
 
                 // actual test

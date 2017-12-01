@@ -207,6 +207,8 @@ function createWindow () {
 
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
+  } else if (config.environment === 'test-lib') {
+    mainWindow.loadURL(prepareURL([__dirname, 'libtextsecure', 'test', 'index.html']));
   } else {
     mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
   }
@@ -225,7 +227,9 @@ function createWindow () {
 
   // Emitted when the window is about to be closed.
   mainWindow.on('close', function (e) {
-    if (process.platform === 'darwin' && !windowState.shouldQuit() && config.environment !== 'test') {
+    if (process.platform === 'darwin' && !windowState.shouldQuit()
+      && config.environment !== 'test' && config.environment !== 'test-lib') {
+
       e.preventDefault();
       mainWindow.hide();
     }
@@ -356,7 +360,7 @@ app.on('before-quit', function() {
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin' || config.environment === 'test') {
+  if (process.platform !== 'darwin' || config.environment === 'test' || config.environment === 'test-lib') {
     app.quit()
   }
 })
