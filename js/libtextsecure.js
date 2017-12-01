@@ -39894,10 +39894,11 @@ MessageSender.prototype = {
         var proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, numbers, proto, function(res) {
-                if (res.errors.length > 0)
+                if (res.errors.length > 0) {
                     reject(res);
-                else
+                } else {
                     resolve(res);
+                }
             });
         }.bind(this));
     },
@@ -39949,7 +39950,9 @@ MessageSender.prototype = {
         syncMessage.sent = sentMessage;
         var contentMessage = new textsecure.protobuf.Content();
         contentMessage.syncMessage = syncMessage;
-        return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+
+        var silent = true;
+        return this.sendIndividualProto(myNumber, contentMessage, Date.now(), silent);
     },
 
     getProfile: function(number) {
@@ -39970,7 +39973,8 @@ MessageSender.prototype = {
             var contentMessage = new textsecure.protobuf.Content();
             contentMessage.syncMessage = syncMessage;
 
-            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+            var silent = true;
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now(), silent);
         }
 
         return Promise.resolve();
@@ -39986,7 +39990,8 @@ MessageSender.prototype = {
             var contentMessage = new textsecure.protobuf.Content();
             contentMessage.syncMessage = syncMessage;
 
-            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+            var silent = true;
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now(), silent);
         }
 
         return Promise.resolve();
@@ -40003,7 +40008,8 @@ MessageSender.prototype = {
             var contentMessage = new textsecure.protobuf.Content();
             contentMessage.syncMessage = syncMessage;
 
-            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+            var silent = true;
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now(), silent);
         }
 
         return Promise.resolve();
@@ -40016,7 +40022,8 @@ MessageSender.prototype = {
         var contentMessage = new textsecure.protobuf.Content();
         contentMessage.receiptMessage = receiptMessage;
 
-        return this.sendIndividualProto(sender, contentMessage, Date.now(), true /*silent*/);
+        var silent = true;
+        return this.sendIndividualProto(sender, contentMessage, Date.now(), silent);
     },
     syncReadMessages: function(reads) {
         var myNumber = textsecure.storage.user.getNumber();
@@ -40033,7 +40040,8 @@ MessageSender.prototype = {
             var contentMessage = new textsecure.protobuf.Content();
             contentMessage.syncMessage = syncMessage;
 
-            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+            var silent = true;
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now(), silent);
         }
 
         return Promise.resolve();
@@ -40055,7 +40063,8 @@ MessageSender.prototype = {
             var contentMessage = new textsecure.protobuf.Content();
             contentMessage.nullMessage = nullMessage;
 
-            return this.sendIndividualProto(destination, contentMessage, Date.now()).then(function() {
+            var silent = true;
+            return this.sendIndividualProto(destination, contentMessage, Date.now(), silent).then(function() {
                 var verified = new textsecure.protobuf.Verified();
                 verified.state = state;
                 verified.destination = destination;
@@ -40068,7 +40077,7 @@ MessageSender.prototype = {
                 var contentMessage = new textsecure.protobuf.Content();
                 contentMessage.syncMessage = syncMessage;
 
-                return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+                return this.sendIndividualProto(myNumber, contentMessage, Date.now(), silent);
             }.bind(this));
         }
 
@@ -40084,14 +40093,17 @@ MessageSender.prototype = {
         }
 
         return new Promise(function(resolve, reject) {
-            this.sendMessageProto(timestamp, numbers, proto, function(res) {
+            var silent = true;
+            var callback = function(res) {
                 res.dataMessage = proto.toArrayBuffer();
                 if (res.errors.length > 0) {
                     reject(res);
                 } else {
                     resolve(res);
                 }
-            }.bind(this));
+            }.bind(this);
+
+            this.sendMessageProto(timestamp, numbers, proto, callback, silent);
         }.bind(this));
     },
 
