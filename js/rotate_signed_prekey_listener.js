@@ -45,8 +45,15 @@
         timeout = setTimeout(runWhenOnline, waitTime);
     }
 
+    var started = false;
     Whisper.RotateSignedPreKeyListener = {
         init: function(events) {
+            if (started) {
+                console.log('Already started signed prekey listener');
+                return;
+            }
+            started = true;
+
             if (Whisper.Registration.isDone()) {
                 setTimeoutForNextRun();
             }
