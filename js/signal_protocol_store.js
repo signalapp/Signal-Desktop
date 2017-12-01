@@ -240,7 +240,8 @@
                         pubKey     : prekey.get('publicKey'),
                         privKey    : prekey.get('privateKey'),
                         created_at : prekey.get('created_at'),
-                        keyId      : prekey.get('id')
+                        keyId      : prekey.get('id'),
+                        confirmed  : prekey.get('confirmed'),
                     });
                 }).fail(function() {
                     console.log('Failed to load signed prekey:', keyId);
@@ -260,18 +261,20 @@
                             pubKey     : prekey.get('publicKey'),
                             privKey    : prekey.get('privateKey'),
                             created_at : prekey.get('created_at'),
-                            keyId      : prekey.get('id')
+                            keyId      : prekey.get('id'),
+                            confirmed  : prekey.get('confirmed'),
                         };
                     }));
                 });
             });
         },
-        storeSignedPreKey: function(keyId, keyPair) {
+        storeSignedPreKey: function(keyId, keyPair, confirmed) {
             var prekey = new SignedPreKey({
                 id         : keyId,
                 publicKey  : keyPair.pubKey,
                 privateKey : keyPair.privKey,
-                created_at : Date.now()
+                created_at : Date.now(),
+                confirmed  : Boolean(confirmed),
             });
             return new Promise(function(resolve) {
                 prekey.save().always(function() {

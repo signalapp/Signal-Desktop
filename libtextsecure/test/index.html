@@ -13,7 +13,6 @@
   </div>
 
   <script type="text/javascript" src="test.js"></script>
-  <script type="text/javascript" src="blanket_mocha.js"></script>
   <script type="text/javascript" src="in_memory_signal_protocol_store.js"></script>
 
   <script type="text/javascript" src="../components.js"></script>
@@ -43,5 +42,14 @@
   <script type="text/javascript" src="generate_keys_test.js"></script>
   <script type="text/javascript" src="websocket-resources_test.js"></script>
   <script type="text/javascript" src="task_with_timeout_test.js"></script>
+  <script type="text/javascript" src="account_manager_test.js"></script>
+
+  <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
+  <script type="text/javascript" src="blanket_mocha.js"></script>
+
+  <!-- Uncomment to start tests without code coverage enabled -->
+  <!-- <script type="text/javascript">
+    mocha.run();
+  </script> -->
 </body>
 </html>
