@@ -39894,10 +39894,11 @@ MessageSender.prototype = {
         var proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, numbers, proto, function(res) {
-                if (res.errors.length > 0)
+                if (res.errors.length > 0) {
                     reject(res);
-                else
+                } else {
                     resolve(res);
+                }
             });
         }.bind(this));
     },
