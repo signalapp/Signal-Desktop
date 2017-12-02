@@ -974,7 +974,7 @@
             this.updateMessageFieldSize({});
         },
         insertEmoji: function(e) {
-            var colons = ':' + emoji.data[e.unified.toLowerCase()][3][0] + ':';
+            var colons = ':' + emojiData[e.index].short_name + ':';
 
             var textarea = this.$messageField[0];
             if (textarea.selectionStart || textarea.selectionStart == '0') {
