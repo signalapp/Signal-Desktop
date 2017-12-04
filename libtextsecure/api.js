@@ -25,7 +25,19 @@ var TextSecureServer = (function() {
     }
 
     function createSocket(url) {
-      var requestOptions = { ca: window.config.certificateAuthorities };
+      var proxyUrl = window.getProxyForUrl(url);
+      var requestOptions;
+      if (proxyUrl) {
+        console.log('createSocket: using proxy url', proxyUrl);
+        requestOptions = {
+            agent: ProxyAgent(proxyUrl)
+        };
+      } else {
+        requestOptions = {
+            ca: window.config.certificateAuthorities,
+        };
+      }
+
       return new nodeWebSocket(url, null, null, null, requestOptions);
     }
 
@@ -39,12 +51,23 @@ var TextSecureServer = (function() {
         console.log(options.type, url);
         var timeout = typeof options.timeout !== 'undefined' ? options.timeout : 10000;
 
+        var proxyUrl = window.getProxyForUrl(url);
+        var agent;
+        if (proxyUrl) {
+            console.log('promixe_ajax: using proxy url', proxyUrl);
+            agent = new ProxyAgent(proxyUrl);
+        } else {
+            agent = new httpsAgent({
+                ca: options.certificateAuthorities
+            });
+        }
+
         var fetchOptions = {
           method: options.type,
           body: options.data || null,
           headers: { 'X-Signal-Agent': 'OWD' },
-          agent: new httpsAgent({ca: options.certificateAuthorities}),
-          timeout: timeout
+          agent: agent,
+          timeout: timeout,
         };
 
         if (fetchOptions.body instanceof ArrayBuffer) {

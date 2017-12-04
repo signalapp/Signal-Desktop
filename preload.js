@@ -52,6 +52,8 @@
     window.nodeSetImmediate(function() {});
   }, 1000);
 
+  window.getProxyForUrl = require('proxy-from-env').getProxyForUrl;
+  window.ProxyAgent = require('proxy-agent');
   window.EmojiConvertor = require('emoji-js');
   window.nodeFetch = require('node-fetch');
   window.httpsAgent = require('https').Agent;
