@@ -237,9 +237,9 @@ atob@~1.1.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/atob/-/atob-1.1.3.tgz#95f13629b12c3a51a5d215abdce2aa9f32f80773"
 
-aws-sdk@^2.155.0:
-  version "2.156.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.156.0.tgz#409c06f7051d58320cb389a024ca7b61ce31f136"
+aws-sdk@^2.158.0:
+  version "2.163.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.163.0.tgz#bf0c43878634800c5426aa0931b5683900493d92"
   dependencies:
     buffer "4.9.1"
     crypto-browserify "1.0.9"
@@ -394,7 +394,7 @@ buffers@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/buffers/-/buffers-0.1.1.tgz#b24579c3bed4d6d396aeee6d9a8ae7f5482ab7bb"
 
-builder-util-runtime@3.3.0, builder-util-runtime@^3.3.0:
+builder-util-runtime@3.3.0, builder-util-runtime@^3.3.0, builder-util-runtime@~3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-3.3.0.tgz#6374029211544f1a380fc7275658b0616b0e9ae1"
   dependencies:
@@ -403,16 +403,7 @@ builder-util-runtime@3.3.0, builder-util-runtime@^3.3.0:
     fs-extra-p "^4.4.4"
     sax "^1.2.4"
 
-builder-util-runtime@^3.2.0, builder-util-runtime@~3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-3.2.0.tgz#b946032b61c940533fa5e8f05afc550b8e56c94c"
-  dependencies:
-    bluebird-lst "^1.0.5"
-    debug "^3.1.0"
-    fs-extra-p "^4.4.4"
-    sax "^1.2.4"
-
-builder-util@3.4.3, builder-util@^3.4.2:
+builder-util@3.4.3, builder-util@^3.4.2, builder-util@^3.4.3:
   version "3.4.3"
   resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-3.4.3.tgz#c7d6908ffc56fa3c4de0ec804dbcb9bbf6aa2ab4"
   dependencies:
@@ -431,27 +422,6 @@ builder-util@3.4.3, builder-util@^3.4.2:
     source-map-support "^0.5.0"
     stat-mode "^0.2.2"
     temp-file "^3.0.0"
-    tunnel-agent "^0.6.0"
-
-builder-util@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-3.4.1.tgz#b9f079ff4c279699ca52f42930bab1c19ff62517"
-  dependencies:
-    "7zip-bin" "^2.2.7"
-    bluebird-lst "^1.0.5"
-    builder-util-runtime "^3.2.0"
-    chalk "^2.3.0"
-    debug "^3.1.0"
-    fs-extra-p "^4.4.4"
-    ini "^1.3.5"
-    is-ci "^1.0.10"
-    js-yaml "^3.10.0"
-    lazy-val "^1.0.2"
-    node-emoji "^1.8.1"
-    semver "^5.4.1"
-    source-map-support "^0.5.0"
-    stat-mode "^0.2.2"
-    temp-file "^2.1.1"
     tunnel-agent "^0.6.0"
 
 builtin-modules@^1.0.0:
@@ -1115,7 +1085,7 @@ electron-osx-sign@0.4.7:
     minimist "^1.2.0"
     plist "^2.1.0"
 
-electron-publish@19.46.5:
+electron-publish@19.46.5, electron-publish@~19.46.5:
   version "19.46.5"
   resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-19.46.5.tgz#eb545af247edc78297a9ace6ebb2bad7c0fcc2a4"
   dependencies:
@@ -1126,34 +1096,23 @@ electron-publish@19.46.5:
     fs-extra-p "^4.4.4"
     mime "^2.0.3"
 
-electron-publish@~19.46.4:
-  version "19.46.4"
-  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-19.46.4.tgz#fb9e53f16329c89d3c234b1c653fb7d603b903d1"
+electron-publisher-s3@^19.47.0:
+  version "19.47.0"
+  resolved "https://registry.yarnpkg.com/electron-publisher-s3/-/electron-publisher-s3-19.47.0.tgz#091a20f7d50347b652fdcf0ba26cf960059d3149"
   dependencies:
+    aws-sdk "^2.158.0"
     bluebird-lst "^1.0.5"
-    builder-util "^3.4.1"
-    builder-util-runtime "^3.2.0"
-    chalk "^2.3.0"
+    builder-util "^3.4.3"
+    electron-publish "~19.46.5"
     fs-extra-p "^4.4.4"
     mime "^2.0.3"
 
-electron-publisher-s3@^19.30.0:
-  version "19.46.4"
-  resolved "https://registry.yarnpkg.com/electron-publisher-s3/-/electron-publisher-s3-19.46.4.tgz#5e63667f7af7d5eebd10779824761453355008c6"
-  dependencies:
-    aws-sdk "^2.155.0"
-    bluebird-lst "^1.0.5"
-    builder-util "^3.4.1"
-    electron-publish "~19.46.4"
-    fs-extra-p "^4.4.4"
-    mime "^2.0.3"
-
-electron-updater@^2.16.1:
-  version "2.16.2"
-  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-2.16.2.tgz#36553679cc761100f8aa9b2a7fd6ba0e0f2102fb"
+electron-updater@^2.16.3:
+  version "2.16.3"
+  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-2.16.3.tgz#a5b3d7793398d1e4d5faf3b348041c540c4df977"
   dependencies:
     bluebird-lst "^1.0.5"
-    builder-util-runtime "~3.2.0"
+    builder-util-runtime "~3.3.0"
     electron-is-dev "^0.3.0"
     fs-extra-p "^4.4.4"
     js-yaml "^3.10.0"
@@ -3642,15 +3601,6 @@ tar@^2.0.0:
     block-stream "*"
     fstream "^1.0.2"
     inherits "2"
-
-temp-file@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/temp-file/-/temp-file-2.1.1.tgz#7c2db304595007461b16a06e3625639cbf69a91d"
-  dependencies:
-    async-exit-hook "^2.0.1"
-    bluebird-lst "^1.0.5"
-    fs-extra-p "^4.4.4"
-    lazy-val "^1.0.2"
 
 temp-file@^3.0.0:
   version "3.0.0"
