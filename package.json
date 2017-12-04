@@ -165,6 +165,8 @@
     "node-fetch": "^1.7.3",
     "node-notifier": "^5.1.2",
     "os-locale": "^2.1.0",
+    "proxy-agent": "^2.1.0",
+    "proxy-from-env": "^1.0.0",
     "rimraf": "^2.6.2",
     "semver": "^5.4.1",
     "spellchecker": "^3.4.3",
