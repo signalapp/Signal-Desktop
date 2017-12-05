@@ -116,6 +116,9 @@
       ],
       "icon": "build/icons/png"
     },
+    "deb": {
+      "depends": ["gconf2", "gconf-service", "libnotify4", "libappindicator1", "libxtst6", "libnss3", "libasound2", "libxss1"]
+    },
     "files": [
       "package.json",
       "config/default.json",
