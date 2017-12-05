@@ -186,11 +186,15 @@
             var prekey = new PreKey({id: keyId});
             return new Promise(function(resolve) {
                 prekey.fetch().then(function() {
+                    console.log('Successfully fetched prekey:', keyId);
                     resolve({
-                        pubKey: prekey.attributes.publicKey,
-                        privKey: prekey.attributes.privateKey
+                        pubKey: prekey.get('publicKey'),
+                        privKey: prekey.get('privateKey'),
                     });
-                }).fail(resolve);
+                }, function() {
+                    console.log('Failed to load prekey:', keyId);
+                    resolve();
+                });
             });
         },
         storePreKey: function(keyId, keyPair) {
@@ -211,7 +215,16 @@
             this.trigger('removePreKey');
 
             return new Promise(function(resolve) {
-                prekey.destroy().then(function() {
+                var deferred = prekey.destroy();
+                if (!deferred) {
+                    return resolve();
+                }
+
+                return deferred.then(resolve, function(error) {
+                    console.log(
+                        'removePreKey error:',
+                        error && error.stack ? error.stack : error
+                    );
                     resolve();
                 });
             });
@@ -222,21 +235,23 @@
             var prekey = new SignedPreKey({id: keyId});
             return new Promise(function(resolve) {
                 prekey.fetch().then(function() {
+                    console.log('Successfully loaded prekey:', prekey.get('id'));
                     resolve({
                         pubKey     : prekey.get('publicKey'),
                         privKey    : prekey.get('privateKey'),
                         created_at : prekey.get('created_at'),
-                        keyId      : prekey.get('id')
+                        keyId      : prekey.get('id'),
+                        confirmed  : prekey.get('confirmed'),
                     });
                 }).fail(function() {
-                    console.log("Failed to load signed prekey:", keyId);
+                    console.log('Failed to load signed prekey:', keyId);
                     resolve();
                 });
             });
         },
         loadSignedPreKeys: function() {
             if (arguments.length > 0) {
-              return Promise.reject(new Error("loadSignedPreKeys takes no arguments"));
+              return Promise.reject(new Error('loadSignedPreKeys takes no arguments'));
             }
             var signedPreKeys = new SignedPreKeyCollection();
             return new Promise(function(resolve) {
@@ -246,18 +261,20 @@
                             pubKey     : prekey.get('publicKey'),
                             privKey    : prekey.get('privateKey'),
                             created_at : prekey.get('created_at'),
-                            keyId      : prekey.get('id')
+                            keyId      : prekey.get('id'),
+                            confirmed  : prekey.get('confirmed'),
                         };
                     }));
                 });
             });
         },
-        storeSignedPreKey: function(keyId, keyPair) {
+        storeSignedPreKey: function(keyId, keyPair, confirmed) {
             var prekey = new SignedPreKey({
                 id         : keyId,
                 publicKey  : keyPair.pubKey,
                 privateKey : keyPair.privKey,
-                created_at : Date.now()
+                created_at : Date.now(),
+                confirmed  : Boolean(confirmed),
             });
             return new Promise(function(resolve) {
                 prekey.save().always(function() {

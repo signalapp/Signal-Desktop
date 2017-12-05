@@ -618,8 +618,7 @@ MessageReceiver.prototype.extend({
             console.log('Got SyncMessage Request');
             return this.removeFromCache(envelope);
         } else if (syncMessage.read && syncMessage.read.length) {
-            console.log('read messages',
-                    'from', envelope.source + '.' + envelope.sourceDevice);
+            console.log('read messages from', this.getEnvelopeId(envelope));
             return this.handleRead(envelope, syncMessage.read);
         } else if (syncMessage.verified) {
             return this.handleVerified(envelope, syncMessage.verified);
@@ -730,6 +729,7 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     handleBlocked: function(envelope, blocked) {
+        console.log('Setting these numbers as blocked:', blocked.numbers);
         textsecure.storage.put('blocked', blocked.numbers);
     },
     isBlocked: function(number) {

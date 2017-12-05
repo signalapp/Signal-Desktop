@@ -65,13 +65,12 @@
             }
             initComplete = true;
 
-            if (Whisper.Registration.isDone()) {
+            if (newVersion) {
+                runWhenOnline();
+            } else {
                 setTimeoutForNextRun();
             }
-            events.on('registration_done', function() {
-                scheduleNextRotation();
-                setTimeoutForNextRun();
-            });
+
             events.on('timetravel', function() {
                 if (Whisper.Registration.isDone()) {
                     setTimeoutForNextRun();

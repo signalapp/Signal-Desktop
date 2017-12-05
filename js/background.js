@@ -88,9 +88,10 @@
     function start() {
         var currentVersion = window.config.version;
         var lastVersion = storage.get('version');
+        var newVersion = !lastVersion || currentVersion !== lastVersion;
         storage.put('version', currentVersion);
 
-        if (!lastVersion || currentVersion !== lastVersion) {
+        if (newVersion) {
             console.log('New version detected:', currentVersion);
         }
 
@@ -99,7 +100,7 @@
         console.log('listening for registration events');
         Whisper.events.on('registration_done', function() {
             console.log('handling registration event');
-            Whisper.RotateSignedPreKeyListener.init(Whisper.events);
+            Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
             connect(true);
         });
 
@@ -112,7 +113,7 @@
             console.log('Import was interrupted, showing import error screen');
             appView.openImporter();
         } else if (Whisper.Registration.everDone()) {
-            Whisper.RotateSignedPreKeyListener.init(Whisper.events);
+            Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
             connect();
             appView.openInbox({
                 initialLoadComplete: initialLoadComplete
@@ -377,6 +378,14 @@
         return ConversationController.getOrCreateAndWait(id, 'private')
             .then(function(conversation) {
                 return new Promise(function(resolve, reject) {
+                    var activeAt = conversation.get('active_at');
+
+                    // The idea is to make any new contact show up in the left pane. If
+                    //   activeAt is null, then this contact has been purposefully hidden.
+                    if (activeAt !== null) {
+                        activeAt = activeAt || Date.now();
+                    }
+
                     if (details.profileKey) {
                       conversation.set({profileKey: details.profileKey});
                     }
@@ -384,7 +393,7 @@
                         name: details.name,
                         avatar: details.avatar,
                         color: details.color,
-                        active_at: conversation.get('active_at') || Date.now(),
+                        active_at: activeAt,
                     }).then(resolve, reject);
                 }).then(function() {
                     if (details.verified) {
@@ -421,7 +430,13 @@
                 type: 'group',
             };
             if (details.active) {
-                updates.active_at = Date.now();
+                var activeAt = conversation.get('active_at');
+
+                // The idea is to make any new group show up in the left pane. If
+                //   activeAt is null, then this group has been purposefully hidden.
+                if (activeAt !== null) {
+                    updates.active_at = activeAt || Date.now();
+                }
             } else {
                 updates.left = true;
             }
@@ -553,8 +568,7 @@
 
     function onError(ev) {
         var error = ev.error;
-        console.log(error);
-        console.log(error.stack);
+        console.log('background onError:', error && error.stack ? error.stack : error);
 
         if (error.name === 'HTTPError' && (error.code == 401 || error.code == 403)) {
             Whisper.Registration.remove();

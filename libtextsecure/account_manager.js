@@ -118,26 +118,35 @@
         rotateSignedPreKey: function() {
             return this.queueTask(function() {
                 var signedKeyId = textsecure.storage.get('signedKeyId', 1);
-
                 if (typeof signedKeyId != 'number') {
                     throw new Error('Invalid signedKeyId');
                 }
+
                 var store = textsecure.storage.protocol;
                 var server = this.server;
                 var cleanSignedPreKeys = this.cleanSignedPreKeys;
+
                 return store.getIdentityKeyPair().then(function(identityKey) {
                     return libsignal.KeyHelper.generateSignedPreKey(identityKey, signedKeyId);
                 }).then(function(res) {
-                    return server.setSignedPreKey({
-                        keyId     : res.keyId,
-                        publicKey : res.keyPair.pubKey,
-                        signature : res.signature
+                    console.log('Saving new signed prekey', res.keyId);
+                    return Promise.all([
+                        textsecure.storage.put('signedKeyId', signedKeyId + 1),
+                        store.storeSignedPreKey(res.keyId, res.keyPair),
+                        server.setSignedPreKey({
+                            keyId     : res.keyId,
+                            publicKey : res.keyPair.pubKey,
+                            signature : res.signature
+                        }),
+                    ]).then(function() {
+                        var confirmed = true;
+                        console.log('Confirming new signed prekey', res.keyId);
+                        return Promise.all([
+                            textsecure.storage.remove('signedKeyRotationRejected'),
+                            store.storeSignedPreKey(res.keyId, res.keyPair, confirmed),
+                        ]);
                     }).then(function() {
-                        textsecure.storage.put('signedKeyId', signedKeyId + 1);
-                        textsecure.storage.remove('signedKeyRotationRejected');
-                        return store.storeSignedPreKey(res.keyId, res.keyPair).then(function() {
-                            return cleanSignedPreKeys();
-                        });
+                        return cleanSignedPreKeys();
                     });
                 }).catch(function(e) {
                     console.log(
@@ -149,9 +158,9 @@
                         var rejections = 1 + textsecure.storage.get('signedKeyRotationRejected', 0);
                         textsecure.storage.put('signedKeyRotationRejected', rejections);
                         console.log('Signed key rotation rejected count:', rejections);
+                    } else {
+                        throw e;
                     }
-
-                    throw e;
                 });
             }.bind(this));
         },
@@ -160,35 +169,72 @@
             return this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
         },
         cleanSignedPreKeys: function() {
-            var nextSignedKeyId = textsecure.storage.get('signedKeyId');
-            if (typeof nextSignedKeyId != 'number') {
-                return Promise.resolve();
-            }
-            var activeSignedPreKeyId = nextSignedKeyId - 1;
-
+            var MINIMUM_KEYS = 3;
             var store = textsecure.storage.protocol;
-            return store.loadSignedPreKeys().then(function(allRecords) {
-                var oldRecords = allRecords.filter(function(record) {
-                    return record.keyId !== activeSignedPreKeyId;
-                });
-                oldRecords.sort(function(a, b) {
+            return store.loadSignedPreKeys().then(function(allKeys) {
+                allKeys.sort(function(a, b) {
                     return (a.created_at || 0) - (b.created_at || 0);
                 });
+                allKeys.reverse(); // we want the most recent first
+                var confirmed = allKeys.filter(function(key) {
+                    return key.confirmed;
+                });
+                var unconfirmed = allKeys.filter(function(key) {
+                    return !key.confirmed;
+                });
 
-                console.log("Active signed prekey: " + activeSignedPreKeyId);
-                console.log("Old signed prekey record count: " + oldRecords.length);
+                var recent = allKeys[0] ? allKeys[0].keyId : 'none';
+                var recentConfirmed = confirmed[0] ? confirmed[0].keyId : 'none';
+                console.log('Most recent signed key: ' + recent);
+                console.log('Most recent confirmed signed key: ' + recentConfirmed);
+                console.log(
+                    'Total signed key count:',
+                    allKeys.length,
+                    '-',
+                    confirmed.length,
+                    'confirmed'
+                );
 
-                oldRecords.forEach(function(oldRecord) {
-                    if ( oldRecord.keyId > activeSignedPreKeyId - 3 ) {
-                        // keep at least the last 3 signed keys
+                var confirmedCount = confirmed.length;
+
+                // Keep MINIMUM_KEYS confirmed keys, then drop if older than a week
+                confirmed = confirmed.forEach(function(key, index) {
+                    if (index < MINIMUM_KEYS) {
                         return;
                     }
-                    var created_at = oldRecord.created_at || 0;
-                    var archiveDuration = Date.now() - created_at;
-                    if (archiveDuration > ARCHIVE_AGE) {
-                        console.log("Removing signed prekey record:",
-                          oldRecord.keyId, "with timestamp:", created_at);
-                        store.removeSignedPreKey(oldRecord.keyId);
+                    var created_at = key.created_at || 0;
+                    var age = Date.now() - created_at;
+                    if (age > ARCHIVE_AGE) {
+                        console.log(
+                            'Removing confirmed signed prekey:',
+                            key.keyId,
+                            'with timestamp:',
+                            created_at
+                        );
+                        store.removeSignedPreKey(key.keyId);
+                        confirmedCount--;
+                    }
+                });
+
+                var stillNeeded = MINIMUM_KEYS - confirmedCount;
+
+                // If we still don't have enough total keys, we keep as many unconfirmed
+                // keys as necessary. If not necessary, and over a week old, we drop.
+                unconfirmed.forEach(function(key, index) {
+                    if (index < stillNeeded) {
+                        return;
+                    }
+
+                    var created_at = key.created_at || 0;
+                    var age = Date.now() - created_at;
+                    if (age > ARCHIVE_AGE) {
+                        console.log(
+                            'Removing unconfirmed signed prekey:',
+                            key.keyId,
+                            'with timestamp:',
+                            created_at
+                        );
+                        store.removeSignedPreKey(key.keyId);
                     }
                 });
             });

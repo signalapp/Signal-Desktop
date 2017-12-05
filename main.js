@@ -110,13 +110,41 @@ function captureClicks(window) {
   window.webContents.on('new-window', handleUrl);
 }
 
+
+const DEFAULT_WIDTH = 800;
+const DEFAULT_HEIGHT = 610;
+const MIN_WIDTH = 700;
+const MIN_HEIGHT = 360;
+const BOUNDS_BUFFER = 100;
+
+function isVisible(window, bounds) {
+  const boundsX = _.get(bounds, 'x') || 0;
+  const boundsY = _.get(bounds, 'y') || 0;
+  const boundsWidth = _.get(bounds, 'width') || DEFAULT_WIDTH;
+  const boundsHeight = _.get(bounds, 'height') || DEFAULT_HEIGHT;
+
+  // requiring BOUNDS_BUFFER pixels on the left or right side
+  const rightSideClearOfLeftBound = (window.x + window.width >= boundsX + BOUNDS_BUFFER);
+  const leftSideClearOfRightBound = (window.x <= boundsX + boundsWidth - BOUNDS_BUFFER);
+
+  // top can't be offscreen, and must show at least BOUNDS_BUFFER pixels at bottom
+  const topClearOfUpperBound = window.y >= boundsY;
+  const topClearOfLowerBound = (window.y <= boundsY + boundsHeight - BOUNDS_BUFFER);
+
+  return rightSideClearOfLeftBound
+    && leftSideClearOfRightBound
+    && topClearOfUpperBound
+    && topClearOfLowerBound;
+}
+
 function createWindow () {
+  const screen = electron.screen;
   const windowOptions = Object.assign({
     show: !startInTray, // allow to start minimised in tray
-    width: 800,
-    height: 610,
-    minWidth: 700,
-    minHeight: 360,
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
+    minWidth: MIN_WIDTH,
+    minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: false,
@@ -124,7 +152,33 @@ function createWindow () {
       preload: path.join(__dirname, 'preload.js')
     },
     icon: path.join(__dirname, 'images', 'icon_256.png'),
-  }, windowConfig);
+  }, _.pick(windowConfig, ['maximized', 'autoHideMenuBar', 'width', 'height', 'x', 'y']));
+
+  if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
+    windowOptions.width = DEFAULT_WIDTH;
+  }
+  if (!_.isNumber(windowOptions.height) || windowOptions.height < MIN_HEIGHT) {
+    windowOptions.height = DEFAULT_HEIGHT;
+  }
+  if (!_.isBoolean(windowOptions.maximized)) {
+    delete windowOptions.maximized;
+  }
+  if (!_.isBoolean(windowOptions.autoHideMenuBar)) {
+    delete windowOptions.autoHideMenuBar;
+  }
+
+  const visibleOnAnyScreen = _.some(screen.getAllDisplays(), function(display) {
+    if (!_.isNumber(windowOptions.x) || !_.isNumber(windowOptions.y)) {
+      return false;
+    }
+
+    return isVisible(windowOptions, _.get(display, 'bounds'));
+  });
+  if (!visibleOnAnyScreen) {
+    console.log('Location reset needed');
+    delete windowOptions.x;
+    delete windowOptions.y;
+  }
 
   if (windowOptions.fullscreen === false) {
     delete windowOptions.fullscreen;
@@ -175,6 +229,8 @@ function createWindow () {
 
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
+  } else if (config.environment === 'test-lib') {
+    mainWindow.loadURL(prepareURL([__dirname, 'libtextsecure', 'test', 'index.html']));
   } else {
     mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
   }
@@ -195,7 +251,9 @@ function createWindow () {
   mainWindow.on('close', function (e) {
 
     // If the application is terminating, just do the default
-    if (windowState.shouldQuit() || config.environment === 'test') {
+    if (windowState.shouldQuit()
+      || config.environment === 'test' || config.environment === 'test-lib') {
+
       return;
     }
 
@@ -349,7 +407,7 @@ app.on('before-quit', function() {
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin' || config.environment === 'test') {
+  if (process.platform !== 'darwin' || config.environment === 'test' || config.environment === 'test-lib') {
     app.quit()
   }
 })
@@ -394,11 +452,15 @@ ipc.on('restart', function(event) {
 });
 
 ipc.on("set-auto-hide-menu-bar", function(event, autoHide) {
-  mainWindow.setAutoHideMenuBar(autoHide);
+  if (mainWindow) {
+    mainWindow.setAutoHideMenuBar(autoHide);
+  }
 });
 
 ipc.on("set-menu-bar-visibility", function(event, visibility) {
-  mainWindow.setMenuBarVisibility(visibility);
+  if (mainWindow) {
+    mainWindow.setMenuBarVisibility(visibility);
+  }
 });
 
 ipc.on("close-about", function() {
