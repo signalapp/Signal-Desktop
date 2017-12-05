@@ -40,8 +40,13 @@ function showUpdateDialog(mainWindow, messages) {
 
   dialog.showMessageBox(mainWindow, options, function(response) {
     if (response == RESTART_BUTTON) {
-      windowState.markShouldQuit();
-      autoUpdater.quitAndInstall();
+      // We delay these update calls because they don't seem to work in this
+      //   callback - but only if the message box has a parent window.
+      // Fixes this bug: https://github.com/WhisperSystems/Signal-Desktop/issues/1864
+      setTimeout(function() {
+        windowState.markShouldQuit();
+        autoUpdater.quitAndInstall();
+      }, 200);
     }
 
     showingDialog = false;
