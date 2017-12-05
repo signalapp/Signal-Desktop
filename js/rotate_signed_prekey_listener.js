@@ -58,7 +58,7 @@
 
     var initComplete;
     Whisper.RotateSignedPreKeyListener = {
-        init: function(events) {
+        init: function(events, newVersion) {
             if (initComplete) {
                 console.log('Rotate signed prekey listener: Already initialized');
                 return;
