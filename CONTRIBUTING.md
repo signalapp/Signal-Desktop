@@ -127,6 +127,13 @@ Please write tests! Our testing framework is
 To run tests, you can run them from the command line with `grunt unit-tests` or in an
 interactive session with `NODE_ENV=test yarn run start`.
 
+To test changes to the build system, build a release using
+```
+yarn generate
+yarn build-release
+```
+Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
+
 
 ## Pull requests
 
