@@ -45,7 +45,8 @@ aptly snapshot create $SNAPSHOT from repo $REPO
 
 # these update already-published repos, run every time after that
 #   https://www.aptly.info/doc/aptly/publish/switch/
-aptly publish switch -gpg-key=$GPG_KEYID -distribution=$CURRENT $SNAPSHOT
-aptly publish switch -gpg-key=$GPG_KEYID -distribution=$PREVIOUS $SNAPSHOT
-aptly publish switch -gpg-key=$GPG_KEYID -beta-config=.aptly.conf $CURRENT s3:$ENDPOINT: $SNAPSHOT
-aptly publish switch -gpg-key=$GPG_KEYID -beta-config=.aptly.conf $PREVIOUS s3:$ENDPOINT: $SNAPSHOT
+aptly publish switch -gpg-key=$GPG_KEYID $CURRENT $SNAPSHOT
+aptly publish switch -gpg-key=$GPG_KEYID $PREVIOUS $SNAPSHOT
+aptly publish switch -gpg-key=$GPG_KEYID -config=.aptly.conf $CURRENT s3:$ENDPOINT: $SNAPSHOT
+aptly publish switch -gpg-key=$GPG_KEYID -config=.aptly.conf $PREVIOUS s3:$ENDPOINT: $SNAPSHOT
+
