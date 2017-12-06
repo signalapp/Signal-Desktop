@@ -137,17 +137,25 @@
       "fonts/*",
       "build/assets",
       "node_modules/**",
+      "!node_modules/emoji-panel/dist/*",
+      "!node_modules/emoji-panel/lib/emoji-panel-emojione-*.css",
+      "!node_modules/emoji-panel/lib/emoji-panel-google-*.css",
+      "!node_modules/emoji-panel/lib/emoji-panel-twitter-*.css",
+      "!node_modules/emoji-panel/lib/emoji-panel-apple-{16,20,64}.css",
+      "!node_modules/emoji-datasource/emoji_pretty.json",
       "!node_modules/emoji-datasource/*.png",
+      "!node_modules/emoji-datasource-apple/emoji_pretty.json",
       "!node_modules/emoji-datasource-apple/img/apple/{sheets-128,sheets-256}/*.png",
       "!node_modules/emoji-datasource-apple/img/apple/sheets/{16,20,32}.png",
       "!node_modules/spellchecker/vendor/hunspell/**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts}",
       "!**/node_modules/.bin",
       "!**/node_modules/*/build/**",
-      "**/node_modules/*/build/**/*.node",
       "!**/*.{o,hprof,orig,pyc,pyo,rbc}",
       "!**/._*",
-      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}"
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
+      "node_modules/spellchecker/build/Release/*.node",
+      "node_modules/websocket/build/Release/*.node"
     ]
   },
   "dependencies": {
