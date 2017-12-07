@@ -2689,9 +2689,9 @@ node-emoji@^1.8.1:
   dependencies:
     lodash.toarray "^4.4.0"
 
-node-fetch@^1.7.3:
+"node-fetch@https://github.com/scottnonnenberg/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4":
   version "1.7.3"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
+  resolved "https://github.com/scottnonnenberg/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4"
   dependencies:
     encoding "^0.1.11"
     is-stream "^1.0.1"
@@ -3180,10 +3180,6 @@ proxy-agent@^2.1.0:
     lru-cache "~2.6.5"
     pac-proxy-agent "^2.0.0"
     socks-proxy-agent "2"
-
-proxy-from-env@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.0.0.tgz#33c50398f70ea7eb96d21f7b817630a55791c7ee"
 
 pseudomap@^1.0.1:
   version "1.0.2"
