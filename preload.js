@@ -42,6 +42,11 @@
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
   require('./js/logging');
+
+  if (window.config.proxyUrl) {
+    console.log('using proxy url', window.config.proxyUrl);
+  }
+
   require('./js/backup');
 
   window.nodeSetImmediate = setImmediate;
@@ -52,12 +57,10 @@
     window.nodeSetImmediate(function() {});
   }, 1000);
 
-  window.getProxyForUrl = require('proxy-from-env').getProxyForUrl;
   window.ProxyAgent = require('proxy-agent');
   window.EmojiConvertor = require('emoji-js');
   window.emojiData = require('emoji-datasource');
   window.nodeFetch = require('node-fetch');
-  window.httpsAgent = require('https').Agent;
   window.nodeBuffer = Buffer;
   window.EmojiPanel = require('emoji-panel');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();

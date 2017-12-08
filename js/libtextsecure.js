@@ -37461,12 +37461,12 @@ var TextSecureServer = (function() {
     }
 
     function createSocket(url) {
-      var proxyUrl = window.getProxyForUrl(url);
+      var proxyUrl = window.config.proxyUrl;
       var requestOptions;
       if (proxyUrl) {
-        console.log('createSocket: using proxy url', proxyUrl);
         requestOptions = {
-            agent: ProxyAgent(proxyUrl)
+            ca: window.config.certificateAuthorities,
+            agent: new ProxyAgent(proxyUrl),
         };
       } else {
         requestOptions = {
@@ -37487,15 +37487,10 @@ var TextSecureServer = (function() {
         console.log(options.type, url);
         var timeout = typeof options.timeout !== 'undefined' ? options.timeout : 10000;
 
-        var proxyUrl = window.getProxyForUrl(url);
+        var proxyUrl = window.config.proxyUrl;
         var agent;
         if (proxyUrl) {
-            console.log('promixe_ajax: using proxy url', proxyUrl);
             agent = new ProxyAgent(proxyUrl);
-        } else {
-            agent = new httpsAgent({
-                ca: options.certificateAuthorities
-            });
         }
 
         var fetchOptions = {
@@ -37503,6 +37498,7 @@ var TextSecureServer = (function() {
           body: options.data || null,
           headers: { 'X-Signal-Agent': 'OWD' },
           agent: agent,
+          ca: options.certificateAuthorities,
           timeout: timeout,
         };
 

@@ -93,6 +93,7 @@ function prepareURL(pathSegments) {
       hostname: os.hostname(),
       appInstance: process.env.NODE_APP_INSTANCE,
       polyfillNotifications: polyfillNotifications ? true : undefined, // for stringify()
+      proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
     }
   })
 }
