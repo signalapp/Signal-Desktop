@@ -315,6 +315,14 @@
       border-radius: $border-radius;
     }
   }
+
+  .time-header {
+    text-align: center;
+    margin: 25px auto 10px;
+    .content {
+      color: $grey_l3_5;
+    }
+  }
 }
 li.entry .error-icon-container {
   position: absolute;
@@ -825,7 +833,7 @@ span.status {
   // window.scrollIntoView() doesn't honor margins, so we're using padding
   // padding-top is less to account for the 10px margin at the bottom of messages
   padding-top: 25px;
-  padding-bottom: 35px;
+  margin-bottom: 35px;
 
 
   .bar {

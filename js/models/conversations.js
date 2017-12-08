@@ -479,6 +479,18 @@
             });
         }
     },
+    addTimeHeaderBefore: function(model) {
+        var timestamp = model.get('received_at') - 1;
+        var message = new Whisper.Message({
+            // need to generate id here, since we don't save these to the database
+            id             : _.uniqueId('time-header'),
+            conversationId : this.id,
+            type           : 'time-header',
+            sent_at        : timestamp,
+            received_at    : timestamp
+        });
+        this.trigger('newmessage', message);
+    },
 
     onReadMessage: function(message) {
         if (this.messageCollection.get(message.id)) {

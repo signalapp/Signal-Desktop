@@ -117,6 +117,9 @@ $text-dark_l2: darken($text-dark, 30%);
       @include color-svg('../images/clock.svg', $text-dark);
     }
   }
+  .message-list .time-header .content {
+    color: $grey;
+  }
 
   .inactive .conversation-header {
     background-color: $grey-dark !important;

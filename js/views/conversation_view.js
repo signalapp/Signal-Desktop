@@ -148,6 +148,7 @@
 
             this.view = new Whisper.MessageListView({
                 collection: this.model.messageCollection,
+                conversation: this.model,
                 window: this.window
             });
             this.$('.discussion-container').append(this.view.el);
@@ -544,18 +545,30 @@
 
             var unreadCount = 0;
             var oldestUnread = null;
+            var timeHeader = null;
+
+            // Up until we find the oldest unread, we're looking for time-headers.
+            //   We only want the one right before the oldest unread, so we always keep
+            //   the previous model as we iterate through, oldest to newest.
+            var previous = null;
 
             // We need to iterate here because unseen non-messages do not contribute to
             //   the badge number, but should be reflected in the indicator's count.
             this.model.messageCollection.forEach(function(model) {
                 if (!model.get('unread')) {
+                    previous = model;
                     return;
                 }
 
                 unreadCount += 1;
+
                 if (!oldestUnread) {
                     oldestUnread = model;
+                    if (previous && previous.get('type') === 'time-header') {
+                        timeHeader = previous;
+                    }
                 }
+                previous = model;
             });
 
             this.removeLastSeenIndicator();
@@ -563,8 +576,9 @@
             if (oldestUnread) {
                 this.lastSeenIndicator = new Whisper.LastSeenIndicatorView({count: unreadCount});
                 var lastSeenEl = this.lastSeenIndicator.render().$el;
+                var id = timeHeader ? timeHeader.get('id') : oldestUnread.get('id');
 
-                lastSeenEl.insertBefore(this.$('#' + oldestUnread.get('id')));
+                lastSeenEl.insertBefore(this.$('#' + id));
 
                 if (this.view.atBottom() || options.scroll) {
                     lastSeenEl[0].scrollIntoView();
@@ -735,6 +749,13 @@
         },
 
         markRead: function() {
+            // Important because the creation of time headers fires the addMessage handler
+            //   during initial load of the conversation. We don't want to mark anything
+            //   as read until we're fully loaded up - that's when we need to do the
+            //   calculation to place the last seen indicator, which looks for unread.
+            if (this.statusFetch || this.inProgressFetch) {
+                return;
+            }
             var unread;
 
             if (this.view.atBottom()) {
