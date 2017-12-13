@@ -166,7 +166,7 @@
     "electron-updater": "^2.16.1",
     "emoji-datasource-apple": "^4.0.0",
     "emoji-js": "^3.4.0",
-    "emoji-panel": "https://github.com/liliakai/emoji-panel.git#4e6bdd8",
+    "emoji-panel": "https://github.com/scottnonnenberg/emoji-panel.git#v0.5.5",
     "google-libphonenumber": "^3.0.7",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
