@@ -34,8 +34,8 @@ function showUpdateDialog(mainWindow, messages) {
     title: messages.autoUpdateNewVersionTitle.message,
     message: messages.autoUpdateNewVersionMessage.message,
     detail: messages.autoUpdateNewVersionInstructions.message,
-    defaultId: RESTART_BUTTON,
-    cancelId: LATER_BUTTON
+    defaultId: LATER_BUTTON,
+    cancelId: RESTART_BUTTON,
   }
 
   dialog.showMessageBox(mainWindow, options, function(response) {
