@@ -33,7 +33,11 @@
         maxSize: 30,
         minSize: 14,
         initialize: function() {
-            this.currentSize = this.defaultSize;
+            this.currentSize = window.storage.get("currentSize");
+            if (this.currentSize == null) {
+                this.currentSize = this.defaultSize;
+                window.storage.put("currentSize", this.currentSize);
+            }
             this.render();
         },
         events: { 'keydown': 'zoomText' },
@@ -53,6 +57,7 @@
                     this.currentSize++;
                 }
             }
+            window.storage.put("currentSize", this.currentSize);
             this.render();
         },
         render: function() {
