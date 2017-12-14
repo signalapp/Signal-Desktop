@@ -1674,8 +1674,8 @@ globule@^1.0.0:
     minimatch "~3.0.2"
 
 google-libphonenumber@^3.0.7:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.0.7.tgz#a90918816536545a2264bf5d494cb3118f195dcc"
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.0.9.tgz#1454c352125cc2c3ed5d839c3adc4f8ba80dd640"
 
 got@^6.7.1:
   version "6.7.1"
