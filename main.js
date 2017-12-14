@@ -40,13 +40,33 @@ const config = require("./app/config");
 //   userData directory.
 const userConfig = require('./app/user_config');
 
+function showWindow() {
+  // Using focus() instead of show() seems to be important on Windows when our window
+  //   has been docked using Aero Snap/Snap Assist. A full .show() call here will cause
+  //   the window to reposition:
+  //   https://github.com/WhisperSystems/Signal-Desktop/issues/1429
+  if (mainWindow.isVisible()) {
+    mainWindow.focus();
+  } else {
+    mainWindow.show();
+  }
+
+  // toggle the visibility of the show/hide tray icon menu entries
+  if (tray) {
+    tray.updateContextMenu();
+  }
+}
+
 if (!process.mas) {
   console.log('making app single instance');
   var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
     // Someone tried to run a second instance, we should focus our window
     if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      }
+
+      showWindow();
     }
     return true;
   });
@@ -280,20 +300,7 @@ function createWindow () {
   });
 
   ipc.on('show-window', function() {
-    // Using focus() instead of show() seems to be important on Windows when our window
-    //   has been docked using Aero Snap/Snap Assist. A full .show() call here will cause
-    //   the window to reposition:
-    //   https://github.com/WhisperSystems/Signal-Desktop/issues/1429
-    if (mainWindow.isVisible()) {
-      mainWindow.focus();
-    } else {
-      mainWindow.show();
-    }
-
-    // toggle the visibility of the show/hide tray icon menu entries
-    if (tray) {
-      tray.updateContextMenu();
-    }
+    showWindow();
   });
 }
 
