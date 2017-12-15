@@ -130,7 +130,8 @@
         return this.model.contentType.startsWith('video/');
     },
     isImage: function() {
-        return this.model.contentType.startsWith('image/');
+        var type = this.model.contentType;
+        return type.startsWith('image/') && type !== 'image/tiff';
     },
     mediaType: function() {
         if (this.isVoiceMessage()) {
