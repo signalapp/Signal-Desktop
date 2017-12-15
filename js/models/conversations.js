@@ -72,6 +72,12 @@
         this.initialPromise = Promise.resolve();
 
         this.contactCollection = new Backbone.Collection();
+        var collator = new Intl.Collator();
+        this.contactCollection.comparator = function(left, right) {
+            left = left.getTitle().toLowerCase();
+            right = right.getTitle().toLowerCase();
+            return collator.compare(left, right);
+        };
         this.messageCollection = new Whisper.MessageCollection([], {
             conversation: this
         });
