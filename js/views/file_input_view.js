@@ -70,7 +70,9 @@
         },
 
         autoScale: function(file) {
-            if (file.type.split('/')[0] !== 'image' || file.type === 'image/gif') {
+            if (file.type.split('/')[0] !== 'image'
+                || file.type === 'image/gif'
+                || file.type === 'image/tiff') {
                 // nothing to do
                 return Promise.resolve(file);
             }
@@ -123,6 +125,9 @@
             if (!file) { return; }
 
             var type = file.type.split('/')[0];
+            if (file.type === 'image/tiff') {
+                type = 'file';
+            }
             switch (type) {
                 case 'audio': this.addThumb('images/audio.svg'); break;
                 case 'video': this.addThumb('images/video.svg'); break;
