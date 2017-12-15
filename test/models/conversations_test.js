@@ -98,6 +98,23 @@
         });
         after(clearDatabase);
 
+        it('sorts its contacts in an intl-friendly way', function() {
+            var convo = new Whisper.Conversation({id: '+18085555555'});
+            convo.contactCollection.add(new Whisper.Conversation({
+                name: 'C'
+            }));
+            convo.contactCollection.add(new Whisper.Conversation({
+                name: 'B'
+            }));
+            convo.contactCollection.add(new Whisper.Conversation({
+                name: 'Á'
+            }));
+
+            assert.strictEqual(convo.contactCollection.at('0').get('name'), 'Á');
+            assert.strictEqual(convo.contactCollection.at('1').get('name'), 'B');
+            assert.strictEqual(convo.contactCollection.at('2').get('name'), 'C');
+        });
+
         it('contains its own messages', function (done) {
             var convo = new Whisper.ConversationCollection().add({id: '+18085555555'});
             convo.fetchMessages().then(function() {
