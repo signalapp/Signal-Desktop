@@ -25,6 +25,21 @@
                 $el.prependTo(this.el);
                 conversation.trigger('opened');
             }
+            // Add current to the selected id
+            this.selected_id = conversation.id;
+            console.log(this.selected_id);
+        },
+        close: function(conversation) {
+            var id = 'conversation-' + conversation.cid;
+            if (id === this.el.firstChild.id) {
+                // Remove the conversation-stack DIV and call the closed event
+                // from ConversationListItemView
+                this.el.firstChild.remove();
+                conversation.trigger('closed');
+            }
+            // Update the selected_id member in order to avoid to further close
+            // the placeholder
+            this.selected_id = null;
         }
     });
 
@@ -167,6 +182,7 @@
             'input input.search': 'filterContacts',
             'click .restart-signal': window.restart,
             'show .lightbox': 'showLightbox',
+            'keydown': 'closeConversation',
         },
         startConnectionListener: function() {
             this.interval = setInterval(function() {
@@ -240,9 +256,40 @@
         openConversation: function(e, conversation) {
             this.searchView.hideHints();
             if (conversation) {
+                var curr_id = this.conversation_stack.selected_id;
+                if (typeof curr_id !== 'undefined' && curr_id !== null) {
+                    // If selecting the active conversation, don't do anything
+                    if (curr_id == conversation.id) {
+                        this.focusConversation();
+                        return;
+                    }
+                    // If the selected conversation is different from the active
+                    // conversation, first close the old one
+                    var curr_conversation = ConversationController.get(curr_id);
+                    this.conversation_stack.close(curr_conversation);
+                }
                 conversation = ConversationController.get(conversation.id);
                 this.conversation_stack.open(conversation);
                 this.focusConversation();
+            }
+        },
+        closeConversation: function(e) {
+            // This is triggered by shift + ESC
+            if (!e.shiftKey) {
+                return;
+            }
+            var keyCode = e.which || e.keyCode;
+            var curr_id = this.conversation_stack.selected_id;
+            // If no conversation is selected, return
+            if (curr_id === null || typeof curr_id === 'undefined') {
+                return;
+            }
+            var conversation = ConversationController.get(curr_id);
+            if (keyCode === 27) {
+              // Close the currently active conversation
+              this.conversation_stack.close(conversation);
+              this.$('#header, .gutter').addClass('inactive');
+              this.$('.conversation-stack').addClass('inactive');
             }
         },
         toggleMenu: function() {
