@@ -27,14 +27,14 @@
             }
             // Add current to the selected id
             this.selected_id = conversation.id;
-            console.log(this.selected_id);
         },
         close: function(conversation) {
             var id = 'conversation-' + conversation.cid;
             if (id === this.el.firstChild.id) {
                 // Remove the conversation-stack DIV and call the closed event
                 // from ConversationListItemView
-                this.el.firstChild.remove();
+                // this.el.firstChild.remove();
+                this.$('.placeholder').prependTo(this.el);
                 conversation.trigger('closed');
             }
             // Update the selected_id member in order to avoid to further close
@@ -263,10 +263,6 @@
                         this.focusConversation();
                         return;
                     }
-                    // If the selected conversation is different from the active
-                    // conversation, first close the old one
-                    var curr_conversation = ConversationController.get(curr_id);
-                    this.conversation_stack.close(curr_conversation);
                 }
                 conversation = ConversationController.get(conversation.id);
                 this.conversation_stack.open(conversation);
