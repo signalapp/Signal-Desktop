@@ -197,13 +197,12 @@
       </div>
 
       <div class='bottom-bar' id='footer'>
-          <form class='send clearfix'>
+          <div class='emoji-panel-container'></div>
+          <div class='compose'>
+            <form class='send clearfix'>
               <div class='attachment-previews'></div>
               <div class='flex'>
-                <div class='choose-file'>
-                    <button class='paperclip thumbnail'></button>
-                    <input type='file' class='file-input'>
-                </div>
+                <button class='emoji'></button>
                 <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
                 <div class='capture-audio'>
                     <button class='microphone'></button>
@@ -211,8 +210,13 @@
                 <div class='android-length-warning'>
                     {{ android-length-warning }}
                 </div>
+                <div class='choose-file'>
+                    <button class='paperclip thumbnail'></button>
+                    <input type='file' class='file-input'>
+                </div>
               </div>
-          </form>
+            </form>
+          </div>
       </div>
     </div>
   </script>

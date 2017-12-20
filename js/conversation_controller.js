@@ -20,30 +20,25 @@
                 _.debounce(this.updateUnreadCount.bind(this), 1000)
             );
             this.startPruning();
+
+            this.collator = new Intl.Collator();
         },
         comparator: function(m1, m2) {
             var timestamp1 = m1.get('timestamp');
             var timestamp2 = m2.get('timestamp');
-            if (timestamp1 && timestamp2) {
+            if (timestamp1 && !timestamp2) {
+                return -1;
+            }
+            if (timestamp2 && !timestamp1) {
+                return 1;
+            }
+            if (timestamp1 && timestamp2 && timestamp1 !== timestamp2) {
                 return timestamp2 - timestamp1;
             }
-            if (timestamp1) {
-                return -1;
-            }
-            if (timestamp2) {
-                return 1;
-            }
+
             var title1 = m1.getTitle().toLowerCase();
             var title2 = m2.getTitle().toLowerCase();
-            if (title1 === title2) {
-                return 0;
-            }
-            if (title1 < title2) {
-                return -1;
-            }
-            if (title1 > title2) {
-                return 1;
-            }
+            return this.collator.compare(title1, title2);
         },
         addActive: function(model) {
             if (model.get('active_at')) {
@@ -64,10 +59,10 @@
 
             if (newUnreadCount > 0) {
                 window.setBadgeCount(newUnreadCount);
-                window.document.title = "Signal (" + newUnreadCount + ")";
+                window.document.title = window.config.title + " (" + newUnreadCount + ")";
             } else {
                 window.setBadgeCount(0);
-                window.document.title = "Signal";
+                window.document.title = window.config.title;
             }
         },
         startPruning: function() {

@@ -147,7 +147,7 @@
       }.bind(this)).catch(function(error) {
         console.log('Error importing:', error && error.stack ? error.stack : error);
 
-        this.error = error.message;
+        this.error = error || new Error('Something went wrong!');
         this.state = null;
         this.render();
 

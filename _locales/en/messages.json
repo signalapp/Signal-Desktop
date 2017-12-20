@@ -412,6 +412,18 @@
       "message": "Show",
       "description": "Command under Window menu, to show the window"
     },
+    "hide": {
+      "message": "Hide",
+      "description": "Command in the tray icon menu, to hide the window"
+    },
+    "quit": {
+      "message": "Quit",
+      "description": "Command in the tray icon menu, to quit the application"
+    },
+    "trayTooltip": {
+      "message": "Signal Desktop",
+      "description": "Tooltip for the tray icon"
+    },
     "searchForPeopleOrGroups": {
       "message": "Search...",
       "description": "Placeholder text in the search input"

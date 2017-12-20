@@ -37461,7 +37461,19 @@ var TextSecureServer = (function() {
     }
 
     function createSocket(url) {
-      var requestOptions = { ca: window.config.certificateAuthorities };
+      var proxyUrl = window.config.proxyUrl;
+      var requestOptions;
+      if (proxyUrl) {
+        requestOptions = {
+            ca: window.config.certificateAuthorities,
+            agent: new ProxyAgent(proxyUrl),
+        };
+      } else {
+        requestOptions = {
+            ca: window.config.certificateAuthorities,
+        };
+      }
+
       return new nodeWebSocket(url, null, null, null, requestOptions);
     }
 
@@ -37475,12 +37487,19 @@ var TextSecureServer = (function() {
         console.log(options.type, url);
         var timeout = typeof options.timeout !== 'undefined' ? options.timeout : 10000;
 
+        var proxyUrl = window.config.proxyUrl;
+        var agent;
+        if (proxyUrl) {
+            agent = new ProxyAgent(proxyUrl);
+        }
+
         var fetchOptions = {
           method: options.type,
           body: options.data || null,
           headers: { 'X-Signal-Agent': 'OWD' },
-          agent: new httpsAgent({ca: options.certificateAuthorities}),
-          timeout: timeout
+          agent: agent,
+          ca: options.certificateAuthorities,
+          timeout: timeout,
         };
 
         if (fetchOptions.body instanceof ArrayBuffer) {
@@ -37500,21 +37519,13 @@ var TextSecureServer = (function() {
         }
         window.nodeFetch(url, fetchOptions).then(function(response) {
           var resultPromise;
-          if (options.responseType === 'json') {
-            resultPromise = response.json().catch(function(error) {
-                // If the response was otherwise successful, a JSON.parse() failure really
-                //   is a problem. But the Signal server does return HTML in error cases
-                //   when we requested JSON, sadly.
-                if (0 <= response.status && response.status < 400) {
-                    throw error;
-                }
-
-                return null;
-            })
-          } else if (!options.responseType || options.responseType === 'text') {
-            resultPromise = response.text();
+          if (options.responseType === 'json'
+              && response.headers.get('Content-Type') === 'application/json') {
+            resultPromise = response.json();
           } else if (options.responseType === 'arraybuffer') {
             resultPromise = response.buffer();
+          } else {
+            resultPromise = response.text();
           }
           return resultPromise.then(function(result) {
             if (options.responseType === 'arraybuffer') {

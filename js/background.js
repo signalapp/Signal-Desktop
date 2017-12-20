@@ -14,6 +14,15 @@
     var initialLoadComplete = false;
     window.owsDesktopApp = {};
 
+    var title = window.config.name;
+    if (window.config.environment !== 'production') {
+        title += ' - ' + window.config.environment;
+    }
+    if (window.config.appInstance) {
+        title += ' - ' + window.config.appInstance;
+    }
+    window.config.title = window.document.title = title;
+
     // start a background worker for ecc
     textsecure.startWorker('js/libsignal-protocol-worker.js');
     Whisper.KeyChangeListener.init(textsecure.storage.protocol);

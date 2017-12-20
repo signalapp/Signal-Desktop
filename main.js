@@ -3,7 +3,8 @@ const url = require('url');
 const os = require('os');
 
 const _ = require('lodash');
-const electron = require('electron')
+const electron = require('electron');
+const semver = require('semver');
 
 const BrowserWindow = electron.BrowserWindow;
 const app = electron.app;
@@ -11,45 +12,75 @@ const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
 
+const packageJson = require('./package.json');
 const autoUpdate = require('./app/auto_update');
 const windowState = require('./app/window_state');
 
 
-console.log('setting AUMID');
-app.setAppUserModelId('org.whispersystems.signal-desktop')
+const aumid = 'org.whispersystems.' + packageJson.name;
+console.log('setting AUMID to ' + aumid);
+app.setAppUserModelId(aumid);
 
 // Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+//   be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function getMainWindow() {
   return mainWindow;
 }
 
+// Tray icon and related objects
+let tray = null;
+const startInTray = process.argv.find(arg => arg === '--start-in-tray');
+const usingTrayIcon = startInTray || process.argv.find(arg => arg === '--use-tray-icon');
+
 const config = require("./app/config");
 
-if (config.environment === 'production' && !process.mas) {
+// Very important to put before the single instance check, since it is based on the
+//   userData directory.
+const userConfig = require('./app/user_config');
+
+function showWindow() {
+  // Using focus() instead of show() seems to be important on Windows when our window
+  //   has been docked using Aero Snap/Snap Assist. A full .show() call here will cause
+  //   the window to reposition:
+  //   https://github.com/WhisperSystems/Signal-Desktop/issues/1429
+  if (mainWindow.isVisible()) {
+    mainWindow.focus();
+  } else {
+    mainWindow.show();
+  }
+
+  // toggle the visibility of the show/hide tray icon menu entries
+  if (tray) {
+    tray.updateContextMenu();
+  }
+}
+
+if (!process.mas) {
   console.log('making app single instance');
   var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
     // Someone tried to run a second instance, we should focus our window
     if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      }
+
+      showWindow();
     }
     return true;
   });
 
   if (shouldQuit) {
-    console.log('quitting');
+    console.log('quitting; we are the second instance');
     app.quit();
     return;
   }
 }
 
-const userConfig = require('./app/user_config');
 const logging = require('./app/logging');
 
-// this must be after we set up appPath in user_config.js
+// This must be after we set up appPath in user_config.js, so we know where logs go
 logging.initialize();
 const logger = logging.getLogger();
 
@@ -58,12 +89,19 @@ const loadLocale = require('./app/locale').load;
 
 let locale;
 
+const WINDOWS_8 = '8.0.0';
+const osRelease = os.release();
+const polyfillNotifications =
+  os.platform() === 'win32' && semver.lt(osRelease, WINDOWS_8);
+console.log('OS Release:', osRelease, '- notifications polyfill?', polyfillNotifications);
+
 function prepareURL(pathSegments) {
   return url.format({
     pathname: path.join.apply(null, pathSegments),
     protocol: 'file:',
     slashes: true,
     query: {
+      name: packageJson.productName,
       locale: locale.name,
       version: app.getVersion(),
       buildExpiration: config.get('buildExpiration'),
@@ -73,6 +111,9 @@ function prepareURL(pathSegments) {
       environment: config.environment,
       node_version: process.versions.node,
       hostname: os.hostname(),
+      appInstance: process.env.NODE_APP_INSTANCE,
+      polyfillNotifications: polyfillNotifications ? true : undefined, // for stringify()
+      proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
     }
   })
 }
@@ -93,7 +134,7 @@ function captureClicks(window) {
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 610;
-const MIN_WIDTH = 700;
+const MIN_WIDTH = 640;
 const MIN_HEIGHT = 360;
 const BOUNDS_BUFFER = 100;
 
@@ -120,6 +161,7 @@ function isVisible(window, bounds) {
 function createWindow () {
   const screen = electron.screen;
   const windowOptions = Object.assign({
+    show: !startInTray, // allow to start minimised in tray
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
     minWidth: MIN_WIDTH,
@@ -129,7 +171,8 @@ function createWindow () {
       nodeIntegration: false,
       //sandbox: true,
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
+    icon: path.join(__dirname, 'images', 'icon_256.png'),
   }, _.pick(windowConfig, ['maximized', 'autoHideMenuBar', 'width', 'height', 'x', 'y']));
 
   if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
@@ -227,11 +270,24 @@ function createWindow () {
 
   // Emitted when the window is about to be closed.
   mainWindow.on('close', function (e) {
-    if (process.platform === 'darwin' && !windowState.shouldQuit()
-      && config.environment !== 'test' && config.environment !== 'test-lib') {
 
+    // If the application is terminating, just do the default
+    if (windowState.shouldQuit()
+      || config.environment === 'test' || config.environment === 'test-lib') {
+
+      return;
+    }
+
+    // On Mac, or on other platforms when the tray icon is in use, the window
+    // should be only hidden, not closed, when the user clicks the close button
+    if (usingTrayIcon || process.platform === 'darwin') {
       e.preventDefault();
       mainWindow.hide();
+
+      // toggle the visibility of the show/hide tray icon menu entries
+      if (tray) {
+        tray.updateContextMenu();
+      }
     }
   });
 
@@ -244,15 +300,7 @@ function createWindow () {
   });
 
   ipc.on('show-window', function() {
-    // Using focus() instead of show() seems to be important on Windows when our window
-    //   has been docked using Aero Snap/Snap Assist. A full .show() call here will cause
-    //   the window to reposition:
-    //   https://github.com/WhisperSystems/Signal-Desktop/issues/1429
-    if (mainWindow.isVisible()) {
-      mainWindow.focus();
-    } else {
-      mainWindow.show();
-    }
+    showWindow();
   });
 }
 
@@ -325,8 +373,10 @@ function showAbout() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+let ready = false;
 app.on('ready', function() {
   logger.info('app ready');
+  ready = true;
 
   if (!locale) {
     locale = loadLocale();
@@ -335,6 +385,11 @@ app.on('ready', function() {
   autoUpdate.initialize(getMainWindow, locale.messages);
 
   createWindow();
+
+  if (usingTrayIcon) {
+    const createTrayIcon = require("./app/tray_icon");
+    tray = createTrayIcon(getMainWindow, locale.messages);
+  }
 
   const options = {
     showDebugLog,
@@ -366,6 +421,10 @@ app.on('window-all-closed', function () {
 })
 
 app.on('activate', function () {
+  if (!ready) {
+    return;
+  }
+
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow) {
@@ -390,6 +449,8 @@ ipc.on('draw-attention', function(event, count) {
     setTimeout(function() {
       mainWindow.flashFrame(false);
     }, 1000);
+  } else if (process.platform == 'linux') {
+    mainWindow.flashFrame(true);
   }
 });
 

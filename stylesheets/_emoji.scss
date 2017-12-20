@@ -79,3 +79,47 @@ img.emoji.jumbo {
 	width: 1em;
 	height: 1em;
 }
+
+button.emoji {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  opacity: 0.5;
+  border: none;
+  background: transparent;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    width: $button-height;
+    height: $button-height;
+    @include color-svg('../images/smile.svg', $grey);
+  }
+
+  &:focus, &:hover {
+    opacity: 1.0;
+  }
+}
+
+// Import emoji panel css and override paths
+@import '../node_modules/emoji-panel/lib/emoji-panel-apple-32.css';
+@font-face {
+  font-family: 'apple-category';
+  src: url(../node_modules/emoji-panel/lib/asset/apple.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+.emoji-panel-container {
+  height: 0px;
+  .ep-e {
+    background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets/64.png');
+    background-size: 1734px;
+  }
+  .ep-slide {
+    background-color: $blue;
+  }
+  .ep ::-webkit-scrollbar {
+    // matches what is set in _global.scss; needs !important to override emoji panel CSS
+    width: 10px !important;
+  }
+}

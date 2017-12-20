@@ -173,6 +173,8 @@
 
             this.$('.send-message').focus(this.focusBottomBar.bind(this));
             this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
+
+            this.$emojiPanelContainer = this.$('.emoji-panel-container');
         },
 
         events: {
@@ -192,6 +194,7 @@
             'click .microphone': 'captureAudio',
             'click .disappearing-messages': 'enableDisappearingMessages',
             'click .scroll-down-button-view': 'scrollToBottom',
+            'click button.emoji': 'toggleEmojiPanel',
             'focus .send-message': 'focusBottomBar',
             'change .file-input': 'toggleMicrophone',
             'blur .send-message': 'unfocusBottomBar',
@@ -950,8 +953,46 @@
             }.bind(this));
         },
 
+        toggleEmojiPanel: function(e) {
+            e.preventDefault();
+            if (!this.emojiPanel) {
+              this.openEmojiPanel();
+            } else {
+              this.closeEmojiPanel();
+            }
+        },
+        openEmojiPanel: function(e) {
+            this.$emojiPanelContainer.outerHeight(200);
+            this.emojiPanel = new EmojiPanel(this.$emojiPanelContainer[0], {
+              onClick: this.insertEmoji.bind(this)
+            });
+            this.updateMessageFieldSize({});
+        },
+        closeEmojiPanel: function() {
+            this.$emojiPanelContainer.empty().outerHeight(0);
+            this.emojiPanel = null;
+            this.updateMessageFieldSize({});
+        },
+        insertEmoji: function(e) {
+            var colons = ':' + emojiData[e.index].short_name + ':';
+
+            var textarea = this.$messageField[0];
+            if (textarea.selectionStart || textarea.selectionStart == '0') {
+                var startPos = textarea.selectionStart;
+                var endPos = textarea.selectionEnd;
+                textarea.value = textarea.value.substring(0, startPos)
+                    + colons
+                    + textarea.value.substring(endPos, textarea.value.length);
+                textarea.selectionStart = startPos + colons.length;
+                textarea.selectionEnd = startPos + colons.length;
+            } else {
+                textarea.value += colons;
+            }
+            this.focusMessageField();
+        },
         sendMessage: function(e) {
             this.removeLastSeenIndicator();
+            this.closeEmojiPanel();
 
             var toast;
             if (extension.expired()) {
@@ -1046,6 +1087,7 @@
             $bottomBar.outerHeight(
                     this.$messageField.outerHeight() +
                     $attachmentPreviews.outerHeight() +
+                    this.$emojiPanelContainer.outerHeight() +
                     parseInt($bottomBar.css('min-height')));
 
             this.view.scrollToBottomIfNeeded();

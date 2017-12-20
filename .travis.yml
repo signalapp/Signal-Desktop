@@ -8,6 +8,7 @@ install:
   - yarn install
 script:
   - yarn run generate
+  - yarn prepare-build
   - ./node_modules/.bin/build --em.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
   - ./travis.sh
 env:

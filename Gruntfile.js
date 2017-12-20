@@ -1,4 +1,5 @@
 var path = require('path');
+var packageJson = require('./package.json');
 
 module.exports = function(grunt) {
   'use strict';
@@ -208,23 +209,23 @@ module.exports = function(grunt) {
     },
     'test-release': {
       osx: {
-        archive: 'mac/Signal.app/Contents/Resources/app.asar',
-        appUpdateYML: 'mac/Signal.app/Contents/Resources/app-update.yml',
-        exe: 'mac/Signal.app/Contents/MacOS/Signal'
+        archive: 'mac/' + packageJson.productName + '.app/Contents/Resources/app.asar',
+        appUpdateYML: 'mac/' + packageJson.productName + '.app/Contents/Resources/app-update.yml',
+        exe: 'mac/' + packageJson.productName + '.app/Contents/MacOS/' + packageJson.productName
       },
       mas: {
         archive: 'mas/Signal.app/Contents/Resources/app.asar',
         appUpdateYML: 'mac/Signal.app/Contents/Resources/app-update.yml',
-        exe: 'mas/Signal.app/Contents/MacOS/Signal'
+        exe: 'mas/' + packageJson.productName + '.app/Contents/MacOS/' + packageJson.productName
       },
       linux: {
         archive: 'linux-unpacked/resources/app.asar',
-        exe: 'linux-unpacked/signal-desktop'
+        exe: 'linux-unpacked/' + packageJson.name
       },
       win: {
         archive: 'win-unpacked/resources/app.asar',
         appUpdateYML: 'win-unpacked/resources/app-update.yml',
-        exe: 'win-unpacked/Signal.exe'
+        exe: 'win-unpacked/' + packageJson.productName + '.exe'
       }
     },
     gitinfo: {} // to be populated by grunt gitinfo
@@ -277,7 +278,6 @@ module.exports = function(grunt) {
     require('mkdirp').sync('release');
     var fs = require('fs');
     var done = this.async();
-    var package_json = grunt.config.get('pkg');
     var gitinfo = grunt.config.get('gitinfo');
     var https = require('https');
 
@@ -285,7 +285,7 @@ module.exports = function(grunt) {
     var keyBase = 'WhisperSystems/Signal-Desktop';
     var sha = gitinfo.local.branch.current.SHA;
     var files = [{
-      zip: 'signal-desktop-' + package_json.version + '.zip',
+      zip: packageJson.name + '-' + packageJson.version + '.zip',
       extractedTo: 'linux'
     }];
 
@@ -466,7 +466,7 @@ module.exports = function(grunt) {
         return app.client.getTitle();
       }).then(function (title) {
         // Verify the window's title
-        assert.equal(title, 'Signal');
+        assert.equal(title, packageJson.productName);
         console.log('title ok');
       }).then(function () {
         assert(app.chromeDriver.logLines.indexOf('NODE_ENV ' + environment) > -1);

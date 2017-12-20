@@ -69,7 +69,12 @@ if (window.console) {
 // The mechanics of preparing a log for publish
 
 function getHeader() {
-  return window.navigator.userAgent + ' node/' + window.config.node_version;
+  let header = window.navigator.userAgent;
+
+  header += ' node/' + window.config.node_version;
+  header += ' env/' + window.config.environment;
+
+  return header;
 }
 
 function getLevel(level) {

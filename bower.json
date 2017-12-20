@@ -11,7 +11,6 @@
     "protobuf": "~3.8.0",
     "mustache": "~0.8.2",
     "qrcode": "https://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
-    "libphonenumber-api": "https://github.com/liliakai/libphonenumber-api.git",
     "moment": "~2.14.0",
     "indexeddb-backbonejs-adapter": "*",
     "intl-tel-input": "~4.0.1",
@@ -58,9 +57,6 @@
     ],
     "chai": [
       "chai.js"
-    ],
-    "libphonenumber-api": [
-      "libphonenumber_api-compiled.js"
     ],
     "moment": [
       "min/moment-with-locales.js"
@@ -114,7 +110,6 @@
       "backbone",
       "indexeddb-backbonejs-adapter",
       "qrcode",
-      "libphonenumber-api",
       "moment",
       "intl-tel-input",
       "backbone.typeahead",
