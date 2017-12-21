@@ -112,9 +112,13 @@
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [
         "deb",
+        "snap",
         "zip"
       ],
       "icon": "build/icons/png"
+    },
+    "snap": {
+      "plugs": ["default", "desktop"]
     },
     "deb": {
       "depends": [
