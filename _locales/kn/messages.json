@@ -12,7 +12,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
-        "message": "View",
+        "message": "ತೋರಿಸು",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -42,12 +42,22 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "showSafetyNumber": {
-        "message": "Show safety number",
+        "message": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ತೋರಿಸಿ",
         "description": ""
     },
     "androidMessageLengthWarning": {
         "message": "Android clients will only receive the first 2000 characters of this message.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ left the group.",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "You set the timer to $time$.",
@@ -75,12 +85,16 @@
         "message": "1 ನಿಮಿಷ",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "debugLog": {
+        "message": "Debug Log",
+        "description": "View menu item to open the debug log, capitalized"
+    },
     "gotIt": {
         "message": "ಅರ್ಥವಾಯಿತು!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "ಕಣ್ಮರೆಯಾಗುವ ಸಂದೇಶಗಳು",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
@@ -106,7 +120,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 ನಿಮಿಷಗಳು",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
@@ -117,12 +131,20 @@
         "message": "Export again",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "Quit",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "ಉಳಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
         "description": "Hover text for attachment filenames"
     },
+    "fileABug": {
+        "message": "File a bug",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
+    },
     "messagesBelow": {
-        "message": "New messages below",
+        "message": "ಕೆಳಗೆ ಹೊಸ ಸಂದೇಶಗಳು ಇವೆ",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
@@ -136,6 +158,10 @@
     "offline": {
         "message": "Offline",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Hide menu bar",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "ಸಿಗ್ನಲ್‌ಗೆ ಸ್ವಾಗತ",
@@ -154,7 +180,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "ಆರಿಸು",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -170,7 +196,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -178,12 +204,16 @@
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "ಅಳಿಸು",
         "description": ""
     },
     "verified": {
-        "message": "Verified",
+        "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ",
         "description": ""
+    },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
     },
     "selectAContact": {
         "message": "ಸಂವಾದ ಪ್ರಾರಂಭಿಸಲು ಸಂಪರ್ಕ ಅಥವಾ ಗುಂಪುನ್ನು ಆಯ್ಕೆಮಾಡಿಕೊಳ್ಳಿ.",
@@ -192,6 +222,10 @@
     "exportError": {
         "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "About Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ...",
@@ -250,7 +284,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 ದಿನ",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
@@ -281,12 +315,16 @@
         "message": "ಈ ಸಂವಾದವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸುವುದೇ?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Window",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "Set up with exported data",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "ಸಂದೇಶವನ್ನು ಮುಂದುವರಿಸಲು ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್ಟಾಪ್ ಅನ್ನು ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನಕ್ಕೆ ರಿಲೀಂಕ್ ಮಾಡಿ.",
         "description": ""
     },
     "debugLogExplanation": {
@@ -381,12 +419,26 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$name$ joined the group.",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Go to forums",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "ಗುಂಪುಗಳು ಹಾಗು ಸಂಪರ್ಕಗಳನ್ನು  ಸಮನ್ವಯಗೊಳಿಸಲಾಗುತ್ತಿದೆ",
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 ನಿಮಿಷಗಳು",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
@@ -394,7 +446,7 @@
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 ನಿಮಿಷ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
@@ -407,8 +459,12 @@
             }
         }
     },
+    "speech": {
+        "message": "Speech",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "ನೀವು ಕೊನೆಯದಾಗಿ ಪರಿಶೀಲಿಸಿದ ನಂತರ $name$ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ ಬದಲಾಗಿದೆ. ನಿಮ್ಮ ಸಂವಹನವನ್ನು ಯಾರಾದರೂ ತಡೆಗಟ್ಟಲು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದಾರೆ ಅಥವಾ $name$ ಸಿಗ್ನಲ್ ಅನ್ನು ಪುನಃ ಸ್ಥಾಪಿಸಿದ್ದಾರೆ",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -440,12 +496,16 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "ಹೊಸ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "ಖಾಸಗಿತನ ಸಾಧ್ಯ. ಸಿಗ್ನಲ್ ಇದನ್ನು ಸುಲಭವಾಗಿಸುತ್ತದೆ.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "ತೋರಿಸು",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "Play audio notification",
@@ -478,7 +538,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 ಗಂಟೆ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -489,8 +549,12 @@
         "message": "Choose directory",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
+    "mainMenuEdit": {
+        "message": "&Edit",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 ಗಂಟೆ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
@@ -498,7 +562,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1 ದಿನ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
@@ -514,7 +578,7 @@
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 ವಾರ",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
@@ -554,7 +618,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "me": {
-        "message": "Me",
+        "message": "ನಾನು",
         "description": "The label for yourself when shown in a group member list"
     },
     "mediaMessage": {
@@ -562,7 +626,7 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unreadMessage": {
-        "message": "1 Unread Message",
+        "message": "1 ಓದದಿರುವ ಸಂದೇಶ",
         "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
@@ -574,7 +638,7 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Delete this message",
+        "message": "ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಿ",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -582,11 +646,11 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "ಆರಿಸು",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -594,7 +658,7 @@
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "ತಪ್ಪಾದ ಸಂಖ್ಯೆ",
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
@@ -631,6 +695,10 @@
         "message": "ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿಲ್ಲ.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&View",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
         "message": "There is a new version of Signal available.",
         "description": ""
@@ -648,8 +716,12 @@
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
-        "message": "\nನನ್ನ ಆಂಡ್ರ್ಯಾಡ್‌ನಲ್ಲಿ ಸಿಗ್ನಲ್ ಇದೆ",
+        "message": "ನನ್ನ ಆಂಡ್ರ್ಯಾಡ್‌ನಲ್ಲಿ ಸಿಗ್ನಲ್ ಇದೆ",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Help",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "Unnamed File",
@@ -670,7 +742,7 @@
         }
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
@@ -686,7 +758,7 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1 ವಾರ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
@@ -694,7 +766,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "ಸದಸ್ಯರನ್ನು ತೋರಿಸು",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
@@ -721,6 +793,20 @@
         "message": "ಜೊತೆ  ಜೋಡಣೆ",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "Go to support page",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ joined the group.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "groupMembers": {
         "message": "Group members",
         "description": ""
@@ -734,15 +820,15 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "ಹೊಸ ಸಂಪರ್ಕವನ್ನು ಉಳಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "ನೀವು ಇನ್ನೂ ಈ ಸಂಪರ್ಕದೊಂದಿಗೆ ಯಾವುದೇ ಸಂದೇಶಗಳನ್ನು ವಿನಿಮಯ ಮಾಡಿಲ್ಲ. ಅವರೊಂದಿಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ಮೊದಲ ಸಂದೇಶದ ನಂತರ ಲಭ್ಯವಿರುತ್ತದೆ.",
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "ಧ್ವನಿ ಸಂದೇಶ",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -758,6 +844,10 @@
                 "example": "John"
             }
         }
+    },
+    "updatedTheGroup": {
+        "message": "Updated the group.",
+        "description": "Shown in the conversation history when someone updates the group"
     },
     "identityKeyErrorOnSend": {
         "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
@@ -781,6 +871,10 @@
         "message": "ಚೆನ್ನಾಗಿದೆ",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Go to release notes",
+        "description": ""
+    },
     "messageDetail": {
         "message": "ಸಂದೇಶದ ವಿವರಗಳು",
         "description": ""
@@ -792,6 +886,10 @@
     "exportChooserTitle": {
         "message": "Choose target directory for data",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&File",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Mark as verified",
@@ -833,6 +931,16 @@
         "message": "ದೋಷ",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Title is now '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
         "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
@@ -870,7 +978,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
@@ -886,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Hide",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

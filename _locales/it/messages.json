@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "Il primo passo consiste nel dirci dove hai esportato i tuoi dati Signal. Si tratta di una cartella il cui nome incomincia con 'Signal Export'.",
+        "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -51,7 +51,7 @@
     },
     "leftTheGroup": {
         "message": "$name$ ha lasciato il gruppo.",
-        "description": "Shown in the conversation history when someone leaves the group",
+        "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -131,6 +131,10 @@
         "message": "Esporta di nuovo",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "Quit",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
         "message": "Clicca per salvare",
         "description": "Hover text for attachment filenames"
@@ -206,6 +210,10 @@
     "verified": {
         "message": "Verificato",
         "description": ""
+    },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
     },
     "selectAContact": {
         "message": "Per iniziare una chat seleziona un contatto od un gruppo.",
@@ -307,8 +315,12 @@
         "message": "Rimuovere definitivamente la conversazione?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Finestra",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Configura come un'esportazione dall'app Chrome",
+        "message": "Installazione con dati esportati",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -408,12 +420,12 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$names$ si è unito al gruppo.",
-        "description": "Shown in the conversation history when people join the group",
+        "message": "$name$ joined the group.",
+        "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
-            "names": {
+            "name": {
                 "content": "$1",
-                "example": "Alice, Bob"
+                "example": "Alice"
             }
         }
     },
@@ -536,6 +548,10 @@
     "chooseDirectory": {
         "message": "Scegli una cartella",
         "description": "Button to allow the user to export all data from app as part of migration process"
+    },
+    "mainMenuEdit": {
+        "message": "&Modifica",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6 ore",
@@ -679,6 +695,10 @@
         "message": "Messaggio non inviato.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&Vista",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
         "message": "È disponibile una nuova versione di Signal.",
         "description": ""
@@ -698,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Ho Signal per Android",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Aiuto",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "File senza nome",
@@ -772,6 +796,16 @@
     "goToSupportPage": {
         "message": "Vai alla pagina di supporto",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ si è unito al gruppo.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
     },
     "groupMembers": {
         "message": "Membri del gruppo",
@@ -852,6 +886,10 @@
     "exportChooserTitle": {
         "message": "Scegli una cartella di destinazione per i dati",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&File",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Segna come verificato",
@@ -956,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Hide",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

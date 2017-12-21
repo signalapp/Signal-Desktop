@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "Najprej morate poiskati mesto, kamor ste predhodno izvozili podatke iz stare aplikacije Signal. Ti se nahajajo v mapi z imenom 'Signal Export.'",
+        "message": "Najprej morate poiskati mesto, kamor ste<a href='https://support.signal.org/hc/en-us/articles/115002502511'>izvozili podatke iz stare aplikacije Signal </a>. Ti se nahajajo v mapi, katere ime se začne z 'Signal Export.'<br><br><b>POZOR</b>: izvožene podatke lahko uvozite le <b>enkrat</b>. Uvoz ustvari kopijo izvoženih podatkov, podvojitev teh pa lahko povzroči težave.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -51,7 +51,7 @@
     },
     "leftTheGroup": {
         "message": "Uporabnik $name$ je zapustil skupino.",
-        "description": "Shown in the conversation history when someone leaves the group",
+        "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -131,6 +131,10 @@
         "message": "Ponovno izvozi",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "Končaj",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
         "message": "Shrani",
         "description": "Hover text for attachment filenames"
@@ -206,6 +210,10 @@
     "verified": {
         "message": "Potrjeno",
         "description": ""
+    },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
     },
     "selectAContact": {
         "message": "Izberite osebo ali skupino in začnite s pogovorom.",
@@ -307,8 +315,12 @@
         "message": "Ali res želite nepovratno izbrisati ta pogovor?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Okno",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Nastavi z uvozom podatkov iz aplikacije Chrome",
+        "message": "Nastavi z izvoženimi podatki",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -408,12 +420,12 @@
         }
     },
     "joinedTheGroup": {
-        "message": "Uporabnik $names$ se je pridružil skupini.",
-        "description": "Shown in the conversation history when people join the group",
+        "message": "Oseba $name$ se je pridružila skupini.",
+        "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
-            "names": {
+            "name": {
                 "content": "$1",
-                "example": "Alice, Bob"
+                "example": "Alice"
             }
         }
     },
@@ -536,6 +548,10 @@
     "chooseDirectory": {
         "message": "Izberi mapo",
         "description": "Button to allow the user to export all data from app as part of migration process"
+    },
+    "mainMenuEdit": {
+        "message": "&Urejanje",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6 h",
@@ -679,6 +695,10 @@
         "message": "Sporočilo ni bilo poslano.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&Pogled",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
         "message": "Na voljo je nova različica aplikacije Signal.",
         "description": ""
@@ -698,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Imam Signal za Android",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Pomoč",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "Neimenovana datoteka",
@@ -772,6 +796,16 @@
     "goToSupportPage": {
         "message": "Podporna stran",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "Uporabnik $names$ se je pridružil skupini.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
     },
     "groupMembers": {
         "message": "Člani skupine",
@@ -852,6 +886,10 @@
     "exportChooserTitle": {
         "message": "Izberite mapo s podatki",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&Datoteka",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Označi kot potrjeno.",
@@ -956,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Skrij",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

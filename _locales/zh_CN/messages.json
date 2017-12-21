@@ -4,7 +4,7 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "选择包含导出数据的文件夹",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
@@ -16,7 +16,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
-        "message": "Upgrading database. This may take some time...",
+        "message": "更新数据库。这可能需要一点时间...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "首相请告诉我们<a href='https://support.signal.org/hc/en-us/articles/115002502511'>已导出数据</a>的位置。这个位置应当是一个叫做“Signal Export”的文件夹。<br><br><b>注意</b>：相同数据你只能导入<b>一次</b>。导入数据操作会复制一个账户数据，重复的账户会相互干扰。",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Android客户端仅能接收此消息的前2000个字符",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$离开了群组。",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "您将计时器设置为 $time$ 。",
@@ -75,6 +85,10 @@
         "message": "1分钟",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "debugLog": {
+        "message": "调试日志",
+        "description": "View menu item to open the debug log, capitalized"
+    },
     "gotIt": {
         "message": "了解",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
@@ -84,7 +98,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device.",
+        "message": "您确定吗？点击“删除”会从此设备上永久删除这条消息。",
         "description": ""
     },
     "showMore": {
@@ -92,7 +106,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "如果您想要确认与$name$端对端加密是否安全，请将以上数字和对方设备的数字进行比对。",
         "description": "",
         "placeholders": {
             "name": {
@@ -102,7 +116,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "自上次验证以来，您与多位群组成员的安全码已发生改变。点击一个群组成员可查看您与他们的新安全码。",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
@@ -117,9 +131,17 @@
         "message": "重新导出",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "退出",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
         "message": "单击保存",
         "description": "Hover text for attachment filenames"
+    },
+    "fileABug": {
+        "message": "报告 bug",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "messagesBelow": {
         "message": "下面的新消息",
@@ -136,6 +158,10 @@
     "offline": {
         "message": "离线",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "隐藏菜单栏",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "欢迎来到Signal",
@@ -185,13 +211,21 @@
         "message": "确认",
         "description": ""
     },
+    "trayTooltip": {
+        "message": "桌面版Signal",
+        "description": "Tooltip for the tray icon"
+    },
     "selectAContact": {
         "message": "选择一个联系人或群组来开始聊天。",
         "description": ""
     },
     "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "message": "非常抱歉，导出时出现了意外错误。首先，确认您的目标文件夹为空、可写并且有足够的空间。然后，请提交您的调试日志，以供我们协助您完成迁移！",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "关于 Signal 桌面版",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "正在连接...",
@@ -246,7 +280,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "您与多位群组成员的安全码已发生改变。这可能表示有人试图偷听您的对话，或者只是联系人他们重新安装了 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
@@ -254,7 +288,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
+        "message": "当我们导出您的数据时，请您耐心等候。这可能需要几分钟。与此同时，您仍然可以在手机和其它设备上使用 Signal。",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -270,7 +304,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "稍后",
         "description": ""
     },
     "from": {
@@ -281,8 +315,12 @@
         "message": "永久删除此会话？",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "窗口（&W）",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "使用以前导出的数据配置应用",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -346,11 +384,11 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "installNew": {
-        "message": "Set up as new install",
+        "message": "配置为全新安装",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
-        "message": "Please wait while we import your data...",
+        "message": "我们正在导入您的数据，请稍候...",
         "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
@@ -381,6 +419,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$name$加入了群组。",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "前往论坛",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "正在同步群组和联系人",
         "description": ""
@@ -398,7 +450,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
-        "message": "Loading messages. $count$ so far...",
+        "message": "加载消息。目前数目 $count$...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -406,6 +458,10 @@
                 "example": "5"
             }
         }
+    },
+    "speech": {
+        "message": "语音",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "changedSinceVerified": {
         "message": "您与$name$的安全码自从上次确认后被修改过。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是简单的重装了下Signal。",
@@ -446,6 +502,10 @@
     "installTagline": {
         "message": "Signal让隐私保护触手可及。",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "显示",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "播放语音提醒",
@@ -489,6 +549,10 @@
         "message": "选择目录",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
+    "mainMenuEdit": {
+        "message": "编辑（&E）",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "timerOption_6_hours_abbreviated": {
         "message": "6小时",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -502,11 +566,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart",
+        "message": "重启",
         "description": ""
     },
     "importButton": {
-        "message": "Import",
+        "message": "导入",
         "description": ""
     },
     "sync": {
@@ -526,7 +590,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your safety number with $name$ as unverified.",
+        "message": "您已将与$name$的安全码标记为未验证。",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -536,7 +600,7 @@
         }
     },
     "isVerified": {
-        "message": "You have verified your safety number with $name$.",
+        "message": "您已验证与$name$的安全码。",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -578,7 +642,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart to apply the updates.",
+        "message": "按重启来应用更新。",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -586,7 +650,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "非常抱歉，导入时出现了意外错误。<p>首先，检查您的目标文件夹。它应该以“Signal Export.”开头。</p><p>然后，尝试从 Chrome 应用导出一份新的数据。</p>如果这样仍然失败，请<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>交您的调试日志</a>，让我们协助您完成迁移！",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -598,7 +662,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "message": "我们成功加载了您的数据。接下来是重启应用！",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -610,7 +674,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
+        "message": "您的数据已导出到<p><b>$location$</b></p>您将可以在配置<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>新版 Signal 桌面版</a>时导入这些设置。",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -631,8 +695,12 @@
         "message": "信息未发送",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "视图（&V）",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "有新版的 Signal 可用。",
         "description": ""
     },
     "disableNotifications": {
@@ -651,6 +719,10 @@
         "message": "我有Android版的Signal",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "mainMenuHelp": {
+        "message": "帮助（&H）",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "unnamedFile": {
         "message": "未命名的文件",
         "description": "Hover text for attachment filenames"
@@ -660,7 +732,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "You marked your safety number with $name$ as verified.",
+        "message": "您已将与$name$的安全码标记为已验证。",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -708,7 +780,7 @@
         }
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "message": "首先，在您的手机上安装<a $a_params$> Signal </a>。<br />我们将连接您的设备并同步您的消息。",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
@@ -720,6 +792,20 @@
     "installLinkingWithNumber": {
         "message": "正在连接",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "goToSupportPage": {
+        "message": "前往支持页面",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$加入了群组。",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
     },
     "groupMembers": {
         "message": "群组成员",
@@ -759,8 +845,12 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "更新群组。",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "您与$name$的安全码已改变。这表示可能有人试图偷听您的对话，也可能只是$name$重新安装了 Signal。您可能要重新验证与联系人的安全码。",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -781,24 +871,32 @@
         "message": "看起来不错",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "前往发布说明",
+        "description": ""
+    },
     "messageDetail": {
         "message": "信息属性",
         "description": ""
     },
     "installNewSignal": {
-        "message": "Install new Signal Desktop",
+        "message": "安装新版 Signal 桌面版",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
-        "message": "Choose target directory for data",
+        "message": "为您的数据选择目标文件夹",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "文件（&F）",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "标记为已确认",
         "description": ""
     },
     "exportButton": {
-        "message": "Export",
+        "message": "导出",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -822,7 +920,7 @@
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "自上次验证以来，您与多为群组成员的安全码已发生改变。这可能表示有人试图偷听您的对话，或者只是联系人他们重新安装了 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "submitDebugLog": {
@@ -833,8 +931,18 @@
         "message": "错误",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "现在标题是“$name$”。",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "您想验证的安全码已改变。请检查您与$name$的新安全码。切记，验证码改变意味着可能有人试图截取您的通讯，也可能只是$name$重新安装了 Signal。",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -854,7 +962,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Signal 有可用更新",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -862,7 +970,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "message": "第一步是选择用来导出应用数据的目录。数据包含了您的消息历史和敏感加密数据，所以请确保存储的地方是安全的。",
         "description": "Description of the export process"
     },
     "notifications": {
@@ -870,7 +978,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "重试",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
@@ -878,7 +986,7 @@
         "description": ""
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as verified from another device.",
+        "message": "您已在另一个设备将与$name$的安全码标记为已验证。",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -886,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "隐藏",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

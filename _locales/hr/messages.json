@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -49,8 +49,18 @@
         "message": "Android uređaji primit će samo prvih 2000 znakova ove poruke.",
         "description": "Warning that long messages could not get received completely by Android clients."
     },
+    "leftTheGroup": {
+        "message": "$name$ left the group.",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Postavili ste brojač na $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1 minuta",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "Debug Log",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "Shvaćam!",
@@ -117,9 +131,17 @@
         "message": "Izvezi ponovo",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "Quit",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
         "message": "Klikni za spremanje",
         "description": "Hover text for attachment filenames"
+    },
+    "fileABug": {
+        "message": "File a bug",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "messagesBelow": {
         "message": "Nove poruke ispod",
@@ -130,12 +152,16 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Resetuj sesiju",
+        "message": "Ponovno pokreni sesiju",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
         "message": "Offline",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Hide menu bar",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Dobrodošli u Signal",
@@ -173,10 +199,6 @@
         "message": "Izbriši poruku",
         "description": "Menu item for deleting messages, title case."
     },
-    "confirmMigration": {
-        "message": "Pokrenuti postupak migracije? Tijekom migracije nećete moći slati i primati Signal poruke iz ove aplikacije.",
-        "description": "Confirmation dialogue when beginning migration"
-    },
     "incomingError": {
         "message": "Pogreška prilikom upravljanja ulaznom porukom.",
         "description": ""
@@ -189,6 +211,10 @@
         "message": "Potvrđeno",
         "description": ""
     },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
+    },
     "selectAContact": {
         "message": "Odaberite kontakt ili grupu za početak dopisivanja.",
         "description": ""
@@ -196,6 +222,10 @@
     "exportError": {
         "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "About Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Povezivanje...",
@@ -230,14 +260,6 @@
     "sent": {
         "message": "Poslano",
         "description": "Label for the time a message was sent"
-    },
-    "migrationWarning": {
-        "message": "Signal Desktop aplikacija za Chrome više se ne koristi. Želite li se prebaciti na novu Signal Desktop aplikaciju?",
-        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
-    },
-    "migrate": {
-        "message": "Da!",
-        "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
         "message": "$name$ set the timer to $time$.",
@@ -293,8 +315,12 @@
         "message": "Trajno obrisati ovaj razgovor?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Window",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "Set up with exported data",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -358,7 +384,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "installNew": {
-        "message": "Set up as new install",
+        "message": "Nova instalacija",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
@@ -393,6 +419,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$name$ joined the group.",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Go to forums",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Sinkroniziranje grupa i kontakta",
         "description": ""
@@ -418,6 +458,10 @@
                 "example": "5"
             }
         }
+    },
+    "speech": {
+        "message": "Speech",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "changedSinceVerified": {
         "message": "Sigurnosni se broj s kontaktom $name$ promijenio od zadnje potvrde. Moguće je da netko pokušava presresti vašu komunikaciju ili da je kontakt $name$ reinstalirao Signal.",
@@ -458,6 +502,10 @@
     "installTagline": {
         "message": "Privatnost je moguća. Signal je čini lakom.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "Show",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "Zvučne obavijesti",
@@ -501,6 +549,10 @@
         "message": "Odaberi direktorij",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
+    "mainMenuEdit": {
+        "message": "&Edit",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -518,7 +570,7 @@
         "description": ""
     },
     "importButton": {
-        "message": "Import",
+        "message": "Uvoz",
         "description": ""
     },
     "sync": {
@@ -574,11 +626,11 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unreadMessage": {
-        "message": "1 nepročitna poruka",
+        "message": "1 nepročitana poruka",
         "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
-        "message": "Ova verzija Signal Desktop-a je istekla. Molimo Vas da nadogradite na najnoviju verziju kako bi nastavili slati poruke.",
+        "message": "Ova inačica Signal Desktopa je istekla. Molimo vas da za nastavak dopisivanja nadogradite na najnoviju verziju.",
         "description": "Warning notification that this version of the app has expired"
     },
     "fileSizeWarning": {
@@ -598,7 +650,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -610,7 +662,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "message": "Uspješno smo učitali vaše podatke. Idući korak je ponovno pokretanje aplikacije!",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -643,8 +695,12 @@
         "message": "Poruka nije poslana.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&View",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Dostupna je nova inačica Signala.",
         "description": ""
     },
     "disableNotifications": {
@@ -662,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Imam Signal za Android",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Help",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "Neimenovana datoteka",
@@ -710,7 +770,7 @@
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as not verified from another device.",
+        "message": "Označili ste svoj sigurnosni broj s $name$ kao nepotvrđen s drugog uređaja.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -732,6 +792,20 @@
     "installLinkingWithNumber": {
         "message": "Povezivanje s",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "goToSupportPage": {
+        "message": "Go to support page",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ joined the group.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
     },
     "groupMembers": {
         "message": "Članovi grupe",
@@ -771,6 +845,10 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Updated the group.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
         "message": "Sigurnosni broj s kontaktom $name$ se promijenio. Moguće je da netko pokušava presresti vašu komunikaciju ili da je kontakt $name$ reinstalirao signal. Možda biste htjeli potvrditi novi sigurnosni broj s ovim kontaktom.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -793,6 +871,10 @@
         "message": "Izgleda dobro",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Go to release notes",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Detalji poruke",
         "description": ""
@@ -804,6 +886,10 @@
     "exportChooserTitle": {
         "message": "Choose target directory for data",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&File",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Označi provjerenim",
@@ -845,6 +931,16 @@
         "message": "Greška",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Title is now '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
         "message": "Sigurnosni broj koji potvrđujete se promijenio. Molimo vas da provjerite novi sigurnosni broj s kontaktom $name$.  Moguće je da netko pokušava presresti vašu komunikaciju ili da je kontakt $name$ reinstalirao Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
@@ -856,7 +952,7 @@
         }
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Brojač postavljen na $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
@@ -866,7 +962,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Dostupna nadogradnja za Signal",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -882,7 +978,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "Pokušaj ponovno",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
@@ -898,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Hide",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

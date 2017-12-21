@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "Vertel ons eerst waar je je vorige Signal-gegevens hebt geëxporteerd. De naam van de map begint met ‘Signal Export’.",
+        "message": "Vertel ons eerst waar je <a href='https://support.signal.org/hc/en-us/articles/115002502511'>je vorige Signal-gegevens hebt geëxporteerd</a>. De naam van de map begint met ‘Signal Export’.<br><br><b>LET OP:</b> importeer geëxporteerde gegevens slechts <b>één keer</b>. Importeren maakt een kopie van de geëxporteerde cliënt aan, en duplicate cliënten kunnen voor problemen zorgen.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Contacten die Signal op een Android-telefoon gebruiken zullen enkel de eerste 2000 tekens van dit bericht kunnen lezen.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ heeft de groep verlaten.",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "Je hebt de timer ingesteld op $time$.",
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1 minuut",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "Debuglog",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "Begrepen!",
@@ -117,9 +131,17 @@
         "message": "Opnieuw exporteren",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "Afsluiten",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
         "message": "Klik om op te slaan",
         "description": "Hover text for attachment filenames"
+    },
+    "fileABug": {
+        "message": "Meld een probleem",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "messagesBelow": {
         "message": "Nieuwe berichten hieronder",
@@ -136,6 +158,10 @@
     "offline": {
         "message": "Offline",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Menubalk verbergen",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Welkom bij Signal",
@@ -185,6 +211,10 @@
         "message": "Geverifieerd",
         "description": ""
     },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
+    },
     "selectAContact": {
         "message": "Kies een contact of groep om te starten met chatten.",
         "description": ""
@@ -192,6 +222,10 @@
     "exportError": {
         "message": "Er ging iets mis bij het exporteren. Controleer nogmaals of je gekozen lege map schrijftoegang en voldoende vrije ruimte beschikbaar heeft. Dien vervolgens een debuglog in zodat we je kunnen helpen migreren!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "Over Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Aan het verbinden…",
@@ -281,8 +315,12 @@
         "message": "Dit gesprek voorgoed verwijderen?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Venster",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Instellen met geëxporteerde gegevens van Chrome-app",
+        "message": "Instellen met geëxporteerde gegevens",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -381,6 +419,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$name$ zit nu in de groep.",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Ga naar forums",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Groepen en contacten aan het synchroniseren",
         "description": ""
@@ -406,6 +458,10 @@
                 "example": "5"
             }
         }
+    },
+    "speech": {
+        "message": "Spraak",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "changedSinceVerified": {
         "message": "Je veiligheidsnummer met $name$ is veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ opnieuw heeft geïnstalleerd.",
@@ -446,6 +502,10 @@
     "installTagline": {
         "message": "Privacy is mogelijk. Signal maakt het gemakkelijk.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "Tonen",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "Audiomelding afspelen",
@@ -488,6 +548,10 @@
     "chooseDirectory": {
         "message": "Map kiezen",
         "description": "Button to allow the user to export all data from app as part of migration process"
+    },
+    "mainMenuEdit": {
+        "message": "B&ewerken",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6u",
@@ -586,7 +650,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "<p>Er ging iets mis bij het importeren. Controleer nogmaals je gekozen map. De naam van de map begint met ‘Signal Export’.</p><p>Probeer daarna met een nieuwe map geëxporteerde gegevens uit de Chrome-app.</p>Als het dan nog steeds niet lukt, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>dien dan een debuglog in</a> zodat we je kunnen helpen migreren!",
+        "message": "Er ging iets mis bij het importeren. <p>Controleer nogmaals je doelmap. De naam van de map begint met ‘Signal Export’.</p><p>Probeer daarna met een nieuwe map geëxporteerde gegevens uit de Chrome-app.</p>Als het dan nog steeds niet lukt, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>dien dan een debuglog in</a> zodat we je kunnen helpen migreren!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -631,6 +695,10 @@
         "message": "Bericht niet verzonden.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "Be&kijken",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
         "message": "Er is een nieuwe versie van Signal beschikbaar.",
         "description": ""
@@ -650,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Ik heb Signal voor Android",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Hulp",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "Naamloos bestand",
@@ -721,6 +793,20 @@
         "message": "Aan het koppelen met",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "Ga naar ondersteuningspagina",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ zit nu in de groep.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "groupMembers": {
         "message": "Groepsleden",
         "description": ""
@@ -759,6 +845,10 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Groep bijgewerkt.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
         "message": "Je veiligheidsnummer met $name$ is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd. Je verifieert best je nieuwe veiligheidsnummer met dit contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -781,6 +871,10 @@
         "message": "Prima",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Ga naar uitgavenotities",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Berichtdetails",
         "description": ""
@@ -792,6 +886,10 @@
     "exportChooserTitle": {
         "message": "Kies doelmap voor gegevens",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&Bestand",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Markeren als geverifieerd",
@@ -832,6 +930,16 @@
     "error": {
         "message": "Fout",
         "description": ""
+    },
+    "titleIsNow": {
+        "message": "De titel is nu ‘$name$’.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
     },
     "changedRightAfterVerify": {
         "message": "Het veiligheidsnummer dat je wil verifiëren is veranderd. Controleer je nieuwe veiligheidsnummer met $name$. Let op: dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd.",
@@ -886,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Verbergen",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

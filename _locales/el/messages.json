@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "Το πρώτο βήμα είναι να μας πεις πού εξήγαγες τα δεδομένα του Signal. Θα είναι ένας φάκελος που το όνομά του ξεκινά με \"Signal Export\".",
+        "message": "Το πρώτο βήμα είναι να μας πεις <a href='https://support.signal.org/hc/en-us/articles/115002502511'>πού εξήγαγες τα δεδομένα του Signal</a>. Θα είναι ένας φάκελος που το όνομά του ξεκινά με 'Signal Export'.<br><br><b>Σημείωση</b>: Πρέπει να εισάγεις ένα σετ εξαγομένων δεδομένων μόνο <b>μία φορά</b>. Η εισαγωγή δημιουργεί ένα αντίγραφο της εξαγόμενης εφαρμογής, και διπλότυπα της εφαρμογής παρεμβαίνουν μεταξύ τους.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -51,7 +51,7 @@
     },
     "leftTheGroup": {
         "message": "Ο/Η $name$ έφυγε από την ομάδα.",
-        "description": "Shown in the conversation history when someone leaves the group",
+        "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -131,6 +131,10 @@
         "message": "Εξαγωγή ξανά",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "Quit",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
         "message": "Κλικ για αποθήκευση",
         "description": "Hover text for attachment filenames"
@@ -206,6 +210,10 @@
     "verified": {
         "message": "Επιβεβαιωμένο",
         "description": ""
+    },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
     },
     "selectAContact": {
         "message": "Επέλεξε μία επαφή ή ομάδα για να ξεκινήσεις να συζητάς.",
@@ -307,8 +315,12 @@
         "message": "Οριστική διαγραφή αυτής της συζήτησης;",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Παράθυρο",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Σετάρισμα με εξαγωγή από την εφαρμογή Chrome",
+        "message": "Εγκατάσταση με προϋπάρχοντα στοιχεία",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -408,12 +420,12 @@
         }
     },
     "joinedTheGroup": {
-        "message": "Ο/Η $names$ μπήκε στην ομάδα.",
-        "description": "Shown in the conversation history when people join the group",
+        "message": "Ο/Η $name$ μπήκε στην ομάδα.",
+        "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
-            "names": {
+            "name": {
                 "content": "$1",
-                "example": "Alice, Bob"
+                "example": "Alice"
             }
         }
     },
@@ -536,6 +548,10 @@
     "chooseDirectory": {
         "message": "Επιλογή φακέλου",
         "description": "Button to allow the user to export all data from app as part of migration process"
+    },
+    "mainMenuEdit": {
+        "message": "&Αλλαγές",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6ω",
@@ -679,6 +695,10 @@
         "message": "Το μήνυμα δεν στάλθηκε.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&Εμφάνιση",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
         "message": "Μια νέα έκδοση του Signal είναι διαθέσιμη.",
         "description": ""
@@ -698,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Έχω το Signal στο Android",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Βοήθεια",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "Ανώνυμο αρχείο",
@@ -772,6 +796,16 @@
     "goToSupportPage": {
         "message": "Πήγαινε στην σελίδα υποστήριξης",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "Οι$names$ μπήκαν στην ομάδα.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
     },
     "groupMembers": {
         "message": "Μέλη ομάδας",
@@ -852,6 +886,10 @@
     "exportChooserTitle": {
         "message": "Επέλεξε φάκελο για δεδομένα",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&Φάκελος",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Σημείωση ως επιβεβαιωμένο",
@@ -956,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Hide",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

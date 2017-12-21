@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "Első lépésként add meg, hogy hova exportáltad a Signal adatait. A könyvtár neve 'Signal Export'-tal kezdődik.",
+        "message": "Első lépésként áruld el nekünk, hogy hova <a href='https://support.signal.org/hc/en-us/articles/115002502511'>mentetted Signal adataidat!</a> Ennek a könyvtárnak a neve \"Signal Export\"-tal fog kezdődni.<br><br><b>FIGYELEM</b>: Egy adathalmazt csak <b>egyszer</b> importálj be! Az importálás során az új kliens a régi teljes másolatává válik, amiből egyszerre csak egy létezhet, mivel az azonos kliensek zavarják egymás működését.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Az Androidos kliensek csak az üzenet első 2000 karakterét fogják megkapni.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ kilépett a csoportból.",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "Az időzítő értékét a következőre módosítottad: $time$.",
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1 perce",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "Fejlesztői napló",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "Rendben!",
@@ -117,9 +131,17 @@
         "message": "Újraexportálás",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "Kilépés",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
         "message": "Kattints a mentéshez!",
         "description": "Hover text for attachment filenames"
+    },
+    "fileABug": {
+        "message": "Hiba bejelentése",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "messagesBelow": {
         "message": "Újabb üzenetek érkeztek",
@@ -136,6 +158,10 @@
     "offline": {
         "message": "Nincs csatlakozva",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Menü elrejtése",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Üdvözöl a Signal!",
@@ -185,6 +211,10 @@
         "message": "Ellenőrzött",
         "description": ""
     },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
+    },
     "selectAContact": {
         "message": "Válassz ki egy partnert vagy csoportot a beszélgetés elkezdéséhez!",
         "description": ""
@@ -192,6 +222,10 @@
     "exportError": {
         "message": "Sajnos probléma merült fel az exportálás során. Először is ellenőrizd, hogy a célkönyvtárhoz van-e írási jogosultságod, és hogy van-e benne elég szabad hely. Ezt követően küldd el a fejlesztői naplót, hogy segíthessünk a migrálásban!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "A Signal Desktop-ról",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Kapcsolódás...",
@@ -254,7 +288,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Kérlek várj, míg az adatok exportálása befejeződik. A művelet több percet is igénybe vehet. A folyamat során továbbra is használhatod a Signal-t telefonodon vagy egyéb eszközeiden.",
+        "message": "Kérlek várj, míg az adatok exportálása befejeződik. A művelet több percet is igénybe vehet. A folyamat során továbbra is használhatod a Signalt telefonodon vagy egyéb eszközeiden.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -281,8 +315,12 @@
         "message": "Véglegesen törölni szeretnéd ezt a beszélgetést?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Ablak",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Beállítás Chrome-ból exportált adatokkal",
+        "message": "Üzembe helyezés exportált adatokkal",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -381,6 +419,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$name$ belépett a csoportba.",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Fóru",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Csoportok és partnerek szinkronizálása",
         "description": ""
@@ -406,6 +458,10 @@
                 "example": "5"
             }
         }
+    },
+    "speech": {
+        "message": "Beszéd",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "changedSinceVerified": {
         "message": "Biztonsági azonosítód $name$ nevű partnereddel megváltozott az utolsó hitelesítés óta. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy $name$ egyszerűen csak újratelepítette a Signal-t.",
@@ -446,6 +502,10 @@
     "installTagline": {
         "message": "A magánélet védelme nem lehetetlen. A Signal ezt egyszerűvé teszi.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "Megjelenítés",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "Hangjelzés",
@@ -488,6 +548,10 @@
     "chooseDirectory": {
         "message": "Könyvtár kiválasztása",
         "description": "Button to allow the user to export all data from app as part of migration process"
+    },
+    "mainMenuEdit": {
+        "message": "S&zerkesztés",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6ó",
@@ -586,7 +650,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Sajnos probléma merült fel az importálás során. <p>Először is ellenőrizd újra a célkönyvtárat. A nevének 'Signal Export'-tal kell kezdődnie.</p><p>Következő lépésként próbáld újra exportálni az adatokat a Chrome alkalmazásból.</p>Ha továbbra sem sikerül az importálás, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>küldd el a fejlesztői naplót</a>, hogy segíthessünk a migrálásban!",
+        "message": "Sajnos hiba történt az exportálás során. <p>Először is ellenőrizd a célkönyvtárat. A nevének 'Signal Export'-tal kell kezdődnie.</p><p>Ezt követően próbálj meg egy újabb exportot készíteni a Chrome alkalmazásból.</p>Ha ez sem oldja meg a problémát, akkor <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>küldd el a fejlesztői naplót</a>, hogy segíthessünk a migrálásban",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -610,7 +674,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Az adatok exportálása a következő könyvtárba megtörtént: <p><b>$location$</b></p> <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>Az új Signal telepítését követően</a> ezek az adatok importálhatóak lesznek.",
+        "message": "Az adatok exportálása megtörtént a következő könyvtárba: <p><b>$location$</b></p> <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>Az új Signal telepítését követően</a> ezek az adatok importálhatóak lesznek.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -631,6 +695,10 @@
         "message": "Az üzenet nem lett elküldve.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&Nézet",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
         "message": "A Signal új verziója érhető el.",
         "description": ""
@@ -650,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Már van androidos Signalom",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Súgó",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "Névtelen fájl",
@@ -721,6 +793,20 @@
         "message": "Párosítás a következővel:",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "Támogatás",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ belépett a csoportba.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "groupMembers": {
         "message": "Csoport tagjai",
         "description": ""
@@ -759,6 +845,10 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "A csoport adatai frissítve lettek.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
         "message": "Biztonsági azonosítód $name$ nevű partnereddel megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signal-t. Javasolt újraellenőrizni a partnereddel közös biztonsági azonosítótokat.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -781,6 +871,10 @@
         "message": "Jónak tűnik",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Kiadási megjegyzések",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Üzenet részletei",
         "description": ""
@@ -792,6 +886,10 @@
     "exportChooserTitle": {
         "message": "Válassz könyvtárat az adatok tárolásához!",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&Fájl",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Megjelölés ellenőrzöttként",
@@ -832,6 +930,16 @@
     "error": {
         "message": "Hiba",
         "description": ""
+    },
+    "titleIsNow": {
+        "message": "A téma mostantól '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
     },
     "changedRightAfterVerify": {
         "message": "A hitelesítés alatt álló biztonsági azonosító megváltozott. Kérlek ellenőrizd új biztonsági azonosítódat $name$ nevű partnereddel. Ne felejtsd, ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signal-t.",
@@ -886,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Elrejtés",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }
