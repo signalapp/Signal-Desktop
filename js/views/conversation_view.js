@@ -393,6 +393,9 @@
         captureAudio: function(e) {
             e.preventDefault();
 
+            // Note - clicking anywhere will close the audio capture panel, due to
+            //   the onClick handler in InboxView, which calls its closeRecording method.
+
             if (this.captureAudioView) {
                 this.captureAudioView.remove();
                 this.captureAudioView = null;
