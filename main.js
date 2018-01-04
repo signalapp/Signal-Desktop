@@ -41,6 +41,10 @@ const config = require("./app/config");
 const userConfig = require('./app/user_config');
 
 function showWindow() {
+  if (!mainWindow) {
+    return;
+  }
+
   // Using focus() instead of show() seems to be important on Windows when our window
   //   has been docked using Aero Snap/Snap Assist. A full .show() call here will cause
   //   the window to reposition:
@@ -309,12 +313,6 @@ function showDebugLog() {
     mainWindow.webContents.send('debug-log')
   }
 }
-
-function showWindow() {
-  if (mainWindow) {
-    mainWindow.show();
-  }
-};
 
 function openReleaseNotes() {
   shell.openExternal('https://github.com/WhisperSystems/Signal-Desktop/releases/tag/v' + app.getVersion());
