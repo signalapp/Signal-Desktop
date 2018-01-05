@@ -1200,9 +1200,9 @@ electron-updater@^2.16.1:
     semver "^5.4.1"
     source-map-support "^0.5.0"
 
-electron@~1.7.9:
-  version "1.7.9"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.7.9.tgz#add54e9f8f83ed02f6519ec10135f698b19336cf"
+electron@1.7.10:
+  version "1.7.10"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.7.10.tgz#3a3e83d965fd7fafe473be8ddf8f472561b6253d"
   dependencies:
     "@types/node" "^7.0.18"
     electron-download "^3.0.1"
