@@ -1,10 +1,10 @@
 {
     "scrollDown": {
-        "message": "Scroll to bottom of conversation",
+        "message": "Sohbetin en altına kaydır",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "Dışa aktarılan veriler ile dizini seçin",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
@@ -12,11 +12,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
-        "message": "View",
+        "message": "Görüntüle",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
-        "message": "Upgrading database. This may take some time...",
+        "message": "Veritabanı yükseltiliyor. Bu biraz zaman alabilir...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -42,12 +42,22 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "showSafetyNumber": {
-        "message": "Show safety number",
+        "message": "Güvenlik numarasını göster",
         "description": ""
     },
     "androidMessageLengthWarning": {
-        "message": "Android clients will only receive the first 2000 characters of this message.",
+        "message": "Android istemcileri bu mesajın yalnızca ilk 2000 karakterini alacaktır.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ gruptan ayrıldı.",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "Zamanı $time$ olarak ayarladınız.",
@@ -75,16 +85,20 @@
         "message": "1 dakika",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "debugLog": {
+        "message": "Hata Ayıklama Günlüğü",
+        "description": "View menu item to open the debug log, capitalized"
+    },
     "gotIt": {
         "message": "Anladım!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Görünmez mesajlar",
+        "message": "Kaybolan mesajlar",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device.",
+        "message": "Emin misiniz? 'Sil'e tıklamak bu iletiyi bu cihazdan kalıcı olarak kaldırır.",
         "description": ""
     },
     "showMore": {
@@ -92,7 +106,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "$name$ ile uçtan uca şifrelemenizin güvenliğini doğrulamak isterseniz, yukarıdaki numaraları kendi cihazlarındaki numaralarla karşılaştırın.",
         "description": "",
         "placeholders": {
             "name": {
@@ -102,7 +116,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "Bu grup üyeleriyle birlikte güvenlik numaralarınız en son doğrulamanızdan sonra değişti. Onlarla birlikte yeni güvenlik numaranızı görmek için bir grup üyesine tıklayın.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
@@ -114,15 +128,23 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
-        "message": "Export again",
+        "message": "Tekrar dışa aktar",
         "description": "If user has already exported once, this button allows user to do it again if needed"
+    },
+    "quit": {
+        "message": "Quit",
+        "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
         "message": "Click to save",
         "description": "Hover text for attachment filenames"
     },
+    "fileABug": {
+        "message": "Bir hata bildir",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
+    },
     "messagesBelow": {
-        "message": "New messages below",
+        "message": "Yeni mesajlar aşağıda",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
@@ -136,6 +158,10 @@
     "offline": {
         "message": "Çevrimdışı",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Menü çubuğunu gizle",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Signal'e Hoşgeldin",
@@ -166,7 +192,7 @@
         "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
-        "message": "You left the group",
+        "message": "Gruptan ayrıldın",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
@@ -178,27 +204,35 @@
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "Sil",
         "description": ""
     },
     "verified": {
-        "message": "Verified",
+        "message": "Doğrulandı",
         "description": ""
+    },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
     },
     "selectAContact": {
         "message": "Sohbete başlamak için bir kişi veya topluluk seç.",
         "description": ""
     },
     "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "message": "Ne yazık ki, dışa aktarma sırasında bir şeyler ters gitti. İlk olarak, hedef dizin için yazma erişimini ve  yeterli boş alan varliğını kontrol edin. Ardından, lütfen bir hata ayıklama günlüğü gönderin. Böylece, geçişinize yardımcı olabiliriz!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "Signal Masaüstü Hakkında",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Bağlanılıyor...",
         "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "seçtiğiniz konum",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
@@ -214,7 +248,7 @@
         }
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "$name$ ile olan güvenlik numaranız yakın zamanda değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Sinyal'i yeniden yüklediği anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -246,7 +280,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Birden çok grup üyesi ile birlikte güvenlik numaralarınız yakın zamanda değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da basitçe Sinyal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
@@ -254,11 +288,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
+        "message": "Verilerinizi dışa aktarırken lütfen bekleyin. Birkaç dakika sürebilir. Bu süre boyunca Signal'i yine telefonunuzda ve diğer cihazlarda kullanabilirsiniz.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
-        "message": "Problemi raporla",
+        "message": "Sorunu raporla",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
@@ -270,7 +304,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "Sonra",
         "description": ""
     },
     "from": {
@@ -281,8 +315,12 @@
         "message": "Bu konuşmayı tümüyle sileyim mi?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Pencere",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "Dışa aktarılan verilerle kurulum",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -298,7 +336,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "$name$ ile olan güvenlik numaranız değişti ve henüz doğrulanmadı. Göstermek için tıklayın.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -312,7 +350,7 @@
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
-        "message": "Some recipients failed.",
+        "message": "Bazı alıcılar başarısız oldu.",
         "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
@@ -346,15 +384,15 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "installNew": {
-        "message": "Set up as new install",
+        "message": "Yeni kurulum olarak ayarla",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
-        "message": "Please wait while we import your data...",
+        "message": "Verileriniz alırken lütfen bekleyin...",
         "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
-        "message": "$count$ Unread Messages",
+        "message": "$count$ Okunmamış Mesaj",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -381,6 +419,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$name$ gruba katıldı.",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Forumlara git",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Gruplar ve kişiler senkronize ediliyor",
         "description": ""
@@ -390,7 +442,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "Android (Siyah)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
@@ -398,7 +450,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
-        "message": "Loading messages. $count$ so far...",
+        "message": "Mesajlar yükleniyor. Şimdiye kadar $count$...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -407,8 +459,12 @@
             }
         }
     },
+    "speech": {
+        "message": "Konuşma",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "$name$ ile güvenlik numaranız en son doğrulamanızdan sonra değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Sinyal'i yeniden yüklediği anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -422,7 +478,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$:",
+        "message": "$name$ ile senin güvenlik numaran:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -447,12 +503,16 @@
         "message": "Gizlilik mümkün. Signal bunu kolaylaştırır.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
+    "show": {
+        "message": "Göster",
+        "description": "Command under Window menu, to show the window"
+    },
     "audioNotificationDescription": {
         "message": "Sesli bildirimi oynat",
         "description": "Description for audio notification setting"
     },
     "isNotVerified": {
-        "message": "You have not verified your safety number with $name$.",
+        "message": "Güvenlik numaranızı $name$ ile doğrulamadınız.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -470,7 +530,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "Bu grubun birden fazla üyesiyle birlikte güvenlik numaralarınız değişti ve doğrulanmadı. Göstermek için tıklayın.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
@@ -486,8 +546,12 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "chooseDirectory": {
-        "message": "Choose directory",
+        "message": "Sözlük seç",
         "description": "Button to allow the user to export all data from app as part of migration process"
+    },
+    "mainMenuEdit": {
+        "message": "&Düzen",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6s",
@@ -502,11 +566,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart",
+        "message": "Yeniden başlat",
         "description": ""
     },
     "importButton": {
-        "message": "Import",
+        "message": "İçe aktar",
         "description": ""
     },
     "sync": {
@@ -526,7 +590,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your safety number with $name$ as unverified.",
+        "message": "Güvenlik numaranızı $name$ ile doğrulanmamış olarak işaretlediniz.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -536,7 +600,7 @@
         }
     },
     "isVerified": {
-        "message": "You have verified your safety number with $name$.",
+        "message": "Güvenlik numaranızı $name$ ile doğruladınız.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -554,7 +618,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "me": {
-        "message": "Me",
+        "message": "Ben",
         "description": "The label for yourself when shown in a group member list"
     },
     "mediaMessage": {
@@ -562,7 +626,7 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unreadMessage": {
-        "message": "1 Unread Message",
+        "message": "1 Okunmamış Mesaj",
         "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
@@ -574,11 +638,11 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Delete this message",
+        "message": "Bu mesajı sil",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart to apply the updates.",
+        "message": "Güncellemeleri uygulamak için Yeniden başlat tuşuna basın.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -586,7 +650,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Maalesef, içe aktarma işlemi sırasında bir şeyler ters gitti. <p>İlk olarak, hedef dizininizi bir kez daha kontrol edin. \"Signal Dışa Aktarımı\" ile başlaması gerekir.</p> <p>Sonra, verilerinizin Chrome uygulamasından yeni bir şekilde dışa aktarılmasını deneyin.</p> Hala başarısız olursa, lütfen <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>bir hata ayıklama günlüğü gönderin</a> Böylece geçiş yapmanıza yardımcı olabiliriz!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -598,7 +662,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "message": "Verilerinizi başarıyla yükledik. Bir sonraki adım uygulamayı yeniden başlatmaktır!",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -606,11 +670,11 @@
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
-        "message": "New message below",
+        "message": "Aşağıda yeni mesaj",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
+        "message": "Verileriniz şu bölüme aktarılmıştır: <p><b>$location$</b></p>  <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>Yeni Signal Masaüstü</a>'nü kurarken bu verileri içe aktarabilirsiniz.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -624,15 +688,19 @@
         "description": "Displayed when we can't connect to the server."
     },
     "unverify": {
-        "message": "Mark as not verified",
+        "message": "Doğrulanmadı olarak işaretle",
         "description": ""
     },
     "messageNotSent": {
         "message": "Mesaj gönderilmedi",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&Görüntüle",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Signal'ın yeni bir sürümü mevcut.",
         "description": ""
     },
     "disableNotifications": {
@@ -651,16 +719,20 @@
         "message": "Android cihazımda Signal yüklü",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "mainMenuHelp": {
+        "message": "&Yardım",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "İsimsiz Dosya",
         "description": "Hover text for attachment filenames"
     },
     "sendAnyway": {
-        "message": "Send Anyway",
+        "message": "Yine de gönder",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "You marked your safety number with $name$ as verified.",
+        "message": "Güvenlik numaranızı $name$ ile doğrulanmış olarak işaretlediniz.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -694,11 +766,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "Üyeleri göster",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as not verified from another device.",
+        "message": "Güvenlik numaranız başka bir cihazdan doğrulanmadığından $name$ ile işaretlediniz.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -708,7 +780,7 @@
         }
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "message": "İlk olarak cep telefonunuza <a $a_params$>Signal</a>'i yükleyin. Biz cihazlarınızı bağlayarak mesajlarınızı senkronize edeceğiz. ",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
@@ -721,12 +793,26 @@
         "message": "İle bağla",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "Destek sayfasına git",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ gruba katıldı.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "groupMembers": {
-        "message": "Group members",
+        "message": "Grup üyeleri",
         "description": ""
     },
     "loading": {
-        "message": "Loading...",
+        "message": "Yükleniyor...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
@@ -742,7 +828,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Sesli Mesaj",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -750,7 +836,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Your safety number with $name$ has changed. Click to show.",
+        "message": "$name$ ile olan güvenlik numaranız değişti. Göstermek için tıklayın.",
         "description": "",
         "placeholders": {
             "name": {
@@ -759,8 +845,12 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Grup güncellendi.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "$name$ ile olan güvenlik numaranız değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Sinyal'i yeniden yüklediği anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -781,24 +871,32 @@
         "message": "İyi görünüyor",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Sürüm notlarına git",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Mesaj Detayı",
         "description": ""
     },
     "installNewSignal": {
-        "message": "Install new Signal Desktop",
+        "message": "Yeni Signal Desktop'ı Yükle",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
-        "message": "Choose target directory for data",
+        "message": "Veriler için hedef dizini seçin",
         "description": "Title of the popup window used to select data storage location"
     },
+    "mainMenuFile": {
+        "message": "&Dosya",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "verify": {
-        "message": "Mark as verified",
+        "message": "Doğrulanmış olarak işaretle",
         "description": ""
     },
     "exportButton": {
-        "message": "Export",
+        "message": "Dışa aktar",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -822,7 +920,7 @@
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Birden fazla grup üyesinin bulunduğu güvenlik numaralarınız, son doğrulamanızdan sonra değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da basitçe Sinyal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "submitDebugLog": {
@@ -833,8 +931,18 @@
         "message": "Hata",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Başlık şu an '$name$'",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Doğrulamaya çalıştığınız güvenlik numarası değişti. Lütfen yeni güvenlik numaranızı $name$ ile gözden geçirin. Unutmayın, bu değişiklik birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Sinyal'i yeniden yüklediği anlamına gelebilir.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -854,7 +962,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Signal güncellemesi mevcut",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -862,7 +970,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "message": "İlk adım, bu uygulamanın dışa aktarılan verilerini saklamak için bir dizin seçmektir. Bunlar ileti geçmişinizi ve hassas şifreleme verilerinizi içerecektir, bu nedenle onu bir yere özel kaydetmeyi unutmayın.",
         "description": "Description of the export process"
     },
     "notifications": {
@@ -870,7 +978,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "Yeniden deneyin",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
@@ -878,7 +986,7 @@
         "description": ""
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as verified from another device.",
+        "message": "Güvenlik numaranızı başka bir cihazdan doğruladığınız için $name$ ile işaretlediniz.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -886,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Hide",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

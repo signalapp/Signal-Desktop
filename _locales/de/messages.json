@@ -24,7 +24,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Versuch zum Neuverbinden in $reconnect_duration_in_seconds$ Sekunden",
+        "message": "Neuer Verbindungsversuch in $reconnect_duration_in_seconds$ Sekunden",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "Der erste Schritt ist, uns mitzuteilen, wohin du vorher deine Signal Daten exportiert hast. Es ist ein Verzeichnis, das mit 'Signal Export' beginnt.",
+        "message": "Teile uns zunächst bitte mit, wohin du zuvor deine Signal-Daten exportiert hast. Es wird ein Verzeichnis sein, dessen Name mit »Signal Export« beginnt.<br><br><b>HINWEIS</b>: Exportierte Daten dürfen nur <b>einmalig</b> importiert werden. Während des Importierens wird eine Kopie des exportierten Clients angelegt und doppelte Clients stören sich gegenseitig.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -51,7 +51,7 @@
     },
     "leftTheGroup": {
         "message": "$name$ hat die Gruppe verlassen.",
-        "description": "Shown in the conversation history when someone leaves the group",
+        "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -98,7 +98,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "Bist du sicher? Das Anklicken von 'Löschen' wird diese Nachricht unwiderruflich von diesem Gerät entfernen.",
+        "message": "Bist du sicher? Das Anklicken von »Löschen« wird diese Nachricht unwiderruflich von diesem Gerät entfernen.",
         "description": ""
     },
     "showMore": {
@@ -130,6 +130,10 @@
     "exportAgain": {
         "message": "Erneut exportieren",
         "description": "If user has already exported once, this button allows user to do it again if needed"
+    },
+    "quit": {
+        "message": "Beenden",
+        "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
         "message": "Zum Speichern anklicken",
@@ -206,6 +210,10 @@
     "verified": {
         "message": "Verifiziert",
         "description": ""
+    },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
     },
     "selectAContact": {
         "message": "Wähle einen Kontakt oder eine Gruppe aus, um eine Unterhaltung zu beginnen.",
@@ -307,12 +315,16 @@
         "message": "Soll diese Unterhaltung unwiderruflich gelöscht werden?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Fenster",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Einrichten mit Datenexport aus der Chrome-App",
+        "message": "Einrichten mit exportierten Daten",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
-        "message": "Verknüpfe Signal Desktop erneut mit deinem Mobilgerät, um weiter zu kommunizieren.",
+        "message": "Verknüpfe Signal Desktop erneut mit deinem Mobilgerät, um weiterhin Nachrichten austauschen zu können.",
         "description": ""
     },
     "debugLogExplanation": {
@@ -376,7 +388,7 @@
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
-        "message": "Bitte warte während wir deine Daten importieren ...",
+        "message": "Bitte warten. Deine Daten werden importiert …",
         "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
@@ -390,7 +402,7 @@
         }
     },
     "installTooManyDevices": {
-        "message": "Es sind bereits zu viele Geräte verknüpft. Versuche, einige zu entfernen.",
+        "message": "Es sind bereits zu viele Geräte verknüpft. Versuche einige zu entfernen.",
         "description": ""
     },
     "installSignalLinks": {
@@ -408,17 +420,17 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$names$ ist der Gruppe beigetreten.",
-        "description": "Shown in the conversation history when people join the group",
+        "message": "$name$ ist der Gruppe beigetreten.",
+        "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
-            "names": {
+            "name": {
                 "content": "$1",
-                "example": "Alice, Bob"
+                "example": "Alice"
             }
         }
     },
     "goToForums": {
-        "message": "Forum besuchen",
+        "message": "Forum",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "installSyncingGroupsAndContacts": {
@@ -537,6 +549,10 @@
         "message": "Verzeichnis wählen",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
+    "mainMenuEdit": {
+        "message": "&Bearbeiten",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -626,7 +642,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Klicke Neu starten um die Updates anzuwenden.",
+        "message": "Klicke auf »Neu starten«, um die Aktualisierungen anzuwenden.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -646,7 +662,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "Deine Daten wurden erfolgreich geladen. Starte die Anwendung als nächstes bitte neu.",
+        "message": "Deine Daten wurden erfolgreich geladen. Bitte starte die Anwendung neu!",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -668,7 +684,7 @@
         }
     },
     "installConnectionFailed": {
-        "message": "Verbindung zum Server gescheitert.",
+        "message": "Verbinden mit Server gescheitert.",
         "description": "Displayed when we can't connect to the server."
     },
     "unverify": {
@@ -678,6 +694,10 @@
     "messageNotSent": {
         "message": "Nachricht nicht gesendet.",
         "description": "Informational label, appears on messages that failed to send"
+    },
+    "mainMenuView": {
+        "message": "&Ansicht",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "autoUpdateNewVersionMessage": {
         "message": "Eine neue Version von Signal ist verfügbar.",
@@ -698,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Ich habe Signal für Android",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Hilfe",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "Unbenannte Datei",
@@ -756,7 +780,7 @@
         }
     },
     "installSignalLink": {
-        "message": "Installiere zunächst <a $a_params$>Signal</a> auf deinem Android-Gerät.<br /> Wir werden deine Geräte verknüpfen und deine Nachrichten synchronisiert halten.",
+        "message": "Installiere zunächst <a $a_params$>Signal</a> auf deinem Mobilgerät. Wir werden deine Geräte verknüpfen und deine Nachrichten synchronisiert halten.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
@@ -770,8 +794,18 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "goToSupportPage": {
-        "message": "Supportseite aufrufen",
+        "message": "Support",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ sind der Gruppe beigetreten.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
     },
     "groupMembers": {
         "message": "Gruppenmitglieder",
@@ -838,7 +872,7 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "goToReleaseNotes": {
-        "message": "Versionshinweise aufrufen",
+        "message": "Versionshinweise",
         "description": ""
     },
     "messageDetail": {
@@ -852,6 +886,10 @@
     "exportChooserTitle": {
         "message": "Verzeichnis wählen",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&Datei",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Als verifiziert markieren",
@@ -924,7 +962,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal-Update verfügbar",
+        "message": "Aktualisierung für Signal verfügbar",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -956,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Ausblenden",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

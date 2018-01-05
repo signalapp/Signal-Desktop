@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "エクスポートされたデータがあるフォルダを教えて下さい。フォルダ名は「Signal Export」で始まります。",
+        "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Android端末ではこのメッセージの最初の2000字しか受信されません",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ left the group.",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "タイマーを$time$に設定しました",
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1分",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "Debug Log",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "了解",
@@ -114,12 +128,20 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
-        "message": "エクスポートを再度おこなう",
+        "message": "エクスポートを再度行う",
         "description": "If user has already exported once, this button allows user to do it again if needed"
+    },
+    "quit": {
+        "message": "Quit",
+        "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
         "message": "クリックして保存",
         "description": "Hover text for attachment filenames"
+    },
+    "fileABug": {
+        "message": "File a bug",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "messagesBelow": {
         "message": "新着メッセージ",
@@ -136,6 +158,10 @@
     "offline": {
         "message": "オフライン",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Hide menu bar",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Signalにようこそ",
@@ -173,10 +199,6 @@
         "message": "メッセージを削除",
         "description": "Menu item for deleting messages, title case."
     },
-    "confirmMigration": {
-        "message": "引っ越し作業を始めますか？作業中はメッセージの送受信はできません。",
-        "description": "Confirmation dialogue when beginning migration"
-    },
     "incomingError": {
         "message": "受信中にエラー",
         "description": ""
@@ -189,20 +211,28 @@
         "message": "検証済み",
         "description": ""
     },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
+    },
     "selectAContact": {
         "message": "会話を始めるには連絡先かグループを選択してください",
         "description": ""
     },
     "exportError": {
-        "message": "残念ながら，エクスポートの途中で問題が発生しました。まずは移行先のフォルダにアクセス権限と容量があるか確認してください。それでも解決しなければデバッグログを提出してください。",
+        "message": "残念ながら，エクスポート中に問題が発生しました。まずはエクスポート先のフォルダにアクセス権と十分な容量があるか再確認してください。確認できましたら，デバッグログを提出してください。",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "About Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "QRコードを待っています",
         "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
-        "message": "選択した場所",
+        "message": "選択したフォルダ",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
@@ -230,14 +260,6 @@
     "sent": {
         "message": "送信",
         "description": "Label for the time a message was sent"
-    },
-    "migrationWarning": {
-        "message": "Signal Desktop Chrome は新しく生まれ変わります。新しいSignal Desktopに引っ越しますか？",
-        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
-    },
-    "migrate": {
-        "message": "引っ越す",
-        "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
         "message": "$name$がタイマーを$time$に設定しました",
@@ -293,8 +315,12 @@
         "message": "この会話を完全に消去しますが，よろしいですか？",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Window",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Chromeアプリのエクスポートで設定する",
+        "message": "Set up with exported data",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -393,6 +419,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$name$ joined the group.",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Go to forums",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "連絡先とグループを同期",
         "description": ""
@@ -418,6 +458,10 @@
                 "example": "5"
             }
         }
+    },
+    "speech": {
+        "message": "Speech",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "changedSinceVerified": {
         "message": "$name$との安全番号に変更があります。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
@@ -458,6 +502,10 @@
     "installTagline": {
         "message": "プライバシーは守れます。Signalを使えば簡単に。",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "Show",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "音声通知を有効にする",
@@ -500,6 +548,10 @@
     "chooseDirectory": {
         "message": "フォルダを選んで下さい",
         "description": "Button to allow the user to export all data from app as part of migration process"
+    },
+    "mainMenuEdit": {
+        "message": "&Edit",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6時間",
@@ -598,16 +650,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "残念ながら，インポート中に問題が発生しました。<p>まずは，データが保存してあるフォルダを正しく選択したか再確認してください。フォルダ名は「Signal Export」で始まっています。</p><p>次に，Chromeアプリからデータをエクスポートし直してください。</p>それでも駄目なら，<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>デバッグログを提出</a>してください。",
+        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
         "message": "携帯電話でSignalを起動し，「設定」>「結び付いているデバイス」に進み，デバイス追加のボタンを押して，上部のコードをスキャンしてください。",
         "description": ""
-    },
-    "migrationDisconnecting": {
-        "message": "接続を切っています",
-        "description": "Displayed while we wait for pending incoming messages to process"
     },
     "invalidNumberError": {
         "message": "不正な番号です",
@@ -647,6 +695,10 @@
         "message": "送信失敗",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&View",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
         "message": "新しく生まれ変わったSignalがあります",
         "description": ""
@@ -666,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Signal for Androidをインストール済みです",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Help",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "無名のファイル",
@@ -737,6 +793,20 @@
         "message": "接続先の番号",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "Go to support page",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ joined the group.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "groupMembers": {
         "message": "グループのメンバー",
         "description": ""
@@ -775,6 +845,10 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Updated the group.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
         "message": "$name$との安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。この相手との安全番号を検証することをお勧めします。",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -797,6 +871,10 @@
         "message": "もうすぐです",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Go to release notes",
+        "description": ""
+    },
     "messageDetail": {
         "message": "メッセージ詳細",
         "description": ""
@@ -808,6 +886,10 @@
     "exportChooserTitle": {
         "message": "データの移行先フォルダを選択",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&File",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "検証済みにする",
@@ -841,10 +923,6 @@
         "message": "複数のメンバーで安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，メンバーがSignalをインストールし直しただけかも知れません。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "export": {
-        "message": "フォルダを選んで下さい",
-        "description": "Button to allow the user to export all data from app as part of migration process"
-    },
     "submitDebugLog": {
         "message": "デバッグログを提出",
         "description": "Menu item and header text for debug log modal, title case."
@@ -852,6 +930,16 @@
     "error": {
         "message": "エラー",
         "description": ""
+    },
+    "titleIsNow": {
+        "message": "Title is now '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
     },
     "changedRightAfterVerify": {
         "message": "検証しようとしている安全番号に変更がありました。$name$との安全番号を再確認してください。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
@@ -882,7 +970,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "第１ステップとして，フォルダを選んでアプリのデータをエクスポートします。データにはメッセージ履歴や暗号化に関する機密情報が含まれていますので，他人がアクセスできないフォルダを選んで下さい。",
+        "message": "エクスポートしたデータを保存しておくフォルダを選んで下さい。データにはメッセージの履歴や暗号に関する機密情報が含まれていますので，他人がアクセスできないフォルダを選んで下さい。",
         "description": "Description of the export process"
     },
     "notifications": {
@@ -906,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Hide",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

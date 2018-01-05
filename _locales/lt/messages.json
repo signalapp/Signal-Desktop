@@ -4,7 +4,7 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "Pasirinkite katalogą su eksportuotais duomenimis",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "Pirmas žingsnis yra nurodyti, kur anksčiau esate <a href='https://support.signal.org/hc/en-us/articles/115002502511'>eksportavę savo Signal duomenis</a>. Tai bus katalogas, kurio pavadinimas prasidės žodžiais \"Signal Export.\"<br><br><b>PASTABA</b>: Jūs privalote importuoti eksportuotų duomenų rinkinį tik <b>vieną kartą</b>. Importavimas padaro eksportuoto kliento kopiją, o dubliuoti klientai trukdo vienas kitam.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Android klientai gaus tik pirmuosius 2000 šios žinutės simbolių.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ išėjo iš grupės.",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "Jūs nustatėte laikmatį į $time$.",
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1 minutė",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "Derinimo žurnalas",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "Supratau!",
@@ -117,9 +131,17 @@
         "message": "Eksportuoti dar kartą",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "Išeiti",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
         "message": "Spustelkite, norėdami įrašyti",
         "description": "Hover text for attachment filenames"
+    },
+    "fileABug": {
+        "message": "Pranešti apie klaidą",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "messagesBelow": {
         "message": "Naujos žinutės žemiau",
@@ -136,6 +158,10 @@
     "offline": {
         "message": "Atsijungta",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Slėpti meniu juostą",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Sveiki atvykę į Signal",
@@ -185,6 +211,10 @@
         "message": "Patvirtinta(-s)",
         "description": ""
     },
+    "trayTooltip": {
+        "message": "Signal darbalaukiui",
+        "description": "Tooltip for the tray icon"
+    },
     "selectAContact": {
         "message": "Pasirinkite kontaktą ar grupę, kad pradėtumėte pokalbį.",
         "description": ""
@@ -192,6 +222,10 @@
     "exportError": {
         "message": "Deja, eksportavimo metu kažkas nutiko. Iš pradžių, dar kartą patikrinkite savo tuščią paskirties katalogą, ar turite prieigą į jį rašyti ir, ar užtenka vietos. Tuomet, pateikite derinimo žurnalą, kad mes galėtume jums padėti su perkėlimu!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "Apie Signal darbalaukiui",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Jungiamasi...",
@@ -270,7 +304,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "Vėliau",
         "description": ""
     },
     "from": {
@@ -281,8 +315,12 @@
         "message": "Ar ištrinti šį pokalbį visiems laikams?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Langas",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "Nusistatyti eksportuotus duomenis",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -346,11 +384,11 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "installNew": {
-        "message": "Set up as new install",
+        "message": "Nustatyti kaip naują įdiegimą",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
-        "message": "Please wait while we import your data...",
+        "message": "Palaukite, kol importuosime jūsų duomenis...",
         "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
@@ -381,6 +419,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$name$ prisijungė prie grupės.",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Pereiti į forumus",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Sinchronizuojamos grupės ir kontaktai",
         "description": ""
@@ -406,6 +458,10 @@
                 "example": "5"
             }
         }
+    },
+    "speech": {
+        "message": "Šneka",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "changedSinceVerified": {
         "message": "Jūsų saugumo numeris su $name$ nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
@@ -446,6 +502,10 @@
     "installTagline": {
         "message": "Privatumas yra įmanomas. Signal jį padaro lengvą.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "Rodyti",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "Groti garso pranešimus",
@@ -489,6 +549,10 @@
         "message": "Pasirinkti katalogą",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
+    "mainMenuEdit": {
+        "message": "&Taisa",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "timerOption_6_hours_abbreviated": {
         "message": "6 val.",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -502,11 +566,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart",
+        "message": "Paleisti iš naujo",
         "description": ""
     },
     "importButton": {
-        "message": "Import",
+        "message": "Importuoti",
         "description": ""
     },
     "sync": {
@@ -578,7 +642,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart to apply the updates.",
+        "message": "Norėdami pritaikyti atnaujinimus, paspauskite \"Paleisti iš naujo\".",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -586,7 +650,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Deja, importavimo metu kažkas nutiko. <p>Iš pradžių, dar kartą patikrinkite savo paskirties katalogą. Jis turėtų prasidėti žodžiais \"Signal Export.\"</p><p>Toliau, pabandykite atlikti naują savo duomenų iš Chrome programėlės importavimą.</p>Jei tai nepavyksta, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>pateikite derinimo žurnalą</a>, kad mes galėtume jums padėti su perkėlimu!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -598,7 +662,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "message": "Mes sėkmingai įkėlėme jūsų duomenis. Kitas žingsnis yra paleisti programą iš naujo!",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -631,8 +695,12 @@
         "message": "Žinutė neišsiųsta.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&Rodinys",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Yra prieinama nauja Signal versija.",
         "description": ""
     },
     "disableNotifications": {
@@ -650,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Aš turiu programą Signal, skirtą Android",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Pagalba",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "Bevardis failas",
@@ -708,7 +780,7 @@
         }
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "message": "Iš pradžių, įdiekite <a $a_params$>Signal</a> savo mobiliajame telefone. Mes susiesime jūsų įrenginius ir išlaikysime jūsų žinutes sinchronizuotas.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
@@ -720,6 +792,20 @@
     "installLinkingWithNumber": {
         "message": "Susiejama su",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "goToSupportPage": {
+        "message": "Pereiti į palaikymo puslapį",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ prisijungė prie grupės.",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
     },
     "groupMembers": {
         "message": "Grupės dalyviai",
@@ -759,6 +845,10 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Atnaujino grupę.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
         "message": "Jūsų saugumo numeris su $name$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, norėtumėte patvirtinti saugumo numerį su šiuo kontaktu.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -781,6 +871,10 @@
         "message": "Atrodo, viskas gerai",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Pereiti į laidos informaciją",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Žinutės informacija",
         "description": ""
@@ -790,15 +884,19 @@
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
-        "message": "Choose target directory for data",
+        "message": "Pasirinkite paskirties katalogą duomenims",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&Failas",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Žymėti kaip patvirtintą",
         "description": ""
     },
     "exportButton": {
-        "message": "Export",
+        "message": "Eksportuoti",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -833,6 +931,16 @@
         "message": "Klaida",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Pavadinimas dabar yra \"$name$\".",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
         "message": "Saugumo numeris, kurį bandote patvirtinti, pasikeitė. Prašome peržiūrėti savo saugumo numerį su $name$. Atminkite, šis pokytis gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
@@ -854,7 +962,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Yra prieinamas Signal atnaujinimas",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -870,7 +978,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "Bandyti dar kartą",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
@@ -886,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Slėpti",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }

@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "O primeiro passo é informar onde foi realizada a exportação de dados anteriormente. O diretório começa com 'Signal Export'.",
+        "message": "O primeiro passo é nos informar para onde foi realizada<a href='https://support.signal.org/hc/en-us/articles/115002502511'>a exportação de dados do Signal</a>. O diretório começa com 'Signal Export'. <br><br><b> LEMBRE-SE</b>: Você deve importar um conjunto de dados que já tiverem sido exportados <b>apenas uma vez</b>. A importação cria uma cópia do cliente exportado e clientes idênticos provocam interferências entre si. ",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Clientes do Android receberão apenas os primeiros 2000 caracteres desta mensagem.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ saiu do grupo ",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "Você definiu o cronômetro para $time$.",
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1 minuto",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "Registro de Depuração ",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "Entendido!",
@@ -117,9 +131,17 @@
         "message": "Exportar novamente",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
+    "quit": {
+        "message": "Quit",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
     "clickToSave": {
         "message": "Clicar para salvar",
         "description": "Hover text for attachment filenames"
+    },
+    "fileABug": {
+        "message": "Relatar um bug",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "messagesBelow": {
         "message": "Novas mensagens abaixo",
@@ -136,6 +158,10 @@
     "offline": {
         "message": "Offline",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Ocultar a barra de opções",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Boas-vindas ao Signal",
@@ -185,6 +211,10 @@
         "message": "Verificado",
         "description": ""
     },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
+    },
     "selectAContact": {
         "message": "Selecionar um contato ou grupo para começar a conversar.",
         "description": ""
@@ -192,6 +222,10 @@
     "exportError": {
         "message": "Infelizmente, alguma coisa deu errado durante a exportação. Primeiro, verifique se o seu diretório de destino é gravável e dispõe de espaço suficiente. ",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "Sobre o Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Conectando…",
@@ -281,8 +315,12 @@
         "message": "Você deseja apagar esta conversa definitivamente?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "mainMenuWindow": {
+        "message": "&Janela",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "installImport": {
-        "message": "Configurar com dados exportados do aplicativo Chrome",
+        "message": "Configurar com os dados exportados",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -381,6 +419,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$name$ entrou no grupo.",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Ir a fóruns ",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizando grupos e contatos",
         "description": ""
@@ -406,6 +458,10 @@
                 "example": "5"
             }
         }
+    },
+    "speech": {
+        "message": "Speech",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "changedSinceVerified": {
         "message": "O seu número de segurança com $name$mudou desde a última vez que você o verificou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que $name$ reinstalou Signal.",
@@ -446,6 +502,10 @@
     "installTagline": {
         "message": "Privacidade é possível. Signal faz com que ela seja fácil.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "Exibir",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "Tocar notificações em áudio",
@@ -488,6 +548,10 @@
     "chooseDirectory": {
         "message": "Escolher um diretório",
         "description": "Button to allow the user to export all data from app as part of migration process"
+    },
+    "mainMenuEdit": {
+        "message": "&Editar",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
@@ -586,7 +650,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Infelizmente ocorreu um erro durante a importação. <p>Primeiro, confira seu diretório de destino. Ele deve começar com 'Signal Export'.</p><p>Em seguida, tente novamente, usando o aplicativo Chrome para exportar seus dados.</p>Se o erro persistir <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>envie-nos um relatório de debug</a> para que possamos te ajudar a realizar a migração!",
+        "message": "Infelizmente, ocorreu um erro durante a importação. <p>Primeiro, verifique o seu diretório de destino. Ele deve começar com 'Signal Export'.</p><p>Em seguida, tente novamente, usando o aplicativo Chrome para exportar seus dados.</p>Se o erro persistir<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'> envie-nos um relatório de debug</a>para que possamos te ajudar a realizar a migração!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -631,6 +695,10 @@
         "message": "Mensagem não enviada.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "mainMenuView": {
+        "message": "&Consultar",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "autoUpdateNewVersionMessage": {
         "message": "Uma nova versão do Signal está disponível.",
         "description": ""
@@ -650,6 +718,10 @@
     "installIHaveSignalButton": {
         "message": "Eu tenho Signal para Android",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "mainMenuHelp": {
+        "message": "&Ajuda",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
         "message": "Arquivo sem nome",
@@ -721,6 +793,20 @@
         "message": "Religando a",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "Ir à página de assistência",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ entrou no grupo. ",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "groupMembers": {
         "message": "Membros do grupo",
         "description": ""
@@ -759,6 +845,10 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Atualizou o grupo.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
         "message": "O seu número de segurança com $name$mudou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que $name$ reinstalou Signal. Recomendamos que você verifique o seu número de segurança com essa pessoa.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -781,6 +871,10 @@
         "message": "Parece correto",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Go to release notes",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Detalhe da mensagem",
         "description": ""
@@ -792,6 +886,10 @@
     "exportChooserTitle": {
         "message": "Escolha um diretório para armazenar os dados",
         "description": "Title of the popup window used to select data storage location"
+    },
+    "mainMenuFile": {
+        "message": "&Arquivo",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Marcar como verificado",
@@ -832,6 +930,16 @@
     "error": {
         "message": "Erro",
         "description": ""
+    },
+    "titleIsNow": {
+        "message": "Agora, o título é '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
     },
     "changedRightAfterVerify": {
         "message": "O número de segurança que você está tentando verificar mudou. Por favor, confira o seu número de segurança com $name$. Lembre-se que isso pode significar uma tentativa de interceptação das suas comunicações ou somente que $name$ reinstalou Signal.",
@@ -886,5 +994,9 @@
                 "example": "Bob"
             }
         }
+    },
+    "hide": {
+        "message": "Hide",
+        "description": "Command in the tray icon menu, to hide the window"
     }
 }
