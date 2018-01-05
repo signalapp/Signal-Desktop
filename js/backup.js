@@ -102,12 +102,11 @@
       _.each(storeNames, function(storeName) {
         var transaction = idb_db.transaction(storeNames, 'readwrite');
         transaction.onerror = function(e) {
-          var error = e.target.error;
-          console.log(
-            'exportToJsonFile: transaction error',
-            error && error.stack ? error.stack : error
+          handleDOMException(
+            'exportToJsonFile transaction error (store: ' + storeName + ')',
+            transaction.error,
+            reject
           );
-          reject(error);
         };
         transaction.oncomplete = function() {
           console.log('transaction complete');
@@ -117,13 +116,11 @@
         var request = store.openCursor();
         var count = 0;
         request.onerror = function(e) {
-          var error = e.target.error;
-          console.log(
-            'Error attempting to export store',
-            storeName,
-            error && error.stack ? error.stack : error
+          handleDOMException(
+            'exportToJsonFile request error (store: ' + storeNames + ')',
+            request.error,
+            reject
           );
-          reject(error);
         };
         request.onsuccess = function(event) {
           if (count === 0) {
@@ -169,6 +166,16 @@
     });
   }
 
+  function handleDOMException(prefix, error, reject) {
+    console.log(
+      prefix + ':',
+      error && error.name,
+      error && error.message,
+      error && error.code
+    );
+    reject(error || new Error(prefix));
+  }
+
   /**
   * Import data from JSON into an IndexedDB database. This does not delete any existing data
   *  from the database, so keys could clash
@@ -195,12 +202,11 @@
 
       var transaction = idb_db.transaction(storeNames, 'readwrite');
       transaction.onerror = function(e) {
-        var error = e.target.error;
-        console.log(
-          'importFromJsonString error:',
-          error && error.stack ? error.stack : error
+        handleDOMException(
+          'importFromJsonString transaction error',
+          transaction.error,
+          reject
         );
-        reject(error || new Error('importFromJsonString: transaction.onerror'));
       };
       transaction.oncomplete = finish.bind(null, 'transaction complete');
 
@@ -230,15 +236,11 @@
                 }
               };
               request.onerror = function(e) {
-                var error = e.target.error;
-                console.log(
-                  'Error adding object to store',
-                  storeName,
-                  ':',
-                  toAdd,
-                  error && error.stack ? error.stack : error
+                handleDOMException(
+                  'importFromJsonString request error (store: ' + storeName + ')',
+                  request.error,
+                  reject
                 );
-                reject(error || new Error('importFromJsonString: request.onerror'));
               };
           });
       });
@@ -399,14 +401,11 @@
       return new Promise(function(resolve, reject) {
         var transaction = idb_db.transaction('messages', 'readwrite');
         transaction.onerror = function(e) {
-          var error = e.target.error;
-          console.log(
-            'exportConversation transaction error for conversation',
-            name,
-            ':',
-            error && error.stack ? error.stack : error
+          handleDOMException(
+            'exportConversation transaction error (conversation: ' + name + ')',
+            transaction.error,
+            reject
           );
-          return reject(error || new Error('exportConversation: transaction.onerror'));
         };
         transaction.oncomplete = function() {
           // this doesn't really mean anything - we may have attachment processing to do
@@ -424,14 +423,11 @@
         stream.write('{"messages":[');
 
         request.onerror = function(e) {
-          var error = e.target.error;
-          console.log(
-            'exportConversation: error pulling messages for conversation',
-            name,
-            ':',
-            error && error.stack ? error.stack : error
+          handleDOMException(
+            'exportConversation request error (conversation: ' + name + ')',
+            request.error,
+            reject
           );
-          return reject(error || new Error('exportConversation: request.onerror'));
         };
         request.onsuccess = function(event) {
           var cursor = event.target.result;
@@ -515,12 +511,11 @@
     return new Promise(function(resolve, reject) {
       var transaction = idb_db.transaction('conversations', 'readwrite');
       transaction.onerror = function(e) {
-        var error = e.target.error;
-        console.log(
-          'exportConversations: transaction error:',
-          error && error.stack ? error.stack : error
+        handleDOMException(
+          'exportConversations transaction error',
+          transaction.error,
+          reject
         );
-        return reject(error || new Error('exportConversations: transaction.onerror'));
       };
       transaction.oncomplete = function() {
         // not really very useful - fires at unexpected times
@@ -530,12 +525,11 @@
       var store = transaction.objectStore('conversations');
       var request = store.openCursor();
       request.onerror = function(e) {
-        var error = e.target.error;
-        console.log(
-          'exportConversations: error pulling conversations:',
-          error && error.stack ? error.stack : error
+        handleDOMException(
+          'exportConversations request error',
+          request.error,
+          reject
         );
-        return reject(error || new Error('exportConversations: request.onerror'));
       };
       request.onsuccess = function(event) {
         var cursor = event.target.result;
@@ -621,12 +615,11 @@
 
       var transaction = idb_db.transaction('messages', 'readwrite');
       transaction.onerror = function(e) {
-        var error = e.target.error;
-        console.log(
-          'saveAllMessages transaction error:',
-          error && error.stack ? error.stack : error
+        handleDOMException(
+          'saveAllMessages transaction error',
+          transaction.error,
+          reject
         );
-        return reject(error || new Error('saveAllMessages: transaction.onerror'));
       };
       transaction.oncomplete = finish.bind(null, 'transaction complete');
 
@@ -650,12 +643,11 @@
           }
         };
         request.onerror = function(e) {
-          var error = e.target.error;
-          console.log(
-            'Error adding object to store:',
-            error && error.stack ? error.stack : error
+          handleDOMException(
+            'saveAllMessages request error',
+            request.error,
+            reject
           );
-          reject(error || new Error('saveAllMessages: request.onerror'));
         };
       });
     });
@@ -748,12 +740,11 @@
 
       transaction.oncomplete = finish.bind(null, 'transaction complete');
       transaction.onerror = function(e) {
-        var error = e.target.error;
-        console.log(
-          'saveAllMessages transaction error:',
-          error && error.stack ? error.stack : error
+        handleDOMException(
+          'clearAllStores transaction error',
+          transaction.error,
+          reject
         );
-        return reject(error);
       };
 
       var count = 0;
@@ -772,12 +763,11 @@
         };
 
         request.onerror = function(e) {
-          var error = e.target.error;
-          console.log(
-            'clearAllStores transaction error:',
-            error && error.stack ? error.stack : error
+          handleDOMException(
+            'clearAllStores request error',
+            request.error,
+            reject
           );
-          return reject(error || new Error('clearAllStores: request.onerror'));
         };
       });
     });
@@ -854,11 +844,12 @@
       });
     },
     // for testing
-    sanitizeFileName: sanitizeFileName,
-    trimFileName: trimFileName,
-    getAttachmentFileName: getAttachmentFileName,
-    getConversationDirName: getConversationDirName,
-    getConversationLoggingName: getConversationLoggingName
+    handleDOMException,
+    sanitizeFileName,
+    trimFileName,
+    getAttachmentFileName,
+    getConversationDirName,
+    getConversationLoggingName,
   };
 
 }());
