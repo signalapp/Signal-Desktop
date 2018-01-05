@@ -28,6 +28,9 @@
           this.$('.time').text(minutes + ':' + seconds);
         },
         close: function() {
+            // Note: the 'close' event can be triggered by InboxView, when the user clicks
+            //   anywhere outside the recording pane.
+
             if (this.recorder.isRecording()) {
                 this.recorder.cancelRecording();
             }

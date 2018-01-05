@@ -393,6 +393,9 @@
         captureAudio: function(e) {
             e.preventDefault();
 
+            // Note - clicking anywhere will close the audio capture panel, due to
+            //   the onClick handler in InboxView, which calls its closeRecording method.
+
             if (this.captureAudioView) {
                 this.captureAudioView.remove();
                 this.captureAudioView = null;
@@ -404,7 +407,7 @@
             view.on('closed', this.endCaptureAudio.bind(this));
             view.$el.appendTo(this.$('.capture-audio'));
 
-            this.$('.send-message').attr('disabled','disabled');
+            this.$('.send-message').attr('disabled', true);
             this.$('.microphone').hide();
         },
         handleAudioCapture: function(blob) {
@@ -584,7 +587,11 @@
         },
 
         focusMessageField: function() {
-            this.$messageField.prop('disabled', false);
+            this.$messageField.focus();
+        },
+
+        focusMessageFieldAndClearDisabled: function() {
+            this.$messageField.removeAttr('disabled');
             this.$messageField.focus();
         },
 
@@ -888,7 +895,7 @@
                     this.checkUnverifiedSendMessage(e, {force: true});
                 }.bind(this),
                 reject: function() {
-                    this.focusMessageField();
+                    this.focusMessageFieldAndClearDisabled();
                 }.bind(this)
             });
 
@@ -899,7 +906,7 @@
         checkUnverifiedSendMessage: function(e, options) {
             e.preventDefault();
             this.sendStart = Date.now();
-            this.$messageField.prop('disabled', true);
+            this.$messageField.attr('disabled', true);
 
             options = options || {};
             _.defaults(options, {force: false});
@@ -920,7 +927,7 @@
 
                 this.showSendConfirmationDialog(e, contacts);
             }.bind(this)).catch(function(error) {
-                this.focusMessageField();
+                this.focusMessageFieldAndClearDisabled();
                 console.log(
                     'checkUnverifiedSendMessage error:',
                     error && error.stack ? error.stack : error
@@ -945,7 +952,7 @@
 
                 this.showSendConfirmationDialog(e, contacts);
             }.bind(this)).catch(function(error) {
-                this.focusMessageField();
+                this.focusMessageFieldAndClearDisabled();
                 console.log(
                     'checkUntrustedSendMessage error:',
                     error && error.stack ? error.stack : error
@@ -1008,7 +1015,7 @@
             if (toast) {
                 toast.$el.insertAfter(this.$el);
                 toast.render();
-                this.focusMessageField();
+                this.focusMessageFieldAndClearDisabled();
                 return;
             }
 
@@ -1021,15 +1028,15 @@
                     console.log('Send pre-checks took', sendDelta, 'milliseconds');
                     this.model.sendMessage(message, attachments);
                     input.val("");
-                    this.focusMessageField();
+                    this.focusMessageFieldAndClearDisabled();
                     this.forceUpdateMessageFieldSize(e);
                     this.fileInput.deleteFiles();
                 }.bind(this)).catch(function() {
                     console.log('Error pulling attached files before send');
-                    this.focusMessageField();
+                    this.focusMessageFieldAndClearDisabled();
                 }.bind(this));
             } else {
-                this.focusMessageField();
+                this.focusMessageFieldAndClearDisabled();
             }
         },
 
