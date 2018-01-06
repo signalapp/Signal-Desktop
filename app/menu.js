@@ -1,18 +1,20 @@
 function createTemplate(options, messages) {
-  const showDebugLog = options.showDebugLog;
-  const showAbout = options.showAbout;
-  const openReleaseNotes = options.openReleaseNotes;
-  const openNewBugForm = options.openNewBugForm;
-  const openSupportPage = options.openSupportPage;
-  const openForums = options.openForums;
+  const {
+    showDebugLog,
+    showAbout,
+    openReleaseNotes,
+    openNewBugForm,
+    openSupportPage,
+    openForums,
+  } = options;
 
-  let template = [{
+  const template = [{
     label: messages.mainMenuFile.message,
     submenu: [
       {
         role: 'quit',
       },
-    ]
+    ],
   },
   {
     label: messages.mainMenuEdit.message,
@@ -43,8 +45,8 @@ function createTemplate(options, messages) {
       },
       {
         role: 'selectall',
-      }
-    ]
+      },
+    ],
   },
   {
     label: messages.mainMenuView.message,
@@ -77,7 +79,7 @@ function createTemplate(options, messages) {
       {
         role: 'toggledevtools',
       },
-    ]
+    ],
   },
   {
     label: messages.mainMenuWindow.message,
@@ -86,7 +88,7 @@ function createTemplate(options, messages) {
       {
         role: 'minimize',
       },
-    ]
+    ],
   },
   {
     label: messages.mainMenuHelp.message,
@@ -118,7 +120,7 @@ function createTemplate(options, messages) {
         label: messages.aboutSignalDesktop.message,
         click: showAbout,
       },
-    ]
+    ],
   }];
 
   if (process.platform === 'darwin') {
@@ -129,8 +131,10 @@ function createTemplate(options, messages) {
 }
 
 function updateForMac(template, messages, options) {
-  const showWindow = options.showWindow;
-  const showAbout = options.showAbout;
+  const {
+    showWindow,
+    showAbout,
+  } = options;
 
   // Remove About item and separator from Help menu, since it's on the first menu
   template[4].submenu.pop();
@@ -162,13 +166,13 @@ function updateForMac(template, messages, options) {
       {
         role: 'quit',
       },
-    ]
+    ],
   });
 
   // Add to Edit menu
   template[1].submenu.push(
     {
-      type: 'separator'
+      type: 'separator',
     },
     {
       label: messages.speech.message,
@@ -179,11 +183,12 @@ function updateForMac(template, messages, options) {
         {
           role: 'stopspeaking',
         },
-      ]
-    }
+      ],
+    },
   );
 
-  // Add to Window menu
+  // Replace Window menu
+  // eslint-disable-next-line no-param-reassign
   template[3].submenu = [
     {
       accelerator: 'CmdOrCtrl+W',

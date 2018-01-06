@@ -10,5 +10,5 @@ function shouldQuit() {
 
 module.exports = {
   shouldQuit,
-  markShouldQuit
+  markShouldQuit,
 };

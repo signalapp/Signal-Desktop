@@ -1,5 +1,6 @@
 node_modules
 .sass-cache
+coverage/*
 build/curve25519_compiled.js
 build/icons/*
 stylesheets/*.css.map
@@ -11,3 +12,5 @@ config/local-*.json
 *.provisionprofile
 release/
 /dev-app-update.yml
+.nyc_output/
+*.sublime*

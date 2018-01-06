@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const app = require('electron').app;
+const { app } = require('electron');
 const _ = require('lodash');
 
 const logging = require('./logging');
@@ -21,15 +21,15 @@ function getLocaleMessages(locale) {
     '..',
     '_locales',
     onDiskLocale,
-    'messages.json'
+    'messages.json',
   );
 
   return JSON.parse(fs.readFileSync(targetFile, 'utf-8'));
 }
 
 function load() {
-  let english = getLocaleMessages('en');
   const logger = logging.getLogger();
+  const english = getLocaleMessages('en');
   let appLocale = app.getLocale();
 
   if (process.env.NODE_ENV === 'test') {
@@ -50,7 +50,7 @@ function load() {
     // We start with english, then overwrite that with anything present in locale
     messages = _.merge(english, messages);
   } catch (e) {
-    logger.error('Problem loading messages for locale ' + localeName + ' ' + e.stack);
+    logger.error(`Problem loading messages for locale ${localeName} ${e.stack}`);
     logger.error('Falling back to en locale');
 
     localeName = 'en';
@@ -59,10 +59,10 @@ function load() {
 
   return {
     name: localeName,
-    messages
+    messages,
   };
 }
 
 module.exports = {
-  load: load
+  load,
 };

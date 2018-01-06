@@ -1,9 +1,12 @@
 const path = require('path');
 
+const config = require('config');
+
 const packageJson = require('../package.json');
 
 
 const environment = packageJson.environment || process.env.NODE_ENV || 'development';
+config.environment = environment;
 
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = environment;
@@ -19,8 +22,6 @@ if (environment === 'production') {
   process.env.SUPPRESS_NO_CONFIG_WARNING = '';
 }
 
-const config = require('config');
-config.environment = environment;
 
 // Log resulting env vars in use by config
 [
@@ -30,9 +31,9 @@ config.environment = environment;
   'ALLOW_CONFIG_MUTATIONS',
   'HOSTNAME',
   'NODE_APP_INSTANCE',
-  'SUPPRESS_NO_CONFIG_WARNING'
-].forEach(function(s) {
-  console.log(s + ' ' + config.util.getEnv(s));
+  'SUPPRESS_NO_CONFIG_WARNING',
+].forEach((s) => {
+  console.log(`${s} ${config.util.getEnv(s)}`);
 });
 
 module.exports = config;

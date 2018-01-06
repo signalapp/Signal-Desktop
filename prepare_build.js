@@ -2,7 +2,9 @@ const fs = require('fs');
 const _ = require('lodash');
 
 const packageJson = require('./package.json');
-const version = packageJson.version;
+
+
+const { version } = packageJson;
 const beta = /beta/;
 
 // You might be wondering why this file is necessary. It comes down to our desire to allow
@@ -12,7 +14,7 @@ const beta = /beta/;
 //   adding the ${channel} macro to these values, but Electron-Builder didn't like that.
 
 if (!beta.test(version)) {
-  return;
+  process.exit();
 }
 
 console.log('prepare_build: updating package.json for beta build');
@@ -36,13 +38,12 @@ const PRODUCTION_STARTUP_WM_CLASS = 'Signal';
 const BETA_STARTUP_WM_CLASS = 'Signal Beta';
 
 
-
 // -------
 
 function checkValue(object, objectPath, expected) {
-  const actual = _.get(object, objectPath)
+  const actual = _.get(object, objectPath);
   if (actual !== expected) {
-    throw new Error(objectPath + ' was ' + actual + '; expected ' + expected);
+    throw new Error(`${objectPath} was ${actual}; expected ${expected}`);
   }
 }
 
