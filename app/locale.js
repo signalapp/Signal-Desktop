@@ -3,7 +3,7 @@ const fs = require('fs');
 const app = require('electron').app;
 const _ = require('lodash');
 
-const logger = require('./logging').getLogger();
+const logging = require('./logging');
 
 function normalizeLocaleName(locale) {
   if (/^en-/.test(locale)) {
@@ -29,6 +29,7 @@ function getLocaleMessages(locale) {
 
 function load() {
   let english = getLocaleMessages('en');
+  const logger = logging.getLogger();
   let appLocale = app.getLocale();
 
   if (process.env.NODE_ENV === 'test') {

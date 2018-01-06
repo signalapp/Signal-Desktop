@@ -1,4 +1,4 @@
-const autoUpdater = require('electron-updater').autoUpdater
+const { autoUpdater } = require('electron-updater');
 const { dialog } = require('electron');
 
 const config = require('./config');
@@ -18,7 +18,7 @@ function checkForUpdates() {
   autoUpdater.checkForUpdates();
 }
 
-var showingDialog = false;
+let showingDialog = false;
 function showUpdateDialog(mainWindow, messages) {
   if (showingDialog) {
     return;
@@ -29,21 +29,21 @@ function showUpdateDialog(mainWindow, messages) {
     type: 'info',
     buttons: [
       messages.autoUpdateRestartButtonLabel.message,
-      messages.autoUpdateLaterButtonLabel.message
+      messages.autoUpdateLaterButtonLabel.message,
     ],
     title: messages.autoUpdateNewVersionTitle.message,
     message: messages.autoUpdateNewVersionMessage.message,
     detail: messages.autoUpdateNewVersionInstructions.message,
     defaultId: LATER_BUTTON,
     cancelId: RESTART_BUTTON,
-  }
+  };
 
-  dialog.showMessageBox(mainWindow, options, function(response) {
-    if (response == RESTART_BUTTON) {
+  dialog.showMessageBox(mainWindow, options, (response) => {
+    if (response === RESTART_BUTTON) {
       // We delay these update calls because they don't seem to work in this
       //   callback - but only if the message box has a parent window.
       // Fixes this bug: https://github.com/WhisperSystems/Signal-Desktop/issues/1864
-      setTimeout(function() {
+      setTimeout(() => {
         windowState.markShouldQuit();
         autoUpdater.quitAndInstall();
       }, 200);
@@ -54,7 +54,7 @@ function showUpdateDialog(mainWindow, messages) {
 }
 
 function onError(error) {
-  console.log("Got an error while updating: ", error.stack);
+  console.log('Got an error while updating: ', error.stack);
 }
 
 function initialize(getMainWindow, messages) {
@@ -66,7 +66,7 @@ function initialize(getMainWindow, messages) {
     return;
   }
 
-  autoUpdater.addListener('update-downloaded', function() {
+  autoUpdater.addListener('update-downloaded', () => {
     showUpdateDialog(getMainWindow(), messages);
   });
   autoUpdater.addListener('error', onError);
@@ -77,5 +77,5 @@ function initialize(getMainWindow, messages) {
 }
 
 module.exports = {
-  initialize
+  initialize,
 };

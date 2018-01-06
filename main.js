@@ -82,15 +82,11 @@ if (!process.mas) {
   }
 }
 
-const logging = require('./app/logging');
-
-// This must be after we set up appPath in user_config.js, so we know where logs go
-logging.initialize();
-const logger = logging.getLogger();
-
 let windowConfig = userConfig.get('window');
 const loadLocale = require('./app/locale').load;
 
+// Both of these will be set after app fires the 'ready' event
+let logger;
 let locale;
 
 const WINDOWS_8 = '8.0.0';
@@ -372,40 +368,49 @@ function showAbout() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 let ready = false;
-app.on('ready', function() {
-  logger.info('app ready');
-  ready = true;
+app.on('ready', () => {
+  let loggingSetupError;
+  logging.initialize().catch((error) => {
+    loggingSetupError = error;
+  }).then(() => {
+    logger = logging.getLogger();
+    logger.info('app ready');
 
-  if (!locale) {
-    locale = loadLocale();
-  }
+    if (loggingSetupError) {
+      logger.error('Problem setting up logging', loggingSetupError.stack);
+    }
 
-  autoUpdate.initialize(getMainWindow, locale.messages);
+    if (!locale) {
+      locale = loadLocale();
+    }
 
-  createWindow();
+    ready = true;
 
-  if (usingTrayIcon) {
-    const createTrayIcon = require("./app/tray_icon");
-    tray = createTrayIcon(getMainWindow, locale.messages);
-  }
+    autoUpdate.initialize(getMainWindow, locale.messages);
 
-  const options = {
-    showDebugLog,
-    showWindow,
-    showAbout,
-    openReleaseNotes,
-    openNewBugForm,
-    openSupportPage,
-    openForums,
-  };
-  const createTemplate = require('./app/menu.js');
-  const template = createTemplate(options, locale.messages);
+    createWindow();
 
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
-})
+    if (usingTrayIcon) {
+      tray = createTrayIcon(getMainWindow, locale.messages);
+    }
 
-app.on('before-quit', function() {
+    const options = {
+      showDebugLog,
+      showWindow,
+      showAbout,
+      openReleaseNotes,
+      openNewBugForm,
+      openSupportPage,
+      openForums,
+    };
+    const template = createTemplate(options, locale.messages);
+
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+  });
+});
+
+app.on('before-quit', () => {
   windowState.markShouldQuit();
 });
 
