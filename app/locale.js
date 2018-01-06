@@ -21,7 +21,7 @@ function getLocaleMessages(locale) {
     '..',
     '_locales',
     onDiskLocale,
-    'messages.json',
+    'messages.json'
   );
 
   return JSON.parse(fs.readFileSync(targetFile, 'utf-8'));

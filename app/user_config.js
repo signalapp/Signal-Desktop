@@ -10,7 +10,7 @@ const config = require('./config');
 if (config.has('storageProfile')) {
   const userData = path.join(
     app.getPath('appData'),
-    `Signal-${config.get('storageProfile')}`,
+    `Signal-${config.get('storageProfile')}`
   );
 
   app.setPath('userData', userData);

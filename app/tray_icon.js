@@ -14,7 +14,7 @@ function createTrayIcon(getMainWindow, messages) {
   tray = new Tray(
     process.platform === 'darwin' ?
       path.join(__dirname, '..', 'images', 'icon_16.png') :
-      path.join(__dirname, '..', 'images', 'icon_256.png'),
+      path.join(__dirname, '..', 'images', 'icon_256.png')
   );
 
   tray.toggleWindowVisibility = () => {

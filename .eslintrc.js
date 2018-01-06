@@ -6,6 +6,14 @@ module.exports = {
   ],
 
   rules: {
+    'comma-dangle': ['error', {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'never',
+    }],
+
     // putting params on their own line helps stay within line length limit
     'function-paren-newline': ['error', 'consistent'],
 

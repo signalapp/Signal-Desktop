@@ -73,7 +73,7 @@ function cleanupLogs(logPath) {
   const earliestDate = new Date(Date.UTC(
     now.getUTCFullYear(),
     now.getUTCMonth(),
-    now.getUTCDate() - 3,
+    now.getUTCDate() - 3
   ));
 
   return eliminateOutOfDateFiles(logPath, earliestDate).then((remaining) => {
@@ -126,7 +126,7 @@ function eliminateOutOfDateFiles(logPath, date) {
       }
 
       return file;
-    }),
+    })
   ));
 }
 
@@ -140,7 +140,7 @@ function eliminateOldEntries(files, date) {
       const text = _.map(recent, line => JSON.stringify(line)).join('\n');
 
       return fs.writeFileSync(file.path, `${text}\n`);
-    }),
+    })
   ));
 }
 

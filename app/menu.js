@@ -184,7 +184,7 @@ function updateForMac(template, messages, options) {
           role: 'stopspeaking',
         },
       ],
-    },
+    }
   );
 
   // Replace Window menu
