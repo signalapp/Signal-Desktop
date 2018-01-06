@@ -12,6 +12,8 @@ install:
   - yarn install
 
 build_script:
+  - yarn eslint
+  - yarn test-server
   - yarn run icon-gen
   - node build\grunt.js
   - type package.json | findstr /v certificateSubjectName > temp.json
