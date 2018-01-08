@@ -1026,7 +1026,7 @@
                 this.fileInput.getFiles().then(function(attachments) {
                     var sendDelta = Date.now() - this.sendStart;
                     console.log('Send pre-checks took', sendDelta, 'milliseconds');
-                    this.model.sendMessage(message, attachments);
+                    this.model.sendNewMessage(message, attachments);
                     input.val("");
                     this.focusMessageFieldAndClearDisabled();
                     this.forceUpdateMessageFieldSize(e);

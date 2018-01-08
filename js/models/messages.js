@@ -218,7 +218,10 @@
         },
 
         send: function(promise) {
+            this.sendPromise = promise;
+
             this.trigger('pending');
+
             return promise.then(function(result) {
                 var now = Date.now();
                 this.trigger('done');
@@ -227,9 +230,9 @@
                 }
                 var sent_to = this.get('sent_to') || [];
                 this.save({
-                  sent_to: _.union(sent_to, result.successfulNumbers),
-                  sent: true,
-                  expirationStartTimestamp: now
+                    sent_to: _.union(sent_to, result.successfulNumbers),
+                    sent: true,
+                    expirationStartTimestamp: now
                 });
                 this.sendSyncMessage();
             }.bind(this)).catch(function(result) {

@@ -422,8 +422,7 @@ span.status {
     max-width: 800px;
     margin: 0 auto 10px;
     padding-left: 1em;
-    // we need more padding on right side because scroll bar overlaps
-    padding-right: 1.5em;
+    padding-right: 1em;
 
     &::after {
       visibility: hidden;
@@ -481,6 +480,13 @@ span.status {
 
     .retry {
       text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .send {
+      float: left;
+      margin-left: 6px;
+      margin-right: 6px;
       cursor: pointer;
     }
 
