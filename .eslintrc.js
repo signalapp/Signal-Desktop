@@ -1,6 +1,12 @@
 // For reference: https://github.com/airbnb/javascript
 
 module.exports = {
+  settings: {
+    'import/core-modules': [
+      'electron'
+    ]
+  },
+
   extends: [
     'airbnb-base',
   ],
