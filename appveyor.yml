@@ -8,10 +8,12 @@ cache:
 install:
   - systeminfo | findstr /C:"OS"
   - set PATH=C:\Ruby23-x64\bin;%PATH%
-  - ps: Install-Product node 6 x64
+  - ps: Install-Product node 7.9.0 x64
   - yarn install
 
 build_script:
+  - yarn eslint
+  - yarn test-server
   - yarn run icon-gen
   - node build\grunt.js
   - type package.json | findstr /v certificateSubjectName > temp.json

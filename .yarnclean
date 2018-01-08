@@ -39,3 +39,6 @@ Gruntfile.js
 # misc
 *.gz
 *.md
+
+# asset directories
+!nyc/node_modules/istanbul-reports/lib/html/assets

@@ -6,19 +6,25 @@ const _ = require('lodash');
 const electron = require('electron');
 const semver = require('semver');
 
-const BrowserWindow = electron.BrowserWindow;
-const app = electron.app;
-const ipc = electron.ipcMain;
-const Menu = electron.Menu;
-const shell = electron.shell;
+const {
+  BrowserWindow,
+  app,
+  Menu,
+  shell,
+  ipcMain: ipc,
+} = electron;
 
 const packageJson = require('./package.json');
+
+const createTrayIcon = require('./app/tray_icon');
+const createTemplate = require('./app/menu.js');
+const logging = require('./app/logging');
 const autoUpdate = require('./app/auto_update');
 const windowState = require('./app/window_state');
 
 
-const aumid = 'org.whispersystems.' + packageJson.name;
-console.log('setting AUMID to ' + aumid);
+const aumid = `org.whispersystems.${packageJson.name}`;
+console.log(`setting AUMID to ${aumid}`);
 app.setAppUserModelId(aumid);
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -34,7 +40,7 @@ let tray = null;
 const startInTray = process.argv.find(arg => arg === '--start-in-tray');
 const usingTrayIcon = startInTray || process.argv.find(arg => arg === '--use-tray-icon');
 
-const config = require("./app/config");
+const config = require('./app/config');
 
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
@@ -63,7 +69,7 @@ function showWindow() {
 
 if (!process.mas) {
   console.log('making app single instance');
-  var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
+  const shouldQuit = app.makeSingleInstance(() => {
     // Someone tried to run a second instance, we should focus our window
     if (mainWindow) {
       if (mainWindow.isMinimized()) {
@@ -78,19 +84,14 @@ if (!process.mas) {
   if (shouldQuit) {
     console.log('quitting; we are the second instance');
     app.quit();
-    return;
   }
 }
-
-const logging = require('./app/logging');
-
-// This must be after we set up appPath in user_config.js, so we know where logs go
-logging.initialize();
-const logger = logging.getLogger();
 
 let windowConfig = userConfig.get('window');
 const loadLocale = require('./app/locale').load;
 
+// Both of these will be set after app fires the 'ready' event
+let logger;
 let locale;
 
 const WINDOWS_8 = '8.0.0';
@@ -118,20 +119,20 @@ function prepareURL(pathSegments) {
       appInstance: process.env.NODE_APP_INSTANCE,
       polyfillNotifications: polyfillNotifications ? true : undefined, // for stringify()
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
-    }
-  })
+    },
+  });
 }
 
 function handleUrl(event, target) {
   event.preventDefault();
-  const protocol = url.parse(target).protocol;
+  const { protocol } = url.parse(target);
   if (protocol === 'http:' || protocol === 'https:') {
     shell.openExternal(target);
   }
 }
 
 function captureClicks(window) {
-  window.webContents.on('will-navigate', handleUrl)
+  window.webContents.on('will-navigate', handleUrl);
   window.webContents.on('new-window', handleUrl);
 }
 
@@ -150,11 +151,11 @@ function isVisible(window, bounds) {
 
   // requiring BOUNDS_BUFFER pixels on the left or right side
   const rightSideClearOfLeftBound = (window.x + window.width >= boundsX + BOUNDS_BUFFER);
-  const leftSideClearOfRightBound = (window.x <= boundsX + boundsWidth - BOUNDS_BUFFER);
+  const leftSideClearOfRightBound = (window.x <= (boundsX + boundsWidth) - BOUNDS_BUFFER);
 
   // top can't be offscreen, and must show at least BOUNDS_BUFFER pixels at bottom
   const topClearOfUpperBound = window.y >= boundsY;
-  const topClearOfLowerBound = (window.y <= boundsY + boundsHeight - BOUNDS_BUFFER);
+  const topClearOfLowerBound = (window.y <= (boundsY + boundsHeight) - BOUNDS_BUFFER);
 
   return rightSideClearOfLeftBound
     && leftSideClearOfRightBound
@@ -162,8 +163,8 @@ function isVisible(window, bounds) {
     && topClearOfLowerBound;
 }
 
-function createWindow () {
-  const screen = electron.screen;
+function createWindow() {
+  const { screen } = electron;
   const windowOptions = Object.assign({
     show: !startInTray, // allow to start minimised in tray
     width: DEFAULT_WIDTH,
@@ -173,8 +174,8 @@ function createWindow () {
     autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: false,
-      //sandbox: true,
-      preload: path.join(__dirname, 'preload.js')
+      // sandbox: true,
+      preload: path.join(__dirname, 'preload.js'),
     },
     icon: path.join(__dirname, 'images', 'icon_256.png'),
   }, _.pick(windowConfig, ['maximized', 'autoHideMenuBar', 'width', 'height', 'x', 'y']));
@@ -192,7 +193,7 @@ function createWindow () {
     delete windowOptions.autoHideMenuBar;
   }
 
-  const visibleOnAnyScreen = _.some(screen.getAllDisplays(), function(display) {
+  const visibleOnAnyScreen = _.some(screen.getAllDisplays(), (display) => {
     if (!_.isNumber(windowOptions.x) || !_.isNumber(windowOptions.y)) {
       return false;
     }
@@ -225,7 +226,7 @@ function createWindow () {
       width: size[0],
       height: size[1],
       x: position[0],
-      y: position[1]
+      y: position[1],
     };
 
     if (mainWindow.isFullScreen()) {
@@ -243,12 +244,13 @@ function createWindow () {
   mainWindow.on('move', debouncedCaptureStats);
   mainWindow.on('close', captureAndSaveWindowStats);
 
-  mainWindow.on('focus', function() {
+  mainWindow.on('focus', () => {
     mainWindow.flashFrame(false);
   });
 
   // Ingested in preload.js via a sendSync call
-  ipc.on('locale-data', function(event, arg) {
+  ipc.on('locale-data', (event) => {
+    // eslint-disable-next-line no-param-reassign
     event.returnValue = locale.messages;
   });
 
@@ -262,23 +264,21 @@ function createWindow () {
 
   if (config.get('openDevTools')) {
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools();
   }
 
   captureClicks(mainWindow);
 
-  mainWindow.webContents.on('will-navigate', function(e) {
+  mainWindow.webContents.on('will-navigate', (e) => {
     logger.info('will-navigate');
     e.preventDefault();
   });
 
   // Emitted when the window is about to be closed.
-  mainWindow.on('close', function (e) {
-
+  mainWindow.on('close', (e) => {
     // If the application is terminating, just do the default
     if (windowState.shouldQuit()
       || config.environment === 'test' || config.environment === 'test-lib') {
-
       return;
     }
 
@@ -296,26 +296,26 @@ function createWindow () {
   });
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
+  mainWindow.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    mainWindow = null
+    mainWindow = null;
   });
 
-  ipc.on('show-window', function() {
+  ipc.on('show-window', () => {
     showWindow();
   });
 }
 
 function showDebugLog() {
   if (mainWindow) {
-    mainWindow.webContents.send('debug-log')
+    mainWindow.webContents.send('debug-log');
   }
 }
 
 function openReleaseNotes() {
-  shell.openExternal('https://github.com/WhisperSystems/Signal-Desktop/releases/tag/v' + app.getVersion());
+  shell.openExternal(`https://github.com/WhisperSystems/Signal-Desktop/releases/tag/v${app.getVersion()}`);
 }
 
 function openNewBugForm() {
@@ -348,7 +348,7 @@ function showAbout() {
     show: false,
     webPreferences: {
       nodeIntegration: false,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
     },
     parent: mainWindow,
   };
@@ -359,11 +359,11 @@ function showAbout() {
 
   aboutWindow.loadURL(prepareURL([__dirname, 'about.html']));
 
-  aboutWindow.on('closed', function () {
+  aboutWindow.on('closed', () => {
     aboutWindow = null;
   });
 
-  aboutWindow.once('ready-to-show', function() {
+  aboutWindow.once('ready-to-show', () => {
     aboutWindow.show();
   });
 }
@@ -372,53 +372,64 @@ function showAbout() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 let ready = false;
-app.on('ready', function() {
-  logger.info('app ready');
-  ready = true;
+app.on('ready', () => {
+  let loggingSetupError;
+  logging.initialize().catch((error) => {
+    loggingSetupError = error;
+  }).then(() => {
+    logger = logging.getLogger();
+    logger.info('app ready');
 
-  if (!locale) {
-    locale = loadLocale();
-  }
+    if (loggingSetupError) {
+      logger.error('Problem setting up logging', loggingSetupError.stack);
+    }
 
-  autoUpdate.initialize(getMainWindow, locale.messages);
+    if (!locale) {
+      locale = loadLocale();
+    }
 
-  createWindow();
+    ready = true;
 
-  if (usingTrayIcon) {
-    const createTrayIcon = require("./app/tray_icon");
-    tray = createTrayIcon(getMainWindow, locale.messages);
-  }
+    autoUpdate.initialize(getMainWindow, locale.messages);
 
-  const options = {
-    showDebugLog,
-    showWindow,
-    showAbout,
-    openReleaseNotes,
-    openNewBugForm,
-    openSupportPage,
-    openForums,
-  };
-  const createTemplate = require('./app/menu.js');
-  const template = createTemplate(options, locale.messages);
+    createWindow();
 
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
-})
+    if (usingTrayIcon) {
+      tray = createTrayIcon(getMainWindow, locale.messages);
+    }
 
-app.on('before-quit', function() {
+    const options = {
+      showDebugLog,
+      showWindow,
+      showAbout,
+      openReleaseNotes,
+      openNewBugForm,
+      openSupportPage,
+      openForums,
+    };
+    const template = createTemplate(options, locale.messages);
+
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+  });
+});
+
+app.on('before-quit', () => {
   windowState.markShouldQuit();
 });
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function () {
+app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin' || config.environment === 'test' || config.environment === 'test-lib') {
-    app.quit()
+  if (process.platform !== 'darwin'
+    || config.environment === 'test'
+    || config.environment === 'test-lib') {
+    app.quit();
   }
-})
+});
 
-app.on('activate', function () {
+app.on('activate', () => {
   if (!ready) {
     return;
   }
@@ -430,46 +441,43 @@ app.on('activate', function () {
   } else {
     createWindow();
   }
-})
+});
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-
-ipc.on('set-badge-count', function(event, count) {
+ipc.on('set-badge-count', (event, count) => {
   app.setBadgeCount(count);
 });
 
-ipc.on('draw-attention', function(event, count) {
+ipc.on('draw-attention', () => {
   if (process.platform === 'darwin') {
     app.dock.bounce();
-  } else if (process.platform == 'win32') {
+  } else if (process.platform === 'win32') {
     mainWindow.flashFrame(true);
-    setTimeout(function() {
+    setTimeout(() => {
       mainWindow.flashFrame(false);
     }, 1000);
-  } else if (process.platform == 'linux') {
+  } else if (process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }
 });
 
-ipc.on('restart', function(event) {
+ipc.on('restart', () => {
   app.relaunch();
   app.quit();
 });
 
-ipc.on("set-auto-hide-menu-bar", function(event, autoHide) {
+ipc.on('set-auto-hide-menu-bar', (event, autoHide) => {
   if (mainWindow) {
     mainWindow.setAutoHideMenuBar(autoHide);
   }
 });
 
-ipc.on("set-menu-bar-visibility", function(event, visibility) {
+ipc.on('set-menu-bar-visibility', (event, visibility) => {
   if (mainWindow) {
     mainWindow.setMenuBarVisibility(visibility);
   }
 });
 
-ipc.on("close-about", function() {
+ipc.on('close-about', () => {
   if (aboutWindow) {
     aboutWindow.close();
   }

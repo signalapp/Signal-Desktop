@@ -1,0 +1,17 @@
+build/**
+components/**
+dist/**
+libtextsecure/**
+coverage/**
+
+# these aren't ready yet, pulling files in one-by-one
+js/**
+test/**
+/*.js
+!main.js
+!prepare_build.js
+
+# all of these files will be new
+!test/server/**/*.js
+
+# all of app/ is included
