@@ -20,14 +20,36 @@
         }
     };
 
+    function inherit(Parent, Child) {
+        Child.prototype = Object.create(Parent.prototype, {
+            constructor: {
+                value: Child,
+                writable: true,
+                configurable: true
+            }
+        });
+    }
+    function appendStack(newError, originalError) {
+        newError.stack += '\nOriginal stack:\n' + originalError.stack;
+    }
+
     function ReplayableError(options) {
         options = options || {};
-        this.name         = options.name || 'ReplayableError';
+        this.name = options.name || 'ReplayableError';
+        this.message = options.message;
+
+        Error.call(this, options.message);
+
+        // Maintains proper stack trace, where our error was thrown (only available on V8)
+        //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this);
+        }
+
         this.functionCode = options.functionCode;
-        this.args         = options.args;
+        this.args = options.args;
     }
-    ReplayableError.prototype = new Error();
-    ReplayableError.prototype.constructor = ReplayableError;
+    inherit(Error, ReplayableError);
 
     ReplayableError.prototype.replay = function() {
         var argumentsAsArray = Array.prototype.slice.call(arguments, 0);
@@ -36,94 +58,103 @@
     };
 
     function IncomingIdentityKeyError(number, message, key) {
+        this.number = number.split('.')[0];
+        this.identityKey = key;
+
         ReplayableError.call(this, {
             functionCode : Type.INIT_SESSION,
-            args         : [number, message]
-
+            args         : [number, message],
+            name         : 'IncomingIdentityKeyError',
+            message      : "The identity of " + this.number + " has changed."
         });
-        this.number = number.split('.')[0];
-        this.name = 'IncomingIdentityKeyError';
-        this.message = "The identity of " + this.number + " has changed.";
-        this.identityKey = key;
     }
-    IncomingIdentityKeyError.prototype = new ReplayableError();
-    IncomingIdentityKeyError.prototype.constructor = IncomingIdentityKeyError;
+    inherit(ReplayableError, IncomingIdentityKeyError);
 
     function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
+        this.number = number.split('.')[0];
+        this.identityKey = identityKey;
+
         ReplayableError.call(this, {
             functionCode : Type.ENCRYPT_MESSAGE,
-            args         : [number, message, timestamp]
+            args         : [number, message, timestamp],
+            name         : 'OutgoingIdentityKeyError',
+            message      : "The identity of " + this.number + " has changed."
         });
-        this.number = number.split('.')[0];
-        this.name = 'OutgoingIdentityKeyError';
-        this.message = "The identity of " + this.number + " has changed.";
-        this.identityKey = identityKey;
     }
-    OutgoingIdentityKeyError.prototype = new ReplayableError();
-    OutgoingIdentityKeyError.prototype.constructor = OutgoingIdentityKeyError;
+    inherit(ReplayableError, OutgoingIdentityKeyError);
 
     function OutgoingMessageError(number, message, timestamp, httpError) {
         ReplayableError.call(this, {
             functionCode : Type.ENCRYPT_MESSAGE,
-            args         : [number, message, timestamp]
+            args         : [number, message, timestamp],
+            name         : 'OutgoingMessageError',
+            message      : httpError ? httpError.message : 'no http error'
         });
-        this.name = 'OutgoingMessageError';
+
         if (httpError) {
             this.code = httpError.code;
-            this.message = httpError.message;
-            this.stack = httpError.stack;
+            appendStack(this, httpError);
         }
     }
-    OutgoingMessageError.prototype = new ReplayableError();
-    OutgoingMessageError.prototype.constructor = OutgoingMessageError;
+    inherit(ReplayableError, OutgoingMessageError);
 
     function SendMessageNetworkError(number, jsonData, httpError, timestamp) {
-        ReplayableError.call(this, {
-            functionCode : Type.TRANSMIT_MESSAGE,
-            args         : [number, jsonData, timestamp]
-        });
-        this.name = 'SendMessageNetworkError';
         this.number = number;
         this.code = httpError.code;
-        this.message = httpError.message;
-        this.stack = httpError.stack;
+
+        ReplayableError.call(this, {
+            functionCode : Type.TRANSMIT_MESSAGE,
+            args         : [number, jsonData, timestamp],
+            name         : 'SendMessageNetworkError',
+            message      : httpError.message
+        });
+
+        appendStack(this, httpError);
     }
-    SendMessageNetworkError.prototype = new ReplayableError();
-    SendMessageNetworkError.prototype.constructor = SendMessageNetworkError;
+    inherit(ReplayableError, SendMessageNetworkError);
 
     function SignedPreKeyRotationError(numbers, message, timestamp) {
         ReplayableError.call(this, {
             functionCode : Type.RETRY_SEND_MESSAGE_PROTO,
-            args         : [numbers, message, timestamp]
+            args         : [numbers, message, timestamp],
+            name         : 'SignedPreKeyRotationError',
+            message      : "Too many signed prekey rotation failures"
         });
-        this.name = 'SignedPreKeyRotationError';
-        this.message = "Too many signed prekey rotation failures";
     }
-    SignedPreKeyRotationError.prototype = new ReplayableError();
-    SignedPreKeyRotationError.prototype.constructor = SignedPreKeyRotationError;
+    inherit(ReplayableError, SignedPreKeyRotationError);
 
     function MessageError(message, httpError) {
+        this.code = httpError.code;
+
         ReplayableError.call(this, {
             functionCode : Type.REBUILD_MESSAGE,
-            args         : [message]
+            args         : [message],
+            name         : 'MessageError',
+            message      : httpError.message
         });
-        this.name = 'MessageError';
-        this.code = httpError.code;
-        this.message = httpError.message;
-        this.stack = httpError.stack;
+
+        appendStack(this, httpError);
     }
-    MessageError.prototype = new ReplayableError();
-    MessageError.prototype.constructor = MessageError;
+    inherit(ReplayableError, MessageError);
 
     function UnregisteredUserError(number, httpError) {
+        this.message = httpError.message;
         this.name = 'UnregisteredUserError';
+
+        Error.call(this, this.message);
+
+        // Maintains proper stack trace, where our error was thrown (only available on V8)
+        //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this);
+        }
+
         this.number = number;
         this.code = httpError.code;
-        this.message = httpError.message;
-        this.stack = httpError.stack;
+
+        appendStack(this, httpError);
     }
-    UnregisteredUserError.prototype = new Error();
-    UnregisteredUserError.prototype.constructor = UnregisteredUserError;
+    inherit(Error, UnregisteredUserError);
 
     window.textsecure.UnregisteredUserError = UnregisteredUserError;
     window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
