@@ -5,7 +5,7 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    var URL_REGEX = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9\u00A0-\uD7FF\uE000-\uFDCF\uFDF0-\uFFFD+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
+    var URL_REGEX = /((?:(file|ftp|http|https|Http|Https|rtsp|Rtsp):\/\/(?:(?:[\w0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[\w0-9]{2})){1,64}(?:\:(?:[\w0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[\w0-9]{2})){1,25})?\@)?)?((?:(?:[\w0-9][\w0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[\w0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[\w0-9]{2}))*)?(?:\b|$)/
 
     var ErrorIconView = Whisper.View.extend({
         templateName: 'error-icon',
@@ -360,7 +360,9 @@
 
             if (body.length > 0) {
                 var escaped = body.html();
-                body.html(escaped.replace(/\n/g, '<br>').replace(URL_REGEX, "$1<a href='$2' target='_blank'>$2</a>"));
+                escaped = escaped.replace(/\n/g, '<br>'); // create newlines
+                escaped = escaped.replace(URL_REGEX, "<a href='$&' target='_blank'>$&</a>"); // linkify URLS
+                body.html(escaped)
             }
 
             this.renderSent();

@@ -53,8 +53,7 @@ describe('MessageView', function() {
     assert.strictEqual(div.find(view.$el).length, 0);
   });
 
-  it('allows links', function() {
-    var url = 'http://example.com';
+  function testLink (url) {
     message.set('body', url);
     var view = new Whisper.MessageView({model: message});
     view.render();
@@ -62,6 +61,26 @@ describe('MessageView', function() {
     assert.strictEqual(link.length, 1);
     assert.strictEqual(link.text(), url);
     assert.strictEqual(link.attr('href'), url);
+  }
+
+  it('allows links with parens', function() {
+    var url = 'http://example.com'
+    message.set('body', '(' + url + ')');
+    var view = new Whisper.MessageView({model: message});
+    view.render();
+    var link = view.$el.find('.body a');
+    assert.strictEqual(link.length, 1);
+    assert.strictEqual(link.text(), url);
+    assert.strictEqual(link.attr('href'), url);
+  })
+
+  it('allows links', function() {
+    testLink('http://example.com');
+    testLink('https://example.com');
+    testLink('https://sub.example.com)');
+    testLink('http://sub.example.com');
+    testLink('example.com');
+    testLink('sub.example.com');
   });
 
   it('disallows xss', function() {
