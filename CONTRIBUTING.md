@@ -127,7 +127,6 @@ Please write tests! Our testing framework is
 To run tests, you can run them from the command line with `grunt unit-tests` or in an
 interactive session with `NODE_ENV=test yarn run start`.
 
-
 ## Pull requests
 
 So you wanna make a pull request? Please observe the following guidelines.
@@ -247,3 +246,11 @@ Now, run `grunt` to delete unused package files and build `js/components.js`.
 
 Finally, stage and commit changes to bower.json, `js/components.js`,
 and `components/`. The latter should be limited to files we actually use.
+
+### Testing
+To test changes to the build system, build a release using
+```
+yarn generate
+yarn build-release
+```
+Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
