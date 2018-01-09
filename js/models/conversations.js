@@ -545,7 +545,7 @@
             var regionCode = storage.get('regionCode');
             var number = libphonenumber.util.parseNumber(this.id, regionCode);
             if (number.isValidNumber) {
-                this.set({ id: number.e164 });
+                this.set({ id: this.id });
             } else {
                 return number.error || "Invalid phone number";
             }
