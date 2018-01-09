@@ -478,8 +478,6 @@ module.exports = function(grunt) {
         // Stop the application
         return app.stop();
       }).then(done);
-
-      // todo: verify package.json has `environment: <environment>`
   });
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
@@ -489,5 +487,4 @@ module.exports = function(grunt) {
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('prep-release', ['gitinfo', 'clean-release', 'fetch-release']);
   grunt.registerTask('default', ['concat', 'copy:deps', 'sass', 'date']);
-
 };
