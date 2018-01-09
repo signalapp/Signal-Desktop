@@ -478,7 +478,7 @@ module.exports = function(grunt) {
         // Test failed!
         return app.stop().then(function() {
           grunt.fail.fatal('Test failed: ' + error.message + ' ' + error.stack);
-        })
+        });
       }).then(done);
   });
 
