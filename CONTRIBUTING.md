@@ -18,9 +18,11 @@ ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ou
 
 ## Developer Setup
 
-First, you'll need [Node.js](https://nodejs.org/) installed. Anything 6.x or newer works
-as of Summer 2017. You might consider a [version](https://github.com/creationix/nvm)
-[manager](https://github.com/coreybutler/nvm-windows) to make this easier for yourself.
+First, you'll need [Node.js](https://nodejs.org/) which matches our current version.
+You can check [`.nvmrc` in the `development` branch](https://github.com/WhisperSystems/Signal-Desktop/blob/development/.nvmrc) to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
+you can just run `nvm use` in the project directory and it will switch to the project's
+desired Node.js version. [nvm for windows](https://github.com/coreybutler/nvm-windows) is
+still useful, but it doesn't support `.nvmrc` files.
 
 Then you need `git`, if you don't have that yet: https://git-scm.com/
 
@@ -34,7 +36,7 @@ npm install --global --production windows-build-tools
 ```
 
 On OSX you can install the [XCode Command-line tools](http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/). On Linux you'll need to take a trip to your
-favorite package manager. Python 2.x and GCC two key necessary components.
+favorite package manager. Python 2.x and GCC are two key necessary components.
 
 Now, run these commands in your preferred terminal in a good directory for development:
 
@@ -43,6 +45,7 @@ git clone https://github.com/WhisperSystems/Signal-Desktop.git
 cd Signal-Desktop
 npm install -g yarn    # (only if you don't already have yarn)
 yarn install           # install and build dependencies (this will take a while)
+yarn test              # A good idea to make sure tests run first
 yarn run start         # run!
 ```
 
@@ -124,8 +127,17 @@ Please write tests! Our testing framework is
 [mocha](http://mochajs.org/) and our assertion library is
 [chai](http://chaijs.com/api/assert/).
 
-To run tests, you can run them from the command line with `grunt unit-tests` or in an
-interactive session with `NODE_ENV=test yarn run start`.
+The easiest way to run all tests at once is `yarn test`.
+
+You can browser tests from the command line with `grunt unit-tests` or in an
+interactive session with `NODE_ENV=test yarn run start`. The `libtextsecure` tests are run
+similarly: `grunt lib-unit-tests` and `NODE_ENV=test-lib yarn run start`. You can tweak
+the appropriate `test.html` for both of these runs to get code coverage numbers via
+`blanket.js` (it's shown at the bottom of the web page when the run is complete).
+
+To run Node.js tests, you can run `yarn test-server` from the command line. You can get
+code coverage numbers for this kind of run via `yarn test-server-coverage`, then display
+the report with `yarn open-coverage`.
 
 ## Pull requests
 
@@ -213,6 +225,16 @@ production servers will _unregister_ your mobile device! All messages from your 
 will go to your new development desktop app instead of your phone.
 
 
+## Testing Production Builds
+
+To test changes to the build system, build a release using
+```
+yarn generate
+yarn build-release
+```
+Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
+
+
 ## Dependencies
 
 **Note**: You probably won't end up doing this. Feel free to skip for now.
@@ -246,11 +268,3 @@ Now, run `grunt` to delete unused package files and build `js/components.js`.
 
 Finally, stage and commit changes to bower.json, `js/components.js`,
 and `components/`. The latter should be limited to files we actually use.
-
-### Testing
-To test changes to the build system, build a release using
-```
-yarn generate
-yarn build-release
-```
-Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
