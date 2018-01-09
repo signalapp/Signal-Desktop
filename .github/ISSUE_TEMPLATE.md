@@ -6,7 +6,7 @@ Please note that this tracker is only for bugs and feature requests. Please try 
 locations if you have a question or comment:
 
   https://whispersystems.discoursehosting.net/
-  http://support.whispersystems.org/
+  http://support.signal.org/
   support@whispersystems.org
 
 Lastly, be sure to preview your issue before saving. Thanks!
