@@ -1,39 +1,73 @@
-<!-- This is a bug report template. By following the instructions below and filling out the sections with your information, you will help the developers to get all the necessary data to fix your issue.
-You can also preview your report before submitting it. You may remove sections that aren't relevant to your particular case.
+<!--
+Please fill out this template with all the information you have. We can't do much without
+both logs and a detailed description of what you encountered. Please do your best!
 
-Before we begin, please note that this tracker is only for issues, not questions or comments.
+Please note that this tracker is only for bugs and feature requests. Please try these
+locations if you have a question or comment:
 
-If you are looking for support, please see our support center instead:
-http://support.whispersystems.org/
-or email support@whispersystems.org
+  https://whispersystems.discoursehosting.net/
+  http://support.signal.org/
+  support@whispersystems.org
 
-Let's begin with a checklist: please replace the empty checkbox [ ] below with a checked one [x] if you have searched for existing issues -->
+Lastly, be sure to preview your issue before saving. Thanks!
+-->
 
 - [ ] I have searched open and closed issues for duplicates
+<!--
+  You can search all issues here:
+    https://github.com/WhisperSystems/Signal-Desktop/issues?utf8=%E2%9C%93&q=is%3Aissue
+  Replace [ ] with [X] once you've searched
+-->
 
 ----------------------------------------
 
 ### Bug description
-Describe here the issue that you are experiencing.
+
+<!-- Give an overall summary of the issue. -->
+
 
 ### Steps to reproduce
-- using hyphens as bullet points
-- list the steps
-- that reproduce the bug
 
-**Actual result:** Describe here what happens after you run the steps above (i.e. the buggy behaviour)
-**Expected result:** Describe here what should happen after you run the steps above (i.e. what would be the correct behaviour)
+<!-- Using bullet points, list the steps that reproduce the bug. -->
+
+1.
+2.
+3.
+
+Actual result:
+<!-- Describe the details of the buggy behaviour. -->
+
+Expected result:
+<!-- Describe in detail what the correct behavior should be. -->
+
 
 ### Screenshots
-<!-- you can drag and drop images below -->
+
+<!--
+How to take screenshots on all OSes: https://www.take-a-screenshot.org/
+You can drag and drop images into this text box.
+-->
 
 
 ### Platform info
-<!-- replace examples with your info -->
-**Operating System**: My Operating System A
-**Browser**: My Browser X.Y.Z
-<!-- you can see Signal's version number in your browser's extensions page: chrome://extensions -->
-**Signal version:** Z.Y.Y
+
+
+Signal version:
+<!-- You can see Signal's version number at Help -> About or File -> About Signal Desktop -->
+
+Operating System:
+<!-- Instructions for finding your OS version are here: http://whatsmyos.com/ -->
+
+Linked device version:
+<!-- Android: Settings -> Advanced,  iOS: Settings -> About -->
+
 
 ### Link to debug log
-<!-- immediately after the bug has happened submit a debug log via the ⋮ menu above the conversation list -->
+
+<!--
+Immediately after the bug has happened, submit a debug log via View -> Debug Log, then copy that URL here.
+
+In most cases, a log from your other devices is also useful:
+  Android: https://support.signal.org/hc/en-us/articles/212535838
+  iOS: https://support.signal.org/hc/en-us/articles/229676507
+-->

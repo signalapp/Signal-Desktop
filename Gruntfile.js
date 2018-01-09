@@ -471,15 +471,15 @@ module.exports = function(grunt) {
       }).then(function () {
         assert(app.chromeDriver.logLines.indexOf('NODE_ENV ' + environment) > -1);
         console.log('environment ok');
-      }).catch(function (error) {
-        // Log any failures
-        console.log('Test failed', error.message);
       }).then(function () {
-        // Stop the application
+        // Successfully completed test
         return app.stop();
+      }, function (error) {
+        // Test failed!
+        return app.stop().then(function() {
+          grunt.fail.fatal('Test failed: ' + error.message + ' ' + error.stack);
+        });
       }).then(done);
-
-      // todo: verify package.json has `environment: <environment>`
   });
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
@@ -489,5 +489,4 @@ module.exports = function(grunt) {
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('prep-release', ['gitinfo', 'clean-release', 'fetch-release']);
   grunt.registerTask('default', ['concat', 'copy:deps', 'sass', 'date']);
-
 };

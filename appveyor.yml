@@ -14,6 +14,7 @@ install:
 build_script:
   - yarn eslint
   - yarn test-server
+  - yarn lint
   - yarn run icon-gen
   - node build\grunt.js
   - type package.json | findstr /v certificateSubjectName > temp.json
@@ -22,8 +23,9 @@ build_script:
   - node_modules\.bin\build --em.environment=%SIGNAL_ENV% --publish=never
 
 test_script:
-  - node build\grunt.js test-release:win
   - node build\grunt.js test
+  - set NODE_ENV=production
+  - node build\grunt.js test-release:win
 
 environment:
   SIGNAL_ENV: production

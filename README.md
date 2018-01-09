@@ -2,18 +2,30 @@
 Signal Desktop
 ==========================
 
-Install [Signal Desktop](https://support.signal.org/hc/en-us/articles/214507138)!
-
 Signal Desktop is an Electron application that links with your
 [Signal Android](https://github.com/WhisperSystems/Signal-Android)
  or [Signal iOS](https://github.com/WhisperSystems/Signal-iOS) app.
 
+Install [Signal Desktop](https://signal.org/download/)!
+
+
+## Install the beta
+
+You can install it on a computer which already has the production version installed. It uses different data and install locations.
+
+- _Windows:_ You can find the most recent build here: https://updates.signal.org/desktop/beta.yml
+- _Mac:_ You can find the most recent build here: https://updates.signal.org/desktop/beta-mac.yml
+- _Linux:_ same instructions as above, but run `apt-get signal-desktop-beta` instead
+
 
 ## Got a question?
-The best place to ask questions is [https://support.signal.org/](https://support.signal.org/).
+
+You can find a number of frequently asked questions here https://support.signal.org/.
+The discussion groups are another good place for questions: https://whispersystems.discoursehosting.net/.
 
 
-## Found a Bug?
+## Found a Bug? Have a feature request?
+
 Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
 
 https://github.com/WhisperSystems/Signal-Desktop/issues
@@ -26,16 +38,15 @@ https://www.transifex.com/projects/p/signal-desktop
 
 
 ## Contributing Code
-Please see
-[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
+
+Please see [CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
 for setup instructions and contributor guidelines. And don't forget to sign the
 [CLA](https://signal.org/cla/).
 
-## Contributing Ideas
-Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the [community forum](https://whispersystems.discoursehosting.net)!
 
 ## Contributing Funds
 You can donate to Signal development through the [Freedom of the Press Foundation](https://freedom.press/crowdfunding/signal/).
+
 
 ## Cryptography Notice
 
