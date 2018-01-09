@@ -22,8 +22,8 @@ build_script:
   - node_modules\.bin\build --em.environment=%SIGNAL_ENV% --publish=never
 
 test_script:
-  - node build\grunt.js test-release:win
   - node build\grunt.js test
+  - node build\grunt.js test-release:win --env=production
 
 environment:
   SIGNAL_ENV: production

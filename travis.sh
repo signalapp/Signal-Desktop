@@ -10,4 +10,4 @@ fi
 
 grunt test
 
-grunt test-release:$TRAVIS_OS_NAME
+NODE_ENV=production grunt test-release:$TRAVIS_OS_NAME
