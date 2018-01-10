@@ -4,12 +4,17 @@ Contributor Guidelines
 ## Advice for new contributors
 
 Start small. The PRs most likely to be merged are the ones that make small,
-easily reviewed changes with clear, and specific intentions. See below for more
+easily reviewed changes with clear and specific intentions. See below for more
 [guidelines on pull requests](#pull-requests).
 
 It's a good idea to gauge interest in your intended work by finding the current issue
 for it or creating a new one yourself. You can use also that issue as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
+
+You're most likely to have your pull request accepted easily if it addresses bugs already
+in the [Next Steps project](https://github.com/WhisperSystems/Signal-Desktop/projects/1),
+especially if they are near the top of the Backlog column. Those are what we'll be looking
+at next, so it would be a great help if you helped us out!
 
 Once you've spent a little bit of time planning your solution, it's a good idea to go
 back to the issue and talk about your approach. We'd be happy to provide feedback. [An

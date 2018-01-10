@@ -6,8 +6,7 @@ Signal Desktop is an Electron application that links with your
 [Signal Android](https://github.com/WhisperSystems/Signal-Android)
  or [Signal iOS](https://github.com/WhisperSystems/Signal-iOS) app.
 
-Install [Signal Desktop](https://signal.org/download/)!
-
+## Install production version: https://signal.org/download/
 
 ## Install the beta
 
@@ -15,7 +14,7 @@ You can install it on a computer which already has the production version instal
 
 - _Windows:_ You can find the most recent build here: https://updates.signal.org/desktop/beta.yml
 - _Mac:_ You can find the most recent build here: https://updates.signal.org/desktop/beta-mac.yml
-- _Linux:_ same instructions as above, but run `apt-get signal-desktop-beta` instead
+- _Linux:_ same instructions as the production install steps linked above, but run `apt-get signal-desktop-beta` instead
 
 
 ## Got a question?
