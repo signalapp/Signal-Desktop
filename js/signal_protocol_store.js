@@ -192,7 +192,7 @@
                         privKey: prekey.get('privateKey'),
                     });
                 }, function() {
-                    console.log('Failed to load prekey:', keyId);
+                    console.log('Failed to fetch prekey:', keyId);
                     resolve();
                 });
             });
@@ -235,7 +235,7 @@
             var prekey = new SignedPreKey({id: keyId});
             return new Promise(function(resolve) {
                 prekey.fetch().then(function() {
-                    console.log('Successfully loaded prekey:', prekey.get('id'));
+                    console.log('Successfully fetched signed prekey:', prekey.get('id'));
                     resolve({
                         pubKey     : prekey.get('publicKey'),
                         privKey    : prekey.get('privateKey'),
@@ -244,7 +244,7 @@
                         confirmed  : prekey.get('confirmed'),
                     });
                 }).fail(function() {
-                    console.log('Failed to load signed prekey:', keyId);
+                    console.log('Failed to fetch signed prekey:', keyId);
                     resolve();
                 });
             });
