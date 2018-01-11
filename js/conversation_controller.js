@@ -109,8 +109,18 @@
                 type: type
             });
             conversation.initialPromise = new Promise(function(resolve, reject) {
-                var deferred = conversation.save();
+                if (!conversation.isValid()) {
+                    var validationError = conversation.validationError || {};
+                    console.log(
+                        'Contact is not valid. Not saving, but adding to collection :',
+                        conversation.attribures,
+                        validationError.stack
+                    );
 
+                    return resolve(conversation);
+                }
+
+                var deferred = conversation.save();
                 if (!deferred) {
                     console.log('Conversation save failed! ', id, type);
                     return reject(new Error('getOrCreate: Conversation save failed'));
