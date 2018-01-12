@@ -112,8 +112,8 @@
                 if (!conversation.isValid()) {
                     var validationError = conversation.validationError || {};
                     console.log(
-                        'Contact is not valid. Not saving, but adding to collection :',
-                        conversation.attribures,
+                        'Contact is not valid. Not saving, but adding to collection:',
+                        conversation.idForLogging(),
                         validationError.stack
                     );
 
