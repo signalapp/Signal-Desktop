@@ -299,7 +299,7 @@ module.exports = function(grunt) {
             response.pipe(file);
             file.on('finish', function() {
               file.close(function() {
-                extract(dest, {dir: 'release/' + extractedTo}, cb);
+                extract(dest, {dir: path.join(__dirname, 'release', extractedTo)}, cb);
               });
             });
           }

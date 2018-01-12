@@ -1,11 +1,11 @@
 const path = require('path');
 
 const config = require('config');
+const electronIsDev = require('electron-is-dev');
 
-const packageJson = require('../package.json');
+const defaultEnvironment = electronIsDev ? 'development' : 'production';
+const environment = process.env.NODE_ENV || defaultEnvironment;
 
-
-const environment = packageJson.environment || process.env.NODE_ENV || 'development';
 config.environment = environment;
 
 // Set environment vars to configure node-config before requiring it
