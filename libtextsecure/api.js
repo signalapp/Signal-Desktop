@@ -155,14 +155,14 @@ var TextSecureServer = (function() {
         return retry_ajax(url, options);
     }
 
-    function HTTPError(code, response, stack) {
+    function HTTPError(message, code, response, stack) {
         if (code > 999 || code < 100) {
             code = -1;
         }
-        var e = new Error();
+        var e = new Error(message + '; code: ' + code);
         e.name     = 'HTTPError';
         e.code     = code;
-        e.stack   += 'Original stack:\n' + stack;
+        e.stack   += '\nOriginal stack:\n' + stack;
         if (response) {
             e.response = response;
         }
