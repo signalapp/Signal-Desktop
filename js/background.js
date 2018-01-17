@@ -437,6 +437,7 @@
                 if (activeAt !== null) {
                     updates.active_at = activeAt || Date.now();
                 }
+                updates.left = false;
             } else {
                 updates.left = true;
             }
