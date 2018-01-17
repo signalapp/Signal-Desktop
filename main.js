@@ -483,3 +483,8 @@ ipc.on('close-about', () => {
   }
 });
 
+ipc.on('update-tray-icon', (event, unreadCount) => {
+  if (tray) {
+    tray.updateIcon(unreadCount);
+  }
+});

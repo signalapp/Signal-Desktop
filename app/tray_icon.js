@@ -11,11 +11,10 @@ let tray = null;
 
 function createTrayIcon(getMainWindow, messages) {
   // A smaller icon is needed on macOS
-  tray = new Tray(
-    process.platform === 'darwin' ?
-      path.join(__dirname, '..', 'images', 'icon_16.png') :
-      path.join(__dirname, '..', 'images', 'icon_256.png')
-  );
+  const iconSize = process.platform === 'darwin' ? '16' : '256';
+  const iconNoNewMessages = path.join(__dirname, '..', 'images', `icon_${iconSize}.png`);
+
+  tray = new Tray(iconNoNewMessages);
 
   tray.toggleWindowVisibility = () => {
     const mainWindow = getMainWindow();
@@ -55,6 +54,15 @@ function createTrayIcon(getMainWindow, messages) {
     }]);
 
     tray.setContextMenu(trayContextMenu);
+  };
+
+  tray.updateIcon = (unreadCount) => {
+    if (unreadCount > 0) {
+      const filename = `${String(unreadCount >= 10 ? 10 : unreadCount)}.png`;
+      tray.setImage(path.join(__dirname, '..', 'images', 'alert', iconSize, filename));
+    } else {
+      tray.setImage(iconNoNewMessages);
+    }
   };
 
   tray.on('click', tray.toggleWindowVisibility);

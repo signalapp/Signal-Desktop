@@ -64,6 +64,7 @@
                 window.setBadgeCount(0);
                 window.document.title = window.config.title;
             }
+            window.updateTrayIcon(newUnreadCount);
         },
         startPruning: function() {
             var halfHour = 30 * 60 * 1000;

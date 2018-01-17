@@ -34,6 +34,9 @@
   window.closeAbout = function() {
     ipc.send('close-about');
   };
+  window.updateTrayIcon = function(unreadCount) {
+    ipc.send('update-tray-icon', unreadCount);
+  };
 
   ipc.on('debug-log', function() {
     Whisper.events.trigger('showDebugLog');
