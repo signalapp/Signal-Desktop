@@ -45,7 +45,6 @@
       render: function() {
           var $el = $('<source>');
           $el.attr('src', this.dataUrl);
-          $el.attr('type', this.contentType);
           this.$el.append($el);
           return this;
       }
