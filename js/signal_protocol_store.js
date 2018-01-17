@@ -89,6 +89,11 @@
 
     var Model = Backbone.Model.extend({ database: Whisper.Database });
     var PreKey = Model.extend({ storeName: 'preKeys' });
+    var PreKeyCollection = Backbone.Collection.extend({
+        storeName: 'preKeys',
+        database: Whisper.Database,
+        model: PreKey
+    });
     var SignedPreKey = Model.extend({ storeName: 'signedPreKeys' });
     var SignedPreKeyCollection = Backbone.Collection.extend({
         storeName: 'signedPreKeys',
@@ -229,6 +234,12 @@
                 });
             });
         },
+        clearPreKeyStore: function() {
+            return new Promise(function(resolve) {
+                var preKeys = new PreKeyCollection();
+                preKeys.sync('delete', preKeys, {}).always(resolve);
+            });
+        },
 
         /* Returns a signed keypair object or undefined */
         loadSignedPreKey: function(keyId) {
@@ -291,6 +302,12 @@
                 }
 
                 deferred.then(resolve, reject);
+            });
+        },
+        clearSignedPreKeysStore: function() {
+            return new Promise(function(resolve) {
+                var signedPreKeys = new SignedPreKeyCollection();
+                signedPreKeys.sync('delete', signedPreKeys, {}).always(resolve);
             });
         },
 
@@ -392,7 +409,6 @@
                 var sessions = new SessionCollection();
                 sessions.sync('delete', sessions, {}).always(resolve);
             });
-
         },
         isTrustedIdentity: function(identifier, publicKey, direction) {
             if (identifier === null || identifier === undefined) {

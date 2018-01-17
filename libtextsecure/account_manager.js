@@ -26,21 +26,30 @@
         registerSingleDevice: function(number, verificationCode) {
             var registerKeys = this.server.registerKeys.bind(this.server);
             var createAccount = this.createAccount.bind(this);
+            var clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100);
+            var confirmKeys = this.confirmKeys.bind(this);
             var registrationDone = this.registrationDone.bind(this);
             return this.queueTask(function() {
                 return libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKeyPair) {
                     var profileKey = textsecure.crypto.getRandomBytes(32);
-                    return createAccount(number, verificationCode, identityKeyPair, profileKey).
-                        then(generateKeys).
-                        then(registerKeys).
-                        then(registrationDone);
+                    return createAccount(number, verificationCode, identityKeyPair, profileKey)
+                        .then(clearSessionsAndPreKeys)
+                        .then(generateKeys)
+                        .then(function(keys) {
+                            return registerKeys(keys).then(function() {
+                                return confirmKeys(keys);
+                            });
+                        })
+                        .then(registrationDone);
                 });
             });
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             var createAccount = this.createAccount.bind(this);
+            var clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100, progressCallback);
+            var confirmKeys = this.confirmKeys.bind(this);
             var registrationDone = this.registrationDone.bind(this);
             var registerKeys = this.server.registerKeys.bind(this.server);
             var getSocket = this.server.getProvisioningSocket.bind(this.server);
@@ -88,9 +97,15 @@
                                                 deviceName,
                                                 provisionMessage.userAgent,
                                                 provisionMessage.readReceipts
-                                            ).then(generateKeys).
-                                              then(registerKeys).
-                                              then(registrationDone);
+                                            )
+                                            .then(clearSessionsAndPreKeys)
+                                            .then(generateKeys)
+                                            .then(function(keys) {
+                                                return registerKeys(keys).then(function() {
+                                                    return confirmKeys(keys);
+                                                });
+                                            })
+                                            .then(registrationDone);
                                         });
                                     });
                                 }));
@@ -249,51 +264,67 @@
             return this.server.confirmCode(
                 number, verificationCode, password, signalingKey, registrationId, deviceName
             ).then(function(response) {
-                return textsecure.storage.protocol.clearSessionStore().then(function() {
-                    textsecure.storage.remove('identityKey');
-                    textsecure.storage.remove('signaling_key');
-                    textsecure.storage.remove('password');
-                    textsecure.storage.remove('registrationId');
-                    textsecure.storage.remove('number_id');
-                    textsecure.storage.remove('device_name');
-                    textsecure.storage.remove('regionCode');
-                    textsecure.storage.remove('userAgent');
-                    textsecure.storage.remove('profileKey');
-                    textsecure.storage.remove('read-receipts-setting');
+                textsecure.storage.remove('identityKey');
+                textsecure.storage.remove('signaling_key');
+                textsecure.storage.remove('password');
+                textsecure.storage.remove('registrationId');
+                textsecure.storage.remove('number_id');
+                textsecure.storage.remove('device_name');
+                textsecure.storage.remove('regionCode');
+                textsecure.storage.remove('userAgent');
+                textsecure.storage.remove('profileKey');
+                textsecure.storage.remove('read-receipts-setting');
 
-                    // update our own identity key, which may have changed
-                    // if we're relinking after a reinstall on the master device
-                    textsecure.storage.protocol.saveIdentityWithAttributes(number, {
-                        id                  : number,
-                        publicKey           : identityKeyPair.pubKey,
-                        firstUse            : true,
-                        timestamp           : Date.now(),
-                        verified            : textsecure.storage.protocol.VerifiedStatus.VERIFIED,
-                        nonblockingApproval : true
-                    });
+                // update our own identity key, which may have changed
+                // if we're relinking after a reinstall on the master device
+                textsecure.storage.protocol.saveIdentityWithAttributes(number, {
+                    id                  : number,
+                    publicKey           : identityKeyPair.pubKey,
+                    firstUse            : true,
+                    timestamp           : Date.now(),
+                    verified            : textsecure.storage.protocol.VerifiedStatus.VERIFIED,
+                    nonblockingApproval : true
+                });
 
-                    textsecure.storage.put('identityKey', identityKeyPair);
-                    textsecure.storage.put('signaling_key', signalingKey);
-                    textsecure.storage.put('password', password);
-                    textsecure.storage.put('registrationId', registrationId);
-                    if (profileKey) {
-                        textsecure.storage.put('profileKey', profileKey);
-                    }
-                    if (userAgent) {
-                        textsecure.storage.put('userAgent', userAgent);
-                    }
-                    if (readReceipts) {
-                        textsecure.storage.put('read-receipt-setting', true);
-                    } else {
-                        textsecure.storage.put('read-receipt-setting', false);
-                    }
+                textsecure.storage.put('identityKey', identityKeyPair);
+                textsecure.storage.put('signaling_key', signalingKey);
+                textsecure.storage.put('password', password);
+                textsecure.storage.put('registrationId', registrationId);
+                if (profileKey) {
+                    textsecure.storage.put('profileKey', profileKey);
+                }
+                if (userAgent) {
+                    textsecure.storage.put('userAgent', userAgent);
+                }
+                if (readReceipts) {
+                    textsecure.storage.put('read-receipt-setting', true);
+                } else {
+                    textsecure.storage.put('read-receipt-setting', false);
+                }
 
-
-                    textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
-                    textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
-                    this.server.username = textsecure.storage.get('number_id');
-                }.bind(this));
+                textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
+                textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
+                this.server.username = textsecure.storage.get('number_id');
             }.bind(this));
+        },
+        clearSessionsAndPreKeys: function() {
+            var store = textsecure.storage.protocol;
+
+            console.log('clearing all sessions, prekeys, and signed prekeys');
+            return Promise.all([
+                store.clearPreKeyStore(),
+                store.clearSignedPreKeysStore(),
+                store.clearSessionStore(),
+            ]);
+        },
+        // Takes the same object returned by generateKeys
+        confirmKeys: function(keys) {
+            var store = textsecure.storage.protocol;
+            var key = keys.signedPreKey;
+            var confirmed = true;
+
+            console.log('confirmKeys: confirming key', key.keyId);
+            return store.storeSignedPreKey(key.keyId, key.keyPair, confirmed);
         },
         generateKeys: function (count, progressCallback) {
             if (typeof progressCallback !== 'function') {
@@ -308,7 +339,6 @@
             if (typeof signedKeyId != 'number') {
                 throw new Error('Invalid signedKeyId');
             }
-
 
             var store = textsecure.storage.protocol;
             return store.getIdentityKeyPair().then(function(identityKey) {
@@ -334,7 +364,9 @@
                         result.signedPreKey = {
                             keyId     : res.keyId,
                             publicKey : res.keyPair.pubKey,
-                            signature : res.signature
+                            signature : res.signature,
+                            // server.registerKeys doesn't use keyPair, confirmKeys does
+                            keyPair   : res.keyPair,
                         };
                     })
                 );
@@ -342,6 +374,7 @@
                 textsecure.storage.put('maxPreKeyId', startId + count);
                 textsecure.storage.put('signedKeyId', signedKeyId + 1);
                 return Promise.all(promises).then(function() {
+                    // This is primarily for the signed prekey summary it logs out
                     return this.cleanSignedPreKeys().then(function() {
                         return result;
                     });
