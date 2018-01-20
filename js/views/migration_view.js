@@ -2,12 +2,86 @@
   'use strict';
   window.Whisper = window.Whisper || {};
 
+  var LinuxInstructionsView = Whisper.ConfirmationDialogView.extend({
+    className: 'linux-install-instructions',
+    templateName: 'linux-install-instructions',
+    _super: Whisper.ConfirmationDialogView.prototype,
+    initialize: function() {
+      this._super.initialize.call(this, {
+        okText: i18n('close'),
+      });
+    },
+    events: {
+      'keyup': 'onKeyup',
+      'click .ok': 'ok',
+      'click .modal': 'ok',
+    },
+    render_attributes: function() {
+      var attributes = this._super.render_attributes.call(this);
+      // TODO: i18n
+      attributes.header = 'Debian-based Linux install instructions';
+      return attributes;
+    },
+    ok: function(event) {
+      // We have an event on .modal, which is the background div, darkening the screen.
+      //   This ensures that a click on the dialog will not fire that event, by checking
+      //   the actuall thing clicked against the target.
+      if (event.target !== event.currentTarget) {
+        return;
+      }
+
+      this._super.ok.call(this);
+    }
+  });
+
   var State = {
     DISCONNECTING: 1,
     EXPORTING: 2,
     COMPLETE: 3,
-    CHOOSE_DIR: 4,
   };
+
+  var STEPS = {
+    INTRODUCTION: 1,
+    INSTALL: 2,
+    CHOOSE: 3,
+    EXPORTING: 4,
+    COMPLETE: 5,
+  };
+
+  var GET_YAML_PATH = /^path: (.+)$/m;
+  var BASE_PATH = 'https://updates.signal.org/desktop/';
+
+  function getCacheBuster() {
+    return Math.random().toString(36).substring(7);
+  }
+
+  function getLink(file) {
+    return new Promise(function(resolve, reject) {
+      $.get(BASE_PATH + file + '?b=' + getCacheBuster())
+        .done(function(data) {
+          var match = GET_YAML_PATH.exec(data);
+          if (match && match[1]) {
+            return resolve(BASE_PATH + match[1]);
+          }
+
+          return reject(new Error('Link not found in YAML from ' + file + ': ' + data));
+        })
+        .fail(function(xhr) {
+          return reject(new Error(
+            'Problem pulling ' + file + '; Request Status: ' + xhr.status +
+            ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText)
+          );
+        });
+    });
+  }
+
+  function getMacLink() {
+    return getLink('latest-mac-import.yml');
+  }
+
+  function getWindowsLink() {
+    return getLink('latest-import.yml');
+  }
 
   Whisper.Migration = {
     isComplete: function() {
@@ -47,17 +121,42 @@
   };
 
   Whisper.MigrationView = Whisper.View.extend({
-    templateName: 'app-migration-screen',
-    className: 'app-loading-screen',
+    templateName: 'migration-flow-template',
+    className: 'migration-flow',
     events: {
-      'click .install': 'onClickInstall',
-      'click .export': 'onClickExport',
+      'click .install-mac': 'onClickMac',
+      'click .install-windows': 'onClickWindows',
+      'click .install-linux': 'onClickLinux',
+      'click .start': 'onClickStart',
+      'click .installed': 'onClickInstalled',
+      'click .choose': 'onClickChoose',
       'click .debug-log': 'onClickDebugLog',
       'click .cancel': 'onClickCancel',
-      'click .next': 'onClickNext',
     },
     initialize: function() {
+      this.step = STEPS.INTRODUCTION;
+
+      // init() tells MessageReceiver to disconnect and drain its queue, will fire
+      //   'shutdown-complete' event when that is done. Might result in a synchronous
+      //   event, so call it after we register our callback.
+      Whisper.events.once('shutdown-complete', function() {
+        this.shutdownComplete = true;
+      }.bind(this));
+      Whisper.Migration.init();
+
+      Promise.all([getMacLink(), getWindowsLink()]).then(function(results) {
+        this.macLink = results[0];
+        this.windowsLink = results[1];
+        this.render();
+      }.bind(this), function(error) {
+        console.log(
+          'MigrationView: Ran into problem pulling Mac/Windows install links:',
+          error.stack
+        );
+      });
+
       if (!Whisper.Migration.inProgress()) {
+        this.render();
         return;
       }
 
@@ -66,107 +165,126 @@
       if (Whisper.Migration.everComplete()) {
         // If the user has ever successfully exported before, we'll show the 'finished'
         //   screen with the 'Export again' button.
+        this.step = STEPS.COMPLETE;
         Whisper.Migration.markComplete();
       } else if (!Whisper.Migration.isComplete()) {
         // This takes the user back to the very beginning of the process.
         Whisper.Migration.cancel();
       }
+
+      this.render();
     },
     render_attributes: function() {
-      var message;
-      var exportButton;
-      var hideProgress = Whisper.Migration.isComplete();
-      var debugLogButton = i18n('submitDebugLog');
-      var installButton = i18n('installNewSignal');
-      var cancelButton;
-      var nextButton;
-
       if (this.error) {
-        // If we've never successfully exported, then we allow user to cancel out
-        if (!Whisper.Migration.everComplete()) {
-          cancelButton = i18n('cancel');
-        }
-
         return {
-          message: i18n('exportError'),
-          hideProgress: true,
-          exportButton: i18n('exportAgain'),
+          errorHeader: i18n('exportErrorHeader'),
+          error: i18n('exportError'),
+          tryAgain: i18n('chooseFolderAndTryAgain'),
           debugLogButton: i18n('submitDebugLog'),
-          cancelButton: cancelButton,
         };
       }
 
-      switch (storage.get('migrationState')) {
-        case State.COMPLETE:
-          var location = Whisper.Migration.getExportLocation() || i18n('selectedLocation');
-          message = i18n('exportComplete', location);
-          exportButton = i18n('exportAgain');
-          installButton = null;
-          debugLogButton = null;
-          break;
-        case State.EXPORTING:
-          message = i18n('exporting');
-          installButton = null;
-          break;
-        case State.DISCONNECTING:
-          message = i18n('migrationDisconnecting');
-          installButton = null;
-          break;
-        case State.CHOOSE_DIR:
-          hideProgress = true;
-          message = i18n('exportInstructions');
-          exportButton = i18n('export');
-          debugLogButton = null;
-          installButton = null;
-          break;
-        default:
-          message = i18n('migrateInstallStep');
-          hideProgress = true;
-          debugLogButton = null;
-          nextButton = i18n('installComplete');
-          cancelButton = i18n('cancel');
-          break;
-      }
+      var location = Whisper.Migration.getExportLocation() || i18n('selectedLocation');
 
       return {
-        hideProgress: hideProgress,
-        message: message,
-        exportButton: exportButton,
-        debugLogButton: debugLogButton,
-        installButton: installButton,
-        cancelButton: cancelButton,
-        nextButton: nextButton,
+        cancelButton: i18n('cancel'),
+        debugLogButton: i18n('submitDebugLog'),
+
+        isStep1: this.step === 1,
+        startHeader: i18n('startExportHeader'),
+        start: i18n('startExportIntro'),
+        startButton: i18n('imReady'),
+
+        isStep2: this.step === 2,
+        installHeader: i18n('installHeader'),
+        install: i18n('installIntro'),
+        macOS: i18n('macOS'),
+        macLink: this.macLink,
+        windows: i18n('windows'),
+        windowsLink: this.windowsLink,
+        linux: i18n('debianLinux'),
+        installCompleteButton: i18n('installed'),
+
+        isStep3: this.step === 3,
+        chooseHeader: i18n('saveHeader'),
+        choose: i18n('saveDataPrompt'),
+        chooseButton: i18n('chooseFolder'),
+
+        isStep4: this.step === 4,
+        exportHeader: i18n('savingData'),
+
+        isStep5: this.step === 5,
+        completeHeader: i18n('completeHeader'),
+        completeIntro: i18n('completeIntro'),
+        completeLocation: location,
+        completeNextSteps: i18n('completeNextSteps'),
+        completeSignoff: i18n('completeSignoff'),
       };
     },
-    onClickInstall: function() {
-      var url = 'https://support.whispersystems.org/hc/en-us/articles/214507138';
-      window.open(url, '_blank');
+    onClickStart: function() {
+      this.selectStep(STEPS.INSTALL);
     },
-    onClickNext: function() {
-      storage.put('migrationState', State.CHOOSE_DIR);
+    onClickMac: function() {
+      console.log('Mac install link clicked');
+    },
+    onClickWindows: function() {
+      console.log('Windows install link clicked');
+    },
+    onClickLinux: function() {
+      var dialog = this.linuxInstructionsView = new LinuxInstructionsView({});
+      this.$el.prepend(dialog.el);
+      dialog.focusOk();
+    },
+    onClickInstalled: function() {
+      this.selectStep(STEPS.CHOOSE);
+    },
+    onClickChoose: function() {
+      this.error = null;
+
+      if (!this.shutdownComplete) {
+        console.log("Preventing export start; we haven't disconnected from the server");
+        this.error = true;
+        this.render();
+        return;
+      }
+
+      if (!Whisper.Migration.everComplete()) {
+        return this.beginMigration();
+      }
+
+      // Different behavior for the user's second time through
+      this.selectStep(STEPS.EXPORTING);
+      Whisper.Migration.beginExport()
+        .then(this.completeMigration.bind(this))
+        .catch(function(error) {
+          if (!error || error.name !== 'ChooseError') {
+            this.error = error || new Error('in case we reject() null!');
+          }
+          // Even if we run into an error, we call this complete because the user has
+          //   completed the process once before.
+          Whisper.Migration.markComplete();
+          this.selectStep(STEPS.COMPLETE);
+        }.bind(this));
       this.render();
     },
+    onClickCancel: function() {
+      this.cancel();
+    },
+    onClickDebugLog: function() {
+      this.openDebugLog();
+    },
+
     cancel: function() {
-      console.log('Cancelling out of migration workflow after error');
       Whisper.Migration.cancel().then(function() {
         console.log('Restarting now');
         window.location.reload();
       });
     },
-    onClickCancel: function() {
-      var dialog = new Whisper.ConfirmationDialogView({
-          message: i18n('cancelWarning'),
-          okText: i18n('cancelMigration'),
-          cancelText: i18n('continueMigration'),
-          resolve: this.cancel.bind(this),
-      });
+    selectStep: function(step) {
+      this.step = step;
+      this.render();
+    },
 
-      this.$el.prepend(dialog.el);
-      dialog.focusCancel();
-    },
-    onClickDebugLog: function() {
-      this.openDebugLog();
-    },
     openDebugLog: function() {
       this.closeDebugLog();
       this.debugLogView = new Whisper.DebugLogView();
@@ -178,49 +296,18 @@
         this.debugLogView = null;
       }
     },
-    onClickExport: function() {
-      this.error = null;
 
-      if (!Whisper.Migration.everComplete()) {
-        return this.beginMigration();
-      }
+    beginMigration: function() {
+      this.selectStep(STEPS.EXPORTING);
 
-      // Different behavior for the user's second time through
       Whisper.Migration.beginExport()
         .then(this.completeMigration.bind(this))
-        .catch(function(error) {
-          if (!error || error.name !== 'ChooseError') {
-            this.error = error || new Error('in case we reject() null!');
-          }
-          // Even if we run into an error, we call this complete because the user has
-          //   completed the process once before.
-          Whisper.Migration.markComplete();
-          this.render();
-        }.bind(this));
-      this.render();
-    },
-    beginMigration: function() {
-      Whisper.events.once('shutdown-complete', function() {
-        Whisper.Migration.beginExport()
-          .then(this.completeMigration.bind(this))
-          .catch(this.onError.bind(this));
-
-        // Rendering because we're now in the 'exporting' state
-        this.render();
-      }.bind(this));
-
-      // tells MessageReceiver to disconnect and drain its queue, will fire
-      //   'shutdown-complete' event when that is done. Might result in a synchronous
-      //   event, so call it after we register our callback.
-      Whisper.Migration.init();
-
-      // Rendering because we're now in the 'disconnected' state
-      this.render();
+        .catch(this.onError.bind(this));
     },
     completeMigration: function(target) {
       // This will prevent connection to the server on future app launches
       Whisper.Migration.markComplete(target);
-      this.render();
+      this.selectStep(STEPS.COMPLETE);
     },
     onError: function(error) {
       if (error && error.name === 'ChooseError') {

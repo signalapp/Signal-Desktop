@@ -1,4 +1,4 @@
-/*
+    /*
  * vim: ts=4:sw=4:expandtab
  */
 (function () {
@@ -49,6 +49,9 @@
             if (event.key === 'Escape' || event.key === 'Esc') {
                 this.cancel();
             }
+        },
+        focusOk: function() {
+            this.$('.ok').focus();
         },
         focusCancel: function() {
             this.$('.cancel').focus();

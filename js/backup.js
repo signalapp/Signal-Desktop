@@ -395,7 +395,7 @@
   //   file for well-formed JSON, trying for up to five minutes.
   var CHECK_MAX = 60;
   function checkConversation(conversationId, dir, count) {
-    return delay(5000).then(function() {
+    return delay(2000).then(function() {
       console.log(
         'Verifying messages.json produced for conversation',
         conversationId,

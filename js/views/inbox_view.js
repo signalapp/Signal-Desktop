@@ -156,12 +156,11 @@
                 }
                 this.showMigrationScreen();
             }
-            // We'll re-enable this banner when we've made some usability improvements to
-            //   the migration process:
-            // else {
-            //     var migrationBanner = new Whisper.MigrationAlertBanner().render();
-            //     migrationBanner.$el.prependTo(this.$el);
-            // }
+            // TODO: put behind a incremental rollout flag
+            else {
+                this.upgradeBanner = new Whisper.UpgradeBanner().render();
+                this.upgradeBanner.$el.prependTo(this.$el);
+            }
         },
         render_attributes: {
             welcomeToSignal         : i18n('welcomeToSignal'),
@@ -183,10 +182,7 @@
             'input input.search': 'filterContacts',
             'click .restart-signal': 'reloadBackgroundPage',
             'show .lightbox': 'showLightbox',
-            'click .migrate': 'confirmMigration'
-        },
-        confirmMigration: function() {
-            this.confirm(i18n('confirmMigration'), i18n('migrate')).then(this.showMigrationScreen.bind(this));
+            'click .migrate': 'showMigrationScreen'
         },
         showMigrationScreen: function() {
             this.migrationScreen = new Whisper.MigrationView();
@@ -311,13 +307,13 @@
         }
     });
 
-    Whisper.MigrationAlertBanner = Whisper.View.extend({
-        templateName: 'migration_alert',
-        className: 'expiredAlert clearfix',
+    Whisper.UpgradeBanner = Whisper.View.extend({
+        templateName: 'upgrade_banner',
+        className: 'expiredAlert upgrade-banner clearfix',
         render_attributes: function() {
             return {
-                migrationWarning: i18n('migrationWarning'),
-                migrate: i18n('migrate'),
+                upgradeMessage: i18n('upgradeBanner'),
+                upgradeNow: i18n('upgradeNow'),
             };
         }
     });

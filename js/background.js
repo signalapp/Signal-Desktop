@@ -38,7 +38,7 @@
         });
     });
 
-    var SERVER_URL = 'https://textsecure-service-staging.whispersystems.org';
+    var SERVER_URL = 'https://textsecure-service-ca.whispersystems.org';
     var SERVER_PORTS = [80, 4433, 8443];
     var messageReceiver;
     window.getSocketStatus = function() {

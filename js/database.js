@@ -424,6 +424,12 @@
                     console.log(event);
                 };
             }
-        }
+        },
+        // {
+        //     version: "17.0",
+        //     migrate: function(transaction, next) {
+        //         next();
+        //     }
+        // }
     ];
 }());

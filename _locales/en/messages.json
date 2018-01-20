@@ -1,15 +1,7 @@
 {
-    "cancelMigration": {
-      "message": "Cancel migration",
-      "description": "Shown on 'export complete' screen, allowing user to use Chrome App again"
-    },
-    "continueMigration": {
-      "message": "Continue migration",
-      "description": "Shown on 'cancel migration' confirmation dialog, dismissing the dialog without restoring Chrome App use',"
-    },
-    "cancelWarning": {
-      "message": "Are you sure? If you import the data you've already exported, it will conflict with this installation. Please consider deleting all exported data if you continue with cancellation.",
-      "description": "Shown on a confirmation dialog presented before the user cancels out of the migration process"
+    "close": {
+      "message": "Close",
+      "description": "Shown on a button to dismiss a dialog box"
     },
     "loading": {
       "message": "Loading...",
@@ -19,63 +11,101 @@
       "message": "Install is complete",
       "description": "Button to click when user has installed the new Signal Desktop"
     },
-    "migrationWarning": {
-      "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
-      "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
+    "upgradeBanner": {
+      "message": "The next generation of Signal Desktop is here.",
+      "description": "Shown at the top of the application prompting the user to upgrade to the new, standalone version of the app."
+    },
+    "upgradeNow": {
+      "message": "Upgrade now",
+      "description": "The button shown in the upgrade banner, starting the upgrade process."
+    },
+    "migrateToStandalone": {
+      "message": "Migrate to standalone",
+      "description": "Menu option to begin migrating this client to Electron"
     },
     "migrateInstallStep": {
       "message": "The first step is to install the new Signal Desktop.",
       "description": "The first step in the export process; installing the standalone desktop app, to ensure it is available for that platform."
     },
-    "exportInstructions": {
-      "message": "Now, choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
-      "description": "Description of the export process"
+    "saveDataPrompt": {
+      "message": "Your messages, contacts, groups, and other information can be seamlessly transferred to the new Signal Desktop. Select the folder where your exported Signal data should be saved.",
+      "description": "Explanation of what will happen when the user presses the 'choose folder' button during the upgrade process"
     },
-    "migrate": {
-      "message": "Migrate",
-      "description": "Button label to begin migrating this client to Electron"
+    "chooseFolder": {
+      "message": "Choose folder",
+      "description": "Button which pops up a directory selection dialog, and starts saving data to the selected folder"
     },
-    "migrateToStandalone": {
-        "message": "Migrate to standalone",
-        "description": "Menu option to begin migrating this client to Electron"
+    "startExportHeader": {
+      "message": "Upgrade to the new Signal Desktop",
+      "description": "Header shown when starting the export and upgrade process"
     },
-    "export": {
-      "message": "Choose directory",
-      "description": "Button to allow the user to export all data from app as part of migration process"
+    "startExportIntro": {
+      "message": "Signal Desktop is now available as a standalone application that features faster performance, expanded emoji support (with a brand-new emoji selector), enhanced notifications, and many other improvements. This process will prepare your Signal data for a smooth transition to upgrade.",
+      "description": "Description of the why and the what of the export and upgrade process"
     },
-    "exportAgain": {
-      "message": "Export again",
-      "description": "If user has already exported once, this button allows user to do it again if needed"
+    "imReady": {
+      "message": "I'm ready",
+      "description": "Button to kick off the export and upgrade process"
+    },
+    "installHeader": {
+      "message": "Select your Operating System",
+      "description": "Header text for the install step of the export and upgrade flow"
+    },
+    "installIntro": {
+      "message": "Download and install the new Signal Desktop for your chosen OS.",
+      "description": "Introduction text for the install step of the export and upgrade flow"
+    },
+    "macOS": {
+      "message": "macOS",
+      "description": "The name of Apple's desktop operating system"
+    },
+    "windows": {
+      "message": "Windows",
+      "description": "The name of Microsoft's desktop operating system"
+    },
+    "debianLinux": {
+      "message": "Debian-based Linux",
+      "description": "A succinct name for the flavors of linux based on Debian"
+    },
+    "installed": {
+      "message": "It's installed",
+      "description": "The button indicating that the user is done with the installation step"
+    },
+    "saveHeader": {
+      "message": "Save your data",
+      "description": "The header for the choose folder step of the export and upgrade flow"
+    },
+    "completeHeader": {
+      "message": "Success!",
+      "description": "The header for the finish step of the export and upgrade flow"
+    },
+    "completeIntro": {
+      "message": "Your Signal data was successfully saved here:",
+      "description": "A label for the location of the files we put on disk during the export"
+    },
+    "completeNextSteps": {
+      "message": "You are ready to make your move. Launch the new Signal Desktop and follow the instructions to complete the migration process.",
+      "description": "A summary of the next steps to finish the export and upgrade process"
+    },
+    "completeSignoff": {
+      "message": "We hope that you enjoy the new features. We're just getting started. Thanks for using Signal Desktop.",
+      "description": "A warm signoff now that the export and upgrade process is complete"
+    },
+    "exportErrorHeader": {
+      "message": "Something went wrong!",
+      "description": "Header shown at the top of the error screen if something goes wrong during data export"
     },
     "exportError": {
-      "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+      "message": "Unfortunately, something went wrong during the export. First, check that you have enough space where you saved the file. Then, please submit a debug log so we can help you get migrated!",
       "description": "Helper text if the user went forward on migrating the app, but ran into an error"
     },
-    "confirmMigration": {
-      "message": "Start migration process? You will not be able to send or receive Signal messages from this application while the migration is in progress.",
-      "description": "Confirmation dialogue when beginning migration"
+    "chooseFolderAndTryAgain": {
+      "message": "Choose folder and try again",
+      "description": "Button shown on the export error screen allowing user to try again"
     },
-    "migrationDisconnecting": {
-      "message": "Disconnecting...",
-      "description": "Displayed while we wait for pending incoming messages to process"
-    },
-    "exporting": {
-      "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
-      "description": "Message shown on the migration screen while we export data"
-    },
-    "exportComplete": {
-      "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
-      "description": "Message shown on the migration screen when we are done exporting data",
-      "placeholders": {
-        "location": {
-          "content": "$1",
-          "example": "/Users/someone/somewhere"
-        }
-      }
-    },
-    "installNewSignal": {
-      "message": "Install new Signal Desktop",
-      "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
+    "savingData": {
+      "message": "Saving your data",
+      "description": "Message shown during the upgrade process while we export data"
     },
     "selectedLocation": {
       "message": "your selected location",
