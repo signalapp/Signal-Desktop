@@ -74,11 +74,11 @@
     };
   }
 
-  function exportNonMessages(idb_db, parent) {
+  function exportNonMessages(idb_db, parent, options) {
     // We wouldn't want to overwrite another db file.
     var exclusive = true;
     return createFileAndWriter(parent, 'db.json', exclusive).then(function(writer) {
-      return exportToJsonFile(idb_db, writer);
+      return exportToJsonFile(idb_db, writer, options);
     });
   }
 
@@ -86,10 +86,27 @@
   * Export all data from an IndexedDB database
   * @param {IDBDatabase} idb_db
   */
-  function exportToJsonFile(idb_db, fileWriter) {
+  function exportToJsonFile(idb_db, fileWriter, options) {
+    options = options || {};
+    _.defaults(options, {excludeClientConfig: false});
+
     return new Promise(function(resolve, reject) {
       var storeNames = idb_db.objectStoreNames;
-      storeNames = _.without(storeNames, 'messages');
+      storeNames = _.without(storeNames, 'messages', 'debug');
+
+      if (options.excludeClientConfig) {
+        console.log('exportToJsonFile: excluding client config from export');
+        storeNames = _.without(
+          storeNames,
+          'items',
+          'signedPreKeys',
+          'preKeys',
+          'identityKeys',
+          'sessions',
+          'unprocessed' // since we won't be able to decrypt them anyway
+        );
+      }
+
       var exportedStoreNames = [];
       if (storeNames.length === 0) {
         throw new Error('No stores to export');
@@ -775,7 +792,7 @@
   }
 
   Whisper.Backup = {
-    backupToDirectory: function() {
+    backupToDirectory: function(options) {
       return getDirectory().then(function(directoryEntry) {
         var idb;
         var dir;
@@ -792,7 +809,7 @@
           return createDirectory(directoryEntry, name, exclusive);
         }).then(function(directory) {
           dir = directory;
-          return exportNonMessages(idb, dir);
+          return exportNonMessages(idb, dir, options);
         }).then(function() {
           return exportConversations(idb, dir);
         }).then(function() {

@@ -101,16 +101,32 @@
       return Promise.all([
         storage.remove('migrationState'),
         storage.remove('migrationEverCompleted'),
+        storage.remove('migrationEverAttempted'),
         storage.remove('migrationStorageLocation')
       ]);
     },
     beginExport: function() {
       storage.put('migrationState', State.EXPORTING);
-      return Whisper.Backup.backupToDirectory();
+
+      var everAttempted = this.everAttempted();
+      storage.put('migrationEverAttempted', true);
+
+      // If this is the second time the user is attempting to export, we'll exclude
+      //   client-specific encryption configuration. Yes, this will fire if the user
+      //   initially attempts to save to a read-only directory or something like that, but
+      //   it will prevent the horrible encryption errors which result from import to the
+      //   same client config more than once. They can import the same message history
+      //   more than once, so we preserve that.
+      return Whisper.Backup.backupToDirectory({
+        excludeClientConfig: everAttempted,
+      });
     },
     init: function() {
       storage.put('migrationState', State.DISCONNECTING);
       Whisper.events.trigger('start-shutdown');
+    },
+    everAttempted: function() {
+      return Boolean(storage.get('migrationEverAttempted'));
     },
     everComplete: function() {
       return Boolean(storage.get('migrationEverCompleted'));
