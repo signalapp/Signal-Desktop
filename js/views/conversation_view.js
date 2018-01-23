@@ -645,8 +645,24 @@
             }
         },
         onExpiredCollection: function(message) {
-            console.log('removing message', message.get('sent_at'), 'from collection');
-            this.model.messageCollection.remove(message.id);
+            var removeMessage = function() {
+                console.log(
+                    'removing message',
+                    message.get('sent_at'),
+                    'from collection'
+                );
+                this.model.messageCollection.remove(message.id);
+            }.bind(this);
+
+            // If a fetch is in progress, then we need to wait until that's complete to
+            //   do this removal. Otherwise we could remove from messageCollection, then
+            //   the async database fetch could include the removed message.
+
+            if (this.inProgressFetch) {
+                this.inProgressFetch.then(removeMessage);
+            } else {
+                removeMessage();
+            }
         },
 
         addMessage: function(message) {
