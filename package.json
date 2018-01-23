@@ -68,7 +68,7 @@
     "asar": "^0.14.0",
     "bower": "^1.8.2",
     "chai": "^4.1.2",
-    "electron": "1.7.10",
+    "electron": "1.7.11",
     "electron-builder": "^19.53.7",
     "electron-icon-maker": "0.0.3",
     "electron-publisher-s3": "^19.53.7",
