@@ -1,10 +1,10 @@
-[![Build Status](https://travis-ci.org/WhisperSystems/Signal-Desktop.svg?branch=master)](https://travis-ci.org/WhisperSystems/Signal-Desktop)
+[![Build Status](https://travis-ci.org/signalapp/Signal-Desktop.svg?branch=master)](https://travis-ci.org/signalapp/Signal-Desktop)
 Signal Desktop
 ==========================
 
 Signal Desktop is an Electron application that links with your
-[Signal Android](https://github.com/WhisperSystems/Signal-Android)
- or [Signal iOS](https://github.com/WhisperSystems/Signal-iOS) app.
+[Signal Android](https://github.com/signalapp/Signal-Android)
+ or [Signal iOS](https://github.com/signalapp/Signal-iOS) app.
 
 ## Install production version: https://signal.org/download/
 
@@ -27,7 +27,7 @@ The discussion groups are another good place for questions: https://whispersyste
 
 Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
 
-https://github.com/WhisperSystems/Signal-Desktop/issues
+https://github.com/signalapp/Signal-Desktop/issues
 
 
 ## Contributing Translations
@@ -38,7 +38,7 @@ https://www.transifex.com/projects/p/signal-desktop
 
 ## Contributing Code
 
-Please see [CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
+Please see [CONTRIBUTING.md](https://github.com/signalapp/Signal-Desktop/blob/master/CONTRIBUTING.md)
 for setup instructions and contributor guidelines. And don't forget to sign the
 [CLA](https://signal.org/cla/).
 

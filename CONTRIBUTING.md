@@ -12,7 +12,7 @@ for it or creating a new one yourself. You can use also that issue as a place to
 your intentions and get feedback from the users most likely to appreciate your changes.
 
 You're most likely to have your pull request accepted easily if it addresses bugs already
-in the [Next Steps project](https://github.com/WhisperSystems/Signal-Desktop/projects/1),
+in the [Next Steps project](https://github.com/signalapp/Signal-Desktop/projects/1),
 especially if they are near the top of the Backlog column. Those are what we'll be looking
 at next, so it would be a great help if you helped us out!
 
@@ -24,7 +24,7 @@ ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ou
 ## Developer Setup
 
 First, you'll need [Node.js](https://nodejs.org/) which matches our current version.
-You can check [`.nvmrc` in the `development` branch](https://github.com/WhisperSystems/Signal-Desktop/blob/development/.nvmrc) to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
+You can check [`.nvmrc` in the `development` branch](https://github.com/signalapp/Signal-Desktop/blob/development/.nvmrc) to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
 you can just run `nvm use` in the project directory and it will switch to the project's
 desired Node.js version. [nvm for windows](https://github.com/coreybutler/nvm-windows) is
 still useful, but it doesn't support `.nvmrc` files.
@@ -46,7 +46,7 @@ favorite package manager. Python 2.x and GCC are two key necessary components.
 Now, run these commands in your preferred terminal in a good directory for development:
 
 ```
-git clone https://github.com/WhisperSystems/Signal-Desktop.git
+git clone https://github.com/signalapp/Signal-Desktop.git
 cd Signal-Desktop
 npm install -g yarn      # (only if you don't already have yarn)
 npm install -g grunt-cli # (only if you don't already have grunt)
@@ -215,13 +215,13 @@ and register it with one of your extra phone numbers:
 
 First, build Signal for Android or iOS from source, and point its TextSecure service URL to `textsecure-service-staging.whispersystems.org`:
 
-**on Android:** Replace the `SIGNAL_URL` value in [build.gradle](https://github.com/WhisperSystems/Signal-Android/blob/master/build.gradle)
+**on Android:** Replace the `SIGNAL_URL` value in [build.gradle](https://github.com/signalapp/Signal-Android/blob/master/build.gradle)
 
 **on iOS:** Replace the `textSecureServerURL` value in `TSConstants.h`(located in the SignalServiceKit pod)
 
 This task is 1% search and replace, 99% setting up your build environment. Instructions are available for both
-the [Android](https://github.com/WhisperSystems/Signal-Android/blob/master/BUILDING.md)
-and [iOS](https://github.com/WhisperSystems/Signal-iOS/blob/master/BUILDING.md) projects.
+the [Android](https://github.com/signalapp/Signal-Android/blob/master/BUILDING.md)
+and [iOS](https://github.com/signalapp/Signal-iOS/blob/master/BUILDING.md) projects.
 
 Then you can set up your development build of Signal Desktop as normal. If you've already
 set up as a standalone install, you can switch by opening the DevTools (View -> Toggle

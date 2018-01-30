@@ -1,7 +1,7 @@
 {
-  "name": "textsecure-chrome",
+  "name": "signal-desktop",
   "version": "0.0.0",
-  "homepage": "https://github.com/WhisperSystems/TextSecure-Browser",
+  "homepage": "https://github.com/signalapp/Signal-Desktop",
   "license": "GPLV3",
   "private": true,
   "dependencies": {
