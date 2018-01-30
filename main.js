@@ -83,7 +83,7 @@ if (!process.mas) {
 
   if (shouldQuit) {
     console.log('quitting; we are the second instance');
-    app.quit();
+    app.exit();
   }
 }
 
