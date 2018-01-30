@@ -82,13 +82,19 @@
         render_attributes: function() {
             var seconds = this.model.get('expirationTimerUpdate').expireTimer;
             var timerMessage;
-            if (this.conversation.id === textsecure.storage.user.getNumber()) {
-                timerMessage = i18n('youChangedTheTimer',
-                  Whisper.ExpirationTimerOptions.getName(seconds));
+
+            var timerUpdate = this.model.get('expirationTimerUpdate');
+            var prettySeconds = Whisper.ExpirationTimerOptions.getName(seconds);
+
+            if (timerUpdate && timerUpdate.fromSync) {
+                timerMessage = i18n('timerSetOnSync', prettySeconds);
+            } else if (this.conversation.id === textsecure.storage.user.getNumber()) {
+                timerMessage = i18n('youChangedTheTimer', prettySeconds);
             } else {
                 timerMessage = i18n('theyChangedTheTimer', [
                   this.conversation.getTitle(),
-                  Whisper.ExpirationTimerOptions.getName(seconds)]);
+                  prettySeconds,
+                ]);
             }
             return { content: timerMessage };
         }

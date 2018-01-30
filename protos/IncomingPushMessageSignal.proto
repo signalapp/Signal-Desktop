@@ -194,12 +194,14 @@ message ContactDetails {
     optional uint32 length      = 2;
   }
 
-  optional string number     = 1;
-  optional string name       = 2;
-  optional Avatar avatar     = 3;
-  optional string color      = 4;
-  optional Verified verified = 5;
-  optional bytes profileKey  = 6;
+  optional string   number      = 1;
+  optional string   name        = 2;
+  optional Avatar   avatar      = 3;
+  optional string   color       = 4;
+  optional Verified verified    = 5;
+  optional bytes    profileKey  = 6;
+  optional bool     blocked     = 7;
+  optional uint32   expireTimer = 8;
 }
 
 message GroupDetails {
@@ -208,9 +210,10 @@ message GroupDetails {
     optional uint32 length      = 2;
   }
 
-  optional bytes  id       = 1;
-  optional string name     = 2;
-  repeated string members  = 3;
-  optional Avatar avatar   = 4;
-  optional bool   active   = 5 [default = true];
+  optional bytes  id          = 1;
+  optional string name        = 2;
+  repeated string members     = 3;
+  optional Avatar avatar      = 4;
+  optional bool   active      = 5 [default = true];
+  optional uint32 expireTimer = 6;
 }

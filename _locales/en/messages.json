@@ -748,6 +748,16 @@
         }
       }
     },
+    "timerSetOnSync": {
+      "message": "Updating timer to $time$.",
+      "description": "Message displayed when timer is set on initial link of desktop device.",
+      "placeholders": {
+        "time": {
+          "content": "$1",
+          "example": "10m"
+        }
+      }
+    },
     "theyChangedTheTimer": {
       "message": "$name$ set the timer to $time$.",
       "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
