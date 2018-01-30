@@ -18,7 +18,7 @@
         templateName: 'install_flow_template',
         className: 'main install',
         render_attributes: function() {
-            var twitterHref = 'https://twitter.com/whispersystems';
+            var twitterHref = 'https://twitter.com/signalapp';
             var signalHref = 'https://signal.org/install';
             return {
                 installWelcome: i18n('installWelcome'),

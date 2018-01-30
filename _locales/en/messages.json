@@ -52,7 +52,7 @@
       "description": "Message shown on the migration screen while we export data"
     },
     "exportComplete": {
-      "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
+      "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.signal.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
       "description": "Message shown on the migration screen when we are done exporting data",
       "placeholders": {
         "location": {
@@ -74,7 +74,7 @@
       "description": "Title of the popup window used to select data previously exported"
     },
     "importError": {
-      "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
+      "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
       "description": "Message shown if the import went wrong."
     },
     "tryAgain": {

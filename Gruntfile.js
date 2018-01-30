@@ -282,7 +282,7 @@ module.exports = function(grunt) {
     var https = require('https');
 
     var urlBase = "https://s3-us-west-1.amazonaws.com/signal-desktop-builds";
-    var keyBase = 'WhisperSystems/Signal-Desktop';
+    var keyBase = 'signalapp/Signal-Desktop';
     var sha = gitinfo.local.branch.current.SHA;
     var files = [{
       zip: packageJson.name + '-' + packageJson.version + '.zip',

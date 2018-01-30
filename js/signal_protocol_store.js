@@ -688,7 +688,7 @@
             }.bind(this));
         },
         // This matches the Java method as of
-        //   https://github.com/WhisperSystems/Signal-Android/blob/d0bb68e1378f689e4d10ac6a46014164992ca4e4/src/org/thoughtcrime/securesms/util/IdentityUtil.java#L188
+        //   https://github.com/signalapp/Signal-Android/blob/d0bb68e1378f689e4d10ac6a46014164992ca4e4/src/org/thoughtcrime/securesms/util/IdentityUtil.java#L188
         processVerifiedMessage: function(identifier, verifiedStatus, publicKey) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to set verified for undefined/null key");

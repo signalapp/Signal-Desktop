@@ -22,7 +22,7 @@
      *    error: function(message, status, request) {...}
      * });
      *
-     * 1. https://github.com/WhisperSystems/WebSocket-Resources
+     * 1. https://github.com/signalapp/WebSocket-Resources
      *
      */
 
