@@ -8,6 +8,12 @@
         console.log(e);
     };
 
+    window.wrapDeferred = function(deferred) {
+        return new Promise(function(resolve, reject) {
+            deferred.then(resolve, reject);
+        });
+    };
+
     console.log('background page reloaded');
     console.log('environment:', window.config.environment);
 
@@ -377,37 +383,57 @@
 
         return ConversationController.getOrCreateAndWait(id, 'private')
             .then(function(conversation) {
-                return new Promise(function(resolve, reject) {
-                    var activeAt = conversation.get('active_at');
+                var activeAt = conversation.get('active_at');
 
-                    // The idea is to make any new contact show up in the left pane. If
-                    //   activeAt is null, then this contact has been purposefully hidden.
-                    if (activeAt !== null) {
-                        activeAt = activeAt || Date.now();
-                    }
+                // The idea is to make any new contact show up in the left pane. If
+                //   activeAt is null, then this contact has been purposefully hidden.
+                if (activeAt !== null) {
+                    activeAt = activeAt || Date.now();
+                }
 
-                    if (details.profileKey) {
-                      conversation.set({profileKey: details.profileKey});
+                if (details.profileKey) {
+                  conversation.set({profileKey: details.profileKey});
+                }
+
+                if (typeof details.blocked !== 'undefined') {
+                    if (details.blocked) {
+                        storage.addBlockedNumber(id);
+                    } else {
+                        storage.removeBlockedNumber(id);
                     }
-                    conversation.save({
-                        name: details.name,
-                        avatar: details.avatar,
-                        color: details.color,
-                        active_at: activeAt,
-                    }).then(resolve, reject);
-                }).then(function() {
-                    if (details.verified) {
-                        var verified = details.verified;
-                        var ev = new Event('verified');
-                        ev.verified = {
-                            state: verified.state,
-                            destination: verified.destination,
-                            identityKey: verified.identityKey.toArrayBuffer(),
-                        };
-                        ev.viaContactSync = true;
-                        return onVerified(ev);
+                }
+
+                return wrapDeferred(conversation.save({
+                    name: details.name,
+                    avatar: details.avatar,
+                    color: details.color,
+                    active_at: activeAt,
+                })).then(function() {
+                    // this needs to be inline to get access to conversation model
+                    if (typeof details.expireTimer !== 'undefined') {
+                        var source = textsecure.storage.user.getNumber();
+                        var receivedAt = Date.now();
+                        return conversation.updateExpirationTimer(
+                            details.expireTimer,
+                            source,
+                            receivedAt,
+                            {fromSync: true}
+                        );
                     }
                 });
+            })
+            .then(function() {
+                if (details.verified) {
+                    var verified = details.verified;
+                    var ev = new Event('verified');
+                    ev.verified = {
+                        state: verified.state,
+                        destination: verified.destination,
+                        identityKey: verified.identityKey.toArrayBuffer(),
+                    };
+                    ev.viaContactSync = true;
+                    return onVerified(ev);
+                }
             })
             .then(ev.confirm)
             .catch(function(error) {
@@ -437,11 +463,22 @@
                 if (activeAt !== null) {
                     updates.active_at = activeAt || Date.now();
                 }
+                updates.left = false;
             } else {
                 updates.left = true;
             }
-            return new Promise(function(resolve, reject) {
-                conversation.save(updates).then(resolve, reject);
+
+            return wrapDeferred(conversation.save(updates)).then(function() {
+                if (typeof details.expireTimer !== 'undefined') {
+                    var source = textsecure.storage.user.getNumber();
+                    var receivedAt = Date.now();
+                    return conversation.updateExpirationTimer(
+                        details.expireTimer,
+                        source,
+                        receivedAt,
+                        {fromSync: true}
+                    );
+                }
             }).then(ev.confirm);
         });
     }
