@@ -595,8 +595,12 @@ MessageReceiver.prototype.extend({
         }
         if (syncMessage.sent) {
             var sentMessage = syncMessage.sent;
+            var to = sentMessage.message.group
+                ? 'group(' + sentMessage.message.group.id.toBinary() + ')'
+                : sentMessage.destination;
+
             console.log('sent message to',
-                    sentMessage.destination,
+                    to,
                     sentMessage.timestamp.toNumber(),
                     'from',
                     this.getEnvelopeId(envelope)
