@@ -918,10 +918,10 @@
       "message": "There is a new version of Signal available."
     },
     "autoUpdateNewVersionInstructions": {
-      "message": "Press Restart to apply the updates."
+      "message": "Press Restart Signal to apply the updates."
     },
     "autoUpdateRestartButtonLabel": {
-      "message": "Restart"
+      "message": "Restart Signal"
     },
     "autoUpdateLaterButtonLabel": {
       "message": "Later"
