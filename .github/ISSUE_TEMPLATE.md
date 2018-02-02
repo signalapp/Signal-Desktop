@@ -59,7 +59,7 @@ Operating System:
 <!-- Instructions for finding your OS version are here: http://whatsmyos.com/ -->
 
 Linked device version:
-<!-- Android: Settings -> Advanced,  iOS: Settings -> About -->
+<!-- Android: Settings -> Advanced,  iOS: Settings -> General -> About -->
 
 
 ### Link to debug log
