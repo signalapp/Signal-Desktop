@@ -8,9 +8,23 @@
 
     Whisper.ConversationStack = Whisper.View.extend({
         className: 'conversation-stack',
+        stack: [],
+        top: function() {
+            if (this.stack && this.stack.length > 0) {
+                return this.stack[0];
+            }
+
+            return undefined;
+        },
         open: function(conversation) {
             var id = 'conversation-' + conversation.cid;
             if (id !== this.el.firstChild.id) {
+                this.stack.find(function(conversationInStack) {
+                    return conversationInStack.id === conversation.id;
+                });
+
+                this.stack.unshift(conversation);
+
                 this.$el.first().find('video, audio').each(function() {
                     this.pause();
                 });
@@ -167,6 +181,7 @@
             'input input.search': 'filterContacts',
             'click .restart-signal': window.restart,
             'show .lightbox': 'showLightbox',
+            'keyup': 'switchConversation',
         },
         startConnectionListener: function() {
             this.interval = setInterval(function() {
@@ -267,7 +282,36 @@
         onClick: function(e) {
             this.closeMenu(e);
             this.closeRecording(e);
-        }
+        },
+        // switches the conversation with ctrl/alt + up/down
+        switchConversation: function(e) {
+            var keyCode = e.which || e.keyCode;
+            var currentConversation = this.conversation_stack.top();
+            var conversations = getInboxCollection().models;
+            var currentConversationIndex = -1;
+
+            if (!e.ctrlKey && !e.altKey) {
+                return;
+            }
+
+            if (currentConversation === undefined) {
+                this.openConversation(e, conversations[0]);
+
+                return;
+            }
+
+            currentConversationIndex = conversations.findIndex(function(conversation) {
+                return conversation.id === currentConversation.id;
+            });
+
+            // down key
+            if (keyCode === 40 && currentConversationIndex < conversations.length) {
+                this.openConversation(e, conversations[currentConversationIndex + 1]);
+            // up key
+            } else if (keyCode === 38 && currentConversationIndex > 0) { // up key
+                this.openConversation(e, conversations[currentConversationIndex - 1]);
+            }
+        },
     });
 
     Whisper.ExpiredAlertBanner = Whisper.View.extend({
