@@ -305,7 +305,7 @@
             });
 
             // down key
-            if (keyCode === 40 && currentConversationIndex < conversations.length) {
+            if (keyCode === 40 && currentConversationIndex + 1 < conversations.length) {
                 this.openConversation(e, conversations[currentConversationIndex + 1]);
             // up key
             } else if (keyCode === 38 && currentConversationIndex > 0) { // up key
