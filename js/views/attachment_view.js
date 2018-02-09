@@ -4,6 +4,8 @@
 (function () {
   'use strict';
 
+  const ESCAPE_KEY_CODE = 27;
+
   var FileView = Whisper.View.extend({
       tagName: 'div',
       className: 'fileView',
@@ -267,7 +269,7 @@
           }
       },
       onkeyup: function(e) {
-          if (e.keyCode === 27) {
+          if (e.keyCode === ESCAPE_KEY_CODE) {
               this.remove();
               this.$document.off('keyup', this.listener);
           }
