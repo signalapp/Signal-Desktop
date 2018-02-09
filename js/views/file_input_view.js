@@ -104,6 +104,8 @@
                     do {
                         i = i - 1;
                         // dataURLtoBlob -> components/blueimp-canvas-to-blob
+                        // TODO: Replace with native `Canvas::toBlob`:
+                        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
                         blob = dataURLtoBlob(
                             canvas.toDataURL('image/jpeg', quality)
                         );
@@ -229,6 +231,8 @@
                     });
 
                     // dataURLtoBlob -> components/blueimp-canvas-to-blob
+                    // TODO: Replace with native `Canvas::toBlob`:
+                    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
                     var blob = dataURLtoBlob(canvas.toDataURL('image/png'));
 
                     resolve(blob);
