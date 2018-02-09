@@ -40,6 +40,7 @@
     "open-coverage": "open coverage/lcov-report/index.html"
   },
   "dependencies": {
+    "blueimp-load-image": "^2.18.0",
     "bunyan": "^1.8.12",
     "config": "^1.28.1",
     "electron-config": "^1.0.0",
