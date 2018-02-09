@@ -134,14 +134,7 @@
                 case 'audio': this.addThumb('images/audio.svg'); break;
                 case 'video': this.addThumb('images/video.svg'); break;
                 case 'image':
-                    window.loadImage(
-                        file,
-                        autoOrientedCanvas => {
-                          const objectUrl = autoOrientedCanvas.toDataURL();
-                          this.addThumb(objectUrl);
-                        },
-                        {orientation: true},
-                    );
+                    window.autoOrientImage(file).then(this.addThumb.bind(this));
                     break;
                 default:
                     this.addThumb('images/file.svg'); break;

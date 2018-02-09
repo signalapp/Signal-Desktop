@@ -16,11 +16,9 @@
   var ImageView = Backbone.View.extend({
       tagName: 'img',
       initialize: function(objectUrl, contentType, blob) {
-        loadImage(blob, autoOrientedCanvas => {
-          this.source = autoOrientedCanvas.toDataURL();
+        window.autoOrientImage(blob).then(dataURL => {
+          this.source = dataURL;
           this.render();
-        }, {
-          orientation: true,
         });
       },
       events: {
