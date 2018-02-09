@@ -15,8 +15,9 @@
 
   var ImageView = Backbone.View.extend({
       tagName: 'img',
-      initialize: function(objectUrl, contentType, blob) {
-        window.autoOrientImage(blob).then(dataURL => {
+      // TODO: Disable JSHint to allow for `{blob}={}` syntax:
+      initialize: function(blobUrl, options) {
+        window.autoOrientImage(options.blob).then(dataURL => {
           this.source = dataURL;
           this.render();
         });
@@ -38,9 +39,10 @@
   });
 
   var MediaView = Backbone.View.extend({
-      initialize: function(dataUrl, contentType) {
+      // TODO: Disable JSHint to allow for `{contentType}={}` syntax:
+      initialize: function(dataUrl, options) {
           this.dataUrl = dataUrl;
-          this.contentType = contentType;
+          this.contentType = options.contentType;
           this.$el.attr('controls', '');
       },
       events: {
@@ -204,7 +206,8 @@
         if (!this.objectUrl) {
             this.objectUrl = window.URL.createObjectURL(this.blob);
         }
-        this.view = new View(this.objectUrl, this.model.contentType, this.blob);
+        const {blob, contentType} = this;
+        this.view = new View(this.objectUrl, {blob, contentType});
         this.view.$el.appendTo(this.$el);
         this.listenTo(this.view, 'update', this.update);
         this.view.render();
