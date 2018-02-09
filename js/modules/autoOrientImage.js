@@ -1,3 +1,5 @@
+const loadImage = require('blueimp-load-image');
+
 // File | Blob | URLString -> LoadImageOptions -> Promise<DataURLString>
 //
 // Documentation for `options`:
@@ -12,7 +14,7 @@ exports.autoOrientImage = (fileOrBlobOrURL, options) => {
   );
 
   return new Promise((resolve, reject) => {
-    window.loadImage(fileOrBlobOrURL, canvasOrError => {
+    loadImage(fileOrBlobOrURL, canvasOrError => {
       if (canvasOrError.type === 'error') {
         const error = canvasOrError;
         reject(error);
