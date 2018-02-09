@@ -134,8 +134,14 @@
                 case 'audio': this.addThumb('images/audio.svg'); break;
                 case 'video': this.addThumb('images/video.svg'); break;
                 case 'image':
-                    this.oUrl = URL.createObjectURL(file);
-                    this.addThumb(this.oUrl);
+                    window.loadImage(
+                        file,
+                        autoOrientedCanvas => {
+                          const objectUrl = autoOrientedCanvas.toDataURL();
+                          this.addThumb(objectUrl);
+                        },
+                        {orientation: true},
+                    );
                     break;
                 default:
                     this.addThumb('images/file.svg'); break;
@@ -259,10 +265,6 @@
         },
 
         clearForm: function() {
-            if (this.oUrl) {
-                URL.revokeObjectURL(this.oUrl);
-                this.oUrl = null;
-            }
             this.thumb.remove();
             this.$('.avatar').show();
             this.$el.trigger('force-resize');
