@@ -197,7 +197,7 @@
         if (!this.objectUrl) {
             this.objectUrl = window.URL.createObjectURL(this.blob);
         }
-        this.view = new View(this.objectUrl, this.model.contentType);
+        this.view = new View(this.objectUrl, this.model.contentType, this.blob);
         this.view.$el.appendTo(this.$el);
         this.listenTo(this.view, 'update', this.update);
         this.view.render();
