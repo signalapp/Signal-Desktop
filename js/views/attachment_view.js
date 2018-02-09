@@ -30,7 +30,7 @@
         this.trigger('update');
       },
       render: function() {
-        if (this.source == null) {
+        if (this.source === null) {
           return this;
         }
 
