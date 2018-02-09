@@ -69,9 +69,6 @@
       "build/img/flags.png",
       "build/js/intlTelInput.js"
     ],
-    "blueimp-load-image": [
-      "js/load-image.js"
-    ],
     "blueimp-canvas-to-blob": [
       "js/canvas-to-blob.js"
     ],
@@ -113,7 +110,6 @@
       "moment",
       "intl-tel-input",
       "backbone.typeahead",
-      "blueimp-load-image",
       "blueimp-canvas-to-blob",
       "autosize",
       "filesize"
