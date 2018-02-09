@@ -208,6 +208,13 @@
         if (!this.objectUrl) {
             this.objectUrl = window.URL.createObjectURL(this.blob);
         }
+
+        if (this.isImage()) {
+          window.autoOrientImage(this.objectUrl).then(dataURL => {
+            this.autoOrientedImageDataURL = dataURL;
+          });
+        }
+
         const {blob, contentType} = this;
         this.view = new View(this.objectUrl, {blob, contentType});
         this.view.$el.appendTo(this.$el);
@@ -275,7 +282,9 @@
           }
       },
       render_attributes: function() {
-          return { url: this.model.objectUrl };
+          return {
+            url: this.model.autoOrientedImageDataURL || this.model.objectUrl,
+          };
       }
   });
 
