@@ -22,11 +22,6 @@
           this.update();
         }, {
           orientation: true,
-          // From CSS:
-          // maxWidth: 30em --> 420px
-          // maxHeight: 300px
-          maxWidth: 420,
-          maxHeight: 300,
         });
       },
       events: {
