@@ -107,7 +107,6 @@
             this.lightBoxView.render();
             this.lightBoxView.$el.appendTo(this.el);
             this.lightBoxView.$el.trigger('show');
-
         } else {
             this.saveFile();
         }
