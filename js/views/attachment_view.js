@@ -15,8 +15,19 @@
 
   var ImageView = Backbone.View.extend({
       tagName: 'img',
-      initialize: function(dataUrl) {
-          this.dataUrl = dataUrl;
+      initialize: function(objectUrl, contentType, blob) {
+        loadImage(blob, autoOrientedCanvas => {
+          this.el.replaceWith(autoOrientedCanvas);
+          this.render();
+          this.update();
+        }, {
+          orientation: true,
+          // From CSS:
+          // maxWidth: 30em --> 420px
+          // maxHeight: 300px
+          maxWidth: 420,
+          maxHeight: 300,
+        });
       },
       events: {
           'load': 'update',
@@ -25,7 +36,11 @@
         this.trigger('update');
       },
       render: function() {
-        this.$el.attr('src', this.dataUrl);
+        if (!this.source) {
+          return this;
+        }
+
+        this.$el.attr('src', this.source);
         return this;
       }
   });
