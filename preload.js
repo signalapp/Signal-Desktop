@@ -70,6 +70,8 @@
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.nodeNotifier = require('node-notifier');
 
+  window.loadImage = require('blueimp-load-image');
+
   // We pull this in last, because the native module involved appears to be sensitive to
   //   /tmp mounted as noexec on Linux.
   require('./js/spell_check');
