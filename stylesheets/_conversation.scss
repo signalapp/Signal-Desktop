@@ -568,10 +568,7 @@ span.status {
       background-color: #ccc;
     }
 
-    img,
-    canvas, /* used for auto-oriented images from `loadImage` */
-    audio,
-    video {
+    img, audio, video {
       max-width: 100%;
       max-height: 300px;
     }

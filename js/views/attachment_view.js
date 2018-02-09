@@ -17,9 +17,8 @@
       tagName: 'img',
       initialize: function(objectUrl, contentType, blob) {
         loadImage(blob, autoOrientedCanvas => {
-          this.el.replaceWith(autoOrientedCanvas);
+          this.source = autoOrientedCanvas.toDataURL();
           this.render();
-          this.update();
         }, {
           orientation: true,
         });
@@ -31,7 +30,7 @@
         this.trigger('update');
       },
       render: function() {
-        if (!this.source) {
+        if (this.source == null) {
           return this;
         }
 
