@@ -28,6 +28,7 @@
     "build-release": "SIGNAL_ENV=production npm run build -- --config.directories.output=release",
     "build-mas-release": "npm run build-release -- -m --config.mac.target=mas",
     "build-mas-dev": "npm run build-release -- -m --config.mac.target=mas --config.type=development",
+    "grunt": "grunt",
     "prep-mac-release": "npm run build-release -- -m --dir",
     "prep-release": "npm run generate && grunt prep-release && npm run build-release && npm run build-mas-release && grunt test-release",
     "release-mac": "npm run build-release -- -m --prepackaged release/mac/Signal*.app --publish=always",
