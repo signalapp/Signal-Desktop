@@ -135,7 +135,7 @@
                 case 'video': this.addThumb('images/video.svg'); break;
                 case 'image':
                     window.autoOrientImage(file)
-                        .then(this.addThumb.bind(this));
+                        .then(dataURL => this.addThumb(dataURL));
                     break;
                 default:
                     this.addThumb('images/file.svg'); break;
