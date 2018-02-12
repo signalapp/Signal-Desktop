@@ -215,7 +215,8 @@
           });
         }
 
-        const {blob, contentType} = this;
+        const {blob} = this;
+        const {contentType} = this.model;
         this.view = new View(this.objectUrl, {blob, contentType});
         this.view.$el.appendTo(this.$el);
         this.listenTo(this.view, 'update', this.update);
