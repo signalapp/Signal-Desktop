@@ -27,7 +27,8 @@ exports.autoOrientImage = (fileOrBlobOrURL, options = {}) => {
   return new Promise((resolve, reject) => {
     loadImage(fileOrBlobOrURL, canvasOrError => {
       if (canvasOrError.type === 'error') {
-        const error = canvasOrError;
+        const error = new Error('autoOrientImage: Failed to process image');
+        error.cause = canvasOrError;
         reject(error);
         return;
       }
