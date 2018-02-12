@@ -74,6 +74,9 @@
   const {autoOrientImage} = require('./js/modules/auto_orient_image');
   window.autoOrientImage = autoOrientImage;
 
+  window.Whisper = window.Whisper || {};
+  window.Whisper.Attachment = require('./js/modules/types/attachment');
+
   // We pull this in last, because the native module involved appears to be sensitive to
   //   /tmp mounted as noexec on Linux.
   require('./js/spell_check');
