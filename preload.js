@@ -71,7 +71,8 @@
   window.nodeNotifier = require('node-notifier');
 
   window.loadImage = require('blueimp-load-image');
-  window.autoOrientImage = require('./js/modules/autoOrientImage').autoOrientImage;
+  const {autoOrientImage} = require('./js/modules/autoOrientImage');
+  window.autoOrientImage = autoOrientImage;
 
   // We pull this in last, because the native module involved appears to be sensitive to
   //   /tmp mounted as noexec on Linux.
