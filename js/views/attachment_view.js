@@ -17,12 +17,8 @@
 
   var ImageView = Backbone.View.extend({
       tagName: 'img',
-      // TODO: Disable JSHint to allow for `{blob}={}` syntax:
-      initialize: function(blobUrl, options) {
-        window.autoOrientImage(options.blob).then(dataURL => {
-          this.source = dataURL;
-          this.render();
-        });
+      initialize: function(blobUrl) {
+        this.source = blobUrl;
       },
       events: {
           'load': 'update',
