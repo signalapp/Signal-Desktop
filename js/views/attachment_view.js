@@ -18,7 +18,7 @@
   var ImageView = Backbone.View.extend({
       tagName: 'img',
       initialize: function(blobUrl) {
-        this.source = blobUrl;
+        this.blobUrl = blobUrl;
       },
       events: {
           'load': 'update',
@@ -27,11 +27,7 @@
         this.trigger('update');
       },
       render: function() {
-        if (this.source === null) {
-          return this;
-        }
-
-        this.$el.attr('src', this.source);
+        this.$el.attr('src', this.blobUrl);
         return this;
       }
   });
