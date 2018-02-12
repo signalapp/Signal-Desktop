@@ -5,6 +5,8 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    const {Attachment} = window.Whisper;
+
     var Message  = window.Whisper.Message = Backbone.Model.extend({
         database  : Whisper.Database,
         storeName : 'messages',
@@ -385,7 +387,7 @@
 
             var conversation = ConversationController.get(conversationId);
             return conversation.queueJob(function() {
-                return new Promise(function(resolve) {
+                return new Promise(async function(resolve) {
                     var now = new Date().getTime();
                     var attributes = { type: 'private' };
                     if (dataMessage.group) {
@@ -429,7 +431,8 @@
                     message.set({
                         body           : dataMessage.body,
                         conversationId : conversation.id,
-                        attachments    : dataMessage.attachments,
+                        attachments    : await Promise.all(
+                            dataMessage.attachments.map(Attachment.normalize)),
                         decrypted_at   : now,
                         flags          : dataMessage.flags,
                         errors         : []
