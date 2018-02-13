@@ -2,6 +2,7 @@
 
 /* global storage: false */
 /* global textsecure: false */
+/* global Whisper: false */
 
 /*
  * vim: ts=4:sw=4:expandtab
