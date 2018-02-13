@@ -83,6 +83,12 @@ const autoOrientJPEG = async (attachment) => {
   const dataBlob = arrayBufferToBlob(attachment.data, attachment.contentType);
   const newDataBlob = dataURLToBlob(await autoOrientImage(dataBlob));
   const newDataArrayBuffer = await blobToArrayBuffer(newDataBlob);
+
+  // IMPORTANT: We overwrite the existing `data` `ArrayBuffer` losing the original
+  // image data. Ideally, we’d preserve the original image data for users who want to
+  // retain it but due to reports of data loss, we don’t want to overburden IndexedDB
+  // by potentially doubling stored image data.
+  // See: https://github.com/signalapp/Signal-Desktop/issues/1589
   const newAttachment = Object.assign({}, attachment, {
     data: newDataArrayBuffer,
     size: newDataArrayBuffer.byteLength,
