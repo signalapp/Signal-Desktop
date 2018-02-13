@@ -15,7 +15,7 @@
 ;(function() {
     'use strict';
 
-    const { Attachment } = window.Whisper.Types;
+    const { Message } = window.Whisper.Types;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
     // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
@@ -521,21 +521,11 @@
       { type: 'group', id: data.message.group.id } :
       { type: 'private', id: data.source };
 
-    const processedData = Object.assign({}, data, {
-      message: Object.assign(
-        {},
-        data.message,
-        {
-          attachments: await Promise.all(
-            data.message.attachments.map(Attachment.process)
-          ),
-        }
-      ),
-    });
+    const processedMessage = await Message.process(data.message);
 
     await ConversationController.getOrCreateAndWait(id, type);
     return message.handleDataMessage(
-      processedData.message,
+      processedMessage,
       ev.confirm,
       { initialLoadComplete }
     );
