@@ -19,7 +19,7 @@
 ;(function() {
     'use strict';
 
-    const { Attachment } = window.Whisper;
+    const { Attachment } = window.Whisper.Types;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
     // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569

@@ -9,8 +9,6 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    const {Attachment} = window.Whisper;
-
     Whisper.FileSizeToast = Whisper.ToastView.extend({
         templateName: 'file-size-modal',
         render_attributes: function() {

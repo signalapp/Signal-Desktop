@@ -10,7 +10,7 @@
   'use strict';
    window.Whisper = window.Whisper || {};
 
-   const { Attachment } = window.Whisper;
+   const { Attachment } = window.Whisper.Types;
 
    // TODO: Factor out private and group subclasses of Conversation
 
