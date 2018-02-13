@@ -1,5 +1,3 @@
-/* jshint ignore:start */
-
 const loadImage = require('blueimp-load-image');
 
 // File | Blob | URLString -> LoadImageOptions -> Promise<DataURLString>

@@ -1,4 +1,3 @@
-/* jshint ignore:start */
 
 const dataURLToBlob = require('blueimp-canvas-to-blob');
 
