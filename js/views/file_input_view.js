@@ -257,6 +257,7 @@
             }).then(this.readFile);
         },
 
+        // File -> Promise Attachment
         readFile: function(file) {
             return new Promise(function(resolve, reject) {
                 var FR = new FileReader();
