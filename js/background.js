@@ -4,6 +4,9 @@
 
 ;(function() {
     'use strict';
+
+    const { Attachment } = window.Whisper;
+
     window.onInvalidStateError = function(e) {
         console.log(e);
     };
@@ -479,38 +482,47 @@
         });
     }
 
-    function onMessageReceived(ev) {
-        var data = ev.data;
+    async function onMessageReceived(ev) {
+        const { data } = ev;
+
         if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-            var profileKey = data.message.profileKey.toArrayBuffer();
-            return ConversationController.getOrCreateAndWait(data.source, 'private').then(function(sender) {
-              return sender.setProfileKey(profileKey).then(ev.confirm);
-            });
+            const profileKey = data.message.profileKey.toArrayBuffer();
+            const sender = ConversationController.getOrCreateAndWait(data.source, 'private');
+            await sender.setProfileKey(profileKey);
+            // TODO: Is `ev.confirm` a `Promise`? Original code returned it:
+            return ev.confirm();
         }
-        var message = initIncomingMessage(data);
 
-        return isMessageDuplicate(message).then(function(isDuplicate) {
-            if (isDuplicate) {
-                console.log('Received duplicate message', message.idForLogging());
-                ev.confirm();
-                return;
-            }
+        const message = initIncomingMessage(data);
+        const isDuplicate = await isMessageDuplicate(message);
+        if (isDuplicate) {
+            console.log('Received duplicate message', message.idForLogging());
+            // TODO: Is `ev.confirm` a `Promise`? Original code didn’t return it:
+            return ev.confirm();
+        }
 
-            var type, id;
-            if (data.message.group) {
-                type = 'group';
-                id = data.message.group.id;
-            } else {
-                type = 'private';
-                id = data.source;
-            }
+        const { type, id } = data.message.group ?
+            { type: 'group', id: data.message.group.id } :
+            { type: 'private', id: data.source };
 
-            return ConversationController.getOrCreateAndWait(id, type).then(function() {
-                return message.handleDataMessage(data.message, ev.confirm, {
-                    initialLoadComplete: initialLoadComplete
-                });
-            });
+        const processedData = Object.assign({}, data, {
+            message: Object.assign(
+                {},
+                data.message,
+                {
+                    attachments: await Promise.all(
+                        data.message.attachments.map(Attachment.process)
+                    ),
+                }
+            ),
         });
+
+        await ConversationController.getOrCreateAndWait(id, type);
+        return message.handleDataMessage(
+            processedData.message,
+            ev.confirm,
+            { initialLoadComplete }
+        );
     }
 
     function onSentMessage(ev) {
