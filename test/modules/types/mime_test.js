@@ -9,11 +9,18 @@ describe('MIME', () => {
       assert.isTrue(MIME.isJPEG('image/jpeg'));
     });
 
-    it('should return true for `image/jpg`', () => {
-      assert.isTrue(MIME.isJPEG('image/jpeg'));
-    });
-
-    ['image/gif', 'image/tiff', 'application/json', 0, false, null, undefined]
+    [
+      'jpg',
+      'jpeg',
+      'image/jpg', // invalid MIME type: https://stackoverflow.com/a/37266399/125305
+      'image/gif',
+      'image/tiff',
+      'application/json',
+      0,
+      false,
+      null,
+      undefined,
+    ]
       .forEach((value) => {
         it(`should return false for \`${value}\``, () => {
           assert.isFalse(MIME.isJPEG(value));
