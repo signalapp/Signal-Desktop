@@ -193,7 +193,7 @@
     /* eslint-enable */
     /* jshint ignore:start */
     getFiles() {
-      const files = this.file ? [this.file] : this.$input.prop('files');
+      const files = this.file ? [this.file] : Array.from(this.$input.prop('files'));
       const promises = Promise.all(
         files.map(file => this.getFile(file))
       );
