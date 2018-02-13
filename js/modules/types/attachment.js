@@ -19,19 +19,18 @@ const isJPEG = mimeType =>
   mimeType === 'image/jpeg' || mimeType === 'image/jpg';
 
 // Data type conversion
-const blobToArrayBuffer = blob => {
-  return new Promise((resolve, reject) => {
+const blobToArrayBuffer = blob =>
+  new Promise((resolve, reject) => {
     const fileReader = new FileReader();
 
     fileReader.onload = event =>
-        resolve(event.target.result);
+      resolve(event.target.result);
 
     fileReader.readAsArrayBuffer(blob);
   });
-};
 
 const arrayBufferToBlob = (arrayBuffer, mimeType) =>
-  new Blob([arrayBuffer], {type: mimeType});
+  new Blob([arrayBuffer], { type: mimeType });
 
 // Processing steps:
 const withLastNormalizedDate = attachment => Object.assign(
@@ -40,7 +39,7 @@ const withLastNormalizedDate = attachment => Object.assign(
   {lastNormalized: new Date().toISOString()},
 );
 
-const autoOrientJPEGs = async attachment => {
+const autoOrientJPEGs = async (attachment) => {
   if (!isJPEG(attachment.contentType)) {
     return attachment;
   }
