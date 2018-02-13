@@ -1,8 +1,7 @@
 /* eslint-env browser */
 
-const dataURLToBlob = require('blueimp-canvas-to-blob');
 const MIME = require('./mime');
-const { arrayBufferToBlob, blobToArrayBuffer } = require('blob-util');
+const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
 
 // Increment this everytime we change how attachments are processed. This allows us to
