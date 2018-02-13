@@ -1,5 +1,6 @@
 
 const dataURLToBlob = require('blueimp-canvas-to-blob');
+const MIME = require('./mime');
 
 // // Fields
 // {
@@ -13,9 +14,6 @@ const dataURLToBlob = require('blueimp-canvas-to-blob');
 //   flags: null
 //   data: ArrayBuffer
 // }
-
-const isJPEG = mimeType =>
-  mimeType === 'image/jpeg' || mimeType === 'image/jpg';
 
 // Data type conversion
 const blobToArrayBuffer = blob =>
@@ -45,7 +43,7 @@ const withLastNormalizedDate = attachment => Object.assign(
 );
 
 const autoOrientJPEGs = async (attachment) => {
-  if (!isJPEG(attachment.contentType)) {
+  if (!MIME.isJPEG(attachment.contentType)) {
     return attachment;
   }
 
