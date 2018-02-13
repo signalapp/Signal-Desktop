@@ -4,15 +4,15 @@ const dataURLToBlob = require('blueimp-canvas-to-blob');
 
 // // Fields
 // {
-//   "id": "7494241695219027913",
-//   "contentType": "image/jpeg",
-//   "key": {},
-//   "size": 352727,
-//   "thumbnail": null,
-//   "digest": {},
-//   "fileName": "Landscape_6.jpg",
-//   "flags": null,
-//   "data": {}
+//   id: string
+//   contentType: MIMEType
+//   key: ArrayBuffer
+//   size: integer
+//   thumbnail: ArrayBuffer
+//   digest: ArrayBuffer
+//   fileName: string
+//   flags: null
+//   data: ArrayBuffer
 // }
 
 const isJPEG = mimeType =>
