@@ -1,3 +1,8 @@
+/* eslint-disable */
+
+/* global storage: false */
+/* global textsecure: false */
+
 /*
  * vim: ts=4:sw=4:expandtab
  */
@@ -600,66 +605,69 @@
         }
     },
 
-    sendMessage: function(body, attachments) {
-        this.queueJob(async () => {
-            var now = Date.now();
+    /* jshint ignore:start */
+    /* eslint-enable */
+    sendMessage(body, attachments) {
+      this.queueJob(async () => {
+        const now = Date.now();
 
-            console.log(
-                'Sending message to conversation',
-                this.idForLogging(),
-                'with timestamp',
-                now
-            );
+        console.log(
+          'Sending message to conversation',
+          this.idForLogging(),
+          'with timestamp',
+          now
+        );
 
-            const processedAttachments = await Promise.all(
-                attachments.map(Attachment.process)
-            );
-            var message = this.messageCollection.add({
-                body           : body,
-                conversationId : this.id,
-                type           : 'outgoing',
-                attachments    : processedAttachments,
-                sent_at        : now,
-                received_at    : now,
-                expireTimer    : this.get('expireTimer'),
-                recipients     : this.getRecipients()
-            });
-            if (this.isPrivate()) {
-                message.set({destination: this.id});
-            }
-            message.save();
-
-            this.save({
-                active_at   : now,
-                timestamp   : now,
-                lastMessage : message.getNotificationText()
-            });
-
-            var sendFunc;
-            if (this.get('type') == 'private') {
-                sendFunc = textsecure.messaging.sendMessageToNumber;
-            }
-            else {
-                sendFunc = textsecure.messaging.sendMessageToGroup;
-            }
-
-            var profileKey;
-            if (this.get('profileSharing')) {
-               profileKey = storage.get('profileKey');
-            }
-
-            message.send(
-                sendFunc(
-                    this.get('id'),
-                    body,
-                    processedAttachments,
-                    now,
-                    this.get('expireTimer'),
-                    profileKey
-                )
-            );
+        const processedAttachments = await Promise.all(
+          attachments.map(Attachment.process)
+        );
+        const message = this.messageCollection.add({
+          body,
+          conversationId: this.id,
+          type: 'outgoing',
+          attachments: processedAttachments,
+          sent_at: now,
+          received_at: now,
+          expireTimer: this.get('expireTimer'),
+          recipients: this.getRecipients(),
         });
+        if (this.isPrivate()) {
+          message.set({ destination: this.id });
+        }
+        message.save();
+
+        this.save({
+          active_at: now,
+          timestamp: now,
+          lastMessage: message.getNotificationText(),
+        });
+
+        let sendFunc;
+        if (this.get('type') === 'private') {
+          sendFunc = textsecure.messaging.sendMessageToNumber;
+        } else {
+          sendFunc = textsecure.messaging.sendMessageToGroup;
+        }
+
+        let profileKey;
+        if (this.get('profileSharing')) {
+          profileKey = storage.get('profileKey');
+        }
+
+        message.send(
+          sendFunc(
+            this.get('id'),
+            body,
+            processedAttachments,
+            now,
+            this.get('expireTimer'),
+            profileKey
+          )
+        );
+      });
     },
+    /* jshint ignore:end */
+    /* eslint-disable */
 
     updateLastMessage: function() {
         var collection = new Whisper.MessageCollection();
