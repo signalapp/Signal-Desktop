@@ -15,5 +15,6 @@ test/views/*.js
 /*.js
 
 # ES2015+ files
+!js/background.js
 !main.js
 !prepare_build.js

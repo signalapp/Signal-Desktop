@@ -1,3 +1,17 @@
+/* eslint-disable */
+
+/* eslint-env browser */
+
+/* global Backbone: false */
+/* global $: false */
+
+/* global ConversationController: false */
+/* global getAccountManager: false */
+/* global storage: false */
+/* global textsecure: false */
+/* global Whisper: false */
+/* global wrapDeferred: false */
+
 /*
  * vim: ts=4:sw=4:expandtab
  */
@@ -482,48 +496,54 @@
         });
     }
 
-    async function onMessageReceived(ev) {
-        const { data } = ev;
+  /* eslint-enable */
+  /* jshint ignore:start */
+  async function onMessageReceived(ev) {
+    const { data } = ev;
 
-        if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-            const profileKey = data.message.profileKey.toArrayBuffer();
-            const sender = ConversationController.getOrCreateAndWait(data.source, 'private');
-            await sender.setProfileKey(profileKey);
-            // TODO: Is `ev.confirm` a `Promise`? Original code returned it:
-            return ev.confirm();
-        }
-
-        const message = initIncomingMessage(data);
-        const isDuplicate = await isMessageDuplicate(message);
-        if (isDuplicate) {
-            console.log('Received duplicate message', message.idForLogging());
-            // TODO: Is `ev.confirm` a `Promise`? Original code didn’t return it:
-            return ev.confirm();
-        }
-
-        const { type, id } = data.message.group ?
-            { type: 'group', id: data.message.group.id } :
-            { type: 'private', id: data.source };
-
-        const processedData = Object.assign({}, data, {
-            message: Object.assign(
-                {},
-                data.message,
-                {
-                    attachments: await Promise.all(
-                        data.message.attachments.map(Attachment.process)
-                    ),
-                }
-            ),
-        });
-
-        await ConversationController.getOrCreateAndWait(id, type);
-        return message.handleDataMessage(
-            processedData.message,
-            ev.confirm,
-            { initialLoadComplete }
-        );
+    // eslint-disable-next-line no-bitwise
+    if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
+      const profileKey = data.message.profileKey.toArrayBuffer();
+      const sender = ConversationController.getOrCreateAndWait(data.source, 'private');
+      await sender.setProfileKey(profileKey);
+      // TODO: Is `ev.confirm` a `Promise`? Original code returned it:
+      return ev.confirm();
     }
+
+    const message = initIncomingMessage(data);
+    const isDuplicate = await isMessageDuplicate(message);
+
+    if (isDuplicate) {
+      console.log('Received duplicate message', message.idForLogging());
+      // TODO: Is `ev.confirm` a `Promise`? Original code didn’t return it:
+      return ev.confirm();
+    }
+
+    const { type, id } = data.message.group ?
+      { type: 'group', id: data.message.group.id } :
+      { type: 'private', id: data.source };
+
+    const processedData = Object.assign({}, data, {
+      message: Object.assign(
+        {},
+        data.message,
+        {
+          attachments: await Promise.all(
+            data.message.attachments.map(Attachment.process)
+          ),
+        }
+      ),
+    });
+
+    await ConversationController.getOrCreateAndWait(id, type);
+    return message.handleDataMessage(
+      processedData.message,
+      ev.confirm,
+      { initialLoadComplete }
+    );
+  }
+  /* jshint ignore:end */
+  /* eslint-disable */
 
     function onSentMessage(ev) {
         var now = new Date().getTime();
