@@ -1,8 +1,8 @@
 build/**
 components/**
+coverage/**
 dist/**
 libtextsecure/**
-coverage/**
 
 # these aren't ready yet, pulling files in one-by-one
 js/**
