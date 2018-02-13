@@ -5,7 +5,7 @@ const loadImage = require('blueimp-load-image');
 // Documentation for `options` (`LoadImageOptions`):
 // https://github.com/blueimp/JavaScript-Load-Image/tree/v2.18.0#options
 exports.autoOrientImage = (fileOrBlobOrURL, options = {}) => {
-  const {quality} = options;
+  const { quality } = options;
   if (typeof quality !== 'undefined' && typeof quality !== 'number') {
     throw new TypeError(`\`options.quality\` must be a number; got ${typeof quality}`);
   }
@@ -23,7 +23,7 @@ exports.autoOrientImage = (fileOrBlobOrURL, options = {}) => {
   );
 
   return new Promise((resolve, reject) => {
-    loadImage(fileOrBlobOrURL, canvasOrError => {
+    loadImage(fileOrBlobOrURL, (canvasOrError) => {
       if (canvasOrError.type === 'error') {
         const error = new Error('autoOrientImage: Failed to process image');
         error.cause = canvasOrError;
