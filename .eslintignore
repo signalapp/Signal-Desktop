@@ -16,5 +16,6 @@ test/views/*.js
 
 # ES2015+ files
 !js/background.js
+!js/views/file_input_view.js
 !main.js
 !prepare_build.js

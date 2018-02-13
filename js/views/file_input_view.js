@@ -1,3 +1,7 @@
+/* eslint-disable */
+
+/* global textsecure: false */
+
 /*
  * vim: ts=4:sw=4:expandtab
  */
@@ -180,30 +184,40 @@
             return files && files.length && files.length > 0;
         },
 
-        getFiles: function() {
-            var promises = [];
-            var files = this.file ? [this.file] : this.$input.prop('files');
-            for (var i = 0; i < files.length; i++) {
-                promises.push(this.getFile(files[i]));
-            }
-            this.clearForm();
-            return Promise.all(promises);
-        },
+    /* eslint-enable */
+    /* jshint ignore:start */
+    getFiles() {
+      const files = this.file ? [this.file] : this.$input.prop('files');
+      const promises = Promise.all(
+        files.map(file => this.getFile(file))
+      );
+      this.clearForm();
+      return promises;
+    },
 
-        getFile: function(file) {
-            file = file || this.file || this.$input.prop('files')[0];
-            if (file === undefined) { return Promise.resolve(); }
-            var flags;
-            if (this.isVoiceNote) {
-              flags = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
-            }
-            return this.autoScale(file).then(this.readFile).then(function(attachment) {
-              if (flags) {
-                attachment.flags = flags;
-              }
-              return attachment;
-            }.bind(this));
-        },
+    getFile(rawFile) {
+      const file = rawFile || this.file || this.$input.prop('files')[0];
+      if (file === undefined) {
+        return Promise.resolve();
+      }
+      const attachmentFlags = this.isVoiceNote ?
+        textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE :
+        null;
+
+      const setFlags = flags => (attachment) => {
+        const newAttachment = Object.assign({}, attachment);
+        if (flags) {
+          newAttachment.flags = flags;
+        }
+        return newAttachment;
+      };
+
+      return this.autoScale(file)
+        .then(this.readFile)
+        .then(setFlags(attachmentFlags))
+    },
+    /* jshint ignore:end */
+    /* eslint-disable */
 
         getThumbnail: function() {
             // Scale and crop an image to 256px square
