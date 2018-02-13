@@ -61,6 +61,7 @@
   }, 1000);
 
   window.dataURLToBlob = require('blueimp-canvas-to-blob');
+  window.loadImage = require('blueimp-load-image');
   window.ProxyAgent = require('proxy-agent');
   window.EmojiConvertor = require('emoji-js');
   window.emojiData = require('emoji-datasource');
@@ -71,7 +72,6 @@
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.nodeNotifier = require('node-notifier');
 
-  window.loadImage = require('blueimp-load-image');
   const {autoOrientImage} = require('./js/modules/auto_orient_image');
   window.autoOrientImage = autoOrientImage;
 
