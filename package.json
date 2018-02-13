@@ -12,7 +12,7 @@
   "main": "main.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
-    "test": "npm run eslint && npm run test-server && grunt test && mocha --recursive test/modules",
+    "test": "npm run eslint && npm run test-server && grunt test && npm run test-modules",
     "lint": "grunt jshint",
     "start": "electron .",
     "asarl": "asar l release/mac/Signal.app/Contents/Resources/app.asar",
@@ -37,6 +37,7 @@
     "release": "npm run release-mac && npm run release-win && npm run release-lin",
     "test-server": "mocha --recursive test/server",
     "test-server-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/server",
+    "test-modules": "mocha --recursive test/modules",
     "eslint": "eslint .",
     "open-coverage": "open coverage/lcov-report/index.html"
   },
