@@ -26,6 +26,12 @@ const blobToArrayBuffer = blob =>
     fileReader.onload = event =>
       resolve(event.target.result);
 
+    fileReader.onerror = (event) => {
+      const error = new Error('blobToArrayBuffer: Failed to convert blob');
+      error.cause = event;
+      reject(error);
+    };
+
     fileReader.readAsArrayBuffer(blob);
   });
 
