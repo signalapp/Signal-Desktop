@@ -1,3 +1,4 @@
+/* eslint-env browser */
 
 const dataURLToBlob = require('blueimp-canvas-to-blob');
 const MIME = require('./mime');
