@@ -2,6 +2,7 @@
 
 const dataURLToBlob = require('blueimp-canvas-to-blob');
 const MIME = require('./mime');
+const { arrayBufferToBlob, blobToArrayBuffer } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
 
 // Increment this everytime we change how attachments are processed. This allows us to
@@ -22,26 +23,6 @@ const CURRENT_PROCESS_VERSION = 1;
 //   flags: null
 //   data: ArrayBuffer
 // }
-
-// Data type conversion
-const blobToArrayBuffer = blob =>
-  new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-
-    fileReader.onload = event =>
-      resolve(event.target.result);
-
-    fileReader.onerror = (event) => {
-      const error = new Error('blobToArrayBuffer: Failed to convert blob');
-      error.cause = event;
-      reject(error);
-    };
-
-    fileReader.readAsArrayBuffer(blob);
-  });
-
-const arrayBufferToBlob = (arrayBuffer, mimeType) =>
-  new Blob([arrayBuffer], { type: mimeType });
 
 // Middleware
 // type ProcessingStep = Attachment -> Promise Attachment
