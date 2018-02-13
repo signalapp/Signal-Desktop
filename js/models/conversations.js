@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+/* global Signal: false */
 /* global storage: false */
 /* global textsecure: false */
 /* global Whisper: false */
@@ -8,7 +9,7 @@
   'use strict';
    window.Whisper = window.Whisper || {};
 
-   const { Attachment, Message } = window.Whisper.Types;
+   const { Attachment, Message } = window.Signal.Types;
 
    // TODO: Factor out private and group subclasses of Conversation
 
