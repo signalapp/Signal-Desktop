@@ -11,7 +11,7 @@
   'use strict';
    window.Whisper = window.Whisper || {};
 
-   const { Attachment } = window.Whisper.Types;
+   const { Attachment, Message } = window.Whisper.Types;
 
    // TODO: Factor out private and group subclasses of Conversation
 
@@ -643,12 +643,17 @@
           lastMessage: message.getNotificationText(),
         });
 
-        let sendFunc;
-        if (this.get('type') === 'private') {
-          sendFunc = textsecure.messaging.sendMessageToNumber;
-        } else {
-          sendFunc = textsecure.messaging.sendMessageToGroup;
-        }
+        const conversationType = this.get('type');
+        const sendFunc = (() => {
+          switch (conversationType) {
+            case Message.PRIVATE:
+              return textsecure.messaging.sendMessageToNumber;
+            case Message.GROUP:
+              return textsecure.messaging.sendMessageToGroup;
+            default:
+              throw new TypeError(`Invalid conversation type: '${conversationType}'`);
+          }
+        })();
 
         let profileKey;
         if (this.get('profileSharing')) {
