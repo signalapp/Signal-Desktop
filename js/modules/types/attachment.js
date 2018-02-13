@@ -1,6 +1,6 @@
 /* jshint ignore:start */
 
-const {autoOrientImage} = require('../auto_orient_image');
+const dataURLToBlob = require('blueimp-canvas-to-blob');
 
 // // Fields
 // {
@@ -46,7 +46,7 @@ const autoOrientJPEGs = async attachment => {
   }
 
   const dataBlob = arrayBufferToBlob(attachment.data, attachment.contentType);
-  const newDataBlob = dataURLtoBlob(await autoOrientImage(dataBlob));
+  const newDataBlob = dataURLToBlob(await autoOrientImage(dataBlob));
   const newDataArrayBuffer = await blobToArrayBuffer(newDataBlob);
   const newAttachment = Object.assign({}, attachment, {
     data: newDataArrayBuffer,

@@ -60,6 +60,7 @@
     window.nodeSetImmediate(function() {});
   }, 1000);
 
+  window.dataURLToBlob = require('blueimp-canvas-to-blob');
   window.ProxyAgent = require('proxy-agent');
   window.EmojiConvertor = require('emoji-js');
   window.emojiData = require('emoji-datasource');

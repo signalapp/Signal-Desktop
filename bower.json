@@ -15,7 +15,6 @@
     "indexeddb-backbonejs-adapter": "*",
     "intl-tel-input": "~4.0.1",
     "blueimp-load-image": "~1.13.0",
-    "blueimp-canvas-to-blob": "~2.1.1",
     "autosize": "~4.0.0",
     "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git",
     "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",
@@ -69,9 +68,6 @@
       "build/img/flags.png",
       "build/js/intlTelInput.js"
     ],
-    "blueimp-canvas-to-blob": [
-      "js/canvas-to-blob.js"
-    ],
     "emojijs": [
       "lib/emoji.js",
       "demo/emoji.css"
@@ -110,7 +106,6 @@
       "moment",
       "intl-tel-input",
       "backbone.typeahead",
-      "blueimp-canvas-to-blob",
       "autosize",
       "filesize"
     ],

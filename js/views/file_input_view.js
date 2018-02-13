@@ -93,7 +93,6 @@
                         return;
                     }
 
-                    // loadImage.scale -> components/blueimp-load-image
                     var canvas = loadImage.scale(img, {
                         canvas: true, maxWidth: maxWidth, maxHeight: maxHeight
                     });
@@ -103,10 +102,9 @@
                     var blob;
                     do {
                         i = i - 1;
-                        // dataURLtoBlob -> components/blueimp-canvas-to-blob
                         // TODO: Replace with native `Canvas::toBlob`:
                         // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
-                        blob = dataURLtoBlob(
+                        blob = window.dataURLToBlob(
                             canvas.toDataURL('image/jpeg', quality)
                         );
                         quality = quality * maxSize / blob.size;
@@ -230,10 +228,9 @@
                         crop: true, minWidth: size, minHeight: size
                     });
 
-                    // dataURLtoBlob -> components/blueimp-canvas-to-blob
                     // TODO: Replace with native `Canvas::toBlob`:
                     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
-                    var blob = dataURLtoBlob(canvas.toDataURL('image/png'));
+                    var blob = window.dataURLToBlob(canvas.toDataURL('image/png'));
 
                     resolve(blob);
                 };
