@@ -10,17 +10,25 @@ const { autoOrientImage } = require('../auto_orient_image');
 // 1 --> 2, etc., similar to how we do database migrations:
 const CURRENT_PROCESS_VERSION = 1;
 
-// // Fields
+// // Incoming message attachment fields
 // {
 //   id: string
 //   contentType: MIMEType
-//   key: ArrayBuffer
-//   size: integer
-//   thumbnail: ArrayBuffer
+//   data: ArrayBuffer
 //   digest: ArrayBuffer
 //   fileName: string
 //   flags: null
+//   key: ArrayBuffer
+//   size: integer
+//   thumbnail: ArrayBuffer
+// }
+
+// // Outgoing message attachment fields
+// {
+//   contentType: MIMEType
 //   data: ArrayBuffer
+//   fileName: string
+//   size: integer
 // }
 
 // Middleware
