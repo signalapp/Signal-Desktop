@@ -75,6 +75,7 @@
   const { autoOrientImage } = require('./js/modules/auto_orient_image');
   window.autoOrientImage = autoOrientImage;
 
+  // ES2015+ modules
   window.Whisper = window.Whisper || {};
   window.Whisper.Attachment = require('./js/modules/types/attachment');
 
