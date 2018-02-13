@@ -5,6 +5,8 @@
   'use strict';
    window.Whisper = window.Whisper || {};
 
+   const { Attachment } = window.Whisper;
+
    // TODO: Factor out private and group subclasses of Conversation
 
     var COLORS = [
@@ -599,7 +601,7 @@
     },
 
     sendMessage: function(body, attachments) {
-        this.queueJob(function() {
+        this.queueJob(async () => {
             var now = Date.now();
 
             console.log(
@@ -609,11 +611,14 @@
                 now
             );
 
+            const processedAttachments = await Promise.all(
+                attachments.map(Attachment.process)
+            );
             var message = this.messageCollection.add({
                 body           : body,
                 conversationId : this.id,
                 type           : 'outgoing',
-                attachments    : attachments,
+                attachments    : processedAttachments,
                 sent_at        : now,
                 received_at    : now,
                 expireTimer    : this.get('expireTimer'),
@@ -643,8 +648,17 @@
                profileKey = storage.get('profileKey');
             }
 
-            message.send(sendFunc(this.get('id'), body, attachments, now, this.get('expireTimer'), profileKey));
-        }.bind(this));
+            message.send(
+                sendFunc(
+                    this.get('id'),
+                    body,
+                    processedAttachments,
+                    now,
+                    this.get('expireTimer'),
+                    profileKey
+                )
+            );
+        });
     },
 
     updateLastMessage: function() {

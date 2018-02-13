@@ -216,8 +216,7 @@
 
       return this.autoScale(file)
         .then(this.readFile)
-        .then(setFlags(attachmentFlags))
-        .then(Attachment.process);
+        .then(setFlags(attachmentFlags));
     },
     /* jshint ignore:end */
     /* eslint-disable */
