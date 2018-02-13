@@ -6,6 +6,8 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    const { MIME } = window.Signal.Types;
+
     Whisper.FileSizeToast = Whisper.ToastView.extend({
         templateName: 'file-size-modal',
         render_attributes: function() {
@@ -31,6 +33,7 @@
             this.thumb = new Whisper.AttachmentPreviewView();
             this.$el.addClass('file-input');
             this.window = options.window;
+            this.previewObjectUrl = null;
         },
 
         events: {
@@ -136,6 +139,12 @@
                 case 'audio': this.addThumb('images/audio.svg'); break;
                 case 'video': this.addThumb('images/video.svg'); break;
                 case 'image':
+                    if (!MIME.isJPEG(file.type)) {
+                        this.previewObjectUrl = URL.createObjectURL(file);
+                        this.addThumb(this.previewObjectUrl);
+                        break;
+                    }
+
                     window.autoOrientImage(file)
                         .then(dataURL => this.addThumb(dataURL));
                     break;
@@ -271,6 +280,11 @@
         },
 
         clearForm: function() {
+            if (this.previewObjectUrl) {
+                URL.revokeObjectURL(this.previewObjectUrl);
+                this.previewObjectUrl = null;
+            }
+
             this.thumb.remove();
             this.$('.avatar').show();
             this.$el.trigger('force-resize');
