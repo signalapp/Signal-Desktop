@@ -1,5 +1,7 @@
 const loadImage = require('blueimp-load-image');
 
+const DEFAULT_JPEG_QUALITY = 0.85;
+
 // File | Blob | URLString -> LoadImageOptions -> Promise<DataURLString>
 //
 // Documentation for `options` (`LoadImageOptions`):
@@ -13,7 +15,7 @@ exports.autoOrientImage = (fileOrBlobOrURL, options = {}) => {
   const optionsWithDefaults = Object.assign(
     {
       type: 'image/jpeg',
-      quality: 0.8,
+      quality: DEFAULT_JPEG_QUALITY,
     },
     options,
     {
