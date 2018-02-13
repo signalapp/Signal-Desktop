@@ -104,7 +104,7 @@
                         i = i - 1;
                         // TODO: Replace with native `Canvas::toBlob`:
                         // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
-                        blob = window.dataURLToBlob(
+                        blob = window.dataURLToBlobSync(
                             canvas.toDataURL('image/jpeg', quality)
                         );
                         quality = quality * maxSize / blob.size;
@@ -233,7 +233,7 @@
 
                     // TODO: Replace with native `Canvas::toBlob`:
                     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
-                    var blob = window.dataURLToBlob(canvas.toDataURL('image/png'));
+                    var blob = window.dataURLToBlobSync(canvas.toDataURL('image/png'));
 
                     resolve(blob);
                 };
