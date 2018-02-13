@@ -72,7 +72,7 @@
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.nodeNotifier = require('node-notifier');
 
-  const {autoOrientImage} = require('./js/modules/auto_orient_image');
+  const { autoOrientImage } = require('./js/modules/auto_orient_image');
   window.autoOrientImage = autoOrientImage;
 
   window.Whisper = window.Whisper || {};
