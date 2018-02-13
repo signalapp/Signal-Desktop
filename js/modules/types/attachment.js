@@ -1,7 +1,7 @@
 /* eslint-env browser */
 
-const dataURLToBlob = require('blueimp-canvas-to-blob');
 const MIME = require('./mime');
+const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
 
 // Increment this everytime we change how attachments are processed. This allows us to
@@ -22,26 +22,6 @@ const CURRENT_PROCESS_VERSION = 1;
 //   flags: null
 //   data: ArrayBuffer
 // }
-
-// Data type conversion
-const blobToArrayBuffer = blob =>
-  new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-
-    fileReader.onload = event =>
-      resolve(event.target.result);
-
-    fileReader.onerror = (event) => {
-      const error = new Error('blobToArrayBuffer: Failed to convert blob');
-      error.cause = event;
-      reject(error);
-    };
-
-    fileReader.readAsArrayBuffer(blob);
-  });
-
-const arrayBufferToBlob = (arrayBuffer, mimeType) =>
-  new Blob([arrayBuffer], { type: mimeType });
 
 // Middleware
 // type ProcessingStep = Attachment -> Promise Attachment
@@ -80,8 +60,8 @@ const autoOrientJPEG = async (attachment) => {
     return attachment;
   }
 
-  const dataBlob = arrayBufferToBlob(attachment.data, attachment.contentType);
-  const newDataBlob = dataURLToBlob(await autoOrientImage(dataBlob));
+  const dataBlob = await arrayBufferToBlob(attachment.data, attachment.contentType);
+  const newDataBlob = await dataURLToBlob(await autoOrientImage(dataBlob));
   const newDataArrayBuffer = await blobToArrayBuffer(newDataBlob);
 
   // IMPORTANT: We overwrite the existing `data` `ArrayBuffer` losing the original
