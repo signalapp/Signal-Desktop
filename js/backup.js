@@ -465,13 +465,19 @@
         request.onsuccess = function(event) {
           var cursor = event.target.result;
           if (cursor) {
-            if (count !== 0) {
-              stream.write(',');
-            }
-
             var message = cursor.value;
             var messageId = message.received_at;
             var attachments = message.attachments;
+
+            // skip message if it is disappearing, no matter the amount of time left
+            if (message.expireTimer) {
+              cursor.continue();
+              return;
+            }
+
+            if (count !== 0) {
+              stream.write(',');
+            }
 
             // eliminate attachment data from the JSON, since it will go to disk
             message.attachments = _.map(attachments, function(attachment) {
