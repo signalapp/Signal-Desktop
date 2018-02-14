@@ -497,87 +497,91 @@
 
   /* eslint-enable */
   /* jshint ignore:start */
-  async function onMessageReceived(ev) {
-    const { data } = ev;
+  function createMessageHandler(
+    { createMessage, getMessageDescriptor, handleProfileUpdate }
+  ) {
+    return async (event) => {
+      const { data, confirm } = event;
 
-    // eslint-disable-next-line no-bitwise
-    if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-      const profileKey = data.message.profileKey.toArrayBuffer();
-      const sender =
-        await ConversationController.getOrCreateAndWait(data.source, 'private');
-      await sender.setProfileKey(profileKey);
-      return ev.confirm();
-    }
+      const messageDescriptor = getMessageDescriptor(data);
 
-    const message = initIncomingMessage(data);
-    const isDuplicate = await isMessageDuplicate(message);
+      const isProfileUpdate = Boolean(
+        // eslint-disable-next-line no-bitwise
+        data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE
+      );
+      if (isProfileUpdate) {
+        return handleProfileUpdate({ data, confirm, messageDescriptor });
+      }
 
-    if (isDuplicate) {
-      console.log('Received duplicate message', message.idForLogging());
-      // TODO: Is `ev.confirm` a `Promise`? Original code didn’t return it:
-      return ev.confirm();
-    }
+      const message = createMessage(data);
+      const isDuplicate = await isMessageDuplicate(message);
+      if (isDuplicate) {
+        console.log('Received duplicate message', message.idForLogging());
+        return event.confirm();
+      }
 
-    const { type, id } = data.message.group
-      ? { type: 'group', id: data.message.group.id }
-      : { type: 'private', id: data.source };
-
-    const upgradedMessage = await Message.upgradeSchema(data.message);
-
-    await ConversationController.getOrCreateAndWait(id, type);
-    return message.handleDataMessage(
-      upgradedMessage,
-      ev.confirm,
-      { initialLoadComplete }
-    );
+      const upgradedMessage = await Message.upgradeSchema(data.message);
+      await ConversationController.getOrCreateAndWait(
+        messageDescriptor.id, messageDescriptor.type
+      );
+      return message.handleDataMessage(
+        upgradedMessage,
+        event.confirm,
+        { initialLoadComplete }
+      );
+    };
   }
+
+  // Received:
+  async function handleMessageReceivedProfileUpdate(
+    { data, confirm, messageDescriptor }
+  ) {
+    const profileKey = data.message.profileKey.toArrayBuffer();
+    const sender = await ConversationController.getOrCreateAndWait(
+      messageDescriptor.source, 'private'
+    );
+    await sender.setProfileKey(profileKey);
+    return confirm();
+  }
+
+  const onMessageReceived = createMessageHandler({
+    handleProfileUpdate: handleMessageReceivedProfileUpdate,
+    getMessageDescriptor: Message.getDescriptorForReceived,
+    createMessage: initIncomingMessage,
+  });
+
+  // Sent:
+  async function handleMessageSentProfileUpdate(
+    { confirm, messageDescriptor }
+  ) {
+    const conversation = await ConversationController.getOrCreateAndWait(
+      messageDescriptor.id, messageDescriptor.type
+    );
+    await conversation.save({ profileSharing: true });
+    return confirm();
+  }
+
+  function createSentMessage(data) {
+    const now = Date.now();
+    return new Whisper.Message({
+      source: textsecure.storage.user.getNumber(),
+      sourceDevice: data.device,
+      sent_at: data.timestamp,
+      received_at: now,
+      conversationId: data.destination,
+      type: 'outgoing',
+      sent: true,
+      expirationStartTimestamp: data.expirationStartTimestamp,
+    });
+  }
+
+  const onSentMessage = createMessageHandler({
+    handleProfileUpdate: handleMessageSentProfileUpdate,
+    getMessageDescriptor: Message.getDescriptorForSent,
+    createMessage: createSentMessage,
+  });
   /* jshint ignore:end */
   /* eslint-disable */
-
-    function onSentMessage(ev) {
-        var now = new Date().getTime();
-        var data = ev.data;
-
-        var type, id;
-        if (data.message.group) {
-            type = 'group';
-            id = data.message.group.id;
-        } else {
-            type = 'private';
-            id = data.destination;
-        }
-
-        if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-            return ConversationController.getOrCreateAndWait(id, type).then(function(convo) {
-              return convo.save({profileSharing: true}).then(ev.confirm);
-            });
-        }
-
-        var message = new Whisper.Message({
-            source         : textsecure.storage.user.getNumber(),
-            sourceDevice   : data.device,
-            sent_at        : data.timestamp,
-            received_at    : now,
-            conversationId : data.destination,
-            type           : 'outgoing',
-            sent           : true,
-            expirationStartTimestamp: data.expirationStartTimestamp,
-        });
-
-        return isMessageDuplicate(message).then(function(isDuplicate) {
-            if (isDuplicate) {
-                console.log('Received duplicate message', message.idForLogging());
-                ev.confirm();
-                return;
-            }
-
-            return ConversationController.getOrCreateAndWait(id, type).then(function() {
-                return message.handleDataMessage(data.message, ev.confirm, {
-                    initialLoadComplete: initialLoadComplete
-                });
-            });
-        });
-    }
 
     function isMessageDuplicate(message) {
         return new Promise(function(resolve) {
