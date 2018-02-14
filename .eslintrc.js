@@ -37,5 +37,7 @@ module.exports = {
 
     // though we have a logger, we still remap console to log to disk
     'no-console': 'off',
+
+    'operator-linebreak': ["error", "after", { "overrides": { '?': 'before', ':': 'before' } }]
   }
 };

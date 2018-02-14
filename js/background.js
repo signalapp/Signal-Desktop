@@ -518,9 +518,9 @@
       return ev.confirm();
     }
 
-    const { type, id } = data.message.group ?
-      { type: 'group', id: data.message.group.id } :
-      { type: 'private', id: data.source };
+    const { type, id } = data.message.group
+      ? { type: 'group', id: data.message.group.id }
+      : { type: 'private', id: data.source };
 
     const processedMessage = await Message.process(data.message);
 

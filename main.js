@@ -157,10 +157,10 @@ function isVisible(window, bounds) {
   const topClearOfUpperBound = window.y >= boundsY;
   const topClearOfLowerBound = (window.y <= (boundsY + boundsHeight) - BOUNDS_BUFFER);
 
-  return rightSideClearOfLeftBound
-    && leftSideClearOfRightBound
-    && topClearOfUpperBound
-    && topClearOfLowerBound;
+  return rightSideClearOfLeftBound &&
+    leftSideClearOfRightBound &&
+    topClearOfUpperBound &&
+    topClearOfLowerBound;
 }
 
 function createWindow() {
@@ -277,8 +277,8 @@ function createWindow() {
   // Emitted when the window is about to be closed.
   mainWindow.on('close', (e) => {
     // If the application is terminating, just do the default
-    if (windowState.shouldQuit()
-      || config.environment === 'test' || config.environment === 'test-lib') {
+    if (windowState.shouldQuit() ||
+        config.environment === 'test' || config.environment === 'test-lib') {
       return;
     }
 
@@ -422,9 +422,9 @@ app.on('before-quit', () => {
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin'
-    || config.environment === 'test'
-    || config.environment === 'test-lib') {
+  if (process.platform !== 'darwin' ||
+      config.environment === 'test' ||
+      config.environment === 'test-lib') {
     app.quit();
   }
 });

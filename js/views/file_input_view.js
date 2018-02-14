@@ -206,9 +206,9 @@
       if (file === undefined) {
         return Promise.resolve();
       }
-      const attachmentFlags = this.isVoiceNote ?
-        textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE :
-        null;
+      const attachmentFlags = this.isVoiceNote
+        ? textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE
+        : null;
 
       const setFlags = flags => (attachment) => {
         const newAttachment = Object.assign({}, attachment);
