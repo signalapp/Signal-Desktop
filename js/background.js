@@ -503,9 +503,9 @@
     // eslint-disable-next-line no-bitwise
     if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
       const profileKey = data.message.profileKey.toArrayBuffer();
-      const sender = ConversationController.getOrCreateAndWait(data.source, 'private');
+      const sender =
+        await ConversationController.getOrCreateAndWait(data.source, 'private');
       await sender.setProfileKey(profileKey);
-      // TODO: Is `ev.confirm` a `Promise`? Original code returned it:
       return ev.confirm();
     }
 
