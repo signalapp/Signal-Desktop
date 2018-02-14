@@ -558,23 +558,23 @@ MessageReceiver.prototype.extend({
     handleReceiptMessage: function(envelope, receiptMessage) {
         var results = [];
         if (receiptMessage.type === textsecure.protobuf.ReceiptMessage.Type.DELIVERY) {
-            for (var i = 0; i < receiptMessage.timestamps.length; ++i) {
+            for (var i = 0; i < receiptMessage.timestamp.length; ++i) {
                 var ev = new Event('delivery');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.deliveryReceipt = {
-                  timestamp    : receiptMessage.timestamps[i].toNumber(),
+                  timestamp    : receiptMessage.timestamp[i].toNumber(),
                   source       : envelope.source,
                   sourceDevice : envelope.sourceDevice
                 };
                 results.push(this.dispatchAndWait(ev));
             }
         } else if (receiptMessage.type === textsecure.protobuf.ReceiptMessage.Type.READ) {
-            for (var i = 0; i < receiptMessage.timestamps.length; ++i) {
+            for (var i = 0; i < receiptMessage.timestamp.length; ++i) {
                 var ev = new Event('read');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.timestamp = envelope.timestamp.toNumber();
                 ev.read = {
-                    timestamp : receiptMessage.timestamps[i].toNumber(),
+                    timestamp : receiptMessage.timestamp[i].toNumber(),
                     reader    : envelope.source
                 }
                 results.push(this.dispatchAndWait(ev));
