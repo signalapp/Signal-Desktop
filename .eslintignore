@@ -18,5 +18,6 @@ test/views/*.js
 !js/background.js
 !js/models/conversations.js
 !js/views/file_input_view.js
+!js/views/attachment_view.js
 !main.js
 !prepare_build.js
