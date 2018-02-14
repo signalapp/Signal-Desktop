@@ -4,7 +4,8 @@ exports.GROUP = 'group';
 exports.PRIVATE = 'private';
 
 // Message -> Promise Message
-exports.process = async message =>
+exports.upgradeSchema = async message =>
   Object.assign({}, message, {
-    attachments: await Promise.all(message.attachments.map(Attachment.process)),
+    attachments:
+      await Promise.all(message.attachments.map(Attachment.upgradeSchema)),
   });

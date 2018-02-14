@@ -617,14 +617,14 @@
           now
         );
 
-        const processedAttachments = await Promise.all(
-          attachments.map(Attachment.process)
+        const upgradedAttachments = await Promise.all(
+          attachments.map(Attachment.upgradeSchema)
         );
         const message = this.messageCollection.add({
           body,
           conversationId: this.id,
           type: 'outgoing',
-          attachments: processedAttachments,
+          attachments: upgradedAttachments,
           sent_at: now,
           received_at: now,
           expireTimer: this.get('expireTimer'),
@@ -662,7 +662,7 @@
           sendFunc(
             this.get('id'),
             body,
-            processedAttachments,
+            upgradedAttachments,
             now,
             this.get('expireTimer'),
             profileKey

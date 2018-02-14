@@ -522,11 +522,11 @@
       ? { type: 'group', id: data.message.group.id }
       : { type: 'private', id: data.source };
 
-    const processedMessage = await Message.process(data.message);
+    const upgradedMessage = await Message.upgradeSchema(data.message);
 
     await ConversationController.getOrCreateAndWait(id, type);
     return message.handleDataMessage(
-      processedMessage,
+      upgradedMessage,
       ev.confirm,
       { initialLoadComplete }
     );

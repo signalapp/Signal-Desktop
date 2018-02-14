@@ -4,11 +4,17 @@ const MIME = require('./mime');
 const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
 
-// Increment this everytime we change how attachments are processed. This allows us to
-// retroactively update existing attachments. As we add more processing steps, we could
+// Increment this everytime we change how attachments are upgraded. This allows us to
+// retroactively upgrade existing attachments. As we add more upgrade steps, we could
 // design a pipeline that does this incrementally, e.g. from version 0 (unknown) -> 1,
 // 1 --> 2, etc., similar to how we do database migrations:
 const CURRENT_PROCESS_VERSION = 1;
+
+// Schema version history
+//
+// Version 1
+//   - Auto-orient JPEG attachments using EXIF `Orientation` data
+//   - Add `schemaVersion` property
 
 // // Incoming message attachment fields
 // {
@@ -21,6 +27,7 @@ const CURRENT_PROCESS_VERSION = 1;
 //   key: ArrayBuffer
 //   size: integer
 //   thumbnail: ArrayBuffer
+//   schemaVersion: integer
 // }
 
 // // Outgoing message attachment fields
@@ -29,40 +36,41 @@ const CURRENT_PROCESS_VERSION = 1;
 //   data: ArrayBuffer
 //   fileName: string
 //   size: integer
+//   schemaVersion: integer
 // }
 
 // Middleware
-// type ProcessingStep = Attachment -> Promise Attachment
+// type UpgradeStep = Attachment -> Promise Attachment
 
-// ProcessingStep -> ProcessVersion -> ProcessingStep
-const setProcessVersion = (next, processVersion) => async (attachment) => {
-  const isAlreadyProcessed = attachment.processVersion >= processVersion;
-  if (isAlreadyProcessed) {
+// UpgradeStep -> SchemaVersion -> UpgradeStep
+const setSchemaVersion = (next, schemaVersion) => async (attachment) => {
+  const isAlreadyUpgraded = attachment.schemaVersion >= schemaVersion;
+  if (isAlreadyUpgraded) {
     return attachment;
   }
 
-  let processedAttachment;
+  let upgradedAttachment;
   try {
-    processedAttachment = await next(attachment);
+    upgradedAttachment = await next(attachment);
   } catch (error) {
-    console.error('Attachment.setProcessVersion: error:', error);
-    processedAttachment = null;
+    console.error('Attachment.setSchemaVersion: error:', error);
+    upgradedAttachment = null;
   }
 
-  const hasSuccessfullyProcessed = processedAttachment !== null;
-  if (!hasSuccessfullyProcessed) {
+  const hasSuccessfullyUpgraded = upgradedAttachment !== null;
+  if (!hasSuccessfullyUpgraded) {
     return attachment;
   }
 
   // TODO: Enable `...` object spread operator syntax:
   return Object.assign(
     {},
-    processedAttachment,
-    { processVersion }
+    upgradedAttachment,
+    { schemaVersion }
   );
 };
 
-// Processing steps
+// Upgrade steps
 const autoOrientJPEG = async (attachment) => {
   if (!MIME.isJPEG(attachment.contentType)) {
     return attachment;
@@ -89,5 +97,5 @@ const autoOrientJPEG = async (attachment) => {
 };
 
 // Public API
-// ProcessingStep
-exports.process = setProcessVersion(autoOrientJPEG, CURRENT_PROCESS_VERSION);
+// UpgradeStep
+exports.upgradeSchema = setSchemaVersion(autoOrientJPEG, CURRENT_PROCESS_VERSION);
