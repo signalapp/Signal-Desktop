@@ -23,7 +23,7 @@
         });
     };
 
-    loadProtoBufs('IncomingPushMessageSignal.proto');
+    loadProtoBufs('SignalService.proto');
     loadProtoBufs('SubProtocol.proto');
     loadProtoBufs('DeviceMessages.proto');
 })();
