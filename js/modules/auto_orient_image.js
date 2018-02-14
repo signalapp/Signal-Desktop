@@ -7,11 +7,6 @@ const DEFAULT_JPEG_QUALITY = 0.85;
 // Documentation for `options` (`LoadImageOptions`):
 // https://github.com/blueimp/JavaScript-Load-Image/tree/v2.18.0#options
 exports.autoOrientImage = (fileOrBlobOrURL, options = {}) => {
-  const { quality } = options;
-  if (typeof quality !== 'undefined' && typeof quality !== 'number') {
-    throw new TypeError(`\`options.quality\` must be a number; got ${typeof quality}`);
-  }
-
   const optionsWithDefaults = Object.assign(
     {
       type: 'image/jpeg',
