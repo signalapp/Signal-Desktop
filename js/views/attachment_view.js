@@ -153,10 +153,10 @@
         return 'image';
       }
 
-      const { contentType } = this.model.contentType;
-      throw new TypeError(
-        `AttachmentView::mediaType: Unknown content type: ${contentType}`
-      );
+      // NOTE: The existing code had no `return` but ESLint insists. Thought
+      // about throwing an error assuming this was unreachable code but it turns
+      // out that content type `image/tiff` falls through here:
+      return undefined;
     },
     displayName() {
       if (this.isVoiceMessage()) {
