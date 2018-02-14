@@ -32,13 +32,13 @@
         if (ab1.byteLength !== ab2.byteLength) {
             return false;
         }
-        var result = true;
+        var result = 0;
         var ta1 = new Uint8Array(ab1);
         var ta2 = new Uint8Array(ab2);
         for (var i = 0; i < ab1.byteLength; ++i) {
-            if (ta1[i] !== ta2[i]) { result = false; }
+            result = result | ta1[i] ^ ta2[i];
         }
-        return result;
+        return result === 0;
     }
 
   Whisper.Conversation = Backbone.Model.extend({
