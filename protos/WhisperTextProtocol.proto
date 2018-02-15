@@ -1,4 +1,4 @@
-package textsecure;
+package signalservice;
 
 option java_package = "org.whispersystems.libsignal.protocol";
 option java_outer_classname = "WhisperProtos";

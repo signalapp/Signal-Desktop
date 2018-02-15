@@ -11,7 +11,7 @@
                 console.log(text);
                 throw error;
             }
-            var protos = result.build('textsecure');
+            var protos = result.build('signalservice');
             if (!protos) {
                 var text = 'Error loading protos from ' + filename + ' (root: ' + window.PROTO_ROOT + ')';
                 console.log(text);
