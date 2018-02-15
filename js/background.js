@@ -538,7 +538,8 @@
   ) {
     const profileKey = data.message.profileKey.toArrayBuffer();
     const sender = await ConversationController.getOrCreateAndWait(
-      messageDescriptor.source, 'private'
+      messageDescriptor.id,
+      'private'
     );
     await sender.setProfileKey(profileKey);
     return confirm();
