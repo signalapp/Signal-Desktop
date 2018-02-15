@@ -192,8 +192,9 @@
     /* jshint ignore:start */
     getFiles() {
       const files = this.file ? [this.file] : Array.from(this.$input.prop('files'));
+      const promise = Promise.all(files.map(file => this.getFile(file)));
       this.clearForm();
-      return Promise.all(files.map(file => this.getFile(file)));
+      return promise;
     },
 
     getFile(rawFile) {
