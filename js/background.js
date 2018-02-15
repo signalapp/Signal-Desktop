@@ -272,7 +272,7 @@
         messageReceiver.addEventListener('error', onError);
         messageReceiver.addEventListener('empty', onEmpty);
         messageReceiver.addEventListener('progress', onProgress);
-        messageReceiver.addEventListener('settings', onSettings);
+        messageReceiver.addEventListener('configuration', onConfiguration);
 
         window.textsecure.messaging = new textsecure.MessageSender(
             SERVER_URL, USERNAME, PASSWORD, CDN_URL
@@ -351,12 +351,8 @@
             view.onProgress(count);
         }
     }
-    function onSettings(ev) {
-        if (ev.settings.readReceipts) {
-            storage.put('read-receipt-setting', true);
-        } else {
-            storage.put('read-receipt-setting', false);
-        }
+    function onConfiguration(ev) {
+        storage.put('read-receipt-setting', ev.configuration.readReceipts);
     }
 
     function onContactReceived(ev) {

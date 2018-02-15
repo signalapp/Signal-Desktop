@@ -558,23 +558,23 @@ MessageReceiver.prototype.extend({
     handleReceiptMessage: function(envelope, receiptMessage) {
         var results = [];
         if (receiptMessage.type === textsecure.protobuf.ReceiptMessage.Type.DELIVERY) {
-            for (var i = 0; i < receiptMessage.timestamps.length; ++i) {
+            for (var i = 0; i < receiptMessage.timestamp.length; ++i) {
                 var ev = new Event('delivery');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.deliveryReceipt = {
-                  timestamp    : receiptMessage.timestamps[i].toNumber(),
+                  timestamp    : receiptMessage.timestamp[i].toNumber(),
                   source       : envelope.source,
                   sourceDevice : envelope.sourceDevice
                 };
                 results.push(this.dispatchAndWait(ev));
             }
         } else if (receiptMessage.type === textsecure.protobuf.ReceiptMessage.Type.READ) {
-            for (var i = 0; i < receiptMessage.timestamps.length; ++i) {
+            for (var i = 0; i < receiptMessage.timestamp.length; ++i) {
                 var ev = new Event('read');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.timestamp = envelope.timestamp.toNumber();
                 ev.read = {
-                    timestamp : receiptMessage.timestamps[i].toNumber(),
+                    timestamp : receiptMessage.timestamp[i].toNumber(),
                     reader    : envelope.source
                 }
                 results.push(this.dispatchAndWait(ev));
@@ -626,17 +626,17 @@ MessageReceiver.prototype.extend({
             return this.handleRead(envelope, syncMessage.read);
         } else if (syncMessage.verified) {
             return this.handleVerified(envelope, syncMessage.verified);
-        } else if (syncMessage.settings) {
-            return this.handleSettings(envelope, syncMessage.settings);
+        } else if (syncMessage.configuration) {
+            return this.handleConfiguration(envelope, syncMessage.configuration);
         } else {
             throw new Error('Got empty SyncMessage');
         }
     },
-    handleSettings: function(envelope, settings) {
-        var ev = new Event('settings');
+    handleConfiguration: function(envelope, configuration) {
+        var ev = new Event('configuration');
         ev.confirm = this.removeFromCache.bind(this, envelope);
-        ev.settings = {
-            readReceipts: settings.readReceipts
+        ev.configuration = {
+            readReceipts: configuration.readReceipts
         };
         return this.dispatchAndWait(ev);
     },
