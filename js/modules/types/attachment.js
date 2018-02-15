@@ -60,7 +60,6 @@ const setSchemaVersion = (next, schemaVersion) => async (attachment) => {
     return attachment;
   }
 
-  // TODO: Enable `...` object spread operator syntax:
   return Object.assign(
     {},
     upgradedAttachment,
