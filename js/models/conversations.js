@@ -617,9 +617,8 @@
           now
         );
 
-        const upgradedAttachments = await Promise.all(
-          attachments.map(Attachment.upgradeSchema)
-        );
+        const upgradedAttachments =
+          await Promise.all(attachments.map(Attachment.upgradeSchema));
         const message = this.messageCollection.add({
           body,
           conversationId: this.id,
@@ -658,16 +657,14 @@
           profileKey = storage.get('profileKey');
         }
 
-        message.send(
-          sendFunc(
-            this.get('id'),
-            body,
-            upgradedAttachments,
-            now,
-            this.get('expireTimer'),
-            profileKey
-          )
-        );
+        message.send(sendFunc(
+          this.get('id'),
+          body,
+          upgradedAttachments,
+          now,
+          this.get('expireTimer'),
+          profileKey
+        ));
       });
     },
     /* jshint ignore:end */

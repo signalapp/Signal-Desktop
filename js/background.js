@@ -497,18 +497,19 @@
 
   /* eslint-enable */
   /* jshint ignore:start */
-  function createMessageHandler(
-    { createMessage, getMessageDescriptor, handleProfileUpdate }
-  ) {
+  function createMessageHandler({
+    createMessage,
+    getMessageDescriptor,
+    handleProfileUpdate,
+  }) {
     return async (event) => {
       const { data, confirm } = event;
 
       const messageDescriptor = getMessageDescriptor(data);
 
-      const isProfileUpdate = Boolean(
-        // eslint-disable-next-line no-bitwise
-        data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE
-      );
+      const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
+      // eslint-disable-next-line no-bitwise
+      const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
       if (isProfileUpdate) {
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
@@ -522,7 +523,8 @@
 
       const upgradedMessage = await Message.upgradeSchema(data.message);
       await ConversationController.getOrCreateAndWait(
-        messageDescriptor.id, messageDescriptor.type
+        messageDescriptor.id,
+        messageDescriptor.type
       );
       return message.handleDataMessage(
         upgradedMessage,
@@ -533,9 +535,11 @@
   }
 
   // Received:
-  async function handleMessageReceivedProfileUpdate(
-    { data, confirm, messageDescriptor }
-  ) {
+  async function handleMessageReceivedProfileUpdate({
+    data,
+    confirm,
+    messageDescriptor,
+  }) {
     const profileKey = data.message.profileKey.toArrayBuffer();
     const sender = await ConversationController.getOrCreateAndWait(
       messageDescriptor.id,
@@ -552,11 +556,10 @@
   });
 
   // Sent:
-  async function handleMessageSentProfileUpdate(
-    { confirm, messageDescriptor }
-  ) {
+  async function handleMessageSentProfileUpdate({ confirm, messageDescriptor }) {
     const conversation = await ConversationController.getOrCreateAndWait(
-      messageDescriptor.id, messageDescriptor.type
+      messageDescriptor.id,
+      messageDescriptor.type
     );
     await conversation.save({ profileSharing: true });
     return confirm();
