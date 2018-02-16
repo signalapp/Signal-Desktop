@@ -15,23 +15,3 @@ exports.upgradeSchema = async message =>
     attachments:
       await Promise.all(message.attachments.map(Attachment.upgradeSchema)),
   });
-
-// Descriptors
-exports.getGroupDescriptor = group => ({
-  type: GROUP,
-  id: group.id,
-});
-
-// Matches data from `libtextsecure` `MessageReceiver::handleSentMessage`:
-exports.getDescriptorForSent = ({ message, destination }) => (
-  message.group
-    ? exports.getGroupDescriptor(message.group)
-    : { type: PRIVATE, id: destination }
-);
-
-// Matches data from `libtextsecure` `MessageReceiver::handleDataMessage`:
-exports.getDescriptorForReceived = ({ message, source }) => (
-  message.group
-    ? exports.getGroupDescriptor(message.group)
-    : { type: PRIVATE, id: source }
-);

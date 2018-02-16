@@ -497,6 +497,27 @@
 
   /* eslint-enable */
   /* jshint ignore:start */
+
+  // Descriptors
+  const getGroupDescriptor = group => ({
+    type: Message.GROUP,
+    id: group.id,
+  });
+
+  // Matches event data from `libtextsecure` `MessageReceiver::handleSentMessage`:
+  const getDescriptorForSent = ({ message, destination }) => (
+    message.group
+      ? getGroupDescriptor(message.group)
+      : { type: Message.PRIVATE, id: destination }
+  );
+
+  // Matches event data from `libtextsecure` `MessageReceiver::handleDataMessage`:
+  const getDescriptorForReceived = ({ message, source }) => (
+    message.group
+      ? getGroupDescriptor(message.group)
+      : { type: Message.PRIVATE, id: source }
+  );
+
   function createMessageHandler({
     createMessage,
     getMessageDescriptor,
@@ -551,7 +572,7 @@
 
   const onMessageReceived = createMessageHandler({
     handleProfileUpdate: handleMessageReceivedProfileUpdate,
-    getMessageDescriptor: Message.getDescriptorForReceived,
+    getMessageDescriptor: getDescriptorForReceived,
     createMessage: initIncomingMessage,
   });
 
@@ -581,7 +602,7 @@
 
   const onSentMessage = createMessageHandler({
     handleProfileUpdate: handleMessageSentProfileUpdate,
-    getMessageDescriptor: Message.getDescriptorForSent,
+    getMessageDescriptor: getDescriptorForSent,
     createMessage: createSentMessage,
   });
   /* jshint ignore:end */
