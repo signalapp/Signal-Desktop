@@ -773,6 +773,11 @@
       return getDirectory().then(function(directoryEntry) {
         var idb;
         var dir;
+        conversations = 0;
+        failedConversations = 0;
+        attachments = 0;
+        failedAttachments = 0;
+
         return openDatabase().then(function(idb_db) {
           idb = idb_db;
           var name = 'Signal Export ' + getTimestamp();
