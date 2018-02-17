@@ -65,7 +65,14 @@
           this.closeInstallChoice();
           var importView = this.importView = new Whisper.ImportView();
           this.listenTo(importView, 'cancel', this.openInstallChoice.bind(this));
+          this.listenTo(importView, 'light-import', this.finishLightImport.bind(this));
           this.openView(this.importView);
+        },
+        finishLightImport: function() {
+          var options = {
+            startStep: Whisper.InstallView.Steps.SCAN_QR_CODE,
+          };
+          this.openInstaller(options);
         },
         closeImporter: function() {
           if (this.importView) {
@@ -73,10 +80,10 @@
             this.importView = null;
           }
         },
-        openInstaller: function() {
+        openInstaller: function(options) {
           this.closeInstaller();
           this.closeInstallChoice();
-          var installView = this.installView = new Whisper.InstallView();
+          var installView = this.installView = new Whisper.InstallView(options);
           this.listenTo(installView, 'cancel', this.openInstallChoice.bind(this));
           this.openView(this.installView);
         },

@@ -39,6 +39,8 @@
             };
         },
         initialize: function(options) {
+            options = options || {};
+
             this.counter = 0;
 
             this.render();
@@ -53,8 +55,8 @@
             this.connect();
             this.on('disconnected', this.reconnect);
 
-            if (Whisper.Registration.everDone()) {
-                this.selectStep(Steps.SCAN_QR_CODE);
+            if (Whisper.Registration.everDone() || options.startStep) {
+                this.selectStep(options.startStep || Steps.SCAN_QR_CODE);
                 this.hideDots();
             }
         },
@@ -155,4 +157,6 @@
             this.$('#step' + Steps.SCAN_QR_CODE + ' .nav .dot').hide();
         }
     });
+
+    Whisper.InstallView.Steps = Steps;
 })();

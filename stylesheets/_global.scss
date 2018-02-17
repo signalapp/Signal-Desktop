@@ -609,6 +609,152 @@ input[type=text], input[type=search], textarea {
   }
 }
 
+.import-flow {
+  z-index: 1000;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-family: roboto-light;
+
+  color: black;
+  a {
+    color: #2090ea;
+  }
+  background: linear-gradient(
+    to bottom,
+    rgb(238,238,238) 0%, // (1 - 0.41) * 255 + 0.41 * 213
+    rgb(243,243,243) 12%, // (1 - 0.19) * 255 + 0.19 * 191
+    rgb(255,255,255) 27%,
+    rgb(255,255,255) 60%,
+    rgb(249,249,249) 85%, // (1 - 0.19) * 255 + 0.19 * 222
+    rgb(213,213,213) 100% // (1 - 0.27) * 255 + 0.27 * 98
+  );
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  font-size: 10pt;
+
+  @media (min-height: 750px) and (min-width: 700px) {
+    font-size: 14pt;
+  }
+
+  .header {
+    font-weight: normal;
+    margin-bottom: 1.5em;
+
+    font-size: 20pt;
+
+    @media (min-height: 750px) and (min-width: 700px) {
+      font-size: 28pt;
+    }
+  }
+
+  .body-text {
+    max-width: 22em;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .body-text-wide {
+    max-width: 30em;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .step {
+    height: 100%;
+    width: 100%;
+    padding: 70px 0 50px;
+  }
+  .step-body {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 35em;
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .banner-icon {
+    display: none;
+    margin: 1em;
+
+    // 640px by 338px is the smallest the window can go
+    @media (min-height: 550px) {
+      display: inline-block;
+      height: 10em;
+      width: 10em;
+    }
+
+    &.folder-outline {
+      @include color-svg('../images/folder-outline.svg', #DEDEDE);
+    }
+    &.import {
+      @include color-svg('../images/import.svg', #DEDEDE);
+    }
+    &.check-circle-outline {
+      @include color-svg('../images/check-circle-outline.svg', #DEDEDE);
+    }
+    &.alert-outline {
+      @include color-svg('../images/alert-outline.svg', #DEDEDE);
+    }
+  }
+
+  .button {
+    cursor: pointer;
+    display: inline-block;
+    border: none;
+    min-width: 300px;
+    padding: 0.75em;
+    margin-top: 1em;
+    margin-bottom: 2em;
+    color: white;
+    background: #2090ea;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    font-size: 12pt;
+
+    @media (min-height: 750px) and (min-width: 700px) {
+      font-size: 20pt;
+    }
+  }
+
+  .progress {
+    text-align: center;
+    padding: 1em;
+    width: 80%;
+    margin: auto;
+
+    .bar-container {
+      height: 1em;
+      margin: 1em;
+      background-color: $grey_l;
+    }
+    .bar {
+      width: 100%;
+      height: 100%;
+      background-color: $blue_l;
+      transition: width 0.25s;
+    }
+  }
+
+  .nav {
+    width: 100%;
+    bottom: 50px;
+    margin-top: auto;
+    padding: 0 20px;
+  }
+}
+
 //yellow border fix
 .inbox:focus {
     outline: none;

@@ -668,8 +668,80 @@
     </div>
   </script>
 
-  <script type='text/x-tmpl-mustache' id='install_flow_template'>
+  <script type='text/x-tmpl-mustache' id='import-flow-template'>
+    {{#step2}}
+    <div id='step2' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon folder-outline'></span>
+          <div class='header'>{{ chooseHeader }}</div>
+          <div class='body-text'>{{ choose }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button choose'>{{ chooseButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/step2}}
+    {{#step3}}
+    <div id='step3' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon import'></span>
+          <div class='header'>{{ importingHeader }}</div>
+          <p>{{ import }}</p>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/step3}}
+    {{#step4}}
+    <div id='step4' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon check-circle-outline'></span>
+          <div class='header'>{{ completeHeader }}</div>
+        </div>
+        <div class='nav'>
+          {{#restartButton}}
+          <div>
+            <a class='button restart'>{{ restartButton }}</a>
+          </div>
+          {{/restartButton}}
+          {{#registerButton}}
+          <div>
+            <a class='button register'>{{ registerButton }}</a>
+          </div>
+          {{/registerButton}}
+        </div>
+      </div>
+    </div>
+    {{/step4}}
+    {{#error}}
+    <div id='error' class='step'>
+      <div class='inner error-dialog clearfix'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline'></span>
+          <div class='header'>{{ errorHeader }}</div>
+          <div class='body-text-wide'>{{& error }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button choose'>{{ chooseButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/error}}
+  </script>
 
+  <script type='text/x-tmpl-mustache' id='install_flow_template'>
     <div id='step2' class='step hidden'>
       <div class='inner'>
         <div class='step-body'>
