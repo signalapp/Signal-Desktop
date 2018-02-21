@@ -216,6 +216,10 @@ function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
 
   function captureAndSaveWindowStats() {
+    if (!mainWindow) {
+      return;
+    }
+
     const size = mainWindow.getSize();
     const position = mainWindow.getPosition();
 
