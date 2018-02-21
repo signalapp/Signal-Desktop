@@ -532,14 +532,6 @@
         "message": "Syncing contacts and groups",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
-    "installNew": {
-        "message": "Set up as new install",
-        "description": "One of two choices presented on the screen shown on first launch"
-    },
-    "installImport": {
-        "message": "Set up with exported data",
-        "description": "One of two choices presented on the screen shown on first launch"
-    },
     "installConnectionFailed": {
         "message": "Failed to connect to server.",
         "description": "Displayed when we can't connect to the server."
