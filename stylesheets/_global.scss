@@ -640,6 +640,7 @@ input[type=text], input[type=search], textarea {
 
   font-size: 10pt;
   input {
+    margin-top: 1em;
     font-size: 12pt;
     font-family: roboto-light;
     border: 2px solid $signal-blue;
@@ -757,6 +758,17 @@ input[type=text], input[type=search], textarea {
     height: 100%;
   }
 
+  .banner-image {
+    margin: 1em;
+    display: none;
+
+    @media (min-height: 550px) {
+      display: inline-block;
+      height: 10em;
+      width: 10em;
+    }
+  }
+
   .banner-icon {
     display: none;
     margin: 1em;
@@ -812,6 +824,13 @@ input[type=text], input[type=search], textarea {
     @media (min-height: 750px) and (min-width: 700px) {
       font-size: 20pt;
     }
+  }
+  a.link {
+    display: block;
+    cursor: pointer;
+    text-decoration: underline;
+    margin: 0.5em;
+    color: #2090ea;
   }
 
   .progress {

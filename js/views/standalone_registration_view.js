@@ -7,7 +7,7 @@
 
     Whisper.StandaloneRegistrationView = Whisper.View.extend({
         templateName: 'standalone',
-        className: 'install main',
+        className: 'full-screen-flow',
         initialize: function() {
             this.accountManager = getAccountManager();
 
@@ -21,16 +21,15 @@
             this.$('#error').hide();
         },
         events: {
-            'submit #form': 'submit',
             'validation input.number': 'onValidation',
-            'change #code': 'onChangeCode',
             'click #request-voice': 'requestVoice',
             'click #request-sms': 'requestSMSVerification',
+            'change #code': 'onChangeCode',
+            'click #verifyCode': 'verifyCode',
         },
-        submit: function(e) {
-            e.preventDefault();
+        verifyCode: function(e) {
             var number = this.phoneView.validateNumber();
-            var verificationCode = $('#code').val().replace(/\D+/g, "");
+            var verificationCode = $('#code').val().replace(/\D+/g, '');
 
             this.accountManager.registerSingleDevice(number, verificationCode).then(function() {
                 this.$el.trigger('openInbox');
