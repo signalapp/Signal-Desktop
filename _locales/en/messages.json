@@ -520,6 +520,10 @@
         "message": "Link New Device",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
+    "deviceName": {
+        "message": "Device name",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
     "chooseDeviceName": {
         "message": "Choose this device's name",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
