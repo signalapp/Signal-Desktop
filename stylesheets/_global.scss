@@ -1,3 +1,6 @@
+
+$signal-blue: #2090ea;
+
 * {
   box-sizing: border-box;
 }
@@ -218,7 +221,7 @@ button.hamburger {
 }
 
 .dropoff {
-  outline: solid 1px #2090ea;
+  outline: solid 1px $signal-blue;
 }
 
 $avatar-size: 44px;
@@ -609,7 +612,7 @@ input[type=text], input[type=search], textarea {
   }
 }
 
-.import-flow {
+.full-screen-flow {
   z-index: 1000;
   position: absolute;
   left: 0;
@@ -620,7 +623,7 @@ input[type=text], input[type=search], textarea {
 
   color: black;
   a {
-    color: #2090ea;
+    color: $signal-blue;
   }
   background: linear-gradient(
     to bottom,
@@ -636,9 +639,79 @@ input[type=text], input[type=search], textarea {
   text-align: center;
 
   font-size: 10pt;
+  input {
+    font-size: 12pt;
+    font-family: roboto-light;
+    border: 2px solid $signal-blue;
+    padding: 0.5em;
+    text-align: center;
+    width: 20em;
+  }
 
   @media (min-height: 750px) and (min-width: 700px) {
     font-size: 14pt;
+
+    input {
+      font-size: 16pt;
+    }
+  }
+
+  #qr {
+    display: inline-block;
+
+    &.ready {
+      border: 5px solid $signal-blue;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    img {
+      height: 20em;
+      border: 5px solid white;
+    }
+
+    @media (max-height: 475px) {
+      img {
+        width: 8em;
+        height: 8em;
+      }
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border: 3px solid $blue;
+      border-radius: 50%;
+      float: left;
+      margin: 0 6px;
+      transform: scale(0);
+
+      animation: loading 1500ms ease infinite 0ms;
+      &:nth-child(2) {
+        animation: loading 1500ms ease infinite 333ms;
+      }
+      &:nth-child(3) {
+        animation: loading 1500ms ease infinite 666ms;
+      }
+    }
+
+    canvas {
+      display: none;
+    }
+  }
+
+  .os-icon {
+    height: 3em;
+    width: 3em;
+    vertical-align: text-bottom;
+    display: inline-block;
+    margin: 0.5em;
+
+    &.apple {
+      @include color-svg('../images/apple.svg', black);
+    }
+    &.android {
+      @include color-svg('../images/android.svg', black);
+    }
   }
 
   .header {
@@ -695,17 +768,31 @@ input[type=text], input[type=search], textarea {
       width: 10em;
     }
 
+    // generic
+    &.check-circle-outline {
+      @include color-svg('../images/check-circle-outline.svg', #DEDEDE);
+    }
+    &.alert-outline {
+      @include color-svg('../images/alert-outline.svg', #DEDEDE);
+    }
+
+    // import and export
     &.folder-outline {
       @include color-svg('../images/folder-outline.svg', #DEDEDE);
     }
     &.import {
       @include color-svg('../images/import.svg', #DEDEDE);
     }
-    &.check-circle-outline {
-      @include color-svg('../images/check-circle-outline.svg', #DEDEDE);
+    &.export {
+      @include color-svg('../images/export.svg', #DEDEDE);
     }
-    &.alert-outline {
-      @include color-svg('../images/alert-outline.svg', #DEDEDE);
+
+    // registration process
+    &.lead-pencil {
+      @include color-svg('../images/lead-pencil.svg', #DEDEDE);
+    }
+    &.sync {
+      @include color-svg('../images/sync.svg', #DEDEDE);
     }
   }
 
@@ -716,9 +803,8 @@ input[type=text], input[type=search], textarea {
     min-width: 300px;
     padding: 0.75em;
     margin-top: 1em;
-    margin-bottom: 2em;
     color: white;
-    background: #2090ea;
+    background: $signal-blue;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
     font-size: 12pt;
@@ -744,6 +830,7 @@ input[type=text], input[type=search], textarea {
       height: 100%;
       background-color: $blue_l;
       transition: width 0.25s;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
   }
 
@@ -751,7 +838,33 @@ input[type=text], input[type=search], textarea {
     width: 100%;
     bottom: 50px;
     margin-top: auto;
-    padding: 0 20px;
+    padding-bottom: 2em;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    .instructions {
+      text-align: left;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 2em;
+      margin-top: 2em;
+      max-width: 30em;
+    }
+    .instructions:after {
+      clear: both;
+    }
+    .android {
+      float: left;
+    }
+    .apple {
+      float: right;
+    }
+    .label {
+      float: left;
+    }
+    .body {
+      float: left;
+    }
   }
 }
 

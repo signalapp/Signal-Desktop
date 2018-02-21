@@ -691,7 +691,6 @@
         <div class='step-body'>
           <span class='banner-icon import'></span>
           <div class='header'>{{ importingHeader }}</div>
-          <p>{{ import }}</p>
         </div>
         <div class='progress'>
           <div class='bar-container'>
@@ -723,6 +722,7 @@
       </div>
     </div>
     {{/step4}}
+
     {{#error}}
     <div id='error' class='step'>
       <div class='inner error-dialog clearfix'>
@@ -741,92 +741,95 @@
     {{/error}}
   </script>
 
-  <script type='text/x-tmpl-mustache' id='install_flow_template'>
-    <div id='step2' class='step hidden'>
+  <script type='text/x-tmpl-mustache' id='link-flow-template'>
+    {{#step3}}
+    <div id='step3' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <img id='signal-phone' src='images/signal-phone.png'>
-          <p>{{{ installSignalLink }}}</p>
+          <div class='header'>{{ linkYourPhone }}</div>
+          <div id="qr">
+            <div class='container'>
+              <span class='dot'></span>
+              <span class='dot'></span>
+              <span class='dot'></span>
+            </div>
+          </div>
         </div>
         <div class='nav'>
-          <div> <a class='button step3'>{{ installIHaveSignalButton }}</a> </div>
-          <div class='dot-container'>
-            <span class='dot step1'></span>
-            <span class='dot step2 selected'></span>
-            <span class='dot step3'></span>
+          <div class='instructions'>
+            <div class='android'>
+              <div class='label'>
+                <span class='os-icon android'></span>
+              </div>
+              <div class='body'>
+                <div>→ {{ signalSettings }}</div>
+                <div>→ {{ linkedDevices }}</div>
+                <div>→ {{ androidFinalStep }}</div>
+              </div>
+            </div>
+            <div class='apple'>
+              <div class='label'>
+                <span class='os-icon apple'></span>
+              </div>
+              <div class='body'>
+                <div>→ {{ signalSettings }}</div>
+                <div>→ {{ linkedDevices }}</div>
+                <div>→ {{ appleFinalStep }}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <div id='step3' class='step hidden'>
+    {{/step3}}
+    {{#step4}}
+    <div id='step4' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <div id="qr"></div>
-          <p>{{ installAndroidInstructions }}</p>
-        </div>
-        <div class='nav'>
-          {{ #development }}
-            <div> <a class='button openStandalone'>Standalone</a> </div>
-          {{ /development }}
-          <div class='dot-container'>
-            <span class='dot step1'></span>
-            <span class='dot step2'></span>
-            <span class='dot step3 selected'></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <form id='step4' class='step hidden'>
-      <div class='inner'>
-        <div class='step-body'>
-          <p>{{ installLinkingWithNumber }}</p>
-          <h2 class='number'></h2>
-          <img id='signal-computer' src='images/signal-laptop.png'>
-          <p>{{ installComputerName }}</p>
+          <span class='banner-icon lead-pencil'></span>
+          <div class='header'>{{ chooseName }}</div>
           <div>
-            <input type='text' id='device-name' spellcheck='false' maxlength='50' />
+            <input type='text' class='device-name' spellcheck='false' maxlength='50' />
           </div>
         </div>
         <div class='nav'>
           <div>
-            <input type='submit' class='button' id='sync' value='{{ installFinalButton }}' />
+            <a class='button finish'>{{ finishLinkingPhoneButton }}</a>
           </div>
         </div>
       </div>
-    </form>
-
-    <div id='step5' class='step hidden'>
+    </div>
+    {{/step4}}
+    {{#step5}}
+    <div id='step5' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <img id='signal-icon' src='images/icon_250.png'/>
-          <div class='progress-dialog'>
-            <p class='status'></p>
-            <div class='bar-container'><div class='bar progress-bar'></div></div>
+          <span class='banner-icon sync'></span>
+          <div class='header'>{{ syncing }}</div>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
           </div>
         </div>
-        <div class='nav'>
-        </div>
       </div>
     </div>
+    {{/step5}}
 
-    <div id='stepTooManyDevices' class='step hidden'>
-      <div class='inner error-dialog clearfix'>
-        <div class='panel step-body'>{{ installTooManyDevices }}</div>
+    {{#error}}
+    <div id='error' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline'></span>
+          <div class='header'>{{ errorHeader }}</div>
+          <div class='body'>{{ errorMessage }}</div>
+        </div>
         <div class='nav'>
-          <button class='ok step3'>{{ ok }}</button>
+          <a class='button try-again'>{{ errorButton }}</a>
         </div>
       </div>
     </div>
-    <div id='stepNetworkError' class='step hidden'>
-      <div class='inner error-dialog clearfix'>
-        <div class='panel step-body'>{{ installConnectionFailed }}</div>
-        <button class='ok step3 button'>{{ tryAgain }}</button>
-        <div class='nav'>
-        </div>
-      </div>
-    </div>
+    {{/error}}
   </script>
 
   <script type='text/x-tmpl-mustache' id='standalone'>

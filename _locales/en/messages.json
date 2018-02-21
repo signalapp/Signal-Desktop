@@ -500,6 +500,38 @@
         "message": "Privacy is possible. Signal makes it easy.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
+    "linkYourPhone": {
+        "message": "Link your phone to Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
+    "signalSettings": {
+        "message": "Signal Settings",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "linkedDevices": {
+        "message": "Linked Devices",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "plusButton": {
+        "message": "'+' Button",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
+    "linkNewDevice": {
+        "message": "Link New Device",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "chooseDeviceName": {
+        "message": "Choose this device's name",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
+    "finishLinkingPhone": {
+        "message": "Finish linking phone",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
+    },
+    "initialSync": {
+        "message": "Syncing contacts and groups",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installNew": {
         "message": "Set up as new install",
         "description": "One of two choices presented on the screen shown on first launch"
@@ -508,78 +540,9 @@
         "message": "Set up with exported data",
         "description": "One of two choices presented on the screen shown on first launch"
     },
-    "installGetStartedButton": {
-        "message": "Get started"
-    },
-    "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
-        }
-    },
-    "installSignalLinks": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-          "play_store": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          },
-          "app_store": {
-            "content": "$2",
-            "example": "href='http://example.com'"
-          }
-        }
-    },
-    "installGotIt": {
-        "message": "Got it",
-        "description": "Button for the user to confirm that they have Signal installed."
-    },
-    "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
-        "description": "Button for the user to confirm that they have Signal for Android"
-    },
-    "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
-        "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
-        }
-    },
-    "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above."
-    },
-    "installConnecting": {
-        "message": "Connecting...",
-        "description": "Displayed when waiting for the QR Code"
-    },
     "installConnectionFailed": {
         "message": "Failed to connect to server.",
         "description": "Displayed when we can't connect to the server."
-    },
-    "installGeneratingKeys": {
-        "message": "Generating Keys"
-    },
-    "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts"
-    },
-    "installComputerName": {
-        "message": "This computer's name will be",
-        "description": "Text displayed before the input where the user can enter the name for this device."
-    },
-    "installLinkingWithNumber": {
-        "message": "Linking with",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
-    },
-    "installFinalButton": {
-        "message": "Looking good",
-        "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "installTooManyDevices": {
         "message": "Sorry, you have too many devices linked already. Try removing some."
