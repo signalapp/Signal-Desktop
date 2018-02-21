@@ -135,6 +135,7 @@
             this.$(DEVICE_NAME_SELECTOR).focus();
         },
         confirmNumber: function(number) {
+            window.removeSetupMenuItems();
             this.selectStep(Steps.ENTER_NAME);
             this.setDeviceNameDefault();
 

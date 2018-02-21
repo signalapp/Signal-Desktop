@@ -48,7 +48,8 @@
           }
         },
         openImporter: function() {
-          this.closeImporter();
+          window.addSetupMenuItems();
+          this.resetViews();
           var importView = this.importView = new Whisper.ImportView();
           this.listenTo(importView, 'light-import', this.finishLightImport.bind(this));
           this.openView(this.importView);
@@ -66,7 +67,8 @@
           }
         },
         openInstaller: function(options) {
-          this.closeInstaller();
+          window.addSetupMenuItems();
+          this.resetViews();
           var installView = this.installView = new Whisper.InstallView(options);
           this.openView(this.installView);
         },
@@ -78,10 +80,22 @@
         },
         openStandalone: function() {
           if (window.config.environment !== 'production') {
-            this.closeInstaller();
-            this.installView = new Whisper.StandaloneRegistrationView();
-            this.openView(this.installView);
+            window.addSetupMenuItems();
+            this.resetViews();
+            this.standaloneView = new Whisper.StandaloneRegistrationView();
+            this.openView(this.standaloneView);
           }
+        },
+        closeStandalone: function() {
+          if (this.standaloneView) {
+            this.standaloneView.remove();
+            this.standaloneView = null;
+          }
+        },
+        resetViews: function() {
+          this.closeInstaller();
+          this.closeImporter();
+          this.closeStandalone();
         },
         openInbox: function(options) {
           options = options || {};

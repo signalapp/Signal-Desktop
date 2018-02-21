@@ -63,6 +63,7 @@
             }
         },
         requestVoice: function() {
+            window.removeSetupMenuItems();
             this.$('#error').hide();
             var number = this.phoneView.validateNumber();
             if (number) {
@@ -73,6 +74,7 @@
             }
         },
         requestSMSVerification: function() {
+            window.removeSetupMenuItems();
             $('#error').hide();
             var number = this.phoneView.validateNumber();
             if (number) {

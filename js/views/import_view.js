@@ -119,8 +119,9 @@
     },
 
     doImport: function(directory) {
-      this.error = null;
+      window.removeSetupMenuItems();
 
+      this.error = null;
       this.state = State.IMPORTING;
       this.render();
 

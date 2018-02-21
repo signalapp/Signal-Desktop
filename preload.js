@@ -42,6 +42,26 @@
     Whisper.events.trigger('showDebugLog');
   });
 
+  ipc.on('set-up-with-import', function() {
+    Whisper.events.trigger('setupWithImport');
+  });
+
+  ipc.on('set-up-as-new-device', function() {
+    Whisper.events.trigger('setupAsNewDevice');
+  });
+
+  ipc.on('set-up-as-standalone', function() {
+    Whisper.events.trigger('setupAsStandalone');
+  });
+
+  window.addSetupMenuItems = function() {
+    ipc.send('add-setup-menu-items');
+  }
+
+  window.removeSetupMenuItems = function() {
+    ipc.send('remove-setup-menu-items');
+  }
+
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
   require('./js/logging');

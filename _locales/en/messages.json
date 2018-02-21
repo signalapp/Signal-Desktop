@@ -19,6 +19,18 @@
       "message": "&Help",
       "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "menuSetupWithImport": {
+      "message": "Set up with import",
+      "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "menuSetupAsNewDevice": {
+      "message": "Set up as new device",
+      "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
+    },
+    "menuSetupAsStandalone": {
+      "message": "Set up as standalone device",
+      "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
     "loading": {
       "message": "Loading...",
       "description": "Message shown on the loading screen before we've loaded any messages"

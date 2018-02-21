@@ -43,6 +43,8 @@ const importMode = process.argv.find(arg => arg === '--import');
 
 const config = require('./app/config');
 
+const development = config.environment === 'development';
+
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
 const userConfig = require('./app/user_config');
@@ -332,6 +334,24 @@ function openForums() {
   shell.openExternal('https://whispersystems.discoursehosting.net/');
 }
 
+function setupWithImport() {
+  if (mainWindow) {
+    mainWindow.webContents.send('set-up-with-import');
+  }
+}
+
+function setupAsNewDevice() {
+  if (mainWindow) {
+    mainWindow.webContents.send('set-up-as-new-device');
+  }
+}
+
+function setupAsStandalone() {
+  if (mainWindow) {
+    mainWindow.webContents.send('set-up-as-standalone');
+  }
+}
+
 
 let aboutWindow;
 function showAbout() {
@@ -400,21 +420,29 @@ app.on('ready', () => {
       tray = createTrayIcon(getMainWindow, locale.messages);
     }
 
-    const options = {
-      showDebugLog,
-      showWindow,
-      showAbout,
-      openReleaseNotes,
-      openNewBugForm,
-      openSupportPage,
-      openForums,
-    };
-    const template = createTemplate(options, locale.messages);
-
-    const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+    setupMenu();
   });
 });
+
+function setupMenu(options) {
+  const menuOptions = Object.assign({}, options, {
+    development,
+    showDebugLog,
+    showWindow,
+    showAbout,
+    openReleaseNotes,
+    openNewBugForm,
+    openSupportPage,
+    openForums,
+    setupWithImport,
+    setupAsNewDevice,
+    setupAsStandalone,
+  });
+  const template = createTemplate(menuOptions, locale.messages);
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+}
+
 
 app.on('before-quit', () => {
   windowState.markShouldQuit();
@@ -448,6 +476,17 @@ app.on('activate', () => {
 ipc.on('set-badge-count', (event, count) => {
   app.setBadgeCount(count);
 });
+
+ipc.on('remove-setup-menu-items', () => {
+  setupMenu();
+});
+
+ipc.on('add-setup-menu-items', () => {
+  setupMenu({
+    includeSetup: true,
+  });
+});
+
 
 ipc.on('draw-attention', () => {
   if (process.platform === 'darwin') {

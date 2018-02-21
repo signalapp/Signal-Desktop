@@ -91,6 +91,27 @@
       }
     });
 
+    Whisper.events.on('setupWithImport', function() {
+      var appView = window.owsDesktopApp.appView;
+      if (appView) {
+        appView.openImporter();
+      }
+    });
+
+    Whisper.events.on('setupAsNewDevice', function() {
+      var appView = window.owsDesktopApp.appView;
+      if (appView) {
+        appView.openInstaller();
+      }
+    });
+
+    Whisper.events.on('setupAsStandalone', function() {
+      var appView = window.owsDesktopApp.appView;
+      if (appView) {
+        appView.openStandalone();
+      }
+    });
+
     function start() {
         var currentVersion = window.config.version;
         var lastVersion = storage.get('version');
