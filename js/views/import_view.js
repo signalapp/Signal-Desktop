@@ -164,8 +164,7 @@
             Whisper.Import.complete(),
           ]);
       }).then(function() {
-        this.lightImport = true;
-        this.state = State.COMPLETE;
+        this.state = State.LIGHT_COMPLETE;
         this.render();
       }.bind(this));
     },
