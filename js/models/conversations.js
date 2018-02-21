@@ -1,9 +1,15 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
+/* eslint-disable */
+
+/* global Signal: false */
+/* global storage: false */
+/* global textsecure: false */
+/* global Whisper: false */
+
 (function () {
   'use strict';
    window.Whisper = window.Whisper || {};
+
+   const { Attachment, Message } = window.Signal.Types;
 
    // TODO: Factor out private and group subclasses of Conversation
 
@@ -598,54 +604,71 @@
         }
     },
 
-    sendMessage: function(body, attachments) {
-        this.queueJob(function() {
-            var now = Date.now();
+    /* jshint ignore:start */
+    /* eslint-enable */
+    sendMessage(body, attachments) {
+      this.queueJob(async () => {
+        const now = Date.now();
 
-            console.log(
-                'Sending message to conversation',
-                this.idForLogging(),
-                'with timestamp',
-                now
-            );
+        console.log(
+          'Sending message to conversation',
+          this.idForLogging(),
+          'with timestamp',
+          now
+        );
 
-            var message = this.messageCollection.add({
-                body           : body,
-                conversationId : this.id,
-                type           : 'outgoing',
-                attachments    : attachments,
-                sent_at        : now,
-                received_at    : now,
-                expireTimer    : this.get('expireTimer'),
-                recipients     : this.getRecipients()
-            });
-            if (this.isPrivate()) {
-                message.set({destination: this.id});
-            }
-            message.save();
+        const upgradedAttachments =
+          await Promise.all(attachments.map(Attachment.upgradeSchema));
+        const message = this.messageCollection.add({
+          body,
+          conversationId: this.id,
+          type: 'outgoing',
+          attachments: upgradedAttachments,
+          sent_at: now,
+          received_at: now,
+          expireTimer: this.get('expireTimer'),
+          recipients: this.getRecipients(),
+        });
+        if (this.isPrivate()) {
+          message.set({ destination: this.id });
+        }
+        message.save();
 
-            this.save({
-                active_at   : now,
-                timestamp   : now,
-                lastMessage : message.getNotificationText()
-            });
+        this.save({
+          active_at: now,
+          timestamp: now,
+          lastMessage: message.getNotificationText(),
+        });
 
-            var sendFunc;
-            if (this.get('type') == 'private') {
-                sendFunc = textsecure.messaging.sendMessageToNumber;
-            }
-            else {
-                sendFunc = textsecure.messaging.sendMessageToGroup;
-            }
+        const conversationType = this.get('type');
+        const sendFunc = (() => {
+          switch (conversationType) {
+            case Message.PRIVATE:
+              return textsecure.messaging.sendMessageToNumber;
+            case Message.GROUP:
+              return textsecure.messaging.sendMessageToGroup;
+            default:
+              throw new TypeError(`Invalid conversation type: '${conversationType}'`);
+          }
+        })();
 
-            var profileKey;
-            if (this.get('profileSharing')) {
-               profileKey = storage.get('profileKey');
-            }
+        let profileKey;
+        if (this.get('profileSharing')) {
+          profileKey = storage.get('profileKey');
+        }
 
-            message.send(sendFunc(this.get('id'), body, attachments, now, this.get('expireTimer'), profileKey));
-        }.bind(this));
+        message.send(sendFunc(
+          this.get('id'),
+          body,
+          upgradedAttachments,
+          now,
+          this.get('expireTimer'),
+          profileKey
+        ));
+      });
     },
+    /* jshint ignore:end */
+    /* eslint-disable */
 
     updateLastMessage: function() {
         var collection = new Whisper.MessageCollection();

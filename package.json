@@ -12,7 +12,7 @@
   "main": "main.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
-    "test": "npm run eslint && npm run test-server && grunt test",
+    "test": "npm run eslint && npm run test-server && grunt test && npm run test-modules",
     "lint": "grunt jshint",
     "start": "electron .",
     "asarl": "asar l release/mac/Signal.app/Contents/Resources/app.asar",
@@ -28,6 +28,7 @@
     "build-release": "SIGNAL_ENV=production npm run build -- --config.directories.output=release",
     "build-mas-release": "npm run build-release -- -m --config.mac.target=mas",
     "build-mas-dev": "npm run build-release -- -m --config.mac.target=mas --config.type=development",
+    "grunt": "grunt",
     "prep-mac-release": "npm run build-release -- -m --dir",
     "prep-release": "npm run generate && grunt prep-release && npm run build-release && npm run build-mas-release && grunt test-release",
     "release-mac": "npm run build-release -- -m --prepackaged release/mac/Signal*.app --publish=always",
@@ -36,10 +37,14 @@
     "release": "npm run release-mac && npm run release-win && npm run release-lin",
     "test-server": "mocha --recursive test/server",
     "test-server-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/server",
+    "test-modules": "mocha --recursive test/modules",
     "eslint": "eslint .",
     "open-coverage": "open coverage/lcov-report/index.html"
   },
   "dependencies": {
+    "blob-util": "^1.3.0",
+    "blueimp-canvas-to-blob": "^3.14.0",
+    "blueimp-load-image": "^2.18.0",
     "bunyan": "^1.8.12",
     "config": "^1.28.1",
     "electron-config": "^1.0.0",

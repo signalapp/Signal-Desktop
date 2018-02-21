@@ -373,7 +373,7 @@
             //   1. on an incoming message
             //   2. on a sent message sync'd from another device
             //   3. in rare cases, an incoming message can be retried, though it will
-            //      still through one of the previous two codepaths.
+            //      still go through one of the previous two codepaths
             var message = this;
             var source = message.get('source');
             var type = message.get('type');

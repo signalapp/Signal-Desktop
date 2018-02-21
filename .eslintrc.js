@@ -21,7 +21,7 @@ module.exports = {
     }],
 
     // putting params on their own line helps stay within line length limit
-    'function-paren-newline': ['error', 'consistent'],
+    'function-paren-newline': ['error', 'multiline'],
 
     // 90 characters allows three+ side-by-side screens on a standard-size monitor
     'max-len': ['error', {
@@ -37,5 +37,7 @@ module.exports = {
 
     // though we have a logger, we still remap console to log to disk
     'no-console': 'off',
+
+    'operator-linebreak': 'error',
   }
 };
