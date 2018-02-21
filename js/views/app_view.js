@@ -10,8 +10,6 @@
 
           this.applyTheme();
           this.applyHideMenu();
-
-
         },
         events: {
             'click .openInstaller': 'openInstaller', // NetworkStatusView has this button

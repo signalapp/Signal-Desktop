@@ -656,7 +656,7 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='import-flow-template'>
-    {{#step2}}
+    {{#isStep2}}
     <div id='step2' class='step'>
       <div class='inner'>
         <div class='step-body'>
@@ -671,8 +671,8 @@
         </div>
       </div>
     </div>
-    {{/step2}}
-    {{#step3}}
+    {{/isStep2}}
+    {{#isStep3}}
     <div id='step3' class='step'>
       <div class='inner'>
         <div class='step-body'>
@@ -686,8 +686,8 @@
         </div>
       </div>
     </div>
-    {{/step3}}
-    {{#step4}}
+    {{/isStep3}}
+    {{#isStep4}}
     <div id='step4' class='step'>
       <div class='inner'>
         <div class='step-body'>
@@ -708,15 +708,15 @@
         </div>
       </div>
     </div>
-    {{/step4}}
+    {{/isStep4}}
 
-    {{#error}}
+    {{#isError}}
     <div id='error' class='step'>
       <div class='inner error-dialog clearfix'>
         <div class='step-body'>
           <span class='banner-icon alert-outline'></span>
           <div class='header'>{{ errorHeader }}</div>
-          <div class='body-text-wide'>{{& error }}</div>
+          <div class='body-text-wide'>{{& errorMessage }}</div>
         </div>
         <div class='nav'>
           <div>
@@ -725,11 +725,11 @@
         </div>
       </div>
     </div>
-    {{/error}}
+    {{/isError}}
   </script>
 
   <script type='text/x-tmpl-mustache' id='link-flow-template'>
-    {{#step3}}
+    {{#isStep3}}
     <div id='step3' class='step'>
       <div class='inner'>
         <div class='step-body'>
@@ -768,8 +768,8 @@
         </div>
       </div>
     </div>
-    {{/step3}}
-    {{#step4}}
+    {{/isStep3}}
+    {{#isStep4}}
     <div id='step4' class='step'>
       <div class='inner'>
         <div class='step-body'>
@@ -786,8 +786,8 @@
         </div>
       </div>
     </div>
-    {{/step4}}
-    {{#step5}}
+    {{/isStep4}}
+    {{#isStep5}}
     <div id='step5' class='step'>
       <div class='inner'>
         <div class='step-body'>
@@ -801,9 +801,9 @@
         </div>
       </div>
     </div>
-    {{/step5}}
+    {{/isStep5}}
 
-    {{#error}}
+    {{#isError}}
     <div id='error' class='step'>
       <div class='inner'>
         <div class='step-body'>
@@ -816,7 +816,7 @@
         </div>
       </div>
     </div>
-    {{/error}}
+    {{/isError}}
   </script>
 
   <script type='text/x-tmpl-mustache' id='standalone'>
@@ -825,10 +825,10 @@
         <div class='step-body'>
           <img class='banner-image' src='images/icon_128.png' />
           <div class='header'>Create your Signal Account</div>
-          <div id="phone-number-input">
-            <div class="phone-input-form">
-                <div id="number-container" class="number-container">
-                  <input type="tel" class="number" placeholder="Phone Number" />
+          <div id='phone-number-input'>
+            <div class='phone-input-form'>
+                <div id='number-container' class='number-container'>
+                  <input type='tel' class='number' placeholder='Phone Number' />
                 </div>
             </div>
           </div>
@@ -836,12 +836,12 @@
             <a class='button' id='request-sms'>Send SMS</a>
             <a class='link' id='request-voice' tabindex=-1>Call</a>
           </div>
-          <input class='form-control' type="text" pattern="\s*[0-9]{3}-?[0-9]{3}\s*" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
+          <input class='form-control' type='text' pattern='\s*[0-9]{3}-?[0-9]{3}\s*' title='Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one' id='code' placeholder='Verification Code' autocomplete='off'>
           <div id='error' class='collapse'></div>
           <div id=status></div>
         </div>
         <div class='nav'>
-          <a class='button' id="verifyCode" data-loading-text="Please wait...">Register</a>
+          <a class='button' id='verifyCode' data-loading-text='Please wait...'>Register</a>
         </div>
       </div>
     </div>

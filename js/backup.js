@@ -198,7 +198,7 @@
     var cleaned = _.pick(data, 'conversations', 'groups');
     console.log('Writing configuration-free backup file back to disk');
     try {
-      fs.writeFileSync(path, JSON.stringify(cleaned)  );
+      fs.writeFileSync(path, JSON.stringify(cleaned));
     } catch (error) {
       console.log('Error writing cleaned-up backup to disk: ', error.stack);
     }
@@ -301,13 +301,13 @@
           _.each(importObject[storeName], function(toAdd) {
               toAdd = unstringify(toAdd);
 
-              // skipping anything we already have in the database
-              if (storeName === 'conversations' && conversationLookup[getConversationKey(toAdd)]) {
-                skipCount++;
-                count++;
-                return;
-              }
-              if (storeName === 'groups' && groupLookup[getGroupKey(toAdd)]) {
+              var haveConversationAlready =
+                storeName === 'conversations'
+                && conversationLookup[getConversationKey(toAdd)];
+              var haveGroupAlready =
+                storeName === 'groups' && groupLookup[getGroupKey(toAdd)];
+
+              if (haveConversationAlready || haveGroupAlready) {
                 skipCount++;
                 count++;
                 return;
@@ -695,6 +695,10 @@
     }));
   }
 
+  function saveMessage(idb_db, message) {
+    return saveAllMessages(idb_db, [message]);
+  }
+
   function saveAllMessages(idb_db, messages) {
     if (!messages.length) {
       return Promise.resolve();
@@ -778,22 +782,22 @@
 
         if (messageLookup[getMessageKey(message)]) {
           skipped++;
-          return null;
+          return false;
         }
 
         if (message.attachments && message.attachments.length) {
           var process = function() {
             return loadAttachments(dir, message).then(function() {
-              return saveAllMessages(idb_db, [message]);
+              return saveMessage(idb_db, message);
             });
           };
 
           promiseChain = promiseChain.then(process);
 
-          return null;
+          return false;
         }
 
-        return message;
+        return true;
       });
 
       var promise = Promise.resolve();
@@ -976,7 +980,7 @@
       };
       return getDirectory(options);
     },
-    backupToDirectory: function(directory, options) {
+    exportToDirectory: function(directory, options) {
       var dir;
       var idb;
       return openDatabase().then(function(idb_db) {

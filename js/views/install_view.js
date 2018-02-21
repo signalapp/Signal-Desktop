@@ -15,6 +15,8 @@
     };
 
     var DEVICE_NAME_SELECTOR = 'input.device-name';
+    var CONNECTION_ERROR = -1;
+    var TOO_MANY_DEVICES = 411;
 
     Whisper.InstallView = Whisper.View.extend({
         templateName: 'link-flow-template',
@@ -38,18 +40,24 @@
             var errorMessage;
 
             if (this.error) {
-                if (this.error.name === 'HTTPError' && this.error.code == -1) {
+                if (this.error.name === 'HTTPError'
+                    && this.error.code == TOO_MANY_DEVICES) {
+
                     errorMessage = i18n('installTooManyDevices');
                 }
-                else if (this.error.name === 'HTTPError' && this.error.code == 411) {
+                else if (this.error.name === 'HTTPError'
+                    && this.error.code == CONNECTION_ERROR) {
+
                     errorMessage = i18n('installConnectionFailed');
                 }
                 else if (this.error.message === 'websocket closed') {
+                    // AccountManager.registerSecondDevice uses this specific
+                    //   'websocket closed' error message
                     errorMessage = i18n('installConnectionFailed');
                 }
 
                 return {
-                    error: true,
+                    isError: true,
                     errorHeader: 'Something went wrong!',
                     errorMessage,
                     errorButton: 'Try again',
@@ -57,18 +65,18 @@
             }
 
             return {
-                step3: this.step === Steps.SCAN_QR_CODE,
+                isStep3: this.step === Steps.SCAN_QR_CODE,
                 linkYourPhone: i18n('linkYourPhone'),
                 signalSettings: i18n('signalSettings'),
                 linkedDevices: i18n('linkedDevices'),
                 androidFinalStep: i18n('plusButton'),
                 appleFinalStep: i18n('linkNewDevice'),
 
-                step4: this.step === Steps.ENTER_NAME,
+                isStep4: this.step === Steps.ENTER_NAME,
                 chooseName: i18n('chooseDeviceName'),
                 finishLinkingPhoneButton: i18n('finishLinkingPhone'),
 
-                step5: this.step === Steps.PROGRESS_BAR,
+                isStep5: this.step === Steps.PROGRESS_BAR,
                 syncing: i18n('initialSync'),
             };
         },
@@ -100,7 +108,9 @@
 
             if (e.message === 'websocket closed') {
                 this.trigger('disconnected');
-            } else if (e.name !== 'HTTPError' || (e.code !== -1 && e.code !== 411)) {
+            } else if (e.name !== 'HTTPError'
+                || (e.code !== CONNECTION_ERROR && e.code !== TOO_MANY_DEVICES)) {
+
                 throw e;
             }
         },

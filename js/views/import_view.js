@@ -59,8 +59,9 @@
     render_attributes: function() {
       if (this.error) {
         return {
+          isError: true,
           errorHeader: i18n('importErrorHeader'),
-          error: i18n('importError'),
+          errorMessage: i18n('importError'),
           chooseButton: i18n('importAgain'),
         };
       }
@@ -80,15 +81,15 @@
       }
 
       return {
-        step2: step === 'step2',
+        isStep2: step === 'step2',
         chooseHeader: i18n('loadDataHeader'),
         choose: i18n('loadDataDescription'),
         chooseButton: i18n('chooseDirectory'),
 
-        step3: step === 'step3',
+        isStep3: step === 'step3',
         importingHeader: i18n('importingHeader'),
 
-        step4: step === 'step4',
+        isStep4: step === 'step4',
         completeHeader: i18n('importCompleteHeader'),
         restartButton: restartButton,
         registerButton: registerButton,

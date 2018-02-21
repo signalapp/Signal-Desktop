@@ -37,9 +37,9 @@ function getMainWindow() {
 
 // Tray icon and related objects
 let tray = null;
-const startInTray = process.argv.find(arg => arg === '--start-in-tray');
-const usingTrayIcon = startInTray || process.argv.find(arg => arg === '--use-tray-icon');
-const importMode = process.argv.find(arg => arg === '--import');
+const startInTray = process.argv.some(arg => arg === '--start-in-tray');
+const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
+const importMode = process.argv.some(arg => arg === '--import');
 
 const config = require('./app/config');
 
@@ -122,7 +122,7 @@ function prepareURL(pathSegments) {
       appInstance: process.env.NODE_APP_INSTANCE,
       polyfillNotifications: polyfillNotifications ? true : undefined, // for stringify()
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
-      importMode,
+      importMode: importMode ? true : undefined, // for stringify()
     },
   });
 }
