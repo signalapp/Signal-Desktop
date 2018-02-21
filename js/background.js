@@ -124,8 +124,10 @@
             appView.openInbox({
                 initialLoadComplete: initialLoadComplete
             });
+        } else if (window.config.importMode) {
+            appView.openImporter();
         } else {
-            appView.openInstallChoice();
+            appView.openInstaller();
         }
 
         Whisper.events.on('showDebugLog', function() {

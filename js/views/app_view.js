@@ -7,12 +7,14 @@
         initialize: function(options) {
           this.inboxView = null;
           this.installView = null;
+
           this.applyTheme();
           this.applyHideMenu();
+
+
         },
         events: {
-            'click .openInstaller': 'openInstaller',
-            'click .openStandalone': 'openStandalone',
+            'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
             'openInbox': 'openInbox',
             'change-theme': 'applyTheme',
             'change-hide-menu': 'applyHideMenu',
@@ -45,26 +47,9 @@
             this.debugLogView = null;
           }
         },
-        openInstallChoice: function() {
-          this.closeInstallChoice();
-          var installChoice = this.installChoice = new Whisper.InstallChoiceView();
-
-          this.listenTo(installChoice, 'install-new', this.openInstaller.bind(this));
-          this.listenTo(installChoice, 'install-import', this.openImporter.bind(this));
-
-          this.openView(this.installChoice);
-        },
-        closeInstallChoice: function() {
-          if (this.installChoice) {
-            this.installChoice.remove();
-            this.installChoice = null;
-          }
-        },
         openImporter: function() {
           this.closeImporter();
-          this.closeInstallChoice();
           var importView = this.importView = new Whisper.ImportView();
-          this.listenTo(importView, 'cancel', this.openInstallChoice.bind(this));
           this.listenTo(importView, 'light-import', this.finishLightImport.bind(this));
           this.openView(this.importView);
         },
@@ -82,9 +67,7 @@
         },
         openInstaller: function(options) {
           this.closeInstaller();
-          this.closeInstallChoice();
           var installView = this.installView = new Whisper.InstallView(options);
-          this.listenTo(installView, 'cancel', this.openInstallChoice.bind(this));
           this.openView(this.installView);
         },
         closeInstaller: function() {
