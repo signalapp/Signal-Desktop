@@ -888,6 +888,10 @@
     },
 
     getProfile: function(id) {
+        if (!textsecure.messaging) {
+            return Promise.reject(new Error('textsecure.messaging is not available'));
+        }
+
         return textsecure.messaging.getProfile(id).then(function(profile) {
             var identityKey = dcodeIO.ByteBuffer.wrap(profile.identityKey, 'base64').toArrayBuffer();
 
