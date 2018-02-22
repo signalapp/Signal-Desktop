@@ -911,6 +911,11 @@
     },
 
     getProfile: function(id) {
+        if (!textsecure.messaging) {
+            var message = 'Conversation.getProfile: textsecure.messaging not available';
+            return Promise.reject(new Error(message));
+        }
+
         return textsecure.messaging.getProfile(id).then(function(profile) {
             var identityKey = dcodeIO.ByteBuffer.wrap(profile.identityKey, 'base64').toArrayBuffer();
 
