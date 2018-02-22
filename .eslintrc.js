@@ -11,6 +11,10 @@ module.exports = {
     'airbnb-base',
   ],
 
+  plugins: [
+    'more',
+  ],
+
   rules: {
     'comma-dangle': ['error', {
         arrays: 'always-multiline',
@@ -29,6 +33,9 @@ module.exports = {
       ignoreUrls: true,
     }],
 
+    // encourage consistent use of `async` / `await` instead of `then`
+    'more/no-then': 'error',
+
     // it helps readability to put public API at top,
     'no-use-before-define': 'off',
 
@@ -38,6 +45,7 @@ module.exports = {
     // though we have a logger, we still remap console to log to disk
     'no-console': 'off',
 
+    // consistently place operators at end of line except ternaries
     'operator-linebreak': 'error',
   }
 };

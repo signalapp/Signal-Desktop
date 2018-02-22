@@ -1,3 +1,6 @@
+// NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
+/* eslint-disable more/no-then */
+
 const path = require('path');
 const fs = require('fs');
 

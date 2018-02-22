@@ -67,6 +67,7 @@
     "rimraf": "^2.6.2",
     "semver": "^5.4.1",
     "spellchecker": "^3.4.4",
+    "testcheck": "^1.0.0-rc.2",
     "websocket": "^1.0.25"
   },
   "devDependencies": {
@@ -80,6 +81,7 @@
     "eslint": "^4.14.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-more": "^0.3.1",
     "extract-zip": "^1.6.6",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
@@ -92,6 +94,7 @@
     "grunt-jscs": "^3.0.1",
     "grunt-sass": "^2.0.0",
     "mocha": "^4.1.0",
+    "mocha-testcheck": "^1.0.0-rc.0",
     "node-sass-import-once": "^1.2.0",
     "nyc": "^11.4.1",
     "spectron": "^3.7.2",

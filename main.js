@@ -377,6 +377,8 @@ function showAbout() {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', () => {
+  // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
+  /* eslint-disable more/no-then */
   let loggingSetupError;
   logging.initialize().catch((error) => {
     loggingSetupError = error;
@@ -416,6 +418,7 @@ app.on('ready', () => {
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
   });
+  /* eslint-enable more/no-then */
 });
 
 app.on('before-quit', () => {
