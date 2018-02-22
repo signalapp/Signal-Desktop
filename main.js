@@ -42,6 +42,7 @@ const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tra
 
 
 const config = require('./app/config');
+
 const importMode = process.argv.some(arg => arg === '--import') || config.get('import');
 
 
