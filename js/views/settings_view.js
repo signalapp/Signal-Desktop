@@ -55,6 +55,7 @@
         className: 'settings modal expand',
         templateName: 'settings',
         initialize: function() {
+            this.deviceName = textsecure.storage.user.getDeviceName();
             this.render();
             new RadioButtonGroupView({
                 el: this.$('.notification-settings'),
@@ -88,6 +89,8 @@
         },
         render_attributes: function() {
             return {
+              deviceNameLabel: i18n('deviceName'),
+              deviceName: this.deviceName,
               theme: i18n('theme'),
               notifications: i18n('notifications'),
               notificationSettingsDialog: i18n('notificationSettingsDialog'),

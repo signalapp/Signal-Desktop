@@ -571,6 +571,9 @@
     <div class='content'>
       <a class='x close' alt='close settings' href='#'></a>
       <h2>{{ settings }}</h2>
+      <div class='device-name-settings'>
+        <b>{{ deviceNameLabel }}:</b> {{ deviceName }}
+      </div>
       <hr>
       <div class='theme-settings'>
         <h3>{{ theme }}</h3>
@@ -652,151 +655,198 @@
     {{/action }}
   </script>
 
-  <script type='text/x-tmpl-mustache' id='install-choice'>
-    <div class='step'>
+  <script type='text/x-tmpl-mustache' id='import-flow-template'>
+    {{#isStep2}}
+    <div id='step2' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <img id='signal-icon' src='images/icon_250.png'/>
-          <h1>{{ installWelcome }}</h1>
-          <p>{{ installTagline }}</p>
+          <span class='banner-icon folder-outline'></span>
+          <div class='header'>{{ chooseHeader }}</div>
+          <div class='body-text'>{{ choose }}</div>
         </div>
         <div class='nav'>
-          <div> <a class='button new'>{{ installNew }}</a> </div>
-          <div> <a class='button import'>{{ installImport }}</a> </div>
+          <div>
+            <a class='button choose'>{{ chooseButton }}</a>
+          </div>
         </div>
       </div>
     </div>
+    {{/isStep2}}
+    {{#isStep3}}
+    <div id='step3' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon import'></span>
+          <div class='header'>{{ importingHeader }}</div>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep3}}
+    {{#isStep4}}
+    <div id='step4' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon check-circle-outline'></span>
+          <div class='header'>{{ completeHeader }}</div>
+        </div>
+        <div class='nav'>
+          {{#restartButton}}
+          <div>
+            <a class='button restart'>{{ restartButton }}</a>
+          </div>
+          {{/restartButton}}
+          {{#registerButton}}
+          <div>
+            <a class='button register'>{{ registerButton }}</a>
+          </div>
+          {{/registerButton}}
+        </div>
+      </div>
+    </div>
+    {{/isStep4}}
+
+    {{#isError}}
+    <div id='error' class='step'>
+      <div class='inner error-dialog clearfix'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline'></span>
+          <div class='header'>{{ errorHeader }}</div>
+          <div class='body-text-wide'>{{& errorMessage }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button choose'>{{ chooseButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isError}}
   </script>
 
-  <script type='text/x-tmpl-mustache' id='install_flow_template'>
-
-    <div id='step2' class='step hidden'>
+  <script type='text/x-tmpl-mustache' id='link-flow-template'>
+    {{#isStep3}}
+    <div id='step3' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <img id='signal-phone' src='images/signal-phone.png'>
-          <p>{{{ installSignalLink }}}</p>
+          <div class='header'>{{ linkYourPhone }}</div>
+          <div id="qr">
+            <div class='container'>
+              <span class='dot'></span>
+              <span class='dot'></span>
+              <span class='dot'></span>
+            </div>
+          </div>
         </div>
         <div class='nav'>
-          <div> <a class='button step3'>{{ installIHaveSignalButton }}</a> </div>
-          <div class='dot-container'>
-            <span class='dot step1'></span>
-            <span class='dot step2 selected'></span>
-            <span class='dot step3'></span>
+          <div class='instructions'>
+            <div class='android'>
+              <div class='label'>
+                <span class='os-icon android'></span>
+              </div>
+              <div class='body'>
+                <div>→ {{ signalSettings }}</div>
+                <div>→ {{ linkedDevices }}</div>
+                <div>→ {{ androidFinalStep }}</div>
+              </div>
+            </div>
+            <div class='apple'>
+              <div class='label'>
+                <span class='os-icon apple'></span>
+              </div>
+              <div class='body'>
+                <div>→ {{ signalSettings }}</div>
+                <div>→ {{ linkedDevices }}</div>
+                <div>→ {{ appleFinalStep }}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <div id='step3' class='step hidden'>
+    {{/isStep3}}
+    {{#isStep4}}
+    <div id='step4' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <div id="qr"></div>
-          <p>{{ installAndroidInstructions }}</p>
-        </div>
-        <div class='nav'>
-          {{ #development }}
-            <div> <a class='button openStandalone'>Standalone</a> </div>
-          {{ /development }}
-          <div class='dot-container'>
-            <span class='dot step1'></span>
-            <span class='dot step2'></span>
-            <span class='dot step3 selected'></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <form id='step4' class='step hidden'>
-      <div class='inner'>
-        <div class='step-body'>
-          <p>{{ installLinkingWithNumber }}</p>
-          <h2 class='number'></h2>
-          <img id='signal-computer' src='images/signal-laptop.png'>
-          <p>{{ installComputerName }}</p>
+          <span class='banner-icon lead-pencil'></span>
+          <div class='header'>{{ chooseName }}</div>
           <div>
-            <input type='text' id='device-name' spellcheck='false' maxlength='50' />
+            <input type='text' class='device-name' spellcheck='false' maxlength='50' />
           </div>
         </div>
         <div class='nav'>
           <div>
-            <input type='submit' class='button' id='sync' value='{{ installFinalButton }}' />
+            <a class='button finish'>{{ finishLinkingPhoneButton }}</a>
           </div>
         </div>
       </div>
-    </form>
-
-    <div id='step5' class='step hidden'>
+    </div>
+    {{/isStep4}}
+    {{#isStep5}}
+    <div id='step5' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <img id='signal-icon' src='images/icon_250.png'/>
-          <div class='progress-dialog'>
-            <p class='status'></p>
-            <div class='bar-container'><div class='bar progress-bar'></div></div>
+          <span class='banner-icon sync'></span>
+          <div class='header'>{{ syncing }}</div>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
           </div>
         </div>
-        <div class='nav'>
-        </div>
       </div>
     </div>
+    {{/isStep5}}
 
-    <div id='stepTooManyDevices' class='step hidden'>
-      <div class='inner error-dialog clearfix'>
-        <div class='panel step-body'>{{ installTooManyDevices }}</div>
+    {{#isError}}
+    <div id='error' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline'></span>
+          <div class='header'>{{ errorHeader }}</div>
+          <div class='body'>{{ errorMessage }}</div>
+        </div>
         <div class='nav'>
-          <button class='ok step3'>{{ ok }}</button>
+          <a class='button try-again'>{{ errorButton }}</a>
         </div>
       </div>
     </div>
-    <div id='stepNetworkError' class='step hidden'>
-      <div class='inner error-dialog clearfix'>
-        <div class='panel step-body'>{{ installConnectionFailed }}</div>
-        <button class='ok step3 button'>{{ tryAgain }}</button>
-        <div class='nav'>
-        </div>
-      </div>
-    </div>
+    {{/isError}}
   </script>
 
   <script type='text/x-tmpl-mustache' id='standalone'>
-    <header>
-      <div class='container'>
-        <div class='row'>
-          <div class='col-xs-2 col-md-1'>
-            <img id='textsecure-icon' src='images/icon_250.png'/>
-          </div>
-          <div class='col-xs-10 col-md-11'>
-            <h1>Create your Signal Account</h1>
-            <h4 class='tagline'>Private messaging from your web browser.</h4>
-          </div>
-        </div>
-      </div>
-    </header>
-    <div class='container'>
-      <div class='col-xs-offset-1 col-md-6'>
-        <div class='narrow'>
-          <div id="phone-number-input">
-            <div class="phone-input-form">
-                <div id="number-container" class="number-container">
-                  <input type="tel" class="number" placeholder="Phone Number" />
+    <div class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <img class='banner-image' src='images/icon_128.png' />
+          <div class='header'>Create your Signal Account</div>
+          <div id='phone-number-input'>
+            <div class='phone-input-form'>
+                <div id='number-container' class='number-container'>
+                  <input type='tel' class='number' placeholder='Phone Number' />
                 </div>
             </div>
           </div>
           <div class='clearfix'>
-            <button id="request-sms" class="btn btn-info">Send SMS</button>
-            <button id="request-voice" class="btn btn-info" tabindex=-1>Call</button>
+            <a class='button' id='request-sms'>Send SMS</a>
+            <a class='link' id='request-voice' tabindex=-1>Call</a>
           </div>
-          <form id='form'>
-            <h2></h2>
-            <input class='form-control' type="text" pattern="\s*[0-9]{3}-?[0-9]{3}\s*" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
-            <button id="verifyCode" class="btn btn-info" data-loading-text="Please wait...">Register</button>
-            <div id='error' class='collapse'></div>
-            <div> <a class='button openInstaller'>Link to phone</a> </div>
-          </form>
+          <input class='form-control' type='text' pattern='\s*[0-9]{3}-?[0-9]{3}\s*' title='Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one' id='code' placeholder='Verification Code' autocomplete='off'>
+          <div id='error' class='collapse'></div>
           <div id=status></div>
+        </div>
+        <div class='nav'>
+          <a class='button' id='verifyCode' data-loading-text='Please wait...'>Register</a>
         </div>
       </div>
     </div>
   </script>
+
   <script type='text/javascript' src='js/components.js'></script>
   <script type='text/javascript' src='js/reliable_trigger.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
@@ -857,7 +907,6 @@
   <script type="text/javascript" src="js/views/phone-input-view.js"></script>
   <script type='text/javascript' src='js/views/standalone_registration_view.js'></script>
   <script type='text/javascript' src='js/views/app_view.js'></script>
-  <script type='text/javascript' src='js/views/install_choice_view.js'></script>
   <script type='text/javascript' src='js/views/import_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>

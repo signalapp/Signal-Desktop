@@ -6,6 +6,9 @@ function createTemplate(options, messages) {
     openNewBugForm,
     openSupportPage,
     openForums,
+    setupWithImport,
+    setupAsNewDevice,
+    setupAsStandalone,
   } = options;
 
   const template = [{
@@ -123,6 +126,27 @@ function createTemplate(options, messages) {
     ],
   }];
 
+  if (options.includeSetup) {
+    const fileMenu = template[0];
+
+    // These are in reverse order, since we're prepending them one at a time
+    if (options.development) {
+      fileMenu.submenu.unshift({
+        label: messages.menuSetupAsStandalone.message,
+        click: setupAsStandalone,
+      });
+    }
+
+    fileMenu.submenu.unshift({
+      label: messages.menuSetupAsNewDevice.message,
+      click: setupAsNewDevice,
+    });
+    fileMenu.submenu.unshift({
+      label: messages.menuSetupWithImport.message,
+      click: setupWithImport,
+    });
+  }
+
   if (process.platform === 'darwin') {
     return updateForMac(template, messages, options);
   }
@@ -134,14 +158,46 @@ function updateForMac(template, messages, options) {
   const {
     showWindow,
     showAbout,
+    setupWithImport,
+    setupAsNewDevice,
+    setupAsStandalone,
   } = options;
 
   // Remove About item and separator from Help menu, since it's on the first menu
   template[4].submenu.pop();
   template[4].submenu.pop();
 
-  // Replace File menu
+  // Remove File menu
   template.shift();
+
+  if (options.includeSetup) {
+    // Add a File menu just for these setup options. Because we're using unshift(), we add
+    //   the file menu first, though it ends up to the right of the Signal Desktop menu.
+    const fileMenu = {
+      label: messages.mainMenuFile.message,
+      submenu: [
+        {
+          label: messages.menuSetupWithImport.message,
+          click: setupWithImport,
+        },
+        {
+          label: messages.menuSetupAsNewDevice.message,
+          click: setupAsNewDevice,
+        },
+      ],
+    };
+
+    if (options.development) {
+      fileMenu.submenu.push({
+        label: messages.menuSetupAsStandalone.message,
+        click: setupAsStandalone,
+      });
+    }
+
+    template.unshift(fileMenu);
+  }
+
+  // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
     submenu: [
       {
@@ -170,7 +226,8 @@ function updateForMac(template, messages, options) {
   });
 
   // Add to Edit menu
-  template[1].submenu.push(
+  const editIndex = options.includeSetup ? 2 : 1;
+  template[editIndex].submenu.push(
     {
       type: 'separator',
     },
