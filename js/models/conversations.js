@@ -889,7 +889,8 @@
 
     getProfile: function(id) {
         if (!textsecure.messaging) {
-            return Promise.reject(new Error('textsecure.messaging is not available'));
+            var message = 'Conversation.getProfile: textsecure.messaging not available';
+            return Promise.reject(new Error(message));
         }
 
         return textsecure.messaging.getProfile(id).then(function(profile) {
