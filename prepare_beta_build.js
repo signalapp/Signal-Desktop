@@ -17,7 +17,7 @@ if (!beta.test(version)) {
   process.exit();
 }
 
-console.log('prepare_build: updating package.json for beta build');
+console.log('prepare_beta_build: updating package.json');
 
 // -------
 

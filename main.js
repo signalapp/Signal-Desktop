@@ -39,9 +39,11 @@ function getMainWindow() {
 let tray = null;
 const startInTray = process.argv.some(arg => arg === '--start-in-tray');
 const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
-const importMode = process.argv.some(arg => arg === '--import');
+
 
 const config = require('./app/config');
+const importMode = process.argv.some(arg => arg === '--import') || config.get('import');
+
 
 const development = config.environment === 'development';
 
