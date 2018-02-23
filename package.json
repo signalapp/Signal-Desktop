@@ -101,6 +101,9 @@
     "spectron": "^3.7.2",
     "tmp": "^0.0.33"
   },
+  "engines": {
+    "node": "8.2.1"
+  },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
     "mac": {
@@ -214,9 +217,6 @@
       "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
       "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node"
-    ],
-    "engines": {
-      "node": "8.2.1"
-    }
+    ]
   }
 }
