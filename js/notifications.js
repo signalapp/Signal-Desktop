@@ -26,17 +26,22 @@
         },
         update: function() {
             const isFocused = window.isFocused();
+            const shouldPlayNotificationSound =
+                storage.get('audio-notification') || false;
+            const numNotifications = this.length;
             console.log(
-                'updating notifications - count:', this.length,
-                'focused:', isFocused,
-                'isEnabled:', isEnabled
+                'updating notifications:',
+                'numNotifications:', numNotifications,
+                'isFocused:', isFocused,
+                'isEnabled:', isEnabled,
+                'shouldPlayNotificationSound:', shouldPlayNotificationSound
             );
 
             if (!isEnabled) {
                 return;
             }
 
-            const hasNotifications = this.length > 0
+            const hasNotifications = numNotifications > 0;
             if (!hasNotifications) {
                 return;
             }
@@ -63,8 +68,8 @@
             // e.g. Russian:
             // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
             var newMessageCount = [
-                this.length,
-                this.length === 1 ? i18n('newMessage') : i18n('newMessages')
+                numNotifications,
+                numNotifications === 1 ? i18n('newMessage') : i18n('newMessages')
             ].join(' ');
 
             var last = this.last();
@@ -79,7 +84,7 @@
                 iconUrl = last.get('iconUrl');
                 break;
               case SETTINGS.MESSAGE:
-                if (this.length === 1) {
+                if (numNotifications === 1) {
                   title = last.get('title');
                 } else {
                   title = newMessageCount;
@@ -89,7 +94,6 @@
                 break;
             }
 
-            var shouldPlayNotificationSound = storage.get('audio-notification') || false;
             if (window.config.polyfillNotifications) {
                 window.nodeNotifier.notify({
                     title: title,
