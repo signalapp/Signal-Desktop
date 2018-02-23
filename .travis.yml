@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '7.9.0'
+  - '8.2.1'
 os:
   - linux
 dist: trusty
