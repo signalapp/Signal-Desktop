@@ -573,6 +573,13 @@ input[type=text], input[type=search], textarea {
   .message {
     padding: 10px 0;
   }
+
+  .x {
+    float: right;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+    background-color: $grey_l2;
+  }
 }
 
 

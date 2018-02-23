@@ -80,9 +80,12 @@
     <a target='_blank' href='https://chrome.google.com/webstore/detail/bikioccmkafdpakkkcpdbppfkghcmihk'>
       <button class='upgrade'>{{ upgrade }}</button>
     </a>
-    {{ expiredWarning }}
+    <div class='message'>
+      {{ expiredWarning }}
+    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='upgrade_banner'>
+    <span class='x banner-close'></span>
     <button class='migrate'>{{ upgradeNow }}</button>
     <div class='message'>
       {{ upgradeMessage }}

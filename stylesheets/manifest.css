@@ -504,6 +504,11 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     margin-left: 20px; }
   .upgrade-banner .message {
     padding: 10px 0; }
+  .upgrade-banner .x {
+    float: right;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+    background-color: #d9d9d9; }
 
 .inbox {
   position: relative; }
@@ -1071,7 +1076,7 @@ img.emoji.jumbo {
   height: 100%; }
 
 .expired .conversation-stack, .expired .gutter {
-  height: calc(100% - 56px); }
+  height: calc(100% - 62px); }
 
 .scrollable {
   height: 100%;
@@ -2355,6 +2360,18 @@ li.entry .error-icon-container {
     border: 1px solid #292929; }
     .android-dark button:hover, .android-dark .confirmation-dialog .content .buttons button:hover {
       background-color: #b8b8b8; }
+  .android-dark .upgrade-banner button {
+    float: right;
+    border: none;
+    color: white;
+    font-family: roboto-light;
+    font-size: 14pt;
+    border-radius: 0;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 36px;
+    padding: 0 2em;
+    background: #2090ea;
+    margin-left: 20px; }
   .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation,
   .android-dark .discussion-container {
     background-color: #171717; }

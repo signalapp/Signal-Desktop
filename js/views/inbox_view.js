@@ -145,21 +145,15 @@
                 this.inboxListView.stopListening();
             }.bind(this));
 
-            if (extension.expired()) {
-                var banner = new Whisper.ExpiredAlertBanner().render();
-                banner.$el.prependTo(this.$el);
-                this.$el.addClass('expired');
-            } else if (Whisper.Migration.inProgress()) {
+            if (Whisper.Migration.inProgress()) {
                 if (this.appLoadingScreen) {
                     this.appLoadingScreen.remove();
                     this.appLoadingScreen = null;
                 }
                 this.showMigrationScreen();
             }
-            // TODO: put behind a incremental rollout flag
-            else {
-                this.upgradeBanner = new Whisper.UpgradeBanner().render();
-                this.upgradeBanner.$el.prependTo(this.$el);
+            else if (storage.get('feb-2018-upgrade-alert')) {
+                this.showUpgradeBanner();
             }
         },
         render_attributes: {
@@ -182,9 +176,32 @@
             'input input.search': 'filterContacts',
             'click .restart-signal': 'reloadBackgroundPage',
             'show .lightbox': 'showLightbox',
-            'click .migrate': 'showMigrationScreen'
+            'click .migrate': 'showUpgradeScreen',
+            'click .banner-close': 'removeUpgradeBanner'
         },
-        showMigrationScreen: function() {
+        showUpgradeBanner: function() {
+            this.removeUpgradeBanner();
+
+            this.upgradeBanner = new Whisper.UpgradeBanner().render();
+            this.upgradeBanner.$el.prependTo(this.$el);
+
+            // This class makes AppView have a height of 100% - 62px, so it doesn't push
+            //   our banner off-screen.
+            this.$el.addClass('expired');
+        },
+        removeUpgradeBanner: function() {
+            if (this.upgradeBanner) {
+                this.upgradeBanner.remove();
+                this.upgradeBanner = null;
+                this.$el.removeClass('expired');
+            }
+        },
+        showUpgradeScreen: function() {
+            if (this.migrationScreen) {
+                this.migrationScreen.remove();
+                this.migrationScreen = null;
+            }
+
             this.migrationScreen = new Whisper.MigrationView();
             this.migrationScreen.render();
             this.migrationScreen.$el.prependTo(this.el);
