@@ -64,6 +64,10 @@
             var message;
             var iconUrl;
 
+            // NOTE: i18n has more complex rules for pluralization than just
+            // distinguishing between zero (0) and other (non-zero),
+            // e.g. Russian:
+            // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
             var newMessageCount = [
                 this.length,
                 this.length === 1 ? i18n('newMessage') : i18n('newMessages')
