@@ -89,11 +89,12 @@
                 break;
             }
 
+            var shouldPlayNotificationSound = storage.get('audio-notification') || false;
             if (window.config.polyfillNotifications) {
                 window.nodeNotifier.notify({
                     title: title,
                     message: message,
-                    sound: false
+                    sound: shouldPlayNotificationSound,
                 });
                 window.nodeNotifier.on('click', function(notifierObject, options) {
                     last.get('conversationId');
@@ -103,7 +104,7 @@
                     body   : message,
                     icon   : iconUrl,
                     tag    : 'signal',
-                    silent : true
+                    silent : !shouldPlayNotificationSound,
                 });
 
                 notification.onclick = this.onClick.bind(this, last.get('conversationId'));
