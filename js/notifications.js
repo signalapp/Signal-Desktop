@@ -13,7 +13,7 @@
         MESSAGE : 'message'
     };
 
-    var enabled = false;
+    let isEnabled = false;
     var sound = new Audio('audio/NewMessage.mp3');
 
     Whisper.Notifications = new (Backbone.Collection.extend({
@@ -30,10 +30,11 @@
             console.log(
                 'updating notifications - count:', this.length,
                 'focused:', isFocused,
-                'enabled:', enabled
+                'isEnabled:', isEnabled
             );
-            if (!enabled) {
-                return; // wait til we are re-enabled
+
+            if (!isEnabled) {
+                return;
             }
             if (this.length === 0) {
                 return;
@@ -122,14 +123,14 @@
             this.reset([]);
         },
         enable: function() {
-            var update = !enabled;
-            enabled = true;
-            if (update) {
+            var shouldUpdate = !isEnabled;
+            isEnabled = true;
+            if (shouldUpdate) {
               this.update();
             }
         },
         disable: function() {
-            enabled = false;
+            isEnabled = false;
         },
 
     }))();
