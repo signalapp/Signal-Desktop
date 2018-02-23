@@ -14,7 +14,6 @@
     };
 
     let isEnabled = false;
-    var sound = new Audio('audio/NewMessage.mp3');
 
     Whisper.Notifications = new (Backbone.Collection.extend({
         initialize: function() {
@@ -46,11 +45,6 @@
             if (isNotificationOmitted) {
                 this.clear();
                 return;
-            }
-
-            var audioNotification = storage.get('audio-notification') || false;
-            if (audioNotification) {
-                sound.play();
             }
 
             var setting = storage.get('notification-setting') || 'message';

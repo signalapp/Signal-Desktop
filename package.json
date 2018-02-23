@@ -194,7 +194,6 @@
       "app/*",
       "preload.js",
       "main.js",
-      "audio/**",
       "images/**",
       "fonts/*",
       "build/assets",
