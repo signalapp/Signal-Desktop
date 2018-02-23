@@ -69,7 +69,7 @@
         return accountManager;
     };
 
-    function rollDice(text) {
+    function isTimeToUpgrade(text) {
         var percentage = parseInt(text, 10);
 
         if (isNaN(percentage)) {
@@ -77,17 +77,13 @@
         }
 
         var roll = _.random(1, 100);
-        if (roll <= percentage) {
-            return true;
-        }
-
-        return false;
+        return roll <= percentage;
     }
 
     var UPGRADE_VALUE = 'feb-2018-upgrade-dice';
     var UPGRADE_FLAG = window.UPGRADE_FLAG = 'feb-2018-upgrade-alert';
     var UPGRADE_URL = 'https://updates.signal.org/desktop/feb-2018-upgrade.txt';
-    var HALF_HOUR = 15 * 1000; // 30 * 60 * 1000;
+    var HALF_HOUR = 30 * 60 * 1000;
 
     function checkForUpgrade() {
         $.ajax(UPGRADE_URL).done(function(data) {
@@ -97,7 +93,7 @@
             }
 
             storage.put(UPGRADE_VALUE, data);
-            if (rollDice(data)) {
+            if (isTimeToUpgrade(data)) {
                 console.log('Upgrade check: time to upgrade!');
                 storage.put(UPGRADE_FLAG, true);
                 addUpgradeAlert();
