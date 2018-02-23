@@ -19,5 +19,6 @@ ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
 RUN grunt
 RUN yarn icon-gen
+RUN mkdir release
 RUN mkdir release/Linux
 ENTRYPOINT ["sh","Signal_Docker_Image/entry_point.sh"]
