@@ -75,7 +75,7 @@
     "asar": "^0.14.0",
     "bower": "^1.8.2",
     "chai": "^4.1.2",
-    "electron": "1.7.12",
+    "electron": "1.8.2",
     "electron-builder": "^19.53.7",
     "electron-icon-maker": "0.0.3",
     "electron-publisher-s3": "^19.53.7",
@@ -214,6 +214,9 @@
       "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
       "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node"
-    ]
+    ],
+    "engines": {
+      "node": "8.2.1"
+    }
   }
 }
