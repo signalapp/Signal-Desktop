@@ -102,6 +102,7 @@
     "mocha": "^4.1.0",
     "mocha-testcheck": "^1.0.0-rc.0",
     "node-sass-import-once": "^1.2.0",
+    "nsp": "^3.2.1",
     "nyc": "^11.4.1",
     "sinon": "^4.4.2",
     "spectron": "^3.8.0",
