@@ -152,7 +152,7 @@
                 }
                 this.showMigrationScreen();
             }
-            else if (storage.get('feb-2018-upgrade-alert')) {
+            else if (storage.get(window.UPGRADE_FLAG)) {
                 this.showUpgradeBanner();
             }
         },
