@@ -723,13 +723,13 @@ sudo apt update && sudo apt install signal-desktop
       </div>
     </div>
     {{/isStep5}}
-    {{#error}}
+    {{#isError}}
     <div id='error' class='step'>
       <div class='inner error-dialog clearfix'>
         <div class='step-body'>
           <span class='banner-icon alert-outline'></span>
           <div class='header'>{{ errorHeader }}</div>
-          <p>{{ error }}</p>
+          <div class='body-text-wide'>{{ error }}</div>
         </div>
         <div class='nav'>
           <div>
@@ -741,7 +741,7 @@ sudo apt update && sudo apt install signal-desktop
         </div>
       </div>
     </div>
-    {{/error}}
+    {{/isError}}
   </script>
 
 

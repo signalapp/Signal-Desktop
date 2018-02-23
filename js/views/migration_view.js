@@ -193,6 +193,7 @@
     render_attributes: function() {
       if (this.error) {
         return {
+          isError: true,
           errorHeader: i18n('exportErrorHeader'),
           error: i18n('exportError'),
           tryAgain: i18n('chooseFolderAndTryAgain'),
