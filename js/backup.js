@@ -353,11 +353,11 @@
     });
   }
 
-  var attachments = 0;
-  var failedAttachments = 0;
+  var numAttachments = 0;
+  var numFailedAttachments = 0;
 
   function writeAttachment(dir, attachment) {
-    attachments += 1;
+    numAttachments += 1;
 
     var filename = getAttachmentFileName(attachment);
     // If attachments are in messages with the same received_at and the same name,
@@ -367,7 +367,7 @@
       var stream = createOutputStream(writer);
       return stream.write(attachment.data);
     }).catch(function(error) {
-      failedAttachments += 1;
+      numFailedAttachments += 1;
       console.log('writeAttachment error:', error && error.stack ? error.stack : error);
     });
   }
@@ -396,8 +396,8 @@
     return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
   }
 
-  var conversations = 0;
-  var failedConversations = 0;
+  var numConversations = 0;
+  var numFailedConversations = 0;
 
   function delay(ms) {
     console.log('Waiting', ms, 'milliseconds');
@@ -431,7 +431,7 @@
       );
 
       if (count >= CHECK_MAX) {
-        failedConversations += 1;
+        numFailedConversations += 1;
         return;
       }
 
@@ -527,7 +527,7 @@
           } else {
             var promise = stream.write(']}');
 
-            conversations += 1;
+            numConversations += 1;
 
             promiseChain = promiseChain
               .then(promise)
@@ -778,28 +778,24 @@
   }
 
   function printAttachmentStats() {
-    console.log(
-      'Total attachments:', attachments,
-      'Failed attachments:', failedAttachments
-    );
+    console.log('Total attachments:', numAttachments);
+    console.log('Failed attachments:', numFailedAttachments);
   }
 
   function printConversationStats() {
-    console.log(
-      'Total conversations:', conversations,
-      'Possibly malformed conversations:', failedConversations
-    );
+    console.log('Total conversations:', numConversations);
+    console.log('Possibly malformed conversations:', numFailedConversations);
   }
 
   Whisper.Backup = {
-    backupToDirectory: function(options) {
+    exportingToDirectory: function(options) {
       return getDirectory().then(function(directoryEntry) {
         var idb;
         var dir;
-        conversations = 0;
-        failedConversations = 0;
-        attachments = 0;
-        failedAttachments = 0;
+        numConversations = 0;
+        numFailedConversations = 0;
+        numAttachments = 0;
+        numFailedAttachments = 0;
 
         return openDatabase().then(function(idb_db) {
           idb = idb_db;
@@ -819,10 +815,10 @@
         printAttachmentStats();
         printConversationStats();
         console.log('done backing up!');
-        if (failedAttachments) {
+        if (numFailedAttachments) {
           throw new Error('Export failed, one or more attachments failed');
         }
-        if (failedConversations) {
+        if (numFailedConversations) {
           throw new Error('Export failed, one or more conversations failed');
         }
         return path;

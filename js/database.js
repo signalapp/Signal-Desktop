@@ -425,11 +425,5 @@
                 };
             }
         },
-        // {
-        //     version: "17.0",
-        //     migrate: function(transaction, next) {
-        //         next();
-        //     }
-        // }
     ];
 }());

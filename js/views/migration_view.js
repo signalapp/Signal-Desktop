@@ -25,7 +25,7 @@
     ok: function(event) {
       // We have an event on .modal, which is the background div, darkening the screen.
       //   This ensures that a click on the dialog will not fire that event, by checking
-      //   the actuall thing clicked against the target.
+      //   the actual thing clicked against the target.
       if (event.target !== event.currentTarget) {
         return;
       }
@@ -117,7 +117,7 @@
       //   it will prevent the horrible encryption errors which result from import to the
       //   same client config more than once. They can import the same message history
       //   more than once, so we preserve that.
-      return Whisper.Backup.backupToDirectory({
+      return Whisper.Backup.exportToDirectory({
         excludeClientConfig: everAttempted,
       });
     },
