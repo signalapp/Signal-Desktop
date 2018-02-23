@@ -26,9 +26,10 @@
             this.trigger('click', conversation);
         },
         update: function() {
+            const isFocused = window.isFocused();
             console.log(
                 'updating notifications - count:', this.length,
-                'focused:', window.isFocused(),
+                'focused:', isFocused,
                 'enabled:', enabled
             );
             if (!enabled) {
@@ -37,8 +38,9 @@
             if (this.length === 0) {
                 return;
             }
-            if (window.isFocused()) {
-                // The window is focused. Consider yourself notified.
+
+            const isNotificationOmitted = isFocused;
+            if (isNotificationOmitted) {
                 this.clear();
                 return;
             }
