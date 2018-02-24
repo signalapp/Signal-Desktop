@@ -913,9 +913,13 @@
   }
 
   function clearAllStores(idb_db) {
+    return clearStores(idb_db);
+  }
+
+  function clearStores(idb_db, names) {
     return new Promise(function(resolve, reject) {
-      console.log('Clearing all indexeddb stores');
-      var storeNames = idb_db.objectStoreNames;
+      var storeNames = names || idb_db.objectStoreNames;
+      console.log('Clearing these indexeddb stores:', storeNames);
       var transaction = idb_db.transaction(storeNames, 'readwrite');
 
       var finished = false;
@@ -930,7 +934,7 @@
       transaction.oncomplete = finish.bind(null, 'transaction complete');
       transaction.onerror = function(e) {
         handleDOMException(
-          'clearAllStores transaction error',
+          'clearStores transaction error',
           transaction.error,
           reject
         );
@@ -953,7 +957,7 @@
 
         request.onerror = function(e) {
           handleDOMException(
-            'clearAllStores request error',
+            'clearStores request error',
             request.error,
             reject
           );
@@ -971,6 +975,11 @@
     clearDatabase: function() {
       return openDatabase().then(function(idb_db) {
         return clearAllStores(idb_db);
+      });
+    },
+    clearStores: function(storeNames) {
+      return openDatabase().then(function(idb_db) {
+        return clearStores(idb_db, storeNames);
       });
     },
     getDirectoryForExport: function() {

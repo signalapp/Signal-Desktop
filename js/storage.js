@@ -67,6 +67,10 @@
                     console.log('Failed to fetch from storage');
                 }).always(resolve);
             });
+        },
+
+        reset: function() {
+            items.reset();
         }
     };
     window.textsecure = window.textsecure || {};

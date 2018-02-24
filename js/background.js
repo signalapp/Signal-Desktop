@@ -694,8 +694,25 @@
         console.log('background onError:', Errors.toLogFormat(error));
 
         if (error.name === 'HTTPError' && (error.code == 401 || error.code == 403)) {
-            Whisper.Registration.remove();
             Whisper.events.trigger('unauthorized');
+
+            console.log('Client is no longer authorized; deleting local configuration');
+            Whisper.Registration.remove();
+            var previousNumberId = textsecure.storage.get('number_id');
+
+            textsecure.storage.protocol.removeAllConfiguration().then(function() {
+                // These two bits of data are important to ensure that the app loads up
+                //   the conversation list, instead of showing just the QR code screen.
+                Whisper.Registration.markEverDone();
+                textsecure.storage.put('number_id', previousNumberId);
+                console.log('Successfully cleared local configuration');
+            }, function(error) {
+               console.log(
+                    'Something went wrong clearing local configuration',
+                    error && error.stack ? error.stack : error
+                );
+            });
+
             return;
         }
 
