@@ -101,6 +101,7 @@
 
   // ES2015+ modules
   window.Signal = window.Signal || {};
+  window.Signal.OS = require('./js/modules/os');
   window.Signal.Types = window.Signal.Types || {};
   window.Signal.Types.Attachment = require('./js/modules/types/attachment');
   window.Signal.Types.Message = require('./js/modules/types/message');
