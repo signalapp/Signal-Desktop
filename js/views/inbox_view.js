@@ -8,7 +8,7 @@
     open(conversation) {
       const id = `conversation-${conversation.cid}`;
       if (id !== this.el.firstChild.id) {
-        this.$el.first().find('video, audio').each(function () {
+        this.$el.first().find('video, audio').each(function pauseMedia() {
           this.pause();
         });
         let $el = this.$(`#${id}`);
@@ -123,11 +123,11 @@
 
       this.searchView.$el.hide();
 
-      this.listenTo(this.searchView, 'hide', function () {
+      this.listenTo(this.searchView, 'hide', function toggleVisibility() {
         this.searchView.$el.hide();
         this.inboxListView.$el.show();
       });
-      this.listenTo(this.searchView, 'show', function () {
+      this.listenTo(this.searchView, 'show', function toggleVisibility() {
         this.searchView.$el.show();
         this.inboxListView.$el.hide();
       });
