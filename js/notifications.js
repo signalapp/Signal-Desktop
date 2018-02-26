@@ -5,6 +5,7 @@
 ;(function() {
     'use strict';
     window.Whisper = window.Whisper || {};
+    const { Settings } = window.Signal.Types;
 
     var SETTINGS = {
         OFF     : 'off',
@@ -26,8 +27,8 @@
         },
         update: function() {
             const isFocused = window.isFocused();
-            const shouldPlayNotificationSound =
-                storage.get('audio-notification') || false;
+            const shouldPlayNotificationSound = Settings.isAudioNotificationSupported() &&
+                (storage.get('audio-notification') || false);
             const numNotifications = this.length;
             console.log(
                 'updating notifications:',
