@@ -24,7 +24,7 @@
             return numberId;
         }
 
-        return parts[1];
+        return parts[0];
     }
 
     AccountManager.prototype = new textsecure.EventTarget();

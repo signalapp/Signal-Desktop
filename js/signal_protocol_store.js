@@ -859,16 +859,7 @@
             window.storage.reset(); // items store
             ConversationController.reset(); // conversations store
 
-            // Then, the database. All stores:
-            //   items
-            //   identityKeys
-            //   sessions
-            //   signedPreKeys
-            //   preKeys
-            //   unprocessed
-            //   groups
-            //   conversations
-            //   messages
+            // Then, the entire database:
             return window.Whisper.Backup.clearDatabase();
         },
         removeAllConfiguration: function() {
