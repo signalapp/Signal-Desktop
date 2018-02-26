@@ -67,9 +67,13 @@
         } else {
           this.new_contact_view.$el.hide();
         }
+        // NOTE: Temporarily allow `then` until we convert the entire file
+        // to `async` / `await`:
+        /* eslint-disable more/no-then */
         this.pending = this.pending.then(() => this.typeahead.search(query).then(() => {
           this.typeahead_view.collection.reset(this.typeahead.filter(m => m.isSearchable()));
         }));
+        /* eslint-enable more/no-then */
         this.trigger('show');
       } else {
         this.resetTypeahead();
@@ -93,6 +97,9 @@
     createConversation() {
       const conversation = this.new_contact_view.model;
       if (this.new_contact_view.model.isValid()) {
+        // NOTE: Temporarily allow `then` until we convert the entire file
+        // to `async` / `await`:
+        // eslint-disable-next-line more/no-then
         ConversationController.getOrCreateAndWait(
           this.new_contact_view.model.id,
           'private'
@@ -119,6 +126,9 @@
       this.new_contact_view.$el.hide();
       this.$input.val('').focus();
       if (this.showAllContacts) {
+        // NOTE: Temporarily allow `then` until we convert the entire file
+        // to `async` / `await`:
+        // eslint-disable-next-line more/no-then
         this.typeahead.fetchAlphabetical().then(() => {
           if (this.typeahead.length > 0) {
             this.typeahead_view.collection.reset(this.typeahead.filter(m => m.isSearchable()));
