@@ -1,3 +1,7 @@
+/* global ConversationController: false */
+/* global i18n: false */
+/* global Whisper: false */
+
 (function () {
   'use strict';
 
