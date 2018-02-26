@@ -98,7 +98,6 @@
     },
 
     createConversation() {
-      const conversation = this.new_contact_view.model;
       if (this.new_contact_view.model.isValid()) {
         // NOTE: Temporarily allow `then` until we convert the entire file
         // to `async` / `await`:
