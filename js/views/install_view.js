@@ -32,8 +32,9 @@
             this.connect();
             this.on('disconnected', this.reconnect);
 
-            if (Whisper.Registration.everDone() || options.startStep) {
-                this.selectStep(options.startStep || Steps.SCAN_QR_CODE);
+            // Keep data around if it's a re-link, or the middle of a light import
+            if (Whisper.Registration.everDone() || options.postImport) {
+                this.retainData = true;
             }
         },
         render_attributes: function() {
@@ -162,11 +163,29 @@
                     }
 
                     this.selectStep(Steps.PROGRESS_BAR);
-                    resolve(name);
+
+                    var finish = function() {
+                        resolve(name);
+                    };
+
+                    // Delete all data from database unless we're in the middle
+                    //   of a re-link, or we are finishing a light import. Without this,
+                    //   app restarts at certain times can cause weird things to happen,
+                    //   like data from a previous incomplete light import showing up
+                    //   after a new install.
+                    if (this.retainData) {
+                        return finish();
+                    }
+
+                    Whisper.Backup.clearDatabase().then(finish, function(error) {
+                        console.log(
+                          'confirmNumber: error clearing database',
+                          error && error.stack ? error.stack : error
+                        );
+                        finish();
+                    });
                 }.bind(this));
             }.bind(this));
         },
     });
-
-    Whisper.InstallView.Steps = Steps;
 })();

@@ -54,7 +54,7 @@
         },
         finishLightImport: function() {
           var options = {
-            startStep: Whisper.InstallView.Steps.SCAN_QR_CODE,
+            postImport: true
           };
           this.openInstaller(options);
         },
