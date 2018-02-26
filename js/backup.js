@@ -788,7 +788,7 @@
   }
 
   Whisper.Backup = {
-    exportingToDirectory: function(options) {
+    exportToDirectory: function(options) {
       return getDirectory().then(function(directoryEntry) {
         var idb;
         var dir;
