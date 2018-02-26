@@ -24,6 +24,7 @@
             model: conversation,
             window: this.model.window,
           });
+          // eslint-disable-next-line prefer-destructuring
           $el = view.$el;
         }
         $el.prependTo(this.el);
@@ -48,13 +49,13 @@
       const keyCode = e.which || e.keyCode;
       const maxSize = 22; // if bigger text goes outside send-message textarea
       const minSize = 14;
-      if (keyCode === 189 || keyCode == 109) {
+      if (keyCode === 189 || keyCode === 109) {
         if (this.currentSize > minSize) {
-          this.currentSize--;
+          this.currentSize -= 1;
         }
-      } else if (keyCode === 187 || keyCode == 107) {
+      } else if (keyCode === 187 || keyCode === 107) {
         if (this.currentSize < maxSize) {
-          this.currentSize++;
+          this.currentSize += 1;
         }
       }
       this.render();
@@ -82,13 +83,14 @@
   Whisper.InboxView = Whisper.View.extend({
     templateName: 'two-column',
     className: 'inbox index',
-    initialize(options) {
-      options = options || {};
-
+    initialize(options = {}) {
       this.ready = false;
       this.render();
       this.$el.attr('tabindex', '1');
+
+      // eslint-disable-next-line no-new
       new Whisper.FontSizeView({ el: this.$el });
+
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
         model: { window: options.window },
@@ -144,7 +146,8 @@
       );
 
       this.networkStatusView = new Whisper.NetworkStatusView();
-      this.$el.find('.network-status-container').append(this.networkStatusView.render().el);
+      this.$el.find('.network-status-container')
+        .append(this.networkStatusView.render().el);
 
       extension.windows.onClosed(() => {
         this.inboxListView.stopListening();
@@ -191,6 +194,12 @@
             this.interval = null;
             // if we failed to connect, we pretend we got an empty event
             this.onEmpty();
+            break;
+          default:
+            console.log(
+              'Whisper.InboxView::startConnectionListener:',
+              'Unknown web socket status:', status
+            );
             break;
         }
       }, 1000);
@@ -246,8 +255,7 @@
     openConversation(e, conversation) {
       this.searchView.hideHints();
       if (conversation) {
-        conversation = ConversationController.get(conversation.id);
-        this.conversation_stack.open(conversation);
+        this.conversation_stack.open(ConversationController.get(conversation.id));
         this.focusConversation();
       }
     },
