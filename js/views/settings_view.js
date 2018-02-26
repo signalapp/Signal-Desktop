@@ -4,6 +4,8 @@
 (function () {
     'use strict';
     window.Whisper = window.Whisper || {};
+    const { OS } = window.Signal;
+    const { Settings } = window.Signal.Types;
 
     var CheckboxView = Whisper.View.extend({
         initialize: function(options) {
@@ -68,11 +70,13 @@
                 name: 'theme-setting',
                 event: 'change-theme'
             });
-            new CheckboxView({
-                el: this.$('.audio-notification-setting'),
-                defaultValue: false,
-                name: 'audio-notification'
-            });
+            if (Settings.shouldShowAudioNotificationSetting()) {
+                new CheckboxView({
+                    el: this.$('.audio-notification-setting'),
+                    defaultValue: false,
+                    name: 'audio-notification'
+                });
+            }
             new CheckboxView({
                 el: this.$('.menu-bar-setting'),
                 defaultValue: false,
@@ -100,6 +104,8 @@
               noNameOrMessage: i18n('noNameOrMessage'),
               nameOnly: i18n('nameOnly'),
               audioNotificationDescription: i18n('audioNotificationDescription'),
+              shouldShowAudioNotificationSetting:
+                Settings.shouldShowAudioNotificationSetting(),
               themeAndroidDark: i18n('themeAndroidDark'),
               hideMenuBar: i18n('hideMenuBar'),
             };
