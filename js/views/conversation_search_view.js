@@ -2,6 +2,7 @@
 /* global i18n: false */
 /* global Whisper: false */
 
+// eslint-disable-next-line func-names
 (function () {
   'use strict';
 
