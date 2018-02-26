@@ -8,6 +8,9 @@
 
   window.Whisper = window.Whisper || {};
 
+  const isSearchable = conversation =>
+    conversation.isSearchable();
+
   Whisper.NewContactView = Whisper.View.extend({
     templateName: 'new-contact',
     className: 'conversation-list-item contact',
@@ -71,7 +74,7 @@
         // to `async` / `await`:
         /* eslint-disable more/no-then */
         this.pending = this.pending.then(() => this.typeahead.search(query).then(() => {
-          this.typeahead_view.collection.reset(this.typeahead.filter(m => m.isSearchable()));
+          this.typeahead_view.collection.reset(this.typeahead.filter(isSearchable));
         }));
         /* eslint-enable more/no-then */
         this.trigger('show');
@@ -131,7 +134,7 @@
         // eslint-disable-next-line more/no-then
         this.typeahead.fetchAlphabetical().then(() => {
           if (this.typeahead.length > 0) {
-            this.typeahead_view.collection.reset(this.typeahead.filter(m => m.isSearchable()));
+            this.typeahead_view.collection.reset(this.typeahead.filter(isSearchable));
           } else {
             this.showHints();
           }
