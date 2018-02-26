@@ -70,7 +70,7 @@
                 name: 'theme-setting',
                 event: 'change-theme'
             });
-            if (Settings.shouldShowAudioNotificationSetting()) {
+            if (Settings.isAudioNotificationSupported()) {
                 new CheckboxView({
                     el: this.$('.audio-notification-setting'),
                     defaultValue: false,
@@ -104,8 +104,7 @@
               noNameOrMessage: i18n('noNameOrMessage'),
               nameOnly: i18n('nameOnly'),
               audioNotificationDescription: i18n('audioNotificationDescription'),
-              shouldShowAudioNotificationSetting:
-                Settings.shouldShowAudioNotificationSetting(),
+              isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
               themeAndroidDark: i18n('themeAndroidDark'),
               hideMenuBar: i18n('hideMenuBar'),
             };

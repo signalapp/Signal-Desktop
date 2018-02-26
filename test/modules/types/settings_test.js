@@ -7,7 +7,7 @@ const Settings = require('../../../js/modules/types/settings');
 describe('Settings', () => {
   const sandbox = sinon.createSandbox();
 
-  describe('shouldShowAudioNotificationSetting', () => {
+  describe('isAudioNotificationSupported', () => {
     context('on macOS', () => {
       beforeEach(() => {
         sandbox.stub(process, 'platform').value('darwin');
@@ -18,7 +18,7 @@ describe('Settings', () => {
       });
 
       it('should return true', () => {
-        assert.isTrue(Settings.shouldShowAudioNotificationSetting());
+        assert.isTrue(Settings.isAudioNotificationSupported());
       });
     });
 
@@ -32,7 +32,7 @@ describe('Settings', () => {
       });
 
       it('should return true', () => {
-        assert.isTrue(Settings.shouldShowAudioNotificationSetting());
+        assert.isTrue(Settings.isAudioNotificationSupported());
       });
     });
 
@@ -46,7 +46,7 @@ describe('Settings', () => {
       });
 
       it('should return false', () => {
-        assert.isFalse(Settings.shouldShowAudioNotificationSetting());
+        assert.isFalse(Settings.isAudioNotificationSupported());
       });
     });
   });

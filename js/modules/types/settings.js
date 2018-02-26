@@ -1,4 +1,4 @@
 const OS = require('../os');
 
-exports.shouldShowAudioNotificationSetting = () =>
+exports.isAudioNotificationSupported = () =>
   !OS.isLinux();
