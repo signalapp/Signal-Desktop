@@ -99,6 +99,7 @@
     "mocha-testcheck": "^1.0.0-rc.0",
     "node-sass-import-once": "^1.2.0",
     "nyc": "^11.4.1",
+    "sinon": "^4.4.2",
     "spectron": "^3.8.0",
     "tmp": "^0.0.33"
   },
