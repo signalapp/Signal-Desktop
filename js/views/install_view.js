@@ -33,9 +33,7 @@
             this.on('disconnected', this.reconnect);
 
             // Keep data around if it's a re-link, or the middle of a light import
-            if (Whisper.Registration.everDone() || options.postImport) {
-                this.retainData = true;
-            }
+            this.shouldRetainData = Whisper.Registration.everDone() || options.hasExistingData;
         },
         render_attributes: function() {
             var errorMessage;
@@ -173,7 +171,7 @@
                     //   app restarts at certain times can cause weird things to happen,
                     //   like data from a previous incomplete light import showing up
                     //   after a new install.
-                    if (this.retainData) {
+                    if (this.shouldRetainData) {
                         return finish();
                     }
 

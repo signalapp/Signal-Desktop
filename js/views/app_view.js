@@ -54,7 +54,7 @@
         },
         finishLightImport: function() {
           var options = {
-            postImport: true
+            hasExistingData: true
           };
           this.openInstaller(options);
         },
@@ -71,7 +71,7 @@
           //   allowing the user to switch to other ways to set up the app. If they
           //   switched back and forth in the middle of a light import, they'd lose all
           //   that imported data.
-          if (!options.postImport) {
+          if (!options.hasExistingData) {
             window.addSetupMenuItems();
           }
 
