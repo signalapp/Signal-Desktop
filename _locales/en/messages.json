@@ -595,10 +595,6 @@
         "message": "New Messages",
         "description": "Displayed in notifications for multiple messages"
     },
-    "restartSignal": {
-        "message": "Restart Signal",
-        "description": "Menu item for restarting the program."
-    },
     "messageNotSent": {
         "message": "Message not sent.",
         "description": "Informational label, appears on messages that failed to send"
