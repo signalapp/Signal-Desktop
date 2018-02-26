@@ -54,7 +54,7 @@
         },
         finishLightImport: function() {
           var options = {
-            startStep: Whisper.InstallView.Steps.SCAN_QR_CODE,
+            hasExistingData: true
           };
           this.openInstaller(options);
         },
@@ -65,7 +65,16 @@
           }
         },
         openInstaller: function(options) {
-          window.addSetupMenuItems();
+          options = options || {};
+
+          // If we're in the middle of import, we don't want to show the menu options
+          //   allowing the user to switch to other ways to set up the app. If they
+          //   switched back and forth in the middle of a light import, they'd lose all
+          //   that imported data.
+          if (!options.hasExistingData) {
+            window.addSetupMenuItems();
+          }
+
           this.resetViews();
           var installView = this.installView = new Whisper.InstallView(options);
           this.openView(this.installView);
