@@ -22,7 +22,7 @@
     },
     render_attributes() {
       return {
-        number: i18n('newContact'),
+        number: i18n('startConversation'),
         title: this.model.getNumber(),
         avatar: this.model.getAvatar(),
       };

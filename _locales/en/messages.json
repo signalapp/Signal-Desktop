@@ -835,9 +835,9 @@
       "message": "Hide menu bar",
       "description": "Label text for menu bar visibility setting"
     },
-    "newContact": {
-      "message": "Click to create new contact",
-      "description": ""
+    "startConversation": {
+      "message": "Start conversation…",
+      "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
       "message": "Enter a phone number to add a contact.",
