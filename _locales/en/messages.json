@@ -411,7 +411,7 @@
       "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
-      "message": "Search...",
+      "message": "Enter name or number",
       "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
