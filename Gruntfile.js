@@ -103,6 +103,7 @@ module.exports = function(grunt) {
         '!js/Mp3LameEncoder.min.js',
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
+        '!js/modules/**/*.js',
         '!js/signal_protocol_store.js',
         '_locales/**/*'
       ],
@@ -174,8 +175,10 @@ module.exports = function(grunt) {
         '!js/Mp3LameEncoder.min.js',
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
+        '!js/modules/**/*.js',
         'test/**/*.js',
         '!test/blanket_mocha.js',
+        '!test/modules/**/*.js',
         '!test/test.js',
         ]
       }
@@ -282,7 +285,7 @@ module.exports = function(grunt) {
     var https = require('https');
 
     var urlBase = "https://s3-us-west-1.amazonaws.com/signal-desktop-builds";
-    var keyBase = 'WhisperSystems/Signal-Desktop';
+    var keyBase = 'signalapp/Signal-Desktop';
     var sha = gitinfo.local.branch.current.SHA;
     var files = [{
       zip: packageJson.name + '-' + packageJson.version + '.zip',

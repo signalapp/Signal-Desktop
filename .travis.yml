@@ -8,7 +8,7 @@ install:
   - yarn install
 script:
   - yarn run generate
-  - yarn prepare-build
+  - yarn prepare-beta-build
   - yarn eslint
   - yarn test-server
   - yarn lint

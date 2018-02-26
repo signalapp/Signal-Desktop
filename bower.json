@@ -1,7 +1,7 @@
 {
-  "name": "textsecure-chrome",
+  "name": "signal-desktop",
   "version": "0.0.0",
-  "homepage": "https://github.com/WhisperSystems/TextSecure-Browser",
+  "homepage": "https://github.com/signalapp/Signal-Desktop",
   "license": "GPLV3",
   "private": true,
   "dependencies": {
@@ -15,7 +15,6 @@
     "indexeddb-backbonejs-adapter": "*",
     "intl-tel-input": "~4.0.1",
     "blueimp-load-image": "~1.13.0",
-    "blueimp-canvas-to-blob": "~2.1.1",
     "autosize": "~4.0.0",
     "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git",
     "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",
@@ -69,12 +68,6 @@
       "build/img/flags.png",
       "build/js/intlTelInput.js"
     ],
-    "blueimp-load-image": [
-      "js/load-image.js"
-    ],
-    "blueimp-canvas-to-blob": [
-      "js/canvas-to-blob.js"
-    ],
     "emojijs": [
       "lib/emoji.js",
       "demo/emoji.css"
@@ -113,8 +106,6 @@
       "moment",
       "intl-tel-input",
       "backbone.typeahead",
-      "blueimp-load-image",
-      "blueimp-canvas-to-blob",
       "autosize",
       "filesize"
     ],

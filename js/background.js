@@ -1,11 +1,33 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
+/* eslint-disable */
+
+/* eslint-env browser */
+
+/* global Backbone: false */
+/* global $: false */
+
+/* global ConversationController: false */
+/* global getAccountManager: false */
+/* global Signal: false */
+/* global storage: false */
+/* global textsecure: false */
+/* global Whisper: false */
+/* global wrapDeferred: false */
 
 ;(function() {
     'use strict';
+
+    const { Message } = window.Signal.Types;
+
+    // Implicitly used in `indexeddb-backbonejs-adapter`:
+    // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
     window.onInvalidStateError = function(e) {
         console.log(e);
+    };
+
+    window.wrapDeferred = function(deferred) {
+        return new Promise(function(resolve, reject) {
+            deferred.then(resolve, reject);
+        });
     };
 
     console.log('background page reloaded');
@@ -85,6 +107,27 @@
       }
     });
 
+    Whisper.events.on('setupWithImport', function() {
+      var appView = window.owsDesktopApp.appView;
+      if (appView) {
+        appView.openImporter();
+      }
+    });
+
+    Whisper.events.on('setupAsNewDevice', function() {
+      var appView = window.owsDesktopApp.appView;
+      if (appView) {
+        appView.openInstaller();
+      }
+    });
+
+    Whisper.events.on('setupAsStandalone', function() {
+      var appView = window.owsDesktopApp.appView;
+      if (appView) {
+        appView.openStandalone();
+      }
+    });
+
     function start() {
         var currentVersion = window.config.version;
         var lastVersion = storage.get('version');
@@ -118,8 +161,10 @@
             appView.openInbox({
                 initialLoadComplete: initialLoadComplete
             });
+        } else if (window.config.importMode) {
+            appView.openImporter();
         } else {
-            appView.openInstallChoice();
+            appView.openInstaller();
         }
 
         Whisper.events.on('showDebugLog', function() {
@@ -136,12 +181,6 @@
               appView.openInbox();
           }
         });
-        Whisper.events.on('contactsync:begin', function() {
-          if (appView.installView && appView.installView.showSync) {
-              appView.installView.showSync();
-          }
-        });
-
         Whisper.Notifications.on('click', function(conversation) {
             showWindow();
             if (conversation) {
@@ -266,7 +305,7 @@
         messageReceiver.addEventListener('error', onError);
         messageReceiver.addEventListener('empty', onEmpty);
         messageReceiver.addEventListener('progress', onProgress);
-        messageReceiver.addEventListener('settings', onSettings);
+        messageReceiver.addEventListener('configuration', onConfiguration);
 
         window.textsecure.messaging = new textsecure.MessageSender(
             SERVER_URL, USERNAME, PASSWORD, CDN_URL
@@ -345,12 +384,8 @@
             view.onProgress(count);
         }
     }
-    function onSettings(ev) {
-        if (ev.settings.readReceipts) {
-            storage.put('read-receipt-setting', true);
-        } else {
-            storage.put('read-receipt-setting', false);
-        }
+    function onConfiguration(ev) {
+        storage.put('read-receipt-setting', ev.configuration.readReceipts);
     }
 
     function onContactReceived(ev) {
@@ -377,37 +412,57 @@
 
         return ConversationController.getOrCreateAndWait(id, 'private')
             .then(function(conversation) {
-                return new Promise(function(resolve, reject) {
-                    var activeAt = conversation.get('active_at');
+                var activeAt = conversation.get('active_at');
 
-                    // The idea is to make any new contact show up in the left pane. If
-                    //   activeAt is null, then this contact has been purposefully hidden.
-                    if (activeAt !== null) {
-                        activeAt = activeAt || Date.now();
-                    }
+                // The idea is to make any new contact show up in the left pane. If
+                //   activeAt is null, then this contact has been purposefully hidden.
+                if (activeAt !== null) {
+                    activeAt = activeAt || Date.now();
+                }
 
-                    if (details.profileKey) {
-                      conversation.set({profileKey: details.profileKey});
+                if (details.profileKey) {
+                  conversation.set({profileKey: details.profileKey});
+                }
+
+                if (typeof details.blocked !== 'undefined') {
+                    if (details.blocked) {
+                        storage.addBlockedNumber(id);
+                    } else {
+                        storage.removeBlockedNumber(id);
                     }
-                    conversation.save({
-                        name: details.name,
-                        avatar: details.avatar,
-                        color: details.color,
-                        active_at: activeAt,
-                    }).then(resolve, reject);
-                }).then(function() {
-                    if (details.verified) {
-                        var verified = details.verified;
-                        var ev = new Event('verified');
-                        ev.verified = {
-                            state: verified.state,
-                            destination: verified.destination,
-                            identityKey: verified.identityKey.toArrayBuffer(),
-                        };
-                        ev.viaContactSync = true;
-                        return onVerified(ev);
+                }
+
+                return wrapDeferred(conversation.save({
+                    name: details.name,
+                    avatar: details.avatar,
+                    color: details.color,
+                    active_at: activeAt,
+                })).then(function() {
+                    // this needs to be inline to get access to conversation model
+                    if (typeof details.expireTimer !== 'undefined') {
+                        var source = textsecure.storage.user.getNumber();
+                        var receivedAt = Date.now();
+                        return conversation.updateExpirationTimer(
+                            details.expireTimer,
+                            source,
+                            receivedAt,
+                            {fromSync: true}
+                        );
                     }
                 });
+            })
+            .then(function() {
+                if (details.verified) {
+                    var verified = details.verified;
+                    var ev = new Event('verified');
+                    ev.verified = {
+                        state: verified.state,
+                        destination: verified.destination,
+                        identityKey: verified.identityKey.toArrayBuffer(),
+                    };
+                    ev.viaContactSync = true;
+                    return onVerified(ev);
+                }
             })
             .then(ev.confirm)
             .catch(function(error) {
@@ -437,93 +492,138 @@
                 if (activeAt !== null) {
                     updates.active_at = activeAt || Date.now();
                 }
+                updates.left = false;
             } else {
                 updates.left = true;
             }
-            return new Promise(function(resolve, reject) {
-                conversation.save(updates).then(resolve, reject);
+
+            return wrapDeferred(conversation.save(updates)).then(function() {
+                if (typeof details.expireTimer !== 'undefined') {
+                    var source = textsecure.storage.user.getNumber();
+                    var receivedAt = Date.now();
+                    return conversation.updateExpirationTimer(
+                        details.expireTimer,
+                        source,
+                        receivedAt,
+                        {fromSync: true}
+                    );
+                }
             }).then(ev.confirm);
         });
     }
 
-    function onMessageReceived(ev) {
-        var data = ev.data;
-        if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-            var profileKey = data.message.profileKey.toArrayBuffer();
-            return ConversationController.getOrCreateAndWait(data.source, 'private').then(function(sender) {
-              return sender.setProfileKey(profileKey).then(ev.confirm);
-            });
-        }
-        var message = initIncomingMessage(data);
+  /* eslint-enable */
+  /* jshint ignore:start */
 
-        return isMessageDuplicate(message).then(function(isDuplicate) {
-            if (isDuplicate) {
-                console.log('Received duplicate message', message.idForLogging());
-                ev.confirm();
-                return;
-            }
+  // Descriptors
+  const getGroupDescriptor = group => ({
+    type: Message.GROUP,
+    id: group.id,
+  });
 
-            var type, id;
-            if (data.message.group) {
-                type = 'group';
-                id = data.message.group.id;
-            } else {
-                type = 'private';
-                id = data.source;
-            }
+  // Matches event data from `libtextsecure` `MessageReceiver::handleSentMessage`:
+  const getDescriptorForSent = ({ message, destination }) => (
+    message.group
+      ? getGroupDescriptor(message.group)
+      : { type: Message.PRIVATE, id: destination }
+  );
 
-            return ConversationController.getOrCreateAndWait(id, type).then(function() {
-                return message.handleDataMessage(data.message, ev.confirm, {
-                    initialLoadComplete: initialLoadComplete
-                });
-            });
-        });
-    }
+  // Matches event data from `libtextsecure` `MessageReceiver::handleDataMessage`:
+  const getDescriptorForReceived = ({ message, source }) => (
+    message.group
+      ? getGroupDescriptor(message.group)
+      : { type: Message.PRIVATE, id: source }
+  );
 
-    function onSentMessage(ev) {
-        var now = new Date().getTime();
-        var data = ev.data;
+  function createMessageHandler({
+    createMessage,
+    getMessageDescriptor,
+    handleProfileUpdate,
+  }) {
+    return async (event) => {
+      const { data, confirm } = event;
 
-        var type, id;
-        if (data.message.group) {
-            type = 'group';
-            id = data.message.group.id;
-        } else {
-            type = 'private';
-            id = data.destination;
-        }
+      const messageDescriptor = getMessageDescriptor(data);
 
-        if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-            return ConversationController.getOrCreateAndWait(id, type).then(function(convo) {
-              return convo.save({profileSharing: true}).then(ev.confirm);
-            });
-        }
+      const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
+      // eslint-disable-next-line no-bitwise
+      const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
+      if (isProfileUpdate) {
+        return handleProfileUpdate({ data, confirm, messageDescriptor });
+      }
 
-        var message = new Whisper.Message({
-            source         : textsecure.storage.user.getNumber(),
-            sourceDevice   : data.device,
-            sent_at        : data.timestamp,
-            received_at    : now,
-            conversationId : data.destination,
-            type           : 'outgoing',
-            sent           : true,
-            expirationStartTimestamp: data.expirationStartTimestamp,
-        });
+      const message = createMessage(data);
+      const isDuplicate = await isMessageDuplicate(message);
+      if (isDuplicate) {
+        console.log('Received duplicate message', message.idForLogging());
+        return event.confirm();
+      }
 
-        return isMessageDuplicate(message).then(function(isDuplicate) {
-            if (isDuplicate) {
-                console.log('Received duplicate message', message.idForLogging());
-                ev.confirm();
-                return;
-            }
+      const upgradedMessage = await Message.upgradeSchema(data.message);
+      await ConversationController.getOrCreateAndWait(
+        messageDescriptor.id,
+        messageDescriptor.type
+      );
+      return message.handleDataMessage(
+        upgradedMessage,
+        event.confirm,
+        { initialLoadComplete }
+      );
+    };
+  }
 
-            return ConversationController.getOrCreateAndWait(id, type).then(function() {
-                return message.handleDataMessage(data.message, ev.confirm, {
-                    initialLoadComplete: initialLoadComplete
-                });
-            });
-        });
-    }
+  // Received:
+  async function handleMessageReceivedProfileUpdate({
+    data,
+    confirm,
+    messageDescriptor,
+  }) {
+    const profileKey = data.message.profileKey.toArrayBuffer();
+    const sender = await ConversationController.getOrCreateAndWait(
+      messageDescriptor.id,
+      'private'
+    );
+    await sender.setProfileKey(profileKey);
+    return confirm();
+  }
+
+  const onMessageReceived = createMessageHandler({
+    handleProfileUpdate: handleMessageReceivedProfileUpdate,
+    getMessageDescriptor: getDescriptorForReceived,
+    createMessage: initIncomingMessage,
+  });
+
+  // Sent:
+  async function handleMessageSentProfileUpdate({ confirm, messageDescriptor }) {
+    const conversation = await ConversationController.getOrCreateAndWait(
+      messageDescriptor.id,
+      messageDescriptor.type
+    );
+    await conversation.save({ profileSharing: true });
+    return confirm();
+  }
+
+  function createSentMessage(data) {
+    const now = Date.now();
+    return new Whisper.Message({
+      source: textsecure.storage.user.getNumber(),
+      sourceDevice: data.device,
+      sent_at: data.timestamp,
+      received_at: now,
+      conversationId: data.destination,
+      type: 'outgoing',
+      sent: true,
+      expirationStartTimestamp: data.expirationStartTimestamp,
+    });
+  }
+
+  const onSentMessage = createMessageHandler({
+    handleProfileUpdate: handleMessageSentProfileUpdate,
+    getMessageDescriptor: getDescriptorForSent,
+    createMessage: createSentMessage,
+  });
+  /* jshint ignore:end */
+  /* eslint-disable */
 
     function isMessageDuplicate(message) {
         return new Promise(function(resolve) {

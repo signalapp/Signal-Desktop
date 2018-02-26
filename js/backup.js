@@ -75,9 +75,9 @@
     };
   }
 
-  function exportNonMessages(idb_db, parent) {
+  function exportNonMessages(idb_db, parent, options) {
     return createFileAndWriter(parent, 'db.json').then(function(writer) {
-      return exportToJsonFile(idb_db, writer);
+      return exportToJsonFile(idb_db, writer, options);
     });
   }
 
@@ -85,10 +85,27 @@
   * Export all data from an IndexedDB database
   * @param {IDBDatabase} idb_db
   */
-  function exportToJsonFile(idb_db, fileWriter) {
+  function exportToJsonFile(idb_db, fileWriter, options) {
+    options = options || {};
+    _.defaults(options, {excludeClientConfig: false});
+
     return new Promise(function(resolve, reject) {
       var storeNames = idb_db.objectStoreNames;
       storeNames = _.without(storeNames, 'messages');
+
+      if (options.excludeClientConfig) {
+        console.log('exportToJsonFile: excluding client config from export');
+        storeNames = _.without(
+          storeNames,
+          'items',
+          'signedPreKeys',
+          'preKeys',
+          'identityKeys',
+          'sessions',
+          'unprocessed' // since we won't be able to decrypt them anyway
+        );
+      }
+
       var exportedStoreNames = [];
       if (storeNames.length === 0) {
         throw new Error('No stores to export');
@@ -160,9 +177,10 @@
     });
   }
 
-  function importNonMessages(idb_db, parent) {
-    return readFileAsText(parent, 'db.json').then(function(string) {
-      return importFromJsonString(idb_db, string);
+  function importNonMessages(idb_db, parent, options) {
+    var file = 'db.json';
+    return readFileAsText(parent, file).then(function(string) {
+      return importFromJsonString(idb_db, string, path.join(parent, file), options);
     });
   }
 
@@ -176,6 +194,16 @@
     reject(error || new Error(prefix));
   }
 
+  function eliminateClientConfigInBackup(data, path) {
+    var cleaned = _.pick(data, 'conversations', 'groups');
+    console.log('Writing configuration-free backup file back to disk');
+    try {
+      fs.writeFileSync(path, JSON.stringify(cleaned));
+    } catch (error) {
+      console.log('Error writing cleaned-up backup to disk: ', error.stack);
+    }
+  }
+
   /**
   * Import data from JSON into an IndexedDB database. This does not delete any existing data
   *  from the database, so keys could clash
@@ -183,19 +211,50 @@
   * @param {IDBDatabase} idb_db
   * @param {string} jsonString - data to import, one key per object store
   */
-  function importFromJsonString(idb_db, jsonString) {
+  function importFromJsonString(idb_db, jsonString, path, options) {
+    options = options || {};
+    _.defaults(options, {
+      forceLightImport: false,
+      conversationLookup: {},
+      groupLookup: {},
+    });
+
+    var conversationLookup = options.conversationLookup;
+    var groupLookup = options.groupLookup;
+    var result = {
+      fullImport: true,
+    };
+
     return new Promise(function(resolve, reject) {
       var importObject = JSON.parse(jsonString);
       delete importObject.debug;
-      var storeNames = _.keys(importObject);
 
+      if (!importObject.sessions || options.forceLightImport) {
+        result.fullImport = false;
+
+        delete importObject.items;
+        delete importObject.signedPreKeys;
+        delete importObject.preKeys;
+        delete importObject.identityKeys;
+        delete importObject.sessions;
+        delete importObject.unprocessed;
+
+        console.log('This is a light import; contacts, groups and messages only');
+      }
+
+      // We mutate the on-disk backup to prevent the user from importing client
+      //   configuration more than once - that causes lots of encryption errors.
+      //   This of course preserves the true data: conversations and groups.
+      eliminateClientConfigInBackup(importObject, path);
+
+      var storeNames = _.keys(importObject);
       console.log('Importing to these stores:', storeNames.join(', '));
 
       var finished = false;
       var finish = function(via) {
         console.log('non-messages import done via', via);
         if (finished) {
-          resolve();
+          resolve(result);
         }
         finished = true;
       };
@@ -219,20 +278,46 @@
           }
 
           var count = 0;
+          var skipCount = 0;
+
+          var finishStore = function() {
+            // added all objects for this store
+            delete importObject[storeName];
+            console.log(
+              'Done importing to store',
+              storeName,
+              'Total count:',
+              count,
+              'Skipped:',
+              skipCount
+            );
+            if (_.keys(importObject).length === 0) {
+              // added all object stores
+              console.log('DB import complete');
+              finish('puts scheduled');
+            }
+          };
+
           _.each(importObject[storeName], function(toAdd) {
               toAdd = unstringify(toAdd);
+
+              var haveConversationAlready =
+                storeName === 'conversations'
+                && conversationLookup[getConversationKey(toAdd)];
+              var haveGroupAlready =
+                storeName === 'groups' && groupLookup[getGroupKey(toAdd)];
+
+              if (haveConversationAlready || haveGroupAlready) {
+                skipCount++;
+                count++;
+                return;
+              }
+
               var request = transaction.objectStore(storeName).put(toAdd, toAdd.id);
               request.onsuccess = function(event) {
                 count++;
                 if (count == importObject[storeName].length) {
-                  // added all objects for this store
-                  delete importObject[storeName];
-                  console.log('Done importing to store', storeName);
-                  if (_.keys(importObject).length === 0) {
-                    // added all object stores
-                    console.log('DB import complete');
-                    finish('puts scheduled');
-                  }
+                  finishStore();
                 }
               };
               request.onerror = function(e) {
@@ -243,6 +328,12 @@
                 );
               };
           });
+
+          // We have to check here, because we may have skipped every item, resulting
+          //   in no onsuccess callback at all.
+          if (count === importObject[storeName].length) {
+            finishStore();
+          }
       });
     });
   }
@@ -432,13 +523,19 @@
         request.onsuccess = function(event) {
           var cursor = event.target.result;
           if (cursor) {
-            if (count !== 0) {
-              stream.write(',');
-            }
-
             var message = cursor.value;
             var messageId = message.received_at;
             var attachments = message.attachments;
+
+            // skip message if it is disappearing, no matter the amount of time left
+            if (message.expireTimer) {
+              cursor.continue();
+              return;
+            }
+
+            if (count !== 0) {
+              stream.write(',');
+            }
 
             message.attachments = _.map(attachments, function(attachment) {
               return _.omit(attachment, ['data']);
@@ -598,6 +695,10 @@
     }));
   }
 
+  function saveMessage(idb_db, message) {
+    return saveAllMessages(idb_db, [message]);
+  }
+
   function saveAllMessages(idb_db, messages) {
     if (!messages.length) {
       return Promise.resolve();
@@ -658,43 +759,64 @@
   //   message, save it, and only then do we move on to the next message. Thus, every
   //   message with attachments needs to be removed from our overall message save with the
   //   filter() call.
-  function importConversation(idb_db, dir) {
+  function importConversation(idb_db, dir, options) {
+    options = options || {};
+    _.defaults(options, {messageLookup: {}});
+
+    var messageLookup = options.messageLookup;
+    var conversationId = 'unknown';
+    var total = 0;
+    var skipped = 0;
+
     return readFileAsText(dir, 'messages.json').then(function(contents) {
       var promiseChain = Promise.resolve();
 
       var json = JSON.parse(contents);
-      var conversationId;
       if (json.messages && json.messages.length) {
-        conversationId = json.messages[0].conversationId;
+        conversationId = '[REDACTED]' + (json.messages[0].conversationId || '').slice(-3);
       }
+      total = json.messages.length;
 
       var messages = _.filter(json.messages, function(message) {
         message = unstringify(message);
 
+        if (messageLookup[getMessageKey(message)]) {
+          skipped++;
+          return false;
+        }
+
         if (message.attachments && message.attachments.length) {
           var process = function() {
             return loadAttachments(dir, message).then(function() {
-              return saveAllMessages(idb_db, [message]);
+              return saveMessage(idb_db, message);
             });
           };
 
           promiseChain = promiseChain.then(process);
 
-          return null;
+          return false;
         }
 
-        return message;
+        return true;
       });
 
-      return saveAllMessages(idb_db, messages)
+      var promise = Promise.resolve();
+      if (messages.length > 0) {
+        promise = saveAllMessages(idb_db, messages);
+      }
+
+      return promise
         .then(function() {
           return promiseChain;
         })
         .then(function() {
           console.log(
             'Finished importing conversation',
-            // Don't know if group or private conversation, so we blindly redact
-            conversationId ? '[REDACTED]' + conversationId.slice(-3) : 'with no messages'
+            conversationId,
+            'Total:',
+            total,
+            'Skipped:',
+            skipped
           );
         });
 
@@ -703,7 +825,7 @@
     });
   }
 
-  function importConversations(idb_db, dir) {
+  function importConversations(idb_db, dir, options) {
     return getDirContents(dir).then(function(contents) {
       var promiseChain = Promise.resolve();
 
@@ -713,13 +835,80 @@
         }
 
         var process = function() {
-          return importConversation(idb_db, conversationDir);
+          return importConversation(idb_db, conversationDir, options);
         };
 
         promiseChain = promiseChain.then(process);
       });
 
       return promiseChain;
+    });
+  }
+
+  function getMessageKey(message) {
+    var ourNumber = textsecure.storage.user.getNumber();
+    var source = message.source || ourNumber;
+    if (source === ourNumber) {
+      return source + ' ' + message.timestamp;
+    }
+
+    var sourceDevice = message.sourceDevice || 1;
+    return source + '.' + sourceDevice + ' ' + message.timestamp;
+  }
+  function loadMessagesLookup(idb_db) {
+    return assembleLookup(idb_db, 'messages', getMessageKey);
+  }
+
+  function getConversationKey(conversation) {
+    return conversation.id;
+  }
+  function loadConversationLookup(idb_db) {
+    return assembleLookup(idb_db, 'conversations', getConversationKey);
+  }
+
+  function getGroupKey(group) {
+    return group.id;
+  }
+  function loadGroupsLookup(idb_db) {
+    return assembleLookup(idb_db, 'groups', getGroupKey);
+  }
+
+  function assembleLookup(idb_db, storeName, keyFunction) {
+    var lookup = Object.create(null);
+
+    return new Promise(function(resolve, reject) {
+      var transaction = idb_db.transaction(storeName, 'readwrite');
+      transaction.onerror = function(e) {
+        handleDOMException(
+          'assembleLookup(' + storeName + ') transaction error',
+          transaction.error,
+          reject
+        );
+      };
+      transaction.oncomplete = function() {
+        // not really very useful - fires at unexpected times
+      };
+
+      var promiseChain = Promise.resolve();
+      var store = transaction.objectStore(storeName);
+      var request = store.openCursor();
+      request.onerror = function(e) {
+        handleDOMException(
+          'assembleLookup(' + storeName + ') request error',
+          request.error,
+          reject
+        );
+      };
+      request.onsuccess = function(event) {
+        var cursor = event.target.result;
+        if (cursor && cursor.value) {
+          lookup[keyFunction(cursor.value)] = true;
+          cursor.continue();
+        } else {
+          console.log('Done creating ' + storeName + ' lookup');
+          return resolve(lookup);
+        }
+      };
     });
   }
 
@@ -791,7 +980,7 @@
       };
       return getDirectory(options);
     },
-    backupToDirectory: function(directory) {
+    exportToDirectory: function(directory, options) {
       var dir;
       var idb;
       return openDatabase().then(function(idb_db) {
@@ -800,7 +989,7 @@
         return createDirectory(directory, name);
       }).then(function(created) {
         dir = created;
-        return exportNonMessages(idb, dir);
+        return exportNonMessages(idb, dir, options);
       }).then(function() {
         return exportConversations(idb, dir);
       }).then(function() {
@@ -823,18 +1012,30 @@
       };
       return getDirectory(options);
     },
-    importFromDirectory: function(directory) {
-      var idb;
+    importFromDirectory: function(directory, options) {
+      options = options || {};
+
+      var idb, nonMessageResult;
       return openDatabase().then(function(idb_db) {
         idb = idb_db;
-        return importNonMessages(idb_db, directory);
+
+        return Promise.all([
+          loadMessagesLookup(idb_db),
+          loadConversationLookup(idb_db),
+          loadGroupsLookup(idb_db),
+        ]);
+      }).then(function(lookups) {
+        options.messageLookup = lookups[0];
+        options.conversationLookup = lookups[1];
+        options.groupLookup = lookups[2];
       }).then(function() {
-        return importConversations(idb, directory);
+        return importNonMessages(idb, directory, options);
+      }).then(function(result) {
+        nonMessageResult = result;
+        return importConversations(idb, directory, options);
       }).then(function() {
-        return directory;
-      }).then(function(path) {
         console.log('done restoring from backup!');
-        return path;
+        return nonMessageResult;
       }, function(error) {
         console.log(
           'the import went wrong:',

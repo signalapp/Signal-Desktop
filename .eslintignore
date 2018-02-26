@@ -1,17 +1,23 @@
 build/**
 components/**
+coverage/**
 dist/**
 libtextsecure/**
-coverage/**
 
 # these aren't ready yet, pulling files in one-by-one
-js/**
-test/**
+js/*.js
+js/models/**/*.js
+js/react/**/*.js
+js/views/**/*.js
+test/*.js
+test/models/*.js
+test/views/*.js
 /*.js
+
+# ES2015+ files
+!js/background.js
+!js/models/conversations.js
+!js/views/file_input_view.js
+!js/views/attachment_view.js
 !main.js
 !prepare_build.js
-
-# all of these files will be new
-!test/server/**/*.js
-
-# all of app/ is included

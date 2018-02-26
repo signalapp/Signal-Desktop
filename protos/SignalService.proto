@@ -1,7 +1,8 @@
-package textsecure;
+// Source: https://github.com/signalapp/libsignal-service-java/blob/4684a49b2ed8f32be619e0d0eea423626b6cb2cb/protobuf/SignalService.proto
+package signalservice;
 
-option java_package = "org.whispersystems.textsecure.internal.push";
-option java_outer_classname = "TextSecureProtos";
+option java_package = "org.whispersystems.signalservice.internal.push";
+option java_outer_classname = "SignalServiceProtos";
 
 message Envelope {
   enum Type {
@@ -22,38 +23,11 @@ message Envelope {
 }
 
 message Content {
-  optional DataMessage dataMessage       = 1;
-  optional SyncMessage syncMessage       = 2;
-  optional CallMessage callMessage       = 3;
-  optional NullMessage nullMessage       = 4;
+  optional DataMessage    dataMessage    = 1;
+  optional SyncMessage    syncMessage    = 2;
+  optional CallMessage    callMessage    = 3;
+  optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
-}
-
-message ReceiptMessage {
-  enum Type {
-    DELIVERY = 0;
-    READ     = 1;
-  }
-
-  optional Type   type        = 1;
-  repeated uint64 timestamps  = 2;
-}
-
-message NullMessage {
-  optional bytes padding = 1;
-}
-
-message Verified {
-  enum State {
-    DEFAULT    = 0;
-    VERIFIED   = 1;
-    UNVERIFIED = 2;
-  }
-
-  optional string destination = 1;
-  optional bytes  identityKey = 2;
-  optional State  state       = 3;
-  optional bytes  nullMessage = 4;
 }
 
 message CallMessage {
@@ -92,7 +66,7 @@ message CallMessage {
 
 message DataMessage {
   enum Flags {
-    END_SESSION = 1;
+    END_SESSION             = 1;
     EXPIRATION_TIMER_UPDATE = 2;
     PROFILE_KEY_UPDATE      = 4;
   }
@@ -103,6 +77,34 @@ message DataMessage {
   optional uint32             flags       = 4;
   optional uint32             expireTimer = 5;
   optional bytes              profileKey  = 6;
+  optional uint64             timestamp   = 7;
+}
+
+message NullMessage {
+  optional bytes padding = 1;
+}
+
+message ReceiptMessage {
+  enum Type {
+    DELIVERY = 0;
+    READ     = 1;
+  }
+
+  optional Type   type      = 1;
+  repeated uint64 timestamp = 2;
+}
+
+message Verified {
+  enum State {
+    DEFAULT    = 0;
+    VERIFIED   = 1;
+    UNVERIFIED = 2;
+  }
+
+  optional string destination = 1;
+  optional bytes  identityKey = 2;
+  optional State  state       = 3;
+  optional bytes  nullMessage = 4;
 }
 
 message SyncMessage {
@@ -115,7 +117,7 @@ message SyncMessage {
 
   message Contacts {
     optional AttachmentPointer blob     = 1;
-    optional bool              isComplete = 2 [default = false];
+    optional bool              complete = 2 [default = false];
   }
 
   message Groups {
@@ -143,19 +145,19 @@ message SyncMessage {
     optional uint64 timestamp = 2;
   }
 
-  message Settings {
+  message Configuration {
     optional bool readReceipts = 1;
   }
 
-  optional Sent     sent     = 1;
-  optional Contacts contacts = 2;
-  optional Groups   groups   = 3;
-  optional Request  request  = 4;
-  repeated Read     read     = 5;
-  optional Blocked  blocked  = 6;
-  optional Verified verified = 7;
-  optional bytes    padding  = 8;
-  optional Settings settings = 9;
+  optional Sent          sent          = 1;
+  optional Contacts      contacts      = 2;
+  optional Groups        groups        = 3;
+  optional Request       request       = 4;
+  repeated Read          read          = 5;
+  optional Blocked       blocked       = 6;
+  optional Verified      verified      = 7;
+  optional Configuration configuration = 9;
+  optional bytes         padding       = 8;
 }
 
 message AttachmentPointer {
@@ -171,6 +173,8 @@ message AttachmentPointer {
   optional bytes   digest      = 6;
   optional string  fileName    = 7;
   optional uint32  flags       = 8;
+  optional uint32  width       = 9;
+  optional uint32  height      = 10;
 }
 
 message GroupContext {
@@ -194,12 +198,14 @@ message ContactDetails {
     optional uint32 length      = 2;
   }
 
-  optional string number     = 1;
-  optional string name       = 2;
-  optional Avatar avatar     = 3;
-  optional string color      = 4;
-  optional Verified verified = 5;
-  optional bytes profileKey  = 6;
+  optional string   number      = 1;
+  optional string   name        = 2;
+  optional Avatar   avatar      = 3;
+  optional string   color       = 4;
+  optional Verified verified    = 5;
+  optional bytes    profileKey  = 6;
+  optional bool     blocked     = 7;
+  optional uint32   expireTimer = 8;
 }
 
 message GroupDetails {
@@ -208,9 +214,10 @@ message GroupDetails {
     optional uint32 length      = 2;
   }
 
-  optional bytes  id       = 1;
-  optional string name     = 2;
-  repeated string members  = 3;
-  optional Avatar avatar   = 4;
-  optional bool   active   = 5 [default = true];
+  optional bytes  id          = 1;
+  optional string name        = 2;
+  repeated string members     = 3;
+  optional Avatar avatar      = 4;
+  optional bool   active      = 5 [default = true];
+  optional uint32 expireTimer = 6;
 }

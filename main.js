@@ -37,10 +37,16 @@ function getMainWindow() {
 
 // Tray icon and related objects
 let tray = null;
-const startInTray = process.argv.find(arg => arg === '--start-in-tray');
-const usingTrayIcon = startInTray || process.argv.find(arg => arg === '--use-tray-icon');
+const startInTray = process.argv.some(arg => arg === '--start-in-tray');
+const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
+
 
 const config = require('./app/config');
+
+const importMode = process.argv.some(arg => arg === '--import') || config.get('import');
+
+
+const development = config.environment === 'development';
 
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
@@ -54,7 +60,7 @@ function showWindow() {
   // Using focus() instead of show() seems to be important on Windows when our window
   //   has been docked using Aero Snap/Snap Assist. A full .show() call here will cause
   //   the window to reposition:
-  //   https://github.com/WhisperSystems/Signal-Desktop/issues/1429
+  //   https://github.com/signalapp/Signal-Desktop/issues/1429
   if (mainWindow.isVisible()) {
     mainWindow.focus();
   } else {
@@ -83,7 +89,7 @@ if (!process.mas) {
 
   if (shouldQuit) {
     console.log('quitting; we are the second instance');
-    app.quit();
+    app.exit();
   }
 }
 
@@ -119,6 +125,7 @@ function prepareURL(pathSegments) {
       appInstance: process.env.NODE_APP_INSTANCE,
       polyfillNotifications: polyfillNotifications ? true : undefined, // for stringify()
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
+      importMode: importMode ? true : undefined, // for stringify()
     },
   });
 }
@@ -157,10 +164,10 @@ function isVisible(window, bounds) {
   const topClearOfUpperBound = window.y >= boundsY;
   const topClearOfLowerBound = (window.y <= (boundsY + boundsHeight) - BOUNDS_BUFFER);
 
-  return rightSideClearOfLeftBound
-    && leftSideClearOfRightBound
-    && topClearOfUpperBound
-    && topClearOfLowerBound;
+  return rightSideClearOfLeftBound &&
+    leftSideClearOfRightBound &&
+    topClearOfUpperBound &&
+    topClearOfLowerBound;
 }
 
 function createWindow() {
@@ -216,6 +223,10 @@ function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
 
   function captureAndSaveWindowStats() {
+    if (!mainWindow) {
+      return;
+    }
+
     const size = mainWindow.getSize();
     const position = mainWindow.getPosition();
 
@@ -277,8 +288,8 @@ function createWindow() {
   // Emitted when the window is about to be closed.
   mainWindow.on('close', (e) => {
     // If the application is terminating, just do the default
-    if (windowState.shouldQuit()
-      || config.environment === 'test' || config.environment === 'test-lib') {
+    if (windowState.shouldQuit() ||
+        config.environment === 'test' || config.environment === 'test-lib') {
       return;
     }
 
@@ -315,11 +326,11 @@ function showDebugLog() {
 }
 
 function openReleaseNotes() {
-  shell.openExternal(`https://github.com/WhisperSystems/Signal-Desktop/releases/tag/v${app.getVersion()}`);
+  shell.openExternal(`https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`);
 }
 
 function openNewBugForm() {
-  shell.openExternal('https://github.com/WhisperSystems/Signal-Desktop/issues/new');
+  shell.openExternal('https://github.com/signalapp/Signal-Desktop/issues/new');
 }
 
 function openSupportPage() {
@@ -328,6 +339,24 @@ function openSupportPage() {
 
 function openForums() {
   shell.openExternal('https://whispersystems.discoursehosting.net/');
+}
+
+function setupWithImport() {
+  if (mainWindow) {
+    mainWindow.webContents.send('set-up-with-import');
+  }
+}
+
+function setupAsNewDevice() {
+  if (mainWindow) {
+    mainWindow.webContents.send('set-up-as-new-device');
+  }
+}
+
+function setupAsStandalone() {
+  if (mainWindow) {
+    mainWindow.webContents.send('set-up-as-standalone');
+  }
 }
 
 
@@ -373,6 +402,8 @@ function showAbout() {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', () => {
+  // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
+  /* eslint-disable more/no-then */
   let loggingSetupError;
   logging.initialize().catch((error) => {
     loggingSetupError = error;
@@ -398,21 +429,30 @@ app.on('ready', () => {
       tray = createTrayIcon(getMainWindow, locale.messages);
     }
 
-    const options = {
-      showDebugLog,
-      showWindow,
-      showAbout,
-      openReleaseNotes,
-      openNewBugForm,
-      openSupportPage,
-      openForums,
-    };
-    const template = createTemplate(options, locale.messages);
-
-    const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+    setupMenu();
   });
+  /* eslint-enable more/no-then */
 });
+
+function setupMenu(options) {
+  const menuOptions = Object.assign({}, options, {
+    development,
+    showDebugLog,
+    showWindow,
+    showAbout,
+    openReleaseNotes,
+    openNewBugForm,
+    openSupportPage,
+    openForums,
+    setupWithImport,
+    setupAsNewDevice,
+    setupAsStandalone,
+  });
+  const template = createTemplate(menuOptions, locale.messages);
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+}
+
 
 app.on('before-quit', () => {
   windowState.markShouldQuit();
@@ -422,9 +462,9 @@ app.on('before-quit', () => {
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin'
-    || config.environment === 'test'
-    || config.environment === 'test-lib') {
+  if (process.platform !== 'darwin' ||
+      config.environment === 'test' ||
+      config.environment === 'test-lib') {
     app.quit();
   }
 });
@@ -446,6 +486,17 @@ app.on('activate', () => {
 ipc.on('set-badge-count', (event, count) => {
   app.setBadgeCount(count);
 });
+
+ipc.on('remove-setup-menu-items', () => {
+  setupMenu();
+});
+
+ipc.on('add-setup-menu-items', () => {
+  setupMenu({
+    includeSetup: true,
+  });
+});
+
 
 ipc.on('draw-attention', () => {
   if (process.platform === 'darwin') {

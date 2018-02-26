@@ -1,271 +1,290 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
+/* eslint-env browser */
+
+/* global $: false */
+/* global _: false */
+/* global Backbone: false */
+/* global moment: false */
+
+/* global i18n: false */
+/* global textsecure: false */
+/* global Whisper: false */
+
+// eslint-disable-next-line func-names
 (function () {
-  'use strict';
+  const ESCAPE_KEY_CODE = 27;
 
-  var FileView = Whisper.View.extend({
-      tagName: 'div',
-      className: 'fileView',
-      templateName: 'file-view',
-      render_attributes: function() {
-        return this.model;
-      }
+  const FileView = Whisper.View.extend({
+    tagName: 'div',
+    className: 'fileView',
+    templateName: 'file-view',
+    render_attributes() {
+      return this.model;
+    },
   });
 
-  var ImageView = Backbone.View.extend({
-      tagName: 'img',
-      initialize: function(dataUrl) {
-          this.dataUrl = dataUrl;
-      },
-      events: {
-          'load': 'update',
-      },
-      update: function() {
-        this.trigger('update');
-      },
-      render: function() {
-        this.$el.attr('src', this.dataUrl);
-        return this;
-      }
+  const ImageView = Backbone.View.extend({
+    tagName: 'img',
+    initialize(blobUrl) {
+      this.blobUrl = blobUrl;
+    },
+    events: {
+      load: 'update',
+    },
+    update() {
+      this.trigger('update');
+    },
+    render() {
+      this.$el.attr('src', this.blobUrl);
+      return this;
+    },
   });
 
-  var MediaView = Backbone.View.extend({
-      initialize: function(dataUrl, contentType) {
-          this.dataUrl = dataUrl;
-          this.contentType = contentType;
-          this.$el.attr('controls', '');
-      },
-      events: {
-          'canplay': 'canplay'
-      },
-      canplay: function() {
-          this.trigger('update');
-      },
-      render: function() {
-          var $el = $('<source>');
-          $el.attr('src', this.dataUrl);
-          this.$el.append($el);
-          return this;
-      }
+  const MediaView = Backbone.View.extend({
+    initialize(dataUrl, { contentType } = {}) {
+      this.dataUrl = dataUrl;
+      this.contentType = contentType;
+      this.$el.attr('controls', '');
+    },
+    events: {
+      canplay: 'canplay',
+    },
+    canplay() {
+      this.trigger('update');
+    },
+    render() {
+      const $el = $('<source>');
+      $el.attr('src', this.dataUrl);
+      this.$el.append($el);
+      return this;
+    },
   });
 
-  var AudioView = MediaView.extend({ tagName: 'audio' });
-  var VideoView = MediaView.extend({ tagName: 'video' });
+  const AudioView = MediaView.extend({ tagName: 'audio' });
+  const VideoView = MediaView.extend({ tagName: 'video' });
 
   // Blacklist common file types known to be unsupported in Chrome
-  var UnsupportedFileTypes = [
+  const UnsupportedFileTypes = [
     'audio/aiff',
-    'video/quicktime'
+    'video/quicktime',
   ];
 
   Whisper.AttachmentView = Backbone.View.extend({
     tagName: 'span',
-    className: function() {
+    className() {
       if (this.isImage()) {
         return 'attachment';
-      } else {
-        return 'attachment bubbled';
+      }
+      return 'attachment bubbled';
+    },
+    initialize(options) {
+      this.blob = new Blob([this.model.data], { type: this.model.contentType });
+      if (!this.model.size) {
+        this.model.size = this.model.data.byteLength;
+      }
+      if (options.timestamp) {
+        this.timestamp = options.timestamp;
       }
     },
-    initialize: function(options) {
-        this.blob = new Blob([this.model.data], {type: this.model.contentType});
-        if (!this.model.size) {
-          this.model.size = this.model.data.byteLength;
-        }
-        if (options.timestamp) {
-          this.timestamp = options.timestamp;
-        }
-    },
     events: {
-        'click': 'onclick'
+      click: 'onclick',
     },
-    unload: function() {
-        this.blob = null;
+    unload() {
+      this.blob = null;
 
-        if (this.lightBoxView) {
-            this.lightBoxView.remove();
-        }
-        if (this.fileView) {
-            this.fileView.remove();
-        }
-        if (this.view) {
-            this.view.remove();
-        }
+      if (this.lightBoxView) {
+        this.lightBoxView.remove();
+      }
+      if (this.fileView) {
+        this.fileView.remove();
+      }
+      if (this.view) {
+        this.view.remove();
+      }
 
-        this.remove();
+      this.remove();
     },
-    getFileType: function() {
-        switch(this.model.contentType) {
-            case 'video/quicktime': return 'mov';
-            default: return this.model.contentType.split('/')[1];
-        }
+    getFileType() {
+      switch (this.model.contentType) {
+        case 'video/quicktime': return 'mov';
+        default: return this.model.contentType.split('/')[1];
+      }
     },
-    onclick: function(e) {
-        if (this.isImage()) {
-            this.lightBoxView = new Whisper.LightboxView({ model: this });
-            this.lightBoxView.render();
-            this.lightBoxView.$el.appendTo(this.el);
-            this.lightBoxView.$el.trigger('show');
+    onclick() {
+      if (this.isImage()) {
+        this.lightBoxView = new Whisper.LightboxView({ model: this });
+        this.lightBoxView.render();
+        this.lightBoxView.$el.appendTo(this.el);
+        this.lightBoxView.$el.trigger('show');
+      } else {
+        this.saveFile();
+      }
+    },
+    isVoiceMessage() {
+      // eslint-disable-next-line no-bitwise
+      if (this.model.flags & textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE) {
+        return true;
+      }
 
-        } else {
-            this.saveFile();
-        }
-    },
-    isVoiceMessage: function() {
-        if (this.model.flags & textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE) {
-          return true;
-        }
+      // Support for android legacy voice messages
+      if (this.isAudio() && this.model.fileName === null) {
+        return true;
+      }
 
-        // Support for android legacy voice messages
-        if (this.isAudio() && this.model.fileName === null) {
-          return true;
-        }
+      return false;
     },
-    isAudio: function() {
-        return this.model.contentType.startsWith('audio/');
+    isAudio() {
+      return this.model.contentType.startsWith('audio/');
     },
-    isVideo: function() {
-        return this.model.contentType.startsWith('video/');
+    isVideo() {
+      return this.model.contentType.startsWith('video/');
     },
-    isImage: function() {
-        var type = this.model.contentType;
-        return type.startsWith('image/') && type !== 'image/tiff';
+    isImage() {
+      const type = this.model.contentType;
+      return type.startsWith('image/') && type !== 'image/tiff';
     },
-    mediaType: function() {
-        if (this.isVoiceMessage()) {
-          return 'voice';
-        } else if (this.isAudio()) {
-          return 'audio';
-        } else if (this.isVideo()) {
-          return 'video';
-        } else if (this.isImage()) {
-          return 'image';
-        }
-    },
-    displayName: function() {
-        if (this.isVoiceMessage()) {
-            return i18n('voiceMessage');
-        }
-        if (this.model.fileName) {
-            return this.model.fileName;
-        }
-        if (this.isAudio() || this.isVideo()) {
-            return i18n('mediaMessage');
-        }
+    mediaType() {
+      if (this.isVoiceMessage()) {
+        return 'voice';
+      } else if (this.isAudio()) {
+        return 'audio';
+      } else if (this.isVideo()) {
+        return 'video';
+      } else if (this.isImage()) {
+        return 'image';
+      }
 
-        return i18n('unnamedFile');
+      // NOTE: The existing code had no `return` but ESLint insists. Thought
+      // about throwing an error assuming this was unreachable code but it turns
+      // out that content type `image/tiff` falls through here:
+      return undefined;
     },
-    suggestedName: function() {
-        if (this.model.fileName) {
-            return this.model.fileName;
-        }
+    displayName() {
+      if (this.isVoiceMessage()) {
+        return i18n('voiceMessage');
+      }
+      if (this.model.fileName) {
+        return this.model.fileName;
+      }
+      if (this.isAudio() || this.isVideo()) {
+        return i18n('mediaMessage');
+      }
 
-        var suggestion = 'signal';
-        if (this.timestamp) {
-            suggestion += moment(this.timestamp).format('-YYYY-MM-DD-HHmmss');
-        }
-        var fileType = this.getFileType();
-        if (fileType) {
-            suggestion += '.' + fileType;
-        }
-        return suggestion;
+      return i18n('unnamedFile');
     },
-    saveFile: function() {
-        var url = window.URL.createObjectURL(this.blob, { type: 'octet/stream' });
-        var a = $('<a>').attr({ href: url, download: this.suggestedName() });
-        a[0].click();
-        window.URL.revokeObjectURL(url);
-    },
-    render: function() {
-        if (!this.isImage()) {
-          this.renderFileView();
-        }
-        var View;
-        if (this.isImage()) {
-            View = ImageView;
-        } else if (this.isAudio()) {
-            View = AudioView;
-        } else if (this.isVideo()) {
-            View = VideoView;
-        }
+    suggestedName() {
+      if (this.model.fileName) {
+        return this.model.fileName;
+      }
 
-        if (!View || _.contains(UnsupportedFileTypes, this.model.contentType)) {
-            this.update();
-            return this;
-        }
-
-        if (!this.objectUrl) {
-            this.objectUrl = window.URL.createObjectURL(this.blob);
-        }
-        this.view = new View(this.objectUrl, this.model.contentType);
-        this.view.$el.appendTo(this.$el);
-        this.listenTo(this.view, 'update', this.update);
-        this.view.render();
-        if (View !== ImageView) {
-          this.timeout = setTimeout(this.onTimeout.bind(this), 5000);
-        }
-        return this;
+      let suggestion = 'signal';
+      if (this.timestamp) {
+        suggestion += moment(this.timestamp).format('-YYYY-MM-DD-HHmmss');
+      }
+      const fileType = this.getFileType();
+      if (fileType) {
+        suggestion += `.${fileType}`;
+      }
+      return suggestion;
     },
-    onTimeout: function() {
-        // Image or media element failed to load. Fall back to FileView.
-        this.stopListening(this.view);
+    saveFile() {
+      const url = window.URL.createObjectURL(this.blob, { type: 'octet/stream' });
+      const a = $('<a>').attr({ href: url, download: this.suggestedName() });
+      a[0].click();
+      window.URL.revokeObjectURL(url);
+    },
+    render() {
+      if (!this.isImage()) {
+        this.renderFileView();
+      }
+      let View;
+      if (this.isImage()) {
+        View = ImageView;
+      } else if (this.isAudio()) {
+        View = AudioView;
+      } else if (this.isVideo()) {
+        View = VideoView;
+      }
+
+      if (!View || _.contains(UnsupportedFileTypes, this.model.contentType)) {
         this.update();
-    },
-    renderFileView: function() {
-        this.fileView = new FileView({
-          model: {
-            mediaType: this.mediaType(),
-            fileName: this.displayName(),
-            fileSize: window.filesize(this.model.size),
-            altText: i18n('clickToSave')
-          }
-        });
-
-        this.fileView.$el.appendTo(this.$el.empty());
-        this.fileView.render();
         return this;
+      }
+
+      if (!this.objectUrl) {
+        this.objectUrl = window.URL.createObjectURL(this.blob);
+      }
+
+      const { blob } = this;
+      const { contentType } = this.model;
+      this.view = new View(this.objectUrl, { blob, contentType });
+      this.view.$el.appendTo(this.$el);
+      this.listenTo(this.view, 'update', this.update);
+      this.view.render();
+      if (View !== ImageView) {
+        this.timeout = setTimeout(this.onTimeout.bind(this), 5000);
+      }
+      return this;
     },
-    update: function() {
-        clearTimeout(this.timeout);
-        this.trigger('update');
-    }
+    onTimeout() {
+      // Image or media element failed to load. Fall back to FileView.
+      this.stopListening(this.view);
+      this.update();
+    },
+    renderFileView() {
+      this.fileView = new FileView({
+        model: {
+          mediaType: this.mediaType(),
+          fileName: this.displayName(),
+          fileSize: window.filesize(this.model.size),
+          altText: i18n('clickToSave'),
+        },
+      });
+
+      this.fileView.$el.appendTo(this.$el.empty());
+      this.fileView.render();
+      return this;
+    },
+    update() {
+      clearTimeout(this.timeout);
+      this.trigger('update');
+    },
   });
 
   Whisper.LightboxView = Whisper.View.extend({
-      templateName: 'lightbox',
-      className: 'modal lightbox',
-      initialize: function() {
-          this.window = window;
-          this.$document = $(this.window.document);
-          this.listener = this.onkeyup.bind(this);
-          this.$document.on('keyup', this.listener);
-      },
-      events: {
-          'click .save': 'save',
-          'click .close': 'remove',
-          'click': 'onclick'
-      },
-      save: function(e) {
-            this.model.saveFile();
-      },
-      onclick: function(e) {
-          var $el = this.$(e.target);
-          if (!$el.hasClass('image') && !$el.closest('.controls').length ) {
-              e.preventDefault();
-              this.remove();
-              return false;
-          }
-      },
-      onkeyup: function(e) {
-          if (e.keyCode === 27) {
-              this.remove();
-              this.$document.off('keyup', this.listener);
-          }
-      },
-      render_attributes: function() {
-          return { url: this.model.objectUrl };
+    templateName: 'lightbox',
+    className: 'modal lightbox',
+    initialize() {
+      this.window = window;
+      this.$document = $(this.window.document);
+      this.listener = this.onkeyup.bind(this);
+      this.$document.on('keyup', this.listener);
+    },
+    events: {
+      'click .save': 'save',
+      'click .close': 'remove',
+      click: 'onclick',
+    },
+    save() {
+      this.model.saveFile();
+    },
+    onclick(e) {
+      const $el = this.$(e.target);
+      if (!$el.hasClass('image') && !$el.closest('.controls').length) {
+        e.preventDefault();
+        this.remove();
+        return false;
       }
-  });
 
-})();
+      return true;
+    },
+    onkeyup(e) {
+      if (e.keyCode === ESCAPE_KEY_CODE) {
+        this.remove();
+        this.$document.off('keyup', this.listener);
+      }
+    },
+    render_attributes() {
+      return { url: this.model.objectUrl };
+    },
+  });
+}());

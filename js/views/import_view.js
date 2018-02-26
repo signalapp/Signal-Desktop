@@ -7,7 +7,8 @@
 
   var State = {
     IMPORTING: 1,
-    COMPLETE: 2
+    COMPLETE: 2,
+    LIGHT_COMPLETE: 3,
   };
 
   var IMPORT_STARTED = 'importStarted';
@@ -39,12 +40,13 @@
   };
 
   Whisper.ImportView = Whisper.View.extend({
-    templateName: 'app-migration-screen',
-    className: 'app-loading-screen',
+    templateName: 'import-flow-template',
+    className: 'full-screen-flow',
     events: {
-      'click .import': 'onImport',
+      'click .choose': 'onImport',
       'click .restart': 'onRestart',
       'click .cancel': 'onCancel',
+      'click .register': 'onRegister',
     },
     initialize: function() {
       if (Whisper.Import.isIncomplete()) {
@@ -55,41 +57,42 @@
       this.pending = Promise.resolve();
     },
     render_attributes: function() {
-      var message;
-      var importButton;
-      var hideProgress = true;
-      var restartButton;
-      var cancelButton;
-
       if (this.error) {
         return {
-          message: i18n('importError'),
-          hideProgress: true,
-          importButton: i18n('tryAgain'),
+          isError: true,
+          errorHeader: i18n('importErrorHeader'),
+          errorMessage: i18n('importError'),
+          chooseButton: i18n('importAgain'),
         };
       }
 
-      switch (this.state) {
-        case State.COMPLETE:
-          message = i18n('importComplete');
-          restartButton = i18n('restartSignal');
-          break;
-        case State.IMPORTING:
-          message = i18n('importing');
-          hideProgress = false;
-          break;
-        default:
-          message = i18n('importInstructions');
-          importButton = i18n('chooseDirectory');
-          cancelButton = i18n('cancel');
+      var restartButton = i18n('importCompleteStartButton');
+      var registerButton = i18n('importCompleteLinkButton');
+      var step = 'step2';
+
+      if (this.state === State.IMPORTING) {
+        step = 'step3';
+      } else if (this.state === State.COMPLETE) {
+        registerButton = null;
+        step = 'step4';
+      } else if (this.state === State.LIGHT_COMPLETE) {
+        restartButton = null;
+        step = 'step4';
       }
 
       return {
-        hideProgress: hideProgress,
-        message: message,
-        importButton: importButton,
+        isStep2: step === 'step2',
+        chooseHeader: i18n('loadDataHeader'),
+        choose: i18n('loadDataDescription'),
+        chooseButton: i18n('chooseDirectory'),
+
+        isStep3: step === 'step3',
+        importingHeader: i18n('importingHeader'),
+
+        isStep4: step === 'step4',
+        completeHeader: i18n('importCompleteHeader'),
         restartButton: restartButton,
-        cancelButton: cancelButton,
+        registerButton: registerButton,
       };
     },
     onRestart: function() {
@@ -110,9 +113,16 @@
         }
       });
     },
-    doImport: function(directory) {
-      this.error = null;
+    onRegister: function() {
+      // AppView listens for this, and opens up InstallView to the QR code step to
+      //   finish setting this device up.
+      this.trigger('light-import');
+    },
 
+    doImport: function(directory) {
+      window.removeSetupMenuItems();
+
+      this.error = null;
       this.state = State.IMPORTING;
       this.render();
 
@@ -125,25 +135,17 @@
           Whisper.Import.start(),
           Whisper.Backup.importFromDirectory(directory)
         ]);
-      }).then(function() {
-        // Catching in-memory cache up with what's in indexeddb now...
-        // NOTE: this fires storage.onready, listened to across the app. We'll restart
-        //   to complete the install to start up cleanly with everything now in the DB.
-        return storage.fetch();
-      }).then(function() {
-        return Promise.all([
-          // Clearing any migration-related state inherited from the Chrome App
-          storage.remove('migrationState'),
-          storage.remove('migrationEnabled'),
-          storage.remove('migrationEverCompleted'),
-          storage.remove('migrationStorageLocation'),
+      }).then(function(results) {
+        var importResult = results[1];
 
-          Whisper.Import.saveLocation(directory),
-          Whisper.Import.complete()
-        ]);
-      }).then(function() {
-        this.state = State.COMPLETE;
-        this.render();
+        // A full import changes so much we need a restart of the app
+        if (importResult.fullImport) {
+          return this.finishFullImport(directory);
+        }
+
+        // A light import just brings in contacts, groups, and messages. And we need a
+        //   normal link to finish the process.
+        return this.finishLightImport(directory);
       }.bind(this)).catch(function(error) {
         console.log('Error importing:', error && error.stack ? error.stack : error);
 
@@ -153,6 +155,40 @@
 
         return Whisper.Backup.clearDatabase();
       }.bind(this));
+    },
+    finishLightImport: function(directory) {
+      ConversationController.reset();
+
+      return ConversationController.load().then(function() {
+        return Promise.all([
+            Whisper.Import.saveLocation(directory),
+            Whisper.Import.complete(),
+          ]);
+      }).then(function() {
+        this.state = State.LIGHT_COMPLETE;
+        this.render();
+      }.bind(this));
+    },
+    finishFullImport: function(directory) {
+      // Catching in-memory cache up with what's in indexeddb now...
+      // NOTE: this fires storage.onready, listened to across the app. We'll restart
+      //   to complete the install to start up cleanly with everything now in the DB.
+      return storage.fetch()
+        .then(function() {
+          return Promise.all([
+            // Clearing any migration-related state inherited from the Chrome App
+            storage.remove('migrationState'),
+            storage.remove('migrationEnabled'),
+            storage.remove('migrationEverCompleted'),
+            storage.remove('migrationStorageLocation'),
+
+            Whisper.Import.saveLocation(directory),
+            Whisper.Import.complete()
+          ]);
+        }).then(function() {
+          this.state = State.COMPLETE;
+          this.render();
+        }.bind(this));
     }
   });
 })();

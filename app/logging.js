@@ -1,3 +1,6 @@
+// NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
+/* eslint-disable more/no-then */
+
 const path = require('path');
 const fs = require('fs');
 
@@ -117,8 +120,8 @@ function eliminateOutOfDateFiles(logPath, date) {
       const file = {
         path: target,
         start: isLineAfterDate(start, date),
-        end: isLineAfterDate(end[end.length - 1], date)
-          || isLineAfterDate(end[end.length - 2], date),
+        end: isLineAfterDate(end[end.length - 1], date) ||
+             isLineAfterDate(end[end.length - 2], date),
       };
 
       if (!file.start && !file.end) {

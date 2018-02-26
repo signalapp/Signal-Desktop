@@ -2,8 +2,14 @@ const path = require('path');
 
 const electronIsDev = require('electron-is-dev');
 
-const defaultEnvironment = electronIsDev ? 'development' : 'production';
-const environment = process.env.NODE_ENV || defaultEnvironment;
+let environment;
+
+// In production mode, NODE_ENV cannot be customized by the user
+if (electronIsDev) {
+  environment = process.env.NODE_ENV || 'development';
+} else {
+  environment = 'production';
+}
 
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = environment;

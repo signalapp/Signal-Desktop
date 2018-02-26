@@ -19,7 +19,7 @@ build_script:
   - node build\grunt.js
   - type package.json | findstr /v certificateSubjectName > temp.json
   - move temp.json package.json
-  - yarn prepare-build
+  - yarn prepare-beta-build
   - node_modules\.bin\build --em.environment=%SIGNAL_ENV% --publish=never
 
 test_script:
