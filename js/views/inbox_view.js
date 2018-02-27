@@ -170,8 +170,6 @@
       click: 'onClick',
       'click #header': 'focusHeader',
       'click .conversation': 'focusConversation',
-      'click .global-menu .hamburger': 'toggleMenu',
-      'click .showSettings': 'showSettings',
       'select .gutter .conversation-list-item': 'openConversation',
       'input input.search': 'filterContacts',
       'show .lightbox': 'showLightbox',
@@ -258,9 +256,6 @@
         this.focusConversation();
       }
     },
-    toggleMenu() {
-      this.$('.global-menu .menu-list').toggle();
-    },
     showLightbox(e) {
       this.$el.append(e.target);
     },
@@ -270,15 +265,7 @@
       }
       this.$('.conversation:first .recorder').trigger('close');
     },
-    closeMenu(e) {
-      if (e && this.$(e.target).parent('.global-menu').length > 0) {
-        return;
-      }
-
-      this.$('.global-menu .menu-list').hide();
-    },
     onClick(e) {
-      this.closeMenu(e);
       this.closeRecording(e);
     },
   });
