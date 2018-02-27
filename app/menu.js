@@ -1,14 +1,14 @@
 function createTemplate(options, messages) {
   const {
-    showDebugLog,
-    showAbout,
-    openReleaseNotes,
-    openNewBugForm,
-    openSupportPage,
     openForums,
-    setupWithImport,
+    openNewBugForm,
+    openReleaseNotes,
+    openSupportPage,
     setupAsNewDevice,
     setupAsStandalone,
+    setupWithImport,
+    showAbout,
+    showDebugLog,
   } = options;
 
   const template = [{
@@ -156,11 +156,11 @@ function createTemplate(options, messages) {
 
 function updateForMac(template, messages, options) {
   const {
-    showWindow,
-    showAbout,
-    setupWithImport,
     setupAsNewDevice,
     setupAsStandalone,
+    setupWithImport,
+    showAbout,
+    showWindow,
   } = options;
 
   // Remove About item and separator from Help menu, since it's on the first menu
