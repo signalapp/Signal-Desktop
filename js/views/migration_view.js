@@ -183,9 +183,6 @@
         //   screen with the 'Export again' button.
         this.step = STEPS.COMPLETE;
         Whisper.Migration.markComplete();
-      } else if (!Whisper.Migration.isComplete()) {
-        // This takes the user back to the very beginning of the process.
-        Whisper.Migration.cancel();
       }
 
       this.render();
