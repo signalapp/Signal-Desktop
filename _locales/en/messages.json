@@ -24,15 +24,15 @@
       "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "menuSetupWithImport": {
-      "message": "Set up with import",
+      "message": "Set Up with Import",
       "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-      "message": "Set up as new device",
+      "message": "Set Up as New Device",
       "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-      "message": "Set up as standalone device",
+      "message": "Set Up as Standalone Device",
       "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
@@ -372,22 +372,22 @@
     },
     "debugLog": {
       "message": "Debug Log",
-      "description": "View menu item to open the debug log, capitalized"
+      "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-      "message": "Go to release notes",
+      "message": "Go to Release Notes",
       "description": ""
     },
     "goToForums": {
-      "message": "Go to forums",
+      "message": "Go to Forums",
       "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-      "message": "Go to support page",
+      "message": "Go to Support Page",
       "description": "Item under the Help menu, takes you to the support page"
     },
     "fileABug": {
-      "message": "File a bug",
+      "message": "File a Bug",
       "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "aboutSignalDesktop": {

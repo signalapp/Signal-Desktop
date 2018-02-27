@@ -3,11 +3,11 @@
     "label": "&File",
     "submenu": [
       {
-        "label": "Set up with import",
+        "label": "Set Up with Import",
         "click": null
       },
       {
-        "label": "Set up as new device",
+        "label": "Set Up as New Device",
         "click": null
       },
       {
@@ -105,22 +105,22 @@
     "role": "help",
     "submenu": [
       {
-        "label": "Go to release notes",
+        "label": "Go to Release Notes",
         "click": null
       },
       {
         "type": "separator"
       },
       {
-        "label": "Go to forums",
+        "label": "Go to Forums",
         "click": null
       },
       {
-        "label": "Go to support page",
+        "label": "Go to Support Page",
         "click": null
       },
       {
-        "label": "File a bug",
+        "label": "File a Bug",
         "click": null
       },
       {
