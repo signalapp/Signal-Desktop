@@ -101,7 +101,6 @@
       return Promise.all([
         storage.remove('migrationState'),
         storage.remove('migrationEverCompleted'),
-        storage.remove('migrationEverAttempted'),
         storage.remove('migrationStorageLocation')
       ]);
     },
