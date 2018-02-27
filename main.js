@@ -18,9 +18,9 @@ const packageJson = require('./package.json');
 
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
-const createTemplate = require('./app/menu.js');
 const logging = require('./app/logging');
 const windowState = require('./app/window_state');
+const { createTemplate } = require('./app/menu');
 
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
 console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
