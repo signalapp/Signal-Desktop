@@ -7,6 +7,7 @@ exports.createTemplate = (options, messages) => {
   }
 
   const {
+    includeSetup,
     openForums,
     openNewBugForm,
     openReleaseNotes,
@@ -134,7 +135,7 @@ exports.createTemplate = (options, messages) => {
     ],
   }];
 
-  if (options.includeSetup) {
+  if (includeSetup) {
     const fileMenu = template[0];
 
     // These are in reverse order, since we're prepending them one at a time
@@ -164,6 +165,7 @@ exports.createTemplate = (options, messages) => {
 
 function updateForMac(template, messages, options) {
   const {
+    includeSetup,
     setupAsNewDevice,
     setupAsStandalone,
     setupWithImport,
@@ -179,7 +181,7 @@ function updateForMac(template, messages, options) {
   // Remove File menu
   template.shift();
 
-  if (options.includeSetup) {
+  if (includeSetup) {
     // Add a File menu just for these setup options. Because we're using unshift(), we add
     //   the file menu first, though it ends up to the right of the Signal Desktop menu.
     const fileMenu = {
@@ -235,7 +237,7 @@ function updateForMac(template, messages, options) {
   });
 
   // Add to Edit menu
-  const editIndex = options.includeSetup ? 2 : 1;
+  const editIndex = includeSetup ? 2 : 1;
   template[editIndex].submenu.push(
     {
       type: 'separator',
