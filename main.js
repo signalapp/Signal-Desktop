@@ -16,10 +16,10 @@ const {
 
 const packageJson = require('./package.json');
 
+const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
 const createTemplate = require('./app/menu.js');
 const logging = require('./app/logging');
-const autoUpdate = require('./app/auto_update');
 const windowState = require('./app/window_state');
 
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
