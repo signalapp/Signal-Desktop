@@ -1,0 +1,159 @@
+[
+  {
+    "submenu": [
+      {
+        "label": "About Signal Desktop",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "hide"
+      },
+      {
+        "role": "hideothers"
+      },
+      {
+        "role": "unhide"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "quit"
+      }
+    ]
+  },
+  {
+    "label": "&Edit",
+    "submenu": [
+      {
+        "role": "undo"
+      },
+      {
+        "role": "redo"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "cut"
+      },
+      {
+        "role": "copy"
+      },
+      {
+        "role": "paste"
+      },
+      {
+        "role": "pasteandmatchstyle"
+      },
+      {
+        "role": "delete"
+      },
+      {
+        "role": "selectall"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Speech",
+        "submenu": [
+          {
+            "role": "startspeaking"
+          },
+          {
+            "role": "stopspeaking"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "&View",
+    "submenu": [
+      {
+        "role": "resetzoom"
+      },
+      {
+        "role": "zoomin"
+      },
+      {
+        "role": "zoomout"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "togglefullscreen"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Debug Log",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "toggledevtools"
+      }
+    ]
+  },
+  {
+    "label": "&Window",
+    "role": "window",
+    "submenu": [
+      {
+        "accelerator": "CmdOrCtrl+W",
+        "role": "close"
+      },
+      {
+        "accelerator": "CmdOrCtrl+M",
+        "role": "minimize"
+      },
+      {
+        "role": "zoom"
+      },
+      {
+        "label": "Show",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "front"
+      }
+    ]
+  },
+  {
+    "label": "&Help",
+    "role": "help",
+    "submenu": [
+      {
+        "label": "Go to release notes",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Go to forums",
+        "click": null
+      },
+      {
+        "label": "Go to support page",
+        "click": null
+      },
+      {
+        "label": "File a bug",
+        "click": null
+      }
+    ]
+  }
+]
