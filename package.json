@@ -36,9 +36,9 @@
     "release-win": "npm run build-release -- -w --prepackaged release/windows --publish=always",
     "release-lin": "npm run build-release -- -l --prepackaged release/linux && NAME=$npm_package_name VERSION=$npm_package_version ./aptly.sh",
     "release": "npm run release-mac && npm run release-win && npm run release-lin",
+    "test-modules": "mocha --recursive test/modules",
     "test-server": "mocha --recursive test/server",
     "test-server-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/server",
-    "test-modules": "mocha --recursive test/modules",
     "eslint": "eslint .",
     "open-coverage": "open coverage/lcov-report/index.html"
   },
