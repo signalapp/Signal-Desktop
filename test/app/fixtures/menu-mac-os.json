@@ -9,6 +9,14 @@
         "type": "separator"
       },
       {
+        "label": "Preferences…",
+        "accelerator": "CommandOrControl+,",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
         "role": "hide"
       },
       {

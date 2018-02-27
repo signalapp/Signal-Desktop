@@ -3,6 +3,14 @@
     "label": "&File",
     "submenu": [
       {
+        "label": "Preferences…",
+        "accelerator": "CommandOrControl+,",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
         "role": "quit"
       }
     ]

@@ -18,11 +18,20 @@ exports.createTemplate = (options, messages) => {
     setupWithImport,
     showAbout,
     showDebugLog,
+    showSettings,
   } = options;
 
   const template = [{
     label: messages.mainMenuFile.message,
     submenu: [
+      {
+        label: messages.mainMenuSettings.message,
+        accelerator: 'CommandOrControl+,',
+        click: showSettings,
+      },
+      {
+        type: 'separator',
+      },
       {
         role: 'quit',
       },
@@ -214,6 +223,14 @@ function updateForMac(template, messages, options) {
       {
         label: messages.aboutSignalDesktop.message,
         click: showAbout,
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: messages.mainMenuSettings.message,
+        accelerator: 'CommandOrControl+,',
+        click: showSettings,
       },
       {
         type: 'separator',
