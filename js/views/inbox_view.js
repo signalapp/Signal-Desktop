@@ -150,7 +150,7 @@
                     this.appLoadingScreen.remove();
                     this.appLoadingScreen = null;
                 }
-                this.showMigrationScreen();
+                this.showUpgradeScreen();
             }
             else if (storage.get(window.UPGRADE_FLAG)) {
                 this.showUpgradeBanner();
