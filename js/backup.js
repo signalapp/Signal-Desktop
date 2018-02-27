@@ -74,11 +74,11 @@
     };
   }
 
-  function exportNonMessages(idb_db, parent) {
+  function exportNonMessages(idb_db, parent, options) {
     // We wouldn't want to overwrite another db file.
     var exclusive = true;
     return createFileAndWriter(parent, 'db.json', exclusive).then(function(writer) {
-      return exportToJsonFile(idb_db, writer);
+      return exportToJsonFile(idb_db, writer, options);
     });
   }
 
@@ -86,10 +86,27 @@
   * Export all data from an IndexedDB database
   * @param {IDBDatabase} idb_db
   */
-  function exportToJsonFile(idb_db, fileWriter) {
+  function exportToJsonFile(idb_db, fileWriter, options) {
+    options = options || {};
+    _.defaults(options, {excludeClientConfig: false});
+
     return new Promise(function(resolve, reject) {
       var storeNames = idb_db.objectStoreNames;
-      storeNames = _.without(storeNames, 'messages');
+      storeNames = _.without(storeNames, 'messages', 'debug');
+
+      if (options.excludeClientConfig) {
+        console.log('exportToJsonFile: excluding client config from export');
+        storeNames = _.without(
+          storeNames,
+          'items',
+          'signedPreKeys',
+          'preKeys',
+          'identityKeys',
+          'sessions',
+          'unprocessed' // since we won't be able to decrypt them anyway
+        );
+      }
+
       var exportedStoreNames = [];
       if (storeNames.length === 0) {
         throw new Error('No stores to export');
@@ -336,11 +353,11 @@
     });
   }
 
-  var attachments = 0;
-  var failedAttachments = 0;
+  var numAttachments = 0;
+  var numFailedAttachments = 0;
 
   function writeAttachment(dir, attachment) {
-    attachments += 1;
+    numAttachments += 1;
 
     var filename = getAttachmentFileName(attachment);
     // If attachments are in messages with the same received_at and the same name,
@@ -350,7 +367,7 @@
       var stream = createOutputStream(writer);
       return stream.write(attachment.data);
     }).catch(function(error) {
-      failedAttachments += 1;
+      numFailedAttachments += 1;
       console.log('writeAttachment error:', error && error.stack ? error.stack : error);
     });
   }
@@ -379,8 +396,8 @@
     return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
   }
 
-  var conversations = 0;
-  var failedConversations = 0;
+  var numConversations = 0;
+  var numFailedConversations = 0;
 
   function delay(ms) {
     console.log('Waiting', ms, 'milliseconds');
@@ -395,7 +412,7 @@
   //   file for well-formed JSON, trying for up to five minutes.
   var CHECK_MAX = 60;
   function checkConversation(conversationId, dir, count) {
-    return delay(5000).then(function() {
+    return delay(2000).then(function() {
       console.log(
         'Verifying messages.json produced for conversation',
         conversationId,
@@ -414,7 +431,7 @@
       );
 
       if (count >= CHECK_MAX) {
-        failedConversations += 1;
+        numFailedConversations += 1;
         return;
       }
 
@@ -465,13 +482,19 @@
         request.onsuccess = function(event) {
           var cursor = event.target.result;
           if (cursor) {
-            if (count !== 0) {
-              stream.write(',');
-            }
-
             var message = cursor.value;
             var messageId = message.received_at;
             var attachments = message.attachments;
+
+            // skip message if it is disappearing, no matter the amount of time left
+            if (message.expireTimer) {
+              cursor.continue();
+              return;
+            }
+
+            if (count !== 0) {
+              stream.write(',');
+            }
 
             // eliminate attachment data from the JSON, since it will go to disk
             message.attachments = _.map(attachments, function(attachment) {
@@ -504,7 +527,7 @@
           } else {
             var promise = stream.write(']}');
 
-            conversations += 1;
+            numConversations += 1;
 
             promiseChain = promiseChain
               .then(promise)
@@ -755,24 +778,25 @@
   }
 
   function printAttachmentStats() {
-    console.log(
-      'Total attachments:', attachments,
-      'Failed attachments:', failedAttachments
-    );
+    console.log('Total attachments:', numAttachments);
+    console.log('Failed attachments:', numFailedAttachments);
   }
 
   function printConversationStats() {
-    console.log(
-      'Total conversations:', conversations,
-      'Possibly malformed conversations:', failedConversations
-    );
+    console.log('Total conversations:', numConversations);
+    console.log('Possibly malformed conversations:', numFailedConversations);
   }
 
   Whisper.Backup = {
-    backupToDirectory: function() {
+    exportToDirectory: function(options) {
       return getDirectory().then(function(directoryEntry) {
         var idb;
         var dir;
+        numConversations = 0;
+        numFailedConversations = 0;
+        numAttachments = 0;
+        numFailedAttachments = 0;
+
         return openDatabase().then(function(idb_db) {
           idb = idb_db;
           var name = 'Signal Export ' + getTimestamp();
@@ -781,7 +805,7 @@
           return createDirectory(directoryEntry, name, exclusive);
         }).then(function(directory) {
           dir = directory;
-          return exportNonMessages(idb, dir);
+          return exportNonMessages(idb, dir, options);
         }).then(function() {
           return exportConversations(idb, dir);
         }).then(function() {
@@ -791,10 +815,10 @@
         printAttachmentStats();
         printConversationStats();
         console.log('done backing up!');
-        if (failedAttachments) {
+        if (numFailedAttachments) {
           throw new Error('Export failed, one or more attachments failed');
         }
-        if (failedConversations) {
+        if (numFailedConversations) {
           throw new Error('Export failed, one or more conversations failed');
         }
         return path;

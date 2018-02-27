@@ -218,7 +218,7 @@ button.hamburger {
 }
 
 .dropoff {
-  outline: solid 1px #2090ea;
+  outline: solid 1px $blue;
 }
 
 $avatar-size: 44px;
@@ -542,6 +542,47 @@ input[type=text], input[type=search], textarea {
   }
 }
 
+.upgrade-banner {
+  background: linear-gradient(
+    to bottom,
+    rgb(238,238,238) 0%, // (1 - 0.41) * 255 + 0.41 * 213
+    rgb(243,243,243) 20%, // (1 - 0.19) * 255 + 0.19 * 191
+    rgb(255,255,255) 35%,
+    rgb(255,255,255) 65%,
+    rgb(249,249,249) 80%, // (1 - 0.19) * 255 + 0.19 * 222
+    rgb(213,213,213) 100% // (1 - 0.27) * 255 + 0.27 * 98
+  );
+  padding: 10px;
+  font-family: roboto-light;
+  font-size: 14pt;
+
+  button {
+    float: right;
+    border: none;
+    color: white;
+    font-family: roboto-light;
+    font-size: 14pt;
+    border-radius: 0;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 36px;
+    padding: 0 2em;
+    background: $blue;
+    margin-left: 20px;
+  }
+
+  .message {
+    padding: 10px 0;
+  }
+
+  .x {
+    float: right;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+    background-color: $grey_l2;
+  }
+}
+
+
 .inbox {
   position: relative;
 }
@@ -601,6 +642,266 @@ input[type=text], input[type=search], textarea {
     }
   }
 }
+
+.migration-flow {
+  z-index: 1000;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-family: roboto-light;
+
+  color: black;
+  background: linear-gradient(
+    to bottom,
+    rgb(238,238,238) 0%, // (1 - 0.41) * 255 + 0.41 * 213
+    rgb(243,243,243) 12%, // (1 - 0.19) * 255 + 0.19 * 191
+    rgb(255,255,255) 27%,
+    rgb(255,255,255) 60%,
+    rgb(249,249,249) 85%, // (1 - 0.19) * 255 + 0.19 * 222
+    rgb(213,213,213) 100% // (1 - 0.27) * 255 + 0.27 * 98
+  );
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  font-size: 10pt;
+  @media (min-height: 750px) and (min-width: 700px) {
+    font-size: 14pt;
+  }
+
+  .banner-image {
+    margin: 1em;
+    display: none;
+
+    @media (min-height: 550px) {
+      display: inline-block;
+      height: 10em;
+      width: 10em;
+    }
+  }
+
+  .banner-icon {
+    margin: 1em;
+    display: none;
+
+    // 640px by 338px is the smallest the window can go
+    @media (min-height: 550px) {
+      display: inline-block;
+      height: 10em;
+      width: 10em;
+    }
+
+    &.folder-outline {
+      @include color-svg('../images/folder-outline.svg', #DEDEDE);
+    }
+    &.export {
+      @include color-svg('../images/export.svg', #DEDEDE);
+    }
+    &.check-circle-outline {
+      @include color-svg('../images/check-circle-outline.svg', #DEDEDE);
+    }
+    &.alert-outline {
+      @include color-svg('../images/alert-outline.svg', #DEDEDE);
+    }
+  }
+
+  .os-header: {
+    margin-top: 2em;
+  }
+  .header {
+    font-weight: normal;
+    margin-bottom: 1.5em;
+
+    font-size: 20pt;
+
+    @media (min-height: 750px) and (min-width: 700px) {
+      font-size: 28pt;
+    }
+  }
+
+  .export-location {
+    text-align: center;
+    font-family: roboto;
+    border: solid 1px $blue;
+    color: $blue;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    -webkit-user-select: text;
+    cursor: text;
+  }
+  .center {
+    text-align: center;
+  }
+  .body-text {
+    margin-bottom: 1em;
+    max-width: 22em;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .body-text-wide {
+    margin-bottom: 1em;
+    max-width: 30em;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .step {
+    height: 100%;
+    width: 100%;
+    padding: 70px 0 50px;
+  }
+  .step-body {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 35em;
+  }
+
+  .linux-install-instructions .content {
+    max-width: 1300px;
+    .header {
+      color: black;
+      font-size: 120%;
+    }
+
+    pre {
+      &::-webkit-scrollbar {
+         width: 5px;
+         height: 5px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.40);
+        border-radius: 2;
+      }
+
+      cursor: text;
+      -webkit-user-select: text;
+      background-color: black;
+      color: white;
+      text-align: left;
+      padding: 0.5em;
+      overflow-x: scroll;
+    }
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .button {
+    cursor: pointer;
+    display: inline-block;
+    border: none;
+    min-width: 300px;
+    padding: 0.75em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: white;
+    background: $blue;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    font-size: 12pt;
+
+    @media (min-height: 750px) and (min-width: 700px) {
+      font-size: 20pt;
+    }
+  }
+  a.link {
+    display: block;
+    cursor: pointer;
+    text-decoration: underline;
+    margin: 0.5em;
+    color: $blue;
+  }
+
+  .progress {
+    text-align: center;
+    padding: 1em;
+    width: 80%;
+    margin: auto;
+
+    .bar-container {
+      height: 1em;
+      margin: 1em;
+      background-color: $grey_l;
+    }
+    .bar {
+      width: 100%;
+      height: 100%;
+      background-color: $blue_l;
+      transition: width 0.25s;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .install-container {
+    @media (min-height: 550px) {
+      margin-top: 4em;
+    }
+    text-align: center;
+  }
+  .install {
+    cursor: pointer;
+    background-color: white;
+    padding: 0.5em;
+    margin: 0.5em;
+    display: inline-block;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-left: 1em;
+    margin-right: 1em;
+
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  }
+
+  .install-icon {
+    height: 7em;
+    width: 7em;
+    vertical-align: text-bottom;
+    display: inline-block;
+    margin: 1em;
+
+    @media (min-width: 800px) {
+      margin-left: 2em;
+      margin-right: 2em;
+    }
+
+
+    &.apple {
+      @include color-svg('/images/apple.svg', $blue);
+    }
+    &.windows {
+      @include color-svg('/images/windows.svg', $blue);
+    }
+    &.linux {
+      @include color-svg('/images/linux.svg', $blue);
+    }
+  }
+
+  .nav {
+    width: 100%;
+    bottom: 50px;
+    margin-top: auto;
+    padding-bottom: 1em;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
 
 //yellow border fix
 .inbox:focus {

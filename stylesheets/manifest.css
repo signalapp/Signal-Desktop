@@ -363,7 +363,7 @@ button.hamburger {
   vertical-align: middle;
   display: inline-block;
   margin: 0 0 0 8px;
-  width: calc(100% - 44px - 8px - 0.28571em);
+  width: calc(100% - 44px - 8px - 0.2857142857em);
   text-align: left;
   cursor: pointer; }
   .contact-details p {
@@ -378,7 +378,7 @@ button.hamburger {
     text-align: left; }
   .contact-details .number {
     color: #616161;
-    font-size: 0.92857em; }
+    font-size: 0.9285714286em; }
   .contact-details.not-clickable {
     cursor: default; }
   .contact-details .verified-icon {
@@ -485,6 +485,31 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   .expiredAlert .message {
     padding: 10px 0; }
 
+.upgrade-banner {
+  background: linear-gradient(to bottom, #eeeeee 0%, #f3f3f3 20%, white 35%, white 65%, #f9f9f9 80%, #d5d5d5 100%);
+  padding: 10px;
+  font-family: roboto-light;
+  font-size: 14pt; }
+  .upgrade-banner button {
+    float: right;
+    border: none;
+    color: white;
+    font-family: roboto-light;
+    font-size: 14pt;
+    border-radius: 0;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 36px;
+    padding: 0 2em;
+    background: #2090ea;
+    margin-left: 20px; }
+  .upgrade-banner .message {
+    padding: 10px 0; }
+  .upgrade-banner .x {
+    float: right;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+    background-color: #d9d9d9; }
+
 .inbox {
   position: relative; }
 
@@ -529,6 +554,204 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
       animation: loading 1500ms ease infinite 333ms; }
     .app-loading-screen .dot:nth-child(3) {
       animation: loading 1500ms ease infinite 666ms; }
+
+.migration-flow {
+  z-index: 1000;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-family: roboto-light;
+  color: black;
+  background: linear-gradient(to bottom, #eeeeee 0%, #f3f3f3 12%, white 27%, white 60%, #f9f9f9 85%, #d5d5d5 100%);
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 10pt;
+  .os-header-margin-top: 2em; }
+  @media (min-height: 750px) and (min-width: 700px) {
+    .migration-flow {
+      font-size: 14pt; } }
+  .migration-flow .banner-image {
+    margin: 1em;
+    display: none; }
+    @media (min-height: 550px) {
+      .migration-flow .banner-image {
+        display: inline-block;
+        height: 10em;
+        width: 10em; } }
+  .migration-flow .banner-icon {
+    margin: 1em;
+    display: none; }
+    @media (min-height: 550px) {
+      .migration-flow .banner-icon {
+        display: inline-block;
+        height: 10em;
+        width: 10em; } }
+    .migration-flow .banner-icon.folder-outline {
+      -webkit-mask: url("../images/folder-outline.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #DEDEDE; }
+    .migration-flow .banner-icon.export {
+      -webkit-mask: url("../images/export.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #DEDEDE; }
+    .migration-flow .banner-icon.check-circle-outline {
+      -webkit-mask: url("../images/check-circle-outline.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #DEDEDE; }
+    .migration-flow .banner-icon.alert-outline {
+      -webkit-mask: url("../images/alert-outline.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #DEDEDE; }
+  .migration-flow .header {
+    font-weight: normal;
+    margin-bottom: 1.5em;
+    font-size: 20pt; }
+    @media (min-height: 750px) and (min-width: 700px) {
+      .migration-flow .header {
+        font-size: 28pt; } }
+  .migration-flow .export-location {
+    text-align: center;
+    font-family: roboto;
+    border: solid 1px #2090ea;
+    color: #2090ea;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    -webkit-user-select: text;
+    cursor: text; }
+  .migration-flow .center {
+    text-align: center; }
+  .migration-flow .body-text {
+    margin-bottom: 1em;
+    max-width: 22em;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto; }
+  .migration-flow .body-text-wide {
+    margin-bottom: 1em;
+    max-width: 30em;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto; }
+  .migration-flow .step {
+    height: 100%;
+    width: 100%;
+    padding: 70px 0 50px; }
+  .migration-flow .step-body {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 35em; }
+  .migration-flow .linux-install-instructions .content {
+    max-width: 1300px; }
+    .migration-flow .linux-install-instructions .content .header {
+      color: black;
+      font-size: 120%; }
+    .migration-flow .linux-install-instructions .content pre {
+      cursor: text;
+      -webkit-user-select: text;
+      background-color: black;
+      color: white;
+      text-align: left;
+      padding: 0.5em;
+      overflow-x: scroll; }
+      .migration-flow .linux-install-instructions .content pre::-webkit-scrollbar {
+        width: 5px;
+        height: 5px; }
+      .migration-flow .linux-install-instructions .content pre::-webkit-scrollbar-track {
+        background: transparent; }
+      .migration-flow .linux-install-instructions .content pre::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 2; }
+  .migration-flow .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%; }
+  .migration-flow .button {
+    cursor: pointer;
+    display: inline-block;
+    border: none;
+    min-width: 300px;
+    padding: 0.75em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: white;
+    background: #2090ea;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 12pt; }
+    @media (min-height: 750px) and (min-width: 700px) {
+      .migration-flow .button {
+        font-size: 20pt; } }
+  .migration-flow a.link {
+    display: block;
+    cursor: pointer;
+    text-decoration: underline;
+    margin: 0.5em;
+    color: #2090ea; }
+  .migration-flow .progress {
+    text-align: center;
+    padding: 1em;
+    width: 80%;
+    margin: auto; }
+    .migration-flow .progress .bar-container {
+      height: 1em;
+      margin: 1em;
+      background-color: #f3f3f3; }
+    .migration-flow .progress .bar {
+      width: 100%;
+      height: 100%;
+      background-color: #a2d2f4;
+      transition: width 0.25s;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+  .migration-flow .install-container {
+    text-align: center; }
+    @media (min-height: 550px) {
+      .migration-flow .install-container {
+        margin-top: 4em; } }
+  .migration-flow .install {
+    cursor: pointer;
+    background-color: white;
+    padding: 0.5em;
+    margin: 0.5em;
+    display: inline-block;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-left: 1em;
+    margin-right: 1em; }
+    .migration-flow .install a {
+      color: black;
+      text-decoration: none; }
+  .migration-flow .install-icon {
+    height: 7em;
+    width: 7em;
+    vertical-align: text-bottom;
+    display: inline-block;
+    margin: 1em; }
+    @media (min-width: 800px) {
+      .migration-flow .install-icon {
+        margin-left: 2em;
+        margin-right: 2em; } }
+    .migration-flow .install-icon.apple {
+      -webkit-mask: url("/images/apple.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #2090ea; }
+    .migration-flow .install-icon.windows {
+      -webkit-mask: url("/images/windows.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #2090ea; }
+    .migration-flow .install-icon.linux {
+      -webkit-mask: url("/images/linux.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #2090ea; }
+  .migration-flow .nav {
+    width: 100%;
+    bottom: 50px;
+    margin-top: auto;
+    padding-bottom: 1em;
+    padding-left: 20px;
+    padding-right: 20px; }
 
 .inbox:focus {
   outline: none; }
@@ -841,11 +1064,11 @@ img.emoji.jumbo {
   padding: 0 20px;
   margin: 0 0 20px 20px; }
 .settings .syncSettings .synced_at {
-  font-size: 0.92857em;
+  font-size: 0.9285714286em;
   color: #616161; }
 .settings .syncSettings .sync_failed {
   display: none;
-  font-size: 0.92857em;
+  font-size: 0.9285714286em;
   color: red; }
 
 .conversation-stack,
@@ -853,7 +1076,7 @@ img.emoji.jumbo {
   height: 100%; }
 
 .expired .conversation-stack, .expired .gutter {
-  height: calc(100% - 56px); }
+  height: calc(100% - 62px); }
 
 .scrollable {
   height: 100%;
@@ -994,7 +1217,7 @@ input.search {
     padding: 0.5em; }
   .index .last-message {
     margin: 6px 0 0;
-    font-size: 0.92857em;
+    font-size: 0.9285714286em;
     font-weight: 300; }
   .index .gutter .timestamp {
     position: absolute;
@@ -1166,7 +1389,7 @@ input.search {
 .key-verification label {
   display: block;
   margin: 10px 0;
-  font-size: 0.92857em; }
+  font-size: 0.9285714286em; }
 .key-verification .icon {
   height: 1.25em;
   width: 1.25em;
@@ -1272,7 +1495,7 @@ input.search {
         background-color: white; }
     .message-detail .contacts .contact-detail .error-message {
       margin: 6px 0 0;
-      font-size: 0.92857em;
+      font-size: 0.9285714286em;
       font-weight: bold;
       color: red; }
   .message-detail h3 {
@@ -1654,7 +1877,7 @@ li.entry .error-icon-container {
   color: white;
   box-shadow: 0 0 5px 0 black;
   border-radius: 5px;
-  font-size: 0.92857em;
+  font-size: 0.9285714286em;
   z-index: 100; }
 
 .confirmation-dialog .content {
@@ -2137,13 +2360,25 @@ li.entry .error-icon-container {
     border: 1px solid #292929; }
     .android-dark button:hover, .android-dark .confirmation-dialog .content .buttons button:hover {
       background-color: #b8b8b8; }
+  .android-dark .upgrade-banner button {
+    float: right;
+    border: none;
+    color: white;
+    font-family: roboto-light;
+    font-size: 14pt;
+    border-radius: 0;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 36px;
+    padding: 0 2em;
+    background: #2090ea;
+    margin-left: 20px; }
   .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation,
   .android-dark .discussion-container {
     background-color: #171717; }
   .android-dark .modal .content {
     background-color: #333333; }
   .android-dark .lightbox .content {
-    background-color: transparent; }
+    background-color: rgba(0, 0, 0, 0); }
   .android-dark .key-verification .key {
     background-color: #030303;
     border-color: #292929; }

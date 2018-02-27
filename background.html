@@ -2,36 +2,6 @@
 <html>
 <head>
   <meta charset='utf-8'>
-  <script type='text/x-tmpl-mustache' id='app-migration-screen'>
-    <div class='content'>
-      <img src='/images/icon_128.png'>
-      {{ ^hideProgress }}
-        <div class='container'>
-          <span class='dot'></span>
-          <span class='dot'></span>
-          <span class='dot'></span>
-        </div>
-      {{ /hideProgress }}
-      <div class='message'>{{& message }}</div>
-      <div>
-        {{ #installButton }}
-          <button class='install grey'>{{ installButton }}</button>
-        {{ /installButton }}
-        {{ #nextButton }}
-          <button class='next grey'>{{ nextButton }}</button>
-        {{ /nextButton }}
-        {{ #exportButton }}
-          <button class='export grey'>{{ exportButton }}</button>
-        {{ /exportButton }}
-        {{ #debugLogButton }}
-          <button class='debug-log grey'>{{ debugLogButton }}</button>
-        {{ /debugLogButton }}
-        {{ #cancelButton }}
-          <button class='cancel grey'>{{ cancelButton }}</button>
-        {{ /cancelButton }}
-      </div>
-    </div>
-  </script>
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
       <img src='/images/icon_128.png'>
@@ -110,12 +80,15 @@
     <a target='_blank' href='https://chrome.google.com/webstore/detail/bikioccmkafdpakkkcpdbppfkghcmihk'>
       <button class='upgrade'>{{ upgrade }}</button>
     </a>
-    {{ expiredWarning }}
-  </script>
-  <script type='text/x-tmpl-mustache' id='migration_alert'>
-    <button class='migrate'>{{ migrate }}</button>
     <div class='message'>
-      {{ migrationWarning }}
+      {{ expiredWarning }}
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='upgrade_banner'>
+    <span class='x banner-close'></span>
+    <button class='migrate'>{{ upgradeNow }}</button>
+    <div class='message'>
+      {{ upgradeMessage }}
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='banner'>
@@ -618,6 +591,159 @@
       </div>
     {{/action }}
   </script>
+
+  <script type='text/x-tmpl-mustache' id='linux-install-instructions'>
+    <div class='confirmation-dialog modal'>
+      <div class="content" tabindex="2">
+        <div class='header'>{{ header }}</div>
+        <pre class='instructions'>curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
+echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+sudo apt update && sudo apt install signal-desktop
+/opt/Signal/signal-desktop --import</pre>
+        <div class='buttons'>
+          <button class='ok' tabindex='1'>{{ ok }}</button>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type='text/x-tmpl-mustache' id='migration-flow-template'>
+    {{#isStep1}}
+    <div id='step1' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <img class='banner-image' src='/images/icon_128.png'>
+          <div class='header'>{{ startHeader }}</div>
+          <div class='body-text-wide'>{{ start }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button start'>{{ startButton }}</a>
+          </div>
+          <div>
+            <a class='link cancel'>{{ cancelButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep1}}
+    {{#isStep2}}
+    <div id='step2' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <div class='header'>{{ installHeader }}</div>
+          <p>{{ install }}</p>
+        </div>
+        <div class='install-container'>
+          <div class='install'>
+            <a class='install-mac' target='_blank' href='{{ macLink }}'>
+              <span class='install-icon apple'></span>
+              <div>Mac</div>
+            </a>
+          </div>
+          <div class='install'>
+            <a class='install-windows' target='_blank' href='{{ windowsLink }}'>
+              <span class='install-icon windows'></span>
+              <div>Windows</div>
+            </a>
+          </div>
+          <div class='install'>
+            <a class='install-linux' href='#'>
+              <span class='install-icon linux'></span>
+              <div>Debian-based Linux</div>
+            </a>
+          </div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button installed'>{{ installCompleteButton }}</a>
+          </div>
+          <div>
+            <a class='link cancel'>{{ cancelButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep2}}
+    {{#isStep3}}
+    <div id='step3' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon folder-outline'></span>
+          <div class='header'>{{ chooseHeader }}</div>
+          <div class='body-text-wide'>{{ choose }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button choose'>{{ chooseButton }}</a>
+          </div>
+          <div>
+            <a class='link cancel'>{{ cancelButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep3}}
+    {{#isStep4}}
+    <div id='step4' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon export'></span>
+          <div class='header'>{{ exportHeader }}</div>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
+          </div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='link debug-log'>{{ debugLogButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep4}}
+    {{#isStep5}}
+    <div id='step5' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon check-circle-outline'></span>
+          <div class='header'>{{ completeHeader }}</div>
+          <div class='body-text-wide center'>{{ completeIntro }}</div>
+          <div class='export-location'>{{ completeLocation }}</div>
+          <div class='body-text-wide'>{{ completeNextSteps }}</div>
+          <div class='body-text-wide'>{{ completeSignoff }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='link debug-log'>{{ debugLogButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep5}}
+    {{#isError}}
+    <div id='error' class='step'>
+      <div class='inner error-dialog clearfix'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline'></span>
+          <div class='header'>{{ errorHeader }}</div>
+          <div class='body-text-wide'>{{ error }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button export'>{{ tryAgain }}</a>
+          </div>
+          <div>
+            <a class='link debug-log'>{{ debugLogButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isError}}
+  </script>
+
 
   <script type='text/x-tmpl-mustache' id='install_flow_template'>
     <div id='step1' class='step'>

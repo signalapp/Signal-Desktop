@@ -145,23 +145,16 @@
                 this.inboxListView.stopListening();
             }.bind(this));
 
-            if (extension.expired()) {
-                var banner = new Whisper.ExpiredAlertBanner().render();
-                banner.$el.prependTo(this.$el);
-                this.$el.addClass('expired');
-            } else if (Whisper.Migration.inProgress()) {
+            if (Whisper.Migration.inProgress()) {
                 if (this.appLoadingScreen) {
                     this.appLoadingScreen.remove();
                     this.appLoadingScreen = null;
                 }
-                this.showMigrationScreen();
+                this.showUpgradeScreen();
             }
-            // We'll re-enable this banner when we've made some usability improvements to
-            //   the migration process:
-            // else {
-            //     var migrationBanner = new Whisper.MigrationAlertBanner().render();
-            //     migrationBanner.$el.prependTo(this.$el);
-            // }
+            else if (storage.get(window.UPGRADE_FLAG)) {
+                this.showUpgradeBanner();
+            }
         },
         render_attributes: {
             welcomeToSignal         : i18n('welcomeToSignal'),
@@ -183,12 +176,32 @@
             'input input.search': 'filterContacts',
             'click .restart-signal': 'reloadBackgroundPage',
             'show .lightbox': 'showLightbox',
-            'click .migrate': 'confirmMigration'
+            'click .migrate': 'showUpgradeScreen',
+            'click .banner-close': 'removeUpgradeBanner'
         },
-        confirmMigration: function() {
-            this.confirm(i18n('confirmMigration'), i18n('migrate')).then(this.showMigrationScreen.bind(this));
+        showUpgradeBanner: function() {
+            this.removeUpgradeBanner();
+
+            this.upgradeBanner = new Whisper.UpgradeBanner().render();
+            this.upgradeBanner.$el.prependTo(this.$el);
+
+            // This class makes AppView have a height of 100% - 62px, so it doesn't push
+            //   our banner off-screen.
+            this.$el.addClass('expired');
         },
-        showMigrationScreen: function() {
+        removeUpgradeBanner: function() {
+            if (this.upgradeBanner) {
+                this.upgradeBanner.remove();
+                this.upgradeBanner = null;
+                this.$el.removeClass('expired');
+            }
+        },
+        showUpgradeScreen: function() {
+            if (this.migrationScreen) {
+                this.migrationScreen.remove();
+                this.migrationScreen = null;
+            }
+
             this.migrationScreen = new Whisper.MigrationView();
             this.migrationScreen.render();
             this.migrationScreen.$el.prependTo(this.el);
@@ -311,13 +324,13 @@
         }
     });
 
-    Whisper.MigrationAlertBanner = Whisper.View.extend({
-        templateName: 'migration_alert',
-        className: 'expiredAlert clearfix',
+    Whisper.UpgradeBanner = Whisper.View.extend({
+        templateName: 'upgrade_banner',
+        className: 'expiredAlert upgrade-banner clearfix',
         render_attributes: function() {
             return {
-                migrationWarning: i18n('migrationWarning'),
-                migrate: i18n('migrate'),
+                upgradeMessage: i18n('upgradeBanner'),
+                upgradeNow: i18n('upgradeNow'),
             };
         }
     });

@@ -40,6 +40,23 @@ $text-dark_l2: darken($text-dark, 30%);
       background-color: darken($button-dark, 8%);
     }
   }
+
+  .upgrade-banner {
+    button {
+      float: right;
+      border: none;
+      color: white;
+      font-family: roboto-light;
+      font-size: 14pt;
+      border-radius: 0;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      line-height: 36px;
+      padding: 0 2em;
+      background: $blue;
+      margin-left: 20px;
+    }
+  }
+
   .message-detail, .message-container, .conversation,
   .discussion-container {
     background-color: $grey-dark_l3;
