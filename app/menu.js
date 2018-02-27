@@ -168,6 +168,7 @@ function updateForMac(template, messages, options) {
     setupAsStandalone,
     setupWithImport,
     showAbout,
+    showSettings,
     showWindow,
   } = options;
 
