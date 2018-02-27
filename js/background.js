@@ -89,6 +89,7 @@
         $.ajax(UPGRADE_URL).done(function(data) {
             var previous = storage.get(UPGRADE_VALUE);
             if (data === previous) {
+                console.log('Upgrade check: Got same value as last time. Another check in 30 minutes');
                 return;
             }
 
