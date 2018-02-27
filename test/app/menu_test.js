@@ -3,36 +3,43 @@ const { assert } = require('chai');
 const SignalMenu = require('../../app/menu');
 const { load: loadLocale } = require('../../app/locale');
 
-const FIXTURE_MENU_MAC_OS = require('./fixtures/menu-mac-os');
-const FIXTURE_MENU_WINDOWS_LINUX = require('./fixtures/menu-windows-linux');
 
 const PLATFORMS = [
   {
     label: 'macOS',
     platform: 'darwin',
-    fixture: FIXTURE_MENU_MAC_OS,
+    fixtures: {
+      default: './fixtures/menu-mac-os',
+      setup: './fixtures/menu-mac-os-setup',
+    },
   },
   {
     label: 'Windows',
     platform: 'win32',
-    fixture: FIXTURE_MENU_WINDOWS_LINUX,
+    fixtures: {
+      default: './fixtures/menu-windows-linux',
+      setup: './fixtures/menu-windows-linux-setup',
+    },
   },
   {
     label: 'Linux',
     platform: 'linux',
-    fixture: FIXTURE_MENU_WINDOWS_LINUX,
+    fixtures: {
+      default: './fixtures/menu-windows-linux',
+      setup: './fixtures/menu-windows-linux-setup',
+    },
   },
 ];
 
-const INCLUDE_SETUP_OPTIONS = [false];
+const INCLUDE_SETUP_OPTIONS = [false, true];
 
 describe('SignalMenu', () => {
   describe('createTemplate', () => {
-    PLATFORMS.forEach(({ label, platform, fixture }) => {
+    PLATFORMS.forEach(({ label, platform, fixtures }) => {
       context(label, () => {
         INCLUDE_SETUP_OPTIONS.forEach((includeSetup) => {
           const prefix = includeSetup ? 'with' : 'without';
-          context(`${prefix} included setup`, () => {
+          context(`${prefix} setup options`, () => {
             it('should return correct template', () => {
               const logger = {
                 error(message) {
@@ -58,6 +65,9 @@ describe('SignalMenu', () => {
               const { messages } = loadLocale({ appLocale, logger });
 
               const actual = SignalMenu.createTemplate(options, messages);
+              const fixturePath = includeSetup ? fixtures.setup : fixtures.default;
+              // eslint-disable-next-line global-require, import/no-dynamic-require
+              const fixture = require(fixturePath);
               assert.deepEqual(actual, fixture);
             });
           });

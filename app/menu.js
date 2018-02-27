@@ -156,6 +156,9 @@ exports.createTemplate = (options, messages) => {
     }
 
     fileMenu.submenu.unshift({
+      type: 'separator',
+    });
+    fileMenu.submenu.unshift({
       label: messages.menuSetupAsNewDevice.message,
       click: setupAsNewDevice,
     });
