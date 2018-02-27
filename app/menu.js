@@ -1,9 +1,17 @@
+const isString = require('lodash/isString');
+
+
 exports.createTemplate = (options, messages) => {
+  if (!isString(options.platform)) {
+    throw new TypeError('`options.platform` must be a string');
+  }
+
   const {
     openForums,
     openNewBugForm,
     openReleaseNotes,
     openSupportPage,
+    platform,
     setupAsNewDevice,
     setupAsStandalone,
     setupWithImport,
@@ -147,7 +155,7 @@ exports.createTemplate = (options, messages) => {
     });
   }
 
-  if (process.platform === 'darwin') {
+  if (platform === 'darwin') {
     return updateForMac(template, messages, options);
   }
 
