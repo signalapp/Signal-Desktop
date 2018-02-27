@@ -24,34 +24,43 @@ const PLATFORMS = [
   },
 ];
 
+const INCLUDE_SETUP_OPTIONS = [false];
+
 describe('SignalMenu', () => {
   describe('createTemplate', () => {
     PLATFORMS.forEach(({ label, platform, fixture }) => {
-      context(`on ${label}`, () => {
-        it('should return correct template', () => {
-          const logger = {
-            error(message) {
-              throw new Error(message);
-            },
-          };
-          const options = {
-            openForums: null,
-            openNewBugForm: null,
-            openReleaseNotes: null,
-            openSupportPage: null,
-            platform,
-            setupAsNewDevice: null,
-            setupAsStandalone: null,
-            setupWithImport: null,
-            showAbout: null,
-            showDebugLog: null,
-            showWindow: null,
-          };
-          const appLocale = 'en';
-          const { messages } = loadLocale({ appLocale, logger });
+      context(label, () => {
+        INCLUDE_SETUP_OPTIONS.forEach((includeSetup) => {
+          const prefix = includeSetup ? 'with' : 'without';
+          context(`${prefix} included setup`, () => {
+            it('should return correct template', () => {
+              const logger = {
+                error(message) {
+                  throw new Error(message);
+                },
+              };
+              const options = {
+                openForums: null,
+                openNewBugForm: null,
+                openReleaseNotes: null,
+                openSupportPage: null,
+                platform,
+                includeSetup,
+                setupAsNewDevice: null,
+                setupAsStandalone: null,
+                setupWithImport: null,
+                showAbout: null,
+                showDebugLog: null,
+                showSettings: null,
+                showWindow: null,
+              };
+              const appLocale = 'en';
+              const { messages } = loadLocale({ appLocale, logger });
 
-          const actual = SignalMenu.createTemplate(options, messages);
-          assert.deepEqual(actual, fixture);
+              const actual = SignalMenu.createTemplate(options, messages);
+              assert.deepEqual(actual, fixture);
+            });
+          });
         });
       });
     });
