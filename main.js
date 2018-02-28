@@ -338,7 +338,7 @@ function openSupportPage() {
 }
 
 function openForums() {
-  shell.openExternal('https://whispersystems.discoursehosting.net/');
+  shell.openExternal('https://community.signalusers.org/');
 }
 
 function setupWithImport() {
