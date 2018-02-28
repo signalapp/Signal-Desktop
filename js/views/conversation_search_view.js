@@ -73,9 +73,10 @@
         // NOTE: Temporarily allow `then` until we convert the entire file
         // to `async` / `await`:
         /* eslint-disable more/no-then */
-        this.pending = this.pending.then(() => this.typeahead.search(query).then(() => {
-          this.typeahead_view.collection.reset(this.typeahead.filter(isSearchable));
-        }));
+        this.pending = this.pending.then(() =>
+          this.typeahead.search(query).then(() => {
+            this.typeahead_view.collection.reset(this.typeahead.filter(isSearchable));
+          }));
         /* eslint-enable more/no-then */
         this.trigger('show');
       } else {
