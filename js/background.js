@@ -498,11 +498,17 @@
             }
 
             return wrapDeferred(conversation.save(updates)).then(function() {
-                if (typeof details.expireTimer !== 'undefined') {
+                const { expireTimer } = details;
+                const hasExpireTimer = typeof expireTimer !== 'undefined';
+                // TODO: Remove once
+                // https://github.com/signalapp/Signal-Desktop/issues/2079
+                // is resolved:
+                const isInvalidIOSExpireTimerReset = expireTimer === null;
+                if (hasExpireTimer && !isInvalidIOSExpireTimerReset) {
                     var source = textsecure.storage.user.getNumber();
                     var receivedAt = Date.now();
                     return conversation.updateExpirationTimer(
-                        details.expireTimer,
+                        expireTimer,
                         source,
                         receivedAt,
                         {fromSync: true}
