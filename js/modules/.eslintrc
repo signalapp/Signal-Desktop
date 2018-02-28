@@ -6,5 +6,8 @@
   },
   "globals": {
     "console": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
   }
 }
