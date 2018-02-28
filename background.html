@@ -770,22 +770,25 @@
     </div>
     {{/isStep3}}
     {{#isStep4}}
-    <div id='step4' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon lead-pencil'></span>
-          <div class='header'>{{ chooseName }}</div>
-          <div>
-            <input type='text' class='device-name' spellcheck='false' maxlength='50' />
+    <form id='link-phone'>
+      <div id='step4' class='step'>
+        <div class='inner'>
+          <div class='step-body'>
+            <span class='banner-icon lead-pencil'></span>
+            <div class='header'>{{ chooseName }}</div>
+            <div>
+              <input type='text' class='device-name' spellcheck='false' maxlength='50' />
+            </div>
           </div>
-        </div>
-        <div class='nav'>
-          <div>
-            <a class='button finish'>{{ finishLinkingPhoneButton }}</a>
-          </div>
+
+            <div class='nav'>
+              <div>
+                <a class='button finish'>{{ finishLinkingPhoneButton }}</a>
+              </div>
+            </div>
         </div>
       </div>
-    </div>
+    </form>
     {{/isStep4}}
     {{#isStep5}}
     <div id='step5' class='step'>
