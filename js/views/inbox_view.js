@@ -141,7 +141,8 @@
         this.inboxListView.$el.hide();
       });
       this.listenTo(
-        this.searchView, 'open',
+        this.searchView,
+        'open',
         this.openConversation.bind(this, null)
       );
 
