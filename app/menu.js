@@ -245,8 +245,9 @@ function updateForMac(template, messages, options) {
   );
 
   // Replace Window menu
+  const windowIndex = options.includeSetup ? 4 : 3;
   // eslint-disable-next-line no-param-reassign
-  template[3].submenu = [
+  template[windowIndex].submenu = [
     {
       accelerator: 'CmdOrCtrl+W',
       role: 'close',
