@@ -20,6 +20,7 @@
             this.listenTo(this.model, 'change', _.debounce(this.render.bind(this), 1000));
             this.listenTo(this.model, 'destroy', this.remove); // auto update
             this.listenTo(this.model, 'opened', this.markSelected); // auto update
+            this.listenTo(this.model, 'closed', this.unmarkSelected);
 
             var updateLastMessage = _.debounce(this.model.updateLastMessage.bind(this.model), 1000);
             this.listenTo(this.model.messageCollection, 'add remove', updateLastMessage);
@@ -34,6 +35,12 @@
 
         markSelected: function() {
             this.$el.addClass('selected').siblings('.selected').removeClass('selected');
+        },
+
+        unmarkSelected: function() {
+            // Similar to markSelected, this is necessary to remove the selection
+            // from the conversation list item after closing the conversation
+            this.$el.removeClass('selected');
         },
 
         select: function(e) {
