@@ -22,9 +22,8 @@ const logging = require('./app/logging');
 const autoUpdate = require('./app/auto_update');
 const windowState = require('./app/window_state');
 
-
-const appUserModelId = packageJson.build.appId;
-console.log(`setting Windows Application User Model ID (AUMID) to '${appUserModelId}'`);
+const appUserModelId = `org.whispersystems.${packageJson.name}`;
+console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
 app.setAppUserModelId(appUserModelId);
 
 // Keep a global reference of the window object, if you don't, the window will
