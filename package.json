@@ -18,7 +18,7 @@
     "asarl": "asar l release/mac/Signal.app/Contents/Resources/app.asar",
     "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
     "generate": "npm run icon-gen && grunt",
-    "build": "build --em.environment=$SIGNAL_ENV",
+    "build": "build  --config.extraMetadata.environment=$SIGNAL_ENV",
     "dist": "npm run generate && npm run build",
     "pack": "npm run generate && npm run build -- --dir",
     "prepare-beta-build": "node prepare_beta_build.js",
