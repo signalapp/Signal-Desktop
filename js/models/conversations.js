@@ -676,7 +676,8 @@
             var lastMessage = collection.at(0);
             if (lastMessage) {
                 var type = lastMessage.get('type');
-                if (type === 'verified-change' || lastMessage.get('expirationTimerUpdate')) {
+                var shouldSkipUpdate = type === 'verified-change' || lastMessage.get('expirationTimerUpdate');
+                if (shouldSkipUpdate) {
                     return;
                 }
                 this.set({
