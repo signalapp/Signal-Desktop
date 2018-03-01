@@ -457,6 +457,21 @@
                         message.set({expireTimer: dataMessage.expireTimer});
                     }
 
+                    // NOTE: Remove once the above uses
+                    // `Conversation::updateExpirationTimer`:
+                    const { expireTimer } = dataMessage;
+                    const shouldLogExpireTimerChange =
+                        message.isExpirationTimerUpdate() || expireTimer;
+                    if (shouldLogExpireTimerChange) {
+                        console.log(
+                            'Updating expireTimer for conversation',
+                            conversation.idForLogging(),
+                            'to',
+                            expireTimer,
+                            'via `handleDataMessage`'
+                        );
+                    }
+
                     if (!message.isEndSession() && !message.isGroupUpdate()) {
                         if (dataMessage.expireTimer) {
                             if (dataMessage.expireTimer !== conversation.get('expireTimer')) {

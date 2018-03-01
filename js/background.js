@@ -438,17 +438,24 @@
                     color: details.color,
                     active_at: activeAt,
                 })).then(function() {
-                    // this needs to be inline to get access to conversation model
-                    if (typeof details.expireTimer !== 'undefined') {
-                        var source = textsecure.storage.user.getNumber();
-                        var receivedAt = Date.now();
-                        return conversation.updateExpirationTimer(
-                            details.expireTimer,
-                            source,
-                            receivedAt,
-                            {fromSync: true}
+                    const { expireTimer } = details;
+                    const isValidExpireTimer = typeof expireTimer === 'number';
+                    if (!isValidExpireTimer) {
+                        console.log(
+                            'Ignore invalid expire timer.',
+                            'Expected numeric `expireTimer`, got:', expireTimer
                         );
+                        return;
                     }
+
+                    var source = textsecure.storage.user.getNumber();
+                    var receivedAt = Date.now();
+                    return conversation.updateExpirationTimer(
+                        expireTimer,
+                        source,
+                        receivedAt,
+                        {fromSync: true}
+                    );
                 });
             })
             .then(function() {
@@ -498,16 +505,24 @@
             }
 
             return wrapDeferred(conversation.save(updates)).then(function() {
-                if (typeof details.expireTimer !== 'undefined') {
-                    var source = textsecure.storage.user.getNumber();
-                    var receivedAt = Date.now();
-                    return conversation.updateExpirationTimer(
-                        details.expireTimer,
-                        source,
-                        receivedAt,
-                        {fromSync: true}
+                const { expireTimer } = details;
+                const isValidExpireTimer = typeof expireTimer === 'number';
+                if (!isValidExpireTimer) {
+                    console.log(
+                        'Ignore invalid expire timer.',
+                        'Expected numeric `expireTimer`, got:', expireTimer
                     );
+                    return;
                 }
+
+                var source = textsecure.storage.user.getNumber();
+                var receivedAt = Date.now();
+                return conversation.updateExpirationTimer(
+                    expireTimer,
+                    source,
+                    receivedAt,
+                    {fromSync: true}
+                );
             }).then(ev.confirm);
         });
     }
