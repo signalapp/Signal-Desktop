@@ -675,7 +675,9 @@
         return collection.fetchConversation(this.id, 1).then(function() {
             var lastMessage = collection.at(0);
             if (lastMessage) {
-                if (lastMessage.get('type') === 'verified-change') {
+                var type = lastMessage.get('type');
+                var shouldSkipUpdate = type === 'verified-change' || lastMessage.get('expirationTimerUpdate');
+                if (shouldSkipUpdate) {
                     return;
                 }
                 this.set({
