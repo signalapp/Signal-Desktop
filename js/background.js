@@ -438,17 +438,24 @@
                     color: details.color,
                     active_at: activeAt,
                 })).then(function() {
-                    // this needs to be inline to get access to conversation model
-                    if (typeof details.expireTimer !== 'undefined') {
-                        var source = textsecure.storage.user.getNumber();
-                        var receivedAt = Date.now();
-                        return conversation.updateExpirationTimer(
-                            details.expireTimer,
-                            source,
-                            receivedAt,
-                            {fromSync: true}
+                    const { expireTimer } = details;
+                    const isValidExpireTimer = typeof expireTimer === 'number';
+                    if (!isValidExpireTimer) {
+                        console.log(
+                            'Ignore invalid expire timer.',
+                            'Expected numeric `expireTimer`, got:', expireTimer
                         );
+                        return;
                     }
+
+                    var source = textsecure.storage.user.getNumber();
+                    var receivedAt = Date.now();
+                    return conversation.updateExpirationTimer(
+                        expireTimer,
+                        source,
+                        receivedAt,
+                        {fromSync: true}
+                    );
                 });
             })
             .then(function() {
@@ -499,21 +506,23 @@
 
             return wrapDeferred(conversation.save(updates)).then(function() {
                 const { expireTimer } = details;
-                const hasExpireTimer = typeof expireTimer !== 'undefined';
-                // TODO: Remove once
-                // https://github.com/signalapp/Signal-Desktop/issues/2079
-                // is resolved:
-                const isInvalidIOSExpireTimerReset = expireTimer === null;
-                if (hasExpireTimer && !isInvalidIOSExpireTimerReset) {
-                    var source = textsecure.storage.user.getNumber();
-                    var receivedAt = Date.now();
-                    return conversation.updateExpirationTimer(
-                        expireTimer,
-                        source,
-                        receivedAt,
-                        {fromSync: true}
+                const isValidExpireTimer = typeof expireTimer === 'number';
+                if (!isValidExpireTimer) {
+                    console.log(
+                        'Ignore invalid expire timer.',
+                        'Expected numeric `expireTimer`, got:', expireTimer
                     );
+                    return;
                 }
+
+                var source = textsecure.storage.user.getNumber();
+                var receivedAt = Date.now();
+                return conversation.updateExpirationTimer(
+                    expireTimer,
+                    source,
+                    receivedAt,
+                    {fromSync: true}
+                );
             }).then(ev.confirm);
         });
     }
