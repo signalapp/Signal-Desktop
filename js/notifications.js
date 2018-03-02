@@ -14,10 +14,9 @@
         MESSAGE : 'message'
     };
 
-    let isEnabled = false;
-
     Whisper.Notifications = new (Backbone.Collection.extend({
         initialize: function() {
+            this.isEnabled = false;
             this.on('add', this.update);
             this.on('remove', this.onRemove);
         },
@@ -35,12 +34,12 @@
             console.log(
                 'Update notifications:',
                 'isFocused:', isFocused,
-                'isEnabled:', isEnabled,
+                'isEnabled:', this.isEnabled,
                 'numNotifications:', numNotifications,
                 'shouldPlayNotificationSound:', shouldPlayNotificationSound
             );
 
-            if (!isEnabled) {
+            if (!this.isEnabled) {
                 return;
             }
 
@@ -131,15 +130,14 @@
             this.reset([]);
         },
         enable: function() {
-            const needUpdate = !isEnabled;
-            isEnabled = true;
+            const needUpdate = !this.isEnabled;
+            this.isEnabled = true;
             if (needUpdate) {
               this.update();
             }
         },
         disable: function() {
-            isEnabled = false;
+            this.isEnabled = false;
         },
-
     }))();
 })();
