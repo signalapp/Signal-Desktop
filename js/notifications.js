@@ -27,14 +27,18 @@
         },
         update: function() {
             const isFocused = window.isFocused();
-            const shouldPlayNotificationSound = Settings.isAudioNotificationSupported() &&
-                (storage.get('audio-notification') || false);
+            const isAudioNotificationEnabled = storage.get('audio-notification') || false;
+            const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
+            const shouldPlayNotificationSound = isAudioNotificationSupported &&
+                isAudioNotificationEnabled;
             const numNotifications = this.length;
             console.log(
-                'updating notifications:',
-                'numNotifications:', numNotifications,
+                'Update notifications:',
                 'isFocused:', isFocused,
                 'isEnabled:', isEnabled,
+                'numNotifications:', numNotifications,
+                'isAudioNotificationEnabled:', isAudioNotificationEnabled,
+                'isAudioNotificationSupported:', isAudioNotificationSupported,
                 'shouldPlayNotificationSound:', shouldPlayNotificationSound
             );
 
