@@ -99,7 +99,7 @@
                 window.nodeNotifier.notify({
                     title: title,
                     message: message,
-                    sound: shouldPlayNotificationSound,
+                    sound: false,
                 });
                 window.nodeNotifier.on('click', function(notifierObject, options) {
                     last.get('conversationId');
