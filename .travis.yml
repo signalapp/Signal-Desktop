@@ -5,7 +5,7 @@ os:
   - linux
 dist: trusty
 install:
-  - yarn install
+  - yarn install --frozen-lockfile
 script:
   - yarn run generate
   - yarn prepare-beta-build
