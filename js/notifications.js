@@ -37,8 +37,6 @@
                 'isFocused:', isFocused,
                 'isEnabled:', isEnabled,
                 'numNotifications:', numNotifications,
-                'isAudioNotificationEnabled:', isAudioNotificationEnabled,
-                'isAudioNotificationSupported:', isAudioNotificationSupported,
                 'shouldPlayNotificationSound:', shouldPlayNotificationSound
             );
 
