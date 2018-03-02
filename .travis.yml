@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '7.9.0'
+  - '8.2.1'
 os:
   - linux
 dist: trusty
@@ -12,7 +12,7 @@ script:
   - yarn eslint
   - yarn test-server
   - yarn lint
-  - ./node_modules/.bin/build --em.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
+  - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
   - ./travis.sh
 env:
   global:

@@ -22,10 +22,9 @@ const logging = require('./app/logging');
 const autoUpdate = require('./app/auto_update');
 const windowState = require('./app/window_state');
 
-
-const aumid = `org.whispersystems.${packageJson.name}`;
-console.log(`setting AUMID to ${aumid}`);
-app.setAppUserModelId(aumid);
+const appUserModelId = `org.whispersystems.${packageJson.name}`;
+console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
+app.setAppUserModelId(appUserModelId);
 
 // Keep a global reference of the window object, if you don't, the window will
 //   be closed automatically when the JavaScript object is garbage collected.
