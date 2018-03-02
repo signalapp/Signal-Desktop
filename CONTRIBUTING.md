@@ -48,26 +48,25 @@ Now, run these commands in your preferred terminal in a good directory for devel
 ```
 git clone https://github.com/signalapp/Signal-Desktop.git
 cd Signal-Desktop
-npm install -g yarn      # (only if you don't already have yarn)
-npm install -g grunt-cli # (only if you don't already have grunt)
-yarn install             # Install and build dependencies (this will take a while)
-grunt                    # Generate final js/css assets
-yarn icon-gen            # Generate full set of icons for Electron
-yarn test                # A good idea to make sure tests run first
-yarn run start           # Run!
+npm install --global yarn      # (only if you don’t already have yarn)
+yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
+yarn grunt                     # Generate final JS and CSS assets
+yarn icon-gen                  # Generate full set of icons for Electron
+yarn test                      # A good idea to make sure tests run first
+yarn start                     # Start Signal!
 ```
 
 You'll need to restart the application regularly to see your changes, as there is no
 automatic restart mechanism.
 
 Also, note that the assets loaded by the application are not necessarily the same files
-you're touching. You may not see your changes until you run `grunt` on the command-line
-like you did during setup. You can make it easier on yourself by generating the latest
-built assets when you change a file. Run this in its own terminal instance while you make
-changes:
+you're touching. You may not see your changes until you run `yarn grunt` on the
+command-line like you did during setup. You can make it easier on yourself by generating
+the latest built assets when you change a file. Run this in its own terminal instance
+while you make changes:
 
 ```
-grunt dev # runs until you stop it, re-generating built assets on file changes
+yarn grunt dev # runs until you stop it, re-generating built assets on file changes
 ```
 
 ## Setting up standalone
