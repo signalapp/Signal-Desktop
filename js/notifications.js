@@ -131,9 +131,9 @@
             this.reset([]);
         },
         enable: function() {
-            var shouldUpdate = !isEnabled;
+            const needUpdate = !isEnabled;
             isEnabled = true;
-            if (shouldUpdate) {
+            if (needUpdate) {
               this.update();
             }
         },
