@@ -4,7 +4,6 @@
     "submenu": [
       {
         "label": "Preferences…",
-        "accelerator": "CommandOrControl+,",
         "click": null
       },
       {

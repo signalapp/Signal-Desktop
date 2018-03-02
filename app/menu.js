@@ -26,7 +26,6 @@ exports.createTemplate = (options, messages) => {
     submenu: [
       {
         label: messages.mainMenuSettings.message,
-        accelerator: 'CommandOrControl+,',
         click: showSettings,
       },
       {
