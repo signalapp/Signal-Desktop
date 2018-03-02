@@ -165,17 +165,13 @@
       selectAContact: i18n('selectAContact'),
       searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
       settings: i18n('settings'),
-      restartSignal: i18n('restartSignal'),
     },
     events: {
       click: 'onClick',
       'click #header': 'focusHeader',
       'click .conversation': 'focusConversation',
-      'click .global-menu .hamburger': 'toggleMenu',
-      'click .showSettings': 'showSettings',
       'select .gutter .conversation-list-item': 'openConversation',
       'input input.search': 'filterContacts',
-      'click .restart-signal': window.restart,
       'show .lightbox': 'showLightbox',
     },
     startConnectionListener() {
@@ -260,9 +256,6 @@
         this.focusConversation();
       }
     },
-    toggleMenu() {
-      this.$('.global-menu .menu-list').toggle();
-    },
     showLightbox(e) {
       this.$el.append(e.target);
     },
@@ -272,15 +265,7 @@
       }
       this.$('.conversation:first .recorder').trigger('close');
     },
-    closeMenu(e) {
-      if (e && this.$(e.target).parent('.global-menu').length > 0) {
-        return;
-      }
-
-      this.$('.global-menu .menu-list').hide();
-    },
     onClick(e) {
-      this.closeMenu(e);
       this.closeRecording(e);
     },
   });

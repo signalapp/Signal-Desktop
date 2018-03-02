@@ -16,11 +16,11 @@ const {
 
 const packageJson = require('./package.json');
 
-const createTrayIcon = require('./app/tray_icon');
-const createTemplate = require('./app/menu.js');
-const logging = require('./app/logging');
 const autoUpdate = require('./app/auto_update');
+const createTrayIcon = require('./app/tray_icon');
+const logging = require('./app/logging');
 const windowState = require('./app/window_state');
+const { createTemplate } = require('./app/menu');
 
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
 console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
@@ -324,6 +324,14 @@ function showDebugLog() {
   }
 }
 
+function showSettings() {
+  if (!mainWindow) {
+    return;
+  }
+
+  mainWindow.webContents.send('show-settings');
+}
+
 function openReleaseNotes() {
   shell.openExternal(`https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`);
 }
@@ -415,7 +423,8 @@ app.on('ready', () => {
     }
 
     if (!locale) {
-      locale = loadLocale();
+      const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+      locale = loadLocale({ appLocale, logger });
     }
 
     ready = true;
@@ -434,6 +443,7 @@ app.on('ready', () => {
 });
 
 function setupMenu(options) {
+  const { platform } = process;
   const menuOptions = Object.assign({}, options, {
     development,
     showDebugLog,
@@ -443,9 +453,11 @@ function setupMenu(options) {
     openNewBugForm,
     openSupportPage,
     openForums,
+    platform,
     setupWithImport,
     setupAsNewDevice,
     setupAsStandalone,
+    showSettings,
   });
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);

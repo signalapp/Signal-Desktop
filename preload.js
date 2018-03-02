@@ -54,6 +54,10 @@
     Whisper.events.trigger('setupAsStandalone');
   });
 
+  ipc.on('show-settings', function() {
+    Whisper.events.trigger('showSettings');
+  });
+
   window.addSetupMenuItems = function() {
     ipc.send('add-setup-menu-items');
   }
