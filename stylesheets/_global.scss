@@ -735,6 +735,10 @@ input[type=text], input[type=search], textarea {
     margin-right: auto;
   }
 
+  form {
+    height: 100%;
+    width: 100%;
+  }
   .step {
     height: 100%;
     width: 100%;
