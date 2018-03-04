@@ -74,6 +74,11 @@
                 name: 'audio-notification'
             });
             new CheckboxView({
+                el: this.$('.dockflash-notification-setting'),
+                defaultValue: false,
+                name: 'dockflash-notification'
+            });
+            new CheckboxView({
                 el: this.$('.menu-bar-setting'),
                 defaultValue: false,
                 name: 'hide-menu-bar',
@@ -100,6 +105,7 @@
               noNameOrMessage: i18n('noNameOrMessage'),
               nameOnly: i18n('nameOnly'),
               audioNotificationDescription: i18n('audioNotificationDescription'),
+              dockflashNotificationDescription: i18n('dockflashNotificationDescription'),
               themeAndroidDark: i18n('themeAndroidDark'),
               hideMenuBar: i18n('hideMenuBar'),
             };

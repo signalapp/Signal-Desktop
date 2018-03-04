@@ -807,6 +807,10 @@
       "message": "Play audio notification",
       "description": "Description for audio notification setting"
     },
+    "dockflashNotificationDescription": {
+      "message": "Play dock notification",
+      "description": "Description for dockflash notification setting"
+    },
     "keychanged": {
       "message": "Your safety number with $name$ has changed. Click to show.",
       "description": "",
