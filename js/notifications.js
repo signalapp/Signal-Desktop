@@ -48,6 +48,11 @@
                 sound.play();
             }
 
+            var dockFlashNotification = storage.get('dockFlash-notification') || false;
+            if (dockFlash-notification) {
+                window.drawAttention();
+            }
+
             var setting = storage.get('notification-setting') || 'message';
             if (setting === SETTINGS.OFF) {
                 return;
