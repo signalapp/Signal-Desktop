@@ -2,6 +2,9 @@
 
 /* eslint strict: ['error', 'never'] */
 
+/* global $: false */
+/* global textsecure: false */
+
 const electron = require('electron');
 const bunyan = require('bunyan');
 const _ = require('lodash');
