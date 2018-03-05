@@ -1,7 +1,5 @@
 /* eslint-disable */
 
-/* eslint-env browser */
-
 /* global Backbone: false */
 /* global $: false */
 

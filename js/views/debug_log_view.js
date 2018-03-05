@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 /* global i18n: false */
 /* global Whisper: false */
 
