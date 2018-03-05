@@ -23,13 +23,11 @@ const LEVELS = {
 // Backwards-compatible logging, simple strings and no level (defaulted to INFO)
 
 function redactPhone(text) {
-  return text.replace(PHONE_REGEX, "+[REDACTED]$1");
+  return text.replace(PHONE_REGEX, '+[REDACTED]$1');
 }
 
 function redactGroup(text) {
-  return text.replace(GROUP_REGEX, function(match, before, id, after) {
-    return before + '[REDACTED]' + id.slice(-3) + after;
-  });
+  return text.replace(GROUP_REGEX, (match, before, id, after) => `${before}[REDACTED]${id.slice(-3)}${after}`);
 }
 
 function now() {
@@ -41,15 +39,14 @@ function log() {
   const args = Array.prototype.slice.call(arguments, 0);
 
   const consoleArgs = ['INFO ', now()].concat(args);
-  console._log.apply(console, consoleArgs);
+  console._log(...consoleArgs);
 
   // To avoid [Object object] in our log since console.log handles non-strings smoothly
-  const str = args.map(function(item) {
+  const str = args.map((item) => {
     if (typeof item !== 'string') {
       try {
         return JSON.stringify(item);
-      }
-      catch (e) {
+      } catch (e) {
         return item;
       }
     }
@@ -71,14 +68,14 @@ if (window.console) {
 function getHeader() {
   let header = window.navigator.userAgent;
 
-  header += ' node/' + window.config.node_version;
-  header += ' env/' + window.config.environment;
+  header += ` node/${window.config.node_version}`;
+  header += ` env/${window.config.environment}`;
 
   return header;
 }
 
 function getLevel(level) {
-  var text = LEVELS[level];
+  const text = LEVELS[level];
   if (!text) {
     return BLANK_LEVEL;
   }
@@ -87,7 +84,7 @@ function getLevel(level) {
 }
 
 function formatLine(entry) {
-  return getLevel(entry.level) + ' ' + entry.time + ' ' + entry.msg;
+  return `${getLevel(entry.level)} ${entry.time} ${entry.msg}`;
 }
 
 function format(entries) {
@@ -95,35 +92,35 @@ function format(entries) {
 }
 
 function fetch() {
-  return new Promise(function(resolve) {
+  return new Promise(((resolve) => {
     ipc.send('fetch-log');
 
-    ipc.on('fetched-log', function(event, text) {
-      var result = getHeader() + '\n' + format(text);
+    ipc.on('fetched-log', (event, text) => {
+      const result = `${getHeader()}\n${format(text)}`;
       resolve(result);
     });
-  });
+  }));
 }
 
 function publish(log) {
   log = log || fetch();
 
-  return new Promise(function(resolve) {
+  return new Promise(((resolve) => {
     const payload = textsecure.utils.jsonThing({
       files: {
         'debugLog.txt': {
-          content: log
-        }
-      }
+          content: log,
+        },
+      },
     });
 
     $.post('https://api.github.com/gists', payload)
-      .then(function(response) {
+      .then((response) => {
         console._log('Posted debug log to ', response.html_url);
         resolve(response.html_url);
       })
       .fail(resolve);
-  });
+  }));
 }
 
 
@@ -136,11 +133,11 @@ const logger = bunyan.createLogger({
   streams: [{
     level: 'debug',
     stream: {
-      write: function(entry) {
+      write(entry) {
         console._log(formatLine(JSON.parse(entry)));
-      }
-    }
-  }]
+      },
+    },
+  }],
 });
 
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
@@ -148,10 +145,10 @@ function logAtLevel() {
   const level = arguments[0];
   const args = Array.prototype.slice.call(arguments, 1);
 
-  const ipcArgs = ['log-' + level].concat(args);
-  ipc.send.apply(ipc, ipcArgs);
+  const ipcArgs = [`log-${level}`].concat(args);
+  ipc.send(...ipcArgs);
 
-  logger[level].apply(logger, args);
+  logger[level](...args);
 }
 
 window.log = {
@@ -165,11 +162,11 @@ window.log = {
   publish,
 };
 
-window.onerror = function(message, script, line, col, error) {
+window.onerror = function (message, script, line, col, error) {
   const errorInfo = error && error.stack ? error.stack : JSON.stringify(error);
-  window.log.error('Top-level unhandled error: ' + errorInfo);
+  window.log.error(`Top-level unhandled error: ${errorInfo}`);
 };
 
-window.addEventListener('unhandledrejection', function(rejectionEvent) {
-  window.log.error('Top-level unhandled promise rejection: ' + rejectionEvent.reason);
+window.addEventListener('unhandledrejection', (rejectionEvent) => {
+  window.log.error(`Top-level unhandled promise rejection: ${rejectionEvent.reason}`);
 });
