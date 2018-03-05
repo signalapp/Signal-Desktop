@@ -46,24 +46,24 @@
       e.preventDefault();
       this.remove();
     },
-    submit(e) {
+    async submit(e) {
       e.preventDefault();
       const text = this.$('textarea').val();
       if (text.length === 0) {
         return;
       }
-      // eslint-disable-next-line more/no-then
-      window.log.publish(text).then((url) => {
-        const view = new Whisper.DebugLogLinkView({
-          url,
-          el: this.$('.result'),
-        });
-        this.$('.loading').removeClass('loading');
-        view.render();
-        this.$('.link').focus().select();
-      });
+
       this.$('.buttons, textarea').remove();
       this.$('.result').addClass('loading');
+
+      const publishedLogURL = await window.log.publish(text);
+      const view = new Whisper.DebugLogLinkView({
+        url: publishedLogURL,
+        el: this.$('.result'),
+      });
+      this.$('.loading').removeClass('loading');
+      view.render();
+      this.$('.link').focus().select();
     },
   });
 }());
