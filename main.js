@@ -514,9 +514,6 @@ ipc.on('draw-attention', () => {
     app.dock.bounce();
   } else if (process.platform === 'win32') {
     mainWindow.flashFrame(true);
-    setTimeout(() => {
-      mainWindow.flashFrame(false);
-    }, 1000);
   } else if (process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }

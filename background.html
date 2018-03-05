@@ -606,10 +606,12 @@
         </div>
       </div>
       <br />
+      {{ #isAudioNotificationSupported }}
       <div class='audio-notification-setting'>
         <input type='checkbox' name='audio-notification' id='audio-notification'/>
         <label for='audio-notification'>{{ audioNotificationDescription }}</label>
       </div>
+      {{ /isAudioNotificationSupported }}
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='syncSettings'>
