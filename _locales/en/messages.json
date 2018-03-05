@@ -367,8 +367,8 @@
       }
     },
     "submitDebugLog": {
-      "message": "Submit debug log",
-      "description": "Menu item and header text for debug log modal, title case."
+      "message": "Debug log",
+      "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
       "message": "Debug Log",
