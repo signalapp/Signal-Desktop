@@ -5,6 +5,7 @@
 ;(function() {
     'use strict';
     window.Whisper = window.Whisper || {};
+    const { Settings } = window.Signal.Types;
 
     var SETTINGS = {
         OFF     : 'off',
@@ -13,11 +14,9 @@
         MESSAGE : 'message'
     };
 
-    var enabled = false;
-    var sound = new Audio('audio/NewMessage.mp3');
-
     Whisper.Notifications = new (Backbone.Collection.extend({
         initialize: function() {
+            this.isEnabled = false;
             this.on('add', this.update);
             this.on('remove', this.onRemove);
         },
@@ -27,15 +26,25 @@
         },
         update: function() {
             const isFocused = window.isFocused();
+            const isAudioNotificationEnabled = storage.get('audio-notification') || false;
+            const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
+            const shouldPlayNotificationSound = isAudioNotificationSupported &&
+                isAudioNotificationEnabled;
+            const numNotifications = this.length;
             console.log(
-                'updating notifications - count:', this.length,
-                'focused:', isFocused,
-                'enabled:', enabled
+                'Update notifications:',
+                'isFocused:', isFocused,
+                'isEnabled:', this.isEnabled,
+                'numNotifications:', numNotifications,
+                'shouldPlayNotificationSound:', shouldPlayNotificationSound
             );
-            if (!enabled) {
-                return; // wait til we are re-enabled
+
+            if (!this.isEnabled) {
+                return;
             }
-            if (this.length === 0) {
+
+            const hasNotifications = numNotifications > 0;
+            if (!hasNotifications) {
                 return;
             }
 
@@ -43,11 +52,6 @@
             if (isNotificationOmitted) {
                 this.clear();
                 return;
-            }
-
-            var audioNotification = storage.get('audio-notification') || false;
-            if (audioNotification) {
-                sound.play();
             }
 
             var setting = storage.get('notification-setting') || 'message';
@@ -61,9 +65,13 @@
             var message;
             var iconUrl;
 
+            // NOTE: i18n has more complex rules for pluralization than just
+            // distinguishing between zero (0) and other (non-zero),
+            // e.g. Russian:
+            // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
             var newMessageCount = [
-                this.length,
-                this.length === 1 ? i18n('newMessage') : i18n('newMessages')
+                numNotifications,
+                numNotifications === 1 ? i18n('newMessage') : i18n('newMessages')
             ].join(' ');
 
             var last = this.last();
@@ -78,7 +86,7 @@
                 iconUrl = last.get('iconUrl');
                 break;
               case SETTINGS.MESSAGE:
-                if (this.length === 1) {
+                if (numNotifications === 1) {
                   title = last.get('title');
                 } else {
                   title = newMessageCount;
@@ -92,7 +100,7 @@
                 window.nodeNotifier.notify({
                     title: title,
                     message: message,
-                    sound: false
+                    sound: false,
                 });
                 window.nodeNotifier.on('click', function(notifierObject, options) {
                     last.get('conversationId');
@@ -102,7 +110,7 @@
                     body   : message,
                     icon   : iconUrl,
                     tag    : 'signal',
-                    silent : true
+                    silent : !shouldPlayNotificationSound,
                 });
 
                 notification.onclick = this.onClick.bind(this, last.get('conversationId'));
@@ -122,15 +130,14 @@
             this.reset([]);
         },
         enable: function() {
-            var update = !enabled;
-            enabled = true;
-            if (update) {
+            const needUpdate = !this.isEnabled;
+            this.isEnabled = true;
+            if (needUpdate) {
               this.update();
             }
         },
         disable: function() {
-            enabled = false;
+            this.isEnabled = false;
         },
-
     }))();
 })();
