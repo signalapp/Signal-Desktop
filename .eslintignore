@@ -20,6 +20,7 @@ test/views/*.js
 !js/models/conversations.js
 !js/views/attachment_view.js
 !js/views/conversation_search_view.js
+!js/views/debug_log_view.js
 !js/views/file_input_view.js
 !js/views/inbox_view.js
 !main.js
