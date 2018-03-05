@@ -34,7 +34,10 @@ function redactPhone(text) {
 }
 
 function redactGroup(text) {
-  return text.replace(GROUP_REGEX, (match, before, id, after) => `${before}[REDACTED]${id.slice(-3)}${after}`);
+  return text.replace(
+    GROUP_REGEX,
+    (match, before, id, after) => `${before}[REDACTED]${id.slice(-3)}${after}`
+  );
 }
 
 function now() {
@@ -42,9 +45,7 @@ function now() {
   return date.toJSON();
 }
 
-function log() {
-  const args = Array.prototype.slice.call(arguments, 0);
-
+function log(...args) {
   const consoleArgs = ['INFO ', now()].concat(args);
   console._log(...consoleArgs);
 
@@ -53,7 +54,7 @@ function log() {
     if (typeof item !== 'string') {
       try {
         return JSON.stringify(item);
-      } catch (e) {
+      } catch (error) {
         return item;
       }
     }
@@ -109,18 +110,19 @@ function fetch() {
   }));
 }
 
-function publish(log) {
-  log = log || fetch();
+function publish(rawContent) {
+  const content = rawContent || fetch();
 
   return new Promise(((resolve) => {
     const payload = textsecure.utils.jsonThing({
       files: {
         'debugLog.txt': {
-          content: log,
+          content,
         },
       },
     });
 
+    // eslint-disable-next-line more/no-then
     $.post('https://api.github.com/gists', payload)
       .then((response) => {
         console._log('Posted debug log to ', response.html_url);
@@ -148,10 +150,7 @@ const logger = bunyan.createLogger({
 });
 
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
-function logAtLevel() {
-  const level = arguments[0];
-  const args = Array.prototype.slice.call(arguments, 1);
-
+function logAtLevel(level, ...args) {
   const ipcArgs = [`log-${level}`].concat(args);
   ipc.send(...ipcArgs);
 
@@ -169,7 +168,7 @@ window.log = {
   publish,
 };
 
-window.onerror = function (message, script, line, col, error) {
+window.onerror = (message, script, line, col, error) => {
   const errorInfo = error && error.stack ? error.stack : JSON.stringify(error);
   window.log.error(`Top-level unhandled error: ${errorInfo}`);
 };
