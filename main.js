@@ -426,6 +426,7 @@ app.on('ready', () => {
   logging.initialize().catch((error) => {
     loggingSetupError = error;
   }).then(() => {
+  /* eslint-enable more/no-then */
     logger = logging.getLogger();
     logger.info('app ready');
 
@@ -450,7 +451,6 @@ app.on('ready', () => {
 
     setupMenu();
   });
-  /* eslint-enable more/no-then */
 });
 
 function setupMenu(options) {
