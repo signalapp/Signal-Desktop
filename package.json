@@ -159,6 +159,9 @@
         "zip"
       ]
     },
+    "nsis": {
+      "deleteAppDataOnUninstall": true
+    },
     "linux": {
       "category": "Network",
       "desktop": {
