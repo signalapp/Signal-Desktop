@@ -1,5 +1,7 @@
 /* eslint-env node */
 
+/* eslint strict: ['error', 'never'] */
+
 const electron = require('electron');
 const bunyan = require('bunyan');
 const _ = require('lodash');
