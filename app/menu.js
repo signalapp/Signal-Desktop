@@ -130,7 +130,7 @@ exports.createTemplate = (options, messages) => {
         click: openSupportPage,
       },
       {
-        label: messages.fileABug.message,
+        label: messages.menuReportIssue.message,
         click: openNewBugForm,
       },
       {
