@@ -7,7 +7,7 @@ const bunyan = require('bunyan');
 const _ = require('lodash');
 
 const debuglogs = require('./modules/debuglogs');
-
+const Errors = require('./modules/types/errors');
 
 const ipc = electron.ipcRenderer;
 const PHONE_REGEX = /\+\d{7,12}(\d{3})/g;
@@ -60,7 +60,8 @@ function log(...args) {
 
     return item;
   });
-  const toSend = redactGroup(redactPhone(str.join(' ')));
+
+  const toSend = redactAll(str.join(' '));
   ipc.send('log-info', toSend);
 }
 
@@ -95,7 +96,11 @@ function formatLine(entry) {
 }
 
 function format(entries) {
-  return redactGroup(redactPhone(entries.map(formatLine).join('\n')));
+  return redactAll(entries.map(formatLine).join('\n')));
+}
+
+function redactAll(string) {
+  return Errors.redactSensitivePaths(redactGroup(redactPhone(string)));
 }
 
 function fetch() {
