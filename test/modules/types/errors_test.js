@@ -27,7 +27,7 @@ describe('Errors', () => {
         );
         assert.include(
           formattedStack,
-          '<REDACTED_PATH>',
+          '[REDACTED]',
           'Formatted stack has redactions'
         );
         return;
