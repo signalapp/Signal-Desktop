@@ -1,4 +1,3 @@
-const addUnhandledErrorHandler = require('electron-unhandled');
 const path = require('path');
 const url = require('url');
 const os = require('os');
@@ -19,19 +18,12 @@ const packageJson = require('./package.json');
 
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
+const Errors = require('./js/modules/errors');
 const logging = require('./app/logging');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');
 
-addUnhandledErrorHandler({
-  logger: (error) => {
-    console.log(
-      'main.js: Uncaught error or unhandled promise rejection:',
-      error && error.stack ? error.stack : error
-    );
-  },
-  showDialog: false,
-});
+Errors.addGlobalHandler();
 
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
 console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
