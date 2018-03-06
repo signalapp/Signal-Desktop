@@ -3,8 +3,8 @@ const addUnhandledErrorHandler = require('electron-unhandled');
 const Errors = require('./types/errors');
 
 
-//      addGlobalHandler :: Unit -> Unit
-exports.addGlobalHandler = () => {
+//      addHandler :: Unit -> Unit
+exports.addHandler = () => {
   addUnhandledErrorHandler({
     logger: (error) => {
       console.error(
