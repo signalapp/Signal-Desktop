@@ -5,7 +5,8 @@
 const electron = require('electron');
 const bunyan = require('bunyan');
 const _ = require('lodash');
-const superagent = require('superagent');
+
+const debuglogs = require('./modules/debuglogs');
 
 
 const ipc = electron.ipcRenderer;
@@ -108,26 +109,7 @@ function fetch() {
   });
 }
 
-const DEBUGLOGS_API_URL = 'https://debuglogs.org';
-const publish = async (content) => {
-  const credentialsResponse = await superagent.get(DEBUGLOGS_API_URL);
-  const { fields, url } = credentialsResponse.body;
-  const uploadRequest = superagent.post(url);
-  Object.entries(fields).forEach(([key, value]) => {
-    uploadRequest.field(key, value);
-  });
-
-  const contentBuffer = Buffer.from(content, 'utf8');
-  uploadRequest.attach('file', contentBuffer, {
-    contentType: 'text/plain',
-    filename: 'signal-desktop-debug-log.txt',
-  });
-
-  await uploadRequest;
-
-  return `${DEBUGLOGS_API_URL}/${fields.key}`;
-};
-
+const publish = debuglogs.upload;
 
 // A modern logging interface for the browser
 
