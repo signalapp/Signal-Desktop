@@ -58,6 +58,7 @@
     "emoji-datasource-apple": "4.0.0",
     "emoji-js": "^3.4.0",
     "emoji-panel": "https://github.com/scottnonnenberg/emoji-panel.git#v0.5.5",
+    "ensure-error": "^1.0.0",
     "firstline": "^1.2.1",
     "form-data": "^2.3.2",
     "google-libphonenumber": "^3.0.7",
