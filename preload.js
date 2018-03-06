@@ -104,6 +104,7 @@
   window.Signal.OS = require('./js/modules/os');
   window.Signal.Types = window.Signal.Types || {};
   window.Signal.Types.Attachment = require('./js/modules/types/attachment');
+  window.Signal.Types.Errors = require('./js/modules/types/errors');
   window.Signal.Types.Message = require('./js/modules/types/message');
   window.Signal.Types.MIME = require('./js/modules/types/mime');
   window.Signal.Types.Settings = require('./js/modules/types/settings');
