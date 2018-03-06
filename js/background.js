@@ -14,7 +14,7 @@
 ;(function() {
     'use strict';
 
-    const { Message } = window.Signal.Types;
+    const { Errors, Message } = window.Signal.Types;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
     // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
@@ -414,7 +414,7 @@
         });
         var error = c.validateNumber();
         if (error) {
-            console.log('Invalid contact received', error && error.stack ? error.stack : error);
+            console.log('Invalid contact received:', Errors.toLogFormat(error));
             return;
         }
 
@@ -483,7 +483,7 @@
             .catch(function(error) {
                 console.log(
                     'onContactReceived error:',
-                    error && error.stack ? error.stack : error
+                    Errors.toLogFormat(error)
                 );
             });
     }
@@ -670,7 +670,7 @@
                 return resolve(false);
             });
         }).catch(function(error) {
-            console.log('isMessageDuplicate error:', error && error.stack ? error.stack : error);
+            console.log('isMessageDuplicate error:', Errors.toLogFormat(error));
             return false;
         });
     }
@@ -691,7 +691,7 @@
 
     function onError(ev) {
         var error = ev.error;
-        console.log('background onError:', error && error.stack ? error.stack : error);
+        console.log('background onError:', Errors.toLogFormat(error));
 
         if (error.name === 'HTTPError' && (error.code == 401 || error.code == 403)) {
             Whisper.Registration.remove();
@@ -804,8 +804,8 @@
         var error = c.validateNumber();
         if (error) {
             console.log(
-                'Invalid verified sync received',
-                error && error.stack ? error.stack : error
+                'Invalid verified sync received:',
+                Errors.toLogFormat(error)
             );
             return;
         }
