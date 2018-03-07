@@ -22,12 +22,6 @@
         console.log(e);
     };
 
-    window.wrapDeferred = function(deferred) {
-        return new Promise(function(resolve, reject) {
-            deferred.then(resolve, reject);
-        });
-    };
-
     console.log('background page reloaded');
     console.log('environment:', window.config.environment);
 
