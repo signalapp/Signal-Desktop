@@ -73,8 +73,8 @@ function initialize() {
     ipc.on('delete-all-logs', async (event) => {
       try {
         await deleteAllLogs(logPath);
-      } catch (e) {
-        console.log('Something went wrong!');
+      } catch (error) {
+        logger.error(`Problem deleting all logs: ${error.stack}`);
       }
 
       event.sender.send('delete-all-logs-complete');
