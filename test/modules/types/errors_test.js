@@ -9,31 +9,36 @@ const APP_ROOT_PATH = Path.join(__dirname, '..', '..', '..');
 
 describe('Errors', () => {
   describe('toLogFormat', () => {
-    it('should redact sensitive paths in stack trace', () => {
+    it('should convert non-errors to errors', () => {
       try {
-        throw new Error('boom');
-      } catch (error) {
-        assert.include(
-          error.stack,
-          APP_ROOT_PATH,
-          'Unformatted stack has sensitive paths'
-        );
+        // eslint-disable-next-line no-throw-literal
+        throw 'boom';
+      } catch (nonError) {
+        assert.typeOf(nonError, 'string');
+        assert.isUndefined(nonError.stack);
 
-        const formattedStack = Errors.toLogFormat(error);
-        assert.notInclude(
-          formattedStack,
-          APP_ROOT_PATH,
-          'Formatted stack does not have sensitive paths'
-        );
+        const formattedStack = Errors.toLogFormat(nonError);
         assert.include(
           formattedStack,
-          '[REDACTED]',
-          'Formatted stack has redactions'
+          APP_ROOT_PATH,
+          'Formatted stack has app path'
         );
         return;
       }
+
       // eslint-disable-next-line no-unreachable
       assert.fail('Expected error to be thrown.');
+    });
+
+    it('should add stack to errors without one', () => {
+      const error = new Error('boom');
+      error.stack = null;
+      assert.typeOf(error, 'Error');
+      assert.isNull(error.stack);
+
+      const formattedStack = Errors.toLogFormat(error);
+      assert.include(formattedStack, '<Original stack missing>');
+      assert.include(formattedStack, APP_ROOT_PATH, 'Formatted stack has app path');
     });
   });
 });
