@@ -2,15 +2,25 @@
 
 const Path = require('path');
 
-const isString = require('lodash/isString');
 const compose = require('lodash/fp/compose');
+const escapeRegExp = require('lodash/escapeRegExp');
+const isRegExp = require('lodash/isRegExp');
+const isString = require('lodash/isString');
 
 
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 
 const APP_ROOT_PATH = Path.join(__dirname, '..', '..', '..');
-const APP_ROOT_PATH_PATTERN = new RegExp(APP_ROOT_PATH, 'g');
+const APP_ROOT_PATH_PATTERN = (() => {
+  try {
+    // Safe `String::replaceAll`:
+    // https://github.com/lodash/lodash/issues/1084#issuecomment-86698786
+    return new RegExp(escapeRegExp(APP_ROOT_PATH), 'g');
+  } catch (error) {
+    return null;
+  }
+})();
 
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
@@ -40,6 +50,10 @@ exports.redactGroupIds = (text) => {
 exports.redactSensitivePaths = (text) => {
   if (!isString(text)) {
     throw new TypeError('`text` must be a string');
+  }
+
+  if (!isRegExp(APP_ROOT_PATH_PATTERN)) {
+    return text;
   }
 
   return text.replace(APP_ROOT_PATH_PATTERN, REDACTION_PLACEHOLDER);
