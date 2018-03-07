@@ -836,11 +836,11 @@ input[type=text], input[type=search], textarea {
 
     font-size: 12pt;
 
-    &.grey {
+    &.neutral {
       color: black;
       background: #DEDEDE;
     }
-    &.red {
+    &.destructive {
       background: red;
     }
 
