@@ -617,6 +617,11 @@ input[type=text], input[type=search], textarea {
   bottom: 0;
   font-family: roboto-light;
 
+  &.overlay {
+    // .modal, used for the settings view, is 100
+    z-index: 200;
+  }
+
   color: black;
   a {
     color: $blue;
@@ -806,6 +811,14 @@ input[type=text], input[type=search], textarea {
     &.sync {
       @include color-svg('../images/sync.svg', #DEDEDE);
     }
+
+    // delete
+    &.alert-outline-red {
+      @include color-svg('../images/alert-outline.svg', red);
+    }
+    &.delete {
+      @include color-svg('../images/delete.svg', #DEDEDE);
+    }
   }
 
   .button {
@@ -815,11 +828,21 @@ input[type=text], input[type=search], textarea {
     min-width: 300px;
     padding: 0.75em;
     margin-top: 1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
     color: white;
     background: $blue;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
     font-size: 12pt;
+
+    &.grey {
+      color: black;
+      background: #DEDEDE;
+    }
+    &.red {
+      background: red;
+    }
 
     @media (min-height: 750px) and (min-width: 700px) {
       font-size: 20pt;

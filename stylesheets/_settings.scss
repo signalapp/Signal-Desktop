@@ -32,4 +32,16 @@
         color: red;
     }
   }
+  .clear-data-settings {
+    button {
+      float: right;
+      line-height: 36px;
+      padding: 0 20px;
+      margin: 0 0 20px 20px;
+    }
+    .red {
+      background-color: red;
+      color: white;
+    }
+  }
 }

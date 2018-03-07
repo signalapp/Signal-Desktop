@@ -567,6 +567,34 @@
         "message": "Theme",
         "description": "Header for theme settings"
     },
+    "clearDataHeader": {
+        "message": "Clear Data",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
+    },
+    "clearDataExplanation": {
+        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "description": "Text describing what the clear data button will do."
+    },
+    "clearDataButton": {
+        "message": "Clear data",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
+    "deleteAllDataHeader": {
+        "message": "Delete all data?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataBody": {
+        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
+    "deleteAllDataButton": {
+        "message": "Delete all data",
+        "description": "Text of the button that deletes all data"
+    },
+    "deleteAllDataProgress": {
+        "message": "Disconnecting and deleting all data",
+        "description": "Text of the button that deletes all data"
+    },
     "notifications": {
         "message": "Notifications",
         "description": "Header for notification settings"

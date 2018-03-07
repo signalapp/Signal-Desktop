@@ -85,11 +85,12 @@
             });
             if (textsecure.storage.user.getDeviceId() != '1') {
                 var syncView = new SyncView().render();
-                this.$('.content').append(syncView.el);
+                this.$('.sync-setting').append(syncView.el);
             }
         },
         events: {
-            'click .close': 'remove'
+            'click .close': 'remove',
+            'click .clear-data': 'onClearData',
         },
         render_attributes: function() {
             return {
@@ -107,6 +108,97 @@
               isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
               themeAndroidDark: i18n('themeAndroidDark'),
               hideMenuBar: i18n('hideMenuBar'),
+              clearDataHeader: i18n('clearDataHeader'),
+              clearDataButton: i18n('clearDataButton'),
+              clearDataExplanation: i18n('clearDataExplanation'),
+            };
+        },
+        onClearData: function() {
+            var clearDataView = new ClearDataView().render();
+            $('body').append(clearDataView.el);
+        },
+    });
+
+    var CLEAR_DATA_STEPS = {
+        CHOICE: 1,
+        DELETING: 2,
+    };
+    var ClearDataView = Whisper.View.extend({
+        templateName: 'clear-data',
+        className: 'full-screen-flow overlay',
+        events: {
+            'click .cancel': 'onCancel',
+            'click .delete-all-data': 'onDeleteAllData',
+        },
+        initialize: function() {
+            this.step = CLEAR_DATA_STEPS.CHOICE;
+        },
+        onCancel: function() {
+            this.remove();
+        },
+        onDeleteAllData: function() {
+            console.log('Deleting everything!');
+            this.step = CLEAR_DATA_STEPS.DELETING;
+            this.render();
+
+            window.wrapDeferred(Backbone.sync('closeall')).then(function() {
+                console.log('All database connections closed. Starting delete.');
+                this.clearAllData();
+            }.bind(this), function(error) {
+                console.log('Something went wrong closing all database connections.');
+                this.clearAllData();
+            }.bind(this));
+        },
+        clearAllData: function() {
+            var finishCount = 0;
+            var finish = function() {
+                finishCount += 1;
+                console.log('Deletion complete, finishCount is now', finishCount);
+                if (finishCount > 1) {
+                    console.log('Deletion complete! Restarting now...');
+                    window.restart();
+                }
+            };
+
+            var request = window.indexedDB.deleteDatabase('signal');
+
+            // None of the three of these should happen, since we close all database
+            //   connections first. However, testing indicates that even if one of these
+            //   handlers fires, the database is still deleted on restart.
+            request.onblocked = function(event) {
+                console.log('Error deleting database: Blocked.');
+                finish();
+            };
+            request.onupgradeneeded = function(event) {
+                console.log('Error deleting database: Upgrade needed.');
+                finish();
+            };
+            request.onerror = function(event) {
+                console.log('Error deleting database.');
+                finish();
+            };
+
+            request.onsuccess = function(event) {
+                console.log('Database deleted successfully.');
+                finish();
+            };
+
+            Whisper.events.once('deleteAllLogsComplete', function() {
+                console.log('Log deleted successfully.');
+                finish();
+            });
+            window.deleteAllLogs();
+        },
+        render_attributes: function() {
+            return {
+                isStep1: this.step === CLEAR_DATA_STEPS.CHOICE,
+                header: i18n('deleteAllDataHeader'),
+                body: i18n('deleteAllDataBody'),
+                cancelButton: i18n('cancel'),
+                deleteButton: i18n('deleteAllDataButton'),
+
+                isStep2: this.step === CLEAR_DATA_STEPS.DELETING,
+                deleting: i18n('deleteAllDataProgress'),
             };
         }
     });

@@ -612,6 +612,15 @@
         <label for='audio-notification'>{{ audioNotificationDescription }}</label>
       </div>
       {{ /isAudioNotificationSupported }}
+      <div class='sync-setting'></div>
+      <hr>
+      <div class='clear-data-settings'>
+        <h3>{{ clearDataHeader }}</h3>
+        <div>
+          <button class='grey red clear-data'>{{ clearDataButton }}</button>
+          <p>{{ clearDataExplanation }}</p>
+        </div>
+      </div>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='syncSettings'>
@@ -627,6 +636,40 @@
           <div class='sync_failed'>{{ syncFailed }}</div>
         </p>
       </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='clear-data'>
+    {{#isStep1}}
+    <div class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline-red'></span>
+          <div class='header'>{{ header }}</div>
+          <div class='body-text-wide'>{{ body }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button grey cancel'>{{ cancelButton }}</a>
+            <a class='button red delete-all-data'>{{ deleteButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep1}}
+    {{#isStep2}}
+    <div id='step3' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon delete'></span>
+          <div class='header'>{{ deleting }}</div>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep2}}
   </script>
 
   <script type='text/x-tmpl-mustache' id='networkStatus'>
