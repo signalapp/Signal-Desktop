@@ -149,6 +149,8 @@
             this.$('#link-phone').submit();
         },
         confirmNumber: function(number) {
+            var tsp = textsecure.storage.protocol;
+
             window.removeSetupMenuItems();
             this.selectStep(Steps.ENTER_NAME);
             this.setDeviceNameDefault();
@@ -180,7 +182,7 @@
                         return finish();
                     }
 
-                    Whisper.Backup.clearDatabase().then(finish, function(error) {
+                    tsp.removeAllData().then(finish, function(error) {
                         console.log(
                           'confirmNumber: error clearing database',
                           error && error.stack ? error.stack : error
