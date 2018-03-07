@@ -38,8 +38,16 @@
     ipc.send('update-tray-icon', unreadCount);
   };
 
+  window.deleteAllLogs = function() {
+    ipc.send('delete-all-logs');
+  }
+
   ipc.on('debug-log', function() {
     Whisper.events.trigger('showDebugLog');
+  });
+
+  ipc.on('delete-all-logs-complete', function() {
+    Whisper.events.trigger('deleteAllLogsComplete');
   });
 
   ipc.on('set-up-with-import', function() {

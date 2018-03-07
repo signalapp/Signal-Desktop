@@ -10,6 +10,7 @@ const mkdirp = require('mkdirp');
 const _ = require('lodash');
 const readFirstLine = require('firstline');
 const readLastLines = require('read-last-lines').read;
+const rimraf = require('rimraf');
 
 const {
   app,
@@ -67,6 +68,30 @@ function initialize() {
       }, (error) => {
         logger.error(`Problem loading log from disk: ${error.stack}`);
       });
+    });
+
+    ipc.on('delete-all-logs', async (event) => {
+      try {
+        await deleteAllLogs(logPath);
+      } catch (e) {
+        console.log('Something went wrong!');
+      }
+
+      event.sender.send('delete-all-logs-complete');
+    });
+  });
+}
+
+async function deleteAllLogs(logPath) {
+  return new Promise((resolve, reject) => {
+    rimraf(logPath, {
+      disableGlob: true,
+    }, (error) => {
+      if (error) {
+        return reject(error);
+      }
+
+      return resolve();
     });
   });
 }
