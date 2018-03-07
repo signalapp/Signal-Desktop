@@ -166,9 +166,6 @@
         },
         load: function() {
             console.log('ConversationController: starting initial fetch');
-            if (this._initialPromise) {
-                throw new Error('ConversationController.load() has already been called!');
-            }
 
             this._initialPromise = new Promise(function(resolve, reject) {
                 conversations.fetch().then(function() {
