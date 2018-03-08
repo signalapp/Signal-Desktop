@@ -12,6 +12,7 @@ module.exports = {
   ],
 
   plugins: [
+    'mocha',
     'more',
   ],
 
@@ -32,6 +33,9 @@ module.exports = {
       code: 90,
       ignoreUrls: true,
     }],
+
+    // prevents us from accidentally checking in exclusive tests (`.only`):
+    'mocha/no-exclusive-tests': 'error',
 
     // encourage consistent use of `async` / `await` instead of `then`
     'more/no-then': 'error',
