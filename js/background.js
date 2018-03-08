@@ -64,9 +64,6 @@
                 SERVER_URL, USERNAME, PASSWORD
             );
             accountManager.addEventListener('registration', function() {
-                if (!Whisper.Registration.everDone()) {
-                    storage.put('safety-numbers-approval', false);
-                }
                 Whisper.Registration.markDone();
                 console.log('dispatching registration event');
                 Whisper.events.trigger('registration_done');
