@@ -63,6 +63,9 @@
             }
 
             return new Promise(function(resolve, reject) {
+                // NOTE: Fetching the signed form requires CORS headers
+                // on debuglogs.org:
+
                 // $.get(DEBUGLOGS_BASE_URL).then(function (signedForm) {
 
                     var signedForm = {
@@ -100,21 +103,28 @@
 
                     var publishedLogURL = DEBUGLOGS_BASE_URL + '/' + fields.key;
 
-                    // jQuery 2.1.1-pre `FormData` upload results in this S3 error:
-                    //
-                    //   The body of your POST request is not well-formed
-                    //   multipart/form-data.’
-                    $.ajax({
-                        method: 'POST',
-                        url: url,
-                        data: formData,
-                        processData: false,
-                        contentType: 'multipart/form-data',
-                    }).then(function () {
-                        resolve(publishedLogURL);
-                    }).fail(function () {
-                        reject();
-                    });
+                    var request = new XMLHttpRequest();
+                    request.open('POST', url);
+                    request.onreadystatechange = function (event) {
+                        if (request.readyState !== XMLHttpRequest.DONE) {
+                            return;
+                        }
+
+                        // NOTE: `request.status` is `0` and Chrome reports it
+                        // as CORS error because S3 bucket response does not
+                        // include CORS headers but the upload succeeds:
+
+                        // if (request.status === 204) {
+                            return resolve(publishedLogURL);
+                        // }
+
+                        // return reject(
+                        //     new Error('Failed to publish debug log. Status: ' +
+                        //         request.statusText + ' (' + request.status + ')'
+                        //     )
+                        // );
+                    };
+                    request.send(formData);
                 // });
             });
         };
