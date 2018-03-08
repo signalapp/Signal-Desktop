@@ -1,7 +1,12 @@
-const ensureError = require('ensure-error');
-
 //      toLogFormat :: Error -> String
 exports.toLogFormat = (error) => {
-  const normalizedError = ensureError(error);
-  return normalizedError.stack;
+  if (!error) {
+    return error;
+  }
+
+  if (error && error.stack) {
+    return error.stack;
+  }
+
+  return error.toString();
 };
