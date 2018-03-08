@@ -7,7 +7,6 @@ const bunyan = require('bunyan');
 const _ = require('lodash');
 
 const debuglogs = require('./modules/debuglogs');
-const Errors = require('./modules/types/errors');
 const Privacy = require('./modules/privacy');
 
 const ipc = electron.ipcRenderer;
