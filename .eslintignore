@@ -23,5 +23,6 @@ test/views/*.js
 !js/views/debug_log_view.js
 !js/views/file_input_view.js
 !js/views/inbox_view.js
+!js/database.js
 !main.js
 !prepare_build.js

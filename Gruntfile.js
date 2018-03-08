@@ -107,6 +107,7 @@ module.exports = function(grunt) {
         '!js/modules/**/*.js',
         '!js/views/debug_log_view.js',
         '!js/signal_protocol_store.js',
+        '!js/database.js',
         '_locales/**/*'
       ],
       options: { jshintrc: '.jshintrc' },
