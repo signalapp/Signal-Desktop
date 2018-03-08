@@ -2,12 +2,11 @@
 
 /* eslint strict: ['error', 'never'] */
 
-/* global $: false */
-/* global textsecure: false */
-
 const electron = require('electron');
 const bunyan = require('bunyan');
 const _ = require('lodash');
+
+const debuglogs = require('./modules/debuglogs');
 
 
 const ipc = electron.ipcRenderer;
@@ -110,28 +109,7 @@ function fetch() {
   });
 }
 
-function publish(rawContent) {
-  const content = rawContent || fetch();
-
-  return new Promise((resolve) => {
-    const payload = textsecure.utils.jsonThing({
-      files: {
-        'debugLog.txt': {
-          content,
-        },
-      },
-    });
-
-    // eslint-disable-next-line more/no-then
-    $.post('https://api.github.com/gists', payload)
-      .then((response) => {
-        console._log('Posted debug log to ', response.html_url);
-        resolve(response.html_url);
-      })
-      .fail(resolve);
-  });
-}
-
+const publish = debuglogs.upload;
 
 // A modern logging interface for the browser
 

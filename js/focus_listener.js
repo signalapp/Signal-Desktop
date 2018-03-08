@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var windowFocused;
+  var windowFocused = false;
   window.addEventListener('blur', function() {
     windowFocused = false;
   });
@@ -12,5 +12,4 @@
   window.isFocused = function() {
     return windowFocused;
   };
-
 })();
