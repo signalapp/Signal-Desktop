@@ -43,16 +43,8 @@
     ipc.send('update-tray-icon', unreadCount);
   };
 
-  window.deleteAllLogs = function() {
-    ipc.send('delete-all-logs');
-  }
-
   ipc.on('debug-log', function() {
     Whisper.events.trigger('showDebugLog');
-  });
-
-  ipc.on('delete-all-logs-complete', function() {
-    Whisper.events.trigger('deleteAllLogsComplete');
   });
 
   ipc.on('set-up-with-import', function() {
@@ -115,6 +107,8 @@
   // ES2015+ modules
   window.Signal = window.Signal || {};
   window.Signal.OS = require('./js/modules/os');
+  window.Signal.Logs = require('./js/modules/logs');
+
   window.Signal.Types = window.Signal.Types || {};
   window.Signal.Types.Attachment = require('./js/modules/types/attachment');
   window.Signal.Types.Errors = require('./js/modules/types/errors');

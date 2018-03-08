@@ -860,14 +860,14 @@
             ConversationController.reset(); // conversations store
 
             // Then, the entire database:
-            return window.Whisper.Backup.clearDatabase();
+            return Whisper.Database.clear();
         },
         removeAllConfiguration: function() {
             // First the in-memory cache for the items store:
             window.storage.reset();
 
             // Then anything in the database that isn't a message/conversation/group:
-            return window.Whisper.Backup.clearStores([
+            return Whisper.Database.clearStores([
                 'items',
                 'identityKeys',
                 'sessions',

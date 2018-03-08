@@ -141,7 +141,7 @@
             this.step = CLEAR_DATA_STEPS.DELETING;
             this.render();
 
-            window.wrapDeferred(Backbone.sync('closeall')).then(function() {
+            Whisper.Database.close().then(function() {
                 console.log('All database connections closed. Starting delete.');
                 this.clearAllData();
             }.bind(this), function(error) {
@@ -150,44 +150,18 @@
             }.bind(this));
         },
         clearAllData: function() {
-            var finishCount = 0;
-            var finish = function() {
-                finishCount += 1;
-                console.log('Deletion complete, finishCount is now', finishCount);
-                if (finishCount > 1) {
-                    console.log('Deletion complete! Restarting now...');
-                    window.restart();
-                }
-            };
-
-            var request = window.indexedDB.deleteDatabase('signal');
-
-            // None of the three of these should happen, since we close all database
-            //   connections first. However, testing indicates that even if one of these
-            //   handlers fires, the database is still deleted on restart.
-            request.onblocked = function(event) {
-                console.log('Error deleting database: Blocked.');
-                finish();
-            };
-            request.onupgradeneeded = function(event) {
-                console.log('Error deleting database: Upgrade needed.');
-                finish();
-            };
-            request.onerror = function(event) {
-                console.log('Error deleting database.');
-                finish();
-            };
-
-            request.onsuccess = function(event) {
-                console.log('Database deleted successfully.');
-                finish();
-            };
-
-            Whisper.events.once('deleteAllLogsComplete', function() {
-                console.log('Log deleted successfully.');
-                finish();
+            Promise.all([
+                Signal.Logs.deleteAll(),
+                Whisper.Database.drop(),
+            ]).then(function() {
+                window.restart();
+            }, function(error) {
+                console.log(
+                    'Something went wrong deleting all data:',
+                    error && error.stack ? error.stack : error
+                );
+                window.restart();
             });
-            window.deleteAllLogs();
         },
         render_attributes: function() {
             return {

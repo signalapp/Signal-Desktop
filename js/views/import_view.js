@@ -35,7 +35,7 @@
       return storage.put(IMPORT_LOCATION, location);
     },
     reset: function() {
-      return Whisper.Backup.clearDatabase();
+      return Whisper.Database.clear();
     }
   };
 
@@ -129,7 +129,7 @@
       // Wait for prior database interaction to complete
       this.pending = this.pending.then(function() {
         // For resilience to interruption, clear database both before and on failure
-        return Whisper.Backup.clearDatabase();
+        return Whisper.Import.reset();
       }).then(function() {
         return Promise.all([
           Whisper.Import.start(),
@@ -153,7 +153,7 @@
         this.state = null;
         this.render();
 
-        return Whisper.Backup.clearDatabase();
+        return Whisper.Import.reset();
       }.bind(this));
     },
     finishLightImport: function(directory) {

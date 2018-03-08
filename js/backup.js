@@ -119,7 +119,7 @@
       _.each(storeNames, function(storeName) {
         var transaction = idb_db.transaction(storeNames, 'readwrite');
         transaction.onerror = function(e) {
-          handleDOMException(
+          Whisper.Database.handleDOMException(
             'exportToJsonFile transaction error (store: ' + storeName + ')',
             transaction.error,
             reject
@@ -133,7 +133,7 @@
         var request = store.openCursor();
         var count = 0;
         request.onerror = function(e) {
-          handleDOMException(
+          Whisper.Database.handleDOMException(
             'exportToJsonFile request error (store: ' + storeNames + ')',
             request.error,
             reject
@@ -182,16 +182,6 @@
     return readFileAsText(parent, file).then(function(string) {
       return importFromJsonString(idb_db, string, path.join(parent, file), options);
     });
-  }
-
-  function handleDOMException(prefix, error, reject) {
-    console.log(
-      prefix + ':',
-      error && error.name,
-      error && error.message,
-      error && error.code
-    );
-    reject(error || new Error(prefix));
   }
 
   function eliminateClientConfigInBackup(data, path) {
@@ -261,7 +251,7 @@
 
       var transaction = idb_db.transaction(storeNames, 'readwrite');
       transaction.onerror = function(e) {
-        handleDOMException(
+        Whisper.Database.handleDOMException(
           'importFromJsonString transaction error',
           transaction.error,
           reject
@@ -321,7 +311,7 @@
                 }
               };
               request.onerror = function(e) {
-                handleDOMException(
+                Whisper.Database.handleDOMException(
                   'importFromJsonString request error (store: ' + storeName + ')',
                   request.error,
                   reject
@@ -335,27 +325,6 @@
             finishStore();
           }
       });
-    });
-  }
-
-  function openDatabase() {
-    var migrations = Whisper.Database.migrations;
-    var version = migrations[migrations.length - 1].version;
-    var DBOpenRequest = window.indexedDB.open('signal', version);
-
-    return new Promise(function(resolve, reject) {
-      // these two event handlers act on the IDBDatabase object,
-      // when the database is opened successfully, or not
-      DBOpenRequest.onerror = reject;
-      DBOpenRequest.onsuccess = function() {
-        resolve(DBOpenRequest.result);
-      };
-
-      // This event handles the event whereby a new version of
-      // the database needs to be created Either one has not
-      // been created before, or a new version number has been
-      // submitted via the window.indexedDB.open line above
-      DBOpenRequest.onupgradeneeded = reject;
     });
   }
 
@@ -492,7 +461,7 @@
       return new Promise(function(resolve, reject) {
         var transaction = idb_db.transaction('messages', 'readwrite');
         transaction.onerror = function(e) {
-          handleDOMException(
+          Whisper.Database.handleDOMException(
             'exportConversation transaction error (conversation: ' + name + ')',
             transaction.error,
             reject
@@ -514,7 +483,7 @@
         stream.write('{"messages":[');
 
         request.onerror = function(e) {
-          handleDOMException(
+          Whisper.Database.handleDOMException(
             'exportConversation request error (conversation: ' + name + ')',
             request.error,
             reject
@@ -608,7 +577,7 @@
     return new Promise(function(resolve, reject) {
       var transaction = idb_db.transaction('conversations', 'readwrite');
       transaction.onerror = function(e) {
-        handleDOMException(
+        Whisper.Database.handleDOMException(
           'exportConversations transaction error',
           transaction.error,
           reject
@@ -622,7 +591,7 @@
       var store = transaction.objectStore('conversations');
       var request = store.openCursor();
       request.onerror = function(e) {
-        handleDOMException(
+        Whisper.Database.handleDOMException(
           'exportConversations request error',
           request.error,
           reject
@@ -716,7 +685,7 @@
 
       var transaction = idb_db.transaction('messages', 'readwrite');
       transaction.onerror = function(e) {
-        handleDOMException(
+        Whisper.Database.handleDOMException(
           'saveAllMessages transaction error',
           transaction.error,
           reject
@@ -744,7 +713,7 @@
           }
         };
         request.onerror = function(e) {
-          handleDOMException(
+          Whisper.Database.handleDOMException(
             'saveAllMessages request error',
             request.error,
             reject
@@ -879,7 +848,7 @@
     return new Promise(function(resolve, reject) {
       var transaction = idb_db.transaction(storeName, 'readwrite');
       transaction.onerror = function(e) {
-        handleDOMException(
+        Whisper.Database.handleDOMException(
           'assembleLookup(' + storeName + ') transaction error',
           transaction.error,
           reject
@@ -893,7 +862,7 @@
       var store = transaction.objectStore(storeName);
       var request = store.openCursor();
       request.onerror = function(e) {
-        handleDOMException(
+        Whisper.Database.handleDOMException(
           'assembleLookup(' + storeName + ') request error',
           request.error,
           reject
@@ -912,59 +881,6 @@
     });
   }
 
-  function clearAllStores(idb_db) {
-    return clearStores(idb_db);
-  }
-
-  function clearStores(idb_db, names) {
-    return new Promise(function(resolve, reject) {
-      var storeNames = names || idb_db.objectStoreNames;
-      console.log('Clearing these indexeddb stores:', storeNames);
-      var transaction = idb_db.transaction(storeNames, 'readwrite');
-
-      var finished = false;
-      var finish = function(via) {
-        console.log('clearing all stores done via', via);
-        if (finished) {
-          resolve();
-        }
-        finished = true;
-      };
-
-      transaction.oncomplete = finish.bind(null, 'transaction complete');
-      transaction.onerror = function(e) {
-        handleDOMException(
-          'clearStores transaction error',
-          transaction.error,
-          reject
-        );
-      };
-
-      var count = 0;
-      _.forEach(storeNames, function(storeName) {
-        var store = transaction.objectStore(storeName);
-        var request = store.clear();
-
-        request.onsuccess = function() {
-          count += 1;
-          console.log('Done clearing store', storeName);
-
-          if (count >= storeNames.length) {
-            console.log('Done clearing all indexeddb stores');
-            return finish('clears complete');
-          }
-        };
-
-        request.onerror = function(e) {
-          handleDOMException(
-            'clearStores request error',
-            request.error,
-            reject
-          );
-        };
-      });
-    });
-  }
 
   function getTimestamp() {
     return moment().format('YYYY MMM Do [at] h.mm.ss a');
@@ -972,16 +888,6 @@
 
   // directories returned and taken by backup/import are all string paths
   Whisper.Backup = {
-    clearDatabase: function() {
-      return openDatabase().then(function(idb_db) {
-        return clearAllStores(idb_db);
-      });
-    },
-    clearStores: function(storeNames) {
-      return openDatabase().then(function(idb_db) {
-        return clearStores(idb_db, storeNames);
-      });
-    },
     getDirectoryForExport: function() {
       var options = {
         title: i18n('exportChooserTitle'),
@@ -992,7 +898,7 @@
     exportToDirectory: function(directory, options) {
       var dir;
       var idb;
-      return openDatabase().then(function(idb_db) {
+      return Whisper.Database.open().then(function(idb_db) {
         idb = idb_db;
         var name = 'Signal Export ' + getTimestamp();
         return createDirectory(directory, name);
@@ -1025,7 +931,7 @@
       options = options || {};
 
       var idb, nonMessageResult;
-      return openDatabase().then(function(idb_db) {
+      return Whisper.Database.open().then(function(idb_db) {
         idb = idb_db;
 
         return Promise.all([
@@ -1054,7 +960,6 @@
       });
     },
     // for testing
-    handleDOMException,
     sanitizeFileName,
     trimFileName,
     getAttachmentFileName,
