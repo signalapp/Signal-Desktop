@@ -1,5 +1,7 @@
 /* global Whisper: false */
 /* global Backbone: false */
+/* global _: false */
+
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
@@ -46,7 +48,9 @@
       };
 
       let count = 0;
-      storeNames.forEach((storeName) => {
+
+      // can't use built-in .forEach because db.objectStoreNames is not a plain array
+      _.forEach(storeNames, (storeName) => {
         const store = transaction.objectStore(storeName);
         const request = store.clear();
 
@@ -55,7 +59,7 @@
           console.log('Done clearing store', storeName);
 
           if (count >= storeNames.length) {
-            console.log('Done clearing all indexeddb stores');
+            console.log('Done clearing indexeddb stores');
             finish('clears complete');
           }
         };
