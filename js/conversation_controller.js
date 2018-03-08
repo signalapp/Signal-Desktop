@@ -15,6 +15,9 @@
             this.on('change:timestamp change:name change:number', this.sort);
 
             this.listenTo(conversations, 'add change:active_at', this.addActive);
+            this.listenTo(conversations, 'reset', function() {
+                this.reset([]);
+            });
 
             this.on('add remove change:unreadCount',
                 _.debounce(this.updateUnreadCount.bind(this), 1000)
