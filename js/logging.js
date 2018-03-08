@@ -100,20 +100,20 @@ function format(entries) {
 }
 
 function fetch() {
-  return new Promise(((resolve) => {
+  return new Promise((resolve) => {
     ipc.send('fetch-log');
 
     ipc.on('fetched-log', (event, text) => {
       const result = `${getHeader()}\n${format(text)}`;
       resolve(result);
     });
-  }));
+  });
 }
 
 function publish(rawContent) {
   const content = rawContent || fetch();
 
-  return new Promise(((resolve) => {
+  return new Promise((resolve) => {
     const payload = textsecure.utils.jsonThing({
       files: {
         'debugLog.txt': {
@@ -129,7 +129,7 @@ function publish(rawContent) {
         resolve(response.html_url);
       })
       .fail(resolve);
-  }));
+  });
 }
 
 
