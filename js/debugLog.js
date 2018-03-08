@@ -42,6 +42,7 @@
 
     var MAX_MESSAGES = 2000;
     var PHONE_REGEX = /\+\d{7,12}(\d{3})/g;
+    var DEBUGLOGS_BASE_URL = 'https://debuglogs.org';
     var log = new DebugLog();
     if (window.console) {
         console._log = console.log;
@@ -60,13 +61,61 @@
             if (log === undefined) {
                 log = console.get();
             }
-            return new Promise(function(resolve) {
-                $.post('https://api.github.com/gists', textsecure.utils.jsonThing({
-                    "files": { "debugLog.txt": { "content": log } }
-                })).then(function(response) {
-                    console._log('Posted debug log to ', response.html_url);
-                    resolve(response.html_url);
-                }).fail(resolve);
+
+            return new Promise(function(resolve, reject) {
+                // $.get(DEBUGLOGS_BASE_URL).then(function (signedForm) {
+
+                    var signedForm = {
+                      "url": "https://s3.amazonaws.com/signal-debug-logs",
+                      "fields": {
+                        "bucket": "signal-debug-logs",
+                        "X-Amz-Algorithm": "...",
+                        "X-Amz-Credential": "...",
+                        "X-Amz-Date": "...",
+                        "X-Amz-Security-Token": "...",
+                        "Policy": "...",
+                        "X-Amz-Signature": "...",
+                        "key": "..."
+                      }
+                    };
+
+                    var url = signedForm.url;
+                    var fields = signedForm.fields;
+
+                    var formData = new FormData();
+
+                    // NOTE: Service expects `key` to come first:
+                    formData.append('key', fields.key);
+                    formData.append('Content-Type', 'text/plain');
+                    for (var key in fields) {
+                        if (key === 'key') {
+                            continue;
+                        }
+                        var value = fields[key];
+                        formData.append(key, value);
+                    }
+
+                    var contentBlob = new Blob([log], { type: 'text/plain' });
+                    formData.append('file', contentBlob);
+
+                    var publishedLogURL = DEBUGLOGS_BASE_URL + '/' + fields.key;
+
+                    // jQuery 2.1.1-pre `FormData` upload results in this S3 error:
+                    //
+                    //   The body of your POST request is not well-formed
+                    //   multipart/form-data.’
+                    $.ajax({
+                        method: 'POST',
+                        url: url,
+                        data: formData,
+                        processData: false,
+                        contentType: 'multipart/form-data',
+                    }).then(function () {
+                        resolve(publishedLogURL);
+                    }).fail(function () {
+                        reject();
+                    });
+                // });
             });
         };
 
