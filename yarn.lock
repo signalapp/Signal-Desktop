@@ -1542,9 +1542,9 @@ electron-publisher-s3@^20.2.0:
     fs-extra-p "^4.5.2"
     mime "^2.2.0"
 
-electron-unhandled@^1.0.0:
+"electron-unhandled@https://github.com/gasi/electron-unhandled.git#dfb5d7688c3e1659ace7beaabacc0f547488dea1":
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/electron-unhandled/-/electron-unhandled-1.0.0.tgz#ecbc881c433cce053545072efab3647fcd40bfb0"
+  resolved "https://github.com/gasi/electron-unhandled.git#dfb5d7688c3e1659ace7beaabacc0f547488dea1"
   dependencies:
     clean-stack "^1.3.0"
     ensure-error "^1.0.0"
