@@ -7,7 +7,7 @@
 
 /* eslint-env node */
 
-/* eslint-disable no-param-reassign, more/no-then, guard-for-in */
+/* eslint-disable no-param-reassign, guard-for-in */
 
 'use strict';
 
@@ -65,6 +65,7 @@ const {
     let wait = Promise.resolve();
     return {
       write(string) {
+        // eslint-disable-next-line more/no-then
         wait = wait.then(() => new Promise(((resolve) => {
           if (writer.write(string)) {
             resolve();
@@ -80,12 +81,13 @@ const {
         })));
         return wait;
       },
-      close() {
-        return wait.then(() => new Promise(((resolve, reject) => {
+      async close() {
+        await wait;
+        return new Promise(((resolve, reject) => {
           writer.once('finish', resolve);
           writer.once('error', reject);
           writer.end();
-        })));
+        }));
       },
     };
   }
@@ -149,7 +151,7 @@ const {
             reject
           );
         };
-        request.onsuccess = (event) => {
+        request.onsuccess = async (event) => {
           if (count === 0) {
             console.log('cursor opened');
             stream.write(`"${storeName}": [`);
@@ -176,10 +178,9 @@ const {
               console.log('Exported all stores');
               stream.write('}');
 
-              stream.close().then(() => {
-                console.log('Finished writing all stores to disk');
-                resolve();
-              });
+              await stream.close();
+              console.log('Finished writing all stores to disk');
+              resolve();
             }
           }
         };
@@ -417,26 +418,20 @@ const {
     return name;
   }
 
-  function readAttachment(parent, message, attachment) {
-    return new Promise(((resolve, reject) => {
-      const name = getAttachmentFileName(attachment);
-      const sanitized = sanitizeFileName(name);
-      const attachmentDir = path.join(parent, message.received_at.toString());
+  async function readAttachment(parent, message, attachment) {
+    const name = getAttachmentFileName(attachment);
+    const sanitized = sanitizeFileName(name);
+    const attachmentDir = path.join(parent, message.received_at.toString());
 
-      return readFileAsArrayBuffer(attachmentDir, sanitized).then((contents) => {
-        attachment.data = contents;
-        return resolve();
-      }, reject);
-    }));
+    attachment.data = await readFileAsArrayBuffer(attachmentDir, sanitized);
   }
 
-  function writeAttachment(dir, attachment) {
+  async function writeAttachment(dir, attachment) {
     const filename = getAttachmentFileName(attachment);
-    return createFileAndWriter(dir, filename).then((writer) => {
-      const stream = createOutputStream(writer);
-      stream.write(Buffer.from(attachment.data));
-      return stream.close();
-    });
+    const writer = await createFileAndWriter(dir, filename);
+    const stream = createOutputStream(writer);
+    stream.write(Buffer.from(attachment.data));
+    return stream.close();
   }
 
   async function writeAttachments(parentDir, name, messageId, attachments) {
@@ -459,11 +454,10 @@ const {
     return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
   }
 
-  function exportConversation(db, name, conversation, dir) {
+  async function exportConversation(db, name, conversation, dir) {
     console.log('exporting conversation', name);
-    const writerPromise = createFileAndWriter(dir, 'messages.json');
-
-    return writerPromise.then(writer => new Promise(((resolve, reject) => {
+    const writer = await createFileAndWriter(dir, 'messages.json');
+    return new Promise(((resolve, reject) => {
       const transaction = db.transaction('messages', 'readwrite');
       transaction.onerror = () => {
         Whisper.Database.handleDOMException(
@@ -497,7 +491,7 @@ const {
           reject
         );
       };
-      request.onsuccess = (event) => {
+      request.onsuccess = async (event) => {
         const cursor = event.target.result;
         if (cursor) {
           const message = cursor.value;
@@ -524,31 +518,35 @@ const {
 
           if (attachments && attachments.length) {
             const process = () => writeAttachments(dir, name, messageId, attachments);
+            // eslint-disable-next-line more/no-then
             promiseChain = promiseChain.then(process);
           }
 
           count += 1;
           cursor.continue();
         } else {
-          stream.write(']}');
-
-          const promise = stream.close();
-
-          promiseChain.then(promise).then(() => {
-            console.log('done exporting conversation', name);
-            return resolve();
-          }, (error) => {
+          try {
+            await Promise.all([
+              stream.write(']}'),
+              promiseChain,
+              stream.close(),
+            ]);
+          } catch (error) {
             console.log(
               'exportConversation: error exporting conversation',
               name,
               ':',
               error && error.stack ? error.stack : error
             );
-            return reject(error);
-          });
+            reject(error);
+            return;
+          }
+
+          console.log('done exporting conversation', name);
+          resolve();
         }
       };
-    })));
+    }));
   }
 
   // Goals for directory names:
@@ -602,7 +600,7 @@ const {
           reject
         );
       };
-      request.onsuccess = (event) => {
+      request.onsuccess = async (event) => {
         const cursor = event.target.result;
         if (cursor && cursor.value) {
           const conversation = cursor.value;
@@ -615,11 +613,18 @@ const {
           };
 
           console.log('scheduling export for conversation', name);
+          // eslint-disable-next-line more/no-then
           promiseChain = promiseChain.then(process);
           cursor.continue();
         } else {
           console.log('Done scheduling conversation exports');
-          promiseChain.then(resolve, reject);
+          try {
+            await promiseChain;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+          resolve();
         }
       };
     }));
@@ -734,7 +739,7 @@ const {
   //   message, save it, and only then do we move on to the next message. Thus, every
   //   message with attachments needs to be removed from our overall message save with the
   //   filter() call.
-  function importConversation(db, dir, options) {
+  async function importConversation(db, dir, options) {
     options = options || {};
     _.defaults(options, { messageLookup: {} });
 
@@ -742,76 +747,77 @@ const {
     let conversationId = 'unknown';
     let total = 0;
     let skipped = 0;
+    let contents;
 
-    return readFileAsText(dir, 'messages.json').then((contents) => {
-      let promiseChain = Promise.resolve();
-
-      const json = JSON.parse(contents);
-      if (json.messages && json.messages.length) {
-        conversationId = `[REDACTED]${(json.messages[0].conversationId || '').slice(-3)}`;
-      }
-      total = json.messages.length;
-
-      const messages = _.filter(json.messages, (message) => {
-        message = unstringify(message);
-
-        if (messageLookup[getMessageKey(message)]) {
-          skipped += 1;
-          return false;
-        }
-
-        if (message.attachments && message.attachments.length) {
-          const process = async () => {
-            await loadAttachments(dir, message);
-            return saveMessage(db, message);
-          };
-
-          promiseChain = promiseChain.then(process);
-
-          return false;
-        }
-
-        return true;
-      });
-
-      let promise = Promise.resolve();
-      if (messages.length > 0) {
-        promise = saveAllMessages(db, messages);
-      }
-
-      return promise
-        .then(() => promiseChain)
-        .then(() => {
-          console.log(
-            'Finished importing conversation',
-            conversationId,
-            'Total:',
-            total,
-            'Skipped:',
-            skipped
-          );
-        });
-    }, () => {
+    try {
+      contents = await readFileAsText(dir, 'messages.json');
+    } catch (error) {
       console.log(`Warning: could not access messages.json in directory: ${dir}`);
+    }
+
+    let promiseChain = Promise.resolve();
+
+    const json = JSON.parse(contents);
+    if (json.messages && json.messages.length) {
+      conversationId = `[REDACTED]${(json.messages[0].conversationId || '').slice(-3)}`;
+    }
+    total = json.messages.length;
+
+    const messages = _.filter(json.messages, (message) => {
+      message = unstringify(message);
+
+      if (messageLookup[getMessageKey(message)]) {
+        skipped += 1;
+        return false;
+      }
+
+      if (message.attachments && message.attachments.length) {
+        const process = async () => {
+          await loadAttachments(dir, message);
+          return saveMessage(db, message);
+        };
+
+        // eslint-disable-next-line more/no-then
+        promiseChain = promiseChain.then(process);
+
+        return false;
+      }
+
+      return true;
     });
+
+    if (messages.length > 0) {
+      await saveAllMessages(db, messages);
+    }
+
+    await promiseChain;
+    console.log(
+      'Finished importing conversation',
+      conversationId,
+      'Total:',
+      total,
+      'Skipped:',
+      skipped
+    );
   }
 
-  function importConversations(db, dir, options) {
-    return getDirContents(dir).then((contents) => {
-      let promiseChain = Promise.resolve();
+  async function importConversations(db, dir, options) {
+    const contents = await getDirContents(dir);
 
-      _.forEach(contents, (conversationDir) => {
-        if (!fs.statSync(conversationDir).isDirectory()) {
-          return;
-        }
+    let promiseChain = Promise.resolve();
 
-        const process = () => importConversation(db, conversationDir, options);
+    _.forEach(contents, (conversationDir) => {
+      if (!fs.statSync(conversationDir).isDirectory()) {
+        return;
+      }
 
-        promiseChain = promiseChain.then(process);
-      });
+      const process = () => importConversation(db, conversationDir, options);
 
-      return promiseChain;
+      // eslint-disable-next-line more/no-then
+      promiseChain = promiseChain.then(process);
     });
+
+    return promiseChain;
   }
 
   function getMessageKey(message) {
@@ -894,28 +900,23 @@ const {
       };
       return getDirectory(options);
     },
-    exportToDirectory(directory, options) {
-      let dir;
-      let db;
-      return Whisper.Database.open().then((openedDb) => {
-        db = openedDb;
-        const name = `Signal Export ${getTimestamp()}`;
-        return createDirectory(directory, name);
-      }).then((created) => {
-        dir = created;
-        return exportNonMessages(db, dir, options);
-      }).then(() => exportConversations(db, dir))
-        .then(() => dir)
-        .then((targetPath) => {
-          console.log('done backing up!');
-          return targetPath;
-        }, (error) => {
-          console.log(
-            'the backup went wrong:',
-            error && error.stack ? error.stack : error
-          );
-          return Promise.reject(error);
-        });
+    async exportToDirectory(directory, options) {
+      const name = `Signal Export ${getTimestamp()}`;
+      try {
+        const db = await Whisper.Database.open();
+        const dir = await createDirectory(directory, name);
+        await exportNonMessages(db, dir, options);
+        await exportConversations(db, dir);
+
+        console.log('done backing up!');
+        return dir;
+      } catch (error) {
+        console.log(
+          'the backup went wrong:',
+          error && error.stack ? error.stack : error
+        );
+        throw error;
+      }
     },
     getDirectoryForImport() {
       const options = {
@@ -924,41 +925,34 @@ const {
       };
       return getDirectory(options);
     },
-    importFromDirectory(directory, options) {
+    async importFromDirectory(directory, options) {
       options = options || {};
 
-      let db;
-      let nonMessageResult;
-      return Whisper.Database.open().then((createdDb) => {
-        db = createdDb;
-
-        return Promise.all([
+      try {
+        const db = await Whisper.Database.open();
+        const lookups = await Promise.all([
           loadMessagesLookup(db),
           loadConversationLookup(db),
           loadGroupsLookup(db),
         ]);
-      }).then((lookups) => {
         const [messageLookup, conversationLookup, groupLookup] = lookups;
         options = Object.assign({}, options, {
           messageLookup,
           conversationLookup,
           groupLookup,
         });
-      }).then(() => importNonMessages(db, directory, options))
-        .then((result) => {
-          nonMessageResult = result;
-          return importConversations(db, directory, options);
-        })
-        .then(() => {
-          console.log('done restoring from backup!');
-          return nonMessageResult;
-        }, (error) => {
-          console.log(
-            'the import went wrong:',
-            error && error.stack ? error.stack : error
-          );
-          return Promise.reject(error);
-        });
+
+        const result = await importNonMessages(db, directory, options);
+        await importConversations(db, directory, options);
+        console.log('done restoring from backup!');
+        return result;
+      } catch (error) {
+        console.log(
+          'the import went wrong:',
+          error && error.stack ? error.stack : error
+        );
+        throw error;
+      }
     },
     // for testing
     sanitizeFileName,
