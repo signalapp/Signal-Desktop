@@ -18,9 +18,12 @@ const packageJson = require('./package.json');
 
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
+const GlobalErrors = require('./js/modules/global_errors');
 const logging = require('./app/logging');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');
+
+GlobalErrors.addHandler();
 
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
 console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
@@ -415,6 +418,7 @@ app.on('ready', () => {
   logging.initialize().catch((error) => {
     loggingSetupError = error;
   }).then(() => {
+  /* eslint-enable more/no-then */
     logger = logging.getLogger();
     logger.info('app ready');
 
@@ -439,7 +443,6 @@ app.on('ready', () => {
 
     setupMenu();
   });
-  /* eslint-enable more/no-then */
 });
 
 function setupMenu(options) {
