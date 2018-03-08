@@ -104,6 +104,7 @@ module.exports = function(grunt) {
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
         '!js/logging.js',
+        '!js/backup.js',
         '!js/modules/**/*.js',
         '!js/views/debug_log_view.js',
         '!js/signal_protocol_store.js',

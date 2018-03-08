@@ -1,22 +1,39 @@
-;(function () {
-  'use strict';
+/* global dcodeIO: false */
+/* global _: false */
+/* global Whisper: false */
+/* global textsecure: false */
+/* global moment: false */
+/* global i18n: false */
+
+/* eslint-env node */
+
+/* eslint-disable no-param-reassign, more/no-then, guard-for-in */
+
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+
+const electronRemote = require('electron').remote;
+
+const {
+  dialog,
+  BrowserWindow,
+} = electronRemote;
+
+// eslint-disable-next-line func-names
+(function () {
   window.Whisper = window.Whisper || {};
 
-  var electronRemote = require('electron').remote;
-  var dialog = electronRemote.dialog;
-  var BrowserWindow = electronRemote.BrowserWindow;
-
-  var fs = require('fs');
-  var path = require('path');
-
   function stringify(object) {
-    for (var key in object) {
-      var val = object[key];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in object) {
+      const val = object[key];
       if (val instanceof ArrayBuffer) {
         object[key] = {
           type: 'ArrayBuffer',
           encoding: 'base64',
-          data: dcodeIO.ByteBuffer.wrap(val).toString('base64')
+          data: dcodeIO.ByteBuffer.wrap(val).toString('base64'),
         };
       } else if (val instanceof Object) {
         object[key] = stringify(val);
@@ -29,12 +46,13 @@
     if (!(object instanceof Object)) {
       throw new Error('unstringify expects an object');
     }
-    for (var key in object) {
-      var val = object[key];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in object) {
+      const val = object[key];
       if (val &&
           val.type === 'ArrayBuffer' &&
           val.encoding === 'base64' &&
-          typeof val.data === 'string' ) {
+          typeof val.data === 'string') {
         object[key] = dcodeIO.ByteBuffer.wrap(val.data, 'base64').toArrayBuffer();
       } else if (val instanceof Object) {
         object[key] = unstringify(object[key]);
@@ -44,53 +62,45 @@
   }
 
   function createOutputStream(writer) {
-    var wait = Promise.resolve();
+    let wait = Promise.resolve();
     return {
-      write: function(string) {
-        wait = wait.then(function() {
-          return new Promise(function(resolve) {
-            if (writer.write(string)) {
-              return resolve();
-            }
+      write(string) {
+        wait = wait.then(() => new Promise(((resolve) => {
+          if (writer.write(string)) {
+            resolve();
+            return;
+          }
 
-            //  If write() returns true, we don't need to wait for the drain event
-            //   https://nodejs.org/dist/latest-v7.x/docs/api/stream.html#stream_class_stream_writable
-            writer.once('drain', resolve);
+          //  If write() returns true, we don't need to wait for the drain event
+          //   https://nodejs.org/dist/latest-v7.x/docs/api/stream.html#stream_class_stream_writable
+          writer.once('drain', resolve);
 
-            // We don't register for the 'error' event here, only in close(). Otherwise,
-            //   we'll get "Possible EventEmitter memory leak detected" warnings.
-          });
-        });
+          // We don't register for the 'error' event here, only in close(). Otherwise,
+          //   we'll get "Possible EventEmitter memory leak detected" warnings.
+        })));
         return wait;
       },
-      close: function() {
-        return wait.then(function() {
-          return new Promise(function(resolve, reject) {
-            writer.once('finish', resolve);
-            writer.once('error', reject);
-            writer.end();
-          });
-        });
-      }
+      close() {
+        return wait.then(() => new Promise(((resolve, reject) => {
+          writer.once('finish', resolve);
+          writer.once('error', reject);
+          writer.end();
+        })));
+      },
     };
   }
 
-  function exportNonMessages(idb_db, parent, options) {
-    return createFileAndWriter(parent, 'db.json').then(function(writer) {
-      return exportToJsonFile(idb_db, writer, options);
-    });
+  async function exportNonMessages(db, parent, options) {
+    const writer = await createFileAndWriter(parent, 'db.json');
+    return exportToJsonFile(db, writer, options);
   }
 
-  /**
-  * Export all data from an IndexedDB database
-  * @param {IDBDatabase} idb_db
-  */
-  function exportToJsonFile(idb_db, fileWriter, options) {
+  function exportToJsonFile(db, fileWriter, options) {
     options = options || {};
-    _.defaults(options, {excludeClientConfig: false});
+    _.defaults(options, { excludeClientConfig: false });
 
-    return new Promise(function(resolve, reject) {
-      var storeNames = idb_db.objectStoreNames;
+    return new Promise(((resolve, reject) => {
+      let storeNames = db.objectStoreNames;
       storeNames = _.without(storeNames, 'messages');
 
       if (options.excludeClientConfig) {
@@ -106,54 +116,54 @@
         );
       }
 
-      var exportedStoreNames = [];
+      const exportedStoreNames = [];
       if (storeNames.length === 0) {
         throw new Error('No stores to export');
       }
       console.log('Exporting from these stores:', storeNames.join(', '));
 
-      var stream = createOutputStream(fileWriter);
+      const stream = createOutputStream(fileWriter);
 
       stream.write('{');
 
-      _.each(storeNames, function(storeName) {
-        var transaction = idb_db.transaction(storeNames, 'readwrite');
-        transaction.onerror = function(e) {
+      _.each(storeNames, (storeName) => {
+        const transaction = db.transaction(storeNames, 'readwrite');
+        transaction.onerror = () => {
           Whisper.Database.handleDOMException(
-            'exportToJsonFile transaction error (store: ' + storeName + ')',
+            `exportToJsonFile transaction error (store: ${storeName})`,
             transaction.error,
             reject
           );
         };
-        transaction.oncomplete = function() {
+        transaction.oncomplete = () => {
           console.log('transaction complete');
         };
 
-        var store = transaction.objectStore(storeName);
-        var request = store.openCursor();
-        var count = 0;
-        request.onerror = function(e) {
+        const store = transaction.objectStore(storeName);
+        const request = store.openCursor();
+        let count = 0;
+        request.onerror = () => {
           Whisper.Database.handleDOMException(
-            'exportToJsonFile request error (store: ' + storeNames + ')',
+            `exportToJsonFile request error (store: ${storeNames})`,
             request.error,
             reject
           );
         };
-        request.onsuccess = function(event) {
+        request.onsuccess = (event) => {
           if (count === 0) {
             console.log('cursor opened');
-            stream.write('"' + storeName + '": [');
+            stream.write(`"${storeName}": [`);
           }
 
-          var cursor = event.target.result;
+          const cursor = event.target.result;
           if (cursor) {
             if (count > 0) {
               stream.write(',');
             }
-            var jsonString = JSON.stringify(stringify(cursor.value));
+            const jsonString = JSON.stringify(stringify(cursor.value));
             stream.write(jsonString);
             cursor.continue();
-            count++;
+            count += 1;
           } else {
             // no more
             stream.write(']');
@@ -166,7 +176,7 @@
               console.log('Exported all stores');
               stream.write('}');
 
-              stream.close().then(function() {
+              stream.close().then(() => {
                 console.log('Finished writing all stores to disk');
                 resolve();
               });
@@ -174,34 +184,26 @@
           }
         };
       });
-    });
+    }));
   }
 
-  function importNonMessages(idb_db, parent, options) {
-    var file = 'db.json';
-    return readFileAsText(parent, file).then(function(string) {
-      return importFromJsonString(idb_db, string, path.join(parent, file), options);
-    });
+  async function importNonMessages(db, parent, options) {
+    const file = 'db.json';
+    const string = await readFileAsText(parent, file);
+    return importFromJsonString(db, string, path.join(parent, file), options);
   }
 
-  function eliminateClientConfigInBackup(data, path) {
-    var cleaned = _.pick(data, 'conversations', 'groups');
+  function eliminateClientConfigInBackup(data, targetPath) {
+    const cleaned = _.pick(data, 'conversations', 'groups');
     console.log('Writing configuration-free backup file back to disk');
     try {
-      fs.writeFileSync(path, JSON.stringify(cleaned));
+      fs.writeFileSync(targetPath, JSON.stringify(cleaned));
     } catch (error) {
       console.log('Error writing cleaned-up backup to disk: ', error.stack);
     }
   }
 
-  /**
-  * Import data from JSON into an IndexedDB database. This does not delete any existing data
-  *  from the database, so keys could clash
-  *
-  * @param {IDBDatabase} idb_db
-  * @param {string} jsonString - data to import, one key per object store
-  */
-  function importFromJsonString(idb_db, jsonString, path, options) {
+  function importFromJsonString(db, jsonString, targetPath, options) {
     options = options || {};
     _.defaults(options, {
       forceLightImport: false,
@@ -209,14 +211,16 @@
       groupLookup: {},
     });
 
-    var conversationLookup = options.conversationLookup;
-    var groupLookup = options.groupLookup;
-    var result = {
+    const {
+      conversationLookup,
+      groupLookup,
+    } = options;
+    const result = {
       fullImport: true,
     };
 
-    return new Promise(function(resolve, reject) {
-      var importObject = JSON.parse(jsonString);
+    return new Promise(((resolve, reject) => {
+      const importObject = JSON.parse(jsonString);
       delete importObject.debug;
 
       if (!importObject.sessions || options.forceLightImport) {
@@ -235,13 +239,13 @@
       // We mutate the on-disk backup to prevent the user from importing client
       //   configuration more than once - that causes lots of encryption errors.
       //   This of course preserves the true data: conversations and groups.
-      eliminateClientConfigInBackup(importObject, path);
+      eliminateClientConfigInBackup(importObject, targetPath);
 
-      var storeNames = _.keys(importObject);
+      const storeNames = _.keys(importObject);
       console.log('Importing to these stores:', storeNames.join(', '));
 
-      var finished = false;
-      var finish = function(via) {
+      let finished = false;
+      const finish = (via) => {
         console.log('non-messages import done via', via);
         if (finished) {
           resolve(result);
@@ -249,8 +253,8 @@
         finished = true;
       };
 
-      var transaction = idb_db.transaction(storeNames, 'readwrite');
-      transaction.onerror = function(e) {
+      const transaction = db.transaction(storeNames, 'readwrite');
+      transaction.onerror = () => {
         Whisper.Database.handleDOMException(
           'importFromJsonString transaction error',
           transaction.error,
@@ -259,118 +263,118 @@
       };
       transaction.oncomplete = finish.bind(null, 'transaction complete');
 
-      _.each(storeNames, function(storeName) {
-          console.log('Importing items for store', storeName);
+      _.each(storeNames, (storeName) => {
+        console.log('Importing items for store', storeName);
 
-          if (!importObject[storeName].length) {
-            delete importObject[storeName];
+        if (!importObject[storeName].length) {
+          delete importObject[storeName];
+          return;
+        }
+
+        let count = 0;
+        let skipCount = 0;
+
+        const finishStore = () => {
+          // added all objects for this store
+          delete importObject[storeName];
+          console.log(
+            'Done importing to store',
+            storeName,
+            'Total count:',
+            count,
+            'Skipped:',
+            skipCount
+          );
+          if (_.keys(importObject).length === 0) {
+            // added all object stores
+            console.log('DB import complete');
+            finish('puts scheduled');
+          }
+        };
+
+        _.each(importObject[storeName], (toAdd) => {
+          toAdd = unstringify(toAdd);
+
+          const haveConversationAlready =
+                storeName === 'conversations' &&
+                conversationLookup[getConversationKey(toAdd)];
+          const haveGroupAlready =
+                storeName === 'groups' && groupLookup[getGroupKey(toAdd)];
+
+          if (haveConversationAlready || haveGroupAlready) {
+            skipCount += 1;
+            count += 1;
             return;
           }
 
-          var count = 0;
-          var skipCount = 0;
-
-          var finishStore = function() {
-            // added all objects for this store
-            delete importObject[storeName];
-            console.log(
-              'Done importing to store',
-              storeName,
-              'Total count:',
-              count,
-              'Skipped:',
-              skipCount
-            );
-            if (_.keys(importObject).length === 0) {
-              // added all object stores
-              console.log('DB import complete');
-              finish('puts scheduled');
+          const request = transaction.objectStore(storeName).put(toAdd, toAdd.id);
+          request.onsuccess = () => {
+            count += 1;
+            if (count === importObject[storeName].length) {
+              finishStore();
             }
           };
+          request.onerror = () => {
+            Whisper.Database.handleDOMException(
+              `importFromJsonString request error (store: ${storeName})`,
+              request.error,
+              reject
+            );
+          };
+        });
 
-          _.each(importObject[storeName], function(toAdd) {
-              toAdd = unstringify(toAdd);
-
-              var haveConversationAlready =
-                storeName === 'conversations'
-                && conversationLookup[getConversationKey(toAdd)];
-              var haveGroupAlready =
-                storeName === 'groups' && groupLookup[getGroupKey(toAdd)];
-
-              if (haveConversationAlready || haveGroupAlready) {
-                skipCount++;
-                count++;
-                return;
-              }
-
-              var request = transaction.objectStore(storeName).put(toAdd, toAdd.id);
-              request.onsuccess = function(event) {
-                count++;
-                if (count == importObject[storeName].length) {
-                  finishStore();
-                }
-              };
-              request.onerror = function(e) {
-                Whisper.Database.handleDOMException(
-                  'importFromJsonString request error (store: ' + storeName + ')',
-                  request.error,
-                  reject
-                );
-              };
-          });
-
-          // We have to check here, because we may have skipped every item, resulting
-          //   in no onsuccess callback at all.
-          if (count === importObject[storeName].length) {
-            finishStore();
-          }
+        // We have to check here, because we may have skipped every item, resulting
+        //   in no onsuccess callback at all.
+        if (count === importObject[storeName].length) {
+          finishStore();
+        }
       });
-    });
+    }));
   }
 
   function createDirectory(parent, name) {
-    return new Promise(function(resolve, reject) {
-      var sanitized = sanitizeFileName(name);
-      var targetDir = path.join(parent, sanitized);
-      fs.mkdir(targetDir, function(error) {
+    return new Promise(((resolve, reject) => {
+      const sanitized = sanitizeFileName(name);
+      const targetDir = path.join(parent, sanitized);
+      fs.mkdir(targetDir, (error) => {
         if (error) {
           return reject(error);
         }
 
         return resolve(targetDir);
       });
-    });
+    }));
   }
 
   function createFileAndWriter(parent, name) {
-    return new Promise(function(resolve) {
-      var sanitized = sanitizeFileName(name);
-      var targetPath = path.join(parent, sanitized);
-      var options = {
-        flags: 'wx'
+    return new Promise(((resolve) => {
+      const sanitized = sanitizeFileName(name);
+      const targetPath = path.join(parent, sanitized);
+      const options = {
+        flags: 'wx',
       };
       return resolve(fs.createWriteStream(targetPath, options));
-    });
+    }));
   }
 
   function readFileAsText(parent, name) {
-    return new Promise(function(resolve, reject) {
-      var targetPath = path.join(parent, name);
-      fs.readFile(targetPath, 'utf8', function(error, string) {
+    return new Promise(((resolve, reject) => {
+      const targetPath = path.join(parent, name);
+      fs.readFile(targetPath, 'utf8', (error, string) => {
         if (error) {
           return reject(error);
         }
 
         return resolve(string);
       });
-    });
+    }));
   }
 
   function readFileAsArrayBuffer(parent, name) {
-    return new Promise(function(resolve, reject) {
-      var targetPath = path.join(parent, name);
+    return new Promise(((resolve, reject) => {
+      const targetPath = path.join(parent, name);
       // omitting the encoding to get a buffer back
-      fs.readFile(targetPath, function(error, buffer) {
+      fs.readFile(targetPath, (error, buffer) => {
         if (error) {
           return reject(error);
         }
@@ -379,22 +383,22 @@
         //   https://nodejs.org/docs/latest/api/buffer.html#buffer_buffers_and_typedarray
         return resolve(buffer.buffer);
       });
-    });
+    }));
   }
 
   function trimFileName(filename) {
-    var components = filename.split('.');
+    const components = filename.split('.');
     if (components.length <= 1) {
       return filename.slice(0, 30);
     }
 
-    var extension = components[components.length - 1];
-    var name = components.slice(0, components.length - 1);
+    const extension = components[components.length - 1];
+    const name = components.slice(0, components.length - 1);
     if (extension.length > 5) {
       return filename.slice(0, 30);
     }
 
-    return name.join('.').slice(0, 24) + '.' + extension;
+    return `${name.join('.').slice(0, 24)}.${extension}`;
   }
 
 
@@ -403,146 +407,148 @@
       return trimFileName(attachment.fileName);
     }
 
-    var name = attachment.id;
+    let name = attachment.id;
 
     if (attachment.contentType) {
-      var components = attachment.contentType.split('/');
-      name += '.' + (components.length > 1 ? components[1] : attachment.contentType);
+      const components = attachment.contentType.split('/');
+      name += `.${components.length > 1 ? components[1] : attachment.contentType}`;
     }
 
     return name;
   }
 
   function readAttachment(parent, message, attachment) {
-    return new Promise(function(resolve, reject) {
-      var name = getAttachmentFileName(attachment);
-      var sanitized = sanitizeFileName(name);
-      var attachmentDir = path.join(parent, message.received_at.toString());
+    return new Promise(((resolve, reject) => {
+      const name = getAttachmentFileName(attachment);
+      const sanitized = sanitizeFileName(name);
+      const attachmentDir = path.join(parent, message.received_at.toString());
 
-      return readFileAsArrayBuffer(attachmentDir, sanitized).then(function(contents) {
+      return readFileAsArrayBuffer(attachmentDir, sanitized).then((contents) => {
         attachment.data = contents;
         return resolve();
       }, reject);
-    });
+    }));
   }
 
   function writeAttachment(dir, attachment) {
-    var filename = getAttachmentFileName(attachment);
-    return createFileAndWriter(dir, filename).then(function(writer) {
-      var stream = createOutputStream(writer);
-      stream.write(new Buffer(attachment.data));
+    const filename = getAttachmentFileName(attachment);
+    return createFileAndWriter(dir, filename).then((writer) => {
+      const stream = createOutputStream(writer);
+      stream.write(Buffer.from(attachment.data));
       return stream.close();
     });
   }
 
-  function writeAttachments(parentDir, name, messageId, attachments) {
-    return createDirectory(parentDir, messageId).then(function(dir) {
-      return Promise.all(_.map(attachments, function(attachment) {
-        return writeAttachment(dir, attachment);
-      }));
-    }).catch(function(error) {
+  async function writeAttachments(parentDir, name, messageId, attachments) {
+    const dir = await createDirectory(parentDir, messageId);
+    const promises = _.map(attachments, attachment => writeAttachment(dir, attachment));
+    try {
+      await Promise.all(promises);
+    } catch (error) {
       console.log(
         'writeAttachments: error exporting conversation',
         name,
         ':',
         error && error.stack ? error.stack : error
       );
-      return Promise.reject(error);
-    });
+      throw error;
+    }
   }
 
   function sanitizeFileName(filename) {
     return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
   }
 
-  function exportConversation(idb_db, name, conversation, dir) {
+  function exportConversation(db, name, conversation, dir) {
     console.log('exporting conversation', name);
-    return createFileAndWriter(dir, 'messages.json').then(function(writer) {
-      return new Promise(function(resolve, reject) {
-        var transaction = idb_db.transaction('messages', 'readwrite');
-        transaction.onerror = function(e) {
-          Whisper.Database.handleDOMException(
-            'exportConversation transaction error (conversation: ' + name + ')',
-            transaction.error,
-            reject
-          );
-        };
-        transaction.oncomplete = function() {
-          // this doesn't really mean anything - we may have attachment processing to do
-        };
+    const writerPromise = createFileAndWriter(dir, 'messages.json');
 
-        var store = transaction.objectStore('messages');
-        var index = store.index('conversation');
-        var range = IDBKeyRange.bound([conversation.id, 0], [conversation.id, Number.MAX_VALUE]);
+    return writerPromise.then(writer => new Promise(((resolve, reject) => {
+      const transaction = db.transaction('messages', 'readwrite');
+      transaction.onerror = () => {
+        Whisper.Database.handleDOMException(
+          `exportConversation transaction error (conversation: ${name})`,
+          transaction.error,
+          reject
+        );
+      };
+      transaction.oncomplete = () => {
+        // this doesn't really mean anything - we may have attachment processing to do
+      };
 
-        var promiseChain = Promise.resolve();
-        var count = 0;
-        var request = index.openCursor(range);
+      const store = transaction.objectStore('messages');
+      const index = store.index('conversation');
+      const range = IDBKeyRange.bound(
+        [conversation.id, 0],
+        [conversation.id, Number.MAX_VALUE]
+      );
 
-        var stream = createOutputStream(writer);
-        stream.write('{"messages":[');
+      let promiseChain = Promise.resolve();
+      let count = 0;
+      const request = index.openCursor(range);
 
-        request.onerror = function(e) {
-          Whisper.Database.handleDOMException(
-            'exportConversation request error (conversation: ' + name + ')',
-            request.error,
-            reject
-          );
-        };
-        request.onsuccess = function(event) {
-          var cursor = event.target.result;
-          if (cursor) {
-            var message = cursor.value;
-            var messageId = message.received_at;
-            var attachments = message.attachments;
+      const stream = createOutputStream(writer);
+      stream.write('{"messages":[');
 
-            // skip message if it is disappearing, no matter the amount of time left
-            if (message.expireTimer) {
-              cursor.continue();
-              return;
-            }
+      request.onerror = () => {
+        Whisper.Database.handleDOMException(
+          `exportConversation request error (conversation: ${name})`,
+          request.error,
+          reject
+        );
+      };
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor) {
+          const message = cursor.value;
+          const messageId = message.received_at;
+          const { attachments } = message;
 
-            if (count !== 0) {
-              stream.write(',');
-            }
-
-            message.attachments = _.map(attachments, function(attachment) {
-              return _.omit(attachment, ['data']);
-            });
-
-            var jsonString = JSON.stringify(stringify(message));
-            stream.write(jsonString);
-
-            if (attachments && attachments.length) {
-              var process = function() {
-                return writeAttachments(dir, name, messageId, attachments);
-              };
-              promiseChain = promiseChain.then(process);
-            }
-
-            count += 1;
+          // skip message if it is disappearing, no matter the amount of time left
+          if (message.expireTimer) {
             cursor.continue();
-          } else {
-            stream.write(']}');
-
-            var promise = stream.close();
-
-            return promiseChain.then(promise).then(function() {
-              console.log('done exporting conversation', name);
-              return resolve();
-            }, function(error) {
-              console.log(
-                'exportConversation: error exporting conversation',
-                name,
-                ':',
-                error && error.stack ? error.stack : error
-              );
-              return reject(error);
-            });
+            return;
           }
-        };
-      });
-    });
+
+          if (count !== 0) {
+            stream.write(',');
+          }
+
+          message.attachments = _.map(
+            attachments,
+            attachment => _.omit(attachment, ['data'])
+          );
+
+          const jsonString = JSON.stringify(stringify(message));
+          stream.write(jsonString);
+
+          if (attachments && attachments.length) {
+            const process = () => writeAttachments(dir, name, messageId, attachments);
+            promiseChain = promiseChain.then(process);
+          }
+
+          count += 1;
+          cursor.continue();
+        } else {
+          stream.write(']}');
+
+          const promise = stream.close();
+
+          promiseChain.then(promise).then(() => {
+            console.log('done exporting conversation', name);
+            return resolve();
+          }, (error) => {
+            console.log(
+              'exportConversation: error exporting conversation',
+              name,
+              ':',
+              error && error.stack ? error.stack : error
+            );
+            return reject(error);
+          });
+        }
+      };
+    })));
   }
 
   // Goals for directory names:
@@ -550,12 +556,11 @@
   //   2. Sorted just like the list of conversations in the left-pan (active_at)
   //   3. Disambiguated from other directories (active_at, truncated name, id)
   function getConversationDirName(conversation) {
-    var name = conversation.active_at || 'never';
+    const name = conversation.active_at || 'never';
     if (conversation.name) {
-      return name + ' (' + conversation.name.slice(0, 30) + ' ' + conversation.id + ')';
-    } else {
-      return name + ' (' + conversation.id + ')';
+      return `${name} (${conversation.name.slice(0, 30)} ${conversation.id})`;
     }
+    return `${name} (${conversation.id})`;
   }
 
   // Goals for logging names:
@@ -564,50 +569,49 @@
   //   3. Can be shared to the web without privacy concerns (there's no global redaction
   //      logic for group ids, so we do it manually here)
   function getConversationLoggingName(conversation) {
-    var name = conversation.active_at || 'never';
+    let name = conversation.active_at || 'never';
     if (conversation.type === 'private') {
-      name += ' (' + conversation.id + ')';
+      name += ` (${conversation.id})`;
     } else {
-      name += ' ([REDACTED_GROUP]' + conversation.id.slice(-3) + ')';
+      name += ` ([REDACTED_GROUP]${conversation.id.slice(-3)})`;
     }
     return name;
   }
 
-  function exportConversations(idb_db, parentDir) {
-    return new Promise(function(resolve, reject) {
-      var transaction = idb_db.transaction('conversations', 'readwrite');
-      transaction.onerror = function(e) {
+  function exportConversations(db, parentDir) {
+    return new Promise(((resolve, reject) => {
+      const transaction = db.transaction('conversations', 'readwrite');
+      transaction.onerror = () => {
         Whisper.Database.handleDOMException(
           'exportConversations transaction error',
           transaction.error,
           reject
         );
       };
-      transaction.oncomplete = function() {
+      transaction.oncomplete = () => {
         // not really very useful - fires at unexpected times
       };
 
-      var promiseChain = Promise.resolve();
-      var store = transaction.objectStore('conversations');
-      var request = store.openCursor();
-      request.onerror = function(e) {
+      let promiseChain = Promise.resolve();
+      const store = transaction.objectStore('conversations');
+      const request = store.openCursor();
+      request.onerror = () => {
         Whisper.Database.handleDOMException(
           'exportConversations request error',
           request.error,
           reject
         );
       };
-      request.onsuccess = function(event) {
-        var cursor = event.target.result;
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
         if (cursor && cursor.value) {
-          var conversation = cursor.value;
-          var dir = getConversationDirName(conversation);
-          var name = getConversationLoggingName(conversation);
+          const conversation = cursor.value;
+          const dirName = getConversationDirName(conversation);
+          const name = getConversationLoggingName(conversation);
 
-          var process = function() {
-            return createDirectory(parentDir, dir).then(function(dir) {
-              return exportConversation(idb_db, name, conversation, dir);
-            });
+          const process = async () => {
+            const dir = await createDirectory(parentDir, dirName);
+            return exportConversation(db, name, conversation, dir);
           };
 
           console.log('scheduling export for conversation', name);
@@ -615,67 +619,69 @@
           cursor.continue();
         } else {
           console.log('Done scheduling conversation exports');
-          return promiseChain.then(resolve, reject);
+          promiseChain.then(resolve, reject);
         }
       };
-    });
+    }));
   }
 
   function getDirectory(options) {
-    return new Promise(function(resolve, reject) {
-      var browserWindow = BrowserWindow.getFocusedWindow();
-      var dialogOptions = {
+    return new Promise(((resolve, reject) => {
+      const browserWindow = BrowserWindow.getFocusedWindow();
+      const dialogOptions = {
         title: options.title,
         properties: ['openDirectory'],
-        buttonLabel: options.buttonLabel
+        buttonLabel: options.buttonLabel,
       };
 
-      dialog.showOpenDialog(browserWindow, dialogOptions, function(directory) {
+      dialog.showOpenDialog(browserWindow, dialogOptions, (directory) => {
         if (!directory || !directory[0]) {
-          var error = new Error('Error choosing directory');
+          const error = new Error('Error choosing directory');
           error.name = 'ChooseError';
           return reject(error);
         }
 
         return resolve(directory[0]);
       });
-    });
-  }
-
-  function getDirContents(dir) {
-    return new Promise(function(resolve, reject) {
-      fs.readdir(dir, function(err, files) {
-        if (err) {
-          return reject(err);
-        }
-
-        files = _.map(files, function(file) {
-          return path.join(dir, file);
-        });
-
-        resolve(files);
-      });
-    });
-  }
-
-  function loadAttachments(dir, message) {
-    return Promise.all(_.map(message.attachments, function(attachment) {
-      return readAttachment(dir, message, attachment);
     }));
   }
 
-  function saveMessage(idb_db, message) {
-    return saveAllMessages(idb_db, [message]);
+  function getDirContents(dir) {
+    return new Promise(((resolve, reject) => {
+      fs.readdir(dir, (err, files) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        files = _.map(files, file => path.join(dir, file));
+
+        resolve(files);
+      });
+    }));
   }
 
-  function saveAllMessages(idb_db, messages) {
+  function loadAttachments(dir, message) {
+    const promises = _.map(message.attachments, attachment => readAttachment(
+      dir,
+      message,
+      attachment
+    ));
+    return Promise.all(promises);
+  }
+
+  function saveMessage(db, message) {
+    return saveAllMessages(db, [message]);
+  }
+
+  function saveAllMessages(db, messages) {
     if (!messages.length) {
       return Promise.resolve();
     }
 
-    return new Promise(function(resolve, reject) {
-      var finished = false;
-      var finish = function(via) {
+    return new Promise(((resolve, reject) => {
+      let finished = false;
+      const finish = (via) => {
         console.log('messages done saving via', via);
         if (finished) {
           resolve();
@@ -683,8 +689,8 @@
         finished = true;
       };
 
-      var transaction = idb_db.transaction('messages', 'readwrite');
-      transaction.onerror = function(e) {
+      const transaction = db.transaction('messages', 'readwrite');
+      transaction.onerror = () => {
         Whisper.Database.handleDOMException(
           'saveAllMessages transaction error',
           transaction.error,
@@ -693,13 +699,13 @@
       };
       transaction.oncomplete = finish.bind(null, 'transaction complete');
 
-      var store = transaction.objectStore('messages');
-      var conversationId = messages[0].conversationId;
-      var count = 0;
+      const store = transaction.objectStore('messages');
+      const { conversationId } = messages[0];
+      let count = 0;
 
-      _.forEach(messages, function(message) {
-        var request = store.put(message, message.id);
-        request.onsuccess = function(event) {
+      _.forEach(messages, (message) => {
+        const request = store.put(message, message.id);
+        request.onsuccess = () => {
           count += 1;
           if (count === messages.length) {
             console.log(
@@ -707,12 +713,12 @@
               messages.length,
               'messages for conversation',
               // Don't know if group or private conversation, so we blindly redact
-              '[REDACTED]' + conversationId.slice(-3)
+              `[REDACTED]${conversationId.slice(-3)}`
             );
             finish('puts scheduled');
           }
         };
-        request.onerror = function(e) {
+        request.onerror = () => {
           Whisper.Database.handleDOMException(
             'saveAllMessages request error',
             request.error,
@@ -720,7 +726,7 @@
           );
         };
       });
-    });
+    }));
   }
 
   // To reduce the memory impact of attachments, we make individual saves to the
@@ -728,37 +734,36 @@
   //   message, save it, and only then do we move on to the next message. Thus, every
   //   message with attachments needs to be removed from our overall message save with the
   //   filter() call.
-  function importConversation(idb_db, dir, options) {
+  function importConversation(db, dir, options) {
     options = options || {};
-    _.defaults(options, {messageLookup: {}});
+    _.defaults(options, { messageLookup: {} });
 
-    var messageLookup = options.messageLookup;
-    var conversationId = 'unknown';
-    var total = 0;
-    var skipped = 0;
+    const { messageLookup } = options;
+    let conversationId = 'unknown';
+    let total = 0;
+    let skipped = 0;
 
-    return readFileAsText(dir, 'messages.json').then(function(contents) {
-      var promiseChain = Promise.resolve();
+    return readFileAsText(dir, 'messages.json').then((contents) => {
+      let promiseChain = Promise.resolve();
 
-      var json = JSON.parse(contents);
+      const json = JSON.parse(contents);
       if (json.messages && json.messages.length) {
-        conversationId = '[REDACTED]' + (json.messages[0].conversationId || '').slice(-3);
+        conversationId = `[REDACTED]${(json.messages[0].conversationId || '').slice(-3)}`;
       }
       total = json.messages.length;
 
-      var messages = _.filter(json.messages, function(message) {
+      const messages = _.filter(json.messages, (message) => {
         message = unstringify(message);
 
         if (messageLookup[getMessageKey(message)]) {
-          skipped++;
+          skipped += 1;
           return false;
         }
 
         if (message.attachments && message.attachments.length) {
-          var process = function() {
-            return loadAttachments(dir, message).then(function() {
-              return saveMessage(idb_db, message);
-            });
+          const process = async () => {
+            await loadAttachments(dir, message);
+            return saveMessage(db, message);
           };
 
           promiseChain = promiseChain.then(process);
@@ -769,16 +774,14 @@
         return true;
       });
 
-      var promise = Promise.resolve();
+      let promise = Promise.resolve();
       if (messages.length > 0) {
-        promise = saveAllMessages(idb_db, messages);
+        promise = saveAllMessages(db, messages);
       }
 
       return promise
-        .then(function() {
-          return promiseChain;
-        })
-        .then(function() {
+        .then(() => promiseChain)
+        .then(() => {
           console.log(
             'Finished importing conversation',
             conversationId,
@@ -788,24 +791,21 @@
             skipped
           );
         });
-
-    }, function() {
-      console.log('Warning: could not access messages.json in directory: ' + dir);
+    }, () => {
+      console.log(`Warning: could not access messages.json in directory: ${dir}`);
     });
   }
 
-  function importConversations(idb_db, dir, options) {
-    return getDirContents(dir).then(function(contents) {
-      var promiseChain = Promise.resolve();
+  function importConversations(db, dir, options) {
+    return getDirContents(dir).then((contents) => {
+      let promiseChain = Promise.resolve();
 
-      _.forEach(contents, function(conversationDir) {
+      _.forEach(contents, (conversationDir) => {
         if (!fs.statSync(conversationDir).isDirectory()) {
           return;
         }
 
-        var process = function() {
-          return importConversation(idb_db, conversationDir, options);
-        };
+        const process = () => importConversation(db, conversationDir, options);
 
         promiseChain = promiseChain.then(process);
       });
@@ -815,70 +815,69 @@
   }
 
   function getMessageKey(message) {
-    var ourNumber = textsecure.storage.user.getNumber();
-    var source = message.source || ourNumber;
+    const ourNumber = textsecure.storage.user.getNumber();
+    const source = message.source || ourNumber;
     if (source === ourNumber) {
-      return source + ' ' + message.timestamp;
+      return `${source} ${message.timestamp}`;
     }
 
-    var sourceDevice = message.sourceDevice || 1;
-    return source + '.' + sourceDevice + ' ' + message.timestamp;
+    const sourceDevice = message.sourceDevice || 1;
+    return `${source}.${sourceDevice} ${message.timestamp}`;
   }
-  function loadMessagesLookup(idb_db) {
-    return assembleLookup(idb_db, 'messages', getMessageKey);
+  function loadMessagesLookup(db) {
+    return assembleLookup(db, 'messages', getMessageKey);
   }
 
   function getConversationKey(conversation) {
     return conversation.id;
   }
-  function loadConversationLookup(idb_db) {
-    return assembleLookup(idb_db, 'conversations', getConversationKey);
+  function loadConversationLookup(db) {
+    return assembleLookup(db, 'conversations', getConversationKey);
   }
 
   function getGroupKey(group) {
     return group.id;
   }
-  function loadGroupsLookup(idb_db) {
-    return assembleLookup(idb_db, 'groups', getGroupKey);
+  function loadGroupsLookup(db) {
+    return assembleLookup(db, 'groups', getGroupKey);
   }
 
-  function assembleLookup(idb_db, storeName, keyFunction) {
-    var lookup = Object.create(null);
+  function assembleLookup(db, storeName, keyFunction) {
+    const lookup = Object.create(null);
 
-    return new Promise(function(resolve, reject) {
-      var transaction = idb_db.transaction(storeName, 'readwrite');
-      transaction.onerror = function(e) {
+    return new Promise(((resolve, reject) => {
+      const transaction = db.transaction(storeName, 'readwrite');
+      transaction.onerror = () => {
         Whisper.Database.handleDOMException(
-          'assembleLookup(' + storeName + ') transaction error',
+          `assembleLookup(${storeName}) transaction error`,
           transaction.error,
           reject
         );
       };
-      transaction.oncomplete = function() {
+      transaction.oncomplete = () => {
         // not really very useful - fires at unexpected times
       };
 
-      var promiseChain = Promise.resolve();
-      var store = transaction.objectStore(storeName);
-      var request = store.openCursor();
-      request.onerror = function(e) {
+      const store = transaction.objectStore(storeName);
+      const request = store.openCursor();
+      request.onerror = () => {
         Whisper.Database.handleDOMException(
-          'assembleLookup(' + storeName + ') request error',
+          `assembleLookup(${storeName}) request error`,
           request.error,
           reject
         );
       };
-      request.onsuccess = function(event) {
-        var cursor = event.target.result;
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
         if (cursor && cursor.value) {
           lookup[keyFunction(cursor.value)] = true;
           cursor.continue();
         } else {
-          console.log('Done creating ' + storeName + ' lookup');
-          return resolve(lookup);
+          console.log(`Done creating ${storeName} lookup`);
+          resolve(lookup);
         }
       };
-    });
+    }));
   }
 
 
@@ -888,76 +887,78 @@
 
   // directories returned and taken by backup/import are all string paths
   Whisper.Backup = {
-    getDirectoryForExport: function() {
-      var options = {
+    getDirectoryForExport() {
+      const options = {
         title: i18n('exportChooserTitle'),
         buttonLabel: i18n('exportButton'),
       };
       return getDirectory(options);
     },
-    exportToDirectory: function(directory, options) {
-      var dir;
-      var idb;
-      return Whisper.Database.open().then(function(idb_db) {
-        idb = idb_db;
-        var name = 'Signal Export ' + getTimestamp();
+    exportToDirectory(directory, options) {
+      let dir;
+      let db;
+      return Whisper.Database.open().then((openedDb) => {
+        db = openedDb;
+        const name = `Signal Export ${getTimestamp()}`;
         return createDirectory(directory, name);
-      }).then(function(created) {
+      }).then((created) => {
         dir = created;
-        return exportNonMessages(idb, dir, options);
-      }).then(function() {
-        return exportConversations(idb, dir);
-      }).then(function() {
-        return dir;
-      }).then(function(path) {
-        console.log('done backing up!');
-        return path;
-      }, function(error) {
-        console.log(
-          'the backup went wrong:',
-          error && error.stack ? error.stack : error
-        );
-        return Promise.reject(error);
-      });
+        return exportNonMessages(db, dir, options);
+      }).then(() => exportConversations(db, dir))
+        .then(() => dir)
+        .then((targetPath) => {
+          console.log('done backing up!');
+          return targetPath;
+        }, (error) => {
+          console.log(
+            'the backup went wrong:',
+            error && error.stack ? error.stack : error
+          );
+          return Promise.reject(error);
+        });
     },
-    getDirectoryForImport: function() {
-      var options = {
+    getDirectoryForImport() {
+      const options = {
         title: i18n('importChooserTitle'),
         buttonLabel: i18n('importButton'),
       };
       return getDirectory(options);
     },
-    importFromDirectory: function(directory, options) {
+    importFromDirectory(directory, options) {
       options = options || {};
 
-      var idb, nonMessageResult;
-      return Whisper.Database.open().then(function(idb_db) {
-        idb = idb_db;
+      let db;
+      let nonMessageResult;
+      return Whisper.Database.open().then((createdDb) => {
+        db = createdDb;
 
         return Promise.all([
-          loadMessagesLookup(idb_db),
-          loadConversationLookup(idb_db),
-          loadGroupsLookup(idb_db),
+          loadMessagesLookup(db),
+          loadConversationLookup(db),
+          loadGroupsLookup(db),
         ]);
-      }).then(function(lookups) {
-        options.messageLookup = lookups[0];
-        options.conversationLookup = lookups[1];
-        options.groupLookup = lookups[2];
-      }).then(function() {
-        return importNonMessages(idb, directory, options);
-      }).then(function(result) {
-        nonMessageResult = result;
-        return importConversations(idb, directory, options);
-      }).then(function() {
-        console.log('done restoring from backup!');
-        return nonMessageResult;
-      }, function(error) {
-        console.log(
-          'the import went wrong:',
-          error && error.stack ? error.stack : error
-        );
-        return Promise.reject(error);
-      });
+      }).then((lookups) => {
+        const [messageLookup, conversationLookup, groupLookup] = lookups;
+        options = Object.assign({}, options, {
+          messageLookup,
+          conversationLookup,
+          groupLookup,
+        });
+      }).then(() => importNonMessages(db, directory, options))
+        .then((result) => {
+          nonMessageResult = result;
+          return importConversations(db, directory, options);
+        })
+        .then(() => {
+          console.log('done restoring from backup!');
+          return nonMessageResult;
+        }, (error) => {
+          console.log(
+            'the import went wrong:',
+            error && error.stack ? error.stack : error
+          );
+          return Promise.reject(error);
+        });
     },
     // for testing
     sanitizeFileName,
@@ -966,5 +967,4 @@
     getConversationDirName,
     getConversationLoggingName,
   };
-
 }());
