@@ -66,7 +66,7 @@ const {
     return {
       write(string) {
         // eslint-disable-next-line more/no-then
-        wait = wait.then(() => new Promise(((resolve) => {
+        wait = wait.then(() => new Promise((resolve) => {
           if (writer.write(string)) {
             resolve();
             return;
@@ -78,16 +78,16 @@ const {
 
           // We don't register for the 'error' event here, only in close(). Otherwise,
           //   we'll get "Possible EventEmitter memory leak detected" warnings.
-        })));
+        }));
         return wait;
       },
       async close() {
         await wait;
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
           writer.once('finish', resolve);
           writer.once('error', reject);
           writer.end();
-        }));
+        });
       },
     };
   }
@@ -101,7 +101,7 @@ const {
     options = options || {};
     _.defaults(options, { excludeClientConfig: false });
 
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let storeNames = db.objectStoreNames;
       storeNames = _.without(storeNames, 'messages');
 
@@ -185,7 +185,7 @@ const {
           }
         };
       });
-    }));
+    });
   }
 
   async function importNonMessages(db, parent, options) {
@@ -220,7 +220,7 @@ const {
       fullImport: true,
     };
 
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const importObject = JSON.parse(jsonString);
       delete importObject.debug;
 
@@ -330,11 +330,11 @@ const {
           finishStore();
         }
       });
-    }));
+    });
   }
 
   function createDirectory(parent, name) {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const sanitized = sanitizeFileName(name);
       const targetDir = path.join(parent, sanitized);
       fs.mkdir(targetDir, (error) => {
@@ -344,22 +344,22 @@ const {
 
         return resolve(targetDir);
       });
-    }));
+    });
   }
 
   function createFileAndWriter(parent, name) {
-    return new Promise(((resolve) => {
+    return new Promise((resolve) => {
       const sanitized = sanitizeFileName(name);
       const targetPath = path.join(parent, sanitized);
       const options = {
         flags: 'wx',
       };
       return resolve(fs.createWriteStream(targetPath, options));
-    }));
+    });
   }
 
   function readFileAsText(parent, name) {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const targetPath = path.join(parent, name);
       fs.readFile(targetPath, 'utf8', (error, string) => {
         if (error) {
@@ -368,11 +368,11 @@ const {
 
         return resolve(string);
       });
-    }));
+    });
   }
 
   function readFileAsArrayBuffer(parent, name) {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const targetPath = path.join(parent, name);
       // omitting the encoding to get a buffer back
       fs.readFile(targetPath, (error, buffer) => {
@@ -384,7 +384,7 @@ const {
         //   https://nodejs.org/docs/latest/api/buffer.html#buffer_buffers_and_typedarray
         return resolve(buffer.buffer);
       });
-    }));
+    });
   }
 
   function trimFileName(filename) {
@@ -457,7 +457,7 @@ const {
   async function exportConversation(db, name, conversation, dir) {
     console.log('exporting conversation', name);
     const writer = await createFileAndWriter(dir, 'messages.json');
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const transaction = db.transaction('messages', 'readwrite');
       transaction.onerror = () => {
         Whisper.Database.handleDOMException(
@@ -546,7 +546,7 @@ const {
           resolve();
         }
       };
-    }));
+    });
   }
 
   // Goals for directory names:
@@ -577,7 +577,7 @@ const {
   }
 
   function exportConversations(db, parentDir) {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const transaction = db.transaction('conversations', 'readwrite');
       transaction.onerror = () => {
         Whisper.Database.handleDOMException(
@@ -627,11 +627,11 @@ const {
           resolve();
         }
       };
-    }));
+    });
   }
 
   function getDirectory(options) {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const browserWindow = BrowserWindow.getFocusedWindow();
       const dialogOptions = {
         title: options.title,
@@ -648,11 +648,11 @@ const {
 
         return resolve(directory[0]);
       });
-    }));
+    });
   }
 
   function getDirContents(dir) {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       fs.readdir(dir, (err, files) => {
         if (err) {
           reject(err);
@@ -663,7 +663,7 @@ const {
 
         resolve(files);
       });
-    }));
+    });
   }
 
   function loadAttachments(dir, message) {
@@ -684,7 +684,7 @@ const {
       return Promise.resolve();
     }
 
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let finished = false;
       const finish = (via) => {
         console.log('messages done saving via', via);
@@ -731,7 +731,7 @@ const {
           );
         };
       });
-    }));
+    });
   }
 
   // To reduce the memory impact of attachments, we make individual saves to the
@@ -851,7 +851,7 @@ const {
   function assembleLookup(db, storeName, keyFunction) {
     const lookup = Object.create(null);
 
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const transaction = db.transaction(storeName, 'readwrite');
       transaction.onerror = () => {
         Whisper.Database.handleDOMException(
@@ -883,7 +883,7 @@ const {
           resolve(lookup);
         }
       };
-    }));
+    });
   }
 
 
