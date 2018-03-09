@@ -15,7 +15,9 @@
       {"fileSystem": ["write", "directory"]},
       "alarms",
       "fullscreen",
-      "audioCapture"
+      "audioCapture",
+      "https://debuglogs.org/",
+      "https://s3.amazonaws.com/signal-debug-logs"
     ],
 
     "icons": {
