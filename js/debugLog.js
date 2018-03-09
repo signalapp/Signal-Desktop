@@ -63,25 +63,7 @@
             }
 
             return new Promise(function(resolve, reject) {
-                // NOTE: Fetching the signed form requires CORS headers
-                // on debuglogs.org:
-
-                // $.get(DEBUGLOGS_BASE_URL).then(function (signedForm) {
-
-                    var signedForm = {
-                      "url": "https://s3.amazonaws.com/signal-debug-logs",
-                      "fields": {
-                        "bucket": "signal-debug-logs",
-                        "X-Amz-Algorithm": "...",
-                        "X-Amz-Credential": "...",
-                        "X-Amz-Date": "...",
-                        "X-Amz-Security-Token": "...",
-                        "Policy": "...",
-                        "X-Amz-Signature": "...",
-                        "key": "..."
-                      }
-                    };
-
+                $.get(DEBUGLOGS_BASE_URL).then(function (signedForm) {
                     var url = signedForm.url;
                     var fields = signedForm.fields;
 
@@ -110,22 +92,20 @@
                             return;
                         }
 
-                        // NOTE: `request.status` is `0` and Chrome reports it
-                        // as CORS error because S3 bucket response does not
-                        // include CORS headers but the upload succeeds:
+                        if (request.status !== 204) {
+                            return reject(
+                                new Error('Failed to publish debug log. Status: ' +
+                                    request.statusText + ' (' + request.status + ')'
+                                )
+                            );
+                        }
 
-                        // if (request.status === 204) {
-                            return resolve(publishedLogURL);
-                        // }
-
-                        // return reject(
-                        //     new Error('Failed to publish debug log. Status: ' +
-                        //         request.statusText + ' (' + request.status + ')'
-                        //     )
-                        // );
+                        return resolve(publishedLogURL);
                     };
                     request.send(formData);
-                // });
+                }).fail(function () {
+                    reject(new Error('Failed to publish logs'));
+                });
             });
         };
 
