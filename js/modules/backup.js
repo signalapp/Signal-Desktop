@@ -102,31 +102,24 @@ function createOutputStream(writer) {
   };
 }
 
-async function exportNonMessages(db, parent, options) {
+async function exportNonMessages(db, parent) {
   const writer = await createFileAndWriter(parent, 'db.json');
-  return exportToJsonFile(db, writer, options);
+  return exportToJsonFile(db, writer);
 }
 
-function exportToJsonFile(db, fileWriter, options) {
-  options = options || {};
-  _.defaults(options, { excludeClientConfig: false });
-
+function exportToJsonFile(db, fileWriter) {
   return new Promise((resolve, reject) => {
     let storeNames = db.objectStoreNames;
-    storeNames = _.without(storeNames, 'messages');
-
-    if (options.excludeClientConfig) {
-      console.log('exportToJsonFile: excluding client config from export');
-      storeNames = _.without(
-        storeNames,
-        'items',
-        'signedPreKeys',
-        'preKeys',
-        'identityKeys',
-        'sessions',
-        'unprocessed' // since we won't be able to decrypt them anyway
-      );
-    }
+    storeNames = _.without(
+      storeNames,
+      'messages',
+      'items',
+      'signedPreKeys',
+      'preKeys',
+      'identityKeys',
+      'sessions',
+      'unprocessed'
+    );
 
     const exportedStoreNames = [];
     if (storeNames.length === 0) {
@@ -908,12 +901,12 @@ function getDirectoryForExport() {
   return getDirectory(options);
 }
 
-async function exportToDirectory(directory, options) {
+async function exportToDirectory(directory) {
   const name = `Signal Export ${getTimestamp()}`;
   try {
     const db = await Whisper.Database.open();
     const dir = await createDirectory(directory, name);
-    await exportNonMessages(db, dir, options);
+    await exportNonMessages(db, dir);
     await exportConversations(db, dir);
 
     console.log('done backing up!');
