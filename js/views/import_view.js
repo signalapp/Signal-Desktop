@@ -102,7 +102,7 @@
       this.trigger('cancel');
     },
     onImport: function() {
-      Whisper.Backup.getDirectoryForImport().then(function(directory) {
+      window.Signal.Backup.getDirectoryForImport().then(function(directory) {
         this.doImport(directory);
       }.bind(this), function(error) {
         if (error.name !== 'ChooseError') {
@@ -133,7 +133,7 @@
       }).then(function() {
         return Promise.all([
           Whisper.Import.start(),
-          Whisper.Backup.importFromDirectory(directory)
+          window.Signal.Backup.importFromDirectory(directory)
         ]);
       }).then(function(results) {
         var importResult = results[1];

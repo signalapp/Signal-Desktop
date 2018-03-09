@@ -5,13 +5,13 @@ describe('Backup', function() {
     it('leaves a basic string alone', function() {
       var initial = 'Hello, how are you #5 (\'fine\' + great).jpg';
       var expected = initial;
-      assert.strictEqual(Whisper.Backup.sanitizeFileName(initial), expected);
+      assert.strictEqual(Signal.Backup.sanitizeFileName(initial), expected);
     });
 
     it('replaces all unknown characters', function() {
       var initial = '!@$%^&*=';
       var expected = '________';
-      assert.strictEqual(Whisper.Backup.sanitizeFileName(initial), expected);
+      assert.strictEqual(Signal.Backup.sanitizeFileName(initial), expected);
     });
   });
 
@@ -19,19 +19,19 @@ describe('Backup', function() {
     it('handles a file with no extension', function() {
       var initial = '0123456789012345678901234567890123456789';
       var expected = '012345678901234567890123456789';
-      assert.strictEqual(Whisper.Backup.trimFileName(initial), expected);
+      assert.strictEqual(Signal.Backup.trimFileName(initial), expected);
     });
 
     it('handles a file with a long extension', function() {
       var initial = '0123456789012345678901234567890123456789.01234567890123456789';
       var expected = '012345678901234567890123456789';
-      assert.strictEqual(Whisper.Backup.trimFileName(initial), expected);
+      assert.strictEqual(Signal.Backup.trimFileName(initial), expected);
     });
 
     it('handles a file with a normal extension', function() {
       var initial = '01234567890123456789012345678901234567890123456789.jpg';
       var expected = '012345678901234567890123.jpg';
-      assert.strictEqual(Whisper.Backup.trimFileName(initial), expected);
+      assert.strictEqual(Signal.Backup.trimFileName(initial), expected);
     });
   });
 
@@ -41,7 +41,7 @@ describe('Backup', function() {
         fileName: 'blah.jpg'
       };
       var expected = 'blah.jpg';
-      assert.strictEqual(Whisper.Backup.getAttachmentFileName(attachment), expected);
+      assert.strictEqual(Signal.Backup.getAttachmentFileName(attachment), expected);
     });
 
     it('uses attachment id if no filename', function() {
@@ -49,7 +49,7 @@ describe('Backup', function() {
         id: '123'
       };
       var expected = '123';
-      assert.strictEqual(Whisper.Backup.getAttachmentFileName(attachment), expected);
+      assert.strictEqual(Signal.Backup.getAttachmentFileName(attachment), expected);
     });
 
     it('uses filename and contentType if available', function() {
@@ -58,7 +58,7 @@ describe('Backup', function() {
         contentType: 'image/jpeg'
       };
       var expected = '123.jpeg';
-      assert.strictEqual(Whisper.Backup.getAttachmentFileName(attachment), expected);
+      assert.strictEqual(Signal.Backup.getAttachmentFileName(attachment), expected);
     });
 
     it('handles strange contentType', function() {
@@ -67,7 +67,7 @@ describe('Backup', function() {
         contentType: 'something'
       };
       var expected = '123.something';
-      assert.strictEqual(Whisper.Backup.getAttachmentFileName(attachment), expected);
+      assert.strictEqual(Signal.Backup.getAttachmentFileName(attachment), expected);
     });
   });
 
@@ -79,7 +79,7 @@ describe('Backup', function() {
         id: 'id'
       };
       var expected = '123 (012345678901234567890123456789 id)';
-      assert.strictEqual(Whisper.Backup.getConversationDirName(conversation), expected);
+      assert.strictEqual(Signal.Backup.getConversationDirName(conversation), expected);
     });
 
     it('uses just id if name is not available', function() {
@@ -88,7 +88,7 @@ describe('Backup', function() {
         id: 'id'
       };
       var expected = '123 (id)';
-      assert.strictEqual(Whisper.Backup.getConversationDirName(conversation), expected);
+      assert.strictEqual(Signal.Backup.getConversationDirName(conversation), expected);
     });
 
     it('uses never for missing active_at', function() {
@@ -97,7 +97,7 @@ describe('Backup', function() {
         id: 'id'
       };
       var expected = 'never (name id)';
-      assert.strictEqual(Whisper.Backup.getConversationDirName(conversation), expected);
+      assert.strictEqual(Signal.Backup.getConversationDirName(conversation), expected);
     });
   });
 
@@ -109,7 +109,7 @@ describe('Backup', function() {
         type: 'private'
       };
       var expected = '123 (id)';
-      assert.strictEqual(Whisper.Backup.getConversationLoggingName(conversation), expected);
+      assert.strictEqual(Signal.Backup.getConversationLoggingName(conversation), expected);
     });
 
     it('uses just id if name is not available', function() {
@@ -119,7 +119,7 @@ describe('Backup', function() {
         type: 'group'
       };
       var expected = '123 ([REDACTED_GROUP]pId)';
-      assert.strictEqual(Whisper.Backup.getConversationLoggingName(conversation), expected);
+      assert.strictEqual(Signal.Backup.getConversationLoggingName(conversation), expected);
     });
 
     it('uses never for missing active_at', function() {
@@ -128,7 +128,7 @@ describe('Backup', function() {
         type: 'private'
       };
       var expected = 'never (id)';
-      assert.strictEqual(Whisper.Backup.getConversationLoggingName(conversation), expected);
+      assert.strictEqual(Signal.Backup.getConversationLoggingName(conversation), expected);
     });
   });
 });

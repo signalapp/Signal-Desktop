@@ -79,8 +79,6 @@
     console.log('using proxy url', window.config.proxyUrl);
   }
 
-  require('./js/backup');
-
   window.nodeSetImmediate = setImmediate;
   window.nodeWebSocket = require("websocket").w3cwebsocket;
 
@@ -108,8 +106,10 @@
   window.Signal = window.Signal || {};
   window.Signal.Logs = require('./js/modules/logs');
   window.Signal.OS = require('./js/modules/os');
+  window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Migrations = window.Signal.Migrations || {};
   window.Signal.Migrations.V17 = require('./js/modules/migrations/17');
+
   window.Signal.Types = window.Signal.Types || {};
   window.Signal.Types.Attachment = require('./js/modules/types/attachment');
   window.Signal.Types.Errors = require('./js/modules/types/errors');
