@@ -165,7 +165,14 @@ function exportToJsonFile(db, fileWriter) {
           if (count > 0) {
             stream.write(',');
           }
-          const jsonString = JSON.stringify(stringify(cursor.value));
+
+          // Preventing base64'd images from reaching the disk, making db.json too big
+          const item = _.omit(
+            cursor.value,
+            ['avatar', 'profileAvatar']
+          );
+
+          const jsonString = JSON.stringify(stringify(item));
           stream.write(jsonString);
           cursor.continue();
           count += 1;
@@ -511,10 +518,22 @@ async function exportConversation(db, name, conversation, dir) {
           stream.write(',');
         }
 
+        // eliminate attachment data from the JSON, since it will go to disk
         message.attachments = _.map(
           attachments,
           attachment => _.omit(attachment, ['data'])
         );
+        // completely drop any attachments in messages cached in error objects
+        // TODO: move to lodash. Sadly, a number of the method signatures have changed!
+        message.errors = _.map(message.errors, (error) => {
+          if (error && error.args) {
+            error.args = [];
+          }
+          if (error && error.stack) {
+            error.stack = '';
+          }
+          return error;
+        });
 
         const jsonString = JSON.stringify(stringify(message));
         stream.write(jsonString);
