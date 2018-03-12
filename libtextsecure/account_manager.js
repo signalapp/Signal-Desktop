@@ -154,9 +154,16 @@
                 var server = this.server;
                 var cleanSignedPreKeys = this.cleanSignedPreKeys;
 
+                // TODO: harden this against missing identity key? Otherwise, we get
+                //   retries every five seconds.
                 return store.getIdentityKeyPair().then(function(identityKey) {
                     return libsignal.KeyHelper.generateSignedPreKey(identityKey, signedKeyId);
+                }, function(error) {
+                    console.log('Failed to get identity key. Canceling key rotation.');
                 }).then(function(res) {
+                    if (!res) {
+                        return;
+                    }
                     console.log('Saving new signed prekey', res.keyId);
                     return Promise.all([
                         textsecure.storage.put('signedKeyId', signedKeyId + 1),
