@@ -5,7 +5,7 @@ both logs and a detailed description of what you encountered. Please do your bes
 Please note that this tracker is only for bugs and feature requests. Please try these
 locations if you have a question or comment:
 
-  https://whispersystems.discoursehosting.net/
+  https://community.signalusers.org/
   http://support.signal.org/
   support@whispersystems.org
 

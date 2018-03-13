@@ -11,6 +11,8 @@
 
 // eslint-disable-next-line func-names
 (function () {
+  'use strict';
+
   const ESCAPE_KEY_CODE = 27;
 
   const FileView = Whisper.View.extend({

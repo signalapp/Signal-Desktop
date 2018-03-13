@@ -121,7 +121,6 @@ module.exports = function(grunt) {
         '!js/register.js'
       ],
       res: [
-        'audio/**',
         'images/**/*',
         'fonts/*',
       ]

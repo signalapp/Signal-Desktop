@@ -19,16 +19,20 @@
       "message": "&Help",
       "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "mainMenuSettings": {
+      "message": "Preferences…",
+      "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
     "menuSetupWithImport": {
-      "message": "Set up with import",
+      "message": "Set Up with Import",
       "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-      "message": "Set up as new device",
+      "message": "Set Up as New Device",
       "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-      "message": "Set up as standalone device",
+      "message": "Set Up as Standalone Device",
       "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
@@ -368,22 +372,22 @@
     },
     "debugLog": {
       "message": "Debug Log",
-      "description": "View menu item to open the debug log, capitalized"
+      "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-      "message": "Go to release notes",
+      "message": "Go to Release Notes",
       "description": ""
     },
     "goToForums": {
-      "message": "Go to forums",
+      "message": "Go to Forums",
       "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-      "message": "Go to support page",
+      "message": "Go to Support Page",
       "description": "Item under the Help menu, takes you to the support page"
     },
     "fileABug": {
-      "message": "File a bug",
+      "message": "File a Bug",
       "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "aboutSignalDesktop": {
@@ -411,7 +415,7 @@
       "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
-      "message": "Search...",
+      "message": "Enter name or number",
       "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
@@ -594,10 +598,6 @@
     "newMessages": {
         "message": "New Messages",
         "description": "Displayed in notifications for multiple messages"
-    },
-    "restartSignal": {
-        "message": "Restart Signal",
-        "description": "Menu item for restarting the program."
     },
     "messageNotSent": {
         "message": "Message not sent.",
@@ -835,9 +835,9 @@
       "message": "Hide menu bar",
       "description": "Label text for menu bar visibility setting"
     },
-    "newContact": {
-      "message": "Click to create new contact",
-      "description": ""
+    "startConversation": {
+      "message": "Start conversation…",
+      "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
       "message": "Enter a phone number to add a contact.",
