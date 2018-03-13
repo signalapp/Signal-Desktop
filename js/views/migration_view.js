@@ -145,7 +145,7 @@
       'click .start': 'onClickStart',
       'click .installed': 'onClickInstalled',
       'click .choose': 'onClickChoose',
-      'click .debug-log': 'onClickDebugLog',
+      'click .submit-debug-log': 'onClickDebugLog',
       'click .cancel': 'onClickCancel',
     },
     initialize: function() {
