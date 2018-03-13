@@ -2,7 +2,6 @@
 /* global dcodeIO: false */
 /* global _: false */
 /* global textsecure: false */
-/* global moment: false */
 /* global i18n: false */
 
 /* eslint-env browser */
@@ -13,6 +12,11 @@
 const fs = require('fs');
 const path = require('path');
 
+const tmp = require('tmp');
+const decompress = require('decompress');
+const pify = require('pify');
+const archiver = require('archiver');
+const rimraf = require('rimraf');
 const electronRemote = require('electron').remote;
 
 const {
@@ -23,13 +27,13 @@ const {
 
 module.exports = {
   getDirectoryForExport,
-  exportToDirectory,
+  backupToDirectory,
   getDirectoryForImport,
   importFromDirectory,
   // for testing
   sanitizeFileName,
   trimFileName,
-  getAttachmentFileName,
+  getExportAttachmentFileName,
   getConversationDirName,
   getConversationLoggingName,
 };
@@ -102,12 +106,12 @@ function createOutputStream(writer) {
   };
 }
 
-async function exportNonMessages(db, parent) {
+async function exportContactAndGroupsToFile(db, parent) {
   const writer = await createFileAndWriter(parent, 'db.json');
-  return exportToJsonFile(db, writer);
+  return exportContactsAndGroups(db, writer);
 }
 
-function exportToJsonFile(db, fileWriter) {
+function exportContactsAndGroups(db, fileWriter) {
   return new Promise((resolve, reject) => {
     let storeNames = db.objectStoreNames;
     storeNames = _.without(
@@ -347,12 +351,18 @@ function createDirectory(parent, name) {
   return new Promise((resolve, reject) => {
     const sanitized = sanitizeFileName(name);
     const targetDir = path.join(parent, sanitized);
+    if (fs.existsSync(targetDir)) {
+      resolve(targetDir);
+      return;
+    }
+
     fs.mkdir(targetDir, (error) => {
       if (error) {
-        return reject(error);
+        reject(error);
+        return;
       }
 
-      return resolve(targetDir);
+      resolve(targetDir);
     });
   });
 }
@@ -381,9 +391,8 @@ function readFileAsText(parent, name) {
   });
 }
 
-function readFileAsArrayBuffer(parent, name) {
+function readFileAsArrayBuffer(targetPath) {
   return new Promise((resolve, reject) => {
-    const targetPath = path.join(parent, name);
     // omitting the encoding to get a buffer back
     fs.readFile(targetPath, (error, buffer) => {
       if (error) {
@@ -413,7 +422,7 @@ function trimFileName(filename) {
 }
 
 
-function getAttachmentFileName(attachment) {
+function getExportAttachmentFileName(message, index, attachment) {
   if (attachment.fileName) {
     return trimFileName(attachment.fileName);
   }
@@ -428,25 +437,44 @@ function getAttachmentFileName(attachment) {
   return name;
 }
 
-async function readAttachment(parent, message, attachment) {
-  const name = getAttachmentFileName(attachment);
-  const sanitized = sanitizeFileName(name);
-  const attachmentDir = path.join(parent, message.received_at.toString());
-
-  attachment.data = await readFileAsArrayBuffer(attachmentDir, sanitized);
+function getAnonymousAttachmentFileName(message, index) {
+  if (!index) {
+    return message.id;
+  }
+  return `${message.id}-${index}`;
 }
 
-async function writeAttachment(dir, attachment) {
-  const filename = getAttachmentFileName(attachment);
+async function readAttachment(dir, attachment, name) {
+  const anonymousName = sanitizeFileName(name);
+  const targetPath = path.join(dir, anonymousName);
+
+  if (!fs.existsSync(targetPath)) {
+    console.log(`Warning: attachment ${anonymousName} not found`);
+    return;
+  }
+
+  attachment.data = await readFileAsArrayBuffer(targetPath);
+}
+
+async function writeAttachment(dir, message, index, attachment) {
+  const filename = getAnonymousAttachmentFileName(message, index);
+  const target = path.join(dir, filename);
+  if (fs.existsSync(target)) {
+    console.log(`Skipping attachment ${filename}; already exists`);
+    return;
+  }
+
   const writer = await createFileAndWriter(dir, filename);
   const stream = createOutputStream(writer);
   stream.write(Buffer.from(attachment.data));
-  return stream.close();
+  await stream.close();
 }
 
-async function writeAttachments(parentDir, name, messageId, attachments) {
-  const dir = await createDirectory(parentDir, messageId);
-  const promises = _.map(attachments, attachment => writeAttachment(dir, attachment));
+async function writeAttachments(dir, name, message, attachments) {
+  const promises = _.map(
+    attachments,
+    (attachment, index) => writeAttachment(dir, message, index, attachment)
+  );
   try {
     await Promise.all(promises);
   } catch (error) {
@@ -464,10 +492,27 @@ function sanitizeFileName(filename) {
   return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
 }
 
-async function exportConversation(db, name, conversation, dir) {
+async function exportConversation(db, conversation, options) {
+  options = options || {};
+  const {
+    name,
+    dir,
+    attachmentsDir,
+  } = options;
+  if (!name) {
+    throw new Error('Need a name!');
+  }
+  if (!dir) {
+    throw new Error('Need a target directory!');
+  }
+  if (!attachmentsDir) {
+    throw new Error('Need an attachments directory!');
+  }
+
   console.log('exporting conversation', name);
   const writer = await createFileAndWriter(dir, 'messages.json');
-  return new Promise((resolve, reject) => {
+
+  return new Promise(async (resolve, reject) => {
     const transaction = db.transaction('messages', 'readwrite');
     transaction.onerror = () => {
       Whisper.Database.handleDOMException(
@@ -505,7 +550,6 @@ async function exportConversation(db, name, conversation, dir) {
       const cursor = event.target.result;
       if (cursor) {
         const message = cursor.value;
-        const messageId = message.received_at;
         const { attachments } = message;
 
         // skip message if it is disappearing, no matter the amount of time left
@@ -539,9 +583,11 @@ async function exportConversation(db, name, conversation, dir) {
         stream.write(jsonString);
 
         if (attachments && attachments.length) {
-          const process = () => writeAttachments(dir, name, messageId, attachments);
+          const exportAttachments = () =>
+            writeAttachments(attachmentsDir, name, message, attachments);
+
           // eslint-disable-next-line more/no-then
-          promiseChain = promiseChain.then(process);
+          promiseChain = promiseChain.then(exportAttachments);
         }
 
         count += 1;
@@ -598,7 +644,20 @@ function getConversationLoggingName(conversation) {
   return name;
 }
 
-function exportConversations(db, parentDir) {
+function exportConversations(db, options) {
+  options = options || {};
+  const {
+    messagesDir,
+    attachmentsDir,
+  } = options;
+
+  if (!messagesDir) {
+    return Promise.reject(new Error('Need a messages directory!'));
+  }
+  if (!attachmentsDir) {
+    return Promise.reject(new Error('Need an attachments directory!'));
+  }
+
   return new Promise((resolve, reject) => {
     const transaction = db.transaction('conversations', 'readwrite');
     transaction.onerror = () => {
@@ -630,8 +689,12 @@ function exportConversations(db, parentDir) {
         const name = getConversationLoggingName(conversation);
 
         const process = async () => {
-          const dir = await createDirectory(parentDir, dirName);
-          return exportConversation(db, name, conversation, dir);
+          const dir = await createDirectory(messagesDir, dirName);
+          return exportConversation(db, conversation, {
+            name,
+            dir,
+            attachmentsDir,
+          });
         };
 
         console.log('scheduling export for conversation', name);
@@ -688,12 +751,11 @@ function getDirContents(dir) {
   });
 }
 
-function loadAttachments(dir, message) {
-  const promises = _.map(message.attachments, attachment => readAttachment(
-    dir,
-    message,
-    attachment
-  ));
+function loadAttachments(dir, message, getName) {
+  const promises = _.map(message.attachments, (attachment, index) => {
+    const name = getName(message, index, attachment);
+    return readAttachment(dir, attachment, name);
+  });
   return Promise.all(promises);
 }
 
@@ -765,7 +827,11 @@ async function importConversation(db, dir, options) {
   options = options || {};
   _.defaults(options, { messageLookup: {} });
 
-  const { messageLookup } = options;
+  const {
+    messageLookup,
+    attachmentsDir,
+  } = options;
+
   let conversationId = 'unknown';
   let total = 0;
   let skipped = 0;
@@ -794,13 +860,18 @@ async function importConversation(db, dir, options) {
     }
 
     if (message.attachments && message.attachments.length) {
-      const process = async () => {
-        await loadAttachments(dir, message);
+      const importMessage = async () => {
+        const getName = attachmentsDir
+          ? getAnonymousAttachmentFileName
+          : getExportAttachmentFileName;
+        const parent = attachmentsDir || path.join(dir, message.received_at.toString());
+
+        await loadAttachments(parent, message, getName);
         return saveMessage(db, message);
       };
 
       // eslint-disable-next-line more/no-then
-      promiseChain = promiseChain.then(process);
+      promiseChain = promiseChain.then(importMessage);
 
       return false;
     }
@@ -825,7 +896,6 @@ async function importConversation(db, dir, options) {
 
 async function importConversations(db, dir, options) {
   const contents = await getDirContents(dir);
-
   let promiseChain = Promise.resolve();
 
   _.forEach(contents, (conversationDir) => {
@@ -833,10 +903,10 @@ async function importConversations(db, dir, options) {
       return;
     }
 
-    const process = () => importConversation(db, conversationDir, options);
+    const loadConversation = () => importConversation(db, conversationDir, options);
 
     // eslint-disable-next-line more/no-then
-    promiseChain = promiseChain.then(process);
+    promiseChain = promiseChain.then(loadConversation);
   });
 
   return promiseChain;
@@ -908,10 +978,6 @@ function assembleLookup(db, storeName, keyFunction) {
   });
 }
 
-function getTimestamp() {
-  return moment().format('YYYY MMM Do [at] h.mm.ss a');
-}
-
 function getDirectoryForExport() {
   const options = {
     title: i18n('exportChooserTitle'),
@@ -920,22 +986,72 @@ function getDirectoryForExport() {
   return getDirectory(options);
 }
 
-async function exportToDirectory(directory) {
-  const name = `Signal Export ${getTimestamp()}`;
+function createZip(zipDir, targetDir) {
+  return new Promise((resolve, reject) => {
+    const target = path.join(zipDir, 'messages.zip');
+    const output = fs.createWriteStream(target);
+    const archive = archiver('zip', {
+      cwd: targetDir,
+    });
+
+    output.on('close', () => {
+      resolve(target);
+    });
+
+    archive.on('warning', (error) => {
+      console.log(`Archive generation warning: ${error.stack}`);
+    });
+    archive.on('error', reject);
+
+    archive.pipe(output);
+
+    archive.directory(targetDir, '');
+
+    archive.finalize();
+  });
+}
+
+function createTempDir() {
+  return pify(tmp.dir)();
+}
+
+function deleteAll(pattern) {
+  console.log(`Deleting ${pattern}`);
+  return pify(rimraf)(pattern);
+}
+
+async function backupToDirectory(directory) {
+  let tempDir;
   try {
+    tempDir = await createTempDir();
+
     const db = await Whisper.Database.open();
-    const dir = await createDirectory(directory, name);
-    await exportNonMessages(db, dir);
-    await exportConversations(db, dir);
+    const attachmentsDir = await createDirectory(directory, 'attachments');
+
+    await exportContactAndGroupsToFile(db, tempDir);
+    await exportConversations(db, {
+      messagesDir: tempDir,
+      attachmentsDir,
+    });
+
+    await createZip(directory, tempDir);
+
+    // now that we've made the zip file, we can delete the temp messages directory
+    await deleteAll(tempDir);
+    tempDir = null;
 
     console.log('done backing up!');
-    return dir;
+    return directory;
   } catch (error) {
     console.log(
       'the backup went wrong:',
       error && error.stack ? error.stack : error
     );
     throw error;
+  } finally {
+    if (tempDir) {
+      await deleteAll(tempDir);
+    }
   }
 }
 
@@ -964,9 +1080,35 @@ async function importFromDirectory(directory, options) {
       groupLookup,
     });
 
+    const zipPath = path.join(directory, 'messages.zip');
+    if (fs.existsSync(zipPath)) {
+      // we're in the world of an encrypted, zipped backup
+      let tempDir;
+      try {
+        tempDir = await createTempDir();
+        const attachmentsDir = path.join(directory, 'attachments');
+
+        await decompress(zipPath, tempDir);
+
+        options = Object.assign({}, options, {
+          attachmentsDir,
+        });
+        const result = await importNonMessages(db, tempDir, options);
+        await importConversations(db, tempDir, options);
+
+        console.log('done importing from backup!');
+        return result;
+      } finally {
+        if (tempDir) {
+          await deleteAll(tempDir);
+        }
+      }
+    }
+
     const result = await importNonMessages(db, directory, options);
     await importConversations(db, directory, options);
-    console.log('done restoring from backup!');
+
+    console.log('done importing!');
     return result;
   } catch (error) {
     console.log(

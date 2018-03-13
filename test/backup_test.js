@@ -35,13 +35,13 @@ describe('Backup', function() {
     });
   });
 
-  describe('getAttachmentFileName', function() {
+  describe('getExportAttachmentFileName', function() {
     it('uses original filename if attachment has one', function() {
       var attachment = {
         fileName: 'blah.jpg'
       };
       var expected = 'blah.jpg';
-      assert.strictEqual(Signal.Backup.getAttachmentFileName(attachment), expected);
+      assert.strictEqual(Signal.Backup.getExportAttachmentFileName(attachment), expected);
     });
 
     it('uses attachment id if no filename', function() {
@@ -49,7 +49,7 @@ describe('Backup', function() {
         id: '123'
       };
       var expected = '123';
-      assert.strictEqual(Signal.Backup.getAttachmentFileName(attachment), expected);
+      assert.strictEqual(Signal.Backup.getExportAttachmentFileName(attachment), expected);
     });
 
     it('uses filename and contentType if available', function() {
@@ -58,7 +58,7 @@ describe('Backup', function() {
         contentType: 'image/jpeg'
       };
       var expected = '123.jpeg';
-      assert.strictEqual(Signal.Backup.getAttachmentFileName(attachment), expected);
+      assert.strictEqual(Signal.Backup.getExportAttachmentFileName(attachment), expected);
     });
 
     it('handles strange contentType', function() {
@@ -67,7 +67,7 @@ describe('Backup', function() {
         contentType: 'something'
       };
       var expected = '123.something';
-      assert.strictEqual(Signal.Backup.getAttachmentFileName(attachment), expected);
+      assert.strictEqual(Signal.Backup.getExportAttachmentFileName(attachment), expected);
     });
   });
 
