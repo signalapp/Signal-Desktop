@@ -16,7 +16,6 @@
       "alarms",
       "fullscreen",
       "audioCapture",
-      "https://debuglogs.org/",
       "https://s3.amazonaws.com/signal-debug-logs"
     ],
 
