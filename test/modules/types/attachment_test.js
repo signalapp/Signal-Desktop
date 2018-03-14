@@ -243,4 +243,26 @@ describe('Attachment', () => {
       }
     );
   });
+
+  describe('removeSchemaVersion', () => {
+    it('should remove existing schema version', async () => {
+      const input = {
+        contentType: 'image/jpeg',
+        data: null,
+        fileName: 'foo.jpg',
+        size: 1111,
+        schemaVersion: 1,
+      };
+
+      const expected = {
+        contentType: 'image/jpeg',
+        data: null,
+        fileName: 'foo.jpg',
+        size: 1111,
+      };
+
+      const actual = await Attachment.removeSchemaVersion(input);
+      assert.deepEqual(actual, expected);
+    });
+  });
 });

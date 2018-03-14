@@ -176,6 +176,12 @@ exports._replaceUnicodeOrderOverridesSync = (attachment) => {
 exports.replaceUnicodeOrderOverrides = async attachment =>
   exports._replaceUnicodeOrderOverridesSync(attachment);
 
+exports.removeSchemaVersion = async (attachment) => {
+  const attachmentWithoutSchemaVersion = Object.assign({}, attachment);
+  delete attachmentWithoutSchemaVersion.schemaVersion;
+  return attachmentWithoutSchemaVersion;
+};
+
 // Public API
 const toVersion1 = exports.withSchemaVersion(1, autoOrientJPEG);
 const toVersion2 = exports.withSchemaVersion(2, exports.replaceUnicodeOrderOverrides);
