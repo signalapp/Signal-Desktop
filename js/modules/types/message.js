@@ -1,6 +1,7 @@
 const isFunction = require('lodash/isFunction');
 
 const Attachment = require('./attachment');
+const Errors = require('./errors');
 const SchemaVersion = require('./schema_version');
 
 
@@ -110,8 +111,7 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
     } catch (error) {
       console.log(
         'Message._withSchemaVersion: error:',
-        // TODO: Use `Errors.toLogFormat`:
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
       return message;
     }
