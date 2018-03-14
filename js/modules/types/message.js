@@ -40,7 +40,8 @@ exports.initializeSchemaVersion = (message) => {
   }
 
   const numAttachments = Array.isArray(message.attachments)
-    ? message.attachments.length : 0;
+    ? message.attachments.length
+    : 0;
   const hasAttachments = numAttachments > 0;
   if (!hasAttachments) {
     return Object.assign(
@@ -54,7 +55,8 @@ exports.initializeSchemaVersion = (message) => {
   // the first one:
   const firstAttachment = message.attachments[0];
   const inheritedSchemaVersion = SchemaVersion.isValid(firstAttachment.schemaVersion)
-    ? firstAttachment.schemaVersion : INITIAL_SCHEMA_VERSION;
+    ? firstAttachment.schemaVersion
+    : INITIAL_SCHEMA_VERSION;
   const messageWithInitialSchema = Object.assign(
     {},
     message,
