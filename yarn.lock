@@ -5339,10 +5339,6 @@ tar@^2.0.0:
     fstream "^1.0.2"
     inherits "2"
 
-temp-dir@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/temp-dir/-/temp-dir-1.0.0.tgz#0a7c0ea26d3a39afa7e0ebea9c1fc0bc4daa011d"
-
 temp-file@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/temp-file/-/temp-file-3.1.1.tgz#8823649aa4e8a6e419eb71b601a2e4d472b0f24f"
@@ -5351,13 +5347,6 @@ temp-file@^3.1.1:
     bluebird-lst "^1.0.5"
     fs-extra-p "^4.5.0"
     lazy-val "^1.0.3"
-
-tempy@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/tempy/-/tempy-0.2.1.tgz#9038e4dbd1c201b74472214179bc2c6f7776e54c"
-  dependencies:
-    temp-dir "^1.0.0"
-    unique-string "^1.0.0"
 
 term-size@^1.2.0:
   version "1.2.0"

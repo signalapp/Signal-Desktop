@@ -112,7 +112,6 @@
     "sinon": "^4.4.2",
     "spectron": "^3.8.0",
     "string-to-arraybuffer": "^1.0.0",
-    "tempy": "^0.2.1",
     "tmp": "^0.0.33"
   },
   "engines": {
