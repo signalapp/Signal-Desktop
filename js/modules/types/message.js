@@ -146,6 +146,9 @@ exports._mapAttachments = upgradeAttachment => async message =>
     }
   );
 
+const toVersion0 = async message =>
+  exports.initializeSchemaVersion(message);
+
 const toVersion1 = exports._withSchemaVersion(
   1,
   exports._mapAttachments(Attachment.autoOrientJPEG)
@@ -157,4 +160,4 @@ const toVersion2 = exports._withSchemaVersion(
 
 // UpgradeStep
 exports.upgradeSchema = async message =>
-  toVersion2(await toVersion1(message));
+  toVersion2(await toVersion1(await toVersion0(message)));
