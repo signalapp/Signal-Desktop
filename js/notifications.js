@@ -25,6 +25,7 @@
             this.trigger('click', conversation);
         },
         update: function() {
+            const {isEnabled} = this;
             const isFocused = window.isFocused();
             const isAudioNotificationEnabled = storage.get('audio-notification') || false;
             const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
@@ -33,13 +34,10 @@
             const numNotifications = this.length;
             console.log(
                 'Update notifications:',
-                'isFocused:', isFocused,
-                'isEnabled:', this.isEnabled,
-                'numNotifications:', numNotifications,
-                'shouldPlayNotificationSound:', shouldPlayNotificationSound
+                {isFocused, isEnabled, numNotifications, shouldPlayNotificationSound}
             );
 
-            if (!this.isEnabled) {
+            if (!isEnabled) {
                 return;
             }
 
