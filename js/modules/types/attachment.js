@@ -3,6 +3,7 @@ const isString = require('lodash/isString');
 const MIME = require('./mime');
 const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
+const { migrateDataToFileSystem } = require('./attachment/migrate_data_to_file_system');
 
 // // Incoming message attachment fields
 // {
@@ -107,3 +108,5 @@ exports.removeSchemaVersion = (attachment) => {
   delete attachmentWithoutSchemaVersion.schemaVersion;
   return attachmentWithoutSchemaVersion;
 };
+
+exports.migrateDataToFileSystem = migrateDataToFileSystem;
