@@ -20,7 +20,7 @@ exports.upgradeSchema = async message =>
   });
 
 // Inherits existing schema from attachments:
-exports.withInheritedSchemaVersion = (message) => {
+exports.inheritSchemaVersion = (message) => {
   const isInitialized = SchemaVersion.isValid(message.schemaVersion) &&
     message.schemaVersion >= 1;
   if (isInitialized) {

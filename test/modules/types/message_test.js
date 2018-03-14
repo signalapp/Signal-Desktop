@@ -4,7 +4,7 @@ const Message = require('../../../js/modules/types/message');
 
 
 describe('Message', () => {
-  describe('withInheritedSchemaVersion', () => {
+  describe('inheritSchemaVersion', () => {
     it('should ignore messages with previously inherited schema', () => {
       const input = {
         body: 'Imagine there is no heaven…',
@@ -15,7 +15,7 @@ describe('Message', () => {
         schemaVersion: 2,
       };
 
-      const actual = Message.withInheritedSchemaVersion(input);
+      const actual = Message.inheritSchemaVersion(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -31,7 +31,7 @@ describe('Message', () => {
           schemaVersion: 0,
         };
 
-        const actual = Message.withInheritedSchemaVersion(input);
+        const actual = Message.inheritSchemaVersion(input);
         assert.deepEqual(actual, expected);
       });
     });
@@ -55,7 +55,7 @@ describe('Message', () => {
           schemaVersion: 7,
         };
 
-        const actual = Message.withInheritedSchemaVersion(input);
+        const actual = Message.inheritSchemaVersion(input);
         assert.deepEqual(actual, expected);
       });
     });
