@@ -16,24 +16,24 @@ exports.run = async (transaction) => {
   await db.transaction.complete;
 };
 
-exports._initializeMessageSchemaVersion = messagesStore =>
-  new Promise((resolve, reject) => {
-    messagesStore.openCursor().then(async function cursorIterate(cursor) {
-      const hasMoreResults = Boolean(cursor);
-      if (!hasMoreResults) {
-        return resolve();
-      }
+// NOTE: We disable `no-await-in-loop` because we want this migration to happen
+// in sequence and not in parallel:
+// https://eslint.org/docs/rules/no-await-in-loop#when-not-to-use-it
+exports._initializeMessageSchemaVersion = async (messagesStore) => {
+  let cursor = await messagesStore.openCursor();
+  while (cursor) {
+    const message = cursor.value;
+    console.log('Initialize schema version for message:', message.id);
 
-      const message = cursor.value;
-      console.log('Initialize schema version for message:', message.id);
+    const messageWithSchemaVersion = Message.initializeSchemaVersion(message);
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      await messagesStore.put(messageWithSchemaVersion, message.id);
+    } catch (error) {
+      console.log('Failed to put message with initialized schema version:', message.id);
+    }
 
-      const messageWithInitializedSchemaVersion = Message.initializeSchemaVersion(message);
-      try {
-        await messagesStore.put(messageWithInitializedSchemaVersion, message.id);
-      } catch (error) {
-        console.log('Failed to put message with initialized schema version:', message.id);
-      }
-
-      cursor.continue().then(cursorIterate);
-    }).catch(reject);
-  });
+    // eslint-disable-next-line no-await-in-loop
+    cursor = await cursor.continue();
+  }
+};
