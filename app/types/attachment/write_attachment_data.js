@@ -15,7 +15,7 @@ exports.writeAttachmentData = (root) => {
       throw new TypeError('`arrayBuffer` must be an array buffer');
     }
 
-    const buffer = new Buffer(arrayBuffer);
+    const buffer = Buffer.from(arrayBuffer);
     const path = Path.join(root, exports._getAttachmentPath());
     await FSE.ensureFile(path);
     await FSE.writeFile(path, buffer);
