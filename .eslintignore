@@ -16,6 +16,7 @@ test/views/*.js
 
 # ES2015+ files
 !js/background.js
+!js/database.js
 !js/logging.js
 !js/models/conversations.js
 !js/views/attachment_view.js
