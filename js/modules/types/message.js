@@ -8,6 +8,14 @@ const SchemaVersion = require('./schema_version');
 const GROUP = 'group';
 const PRIVATE = 'private';
 
+// Schema version history
+//
+// Version 0
+//   - Schema initialized
+// Version 1
+//   - Attachments: Auto-orient JPEG attachments using EXIF `Orientation` data
+// Version 2
+//   - Attachments: Sanitize Unicode order override characters
 const INITIAL_SCHEMA_VERSION = 0;
 
 // Increment this version number every time we add a message schema upgrade
@@ -17,12 +25,6 @@ const INITIAL_SCHEMA_VERSION = 0;
 // how we do database migrations:
 exports.CURRENT_SCHEMA_VERSION = 2;
 
-// Schema version history
-//
-// Version 1
-//   - Attachments: Auto-orient JPEG attachments using EXIF `Orientation` data
-// Version 2
-//   - Attachments: Sanitize Unicode order override characters
 
 // Public API
 exports.GROUP = GROUP;
