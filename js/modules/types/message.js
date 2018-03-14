@@ -73,7 +73,7 @@ exports.initializeSchemaVersion = (message) => {
 };
 
 // Middleware
-// type UpgradeStep = Message -> Promise Message
+// type UpgradeStep = (Message, Context) -> Promise Message
 
 // SchemaVersion -> UpgradeStep -> UpgradeStep
 exports._withSchemaVersion = (schemaVersion, upgrade) => {
@@ -84,7 +84,7 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
     throw new TypeError('`upgrade` must be a function');
   }
 
-  return async (message) => {
+  return async (message, context) => {
     if (!exports.isValid(message)) {
       console.log('Message._withSchemaVersion: Invalid input message:', message);
       return message;
@@ -109,7 +109,7 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
 
     let upgradedMessage;
     try {
-      upgradedMessage = await upgrade(message);
+      upgradedMessage = await upgrade(message, context);
     } catch (error) {
       console.log(
         'Message._withSchemaVersion: error:',
@@ -137,16 +137,14 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
 
 // Public API
 //      _mapAttachments :: (Attachment -> Promise Attachment) ->
-//                         Message ->
+//                         (Message, Context) ->
 //                         Promise Message
-exports._mapAttachments = upgradeAttachment => async message =>
-  Object.assign(
-    {},
-    message,
-    {
-      attachments: await Promise.all(message.attachments.map(upgradeAttachment)),
-    }
-  );
+exports._mapAttachments = upgradeAttachment => async (message, context) => {
+  const upgradeWithContext = attachment =>
+    upgradeAttachment(attachment, context);
+  const attachments = await Promise.all(message.attachments.map(upgradeWithContext));
+  return Object.assign({}, message, { attachments });
+};
 
 const toVersion0 = async message =>
   exports.initializeSchemaVersion(message);
@@ -159,7 +157,11 @@ const toVersion2 = exports._withSchemaVersion(
   2,
   exports._mapAttachments(Attachment.replaceUnicodeOrderOverrides)
 );
+const toVersion3 = exports._withSchemaVersion(
+  3,
+  exports._mapAttachments(Attachment.migrateDataToFileSystem)
+);
 
 // UpgradeStep
-exports.upgradeSchema = async message =>
+exports.upgradeSchema = async (message, context) =>
   toVersion2(await toVersion1(await toVersion0(message)));
