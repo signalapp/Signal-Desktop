@@ -245,7 +245,7 @@ describe('Attachment', () => {
   });
 
   describe('removeSchemaVersion', () => {
-    it('should remove existing schema version', async () => {
+    it('should remove existing schema version', () => {
       const input = {
         contentType: 'image/jpeg',
         data: null,
@@ -261,7 +261,7 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const actual = await Attachment.removeSchemaVersion(input);
+      const actual = Attachment.removeSchemaVersion(input);
       assert.deepEqual(actual, expected);
     });
   });

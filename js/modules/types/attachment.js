@@ -176,7 +176,12 @@ exports._replaceUnicodeOrderOverridesSync = (attachment) => {
 exports.replaceUnicodeOrderOverrides = async attachment =>
   exports._replaceUnicodeOrderOverridesSync(attachment);
 
-exports.removeSchemaVersion = async (attachment) => {
+exports.removeSchemaVersion = (attachment) => {
+  if (!exports.isValid(attachment)) {
+    console.log('Attachment.removeSchemaVersion: Invalid input attachment:', attachment);
+    return attachment;
+  }
+
   const attachmentWithoutSchemaVersion = Object.assign({}, attachment);
   delete attachmentWithoutSchemaVersion.schemaVersion;
   return attachmentWithoutSchemaVersion;
