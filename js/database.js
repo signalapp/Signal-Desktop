@@ -127,7 +127,7 @@
     {
       version: '12.0',
       migrate(transaction, next) {
-        console.log('migration 1.0');
+        console.log('migration 12.0');
         console.log('creating object stores');
         const messages = transaction.db.createObjectStore('messages');
         messages.createIndex('conversation', ['conversationId', 'received_at'], {
