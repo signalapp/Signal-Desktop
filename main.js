@@ -497,6 +497,13 @@ app.on('activate', () => {
   }
 });
 
+// Defense in depth. We never intend to open webviews, so this prevents it completely.
+app.on('web-contents-created', (createEvent, win) => {
+  win.on('will-attach-webview', (attachEvent) => {
+    attachEvent.preventDefault();
+  });
+});
+
 ipc.on('set-badge-count', (event, count) => {
   app.setBadgeCount(count);
 });
