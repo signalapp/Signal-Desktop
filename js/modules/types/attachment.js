@@ -27,7 +27,7 @@ exports.CURRENT_SCHEMA_VERSION = 2;
 //   contentType: MIMEType
 //   data: ArrayBuffer
 //   digest: ArrayBuffer
-//   fileName: string
+//   fileName: string | null
 //   flags: null
 //   key: ArrayBuffer
 //   size: integer
@@ -53,8 +53,10 @@ exports.isValid = (rawAttachment) => {
     return false;
   }
 
-  return isString(rawAttachment.contentType) &&
-    isString(rawAttachment.fileName);
+  const hasValidContentType = isString(rawAttachment.contentType);
+  const hasValidFileName =
+    isString(rawAttachment.fileName) || rawAttachment.fileName === null;
+  return hasValidContentType && hasValidFileName;
 };
 
 // Middleware
