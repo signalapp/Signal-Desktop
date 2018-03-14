@@ -4,7 +4,7 @@ const Message = require('../../../js/modules/types/message');
 
 
 describe('Message', () => {
-  describe('inheritSchemaVersion', () => {
+  describe('initializeSchemaVersion', () => {
     it('should ignore messages with previously inherited schema', () => {
       const input = {
         body: 'Imagine there is no heaven…',
@@ -15,7 +15,7 @@ describe('Message', () => {
         schemaVersion: 2,
       };
 
-      const actual = Message.inheritSchemaVersion(input);
+      const actual = Message.initializeSchemaVersion(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -31,7 +31,7 @@ describe('Message', () => {
           schemaVersion: 0,
         };
 
-        const actual = Message.inheritSchemaVersion(input);
+        const actual = Message.initializeSchemaVersion(input);
         assert.deepEqual(actual, expected);
       });
     });
@@ -55,7 +55,7 @@ describe('Message', () => {
           schemaVersion: 7,
         };
 
-        const actual = Message.inheritSchemaVersion(input);
+        const actual = Message.initializeSchemaVersion(input);
         assert.deepEqual(actual, expected);
       });
     });
@@ -116,9 +116,9 @@ describe('Message', () => {
         const v3 = async message =>
           Object.assign({}, message, { hasUpgradedToVersion3: true });
 
-        const toVersion1 = Message.withSchemaVersion(1, v1);
-        const toVersion2 = Message.withSchemaVersion(2, v2);
-        const toVersion3 = Message.withSchemaVersion(3, v3);
+        const toVersion1 = Message._withSchemaVersion(1, v1);
+        const toVersion2 = Message._withSchemaVersion(2, v2);
+        const toVersion3 = Message._withSchemaVersion(3, v3);
 
         const upgradeSchema = async message =>
           toVersion3(await toVersion2(await toVersion1(message)));
@@ -156,9 +156,9 @@ describe('Message', () => {
         const v3 = async attachment =>
           Object.assign({}, attachment, { hasUpgradedToVersion3: true });
 
-        const toVersion1 = Message.withSchemaVersion(1, v1);
-        const toVersion2 = Message.withSchemaVersion(2, v2);
-        const toVersion3 = Message.withSchemaVersion(3, v3);
+        const toVersion1 = Message._withSchemaVersion(1, v1);
+        const toVersion2 = Message._withSchemaVersion(2, v2);
+        const toVersion3 = Message._withSchemaVersion(3, v3);
 
         // NOTE: We upgrade to 3 before 2, i.e. the pipeline should abort:
         const upgradeSchema = async attachment =>
@@ -170,18 +170,18 @@ describe('Message', () => {
     });
   });
 
-  describe('withSchemaVersion', () => {
+  describe('_withSchemaVersion', () => {
     it('should require a version number', () => {
       const toVersionX = () => {};
       assert.throws(
-        () => Message.withSchemaVersion(toVersionX, 2),
+        () => Message._withSchemaVersion(toVersionX, 2),
         '`schemaVersion` is invalid'
       );
     });
 
     it('should require an upgrade function', () => {
       assert.throws(
-        () => Message.withSchemaVersion(2, 3),
+        () => Message._withSchemaVersion(2, 3),
         '`upgrade` must be a function'
       );
     });
@@ -189,7 +189,7 @@ describe('Message', () => {
     it('should skip upgrading if message has already been upgraded', async () => {
       const upgrade = async message =>
         Object.assign({}, message, { foo: true });
-      const upgradeWithVersion = Message.withSchemaVersion(3, upgrade);
+      const upgradeWithVersion = Message._withSchemaVersion(3, upgrade);
 
       const input = {
         id: 'guid-guid-guid-guid',
@@ -207,7 +207,7 @@ describe('Message', () => {
       const upgrade = async () => {
         throw new Error('boom!');
       };
-      const upgradeWithVersion = Message.withSchemaVersion(3, upgrade);
+      const upgradeWithVersion = Message._withSchemaVersion(3, upgrade);
 
       const input = {
         id: 'guid-guid-guid-guid',
@@ -223,7 +223,7 @@ describe('Message', () => {
 
     it('should return original message if upgrade function returns null', async () => {
       const upgrade = async () => null;
-      const upgradeWithVersion = Message.withSchemaVersion(3, upgrade);
+      const upgradeWithVersion = Message._withSchemaVersion(3, upgrade);
 
       const input = {
         id: 'guid-guid-guid-guid',

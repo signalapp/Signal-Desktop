@@ -32,8 +32,7 @@ exports.isValid = () =>
   true;
 
 // Schema
-// Inherits existing schema from attachments:
-exports.inheritSchemaVersion = (message) => {
+exports.initializeSchemaVersion = (message) => {
   const isInitialized = SchemaVersion.isValid(message.schemaVersion) &&
     message.schemaVersion >= 1;
   if (isInitialized) {
@@ -72,7 +71,7 @@ exports.inheritSchemaVersion = (message) => {
 // type UpgradeStep = Message -> Promise Message
 
 // SchemaVersion -> UpgradeStep -> UpgradeStep
-exports.withSchemaVersion = (schemaVersion, upgrade) => {
+exports._withSchemaVersion = (schemaVersion, upgrade) => {
   if (!SchemaVersion.isValid(schemaVersion)) {
     throw new TypeError('`schemaVersion` is invalid');
   }
@@ -82,7 +81,7 @@ exports.withSchemaVersion = (schemaVersion, upgrade) => {
 
   return async (message) => {
     if (!exports.isValid(message)) {
-      console.log('Message.withSchemaVersion: Invalid input message:', message);
+      console.log('Message._withSchemaVersion: Invalid input message:', message);
       return message;
     }
 
@@ -95,7 +94,7 @@ exports.withSchemaVersion = (schemaVersion, upgrade) => {
     const hasExpectedVersion = message.schemaVersion === expectedVersion;
     if (!hasExpectedVersion) {
       console.log(
-        'WARNING: Message.withSchemaVersion: Unexpected version:',
+        'WARNING: Message._withSchemaVersion: Unexpected version:',
         `Expected message to have version ${expectedVersion},`,
         `but got ${message.schemaVersion}.`,
         message
@@ -108,7 +107,7 @@ exports.withSchemaVersion = (schemaVersion, upgrade) => {
       upgradedMessage = await upgrade(message);
     } catch (error) {
       console.log(
-        'Message.withSchemaVersion: error:',
+        'Message._withSchemaVersion: error:',
         // TODO: Use `Errors.toLogFormat`:
         error && error.stack ? error.stack : error
       );
@@ -117,7 +116,7 @@ exports.withSchemaVersion = (schemaVersion, upgrade) => {
 
     if (!exports.isValid(upgradedMessage)) {
       console.log(
-        'Message.withSchemaVersion: Invalid upgraded message:',
+        'Message._withSchemaVersion: Invalid upgraded message:',
         upgradedMessage
       );
       return message;
@@ -133,8 +132,10 @@ exports.withSchemaVersion = (schemaVersion, upgrade) => {
 
 
 // Public API
-//      mapAttachments :: (Attachment -> Promise Attachment) -> Message -> Promise Message
-exports.mapAttachments = upgradeAttachment => async message =>
+//      _mapAttachments :: (Attachment -> Promise Attachment) ->
+//                         Message ->
+//                         Promise Message
+exports._mapAttachments = upgradeAttachment => async message =>
   Object.assign(
     {},
     message,
@@ -143,13 +144,13 @@ exports.mapAttachments = upgradeAttachment => async message =>
     }
   );
 
-const toVersion1 = exports.withSchemaVersion(
+const toVersion1 = exports._withSchemaVersion(
   1,
-  exports.mapAttachments(Attachment.autoOrientJPEG)
+  exports._mapAttachments(Attachment.autoOrientJPEG)
 );
-const toVersion2 = exports.withSchemaVersion(
+const toVersion2 = exports._withSchemaVersion(
   2,
-  exports.mapAttachments(Attachment.replaceUnicodeOrderOverrides)
+  exports._mapAttachments(Attachment.replaceUnicodeOrderOverrides)
 );
 
 // UpgradeStep
