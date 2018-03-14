@@ -241,9 +241,14 @@
         console.log('migration 17');
         console.log('Start migration to database version 17');
 
+        const start = Date.now();
         await Migrations.V17.run(transaction);
+        const duration = Date.now() - start;
 
-        console.log('Complete migration to database version 17');
+        console.log(
+          'Complete migration to database version 17.',
+          `Duration: ${duration}ms`
+        );
         next();
       },
     },
