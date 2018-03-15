@@ -4,6 +4,11 @@
   console.log('preload');
   const electron = require('electron');
 
+  const Attachments = require('./app/attachments');
+
+  const { app } = electron.remote;
+
+
   window.PROTO_ROOT = 'protos';
   window.config = require('url').parse(window.location.toString(), true).query;
   window.wrapDeferred = function(deferred) {
@@ -110,6 +115,12 @@
   window.Signal.Crypto = require('./js/modules/crypto');
 
   window.Signal.Migrations = window.Signal.Migrations || {};
+  const attachmentsPath = Attachments.getPath(app.getPath('userData'));
+  const { writeAttachmentData } = require('./app/types/attachment/write_attachment_data');
+  // Injected context functions to keep `Message` agnostic from Electron:
+  window.Signal.Migrations.context = {
+    writeAttachmentData: writeAttachmentData(attachmentsPath),
+  };
   window.Signal.Migrations.V17 = require('./js/modules/migrations/17');
 
   window.Signal.Types = window.Signal.Types || {};

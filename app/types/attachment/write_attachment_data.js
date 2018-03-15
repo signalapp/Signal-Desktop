@@ -5,6 +5,9 @@ const isString = require('lodash/isString');
 const Path = require('path');
 
 
+//      _writeAttachmentData :: AttachmentsPath ->
+//                              ArrayBuffer ->
+//                              IO (Promise Path)
 exports.writeAttachmentData = (root) => {
   if (!isString(root)) {
     throw new TypeError('`root` must be a path');
@@ -23,11 +26,13 @@ exports.writeAttachmentData = (root) => {
   };
 };
 
+//      _getAttachmentName :: Unit -> IO String
 exports._getAttachmentName = () => {
   const buffer = crypto.randomBytes(32);
   return buffer.toString('hex');
 };
 
+//      _getAttachmentPath :: Unit -> IO Path
 exports._getAttachmentPath = () => {
   const name = exports._getAttachmentName();
   const prefix = name.slice(0, 3);

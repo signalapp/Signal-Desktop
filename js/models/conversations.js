@@ -10,6 +10,7 @@
    window.Whisper = window.Whisper || {};
 
    const { Attachment, Message } = window.Signal.Types;
+   const { context: migrationContext } = window.Signal.Migrations;
 
    // TODO: Factor out private and group subclasses of Conversation
 
@@ -626,7 +627,7 @@
           received_at: now,
           expireTimer: this.get('expireTimer'),
           recipients: this.getRecipients(),
-        });
+        }, migrationContext);
         const message = this.messageCollection.add(messageWithSchema);
         if (this.isPrivate()) {
           message.set({ destination: this.id });

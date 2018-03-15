@@ -16,6 +16,7 @@ const {
 
 const packageJson = require('./package.json');
 
+const Attachments = require('./app/attachments');
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
 const GlobalErrors = require('./js/modules/global_errors');
@@ -417,7 +418,7 @@ app.on('ready', () => {
   let loggingSetupError;
   logging.initialize().catch((error) => {
     loggingSetupError = error;
-  }).then(() => {
+  }).then(async () => {
   /* eslint-enable more/no-then */
     logger = logging.getLogger();
     logger.info('app ready');
@@ -430,6 +431,10 @@ app.on('ready', () => {
       const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
       locale = loadLocale({ appLocale, logger });
     }
+
+    console.log('Ensure attachments directory exists');
+    const userDataPath = app.getPath('userData');
+    await Attachments.ensureDirectory(userDataPath);
 
     ready = true;
 
