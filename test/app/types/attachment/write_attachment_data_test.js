@@ -12,7 +12,7 @@ const {
 } = require('../../../../app/types/attachment/write_attachment_data');
 
 
-const PREFIX_LENGTH = 3;
+const PREFIX_LENGTH = 2;
 const NUM_SEPARATORS = 1;
 const NAME_LENGTH = 64;
 const PATH_LENGTH = PREFIX_LENGTH + NUM_SEPARATORS + NAME_LENGTH;

@@ -35,6 +35,6 @@ exports._getAttachmentName = () => {
 //      _getAttachmentPath :: Unit -> IO Path
 exports._getAttachmentPath = () => {
   const name = exports._getAttachmentName();
-  const prefix = name.slice(0, 3);
+  const prefix = name.slice(0, 2);
   return Path.join(prefix, name);
 };
