@@ -367,8 +367,8 @@
       }
     },
     "submitDebugLog": {
-      "message": "Submit debug log",
-      "description": "Menu item and header text for debug log modal, title case."
+      "message": "Debug log",
+      "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
       "message": "Debug Log",
@@ -386,9 +386,9 @@
       "message": "Go to Support Page",
       "description": "Item under the Help menu, takes you to the support page"
     },
-    "fileABug": {
-      "message": "File a Bug",
-      "description": "Item under the Help menu, takes you to GitHub new issue form"
+    "menuReportIssue": {
+      "message": "Report an Issue",
+      "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "aboutSignalDesktop": {
       "message": "About Signal Desktop",

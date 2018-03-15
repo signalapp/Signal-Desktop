@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 /* global $: false */
 /* global _: false */
 /* global Backbone: false */
