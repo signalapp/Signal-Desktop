@@ -13,9 +13,11 @@ const PRIVATE = 'private';
 // Version 0
 //   - Schema initialized
 // Version 1
-//   - Attachments: Auto-orient JPEG attachments using EXIF `Orientation` data
+//   - Attachments: Auto-orient JPEG attachments using EXIF `Orientation` data.
 // Version 2
-//   - Attachments: Sanitize Unicode order override characters
+//   - Attachments: Sanitize Unicode order override characters.
+// Version 3
+//   - Attachments: Write attachment data to disk and store relative path to it.
 const INITIAL_SCHEMA_VERSION = 0;
 
 // Increment this version number every time we add a message schema upgrade
@@ -23,7 +25,7 @@ const INITIAL_SCHEMA_VERSION = 0;
 // add more upgrade steps, we could design a pipeline that does this
 // incrementally, e.g. from version 0 / unknown -> 1, 1 --> 2, etc., similar to
 // how we do database migrations:
-exports.CURRENT_SCHEMA_VERSION = 2;
+exports.CURRENT_SCHEMA_VERSION = 3;
 
 
 // Public API
@@ -163,5 +165,8 @@ const toVersion3 = exports._withSchemaVersion(
 );
 
 // UpgradeStep
-exports.upgradeSchema = async (message, context) =>
-  toVersion2(await toVersion1(await toVersion0(message)));
+exports.upgradeSchema = async (message, { writeAttachmentData } = {}) =>
+  toVersion3(
+    await toVersion2(await toVersion1(await toVersion0(message))),
+    { writeAttachmentData }
+  );

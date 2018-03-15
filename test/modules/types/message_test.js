@@ -1,3 +1,4 @@
+const stringToArrayBuffer = require('string-to-arraybuffer');
 const { assert } = require('chai');
 
 const Message = require('../../../js/modules/types/message');
@@ -66,7 +67,7 @@ describe('Message', () => {
       const input = {
         attachments: [{
           contentType: 'application/json',
-          data: null,
+          data: stringToArrayBuffer('It’s easy if you try'),
           fileName: 'test\u202Dfig.exe',
           size: 1111,
         }],
@@ -75,14 +76,21 @@ describe('Message', () => {
       const expected = {
         attachments: [{
           contentType: 'application/json',
-          data: null,
+          path: 'abc/abcdefg',
           fileName: 'test\uFFFDfig.exe',
           size: 1111,
         }],
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
       };
 
-      const actual = await Message.upgradeSchema(input);
+      const expectedAttachmentData = stringToArrayBuffer('It’s easy if you try');
+      const context = {
+        writeAttachmentData: async (attachmentData) => {
+          assert.deepEqual(attachmentData, expectedAttachmentData);
+          return 'abc/abcdefg';
+        },
+      };
+      const actual = await Message.upgradeSchema(input, context);
       assert.deepEqual(actual, expected);
     });
 
