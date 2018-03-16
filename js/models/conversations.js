@@ -657,10 +657,13 @@
           profileKey = storage.get('profileKey');
         }
 
+        const loadData = Attachment.loadData(migrationContext.readAttachmentData);
+        const attachmentsWithData =
+            await Promise.all(messageWithSchema.attachments.map(loadData));
         message.send(sendFunction(
           this.get('id'),
           body,
-          messageWithSchema.attachments,
+          attachmentsWithData,
           now,
           this.get('expireTimer'),
           profileKey

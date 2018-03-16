@@ -1,3 +1,4 @@
+const isFunction = require('lodash/isFunction');
 const isString = require('lodash/isString');
 
 const MIME = require('./mime');
@@ -110,3 +111,34 @@ exports.removeSchemaVersion = (attachment) => {
 };
 
 exports.migrateDataToFileSystem = migrateDataToFileSystem;
+
+//      hasData :: Attachment -> Boolean
+exports.hasData = attachment =>
+  attachment.data instanceof ArrayBuffer || ArrayBuffer.isView(attachment.data);
+
+//      loadData :: (RelativePath -> IO (Promise ArrayBuffer))
+//                  Attachment ->
+//                  IO (Promise Attachment)
+exports.loadData = (readAttachmentData) => {
+  if (!isFunction(readAttachmentData)) {
+    throw new TypeError('`readAttachmentData` must be a function');
+  }
+
+  return async (attachment) => {
+    if (!exports.isValid(attachment)) {
+      throw new TypeError('`attachment` is not valid');
+    }
+
+    const isAlreadyLoaded = exports.hasData(attachment);
+    if (isAlreadyLoaded) {
+      return attachment;
+    }
+
+    if (!isString(attachment.path)) {
+      throw new TypeError('`attachment.path` is required');
+    }
+
+    const data = await readAttachmentData(attachment.path);
+    return Object.assign({}, attachment, { data });
+  };
+};
