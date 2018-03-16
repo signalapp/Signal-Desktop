@@ -18,6 +18,7 @@ const PRIVATE = 'private';
 //   - Attachments: Sanitize Unicode order override characters.
 // Version 3
 //   - Attachments: Write attachment data to disk and store relative path to it.
+
 const INITIAL_SCHEMA_VERSION = 0;
 
 // Increment this version number every time we add a message schema upgrade

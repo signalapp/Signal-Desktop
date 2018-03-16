@@ -1,8 +1,8 @@
 const crypto = require('crypto');
-const FSE = require('fs-extra');
+const fse = require('fs-extra');
 const isArrayBuffer = require('lodash/isArrayBuffer');
 const isString = require('lodash/isString');
-const Path = require('path');
+const path = require('path');
 
 
 //      _writeAttachmentData :: AttachmentsPath ->
@@ -19,10 +19,11 @@ exports.writeAttachmentData = (root) => {
     }
 
     const buffer = Buffer.from(arrayBuffer);
-    const path = Path.join(root, exports._getAttachmentPath());
-    await FSE.ensureFile(path);
-    await FSE.writeFile(path, buffer);
-    return path;
+    const relativePath = exports._getAttachmentPath();
+    const absolutePath = path.join(root, relativePath);
+    await fse.ensureFile(absolutePath);
+    await fse.writeFile(absolutePath, buffer);
+    return relativePath;
   };
 };
 
@@ -36,5 +37,5 @@ exports._getAttachmentName = () => {
 exports._getAttachmentPath = () => {
   const name = exports._getAttachmentName();
   const prefix = name.slice(0, 2);
-  return Path.join(prefix, name);
+  return path.join(prefix, name);
 };

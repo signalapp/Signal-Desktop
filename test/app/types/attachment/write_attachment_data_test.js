@@ -1,6 +1,6 @@
-const FSE = require('fs-extra');
+const fse = require('fs-extra');
 const isEqual = require('lodash/isEqual');
-const Path = require('path');
+const path = require('path');
 const stringToArrayBuffer = require('string-to-arraybuffer');
 const tmp = require('tmp');
 const { assert } = require('chai');
@@ -24,17 +24,17 @@ describe('writeAttachmentData', () => {
   });
 
   after(async () => {
-    await FSE.remove(TEMPORARY_DIRECTORY);
+    await fse.remove(TEMPORARY_DIRECTORY);
   });
 
   it('should write file to disk and return path', async () => {
     const input = stringToArrayBuffer('test string');
-    const tempDirectory = Path.join(TEMPORARY_DIRECTORY, 'writeAttachmentData');
+    const tempDirectory = path.join(TEMPORARY_DIRECTORY, 'writeAttachmentData');
 
     const outputPath = await writeAttachmentData(tempDirectory)(input);
-    const output = await FSE.readFile(outputPath);
+    const output = await fse.readFile(path.join(tempDirectory, outputPath));
 
-    assert.lengthOf(Path.relative(tempDirectory, outputPath), PATH_LENGTH);
+    assert.lengthOf(outputPath, PATH_LENGTH);
 
     const inputBuffer = Buffer.from(input);
     assert.isTrue(isEqual(inputBuffer, output));
