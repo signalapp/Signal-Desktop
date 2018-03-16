@@ -17,29 +17,21 @@ const _initializeMessageSchemaVersion = messagesStore =>
     const messagePutOperations = [];
 
     const cursorRequest = messagesStore.openCursor();
-    cursorRequest.onsuccess = (event) => {
+    cursorRequest.onsuccess = async (event) => {
       const cursor = event.target.result;
       const hasMoreData = Boolean(cursor);
       if (!hasMoreData) {
-        // eslint-disable-next-line more/no-then
-        return Promise.all(messagePutOperations)
-          .then(() => resolve(messagePutOperations.length));
+        await Promise.all(messagePutOperations);
+        return resolve(messagePutOperations.length);
       }
 
       const message = cursor.value;
       const messageWithSchemaVersion = Message.initializeSchemaVersion(message);
-      messagePutOperations.push(new Promise((resolvePut) => {
-        console.log(
-          'Initialize schema version for message:',
-          messageWithSchemaVersion.id
-        );
-
-        resolvePut(putItem(
-          messagesStore,
-          messageWithSchemaVersion,
-          messageWithSchemaVersion.id
-        ));
-      }));
+      messagePutOperations.push(putItem(
+        messagesStore,
+        messageWithSchemaVersion,
+        messageWithSchemaVersion.id
+      ));
 
       return cursor.continue();
     };
