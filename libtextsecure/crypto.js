@@ -87,6 +87,13 @@
         },
 
         encryptAttachment: function(plaintext, keys, iv) {
+            if (!(plaintext instanceof ArrayBuffer) && !ArrayBuffer.isView(plaintext)) {
+              throw new TypeError(
+                '`plaintext` must be an `ArrayBuffer` or `ArrayBufferView`; got: ' +
+                typeof plaintext
+              );
+            }
+
             if (keys.byteLength != 64) {
                 throw new Error("Got invalid length attachment keys");
             }
