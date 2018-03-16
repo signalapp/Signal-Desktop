@@ -5,10 +5,16 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    const { Message: TypedMessage } = window.Signal.Types;
+
     var Message  = window.Whisper.Message = Backbone.Model.extend({
         database  : Whisper.Database,
         storeName : 'messages',
-        initialize: function() {
+        initialize: function(attributes) {
+            if (_.isObject(attributes)) {
+                this.set(TypedMessage.initializeSchemaVersion(attributes));
+            }
+
             this.on('change:attachments', this.updateImageUrl);
             this.on('destroy', this.revokeImageUrl);
             this.on('change:expirationStartTimestamp', this.setToExpire);
