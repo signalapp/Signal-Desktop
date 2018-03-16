@@ -433,6 +433,7 @@
                         }
                     }
                     message.set({
+                        schemaVersion  : dataMessage.schemaVersion,
                         body           : dataMessage.body,
                         conversationId : conversation.id,
                         attachments    : dataMessage.attachments,
