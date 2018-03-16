@@ -224,7 +224,6 @@
                 } else {
                     this.reset();
                 }
-                console.log('Sending a keepalive message');
                 this.wsr.sendRequest({
                     verb: 'GET',
                     path: this.path,
