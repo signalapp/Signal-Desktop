@@ -1,3 +1,7 @@
+/* eslint-disable */
+
+/* global Whisper: false */
+
 (function () {
     'use strict';
     window.Whisper = window.Whisper || {};
