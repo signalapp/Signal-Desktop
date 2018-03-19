@@ -35,18 +35,44 @@ describe('Attachments', () => {
       const inputBuffer = Buffer.from(input);
       assert.deepEqual(inputBuffer, output);
     });
+  });
 
-    describe('createName', () => {
-      it('should return random file name with correct length', () => {
-        assert.lengthOf(Attachments.createName(), NAME_LENGTH);
-      });
+  describe('readData', () => {
+    let tempRootDirectory = null;
+    before(() => {
+      tempRootDirectory = tmp.dirSync().name;
     });
 
-    describe('getRelativePath', () => {
-      it('should return correct path', () => {
-        const name = '608ce3bc536edbf7637a6aeb6040bdfec49349140c0dd43e97c7ce263b15ff7e';
-        assert.lengthOf(Attachments.getRelativePath(name), PATH_LENGTH);
-      });
+    after(async () => {
+      await fse.remove(tempRootDirectory);
+    });
+
+    it('should read file from disk', async () => {
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_readData');
+
+      const relativePath = Attachments.getRelativePath(Attachments.createName());
+      const fullPath = path.join(tempDirectory, relativePath);
+      const input = stringToArrayBuffer('test string');
+
+      const inputBuffer = Buffer.from(input);
+      await fse.ensureFile(fullPath);
+      await fse.writeFile(fullPath, inputBuffer);
+      const output = await Attachments.readData(tempDirectory)(relativePath);
+
+      assert.deepEqual(input, output);
+    });
+  });
+
+  describe('createName', () => {
+    it('should return random file name with correct length', () => {
+      assert.lengthOf(Attachments.createName(), NAME_LENGTH);
+    });
+  });
+
+  describe('getRelativePath', () => {
+    it('should return correct path', () => {
+      const name = '608ce3bc536edbf7637a6aeb6040bdfec49349140c0dd43e97c7ce263b15ff7e';
+      assert.lengthOf(Attachments.getRelativePath(name), PATH_LENGTH);
     });
   });
 });
