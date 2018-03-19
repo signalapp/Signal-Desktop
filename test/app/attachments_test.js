@@ -1,5 +1,4 @@
 const fse = require('fs-extra');
-const isEqual = require('lodash/isEqual');
 const path = require('path');
 const stringToArrayBuffer = require('string-to-arraybuffer');
 const tmp = require('tmp');
@@ -34,7 +33,7 @@ describe('Attachments', () => {
       assert.lengthOf(outputPath, PATH_LENGTH);
 
       const inputBuffer = Buffer.from(input);
-      assert.isTrue(isEqual(inputBuffer, output));
+      assert.deepEqual(inputBuffer, output);
     });
 
     describe('createName', () => {
