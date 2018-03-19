@@ -107,6 +107,8 @@
   window.Signal.Logs = require('./js/modules/logs');
   window.Signal.OS = require('./js/modules/os');
   window.Signal.Backup = require('./js/modules/backup');
+  window.Signal.Crypto = require('./js/modules/crypto');
+
   window.Signal.Migrations = window.Signal.Migrations || {};
   window.Signal.Migrations.V17 = require('./js/modules/migrations/17');
 

@@ -19,6 +19,9 @@ const archiver = require('archiver');
 const rimraf = require('rimraf');
 const electronRemote = require('electron').remote;
 
+const crypto = require('./crypto');
+
+
 const {
   dialog,
   BrowserWindow,
@@ -31,11 +34,12 @@ module.exports = {
   getDirectoryForImport,
   importFromDirectory,
   // for testing
-  sanitizeFileName,
-  trimFileName,
-  getExportAttachmentFileName,
-  getConversationDirName,
-  getConversationLoggingName,
+  _sanitizeFileName,
+  _trimFileName,
+  _getExportAttachmentFileName,
+  _getAnonymousAttachmentFileName,
+  _getConversationDirName,
+  _getConversationLoggingName,
 };
 
 
@@ -136,6 +140,9 @@ function exportContactsAndGroups(db, fileWriter) {
     stream.write('{');
 
     _.each(storeNames, (storeName) => {
+      // Both the readwrite permission and the multi-store transaction are required to
+      //   keep this function working. They serve to serialize all of these transactions,
+      //   one per store to be exported.
       const transaction = db.transaction(storeNames, 'readwrite');
       transaction.onerror = () => {
         Whisper.Database.handleDOMException(
@@ -349,7 +356,7 @@ function importFromJsonString(db, jsonString, targetPath, options) {
 
 function createDirectory(parent, name) {
   return new Promise((resolve, reject) => {
-    const sanitized = sanitizeFileName(name);
+    const sanitized = _sanitizeFileName(name);
     const targetDir = path.join(parent, sanitized);
     if (fs.existsSync(targetDir)) {
       resolve(targetDir);
@@ -369,7 +376,7 @@ function createDirectory(parent, name) {
 
 function createFileAndWriter(parent, name) {
   return new Promise((resolve) => {
-    const sanitized = sanitizeFileName(name);
+    const sanitized = _sanitizeFileName(name);
     const targetPath = path.join(parent, sanitized);
     const options = {
       flags: 'wx',
@@ -406,7 +413,7 @@ function readFileAsArrayBuffer(targetPath) {
   });
 }
 
-function trimFileName(filename) {
+function _trimFileName(filename) {
   const components = filename.split('.');
   if (components.length <= 1) {
     return filename.slice(0, 30);
@@ -422,9 +429,9 @@ function trimFileName(filename) {
 }
 
 
-function getExportAttachmentFileName(message, index, attachment) {
+function _getExportAttachmentFileName(message, index, attachment) {
   if (attachment.fileName) {
-    return trimFileName(attachment.fileName);
+    return _trimFileName(attachment.fileName);
   }
 
   let name = attachment.id;
@@ -437,15 +444,18 @@ function getExportAttachmentFileName(message, index, attachment) {
   return name;
 }
 
-function getAnonymousAttachmentFileName(message, index) {
+function _getAnonymousAttachmentFileName(message, index) {
   if (!index) {
     return message.id;
   }
   return `${message.id}-${index}`;
 }
 
-async function readAttachment(dir, attachment, name) {
-  const anonymousName = sanitizeFileName(name);
+async function readAttachment(dir, attachment, name, options) {
+  options = options || {};
+  const { key, encrypted } = options;
+
+  const anonymousName = _sanitizeFileName(name);
   const targetPath = path.join(dir, anonymousName);
 
   if (!fs.existsSync(targetPath)) {
@@ -453,27 +463,51 @@ async function readAttachment(dir, attachment, name) {
     return;
   }
 
-  attachment.data = await readFileAsArrayBuffer(targetPath);
+  const data = await readFileAsArrayBuffer(targetPath);
+
+  if (encrypted && key) {
+    attachment.data = await crypto.decryptSymmetric(key, data);
+  } else {
+    attachment.data = data;
+  }
 }
 
-async function writeAttachment(dir, message, index, attachment) {
-  const filename = getAnonymousAttachmentFileName(message, index);
+async function writeAttachment(attachment, options) {
+  const {
+    dir,
+    message,
+    index,
+    key,
+    newKey,
+  } = options;
+  const filename = _getAnonymousAttachmentFileName(message, index);
   const target = path.join(dir, filename);
   if (fs.existsSync(target)) {
-    console.log(`Skipping attachment ${filename}; already exists`);
-    return;
+    if (newKey) {
+      console.log(`Deleting attachment ${filename}; key has changed`);
+      fs.unlinkSync(target);
+    } else {
+      console.log(`Skipping attachment ${filename}; already exists`);
+      return;
+    }
   }
+
+  const encrypted = await crypto.encryptSymmetric(key, attachment.data);
 
   const writer = await createFileAndWriter(dir, filename);
   const stream = createOutputStream(writer);
-  stream.write(Buffer.from(attachment.data));
+  stream.write(Buffer.from(encrypted));
   await stream.close();
 }
 
-async function writeAttachments(dir, name, message, attachments) {
+async function writeAttachments(attachments, options) {
+  const { name } = options;
+
   const promises = _.map(
     attachments,
-    (attachment, index) => writeAttachment(dir, message, index, attachment)
+    (attachment, index) => writeAttachment(attachment, Object.assign({}, options, {
+      index,
+    }))
   );
   try {
     await Promise.all(promises);
@@ -488,7 +522,7 @@ async function writeAttachments(dir, name, message, attachments) {
   }
 }
 
-function sanitizeFileName(filename) {
+function _sanitizeFileName(filename) {
   return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
 }
 
@@ -498,6 +532,7 @@ async function exportConversation(db, conversation, options) {
     name,
     dir,
     attachmentsDir,
+    key,
   } = options;
   if (!name) {
     throw new Error('Need a name!');
@@ -507,6 +542,9 @@ async function exportConversation(db, conversation, options) {
   }
   if (!attachmentsDir) {
     throw new Error('Need an attachments directory!');
+  }
+  if (!key) {
+    throw new Error('Need a key to encrypt with!');
   }
 
   console.log('exporting conversation', name);
@@ -583,8 +621,12 @@ async function exportConversation(db, conversation, options) {
         stream.write(jsonString);
 
         if (attachments && attachments.length) {
-          const exportAttachments = () =>
-            writeAttachments(attachmentsDir, name, message, attachments);
+          const exportAttachments = () => writeAttachments(attachments, {
+            dir: attachmentsDir,
+            name,
+            message,
+            key,
+          });
 
           // eslint-disable-next-line more/no-then
           promiseChain = promiseChain.then(exportAttachments);
@@ -621,8 +663,8 @@ async function exportConversation(db, conversation, options) {
 //   1. Human-readable, for easy use and verification by user (names not just ids)
 //   2. Sorted just like the list of conversations in the left-pan (active_at)
 //   3. Disambiguated from other directories (active_at, truncated name, id)
-function getConversationDirName(conversation) {
-  const name = conversation.active_at || 'never';
+function _getConversationDirName(conversation) {
+  const name = conversation.active_at || 'inactive';
   if (conversation.name) {
     return `${name} (${conversation.name.slice(0, 30)} ${conversation.id})`;
   }
@@ -634,8 +676,8 @@ function getConversationDirName(conversation) {
 //   2. Adequately disambiguated to enable debugging flow of execution
 //   3. Can be shared to the web without privacy concerns (there's no global redaction
 //      logic for group ids, so we do it manually here)
-function getConversationLoggingName(conversation) {
-  let name = conversation.active_at || 'never';
+function _getConversationLoggingName(conversation) {
+  let name = conversation.active_at || 'inactive';
   if (conversation.type === 'private') {
     name += ` (${conversation.id})`;
   } else {
@@ -649,6 +691,7 @@ function exportConversations(db, options) {
   const {
     messagesDir,
     attachmentsDir,
+    key,
   } = options;
 
   if (!messagesDir) {
@@ -685,8 +728,8 @@ function exportConversations(db, options) {
       const cursor = event.target.result;
       if (cursor && cursor.value) {
         const conversation = cursor.value;
-        const dirName = getConversationDirName(conversation);
-        const name = getConversationLoggingName(conversation);
+        const dirName = _getConversationDirName(conversation);
+        const name = _getConversationLoggingName(conversation);
 
         const process = async () => {
           const dir = await createDirectory(messagesDir, dirName);
@@ -694,6 +737,7 @@ function exportConversations(db, options) {
             name,
             dir,
             attachmentsDir,
+            key,
           });
         };
 
@@ -751,10 +795,13 @@ function getDirContents(dir) {
   });
 }
 
-function loadAttachments(dir, message, getName) {
+function loadAttachments(dir, getName, options) {
+  options = options || {};
+  const { message } = options;
+
   const promises = _.map(message.attachments, (attachment, index) => {
     const name = getName(message, index, attachment);
-    return readAttachment(dir, attachment, name);
+    return readAttachment(dir, attachment, name, options);
   });
   return Promise.all(promises);
 }
@@ -830,6 +877,7 @@ async function importConversation(db, dir, options) {
   const {
     messageLookup,
     attachmentsDir,
+    key,
   } = options;
 
   let conversationId = 'unknown';
@@ -862,11 +910,15 @@ async function importConversation(db, dir, options) {
     if (message.attachments && message.attachments.length) {
       const importMessage = async () => {
         const getName = attachmentsDir
-          ? getAnonymousAttachmentFileName
-          : getExportAttachmentFileName;
-        const parent = attachmentsDir || path.join(dir, message.received_at.toString());
+          ? _getAnonymousAttachmentFileName
+          : _getExportAttachmentFileName;
+        const parentDir = attachmentsDir ||
+          path.join(dir, message.received_at.toString());
 
-        await loadAttachments(parent, message, getName);
+        await loadAttachments(parentDir, getName, {
+          message,
+          key,
+        });
         return saveMessage(db, message);
       };
 
@@ -1005,10 +1057,43 @@ function createZip(zipDir, targetDir) {
 
     archive.pipe(output);
 
+    // The empty string ensures that the base location of the files added to the zip
+    //   is nothing. If you provide null, you get the absolute path you pulled the files
+    //   from in the first place.
     archive.directory(targetDir, '');
 
     archive.finalize();
   });
+}
+
+function writeFile(targetPath, contents) {
+  return pify(fs.writeFile)(targetPath, contents);
+}
+
+async function encryptFile(sourcePath, targetPath, options) {
+  options = options || {};
+
+  const { key } = options;
+  if (!key) {
+    throw new Error('Need key to do encryption!');
+  }
+
+  const plaintext = await readFileAsArrayBuffer(sourcePath);
+  const encrypted = await crypto.encryptSymmetric(key, plaintext);
+  return writeFile(targetPath, encrypted);
+}
+
+async function decryptFile(sourcePath, targetPath, options) {
+  options = options || {};
+
+  const { key } = options;
+  if (!key) {
+    throw new Error('Need key to do encryption!');
+  }
+
+  const encrypted = await readFileAsArrayBuffer(sourcePath);
+  const plaintext = await crypto.decryptSymmetric(key, encrypted);
+  return writeFile(targetPath, Buffer.from(plaintext));
 }
 
 function createTempDir() {
@@ -1020,37 +1105,45 @@ function deleteAll(pattern) {
   return pify(rimraf)(pattern);
 }
 
-async function backupToDirectory(directory) {
-  let tempDir;
+async function backupToDirectory(directory, options) {
+  options = options || {};
+
+  if (!options.key) {
+    throw new Error('Encrypted backup requires a key to encrypt with!');
+  }
+
+  let stagingDir;
+  let encryptionDir;
   try {
-    tempDir = await createTempDir();
+    stagingDir = await createTempDir();
+    encryptionDir = await createTempDir();
 
     const db = await Whisper.Database.open();
     const attachmentsDir = await createDirectory(directory, 'attachments');
 
-    await exportContactAndGroupsToFile(db, tempDir);
-    await exportConversations(db, {
-      messagesDir: tempDir,
+    await exportContactAndGroupsToFile(db, stagingDir);
+    await exportConversations(db, Object.assign({}, options, {
+      messagesDir: stagingDir,
       attachmentsDir,
-    });
+    }));
 
-    await createZip(directory, tempDir);
-
-    // now that we've made the zip file, we can delete the temp messages directory
-    await deleteAll(tempDir);
-    tempDir = null;
+    const zip = await createZip(encryptionDir, stagingDir);
+    await encryptFile(zip, path.join(directory, 'messages.zip'), options);
 
     console.log('done backing up!');
     return directory;
   } catch (error) {
     console.log(
-      'the backup went wrong:',
+      'The backup went wrong!',
       error && error.stack ? error.stack : error
     );
     throw error;
   } finally {
-    if (tempDir) {
-      await deleteAll(tempDir);
+    if (stagingDir) {
+      await deleteAll(stagingDir);
+    }
+    if (encryptionDir) {
+      await deleteAll(encryptionDir);
     }
   }
 }
@@ -1083,24 +1176,38 @@ async function importFromDirectory(directory, options) {
     const zipPath = path.join(directory, 'messages.zip');
     if (fs.existsSync(zipPath)) {
       // we're in the world of an encrypted, zipped backup
-      let tempDir;
+      if (!options.key) {
+        throw new Error('Importing an encrypted backup; decryption key is required!');
+      }
+
+      let stagingDir;
+      let decryptionDir;
       try {
-        tempDir = await createTempDir();
+        stagingDir = await createTempDir();
+        decryptionDir = await createTempDir();
+
         const attachmentsDir = path.join(directory, 'attachments');
 
-        await decompress(zipPath, tempDir);
+        const decryptedZip = path.join(decryptionDir, 'messages.zip');
+        await decryptFile(zipPath, decryptedZip, options);
+        await decompress(decryptedZip, stagingDir);
 
         options = Object.assign({}, options, {
           attachmentsDir,
         });
-        const result = await importNonMessages(db, tempDir, options);
-        await importConversations(db, tempDir, options);
+        const result = await importNonMessages(db, stagingDir, options);
+        await importConversations(db, stagingDir, Object.assign({}, options, {
+          encrypted: true,
+        }));
 
-        console.log('done importing from backup!');
+        console.log('Done importing from backup!');
         return result;
       } finally {
-        if (tempDir) {
-          await deleteAll(tempDir);
+        if (stagingDir) {
+          await deleteAll(stagingDir);
+        }
+        if (decryptionDir) {
+          await deleteAll(decryptionDir);
         }
       }
     }
@@ -1108,11 +1215,11 @@ async function importFromDirectory(directory, options) {
     const result = await importNonMessages(db, directory, options);
     await importConversations(db, directory, options);
 
-    console.log('done importing!');
+    console.log('Done importing!');
     return result;
   } catch (error) {
     console.log(
-      'the import went wrong:',
+      'The import went wrong!',
       error && error.stack ? error.stack : error
     );
     throw error;
