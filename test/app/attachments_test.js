@@ -63,6 +63,33 @@ describe('Attachments', () => {
     });
   });
 
+  describe('deleteData', () => {
+    let tempRootDirectory = null;
+    before(() => {
+      tempRootDirectory = tmp.dirSync().name;
+    });
+
+    after(async () => {
+      await fse.remove(tempRootDirectory);
+    });
+
+    it('should delete file from disk', async () => {
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_deleteData');
+
+      const relativePath = Attachments.getRelativePath(Attachments.createName());
+      const fullPath = path.join(tempDirectory, relativePath);
+      const input = stringToArrayBuffer('test string');
+
+      const inputBuffer = Buffer.from(input);
+      await fse.ensureFile(fullPath);
+      await fse.writeFile(fullPath, inputBuffer);
+      await Attachments.deleteData(tempDirectory)(relativePath);
+
+      const existsFile = await fse.exists(fullPath);
+      assert.isFalse(existsFile);
+    });
+  });
+
   describe('createName', () => {
     it('should return random file name with correct length', () => {
       assert.lengthOf(Attachments.createName(), NAME_LENGTH);

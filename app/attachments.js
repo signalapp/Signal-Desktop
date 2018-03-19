@@ -67,6 +67,22 @@ exports.writeData = (root) => {
   };
 };
 
+//      deleteData :: AttachmentsPath -> IO Unit
+exports.deleteData = (root) => {
+  if (!isString(root)) {
+    throw new TypeError('`root` must be a path');
+  }
+
+  return async (relativePath) => {
+    if (!isString(relativePath)) {
+      throw new TypeError('`relativePath` must be a string');
+    }
+
+    const absolutePath = path.join(root, relativePath);
+    await fse.remove(absolutePath);
+  };
+};
+
 //      createName :: Unit -> IO String
 exports.createName = () => {
   const buffer = crypto.randomBytes(32);
