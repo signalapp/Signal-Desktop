@@ -79,6 +79,11 @@ $ios-border-color: rgba(0,0,0,0.1);
 
     .avatar { display: none; }
   }
+
+  .conversation .panel {
+    height: 100%;
+  }
+
   .settings h3,
   .menu-list li {
     text-transform: capitalize;
