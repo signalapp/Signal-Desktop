@@ -15,18 +15,18 @@ const PATH_LENGTH = PREFIX_LENGTH + NUM_SEPARATORS + NAME_LENGTH;
 
 describe('Attachments', () => {
   describe('writeData', () => {
-    let TEMPORARY_DIRECTORY = null;
+    let tempRootDirectory = null;
     before(() => {
-      TEMPORARY_DIRECTORY = tmp.dirSync().name;
+      tempRootDirectory = tmp.dirSync().name;
     });
 
     after(async () => {
-      await fse.remove(TEMPORARY_DIRECTORY);
+      await fse.remove(tempRootDirectory);
     });
 
     it('should write file to disk and return path', async () => {
       const input = stringToArrayBuffer('test string');
-      const tempDirectory = path.join(TEMPORARY_DIRECTORY, 'Attachments_writeData');
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_writeData');
 
       const outputPath = await Attachments.writeData(tempDirectory)(input);
       const output = await fse.readFile(path.join(tempDirectory, outputPath));
