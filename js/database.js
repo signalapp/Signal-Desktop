@@ -8,6 +8,8 @@
 (function () {
   'use strict';
 
+  const { Migrations } = window.Signal;
+
   window.Whisper = window.Whisper || {};
   window.Whisper.Database = window.Whisper.Database || {};
   window.Whisper.Database.id = window.Whisper.Database.id || 'signal';
@@ -127,7 +129,7 @@
     {
       version: '12.0',
       migrate(transaction, next) {
-        console.log('migration 1.0');
+        console.log('migration 12.0');
         console.log('creating object stores');
         const messages = transaction.db.createObjectStore('messages');
         messages.createIndex('conversation', ['conversationId', 'received_at'], {
@@ -230,6 +232,23 @@
         console.log('migration 16.0');
         console.log('Dropping log table, since we now log to disk');
         transaction.db.deleteObjectStore('debug');
+        next();
+      },
+    },
+    {
+      version: 17,
+      async migrate(transaction, next) {
+        console.log('migration 17');
+        console.log('Start migration to database version 17');
+
+        const start = Date.now();
+        await Migrations.V17.run(transaction);
+        const duration = Date.now() - start;
+
+        console.log(
+          'Complete migration to database version 17.',
+          `Duration: ${duration}ms`
+        );
         next();
       },
     },
