@@ -6,8 +6,7 @@ const path = require('path');
 const toArrayBuffer = require('to-arraybuffer');
 
 
-const PATH = 'attachments';
-
+const PATH = 'attachments.noindex';
 
 //      getPath :: AbsolutePath -> AbsolutePath
 exports.getPath = (userDataPath) => {
