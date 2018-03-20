@@ -1,8 +1,11 @@
+/* eslint-disable */
+
 (function () {
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    const { Message: TypedMessage } = window.Signal.Types;
+    const { Attachment, Message: TypedMessage } = window.Signal.Types;
+    const { context: migrationContext } = window.Signal.Migrations;
 
     var Message  = window.Whisper.Message = Backbone.Model.extend({
         database  : Whisper.Database,
@@ -13,7 +16,7 @@
             }
 
             this.on('change:attachments', this.updateImageUrl);
-            this.on('destroy', this.revokeImageUrl);
+            this.on('destroy', this.onDestroy);
             this.on('change:expirationStartTimestamp', this.setToExpire);
             this.on('change:expireTimer', this.setToExpire);
             this.on('unload', this.revokeImageUrl);
@@ -139,6 +142,17 @@
 
             return '';
         },
+        /* eslint-enable */
+        /* jshint ignore:start */
+        async onDestroy() {
+          this.revokeImageUrl();
+          const attachments = this.get('attachments');
+          const deleteData =
+            Attachment.deleteData(migrationContext.deleteAttachmentData);
+          await Promise.all(attachments.map(deleteData));
+        },
+        /* jshint ignore:end */
+        /* eslint-disable */
         updateImageUrl: function() {
             this.revokeImageUrl();
             var attachment = this.get('attachments')[0];

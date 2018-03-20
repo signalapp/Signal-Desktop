@@ -109,6 +109,7 @@
 
   // ES2015+ modules
   const attachmentsPath = Attachments.getPath(app.getPath('userData'));
+  const deleteAttachmentData = Attachments.deleteData(attachmentsPath);
   const readAttachmentData = Attachments.readData(attachmentsPath);
   const writeAttachmentData = Attachments.writeData(attachmentsPath);
 
@@ -121,6 +122,7 @@
   window.Signal.Migrations = window.Signal.Migrations || {};
   // Injected context functions to keep `Message` agnostic from Electron:
   window.Signal.Migrations.context = {
+    deleteAttachmentData,
     readAttachmentData,
     writeAttachmentData,
   };
