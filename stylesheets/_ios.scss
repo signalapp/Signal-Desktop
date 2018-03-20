@@ -81,7 +81,10 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
   .conversation .panel {
-    height: 100%;
+    position: absolute;
+    top: $header-height;
+    bottom: 0;
+    width: 100%;
   }
 
   .settings h3,
