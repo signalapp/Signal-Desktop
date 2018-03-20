@@ -413,7 +413,7 @@
       }
 
       const loadData = Attachment.loadData(migrationContext.readAttachmentData);
-      const attachments = this.model.get('attachments');
+      const attachments = this.model.get('attachments') || [];
       const loadedAttachmentViews = Promise.all(attachments.map(attachment =>
         new Promise(async (resolve) => {
           const attachmentWithData = await loadData(attachment);
