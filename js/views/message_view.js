@@ -231,7 +231,7 @@
             setTimeout(this.remove.bind(this), 1000);
         },
         /* jshint ignore:start */
-        onUnload: async function() {
+        onUnload: function() {
             if (this.avatarView) {
                 this.avatarView.remove();
             }
@@ -248,8 +248,12 @@
                 this.timeStampView.remove();
             }
 
-            const views = await this.loadedAttachmentViews;
-            views.forEach(view => view.unload());
+            // NOTE: We have to do this in the background (`then` instead of `await`)
+            // as our tests rely on `onUnload` synchronously removing the view from
+            // the DOM.
+            // eslint-disable-next-line more/no-then
+            this.loadAttachmentViews()
+                .then(views => views.forEach(view => view.unload()));
 
             // No need to handle this one, since it listens to 'unload' itself:
             //   this.timerView
