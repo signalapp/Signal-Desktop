@@ -142,3 +142,29 @@ exports.loadData = (readAttachmentData) => {
     return Object.assign({}, attachment, { data });
   };
 };
+
+//      deleteData :: (RelativePath -> IO Unit)
+//                    Attachment ->
+//                    IO Unit
+exports.deleteData = (deleteAttachmentData) => {
+  if (!isFunction(deleteAttachmentData)) {
+    throw new TypeError('`deleteAttachmentData` must be a function');
+  }
+
+  return async (attachment) => {
+    if (!exports.isValid(attachment)) {
+      throw new TypeError('`attachment` is not valid');
+    }
+
+    const hasDataInMemory = exports.hasData(attachment);
+    if (hasDataInMemory) {
+      return;
+    }
+
+    if (!isString(attachment.path)) {
+      throw new TypeError('`attachment.path` is required');
+    }
+
+    await deleteAttachmentData(attachment.path);
+  };
+};
