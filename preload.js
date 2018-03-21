@@ -124,8 +124,8 @@
 
   window.Signal = window.Signal || {};
 
-  const { IdleListener} = require('./js/modules/idle_listener');
-  window.Signal.IdleListener = IdleListener;
+  const { IdleDetector} = require('./js/modules/idle_detector');
+  window.Signal.IdleDetector = IdleDetector;
 
   window.Signal.Logs = require('./js/modules/logs');
   window.Signal.OS = require('./js/modules/os');

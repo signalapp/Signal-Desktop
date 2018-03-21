@@ -2,10 +2,10 @@ const desktopIdle = require('desktop-idle');
 const EventEmitter = require('events');
 
 
-const POLL_INTERVAL_MS = 10 * 1000;
-const IDLE_THRESHOLD_MS = POLL_INTERVAL_MS;
+const POLL_INTERVAL = 10; // seconds
+const IDLE_THRESHOLD = POLL_INTERVAL;
 
-class IdleListener extends EventEmitter {
+class IdleDetector extends EventEmitter {
   constructor() {
     super();
     this.intervalId = null;
@@ -14,15 +14,15 @@ class IdleListener extends EventEmitter {
   start() {
     this.stop();
     this.intervalId = setInterval(() => {
-      const idleDuration = desktopIdle.getIdleTime();
-      const isIdle = idleDuration >= (IDLE_THRESHOLD_MS / 1000);
+      const idleDurationInSeconds = desktopIdle.getIdleTime();
+      const isIdle = idleDurationInSeconds >= IDLE_THRESHOLD;
       if (!isIdle) {
         return;
       }
 
-      this.emit('idle', { idleDuration });
+      this.emit('idle', { idleDurationInSeconds });
 
-    }, POLL_INTERVAL_MS);
+    }, POLL_INTERVAL * 1000);
   }
 
   stop() {
@@ -35,5 +35,5 @@ class IdleListener extends EventEmitter {
 }
 
 module.exports = {
-  IdleListener,
+  IdleDetector,
 };

@@ -14,7 +14,7 @@
 ;(function() {
     'use strict';
 
-    const { IdleListener } = Signal;
+    const { IdleDetector } = Signal;
     const { Errors, Message } = window.Signal.Types;
     const { upgradeMessageSchema } = window.Signal.Migrations;
 
@@ -76,7 +76,7 @@
 
     storage.fetch();
 
-    const idleListener = new IdleListener();
+    const idleListener = new IdleDetector();
     idleListener.on('idle', (event) => {
       console.log('Detected user idle:', event);
     });
