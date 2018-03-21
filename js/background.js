@@ -14,6 +14,7 @@
 ;(function() {
     'use strict';
 
+    const { IdleListener } = Signal;
     const { Errors, Message } = window.Signal.Types;
     const { upgradeMessageSchema } = window.Signal.Migrations;
 
@@ -75,6 +76,11 @@
 
     storage.fetch();
 
+    const idleListener = new IdleListener();
+    idleListener.on('idle', (event) => {
+      console.log('Detected user idle:', event);
+    });
+
     // We need this 'first' check because we don't want to start the app up any other time
     //   than the first time. And storage.fetch() will cause onready() to fire.
     var first = true;
@@ -85,9 +91,12 @@
         first = false;
 
         ConversationController.load().then(start, start);
+        idleListener.start();
     });
 
     Whisper.events.on('shutdown', function() {
+      idleListener.stop();
+
       if (messageReceiver) {
         messageReceiver.close().then(function() {
           Whisper.events.trigger('shutdown-complete');

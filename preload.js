@@ -123,6 +123,10 @@
     Message.upgradeSchema(message, upgradeSchemaContext);
 
   window.Signal = window.Signal || {};
+
+  const { IdleListener} = require('./js/modules/idle_listener');
+  window.Signal.IdleListener = IdleListener;
+
   window.Signal.Logs = require('./js/modules/logs');
   window.Signal.OS = require('./js/modules/os');
   window.Signal.Backup = require('./js/modules/backup');
