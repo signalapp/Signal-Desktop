@@ -76,10 +76,26 @@
 
     storage.fetch();
 
-    const idleListener = new IdleDetector();
-    idleListener.on('idle', (event) => {
-      console.log('Detected user idle:', event);
+
+    /* eslint-enable */
+  /* jshint ignore:start */
+  const idleDetector = new IdleDetector();
+  idleDetector.on('idle', async () => {
+    const results = await MessageMigration.processNext({
+      BackboneMessage: Whisper.Message,
+      BackboneMessageCollection: Whisper.MessageCollection,
+      count: 3,
+      upgradeMessageSchema,
+      wrapDeferred,
     });
+    console.log('Message schema upgrade:', results);
+
+    if (!results.hasMore) {
+      idleDetector.stop();
+    }
+  });
+  /* jshint ignore:end */
+  /* eslint-disable */
 
     // We need this 'first' check because we don't want to start the app up any other time
     //   than the first time. And storage.fetch() will cause onready() to fire.
@@ -91,11 +107,11 @@
         first = false;
 
         ConversationController.load().then(start, start);
-        idleListener.start();
+        idleDetector.start();
     });
 
     Whisper.events.on('shutdown', function() {
-      idleListener.stop();
+      idleDetector.stop();
 
       if (messageReceiver) {
         messageReceiver.close().then(function() {

@@ -122,12 +122,12 @@
   const upgradeMessageSchema = message =>
     Message.upgradeSchema(message, upgradeSchemaContext);
 
-  window.Signal = window.Signal || {};
-
   const { IdleDetector} = require('./js/modules/idle_detector');
-  window.Signal.IdleDetector = IdleDetector;
 
+  window.Signal = window.Signal || {};
+  window.Signal.IdleDetector = IdleDetector;
   window.Signal.Logs = require('./js/modules/logs');
+  window.Signal.MessageMigration = require('./js/modules/messages_migration');
   window.Signal.OS = require('./js/modules/os');
   window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Crypto = require('./js/modules/crypto');
