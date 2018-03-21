@@ -51,6 +51,7 @@
     "bunyan": "^1.8.12",
     "config": "^1.28.1",
     "decompress": "^4.2.0",
+    "desktop-idle": "^1.1.1",
     "electron-config": "^1.0.0",
     "electron-editor-context-menu": "^1.1.1",
     "electron-is-dev": "^0.3.0",
