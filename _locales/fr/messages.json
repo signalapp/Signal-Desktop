@@ -420,7 +420,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$a rejoint le groupe.",
+        "message": "$name$ a rejoint le groupe.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -798,7 +798,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$a rejoint le groupe.",
+        "message": "$names$ a rejoint le groupe.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
