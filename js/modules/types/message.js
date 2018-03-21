@@ -166,8 +166,13 @@ const toVersion3 = exports._withSchemaVersion(
 );
 
 // UpgradeStep
-exports.upgradeSchema = async (message, { writeAttachmentData } = {}) =>
-  toVersion3(
+exports.upgradeSchema = async (message, { writeAttachmentData } = {}) => {
+  if (!isFunction(writeAttachmentData)) {
+    throw new TypeError('`context.writeAttachmentData` is required');
+  }
+
+  return toVersion3(
     await toVersion2(await toVersion1(await toVersion0(message))),
     { writeAttachmentData }
   );
+};
