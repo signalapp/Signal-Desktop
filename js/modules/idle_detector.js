@@ -1,36 +1,43 @@
-const desktopIdle = require('desktop-idle');
+/* eslint-env browser */
+
 const EventEmitter = require('events');
 
 
-const POLL_INTERVAL = 10; // seconds
-const IDLE_THRESHOLD = POLL_INTERVAL;
+const POLL_INTERVAL_MS = 10 * 1000;
+const IDLE_THRESHOLD_MS = 25;
 
 class IdleDetector extends EventEmitter {
   constructor() {
     super();
-    this.intervalId = null;
+    this.handle = null;
+    this.timeoutId = null;
   }
 
   start() {
-    this.stop();
-    this.intervalId = setInterval(() => {
-      const idleDurationInSeconds = desktopIdle.getIdleTime();
-      const isIdle = idleDurationInSeconds >= IDLE_THRESHOLD;
-      if (!isIdle) {
-        return;
-      }
-
-      this.emit('idle', { idleDurationInSeconds });
-
-    }, POLL_INTERVAL * 1000);
+    this._scheduleNextCallback();
   }
 
   stop() {
-    if (!this.intervalId) {
-      return;
+    if (this.handle) {
+      cancelIdleCallback(this.handle);
     }
 
-    clearInterval(this.intervalId);
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+  }
+
+  _scheduleNextCallback() {
+    this.stop();
+    this.handle = requestIdleCallback((deadline) => {
+      const { didTimeout } = deadline;
+      const timeRemaining = deadline.timeRemaining();
+      const isIdle = timeRemaining >= IDLE_THRESHOLD_MS;
+      if (isIdle || didTimeout) {
+        this.emit('idle', { timestamp: Date.now(), didTimeout, timeRemaining });
+      }
+      this.timeoutId = setTimeout(() => this._scheduleNextCallback(), POLL_INTERVAL_MS);
+    });
   }
 }
 
