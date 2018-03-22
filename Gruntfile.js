@@ -149,25 +149,6 @@ module.exports = function(grunt) {
       },
       src: {
         files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }],
-        options: {
-          process: function(content, srcpath) {
-            if (srcpath.match('background.js')) {
-              return content.replace(
-                /textsecure-service-staging.whispersystems.org/g,
-                'textsecure-service-ca.whispersystems.org');
-            } else if (srcpath.match('expire.js')) {
-              var gitinfo = grunt.config.get('gitinfo');
-              var commited = gitinfo.local.branch.current.lastCommitTime;
-              var time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
-              return content.replace(
-                /var BUILD_EXPIRATION = 0/,
-                "var BUILD_EXPIRATION = " + time
-              );
-            } else {
-              return content;
-            }
-          }
-        }
       }
     },
     jscs: {
