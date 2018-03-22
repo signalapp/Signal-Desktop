@@ -183,11 +183,11 @@ module.exports = function(grunt) {
         tasks: ['copy_dist']
       },
       scripts: {
-        files: ['<%= jshint.files %>', './js/**/*.js'],
+        files: ['<%= jshint.files %>'],
         tasks: ['jshint']
       },
       style: {
-        files: ['<%= jscs.all.src %>', './js/**/*.js'],
+        files: ['<%= jscs.all.src %>'],
         tasks: ['jscs']
       },
     },
