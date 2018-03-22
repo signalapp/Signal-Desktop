@@ -1350,10 +1350,6 @@ depd@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.0.tgz#e1bd82c6aab6ced965b97b88b17ed3e528ca18c3"
 
-desktop-idle@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/desktop-idle/-/desktop-idle-1.1.1.tgz#bbbd17d3ad8aa67ef069b0bbe8e39c88612b9d36"
-
 detect-indent@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-4.0.0.tgz#f76d064352cdf43a1cb6ce619c4ee3a9475de208"
