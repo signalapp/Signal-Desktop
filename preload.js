@@ -140,6 +140,8 @@
   window.Signal.Types.Message = Message;
   window.Signal.Types.MIME = require('./js/modules/types/mime');
   window.Signal.Types.Settings = require('./js/modules/types/settings');
+  window.Signal.Views = {};
+  window.Signal.Views.Initialization = require('./js/modules/views/initialization');
   window.Signal.Workflow = {};
   window.Signal.Workflow.IdleDetector = IdleDetector;
   window.Signal.Workflow.MessageDataMigrator =
