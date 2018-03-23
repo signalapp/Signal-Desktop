@@ -149,7 +149,7 @@ Please write tests! Our testing framework is
 
 The easiest way to run all tests at once is `yarn test`.
 
-You can browser tests from the command line with `grunt unit-tests` or in an
+You can browse tests from the command line with `grunt unit-tests` or in an
 interactive session with `NODE_ENV=test yarn run start`. The `libtextsecure` tests are run
 similarly: `grunt lib-unit-tests` and `NODE_ENV=test-lib yarn run start`. You can tweak
 the appropriate `test.html` for both of these runs to get code coverage numbers via
