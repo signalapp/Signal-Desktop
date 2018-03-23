@@ -5,9 +5,6 @@
 
 const OPTIMIZATION_MESSAGE_DISPLAY_THRESHOLD = 1000; // milliseconds
 
-// type Canceler = () => Eff Unit
-//
-//    setMessage :: Unit -> Eff (dom :: DOM) Canceler
 const setMessage = () => {
   const message = document.querySelector('.app-loading-screen .message');
   if (!message) {
