@@ -1,6 +1,7 @@
 const isArrayBuffer = require('lodash/isArrayBuffer');
 const isFunction = require('lodash/isFunction');
 const isUndefined = require('lodash/isUndefined');
+const omit = require('lodash/omit');
 
 
 // type Context :: {
@@ -31,7 +32,9 @@ exports.migrateDataToFileSystem = async (attachment, { writeAttachmentData } = {
 
   const path = await writeAttachmentData(data);
 
-  const attachmentWithoutData = Object.assign({}, attachment, { path });
-  delete attachmentWithoutData.data;
+  const attachmentWithoutData = omit(
+    Object.assign({}, attachment, { path }),
+    ['data']
+  );
   return attachmentWithoutData;
 };
