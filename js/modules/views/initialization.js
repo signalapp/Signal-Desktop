@@ -3,7 +3,7 @@
 /* global i18n: false */
 
 
-const OPTIMIZATION_MESSAGE_DISPLAY_THRESHOLD = 2000; // milliseconds
+const OPTIMIZATION_MESSAGE_DISPLAY_THRESHOLD = 1000; // milliseconds
 
 // type Canceler = () => Eff Unit
 //
