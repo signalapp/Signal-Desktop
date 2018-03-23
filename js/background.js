@@ -79,16 +79,17 @@
 
   /* eslint-enable */
   /* jshint ignore:start */
+  const NUM_MESSAGE_UPGRADES_PER_IDLE = 2;
   const idleDetector = new IdleDetector();
   idleDetector.on('idle', async () => {
     const results = await MessageDataMigrator.processNext({
       BackboneMessage: Whisper.Message,
       BackboneMessageCollection: Whisper.MessageCollection,
-      count: 3,
+      count: NUM_MESSAGE_UPGRADES_PER_IDLE,
       upgradeMessageSchema,
       wrapDeferred,
     });
-    console.log('Message schema upgrade:', results);
+    console.log('Upgrade message schema:', results);
 
     if (!results.hasMore) {
       idleDetector.stop();

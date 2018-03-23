@@ -3,7 +3,7 @@
 const EventEmitter = require('events');
 
 
-const POLL_INTERVAL_MS = 10 * 1000;
+const POLL_INTERVAL_MS = 30 * 1000;
 const IDLE_THRESHOLD_MS = 25;
 
 class IdleDetector extends EventEmitter {
