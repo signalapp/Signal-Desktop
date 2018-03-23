@@ -1,9 +1,9 @@
 require('mocha-testcheck').install();
 
-const stringToArrayBuffer = require('string-to-arraybuffer');
 const { assert } = require('chai');
 
 const Attachment = require('../../../js/modules/types/attachment');
+const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buffer');
 
 describe('Attachment', () => {
   describe('replaceUnicodeOrderOverrides', () => {

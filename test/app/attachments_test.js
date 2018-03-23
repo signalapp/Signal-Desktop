@@ -1,10 +1,10 @@
 const fse = require('fs-extra');
 const path = require('path');
-const stringToArrayBuffer = require('string-to-arraybuffer');
 const tmp = require('tmp');
 const { assert } = require('chai');
 
 const Attachments = require('../../app/attachments');
+const { stringToArrayBuffer } = require('../../js/modules/string_to_array_buffer');
 
 
 const PREFIX_LENGTH = 2;

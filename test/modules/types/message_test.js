@@ -1,7 +1,7 @@
-const stringToArrayBuffer = require('string-to-arraybuffer');
 const { assert } = require('chai');
 
 const Message = require('../../../js/modules/types/message');
+const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buffer');
 
 
 describe('Message', () => {
