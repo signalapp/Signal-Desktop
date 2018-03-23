@@ -172,7 +172,7 @@ So you wanna make a pull request? Please observe the following guidelines.
    automatically based on that file and then periodically uploaded to Transifex for
    translation.
  * [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
-   changes on the latest `master` branch, resolving any conflicts.
+   changes on the latest `development` branch, resolving any conflicts.
    This ensures that your changes will merge cleanly when you open your PR.
  * Be sure to add and run tests!
  * Make sure the diff between our master and your branch contains only the
