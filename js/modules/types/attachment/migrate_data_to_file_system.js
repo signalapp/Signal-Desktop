@@ -13,7 +13,7 @@ const omit = require('lodash/omit');
 //                                 Promise Attachment
 exports.migrateDataToFileSystem = async (attachment, { writeAttachmentData } = {}) => {
   if (!isFunction(writeAttachmentData)) {
-    throw new TypeError('`writeAttachmentData` must be a function');
+    throw new TypeError('"writeAttachmentData" must be a function');
   }
 
   const { data } = attachment;

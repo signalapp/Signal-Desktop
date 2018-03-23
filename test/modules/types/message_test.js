@@ -183,14 +183,14 @@ describe('Message', () => {
       const toVersionX = () => {};
       assert.throws(
         () => Message._withSchemaVersion(toVersionX, 2),
-        '`schemaVersion` is invalid'
+        '"schemaVersion" is invalid'
       );
     });
 
     it('should require an upgrade function', () => {
       assert.throws(
         () => Message._withSchemaVersion(2, 3),
-        '`upgrade` must be a function'
+        '"upgrade" must be a function'
       );
     });
 

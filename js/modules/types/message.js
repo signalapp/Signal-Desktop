@@ -81,10 +81,10 @@ exports.initializeSchemaVersion = (message) => {
 // SchemaVersion -> UpgradeStep -> UpgradeStep
 exports._withSchemaVersion = (schemaVersion, upgrade) => {
   if (!SchemaVersion.isValid(schemaVersion)) {
-    throw new TypeError('`schemaVersion` is invalid');
+    throw new TypeError('"schemaVersion" is invalid');
   }
   if (!isFunction(upgrade)) {
-    throw new TypeError('`upgrade` must be a function');
+    throw new TypeError('"upgrade" must be a function');
   }
 
   return async (message, context) => {
