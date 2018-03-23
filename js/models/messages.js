@@ -148,6 +148,7 @@
           this.revokeImageUrl();
           const attachments = this.get('attachments');
           await Promise.all(attachments.map(deleteAttachmentData));
+          return;
         },
         /* jshint ignore:end */
         /* eslint-disable */
