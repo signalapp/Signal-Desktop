@@ -108,6 +108,7 @@ window.nodeBuffer = Buffer;
 window.nodeFetch = require('node-fetch');
 window.nodeNotifier = require('node-notifier');
 window.ProxyAgent = require('proxy-agent');
+window.moment = require('moment');
 
 // ES2015+ modules
 const attachmentsPath = Attachments.getPath(app.getPath('userData'));
