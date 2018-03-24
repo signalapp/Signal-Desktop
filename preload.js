@@ -113,6 +113,18 @@
   window.ReactDOM = require('react-dom');
   window.moment = require('moment');
 
+  const { locale, localeMessages } = window.config;
+  const { setup } = require('./js/i18n');
+  window.i18n = setup(locale, localeMessages);
+  window.moment.updateLocale(locale, {
+    relativeTime : {
+      s: window.i18n('timestamp_s'),
+      m: window.i18n('timestamp_m'),
+      h: window.i18n('timestamp_h'),
+    }
+  });
+  window.moment.locale(locale);
+
   // ES2015+ modules
   const attachmentsPath = Attachments.getPath(app.getPath('userData'));
   const deleteAttachmentData = Attachments.deleteData(attachmentsPath);

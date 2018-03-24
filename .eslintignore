@@ -19,6 +19,7 @@ test/views/*.js
 !js/backup.js
 !js/database.js
 !js/logging.js
+!js/i18n.js
 !js/models/conversations.js
 !js/views/attachment_view.js
 !js/views/conversation_search_view.js
