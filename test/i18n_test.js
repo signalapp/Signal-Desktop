@@ -1,7 +1,7 @@
 describe('i18n', function() {
   describe('i18n', function() {
-    it('returns undefined for unknown string', function() {
-      assert.strictEqual(i18n('random'), undefined);
+    it('returns empty string for unknown string', function() {
+      assert.strictEqual(i18n('random'), '');
     });
     it('returns message for given string', function() {
       assert.equal(i18n('reportIssue'), 'Report an issue');
