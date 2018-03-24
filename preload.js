@@ -111,6 +111,7 @@
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');
+  window.moment = require('moment');
 
   // ES2015+ modules
   const attachmentsPath = Attachments.getPath(app.getPath('userData'));
