@@ -1,3 +1,7 @@
+const isFunction = require('lodash/isFunction');
+const isObject = require('lodash/isObject');
+const isString = require('lodash/isString');
+
 const { runMigrations } = require('./run_migrations');
 
 
@@ -147,3 +151,21 @@ const database = {
 
 exports.run = ({ Backbone } = {}) =>
   runMigrations({ Backbone, database });
+
+exports.createCollection = ({ Backbone, storeName }) => {
+  if (!isObject(Backbone) || !isObject(Backbone.Collection) ||
+      !isFunction(Backbone.Collection.extend)) {
+    throw new TypeError('"Backbone" is required');
+  }
+
+  if (!isString(storeName)) {
+    throw new TypeError('"database" is required');
+  }
+
+  const collection = new (Backbone.Collection.extend({
+    database,
+    storeName,
+  }))();
+
+  return collection;
+};
