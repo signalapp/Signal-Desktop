@@ -1,3 +1,6 @@
+const { runMigrations } = require('./run_migrations');
+
+
 exports.migrations = [
   {
     version: 18,
@@ -7,3 +10,6 @@ exports.migrations = [
     },
   },
 ];
+
+exports.run = ({ Backbone, Database } = {}) =>
+  runMigrations({ Backbone, database: Database });

@@ -17,7 +17,10 @@
     const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
     const { Errors, Message } = window.Signal.Types;
     const { upgradeMessageSchema } = window.Signal.Migrations;
-    const { Migrations0DatabaseWithAttachmentData } = window.Signal.Database;
+    const {
+        Migrations0DatabaseWithAttachmentData,
+        Migrations1DatabaseWithoutAttachmentData,
+    } = window.Signal.Database;
     const { Views } = window.Signal;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
@@ -85,6 +88,12 @@
   await Migrations0DatabaseWithAttachmentData.run({ Backbone });
 
   console.log('Migrate database without attachments');
+  await Migrations1DatabaseWithoutAttachmentData.run({
+    Backbone,
+    Database: Whisper.Database,
+  });
+
+  console.log('Storage fetch');
   storage.fetch();
 
   const NUM_MESSAGE_UPGRADES_PER_IDLE = 2;
