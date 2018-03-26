@@ -1,5 +1,4 @@
-const isFunction = require('lodash/isFunction');
-const isObject = require('lodash/isObject');
+const { runMigrations } = require('./run_migrations');
 
 
 // IMPORTANT: The migrations below are run on a database that may be very large
@@ -147,20 +146,5 @@ const database = {
   migrations,
 };
 
-exports.run = ({ Backbone } = {}) => {
-  if (!isObject(Backbone) || !isObject(Backbone.Collection) ||
-      !isFunction(Backbone.Collection.extend)) {
-    throw new TypeError('"Backbone" is required');
-  }
-
-  const migrationCollection = new (Backbone.Collection.extend({
-    database,
-    storeName: 'conversations',
-  }))();
-
-  return new Promise((resolve) => {
-    // NOTE: This `then` refers to a jQuery `Deferred`:
-    // eslint-disable-next-line more/no-then
-    migrationCollection.fetch().then(() => resolve());
-  });
-};
+exports.run = ({ Backbone } = {}) =>
+  runMigrations({ Backbone, database });
