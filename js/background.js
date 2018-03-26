@@ -105,7 +105,6 @@
       BackboneMessageCollection: Whisper.MessageCollection,
       count: NUM_MESSAGE_UPGRADES_PER_IDLE,
       upgradeMessageSchema,
-      wrapDeferred,
     });
     console.log('Upgrade message schema:', results);
 
