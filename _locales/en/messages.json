@@ -39,6 +39,10 @@
       "message": "Loading...",
       "description": "Message shown on the loading screen before we've loaded any messages"
     },
+    "optimizingApplication": {
+      "message": "Optimizing application...",
+      "description": "Message shown on the loading screen while we are doing application optimizations"
+    },
     "chooseDirectory": {
       "message": "Choose folder",
       "description": "Button to allow the user to find a folder on disk"

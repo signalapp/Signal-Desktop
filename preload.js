@@ -124,7 +124,7 @@
 
   const { IdleDetector} = require('./js/modules/idle_detector');
 
-  window.Signal = window.Signal || {};
+  window.Signal = {};
   window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Crypto = require('./js/modules/crypto');
   window.Signal.Logs = require('./js/modules/logs');
@@ -134,12 +134,14 @@
   window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
   window.Signal.Migrations.V17 = require('./js/modules/migrations/17');
   window.Signal.OS = require('./js/modules/os');
-  window.Signal.Types = window.Signal.Types || {};
+  window.Signal.Types = {};
   window.Signal.Types.Attachment = Attachment;
   window.Signal.Types.Errors = require('./js/modules/types/errors');
   window.Signal.Types.Message = Message;
   window.Signal.Types.MIME = require('./js/modules/types/mime');
   window.Signal.Types.Settings = require('./js/modules/types/settings');
+  window.Signal.Views = {};
+  window.Signal.Views.Initialization = require('./js/modules/views/initialization');
   window.Signal.Workflow = {};
   window.Signal.Workflow.IdleDetector = IdleDetector;
   window.Signal.Workflow.MessageDataMigrator =
