@@ -13,9 +13,12 @@ const PRIVATE = 'private';
 // Version 0
 //   - Schema initialized
 // Version 1
-//   - Attachments: Auto-orient JPEG attachments using EXIF `Orientation` data
+//   - Attachments: Auto-orient JPEG attachments using EXIF `Orientation` data.
 // Version 2
-//   - Attachments: Sanitize Unicode order override characters
+//   - Attachments: Sanitize Unicode order override characters.
+// Version 3
+//   - Attachments: Write attachment data to disk and store relative path to it.
+
 const INITIAL_SCHEMA_VERSION = 0;
 
 // Increment this version number every time we add a message schema upgrade
@@ -23,7 +26,7 @@ const INITIAL_SCHEMA_VERSION = 0;
 // add more upgrade steps, we could design a pipeline that does this
 // incrementally, e.g. from version 0 / unknown -> 1, 1 --> 2, etc., similar to
 // how we do database migrations:
-exports.CURRENT_SCHEMA_VERSION = 2;
+exports.CURRENT_SCHEMA_VERSION = 3;
 
 
 // Public API
@@ -73,18 +76,18 @@ exports.initializeSchemaVersion = (message) => {
 };
 
 // Middleware
-// type UpgradeStep = Message -> Promise Message
+// type UpgradeStep = (Message, Context) -> Promise Message
 
 // SchemaVersion -> UpgradeStep -> UpgradeStep
 exports._withSchemaVersion = (schemaVersion, upgrade) => {
   if (!SchemaVersion.isValid(schemaVersion)) {
-    throw new TypeError('`schemaVersion` is invalid');
+    throw new TypeError('"schemaVersion" is invalid');
   }
   if (!isFunction(upgrade)) {
-    throw new TypeError('`upgrade` must be a function');
+    throw new TypeError('"upgrade" must be a function');
   }
 
-  return async (message) => {
+  return async (message, context) => {
     if (!exports.isValid(message)) {
       console.log('Message._withSchemaVersion: Invalid input message:', message);
       return message;
@@ -109,7 +112,7 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
 
     let upgradedMessage;
     try {
-      upgradedMessage = await upgrade(message);
+      upgradedMessage = await upgrade(message, context);
     } catch (error) {
       console.log(
         'Message._withSchemaVersion: error:',
@@ -137,16 +140,14 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
 
 // Public API
 //      _mapAttachments :: (Attachment -> Promise Attachment) ->
-//                         Message ->
+//                         (Message, Context) ->
 //                         Promise Message
-exports._mapAttachments = upgradeAttachment => async message =>
-  Object.assign(
-    {},
-    message,
-    {
-      attachments: await Promise.all(message.attachments.map(upgradeAttachment)),
-    }
-  );
+exports._mapAttachments = upgradeAttachment => async (message, context) => {
+  const upgradeWithContext = attachment =>
+    upgradeAttachment(attachment, context);
+  const attachments = await Promise.all(message.attachments.map(upgradeWithContext));
+  return Object.assign({}, message, { attachments });
+};
 
 const toVersion0 = async message =>
   exports.initializeSchemaVersion(message);
@@ -159,7 +160,14 @@ const toVersion2 = exports._withSchemaVersion(
   2,
   exports._mapAttachments(Attachment.replaceUnicodeOrderOverrides)
 );
+const toVersion3 = exports._withSchemaVersion(
+  3,
+  exports._mapAttachments(Attachment.migrateDataToFileSystem)
+);
 
 // UpgradeStep
-exports.upgradeSchema = async message =>
-  toVersion2(await toVersion1(await toVersion0(message)));
+exports.upgradeSchema = async (message, { writeAttachmentData } = {}) =>
+  toVersion3(
+    await toVersion2(await toVersion1(await toVersion0(message))),
+    { writeAttachmentData }
+  );

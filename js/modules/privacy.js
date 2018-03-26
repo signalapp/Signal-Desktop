@@ -27,7 +27,7 @@ const REDACTION_PLACEHOLDER = '[REDACTED]';
 //      redactPhoneNumbers :: String -> String
 exports.redactPhoneNumbers = (text) => {
   if (!isString(text)) {
-    throw new TypeError('`text` must be a string');
+    throw new TypeError('"text" must be a string');
   }
 
   return text.replace(PHONE_NUMBER_PATTERN, `+${REDACTION_PLACEHOLDER}$1`);
@@ -36,7 +36,7 @@ exports.redactPhoneNumbers = (text) => {
 //      redactGroupIds :: String -> String
 exports.redactGroupIds = (text) => {
   if (!isString(text)) {
-    throw new TypeError('`text` must be a string');
+    throw new TypeError('"text" must be a string');
   }
 
   return text.replace(
@@ -49,7 +49,7 @@ exports.redactGroupIds = (text) => {
 //      redactSensitivePaths :: String -> String
 exports.redactSensitivePaths = (text) => {
   if (!isString(text)) {
-    throw new TypeError('`text` must be a string');
+    throw new TypeError('"text" must be a string');
   }
 
   if (!isRegExp(APP_ROOT_PATH_PATTERN)) {

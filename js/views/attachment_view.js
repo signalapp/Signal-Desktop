@@ -63,7 +63,7 @@
   const VideoView = MediaView.extend({ tagName: 'video' });
 
   // Blacklist common file types known to be unsupported in Chrome
-  const UnsupportedFileTypes = [
+  const unsupportedFileTypes = [
     'audio/aiff',
     'video/quicktime',
   ];
@@ -86,7 +86,7 @@
       }
     },
     events: {
-      click: 'onclick',
+      click: 'onClick',
     },
     unload() {
       this.blob = null;
@@ -109,7 +109,7 @@
         default: return this.model.contentType.split('/')[1];
       }
     },
-    onclick() {
+    onClick() {
       if (this.isImage()) {
         this.lightBoxView = new Whisper.LightboxView({ model: this });
         this.lightBoxView.render();
@@ -205,7 +205,7 @@
         View = VideoView;
       }
 
-      if (!View || _.contains(UnsupportedFileTypes, this.model.contentType)) {
+      if (!View || _.contains(unsupportedFileTypes, this.model.contentType)) {
         this.update();
         return this;
       }

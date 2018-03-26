@@ -15,6 +15,7 @@
     'use strict';
 
     const { Errors, Message } = window.Signal.Types;
+    const { upgradeMessageSchema } = window.Signal.Migrations;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
     // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
@@ -573,7 +574,7 @@
         return event.confirm();
       }
 
-      const upgradedMessage = await Message.upgradeSchema(data.message);
+      const upgradedMessage = await upgradeMessageSchema(data.message);
       await ConversationController.getOrCreateAndWait(
         messageDescriptor.id,
         messageDescriptor.type

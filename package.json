@@ -62,6 +62,7 @@
     "emoji-panel": "https://github.com/scottnonnenberg/emoji-panel.git#v0.5.5",
     "firstline": "^1.2.1",
     "form-data": "^2.3.2",
+    "fs-extra": "^5.0.0",
     "google-libphonenumber": "^3.0.7",
     "got": "^8.2.0",
     "lodash": "^4.17.4",
@@ -77,6 +78,7 @@
     "spellchecker": "^3.4.4",
     "testcheck": "^1.0.0-rc.2",
     "tmp": "^0.0.33",
+    "to-arraybuffer": "^1.0.1",
     "websocket": "^1.0.25"
   },
   "devDependencies": {

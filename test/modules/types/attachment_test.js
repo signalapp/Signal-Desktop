@@ -3,6 +3,7 @@ require('mocha-testcheck').install();
 const { assert } = require('chai');
 
 const Attachment = require('../../../js/modules/types/attachment');
+const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buffer');
 
 describe('Attachment', () => {
   describe('replaceUnicodeOrderOverrides', () => {
@@ -99,6 +100,83 @@ describe('Attachment', () => {
 
       const actual = Attachment.removeSchemaVersion(input);
       assert.deepEqual(actual, expected);
+    });
+  });
+
+  describe('migrateDataToFileSystem', () => {
+    it('should write data to disk and store relative path to it', async () => {
+      const input = {
+        contentType: 'image/jpeg',
+        data: stringToArrayBuffer('Above us only sky'),
+        fileName: 'foo.jpg',
+        size: 1111,
+      };
+
+      const expected = {
+        contentType: 'image/jpeg',
+        path: 'abc/abcdefgh123456789',
+        fileName: 'foo.jpg',
+        size: 1111,
+      };
+
+      const expectedAttachmentData = stringToArrayBuffer('Above us only sky');
+      const writeAttachmentData = async (attachmentData) => {
+        assert.deepEqual(attachmentData, expectedAttachmentData);
+        return 'abc/abcdefgh123456789';
+      };
+
+      const actual = await Attachment.migrateDataToFileSystem(
+        input,
+        { writeAttachmentData }
+      );
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should skip over (invalid) attachments without data', async () => {
+      const input = {
+        contentType: 'image/jpeg',
+        fileName: 'foo.jpg',
+        size: 1111,
+      };
+
+      const expected = {
+        contentType: 'image/jpeg',
+        fileName: 'foo.jpg',
+        size: 1111,
+      };
+
+      const writeAttachmentData = async () =>
+        'abc/abcdefgh123456789';
+
+      const actual = await Attachment.migrateDataToFileSystem(
+        input,
+        { writeAttachmentData }
+      );
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should throw error if data is not valid', async () => {
+      const input = {
+        contentType: 'image/jpeg',
+        data: 42,
+        fileName: 'foo.jpg',
+        size: 1111,
+      };
+
+      const writeAttachmentData = async () =>
+        'abc/abcdefgh123456789';
+
+      try {
+        await Attachment.migrateDataToFileSystem(input, { writeAttachmentData });
+      } catch (error) {
+        assert.strictEqual(
+          error.message,
+          'Expected `attachment.data` to be an array buffer; got: number'
+        );
+        return;
+      }
+
+      assert.fail('Unreachable');
     });
   });
 });

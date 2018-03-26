@@ -1,8 +1,10 @@
+const isFunction = require('lodash/isFunction');
 const isString = require('lodash/isString');
 
 const MIME = require('./mime');
 const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
+const { migrateDataToFileSystem } = require('./attachment/migrate_data_to_file_system');
 
 // // Incoming message attachment fields
 // {
@@ -106,4 +108,63 @@ exports.removeSchemaVersion = (attachment) => {
   const attachmentWithoutSchemaVersion = Object.assign({}, attachment);
   delete attachmentWithoutSchemaVersion.schemaVersion;
   return attachmentWithoutSchemaVersion;
+};
+
+exports.migrateDataToFileSystem = migrateDataToFileSystem;
+
+//      hasData :: Attachment -> Boolean
+exports.hasData = attachment =>
+  attachment.data instanceof ArrayBuffer || ArrayBuffer.isView(attachment.data);
+
+//      loadData :: (RelativePath -> IO (Promise ArrayBuffer))
+//                  Attachment ->
+//                  IO (Promise Attachment)
+exports.loadData = (readAttachmentData) => {
+  if (!isFunction(readAttachmentData)) {
+    throw new TypeError('"readAttachmentData" must be a function');
+  }
+
+  return async (attachment) => {
+    if (!exports.isValid(attachment)) {
+      throw new TypeError('"attachment" is not valid');
+    }
+
+    const isAlreadyLoaded = exports.hasData(attachment);
+    if (isAlreadyLoaded) {
+      return attachment;
+    }
+
+    if (!isString(attachment.path)) {
+      throw new TypeError('"attachment.path" is required');
+    }
+
+    const data = await readAttachmentData(attachment.path);
+    return Object.assign({}, attachment, { data });
+  };
+};
+
+//      deleteData :: (RelativePath -> IO Unit)
+//                    Attachment ->
+//                    IO Unit
+exports.deleteData = (deleteAttachmentData) => {
+  if (!isFunction(deleteAttachmentData)) {
+    throw new TypeError('"deleteAttachmentData" must be a function');
+  }
+
+  return async (attachment) => {
+    if (!exports.isValid(attachment)) {
+      throw new TypeError('"attachment" is not valid');
+    }
+
+    const hasDataInMemory = exports.hasData(attachment);
+    if (hasDataInMemory) {
+      return;
+    }
+
+    if (!isString(attachment.path)) {
+      throw new TypeError('"attachment.path" is required');
+    }
+
+    await deleteAttachmentData(attachment.path);
+  };
 };
