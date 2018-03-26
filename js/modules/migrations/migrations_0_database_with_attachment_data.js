@@ -146,5 +146,5 @@ const database = {
   migrations,
 };
 
-exports.run = ({ Backbone } = {}) =>
-  runMigrations({ Backbone, database });
+exports.run = ({ Backbone, closeDatabase } = {}) =>
+  runMigrations({ Backbone, closeDatabase, database });
