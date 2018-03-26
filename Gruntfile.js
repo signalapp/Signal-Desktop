@@ -108,6 +108,7 @@ module.exports = function(grunt) {
         '!js/backup.js',
         '!js/modules/**/*.js',
         '!js/views/conversation_search_view.js',
+        '!js/react/**/*.js',
         '!js/views/debug_log_view.js',
         '!js/signal_protocol_store.js',
         '!js/database.js',
@@ -162,6 +163,7 @@ module.exports = function(grunt) {
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
         '!js/modules/**/*.js',
+        '!js/react/**/*.js',
         'test/**/*.js',
         '!test/blanket_mocha.js',
         '!test/modules/**/*.js',
@@ -190,10 +192,17 @@ module.exports = function(grunt) {
         files: ['<%= jscs.all.src %>'],
         tasks: ['jscs']
       },
+      transpile: {
+        files: ['./js/react/**/*.js'],
+        tasks: ['exec:transpile']
+      }
     },
     exec: {
       'tx-pull': {
         cmd: 'tx pull'
+      },
+      'transpile': {
+        cmd: 'npm run transpile',
       }
     },
     'test-release': {
@@ -477,5 +486,8 @@ module.exports = function(grunt) {
   grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('prep-release', ['gitinfo', 'clean-release', 'fetch-release']);
-  grunt.registerTask('default', ['concat', 'copy:deps', 'sass', 'date']);
+  grunt.registerTask(
+    'default',
+    ['concat', 'copy:deps', 'sass', 'date', 'exec:transpile']
+  );
 };

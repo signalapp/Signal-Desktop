@@ -108,6 +108,9 @@ window.nodeBuffer = Buffer;
 window.nodeFetch = require('node-fetch');
 window.nodeNotifier = require('node-notifier');
 window.ProxyAgent = require('proxy-agent');
+
+window.React = require('react');
+window.ReactDOM = require('react-dom');
 window.moment = require('moment');
 
 const { setup } = require('./js/i18n');
@@ -146,6 +149,8 @@ window.Signal.Crypto = require('./js/modules/crypto');
 window.Signal.Database = require('./js/modules/database');
 window.Signal.Debug = require('./js/modules/debug');
 window.Signal.Logs = require('./js/modules/logs');
+
+window.Signal.React = {};
 
 window.Signal.Migrations = {};
 window.Signal.Migrations.deleteAttachmentData =

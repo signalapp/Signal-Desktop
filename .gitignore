@@ -22,3 +22,6 @@ js/libtextsecure.js
 stylesheets/*.css
 test/test.js
 libtextsecure/test/test.js
+
+# React / TypeScript
+js/react/**/*.js
