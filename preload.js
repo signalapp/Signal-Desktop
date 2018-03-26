@@ -127,12 +127,16 @@
   window.Signal = {};
   window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Crypto = require('./js/modules/crypto');
+  window.Signal.Database = {};
+  window.Signal.Database.Migrations0DatabaseWithAttachmentData =
+    require('./js/modules/migrations/migrations_0_database_with_attachment_data');
+  window.Signal.Database.Migrations1DatabaseWithoutAttachmentData =
+    require('./js/modules/migrations/migrations_1_database_without_attachment_data');
   window.Signal.Logs = require('./js/modules/logs');
   window.Signal.Migrations = {};
   window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
   window.Signal.Migrations.deleteAttachmentData = Attachment.deleteData(deleteAttachmentData);
   window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
-  window.Signal.Migrations.V17 = require('./js/modules/migrations/17');
   window.Signal.OS = require('./js/modules/os');
   window.Signal.Types = {};
   window.Signal.Types.Attachment = Attachment;
