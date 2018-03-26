@@ -109,6 +109,9 @@
   const { autoOrientImage } = require('./js/modules/auto_orient_image');
   window.autoOrientImage = autoOrientImage;
 
+  window.React = require('react');
+  window.ReactDOM = require('react-dom');
+
   // ES2015+ modules
   const attachmentsPath = Attachments.getPath(app.getPath('userData'));
   const deleteAttachmentData = Attachments.deleteData(attachmentsPath);
@@ -132,6 +135,9 @@
   window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
   window.Signal.Migrations.deleteAttachmentData = Attachment.deleteData(deleteAttachmentData);
   window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
+
+  window.Signal.React = window.Signal.React = {};
+
   window.Signal.Migrations.V17 = require('./js/modules/migrations/17');
   window.Signal.OS = require('./js/modules/os');
   window.Signal.Types = {};

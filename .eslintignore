@@ -7,7 +7,7 @@ libtextsecure/**
 # these aren't ready yet, pulling files in one-by-one
 js/*.js
 js/models/**/*.js
-js/react/**/*.js
+js/built/**/*.js
 js/views/**/*.js
 test/*.js
 test/models/*.js
