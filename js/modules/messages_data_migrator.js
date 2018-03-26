@@ -12,20 +12,20 @@ exports.processNext = async ({
   upgradeMessageSchema,
 } = {}) => {
   if (!isFunction(BackboneMessage)) {
-    throw new TypeError('`BackboneMessage` (Whisper.Message) constructor is required');
+    throw new TypeError('"BackboneMessage" (Whisper.Message) constructor is required');
   }
 
   if (!isFunction(BackboneMessageCollection)) {
-    throw new TypeError('`BackboneMessageCollection` (Whisper.MessageCollection)' +
+    throw new TypeError('"BackboneMessageCollection" (Whisper.MessageCollection)' +
       ' constructor is required');
   }
 
   if (!isNumber(count)) {
-    throw new TypeError('`count` is required');
+    throw new TypeError('"count" is required');
   }
 
   if (!isFunction(upgradeMessageSchema)) {
-    throw new TypeError('`upgradeMessageSchema` is required');
+    throw new TypeError('"upgradeMessageSchema" is required');
   }
 
   const startTime = Date.now();
@@ -66,12 +66,12 @@ const _saveMessage = ({ BackboneMessage } = {}) => (message) => {
 const _fetchMessagesRequiringSchemaUpgrade =
   async ({ BackboneMessageCollection, count } = {}) => {
     if (!isFunction(BackboneMessageCollection)) {
-      throw new TypeError('`BackboneMessageCollection` (Whisper.MessageCollection)' +
+      throw new TypeError('"BackboneMessageCollection" (Whisper.MessageCollection)' +
         ' constructor is required');
     }
 
     if (!isNumber(count)) {
-      throw new TypeError('`count` is required');
+      throw new TypeError('"count" is required');
     }
 
     const collection = new BackboneMessageCollection();
