@@ -11,12 +11,13 @@
 /* global Whisper: false */
 /* global wrapDeferred: false */
 
-;(function() {
+;(async function() {
     'use strict';
 
     const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
     const { Errors, Message } = window.Signal.Types;
     const { upgradeMessageSchema } = window.Signal.Migrations;
+    const { Migrations0DatabaseWithAttachmentData } = window.Signal.Database;
     const { Views } = window.Signal;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
@@ -75,13 +76,17 @@
         return accountManager;
     };
 
-    const cancelInitializationMessage = Views.Initialization.setMessage();
-    console.log('Start IndexedDB migrations');
-    storage.fetch();
-
-
   /* eslint-enable */
   /* jshint ignore:start */
+  const cancelInitializationMessage = Views.Initialization.setMessage();
+  console.log('Start IndexedDB migrations');
+
+  console.log('Migrate database with attachments');
+  await Migrations0DatabaseWithAttachmentData.run({ Backbone });
+
+  console.log('Migrate database without attachments');
+  storage.fetch();
+
   const NUM_MESSAGE_UPGRADES_PER_IDLE = 2;
   const idleDetector = new IdleDetector();
   idleDetector.on('idle', async () => {
