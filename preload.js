@@ -7,17 +7,14 @@
   const Attachment = require('./js/modules/types/attachment');
   const Attachments = require('./app/attachments');
   const Message = require('./js/modules/types/message');
+  const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
   const { app } = electron.remote;
 
 
   window.PROTO_ROOT = 'protos';
   window.config = require('url').parse(window.location.toString(), true).query;
-  window.wrapDeferred = function(deferred) {
-    return new Promise(function(resolve, reject) {
-      deferred.then(resolve, reject);
-    });
-  };
+  window.wrapDeferred = deferredToPromise;
 
   const ipc = electron.ipcRenderer;
   window.config.localeMessages = ipc.sendSync('locale-data');
