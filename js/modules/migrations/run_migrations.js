@@ -43,6 +43,6 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
     storeName: 'items',
   }))();
 
-  await deferredToPromise(migrationCollection.fetch());
+  await deferredToPromise(migrationCollection.fetch({ limit: 1 }));
   await closeDatabase(database.id);
 };
