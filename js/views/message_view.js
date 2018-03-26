@@ -7,7 +7,7 @@
     window.Whisper = window.Whisper || {};
 
     const { Attachment } = window.Signal.Types;
-    const { context: migrationContext } = window.Signal.Migrations;
+    const { loadAttachmentData } = window.Signal.Migrations;
 
     var URL_REGEX = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9\u00A0-\uD7FF\uE000-\uFDCF\uFDF0-\uFFFD+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
 
@@ -416,11 +416,10 @@
         return this.loadedAttachmentViews;
       }
 
-      const loadData = Attachment.loadData(migrationContext.readAttachmentData);
       const attachments = this.model.get('attachments') || [];
       const loadedAttachmentViews = Promise.all(attachments.map(attachment =>
         new Promise(async (resolve) => {
-          const attachmentWithData = await loadData(attachment);
+          const attachmentWithData = await loadAttachmentData(attachment);
           const view = new Whisper.AttachmentView({
             model: attachmentWithData,
             timestamp: this.model.get('sent_at'),

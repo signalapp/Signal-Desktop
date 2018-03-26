@@ -4,7 +4,9 @@
   console.log('preload');
   const electron = require('electron');
 
+  const Attachment = require('./js/modules/types/attachment');
   const Attachments = require('./app/attachments');
+  const Message = require('./js/modules/types/message');
 
   const { app } = electron.remote;
 
@@ -113,25 +115,27 @@
   const readAttachmentData = Attachments.readData(attachmentsPath);
   const writeAttachmentData = Attachments.writeData(attachmentsPath);
 
+  // Injected context functions to keep `Message` agnostic from Electron:
+  const upgradeSchemaContext = {
+    writeAttachmentData,
+  };
+  const upgradeMessageSchema = message =>
+    Message.upgradeSchema(message, upgradeSchemaContext);
+
   window.Signal = window.Signal || {};
   window.Signal.Logs = require('./js/modules/logs');
   window.Signal.OS = require('./js/modules/os');
   window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Crypto = require('./js/modules/crypto');
-
-  window.Signal.Migrations = window.Signal.Migrations || {};
-  // Injected context functions to keep `Message` agnostic from Electron:
-  window.Signal.Migrations.context = {
-    deleteAttachmentData,
-    readAttachmentData,
-    writeAttachmentData,
-  };
+  window.Signal.Migrations = {};
+  window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
+  window.Signal.Migrations.deleteAttachmentData = Attachment.deleteData(deleteAttachmentData);
+  window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
   window.Signal.Migrations.V17 = require('./js/modules/migrations/17');
-
   window.Signal.Types = window.Signal.Types || {};
-  window.Signal.Types.Attachment = require('./js/modules/types/attachment');
+  window.Signal.Types.Attachment = Attachment;
   window.Signal.Types.Errors = require('./js/modules/types/errors');
-  window.Signal.Types.Message = require('./js/modules/types/message');
+  window.Signal.Types.Message = Message;
   window.Signal.Types.MIME = require('./js/modules/types/mime');
   window.Signal.Types.Settings = require('./js/modules/types/settings');
 

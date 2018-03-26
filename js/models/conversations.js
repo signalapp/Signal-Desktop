@@ -10,7 +10,7 @@
    window.Whisper = window.Whisper || {};
 
    const { Attachment, Message } = window.Signal.Types;
-   const { context: migrationContext } = window.Signal.Migrations;
+   const { upgradeMessageSchema, loadAttachmentData } = window.Signal.Migrations;
 
    // TODO: Factor out private and group subclasses of Conversation
 
@@ -618,7 +618,7 @@
           now
         );
 
-        const messageWithSchema = await Message.upgradeSchema({
+        const messageWithSchema = await upgradeMessageSchema({
           type: 'outgoing',
           body,
           conversationId: this.id,
@@ -627,7 +627,7 @@
           received_at: now,
           expireTimer: this.get('expireTimer'),
           recipients: this.getRecipients(),
-        }, migrationContext);
+        });
         const message = this.messageCollection.add(messageWithSchema);
         if (this.isPrivate()) {
           message.set({ destination: this.id });
@@ -657,9 +657,8 @@
           profileKey = storage.get('profileKey');
         }
 
-        const loadData = Attachment.loadData(migrationContext.readAttachmentData);
         const attachmentsWithData =
-            await Promise.all(messageWithSchema.attachments.map(loadData));
+            await Promise.all(messageWithSchema.attachments.map(loadAttachmentData));
         message.send(sendFunction(
           this.get('id'),
           body,

@@ -5,7 +5,7 @@
     window.Whisper = window.Whisper || {};
 
     const { Attachment, Message: TypedMessage } = window.Signal.Types;
-    const { context: migrationContext } = window.Signal.Migrations;
+    const { deleteAttachmentData } = window.Signal.Migrations;
 
     var Message  = window.Whisper.Message = Backbone.Model.extend({
         database  : Whisper.Database,
@@ -147,9 +147,7 @@
         async onDestroy() {
           this.revokeImageUrl();
           const attachments = this.get('attachments');
-          const deleteData =
-            Attachment.deleteData(migrationContext.deleteAttachmentData);
-          await Promise.all(attachments.map(deleteData));
+          await Promise.all(attachments.map(deleteAttachmentData));
         },
         /* jshint ignore:end */
         /* eslint-disable */
