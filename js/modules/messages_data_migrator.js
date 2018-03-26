@@ -3,7 +3,7 @@ const isFunction = require('lodash/isFunction');
 const Message = require('./types/message');
 
 
-const processNext = async ({
+exports.processNext = async ({
   BackboneMessage,
   BackboneMessageCollection,
   count,
@@ -92,8 +92,3 @@ const _fetchMessagesRequiringSchemaUpgrade =
       resolve(messages);
     }));
   };
-
-
-module.exports = {
-  processNext,
-};
