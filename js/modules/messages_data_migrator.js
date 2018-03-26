@@ -1,9 +1,12 @@
-const isNumber = require('lodash/isNumber');
 const isFunction = require('lodash/isFunction');
+const isNumber = require('lodash/isNumber');
+const isObject = require('lodash/isObject');
+const isString = require('lodash/isString');
 
 const Message = require('./types/message');
 const { deferredToPromise } = require('./deferred_to_promise');
-
+const Migrations0DatabaseWithAttachmentData =
+  require('./migrations/migrations_0_database_with_attachment_data');
 
 exports.processNext = async ({
   BackboneMessage,
@@ -58,6 +61,32 @@ exports.processNext = async ({
   };
 };
 
+exports.processAll = async ({
+  Backbone,
+  storage,
+  upgradeMessageSchema,
+} = {}) => {
+  if (!isObject(Backbone)) {
+    throw new TypeError('"Backbone" is required');
+  }
+
+  if (!isObject(storage)) {
+    throw new TypeError('"storage" is required');
+  }
+
+  if (!isFunction(upgradeMessageSchema)) {
+    throw new TypeError('"upgradeMessageSchema" is required');
+  }
+
+  const lastIndex = null;
+  const unprocessedMessages =
+    await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex({
+      Backbone,
+      count: 10,
+      lastIndex,
+    });
+};
+
 const _saveMessage = ({ BackboneMessage } = {}) => (message) => {
   const backboneMessage = new BackboneMessage(message);
   return deferredToPromise(backboneMessage.save());
@@ -88,4 +117,34 @@ const _fetchMessagesRequiringSchemaUpgrade =
       const messages = models.map(model => model.toJSON());
       resolve(messages);
     }));
+  };
+
+const MAX_MESSAGE_KEY = 'ffffffff-ffff-ffff-ffff-ffffffffffff';
+const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex =
+  async ({ Backbone, count, lastIndex } = {}) => {
+    if (!isObject(Backbone)) {
+      throw new TypeError('"Backbone" is required');
+    }
+
+    if (!isNumber(count)) {
+      throw new TypeError('"count" is required');
+    }
+
+    if (lastIndex && !isString(lastIndex)) {
+      throw new TypeError('"lastIndex" must be a string');
+    }
+
+    const storeName = 'messages';
+    const collection =
+      Migrations0DatabaseWithAttachmentData.createCollection({ Backbone, storeName });
+
+    const range = lastIndex ? [lastIndex, MAX_MESSAGE_KEY] : null;
+    await deferredToPromise(collection.fetch({
+      limit: count,
+      range,
+    }));
+
+    const models = collection.models || [];
+    const messages = models.map(model => model.toJSON());
+    return messages;
   };
