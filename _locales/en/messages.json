@@ -522,6 +522,9 @@
     "showSafetyNumber": {
       "message": "Show safety number"
     },
+    "viewAllMedia": {
+      "message": "View all media"
+    },
     "verifyHelp": {
       "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
       "placeholders": {
