@@ -121,7 +121,6 @@ const migrations = [
     version: 17,
     async migrate(transaction, next) {
       console.log('Migration 17');
-      console.log('Start migration to database version 17');
 
       const start = Date.now();
 
