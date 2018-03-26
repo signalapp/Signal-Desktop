@@ -11,7 +11,8 @@
 /* global Whisper: false */
 /* global wrapDeferred: false */
 
-;(async function() {
+
+;(/* jshint ignore:start */ async /* jshint ignore:end */function() {
     'use strict';
 
     const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
@@ -85,14 +86,11 @@
   console.log('Start IndexedDB migrations');
 
   console.log('Migrate database with attachments');
-  const closeDatabase = () =>
-    Whisper.Database.close();
-  await Migrations0DatabaseWithAttachmentData.run({ Backbone, closeDatabase });
+  await Migrations0DatabaseWithAttachmentData.run({ Backbone });
 
   console.log('Migrate database without attachments');
   await Migrations1DatabaseWithoutAttachmentData.run({
     Backbone,
-    closeDatabase,
     Database: Whisper.Database,
   });
 

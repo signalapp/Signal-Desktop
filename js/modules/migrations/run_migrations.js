@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 const isFunction = require('lodash/isFunction');
 const isObject = require('lodash/isObject');
 const isString = require('lodash/isString');
@@ -5,14 +7,30 @@ const isString = require('lodash/isString');
 const { deferredToPromise } = require('../deferred_to_promise');
 
 
-exports.runMigrations = async ({ Backbone, closeDatabase, database } = {}) => {
+const closeDatabase = name =>
+  new Promise((resolve, reject) => {
+    const request = window.indexedDB.open(name);
+    request.onblocked = () => {
+      reject(new Error(`Database '${name}' blocked`));
+    };
+    request.onupgradeneeded = (event) => {
+      reject(new Error('Unexpected database upgraded needed:' +
+        ` oldVersion: ${event.oldVersion}, newVersion: ${event.newVersion}`));
+    };
+    request.onerror = (event) => {
+      reject(event.target.error);
+    };
+    request.onsuccess = (event) => {
+      const connection = event.target.result;
+      connection.close();
+      resolve();
+    };
+  });
+
+exports.runMigrations = async ({ Backbone, database } = {}) => {
   if (!isObject(Backbone) || !isObject(Backbone.Collection) ||
       !isFunction(Backbone.Collection.extend)) {
     throw new TypeError('"Backbone" is required');
-  }
-
-  if (!isFunction(closeDatabase)) {
-    throw new TypeError('"closeDatabase" is required');
   }
 
   if (!isObject(database) || !isString(database.id) ||
@@ -26,6 +44,5 @@ exports.runMigrations = async ({ Backbone, closeDatabase, database } = {}) => {
   }))();
 
   await deferredToPromise(migrationCollection.fetch());
-  await closeDatabase();
-  return;
+  await closeDatabase(database.id);
 };
