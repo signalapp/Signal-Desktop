@@ -1,29 +1,34 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-;(function() {
-    'use strict';
+/* eslint-env node */
 
-    // preload.js loads this, pulling it from main.js (where it was loaded from disk)
-    var messages = window.config.localeMessages;
-    var locale = window.config.locale;
+exports.setup = (locale, messages) => {
+  if (!locale) {
+    throw new Error('i18n: locale parameter is required');
+  }
+  if (!messages) {
+    throw new Error('i18n: messages parameter is required');
+  }
 
-    window.i18n = function (message, substitutions) {
-      if (!messages[message]) {
-        return;
-      }
-      var s = messages[message].message;
-      if (substitutions instanceof Array) {
-        substitutions.forEach(function(sub) {
-          s = s.replace(/\$.+?\$/, sub);
-        });
-      } else if (substitutions) {
-        s = s.replace(/\$.+?\$/, substitutions);
-      }
-      return s;
-    };
+  function getMessage(key, substitutions) {
+    const entry = messages[key];
+    if (!entry) {
+      console.error(`i18n: Attempted to get translation for nonexistent key '${key}'`);
+      return '';
+    }
 
-    i18n.getLocale = function() {
-      return locale;
-    };
-})();
+    const { message } = entry;
+    if (substitutions instanceof Array) {
+      return substitutions.reduce(
+        (result, substitution) => result.replace(/\$.+?\$/, substitution),
+        message
+      );
+    } else if (substitutions) {
+      return message.replace(/\$.+?\$/, substitutions);
+    }
+
+    return message;
+  }
+
+  getMessage.getLocale = () => locale;
+
+  return getMessage;
+};

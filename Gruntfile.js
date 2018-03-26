@@ -106,6 +106,8 @@ module.exports = function(grunt) {
         '!js/logging.js',
         '!js/backup.js',
         '!js/modules/**/*.js',
+        '!js/react/**/*.js',
+        '!js/built/**/*.js',
         '!js/views/debug_log_view.js',
         '!js/signal_protocol_store.js',
         '!js/database.js',
@@ -147,25 +149,6 @@ module.exports = function(grunt) {
       },
       src: {
         files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }],
-        options: {
-          process: function(content, srcpath) {
-            if (srcpath.match('background.js')) {
-              return content.replace(
-                /textsecure-service-staging.whispersystems.org/g,
-                'textsecure-service-ca.whispersystems.org');
-            } else if (srcpath.match('expire.js')) {
-              var gitinfo = grunt.config.get('gitinfo');
-              var commited = gitinfo.local.branch.current.lastCommitTime;
-              var time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
-              return content.replace(
-                /var BUILD_EXPIRATION = 0/,
-                "var BUILD_EXPIRATION = " + time
-              );
-            } else {
-              return content;
-            }
-          }
-        }
       }
     },
     jscs: {
@@ -179,6 +162,8 @@ module.exports = function(grunt) {
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
         '!js/modules/**/*.js',
+        '!js/react/**/*.js',
+        '!js/built/**/*.js',
         'test/**/*.js',
         '!test/blanket_mocha.js',
         '!test/modules/**/*.js',
@@ -200,17 +185,24 @@ module.exports = function(grunt) {
         tasks: ['copy_dist']
       },
       scripts: {
-        files: ['<%= jshint.files %>', './js/**/*.js'],
+        files: ['<%= jshint.files %>'],
         tasks: ['jshint']
       },
       style: {
-        files: ['<%= jscs.all.src %>', './js/**/*.js'],
+        files: ['<%= jscs.all.src %>'],
         tasks: ['jscs']
       },
+      transpile: {
+        files: ['./js/react/**/*.js'],
+        tasks: ['exec:transpile']
+      }
     },
     exec: {
       'tx-pull': {
         cmd: 'tx pull'
+      },
+      'transpile': {
+        cmd: 'npm run transpile',
       }
     },
     'test-release': {
@@ -494,5 +486,8 @@ module.exports = function(grunt) {
   grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('prep-release', ['gitinfo', 'clean-release', 'fetch-release']);
-  grunt.registerTask('default', ['concat', 'copy:deps', 'sass', 'date']);
+  grunt.registerTask(
+    'default',
+    ['concat', 'copy:deps', 'sass', 'date', 'exec:transpile']
+  );
 };

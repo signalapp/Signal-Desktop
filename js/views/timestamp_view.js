@@ -5,15 +5,6 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    moment.updateLocale(i18n.getLocale(), {
-        relativeTime : {
-            s: i18n('timestamp_s') || 'now',
-            m: i18n('timestamp_m') || '1 minute',
-            h: i18n('timestamp_h') || '1 hour'
-        }
-    });
-    moment.locale(i18n.getLocale());
-
     Whisper.TimestampView = Whisper.View.extend({
         initialize: function(options) {
             extension.windows.onClosed(this.clearTimeout.bind(this));

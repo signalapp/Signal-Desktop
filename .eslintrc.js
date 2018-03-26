@@ -8,7 +8,7 @@ module.exports = {
   },
 
   extends: [
-    'airbnb-base',
+    'airbnb',
   ],
 
   plugins: [
@@ -33,6 +33,9 @@ module.exports = {
       code: 90,
       ignoreUrls: true,
     }],
+
+    // we're gonna put JSX in normal .js files
+    'react/jsx-filename-extension': 'off',
 
     // prevents us from accidentally checking in exclusive tests (`.only`):
     'mocha/no-exclusive-tests': 'error',

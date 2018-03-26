@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "node": false
+  },
+  "globals": {
+    "console": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  }
+}
