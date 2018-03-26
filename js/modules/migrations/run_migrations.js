@@ -2,11 +2,17 @@ const isFunction = require('lodash/isFunction');
 const isObject = require('lodash/isObject');
 const isString = require('lodash/isString');
 
+const { deferredToPromise } = require('../deferred_to_promise');
 
-exports.runMigrations = ({ Backbone, database } = {}) => {
+
+exports.runMigrations = async ({ Backbone, closeDatabase, database } = {}) => {
   if (!isObject(Backbone) || !isObject(Backbone.Collection) ||
       !isFunction(Backbone.Collection.extend)) {
     throw new TypeError('"Backbone" is required');
+  }
+
+  if (!isFunction(closeDatabase)) {
+    throw new TypeError('"closeDatabase" is required');
   }
 
   if (!isObject(database) || !isString(database.id) ||
@@ -19,9 +25,7 @@ exports.runMigrations = ({ Backbone, database } = {}) => {
     storeName: 'items',
   }))();
 
-  return new Promise((resolve) => {
-    // NOTE: This `then` refers to a jQuery `Deferred`:
-    // eslint-disable-next-line more/no-then
-    migrationCollection.fetch().then(() => resolve());
-  });
+  await deferredToPromise(migrationCollection.fetch());
+  await closeDatabase();
+  return;
 };

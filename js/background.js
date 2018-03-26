@@ -85,11 +85,14 @@
   console.log('Start IndexedDB migrations');
 
   console.log('Migrate database with attachments');
-  await Migrations0DatabaseWithAttachmentData.run({ Backbone });
+  const closeDatabase = () =>
+    Whisper.Database.close();
+  await Migrations0DatabaseWithAttachmentData.run({ Backbone, closeDatabase });
 
   console.log('Migrate database without attachments');
   await Migrations1DatabaseWithoutAttachmentData.run({
     Backbone,
+    closeDatabase,
     Database: Whisper.Database,
   });
 
