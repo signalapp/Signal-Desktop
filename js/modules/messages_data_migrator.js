@@ -97,7 +97,7 @@ exports.processAll = async ({
   let unprocessedMessages = [];
   do {
     // eslint-disable-next-line no-await-in-loop
-    const lastProcessedIndex = (await getLastProcessedIndex(connection)) || null;
+    const lastProcessedIndex = await getLastProcessedIndex(connection);
 
     const fetchUnprocessedMessagesStartTime = Date.now();
     unprocessedMessages =
@@ -284,7 +284,7 @@ const getItem = (connection, key) => {
       reject(event.target.error);
 
     request.onsuccess = event =>
-      resolve(event.target.result);
+      resolve(event.target.result ? event.target.result.value : null);
   });
 };
 
@@ -299,7 +299,7 @@ const setItem = (connection, key, value) => {
 
   const transaction = connection.transaction(ITEMS_STORE_NAME, 'readwrite');
   const itemsStore = transaction.objectStore(ITEMS_STORE_NAME);
-  const request = itemsStore.put(value, key);
+  const request = itemsStore.put({id: key, value}, key);
   return new Promise((resolve, reject) => {
     request.onerror = event =>
       reject(event.target.error);
