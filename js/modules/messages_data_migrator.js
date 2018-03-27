@@ -77,17 +77,9 @@ exports.processNext = async ({
   };
 };
 
-exports.processAll = async ({
-  Backbone,
-  storage,
-  upgradeMessageSchema,
-} = {}) => {
+exports.processAll = async ({ Backbone, upgradeMessageSchema } = {}) => {
   if (!isObject(Backbone)) {
     throw new TypeError('"Backbone" is required');
-  }
-
-  if (!isObject(storage)) {
-    throw new TypeError('"storage" is required');
   }
 
   if (!isFunction(upgradeMessageSchema)) {
