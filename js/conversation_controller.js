@@ -99,6 +99,14 @@
             return conversations.add(attributes);
         },
         getOrCreate: function(id, type) {
+            if (typeof id !== 'string') {
+                throw new TypeError('"id" must be a string');
+            }
+
+            if (type !== 'private' && type !== 'group') {
+                throw new TypeError('"type" must be "private" or "group"; got: ' + type);
+            }
+
             if (!this._initialFetchComplete) {
                 throw new Error('ConversationController.get() needs complete initial fetch');
             }
