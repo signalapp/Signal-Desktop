@@ -89,32 +89,27 @@
         this.new_contact_view.undelegateEvents();
         this.new_contact_view.$el.hide();
       }
-      // Creates a view to display a new contact
+      const model = new Whisper.Conversation({ type: 'private' });
       this.new_contact_view = new Whisper.NewContactView({
         el: this.$new_contact,
-        model: ConversationController.dangerouslyCreateAndAdd({
-          type: 'private',
-        }),
+        model,
       }).render();
     },
 
-    createConversation() {
-      if (this.new_contact_view.model.isValid()) {
-        // NOTE: Temporarily allow `then` until we convert the entire file
-        // to `async` / `await`:
-        // eslint-disable-next-line more/no-then
-        ConversationController.getOrCreateAndWait(
-          this.new_contact_view.model.id,
-          'private'
-        ).then((conversation) => {
-          this.trigger('open', conversation);
-          this.initNewContact();
-          this.resetTypeahead();
-        });
-      } else {
+    async createConversation() {
+      const isValidNumber = this.new_contact_view.model.isValid();
+      if (!isValidNumber) {
         this.new_contact_view.$('.number').text(i18n('invalidNumberError'));
         this.$input.focus();
+        return;
       }
+
+      const newConversationId = this.new_contact_view.model.id;
+      const conversation =
+        await ConversationController.getOrCreateAndWait(newConversationId, 'private');
+      this.trigger('open', conversation);
+      this.initNewContact();
+      this.resetTypeahead();
     },
 
     reset() {
