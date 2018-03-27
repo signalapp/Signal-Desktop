@@ -49,20 +49,20 @@ exports.processNext = async ({
 
   const startTime = Date.now();
 
-  const startFetchTime = Date.now();
+  const fetchStartTime = Date.now();
   const messagesRequiringSchemaUpgrade =
     await _fetchMessagesRequiringSchemaUpgrade({ BackboneMessageCollection, count });
-  const fetchDuration = Date.now() - startFetchTime;
+  const fetchDuration = Date.now() - fetchStartTime;
 
-  const startUpgradeTime = Date.now();
+  const upgradeStartTime = Date.now();
   const upgradedMessages =
     await Promise.all(messagesRequiringSchemaUpgrade.map(upgradeMessageSchema));
-  const upgradeDuration = Date.now() - startUpgradeTime;
+  const upgradeDuration = Date.now() - upgradeStartTime;
 
-  const startSaveTime = Date.now();
+  const saveStartTime = Date.now();
   const saveMessage = _saveMessageBackbone({ BackboneMessage });
   await Promise.all(upgradedMessages.map(saveMessage));
-  const saveDuration = Date.now() - startSaveTime;
+  const saveDuration = Date.now() - saveStartTime;
 
   const totalDuration = Date.now() - startTime;
   const numProcessed = messagesRequiringSchemaUpgrade.length;
