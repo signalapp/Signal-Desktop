@@ -311,13 +311,7 @@ const setItem = (connection, key, value) => {
 
 const completeTransaction = transaction =>
   new Promise((resolve, reject) => {
-    // eslint-disable-next-line no-param-reassign
-    transaction.onabort = event =>
-      reject(event.target.error);
-    // eslint-disable-next-line no-param-reassign
-    transaction.onerror = event =>
-      reject(event.target.error);
-    // eslint-disable-next-line no-param-reassign
-    transaction.oncomplete = () =>
-      resolve();
+    transaction.addEventListener('abort', event => reject(event.target.error));
+    transaction.addEventListener('error', event => reject(event.target.error));
+    transaction.addEventListener('complete', () => resolve());
   });
