@@ -15,6 +15,7 @@ const DATABASE_NAME = 'signal';
 const EXPECTED_DATABASE_VERSION = 17;
 const MESSAGES_STORE_NAME = 'messages';
 const ITEMS_STORE_NAME = 'items';
+const NUM_MESSAGES_PER_BATCH = 50;
 
 exports.processNext = async ({
   BackboneMessage,
@@ -104,7 +105,7 @@ exports.processAll = async ({
       // eslint-disable-next-line no-await-in-loop
       await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex({
         connection,
-        count: 10,
+        count: NUM_MESSAGES_PER_BATCH,
         lastIndex: lastProcessedIndex,
       });
     const fetchDuration = Date.now() - fetchUnprocessedMessagesStartTime;
