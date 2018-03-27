@@ -2,7 +2,7 @@ describe('MessageView', function() {
   var convo, message;
 
   before(function() {
-    convo = ConversationController.createTemporary({id: 'foo'});
+    convo = ConversationController.dangerouslyCreateAndAdd({id: 'foo'});
     message = convo.messageCollection.add({
       conversationId: convo.id,
       body: 'hello world',

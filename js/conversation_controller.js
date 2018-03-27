@@ -95,7 +95,7 @@
         getUnsafe: function(id) {
             return conversations.get(id);
         },
-        createTemporary: function(attributes) {
+        dangerouslyCreateAndAdd: function(attributes) {
             return conversations.add(attributes);
         },
         getOrCreate: function(id, type) {

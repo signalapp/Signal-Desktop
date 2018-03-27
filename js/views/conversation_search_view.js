@@ -92,7 +92,7 @@
       // Creates a view to display a new contact
       this.new_contact_view = new Whisper.NewContactView({
         el: this.$new_contact,
-        model: ConversationController.createTemporary({
+        model: ConversationController.dangerouslyCreateAndAdd({
           type: 'private',
         }),
       }).render();
