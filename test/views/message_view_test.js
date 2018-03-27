@@ -2,7 +2,7 @@ describe('MessageView', function() {
   var convo, message;
 
   before(function() {
-    convo = ConversationController.dangerouslyCreateAndAdd({id: 'foo'});
+    convo = new Whisper.Conversation({id: 'foo'});
     message = convo.messageCollection.add({
       conversationId: convo.id,
       body: 'hello world',
