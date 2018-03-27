@@ -1,5 +1,12 @@
 /* eslint-env browser */
 
+// Module to upgrade the schema of messages, e.g. migrate attachments to disk.
+// `processAll` is meant to be run after the initial database migrations
+// (12 – 17) and purposely doesn’t rely on our Backbone IndexedDB adapter to
+// prevent subsequent migrations to run (18+) but rather uses direct IndexedDB
+// access. This includes avoiding usage of `storage` module which uses Backbone
+// under the hood.
+
 const isFunction = require('lodash/isFunction');
 const isNumber = require('lodash/isNumber');
 const isObject = require('lodash/isObject');
