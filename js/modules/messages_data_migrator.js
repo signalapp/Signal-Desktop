@@ -179,6 +179,7 @@ exports.processAll = async ({
   } while (unprocessedMessages.length > 0);
 
   await settings.markAttachmentMigrationComplete(connection);
+  await settings.deleteAttachmentMigrationLastProcessedIndex(connection);
 
   console.log('Close database connection');
   connection.close();
