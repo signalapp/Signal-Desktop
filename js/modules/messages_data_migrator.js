@@ -77,7 +77,7 @@ exports.processNext = async ({
 exports.processAll = async ({
   Backbone,
   databaseName,
-  databaseVersion,
+  minDatabaseVersion,
   upgradeMessageSchema,
 } = {}) => {
   if (!isObject(Backbone)) {
@@ -88,15 +88,27 @@ exports.processAll = async ({
     throw new TypeError('"databaseName" must be a string');
   }
 
-  if (!isNumber(databaseVersion)) {
-    throw new TypeError('"databaseVersion" must be a number');
+  if (!isNumber(minDatabaseVersion)) {
+    throw new TypeError('"minDatabaseVersion" must be a number');
   }
 
   if (!isFunction(upgradeMessageSchema)) {
     throw new TypeError('"upgradeMessageSchema" is required');
   }
 
-  const connection = await database.open(databaseName, databaseVersion);
+  const connection = await database.open(databaseName);
+  const databaseVersion = connection.version;
+  const isValidDatabaseVersion = databaseVersion >= minDatabaseVersion;
+  console.log('Database status', {
+    databaseVersion,
+    isValidDatabaseVersion,
+    minDatabaseVersion,
+  });
+  if (!isValidDatabaseVersion) {
+    throw new Error(`Expected database version (${databaseVersion})` +
+      ` to be at least ${minDatabaseVersion}`);
+  }
+
   const isComplete = await settings.isAttachmentMigrationComplete(connection);
   console.log('Attachment migration status:', isComplete ? 'complete' : 'incomplete');
   if (isComplete) {

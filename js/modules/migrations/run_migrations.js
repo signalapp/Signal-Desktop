@@ -32,7 +32,7 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
   const databaseVersion = await db.getVersion(database.id);
   const isAlreadyUpgraded = databaseVersion >= lastMigrationVersion;
 
-  console.log('Database state', {
+  console.log('Database status', {
     firstMigrationVersion,
     lastMigrationVersion,
     databaseVersion,
