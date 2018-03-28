@@ -104,6 +104,7 @@ exports.processAll = async ({
 
   const migrationStartTime = Date.now();
   let unprocessedMessages = [];
+  let totalMessagesProcessed = 0;
   do {
     // eslint-disable-next-line no-await-in-loop
     const lastProcessedIndex = await getLastProcessedIndex(connection);
@@ -147,9 +148,11 @@ exports.processAll = async ({
       await setLastProcessedIndex(connection, newLastProcessedIndex);
     }
 
-    console.log('Upgrade message schema on startup:', {
+    totalMessagesProcessed += numUnprocessedMessages;
+    console.log('Upgrade message schema:', {
       lastProcessedIndex,
       numUnprocessedMessages,
+      numCumulativeMessagesProcessed: totalMessagesProcessed,
       fetchDuration,
       saveDuration,
       upgradeDuration,
@@ -161,7 +164,10 @@ exports.processAll = async ({
   connection.close();
 
   const totalDuration = Date.now() - migrationStartTime;
-  console.log('Attachment migration complete:', { totalDuration });
+  console.log('Attachment migration complete:', {
+    totalDuration,
+    totalMessagesProcessed,
+  });
 };
 
 const _saveMessageBackbone = ({ BackboneMessage } = {}) => (message) => {
