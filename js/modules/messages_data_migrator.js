@@ -19,7 +19,7 @@ const { deferredToPromise } = require('./deferred_to_promise');
 
 
 const MESSAGES_STORE_NAME = 'messages';
-const NUM_MESSAGES_PER_BATCH = 50;
+const NUM_MESSAGES_PER_BATCH = 1;
 
 exports.processNext = async ({
   BackboneMessage,
