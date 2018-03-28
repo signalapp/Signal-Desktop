@@ -1,3 +1,6 @@
+// NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
+/* eslint-disable more/no-then */
+
 const path = require('path');
 const fs = require('fs');
 
@@ -7,6 +10,7 @@ const mkdirp = require('mkdirp');
 const _ = require('lodash');
 const readFirstLine = require('firstline');
 const readLastLines = require('read-last-lines').read;
+const rimraf = require('rimraf');
 
 const {
   app,
@@ -65,6 +69,30 @@ function initialize() {
         logger.error(`Problem loading log from disk: ${error.stack}`);
       });
     });
+
+    ipc.on('delete-all-logs', async (event) => {
+      try {
+        await deleteAllLogs(logPath);
+      } catch (error) {
+        logger.error(`Problem deleting all logs: ${error.stack}`);
+      }
+
+      event.sender.send('delete-all-logs-complete');
+    });
+  });
+}
+
+async function deleteAllLogs(logPath) {
+  return new Promise((resolve, reject) => {
+    rimraf(logPath, {
+      disableGlob: true,
+    }, (error) => {
+      if (error) {
+        return reject(error);
+      }
+
+      return resolve();
+    });
   });
 }
 
@@ -117,8 +145,8 @@ function eliminateOutOfDateFiles(logPath, date) {
       const file = {
         path: target,
         start: isLineAfterDate(start, date),
-        end: isLineAfterDate(end[end.length - 1], date)
-          || isLineAfterDate(end[end.length - 2], date),
+        end: isLineAfterDate(end[end.length - 1], date) ||
+             isLineAfterDate(end[end.length - 2], date),
       };
 
       if (!file.start && !file.end) {

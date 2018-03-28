@@ -218,7 +218,7 @@ button.hamburger {
 }
 
 .dropoff {
-  outline: solid 1px #2090ea;
+  outline: solid 1px $blue;
 }
 
 $avatar-size: 44px;
@@ -605,6 +605,307 @@ input[type=text], input[type=search], textarea {
     }
     &:nth-child(3) {
       animation: loading 1500ms ease infinite 666ms;
+    }
+  }
+}
+
+.full-screen-flow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-family: roboto-light;
+
+  &.overlay {
+    // .modal, used for the settings view, is 100
+    z-index: 200;
+  }
+
+  color: black;
+  a {
+    color: $blue;
+  }
+  background: linear-gradient(
+    to bottom,
+    rgb(238,238,238) 0%, // (1 - 0.41) * 255 + 0.41 * 213
+    rgb(243,243,243) 12%, // (1 - 0.19) * 255 + 0.19 * 191
+    rgb(255,255,255) 27%,
+    rgb(255,255,255) 60%,
+    rgb(249,249,249) 85%, // (1 - 0.19) * 255 + 0.19 * 222
+    rgb(213,213,213) 100% // (1 - 0.27) * 255 + 0.27 * 98
+  );
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  font-size: 10pt;
+  input {
+    margin-top: 1em;
+    font-size: 12pt;
+    font-family: roboto-light;
+    border: 2px solid $blue;
+    padding: 0.5em;
+    text-align: center;
+    width: 20em;
+  }
+
+  @media (min-height: 750px) and (min-width: 700px) {
+    font-size: 14pt;
+
+    input {
+      font-size: 16pt;
+    }
+  }
+
+  #qr {
+    display: inline-block;
+
+    &.ready {
+      border: 5px solid $blue;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    img {
+      height: 20em;
+      border: 5px solid white;
+    }
+
+    @media (max-height: 475px) {
+      img {
+        width: 8em;
+        height: 8em;
+      }
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border: 3px solid $blue;
+      border-radius: 50%;
+      float: left;
+      margin: 0 6px;
+      transform: scale(0);
+
+      animation: loading 1500ms ease infinite 0ms;
+      &:nth-child(2) {
+        animation: loading 1500ms ease infinite 333ms;
+      }
+      &:nth-child(3) {
+        animation: loading 1500ms ease infinite 666ms;
+      }
+    }
+
+    canvas {
+      display: none;
+    }
+  }
+
+  .os-icon {
+    height: 3em;
+    width: 3em;
+    vertical-align: text-bottom;
+    display: inline-block;
+    margin: 0.5em;
+
+    &.apple {
+      @include color-svg('../images/apple.svg', black);
+    }
+    &.android {
+      @include color-svg('../images/android.svg', black);
+    }
+  }
+
+  .header {
+    font-weight: normal;
+    margin-bottom: 1.5em;
+
+    font-size: 20pt;
+
+    @media (min-height: 750px) and (min-width: 700px) {
+      font-size: 28pt;
+    }
+  }
+
+  .body-text {
+    max-width: 22em;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .body-text-wide {
+    max-width: 30em;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  form {
+    height: 100%;
+    width: 100%;
+  }
+  .step {
+    height: 100%;
+    width: 100%;
+    padding: 70px 0 50px;
+  }
+  .step-body {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 35em;
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .banner-image {
+    margin: 1em;
+    display: none;
+
+    @media (min-height: 550px) {
+      display: inline-block;
+      height: 10em;
+      width: 10em;
+    }
+  }
+
+  .banner-icon {
+    display: none;
+    margin: 1em;
+
+    // 640px by 338px is the smallest the window can go
+    @media (min-height: 550px) {
+      display: inline-block;
+      height: 10em;
+      width: 10em;
+    }
+
+    // generic
+    &.check-circle-outline {
+      @include color-svg('../images/check-circle-outline.svg', #DEDEDE);
+    }
+    &.alert-outline {
+      @include color-svg('../images/alert-outline.svg', #DEDEDE);
+    }
+
+    // import and export
+    &.folder-outline {
+      @include color-svg('../images/folder-outline.svg', #DEDEDE);
+    }
+    &.import {
+      @include color-svg('../images/import.svg', #DEDEDE);
+    }
+    &.export {
+      @include color-svg('../images/export.svg', #DEDEDE);
+    }
+
+    // registration process
+    &.lead-pencil {
+      @include color-svg('../images/lead-pencil.svg', #DEDEDE);
+    }
+    &.sync {
+      @include color-svg('../images/sync.svg', #DEDEDE);
+    }
+
+    // delete
+    &.alert-outline-red {
+      @include color-svg('../images/alert-outline.svg', red);
+    }
+    &.delete {
+      @include color-svg('../images/delete.svg', #DEDEDE);
+    }
+  }
+
+  .button {
+    cursor: pointer;
+    display: inline-block;
+    border: none;
+    min-width: 300px;
+    padding: 0.75em;
+    margin-top: 1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    color: white;
+    background: $blue;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    font-size: 12pt;
+
+    &.neutral {
+      color: black;
+      background: #DEDEDE;
+    }
+    &.destructive {
+      background: red;
+    }
+
+    @media (min-height: 750px) and (min-width: 700px) {
+      font-size: 20pt;
+    }
+  }
+  a.link {
+    display: block;
+    cursor: pointer;
+    text-decoration: underline;
+    margin: 0.5em;
+    color: #2090ea;
+  }
+
+  .progress {
+    text-align: center;
+    padding: 1em;
+    width: 80%;
+    margin: auto;
+
+    .bar-container {
+      height: 1em;
+      margin: 1em;
+      background-color: $grey_l;
+    }
+    .bar {
+      width: 100%;
+      height: 100%;
+      background-color: $blue_l;
+      transition: width 0.25s;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .nav {
+    width: 100%;
+    bottom: 50px;
+    margin-top: auto;
+    padding-bottom: 2em;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    .instructions {
+      text-align: left;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 2em;
+      margin-top: 2em;
+      max-width: 30em;
+    }
+    .instructions:after {
+      clear: both;
+    }
+    .android {
+      float: left;
+    }
+    .apple {
+      float: right;
+    }
+    .label {
+      float: left;
+    }
+    .body {
+      float: left;
     }
   }
 }

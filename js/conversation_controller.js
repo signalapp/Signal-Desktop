@@ -15,6 +15,9 @@
             this.on('change:timestamp change:name change:number', this.sort);
 
             this.listenTo(conversations, 'add change:active_at', this.addActive);
+            this.listenTo(conversations, 'reset', function() {
+                this.reset([]);
+            });
 
             this.on('add remove change:unreadCount',
                 _.debounce(this.updateUnreadCount.bind(this), 1000)
@@ -161,14 +164,11 @@
             return this._initialPromise;
         },
         reset: function() {
-            this._initialPromise = null;
+            this._initialPromise = Promise.resolve();
             conversations.reset([]);
         },
         load: function() {
             console.log('ConversationController: starting initial fetch');
-            if (this._initialPromise) {
-                throw new Error('ConversationController.load() has already been called!');
-            }
 
             this._initialPromise = new Promise(function(resolve, reject) {
                 conversations.fetch().then(function() {

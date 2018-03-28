@@ -19,8 +19,8 @@ You can install it on a computer which already has the production version instal
 
 ## Got a question?
 
-You can find a number of frequently asked questions here https://support.signal.org/.
-The discussion groups are another good place for questions: https://whispersystems.discoursehosting.net/.
+You can find answers to a number of frequently asked questions on our support site: https://support.signal.org/.
+The community forum is another good place for questions: https://community.signalusers.org/.
 
 
 ## Found a Bug? Have a feature request?

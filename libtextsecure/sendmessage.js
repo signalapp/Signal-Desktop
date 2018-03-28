@@ -388,7 +388,7 @@ MessageSender.prototype = {
     sendReadReceipts: function(sender, timestamps) {
         var receiptMessage = new textsecure.protobuf.ReceiptMessage();
         receiptMessage.type = textsecure.protobuf.ReceiptMessage.Type.READ;
-        receiptMessage.timestamps = timestamps;
+        receiptMessage.timestamp = timestamps;
 
         var contentMessage = new textsecure.protobuf.Content();
         contentMessage.receiptMessage = receiptMessage;

@@ -6,6 +6,11 @@
 
   window.PROTO_ROOT = 'protos';
   window.config = require('url').parse(window.location.toString(), true).query;
+  window.wrapDeferred = function(deferred) {
+    return new Promise(function(resolve, reject) {
+      deferred.then(resolve, reject);
+    });
+  };
 
   const ipc = electron.ipcRenderer;
   window.config.localeMessages = ipc.sendSync('locale-data');
@@ -42,6 +47,30 @@
     Whisper.events.trigger('showDebugLog');
   });
 
+  ipc.on('set-up-with-import', function() {
+    Whisper.events.trigger('setupWithImport');
+  });
+
+  ipc.on('set-up-as-new-device', function() {
+    Whisper.events.trigger('setupAsNewDevice');
+  });
+
+  ipc.on('set-up-as-standalone', function() {
+    Whisper.events.trigger('setupAsStandalone');
+  });
+
+  ipc.on('show-settings', function() {
+    Whisper.events.trigger('showSettings');
+  });
+
+  window.addSetupMenuItems = function() {
+    ipc.send('add-setup-menu-items');
+  }
+
+  window.removeSetupMenuItems = function() {
+    ipc.send('remove-setup-menu-items');
+  }
+
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
   require('./js/logging');
@@ -49,8 +78,6 @@
   if (window.config.proxyUrl) {
     console.log('using proxy url', window.config.proxyUrl);
   }
-
-  require('./js/backup');
 
   window.nodeSetImmediate = setImmediate;
   window.nodeWebSocket = require("websocket").w3cwebsocket;
@@ -60,6 +87,8 @@
     window.nodeSetImmediate(function() {});
   }, 1000);
 
+  window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
+  window.loadImage = require('blueimp-load-image');
   window.ProxyAgent = require('proxy-agent');
   window.EmojiConvertor = require('emoji-js');
   window.emojiData = require('emoji-datasource');
@@ -69,6 +98,26 @@
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.nodeNotifier = require('node-notifier');
+
+  const { autoOrientImage } = require('./js/modules/auto_orient_image');
+  window.autoOrientImage = autoOrientImage;
+
+  // ES2015+ modules
+  window.Signal = window.Signal || {};
+  window.Signal.Logs = require('./js/modules/logs');
+  window.Signal.OS = require('./js/modules/os');
+  window.Signal.Backup = require('./js/modules/backup');
+  window.Signal.Crypto = require('./js/modules/crypto');
+
+  window.Signal.Migrations = window.Signal.Migrations || {};
+  window.Signal.Migrations.V17 = require('./js/modules/migrations/17');
+
+  window.Signal.Types = window.Signal.Types || {};
+  window.Signal.Types.Attachment = require('./js/modules/types/attachment');
+  window.Signal.Types.Errors = require('./js/modules/types/errors');
+  window.Signal.Types.Message = require('./js/modules/types/message');
+  window.Signal.Types.MIME = require('./js/modules/types/mime');
+  window.Signal.Types.Settings = require('./js/modules/types/settings');
 
   // We pull this in last, because the native module involved appears to be sensitive to
   //   /tmp mounted as noexec on Linux.

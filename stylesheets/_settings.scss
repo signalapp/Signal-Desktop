@@ -11,6 +11,10 @@
   hr {
     margin: 10px 0;
   }
+  .device-name-settings {
+    text-align: center;
+    margin-bottom: 1em;
+  }
   .syncSettings {
     button {
       float: right;
@@ -26,6 +30,18 @@
         display: none;
         font-size: $font-size-small;
         color: red;
+    }
+  }
+  .clear-data-settings {
+    button {
+      float: right;
+      line-height: 36px;
+      padding: 0 20px;
+      margin: 0 0 20px 20px;
+    }
+    .destructive {
+      background-color: red;
+      color: white;
     }
   }
 }

@@ -7,12 +7,12 @@
         initialize: function(options) {
           this.inboxView = null;
           this.installView = null;
+
           this.applyTheme();
           this.applyHideMenu();
         },
         events: {
-            'click .openInstaller': 'openInstaller',
-            'click .openStandalone': 'openStandalone',
+            'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
             'openInbox': 'openInbox',
             'change-theme': 'applyTheme',
             'change-hide-menu': 'applyHideMenu',
@@ -45,27 +45,18 @@
             this.debugLogView = null;
           }
         },
-        openInstallChoice: function() {
-          this.closeInstallChoice();
-          var installChoice = this.installChoice = new Whisper.InstallChoiceView();
-
-          this.listenTo(installChoice, 'install-new', this.openInstaller.bind(this));
-          this.listenTo(installChoice, 'install-import', this.openImporter.bind(this));
-
-          this.openView(this.installChoice);
-        },
-        closeInstallChoice: function() {
-          if (this.installChoice) {
-            this.installChoice.remove();
-            this.installChoice = null;
-          }
-        },
         openImporter: function() {
-          this.closeImporter();
-          this.closeInstallChoice();
+          window.addSetupMenuItems();
+          this.resetViews();
           var importView = this.importView = new Whisper.ImportView();
-          this.listenTo(importView, 'cancel', this.openInstallChoice.bind(this));
+          this.listenTo(importView, 'light-import', this.finishLightImport.bind(this));
           this.openView(this.importView);
+        },
+        finishLightImport: function() {
+          var options = {
+            hasExistingData: true
+          };
+          this.openInstaller(options);
         },
         closeImporter: function() {
           if (this.importView) {
@@ -73,11 +64,19 @@
             this.importView = null;
           }
         },
-        openInstaller: function() {
-          this.closeInstaller();
-          this.closeInstallChoice();
-          var installView = this.installView = new Whisper.InstallView();
-          this.listenTo(installView, 'cancel', this.openInstallChoice.bind(this));
+        openInstaller: function(options) {
+          options = options || {};
+
+          // If we're in the middle of import, we don't want to show the menu options
+          //   allowing the user to switch to other ways to set up the app. If they
+          //   switched back and forth in the middle of a light import, they'd lose all
+          //   that imported data.
+          if (!options.hasExistingData) {
+            window.addSetupMenuItems();
+          }
+
+          this.resetViews();
+          var installView = this.installView = new Whisper.InstallView(options);
           this.openView(this.installView);
         },
         closeInstaller: function() {
@@ -88,10 +87,22 @@
         },
         openStandalone: function() {
           if (window.config.environment !== 'production') {
-            this.closeInstaller();
-            this.installView = new Whisper.StandaloneRegistrationView();
-            this.openView(this.installView);
+            window.addSetupMenuItems();
+            this.resetViews();
+            this.standaloneView = new Whisper.StandaloneRegistrationView();
+            this.openView(this.standaloneView);
           }
+        },
+        closeStandalone: function() {
+          if (this.standaloneView) {
+            this.standaloneView.remove();
+            this.standaloneView = null;
+          }
+        },
+        resetViews: function() {
+          this.closeInstaller();
+          this.closeImporter();
+          this.closeStandalone();
         },
         openInbox: function(options) {
           options = options || {};

@@ -1,0 +1,134 @@
+[
+  {
+    "label": "&File",
+    "submenu": [
+      {
+        "label": "Set Up with Import",
+        "click": null
+      },
+      {
+        "label": "Set Up as New Device",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Preferences…",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "quit"
+      }
+    ]
+  },
+  {
+    "label": "&Edit",
+    "submenu": [
+      {
+        "role": "undo"
+      },
+      {
+        "role": "redo"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "cut"
+      },
+      {
+        "role": "copy"
+      },
+      {
+        "role": "paste"
+      },
+      {
+        "role": "pasteandmatchstyle"
+      },
+      {
+        "role": "delete"
+      },
+      {
+        "role": "selectall"
+      }
+    ]
+  },
+  {
+    "label": "&View",
+    "submenu": [
+      {
+        "role": "resetzoom"
+      },
+      {
+        "role": "zoomin"
+      },
+      {
+        "role": "zoomout"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "togglefullscreen"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Debug Log",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "role": "toggledevtools"
+      }
+    ]
+  },
+  {
+    "label": "&Window",
+    "role": "window",
+    "submenu": [
+      {
+        "role": "minimize"
+      }
+    ]
+  },
+  {
+    "label": "&Help",
+    "role": "help",
+    "submenu": [
+      {
+        "label": "Go to Release Notes",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Go to Forums",
+        "click": null
+      },
+      {
+        "label": "Go to Support Page",
+        "click": null
+      },
+      {
+        "label": "Report an Issue",
+        "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "About Signal Desktop",
+        "click": null
+      }
+    ]
+  }
+]

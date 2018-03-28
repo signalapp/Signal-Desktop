@@ -1,0 +1,13 @@
+{
+  "env": {
+    "browser": false,
+    "commonjs": true,
+    "node": false
+  },
+  "globals": {
+    "console": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}

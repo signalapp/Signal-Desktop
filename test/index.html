@@ -41,17 +41,6 @@
     <div class='gutter'>
         <div class='network-status-container'></div>
         <div class='title-bar active' id='header'>
-          <div class='header-buttons right'>
-            <div class='vertical-align'>
-              <div class='global-menu menu'>
-                <button class='hamburger' alt='signal menu'></button>
-                <ul class='menu-list'>
-                    <li class='showSettings'>{{ settings }}</li>
-                    <li class='restart-signal'>{{ restartSignal }}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
           <h1>Signal</h1>
           <div class='tool-bar clearfix'>
             <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}' dir='auto'>
@@ -89,7 +78,7 @@
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='expired_alert'>
-    <a target='_blank' href='https://chrome.google.com/webstore/detail/bikioccmkafdpakkkcpdbppfkghcmihk'>
+    <a target='_blank' href='https://signal.org/download/'>
       <button class='upgrade'>{{ upgrade }}</button>
     </a>
     {{ expiredWarning }}
@@ -652,6 +641,8 @@
   <script type="text/javascript" src="emoji_util_test.js"></script>
   <script type="text/javascript" src="reliable_trigger_test.js"></script>
   <script type="text/javascript" src="backup_test.js"></script>
+  <script type="text/javascript" src="crypto_test.js"></script>
+  <script type="text/javascript" src="database_test.js"></script>
   <script type="text/javascript" src="i18n_test.js"></script>
   <script type="text/javascript" src="spellcheck_test.js"></script>
 

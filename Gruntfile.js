@@ -103,7 +103,12 @@ module.exports = function(grunt) {
         '!js/Mp3LameEncoder.min.js',
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
+        '!js/logging.js',
+        '!js/backup.js',
+        '!js/modules/**/*.js',
+        '!js/views/debug_log_view.js',
         '!js/signal_protocol_store.js',
+        '!js/database.js',
         '_locales/**/*'
       ],
       options: { jshintrc: '.jshintrc' },
@@ -120,7 +125,6 @@ module.exports = function(grunt) {
         '!js/register.js'
       ],
       res: [
-        'audio/**',
         'images/**/*',
         'fonts/*',
       ]
@@ -174,8 +178,10 @@ module.exports = function(grunt) {
         '!js/Mp3LameEncoder.min.js',
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
+        '!js/modules/**/*.js',
         'test/**/*.js',
         '!test/blanket_mocha.js',
+        '!test/modules/**/*.js',
         '!test/test.js',
         ]
       }

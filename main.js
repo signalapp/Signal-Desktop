@@ -16,16 +16,18 @@ const {
 
 const packageJson = require('./package.json');
 
-const createTrayIcon = require('./app/tray_icon');
-const createTemplate = require('./app/menu.js');
-const logging = require('./app/logging');
 const autoUpdate = require('./app/auto_update');
+const createTrayIcon = require('./app/tray_icon');
+const GlobalErrors = require('./js/modules/global_errors');
+const logging = require('./app/logging');
 const windowState = require('./app/window_state');
+const { createTemplate } = require('./app/menu');
 
+GlobalErrors.addHandler();
 
-const aumid = `org.whispersystems.${packageJson.name}`;
-console.log(`setting AUMID to ${aumid}`);
-app.setAppUserModelId(aumid);
+const appUserModelId = `org.whispersystems.${packageJson.name}`;
+console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
+app.setAppUserModelId(appUserModelId);
 
 // Keep a global reference of the window object, if you don't, the window will
 //   be closed automatically when the JavaScript object is garbage collected.
@@ -37,10 +39,16 @@ function getMainWindow() {
 
 // Tray icon and related objects
 let tray = null;
-const startInTray = process.argv.find(arg => arg === '--start-in-tray');
-const usingTrayIcon = startInTray || process.argv.find(arg => arg === '--use-tray-icon');
+const startInTray = process.argv.some(arg => arg === '--start-in-tray');
+const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
+
 
 const config = require('./app/config');
+
+const importMode = process.argv.some(arg => arg === '--import') || config.get('import');
+
+
+const development = config.environment === 'development';
 
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
@@ -119,6 +127,7 @@ function prepareURL(pathSegments) {
       appInstance: process.env.NODE_APP_INSTANCE,
       polyfillNotifications: polyfillNotifications ? true : undefined, // for stringify()
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
+      importMode: importMode ? true : undefined, // for stringify()
     },
   });
 }
@@ -157,10 +166,10 @@ function isVisible(window, bounds) {
   const topClearOfUpperBound = window.y >= boundsY;
   const topClearOfLowerBound = (window.y <= (boundsY + boundsHeight) - BOUNDS_BUFFER);
 
-  return rightSideClearOfLeftBound
-    && leftSideClearOfRightBound
-    && topClearOfUpperBound
-    && topClearOfLowerBound;
+  return rightSideClearOfLeftBound &&
+    leftSideClearOfRightBound &&
+    topClearOfUpperBound &&
+    topClearOfLowerBound;
 }
 
 function createWindow() {
@@ -216,6 +225,10 @@ function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
 
   function captureAndSaveWindowStats() {
+    if (!mainWindow) {
+      return;
+    }
+
     const size = mainWindow.getSize();
     const position = mainWindow.getPosition();
 
@@ -277,8 +290,8 @@ function createWindow() {
   // Emitted when the window is about to be closed.
   mainWindow.on('close', (e) => {
     // If the application is terminating, just do the default
-    if (windowState.shouldQuit()
-      || config.environment === 'test' || config.environment === 'test-lib') {
+    if (windowState.shouldQuit() ||
+        config.environment === 'test' || config.environment === 'test-lib') {
       return;
     }
 
@@ -314,6 +327,14 @@ function showDebugLog() {
   }
 }
 
+function showSettings() {
+  if (!mainWindow) {
+    return;
+  }
+
+  mainWindow.webContents.send('show-settings');
+}
+
 function openReleaseNotes() {
   shell.openExternal(`https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`);
 }
@@ -327,7 +348,25 @@ function openSupportPage() {
 }
 
 function openForums() {
-  shell.openExternal('https://whispersystems.discoursehosting.net/');
+  shell.openExternal('https://community.signalusers.org/');
+}
+
+function setupWithImport() {
+  if (mainWindow) {
+    mainWindow.webContents.send('set-up-with-import');
+  }
+}
+
+function setupAsNewDevice() {
+  if (mainWindow) {
+    mainWindow.webContents.send('set-up-as-new-device');
+  }
+}
+
+function setupAsStandalone() {
+  if (mainWindow) {
+    mainWindow.webContents.send('set-up-as-standalone');
+  }
 }
 
 
@@ -373,10 +412,13 @@ function showAbout() {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', () => {
+  // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
+  /* eslint-disable more/no-then */
   let loggingSetupError;
   logging.initialize().catch((error) => {
     loggingSetupError = error;
   }).then(() => {
+  /* eslint-enable more/no-then */
     logger = logging.getLogger();
     logger.info('app ready');
 
@@ -385,7 +427,8 @@ app.on('ready', () => {
     }
 
     if (!locale) {
-      locale = loadLocale();
+      const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+      locale = loadLocale({ appLocale, logger });
     }
 
     ready = true;
@@ -398,21 +441,32 @@ app.on('ready', () => {
       tray = createTrayIcon(getMainWindow, locale.messages);
     }
 
-    const options = {
-      showDebugLog,
-      showWindow,
-      showAbout,
-      openReleaseNotes,
-      openNewBugForm,
-      openSupportPage,
-      openForums,
-    };
-    const template = createTemplate(options, locale.messages);
-
-    const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+    setupMenu();
   });
 });
+
+function setupMenu(options) {
+  const { platform } = process;
+  const menuOptions = Object.assign({}, options, {
+    development,
+    showDebugLog,
+    showWindow,
+    showAbout,
+    openReleaseNotes,
+    openNewBugForm,
+    openSupportPage,
+    openForums,
+    platform,
+    setupWithImport,
+    setupAsNewDevice,
+    setupAsStandalone,
+    showSettings,
+  });
+  const template = createTemplate(menuOptions, locale.messages);
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+}
+
 
 app.on('before-quit', () => {
   windowState.markShouldQuit();
@@ -422,9 +476,9 @@ app.on('before-quit', () => {
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin'
-    || config.environment === 'test'
-    || config.environment === 'test-lib') {
+  if (process.platform !== 'darwin' ||
+      config.environment === 'test' ||
+      config.environment === 'test-lib') {
     app.quit();
   }
 });
@@ -443,18 +497,33 @@ app.on('activate', () => {
   }
 });
 
+// Defense in depth. We never intend to open webviews, so this prevents it completely.
+app.on('web-contents-created', (createEvent, win) => {
+  win.on('will-attach-webview', (attachEvent) => {
+    attachEvent.preventDefault();
+  });
+});
+
 ipc.on('set-badge-count', (event, count) => {
   app.setBadgeCount(count);
 });
+
+ipc.on('remove-setup-menu-items', () => {
+  setupMenu();
+});
+
+ipc.on('add-setup-menu-items', () => {
+  setupMenu({
+    includeSetup: true,
+  });
+});
+
 
 ipc.on('draw-attention', () => {
   if (process.platform === 'darwin') {
     app.dock.bounce();
   } else if (process.platform === 'win32') {
     mainWindow.flashFrame(true);
-    setTimeout(() => {
-      mainWindow.flashFrame(false);
-    }, 1000);
   } else if (process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }

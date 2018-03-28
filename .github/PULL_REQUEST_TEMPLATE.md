@@ -13,6 +13,7 @@ Remember, you can preview this before saving it.
 
 
 ### Contributor checklist:
+- [ ] My contribution is **not** related to translations. _Please submit translation changes via our [Signal Desktop Transifex project](https://www.transifex.com/liliakai/signal-desktop/)._
 - [ ] My commits are in nice logical chunks with [good commit messages](http://chris.beams.io/posts/git-commit/)
 - [ ] My changes are [rebased](https://medium.freecodecamp.org/git-rebase-and-the-golden-rule-explained-70715eccc372) on the latest [`development`](https://github.com/WhisperSystems/Signal-Desktop/tree/development) branch
 - [ ] My changes pass 100% of [local tests](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md#tests)

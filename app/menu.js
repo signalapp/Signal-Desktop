@@ -1,16 +1,36 @@
-function createTemplate(options, messages) {
+const isString = require('lodash/isString');
+
+
+exports.createTemplate = (options, messages) => {
+  if (!isString(options.platform)) {
+    throw new TypeError('`options.platform` must be a string');
+  }
+
   const {
-    showDebugLog,
-    showAbout,
-    openReleaseNotes,
-    openNewBugForm,
-    openSupportPage,
+    includeSetup,
     openForums,
+    openNewBugForm,
+    openReleaseNotes,
+    openSupportPage,
+    platform,
+    setupAsNewDevice,
+    setupAsStandalone,
+    setupWithImport,
+    showAbout,
+    showDebugLog,
+    showSettings,
   } = options;
 
   const template = [{
     label: messages.mainMenuFile.message,
     submenu: [
+      {
+        label: messages.mainMenuSettings.message,
+        click: showSettings,
+      },
+      {
+        type: 'separator',
+      },
       {
         role: 'quit',
       },
@@ -110,7 +130,7 @@ function createTemplate(options, messages) {
         click: openSupportPage,
       },
       {
-        label: messages.fileABug.message,
+        label: messages.menuReportIssue.message,
         click: openNewBugForm,
       },
       {
@@ -123,30 +143,96 @@ function createTemplate(options, messages) {
     ],
   }];
 
-  if (process.platform === 'darwin') {
+  if (includeSetup) {
+    const fileMenu = template[0];
+
+    // These are in reverse order, since we're prepending them one at a time
+    if (options.development) {
+      fileMenu.submenu.unshift({
+        label: messages.menuSetupAsStandalone.message,
+        click: setupAsStandalone,
+      });
+    }
+
+    fileMenu.submenu.unshift({
+      type: 'separator',
+    });
+    fileMenu.submenu.unshift({
+      label: messages.menuSetupAsNewDevice.message,
+      click: setupAsNewDevice,
+    });
+    fileMenu.submenu.unshift({
+      label: messages.menuSetupWithImport.message,
+      click: setupWithImport,
+    });
+  }
+
+  if (platform === 'darwin') {
     return updateForMac(template, messages, options);
   }
 
   return template;
-}
+};
 
 function updateForMac(template, messages, options) {
   const {
-    showWindow,
+    includeSetup,
+    setupAsNewDevice,
+    setupAsStandalone,
+    setupWithImport,
     showAbout,
+    showSettings,
+    showWindow,
   } = options;
 
   // Remove About item and separator from Help menu, since it's on the first menu
   template[4].submenu.pop();
   template[4].submenu.pop();
 
-  // Replace File menu
+  // Remove File menu
   template.shift();
+
+  if (includeSetup) {
+    // Add a File menu just for these setup options. Because we're using unshift(), we add
+    //   the file menu first, though it ends up to the right of the Signal Desktop menu.
+    const fileMenu = {
+      label: messages.mainMenuFile.message,
+      submenu: [
+        {
+          label: messages.menuSetupWithImport.message,
+          click: setupWithImport,
+        },
+        {
+          label: messages.menuSetupAsNewDevice.message,
+          click: setupAsNewDevice,
+        },
+      ],
+    };
+
+    if (options.development) {
+      fileMenu.submenu.push({
+        label: messages.menuSetupAsStandalone.message,
+        click: setupAsStandalone,
+      });
+    }
+
+    template.unshift(fileMenu);
+  }
+
+  // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
     submenu: [
       {
         label: messages.aboutSignalDesktop.message,
         click: showAbout,
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: messages.mainMenuSettings.message,
+        accelerator: 'CommandOrControl+,',
+        click: showSettings,
       },
       {
         type: 'separator',
@@ -170,7 +256,8 @@ function updateForMac(template, messages, options) {
   });
 
   // Add to Edit menu
-  template[1].submenu.push(
+  const editIndex = includeSetup ? 2 : 1;
+  template[editIndex].submenu.push(
     {
       type: 'separator',
     },
@@ -188,8 +275,9 @@ function updateForMac(template, messages, options) {
   );
 
   // Replace Window menu
+  const windowMenuTemplateIndex = includeSetup ? 4 : 3;
   // eslint-disable-next-line no-param-reassign
-  template[3].submenu = [
+  template[windowMenuTemplateIndex].submenu = [
     {
       accelerator: 'CmdOrCtrl+W',
       role: 'close',
@@ -215,5 +303,3 @@ function updateForMac(template, messages, options) {
 
   return template;
 }
-
-module.exports = createTemplate;

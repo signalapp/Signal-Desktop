@@ -19,79 +19,69 @@
       "message": "&Help",
       "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "mainMenuSettings": {
+      "message": "Preferences…",
+      "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "menuSetupWithImport": {
+      "message": "Set Up with Import",
+      "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "menuSetupAsNewDevice": {
+      "message": "Set Up as New Device",
+      "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
+    },
+    "menuSetupAsStandalone": {
+      "message": "Set Up as Standalone Device",
+      "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
     "loading": {
       "message": "Loading...",
       "description": "Message shown on the loading screen before we've loaded any messages"
     },
-    "exportInstructions": {
-      "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
-      "description": "Description of the export process"
-    },
     "chooseDirectory": {
-      "message": "Choose directory",
-      "description": "Button to allow the user to export all data from app as part of migration process"
+      "message": "Choose folder",
+      "description": "Button to allow the user to find a folder on disk"
     },
-    "exportButton": {
-      "message": "Export",
-      "desription": "Button shown on the choose directory dialog which starts the export process"
+    "loadDataHeader": {
+      "message": "Load your data",
+      "description": "Header shown on the first screen in the data import process"
     },
-    "exportChooserTitle": {
-      "message": "Choose target directory for data",
-      "description": "Title of the popup window used to select data storage location"
-    },
-    "exportAgain": {
-      "message": "Export again",
-      "description": "If user has already exported once, this button allows user to do it again if needed"
-    },
-    "exportError": {
-      "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
-      "description": "Helper text if the user went forward on migrating the app, but ran into an error"
-    },
-    "exporting": {
-      "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
-      "description": "Message shown on the migration screen while we export data"
-    },
-    "exportComplete": {
-      "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.signal.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
-      "description": "Message shown on the migration screen when we are done exporting data",
-      "placeholders": {
-        "location": {
-          "content": "$1",
-          "example": "/Users/someone/somewhere"
-        }
-      }
-    },
-    "installNewSignal": {
-      "message": "Install new Signal Desktop",
-      "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
-    },
-    "importButton": {
-      "message": "Import",
-      "desription": "Button shown on the choose directory dialog which starts the import process"
+    "loadDataDescription": {
+      "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+      "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
       "message": "Choose directory with exported data",
       "description": "Title of the popup window used to select data previously exported"
     },
+    "importErrorHeader": {
+      "message": "Something went wrong!",
+      "description": "Header of the error screen after a failed import"
+    },
+    "importingHeader": {
+      "message": "Loading contacts and messages",
+      "description": "Header of screen shown as data is import"
+    },
     "importError": {
-      "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
+      "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.<p>If these steps don't work for you, please <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>submit a debug log</a> so that we can help you get migrated!</p>",
       "description": "Message shown if the import went wrong."
     },
-    "tryAgain": {
-      "message": "Try again",
+    "importAgain": {
+      "message": "Choose folder and try again",
       "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
-    "importInstructions": {
-      "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
-      "description": "Description of the export process"
+    "importCompleteHeader": {
+      "message": "Success!",
+      "description": "Header shown on the screen at the end of a successful import process"
     },
-    "importing": {
-      "message": "Please wait while we import your data...",
-      "description": "Shown as we are loading the user's data from disk"
+    "importCompleteStartButton": {
+      "message": "Start using Signal Desktop",
+      "description": "Button shown at end of successful import process, nothing left but a restart"
     },
-    "importComplete": {
-      "message": "We've successfully loaded your data. The next step is to restart the application!",
-      "description": "Shown when the import is complete."
+    "importCompleteLinkButton": {
+      "message": "Link this device to your phone",
+      "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
       "message": "your selected location",
@@ -377,28 +367,28 @@
       }
     },
     "submitDebugLog": {
-      "message": "Submit debug log",
-      "description": "Menu item and header text for debug log modal, title case."
+      "message": "Debug log",
+      "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
       "message": "Debug Log",
-      "description": "View menu item to open the debug log, capitalized"
+      "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-      "message": "Go to release notes",
+      "message": "Go to Release Notes",
       "description": ""
     },
     "goToForums": {
-      "message": "Go to forums",
+      "message": "Go to Forums",
       "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-      "message": "Go to support page",
+      "message": "Go to Support Page",
       "description": "Item under the Help menu, takes you to the support page"
     },
-    "fileABug": {
-      "message": "File a bug",
-      "description": "Item under the Help menu, takes you to GitHub new issue form"
+    "menuReportIssue": {
+      "message": "Report an Issue",
+      "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "aboutSignalDesktop": {
       "message": "About Signal Desktop",
@@ -425,7 +415,7 @@
       "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
-      "message": "Search...",
+      "message": "Enter name or number",
       "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
@@ -526,86 +516,45 @@
         "message": "Privacy is possible. Signal makes it easy.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "installNew": {
-        "message": "Set up as new install",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "linkYourPhone": {
+        "message": "Link your phone to Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
     },
-    "installImport": {
-        "message": "Set up with exported data",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "signalSettings": {
+        "message": "Signal Settings",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
-    "installGetStartedButton": {
-        "message": "Get started"
+    "linkedDevices": {
+        "message": "Linked Devices",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
-    "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
-        }
+    "plusButton": {
+        "message": "'+' Button",
+        "description": "The button used in Signal Android to add a new linked device"
     },
-    "installSignalLinks": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-          "play_store": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          },
-          "app_store": {
-            "content": "$2",
-            "example": "href='http://example.com'"
-          }
-        }
+    "linkNewDevice": {
+        "message": "Link New Device",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "installGotIt": {
-        "message": "Got it",
-        "description": "Button for the user to confirm that they have Signal installed."
+    "deviceName": {
+        "message": "Device name",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
-    "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
-        "description": "Button for the user to confirm that they have Signal for Android"
+    "chooseDeviceName": {
+        "message": "Choose this device's name",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
-    "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
-        "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
-        }
+    "finishLinkingPhone": {
+        "message": "Finish linking phone",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
     },
-    "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above."
-    },
-    "installConnecting": {
-        "message": "Connecting...",
-        "description": "Displayed when waiting for the QR Code"
+    "initialSync": {
+        "message": "Syncing contacts and groups",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
         "message": "Failed to connect to server.",
         "description": "Displayed when we can't connect to the server."
-    },
-    "installGeneratingKeys": {
-        "message": "Generating Keys"
-    },
-    "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts"
-    },
-    "installComputerName": {
-        "message": "This computer's name will be",
-        "description": "Text displayed before the input where the user can enter the name for this device."
-    },
-    "installLinkingWithNumber": {
-        "message": "Linking with",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
-    },
-    "installFinalButton": {
-        "message": "Looking good",
-        "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "installTooManyDevices": {
         "message": "Sorry, you have too many devices linked already. Try removing some."
@@ -617,6 +566,34 @@
     "theme": {
         "message": "Theme",
         "description": "Header for theme settings"
+    },
+    "clearDataHeader": {
+        "message": "Clear Data",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
+    },
+    "clearDataExplanation": {
+        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "description": "Text describing what the clear data button will do."
+    },
+    "clearDataButton": {
+        "message": "Clear data",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
+    "deleteAllDataHeader": {
+        "message": "Delete all data?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataBody": {
+        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
+    "deleteAllDataButton": {
+        "message": "Delete all data",
+        "description": "Text of the button that deletes all data"
+    },
+    "deleteAllDataProgress": {
+        "message": "Disconnecting and deleting all data",
+        "description": "Text of the button that deletes all data"
     },
     "notifications": {
         "message": "Notifications",
@@ -649,10 +626,6 @@
     "newMessages": {
         "message": "New Messages",
         "description": "Displayed in notifications for multiple messages"
-    },
-    "restartSignal": {
-        "message": "Restart Signal",
-        "description": "Menu item for restarting the program."
     },
     "messageNotSent": {
         "message": "Message not sent.",
@@ -890,9 +863,9 @@
       "message": "Hide menu bar",
       "description": "Label text for menu bar visibility setting"
     },
-    "newContact": {
-      "message": "Click to create new contact",
-      "description": ""
+    "startConversation": {
+      "message": "Start conversation…",
+      "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
       "message": "Enter a phone number to add a contact.",

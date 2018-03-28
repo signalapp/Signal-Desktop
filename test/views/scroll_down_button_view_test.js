@@ -2,13 +2,11 @@
  * vim: ts=4:sw=4:expandtab
  */
 describe('ScrollDownButtonView', function() {
-    // TODO: in electron branch, where we have access to real i18n, uncomment assertions against real strings
-
     it('renders with count = 0', function() {
         var view = new Whisper.ScrollDownButtonView();
         view.render();
         assert.equal(view.count, 0);
-        // assert.match(view.$el.html(), /Scroll to bottom/);
+        assert.match(view.$el.html(), /Scroll to bottom/);
     });
 
     it('renders with count = 1', function() {
@@ -16,7 +14,7 @@ describe('ScrollDownButtonView', function() {
         view.render();
         assert.equal(view.count, 1);
         assert.match(view.$el.html(), /new-messages/);
-        // assert.match(view.$el.html(), /New message below/);
+        assert.match(view.$el.html(), /New message below/);
     });
 
     it('renders with count = 2', function() {
@@ -25,7 +23,7 @@ describe('ScrollDownButtonView', function() {
         assert.equal(view.count, 2);
 
         assert.match(view.$el.html(), /new-messages/);
-        // assert.match(view.$el.html(), /New messages below/);
+        assert.match(view.$el.html(), /New messages below/);
     });
 
     it('increments count and re-renders', function() {

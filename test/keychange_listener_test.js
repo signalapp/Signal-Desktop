@@ -5,14 +5,6 @@ describe('KeyChangeListener', function() {
   var newKey = libsignal.crypto.getRandomBytes(33);
   var store;
 
-  before(function() {
-    storage.put('safety-numbers-approval', false);
-  });
-
-  after(function() {
-    storage.remove('safety-numbers-approval');
-  });
-
   beforeEach(function() {
     store = new SignalProtocolStore();
     Whisper.KeyChangeListener.init(store);

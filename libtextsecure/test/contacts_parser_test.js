@@ -17,7 +17,7 @@ describe("ContactBuffer", function() {
     var contactInfo = new textsecure.protobuf.ContactDetails({
       name: "Zero Cool",
       number: "+10000000000",
-      avatar: { contentType: "image/jpg", length: avatarLen }
+      avatar: { contentType: "image/jpeg", length: avatarLen }
     });
     var contactInfoBuffer = contactInfo.encode().toArrayBuffer();
 
@@ -41,7 +41,7 @@ describe("ContactBuffer", function() {
       count++;
       assert.strictEqual(contact.name, "Zero Cool");
       assert.strictEqual(contact.number, "+10000000000");
-      assert.strictEqual(contact.avatar.contentType, "image/jpg");
+      assert.strictEqual(contact.avatar.contentType, "image/jpeg");
       assert.strictEqual(contact.avatar.length, 255);
       assert.strictEqual(contact.avatar.data.byteLength, 255);
       var avatarBytes = new Uint8Array(contact.avatar.data);
@@ -68,7 +68,7 @@ describe("GroupBuffer", function() {
       id: new Uint8Array([1, 3, 3, 7]).buffer,
       name: "Hackers",
       members: ['cereal', 'burn', 'phreak', 'joey'],
-      avatar: { contentType: "image/jpg", length: avatarLen }
+      avatar: { contentType: "image/jpeg", length: avatarLen }
     });
     var groupInfoBuffer = groupInfo.encode().toArrayBuffer();
 
@@ -93,7 +93,7 @@ describe("GroupBuffer", function() {
       assert.strictEqual(group.name, "Hackers");
       assertEqualArrayBuffers(group.id.toArrayBuffer(), new Uint8Array([1,3,3,7]).buffer);
       assert.sameMembers(group.members, ['cereal', 'burn', 'phreak', 'joey']);
-      assert.strictEqual(group.avatar.contentType, "image/jpg");
+      assert.strictEqual(group.avatar.contentType, "image/jpeg");
       assert.strictEqual(group.avatar.length, 255);
       assert.strictEqual(group.avatar.data.byteLength, 255);
       var avatarBytes = new Uint8Array(group.avatar.data);
