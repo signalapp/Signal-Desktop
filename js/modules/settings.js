@@ -8,19 +8,22 @@ const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
 
 // Public API
 exports.getAttachmentMigrationLastProcessedIndex = connection =>
-  getItem(connection, LAST_PROCESSED_INDEX_KEY);
+  exports._getItem(connection, LAST_PROCESSED_INDEX_KEY);
 
 exports.setAttachmentMigrationLastProcessedIndex = (connection, value) =>
-  setItem(connection, LAST_PROCESSED_INDEX_KEY, value);
+  exports._setItem(connection, LAST_PROCESSED_INDEX_KEY, value);
+
+exports.deleteAttachmentMigrationLastProcessedIndex = connection =>
+  exports._deleteItem(connection, LAST_PROCESSED_INDEX_KEY);
 
 exports.isAttachmentMigrationComplete = async connection =>
-  Boolean(await getItem(connection, IS_MIGRATION_COMPLETE_KEY));
+  Boolean(await exports._getItem(connection, IS_MIGRATION_COMPLETE_KEY));
 
 exports.markAttachmentMigrationComplete = connection =>
-  setItem(connection, IS_MIGRATION_COMPLETE_KEY, true);
+  exports._setItem(connection, IS_MIGRATION_COMPLETE_KEY, true);
 
 // Private API
-const getItem = (connection, key) => {
+exports._getItem = (connection, key) => {
   if (!isObject(connection)) {
     throw new TypeError('"connection" is required');
   }
@@ -41,7 +44,7 @@ const getItem = (connection, key) => {
   });
 };
 
-const setItem = (connection, key, value) => {
+exports._setItem = (connection, key, value) => {
   if (!isObject(connection)) {
     throw new TypeError('"connection" is required');
   }
@@ -62,7 +65,7 @@ const setItem = (connection, key, value) => {
   });
 };
 
-const deleteItem = (connection, key) => {
+exports._deleteItem = (connection, key) => {
   if (!isObject(connection)) {
     throw new TypeError('"connection" is required');
   }
