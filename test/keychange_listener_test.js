@@ -16,9 +16,12 @@ describe('KeyChangeListener', function() {
   });
 
   describe('When we have a conversation with this contact', function() {
-    var convo = new Whisper.Conversation({ id: phoneNumberWithKeyChange, type: 'private'});
+    let convo;
     before(function() {
-      ConversationController.createTemporary(convo);
+      convo = ConversationController.dangerouslyCreateAndAdd({
+        id: phoneNumberWithKeyChange,
+        type: 'private',
+      });
       return convo.save();
     });
 
@@ -41,9 +44,13 @@ describe('KeyChangeListener', function() {
 
 
   describe('When we have a group with this contact', function() {
-    var convo = new Whisper.Conversation({ id: 'groupId', type: 'group', members: [phoneNumberWithKeyChange] });
+    let convo;
     before(function() {
-      ConversationController.createTemporary(convo);
+      convo = ConversationController.dangerouslyCreateAndAdd({
+        id: 'groupId',
+        type: 'group',
+        members: [phoneNumberWithKeyChange],
+      });
       return convo.save();
     });
     after(function() {
