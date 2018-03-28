@@ -61,3 +61,24 @@ const setItem = (connection, key, value) => {
       resolve();
   });
 };
+
+const deleteItem = (connection, key) => {
+  if (!isObject(connection)) {
+    throw new TypeError('"connection" is required');
+  }
+
+  if (!isString(key)) {
+    throw new TypeError('"key" must be a string');
+  }
+
+  const transaction = connection.transaction(ITEMS_STORE_NAME, 'readwrite');
+  const itemsStore = transaction.objectStore(ITEMS_STORE_NAME);
+  const request = itemsStore.delete(key);
+  return new Promise((resolve, reject) => {
+    request.onerror = event =>
+      reject(event.target.error);
+
+    request.onsuccess = () =>
+      resolve();
+  });
+};
