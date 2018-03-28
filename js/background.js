@@ -87,7 +87,13 @@
   await Migrations0DatabaseWithAttachmentData.run({ Backbone });
 
   console.log('Migrate attachments to disk');
-  await MessageDataMigrator.processAll({ Backbone, upgradeMessageSchema });
+  const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+  await MessageDataMigrator.processAll({
+    Backbone,
+    databaseName: database.name,
+    databaseVersion: database.version,
+    upgradeMessageSchema,
+  });
 
   console.log('Migrate database without attachments');
   await Migrations1DatabaseWithoutAttachmentData.run({

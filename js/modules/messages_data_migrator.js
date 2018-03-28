@@ -1,11 +1,10 @@
 /* eslint-env browser */
 
 // Module to upgrade the schema of messages, e.g. migrate attachments to disk.
-// `processAll` is meant to be run after the initial database migrations
-// (12 – 17) and purposely doesn’t rely on our Backbone IndexedDB adapter to
-// prevent subsequent migrations to run (18+) but rather uses direct IndexedDB
-// access. This includes avoiding usage of `storage` module which uses Backbone
-// under the hood.
+// `processAll` purposely doesn’t rely on our Backbone IndexedDB adapter to
+// prevent automatic migrations. Rather, it uses direct IndexedDB access.
+// This includes avoiding usage of `storage` module which uses Backbone under
+// the hood.
 
 const isFunction = require('lodash/isFunction');
 const isNumber = require('lodash/isNumber');
@@ -17,9 +16,6 @@ const Message = require('./types/message');
 const { deferredToPromise } = require('./deferred_to_promise');
 
 
-const DATABASE_NAME = 'signal';
-// Last version with attachment data stored in database:
-const EXPECTED_DATABASE_VERSION = 17;
 const MESSAGES_STORE_NAME = 'messages';
 const ITEMS_STORE_NAME = 'items';
 const NUM_MESSAGES_PER_BATCH = 50;
@@ -77,16 +73,29 @@ exports.processNext = async ({
   };
 };
 
-exports.processAll = async ({ Backbone, upgradeMessageSchema } = {}) => {
+exports.processAll = async ({
+    Backbone,
+    databaseName,
+    databaseVersion,
+    upgradeMessageSchema,
+  } = {}) => {
   if (!isObject(Backbone)) {
     throw new TypeError('"Backbone" is required');
+  }
+
+  if (!isString(databaseName)) {
+    throw new TypeError('"databaseName" must be a string');
+  }
+
+  if (!isNumber(databaseVersion)) {
+    throw new TypeError('"databaseVersion" must be a number');
   }
 
   if (!isFunction(upgradeMessageSchema)) {
     throw new TypeError('"upgradeMessageSchema" is required');
   }
 
-  const connection = await openDatabase(DATABASE_NAME, EXPECTED_DATABASE_VERSION);
+  const connection = await openDatabase(databaseName, databaseVersion);
   const isComplete = await isMigrationComplete(connection);
   console.log('Is attachment migration complete?', isComplete);
   if (isComplete) {
