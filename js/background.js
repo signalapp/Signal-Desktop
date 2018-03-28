@@ -20,7 +20,7 @@
     const {
         Migrations0DatabaseWithAttachmentData,
         Migrations1DatabaseWithoutAttachmentData,
-    } = window.Signal.Database;
+    } = window.Signal.Migrations;
     const { Views } = window.Signal;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
