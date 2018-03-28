@@ -7,7 +7,7 @@ const isString = require('lodash/isString');
 const { deferredToPromise } = require('../deferred_to_promise');
 
 
-const closeDatabase = ({ Backbone } = {}) =>
+const closeDatabaseConnection = ({ Backbone } = {}) =>
   deferredToPromise(Backbone.sync('closeall'));
 
 exports.runMigrations = async ({ Backbone, database } = {}) => {
@@ -28,5 +28,5 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
 
   await deferredToPromise(migrationCollection.fetch({ limit: 1 }));
   console.log('Close database connection');
-  await closeDatabase({ Backbone });
+  await closeDatabaseConnection({ Backbone });
 };
