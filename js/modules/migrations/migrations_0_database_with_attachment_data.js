@@ -1,6 +1,7 @@
 const isFunction = require('lodash/isFunction');
 const isObject = require('lodash/isObject');
 const isString = require('lodash/isString');
+const last = require('lodash/last');
 
 const { runMigrations } = require('./run_migrations');
 
@@ -169,3 +170,8 @@ exports.createCollection = ({ Backbone, storeName }) => {
 
   return collection;
 };
+
+exports.getDatabase = () => ({
+  name: database.id,
+  version: last(migrations).version,
+});
