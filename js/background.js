@@ -91,7 +91,7 @@
   await MessageDataMigrator.processAll({
     Backbone,
     databaseName: database.name,
-    databaseVersion: database.version,
+    minDatabaseVersion: database.version,
     upgradeMessageSchema,
   });
 
