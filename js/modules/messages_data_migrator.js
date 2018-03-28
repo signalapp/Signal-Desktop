@@ -162,6 +162,8 @@ exports.processAll = async ({
   } while (unprocessedMessages.length > 0);
 
   await markMigrationComplete(connection);
+
+  console.log('Close database connection');
   connection.close();
 
   const totalDuration = Date.now() - migrationStartTime;
