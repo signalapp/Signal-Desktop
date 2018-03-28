@@ -11,8 +11,7 @@
 /* global Whisper: false */
 /* global wrapDeferred: false */
 
-
-;(/* jshint ignore:start */ async /* jshint ignore:end */function() {
+;(async function() {
     'use strict';
 
     const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
@@ -81,7 +80,6 @@
     };
 
   /* eslint-enable */
-  /* jshint ignore:start */
   const cancelInitializationMessage = Views.Initialization.setMessage();
   console.log('Start IndexedDB migrations');
 
@@ -115,7 +113,6 @@
       idleDetector.stop();
     }
   });
-  /* jshint ignore:end */
   /* eslint-disable */
 
     // We need this 'first' check because we don't want to start the app up any other time
@@ -575,7 +572,6 @@
     }
 
   /* eslint-enable */
-  /* jshint ignore:start */
 
   // Descriptors
   const getGroupDescriptor = group => ({
@@ -684,7 +680,6 @@
     getMessageDescriptor: getDescriptorForSent,
     createMessage: createSentMessage,
   });
-  /* jshint ignore:end */
   /* eslint-disable */
 
     function isMessageDuplicate(message) {
