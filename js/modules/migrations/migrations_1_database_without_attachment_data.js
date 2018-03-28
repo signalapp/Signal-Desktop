@@ -12,5 +12,4 @@ exports.migrations = [
   },
 ];
 
-exports.run = ({ Backbone, Database } = {}) =>
-  runMigrations({ Backbone, database: Database });
+exports.run = runMigrations;
