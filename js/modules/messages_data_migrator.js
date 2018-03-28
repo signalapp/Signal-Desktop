@@ -97,7 +97,7 @@ exports.processAll = async ({
 
   const connection = await openDatabase(databaseName, databaseVersion);
   const isComplete = await isMigrationComplete(connection);
-  console.log('Is attachment migration complete?', isComplete);
+  console.log('Attachment migration status:', isComplete ? 'complete' : 'incomplete');
   if (isComplete) {
     return;
   }
