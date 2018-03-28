@@ -1,10 +1,10 @@
-/* eslint-env browser */
-
 // Module to upgrade the schema of messages, e.g. migrate attachments to disk.
 // `processAll` purposely doesn’t rely on our Backbone IndexedDB adapter to
 // prevent automatic migrations. Rather, it uses direct IndexedDB access.
 // This includes avoiding usage of `storage` module which uses Backbone under
 // the hood.
+
+/* global IDBKeyRange */
 
 const isFunction = require('lodash/isFunction');
 const isNumber = require('lodash/isNumber');
@@ -12,12 +12,13 @@ const isObject = require('lodash/isObject');
 const isString = require('lodash/isString');
 const last = require('lodash/last');
 
+const database = require('./database');
 const Message = require('./types/message');
+const settings = require('./settings');
 const { deferredToPromise } = require('./deferred_to_promise');
 
 
 const MESSAGES_STORE_NAME = 'messages';
-const ITEMS_STORE_NAME = 'items';
 const NUM_MESSAGES_PER_BATCH = 50;
 
 exports.processNext = async ({
@@ -74,11 +75,11 @@ exports.processNext = async ({
 };
 
 exports.processAll = async ({
-    Backbone,
-    databaseName,
-    databaseVersion,
-    upgradeMessageSchema,
-  } = {}) => {
+  Backbone,
+  databaseName,
+  databaseVersion,
+  upgradeMessageSchema,
+} = {}) => {
   if (!isObject(Backbone)) {
     throw new TypeError('"Backbone" is required');
   }
@@ -95,8 +96,8 @@ exports.processAll = async ({
     throw new TypeError('"upgradeMessageSchema" is required');
   }
 
-  const connection = await openDatabase(databaseName, databaseVersion);
-  const isComplete = await isMigrationComplete(connection);
+  const connection = await database.open(databaseName, databaseVersion);
+  const isComplete = await settings.isAttachmentMigrationComplete(connection);
   console.log('Attachment migration status:', isComplete ? 'complete' : 'incomplete');
   if (isComplete) {
     return;
@@ -106,8 +107,9 @@ exports.processAll = async ({
   let unprocessedMessages = [];
   let totalMessagesProcessed = 0;
   do {
-    // eslint-disable-next-line no-await-in-loop
-    const lastProcessedIndex = await getLastProcessedIndex(connection);
+    const lastProcessedIndex =
+      // eslint-disable-next-line no-await-in-loop
+      await settings.getAttachmentMigrationLastProcessedIndex(connection);
 
     const fetchUnprocessedMessagesStartTime = Date.now();
     unprocessedMessages =
@@ -132,7 +134,7 @@ exports.processAll = async ({
 
     const saveMessagesStartTime = Date.now();
     const transaction = connection.transaction(MESSAGES_STORE_NAME, 'readwrite');
-    const transactionCompletion = completeTransaction(transaction);
+    const transactionCompletion = database.completeTransaction(transaction);
     // eslint-disable-next-line no-await-in-loop
     await Promise.all(upgradedMessages.map(_saveMessage({ transaction })));
     // eslint-disable-next-line no-await-in-loop
@@ -145,7 +147,10 @@ exports.processAll = async ({
     const newLastProcessedIndex = lastMessage ? lastMessage.id : null;
     if (newLastProcessedIndex) {
       // eslint-disable-next-line no-await-in-loop
-      await setLastProcessedIndex(connection, newLastProcessedIndex);
+      await settings.setAttachmentMigrationLastProcessedIndex(
+        connection,
+        newLastProcessedIndex
+      );
     }
 
     totalMessagesProcessed += numUnprocessedMessages;
@@ -161,7 +166,7 @@ exports.processAll = async ({
     });
   } while (unprocessedMessages.length > 0);
 
-  await markMigrationComplete(connection);
+  await settings.markAttachmentMigrationComplete(connection);
 
   console.log('Close database connection');
   connection.close();
@@ -251,89 +256,3 @@ const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex =
         reject(event.target.error);
     });
   };
-
-const openDatabase = (name, version) => {
-  const request = window.indexedDB.open(name, version);
-  return new Promise((resolve, reject) => {
-    request.onblocked = () =>
-      reject(new Error('Database blocked'));
-
-    request.onupgradeneeded = event =>
-      reject(new Error('Unexpected database upgrade required:' +
-        `oldVersion: ${event.oldVersion}, newVersion: ${event.newVersion}`));
-
-    request.onerror = event =>
-      reject(event.target.error);
-
-    request.onsuccess = (event) => {
-      const connection = event.target.result;
-      resolve(connection);
-    };
-  });
-};
-
-const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
-const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
-
-const getLastProcessedIndex = connection =>
-  getItem(connection, LAST_PROCESSED_INDEX_KEY);
-
-const setLastProcessedIndex = (connection, value) =>
-  setItem(connection, LAST_PROCESSED_INDEX_KEY, value);
-
-const isMigrationComplete = async (connection) => {
-  const value = await getItem(connection, IS_MIGRATION_COMPLETE_KEY);
-  return Boolean(value);
-};
-
-const markMigrationComplete = connection =>
-  setItem(connection, IS_MIGRATION_COMPLETE_KEY, true);
-
-const getItem = (connection, key) => {
-  if (!isObject(connection)) {
-    throw new TypeError('"connection" is required');
-  }
-
-  if (!isString(key)) {
-    throw new TypeError('"key" must be a string');
-  }
-
-  const transaction = connection.transaction(ITEMS_STORE_NAME, 'readonly');
-  const itemsStore = transaction.objectStore(ITEMS_STORE_NAME);
-  const request = itemsStore.get(key);
-  return new Promise((resolve, reject) => {
-    request.onerror = event =>
-      reject(event.target.error);
-
-    request.onsuccess = event =>
-      resolve(event.target.result ? event.target.result.value : null);
-  });
-};
-
-const setItem = (connection, key, value) => {
-  if (!isObject(connection)) {
-    throw new TypeError('"connection" is required');
-  }
-
-  if (!isString(key)) {
-    throw new TypeError('"key" must be a string');
-  }
-
-  const transaction = connection.transaction(ITEMS_STORE_NAME, 'readwrite');
-  const itemsStore = transaction.objectStore(ITEMS_STORE_NAME);
-  const request = itemsStore.put({id: key, value}, key);
-  return new Promise((resolve, reject) => {
-    request.onerror = event =>
-      reject(event.target.error);
-
-    request.onsuccess = () =>
-      resolve();
-  });
-};
-
-const completeTransaction = transaction =>
-  new Promise((resolve, reject) => {
-    transaction.addEventListener('abort', event => reject(event.target.error));
-    transaction.addEventListener('error', event => reject(event.target.error));
-    transaction.addEventListener('complete', () => resolve());
-  });

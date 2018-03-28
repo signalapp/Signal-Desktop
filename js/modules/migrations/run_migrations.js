@@ -8,7 +8,7 @@ const { deferredToPromise } = require('../deferred_to_promise');
 
 
 const closeDatabase = ({ Backbone } = {}) =>
-  deferredToPromise(Backbone.sync('closeall'))
+  deferredToPromise(Backbone.sync('closeall'));
 
 exports.runMigrations = async ({ Backbone, database } = {}) => {
   if (!isObject(Backbone) || !isObject(Backbone.Collection) ||
