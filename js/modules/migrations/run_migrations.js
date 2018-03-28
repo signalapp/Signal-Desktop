@@ -6,6 +6,7 @@ const isString = require('lodash/isString');
 const head = require('lodash/head');
 const last = require('lodash/last');
 
+const db = require('../database');
 const { deferredToPromise } = require('../deferred_to_promise');
 
 
@@ -21,6 +22,25 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
   if (!isObject(database) || !isString(database.id) ||
       !Array.isArray(database.migrations)) {
     throw new TypeError('"database" is required');
+  }
+
+  const {
+    firstVersion: firstMigrationVersion,
+    lastVersion: lastMigrationVersion,
+  } = getMigrationVersions(database);
+
+  const databaseVersion = await db.getVersion(database.id);
+  const isAlreadyUpgraded = databaseVersion >= lastMigrationVersion;
+
+  console.log('Database state', {
+    firstMigrationVersion,
+    lastMigrationVersion,
+    databaseVersion,
+    isAlreadyUpgraded,
+  });
+
+  if (isAlreadyUpgraded) {
+    return;
   }
 
   const migrationCollection = new (Backbone.Collection.extend({
