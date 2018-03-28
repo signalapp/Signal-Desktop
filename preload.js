@@ -125,6 +125,7 @@
   window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Crypto = require('./js/modules/crypto');
   window.Signal.Database = require('./js/modules/database');
+  window.Signal.Debug = require('./js/modules/debug');
   window.Signal.Logs = require('./js/modules/logs');
   window.Signal.Migrations = {};
   window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
