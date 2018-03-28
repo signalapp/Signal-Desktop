@@ -98,7 +98,7 @@
   console.log('Migrate database without attachments');
   await Migrations1DatabaseWithoutAttachmentData.run({
     Backbone,
-    Database: Whisper.Database,
+    database: Whisper.Database,
   });
 
   console.log('Storage fetch');
