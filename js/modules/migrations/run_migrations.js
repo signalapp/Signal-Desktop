@@ -7,25 +7,8 @@ const isString = require('lodash/isString');
 const { deferredToPromise } = require('../deferred_to_promise');
 
 
-const closeDatabase = name =>
-  new Promise((resolve, reject) => {
-    const request = window.indexedDB.open(name);
-    request.onblocked = () => {
-      reject(new Error(`Database '${name}' blocked`));
-    };
-    request.onupgradeneeded = (event) => {
-      reject(new Error('Unexpected database upgraded needed:' +
-        ` oldVersion: ${event.oldVersion}, newVersion: ${event.newVersion}`));
-    };
-    request.onerror = (event) => {
-      reject(event.target.error);
-    };
-    request.onsuccess = (event) => {
-      const connection = event.target.result;
-      connection.close();
-      resolve();
-    };
-  });
+const closeDatabase = ({ Backbone } = {}) =>
+  deferredToPromise(Backbone.sync('closeall'))
 
 exports.runMigrations = async ({ Backbone, database } = {}) => {
   if (!isObject(Backbone) || !isObject(Backbone.Collection) ||
@@ -44,5 +27,6 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
   }))();
 
   await deferredToPromise(migrationCollection.fetch({ limit: 1 }));
-  await closeDatabase(database.id);
+  console.log('Close database connection');
+  await closeDatabase({ Backbone });
 };
