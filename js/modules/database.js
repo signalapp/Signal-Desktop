@@ -31,3 +31,9 @@ exports.completeTransaction = transaction =>
     transaction.addEventListener('complete', () => resolve());
   });
 
+exports.getVersion = async (name) => {
+  const connection = await exports.open(name);
+  const { version } = connection;
+  connection.close();
+  return version;
+};
