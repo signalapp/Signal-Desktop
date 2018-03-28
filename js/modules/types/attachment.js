@@ -17,7 +17,6 @@ const { migrateDataToFileSystem } = require('./attachment/migrate_data_to_file_s
 //   key: ArrayBuffer
 //   size: integer
 //   thumbnail: ArrayBuffer
-//   schemaVersion: integer
 // }
 
 // // Outgoing message attachment fields
@@ -26,7 +25,6 @@ const { migrateDataToFileSystem } = require('./attachment/migrate_data_to_file_s
 //   data: ArrayBuffer
 //   fileName: string
 //   size: integer
-//   schemaVersion: integer
 // }
 
 // Returns true if `rawAttachment` is a valid attachment based on our current schema.
