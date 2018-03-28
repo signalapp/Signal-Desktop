@@ -157,6 +157,7 @@ exports.processAll = async ({
       saveDuration,
       upgradeDuration,
       newLastProcessedIndex,
+      targetSchemaVersion: Message.CURRENT_SCHEMA_VERSION,
     });
   } while (unprocessedMessages.length > 0);
 
