@@ -110,6 +110,10 @@ exports.processAll = async ({ Backbone, upgradeMessageSchema } = {}) => {
     const fetchDuration = Date.now() - fetchUnprocessedMessagesStartTime;
     const numUnprocessedMessages = unprocessedMessages.length;
 
+    if (numUnprocessedMessages === 0) {
+      break;
+    }
+
     const upgradeStartTime = Date.now();
     const upgradedMessages =
       // eslint-disable-next-line no-await-in-loop
