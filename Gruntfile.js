@@ -97,6 +97,7 @@ module.exports = function(grunt) {
       files: [
         'Gruntfile.js',
         'js/**/*.js',
+        '!js/background.js',
         '!js/jquery.js',
         '!js/libtextsecure.js',
         '!js/WebAudioRecorderMp3.js',
