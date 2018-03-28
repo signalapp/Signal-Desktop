@@ -135,6 +135,7 @@
   window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =
     require('./js/modules/migrations/migrations_1_database_without_attachment_data');
   window.Signal.OS = require('./js/modules/os');
+  window.Signal.Settings = require('./js/modules/settings');
   window.Signal.Types = {};
   window.Signal.Types.Attachment = Attachment;
   window.Signal.Types.Errors = require('./js/modules/types/errors');
