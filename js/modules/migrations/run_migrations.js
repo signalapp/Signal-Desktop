@@ -3,6 +3,8 @@
 const isFunction = require('lodash/isFunction');
 const isObject = require('lodash/isObject');
 const isString = require('lodash/isString');
+const head = require('lodash/head');
+const last = require('lodash/last');
 
 const { deferredToPromise } = require('../deferred_to_promise');
 
@@ -29,4 +31,18 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
   await deferredToPromise(migrationCollection.fetch({ limit: 1 }));
   console.log('Close database connection');
   await closeDatabaseConnection({ Backbone });
+};
+
+const getMigrationVersions = (database) => {
+  if (!isObject(database) || !Array.isArray(database.migrations)) {
+    throw new TypeError('"database" is required');
+  }
+
+  const firstMigration = head(database.migrations);
+  const lastMigration = last(database.migrations);
+
+  const firstVersion = firstMigration ? parseInt(firstMigration.version, 10) : null;
+  const lastVersion = lastMigration ? parseInt(lastMigration.version, 10) : null;
+
+  return { firstVersion, lastVersion };
 };
