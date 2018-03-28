@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const { Migrations1DatabaseWithoutAttachmentData } = window.Signal.Database;
+  const { Migrations1DatabaseWithoutAttachmentData } = window.Signal.Migrations;
 
   window.Whisper = window.Whisper || {};
   window.Whisper.Database = window.Whisper.Database || {};
