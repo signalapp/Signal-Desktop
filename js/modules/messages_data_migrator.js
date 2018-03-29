@@ -110,6 +110,12 @@ exports.processAll = async ({
     return;
   }
 
+  let numTotalMessages = null;
+  // eslint-disable-next-line more/no-then
+  getNumMessages({ connection }).then((numMessages) => {
+    numTotalMessages = numMessages;
+  });
+
   const migrationStartTime = Date.now();
   let unprocessedMessages = [];
   let totalMessagesProcessed = 0;
@@ -165,6 +171,7 @@ exports.processAll = async ({
       lastProcessedIndex,
       numUnprocessedMessages,
       numCumulativeMessagesProcessed: totalMessagesProcessed,
+      numTotalMessages,
       fetchDuration,
       saveDuration,
       upgradeDuration,
@@ -266,3 +273,16 @@ const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex =
         reject(event.target.error);
     });
   };
+
+const getNumMessages = async ({ connection } = {}) => {
+  if (!isObject(connection)) {
+    throw new TypeError('"connection" is required');
+  }
+
+  const transaction = connection.transaction(MESSAGES_STORE_NAME, 'readonly');
+  const messagesStore = transaction.objectStore(MESSAGES_STORE_NAME);
+  const numTotalMessages = await database.getCount({ store: messagesStore });
+  await database.completeTransaction(transaction);
+
+  return numTotalMessages;
+};
