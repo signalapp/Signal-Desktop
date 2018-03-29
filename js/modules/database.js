@@ -4,6 +4,9 @@
 // and using promises. Revisit use of `idb` dependency as it might cover
 // this functionality.
 
+const isObject = require('lodash/isObject');
+
+
 exports.open = (name, version) => {
   const request = indexedDB.open(name, version);
   return new Promise((resolve, reject) => {
@@ -36,4 +39,18 @@ exports.getVersion = async (name) => {
   const { version } = connection;
   connection.close();
   return version;
+};
+
+exports.getCount = async ({ store } = {}) => {
+  if (!isObject(store)) {
+    throw new TypeError('"store" is required');
+  }
+
+  const request = store.count();
+  return new Promise((resolve, reject) => {
+    request.onerror = event =>
+      reject(event.target.error);
+    request.onsuccess = event =>
+      resolve(event.target.result);
+  });
 };
