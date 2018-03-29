@@ -75,15 +75,10 @@ exports.processNext = async ({
 };
 
 exports.processAll = async ({
-  Backbone,
   databaseName,
   minDatabaseVersion,
   upgradeMessageSchema,
 } = {}) => {
-  if (!isObject(Backbone)) {
-    throw new TypeError('"Backbone" is required');
-  }
-
   if (!isString(databaseName)) {
     throw new TypeError('"databaseName" must be a string');
   }
