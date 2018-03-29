@@ -238,6 +238,8 @@ const _fetchMessagesRequiringSchemaUpgrade =
     }));
   };
 
+// NOTE: Named ‘dangerous’ because it is not as efficient as using our
+// `messages` `schemaVersion` index:
 const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex =
   ({ connection, count, lastIndex } = {}) => {
     if (!isObject(connection)) {
