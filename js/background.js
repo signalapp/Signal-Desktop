@@ -104,8 +104,9 @@
   console.log('Storage fetch');
   storage.fetch();
 
-  const NUM_MESSAGE_UPGRADES_PER_IDLE = 2;
   const idleDetector = new IdleDetector();
+
+  const NUM_MESSAGE_UPGRADES_PER_IDLE = 2;
   idleDetector.on('idle', async () => {
     const results = await MessageDataMigrator.processNext({
       BackboneMessage: Whisper.Message,
