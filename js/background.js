@@ -108,7 +108,7 @@
     });
     console.log('Upgrade message schema:', results);
 
-    if (!results.hasMore) {
+    if (!results.done) {
       idleDetector.stop();
     }
   });

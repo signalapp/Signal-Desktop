@@ -70,9 +70,9 @@ exports.processNext = async ({
 
   const totalDuration = Date.now() - startTime;
   const numProcessed = messagesRequiringSchemaUpgrade.length;
-  const hasMore = numProcessed > 0;
+  const done = numProcessed > 0;
   return {
-    hasMore,
+    done,
     numProcessed,
     fetchDuration,
     upgradeDuration,
