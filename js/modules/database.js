@@ -7,15 +7,23 @@
 const isObject = require('lodash/isObject');
 
 
-exports.open = (name, version) => {
+exports.open = (name, version, { onUpgradeNeeded } = {}) => {
   const request = indexedDB.open(name, version);
   return new Promise((resolve, reject) => {
     request.onblocked = () =>
       reject(new Error('Database blocked'));
 
-    request.onupgradeneeded = event =>
-      reject(new Error('Unexpected database upgrade required:' +
-        `oldVersion: ${event.oldVersion}, newVersion: ${event.newVersion}`));
+    request.onupgradeneeded = (event) => {
+      if (onUpgradeNeeded) {
+        const { result: database, transaction } = event.target;
+        const { oldVersion } = event;
+        onUpgradeNeeded({ database, transaction, oldVersion });
+        return;
+      }
+
+      return reject(new Error('Unexpected database version, upgrade required:' +
+        ` oldVersion: ${event.oldVersion}, newVersion: ${event.newVersion}`));
+    }
 
     request.onerror = event =>
       reject(event.target.error);

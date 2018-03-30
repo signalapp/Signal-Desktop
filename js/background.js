@@ -88,18 +88,24 @@
 
   console.log('Migrate attachments to disk');
   const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-  await MessageDataMigrator.processAll({
-    Backbone,
+  // await MessageDataMigrator.processAll({
+  //   Backbone,
+  //   databaseName: database.name,
+  //   minDatabaseVersion: database.version,
+  //   upgradeMessageSchema,
+  // });
+  console.log('Start creating secondary database');
+  const stats = await MessageDataMigrator.createSecondaryDatabase({
     databaseName: database.name,
     minDatabaseVersion: database.version,
-    upgradeMessageSchema,
   });
+  console.log('Complete creating secondary database:', stats);
 
-  console.log('Migrate database without attachments');
-  await Migrations1DatabaseWithoutAttachmentData.run({
-    Backbone,
-    database: Whisper.Database,
-  });
+  // console.log('Migrate database without attachments');
+  // await Migrations1DatabaseWithoutAttachmentData.run({
+  //   Backbone,
+  //   database: Whisper.Database,
+  // });
 
   console.log('Storage fetch');
   storage.fetch();

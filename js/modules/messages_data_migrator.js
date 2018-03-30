@@ -286,3 +286,94 @@ const getNumMessages = async ({ connection } = {}) => {
 
   return numTotalMessages;
 };
+
+exports.createSecondaryDatabase = async ({
+  databaseName,
+  minDatabaseVersion,
+} = {}) => {
+  if (!isString(databaseName)) {
+    throw new TypeError('"databaseName" must be a string');
+  }
+
+  if (!isNumber(minDatabaseVersion)) {
+    throw new TypeError('"minDatabaseVersion" must be a number');
+  }
+
+  const readDatabase = await database.open(databaseName);
+  const databaseVersion = readDatabase.version;
+  const isValidDatabaseVersion = databaseVersion >= minDatabaseVersion;
+  console.log('Database status', {
+    databaseVersion,
+    isValidDatabaseVersion,
+    minDatabaseVersion,
+  });
+  if (!isValidDatabaseVersion) {
+    throw new Error(`Expected database version (${databaseVersion})` +
+      ` to be at least ${minDatabaseVersion}`);
+  }
+
+  // Setup database
+  const onUpgradeNeeded = ({ database }) => {
+    const newMessagesStore = database.createObjectStore(MESSAGES_STORE_NAME);
+    newMessagesStore.createIndex(
+      'conversation',
+      ['conversationId', 'received_at'],
+      { unique: false }
+    );
+    newMessagesStore.createIndex('receipt', 'sent_at', { unique: false });
+    newMessagesStore.createIndex(
+      'unread',
+      ['conversationId', 'unread'],
+      { unique: false }
+    );
+    newMessagesStore.createIndex('expires_at', 'expires_at', { unique: false });
+  };
+  const writeDatabase = await database.open('signal-2', 1, { onUpgradeNeeded });
+
+  const readTransaction = readDatabase.transaction(MESSAGES_STORE_NAME, 'readonly');
+  const readMessagesStore = readTransaction.objectStore(MESSAGES_STORE_NAME);
+
+  const writeStartTime = Date.now();
+  return new Promise((resolve, reject) => {
+    const writeOperations = [];
+    const request = readMessagesStore.openCursor();
+
+    const writeTransaction = writeDatabase.transaction(MESSAGES_STORE_NAME, 'readwrite');
+    const writeMessagesStore = writeTransaction.objectStore(MESSAGES_STORE_NAME);
+
+    request.onsuccess = (event) => {
+      const cursor = event.target.result;
+      const hasMoreData = Boolean(cursor);
+      if (!hasMoreData) {
+        const stats = {
+          duration: Date.now() - writeStartTime,
+          numMessagesCopied: writeOperations.length,
+        };
+        return Promise.all(writeOperations).then(() => resolve(stats));
+      }
+
+      const message = cursor.value;
+      console.log('Write message:', message.id);
+      const writeOperation = putItem(writeMessagesStore, message, message.id);
+      writeOperations.push(writeOperation);
+
+      return cursor.continue();
+    };
+
+    request.onerror = event =>
+      reject(event.target.error);
+  });
+};
+
+const putItem = (store, item, key) =>
+  new Promise((resolve, reject) => {
+    try {
+      const request = store.put(item, key);
+      request.onsuccess = event =>
+        resolve(event.target.result);
+      request.onerror = event =>
+        reject(event.target.error);
+    } catch (error) {
+      reject(error);
+    }
+  });
