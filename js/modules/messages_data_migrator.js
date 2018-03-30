@@ -21,6 +21,11 @@ const { deferredToPromise } = require('./deferred_to_promise');
 
 
 const MESSAGES_STORE_NAME = 'messages';
+
+// WARNING: Valus higher than `1` can cause ‘Maximum IPC message size exceeded’
+// error message on messages (attachments) that are too large:
+// - https://github.com/zincbase/zincdb/issues/17
+// - https://cs.chromium.org/chromium/src/content/browser/indexed_db/indexed_db_database.cc?l=1157&rcl=9431dd78cdccecea92415c25babad70c217d57a4
 const NUM_MESSAGES_PER_BATCH = 1;
 
 exports.processNext = async ({
