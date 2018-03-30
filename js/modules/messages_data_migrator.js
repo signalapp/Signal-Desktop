@@ -338,8 +338,8 @@ exports.createSecondaryDatabase = async ({
     const writeOperations = [];
     const request = readMessagesStore.openCursor();
 
-    const writeTransaction = writeDatabase.transaction(MESSAGES_STORE_NAME, 'readwrite');
-    const writeMessagesStore = writeTransaction.objectStore(MESSAGES_STORE_NAME);
+    let writeTransaction = null;
+    let writeMessagesStore = null;
 
     request.onsuccess = (event) => {
       const cursor = event.target.result;
@@ -354,6 +354,10 @@ exports.createSecondaryDatabase = async ({
 
       const message = cursor.value;
       console.log('Write message:', message.id);
+      if (!writeTransaction || !writeMessagesStore) {
+        writeTransaction = writeDatabase.transaction(MESSAGES_STORE_NAME, 'readwrite');
+        writeMessagesStore = writeTransaction.objectStore(MESSAGES_STORE_NAME);
+      }
       const writeOperation = putItem(writeMessagesStore, message, message.id);
       writeOperations.push(writeOperation);
 
