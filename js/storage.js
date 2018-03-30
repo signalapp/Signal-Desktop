@@ -62,10 +62,11 @@
         },
 
         fetch: function() {
-            return new Promise(function(resolve) {
-                items.fetch({reset: true}).fail(function() {
-                    console.log('Failed to fetch from storage');
-                }).always(resolve);
+            return new Promise((resolve, reject) => {
+                items.fetch({reset: true})
+                    .fail(() => reject(new Error('Failed to fetch from storage.' +
+                        ' This may be due to an unexpected database version.')))
+                    .always(resolve);
             });
         },
 
