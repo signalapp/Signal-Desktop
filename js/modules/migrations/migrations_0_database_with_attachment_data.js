@@ -154,3 +154,12 @@ exports.getDatabase = () => ({
   name: database.id,
   version: last(exports.migrations).version,
 });
+
+exports.getLatestVersion = () => {
+  const lastMigration = last(migrations);
+  if (!lastMigration) {
+    return null;
+  }
+
+  return lastMigration.version;
+};

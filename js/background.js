@@ -83,23 +83,15 @@
   const cancelInitializationMessage = Views.Initialization.setMessage();
   console.log('Start IndexedDB migrations');
 
-  console.log('Migrate database with attachments');
+  console.log('Run migrations on database with attachment data');
   await Migrations0DatabaseWithAttachmentData.run({ Backbone });
 
-  // console.log('Migrate attachments to disk');
-  // const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-  // await MessageDataMigrator.processAll({
-  //   Backbone,
-  //   databaseName: database.name,
-  //   minDatabaseVersion: database.version,
-  //   upgradeMessageSchema,
-  // });
-
-  // console.log('Migrate database without attachments');
-  // await Migrations1DatabaseWithoutAttachmentData.run({
-  //   Backbone,
-  //   database: Whisper.Database,
-  // });
+  const database = Whisper.Database;
+  const status = await Migrations1DatabaseWithoutAttachmentData.getStatus({ database });
+  console.log('Run migrations on database without attachment data:', status);
+  if (status.canRun) {
+    await Migrations1DatabaseWithoutAttachmentData.run({ Backbone, database });
+  }
 
   console.log('Storage fetch');
   storage.fetch();

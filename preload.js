@@ -119,6 +119,8 @@
   const upgradeMessageSchema = message =>
     Message.upgradeSchema(message, upgradeSchemaContext);
 
+  const { getPlaceholderMigrations } =
+    require('./js/modules/migrations/get_placeholder_migrations');
   const { IdleDetector} = require('./js/modules/idle_detector');
 
   window.Signal = {};
@@ -128,13 +130,14 @@
   window.Signal.Debug = require('./js/modules/debug');
   window.Signal.Logs = require('./js/modules/logs');
   window.Signal.Migrations = {};
-  window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
   window.Signal.Migrations.deleteAttachmentData = Attachment.deleteData(deleteAttachmentData);
-  window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
+  window.Signal.Migrations.getPlaceholderMigrations =getPlaceholderMigrations;
+  window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
   window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =
     require('./js/modules/migrations/migrations_0_database_with_attachment_data');
   window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =
     require('./js/modules/migrations/migrations_1_database_without_attachment_data');
+  window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
   window.Signal.OS = require('./js/modules/os');
   window.Signal.Settings = require('./js/modules/settings');
   window.Signal.Types = {};
