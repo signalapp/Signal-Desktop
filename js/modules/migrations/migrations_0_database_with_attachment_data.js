@@ -1,5 +1,6 @@
 const last = require('lodash/last');
 
+const MessagesDataMigrator = require('../messages_data_migrator');
 const { runMigrations } = require('./run_migrations');
 
 
@@ -134,6 +135,32 @@ const migrations = [
 
       console.log(
         'Complete migration to database version 17.',
+        `Duration: ${duration}ms`
+      );
+      next();
+    },
+  },
+  {
+    version: 18,
+    async migrate(transaction, next) {
+      console.log('Migration 18');
+      console.log('Placeholder migration');
+      next();
+    },
+  },
+  {
+    version: 19,
+    async migrate(transaction, next) {
+      console.log('Migration 19');
+
+      const start = Date.now();
+
+      await MessagesDataMigrator.copyMessagesStore(transaction);
+
+      const duration = Date.now() - start;
+
+      console.log(
+        'Complete migration to database version 19.',
         `Duration: ${duration}ms`
       );
       next();

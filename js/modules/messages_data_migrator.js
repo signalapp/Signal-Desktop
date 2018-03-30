@@ -11,6 +11,7 @@ const isNumber = require('lodash/isNumber');
 const isObject = require('lodash/isObject');
 const isString = require('lodash/isString');
 const last = require('lodash/last');
+const omit = require('lodash/omit');
 
 const database = require('./database');
 const Message = require('./types/message');
@@ -19,6 +20,7 @@ const { deferredToPromise } = require('./deferred_to_promise');
 
 
 const MESSAGES_STORE_NAME = 'messages';
+const MESSAGES_STORE_NAME_2 = 'messages-2';
 const NUM_MESSAGES_PER_BATCH = 1;
 
 exports.processNext = async ({
@@ -287,59 +289,14 @@ const getNumMessages = async ({ connection } = {}) => {
   return numTotalMessages;
 };
 
-exports.createSecondaryDatabase = async ({
-  databaseName,
-  minDatabaseVersion,
-} = {}) => {
-  if (!isString(databaseName)) {
-    throw new TypeError('"databaseName" must be a string');
-  }
-
-  if (!isNumber(minDatabaseVersion)) {
-    throw new TypeError('"minDatabaseVersion" must be a number');
-  }
-
-  const readDatabase = await database.open(databaseName);
-  const databaseVersion = readDatabase.version;
-  const isValidDatabaseVersion = databaseVersion >= minDatabaseVersion;
-  console.log('Database status', {
-    databaseVersion,
-    isValidDatabaseVersion,
-    minDatabaseVersion,
-  });
-  if (!isValidDatabaseVersion) {
-    throw new Error(`Expected database version (${databaseVersion})` +
-      ` to be at least ${minDatabaseVersion}`);
-  }
-
-  // Setup database
-  const onUpgradeNeeded = ({ database }) => {
-    const newMessagesStore = database.createObjectStore(MESSAGES_STORE_NAME);
-    newMessagesStore.createIndex(
-      'conversation',
-      ['conversationId', 'received_at'],
-      { unique: false }
-    );
-    newMessagesStore.createIndex('receipt', 'sent_at', { unique: false });
-    newMessagesStore.createIndex(
-      'unread',
-      ['conversationId', 'unread'],
-      { unique: false }
-    );
-    newMessagesStore.createIndex('expires_at', 'expires_at', { unique: false });
-  };
-  const writeDatabase = await database.open('signal-2', 1, { onUpgradeNeeded });
-
-  const readTransaction = readDatabase.transaction(MESSAGES_STORE_NAME, 'readonly');
-  const readMessagesStore = readTransaction.objectStore(MESSAGES_STORE_NAME);
+exports.copyMessagesStore = async (transaction) => {
+  const readMessagesStore = transaction.objectStore(MESSAGES_STORE_NAME);
+  const writeMessagesStore = transaction.db.createObjectStore(MESSAGES_STORE_NAME_2);
 
   const writeStartTime = Date.now();
   return new Promise((resolve, reject) => {
     const writeOperations = [];
     const request = readMessagesStore.openCursor();
-
-    let writeTransaction = null;
-    let writeMessagesStore = null;
 
     request.onsuccess = (event) => {
       const cursor = event.target.result;
@@ -353,11 +310,8 @@ exports.createSecondaryDatabase = async ({
       }
 
       const message = cursor.value;
+      const messageWithoutAttachmentData = withoutAttachmentData(message);
       console.log('Write message:', message.id);
-      if (!writeTransaction || !writeMessagesStore) {
-        writeTransaction = writeDatabase.transaction(MESSAGES_STORE_NAME, 'readwrite');
-        writeMessagesStore = writeTransaction.objectStore(MESSAGES_STORE_NAME);
-      }
       const writeOperation = putItem(writeMessagesStore, message, message.id);
       writeOperations.push(writeOperation);
 
@@ -380,4 +334,11 @@ const putItem = (store, item, key) =>
     } catch (error) {
       reject(error);
     }
+  });
+
+const withoutAttachmentData = (message) =>
+  Object.assign({}, message, {
+    attachments: message.attachments.map(
+      attachment => omit(attachment, ['data'])
+    )
   });

@@ -94,12 +94,12 @@
   //   minDatabaseVersion: database.version,
   //   upgradeMessageSchema,
   // });
-  console.log('Start creating secondary database');
-  const stats = await MessageDataMigrator.createSecondaryDatabase({
-    databaseName: database.name,
-    minDatabaseVersion: database.version,
-  });
-  console.log('Complete creating secondary database:', stats);
+  // console.log('Start creating secondary database');
+  // const stats = await MessageDataMigrator.createSecondaryDatabase({
+  //   databaseName: database.name,
+  //   minDatabaseVersion: database.version,
+  // });
+  // console.log('Complete creating secondary database:', stats);
 
   // console.log('Migrate database without attachments');
   // await Migrations1DatabaseWithoutAttachmentData.run({
