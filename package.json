@@ -42,6 +42,7 @@
     "test-server-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/server",
     "eslint": "eslint .",
     "transpile": "babel ./js/react/ --out-dir ./js/built/",
+    "clean-transpile": "rimraf js/built/",
     "open-coverage": "open coverage/lcov-report/index.html"
   },
   "dependencies": {
