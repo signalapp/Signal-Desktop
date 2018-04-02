@@ -1,3 +1,8 @@
+/* eslint-env node */
+
+const fs = require('fs-extra');
+const path = require('path');
+
 const {
   isFunction,
   isNumber,
@@ -8,6 +13,7 @@ const {
   sample,
 } = require('lodash');
 
+const Attachments = require('../../app/attachments');
 const Message = require('./types/message');
 const { deferredToPromise } = require('./deferred_to_promise');
 const { sleep } = require('./sleep');
@@ -47,7 +53,8 @@ exports.createConversation = async ({
   await Promise.all(range(0, numMessages).map(async (index) => {
     await sleep(index * 100);
     console.log(`Create message ${index + 1}`);
-    const message = new WhisperMessage(createRandomMessage({ conversationId }));
+    const messageAttributes = await createRandomMessage({ conversationId });
+    const message = new WhisperMessage(messageAttributes);
     return deferredToPromise(message.save());
   }));
 };
@@ -71,7 +78,7 @@ const SAMPLE_MESSAGES = [
 ];
 
 const ATTACHMENT_SAMPLE_RATE = 0.33;
-const createRandomMessage = ({ conversationId } = {}) => {
+const createRandomMessage = async ({ conversationId } = {}) => {
   if (!isString(conversationId)) {
     throw new TypeError('"conversationId" must be a string');
   }
@@ -81,7 +88,7 @@ const createRandomMessage = ({ conversationId } = {}) => {
 
   const hasAttachment = Math.random() <= ATTACHMENT_SAMPLE_RATE;
   const attachments = hasAttachment
-    ? [createRandomInMemoryAttachment()] : [];
+    ? [await createRandomInMemoryAttachment()] : [];
   const type = sample(['incoming', 'outgoing']);
   const commonProperties = {
     attachments,
@@ -119,17 +126,40 @@ const _createMessage = ({ commonProperties, conversationId, type } = {}) => {
   }
 };
 
-const MEGA_BYTE = 1e6;
-const createRandomInMemoryAttachment = () => {
-  const numBytes = (1 + Math.ceil((Math.random() * 50))) * MEGA_BYTE;
-  const array = new Uint32Array(numBytes).fill(1);
-  const data = array.buffer;
-  const fileName = Math.random().toString().slice(2);
+const FIXTURES_PATH = path.join(__dirname, '..', '..', 'fixtures');
+const readData = Attachments.readData(FIXTURES_PATH);
+const createRandomInMemoryAttachment = async () => {
+  const files = (await fs.readdir(FIXTURES_PATH)).map(createFileEntry);
+  const { contentType, fileName } = sample(files);
+  const data = await readData(fileName);
 
   return {
-    contentType: 'application/octet-stream',
+    contentType,
     data,
     fileName,
-    size: numBytes,
+    size: data.byteLength,
   };
+};
+
+const createFileEntry = fileName => ({
+  fileName,
+  contentType: fileNameToContentType(fileName),
+});
+const fileNameToContentType = (fileName) => {
+  const fileExtension = path.extname(fileName).toLowerCase();
+  switch (fileExtension) {
+    case '.gif':
+      return 'image/gif';
+    case '.png':
+      return 'image/png';
+    case '.jpg':
+    case '.jpeg':
+      return 'image/jpeg';
+    case '.mp4':
+      return 'video/mp4';
+    case '.txt':
+      return 'text/plain';
+    default:
+      return 'application/octet-stream';
+  }
 };
