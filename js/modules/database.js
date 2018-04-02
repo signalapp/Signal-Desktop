@@ -15,7 +15,7 @@ exports.open = (name, version) => {
 
     request.onupgradeneeded = event =>
       reject(new Error('Unexpected database upgrade required:' +
-        `oldVersion: ${event.oldVersion}, newVersion: ${event.newVersion}`));
+        ` oldVersion: ${event.oldVersion}, newVersion: ${event.newVersion}`));
 
     request.onerror = event =>
       reject(event.target.error);
