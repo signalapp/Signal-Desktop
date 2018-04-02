@@ -19,7 +19,7 @@
     const { upgradeMessageSchema } = window.Signal.Migrations;
     const {
         Migrations0DatabaseWithAttachmentData,
-        // Migrations1DatabaseWithoutAttachmentData,
+        Migrations1DatabaseWithoutAttachmentData,
     } = window.Signal.Migrations;
     const { Views } = window.Signal;
 
@@ -86,11 +86,21 @@
   console.log('Run migrations on database with attachment data');
   await Migrations0DatabaseWithAttachmentData.run({ Backbone });
 
-  const database = Whisper.Database;
-  const status = await Migrations1DatabaseWithoutAttachmentData.getStatus({ database });
+  await MessageDataMigrator.dangerouslyProcessAllWithoutIndex({
+    databaseName: Migrations0DatabaseWithAttachmentData.getDatabase().name,
+    minDatabaseVersion: Migrations0DatabaseWithAttachmentData.getDatabase().version,
+    upgradeMessageSchema,
+  });
+
+  const status = await Migrations1DatabaseWithoutAttachmentData.getStatus({
+    database: Whisper.Database,
+  });
   console.log('Run migrations on database without attachment data:', status);
   if (status.canRun) {
-    await Migrations1DatabaseWithoutAttachmentData.run({ Backbone, database });
+    await Migrations1DatabaseWithoutAttachmentData.run({
+      Backbone,
+      database: Whisper.Database,
+    });
   }
 
   console.log('Storage fetch');
@@ -98,19 +108,18 @@
 
   const idleDetector = new IdleDetector();
 
-  const NUM_MESSAGE_UPGRADES_PER_IDLE = 2;
   idleDetector.on('idle', async () => {
-    const results = await MessageDataMigrator.processNext({
-      BackboneMessage: Whisper.Message,
-      BackboneMessageCollection: Whisper.MessageCollection,
-      count: NUM_MESSAGE_UPGRADES_PER_IDLE,
-      upgradeMessageSchema,
-    });
-    console.log('Upgrade message schema:', results);
+    // const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+    // const batch = await MessageDataMigrator.processNextBatchWithoutIndex({
+    //   databaseName: database.name,
+    //   minDatabaseVersion: database.version,
+    //   upgradeMessageSchema,
+    // });
+    // console.log('Upgrade message schema:', batch);
 
-    if (!results.done) {
-      idleDetector.stop();
-    }
+    // if (batch.done) {
+    //   idleDetector.stop();
+    // }
   });
   /* eslint-disable */
 
