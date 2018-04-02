@@ -19,7 +19,7 @@
     const { upgradeMessageSchema } = window.Signal.Migrations;
     const {
         Migrations0DatabaseWithAttachmentData,
-        Migrations1DatabaseWithoutAttachmentData,
+        // Migrations1DatabaseWithoutAttachmentData,
     } = window.Signal.Migrations;
     const { Views } = window.Signal;
 
@@ -86,20 +86,20 @@
   console.log('Migrate database with attachments');
   await Migrations0DatabaseWithAttachmentData.run({ Backbone });
 
-  console.log('Migrate attachments to disk');
-  const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-  await MessageDataMigrator.processAll({
-    Backbone,
-    databaseName: database.name,
-    minDatabaseVersion: database.version,
-    upgradeMessageSchema,
-  });
+  // console.log('Migrate attachments to disk');
+  // const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+  // await MessageDataMigrator.processAll({
+  //   Backbone,
+  //   databaseName: database.name,
+  //   minDatabaseVersion: database.version,
+  //   upgradeMessageSchema,
+  // });
 
-  console.log('Migrate database without attachments');
-  await Migrations1DatabaseWithoutAttachmentData.run({
-    Backbone,
-    database: Whisper.Database,
-  });
+  // console.log('Migrate database without attachments');
+  // await Migrations1DatabaseWithoutAttachmentData.run({
+  //   Backbone,
+  //   database: Whisper.Database,
+  // });
 
   console.log('Storage fetch');
   storage.fetch();
