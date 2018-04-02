@@ -91,29 +91,30 @@ const createRandomMessage = ({ conversationId } = {}) => {
     type,
   };
 
-  const message = (() => {
-    switch (type) {
-      case 'incoming':
-        return Object.assign({}, commonProperties, {
-          flags: 0,
-          source: conversationId,
-          sourceDevice: 1,
-        });
-      case 'outgoing':
-        return Object.assign({}, commonProperties, {
-          delivered: 1,
-          delivered_to: [conversationId],
-          expireTimer: 0,
-          recipients: [conversationId],
-          sent_to: [conversationId],
-          synced: true,
-        });
-      default:
-        throw new TypeError(`Unknown message type: '${type}'`);
-    }
-  })();
-
+  const message = _createMessage({ commonProperties, conversationId, type });
   return Message.initializeSchemaVersion(message);
+};
+
+const _createMessage = ({ commonProperties, conversationId, type } = {}) => {
+  switch (type) {
+    case 'incoming':
+      return Object.assign({}, commonProperties, {
+        flags: 0,
+        source: conversationId,
+        sourceDevice: 1,
+      });
+    case 'outgoing':
+      return Object.assign({}, commonProperties, {
+        delivered: 1,
+        delivered_to: [conversationId],
+        expireTimer: 0,
+        recipients: [conversationId],
+        sent_to: [conversationId],
+        synced: true,
+      });
+    default:
+      throw new TypeError(`Unknown message type: '${type}'`);
+  }
 };
 
 const MEGA_BYTE = 1e6;
