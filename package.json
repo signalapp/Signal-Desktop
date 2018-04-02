@@ -114,7 +114,7 @@
     "spectron": "^3.8.0"
   },
   "engines": {
-    "node": "8.2.1"
+    "node": "^8.2.1"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
