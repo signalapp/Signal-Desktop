@@ -11,12 +11,16 @@
 /* global Whisper: false */
 /* global wrapDeferred: false */
 
-;(function() {
+;(async function() {
     'use strict';
 
     const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
     const { Errors, Message } = window.Signal.Types;
     const { upgradeMessageSchema } = window.Signal.Migrations;
+    const {
+        Migrations0DatabaseWithAttachmentData,
+        // Migrations1DatabaseWithoutAttachmentData,
+    } = window.Signal.Migrations;
     const { Views } = window.Signal;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
@@ -75,22 +79,40 @@
         return accountManager;
     };
 
-    const cancelInitializationMessage = Views.Initialization.setMessage();
-    console.log('Start IndexedDB migrations');
-    storage.fetch();
-
-
   /* eslint-enable */
-  /* jshint ignore:start */
-  const NUM_MESSAGE_UPGRADES_PER_IDLE = 2;
+  const cancelInitializationMessage = Views.Initialization.setMessage();
+  console.log('Start IndexedDB migrations');
+
+  console.log('Migrate database with attachments');
+  await Migrations0DatabaseWithAttachmentData.run({ Backbone });
+
+  // console.log('Migrate attachments to disk');
+  // const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+  // await MessageDataMigrator.processAll({
+  //   Backbone,
+  //   databaseName: database.name,
+  //   minDatabaseVersion: database.version,
+  //   upgradeMessageSchema,
+  // });
+
+  // console.log('Migrate database without attachments');
+  // await Migrations1DatabaseWithoutAttachmentData.run({
+  //   Backbone,
+  //   database: Whisper.Database,
+  // });
+
+  console.log('Storage fetch');
+  storage.fetch();
+
   const idleDetector = new IdleDetector();
+
+  const NUM_MESSAGE_UPGRADES_PER_IDLE = 2;
   idleDetector.on('idle', async () => {
     const results = await MessageDataMigrator.processNext({
       BackboneMessage: Whisper.Message,
       BackboneMessageCollection: Whisper.MessageCollection,
       count: NUM_MESSAGE_UPGRADES_PER_IDLE,
       upgradeMessageSchema,
-      wrapDeferred,
     });
     console.log('Upgrade message schema:', results);
 
@@ -98,7 +120,6 @@
       idleDetector.stop();
     }
   });
-  /* jshint ignore:end */
   /* eslint-disable */
 
     // We need this 'first' check because we don't want to start the app up any other time
@@ -558,7 +579,6 @@
     }
 
   /* eslint-enable */
-  /* jshint ignore:start */
 
   // Descriptors
   const getGroupDescriptor = group => ({
@@ -667,7 +687,6 @@
     getMessageDescriptor: getDescriptorForSent,
     createMessage: createSentMessage,
   });
-  /* jshint ignore:end */
   /* eslint-disable */
 
     function isMessageDuplicate(message) {

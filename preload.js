@@ -7,17 +7,14 @@
   const Attachment = require('./js/modules/types/attachment');
   const Attachments = require('./app/attachments');
   const Message = require('./js/modules/types/message');
+  const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
   const { app } = electron.remote;
 
 
   window.PROTO_ROOT = 'protos';
   window.config = require('url').parse(window.location.toString(), true).query;
-  window.wrapDeferred = function(deferred) {
-    return new Promise(function(resolve, reject) {
-      deferred.then(resolve, reject);
-    });
-  };
+  window.wrapDeferred = deferredToPromise;
 
   const ipc = electron.ipcRenderer;
   window.config.localeMessages = ipc.sendSync('locale-data');
@@ -127,13 +124,19 @@
   window.Signal = {};
   window.Signal.Backup = require('./js/modules/backup');
   window.Signal.Crypto = require('./js/modules/crypto');
+  window.Signal.Database = require('./js/modules/database');
+  window.Signal.Debug = require('./js/modules/debug');
   window.Signal.Logs = require('./js/modules/logs');
   window.Signal.Migrations = {};
   window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
   window.Signal.Migrations.deleteAttachmentData = Attachment.deleteData(deleteAttachmentData);
   window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
-  window.Signal.Migrations.V17 = require('./js/modules/migrations/17');
+  window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =
+    require('./js/modules/migrations/migrations_0_database_with_attachment_data');
+  window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =
+    require('./js/modules/migrations/migrations_1_database_without_attachment_data');
   window.Signal.OS = require('./js/modules/os');
+  window.Signal.Settings = require('./js/modules/settings');
   window.Signal.Types = {};
   window.Signal.Types.Attachment = Attachment;
   window.Signal.Types.Errors = require('./js/modules/types/errors');

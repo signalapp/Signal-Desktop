@@ -1,4 +1,4 @@
-const isString = require('lodash/isString');
+const { isString } = require('lodash');
 
 
 exports.createTemplate = (options, messages) => {

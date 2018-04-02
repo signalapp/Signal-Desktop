@@ -1,7 +1,9 @@
-const isArrayBuffer = require('lodash/isArrayBuffer');
-const isFunction = require('lodash/isFunction');
-const isUndefined = require('lodash/isUndefined');
-const omit = require('lodash/omit');
+const {
+  isArrayBuffer,
+  isFunction,
+  isUndefined,
+  omit,
+} = require('lodash');
 
 
 // type Context :: {

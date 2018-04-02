@@ -1,9 +1,9 @@
 const crypto = require('crypto');
-const fse = require('fs-extra');
-const isArrayBuffer = require('lodash/isArrayBuffer');
-const isString = require('lodash/isString');
 const path = require('path');
+
+const fse = require('fs-extra');
 const toArrayBuffer = require('to-arraybuffer');
+const { isArrayBuffer, isString } = require('lodash');
 
 
 const PATH = 'attachments.noindex';

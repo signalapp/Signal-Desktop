@@ -1,4 +1,4 @@
-const isFunction = require('lodash/isFunction');
+const { isFunction } = require('lodash');
 
 const Attachment = require('./attachment');
 const Errors = require('./errors');
