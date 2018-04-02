@@ -5,9 +5,9 @@ const settings = require('../settings');
 const { runMigrations } = require('./run_migrations');
 
 
-// NOTE: Add new migrations that need to traverse entire database, e.g. messages
-// store, here. These will only run after attachment migration has completed in
-// the background:
+// IMPORTANT: Add new migrations that need to traverse entire database, e.g.
+// messages store, below. Whenever we need this, we need to force attachment
+// migration on startup:
 const migrations = [
   // {
   //   version: 0,
