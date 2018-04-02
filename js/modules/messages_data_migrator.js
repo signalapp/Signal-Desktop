@@ -12,6 +12,7 @@ const {
   isObject,
   isString,
   last,
+  omit,
 } = require('lodash');
 
 const database = require('./database');
@@ -21,6 +22,7 @@ const { deferredToPromise } = require('./deferred_to_promise');
 
 
 const MESSAGES_STORE_NAME = 'messages';
+const MESSAGES_STORE_NAME_2 = 'messages-2';
 const NUM_MESSAGES_PER_BATCH = 1;
 
 exports.processNext = async ({
@@ -288,3 +290,57 @@ const getNumMessages = async ({ connection } = {}) => {
 
   return numTotalMessages;
 };
+
+exports.copyMessagesStore = async (transaction) => {
+  const readMessagesStore = transaction.objectStore(MESSAGES_STORE_NAME);
+  const writeMessagesStore = transaction.db.createObjectStore(MESSAGES_STORE_NAME_2);
+
+  const writeStartTime = Date.now();
+  return new Promise((resolve, reject) => {
+    const writeOperations = [];
+    const request = readMessagesStore.openCursor();
+
+    request.onsuccess = (event) => {
+      const cursor = event.target.result;
+      const hasMoreData = Boolean(cursor);
+      if (!hasMoreData) {
+        const stats = {
+          duration: Date.now() - writeStartTime,
+          numMessagesCopied: writeOperations.length,
+        };
+        return Promise.all(writeOperations).then(() => resolve(stats));
+      }
+
+      const message = cursor.value;
+      const messageWithoutAttachmentData = withoutAttachmentData(message);
+      console.log('Write message:', message.id);
+      const writeOperation = putItem(writeMessagesStore, message, message.id);
+      writeOperations.push(writeOperation);
+
+      return cursor.continue();
+    };
+
+    request.onerror = event =>
+      reject(event.target.error);
+  });
+};
+
+const putItem = (store, item, key) =>
+  new Promise((resolve, reject) => {
+    try {
+      const request = store.put(item, key);
+      request.onsuccess = event =>
+        resolve(event.target.result);
+      request.onerror = event =>
+        reject(event.target.error);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+const withoutAttachmentData = (message) =>
+  Object.assign({}, message, {
+    attachments: message.attachments.map(
+      attachment => omit(attachment, ['data'])
+    )
+  });
