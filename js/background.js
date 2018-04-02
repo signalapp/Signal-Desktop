@@ -86,29 +86,23 @@
   console.log('Run migrations on database with attachment data');
   await Migrations0DatabaseWithAttachmentData.run({ Backbone });
 
-  await MessageDataMigrator.dangerouslyProcessAllWithoutIndex({
-    databaseName: Migrations0DatabaseWithAttachmentData.getDatabase().name,
-    minDatabaseVersion: Migrations0DatabaseWithAttachmentData.getDatabase().version,
-    upgradeMessageSchema,
-  });
-
   console.log('Storage fetch');
   storage.fetch();
 
   const idleDetector = new IdleDetector();
 
   idleDetector.on('idle', async () => {
-    // const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-    // const batch = await MessageDataMigrator.processNextBatchWithoutIndex({
-    //   databaseName: database.name,
-    //   minDatabaseVersion: database.version,
-    //   upgradeMessageSchema,
-    // });
-    // console.log('Upgrade message schema:', batch);
+    const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+    const batch = await MessageDataMigrator.processNextBatchWithoutIndex({
+      databaseName: database.name,
+      minDatabaseVersion: database.version,
+      upgradeMessageSchema,
+    });
+    console.log('Upgrade message schema:', batch);
 
-    // if (batch.done) {
-    //   idleDetector.stop();
-    // }
+    if (batch.done) {
+      idleDetector.stop();
+    }
   });
   /* eslint-disable */
 

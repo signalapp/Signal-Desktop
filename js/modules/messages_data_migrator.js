@@ -237,7 +237,10 @@ const _processBatch = async ({ connection, upgradeMessageSchema } = {}) => {
     await settings.deleteAttachmentMigrationLastProcessedIndex(connection);
   }
 
+  const batchTotalDuration = Date.now() - fetchUnprocessedMessagesStartTime;
+
   return {
+    batchTotalDuration,
     done,
     fetchDuration,
     lastProcessedIndex,
