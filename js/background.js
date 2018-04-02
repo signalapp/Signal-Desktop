@@ -92,17 +92,6 @@
     upgradeMessageSchema,
   });
 
-  const status = await Migrations1DatabaseWithoutAttachmentData.getStatus({
-    database: Whisper.Database,
-  });
-  console.log('Run migrations on database without attachment data:', status);
-  if (status.canRun) {
-    await Migrations1DatabaseWithoutAttachmentData.run({
-      Backbone,
-      database: Whisper.Database,
-    });
-  }
-
   console.log('Storage fetch');
   storage.fetch();
 
