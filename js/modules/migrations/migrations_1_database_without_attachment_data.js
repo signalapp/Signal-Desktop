@@ -1,4 +1,4 @@
-const last = require('lodash/last');
+const { last } = require('lodash');
 
 const db = require('../database');
 const settings = require('../settings');

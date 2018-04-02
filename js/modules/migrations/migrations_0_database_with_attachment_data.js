@@ -8,7 +8,7 @@ const { runMigrations } = require('./run_migrations');
 // any expensive operations, e.g. modifying all messages / attachments, etc., as
 // it may cause out-of-memory errors for users with long histories:
 // https://github.com/signalapp/Signal-Desktop/issues/2163
-exports.migrations = [
+const migrations = [
   {
     version: '12.0',
     migrate(transaction, next) {
@@ -144,7 +144,7 @@ exports.migrations = [
 const database = {
   id: 'signal',
   nolog: true,
-  migrations: exports.migrations,
+  migrations,
 };
 
 exports.run = ({ Backbone } = {}) =>
@@ -152,7 +152,7 @@ exports.run = ({ Backbone } = {}) =>
 
 exports.getDatabase = () => ({
   name: database.id,
-  version: last(exports.migrations).version,
+  version: exports.getLatestVersion(),
 });
 
 exports.getLatestVersion = () => {
