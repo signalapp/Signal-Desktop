@@ -1,4 +1,4 @@
-const last = require('lodash/last');
+const { last } = require('lodash');
 
 const { runMigrations } = require('./run_migrations');
 

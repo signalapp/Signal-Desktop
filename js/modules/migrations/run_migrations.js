@@ -1,10 +1,13 @@
 /* eslint-env browser */
 
-const isFunction = require('lodash/isFunction');
-const isObject = require('lodash/isObject');
-const isString = require('lodash/isString');
-const head = require('lodash/head');
-const last = require('lodash/last');
+const {
+  head,
+  isFunction,
+  isObject,
+  isString,
+  last,
+} = require('lodash');
+
 
 const db = require('../database');
 const { deferredToPromise } = require('../deferred_to_promise');

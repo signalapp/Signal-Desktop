@@ -1,4 +1,4 @@
-const isNumber = require('lodash/isNumber');
+const { isNumber } = require('lodash');
 
 
 exports.isValid = value =>

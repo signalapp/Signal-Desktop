@@ -1,5 +1,4 @@
-const isObject = require('lodash/isObject');
-const isString = require('lodash/isString');
+const { isObject, isString } = require('lodash');
 
 
 const ITEMS_STORE_NAME = 'items';

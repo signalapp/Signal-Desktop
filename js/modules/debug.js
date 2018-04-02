@@ -1,10 +1,12 @@
-const isFunction = require('lodash/isFunction');
-const isNumber = require('lodash/isNumber');
-const isObject = require('lodash/isObject');
-const isString = require('lodash/isString');
-const random = require('lodash/random');
-const range = require('lodash/range');
-const sample = require('lodash/sample');
+const {
+  isFunction,
+  isNumber,
+  isObject,
+  isString,
+  random,
+  range,
+  sample,
+} = require('lodash');
 
 const Message = require('./types/message');
 const { deferredToPromise } = require('./deferred_to_promise');

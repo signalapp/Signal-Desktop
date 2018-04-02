@@ -4,7 +4,7 @@
 // and using promises. Revisit use of `idb` dependency as it might cover
 // this functionality.
 
-const isObject = require('lodash/isObject');
+const { isObject } = require('lodash');
 
 
 exports.open = (name, version) => {

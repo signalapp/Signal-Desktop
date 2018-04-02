@@ -1,5 +1,4 @@
-const isFunction = require('lodash/isFunction');
-const isString = require('lodash/isString');
+const { isFunction, isString } = require('lodash');
 
 const MIME = require('./mime');
 const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');

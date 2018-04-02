@@ -2,10 +2,12 @@
 
 const Path = require('path');
 
-const compose = require('lodash/fp/compose');
-const escapeRegExp = require('lodash/escapeRegExp');
-const isRegExp = require('lodash/isRegExp');
-const isString = require('lodash/isString');
+const {
+  escapeRegExp,
+  isRegExp,
+  isString,
+} = require('lodash');
+const { compose } = require('lodash/fp');
 
 
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;

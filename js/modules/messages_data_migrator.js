@@ -6,11 +6,13 @@
 
 /* global IDBKeyRange */
 
-const isFunction = require('lodash/isFunction');
-const isNumber = require('lodash/isNumber');
-const isObject = require('lodash/isObject');
-const isString = require('lodash/isString');
-const last = require('lodash/last');
+const {
+  isFunction,
+  isNumber,
+  isObject,
+  isString,
+  last,
+} = require('lodash');
 
 const database = require('./database');
 const Message = require('./types/message');
