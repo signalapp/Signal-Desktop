@@ -192,11 +192,12 @@ const _processBatch = async ({ connection, upgradeMessageSchema } = {}) => {
   const lastProcessedIndex =
     await settings.getAttachmentMigrationLastProcessedIndex(connection);
 
+  const count = NUM_MESSAGES_PER_BATCH;
   const fetchUnprocessedMessagesStartTime = Date.now();
   const unprocessedMessages =
     await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex({
       connection,
-      count: NUM_MESSAGES_PER_BATCH,
+      count,
       lastIndex: lastProcessedIndex,
     });
   const fetchDuration = Date.now() - fetchUnprocessedMessagesStartTime;
@@ -214,7 +215,7 @@ const _processBatch = async ({ connection, upgradeMessageSchema } = {}) => {
   const saveDuration = Date.now() - saveMessagesStartTime;
 
   const numMessagesProcessed = upgradedMessages.length;
-  const done = numMessagesProcessed === 0;
+  const done = numMessagesProcessed < count;
   const lastMessage = last(upgradedMessages);
   const newLastProcessedIndex = lastMessage ? lastMessage.id : null;
   if (!done) {
