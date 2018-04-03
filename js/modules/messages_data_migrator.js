@@ -169,11 +169,6 @@ const _getConnection = async ({ databaseName, minDatabaseVersion }) => {
   const connection = await database.open(databaseName);
   const databaseVersion = connection.version;
   const isValidDatabaseVersion = databaseVersion >= minDatabaseVersion;
-  console.log('Database status', {
-    databaseVersion,
-    isValidDatabaseVersion,
-    minDatabaseVersion,
-  });
   if (!isValidDatabaseVersion) {
     throw new Error(`Expected database version (${databaseVersion})` +
       ` to be at least ${minDatabaseVersion}`);
