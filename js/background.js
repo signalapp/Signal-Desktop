@@ -90,12 +90,13 @@
   storage.fetch();
 
   const idleDetector = new IdleDetector();
-
   idleDetector.on('idle', async () => {
+    const NUM_MESSAGES_PER_BATCH = 1;
     const database = Migrations0DatabaseWithAttachmentData.getDatabase();
     const batch = await MessageDataMigrator.processNextBatchWithoutIndex({
       databaseName: database.name,
       minDatabaseVersion: database.version,
+      numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
       upgradeMessageSchema,
     });
     console.log('Upgrade message schema:', batch);

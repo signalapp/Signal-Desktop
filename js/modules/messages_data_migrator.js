@@ -21,12 +21,11 @@ const { deferredToPromise } = require('./deferred_to_promise');
 
 
 const MESSAGES_STORE_NAME = 'messages';
-const NUM_MESSAGES_PER_BATCH = 1;
 
 exports.processNext = async ({
   BackboneMessage,
   BackboneMessageCollection,
-  count,
+  numMessagesPerBatch,
   upgradeMessageSchema,
 } = {}) => {
   if (!isFunction(BackboneMessage)) {
@@ -38,8 +37,8 @@ exports.processNext = async ({
       ' constructor is required');
   }
 
-  if (!isNumber(count)) {
-    throw new TypeError('"count" is required');
+  if (!isNumber(numMessagesPerBatch)) {
+    throw new TypeError('"numMessagesPerBatch" is required');
   }
 
   if (!isFunction(upgradeMessageSchema)) {
@@ -50,7 +49,10 @@ exports.processNext = async ({
 
   const fetchStartTime = Date.now();
   const messagesRequiringSchemaUpgrade =
-    await _fetchMessagesRequiringSchemaUpgrade({ BackboneMessageCollection, count });
+    await _fetchMessagesRequiringSchemaUpgrade({
+      BackboneMessageCollection,
+      count: numMessagesPerBatch,
+    });
   const fetchDuration = Date.now() - fetchStartTime;
 
   const upgradeStartTime = Date.now();
@@ -65,7 +67,7 @@ exports.processNext = async ({
 
   const totalDuration = Date.now() - startTime;
   const numProcessed = messagesRequiringSchemaUpgrade.length;
-  const done = numProcessed < count;
+  const done = numProcessed < numMessagesPerBatch;
   return {
     done,
     numProcessed,
@@ -79,6 +81,7 @@ exports.processNext = async ({
 exports.dangerouslyProcessAllWithoutIndex = async ({
   databaseName,
   minDatabaseVersion,
+  numMessagesPerBatch,
   upgradeMessageSchema,
 } = {}) => {
   if (!isString(databaseName)) {
@@ -87,6 +90,10 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
 
   if (!isNumber(minDatabaseVersion)) {
     throw new TypeError('"minDatabaseVersion" must be a number');
+  }
+
+  if (!isNumber(numMessagesPerBatch)) {
+    throw new TypeError('"numMessagesPerBatch" must be a number');
   }
 
   if (!isFunction(upgradeMessageSchema)) {
@@ -116,7 +123,11 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
   // eslint-disable-next-line no-constant-condition
   while (true) {
     // eslint-disable-next-line no-await-in-loop
-    const status = await _processBatch({ connection, upgradeMessageSchema });
+    const status = await _processBatch({
+      connection,
+      numMessagesPerBatch,
+      upgradeMessageSchema,
+    });
     if (status.done) {
       break;
     }
@@ -140,6 +151,7 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
 exports.processNextBatchWithoutIndex = async ({
   databaseName,
   minDatabaseVersion,
+  numMessagesPerBatch,
   upgradeMessageSchema,
 } = {}) => {
   if (!isFunction(upgradeMessageSchema)) {
@@ -147,7 +159,11 @@ exports.processNextBatchWithoutIndex = async ({
   }
 
   const connection = await _getConnection({ databaseName, minDatabaseVersion });
-  const batch = await _processBatch({ connection, upgradeMessageSchema });
+  const batch = await _processBatch({
+    connection,
+    numMessagesPerBatch,
+    upgradeMessageSchema,
+  });
   return batch;
 };
 
@@ -172,13 +188,21 @@ const _getConnection = async ({ databaseName, minDatabaseVersion }) => {
   return connection;
 };
 
-const _processBatch = async ({ connection, upgradeMessageSchema } = {}) => {
+const _processBatch = async ({
+  connection,
+  numMessagesPerBatch,
+  upgradeMessageSchema,
+} = {}) => {
   if (!isObject(connection)) {
     throw new TypeError('"connection" must be a string');
   }
 
   if (!isFunction(upgradeMessageSchema)) {
     throw new TypeError('"upgradeMessageSchema" is required');
+  }
+
+  if (!isNumber(numMessagesPerBatch)) {
+    throw new TypeError('"numMessagesPerBatch" is required');
   }
 
   const isAttachmentMigrationComplete =
@@ -192,12 +216,11 @@ const _processBatch = async ({ connection, upgradeMessageSchema } = {}) => {
   const lastProcessedIndex =
     await settings.getAttachmentMigrationLastProcessedIndex(connection);
 
-  const count = NUM_MESSAGES_PER_BATCH;
   const fetchUnprocessedMessagesStartTime = Date.now();
   const unprocessedMessages =
     await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex({
       connection,
-      count,
+      count: numMessagesPerBatch,
       lastIndex: lastProcessedIndex,
     });
   const fetchDuration = Date.now() - fetchUnprocessedMessagesStartTime;
@@ -215,7 +238,7 @@ const _processBatch = async ({ connection, upgradeMessageSchema } = {}) => {
   const saveDuration = Date.now() - saveMessagesStartTime;
 
   const numMessagesProcessed = upgradedMessages.length;
-  const done = numMessagesProcessed < count;
+  const done = numMessagesProcessed < numMessagesPerBatch;
   const lastMessage = last(upgradedMessages);
   const newLastProcessedIndex = lastMessage ? lastMessage.id : null;
   if (!done) {
