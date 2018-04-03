@@ -111,9 +111,9 @@ window.ProxyAgent = require('proxy-agent');
 
 // ES2015+ modules
 const attachmentsPath = Attachments.getPath(app.getPath('userData'));
-const deleteAttachmentData = Attachments.deleteData(attachmentsPath);
-const readAttachmentData = Attachments.readData(attachmentsPath);
-const writeAttachmentData = Attachments.writeData(attachmentsPath);
+const deleteAttachmentData = Attachments.createDeleter(attachmentsPath);
+const readAttachmentData = Attachments.createReader(attachmentsPath);
+const writeAttachmentData = Attachments.createWriter(attachmentsPath);
 
 // Injected context functions to keep `Message` agnostic from Electron:
 const upgradeSchemaContext = {

@@ -127,7 +127,7 @@ const _createMessage = ({ commonProperties, conversationId, type } = {}) => {
 };
 
 const FIXTURES_PATH = path.join(__dirname, '..', '..', 'fixtures');
-const readData = Attachments.readData(FIXTURES_PATH);
+const readData = Attachments.createReader(FIXTURES_PATH);
 const createRandomInMemoryAttachment = async () => {
   const files = (await fs.readdir(FIXTURES_PATH)).map(createFileEntry);
   const { contentType, fileName } = sample(files);

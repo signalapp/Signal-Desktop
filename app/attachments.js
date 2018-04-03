@@ -24,10 +24,10 @@ exports.ensureDirectory = async (userDataPath) => {
   await fse.ensureDir(exports.getPath(userDataPath));
 };
 
-//      readData :: AttachmentsPath ->
-//                  RelativePath ->
-//                  IO (Promise ArrayBuffer)
-exports.readData = (root) => {
+//      createReader :: AttachmentsPath ->
+//                      RelativePath ->
+//                      IO (Promise ArrayBuffer)
+exports.createReader = (root) => {
   if (!isString(root)) {
     throw new TypeError('`root` must be a path');
   }
@@ -43,10 +43,10 @@ exports.readData = (root) => {
   };
 };
 
-//      writeData :: AttachmentsPath ->
-//                   ArrayBuffer ->
-//                   IO (Promise RelativePath)
-exports.writeData = (root) => {
+//      createWriter :: AttachmentsPath ->
+//                      ArrayBuffer ->
+//                      IO (Promise RelativePath)
+exports.createWriter = (root) => {
   if (!isString(root)) {
     throw new TypeError('`root` must be a path');
   }
@@ -66,8 +66,10 @@ exports.writeData = (root) => {
   };
 };
 
-//      deleteData :: AttachmentsPath -> IO Unit
-exports.deleteData = (root) => {
+//      createDeleter :: AttachmentsPath ->
+//                       RelativePath ->
+//                       IO Unit
+exports.createDeleter = (root) => {
   if (!isString(root)) {
     throw new TypeError('`root` must be a path');
   }
