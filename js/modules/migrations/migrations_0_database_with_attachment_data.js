@@ -147,8 +147,15 @@ const database = {
   migrations,
 };
 
-exports.run = ({ Backbone } = {}) =>
-  runMigrations({ Backbone, database });
+exports.run = ({ Backbone, databaseName } = {}) =>
+  runMigrations({
+    Backbone,
+    database: Object.assign(
+      {},
+      database,
+      isString(databaseName) ? { id: databaseName } : {}
+    ),
+  });
 
 exports.getDatabase = () => ({
   name: database.id,
