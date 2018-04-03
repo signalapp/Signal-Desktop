@@ -43,8 +43,9 @@
     "eslint": "eslint .",
     "tslint": "tslint ./js/react/**/*.{ts,tsx}",
     "transpile": "tsc",
-    "clean-transpile": "rimraf js/built/",
-    "open-coverage": "open coverage/lcov-report/index.html"
+    "clean-transpile": "rimraf js/react/**/*.js js/react/*.js",
+    "open-coverage": "open coverage/lcov-report/index.html",
+    "styleguide": "styleguidist server"
   },
   "dependencies": {
     "@sindresorhus/is": "^0.8.0",
@@ -92,6 +93,7 @@
   "devDependencies": {
     "@types/react": "^16.3.1",
     "@types/react-dom": "^16.0.4",
+    "arraybuffer-loader": "^1.0.3",
     "asar": "^0.14.0",
     "bower": "^1.8.2",
     "chai": "^4.1.2",
@@ -120,11 +122,15 @@
     "node-sass-import-once": "^1.2.0",
     "nsp": "^3.2.1",
     "nyc": "^11.4.1",
+    "react-docgen-typescript": "^1.2.6",
+    "react-styleguidist": "^7.0.1",
     "sinon": "^4.4.2",
     "spectron": "^3.8.0",
+    "ts-loader": "^4.1.0",
     "tslint": "^5.9.1",
     "tslint-react": "^3.5.1",
-    "typescript": "^2.8.1"
+    "typescript": "^2.8.1",
+    "webpack": "^4.4.1"
   },
   "engines": {
     "node": "^8.2.1"
