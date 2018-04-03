@@ -1,7 +1,4 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-mocha.setup("bdd");
+mocha.setup('bdd');
 window.assert = chai.assert;
 window.PROTO_ROOT = '../protos';
 
