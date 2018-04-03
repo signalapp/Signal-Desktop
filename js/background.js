@@ -19,7 +19,7 @@
     const { upgradeMessageSchema } = window.Signal.Migrations;
     const {
         Migrations0DatabaseWithAttachmentData,
-        // Migrations1DatabaseWithoutAttachmentData,
+        Migrations1DatabaseWithoutAttachmentData,
     } = window.Signal.Migrations;
     const { Views } = window.Signal;
 
@@ -83,40 +83,25 @@
   const cancelInitializationMessage = Views.Initialization.setMessage();
   console.log('Start IndexedDB migrations');
 
-  console.log('Migrate database with attachments');
+  console.log('Run migrations on database with attachment data');
   await Migrations0DatabaseWithAttachmentData.run({ Backbone });
-
-  // console.log('Migrate attachments to disk');
-  // const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-  // await MessageDataMigrator.processAll({
-  //   Backbone,
-  //   databaseName: database.name,
-  //   minDatabaseVersion: database.version,
-  //   upgradeMessageSchema,
-  // });
-
-  // console.log('Migrate database without attachments');
-  // await Migrations1DatabaseWithoutAttachmentData.run({
-  //   Backbone,
-  //   database: Whisper.Database,
-  // });
 
   console.log('Storage fetch');
   storage.fetch();
 
   const idleDetector = new IdleDetector();
-
-  const NUM_MESSAGE_UPGRADES_PER_IDLE = 2;
   idleDetector.on('idle', async () => {
-    const results = await MessageDataMigrator.processNext({
-      BackboneMessage: Whisper.Message,
-      BackboneMessageCollection: Whisper.MessageCollection,
-      count: NUM_MESSAGE_UPGRADES_PER_IDLE,
+    const NUM_MESSAGES_PER_BATCH = 1;
+    const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+    const batch = await MessageDataMigrator.processNextBatchWithoutIndex({
+      databaseName: database.name,
+      minDatabaseVersion: database.version,
+      numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
       upgradeMessageSchema,
     });
-    console.log('Upgrade message schema:', results);
+    console.log('Upgrade message schema:', batch);
 
-    if (!results.hasMore) {
+    if (batch.done) {
       idleDetector.stop();
     }
   });

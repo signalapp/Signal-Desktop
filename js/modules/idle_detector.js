@@ -3,8 +3,8 @@
 const EventEmitter = require('events');
 
 
-const POLL_INTERVAL_MS = 30 * 1000;
-const IDLE_THRESHOLD_MS = 25;
+const POLL_INTERVAL_MS = 15 * 1000;
+const IDLE_THRESHOLD_MS = 20;
 
 class IdleDetector extends EventEmitter {
   constructor() {
@@ -14,10 +14,16 @@ class IdleDetector extends EventEmitter {
   }
 
   start() {
+    console.log('Start idle detector');
     this._scheduleNextCallback();
   }
 
   stop() {
+    console.log('Stop idle detector');
+    this._clearScheduledCallbacks();
+  }
+
+  _clearScheduledCallbacks() {
     if (this.handle) {
       cancelIdleCallback(this.handle);
     }
@@ -28,7 +34,7 @@ class IdleDetector extends EventEmitter {
   }
 
   _scheduleNextCallback() {
-    this.stop();
+    this._clearScheduledCallbacks();
     this.handle = window.requestIdleCallback((deadline) => {
       const { didTimeout } = deadline;
       const timeRemaining = deadline.timeRemaining();

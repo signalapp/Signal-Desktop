@@ -28,4 +28,5 @@ test/views/*.js
 !js/views/message_view.js
 !js/views/settings_view.js
 !main.js
+!preload.js
 !prepare_build.js

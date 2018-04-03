@@ -13,7 +13,7 @@ const NAME_LENGTH = 64;
 const PATH_LENGTH = PREFIX_LENGTH + NUM_SEPARATORS + NAME_LENGTH;
 
 describe('Attachments', () => {
-  describe('writeData', () => {
+  describe('createWriter', () => {
     let tempRootDirectory = null;
     before(() => {
       tempRootDirectory = tmp.dirSync().name;
@@ -25,9 +25,9 @@ describe('Attachments', () => {
 
     it('should write file to disk and return path', async () => {
       const input = stringToArrayBuffer('test string');
-      const tempDirectory = path.join(tempRootDirectory, 'Attachments_writeData');
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createWriter');
 
-      const outputPath = await Attachments.writeData(tempDirectory)(input);
+      const outputPath = await Attachments.createWriter(tempDirectory)(input);
       const output = await fse.readFile(path.join(tempDirectory, outputPath));
 
       assert.lengthOf(outputPath, PATH_LENGTH);
@@ -37,7 +37,7 @@ describe('Attachments', () => {
     });
   });
 
-  describe('readData', () => {
+  describe('createReader', () => {
     let tempRootDirectory = null;
     before(() => {
       tempRootDirectory = tmp.dirSync().name;
@@ -48,7 +48,7 @@ describe('Attachments', () => {
     });
 
     it('should read file from disk', async () => {
-      const tempDirectory = path.join(tempRootDirectory, 'Attachments_readData');
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createReader');
 
       const relativePath = Attachments.getRelativePath(Attachments.createName());
       const fullPath = path.join(tempDirectory, relativePath);
@@ -57,13 +57,13 @@ describe('Attachments', () => {
       const inputBuffer = Buffer.from(input);
       await fse.ensureFile(fullPath);
       await fse.writeFile(fullPath, inputBuffer);
-      const output = await Attachments.readData(tempDirectory)(relativePath);
+      const output = await Attachments.createReader(tempDirectory)(relativePath);
 
       assert.deepEqual(input, output);
     });
   });
 
-  describe('deleteData', () => {
+  describe('createDeleter', () => {
     let tempRootDirectory = null;
     before(() => {
       tempRootDirectory = tmp.dirSync().name;
@@ -74,7 +74,7 @@ describe('Attachments', () => {
     });
 
     it('should delete file from disk', async () => {
-      const tempDirectory = path.join(tempRootDirectory, 'Attachments_deleteData');
+      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createDeleter');
 
       const relativePath = Attachments.getRelativePath(Attachments.createName());
       const fullPath = path.join(tempDirectory, relativePath);
@@ -83,7 +83,7 @@ describe('Attachments', () => {
       const inputBuffer = Buffer.from(input);
       await fse.ensureFile(fullPath);
       await fse.writeFile(fullPath, inputBuffer);
-      await Attachments.deleteData(tempDirectory)(relativePath);
+      await Attachments.createDeleter(tempDirectory)(relativePath);
 
       const existsFile = await fse.exists(fullPath);
       assert.isFalse(existsFile);

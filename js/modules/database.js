@@ -4,18 +4,31 @@
 // and using promises. Revisit use of `idb` dependency as it might cover
 // this functionality.
 
-const { isObject } = require('lodash');
+const { isObject, isNumber } = require('lodash');
 
 
-exports.open = (name, version) => {
+exports.open = (name, version, { onUpgradeNeeded } = {}) => {
   const request = indexedDB.open(name, version);
   return new Promise((resolve, reject) => {
     request.onblocked = () =>
       reject(new Error('Database blocked'));
 
-    request.onupgradeneeded = event =>
-      reject(new Error('Unexpected database upgrade required:' +
-        `oldVersion: ${event.oldVersion}, newVersion: ${event.newVersion}`));
+    request.onupgradeneeded = (event) => {
+      const hasRequestedSpecificVersion = isNumber(version);
+      if (!hasRequestedSpecificVersion) {
+        return;
+      }
+
+      const { newVersion, oldVersion } = event;
+      if (onUpgradeNeeded) {
+        const { transaction } = event.target;
+        onUpgradeNeeded({ oldVersion, transaction });
+        return;
+      }
+
+      reject(new Error('Database upgrade required:' +
+        ` oldVersion: ${oldVersion}, newVersion: ${newVersion}`));
+    };
 
     request.onerror = event =>
       reject(event.target.error);

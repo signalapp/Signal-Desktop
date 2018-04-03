@@ -1,7 +1,4 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-mocha.setup("bdd");
+mocha.setup('bdd');
 window.assert = chai.assert;
 window.PROTO_ROOT = '../protos';
 
@@ -69,18 +66,19 @@ before(function(done) {
   idbReq.onsuccess = function() { done(); };
 });
 
-function clearDatabase(done) {
-    var convos = new Whisper.ConversationCollection();
-    return convos.fetch().then(function() {
-        convos.destroyAll().then(function() {
-            var messages = new Whisper.MessageCollection();
-            return messages.fetch().then(function() {
-                messages.destroyAll().then(function() {
-                    if (done) {
-                      done();
-                    }
-                });
-            });
-        });
-    });
+async function clearDatabase(done) {
+  await Signal.Migrations.Migrations0DatabaseWithAttachmentData.run({
+    Backbone,
+    databaseName: Whisper.Database.id,
+  });
+
+  const convos = new Whisper.ConversationCollection();
+  await convos.fetch();
+  await convos.destroyAll();
+  const messages = new Whisper.MessageCollection();
+  await messages.fetch();
+  await messages.destroyAll();
+  if (done) {
+    done();
+  };
 }

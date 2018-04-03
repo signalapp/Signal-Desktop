@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const { Migrations0DatabaseWithAttachmentData } = window.Signal.Migrations;
+  const { getPlaceholderMigrations } = window.Signal.Migrations;
 
   window.Whisper = window.Whisper || {};
   window.Whisper.Database = window.Whisper.Database || {};
@@ -123,5 +123,5 @@
       request.onsuccess = resolve;
     }));
 
-  Whisper.Database.migrations = Migrations0DatabaseWithAttachmentData.migrations;
+  Whisper.Database.migrations = getPlaceholderMigrations();
 }());

@@ -1,8 +1,8 @@
 // Module to upgrade the schema of messages, e.g. migrate attachments to disk.
-// `processAll` purposely doesn’t rely on our Backbone IndexedDB adapter to
-// prevent automatic migrations. Rather, it uses direct IndexedDB access.
-// This includes avoiding usage of `storage` module which uses Backbone under
-// the hood.
+// `dangerouslyProcessAllWithoutIndex` purposely doesn’t rely on our Backbone
+// IndexedDB adapter to prevent automatic migrations. Rather, it uses direct
+// IndexedDB access. This includes avoiding usage of `storage` module which uses
+// Backbone under the hood.
 
 /* global IDBKeyRange */
 
@@ -21,12 +21,11 @@ const { deferredToPromise } = require('./deferred_to_promise');
 
 
 const MESSAGES_STORE_NAME = 'messages';
-const NUM_MESSAGES_PER_BATCH = 1;
 
 exports.processNext = async ({
   BackboneMessage,
   BackboneMessageCollection,
-  count,
+  numMessagesPerBatch,
   upgradeMessageSchema,
 } = {}) => {
   if (!isFunction(BackboneMessage)) {
@@ -38,8 +37,8 @@ exports.processNext = async ({
       ' constructor is required');
   }
 
-  if (!isNumber(count)) {
-    throw new TypeError('"count" is required');
+  if (!isNumber(numMessagesPerBatch)) {
+    throw new TypeError('"numMessagesPerBatch" is required');
   }
 
   if (!isFunction(upgradeMessageSchema)) {
@@ -50,7 +49,10 @@ exports.processNext = async ({
 
   const fetchStartTime = Date.now();
   const messagesRequiringSchemaUpgrade =
-    await _fetchMessagesRequiringSchemaUpgrade({ BackboneMessageCollection, count });
+    await _fetchMessagesRequiringSchemaUpgrade({
+      BackboneMessageCollection,
+      count: numMessagesPerBatch,
+    });
   const fetchDuration = Date.now() - fetchStartTime;
 
   const upgradeStartTime = Date.now();
@@ -65,9 +67,9 @@ exports.processNext = async ({
 
   const totalDuration = Date.now() - startTime;
   const numProcessed = messagesRequiringSchemaUpgrade.length;
-  const hasMore = numProcessed > 0;
+  const done = numProcessed < numMessagesPerBatch;
   return {
-    hasMore,
+    done,
     numProcessed,
     fetchDuration,
     upgradeDuration,
@@ -76,9 +78,10 @@ exports.processNext = async ({
   };
 };
 
-exports.processAll = async ({
+exports.dangerouslyProcessAllWithoutIndex = async ({
   databaseName,
   minDatabaseVersion,
+  numMessagesPerBatch,
   upgradeMessageSchema,
 } = {}) => {
   if (!isString(databaseName)) {
@@ -87,6 +90,10 @@ exports.processAll = async ({
 
   if (!isNumber(minDatabaseVersion)) {
     throw new TypeError('"minDatabaseVersion" must be a number');
+  }
+
+  if (!isNumber(numMessagesPerBatch)) {
+    throw new TypeError('"numMessagesPerBatch" must be a number');
   }
 
   if (!isFunction(upgradeMessageSchema)) {
@@ -106,84 +113,30 @@ exports.processAll = async ({
       ` to be at least ${minDatabaseVersion}`);
   }
 
-  const isComplete = await settings.isAttachmentMigrationComplete(connection);
-  console.log('Attachment migration status:', isComplete ? 'complete' : 'incomplete');
-  if (isComplete) {
-    return;
-  }
-
-  let numTotalMessages = null;
-  // eslint-disable-next-line more/no-then
-  getNumMessages({ connection }).then((numMessages) => {
-    numTotalMessages = numMessages;
-  });
+  // NOTE: Even if we make this async using `then`, requesting `count` on an
+  // IndexedDB store blocks all subsequent transactions, so we might as well
+  // explicitly wait for it here:
+  const numTotalMessages = await _getNumMessages({ connection });
 
   const migrationStartTime = Date.now();
-  let unprocessedMessages = [];
-  let totalMessagesProcessed = 0;
-  do {
-    const lastProcessedIndex =
-      // eslint-disable-next-line no-await-in-loop
-      await settings.getAttachmentMigrationLastProcessedIndex(connection);
-
-    const fetchUnprocessedMessagesStartTime = Date.now();
-    unprocessedMessages =
-      // eslint-disable-next-line no-await-in-loop
-      await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex({
-        connection,
-        count: NUM_MESSAGES_PER_BATCH,
-        lastIndex: lastProcessedIndex,
-      });
-    const fetchDuration = Date.now() - fetchUnprocessedMessagesStartTime;
-    const numUnprocessedMessages = unprocessedMessages.length;
-
-    if (numUnprocessedMessages === 0) {
+  let numCumulativeMessagesProcessed = 0;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    // eslint-disable-next-line no-await-in-loop
+    const status = await _processBatch({
+      connection,
+      numMessagesPerBatch,
+      upgradeMessageSchema,
+    });
+    if (status.done) {
       break;
     }
-
-    const upgradeStartTime = Date.now();
-    const upgradedMessages =
-      // eslint-disable-next-line no-await-in-loop
-      await Promise.all(unprocessedMessages.map(upgradeMessageSchema));
-    const upgradeDuration = Date.now() - upgradeStartTime;
-
-    const saveMessagesStartTime = Date.now();
-    const transaction = connection.transaction(MESSAGES_STORE_NAME, 'readwrite');
-    const transactionCompletion = database.completeTransaction(transaction);
-    // eslint-disable-next-line no-await-in-loop
-    await Promise.all(upgradedMessages.map(_saveMessage({ transaction })));
-    // eslint-disable-next-line no-await-in-loop
-    await transactionCompletion;
-    const saveDuration = Date.now() - saveMessagesStartTime;
-
-    // TODO: Confirm transaction is complete
-
-    const lastMessage = last(upgradedMessages);
-    const newLastProcessedIndex = lastMessage ? lastMessage.id : null;
-    if (newLastProcessedIndex) {
-      // eslint-disable-next-line no-await-in-loop
-      await settings.setAttachmentMigrationLastProcessedIndex(
-        connection,
-        newLastProcessedIndex
-      );
-    }
-
-    totalMessagesProcessed += numUnprocessedMessages;
-    console.log('Upgrade message schema:', {
-      lastProcessedIndex,
-      numUnprocessedMessages,
-      numCumulativeMessagesProcessed: totalMessagesProcessed,
+    numCumulativeMessagesProcessed += status.numMessagesProcessed;
+    console.log('Upgrade message schema:', Object.assign({}, status, {
       numTotalMessages,
-      fetchDuration,
-      saveDuration,
-      upgradeDuration,
-      newLastProcessedIndex,
-      targetSchemaVersion: Message.CURRENT_SCHEMA_VERSION,
-    });
-  } while (unprocessedMessages.length > 0);
-
-  await settings.markAttachmentMigrationComplete(connection);
-  await settings.deleteAttachmentMigrationLastProcessedIndex(connection);
+      numCumulativeMessagesProcessed,
+    }));
+  }
 
   console.log('Close database connection');
   connection.close();
@@ -191,8 +144,126 @@ exports.processAll = async ({
   const totalDuration = Date.now() - migrationStartTime;
   console.log('Attachment migration complete:', {
     totalDuration,
-    totalMessagesProcessed,
+    totalMessagesProcessed: numCumulativeMessagesProcessed,
   });
+};
+
+exports.processNextBatchWithoutIndex = async ({
+  databaseName,
+  minDatabaseVersion,
+  numMessagesPerBatch,
+  upgradeMessageSchema,
+} = {}) => {
+  if (!isFunction(upgradeMessageSchema)) {
+    throw new TypeError('"upgradeMessageSchema" is required');
+  }
+
+  const connection = await _getConnection({ databaseName, minDatabaseVersion });
+  const batch = await _processBatch({
+    connection,
+    numMessagesPerBatch,
+    upgradeMessageSchema,
+  });
+  return batch;
+};
+
+// Private API
+const _getConnection = async ({ databaseName, minDatabaseVersion }) => {
+  if (!isString(databaseName)) {
+    throw new TypeError('"databaseName" must be a string');
+  }
+
+  if (!isNumber(minDatabaseVersion)) {
+    throw new TypeError('"minDatabaseVersion" must be a number');
+  }
+
+  const connection = await database.open(databaseName);
+  const databaseVersion = connection.version;
+  const isValidDatabaseVersion = databaseVersion >= minDatabaseVersion;
+  if (!isValidDatabaseVersion) {
+    throw new Error(`Expected database version (${databaseVersion})` +
+      ` to be at least ${minDatabaseVersion}`);
+  }
+
+  return connection;
+};
+
+const _processBatch = async ({
+  connection,
+  numMessagesPerBatch,
+  upgradeMessageSchema,
+} = {}) => {
+  if (!isObject(connection)) {
+    throw new TypeError('"connection" must be a string');
+  }
+
+  if (!isFunction(upgradeMessageSchema)) {
+    throw new TypeError('"upgradeMessageSchema" is required');
+  }
+
+  if (!isNumber(numMessagesPerBatch)) {
+    throw new TypeError('"numMessagesPerBatch" is required');
+  }
+
+  const isAttachmentMigrationComplete =
+    await settings.isAttachmentMigrationComplete(connection);
+  if (isAttachmentMigrationComplete) {
+    return {
+      done: true,
+    };
+  }
+
+  const lastProcessedIndex =
+    await settings.getAttachmentMigrationLastProcessedIndex(connection);
+
+  const fetchUnprocessedMessagesStartTime = Date.now();
+  const unprocessedMessages =
+    await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex({
+      connection,
+      count: numMessagesPerBatch,
+      lastIndex: lastProcessedIndex,
+    });
+  const fetchDuration = Date.now() - fetchUnprocessedMessagesStartTime;
+
+  const upgradeStartTime = Date.now();
+  const upgradedMessages =
+    await Promise.all(unprocessedMessages.map(upgradeMessageSchema));
+  const upgradeDuration = Date.now() - upgradeStartTime;
+
+  const saveMessagesStartTime = Date.now();
+  const transaction = connection.transaction(MESSAGES_STORE_NAME, 'readwrite');
+  const transactionCompletion = database.completeTransaction(transaction);
+  await Promise.all(upgradedMessages.map(_saveMessage({ transaction })));
+  await transactionCompletion;
+  const saveDuration = Date.now() - saveMessagesStartTime;
+
+  const numMessagesProcessed = upgradedMessages.length;
+  const done = numMessagesProcessed < numMessagesPerBatch;
+  const lastMessage = last(upgradedMessages);
+  const newLastProcessedIndex = lastMessage ? lastMessage.id : null;
+  if (!done) {
+    await settings.setAttachmentMigrationLastProcessedIndex(
+      connection,
+      newLastProcessedIndex
+    );
+  } else {
+    await settings.markAttachmentMigrationComplete(connection);
+    await settings.deleteAttachmentMigrationLastProcessedIndex(connection);
+  }
+
+  const batchTotalDuration = Date.now() - fetchUnprocessedMessagesStartTime;
+
+  return {
+    batchTotalDuration,
+    done,
+    fetchDuration,
+    lastProcessedIndex,
+    newLastProcessedIndex,
+    numMessagesProcessed,
+    saveDuration,
+    targetSchemaVersion: Message.CURRENT_SCHEMA_VERSION,
+    upgradeDuration,
+  };
 };
 
 const _saveMessageBackbone = ({ BackboneMessage } = {}) => (message) => {
@@ -264,19 +335,29 @@ const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex =
     const messagesStore = transaction.objectStore(MESSAGES_STORE_NAME);
 
     const excludeLowerBound = true;
-    const query = hasLastIndex
+    const range = hasLastIndex
       ? IDBKeyRange.lowerBound(lastIndex, excludeLowerBound)
       : undefined;
-    const request = messagesStore.getAll(query, count);
     return new Promise((resolve, reject) => {
-      request.onsuccess = event =>
-        resolve(event.target.result);
+      const items = [];
+      const request = messagesStore.openCursor(range);
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
+        const hasMoreData = Boolean(cursor);
+        if (!hasMoreData || items.length === count) {
+          resolve(items);
+          return;
+        }
+        const item = cursor.value;
+        items.push(item);
+        cursor.continue();
+      };
       request.onerror = event =>
         reject(event.target.error);
     });
   };
 
-const getNumMessages = async ({ connection } = {}) => {
+const _getNumMessages = async ({ connection } = {}) => {
   if (!isObject(connection)) {
     throw new TypeError('"connection" is required');
   }
