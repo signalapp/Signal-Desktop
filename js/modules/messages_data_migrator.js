@@ -21,11 +21,6 @@ const { deferredToPromise } = require('./deferred_to_promise');
 
 
 const MESSAGES_STORE_NAME = 'messages';
-
-// WARNING: Valus higher than `1` can cause ‘Maximum IPC message size exceeded’
-// error message on messages (attachments) that are too large:
-// - https://github.com/zincbase/zincdb/issues/17
-// - https://cs.chromium.org/chromium/src/content/browser/indexed_db/indexed_db_database.cc?l=1157&rcl=9431dd78cdccecea92415c25babad70c217d57a4
 const NUM_MESSAGES_PER_BATCH = 1;
 
 exports.processNext = async ({
@@ -316,13 +311,23 @@ const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex =
     const messagesStore = transaction.objectStore(MESSAGES_STORE_NAME);
 
     const excludeLowerBound = true;
-    const query = hasLastIndex
+    const range = hasLastIndex
       ? IDBKeyRange.lowerBound(lastIndex, excludeLowerBound)
       : undefined;
-    const request = messagesStore.getAll(query, count);
     return new Promise((resolve, reject) => {
-      request.onsuccess = event =>
-        resolve(event.target.result);
+      const items = [];
+      const request = messagesStore.openCursor(range);
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
+        const hasMoreData = Boolean(cursor);
+        if (!hasMoreData || items.length === count) {
+          resolve(items);
+          return;
+        }
+        const item = cursor.value;
+        items.push(item);
+        cursor.continue();
+      };
       request.onerror = event =>
         reject(event.target.error);
     });
