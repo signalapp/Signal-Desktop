@@ -70,7 +70,7 @@ exports.processNext = async ({
 
   const totalDuration = Date.now() - startTime;
   const numProcessed = messagesRequiringSchemaUpgrade.length;
-  const done = numProcessed > 0;
+  const done = numProcessed < count;
   return {
     done,
     numProcessed,
