@@ -1098,6 +1098,19 @@
                 event.preventDefault();
                 return this.$('.bottom-bar form').submit();
             }
+            if (keyCode === 13 && event.ctrlKey) {
+                // we add a new line character
+                var txt = this.$('.bottom-bar textarea').val();
+                var start = this.$('.bottom-bar textarea')[0].selectionStart;
+                var end = this.$('.bottom-bar textarea')[0].selectionEnd;
+                txt = txt.substring(0, start) + "\r" + txt.substring(end, txt.length);
+                this.$('.bottom-bar textarea').val(txt);
+                // we reposition the cursor, prevent event default and return
+                this.$('.bottom-bar textarea')[0].selectionStart = start + 1;
+                this.$('.bottom-bar textarea')[0].selectionEnd = start + 1;
+                event.preventDefault();
+                return;
+            }
             this.toggleMicrophone();
             this.toggleLengthWarning();
 
