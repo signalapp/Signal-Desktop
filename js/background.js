@@ -294,7 +294,7 @@
     }
 
     var connectCount = 0;
-    function connect(firstRun) {
+    async function connect(firstRun) {
         console.log('connect');
 
         // Bootstrap our online/offline detection, only the first time we connect
@@ -359,22 +359,18 @@
             }
         }
 
-        // If we've just upgraded to read receipt support on desktop, kick off a
-        // one-time configuration sync request to get the read-receipt setting
-        // from the master device.
-        var readReceiptConfigurationSync = 'read-receipt-configuration-sync';
-        if (!storage.get(readReceiptConfigurationSync)) {
+    /* eslint-enable */
+    const deviceId = textsecure.storage.user.getDeviceId();
+    const { sendRequestConfigurationSyncMessage } = textsecure.messaging;
+    const status = await Signal.Startup.syncReadReceiptConfiguration({
+      deviceId,
+      sendRequestConfigurationSyncMessage,
+      storage,
+    });
+    console.log('Sync read receipt configuration status:', status);
+    /* eslint-disable */
 
-            if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
-                textsecure.messaging.sendRequestConfigurationSyncMessage().then(function() {
-                    storage.put(readReceiptConfigurationSync, true);
-                }).catch(function(e) {
-                    console.log(e);
-                });
-            }
-        }
-
-        if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
+        if (firstRun === true && deviceId != '1') {
             if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
                 storage.put('theme-setting', 'ios');
             }
