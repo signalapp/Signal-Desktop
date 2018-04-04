@@ -19,21 +19,29 @@
       "message": "&Help",
       "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "mainMenuSettings": {
+      "message": "Preferences…",
+      "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
     "menuSetupWithImport": {
-      "message": "Set up with import",
+      "message": "Set Up with Import",
       "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-      "message": "Set up as new device",
+      "message": "Set Up as New Device",
       "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-      "message": "Set up as standalone device",
+      "message": "Set Up as Standalone Device",
       "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
       "message": "Loading...",
       "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "optimizingApplication": {
+      "message": "Optimizing application...",
+      "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "chooseDirectory": {
       "message": "Choose folder",
@@ -363,28 +371,28 @@
       }
     },
     "submitDebugLog": {
-      "message": "Submit debug log",
-      "description": "Menu item and header text for debug log modal, title case."
+      "message": "Debug log",
+      "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
       "message": "Debug Log",
-      "description": "View menu item to open the debug log, capitalized"
+      "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-      "message": "Go to release notes",
+      "message": "Go to Release Notes",
       "description": ""
     },
     "goToForums": {
-      "message": "Go to forums",
+      "message": "Go to Forums",
       "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-      "message": "Go to support page",
+      "message": "Go to Support Page",
       "description": "Item under the Help menu, takes you to the support page"
     },
-    "fileABug": {
-      "message": "File a bug",
-      "description": "Item under the Help menu, takes you to GitHub new issue form"
+    "menuReportIssue": {
+      "message": "Report an Issue",
+      "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "aboutSignalDesktop": {
       "message": "About Signal Desktop",
@@ -411,7 +419,7 @@
       "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
-      "message": "Search...",
+      "message": "Enter name or number",
       "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
@@ -563,6 +571,34 @@
         "message": "Theme",
         "description": "Header for theme settings"
     },
+    "clearDataHeader": {
+        "message": "Clear Data",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
+    },
+    "clearDataExplanation": {
+        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "description": "Text describing what the clear data button will do."
+    },
+    "clearDataButton": {
+        "message": "Clear data",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
+    "deleteAllDataHeader": {
+        "message": "Delete all data?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataBody": {
+        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
+    "deleteAllDataButton": {
+        "message": "Delete all data",
+        "description": "Text of the button that deletes all data"
+    },
+    "deleteAllDataProgress": {
+        "message": "Disconnecting and deleting all data",
+        "description": "Text of the button that deletes all data"
+    },
     "notifications": {
         "message": "Notifications",
         "description": "Header for notification settings"
@@ -594,10 +630,6 @@
     "newMessages": {
         "message": "New Messages",
         "description": "Displayed in notifications for multiple messages"
-    },
-    "restartSignal": {
-        "message": "Restart Signal",
-        "description": "Menu item for restarting the program."
     },
     "messageNotSent": {
         "message": "Message not sent.",
@@ -839,9 +871,9 @@
       "message": "Hide menu bar",
       "description": "Label text for menu bar visibility setting"
     },
-    "newContact": {
-      "message": "Click to create new contact",
-      "description": ""
+    "startConversation": {
+      "message": "Start conversation…",
+      "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
       "message": "Enter a phone number to add a contact.",

@@ -1,17 +1,19 @@
 describe('MessageView', function() {
   var convo, message;
 
-  before(function() {
-    convo = ConversationController.createTemporary({id: 'foo'});
+  before(async (done) => {
+    await clearDatabase();
+    convo = new Whisper.Conversation({id: 'foo'});
     message = convo.messageCollection.add({
       conversationId: convo.id,
       body: 'hello world',
       type: 'outgoing',
       source: '+14158675309',
-      received_at: Date.now()
+      received_at: Date.now(),
     });
 
-    return storage.put('number_id', '+18088888888.1');
+    await storage.put('number_id', '+18088888888.1');
+    done();
   });
 
   it('should display the message text', function() {

@@ -10,5 +10,5 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[{js/modules/**/*.js, test/modules/**/*.js}]
+[{js/modules/**/*.js, test/app/**/*.js, test/modules/**/*.js}]
 indent_size = 2

@@ -16,16 +16,19 @@ const {
 
 const packageJson = require('./package.json');
 
-const createTrayIcon = require('./app/tray_icon');
-const createTemplate = require('./app/menu.js');
-const logging = require('./app/logging');
+const Attachments = require('./app/attachments');
 const autoUpdate = require('./app/auto_update');
+const createTrayIcon = require('./app/tray_icon');
+const GlobalErrors = require('./js/modules/global_errors');
+const logging = require('./app/logging');
 const windowState = require('./app/window_state');
+const { createTemplate } = require('./app/menu');
 
+GlobalErrors.addHandler();
 
-const aumid = `org.whispersystems.${packageJson.name}`;
-console.log(`setting AUMID to ${aumid}`);
-app.setAppUserModelId(aumid);
+const appUserModelId = `org.whispersystems.${packageJson.name}`;
+console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
+app.setAppUserModelId(appUserModelId);
 
 // Keep a global reference of the window object, if you don't, the window will
 //   be closed automatically when the JavaScript object is garbage collected.
@@ -325,6 +328,14 @@ function showDebugLog() {
   }
 }
 
+function showSettings() {
+  if (!mainWindow) {
+    return;
+  }
+
+  mainWindow.webContents.send('show-settings');
+}
+
 function openReleaseNotes() {
   shell.openExternal(`https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`);
 }
@@ -407,7 +418,8 @@ app.on('ready', () => {
   let loggingSetupError;
   logging.initialize().catch((error) => {
     loggingSetupError = error;
-  }).then(() => {
+  }).then(async () => {
+  /* eslint-enable more/no-then */
     logger = logging.getLogger();
     logger.info('app ready');
 
@@ -416,8 +428,13 @@ app.on('ready', () => {
     }
 
     if (!locale) {
-      locale = loadLocale();
+      const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+      locale = loadLocale({ appLocale, logger });
     }
+
+    console.log('Ensure attachments directory exists');
+    const userDataPath = app.getPath('userData');
+    await Attachments.ensureDirectory(userDataPath);
 
     ready = true;
 
@@ -431,10 +448,10 @@ app.on('ready', () => {
 
     setupMenu();
   });
-  /* eslint-enable more/no-then */
 });
 
 function setupMenu(options) {
+  const { platform } = process;
   const menuOptions = Object.assign({}, options, {
     development,
     showDebugLog,
@@ -444,9 +461,11 @@ function setupMenu(options) {
     openNewBugForm,
     openSupportPage,
     openForums,
+    platform,
     setupWithImport,
     setupAsNewDevice,
     setupAsStandalone,
+    showSettings,
   });
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);
@@ -483,6 +502,13 @@ app.on('activate', () => {
   }
 });
 
+// Defense in depth. We never intend to open webviews, so this prevents it completely.
+app.on('web-contents-created', (createEvent, win) => {
+  win.on('will-attach-webview', (attachEvent) => {
+    attachEvent.preventDefault();
+  });
+});
+
 ipc.on('set-badge-count', (event, count) => {
   app.setBadgeCount(count);
 });
@@ -503,9 +529,6 @@ ipc.on('draw-attention', () => {
     app.dock.bounce();
   } else if (process.platform === 'win32') {
     mainWindow.flashFrame(true);
-    setTimeout(() => {
-      mainWindow.flashFrame(false);
-    }, 1000);
   } else if (process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }

@@ -15,6 +15,9 @@
             this.on('change:timestamp change:name change:number', this.sort);
 
             this.listenTo(conversations, 'add change:active_at', this.addActive);
+            this.listenTo(conversations, 'reset', function() {
+                this.reset([]);
+            });
 
             this.on('add remove change:unreadCount',
                 _.debounce(this.updateUnreadCount.bind(this), 1000)
@@ -92,10 +95,18 @@
         getUnsafe: function(id) {
             return conversations.get(id);
         },
-        createTemporary: function(attributes) {
+        dangerouslyCreateAndAdd: function(attributes) {
             return conversations.add(attributes);
         },
         getOrCreate: function(id, type) {
+            if (typeof id !== 'string') {
+                throw new TypeError('"id" must be a string');
+            }
+
+            if (type !== 'private' && type !== 'group') {
+                throw new TypeError('"type" must be "private" or "group"; got: ' + type);
+            }
+
             if (!this._initialFetchComplete) {
                 throw new Error('ConversationController.get() needs complete initial fetch');
             }
@@ -161,14 +172,11 @@
             return this._initialPromise;
         },
         reset: function() {
-            this._initialPromise = null;
+            this._initialPromise = Promise.resolve();
             conversations.reset([]);
         },
         load: function() {
             console.log('ConversationController: starting initial fetch');
-            if (this._initialPromise) {
-                throw new Error('ConversationController.load() has already been called!');
-            }
 
             this._initialPromise = new Promise(function(resolve, reject) {
                 conversations.fetch().then(function() {

@@ -1,16 +1,22 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
+/* eslint-disable */
+
 (function () {
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    const { Attachment, Message: TypedMessage } = window.Signal.Types;
+    const { deleteAttachmentData } = window.Signal.Migrations;
+
     var Message  = window.Whisper.Message = Backbone.Model.extend({
         database  : Whisper.Database,
         storeName : 'messages',
-        initialize: function() {
+        initialize: function(attributes) {
+            if (_.isObject(attributes)) {
+                this.set(TypedMessage.initializeSchemaVersion(attributes));
+            }
+
             this.on('change:attachments', this.updateImageUrl);
-            this.on('destroy', this.revokeImageUrl);
+            this.on('destroy', this.onDestroy);
             this.on('change:expirationStartTimestamp', this.setToExpire);
             this.on('change:expireTimer', this.setToExpire);
             this.on('unload', this.revokeImageUrl);
@@ -136,6 +142,16 @@
 
             return '';
         },
+        /* eslint-enable */
+        /* jshint ignore:start */
+        async onDestroy() {
+          this.revokeImageUrl();
+          const attachments = this.get('attachments');
+          await Promise.all(attachments.map(deleteAttachmentData));
+          return;
+        },
+        /* jshint ignore:end */
+        /* eslint-disable */
         updateImageUrl: function() {
             this.revokeImageUrl();
             var attachment = this.get('attachments')[0];
@@ -427,6 +443,7 @@
                         }
                     }
                     message.set({
+                        schemaVersion  : dataMessage.schemaVersion,
                         body           : dataMessage.body,
                         conversationId : conversation.id,
                         attachments    : dataMessage.attachments,

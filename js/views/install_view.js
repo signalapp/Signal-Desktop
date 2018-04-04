@@ -23,7 +23,8 @@
         className: 'main full-screen-flow',
         events: {
             'click .try-again': 'connect',
-            // handler for finish button is in confirmNumber()
+            'click .finish': 'finishLinking',
+            // the actual next step happens in confirmNumber() on submit form #link-phone
         },
         initialize: function(options) {
             options = options || {};
@@ -143,13 +144,19 @@
             this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.config.hostname);
             this.$(DEVICE_NAME_SELECTOR).focus();
         },
+        finishLinking: function() {
+            // We use a form so we get submit-on-enter behavior
+            this.$('#link-phone').submit();
+        },
         confirmNumber: function(number) {
+            var tsp = textsecure.storage.protocol;
+
             window.removeSetupMenuItems();
             this.selectStep(Steps.ENTER_NAME);
             this.setDeviceNameDefault();
 
             return new Promise(function(resolve, reject) {
-                this.$('.finish').click(function(e) {
+                this.$('#link-phone').submit(function(e) {
                     e.stopPropagation();
                     e.preventDefault();
 
@@ -175,7 +182,7 @@
                         return finish();
                     }
 
-                    Whisper.Backup.clearDatabase().then(finish, function(error) {
+                    tsp.removeAllData().then(finish, function(error) {
                         console.log(
                           'confirmNumber: error clearing database',
                           error && error.stack ? error.stack : error

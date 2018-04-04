@@ -69,17 +69,6 @@
     <div class='gutter'>
         <div class='network-status-container'></div>
         <div class='title-bar active' id='header'>
-          <div class='header-buttons right'>
-            <div class='vertical-align'>
-              <div class='global-menu menu'>
-                <button class='hamburger' alt='signal menu'></button>
-                <ul class='menu-list'>
-                    <li class='showSettings'>{{ settings }}</li>
-                    <li class='restart-signal'>{{ restartSignal }}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
           <h1>Signal</h1>
           <div class='tool-bar clearfix'>
             <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}' dir='auto'>
@@ -96,10 +85,12 @@
     <div class='conversation-stack'>
       <div class='conversation placeholder'>
         <div class='conversation-header'></div>
-        <div class='content'>
-          <img src='images/icon_128.png' />
-          <h3>{{ welcomeToSignal }}</h3>
-          <p>{{ selectAContact }}</p>
+        <div class='container'>
+          <div class='content'>
+            <img src='images/icon_128.png' />
+            <h3>{{ welcomeToSignal }}</h3>
+            <p>{{ selectAContact }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -117,7 +108,7 @@
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='expired_alert'>
-    <a target='_blank' href='https://chrome.google.com/webstore/detail/bikioccmkafdpakkkcpdbppfkghcmihk'>
+    <a target='_blank' href='https://signal.org/download/'>
       <button class='upgrade'>{{ upgrade }}</button>
     </a>
     {{ expiredWarning }}
@@ -617,13 +608,26 @@
         </div>
       </div>
       <br />
+      {{ #isAudioNotificationSupported }}
       <div class='audio-notification-setting'>
         <input type='checkbox' name='audio-notification' id='audio-notification'/>
         <label for='audio-notification'>{{ audioNotificationDescription }}</label>
       </div>
+<<<<<<< HEAD
       <div class='dockflash-notification-setting'>
         <input type='checkbox' name='dockflash-notification' id='dockflash-notification' />
         <label for='dockflash-notification'>{{ dockflashNotificationDescription }}</label>
+=======
+      {{ /isAudioNotificationSupported }}
+      <div class='sync-setting'></div>
+      <hr>
+      <div class='clear-data-settings'>
+        <h3>{{ clearDataHeader }}</h3>
+        <div>
+          <button class='grey destructive clear-data'>{{ clearDataButton }}</button>
+          <p>{{ clearDataExplanation }}</p>
+        </div>
+>>>>>>> upstream/development
       </div>
     </div>
   </script>
@@ -640,6 +644,40 @@
           <div class='sync_failed'>{{ syncFailed }}</div>
         </p>
       </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='clear-data'>
+    {{#isStep1}}
+    <div class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline-red'></span>
+          <div class='header'>{{ header }}</div>
+          <div class='body-text-wide'>{{ body }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button neutral cancel'>{{ cancelButton }}</a>
+            <a class='button destructive delete-all-data'>{{ deleteButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep1}}
+    {{#isStep2}}
+    <div id='step3' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon delete'></span>
+          <div class='header'>{{ deleting }}</div>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep2}}
   </script>
 
   <script type='text/x-tmpl-mustache' id='networkStatus'>
@@ -774,22 +812,25 @@
     </div>
     {{/isStep3}}
     {{#isStep4}}
-    <div id='step4' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon lead-pencil'></span>
-          <div class='header'>{{ chooseName }}</div>
-          <div>
-            <input type='text' class='device-name' spellcheck='false' maxlength='50' />
+    <form id='link-phone'>
+      <div id='step4' class='step'>
+        <div class='inner'>
+          <div class='step-body'>
+            <span class='banner-icon lead-pencil'></span>
+            <div class='header'>{{ chooseName }}</div>
+            <div>
+              <input type='text' class='device-name' spellcheck='false' maxlength='50' />
+            </div>
           </div>
-        </div>
-        <div class='nav'>
-          <div>
-            <a class='button finish'>{{ finishLinkingPhoneButton }}</a>
-          </div>
+
+            <div class='nav'>
+              <div>
+                <a class='button finish'>{{ finishLinkingPhoneButton }}</a>
+              </div>
+            </div>
         </div>
       </div>
-    </div>
+    </form>
     {{/isStep4}}
     {{#isStep5}}
     <div id='step5' class='step'>
@@ -916,7 +957,6 @@
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
   <script type='text/javascript' src='js/keychange_listener.js'></script>
-  <script type='text/javascript' src='js/background.js'></script>
 </head>
 <body>
   <div class='app-loading-screen'>
@@ -927,8 +967,10 @@
         <span class='dot'></span>
         <span class='dot'></span>
       </div>
-      <div class='message'>Loading...</div>
+      <div class='message'></div>
     </div>
   </div>
+
+  <script type='text/javascript' src='js/background.js'></script>
 </body>
 </html>

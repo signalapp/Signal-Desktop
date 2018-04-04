@@ -97,14 +97,20 @@ module.exports = function(grunt) {
       files: [
         'Gruntfile.js',
         'js/**/*.js',
+        '!js/background.js',
         '!js/jquery.js',
         '!js/libtextsecure.js',
         '!js/WebAudioRecorderMp3.js',
         '!js/Mp3LameEncoder.min.js',
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
+        '!js/logging.js',
+        '!js/backup.js',
         '!js/modules/**/*.js',
+        '!js/views/conversation_search_view.js',
+        '!js/views/debug_log_view.js',
         '!js/signal_protocol_store.js',
+        '!js/database.js',
         '_locales/**/*'
       ],
       options: { jshintrc: '.jshintrc' },
@@ -121,7 +127,6 @@ module.exports = function(grunt) {
         '!js/register.js'
       ],
       res: [
-        'audio/**',
         'images/**/*',
         'fonts/*',
       ]

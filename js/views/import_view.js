@@ -35,7 +35,7 @@
       return storage.put(IMPORT_LOCATION, location);
     },
     reset: function() {
-      return Whisper.Backup.clearDatabase();
+      return Whisper.Database.clear();
     }
   };
 
@@ -102,7 +102,7 @@
       this.trigger('cancel');
     },
     onImport: function() {
-      Whisper.Backup.getDirectoryForImport().then(function(directory) {
+      window.Signal.Backup.getDirectoryForImport().then(function(directory) {
         this.doImport(directory);
       }.bind(this), function(error) {
         if (error.name !== 'ChooseError') {
@@ -129,11 +129,11 @@
       // Wait for prior database interaction to complete
       this.pending = this.pending.then(function() {
         // For resilience to interruption, clear database both before and on failure
-        return Whisper.Backup.clearDatabase();
+        return Whisper.Import.reset();
       }).then(function() {
         return Promise.all([
           Whisper.Import.start(),
-          Whisper.Backup.importFromDirectory(directory)
+          window.Signal.Backup.importFromDirectory(directory)
         ]);
       }).then(function(results) {
         var importResult = results[1];
@@ -153,7 +153,7 @@
         this.state = null;
         this.render();
 
-        return Whisper.Backup.clearDatabase();
+        return Whisper.Import.reset();
       }.bind(this));
     },
     finishLightImport: function(directory) {

@@ -43,7 +43,10 @@
         var time = storage.get('nextSignedKeyRotationTime', now);
 
         if (scheduledTime !== time || !timeout) {
-            console.log('Next signed key rotation scheduled for', new Date(time));
+            console.log(
+                'Next signed key rotation scheduled for',
+                new Date(time).toISOString()
+            );
         }
 
         scheduledTime = time;
