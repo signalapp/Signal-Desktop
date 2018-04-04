@@ -455,7 +455,7 @@ function _getAnonymousAttachmentFileName(message, index) {
 
 async function readAttachment(dir, attachment, name, options) {
   options = options || {};
-  const { key, encrypted } = options;
+  const { key } = options;
 
   const anonymousName = _sanitizeFileName(name);
   const targetPath = path.join(dir, anonymousName);
@@ -467,7 +467,8 @@ async function readAttachment(dir, attachment, name, options) {
 
   const data = await readFileAsArrayBuffer(targetPath);
 
-  if (encrypted && key) {
+  const isEncrypted = !_.isUndefined(key);
+  if (isEncrypted) {
     attachment.data = await crypto.decryptSymmetric(key, data);
   } else {
     attachment.data = data;
@@ -1208,9 +1209,7 @@ async function importFromDirectory(directory, options) {
           attachmentsDir,
         });
         const result = await importNonMessages(db, stagingDir, options);
-        await importConversations(db, stagingDir, Object.assign({}, options, {
-          encrypted: true,
-        }));
+        await importConversations(db, stagingDir, Object.assign({}, options));
 
         console.log('Done importing from backup!');
         return result;
