@@ -115,11 +115,8 @@
               noNameOrMessage: i18n('noNameOrMessage'),
               nameOnly: i18n('nameOnly'),
               audioNotificationDescription: i18n('audioNotificationDescription'),
-<<<<<<< HEAD
               dockflashNotificationDescription: i18n('dockflashNotificationDescription'),
-=======
               isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
->>>>>>> upstream/development
               themeAndroidDark: i18n('themeAndroidDark'),
               hideMenuBar: i18n('hideMenuBar'),
               clearDataHeader: i18n('clearDataHeader'),
