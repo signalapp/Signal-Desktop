@@ -1,3 +1,4 @@
+/* global Signal: false */
 /* global Whisper: false */
 /* global dcodeIO: false */
 /* global _: false */
@@ -810,10 +811,16 @@ function saveMessage(db, message) {
   return saveAllMessages(db, [message]);
 }
 
-function saveAllMessages(db, messages) {
-  if (!messages.length) {
+async function saveAllMessages(db, rawMessages) {
+  if (rawMessages.length === 0) {
     return Promise.resolve();
   }
+
+  const { importMessage, upgradeMessageSchema } = Signal.Migrations;
+  const importAndUpgrade = async message =>
+    upgradeMessageSchema(await importMessage(message));
+
+  const messages = await Promise.all(rawMessages.map(importAndUpgrade));
 
   return new Promise((resolve, reject) => {
     let finished = false;
@@ -931,9 +938,7 @@ async function importConversation(db, dir, options) {
     return true;
   });
 
-  if (messages.length > 0) {
-    await saveAllMessages(db, messages);
-  }
+  await saveAllMessages(db, messages);
 
   await promiseChain;
   console.log(
