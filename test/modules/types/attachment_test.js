@@ -120,14 +120,14 @@ describe('Attachment', () => {
       };
 
       const expectedAttachmentData = stringToArrayBuffer('Above us only sky');
-      const writeAttachmentData = async (attachmentData) => {
+      const writeNewAttachmentData = async (attachmentData) => {
         assert.deepEqual(attachmentData, expectedAttachmentData);
         return 'abc/abcdefgh123456789';
       };
 
       const actual = await Attachment.migrateDataToFileSystem(
         input,
-        { writeAttachmentData }
+        { writeNewAttachmentData }
       );
       assert.deepEqual(actual, expected);
     });
@@ -145,12 +145,12 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const writeAttachmentData = async () =>
+      const writeNewAttachmentData = async () =>
         'abc/abcdefgh123456789';
 
       const actual = await Attachment.migrateDataToFileSystem(
         input,
-        { writeAttachmentData }
+        { writeNewAttachmentData }
       );
       assert.deepEqual(actual, expected);
     });
@@ -163,11 +163,11 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const writeAttachmentData = async () =>
+      const writeNewAttachmentData = async () =>
         'abc/abcdefgh123456789';
 
       try {
-        await Attachment.migrateDataToFileSystem(input, { writeAttachmentData });
+        await Attachment.migrateDataToFileSystem(input, { writeNewAttachmentData });
       } catch (error) {
         assert.strictEqual(
           error.message,

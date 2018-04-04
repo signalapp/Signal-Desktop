@@ -7,15 +7,15 @@ const {
 
 
 // type Context :: {
-//   writeAttachmentData :: ArrayBuffer -> Promise (IO Path)
+//   writeNewAttachmentData :: ArrayBuffer -> Promise (IO Path)
 // }
 //
 //      migrateDataToFileSystem :: Attachment ->
 //                                 Context ->
 //                                 Promise Attachment
-exports.migrateDataToFileSystem = async (attachment, { writeAttachmentData } = {}) => {
-  if (!isFunction(writeAttachmentData)) {
-    throw new TypeError('"writeAttachmentData" must be a function');
+exports.migrateDataToFileSystem = async (attachment, { writeNewAttachmentData } = {}) => {
+  if (!isFunction(writeNewAttachmentData)) {
+    throw new TypeError('"writeNewAttachmentData" must be a function');
   }
 
   const { data } = attachment;
@@ -32,7 +32,7 @@ exports.migrateDataToFileSystem = async (attachment, { writeAttachmentData } = {
       ` got: ${typeof attachment.data}`);
   }
 
-  const path = await writeAttachmentData(data);
+  const path = await writeNewAttachmentData(data);
 
   const attachmentWithoutData = omit(
     Object.assign({}, attachment, { path }),

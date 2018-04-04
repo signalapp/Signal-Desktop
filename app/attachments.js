@@ -43,10 +43,10 @@ exports.createReader = (root) => {
   };
 };
 
-//      createWriter :: AttachmentsPath ->
-//                      ArrayBuffer ->
-//                      IO (Promise RelativePath)
-exports.createWriter = (root) => {
+//      createWriterForNew :: AttachmentsPath ->
+//                            ArrayBuffer ->
+//                            IO (Promise RelativePath)
+exports.createWriterForNew = (root) => {
   if (!isString(root)) {
     throw new TypeError('"root" must be a path');
   }

@@ -85,7 +85,7 @@ describe('Message', () => {
 
       const expectedAttachmentData = stringToArrayBuffer('It’s easy if you try');
       const context = {
-        writeAttachmentData: async (attachmentData) => {
+        writeNewAttachmentData: async (attachmentData) => {
           assert.deepEqual(attachmentData, expectedAttachmentData);
           return 'abc/abcdefg';
         },
