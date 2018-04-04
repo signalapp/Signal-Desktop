@@ -30,7 +30,7 @@ const {
 
 module.exports = {
   getDirectoryForExport,
-  backupToDirectory,
+  exportToDirectory,
   getDirectoryForImport,
   importFromDirectory,
   // for testing
@@ -1105,7 +1105,7 @@ function deleteAll(pattern) {
   return pify(rimraf)(pattern);
 }
 
-async function backupToDirectory(directory, options) {
+async function exportToDirectory(directory, options) {
   options = options || {};
 
   if (!options.key) {
