@@ -143,6 +143,7 @@ window.Signal.Migrations.getPlaceholderMigrations = getPlaceholderMigrations;
 window.Signal.Migrations.importMessage =
   Message.createImporter(writeExistingAttachmentData);
 window.Signal.Migrations.loadAttachmentData = loadAttachmentData;
+window.Signal.Migrations.loadMessage = Message.createAttachmentLoader(loadAttachmentData);
 window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =
   require('./js/modules/migrations/migrations_0_database_with_attachment_data');
 window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =

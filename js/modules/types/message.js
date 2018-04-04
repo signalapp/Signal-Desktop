@@ -177,6 +177,16 @@ exports.upgradeSchema = async (message, { writeNewAttachmentData } = {}) => {
   );
 };
 
+exports.createAttachmentLoader = (loadAttachmentData) => {
+  if (!isFunction(loadAttachmentData)) {
+    throw new TypeError('`loadAttachmentData` is required');
+  }
+
+  return async message => (Object.assign({}, message, {
+    attachments: await Promise.all(message.attachments.map(loadAttachmentData)),
+  }));
+};
+
 //      createImporter :: (RelativePath -> IO Unit)
 //                        Message ->
 //                        IO (Promise Message)
