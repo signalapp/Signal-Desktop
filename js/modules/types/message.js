@@ -195,10 +195,12 @@ exports.createImporter = (writeExistingAttachmentData) => {
     throw new TypeError('"writeExistingAttachmentData" must be a function');
   }
 
-  return async (message) => {
-    if (!exports.isValid(message)) {
-      throw new TypeError('"message" is not valid');
+  return async (rawMessage) => {
+    if (!exports.isValid(rawMessage)) {
+      throw new TypeError('"rawMessage" is not valid');
     }
+
+    const message = exports.initializeSchemaVersion(rawMessage);
 
     const { attachments } = message;
     const hasAttachments = attachments && attachments.length > 0;
