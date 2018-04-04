@@ -221,7 +221,7 @@ exports.createImporter = (writeExistingAttachmentData) => {
       }
 
       if (!isString(attachment.path)) {
-        throw new TypeError('"attachment.path" is required');
+        throw new TypeError('"attachment.path" is required during message import');
       }
     });
 
