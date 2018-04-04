@@ -146,6 +146,7 @@ window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =
 window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
 window.Signal.OS = require('./js/modules/os');
 window.Signal.Settings = require('./js/modules/settings');
+window.Signal.Startup = require('./js/modules/startup');
 
 window.Signal.Types = {};
 window.Signal.Types.Attachment = Attachment;
