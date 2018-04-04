@@ -116,6 +116,8 @@ const readAttachmentData = Attachments.createReader(attachmentsPath);
 const writeNewAttachmentData = Attachments.createWriterForNew(attachmentsPath);
 const writeExistingAttachmentData = Attachments.createWriterForExisting(attachmentsPath);
 
+const loadAttachmentData = Attachment.loadData(readAttachmentData);
+
 // Injected context functions to keep `Message` agnostic from Electron:
 const upgradeSchemaContext = {
   writeNewAttachmentData,
@@ -140,7 +142,7 @@ window.Signal.Migrations.deleteAttachmentData =
 window.Signal.Migrations.getPlaceholderMigrations = getPlaceholderMigrations;
 window.Signal.Migrations.importMessage =
   Message.createImporter(writeExistingAttachmentData);
-window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
+window.Signal.Migrations.loadAttachmentData = loadAttachmentData;
 window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =
   require('./js/modules/migrations/migrations_0_database_with_attachment_data');
 window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =

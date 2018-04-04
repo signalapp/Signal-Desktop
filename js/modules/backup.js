@@ -506,9 +506,11 @@ async function writeAttachment(attachment, options) {
   await stream.close();
 }
 
-async function writeAttachments(attachments, options) {
+async function writeAttachments(rawAttachments, options) {
   const { name } = options;
 
+  const { loadAttachmentData } = Signal.Migrations;
+  const attachments = await Promise.all(rawAttachments.map(loadAttachmentData));
   const promises = _.map(
     attachments,
     (attachment, index) => writeAttachment(attachment, Object.assign({}, options, {
@@ -626,7 +628,7 @@ async function exportConversation(db, conversation, options) {
         const jsonString = JSON.stringify(stringify(message));
         stream.write(jsonString);
 
-        if (attachments && attachments.length) {
+        if (attachments && attachments.length > 0) {
           const exportAttachments = () => writeAttachments(attachments, {
             dir: attachmentsDir,
             name,
