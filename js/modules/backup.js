@@ -20,6 +20,7 @@ const archiver = require('archiver');
 const rimraf = require('rimraf');
 const electronRemote = require('electron').remote;
 
+const Attachment = require('./types/attachment');
 const crypto = require('./crypto');
 
 
@@ -491,6 +492,10 @@ async function writeAttachment(attachment, options) {
       console.log(`Skipping attachment ${filename}; already exists`);
       return;
     }
+  }
+
+  if (!Attachment.hasData(attachment)) {
+    throw new TypeError('"attachment.data" is required');
   }
 
   const encrypted = await crypto.encryptSymmetric(key, attachment.data);
