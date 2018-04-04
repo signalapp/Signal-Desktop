@@ -209,9 +209,9 @@ exports.createAttachmentDataWriter = (writeExistingAttachmentData) => {
     }
 
     const lastVersionWithAttachmentDataInMemory = 2;
-    const willHaveAttachmentsSavedOnFileSystemDuringUpgrade =
+    const willAttachmentsGoToFileSystemOnUpgrade =
       message.schemaVersion <= lastVersionWithAttachmentDataInMemory;
-    if (willHaveAttachmentsSavedOnFileSystemDuringUpgrade) {
+    if (willAttachmentsGoToFileSystemOnUpgrade) {
       return message;
     }
 
