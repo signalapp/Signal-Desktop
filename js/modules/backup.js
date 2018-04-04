@@ -499,11 +499,11 @@ async function writeAttachment(attachment, options) {
     throw new TypeError('"attachment.data" is required');
   }
 
-  const encrypted = await crypto.encryptSymmetric(key, attachment.data);
+  const ciphertext = await crypto.encryptSymmetric(key, attachment.data);
 
   const writer = await createFileAndWriter(dir, filename);
   const stream = createOutputStream(writer);
-  stream.write(Buffer.from(encrypted));
+  stream.write(Buffer.from(ciphertext));
   await stream.close();
 }
 
@@ -1092,8 +1092,8 @@ async function encryptFile(sourcePath, targetPath, options) {
   }
 
   const plaintext = await readFileAsArrayBuffer(sourcePath);
-  const encrypted = await crypto.encryptSymmetric(key, plaintext);
-  return writeFile(targetPath, encrypted);
+  const ciphertext = await crypto.encryptSymmetric(key, plaintext);
+  return writeFile(targetPath, ciphertext);
 }
 
 async function decryptFile(sourcePath, targetPath, options) {
@@ -1104,8 +1104,8 @@ async function decryptFile(sourcePath, targetPath, options) {
     throw new Error('Need key to do encryption!');
   }
 
-  const encrypted = await readFileAsArrayBuffer(sourcePath);
-  const plaintext = await crypto.decryptSymmetric(key, encrypted);
+  const ciphertext = await readFileAsArrayBuffer(sourcePath);
+  const plaintext = await crypto.decryptSymmetric(key, ciphertext);
   return writeFile(targetPath, Buffer.from(plaintext));
 }
 
