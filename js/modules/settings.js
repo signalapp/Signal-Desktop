@@ -6,6 +6,8 @@ const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
 const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
 
 // Public API
+exports.READ_RECEIPT_CONFIGURATION_SYNC = 'read-receipt-configuration-sync';
+
 exports.getAttachmentMigrationLastProcessedIndex = connection =>
   exports._getItem(connection, LAST_PROCESSED_INDEX_KEY);
 
