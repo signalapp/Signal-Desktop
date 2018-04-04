@@ -1,5 +1,7 @@
 /* eslint-env node */
 
+'use strict';
+
 exports.setup = (locale, messages) => {
   if (!locale) {
     throw new Error('i18n: locale parameter is required');
