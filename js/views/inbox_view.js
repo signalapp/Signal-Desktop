@@ -28,8 +28,8 @@
           $el = view.$el;
         }
         $el.prependTo(this.el);
-        conversation.trigger('opened');
       }
+      conversation.trigger('opened');
     },
   });
 
