@@ -187,10 +187,10 @@ exports.createAttachmentLoader = (loadAttachmentData) => {
   }));
 };
 
-//      createImporter :: (RelativePath -> IO Unit)
-//                        Message ->
-//                        IO (Promise Message)
-exports.createImporter = (writeExistingAttachmentData) => {
+//      createAttachmentDataWriter :: (RelativePath -> IO Unit)
+//                                    Message ->
+//                                    IO (Promise Message)
+exports.createAttachmentDataWriter = (writeExistingAttachmentData) => {
   if (!isFunction(writeExistingAttachmentData)) {
     throw new TypeError('"writeExistingAttachmentData" must be a function');
   }

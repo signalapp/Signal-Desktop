@@ -5,7 +5,7 @@ const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buf
 
 
 describe('Message', () => {
-  describe('createImporter', () => {
+  describe('createAttachmentDataWriter', () => {
     it('should ignore messages that didn’t go through attachment migration', async () => {
       const input = {
         body: 'Imagine there is no heaven…',
@@ -17,7 +17,8 @@ describe('Message', () => {
       };
       const writeExistingAttachmentData = () => {};
 
-      const actual = await Message.createImporter(writeExistingAttachmentData)(input);
+      const actual =
+        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -34,7 +35,8 @@ describe('Message', () => {
       };
       const writeExistingAttachmentData = () => {};
 
-      const actual = await Message.createImporter(writeExistingAttachmentData)(input);
+      const actual =
+        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -60,7 +62,8 @@ describe('Message', () => {
         assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
       };
 
-      const actual = await Message.createImporter(writeExistingAttachmentData)(input);
+      const actual =
+        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
       assert.deepEqual(actual, expected);
     });
   });

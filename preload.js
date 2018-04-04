@@ -140,8 +140,8 @@ window.Signal.Migrations = {};
 window.Signal.Migrations.deleteAttachmentData =
   Attachment.deleteData(deleteAttachmentData);
 window.Signal.Migrations.getPlaceholderMigrations = getPlaceholderMigrations;
-window.Signal.Migrations.importMessage =
-  Message.createImporter(writeExistingAttachmentData);
+window.Signal.Migrations.writeMessageAttachments =
+  Message.createAttachmentDataWriter(writeExistingAttachmentData);
 window.Signal.Migrations.loadAttachmentData = loadAttachmentData;
 window.Signal.Migrations.loadMessage = Message.createAttachmentLoader(loadAttachmentData);
 window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =

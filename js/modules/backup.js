@@ -824,9 +824,9 @@ async function saveAllMessages(db, rawMessages) {
     return Promise.resolve();
   }
 
-  const { importMessage, upgradeMessageSchema } = Signal.Migrations;
+  const { writeMessageAttachments, upgradeMessageSchema } = Signal.Migrations;
   const importAndUpgrade = async message =>
-    upgradeMessageSchema(await importMessage(message));
+    upgradeMessageSchema(await writeMessageAttachments(message));
 
   const messages = await Promise.all(rawMessages.map(importAndUpgrade));
 
