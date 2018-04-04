@@ -5,6 +5,69 @@ const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buf
 
 
 describe('Message', () => {
+  describe('createAttachmentDataWriter', () => {
+    it('should ignore messages that didn’t go through attachment migration', async () => {
+      const input = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 2,
+      };
+      const expected = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 2,
+      };
+      const writeExistingAttachmentData = () => {};
+
+      const actual =
+        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should ignore messages without attachments', async () => {
+      const input = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+      };
+      const expected = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+      };
+      const writeExistingAttachmentData = () => {};
+
+      const actual =
+        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should write attachments to file system on original path', async () => {
+      const input = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [{
+          path: 'ab/abcdefghi',
+          data: stringToArrayBuffer('It’s easy if you try'),
+        }],
+      };
+      const expected = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [{
+          path: 'ab/abcdefghi',
+        }],
+      };
+
+      const writeExistingAttachmentData = (attachment) => {
+        assert.equal(attachment.path, 'ab/abcdefghi');
+        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
+      };
+
+      const actual =
+        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('initializeSchemaVersion', () => {
     it('should ignore messages with previously inherited schema', () => {
       const input = {
@@ -85,7 +148,7 @@ describe('Message', () => {
 
       const expectedAttachmentData = stringToArrayBuffer('It’s easy if you try');
       const context = {
-        writeAttachmentData: async (attachmentData) => {
+        writeNewAttachmentData: async (attachmentData) => {
           assert.deepEqual(attachmentData, expectedAttachmentData);
           return 'abc/abcdefg';
         },

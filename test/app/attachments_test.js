@@ -13,7 +13,7 @@ const NAME_LENGTH = 64;
 const PATH_LENGTH = PREFIX_LENGTH + NUM_SEPARATORS + NAME_LENGTH;
 
 describe('Attachments', () => {
-  describe('createWriter', () => {
+  describe('createWriterForNew', () => {
     let tempRootDirectory = null;
     before(() => {
       tempRootDirectory = tmp.dirSync().name;
@@ -25,12 +25,48 @@ describe('Attachments', () => {
 
     it('should write file to disk and return path', async () => {
       const input = stringToArrayBuffer('test string');
-      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createWriter');
+      const tempDirectory = path.join(
+        tempRootDirectory,
+        'Attachments_createWriterForNew'
+      );
 
-      const outputPath = await Attachments.createWriter(tempDirectory)(input);
+      const outputPath = await Attachments.createWriterForNew(tempDirectory)(input);
       const output = await fse.readFile(path.join(tempDirectory, outputPath));
 
       assert.lengthOf(outputPath, PATH_LENGTH);
+
+      const inputBuffer = Buffer.from(input);
+      assert.deepEqual(inputBuffer, output);
+    });
+  });
+
+  describe('createWriterForExisting', () => {
+    let tempRootDirectory = null;
+    before(() => {
+      tempRootDirectory = tmp.dirSync().name;
+    });
+
+    after(async () => {
+      await fse.remove(tempRootDirectory);
+    });
+
+    it('should write file to disk on given path and return path', async () => {
+      const input = stringToArrayBuffer('test string');
+      const tempDirectory = path.join(
+        tempRootDirectory,
+        'Attachments_createWriterForExisting'
+      );
+
+      const relativePath = Attachments.getRelativePath(Attachments.createName());
+      const attachment = {
+        path: relativePath,
+        data: input,
+      };
+      const outputPath =
+        await Attachments.createWriterForExisting(tempDirectory)(attachment);
+      const output = await fse.readFile(path.join(tempDirectory, outputPath));
+
+      assert.equal(outputPath, relativePath);
 
       const inputBuffer = Buffer.from(input);
       assert.deepEqual(inputBuffer, output);

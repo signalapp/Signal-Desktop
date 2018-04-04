@@ -113,11 +113,14 @@ window.ProxyAgent = require('proxy-agent');
 const attachmentsPath = Attachments.getPath(app.getPath('userData'));
 const deleteAttachmentData = Attachments.createDeleter(attachmentsPath);
 const readAttachmentData = Attachments.createReader(attachmentsPath);
-const writeAttachmentData = Attachments.createWriter(attachmentsPath);
+const writeNewAttachmentData = Attachments.createWriterForNew(attachmentsPath);
+const writeExistingAttachmentData = Attachments.createWriterForExisting(attachmentsPath);
+
+const loadAttachmentData = Attachment.loadData(readAttachmentData);
 
 // Injected context functions to keep `Message` agnostic from Electron:
 const upgradeSchemaContext = {
-  writeAttachmentData,
+  writeNewAttachmentData,
 };
 const upgradeMessageSchema = message =>
   Message.upgradeSchema(message, upgradeSchemaContext);
@@ -137,7 +140,10 @@ window.Signal.Migrations = {};
 window.Signal.Migrations.deleteAttachmentData =
   Attachment.deleteData(deleteAttachmentData);
 window.Signal.Migrations.getPlaceholderMigrations = getPlaceholderMigrations;
-window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
+window.Signal.Migrations.writeMessageAttachments =
+  Message.createAttachmentDataWriter(writeExistingAttachmentData);
+window.Signal.Migrations.loadAttachmentData = loadAttachmentData;
+window.Signal.Migrations.loadMessage = Message.createAttachmentLoader(loadAttachmentData);
 window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =
   require('./js/modules/migrations/migrations_0_database_with_attachment_data');
 window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =

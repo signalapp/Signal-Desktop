@@ -1,3 +1,4 @@
+/* global Signal: false */
 /* global Whisper: false */
 /* global dcodeIO: false */
 /* global _: false */
@@ -19,6 +20,7 @@ const archiver = require('archiver');
 const rimraf = require('rimraf');
 const electronRemote = require('electron').remote;
 
+const Attachment = require('./types/attachment');
 const crypto = require('./crypto');
 
 
@@ -30,7 +32,7 @@ const {
 
 module.exports = {
   getDirectoryForExport,
-  backupToDirectory,
+  exportToDirectory,
   getDirectoryForImport,
   importFromDirectory,
   // for testing
@@ -453,7 +455,7 @@ function _getAnonymousAttachmentFileName(message, index) {
 
 async function readAttachment(dir, attachment, name, options) {
   options = options || {};
-  const { key, encrypted } = options;
+  const { key } = options;
 
   const anonymousName = _sanitizeFileName(name);
   const targetPath = path.join(dir, anonymousName);
@@ -465,7 +467,8 @@ async function readAttachment(dir, attachment, name, options) {
 
   const data = await readFileAsArrayBuffer(targetPath);
 
-  if (encrypted && key) {
+  const isEncrypted = !_.isUndefined(key);
+  if (isEncrypted) {
     attachment.data = await crypto.decryptSymmetric(key, data);
   } else {
     attachment.data = data;
@@ -492,17 +495,23 @@ async function writeAttachment(attachment, options) {
     }
   }
 
-  const encrypted = await crypto.encryptSymmetric(key, attachment.data);
+  if (!Attachment.hasData(attachment)) {
+    throw new TypeError('"attachment.data" is required');
+  }
+
+  const ciphertext = await crypto.encryptSymmetric(key, attachment.data);
 
   const writer = await createFileAndWriter(dir, filename);
   const stream = createOutputStream(writer);
-  stream.write(Buffer.from(encrypted));
+  stream.write(Buffer.from(ciphertext));
   await stream.close();
 }
 
-async function writeAttachments(attachments, options) {
+async function writeAttachments(rawAttachments, options) {
   const { name } = options;
 
+  const { loadAttachmentData } = Signal.Migrations;
+  const attachments = await Promise.all(rawAttachments.map(loadAttachmentData));
   const promises = _.map(
     attachments,
     (attachment, index) => writeAttachment(attachment, Object.assign({}, options, {
@@ -620,7 +629,7 @@ async function exportConversation(db, conversation, options) {
         const jsonString = JSON.stringify(stringify(message));
         stream.write(jsonString);
 
-        if (attachments && attachments.length) {
+        if (attachments && attachments.length > 0) {
           const exportAttachments = () => writeAttachments(attachments, {
             dir: attachmentsDir,
             name,
@@ -810,10 +819,16 @@ function saveMessage(db, message) {
   return saveAllMessages(db, [message]);
 }
 
-function saveAllMessages(db, messages) {
-  if (!messages.length) {
+async function saveAllMessages(db, rawMessages) {
+  if (rawMessages.length === 0) {
     return Promise.resolve();
   }
+
+  const { writeMessageAttachments, upgradeMessageSchema } = Signal.Migrations;
+  const importAndUpgrade = async message =>
+    upgradeMessageSchema(await writeMessageAttachments(message));
+
+  const messages = await Promise.all(rawMessages.map(importAndUpgrade));
 
   return new Promise((resolve, reject) => {
     let finished = false;
@@ -931,9 +946,7 @@ async function importConversation(db, dir, options) {
     return true;
   });
 
-  if (messages.length > 0) {
-    await saveAllMessages(db, messages);
-  }
+  await saveAllMessages(db, messages);
 
   await promiseChain;
   console.log(
@@ -1079,8 +1092,8 @@ async function encryptFile(sourcePath, targetPath, options) {
   }
 
   const plaintext = await readFileAsArrayBuffer(sourcePath);
-  const encrypted = await crypto.encryptSymmetric(key, plaintext);
-  return writeFile(targetPath, encrypted);
+  const ciphertext = await crypto.encryptSymmetric(key, plaintext);
+  return writeFile(targetPath, ciphertext);
 }
 
 async function decryptFile(sourcePath, targetPath, options) {
@@ -1091,8 +1104,8 @@ async function decryptFile(sourcePath, targetPath, options) {
     throw new Error('Need key to do encryption!');
   }
 
-  const encrypted = await readFileAsArrayBuffer(sourcePath);
-  const plaintext = await crypto.decryptSymmetric(key, encrypted);
+  const ciphertext = await readFileAsArrayBuffer(sourcePath);
+  const plaintext = await crypto.decryptSymmetric(key, ciphertext);
   return writeFile(targetPath, Buffer.from(plaintext));
 }
 
@@ -1105,7 +1118,7 @@ function deleteAll(pattern) {
   return pify(rimraf)(pattern);
 }
 
-async function backupToDirectory(directory, options) {
+async function exportToDirectory(directory, options) {
   options = options || {};
 
   if (!options.key) {
@@ -1196,9 +1209,7 @@ async function importFromDirectory(directory, options) {
           attachmentsDir,
         });
         const result = await importNonMessages(db, stagingDir, options);
-        await importConversations(db, stagingDir, Object.assign({}, options, {
-          encrypted: true,
-        }));
+        await importConversations(db, stagingDir, Object.assign({}, options));
 
         console.log('Done importing from backup!');
         return result;
