@@ -1,4 +1,4 @@
-const { isFunction } = require('lodash');
+const { isFunction, isString, omit } = require('lodash');
 
 const Attachment = require('./attachment');
 const Errors = require('./errors');
@@ -175,4 +175,51 @@ exports.upgradeSchema = async (message, { writeNewAttachmentData } = {}) => {
     await toVersion2(await toVersion1(await toVersion0(message))),
     { writeNewAttachmentData }
   );
+};
+
+//      createImporter :: (RelativePath -> IO Unit)
+//                        Message ->
+//                        IO (Promise Message)
+exports.createImporter = (writeExistingAttachmentData) => {
+  if (!isFunction(writeExistingAttachmentData)) {
+    throw new TypeError('"writeExistingAttachmentData" must be a function');
+  }
+
+  return async (message) => {
+    if (!exports.isValid(message)) {
+      throw new TypeError('"message" is not valid');
+    }
+
+    const { attachments } = message;
+    const hasAttachments = attachments && attachments.length > 0;
+    if (!hasAttachments) {
+      return message;
+    }
+
+    const lastVersionWithAttachmentDataInMemory = 2;
+    const willHaveAttachmentsSavedOnFileSystemDuringUpgrade =
+      message.schemaVersion <= lastVersionWithAttachmentDataInMemory;
+    if (willHaveAttachmentsSavedOnFileSystemDuringUpgrade) {
+      return message;
+    }
+
+    attachments.forEach((attachment) => {
+      if (!Attachment.hasData(attachment)) {
+        throw new TypeError('"attachment.data" is required during message import');
+      }
+
+      if (!isString(attachment.path)) {
+        throw new TypeError('"attachment.path" is required');
+      }
+    });
+
+    const messageWithoutAttachmentData = Object.assign({}, message, {
+      attachments: await Promise.all(attachments.map(async (attachment) => {
+        await writeExistingAttachmentData(attachment);
+        return omit(attachment, ['data']);
+      })),
+    });
+
+    return messageWithoutAttachmentData;
+  };
 };
