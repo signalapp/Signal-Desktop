@@ -40,6 +40,39 @@ describe('Attachments', () => {
     });
   });
 
+  describe('createWriterForExisting', () => {
+    let tempRootDirectory = null;
+    before(() => {
+      tempRootDirectory = tmp.dirSync().name;
+    });
+
+    after(async () => {
+      await fse.remove(tempRootDirectory);
+    });
+
+    it('should write file to disk on given path and return path', async () => {
+      const input = stringToArrayBuffer('test string');
+      const tempDirectory = path.join(
+        tempRootDirectory,
+        'Attachments_createWriterForExisting'
+      );
+
+      const relativePath = Attachments.getRelativePath(Attachments.createName());
+      const attachment = {
+        path: relativePath,
+        data: input,
+      };
+      const outputPath =
+        await Attachments.createWriterForExisting(tempDirectory)(attachment);
+      const output = await fse.readFile(path.join(tempDirectory, outputPath));
+
+      assert.equal(outputPath, relativePath);
+
+      const inputBuffer = Buffer.from(input);
+      assert.deepEqual(inputBuffer, output);
+    });
+  });
+
   describe('createReader', () => {
     let tempRootDirectory = null;
     before(() => {

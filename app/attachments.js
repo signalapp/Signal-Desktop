@@ -56,9 +56,33 @@ exports.createWriterForNew = (root) => {
       throw new TypeError('"arrayBuffer" must be an array buffer');
     }
 
-    const buffer = Buffer.from(arrayBuffer);
     const name = exports.createName();
     const relativePath = exports.getRelativePath(name);
+    return exports.createWriterForExisting(root)({
+      data: arrayBuffer,
+      path: relativePath,
+    });
+  };
+};
+
+//      createWriter :: AttachmentsPath ->
+//                      { data: ArrayBuffer, path: RelativePath } ->
+//                      IO (Promise RelativePath)
+exports.createWriterForExisting = (root) => {
+  if (!isString(root)) {
+    throw new TypeError('"root" must be a path');
+  }
+
+  return async ({ data: arrayBuffer, path: relativePath } = {}) => {
+    if (!isString(relativePath)) {
+      throw new TypeError('"relativePath" must be a path');
+    }
+
+    if (!isArrayBuffer(arrayBuffer)) {
+      throw new TypeError('"arrayBuffer" must be an array buffer');
+    }
+
+    const buffer = Buffer.from(arrayBuffer);
     const absolutePath = path.join(root, relativePath);
     await fse.ensureFile(absolutePath);
     await fse.writeFile(absolutePath, buffer);
