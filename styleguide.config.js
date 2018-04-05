@@ -127,6 +127,9 @@ module.exports = {
           src: 'js/views/timestamp_view.js',
         },
         {
+          src: 'js/views/attachment_view.js',
+        },
+        {
           src: 'js/views/message_view.js',
         },
         // Hacky way of including templates for Backbone components

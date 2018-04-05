@@ -10,12 +10,33 @@
 window.PROTO_ROOT = '/protos';
 window.nodeSetImmediate = () => {};
 
+window.libphonenumber = {
+  parse: number => ({
+    e164: number,
+    isValidNumber: true,
+    getCountryCode: () => '1',
+    getNationalNumber: () => number,
+  }),
+  isValidNumber: () => true,
+  getRegionCodeForNumber: () => '1',
+  format: number => number.e164,
+  PhoneNumberFormat: {},
+};
+
 window.Signal = {};
 window.Signal.Backup = {};
 window.Signal.Crypto = {};
 window.Signal.Logs = {};
 window.Signal.Migrations = {
-  getPlaceholderMigrations: () => {},
+  getPlaceholderMigrations: () => [{
+    migrate: (transaction, next) => {
+      console.log('migration version 1');
+      transaction.db.createObjectStore('conversations');
+      next();
+    },
+    version: 1
+  }],
+  loadAttachmentData: attachment => Promise.resolve(attachment),
 };
 
 window.Signal.Components = {};

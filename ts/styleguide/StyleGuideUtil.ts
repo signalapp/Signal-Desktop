@@ -82,3 +82,5 @@ parent.Signal.Components = {
   Reply,
 };
 
+parent.ConversationController._initialFetchComplete = true;
+parent.ConversationController._initialPromise = Promise.resolve();

@@ -49,4 +49,13 @@ window.Whisper.View.Templates = {
   expirationTimerUpdate: `
     <span class='content'><span class='icon clock'></span> {{ content }}</span>
   `,
+  'file-view': `
+    <div class='icon {{ mediaType }}'></div>
+    <div class='text'>
+      <div class='fileName' title='{{ altText }}'>
+        {{ fileName }}
+      </div>
+      <div class='fileSize'>{{ fileSize }}</div>
+    </div>
+  `,
 };

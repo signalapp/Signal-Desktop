@@ -2,8 +2,9 @@ import React from 'react';
 
 
 /**
- * A placeholder Message component, giving the structure of a plain message with none of
- * the dynamic functionality. We can build off of this going forward.
+ * A placeholder Message component for now, giving the structure of a plain message with
+ * none of the dynamic functionality. This page will be used to build up our corpus of
+ * permutations before start moving all message functionality to React.
  */
 export class Message extends React.Component<{}, {}> {
   public render() {
