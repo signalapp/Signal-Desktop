@@ -1,4 +1,4 @@
-Rendering a real `Whisper.MessageView` using `<util.MessageParents />` and
+Rendering a real `Whisper.MessageView` using `<util.ConversationContextProvider />` and
 `<util.BackboneWrapper />`.
 
 ```jsx
@@ -11,10 +11,10 @@ const View = Whisper.MessageView;
 const options = {
   model,
 };
-<util.MessageParents theme={util.theme}>
+<util.ConversationContext theme={util.theme}>
   <util.BackboneWrapper
     View={View}
     options={options}
   />
-</util.MessageParents>
+</util.ConversationContext>
 ```

@@ -22,24 +22,28 @@ interface BackboneViewConstructor {
  * while we slowly replace the internals of a given Backbone view with React.
  */
 export class BackboneWrapper extends React.Component<Props, {}> {
-  protected el: Element | null;
-  protected view: BackboneView | null;
-  protected setEl: (element: HTMLDivElement | null) => void;
+  protected el: Element | null = null;
+  protected view: BackboneView | null = null;
 
-  constructor(props: Props) {
-    super(props);
-
-    this.el = null;
-    this.view = null;
-
-    this.setEl = (element: HTMLDivElement | null) => {
-      this.el = element;
-      this.setup();
-    };
-    this.setup = this.setup.bind(this);
+  public componentWillUnmount() {
+    this.teardown();
   }
 
-  public setup() {
+  public shouldComponentUpdate() {
+    // we're handling all updates manually
+    return false;
+  }
+
+  public render() {
+    return <div ref={this.setEl} />;
+  }
+
+  protected setEl = (element: HTMLDivElement | null) => {
+    this.el = element;
+    this.setup();
+  }
+
+  protected setup = () => {
     const { el } = this;
     const { View, options } = this.props;
 
@@ -54,25 +58,12 @@ export class BackboneWrapper extends React.Component<Props, {}> {
     el.appendChild(this.view.el);
   }
 
-  public teardown() {
+  protected teardown() {
     if (!this.view) {
       return;
     }
 
     this.view.remove();
     this.view = null;
-  }
-
-  public componentWillUnmount() {
-    this.teardown();
-  }
-
-  public shouldComponentUpdate() {
-    // we're handling all updates manually
-    return false;
-  }
-
-  public render() {
-    return <div ref={this.setEl} />;
   }
 }

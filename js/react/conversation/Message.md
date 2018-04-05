@@ -1,6 +1,6 @@
 
 ```jsx
-<util.MessageParents theme={util.theme}>
+<util.ConversationContext theme={util.theme}>
   <Message />
-</util.MessageParents>
+</util.ConversationContext>
 ```

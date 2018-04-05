@@ -12,7 +12,7 @@ interface Props {
  * Provides the parent elements necessary to allow the main Signal Desktop stylesheet to
  * apply (with no changes) to messages in this context.
  */
-export class MessageParents extends React.Component<Props, {}> {
+export class ConversationContext extends React.Component<Props, {}> {
   public render() {
     const { theme } = this.props;
 
