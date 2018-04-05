@@ -18,7 +18,7 @@ exports.setup = (locale, messages) => {
     }
 
     const { message } = entry;
-    if (substitutions instanceof Array) {
+    if (Array.isArray(substitutions)) {
       return substitutions.reduce(
         (result, substitution) => result.replace(/\$.+?\$/, substitution),
         message
