@@ -77,7 +77,7 @@ parent.moment.locale(locale);
 parent.React = React;
 parent.ReactDOM = ReactDOM;
 
-const SignalReact = parent.Signal.React = parent.Signal.React || {};
+const SignalComponents: any = parent.Signal.Components = {};
 
-SignalReact.Message = Message;
-SignalReact.Reply = Reply;
+SignalComponents.Message = Message;
+SignalComponents.Reply = Reply;

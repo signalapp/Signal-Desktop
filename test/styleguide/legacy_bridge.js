@@ -18,7 +18,7 @@ window.Signal.Migrations = {
   getPlaceholderMigrations: () => {},
 };
 
-window.Signal.React = {};
+window.Signal.Components = {};
 
 window.EmojiConvertor = function EmojiConvertor() {};
 window.EmojiConvertor.prototype.init_colons = () => {};

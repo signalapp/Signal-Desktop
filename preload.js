@@ -150,7 +150,7 @@ window.Signal.Database = require('./js/modules/database');
 window.Signal.Debug = require('./js/modules/debug');
 window.Signal.Logs = require('./js/modules/logs');
 
-window.Signal.React = {};
+window.Signal.Components = {};
 
 window.Signal.Migrations = {};
 window.Signal.Migrations.deleteAttachmentData =

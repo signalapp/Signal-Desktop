@@ -16,7 +16,6 @@ test/views/*.js
 # typescript-generated files
 ts/**/*.js
 
-
 # ES2015+ files
 !js/background.js
 !js/backup.js
