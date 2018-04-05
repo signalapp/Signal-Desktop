@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-interface IProps {
+interface Props {
   /**
    * Corresponds to the theme setting in the app, and the class added to the root element.
    */
@@ -12,7 +12,7 @@ interface IProps {
  * Provides the parent elements necessary to allow the main Signal Desktop stylesheet to
  * apply (with no changes) to messages in this context.
  */
-export class MessageParents extends React.Component<IProps, {}> {
+export class MessageParents extends React.Component<Props, {}> {
   public render() {
     const { theme } = this.props;
 

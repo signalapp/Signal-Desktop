@@ -1,11 +1,11 @@
 import React from 'react';
 
 
-interface IProps { name: string; }
+interface Props { name: string; }
 
-interface IState { count: number; }
+interface State { count: number; }
 
-export class Reply extends React.Component<IProps, IState> {
+export class Reply extends React.Component<Props, State> {
   public render() {
     return (
       <div>Placeholder</div>

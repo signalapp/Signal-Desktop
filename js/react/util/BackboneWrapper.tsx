@@ -1,32 +1,32 @@
 import React from 'react';
 
-interface IProps {
+interface Props {
   /** The View class, which will be instantiated then treated like a Backbone View */
-  readonly View: IBackboneViewConstructor;
+  readonly View: BackboneViewConstructor;
   /** Options to be passed along to the view when constructed */
   readonly options: object;
 }
 
-interface IBackboneView {
+interface BackboneView {
   remove: () => void;
   render: () => void;
   el: HTMLElement;
 }
 
-interface IBackboneViewConstructor {
-    new (options: object): IBackboneView;
+interface BackboneViewConstructor {
+    new (options: object): BackboneView;
 }
 
 /**
  * Allows Backbone Views to be rendered inside of React (primarily for the styleguide)
  * while we slowly replace the internals of a given Backbone view with React.
  */
-export class BackboneWrapper extends React.Component<IProps, {}> {
+export class BackboneWrapper extends React.Component<Props, {}> {
   protected el: Element | null;
-  protected view: IBackboneView | null;
+  protected view: BackboneView | null;
   protected setEl: (element: HTMLDivElement | null) => void;
 
-  constructor(props: IProps) {
+  constructor(props: Props) {
     super(props);
 
     this.el = null;
