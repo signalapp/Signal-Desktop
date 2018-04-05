@@ -5,16 +5,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 
-// Helper components used in the styleguide, exposed at 'util' in the global scope via the
-//   context option in react-styleguidist.
+// Helper components used in the Style Guide, exposed at 'util' in the global scope via
+//   the 'context' option in react-styleguidist.
 
 export { ConversationContext } from './ConversationContext';
-export { BackboneWrapper } from './BackboneWrapper';
+export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 
 // Here we can make things inside Webpack available to Backbone views like preload.js.
 
-import { Message } from '../conversation/Message';
-import { Reply } from '../conversation/Reply';
+import { Message } from '../components/conversation/Message';
+import { Reply } from '../components/conversation/Reply';
 
 
 // TypeScript wants two things when you import:
@@ -23,13 +23,13 @@ import { Reply } from '../conversation/Reply';
 // Anything else will raise an error, that it can't find the module. And so, we ignore...
 
 // @ts-ignore
-import gif from '../../../fixtures/giphy-GVNvOUpeYmI7e.gif';
+import gif from '../../fixtures/giphy-GVNvOUpeYmI7e.gif';
 // @ts-ignore
-import mp3 from '../../../fixtures/incompetech-com-Agnus-Dei-X.mp3';
+import mp3 from '../../fixtures/incompetech-com-Agnus-Dei-X.mp3';
 // @ts-ignore
-import txt from '../../../fixtures/lorem-ipsum.txt';
+import txt from '../../fixtures/lorem-ipsum.txt';
 // @ts-ignore
-import mp4 from '../../../fixtures/pixabay-Soap-Bubble-7141.mp4';
+import mp4 from '../../fixtures/pixabay-Soap-Bubble-7141.mp4';
 
 export {
   mp3,
@@ -48,10 +48,10 @@ const theme = urlOptions.theme || 'android';
 const locale = urlOptions.locale || 'en';
 
 // @ts-ignore
-import localeMessages from '../../../_locales/en/messages.json';
+import localeMessages from '../../_locales/en/messages.json';
 
 // @ts-ignore
-import { setup } from '../../modules/i18n';
+import { setup } from '../../js/modules/i18n';
 
 const i18n = setup(locale, localeMessages);
 

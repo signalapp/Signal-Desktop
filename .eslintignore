@@ -14,7 +14,7 @@ test/views/*.js
 /*.js
 
 # typescript-generated files
-js/react/**/*.js
+ts/**/*.js
 
 
 # ES2015+ files

@@ -24,4 +24,4 @@ test/test.js
 libtextsecure/test/test.js
 
 # React / TypeScript
-js/react/**/*.js
+ts/**/*.js

@@ -18,7 +18,7 @@ interface BackboneViewConstructor {
 }
 
 /**
- * Allows Backbone Views to be rendered inside of React (primarily for the styleguide)
+ * Allows Backbone Views to be rendered inside of React (primarily for the Style Guide)
  * while we slowly replace the internals of a given Backbone view with React.
  */
 export class BackboneWrapper extends React.Component<Props, {}> {

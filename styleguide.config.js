@@ -10,17 +10,22 @@ module.exports = {
     {
       name: 'Conversation',
       description: 'Everything necessary to render a conversation',
-      components: 'js/react/conversation/*.tsx',
+      components: 'ts/components/conversation/*.tsx',
     },
     {
       name: 'Utility',
-      description: 'Utility components only used for testing',
-      components: 'js/react/util/*.tsx',
+      description: 'Utility components used across the application',
+      components: 'ts/components/utility/*.tsx',
+    },
+    {
+      name: 'Test',
+      description: 'Components only used for testing',
+      components: 'ts/test/**/*.tsx',
     },
   ],
   context: {
     // Exposes necessary utilities in the global scope for all readme code snippets
-    util: 'js/react/util',
+    util: 'ts/test/StyleGuideUtil',
   },
   // We don't want one long, single page
   pagePerSection: true,
@@ -42,7 +47,7 @@ module.exports = {
       // Mirrors the order used in background.js.
       scripts: [
         {
-          src: 'test/legacy_bridge.js',
+          src: 'test/styleguide/legacy_bridge.js',
         },
         {
           src: 'node_modules/moment/min/moment-with-locales.min.js',
@@ -123,7 +128,7 @@ module.exports = {
         },
         // Hacky way of including templates for Backbone components
         {
-          src: 'test/legacy_templates.js',
+          src: 'test/styleguide/legacy_templates.js',
         },
       ],
     },

@@ -107,7 +107,6 @@ module.exports = function(grunt) {
         '!js/logging.js',
         '!js/modules/**/*.js',
         '!js/Mp3LameEncoder.min.js',
-        '!js/react/**/*.js',
         '!js/signal_protocol_store.js',
         '!js/views/conversation_search_view.js',
         '!js/views/debug_log_view.js',
@@ -162,7 +161,6 @@ module.exports = function(grunt) {
         '!js/libtextsecure.js',
         '!js/modules/**/*.js',
         '!js/Mp3LameEncoder.min.js',
-        '!js/react/**/*.js',
         '!js/WebAudioRecorderMp3.js',
         'test/**/*.js',
         '!test/blanket_mocha.js',
@@ -193,7 +191,7 @@ module.exports = function(grunt) {
         tasks: ['jscs']
       },
       transpile: {
-        files: ['./js/react/**/*.js'],
+        files: ['./ts/**/*.js'],
         tasks: ['exec:transpile']
       }
     },

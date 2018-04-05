@@ -10,7 +10,7 @@ interface Props {
 
 /**
  * Provides the parent elements necessary to allow the main Signal Desktop stylesheet to
- * apply (with no changes) to messages in this context.
+ * apply (with no changes) to messages in the Style Guide.
  */
 export class ConversationContext extends React.Component<Props, {}> {
   public render() {
