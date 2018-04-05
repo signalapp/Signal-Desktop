@@ -139,6 +139,7 @@
     templateName: 'migration-flow-template',
     className: 'migration-flow',
     events: {
+      'click .install': 'onInstallClick',
       'click .install-mac': 'onClickMac',
       'click .install-windows': 'onClickWindows',
       'click .install-linux': 'onClickLinux',
@@ -242,6 +243,9 @@
     },
     onClickWindows: function() {
       console.log('Windows install link clicked');
+    },
+    onInstallClick: function() {
+      this.$el.find('.installed').css('visibility', 'visible');
     },
     onClickLinux: function() {
       var dialog = this.linuxInstructionsView = new LinuxInstructionsView({});

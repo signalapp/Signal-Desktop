@@ -752,6 +752,8 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     padding-bottom: 1em;
     padding-left: 20px;
     padding-right: 20px; }
+  .migration-flow .installed {
+    visibility: hidden; }
 
 .inbox:focus {
   outline: none; }

@@ -818,6 +818,7 @@ input[type=text], input[type=search], textarea {
       font-size: 20pt;
     }
   }
+
   a.link {
     display: block;
     cursor: pointer;
@@ -899,6 +900,10 @@ input[type=text], input[type=search], textarea {
     padding-bottom: 1em;
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .installed {
+    visibility: hidden;
   }
 }
 
