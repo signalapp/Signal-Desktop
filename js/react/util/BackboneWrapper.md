@@ -1,4 +1,4 @@
-Rendering a real `Whisper.MessageView` using `<util.ConversationContextProvider />` and
+Rendering a real `Whisper.MessageView` using `<util.ConversationContext />` and
 `<util.BackboneWrapper />`.
 
 ```jsx
