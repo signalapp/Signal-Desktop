@@ -45,9 +45,6 @@ module.exports = {
           src: 'test/legacy_bridge.js',
         },
         {
-          src: 'node_modules/moment/min/moment-with-locales.min.js',
-        },
-        {
           src: 'js/components.js',
         },
         {

@@ -1,3 +1,6 @@
+import qs from 'qs';
+import moment from 'moment';
+
 // Helper components used in the styleguide, exposed at 'util' in the global scope via the
 //   context option in react-styleguidist.
 
@@ -37,6 +40,38 @@ export {
 
 // Required, or TypeScript complains about adding keys to window
 const parent = window as any;
+
+const query = window.location.search.replace(/^\?/, '');
+const urlOptions = qs.parse(query);
+const theme = urlOptions.theme || 'android';
+const locale = urlOptions.locale || 'en';
+
+// @ts-ignore
+import localeMessages from '../../../_locales/en/messages.json';
+
+// @ts-ignore
+import { setup } from '../../i18n';
+
+const i18n = setup(locale, localeMessages);
+
+export {
+  theme,
+  locale,
+  i18n,
+};
+
+
+parent.i18n = i18n;
+parent.moment = moment;
+
+parent.moment.updateLocale(locale, {
+  relativeTime: {
+    h: parent.i18n('timestamp_h'),
+    m: parent.i18n('timestamp_m'),
+    s: parent.i18n('timestamp_s'),
+  },
+});
+parent.moment.locale(locale);
 
 parent.React = React;
 parent.ReactDOM = ReactDOM;

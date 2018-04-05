@@ -11,7 +11,7 @@ const View = Whisper.MessageView;
 const options = {
   model,
 };
-<util.MessageParents theme="android">
+<util.MessageParents theme={util.theme}>
   <util.BackboneWrapper
     View={View}
     options={options}
