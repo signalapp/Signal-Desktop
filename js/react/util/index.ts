@@ -1,5 +1,9 @@
-import qs from 'qs';
 import moment from 'moment';
+import qs from 'qs';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 
 // Helper components used in the styleguide, exposed at 'util' in the global scope via the
 //   context option in react-styleguidist.
@@ -8,9 +12,6 @@ export { MessageParents } from './MessageParents';
 export { BackboneWrapper } from './BackboneWrapper';
 
 // Here we can make things inside Webpack available to Backbone views like preload.js.
-
-import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { Message } from '../conversation/Message';
 import { Reply } from '../conversation/Reply';

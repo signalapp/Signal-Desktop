@@ -5,7 +5,7 @@ interface IProps {
   /**
    * Corresponds to the theme setting in the app, and the class added to the root element.
    */
-  theme: "ios" | "android" | "android-dark";
+  theme: 'ios' | 'android' | 'android-dark';
 }
 
 /**

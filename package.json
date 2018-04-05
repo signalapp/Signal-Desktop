@@ -12,7 +12,7 @@
   "main": "main.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
-    "test": "yarn eslint && yarn test-server && grunt test && yarn test-app && yarn test-modules",
+    "test": "yarn eslint && yarn tslint && yarn test-server && grunt test && yarn test-app && yarn test-modules",
     "lint": "grunt jshint",
     "start": "electron .",
     "asarl": "asar l release/mac/Signal.app/Contents/Resources/app.asar",
