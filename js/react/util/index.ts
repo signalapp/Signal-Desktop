@@ -1,5 +1,5 @@
 // Helper components used in the styleguide, exposed at 'util' in the global scope via the
-//   context option in reaat-styleguidist.
+//   context option in react-styleguidist.
 
 export { MessageParents } from './MessageParents';
 export { BackboneWrapper } from './BackboneWrapper';

@@ -13,7 +13,9 @@ window.Signal = {};
 window.Signal.Backup = {};
 window.Signal.Crypto = {};
 window.Signal.Logs = {};
-window.Signal.Migrations = {};
+window.Signal.Migrations = {
+  getPlaceholderMigrations: () => {},
+};
 
 window.Signal.React = window.Signal.React = {};
 
