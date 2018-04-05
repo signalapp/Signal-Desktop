@@ -106,6 +106,7 @@ module.exports = function(grunt) {
         '!js/components.js',
         '!js/logging.js',
         '!js/backup.js',
+        '!js/i18n.js',
         '!js/modules/**/*.js',
         '!js/views/conversation_search_view.js',
         '!js/react/**/*.js',

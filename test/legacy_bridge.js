@@ -18,7 +18,7 @@ window.Signal.Migrations = {};
 window.Signal.React = window.Signal.React = {};
 
 window.EmojiConvertor = function EmojiConvertor() {};
-window.EmojiConvertor.prototype.init_colons = () => {}
+window.EmojiConvertor.prototype.init_colons = () => {};
 window.EmojiConvertor.prototype.signalReplace = html => html;
 window.EmojiConvertor.prototype.replace_unified = string => string;
 window.EmojiConvertor.prototype.img_sets = {
