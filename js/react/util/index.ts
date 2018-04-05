@@ -19,7 +19,7 @@ import { Reply } from '../conversation/Reply';
 
 // TypeScript wants two things when you import:
 //   1) a normal typescript file
-//   2) a javascript file with type definiitions
+//   2) a javascript file with type definitions
 // Anything else will raise an error, that it can't find the module. And so, we ignore...
 
 // @ts-ignore
