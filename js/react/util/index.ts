@@ -51,7 +51,7 @@ const locale = urlOptions.locale || 'en';
 import localeMessages from '../../../_locales/en/messages.json';
 
 // @ts-ignore
-import { setup } from '../../i18n';
+import { setup } from '../../modules/i18n';
 
 const i18n = setup(locale, localeMessages);
 

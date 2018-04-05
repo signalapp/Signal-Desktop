@@ -113,7 +113,7 @@ window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');
 
-const { setup } = require('./js/i18n');
+const { setup } = require('./js/modules/i18n');
 
 const { locale, localeMessages } = window.config;
 window.i18n = setup(locale, localeMessages);

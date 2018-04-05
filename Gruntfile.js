@@ -101,7 +101,6 @@ module.exports = function(grunt) {
         '!js/backup.js',
         '!js/components.js',
         '!js/database.js',
-        '!js/i18n.js',
         '!js/jquery.js',
         '!js/libsignal-protocol-worker.js',
         '!js/libtextsecure.js',
