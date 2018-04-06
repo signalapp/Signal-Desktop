@@ -1,13 +1,10 @@
 /* eslint-env node */
 
+const is = require('@sindresorhus/is');
 const path = require('path');
 
-const {
-  escapeRegExp,
-  isRegExp,
-  isString,
-} = require('lodash');
 const { compose } = require('lodash/fp');
+const { escapeRegExp } = require('lodash');
 
 
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
@@ -28,7 +25,7 @@ const REDACTION_PLACEHOLDER = '[REDACTED]';
 
 //      redactPhoneNumbers :: String -> String
 exports.redactPhoneNumbers = (text) => {
-  if (!isString(text)) {
+  if (!is.string(text)) {
     throw new TypeError('"text" must be a string');
   }
 
@@ -37,7 +34,7 @@ exports.redactPhoneNumbers = (text) => {
 
 //      redactGroupIds :: String -> String
 exports.redactGroupIds = (text) => {
-  if (!isString(text)) {
+  if (!is.string(text)) {
     throw new TypeError('"text" must be a string');
   }
 
@@ -50,11 +47,11 @@ exports.redactGroupIds = (text) => {
 
 //      redactSensitivePaths :: String -> String
 exports.redactSensitivePaths = (text) => {
-  if (!isString(text)) {
+  if (!is.string(text)) {
     throw new TypeError('"text" must be a string');
   }
 
-  if (!isRegExp(APP_ROOT_PATH_PATTERN)) {
+  if (!is.regExp(APP_ROOT_PATH_PATTERN)) {
     return text;
   }
 
