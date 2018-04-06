@@ -38,12 +38,14 @@ exports._redactPath = (filePath) => {
 exports._pathToRegExp = (filePath) => {
   try {
     const pathWithNormalizedSlashes = filePath.replace(/\//g, '\\');
+    const pathWithEscapedSlashes = filePath.replace(/\\/g, '\\\\');
     const urlEncodedPath = encodeURI(filePath);
     // Safe `String::replaceAll`:
     // https://github.com/lodash/lodash/issues/1084#issuecomment-86698786
     const patternString = [
       filePath,
       pathWithNormalizedSlashes,
+      pathWithEscapedSlashes,
       urlEncodedPath,
     ].map(escapeRegExp).join('|');
     return new RegExp(patternString, 'g');
