@@ -451,6 +451,7 @@ span.status {
     }
 
     .body {
+      margin-top: 0.5em;
       white-space: pre-wrap;
 
       a {
@@ -591,6 +592,7 @@ span.status {
       position: relative;
       padding: 5px;
       padding-right: 10px;
+      padding-bottom: 0px;
 
       cursor: pointer;
 

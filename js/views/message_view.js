@@ -355,6 +355,24 @@
             this.timerView.setElement(this.$('.timer'));
             this.timerView.update();
         },
+        isImageWithoutCaption: function() {
+            var attachments = this.model.get('attachments');
+            var body = this.model.get('body');
+            if (!attachments || attachments.length === 0) {
+                return false;
+            }
+
+            if (body && body.trim()) {
+                return false;
+            }
+
+            var first = attachments[0];
+            if (first.contentType.startsWith('image/') && first.contentType !== 'image/tiff') {
+                return true;
+            }
+
+            return false;
+        },
         render: function() {
             var contact = this.model.isIncoming() ? this.model.getContact() : null;
             this.$el.html(
@@ -364,6 +382,7 @@
                     sender: (contact && contact.getTitle()) || '',
                     avatar: (contact && contact.getAvatar()),
                     profileName: (contact && contact.getProfileName()),
+                    innerBubbleClasses: this.isImageWithoutCaption() ? '' : 'with-tail',
                 }, this.render_partials())
             );
             this.timeStampView.setElement(this.$('.timestamp'));

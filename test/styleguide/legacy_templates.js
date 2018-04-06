@@ -32,10 +32,12 @@ window.Whisper.View.Templates = {
             <span class='profileName'>{{ profileName }} </span>
           {{ /profileName }}
         </div>
-        <div class='attachments'></div>
-        <p class='content' dir='auto'>
-          {{ #message }}<span class='body'>{{ message }}</span>{{ /message }}
-        </p>
+        <div class='inner-bubble {{ innerBubbleClasses }}'>
+          <div class='attachments'></div>
+          <p class='content' dir='auto'>
+            {{ #message }}<div class='body'>{{ message }}</div>{{ /message }}
+          </p>
+        </div>
         <div class='meta'>
           <span class='timestamp' data-timestamp={{ timestamp }}></span>
           <span class='status hide'></span>

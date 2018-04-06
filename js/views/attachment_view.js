@@ -69,7 +69,7 @@
   ];
 
   Whisper.AttachmentView = Backbone.View.extend({
-    tagName: 'span',
+    tagName: 'div',
     className() {
       if (this.isImage()) {
         return 'attachment';

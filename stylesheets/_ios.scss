@@ -109,10 +109,32 @@ $ios-border-color: rgba(0,0,0,0.1);
 
   .attachments .bubbled {
     border-radius: 15px;
-    margin-bottom: 0.25em;
 
     padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 5px;
 
+    position: relative;
+  }
+
+  .inner-bubble {
+    border-radius: 15px;
+    margin-bottom: 5px;
+
+    .body {
+      margin-top: 0;
+      display: inline-block;
+      padding: 10px;
+      position: relative;
+      word-break: break-word;
+    }
+
+    .attachments img {
+      border-radius: 15px;
+    }
+  }
+
+  .inner-bubble.with-tail {
     position: relative;
 
     &:before, &:after {
@@ -135,51 +157,27 @@ $ios-border-color: rgba(0,0,0,0.1);
       bottom: -3px;
       background: #eee;
     }
-  }
 
-  .bubble {
-    .content {
-      margin-bottom: 5px;
-      .body {
-        display: inline-block;
-        padding: 10px;
-        position: relative;
-        word-break: break-word;
-
-        &:before, &:after {
-          content: '';
-          display: block;
-          border-radius: 20px;
-          position: absolute;
-          width: 10px;
-        }
-        &:before {
-          right: -1px;
-          bottom: -3px;
-          height: 10px;
-          border-radius: 20px;
-          background: $blue;
-        }
-        &:after {
-          height: 11px;
-          right: -6px;
-          bottom: -3px;
-          background: #eee;
-        }
-      }
-    }
-    .content, .attachments img {
-      border-radius: 15px;
-    }
     .attachments img {
-      background-color: white;
-    }
-    .meta {
-      clear: both;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
     }
   }
 
-  .incoming .bubbled {
+  .meta {
+    clear: both;
+  }
+
+  .outgoing .inner-bubble.with-tail {
+    background-color: $blue;
+    max-width: 100%;
+    &, .body, a {
+      @include invert-text-color;
+    }
+    float: right;
+  }
+
+  .incoming .inner-bubble.with-tail {
     background-color: white;
     color: black;
     float: left;
@@ -191,31 +189,6 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
     &:after {
       left: -6px;
-    }
-  }
-
-  .incoming .content {
-    background-color: white;
-    color: black;
-    float: left;
-    .body {
-      &:before {
-        left: -1px;
-        background-color: white;
-      }
-      &:after {
-        left: -6px;
-      }
-    }
-  }
-  .outgoing {
-    .content, .attachments .bubbled {
-      background-color: $blue;
-      max-width: 100%;
-      &, .body, a {
-        @include invert-text-color;
-      }
-      float: right;
     }
   }
 
@@ -236,7 +209,6 @@ $ios-border-color: rgba(0,0,0,0.1);
     a {
       border-radius: 15px;
     }
-    margin-bottom: 1px;
   }
   .hourglass {
     @include hourglass(#999);
