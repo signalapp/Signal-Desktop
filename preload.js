@@ -109,6 +109,13 @@ window.nodeFetch = require('node-fetch');
 window.nodeNotifier = require('node-notifier');
 window.ProxyAgent = require('proxy-agent');
 
+// Note: when modifying this file, consider whether our React Components or Backbone Views
+//   will need these things to render in the Style Guide. If so, go update one of these
+//   two locations:
+//
+//   1) test/styleguide/legacy_bridge.js
+//   2) ts/test/StyleGuideUtil.js
+
 window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');
