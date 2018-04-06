@@ -7,22 +7,46 @@ const { compose } = require('lodash/fp');
 const { escapeRegExp } = require('lodash');
 
 
+const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
+const REDACTION_PLACEHOLDER = '[REDACTED]';
 
-const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
-const APP_ROOT_PATH_PATTERN = (() => {
+
+//      _redactPath :: Path -> String -> String
+exports._redactPath = (filePath) => {
+  if (!is.string(filePath)) {
+    throw new TypeError('"filePath" must be a string');
+  }
+
+  const filePathPattern = exports._pathToRegExp(filePath);
+
+  return (text) => {
+    if (!is.string(text)) {
+      throw new TypeError('"text" must be a string');
+    }
+
+    if (!is.regExp(filePathPattern)) {
+      return text;
+    }
+
+    return text.replace(filePathPattern, REDACTION_PLACEHOLDER);
+  };
+};
+
+//      _pathToRegExp :: Path -> Maybe RegExp
+exports._pathToRegExp = (filePath) => {
   try {
     // Safe `String::replaceAll`:
     // https://github.com/lodash/lodash/issues/1084#issuecomment-86698786
-    return new RegExp(escapeRegExp(APP_ROOT_PATH), 'g');
+    const urlEncodedAppRootPath = escapeRegExp(encodeURI(filePath));
+    return new RegExp(`${escapeRegExp(filePath)}|${urlEncodedAppRootPath}`, 'g');
   } catch (error) {
     return null;
   }
-})();
+};
 
-const REDACTION_PLACEHOLDER = '[REDACTED]';
-
+// Public API
 //      redactPhoneNumbers :: String -> String
 exports.redactPhoneNumbers = (text) => {
   if (!is.string(text)) {
@@ -46,17 +70,7 @@ exports.redactGroupIds = (text) => {
 };
 
 //      redactSensitivePaths :: String -> String
-exports.redactSensitivePaths = (text) => {
-  if (!is.string(text)) {
-    throw new TypeError('"text" must be a string');
-  }
-
-  if (!is.regExp(APP_ROOT_PATH_PATTERN)) {
-    return text;
-  }
-
-  return text.replace(APP_ROOT_PATH_PATTERN, REDACTION_PLACEHOLDER);
-};
+exports.redactSensitivePaths = exports._redactPath(APP_ROOT_PATH);
 
 //      redactAll :: String -> String
 exports.redactAll = compose(
