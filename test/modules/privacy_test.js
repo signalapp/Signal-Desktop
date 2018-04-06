@@ -73,5 +73,24 @@ describe('Privacy', () => {
         'path2 file:///[REDACTED]/js/background.js.';
       assert.equal(actual, expected);
     });
+
+    it('should redact stack traces with both forward and backslashes', () => {
+      const testPath = 'C:/Users/Meow/AppData/Local/Programs/signal-desktop-beta';
+      const modifiedTestPath =
+        'C:\\Users\\Meow\\AppData\\Local\\Programs\\signal-desktop-beta';
+      const text = 'This is a log line with sensitive information:\n' +
+        `path1 ${testPath}\\main.js\n` +
+        'phone1 +12223334455 ipsum\n' +
+        'group1 group(123456789) doloret\n' +
+        `path2 ${modifiedTestPath}\\js\\background.js.`;
+
+      const actual = Privacy._redactPath(testPath)(text);
+      const expected = 'This is a log line with sensitive information:\n' +
+        'path1 [REDACTED]\\main.js\n' +
+        'phone1 +12223334455 ipsum\n' +
+        'group1 group(123456789) doloret\n' +
+        'path2 [REDACTED]\\js\\background.js.';
+      assert.equal(actual, expected);
+    });
   });
 });
