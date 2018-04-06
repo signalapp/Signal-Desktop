@@ -71,6 +71,19 @@ message DataMessage {
     PROFILE_KEY_UPDATE      = 4;
   }
 
+  message Quote {
+    message QuotedAttachment {
+      optional string            contentType = 1;
+      optional string            fileName    = 2;
+      optional AttachmentPointer thumbnail   = 3;
+    }
+
+    optional uint64           id          = 1;
+    optional string           author      = 2;
+    optional string           text        = 3;
+    repeated QuotedAttachment attachments = 4;
+  }
+
   optional string             body        = 1;
   repeated AttachmentPointer  attachments = 2;
   optional GroupContext       group       = 3;
@@ -78,6 +91,7 @@ message DataMessage {
   optional uint32             expireTimer = 5;
   optional bytes              profileKey  = 6;
   optional uint64             timestamp   = 7;
+  optional Quote              quote       = 8;
 }
 
 message NullMessage {
