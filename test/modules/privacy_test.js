@@ -1,11 +1,11 @@
-const Path = require('path');
+const path = require('path');
 
 const { assert } = require('chai');
 
 const Privacy = require('../../js/modules/privacy');
 
 
-const APP_ROOT_PATH = Path.join(__dirname, '..', '..', '..');
+const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 
 describe('Privacy', () => {
   describe('redactPhoneNumbers', () => {

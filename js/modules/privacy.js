@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-const Path = require('path');
+const path = require('path');
 
 const {
   escapeRegExp,
@@ -13,7 +13,7 @@ const { compose } = require('lodash/fp');
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 
-const APP_ROOT_PATH = Path.join(__dirname, '..', '..', '..');
+const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 const APP_ROOT_PATH_PATTERN = (() => {
   try {
     // Safe `String::replaceAll`:
