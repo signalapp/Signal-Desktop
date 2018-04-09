@@ -1,4 +1,4 @@
-const { isFunction, isString } = require('lodash');
+const is = require('@sindresorhus/is');
 
 const MIME = require('./mime');
 const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
@@ -76,7 +76,7 @@ const INVALID_CHARACTERS_PATTERN = new RegExp(
 // which currently doesn’t support async testing:
 // https://github.com/leebyron/testcheck-js/issues/45
 exports._replaceUnicodeOrderOverridesSync = (attachment) => {
-  if (!isString(attachment.fileName)) {
+  if (!is.string(attachment.fileName)) {
     return attachment;
   }
 
@@ -115,7 +115,7 @@ exports.hasData = attachment =>
 //                  Attachment ->
 //                  IO (Promise Attachment)
 exports.loadData = (readAttachmentData) => {
-  if (!isFunction(readAttachmentData)) {
+  if (!is.function(readAttachmentData)) {
     throw new TypeError("'readAttachmentData' must be a function");
   }
 
@@ -129,7 +129,7 @@ exports.loadData = (readAttachmentData) => {
       return attachment;
     }
 
-    if (!isString(attachment.path)) {
+    if (!is.string(attachment.path)) {
       throw new TypeError("'attachment.path' is required");
     }
 
@@ -142,7 +142,7 @@ exports.loadData = (readAttachmentData) => {
 //                    Attachment ->
 //                    IO Unit
 exports.deleteData = (deleteAttachmentData) => {
-  if (!isFunction(deleteAttachmentData)) {
+  if (!is.function(deleteAttachmentData)) {
     throw new TypeError("'deleteAttachmentData' must be a function");
   }
 
@@ -156,7 +156,7 @@ exports.deleteData = (deleteAttachmentData) => {
       return;
     }
 
-    if (!isString(attachment.path)) {
+    if (!is.string(attachment.path)) {
       throw new TypeError("'attachment.path' is required");
     }
 
