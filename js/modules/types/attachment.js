@@ -1,6 +1,6 @@
 const is = require('@sindresorhus/is');
 
-const MIME = require('./mime');
+const MIME = require('../../../ts/types/MIME');
 const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
 const { migrateDataToFileSystem } = require('./attachment/migrate_data_to_file_system');

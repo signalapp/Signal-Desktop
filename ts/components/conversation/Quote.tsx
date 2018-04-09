@@ -1,8 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-// @ts-ignore
-import Mime from '../../../js/modules/types/mime';
+import * as MIME from '../../../ts/types/MIME';
 
 
 interface Props {
@@ -92,17 +91,17 @@ export class Quote extends React.Component<Props, {}> {
     const { contentType, thumbnail } = first;
     const objectUrl = getObjectUrl(thumbnail);
 
-    if (Mime.isVideo(contentType)) {
+    if (MIME.isVideo(contentType)) {
       return objectUrl
         ? this.renderImage(objectUrl, 'play')
         : this.renderIcon('movie');
     }
-    if (Mime.isImage(contentType)) {
+    if (MIME.isImage(contentType)) {
       return objectUrl
         ? this.renderImage(objectUrl)
         : this.renderIcon('image');
     }
-    if (Mime.isAudio(contentType)) {
+    if (MIME.isAudio(contentType)) {
       return this.renderIcon('microphone');
     }
 
@@ -123,16 +122,16 @@ export class Quote extends React.Component<Props, {}> {
     const first = attachments[0];
     const { contentType, fileName, isVoiceMessage } = first;
 
-    if (Mime.isVideo(contentType)) {
+    if (MIME.isVideo(contentType)) {
       return <div className="type-label">{i18n('video')}</div>;
     }
-    if (Mime.isImage(contentType)) {
+    if (MIME.isImage(contentType)) {
       return <div className="type-label">{i18n('photo')}</div>;
     }
-    if (Mime.isAudio(contentType) && isVoiceMessage) {
+    if (MIME.isAudio(contentType) && isVoiceMessage) {
       return <div className="type-label">{i18n('voiceMessage')}</div>;
     }
-    if (Mime.isAudio(contentType)) {
+    if (MIME.isAudio(contentType)) {
       return <div className="type-label">{i18n('audio')}</div>;
     }
 

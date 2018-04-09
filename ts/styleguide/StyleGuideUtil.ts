@@ -20,8 +20,7 @@ export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 import { Quote } from '../components/conversation/Quote';
 import * as HTML from '../html';
 
-// @ts-ignore
-import MIME from '../../js/modules/types/mime';
+import * as MIME from '../../ts/types/MIME';
 
 // TypeScript wants two things when you import:
 //   1) a normal typescript file
