@@ -110,6 +110,7 @@ module.exports = function(grunt) {
         '!js/signal_protocol_store.js',
         '!js/views/conversation_search_view.js',
         '!js/views/debug_log_view.js',
+        '!js/views/message_view.js',
         '!js/WebAudioRecorderMp3.js',
         '_locales/**/*'
       ],
