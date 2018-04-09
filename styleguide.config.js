@@ -118,6 +118,9 @@ module.exports = {
         },
         // Select Backbone views
         {
+          src: 'js/views/react_wrapper_view.js',
+        },
+        {
           src: 'js/views/whisper_view.js',
         },
         {
