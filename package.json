@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@sindresorhus/is": "^0.8.0",
+    "@types/lodash": "^4.14.106",
     "archiver": "^2.1.1",
     "blob-util": "^1.3.0",
     "blueimp-canvas-to-blob": "^3.14.0",
