@@ -6,6 +6,7 @@
   ],
   "jsRules": {},
   "rules": {
+    "array-type": [true, "generic"],
     "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
     "no-consecutive-blank-lines": [true, 2],
     "interface-name": [true, "never-prefix"]
