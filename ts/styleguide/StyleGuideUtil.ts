@@ -13,8 +13,7 @@ export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 
 // Here we can make things inside Webpack available to Backbone views like preload.js.
 
-import { Message } from '../components/conversation/Message';
-import { Reply } from '../components/conversation/Reply';
+import { Quote } from '../components/conversation/Quote';
 
 
 // TypeScript wants two things when you import:
@@ -78,8 +77,7 @@ parent.React = React;
 parent.ReactDOM = ReactDOM;
 
 parent.Signal.Components = {
-  Message,
-  Reply,
+  Quote,
 };
 
 parent.ConversationController._initialFetchComplete = true;
