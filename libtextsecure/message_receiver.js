@@ -1025,7 +1025,13 @@ MessageReceiver.prototype.extend({
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageReceiver = (url, username, password, signalingKey, options) => {
+textsecure.MessageReceiver = function MessageReceiverWrapper(
+  url,
+  username,
+  password,
+  signalingKey,
+  options
+) {
   const messageReceiver = new MessageReceiver(
     url,
     username,
