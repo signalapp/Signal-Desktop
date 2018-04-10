@@ -12,8 +12,10 @@ install:
   - yarn install --frozen-lockfile
 
 build_script:
+  - yarn transpile
   - yarn nsp check
   - yarn eslint
+  - yarn tslint
   - yarn test-server
   - yarn lint
   - yarn run icon-gen
