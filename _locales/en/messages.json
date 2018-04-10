@@ -428,6 +428,18 @@
     "selectAContact": {
       "message": "Select a contact or group to start chatting."
     },
+    "audio": {
+      "message": "Audio",
+      "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    },
+    "video": {
+      "message": "Video",
+      "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
+    "photo": {
+      "message": "Photo",
+      "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
     "ok": {
       "message": "OK"
     },

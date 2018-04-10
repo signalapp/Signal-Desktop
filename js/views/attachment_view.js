@@ -136,7 +136,8 @@
       return this.model.contentType.startsWith('audio/');
     },
     isVideo() {
-      return this.model.contentType.startsWith('video/');
+      const type = this.model.contentType;
+      return type.startsWith('video/') && type !== 'image/wmv';
     },
     isImage() {
       const type = this.model.contentType;

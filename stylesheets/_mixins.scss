@@ -1,3 +1,20 @@
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
 @mixin color-svg($svg, $color) {
     -webkit-mask: url($svg) no-repeat center;
     -webkit-mask-size: 100%;
@@ -53,6 +70,47 @@
   &.grey        { background-color: #666666               ; }
   &.default     { background-color: $blue                 ; }
 }
+
+// TODO: Deduplicate these! Can SASS functions generate property names?
+@mixin message-replies-colors {
+  &.red         { border-left-color: $material_red         ; }
+  &.pink        { border-left-color: $material_pink        ; }
+  &.purple      { border-left-color: $material_purple      ; }
+  &.deep_purple { border-left-color: $material_deep_purple ; }
+  &.indigo      { border-left-color: $material_indigo      ; }
+  &.blue        { border-left-color: $material_blue        ; }
+  &.light_blue  { border-left-color: $material_light_blue  ; }
+  &.cyan        { border-left-color: $material_cyan        ; }
+  &.teal        { border-left-color: $material_teal        ; }
+  &.green       { border-left-color: $material_green       ; }
+  &.light_green { border-left-color: $material_light_green ; }
+  &.orange      { border-left-color: $material_orange      ; }
+  &.deep_orange { border-left-color: $material_deep_orange ; }
+  &.amber       { border-left-color: $material_amber       ; }
+  &.blue_grey   { border-left-color: $material_blue_grey   ; }
+  &.grey        { border-left-color: #999999               ; }
+  &.default     { border-left-color: $blue                 ; }
+}
+@mixin dark-message-replies-colors {
+  &.red         { border-left-color: $dark_material_red         ; }
+  &.pink        { border-left-color: $dark_material_pink        ; }
+  &.purple      { border-left-color: $dark_material_purple      ; }
+  &.deep_purple { border-left-color: $dark_material_deep_purple ; }
+  &.indigo      { border-left-color: $dark_material_indigo      ; }
+  &.blue        { border-left-color: $dark_material_blue        ; }
+  &.light_blue  { border-left-color: $dark_material_light_blue  ; }
+  &.cyan        { border-left-color: $dark_material_cyan        ; }
+  &.teal        { border-left-color: $dark_material_teal        ; }
+  &.green       { border-left-color: $dark_material_green       ; }
+  &.light_green { border-left-color: $dark_material_light_green ; }
+  &.orange      { border-left-color: $dark_material_orange      ; }
+  &.deep_orange { border-left-color: $dark_material_deep_orange ; }
+  &.amber       { border-left-color: $dark_material_amber       ; }
+  &.blue_grey   { border-left-color: $dark_material_blue_grey   ; }
+  &.grey        { border-left-color: #666666                    ; }
+  &.default     { border-left-color: $blue                      ; }
+}
+
 @mixin invert-text-color {
   color: white;
 

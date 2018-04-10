@@ -45,14 +45,16 @@ const outgoing = new Whisper.Message({
     text: 'I am pretty confused about Pi.',
     author: '+12025550100',
     id: Date.now() - 1000,
-    attachments: {
-      contentType: 'image/gif',
-      fileName: 'pi.gif',
-      thumbnail: {
+    attachments: [
+      {
         contentType: 'image/gif',
-        data: util.gif,
-      }
-    }
+        fileName: 'pi.gif',
+        thumbnail: {
+          contentType: 'image/gif',
+          data: util.gif,
+        },
+      },
+    ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
@@ -85,14 +87,16 @@ const outgoing = new Whisper.Message({
   quote: {
     author: '+12025550100',
     id: Date.now() - 1000,
-    attachments: {
-      contentType: 'image/gif',
-      fileName: 'pi.gif',
-      thumbnail: {
+    attachments: [
+      {
         contentType: 'image/gif',
-        data: util.gif,
-      }
-    }
+        fileName: 'pi.gif',
+        thumbnail: {
+          contentType: 'image/gif',
+          data: util.gif,
+        },
+      },
+    ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
@@ -126,14 +130,16 @@ const outgoing = new Whisper.Message({
     author: '+12025550100',
     text: 'Check out this video I found!',
     id: Date.now() - 1000,
-    attachments: {
-      contentType: 'video/mp4',
-      fileName: 'freezing_bubble.mp4',
-      thumbnail: {
-        contentType: 'image/gif',
-        data: util.gif,
-      }
-    }
+    attachments: [
+      {
+        contentType: 'video/mp4',
+        fileName: 'freezing_bubble.mp4',
+        thumbnail: {
+          contentType: 'image/gif',
+          data: util.gif,
+        },
+      },
+    ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
@@ -166,14 +172,16 @@ const outgoing = new Whisper.Message({
   quote: {
     author: '+12025550100',
     id: Date.now() - 1000,
-    attachments: {
-      contentType: 'video/mp4',
-      fileName: 'freezing_bubble.mp4',
-      thumbnail: {
-        contentType: 'image/gif',
-        data: util.gif,
-      }
-    }
+    attachments: [
+      {
+        contentType: 'video/mp4',
+        fileName: 'freezing_bubble.mp4',
+        thumbnail: {
+          contentType: 'image/gif',
+          data: util.gif,
+        }
+      },
+    ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
@@ -207,10 +215,12 @@ const outgoing = new Whisper.Message({
     author: '+12025550100',
     text: 'Check out this beautiful song!',
     id: Date.now() - 1000,
-    attachments: {
-      contentType: 'audio/mp3',
-      fileName: 'agnus_dei.mp4',
-    }
+    attachments: [
+      {
+        contentType: 'audio/mp3',
+        fileName: 'agnus_dei.mp4',
+      },
+    ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
@@ -243,10 +253,12 @@ const outgoing = new Whisper.Message({
   quote: {
     author: '+12025550100',
     id: Date.now() - 1000,
-    attachments: {
-      contentType: 'audio/mp3',
-      fileName: 'agnus_dei.mp4',
-    }
+    attachments: [
+      {
+        contentType: 'audio/mp3',
+        fileName: 'agnus_dei.mp4',
+      },
+    ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
@@ -279,12 +291,14 @@ const outgoing = new Whisper.Message({
   quote: {
     author: '+12025550100',
     id: Date.now() - 1000,
-    attachments: {
-      // proposed as of afternoon of 4/6 in Quoted Replies group
-      flags: textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
-      contentType: 'audio/mp3',
-      fileName: 'agnus_dei.mp4',
-    }
+    attachments: [
+      {
+        // proposed as of afternoon of 4/6 in Quoted Replies group
+        flags: textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
+        contentType: 'audio/mp3',
+        fileName: 'agnus_dei.mp4',
+      },
+    ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
@@ -318,10 +332,12 @@ const outgoing = new Whisper.Message({
     author: '+12025550100',
     text: 'This is my manifesto. Tell me what you think!',
     id: Date.now() - 1000,
-    attachments: {
-      contentType: 'text/plain',
-      fileName: 'lorum_ipsum.txt',
-    }
+    attachments: [
+      {
+        contentType: 'text/plain',
+        fileName: 'lorum_ipsum.txt',
+      },
+    ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
@@ -354,10 +370,12 @@ const outgoing = new Whisper.Message({
   quote: {
     author: '+12025550100',
     id: Date.now() - 1000,
-    attachments: {
-      contentType: 'text/plain',
-      fileName: 'lorum_ipsum.txt',
-    }
+    attachments: [
+      {
+        contentType: 'text/plain',
+        fileName: 'lorum_ipsum.txt',
+      },
+    ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {

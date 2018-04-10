@@ -235,7 +235,6 @@
       // Failsafe: if in the background, animation events don't fire
       setTimeout(this.remove.bind(this), 1000);
     },
-    /* jshint ignore:start */
     onUnload() {
       if (this.avatarView) {
         this.avatarView.remove();
@@ -252,6 +251,9 @@
       if (this.timeStampView) {
         this.timeStampView.remove();
       }
+      if (this.replyView) {
+        this.replyView.remove();
+      }
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
       // as our tests rely on `onUnload` synchronously removing the view from
@@ -265,7 +267,6 @@
 
       this.remove();
     },
-    /* jshint ignore:end */
     onDestroy() {
       if (this.$el.hasClass('expired')) {
         return;
@@ -359,6 +360,53 @@
       this.timerView.setElement(this.$('.timer'));
       this.timerView.update();
     },
+    renderReply() {
+      const VOICE_MESSAGE_FLAG =
+        textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
+      function addVoiceMessageFlag(attachment) {
+        return Object.assign({}, attachment, {
+          // eslint-disable-next-line no-bitwise
+          isVoiceMessage: attachment.flags & VOICE_MESSAGE_FLAG,
+        });
+      }
+      function getObjectUrl(attachment) {
+        if (!attachment || attachment.objectUrl) {
+          return attachment;
+        }
+
+        const blob = new Blob([attachment.data], {
+          type: attachment.contentType,
+        });
+        return Object.assign({}, attachment, {
+          objectUrl: URL.createObjectURL(blob),
+        });
+      }
+      function processAttachment(attachment) {
+        return getObjectUrl(addVoiceMessageFlag(attachment));
+      }
+
+      const quote = this.model.get('quote');
+      if (!quote) {
+        return;
+      }
+
+      const props = {
+        authorName: 'someone',
+        authorColor: 'indigo',
+        text: quote.text,
+        attachments: quote.attachments && quote.attachments.map(processAttachment),
+      };
+
+      if (!this.replyView) {
+        this.replyView = new Whisper.ReactWrapperView({
+          el: this.$('.quote-wrapper'),
+          Component: window.Signal.Components.Quote,
+          props,
+        });
+      } else {
+        this.replyView.update(props);
+      }
+    },
     isImageWithoutCaption() {
       const attachments = this.model.get('attachments');
       const body = this.model.get('body');
@@ -406,6 +454,7 @@
       this.renderRead();
       this.renderErrors();
       this.renderExpiring();
+      this.renderReply();
 
 
       // NOTE: We have to do this in the background (`then` instead of `await`)

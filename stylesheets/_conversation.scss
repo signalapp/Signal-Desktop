@@ -450,6 +450,75 @@ span.status {
       max-width: calc(100% - 45px - #{$error-icon-size}); // avatar size + padding + error-icon size
     }
 
+    .quote {
+      @include message-replies-colors;
+
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+
+      border-radius: 2px;
+      background-color: #eee;
+      position: relative;
+
+      margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
+      margin-right: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
+      margin-left: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
+      margin-bottom: 0.5em;
+
+      // Accent color border:
+      border-left-width: 3;
+      border-left-style: solid;
+
+      .primary {
+        flex-grow: 1;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+
+        .author {
+          font-weight: bold;
+          margin-bottom: 0.3em;
+        }
+
+        .text {
+          white-space: pre-wrap;
+        }
+
+        .type-label {
+          font-style: italic;
+          font-size: 12px;
+        }
+
+        .filename-label {
+          font-size: 12px;
+        }
+      }
+
+      .icon-container {
+        flex: initial;
+        min-width: 48px;
+        @include aspect-ratio(1, 1);
+
+        .inner {
+          border: 1px red solid;
+          max-height: 48px;
+          max-width: 48px;
+
+          &.file {
+            @include color-svg('../images/file.svg', $grey_d);
+          }
+          &.microphone {
+            @include color-svg('../images/microphone.svg', $grey_d);
+          }
+          &.play {
+            @include color-svg('../images/play.svg', $grey_d);
+          }
+        }
+      }
+    }
+
     .body {
       margin-top: 0.5em;
       white-space: pre-wrap;
