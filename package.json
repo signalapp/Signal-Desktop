@@ -94,6 +94,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.2",
     "@types/lodash": "^4.14.106",
+    "@types/mocha": "^5.0.0",
     "@types/qs": "^6.5.1",
     "@types/react": "^16.3.1",
     "@types/react-dom": "^16.0.4",
