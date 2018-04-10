@@ -556,7 +556,7 @@
         return number.error || 'Invalid phone number';
       }
 
-      throw new Error('Cannot validate the number of a group!');
+      return null;
     },
 
     updateTokens() {
