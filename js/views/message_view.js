@@ -6,6 +6,7 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    const { HTML } = window.Signal;
     const { Attachment } = window.Signal.Types;
     const { loadAttachmentData } = window.Signal.Migrations;
 
@@ -375,8 +376,8 @@
             emoji_util.parse(body);
 
             if (body.length > 0) {
-                var escaped = body.html();
-                body.html(escaped.replace(/\n/g, '<br>').replace(URL_REGEX, "$1<a href='$2' target='_blank'>$2</a>"));
+                const escapedBody = body.html();
+                body.html(HTML.render(escapedBody));
             }
 
             this.renderSent();
