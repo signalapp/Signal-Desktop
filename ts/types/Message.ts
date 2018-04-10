@@ -8,32 +8,39 @@ export type Message
 
 export type IncomingMessage = Readonly<{
   type: 'incoming';
+  // Required
   attachments: Array<Attachment>;
+  id: string;
+  received_at: number;
+
+  // Optional
   body?: string;
   decrypted_at?: number;
   errors?: Array<any>;
   flags?: number;
-  id: string;
-  received_at: number;
   source?: string;
   sourceDevice?: number;
 } & SharedMessageProperties & Message4 & ExpirationTimerUpdate>;
 
 export type OutgoingMessage = Readonly<{
   type: 'outgoing';
+
+  // Required
   attachments: Array<Attachment>;
-  body?: string;
   delivered: number;
   delivered_to: Array<string>;
   destination: string; // PhoneNumber
   expirationStartTimestamp: number;
-  expires_at?: number;
-  expireTimer?: number;
   id: string;
   received_at: number;
-  recipients?: Array<string>; // Array<PhoneNumber>
   sent: boolean;
   sent_to: Array<string>; // Array<PhoneNumber>
+
+  // Optional
+  body?: string;
+  expires_at?: number;
+  expireTimer?: number;
+  recipients?: Array<string>; // Array<PhoneNumber>
   synced: boolean;
 } & SharedMessageProperties & Message4 & ExpirationTimerUpdate>;
 
