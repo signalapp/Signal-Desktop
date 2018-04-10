@@ -20,7 +20,7 @@ describe('HTML', () => {
       {
         name: 'square brackets',
         input: 'https://www.example.com/test.html?foo=bar&baz[qux]=quux',
-        output: 'https://www.example.com/test.html?foo=bar&amp;baz[qux]=quux',
+        output: 'https://www.example.com/test.html?foo=bar&baz[qux]=quux',
       },
       {
         name: 'Chinese characters',
@@ -41,7 +41,7 @@ describe('HTML', () => {
       {
         name: 'single quotes',
         input: "https://www.example.com/this-couldn't-be-true",
-        output: "https://www.example.com/this-couldn#39;t-be-true",
+        output: "https://www.example.com/this-couldn't-be-true",
       },
       {
         name: 'special characters before URL begins',
@@ -85,9 +85,9 @@ describe('HTML', () => {
       assert.equal(actual, expected);
     });
 
-    it('should escape HTML', () => {
+    it('should not escape HTML', () => {
       const input: string = "Hello\n<script>alert('evil');</script>World!";
-      const expected: string = 'Hello<br>&lt;script&gt;alert(&#39;evil&#39;);&lt;/script&gt;World!';
+      const expected: string = "Hello<br><script>alert('evil');</script>World!";
 
       const actual = HTML.render(input);
       assert.equal(actual, expected);

@@ -2,7 +2,6 @@
 // jQuery’s escaping mechanism:
 
 var linkify = require('linkify-it')()
-var escape = require('escape-html')
 
 function createLink (url, text, attrs) {
   attrs = attrs || {}
@@ -22,7 +21,6 @@ function createLink (url, text, attrs) {
 
 module.exports = function (text, attrs) {
   attrs = attrs || {}
-  text = escape(text)
 
   var matchData = linkify.match(text) || []
 
