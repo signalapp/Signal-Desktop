@@ -42,7 +42,7 @@
     "test-server": "mocha --recursive test/server",
     "test-server-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/server",
     "eslint": "eslint .",
-    "tslint": "tslint ts/**/*.{ts,tsx}",
+    "tslint": "tslint --config tslint.json ts/**/*.{ts,tsx}",
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js ts/*.js",
     "open-coverage": "open coverage/lcov-report/index.html",
