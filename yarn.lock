@@ -2733,7 +2733,7 @@ es6-promisify@^5.0.0:
   dependencies:
     es6-promise "^4.0.3"
 
-escape-html@~1.0.3:
+escape-html@^1.0.3, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
 
@@ -5150,6 +5150,19 @@ lie@*:
   resolved "https://registry.yarnpkg.com/lie/-/lie-3.2.0.tgz#4f13f2f8bbb027d383db338c43043545791aa8dc"
   dependencies:
     immediate "~3.0.5"
+
+link-text@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/link-text/-/link-text-0.0.1.tgz#d185042f4ec3eda07af7aeb773ab7f7cbd18adc2"
+  dependencies:
+    escape-html "^1.0.3"
+    linkify-it "^1.2.0"
+
+linkify-it@^1.2.0:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-1.2.4.tgz#0773526c317c8fd13bd534ee1d180ff88abf881a"
+  dependencies:
+    uc.micro "^1.0.1"
 
 listify@^1.0.0:
   version "1.0.0"
@@ -8936,6 +8949,10 @@ typescript@^2.8.1:
 ua-parser-js@^0.7.9:
   version "0.7.17"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.17.tgz#e9ec5f9498b9ec910e7ae3ac626a805c4d09ecac"
+
+uc.micro@^1.0.1:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.5.tgz#0c65f15f815aa08b560a61ce8b4db7ffc3f45376"
 
 uglify-es@^3.3.4:
   version "3.3.9"
