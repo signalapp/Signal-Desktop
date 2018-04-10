@@ -2,9 +2,9 @@ build/**
 components/**
 coverage/**
 dist/**
-libtextsecure/**
 
 # these aren't ready yet, pulling files in one-by-one
+libtextsecure/**
 js/*.js
 js/models/**/*.js
 js/views/**/*.js
@@ -30,6 +30,7 @@ ts/**/*.js
 !js/views/inbox_view.js
 !js/views/message_view.js
 !js/views/settings_view.js
+!libtextsecure/message_receiver.js
 !main.js
 !preload.js
 !prepare_build.js

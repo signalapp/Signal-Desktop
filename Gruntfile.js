@@ -112,6 +112,7 @@ module.exports = function(grunt) {
         '!js/views/debug_log_view.js',
         '!js/views/message_view.js',
         '!js/WebAudioRecorderMp3.js',
+        '!libtextsecure/message_receiver.js',
         '_locales/**/*'
       ],
       options: { jshintrc: '.jshintrc' },

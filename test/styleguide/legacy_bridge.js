@@ -34,7 +34,7 @@ window.Signal.Migrations = {
       transaction.db.createObjectStore('conversations');
       next();
     },
-    version: 1
+    version: 1,
   }],
   loadAttachmentData: attachment => Promise.resolve(attachment),
 };
