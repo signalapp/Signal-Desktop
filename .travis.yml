@@ -7,6 +7,7 @@ dist: trusty
 install:
   - yarn install --frozen-lockfile
 script:
+  - yarn transpile
   - yarn nsp check
   - yarn run generate
   - yarn prepare-beta-build
