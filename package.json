@@ -73,6 +73,7 @@
     "google-libphonenumber": "^3.0.7",
     "got": "^8.2.0",
     "link-text": "^0.0.1",
+    "linkify-it": "^2.0.3",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "moment": "^2.21.0",
