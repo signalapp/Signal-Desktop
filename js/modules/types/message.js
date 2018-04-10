@@ -26,7 +26,7 @@ const INITIAL_SCHEMA_VERSION = 0;
 // add more upgrade steps, we could design a pipeline that does this
 // incrementally, e.g. from version 0 / unknown -> 1, 1 --> 2, etc., similar to
 // how we do database migrations:
-exports.CURRENT_SCHEMA_VERSION = 3;
+exports.CURRENT_SCHEMA_VERSION = 4;
 
 
 // Public API
@@ -149,6 +149,26 @@ exports._mapAttachments = upgradeAttachment => async (message, context) => {
   return Object.assign({}, message, { attachments });
 };
 
+//      _mapQuotedAttachments :: (QuotedAttachment -> Promise QuotedAttachment) ->
+//                               (Message, Context) ->
+//
+exports._mapQuotedAttachments = upgradeAttachment => async (message, context) => {
+  if (!message.quote) {
+    return message;
+  }
+
+  const upgradeWithContext = attachment =>
+    upgradeAttachment(attachment, context);
+  const quotedAttachments = (message.quote && message.quote.attachments) || [];
+
+  const attachments = await Promise.all(quotedAttachments.map(upgradeWithContext));
+  return Object.assign({}, message, {
+    quote: Object.assign({}, message.quote, {
+      attachments,
+    }),
+  });
+};
+
 const toVersion0 = async message =>
   exports.initializeSchemaVersion(message);
 
@@ -164,17 +184,29 @@ const toVersion3 = exports._withSchemaVersion(
   3,
   exports._mapAttachments(Attachment.migrateDataToFileSystem)
 );
+const toVersion4 = exports._withSchemaVersion(
+  4,
+  exports._mapQuotedAttachments(Attachment.migrateDataToFileSystem)
+);
 
 // UpgradeStep
-exports.upgradeSchema = async (message, { writeNewAttachmentData } = {}) => {
+exports.upgradeSchema = async (rawMessage, { writeNewAttachmentData } = {}) => {
   if (!isFunction(writeNewAttachmentData)) {
     throw new TypeError('`context.writeNewAttachmentData` is required');
   }
 
-  return toVersion3(
-    await toVersion2(await toVersion1(await toVersion0(message))),
-    { writeNewAttachmentData }
-  );
+  let message = rawMessage;
+  const versions = [toVersion0, toVersion1, toVersion2, toVersion3, toVersion4];
+
+  for (let i = 0, max = versions.length; i < max; i += 1) {
+    const currentVersion = versions[i];
+    // We really do want this intra-loop await because this is a chained async action,
+    //   each step dependent on the previous
+    // eslint-disable-next-line no-await-in-loop
+    message = await currentVersion(message, { writeNewAttachmentData });
+  }
+
+  return message;
 };
 
 exports.createAttachmentLoader = (loadAttachmentData) => {

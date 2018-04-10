@@ -1006,6 +1006,18 @@ MessageReceiver.prototype.extend({
       const attachment = decrypted.attachments[i];
       promises.push(this.handleAttachment(attachment));
     }
+
+    if (decrypted.quote && decrypted.quote.attachments) {
+      const { attachments } = decrypted.quote;
+
+      for (let i = 0, max = attachments.length; i < max; i += 1) {
+        const attachment = attachments[i];
+        if (attachment.thumbnail) {
+          promises.push(this.handleAttachment(attachment.thumbnail));
+        }
+      }
+    }
+
     return Promise.all(promises).then(() => decrypted);
     /* eslint-enable no-bitwise, no-param-reassign */
   },

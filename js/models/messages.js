@@ -447,6 +447,7 @@
                         body           : dataMessage.body,
                         conversationId : conversation.id,
                         attachments    : dataMessage.attachments,
+                        quote          : dataMessage.quote,
                         decrypted_at   : now,
                         flags          : dataMessage.flags,
                         errors         : []

@@ -1,4 +1,5 @@
 const { assert } = require('chai');
+const sinon = require('sinon');
 
 const Message = require('../../../js/modules/types/message');
 const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buffer');
@@ -306,6 +307,83 @@ describe('Message', () => {
       };
       const actual = await upgradeWithVersion(input);
       assert.deepEqual(actual, expected);
+    });
+  });
+
+  describe('_mapQuotedAttachments', () => {
+    it('handles message with no quote', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, message);
+    });
+
+    it('handles quote with no attachments', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+        },
+      };
+      const expected = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, expected);
+    });
+
+    it('handles zero attachments', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, message);
+    });
+
+    it('calls provided async function for each quoted attachment', async () => {
+      const upgradeAttachment = sinon.stub().returns(Promise.resolve({
+        path: '/new/path/on/disk',
+      }));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            data: 'data is here',
+          }],
+        },
+      };
+      const expected = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            path: '/new/path/on/disk',
+          }],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, expected);
     });
   });
 });
