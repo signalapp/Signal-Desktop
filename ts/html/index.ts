@@ -1,4 +1,4 @@
-import linkTextInternal from 'link-text';
+import linkTextInternal from '../../js/modules/link_text';
 
 
 export const linkText = (value: string): string =>
