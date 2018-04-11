@@ -111,6 +111,7 @@
         'disappearing-messages': i18n('disappearingMessages'),
         'android-length-warning': i18n('androidMessageLengthWarning'),
         timer_options: Whisper.ExpirationTimerOptions.models,
+        'view-all-media': i18n('viewAllMedia'),
       };
     },
     initialize(options) {
@@ -566,6 +567,10 @@
       }
 
       el[0].scrollIntoView();
+    },
+
+    viewAllMedia() {
+      console.log('View All Media');
     },
 
     scrollToBottom() {

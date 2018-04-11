@@ -523,7 +523,8 @@
       "message": "Show safety number"
     },
     "viewAllMedia": {
-      "message": "View all media"
+      "message": "View all media",
+      "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
       "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
