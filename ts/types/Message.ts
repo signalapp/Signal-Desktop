@@ -1,29 +1,28 @@
 import { Attachment } from './Attachment';
 
 
-export type Message = IncomingMessage | OutgoingMessage;
+export type Message
+  = IncomingMessage
+  | OutgoingMessage
+  | VerifiedChangeMessage;
 
-export type IncomingMessage = {
+export type IncomingMessage = Readonly<{
   type: 'incoming';
   attachments: Array<Attachment>;
   body?: string;
-  conversationId: string;
   decrypted_at?: number;
   errors?: Array<any>;
   flags?: number;
   id: string;
   received_at: number;
-  sent_at: number;
   source?: string;
   sourceDevice?: number;
-  timestamp: number;
-} & Message4
+} & SharedMessageProperties & Message4 & ExpirationTimerUpdate>;
 
-export type OutgoingMessage = {
+export type OutgoingMessage = Readonly<{
   type: 'outgoing';
   attachments: Array<Attachment>;
   body?: string;
-  conversationId: string;
   delivered: number;
   delivered_to: Array<string>;
   destination: string; // PhoneNumber
@@ -34,14 +33,30 @@ export type OutgoingMessage = {
   received_at: number;
   recipients?: Array<string>; // Array<PhoneNumber>
   sent: boolean;
-  sent_at: number;
   sent_to: Array<string>; // Array<PhoneNumber>
   synced: boolean;
-  timestamp: number;
-} & Message4
+} & SharedMessageProperties & Message4 & ExpirationTimerUpdate>;
 
-interface Message4 {
+export type VerifiedChangeMessage = Readonly<{
+  type: 'verified-change';
+} & SharedMessageProperties & Message4 & ExpirationTimerUpdate>;
+
+type SharedMessageProperties = Readonly<{
+  conversationId: string;
+  sent_at: number;
+  timestamp: number;
+}>;
+
+type ExpirationTimerUpdate = Readonly<{
+  expirationTimerUpdate?: Readonly<{
+    expireTimer: number;
+    fromSync: boolean;
+    source: string; // PhoneNumber
+  }>,
+}>;
+
+type Message4 = Readonly<{
   numAttachments?: number;
   numVisualMediaAttachments?: number;
   numFileAttachments?: number;
-}
+}>;
