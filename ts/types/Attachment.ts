@@ -1,5 +1,3 @@
-import is from '@sindresorhus/is';
-
 import { MIMEType } from './MIME';
 
 
