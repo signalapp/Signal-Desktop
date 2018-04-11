@@ -7,9 +7,20 @@
   "jsRules": {},
   "rules": {
     "array-type": [true, "generic"],
-    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
+    "interface-name": [true, "never-prefix"],
     "no-consecutive-blank-lines": [true, 2],
-    "interface-name": [true, "never-prefix"]
+    "object-literal-key-quotes": [true, "as-needed"],
+    "object-literal-sort-keys": false,
+
+    // Ignore import sources order until we can specify that we want ordering
+    // based on import name vs module name:
+    "ordered-imports": [true, {
+      "import-sources-order": "any",
+      "named-imports-order": "case-insensitive"
+    }],
+
+    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"]
+
   },
   "rulesDirectory": []
 }
