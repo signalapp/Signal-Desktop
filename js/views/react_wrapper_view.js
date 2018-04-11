@@ -11,7 +11,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  window.Whisper.ReactWrapper = Backbone.View.extend({
+  window.Whisper.ReactWrapperView = Backbone.View.extend({
     className: 'react-wrapper',
     initialize(options) {
       const { Component, props, onClose } = options;
