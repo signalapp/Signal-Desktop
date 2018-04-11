@@ -114,7 +114,7 @@ window.ProxyAgent = require('proxy-agent');
 //   two locations:
 //
 //   1) test/styleguide/legacy_bridge.js
-//   2) ts/test/StyleGuideUtil.js
+//   2) ts/styleguide/StyleGuideUtil.js
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');

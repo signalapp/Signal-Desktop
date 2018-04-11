@@ -20,12 +20,12 @@ module.exports = {
     {
       name: 'Test',
       description: 'Components only used for testing',
-      components: 'ts/test/**/*.tsx',
+      components: 'ts/styleguide/**/*.tsx',
     },
   ],
   context: {
     // Exposes necessary utilities in the global scope for all readme code snippets
-    util: 'ts/test/StyleGuideUtil',
+    util: 'ts/styleguide/StyleGuideUtil',
   },
   // We don't want one long, single page
   pagePerSection: true,
