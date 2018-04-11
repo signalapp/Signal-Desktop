@@ -867,9 +867,9 @@
         unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
 
         const unreadCount = unreadMessages.length - read.length;
-        const promise = new Promise(((resolve, reject) => {
+        const promise = new Promise((resolve, reject) => {
           this.save({ unreadCount }).then(resolve, reject);
-        }));
+        });
         promises.push(promise);
 
         // If a message has errors, we don't want to send anything out about it.
@@ -1018,13 +1018,13 @@
       });
     },
     setProfileKey(key) {
-      return new Promise(((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         if (!constantTimeEqualArrayBuffers(this.get('profileKey'), key)) {
           this.save({ profileKey: key }).then(resolve, reject);
         } else {
           resolve();
         }
-      }));
+      });
     },
 
     fetchMessages() {
@@ -1205,14 +1205,14 @@
     },
 
     getNotificationIcon() {
-      return new Promise(((resolve) => {
+      return new Promise((resolve) => {
         const avatar = this.getAvatar();
         if (avatar.url) {
           resolve(avatar.url);
         } else {
           resolve(new Whisper.IdenticonSVGView(avatar).getDataUrl());
         }
-      }));
+      });
     },
 
     notify(message) {
@@ -1264,9 +1264,9 @@
     },
 
     destroyAll() {
-      return Promise.all(this.models.map(m => new Promise(((resolve, reject) => {
+      return Promise.all(this.models.map(m => new Promise((resolve, reject) => {
         m.destroy().then(resolve).fail(reject);
-      }))));
+      })));
     },
 
     search(providedQuery) {
@@ -1276,7 +1276,7 @@
         const lastCharCode = query.charCodeAt(query.length - 1);
         const nextChar = String.fromCharCode(lastCharCode + 1);
         const upper = query.slice(0, -1) + nextChar;
-        return new Promise(((resolve) => {
+        return new Promise((resolve) => {
           this.fetch({
             index: {
               name: 'search', // 'search' index on tokens array
@@ -1285,31 +1285,31 @@
               excludeUpper: true,
             },
           }).always(resolve);
-        }));
+        });
       }
       return Promise.resolve();
     },
 
     fetchAlphabetical() {
-      return new Promise(((resolve) => {
+      return new Promise((resolve) => {
         this.fetch({
           index: {
             name: 'search', // 'search' index on tokens array
           },
           limit: 100,
         }).always(resolve);
-      }));
+      });
     },
 
     fetchGroups(number) {
-      return new Promise(((resolve) => {
+      return new Promise((resolve) => {
         this.fetch({
           index: {
             name: 'group',
             only: number,
           },
         }).always(resolve);
-      }));
+      });
     },
   });
 
@@ -1321,14 +1321,14 @@
     storeName: 'conversations',
     model: Whisper.Conversation,
     fetchGroups(number) {
-      return new Promise(((resolve) => {
+      return new Promise((resolve) => {
         this.fetch({
           index: {
             name: 'group',
             only: number,
           },
         }).always(resolve);
-      }));
+      });
     },
   });
 }());

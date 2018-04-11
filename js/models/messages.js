@@ -420,7 +420,7 @@
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
-      return conversation.queueJob(() => new Promise(((resolve) => {
+      return conversation.queueJob(() => new Promise((resolve) => {
         const now = new Date().getTime();
         let attributes = { type: 'private' };
         if (dataMessage.group) {
@@ -637,7 +637,7 @@
             });
           }, handleError);
         }, handleError);
-      })));
+      }));
     },
     markRead(readAt) {
       this.unset('unread');
@@ -647,9 +647,9 @@
       Whisper.Notifications.remove(Whisper.Notifications.where({
         messageId: this.id,
       }));
-      return new Promise(((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         this.save().then(resolve, reject);
-      }));
+      });
     },
     isExpiring() {
       return this.get('expireTimer') && this.get('expirationStartTimestamp');
@@ -708,9 +708,9 @@
       }
     },
     destroyAll() {
-      return Promise.all(this.models.map(m => new Promise(((resolve, reject) => {
+      return Promise.all(this.models.map(m => new Promise((resolve, reject) => {
         m.destroy().then(resolve).fail(reject);
-      }))));
+      })));
     },
 
     fetchSentAt(timestamp) {
@@ -745,7 +745,7 @@
       if (unreadCount > 0) {
         startingLoadedUnread = this.getLoadedUnreadCount();
       }
-      return new Promise(((resolve) => {
+      return new Promise((resolve) => {
         let upper;
         if (this.length === 0) {
           // fetch the most recent messages first
@@ -765,7 +765,7 @@
           // received_at DESC
         };
         this.fetch(options).always(resolve);
-      })).then(() => {
+      }).then(() => {
         if (unreadCount <= 0) {
           return Promise.resolve();
         }

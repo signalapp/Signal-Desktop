@@ -395,7 +395,7 @@ MessageReceiver.prototype.extend({
     return -1;
   },
   onDeliveryReceipt(envelope) {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const ev = new Event('delivery');
       ev.confirm = this.removeFromCache.bind(this, envelope);
       ev.deliveryReceipt = {
@@ -404,7 +404,7 @@ MessageReceiver.prototype.extend({
         sourceDevice: envelope.sourceDevice,
       };
       this.dispatchAndWait(ev).then(resolve, reject);
-    }));
+    });
   },
   unpad(paddedData) {
     const paddedPlaintext = new Uint8Array(paddedData);
