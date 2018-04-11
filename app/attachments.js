@@ -11,7 +11,7 @@ const PATH = 'attachments.noindex';
 //      getPath :: AbsolutePath -> AbsolutePath
 exports.getPath = (userDataPath) => {
   if (!isString(userDataPath)) {
-    throw new TypeError('"userDataPath" must be a string');
+    throw new TypeError("'userDataPath' must be a string");
   }
   return path.join(userDataPath, PATH);
 };
@@ -19,7 +19,7 @@ exports.getPath = (userDataPath) => {
 //      ensureDirectory :: AbsolutePath -> IO Unit
 exports.ensureDirectory = async (userDataPath) => {
   if (!isString(userDataPath)) {
-    throw new TypeError('"userDataPath" must be a string');
+    throw new TypeError("'userDataPath' must be a string");
   }
   await fse.ensureDir(exports.getPath(userDataPath));
 };
@@ -29,12 +29,12 @@ exports.ensureDirectory = async (userDataPath) => {
 //                      IO (Promise ArrayBuffer)
 exports.createReader = (root) => {
   if (!isString(root)) {
-    throw new TypeError('"root" must be a path');
+    throw new TypeError("'root' must be a path");
   }
 
   return async (relativePath) => {
     if (!isString(relativePath)) {
-      throw new TypeError('"relativePath" must be a string');
+      throw new TypeError("'relativePath' must be a string");
     }
 
     const absolutePath = path.join(root, relativePath);
@@ -48,12 +48,12 @@ exports.createReader = (root) => {
 //                            IO (Promise RelativePath)
 exports.createWriterForNew = (root) => {
   if (!isString(root)) {
-    throw new TypeError('"root" must be a path');
+    throw new TypeError("'root' must be a path");
   }
 
   return async (arrayBuffer) => {
     if (!isArrayBuffer(arrayBuffer)) {
-      throw new TypeError('"arrayBuffer" must be an array buffer');
+      throw new TypeError("'arrayBuffer' must be an array buffer");
     }
 
     const name = exports.createName();
@@ -70,16 +70,16 @@ exports.createWriterForNew = (root) => {
 //                      IO (Promise RelativePath)
 exports.createWriterForExisting = (root) => {
   if (!isString(root)) {
-    throw new TypeError('"root" must be a path');
+    throw new TypeError("'root' must be a path");
   }
 
   return async ({ data: arrayBuffer, path: relativePath } = {}) => {
     if (!isString(relativePath)) {
-      throw new TypeError('"relativePath" must be a path');
+      throw new TypeError("'relativePath' must be a path");
     }
 
     if (!isArrayBuffer(arrayBuffer)) {
-      throw new TypeError('"arrayBuffer" must be an array buffer');
+      throw new TypeError("'arrayBuffer' must be an array buffer");
     }
 
     const buffer = Buffer.from(arrayBuffer);
@@ -95,12 +95,12 @@ exports.createWriterForExisting = (root) => {
 //                       IO Unit
 exports.createDeleter = (root) => {
   if (!isString(root)) {
-    throw new TypeError('"root" must be a path');
+    throw new TypeError("'root' must be a path");
   }
 
   return async (relativePath) => {
     if (!isString(relativePath)) {
-      throw new TypeError('"relativePath" must be a string');
+      throw new TypeError("'relativePath' must be a string");
     }
 
     const absolutePath = path.join(root, relativePath);
@@ -117,7 +117,7 @@ exports.createName = () => {
 //      getRelativePath :: String -> IO Path
 exports.getRelativePath = (name) => {
   if (!isString(name)) {
-    throw new TypeError('"name" must be a string');
+    throw new TypeError("'name' must be a string");
   }
 
   const prefix = name.slice(0, 2);

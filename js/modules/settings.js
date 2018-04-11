@@ -26,11 +26,11 @@ exports.markAttachmentMigrationComplete = connection =>
 // Private API
 exports._getItem = (connection, key) => {
   if (!isObject(connection)) {
-    throw new TypeError('"connection" is required');
+    throw new TypeError("'connection' is required");
   }
 
   if (!isString(key)) {
-    throw new TypeError('"key" must be a string');
+    throw new TypeError("'key' must be a string");
   }
 
   const transaction = connection.transaction(ITEMS_STORE_NAME, 'readonly');
@@ -47,11 +47,11 @@ exports._getItem = (connection, key) => {
 
 exports._setItem = (connection, key, value) => {
   if (!isObject(connection)) {
-    throw new TypeError('"connection" is required');
+    throw new TypeError("'connection' is required");
   }
 
   if (!isString(key)) {
-    throw new TypeError('"key" must be a string');
+    throw new TypeError("'key' must be a string");
   }
 
   const transaction = connection.transaction(ITEMS_STORE_NAME, 'readwrite');
@@ -68,11 +68,11 @@ exports._setItem = (connection, key, value) => {
 
 exports._deleteItem = (connection, key) => {
   if (!isObject(connection)) {
-    throw new TypeError('"connection" is required');
+    throw new TypeError("'connection' is required");
   }
 
   if (!isString(key)) {
-    throw new TypeError('"key" must be a string');
+    throw new TypeError("'key' must be a string");
   }
 
   const transaction = connection.transaction(ITEMS_STORE_NAME, 'readwrite');

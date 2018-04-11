@@ -29,15 +29,15 @@ exports.createConversation = async ({
 } = {}) => {
   if (!isObject(ConversationController) ||
       !isFunction(ConversationController.getOrCreateAndWait)) {
-    throw new TypeError('"ConversationController" is required');
+    throw new TypeError("'ConversationController' is required");
   }
 
   if (!isNumber(numMessages) || numMessages <= 0) {
-    throw new TypeError('"numMessages" must be a positive number');
+    throw new TypeError("'numMessages' must be a positive number");
   }
 
   if (!isFunction(WhisperMessage)) {
-    throw new TypeError('"WhisperMessage" is required');
+    throw new TypeError("'WhisperMessage' is required");
   }
 
   const conversation =
@@ -80,7 +80,7 @@ const SAMPLE_MESSAGES = [
 const ATTACHMENT_SAMPLE_RATE = 0.33;
 const createRandomMessage = async ({ conversationId } = {}) => {
   if (!isString(conversationId)) {
-    throw new TypeError('"conversationId" must be a string');
+    throw new TypeError("'conversationId' must be a string");
   }
 
   const sentAt = Date.now() - random(100 * 24 * 60 * 60 * 1000);

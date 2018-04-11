@@ -51,5 +51,7 @@ module.exports = {
 
     // consistently place operators at end of line except ternaries
     'operator-linebreak': 'error',
+
+    'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
   }
 };
