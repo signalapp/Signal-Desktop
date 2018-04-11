@@ -12,6 +12,6 @@ describe('debuglogs', () => {
 
       const { body } = await got.get(url);
       assert.equal(nonce, body);
-    });
+    }).timeout(3000);
   });
 });

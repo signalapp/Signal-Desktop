@@ -8,6 +8,6 @@ if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
   sleep 3
 fi
 
-grunt test
+yarn test-electron
 
-NODE_ENV=production grunt test-release:$TRAVIS_OS_NAME
+NODE_ENV=production yarn grunt test-release:$TRAVIS_OS_NAME

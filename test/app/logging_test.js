@@ -13,7 +13,7 @@ const {
   isLineAfterDate,
   fetchLog,
   fetch,
-} = require('../../../app/logging');
+} = require('../../app/logging');
 
 describe('app/logging', () => {
   let basePath;

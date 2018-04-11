@@ -114,7 +114,7 @@ window.ProxyAgent = require('proxy-agent');
 //   two locations:
 //
 //   1) test/styleguide/legacy_bridge.js
-//   2) ts/test/StyleGuideUtil.js
+//   2) ts/styleguide/StyleGuideUtil.js
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');
@@ -158,6 +158,7 @@ window.Signal.Backup = require('./js/modules/backup');
 window.Signal.Crypto = require('./js/modules/crypto');
 window.Signal.Database = require('./js/modules/database');
 window.Signal.Debug = require('./js/modules/debug');
+window.Signal.HTML = require('./ts/html');
 window.Signal.Logs = require('./js/modules/logs');
 
 window.Signal.Components = {};
