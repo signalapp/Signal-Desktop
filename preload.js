@@ -183,6 +183,7 @@ window.Signal.Startup = require('./js/modules/startup');
 
 window.Signal.Types = {};
 window.Signal.Types.Attachment = Attachment;
+window.Signal.Types.Conversation = require('./ts/types/Conversation');
 window.Signal.Types.Errors = require('./js/modules/types/errors');
 
 window.Signal.Types.Message = Message;

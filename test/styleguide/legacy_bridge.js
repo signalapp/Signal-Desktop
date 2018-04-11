@@ -34,6 +34,7 @@ window.Signal.Migrations.V17 = {};
 window.Signal.OS = {};
 window.Signal.Types = {};
 window.Signal.Types.Attachment = {};
+window.Signal.Types.Conversation = {};
 window.Signal.Types.Errors = {};
 window.Signal.Types.Message = {
   initializeSchemaVersion: attributes => attributes,
