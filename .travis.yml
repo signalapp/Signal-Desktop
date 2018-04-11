@@ -9,10 +9,10 @@ install:
 script:
   - yarn transpile
   - yarn lint
+  - yarn test-node
   - yarn nsp check
   - yarn generate
   - yarn prepare-beta-build
-  - yarn test-node
   - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
   - ./travis.sh
 env:

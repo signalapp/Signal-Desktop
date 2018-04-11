@@ -14,6 +14,7 @@ install:
 build_script:
   - yarn transpile
   - yarn lint
+  - yarn test-node
   - yarn nsp check
   - yarn generate
   - node build\grunt.js
