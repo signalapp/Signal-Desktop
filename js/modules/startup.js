@@ -10,15 +10,15 @@ exports.syncReadReceiptConfiguration = async ({
   storage,
 }) => {
   if (!is.string(deviceId)) {
-    throw new TypeError('"deviceId" is required');
+    throw new TypeError("'deviceId' is required");
   }
 
   if (!is.function(sendRequestConfigurationSyncMessage)) {
-    throw new TypeError('"sendRequestConfigurationSyncMessage" is required');
+    throw new TypeError("'sendRequestConfigurationSyncMessage' is required");
   }
 
   if (!is.object(storage)) {
-    throw new TypeError('"storage" is required');
+    throw new TypeError("'storage' is required");
   }
 
   const isPrimaryDevice = deviceId === '1';

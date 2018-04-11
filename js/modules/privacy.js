@@ -16,14 +16,14 @@ const REDACTION_PLACEHOLDER = '[REDACTED]';
 //      _redactPath :: Path -> String -> String
 exports._redactPath = (filePath) => {
   if (!is.string(filePath)) {
-    throw new TypeError('"filePath" must be a string');
+    throw new TypeError("'filePath' must be a string");
   }
 
   const filePathPattern = exports._pathToRegExp(filePath);
 
   return (text) => {
     if (!is.string(text)) {
-      throw new TypeError('"text" must be a string');
+      throw new TypeError("'text' must be a string");
     }
 
     if (!is.regExp(filePathPattern)) {
@@ -58,7 +58,7 @@ exports._pathToRegExp = (filePath) => {
 //      redactPhoneNumbers :: String -> String
 exports.redactPhoneNumbers = (text) => {
   if (!is.string(text)) {
-    throw new TypeError('"text" must be a string');
+    throw new TypeError("'text' must be a string");
   }
 
   return text.replace(PHONE_NUMBER_PATTERN, `+${REDACTION_PLACEHOLDER}$1`);
@@ -67,7 +67,7 @@ exports.redactPhoneNumbers = (text) => {
 //      redactGroupIds :: String -> String
 exports.redactGroupIds = (text) => {
   if (!is.string(text)) {
-    throw new TypeError('"text" must be a string');
+    throw new TypeError("'text' must be a string");
   }
 
   return text.replace(
