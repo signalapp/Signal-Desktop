@@ -16,6 +16,8 @@
 
   window.Whisper = window.Whisper || {};
 
+  const { MediaGallery } = window.Signal.Components;
+
   Whisper.ExpiredToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('expiredWarning') };
@@ -636,30 +638,6 @@
       //   events up to its parent elements in the DOM.
       this.closeMenu();
 
-      const ReactWrapper = Backbone.View.extend({
-        initialize(options) {
-          const { Component, props, onClose } = options;
-          this.render();
-          this.onClose = onClose;
-
-          const updatedProps = Object.assign({}, props, {
-            close: () => {
-              if (onClose) {
-                onClose();
-                return;
-              }
-              this.remove();
-            },
-          });
-
-          const element = window.React.createElement(Component, updatedProps);
-          window.ReactDOM.render(element, this.el);
-        },
-        remove() {
-          window.ReactDOM.unmountComponentAtNode(this.el);
-          Backbone.View.prototype.remove.call(this);
-        },
-      });
 
       // Next:
       //   pull latest media
@@ -671,13 +649,12 @@
       //     Thumbnail
       //     Lightbox - or do we use the lightbox already in the app?
 
-      const Component = window.Signal.Components.MediaGallery;
       const props = {
         number: 10,
       };
 
-      const view = new ReactWrapper({
-        Component,
+      const view = new window.Whisper.ReactWrapper({
+        Component: MediaGallery,
         props,
         onClose: this.resetPanel.bind(this),
       });
