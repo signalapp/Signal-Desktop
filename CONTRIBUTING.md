@@ -149,7 +149,7 @@ Please write tests! Our testing framework is
 
 The easiest way to run all tests at once is `yarn test`.
 
-You can browser tests from the command line with `grunt unit-tests` or in an
+You can browse tests from the command line with `grunt unit-tests` or in an
 interactive session with `NODE_ENV=test yarn run start`. The `libtextsecure` tests are run
 similarly: `grunt lib-unit-tests` and `NODE_ENV=test-lib yarn run start`. You can tweak
 the appropriate `test.html` for both of these runs to get code coverage numbers via
@@ -172,7 +172,7 @@ So you wanna make a pull request? Please observe the following guidelines.
    automatically based on that file and then periodically uploaded to Transifex for
    translation.
  * [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
-   changes on the latest `master` branch, resolving any conflicts.
+   changes on the latest `development` branch, resolving any conflicts.
    This ensures that your changes will merge cleanly when you open your PR.
  * Be sure to add and run tests!
  * Make sure the diff between our master and your branch contains only the

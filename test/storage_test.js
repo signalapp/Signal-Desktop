@@ -792,8 +792,7 @@ describe("SignalProtocolStore", function() {
               done();
             });
           });
-          it('returns false if blocking approval is required', function(done) {
-            storage.put('safety-numbers-approval', true);
+          it('returns false if keys match but we just received this new identiy', function(done) {
             store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
               if (trusted) {
                 done(new Error('isTrusted returned true on untrusted key'));
@@ -802,18 +801,7 @@ describe("SignalProtocolStore", function() {
               }
             }).catch(done);
           });
-          it('returns false if keys match but nonblocking approval is required', function(done) {
-            storage.put('safety-numbers-approval', false);
-            store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
-              if (trusted) {
-                done(new Error('isTrusted returned true on untrusted key'));
-              } else {
-                done();
-              }
-            }).catch(done);
-          });
-          it('returns true if neither blocking nor nonblocking approval is required', function(done) {
-            storage.put('safety-numbers-approval', false);
+          it('returns true if we have already approved identity', function(done) {
             store.saveIdentity(address.toString(), newIdentity, true).then(function() {
               store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
                 if (trusted) {

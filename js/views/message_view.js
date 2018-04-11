@@ -1,9 +1,13 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
+/* eslint-disable */
+
+/* global Whisper: false */
+
 (function () {
     'use strict';
     window.Whisper = window.Whisper || {};
+
+    const { Attachment } = window.Signal.Types;
+    const { loadAttachmentData } = window.Signal.Migrations;
 
     var URL_REGEX = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9\u00A0-\uD7FF\uE000-\uFDCF\uFDF0-\uFFFD+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
 
@@ -178,6 +182,9 @@
             return this.model.id;
         },
         initialize: function() {
+            //   loadedAttachmentViews :: Promise (Array AttachmentView) | null
+            this.loadedAttachmentViews = null;
+
             this.listenTo(this.model, 'change:errors', this.onErrorsChanged);
             this.listenTo(this.model, 'change:body', this.render);
             this.listenTo(this.model, 'change:delivered', this.renderDelivered);
@@ -223,6 +230,7 @@
             // Failsafe: if in the background, animation events don't fire
             setTimeout(this.remove.bind(this), 1000);
         },
+        /* jshint ignore:start */
         onUnload: function() {
             if (this.avatarView) {
                 this.avatarView.remove();
@@ -239,18 +247,20 @@
             if (this.timeStampView) {
                 this.timeStampView.remove();
             }
-            if (this.loadedAttachments && this.loadedAttachments.length) {
-                for (var i = 0, max = this.loadedAttachments.length; i < max; i += 1) {
-                    var view = this.loadedAttachments[i];
-                    view.unload();
-                }
-            }
+
+            // NOTE: We have to do this in the background (`then` instead of `await`)
+            // as our tests rely on `onUnload` synchronously removing the view from
+            // the DOM.
+            // eslint-disable-next-line more/no-then
+            this.loadAttachmentViews()
+                .then(views => views.forEach(view => view.unload()));
 
             // No need to handle this one, since it listens to 'unload' itself:
             //   this.timerView
 
             this.remove();
         },
+        /* jshint ignore:end */
         onDestroy: function() {
             if (this.$el.hasClass('expired')) {
               return;
@@ -375,7 +385,12 @@
             this.renderErrors();
             this.renderExpiring();
 
-            this.loadAttachments();
+
+            // NOTE: We have to do this in the background (`then` instead of `await`)
+            // as our code / Backbone seems to rely on `render` synchronously returning
+            // `this` instead of `Promise MessageView` (this):
+            // eslint-disable-next-line more/no-then
+            this.loadAttachmentViews().then(views => this.renderAttachmentViews(views));
 
             return this;
         },
@@ -394,51 +409,61 @@
             }))();
             this.$('.avatar').replaceWith(this.avatarView.render().$('.avatar'));
         },
-        appendAttachmentView: function(view) {
-            // We check for a truthy 'updated' here to ensure that a race condition in a
-            //   multi-fetch() scenario doesn't add an AttachmentView to the DOM before
-            //   its 'update' event is triggered.
-            var parent = this.$('.attachments')[0];
-            if (view.updated && parent !== view.el.parentNode) {
-                if (view.el.parentNode) {
-                    view.el.parentNode.removeChild(view.el);
-                }
+    /* eslint-enable */
+    /* jshint ignore:start */
+    loadAttachmentViews() {
+      if (this.loadedAttachmentViews !== null) {
+        return this.loadedAttachmentViews;
+      }
 
-                this.trigger('beforeChangeHeight');
-                this.$('.attachments').append(view.el);
-                view.setElement(view.el);
-                this.trigger('afterChangeHeight');
-            }
-        },
-        loadAttachments: function() {
-            this.loadedAttachments = this.loadedAttachments || [];
+      const attachments = this.model.get('attachments') || [];
+      const loadedAttachmentViews = Promise.all(attachments.map(attachment =>
+        new Promise(async (resolve) => {
+          const attachmentWithData = await loadAttachmentData(attachment);
+          const view = new Whisper.AttachmentView({
+            model: attachmentWithData,
+            timestamp: this.model.get('sent_at'),
+          });
 
-            // If we're called a second time, render() has replaced the DOM out from under
-            //   us with $el.html(). We'll need to reattach our AttachmentViews to the new
-            //   parent DOM nodes if the 'update' event has already fired.
-            if (this.loadedAttachments.length) {
-                for (var i = 0, max = this.loadedAttachments.length; i < max; i += 1) {
-                    var view = this.loadedAttachments[i];
-                    this.appendAttachmentView(view);
-                }
-                return;
-            }
+          this.listenTo(view, 'update', () => {
+            // NOTE: Can we do without `updated` flag now that we use promises?
+            view.updated = true;
+            resolve(view);
+          });
 
-            this.model.get('attachments').forEach(function(attachment) {
-                var view = new Whisper.AttachmentView({
-                  model: attachment,
-                  timestamp: this.model.get('sent_at')
-                });
-                this.loadedAttachments.push(view);
+          view.render();
+        })));
 
-                this.listenTo(view, 'update', function() {
-                    view.updated = true;
-                    this.appendAttachmentView(view);
-                });
+      // Memoize attachment views to avoid double loading:
+      this.loadedAttachmentViews = loadedAttachmentViews;
 
-                view.render();
-            }.bind(this));
-        }
+      return loadedAttachmentViews;
+    },
+    renderAttachmentViews(views) {
+      views.forEach(view => this.renderAttachmentView(view));
+    },
+    renderAttachmentView(view) {
+      if (!view.updated) {
+        throw new Error('Invariant violation:' +
+          ' Cannot render an attachment view that isn’t ready');
+      }
+
+      const parent = this.$('.attachments')[0];
+      const isViewAlreadyChild = parent === view.el.parentNode;
+      if (isViewAlreadyChild) {
+        return;
+      }
+
+      if (view.el.parentNode) {
+        view.el.parentNode.removeChild(view.el);
+      }
+
+      this.trigger('beforeChangeHeight');
+      this.$('.attachments').append(view.el);
+      view.setElement(view.el);
+      this.trigger('afterChangeHeight');
+    },
+    /* jshint ignore:end */
+    /* eslint-disable */
     });
-
 })();

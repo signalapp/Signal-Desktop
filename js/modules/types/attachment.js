@@ -1,25 +1,9 @@
-const isFunction = require('lodash/isFunction');
-const isNumber = require('lodash/isNumber');
-const isString = require('lodash/isString');
-const isUndefined = require('lodash/isUndefined');
+const { isFunction, isString } = require('lodash');
 
 const MIME = require('./mime');
 const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
-
-// Increment this version number every time we change how attachments are upgraded. This
-// will allow us to retroactively upgrade existing attachments. As we add more upgrade
-// steps, we could design a pipeline that does this incrementally, e.g. from
-// version 0 / unknown -> 1, 1 --> 2, etc., similar to how we do database migrations:
-exports.CURRENT_SCHEMA_VERSION = 2;
-
-// Schema version history
-//
-// Version 1
-//   - Auto-orient JPEG attachments using EXIF `Orientation` data
-//   - Add `schemaVersion` property
-// Version 2
-//   - Sanitize Unicode order override characters
+const { migrateDataToFileSystem } = require('./attachment/migrate_data_to_file_system');
 
 // // Incoming message attachment fields
 // {
@@ -27,12 +11,11 @@ exports.CURRENT_SCHEMA_VERSION = 2;
 //   contentType: MIMEType
 //   data: ArrayBuffer
 //   digest: ArrayBuffer
-//   fileName: string
+//   fileName: string | null
 //   flags: null
 //   key: ArrayBuffer
 //   size: integer
 //   thumbnail: ArrayBuffer
-//   schemaVersion: integer
 // }
 
 // // Outgoing message attachment fields
@@ -41,11 +24,11 @@ exports.CURRENT_SCHEMA_VERSION = 2;
 //   data: ArrayBuffer
 //   fileName: string
 //   size: integer
-//   schemaVersion: integer
 // }
 
-// Returns true if `rawAttachment` is a valid attachment based on our (limited)
-// criteria. Over time, we can expand this definition to become more narrow:
+// Returns true if `rawAttachment` is a valid attachment based on our current schema.
+// Over time, we can expand this definition to become more narrow, e.g. require certain
+// fields, etc.
 exports.isValid = (rawAttachment) => {
   // NOTE: We cannot use `_.isPlainObject` because `rawAttachment` is
   // deserialized by protobuf:
@@ -53,76 +36,11 @@ exports.isValid = (rawAttachment) => {
     return false;
   }
 
-  return isString(rawAttachment.contentType) &&
-    isString(rawAttachment.fileName);
-};
-
-// Middleware
-// type UpgradeStep = Attachment -> Promise Attachment
-
-// SchemaVersion -> UpgradeStep -> UpgradeStep
-exports.withSchemaVersion = (schemaVersion, upgrade) => {
-  if (!isNumber(schemaVersion)) {
-    throw new TypeError('`schemaVersion` must be a number');
-  }
-  if (!isFunction(upgrade)) {
-    throw new TypeError('`upgrade` must be a function');
-  }
-
-  return async (attachment) => {
-    if (!exports.isValid(attachment)) {
-      console.log('Attachment.withSchemaVersion: Invalid input attachment:', attachment);
-      return attachment;
-    }
-
-    const isAlreadyUpgraded = attachment.schemaVersion >= schemaVersion;
-    if (isAlreadyUpgraded) {
-      return attachment;
-    }
-
-    const expectedVersion = schemaVersion - 1;
-    const isUnversioned = isUndefined(attachment.schemaVersion);
-    const hasExpectedVersion = isUnversioned ||
-      attachment.schemaVersion === expectedVersion;
-    if (!hasExpectedVersion) {
-      console.log(
-        'WARNING: Attachment.withSchemaVersion: Unexpected version:' +
-        ` Expected attachment to have version ${expectedVersion},` +
-        ` but got ${attachment.schemaVersion}.`,
-        attachment
-      );
-      return attachment;
-    }
-
-    let upgradedAttachment;
-    try {
-      upgradedAttachment = await upgrade(attachment);
-    } catch (error) {
-      console.log(
-        'Attachment.withSchemaVersion: error:',
-        error && error.stack ? error.stack : error
-      );
-      return attachment;
-    }
-
-    if (!exports.isValid(upgradedAttachment)) {
-      console.log(
-        'Attachment.withSchemaVersion: Invalid upgraded attachment:',
-        upgradedAttachment
-      );
-      return attachment;
-    }
-
-    return Object.assign(
-      {},
-      upgradedAttachment,
-      { schemaVersion }
-    );
-  };
+  return true;
 };
 
 // Upgrade steps
-const autoOrientJPEG = async (attachment) => {
+exports.autoOrientJPEG = async (attachment) => {
   if (!MIME.isJPEG(attachment.contentType)) {
     return attachment;
   }
@@ -176,10 +94,72 @@ exports._replaceUnicodeOrderOverridesSync = (attachment) => {
 exports.replaceUnicodeOrderOverrides = async attachment =>
   exports._replaceUnicodeOrderOverridesSync(attachment);
 
-// Public API
-const toVersion1 = exports.withSchemaVersion(1, autoOrientJPEG);
-const toVersion2 = exports.withSchemaVersion(2, exports.replaceUnicodeOrderOverrides);
+exports.removeSchemaVersion = (attachment) => {
+  if (!exports.isValid(attachment)) {
+    console.log('Attachment.removeSchemaVersion: Invalid input attachment:', attachment);
+    return attachment;
+  }
 
-// UpgradeStep
-exports.upgradeSchema = async attachment =>
-  toVersion2(await toVersion1(attachment));
+  const attachmentWithoutSchemaVersion = Object.assign({}, attachment);
+  delete attachmentWithoutSchemaVersion.schemaVersion;
+  return attachmentWithoutSchemaVersion;
+};
+
+exports.migrateDataToFileSystem = migrateDataToFileSystem;
+
+//      hasData :: Attachment -> Boolean
+exports.hasData = attachment =>
+  attachment.data instanceof ArrayBuffer || ArrayBuffer.isView(attachment.data);
+
+//      loadData :: (RelativePath -> IO (Promise ArrayBuffer))
+//                  Attachment ->
+//                  IO (Promise Attachment)
+exports.loadData = (readAttachmentData) => {
+  if (!isFunction(readAttachmentData)) {
+    throw new TypeError('"readAttachmentData" must be a function');
+  }
+
+  return async (attachment) => {
+    if (!exports.isValid(attachment)) {
+      throw new TypeError('"attachment" is not valid');
+    }
+
+    const isAlreadyLoaded = exports.hasData(attachment);
+    if (isAlreadyLoaded) {
+      return attachment;
+    }
+
+    if (!isString(attachment.path)) {
+      throw new TypeError('"attachment.path" is required');
+    }
+
+    const data = await readAttachmentData(attachment.path);
+    return Object.assign({}, attachment, { data });
+  };
+};
+
+//      deleteData :: (RelativePath -> IO Unit)
+//                    Attachment ->
+//                    IO Unit
+exports.deleteData = (deleteAttachmentData) => {
+  if (!isFunction(deleteAttachmentData)) {
+    throw new TypeError('"deleteAttachmentData" must be a function');
+  }
+
+  return async (attachment) => {
+    if (!exports.isValid(attachment)) {
+      throw new TypeError('"attachment" is not valid');
+    }
+
+    const hasDataInMemory = exports.hasData(attachment);
+    if (hasDataInMemory) {
+      return;
+    }
+
+    if (!isString(attachment.path)) {
+      throw new TypeError('"attachment.path" is required');
+    }
+
+    await deleteAttachmentData(attachment.path);
+  };
+};

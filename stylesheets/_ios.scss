@@ -63,6 +63,12 @@ $ios-border-color: rgba(0,0,0,0.1);
     border-color: $ios-header-border-color;
     text-align: left;
 
+    // Without this, it interacts poorly with 100% height placeholder shown on startup
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
     .conversation-title {
       line-height: $header-height;
 
@@ -73,6 +79,14 @@ $ios-border-color: rgba(0,0,0,0.1);
 
     .avatar { display: none; }
   }
+
+  .conversation .panel {
+    position: absolute;
+    top: $header-height;
+    bottom: 0;
+    width: 100%;
+  }
+
   .settings h3,
   .menu-list li {
     text-transform: capitalize;

@@ -247,8 +247,16 @@ input.search {
 
 .conversation.placeholder {
   text-align: center;
+  .container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .content {
-    padding: 100px 36px;
+    display: inline-block;
   }
 
   h3 {

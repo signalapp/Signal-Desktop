@@ -4,8 +4,11 @@
 (function () {
     'use strict';
     Whisper.Registration = {
-        markDone: function () {
+        markEverDone: function() {
             storage.put('chromiumRegistrationDoneEver', '');
+        },
+        markDone: function () {
+            this.markEverDone();
             storage.put('chromiumRegistrationDone', '');
         },
         isDone: function () {

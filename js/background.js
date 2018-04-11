@@ -11,21 +11,22 @@
 /* global Whisper: false */
 /* global wrapDeferred: false */
 
-;(function() {
+;(async function() {
     'use strict';
 
-    const { Message } = window.Signal.Types;
+    const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
+    const { Errors, Message } = window.Signal.Types;
+    const { upgradeMessageSchema } = window.Signal.Migrations;
+    const {
+        Migrations0DatabaseWithAttachmentData,
+        Migrations1DatabaseWithoutAttachmentData,
+    } = window.Signal.Migrations;
+    const { Views } = window.Signal;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
     // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
     window.onInvalidStateError = function(e) {
         console.log(e);
-    };
-
-    window.wrapDeferred = function(deferred) {
-        return new Promise(function(resolve, reject) {
-            deferred.then(resolve, reject);
-        });
     };
 
     console.log('background page reloaded');
@@ -70,9 +71,6 @@
                 SERVER_URL, USERNAME, PASSWORD
             );
             accountManager.addEventListener('registration', function() {
-                if (!Whisper.Registration.everDone()) {
-                    storage.put('safety-numbers-approval', false);
-                }
                 Whisper.Registration.markDone();
                 console.log('dispatching registration event');
                 Whisper.events.trigger('registration_done');
@@ -81,7 +79,33 @@
         return accountManager;
     };
 
-    storage.fetch();
+  /* eslint-enable */
+  const cancelInitializationMessage = Views.Initialization.setMessage();
+  console.log('Start IndexedDB migrations');
+
+  console.log('Run migrations on database with attachment data');
+  await Migrations0DatabaseWithAttachmentData.run({ Backbone });
+
+  console.log('Storage fetch');
+  storage.fetch();
+
+  const idleDetector = new IdleDetector();
+  idleDetector.on('idle', async () => {
+    const NUM_MESSAGES_PER_BATCH = 1;
+    const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+    const batch = await MessageDataMigrator.processNextBatchWithoutIndex({
+      databaseName: database.name,
+      minDatabaseVersion: database.version,
+      numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+      upgradeMessageSchema,
+    });
+    console.log('Upgrade message schema:', batch);
+
+    if (batch.done) {
+      idleDetector.stop();
+    }
+  });
+  /* eslint-disable */
 
     // We need this 'first' check because we don't want to start the app up any other time
     //   than the first time. And storage.fetch() will cause onready() to fire.
@@ -93,9 +117,12 @@
         first = false;
 
         ConversationController.load().then(start, start);
+        idleDetector.start();
     });
 
     Whisper.events.on('shutdown', function() {
+      idleDetector.stop();
+
       if (messageReceiver) {
         messageReceiver.close().then(function() {
           Whisper.events.trigger('shutdown-complete');
@@ -145,6 +172,7 @@
             connect(true);
         });
 
+        cancelInitializationMessage();
         var appView = window.owsDesktopApp.appView = new Whisper.AppView({el: $('body')});
 
         Whisper.WallClockListener.init(Whisper.events);
@@ -266,7 +294,7 @@
     }
 
     var connectCount = 0;
-    function connect(firstRun) {
+    async function connect(firstRun) {
         console.log('connect');
 
         // Bootstrap our online/offline detection, only the first time we connect
@@ -331,22 +359,18 @@
             }
         }
 
-        // If we've just upgraded to read receipt support on desktop, kick off a
-        // one-time configuration sync request to get the read-receipt setting
-        // from the master device.
-        var readReceiptConfigurationSync = 'read-receipt-configuration-sync';
-        if (!storage.get(readReceiptConfigurationSync)) {
+    /* eslint-enable */
+    const deviceId = textsecure.storage.user.getDeviceId();
+    const { sendRequestConfigurationSyncMessage } = textsecure.messaging;
+    const status = await Signal.Startup.syncReadReceiptConfiguration({
+      deviceId,
+      sendRequestConfigurationSyncMessage,
+      storage,
+    });
+    console.log('Sync read receipt configuration status:', status);
+    /* eslint-disable */
 
-            if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
-                textsecure.messaging.sendRequestConfigurationSyncMessage().then(function() {
-                    storage.put(readReceiptConfigurationSync, true);
-                }).catch(function(e) {
-                    console.log(e);
-                });
-            }
-        }
-
-        if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
+        if (firstRun === true && deviceId != '1') {
             if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
                 storage.put('theme-setting', 'ios');
             }
@@ -414,7 +438,7 @@
         });
         var error = c.validateNumber();
         if (error) {
-            console.log('Invalid contact received', error && error.stack ? error.stack : error);
+            console.log('Invalid contact received:', Errors.toLogFormat(error));
             return;
         }
 
@@ -483,7 +507,7 @@
             .catch(function(error) {
                 console.log(
                     'onContactReceived error:',
-                    error && error.stack ? error.stack : error
+                    Errors.toLogFormat(error)
                 );
             });
     }
@@ -536,7 +560,6 @@
     }
 
   /* eslint-enable */
-  /* jshint ignore:start */
 
   // Descriptors
   const getGroupDescriptor = group => ({
@@ -582,7 +605,7 @@
         return event.confirm();
       }
 
-      const upgradedMessage = await Message.upgradeSchema(data.message);
+      const upgradedMessage = await upgradeMessageSchema(data.message);
       await ConversationController.getOrCreateAndWait(
         messageDescriptor.id,
         messageDescriptor.type
@@ -645,7 +668,6 @@
     getMessageDescriptor: getDescriptorForSent,
     createMessage: createSentMessage,
   });
-  /* jshint ignore:end */
   /* eslint-disable */
 
     function isMessageDuplicate(message) {
@@ -670,7 +692,7 @@
                 return resolve(false);
             });
         }).catch(function(error) {
-            console.log('isMessageDuplicate error:', error && error.stack ? error.stack : error);
+            console.log('isMessageDuplicate error:', Errors.toLogFormat(error));
             return false;
         });
     }
@@ -691,11 +713,28 @@
 
     function onError(ev) {
         var error = ev.error;
-        console.log('background onError:', error && error.stack ? error.stack : error);
+        console.log('background onError:', Errors.toLogFormat(error));
 
         if (error.name === 'HTTPError' && (error.code == 401 || error.code == 403)) {
-            Whisper.Registration.remove();
             Whisper.events.trigger('unauthorized');
+
+            console.log('Client is no longer authorized; deleting local configuration');
+            Whisper.Registration.remove();
+            var previousNumberId = textsecure.storage.get('number_id');
+
+            textsecure.storage.protocol.removeAllConfiguration().then(function() {
+                // These two bits of data are important to ensure that the app loads up
+                //   the conversation list, instead of showing just the QR code screen.
+                Whisper.Registration.markEverDone();
+                textsecure.storage.put('number_id', previousNumberId);
+                console.log('Successfully cleared local configuration');
+            }, function(error) {
+               console.log(
+                    'Something went wrong clearing local configuration',
+                    error && error.stack ? error.stack : error
+                );
+            });
+
             return;
         }
 
@@ -804,8 +843,8 @@
         var error = c.validateNumber();
         if (error) {
             console.log(
-                'Invalid verified sync received',
-                error && error.stack ? error.stack : error
+                'Invalid verified sync received:',
+                Errors.toLogFormat(error)
             );
             return;
         }

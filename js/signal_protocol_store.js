@@ -171,18 +171,18 @@
         constructor: SignalProtocolStore,
         getIdentityKeyPair: function() {
             var item = new Item({id: 'identityKey'});
-            return new Promise(function(resolve) {
+            return new Promise(function(resolve, reject) {
                 item.fetch().then(function() {
                     resolve(item.get('value'));
-                });
+                }, reject);
             });
         },
         getLocalRegistrationId: function() {
             var item = new Item({id: 'registrationId'});
-            return new Promise(function(resolve) {
+            return new Promise(function(resolve, reject) {
                 item.fetch().then(function() {
                     resolve(item.get('value'));
-                });
+                }, reject);
             });
         },
 
@@ -854,6 +854,28 @@
                 return unprocessed.destroy().then(resolve, reject);
             }.bind(this));
         },
+        removeAllData: function() {
+            // First the in-memory caches:
+            window.storage.reset(); // items store
+            ConversationController.reset(); // conversations store
+
+            // Then, the entire database:
+            return Whisper.Database.clear();
+        },
+        removeAllConfiguration: function() {
+            // First the in-memory cache for the items store:
+            window.storage.reset();
+
+            // Then anything in the database that isn't a message/conversation/group:
+            return Whisper.Database.clearStores([
+                'items',
+                'identityKeys',
+                'sessions',
+                'signedPreKeys',
+                'preKeys',
+                'unprocessed',
+            ]);
+        }
     };
     _.extend(SignalProtocolStore.prototype, Backbone.Events);
 

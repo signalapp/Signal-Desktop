@@ -10,6 +10,7 @@
    window.Whisper = window.Whisper || {};
 
    const { Attachment, Message } = window.Signal.Types;
+   const { upgradeMessageSchema, loadAttachmentData } = window.Signal.Migrations;
 
    // TODO: Factor out private and group subclasses of Conversation
 
@@ -617,18 +618,17 @@
           now
         );
 
-        const upgradedAttachments =
-          await Promise.all(attachments.map(Attachment.upgradeSchema));
-        const message = this.messageCollection.add({
+        const messageWithSchema = await upgradeMessageSchema({
+          type: 'outgoing',
           body,
           conversationId: this.id,
-          type: 'outgoing',
-          attachments: upgradedAttachments,
+          attachments,
           sent_at: now,
           received_at: now,
           expireTimer: this.get('expireTimer'),
           recipients: this.getRecipients(),
         });
+        const message = this.messageCollection.add(messageWithSchema);
         if (this.isPrivate()) {
           message.set({ destination: this.id });
         }
@@ -641,7 +641,7 @@
         });
 
         const conversationType = this.get('type');
-        const sendFunc = (() => {
+        const sendFunction = (() => {
           switch (conversationType) {
             case Message.PRIVATE:
               return textsecure.messaging.sendMessageToNumber;
@@ -657,10 +657,12 @@
           profileKey = storage.get('profileKey');
         }
 
-        message.send(sendFunc(
+        const attachmentsWithData =
+            await Promise.all(messageWithSchema.attachments.map(loadAttachmentData));
+        message.send(sendFunction(
           this.get('id'),
           body,
-          upgradedAttachments,
+          attachmentsWithData,
           now,
           this.get('expireTimer'),
           profileKey

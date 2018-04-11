@@ -16,11 +16,15 @@ const {
 
 const packageJson = require('./package.json');
 
+const Attachments = require('./app/attachments');
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
+const GlobalErrors = require('./js/modules/global_errors');
 const logging = require('./app/logging');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');
+
+GlobalErrors.addHandler();
 
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
 console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
@@ -414,7 +418,8 @@ app.on('ready', () => {
   let loggingSetupError;
   logging.initialize().catch((error) => {
     loggingSetupError = error;
-  }).then(() => {
+  }).then(async () => {
+  /* eslint-enable more/no-then */
     logger = logging.getLogger();
     logger.info('app ready');
 
@@ -426,6 +431,10 @@ app.on('ready', () => {
       const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
       locale = loadLocale({ appLocale, logger });
     }
+
+    console.log('Ensure attachments directory exists');
+    const userDataPath = app.getPath('userData');
+    await Attachments.ensureDirectory(userDataPath);
 
     ready = true;
 
@@ -439,7 +448,6 @@ app.on('ready', () => {
 
     setupMenu();
   });
-  /* eslint-enable more/no-then */
 });
 
 function setupMenu(options) {
@@ -492,6 +500,13 @@ app.on('activate', () => {
   } else {
     createWindow();
   }
+});
+
+// Defense in depth. We never intend to open webviews, so this prevents it completely.
+app.on('web-contents-created', (createEvent, win) => {
+  win.on('will-attach-webview', (attachEvent) => {
+    attachEvent.preventDefault();
+  });
 });
 
 ipc.on('set-badge-count', (event, count) => {

@@ -5,14 +5,6 @@ describe('KeyChangeListener', function() {
   var newKey = libsignal.crypto.getRandomBytes(33);
   var store;
 
-  before(function() {
-    storage.put('safety-numbers-approval', false);
-  });
-
-  after(function() {
-    storage.remove('safety-numbers-approval');
-  });
-
   beforeEach(function() {
     store = new SignalProtocolStore();
     Whisper.KeyChangeListener.init(store);
@@ -24,9 +16,12 @@ describe('KeyChangeListener', function() {
   });
 
   describe('When we have a conversation with this contact', function() {
-    var convo = new Whisper.Conversation({ id: phoneNumberWithKeyChange, type: 'private'});
+    let convo;
     before(function() {
-      ConversationController.createTemporary(convo);
+      convo = ConversationController.dangerouslyCreateAndAdd({
+        id: phoneNumberWithKeyChange,
+        type: 'private',
+      });
       return convo.save();
     });
 
@@ -49,9 +44,13 @@ describe('KeyChangeListener', function() {
 
 
   describe('When we have a group with this contact', function() {
-    var convo = new Whisper.Conversation({ id: 'groupId', type: 'group', members: [phoneNumberWithKeyChange] });
+    let convo;
     before(function() {
-      ConversationController.createTemporary(convo);
+      convo = ConversationController.dangerouslyCreateAndAdd({
+        id: 'groupId',
+        type: 'group',
+        members: [phoneNumberWithKeyChange],
+      });
       return convo.save();
     });
     after(function() {
