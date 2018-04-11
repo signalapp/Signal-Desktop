@@ -161,9 +161,12 @@ window.Signal.Debug = require('./js/modules/debug');
 window.Signal.HTML = require('./ts/html');
 window.Signal.Logs = require('./js/modules/logs');
 
+const { MediaGallery } =
+  require('./ts/components/conversation/media-gallery/MediaGallery');
 const { Quote } = require('./ts/components/conversation/Quote');
 
 window.Signal.Components = {
+  MediaGallery,
   Quote,
 };
 

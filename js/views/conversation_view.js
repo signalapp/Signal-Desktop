@@ -208,6 +208,7 @@
       'click .update-group': 'newGroupUpdate',
       'click .show-identity': 'showSafetyNumber',
       'click .show-members': 'showMembers',
+      'click .view-all-media': 'viewAllMedia',
       'click .conversation-menu .hamburger': 'toggleMenu',
       click: 'onClick',
       'click .bottom-bar': 'focusMessageField',
@@ -628,6 +629,60 @@
           }
         }, 1);
       }
+    },
+
+    viewAllMedia() {
+      // We have to do this manually, since our React component will not propagate click
+      //   events up to its parent elements in the DOM.
+      this.closeMenu();
+
+      const ReactWrapper = Backbone.View.extend({
+        initialize(options) {
+          const { Component, props, onClose } = options;
+          this.render();
+          this.onClose = onClose;
+
+          const updatedProps = Object.assign({}, props, {
+            close: () => {
+              if (onClose) {
+                onClose();
+                return;
+              }
+              this.remove();
+            },
+          });
+
+          const element = window.React.createElement(Component, updatedProps);
+          window.ReactDOM.render(element, this.el);
+        },
+        remove() {
+          window.ReactDOM.unmountComponentAtNode(this.el);
+          Backbone.View.prototype.remove.call(this);
+        },
+      });
+
+      // Next:
+      //   pull latest media
+      //   need a way for react component to request further data
+
+      //   needed components:
+      //     GalleryPanel
+      //     Section - header, list of thumbnails
+      //     Thumbnail
+      //     Lightbox - or do we use the lightbox already in the app?
+
+      const Component = window.Signal.Components.MediaGallery;
+      const props = {
+        number: 10,
+      };
+
+      const view = new ReactWrapper({
+        Component,
+        props,
+        onClose: this.resetPanel.bind(this),
+      });
+
+      this.listenBack(view);
     },
 
     focusMessageField() {
