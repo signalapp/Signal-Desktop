@@ -1007,6 +1007,10 @@ MessageReceiver.prototype.extend({
       promises.push(this.handleAttachment(attachment));
     }
 
+    if (decrypted.quote && decrypted.quote.id) {
+      decrypted.quote.id = decrypted.quote.id.toNumber();
+    }
+
     if (decrypted.quote && decrypted.quote.attachments) {
       const { attachments } = decrypted.quote;
 
