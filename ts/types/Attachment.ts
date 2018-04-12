@@ -19,7 +19,7 @@ export interface Attachment {
   // key?: ArrayBuffer;
   // digest?: ArrayBuffer;
   // flags?: number;
-};
+}
 
 export const isVisualMedia = (attachment: Attachment): boolean => {
   const { contentType } = attachment;

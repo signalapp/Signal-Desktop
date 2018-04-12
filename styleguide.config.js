@@ -13,6 +13,11 @@ module.exports = {
       components: 'ts/components/conversation/*.tsx',
     },
     {
+      name: 'Media Gallery',
+      description: 'Display media and documents in a conversation',
+      components: 'ts/components/conversation/media-gallery/*.tsx',
+    },
+    {
       name: 'Utility',
       description: 'Utility components used across the application',
       components: 'ts/components/utility/*.tsx',
