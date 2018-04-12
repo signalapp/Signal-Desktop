@@ -164,6 +164,8 @@ module.exports = function(grunt) {
         '!js/libsignal-protocol-worker.js',
         '!js/libtextsecure.js',
         '!js/modules/**/*.js',
+        '!js/models/conversations.js',
+        '!js/models/messages.js',
         '!js/Mp3LameEncoder.min.js',
         '!js/WebAudioRecorderMp3.js',
         'test/**/*.js',
