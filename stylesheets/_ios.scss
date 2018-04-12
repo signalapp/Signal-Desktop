@@ -153,6 +153,7 @@ $ios-border-color: rgba(0,0,0,0.1);
       .icon-container {
         height: 61px;
         width: 61px;
+        min-width: 61px;
 
         .circle-background {
           left: 12px;
