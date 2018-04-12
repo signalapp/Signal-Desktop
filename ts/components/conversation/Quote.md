@@ -72,7 +72,7 @@ const View = Whisper.MessageView;
 ```jsx
 const outgoing = new Whisper.Message({
   type: 'outgoing',
-  body: 'About six',
+  body: 'Woo, otters!',
   sent_at: Date.now() - 18000000,
   quote: {
     text:
@@ -91,6 +91,103 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
     author: '+12025550005',
   }),
 }));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+#### A lot of text in quotation, with icon
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: 'Woo, otters!',
+  sent_at: Date.now() - 18000000,
+  quote: {
+    text:
+      'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
+      'After that, probably dogs. And then, you know, reptiles of all types. ' +
+      'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
+      'really smart.',
+    author: '+12025550011',
+    id: Date.now() - 1000,
+    attachments: [
+      {
+        contentType: 'text/plain',
+        fileName: 'lorum_ipsum.txt',
+      },
+    ],
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550011',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550005',
+  }),
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+#### A lot of text in quotation, with image
+
+```jsx
+const quotedMessage = {
+  imageUrl: util.gifObjectUrl,
+  id: '3234-23423-2342',
+};
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: 'Woo, otters!',
+  sent_at: Date.now() - 18000000,
+  quote: {
+    text:
+      'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
+      'After that, probably dogs. And then, you know, reptiles of all types. ' +
+      'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
+      'really smart.',
+    author: '+12025550011',
+    id: Date.now() - 1000,
+    attachments: [
+      {
+        contentType: 'image/gif',
+        fileName: 'pi.gif',
+        thumbnail: {
+          contentType: 'image/gif',
+        },
+      },
+    ],
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550011',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550005',
+  }),
+}));
+
+outgoing.quotedMessage = quotedMessage;
+incoming.quotedMessage = quotedMessage;
+
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
   <util.BackboneWrapper
@@ -137,9 +234,6 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
     author: '+12025550005',
   }),
 }));
-
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
