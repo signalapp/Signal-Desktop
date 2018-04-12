@@ -225,6 +225,26 @@ $text-dark_l2: darken($text-dark, 30%);
     }
   }
 
+  .outgoing .bubble .quote .icon-container .icon {
+    background-color: black;
+    &.play.white {
+      background-color: $text-dark;
+    }
+  }
+  .incoming .bubble .quote {
+    border-left-color: $text-dark;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    .icon-container {
+      .circle-background {
+        background-color: $text-dark;
+      }
+      .icon.play.white {
+        background-color: $text-dark;
+      }
+    }
+  }
+
   button.clock {
     @include header-icon-white('../images/clock.svg');
   }
