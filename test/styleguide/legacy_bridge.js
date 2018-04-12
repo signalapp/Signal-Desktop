@@ -24,6 +24,9 @@ window.libphonenumber = {
 };
 
 window.Signal = {};
+window.Signal.HTML = {
+  render: thing => thing,
+};
 window.Signal.Backup = {};
 window.Signal.Crypto = {};
 window.Signal.Logs = {};

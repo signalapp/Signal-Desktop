@@ -68,8 +68,6 @@ const urlOptions = qs.parse(query);
 const theme = urlOptions.theme || 'android';
 const locale = urlOptions.locale || 'en';
 
-import HTML from '../ts/html';
-
 // @ts-ignore
 import localeMessages from '../../_locales/en/messages.json';
 
@@ -100,7 +98,6 @@ parent.moment.locale(locale);
 parent.React = React;
 parent.ReactDOM = ReactDOM;
 
-parent.Signal.HTML = HTML;
 parent.Signal.Components = {
   Quote,
 };
