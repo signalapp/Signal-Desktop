@@ -18,7 +18,7 @@ const outgoing = new Whisper.Message({
   sent_at: Date.now() - 18000,
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
@@ -50,7 +50,7 @@ const outgoing = new Whisper.Message({
   }],
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
@@ -79,7 +79,7 @@ const outgoing = new Whisper.Message({
   }],
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
@@ -109,7 +109,7 @@ const outgoing = new Whisper.Message({
   }],
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
@@ -138,7 +138,7 @@ const outgoing = new Whisper.Message({
   }],
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
@@ -168,7 +168,7 @@ const outgoing = new Whisper.Message({
   }],
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
@@ -197,7 +197,7 @@ const outgoing = new Whisper.Message({
   }],
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
@@ -227,7 +227,7 @@ const outgoing = new Whisper.Message({
   }],
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
@@ -257,7 +257,7 @@ const outgoing = new Whisper.Message({
   }],
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
@@ -286,7 +286,7 @@ const outgoing = new Whisper.Message({
   }],
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550003',
   type: 'incoming',
 }));
 const View = Whisper.MessageView;
