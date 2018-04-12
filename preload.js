@@ -161,7 +161,7 @@ window.Signal.Debug = require('./js/modules/debug');
 window.Signal.HTML = require('./ts/html');
 window.Signal.Logs = require('./js/modules/logs');
 
-const Quote = require('./ts/components/conversation/Quote');
+const { Quote } = require('./ts/components/conversation/Quote');
 
 window.Signal.Components = {
   Quote,
