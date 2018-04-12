@@ -81,7 +81,7 @@ export class DocumentListEntry extends React.Component<Props, {}> {
         <div
           style={styles.itemDate}
         >
-          {moment(timestamp).format('dddd, MMMM D, Y')}
+          {moment(timestamp).format('ddd, MMM D, Y')}
         </div>
       </div>
     );
