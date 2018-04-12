@@ -35,9 +35,9 @@ window.Whisper.View.Templates = {
         <div class='inner-bubble {{ innerBubbleClasses }}'>
           <div class='quote-wrapper'></div>
           <div class='attachments'></div>
-          <p class='content' dir='auto'>
+          <div class='content' dir='auto'>
             {{ #message }}<div class='body'>{{ message }}</div>{{ /message }}
-          </p>
+          </div>
         </div>
         <div class='meta'>
           <span class='timestamp' data-timestamp={{ timestamp }}></span>
