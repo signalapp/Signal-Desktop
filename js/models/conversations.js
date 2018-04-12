@@ -1148,14 +1148,14 @@
           return;
         }
 
-        // We've already gone through this method once for this message
-        if (message.quoteIsProcessed) {
+        // If we already have a quoted message, then we exit early. If we don't have it,
+        //   then we'll continue to look again for an in-memory message to use. Why? This
+        //   will enable us to scroll to it when the user clicks.
+        if (messages.quotedMessage) {
           return;
         }
-        // eslint-disable-next-line no-param-reassign
-        message.quoteIsProcessed = true;
 
-        // First, check to see if we've already loaded the target message into memory
+        // 1. Check to see if we've already loaded the target message into memory
         const { author, id } = quote;
         const key = this.makeKey(author, id);
         const quotedMessage = lookup[key];
@@ -1167,13 +1167,20 @@
           return;
         }
 
-        // Then go to the database for the real referenced attachment
+        // We've don't want to go to the database or load thumbnails a second time.
+        if (message.quoteIsProcessed) {
+          return;
+        }
+        // eslint-disable-next-line no-param-reassign
+        message.quoteIsProcessed = true;
+
+        // 2. Go to the database for the real referenced attachment
         const loaded = await this.loadQuotedMessageFromDatabase(message, id);
         if (loaded) {
           return;
         }
 
-        // Finally, use the provided thumbnail
+        // 3. Finally, use the provided thumbnail
         await this.loadQuoteThumbnail(message, quote);
       });
 
