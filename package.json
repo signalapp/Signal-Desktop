@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@sindresorhus/is": "^0.8.0",
+    "@types/filesize": "^3.6.0",
     "@types/lodash": "^4.14.106",
     "archiver": "^2.1.1",
     "blob-util": "^1.3.0",
@@ -68,6 +69,7 @@
     "emoji-datasource-apple": "4.0.0",
     "emoji-js": "^3.4.0",
     "emoji-panel": "https://github.com/scottnonnenberg/emoji-panel.git#v0.5.5",
+    "filesize": "^3.6.1",
     "firstline": "^1.2.1",
     "form-data": "^2.3.2",
     "fs-extra": "^5.0.0",
