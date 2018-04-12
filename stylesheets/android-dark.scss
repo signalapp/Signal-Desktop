@@ -227,7 +227,7 @@ $text-dark_l2: darken($text-dark, 30%);
 
   .outgoing .bubble .quote .icon-container .icon {
     background-color: black;
-    &.play.white {
+    &.play.with-image {
       background-color: $text-dark;
     }
   }
@@ -239,7 +239,7 @@ $text-dark_l2: darken($text-dark, 30%);
       .circle-background {
         background-color: $text-dark;
       }
-      .icon.play.white {
+      .icon.play.with-image {
         background-color: $text-dark;
       }
     }

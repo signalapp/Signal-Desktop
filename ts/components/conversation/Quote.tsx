@@ -54,7 +54,7 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | null {
 export class Quote extends React.Component<Props, {}> {
   public renderImage(url: string, icon?: string) {
     const iconElement = icon
-      ? <div className={classnames('icon', 'white', icon)} />
+      ? <div className={classnames('icon', 'with-image', icon)} />
       : null;
 
     return (
