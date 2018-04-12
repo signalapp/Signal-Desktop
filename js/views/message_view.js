@@ -378,7 +378,7 @@
 
       return null;
     },
-    renderReply() {
+    renderQuote() {
       const VOICE_FLAG = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
       const objectUrl = this.getQuoteObjectUrl();
       const quote = this.model.get('quote');
@@ -426,18 +426,18 @@
         text: quote.text,
       };
 
-      if (!this.replyView) {
-        if (contact) {
-          this.listenTo(contact, 'change:color', this.renderReply);
-        }
-        this.replyView = new Whisper.ReactWrapperView({
-          el: this.$('.quote-wrapper'),
-          Component: window.Signal.Components.Quote,
-          props,
-        });
-      } else {
-        this.replyView.update(props);
+      if (this.replyView) {
+        this.replyView.remove();
+        this.replyView = null;
+      } else if (contact) {
+        this.listenTo(contact, 'change:color', this.renderQuote);
       }
+
+      this.replyView = new Whisper.ReactWrapperView({
+        el: this.$('.quote-wrapper'),
+        Component: window.Signal.Components.Quote,
+        props,
+      });
     },
     isImageWithoutCaption() {
       const attachments = this.model.get('attachments');
@@ -486,8 +486,7 @@
       this.renderRead();
       this.renderErrors();
       this.renderExpiring();
-      this.renderReply();
-
+      this.renderQuote();
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
       // as our code / Backbone seems to rely on `render` synchronously returning
