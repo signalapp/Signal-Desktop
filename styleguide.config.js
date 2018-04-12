@@ -27,6 +27,9 @@ module.exports = {
     // Exposes necessary utilities in the global scope for all readme code snippets
     util: 'ts/styleguide/StyleGuideUtil',
   },
+  contextDependencies: [
+    path.join(__dirname, 'ts/test'),
+  ],
   // We don't want one long, single page
   pagePerSection: true,
   // Expose entire repository to the styleguidist server, primarily for stylesheets

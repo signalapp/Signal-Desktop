@@ -67,8 +67,46 @@
   &.deep_orange { background-color: $dark_material_deep_orange ; }
   &.amber       { background-color: $dark_material_amber       ; }
   &.blue_grey   { background-color: $dark_material_blue_grey   ; }
-  &.grey        { background-color: #666666               ; }
-  &.default     { background-color: $blue                 ; }
+  &.grey        { background-color: #666666                    ; }
+  &.default     { background-color: $blue                      ; }
+}
+@mixin twenty-percent-colors {
+  &.red         { background-color: rgba($dark_material_red, 0.2)         ; }
+  &.pink        { background-color: rgba($dark_material_pink, 0.2)        ; }
+  &.purple      { background-color: rgba($dark_material_purple, 0.2)      ; }
+  &.deep_purple { background-color: rgba($dark_material_deep_purple, 0.2) ; }
+  &.indigo      { background-color: rgba($dark_material_indigo, 0.2)      ; }
+  &.blue        { background-color: rgba($dark_material_blue, 0.2)        ; }
+  &.light_blue  { background-color: rgba($dark_material_light_blue, 0.2)  ; }
+  &.cyan        { background-color: rgba($dark_material_cyan, 0.2)        ; }
+  &.teal        { background-color: rgba($dark_material_teal, 0.2)        ; }
+  &.green       { background-color: rgba($dark_material_green, 0.2)       ; }
+  &.light_green { background-color: rgba($dark_material_light_green, 0.2) ; }
+  &.orange      { background-color: rgba($dark_material_orange, 0.2)      ; }
+  &.deep_orange { background-color: rgba($dark_material_deep_orange, 0.2) ; }
+  &.amber       { background-color: rgba($dark_material_amber, 0.2)       ; }
+  &.blue_grey   { background-color: rgba($dark_material_blue_grey, 0.2)   ; }
+  &.grey        { background-color: rgba(#666666, 0.2)                    ; }
+  &.default     { background-color: rgba($blue, 0.2)                      ; }
+}
+@mixin text-colors {
+  &.red         { color: $material_red         ; }
+  &.pink        { color: $material_pink        ; }
+  &.purple      { color: $material_purple      ; }
+  &.deep_purple { color: $material_deep_purple ; }
+  &.indigo      { color: $material_indigo      ; }
+  &.blue        { color: $material_blue        ; }
+  &.light_blue  { color: $material_light_blue  ; }
+  &.cyan        { color: $material_cyan        ; }
+  &.teal        { color: $material_teal        ; }
+  &.green       { color: $material_green       ; }
+  &.light_green { color: $material_light_green ; }
+  &.orange      { color: $material_orange      ; }
+  &.deep_orange { color: $material_deep_orange ; }
+  &.amber       { color: $material_amber       ; }
+  &.blue_grey   { color: $material_blue_grey   ; }
+  &.grey        { color: #999999               ; }
+  &.default     { color: $blue                 ; }
 }
 
 // TODO: Deduplicate these! Can SASS functions generate property names?

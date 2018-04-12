@@ -10,15 +10,85 @@ const outgoing = new Whisper.Message({
   sent_at: Date.now() - 18000000,
   quote: {
     text: 'How many ferrets do you have?',
-    author: '+12025550100',
+    author: '+12025550011',
     id: Date.now() - 1000,
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
+  }),
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+#### In a group conversation
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: 'About six',
+  sent_at: Date.now() - 18000000,
+  quote: {
+    text: 'How many ferrets do you have?',
+    author: '+12025550010',
+    id: Date.now() - 1000,
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550007',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550002',
+  }),
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme} conversationType="group">
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+#### A lot of text in quotation
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: 'About six',
+  sent_at: Date.now() - 18000000,
+  quote: {
+    text:
+      'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
+      'After that, probably dogs. And then, you know, reptiles of all types. ' +
+      'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
+      'really smart.',
+    author: '+12025550011',
+    id: Date.now() - 1000,
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550011',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550005',
   }),
 }));
 const View = Whisper.MessageView;
@@ -37,13 +107,17 @@ const View = Whisper.MessageView;
 #### Image with caption
 
 ```jsx
+const quotedMessage = {
+  imageUrl: util.gifObjectUrl,
+  id: '3234-23423-2342',
+};
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: "Totally, it's a pretty unintuitive concept.",
   sent_at: Date.now() - 18000000,
   quote: {
     text: 'I am pretty confused about Pi.',
-    author: '+12025550100',
+    author: '+12025550011',
     id: Date.now() - 1000,
     attachments: [
       {
@@ -51,19 +125,22 @@ const outgoing = new Whisper.Message({
         fileName: 'pi.gif',
         thumbnail: {
           contentType: 'image/gif',
-          data: util.gif,
         },
       },
     ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
   }),
 }));
+
+outgoing.quotedMessage = quotedMessage;
+incoming.quotedMessage = quotedMessage;
+
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
   <util.BackboneWrapper
@@ -80,12 +157,16 @@ const View = Whisper.MessageView;
 #### Image
 
 ```jsx
+const quotedMessage = {
+  imageUrl: util.gifObjectUrl,
+};
+
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: "Yeah, pi. Tough to wrap your head around.",
   sent_at: Date.now() - 18000000,
   quote: {
-    author: '+12025550100',
+    author: '+12025550011',
     id: Date.now() - 1000,
     attachments: [
       {
@@ -93,19 +174,61 @@ const outgoing = new Whisper.Message({
         fileName: 'pi.gif',
         thumbnail: {
           contentType: 'image/gif',
-          data: util.gif,
         },
       },
     ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
   }),
 }));
+
+outgoing.quotedMessage = quotedMessage;
+incoming.quotedMessage = quotedMessage;
+
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+#### Image with no thumbnail
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: "Yeah, pi. Tough to wrap your head around.",
+  sent_at: Date.now() - 18000000,
+  quote: {
+    author: '+12025550011',
+    id: Date.now() - 1000,
+    attachments: [
+      {
+        contentType: 'image/gif',
+        fileName: 'pi.gif',
+      },
+    ],
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550011',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550005',
+  }),
+}));
+
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
   <util.BackboneWrapper
@@ -122,12 +245,16 @@ const View = Whisper.MessageView;
 #### Video with caption
 
 ```jsx
+const quotedMessage = {
+  imageUrl: util.gifObjectUrl,
+};
+
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: "Sweet the way the video sneaks up on you!",
   sent_at: Date.now() - 18000000,
   quote: {
-    author: '+12025550100',
+    author: '+12025550011',
     text: 'Check out this video I found!',
     id: Date.now() - 1000,
     attachments: [
@@ -136,19 +263,22 @@ const outgoing = new Whisper.Message({
         fileName: 'freezing_bubble.mp4',
         thumbnail: {
           contentType: 'image/gif',
-          data: util.gif,
         },
       },
     ],
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
   }),
 }));
+
+outgoing.quotedMessage = quotedMessage;
+incoming.quotedMessage = quotedMessage;
+
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
   <util.BackboneWrapper
@@ -165,12 +295,16 @@ const View = Whisper.MessageView;
 #### Video
 
 ```jsx
+const quotedMessage = {
+  imageUrl: util.gifObjectUrl,
+};
+
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: "Awesome!",
   sent_at: Date.now() - 18000000,
   quote: {
-    author: '+12025550100',
+    author: '+12025550011',
     id: Date.now() - 1000,
     attachments: [
       {
@@ -185,12 +319,55 @@ const outgoing = new Whisper.Message({
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
   }),
 }));
+
+outgoing.quotedMessage = quotedMessage;
+incoming.quotedMessage = quotedMessage;
+
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+#### Video with no thumbnail
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: "Awesome!",
+  sent_at: Date.now() - 18000000,
+  quote: {
+    author: '+12025550011',
+    id: Date.now() - 1000,
+    attachments: [
+      {
+        contentType: 'video/mp4',
+        fileName: 'freezing_bubble.mp4',
+      },
+    ],
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550011',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550005',
+  }),
+}));
+
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
   <util.BackboneWrapper
@@ -212,7 +389,7 @@ const outgoing = new Whisper.Message({
   body: 'I really like it!',
   sent_at: Date.now() - 18000000,
   quote: {
-    author: '+12025550100',
+    author: '+12025550011',
     text: 'Check out this beautiful song!',
     id: Date.now() - 1000,
     attachments: [
@@ -224,10 +401,10 @@ const outgoing = new Whisper.Message({
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
   }),
 }));
 const View = Whisper.MessageView;
@@ -251,7 +428,7 @@ const outgoing = new Whisper.Message({
   body: 'I really like it!',
   sent_at: Date.now() - 18000000,
   quote: {
-    author: '+12025550100',
+    author: '+12025550011',
     id: Date.now() - 1000,
     attachments: [
       {
@@ -262,10 +439,10 @@ const outgoing = new Whisper.Message({
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
   }),
 }));
 const View = Whisper.MessageView;
@@ -289,7 +466,7 @@ const outgoing = new Whisper.Message({
   body: 'I really like it!',
   sent_at: Date.now() - 18000000,
   quote: {
-    author: '+12025550100',
+    author: '+12025550011',
     id: Date.now() - 1000,
     attachments: [
       {
@@ -302,10 +479,10 @@ const outgoing = new Whisper.Message({
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
   }),
 }));
 const View = Whisper.MessageView;
@@ -329,7 +506,7 @@ const outgoing = new Whisper.Message({
   body: "I can't read latin.",
   sent_at: Date.now() - 18000000,
   quote: {
-    author: '+12025550100',
+    author: '+12025550011',
     text: 'This is my manifesto. Tell me what you think!',
     id: Date.now() - 1000,
     attachments: [
@@ -341,10 +518,10 @@ const outgoing = new Whisper.Message({
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
   }),
 }));
 const View = Whisper.MessageView;
@@ -368,7 +545,7 @@ const outgoing = new Whisper.Message({
   body: "Sorry, I can't read latin!",
   sent_at: Date.now() - 18000000,
   quote: {
-    author: '+12025550100',
+    author: '+12025550011',
     id: Date.now() - 1000,
     attachments: [
       {
@@ -379,10 +556,10 @@ const outgoing = new Whisper.Message({
   },
 });
 const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550100',
+  source: '+12025550011',
   type: 'incoming',
   quote: Object.assign({}, outgoing.attributes.quote, {
-    author: '+12025550200',
+    author: '+12025550005',
   }),
 }));
 const View = Whisper.MessageView;

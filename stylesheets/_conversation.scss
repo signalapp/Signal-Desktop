@@ -379,6 +379,14 @@ li.entry .error-icon-container {
   display: none;
 }
 
+.message-list .outgoing .bubble .quote {
+  margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
+}
+
+.private .message-list .incoming .bubble .quote {
+  margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
+}
+
 .sender {
   font-size: smaller;
   opacity: 0.8;
@@ -435,6 +443,8 @@ span.status {
     }
   }
 
+
+
   .bubble {
     position: relative;
     left: -2px;
@@ -452,16 +462,18 @@ span.status {
 
     .quote {
       @include message-replies-colors;
+      @include twenty-percent-colors;
 
+      cursor: pointer;
       display: flex;
       flex-direction: row;
       align-items: stretch;
+      overflow: hidden;
 
       border-radius: 2px;
       background-color: #eee;
       position: relative;
 
-      margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
       margin-right: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
       margin-left: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
       margin-bottom: 0.5em;
@@ -480,10 +492,25 @@ span.status {
         .author {
           font-weight: bold;
           margin-bottom: 0.3em;
+          @include text-colors;
+
+          .profile-name {
+            font-size: smaller;
+          }
         }
 
         .text {
           white-space: pre-wrap;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+
+          // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
+          //   ... as the truncation indicator. That's not a solution that works well for
+          //   all languages. More resources:
+          //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+          //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
         }
 
         .type-label {
@@ -498,22 +525,53 @@ span.status {
 
       .icon-container {
         flex: initial;
-        min-width: 48px;
-        @include aspect-ratio(1, 1);
+        width: 48px;
+        height: 48px;
+        position: relative;
 
-        .inner {
-          border: 1px red solid;
-          max-height: 48px;
-          max-width: 48px;
+        .circle-background {
+          position: absolute;
+          left: 6px;
+          right: 6px;
+          top: 6px;
+          bottom: 6px;
+
+          border-radius: 50%;
+          @include avatar-colors;
+          &.white {
+            background-color: white;
+          }
+        }
+
+        .icon {
+          position: absolute;
+          left: 12px;
+          right: 12px;
+          top: 12px;
+          bottom: 12px;
 
           &.file {
-            @include color-svg('../images/file.svg', $grey_d);
+            @include color-svg('../images/file.svg', white);
+          }
+          &.image {
+            @include color-svg('../images/image.svg', white);
           }
           &.microphone {
-            @include color-svg('../images/microphone.svg', $grey_d);
+            @include color-svg('../images/microphone.svg', white);
           }
           &.play {
-            @include color-svg('../images/play.svg', $grey_d);
+            @include color-svg('../images/play.svg', white);
+          }
+
+          @include avatar-colors;
+        }
+
+        .inner {
+          position: relative;
+
+          img {
+            max-width: 100%;
+            max-height: 100%;
           }
         }
       }
@@ -578,6 +636,13 @@ span.status {
   .incoming {
     .avatar, .bubble {
       float: left;
+    }
+
+    .bubble {
+      .quote {
+        background-color: rgba(white, 0.6);
+        border-left-color: white;
+      }
     }
   }
 

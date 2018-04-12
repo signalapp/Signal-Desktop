@@ -7,21 +7,28 @@ import Mime from '../../../js/modules/types/mime';
 
 interface Props {
   i18n: (key: string, values?: Array<string>) => string;
-  authorName: string;
+  authorTitle: string;
+  authorProfileName?: string;
   authorColor: string;
-  attachments: Array<QuotedAttachment>;
   text: string;
+  attachments: Array<QuotedAttachment>;
+  openQuotedMessage?: () => void;
+  quoterAuthorColor?: string,
+  isIncoming: boolean,
 }
 
 interface QuotedAttachment {
   fileName: string;
   contentType: string;
+  thumbnail?: Attachment,
+  /* Not included in protobuf */
   isVoiceMessage: boolean;
-  objectUrl: string;
-  thumbnail: {
-    contentType: string;
-    data: ArrayBuffer;
-  }
+}
+
+interface Attachment {
+  contentType: string;
+  /* Not included in protobuf, and is loaded asynchronously */
+  objectUrl?: string;
 }
 
 function validateQuote(quote: Props): boolean {
@@ -36,51 +43,68 @@ function validateQuote(quote: Props): boolean {
   return false;
 }
 
-function getContentType(attachments: Array<QuotedAttachment>): string | null {
-  if (!attachments || attachments.length === 0) {
-    return null;
+function getObjectUrl(thumbnail: Attachment | undefined): string | null {
+  if (thumbnail && thumbnail.objectUrl) {
+    return thumbnail.objectUrl;
   }
 
-  const first = attachments[0];
-  return first.contentType;
+  return null;
 }
 
 export class Quote extends React.Component<Props, {}> {
-  public renderIcon(first: QuotedAttachment) {
-    const contentType = first.contentType;
-    const objectUrl = first.objectUrl;
+  public renderImage(url: string, icon?: string) {
+    return (
+      <div className="icon-container">
+        <div className="inner">
+          <img src={url} />
+          {icon
+            ? <div className={classnames('icon', icon)}></div>
+            : null
+          }
+        </div>
+      </div>
+    );
+  }
 
-    if (Mime.isVideo(contentType)) {
-      // Render play icon on top of thumbnail
-      // We'd have to generate our own thumbnail from a local video??
-      return <div className='inner play'>Video</div>;
-    } else if (Mime.isImage(contentType)) {
-      if (objectUrl) {
-        return <div className='inner'><img src={objectUrl} /></div>;
-      } else {
-        return <div className='inner'>Loading Widget</div>
-      }
-    } else if (Mime.isAudio(contentType)) {
-      // Show microphone inner in circle
-      return <div className='inner microphone'>Audio</div>;
-    } else {
-      // Show file icon
-      return <div className='inner file'>File</div>;
-    }
+  public renderIcon(icon: string) {
+    const { authorColor, isIncoming, quoterAuthorColor } = this.props;
+
+    const backgroundColor = isIncoming ? 'white' : authorColor;
+    const iconColor = isIncoming ? quoterAuthorColor : 'white';
+
+    return (
+      <div className='icon-container'>
+        <div className={classnames('circle-background', backgroundColor)}></div>
+        <div className={classnames('icon', icon, iconColor)}></div>
+      </div>
+    );
   }
 
   public renderIconContainer() {
     const { attachments } = this.props;
-
     if (!attachments || attachments.length === 0) {
       return null;
     }
 
     const first = attachments[0];
+    const { contentType, thumbnail } = first;
+    const objectUrl = getObjectUrl(thumbnail);
 
-    return <div className='icon-container'>
-      {this.renderIcon(first)}
-    </div>
+    if (Mime.isVideo(contentType)) {
+      return objectUrl
+        ? this.renderImage(objectUrl, 'play')
+        : this.renderIcon('play');
+    }
+    if (Mime.isImage(contentType)) {
+      return objectUrl
+        ? this.renderImage(objectUrl)
+        : this.renderIcon('image');
+    }
+    if (Mime.isAudio(contentType)) {
+      return this.renderIcon('microphone');
+    }
+
+    return this.renderIcon('file');
   }
 
   public renderText() {
@@ -94,20 +118,19 @@ export class Quote extends React.Component<Props, {}> {
       return null;
     }
 
-    const contentType = getContentType(attachments);
     const first = attachments[0];
-    const fileName = first.fileName;
-
-    console.log(contentType);
+    const { contentType, fileName, isVoiceMessage } = first;
 
     if (Mime.isVideo(contentType)) {
       return <div className='type-label'>{i18n('video')}</div>;
-    } else if (Mime.isImage(contentType)) {
+    }
+    if (Mime.isImage(contentType)) {
       return <div className='type-label'>{i18n('photo')}</div>;
-    } else if (Mime.isAudio(contentType) && first.isVoiceMessage) {
+    }
+    if (Mime.isAudio(contentType) && isVoiceMessage) {
       return <div className='type-label'>{i18n('voiceMessage')}</div>;
-    } else if (Mime.isAudio(contentType)) {
-      console.log(first);
+    }
+    if (Mime.isAudio(contentType)) {
       return <div className='type-label'>{i18n('audio')}</div>;
     }
 
@@ -115,16 +138,27 @@ export class Quote extends React.Component<Props, {}> {
   }
 
   public render() {
-    const { authorName, authorColor } = this.props;
+    const {
+      authorTitle,
+      authorProfileName,
+      authorColor,
+      openQuotedMessage,
+    } = this.props;
 
     if (!validateQuote(this.props)) {
       return null;
     }
 
     return (
-      <div className={classnames(authorColor, 'quote')} >
+      <div onClick={openQuotedMessage} className={classnames(authorColor, 'quote')} >
         <div className="primary">
-          <div className="author">{authorName}</div>
+          <div className={classnames(authorColor, 'author')}>
+            {authorTitle}{' '}
+            {authorProfileName
+              ? <span className='profile-name'>~{authorProfileName}</span>
+              : null
+            }
+           </div>
           {this.renderText()}
         </div>
         {this.renderIconContainer()}

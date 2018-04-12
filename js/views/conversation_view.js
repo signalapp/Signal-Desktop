@@ -114,6 +114,7 @@
             this.listenTo(this.model, 'expired', this.onExpired);
             this.listenTo(this.model, 'prune', this.onPrune);
             this.listenTo(this.model.messageCollection, 'expired', this.onExpiredCollection);
+            this.listenTo(this.model.messageCollection, 'scroll-to-message', this.scrollToMessage);
 
             this.lazyUpdateVerified = _.debounce(
                 this.model.updateVerified.bind(this.model),
@@ -527,6 +528,22 @@
                 this.lastSeenIndicator = null;
                 indicator.remove();
             }
+        },
+
+        scrollToMessage: function(providedOptions) {
+            const options = providedOptions || options;
+            const { id } = options;
+
+            if (id) {
+                return;
+            }
+
+            const el = this.$(`#${id}`);
+            if (!el || el.length === 0) {
+                return;
+            }
+
+            el.scrollIntoView();
         },
 
         scrollToBottom: function() {

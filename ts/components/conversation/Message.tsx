@@ -13,7 +13,7 @@ export class Message extends React.Component<{}, {}> {
         <span className="avatar" />
         <div className="bubble">
           <div className="sender" dir="auto" />
-          <div className="inner-bubble">
+          <div className="inner-bubble with-tail">
             <div className="attachments" />
             <p className="content" dir="auto">
               <span className="body">

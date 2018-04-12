@@ -4,6 +4,7 @@
 /* global _: false */
 /* global emoji_util: false */
 /* global Mustache: false */
+/* global ConversationController: false */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -360,44 +361,74 @@
       this.timerView.setElement(this.$('.timer'));
       this.timerView.update();
     },
+    getQuoteObjectUrl() {
+      // Potential sources of objectUrl, as provided in Conversation.processQuotes
+      //   1. model.quotedMessage.imageUrl
+      //   2. model.quoteThumbnail.objectUrl
+
+      if (this.model.quotedMessageFromDatabase) {
+        return this.model.quotedMessageFromDatabase.imageUrl;
+      }
+      if (this.model.quotedMessage) {
+        return this.model.quotedMessage.imageUrl;
+      }
+      if (this.model.quoteThumbnail) {
+        return this.model.quoteThumbnail.objectUrl;
+      }
+
+      return null;
+    },
     renderReply() {
-      const VOICE_MESSAGE_FLAG =
-        textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
-      function addVoiceMessageFlag(attachment) {
-        return Object.assign({}, attachment, {
-          // eslint-disable-next-line no-bitwise
-          isVoiceMessage: attachment.flags & VOICE_MESSAGE_FLAG,
-        });
-      }
-      function getObjectUrl(attachment) {
-        if (!attachment || attachment.objectUrl) {
-          return attachment;
-        }
-
-        const blob = new Blob([attachment.data], {
-          type: attachment.contentType,
-        });
-        return Object.assign({}, attachment, {
-          objectUrl: URL.createObjectURL(blob),
-        });
-      }
-      function processAttachment(attachment) {
-        return getObjectUrl(addVoiceMessageFlag(attachment));
-      }
-
+      const VOICE_FLAG = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
+      const objectUrl = this.getQuoteObjectUrl();
       const quote = this.model.get('quote');
       if (!quote) {
         return;
       }
 
+      function processAttachment(attachment) {
+        const thumbnail = !attachment.thumbnail
+          ? null
+          : Object.assign({}, attachment.thumbnail, {
+            objectUrl,
+          });
+
+        return Object.assign({}, attachment, {
+          // eslint-disable-next-line no-bitwise
+          isVoiceMessage: attachment.flags & VOICE_FLAG,
+          thumbnail,
+        });
+      }
+
+      const { author } = quote;
+      const contact = ConversationController.get(author);
+      const authorTitle = contact ? contact.getTitle() : author;
+      const authorProfileName = contact ? contact.getProfileName() : null;
+      const authorColor = contact ? contact.getColor() : 'grey';
+      const isIncoming = this.model.isIncoming();
+      const quoterContact = this.model.getContact();
+      const quoterAuthorColor = quoterContact ? quoterContact.getColor() : null;
+
       const props = {
-        authorName: 'someone',
-        authorColor: 'indigo',
+        authorTitle,
+        authorProfileName,
+        authorColor,
+        isIncoming,
+        quoterAuthorColor,
+        openQuotedMessage: () => {
+          const { quotedMessage } = this.model;
+          if (quotedMessage) {
+            this.trigger('scroll-to-message', { id: quotedMessage.id });
+          }
+        },
         text: quote.text,
         attachments: quote.attachments && quote.attachments.map(processAttachment),
       };
 
       if (!this.replyView) {
+        if (contact) {
+          this.listenTo(contact, 'change:color', this.renderReply);
+        }
         this.replyView = new Whisper.ReactWrapperView({
           el: this.$('.quote-wrapper'),
           Component: window.Signal.Components.Quote,

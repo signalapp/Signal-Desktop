@@ -1,6 +1,7 @@
 import moment from 'moment';
 import qs from 'qs';
 
+import { sample, padStart } from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -23,18 +24,36 @@ import { Quote } from '../components/conversation/Quote';
 
 // @ts-ignore
 import gif from '../../fixtures/giphy-GVNvOUpeYmI7e.gif';
+const gifObjectUrl = makeObjectUrl(gif, 'image/gif');
 // @ts-ignore
 import mp3 from '../../fixtures/incompetech-com-Agnus-Dei-X.mp3';
+const mp3ObjectUrl = makeObjectUrl(mp3, 'audio/mp3');
 // @ts-ignore
 import txt from '../../fixtures/lorem-ipsum.txt';
+const txtObjectUrl = makeObjectUrl(txt, 'text/plain');
 // @ts-ignore
 import mp4 from '../../fixtures/pixabay-Soap-Bubble-7141.mp4';
+const mp4ObjectUrl = makeObjectUrl(mp4, 'video/mp4');
+
+function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
+  const blob = new Blob([data], {
+    type: contentType,
+  });
+  return URL.createObjectURL(blob);
+}
+
+const ourNumber = '+12025559999';
 
 export {
   mp3,
+  mp3ObjectUrl,
   gif,
+  gifObjectUrl,
   mp4,
+  mp4ObjectUrl,
   txt,
+  txtObjectUrl,
+  ourNumber
 };
 
 
@@ -82,3 +101,50 @@ parent.Signal.Components = {
 
 parent.ConversationController._initialFetchComplete = true;
 parent.ConversationController._initialPromise = Promise.resolve();
+
+
+const COLORS = [
+  'red',
+  'pink',
+  'purple',
+  'deep_purple',
+  'indigo',
+  'blue',
+  'light_blue',
+  'cyan',
+  'teal',
+  'green',
+  'light_green',
+  'orange',
+  'deep_orange',
+  'amber',
+  'blue_grey',
+  'grey',
+  'default',
+];
+
+const CONTACTS = COLORS.map((color, index) => {
+  const title = `${sample(['Mr.', 'Mrs.', 'Ms.', 'Unknown'])} ${color}`;
+  const key = sample(['name', 'profileName']) as string;
+  const id = `+1202555${padStart(index.toString(), 4, '0')}`;
+
+  const contact = {
+    color,
+    [key]: title,
+    id,
+    type: 'private',
+  };
+
+  return parent.ConversationController.dangerouslyCreateAndAdd(contact);
+});
+
+export {
+  COLORS,
+  CONTACTS,
+}
+
+parent.textsecure.storage.user.getNumber = () => ourNumber;
+
+// Telling Lodash to relinquish _ for use by underscore
+// @ts-ignore
+_.noConflict();

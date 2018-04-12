@@ -29,7 +29,7 @@
       this.on('destroy', this.onDestroy);
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
-      this.on('unload', this.revokeImageUrl);
+      this.on('unload', this.unload);
       this.setToExpire();
     },
     idForLogging() {
@@ -173,6 +173,20 @@
       } else {
         this.imageUrl = null;
       }
+    },
+    unload() {
+      if (this.quoteThumbnail) {
+        URL.revokeObjectURL(this.quoteThumbnail.objectUrl);
+        this.quoteThumbnail = null;
+      }
+      if (this.quotedMessageFromDatabase) {
+        this.quotedMessageFromDatabase.unload();
+        this.quotedMessageFromDatabase = null;
+      }
+      if (this.quotedMessage) {
+        this.quotedMessage = null;
+      }
+      this.revokeImageUrl();
     },
     revokeImageUrl() {
       if (this.imageUrl) {

@@ -17,7 +17,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message } = window.Signal.Types;
+  const { Message, MIME } = window.Signal.Types;
   const { upgradeMessageSchema, loadAttachmentData } = window.Signal.Migrations;
 
   // TODO: Factor out private and group subclasses of Conversation
@@ -1027,15 +1027,173 @@
       });
     },
 
-    fetchMessages() {
-      if (!this.id) {
-        return Promise.reject(new Error('This conversation has no id!'));
+    makeKey(author, id) {
+      return `${author}-${id}`;
+    },
+    doMessagesMatch(left, right) {
+      if (left.get('source') !== right.get('source')) {
+        return false;
       }
-      return this.messageCollection.fetchConversation(
+      if (left.get('sent_at') !== right.get('sent_at')) {
+        return false;
+      }
+      return true;
+    },
+    needData(attachments) {
+      if (!attachments || attachments.length === 0) {
+        return false;
+      }
+
+      const first = attachments[0];
+      const { thumbnail, contentType } = first;
+
+      return thumbnail || MIME.isVideo(contentType) || MIME.isImage(contentType);
+    },
+    forceRender(message) {
+      message.trigger('change', message);
+    },
+    makeObjectUrl(data, contentType) {
+      const blob = new Blob([data], {
+        type: contentType,
+      });
+      return URL.createObjectURL(blob);
+    },
+    makeMessagesLookup(messages) {
+      return messages.reduce((acc, message) => {
+        const { source, sent_at: sentAt } = message.attributes;
+        const key = this.makeKey(source, sentAt);
+
+        acc[key] = message;
+
+        return acc;
+      }, {});
+    },
+    async loadQuotedMessageFromDatabase(message) {
+      const { quote } = message.attributes;
+      const { attachments, id } = quote;
+      const first = attachments[0];
+
+      // Maybe in the future we could try to pull the thumbnail from a video ourselves,
+      //   but for now we will rely on incoming thumbnails only.
+      if (!MIME.isImage(first.contentType)) {
+        return false;
+      }
+
+      const collection = new Whisper.MessageCollection();
+      await collection.fetchSentAt(id);
+      const queryMessage = collection.find(m => this.doMessagesMatch(message, m));
+
+      if (!queryMessage) {
+        return false;
+      }
+
+      const queryAttachments = queryMessage.attachments || [];
+      if (queryAttachments.length === 0) {
+        return false;
+      }
+
+      const queryFirst = queryAttachments[0];
+      queryMessage.attachments[0] = await loadAttachmentData(queryFirst);
+
+      // Note: it would be nice to take the full-size image and downsample it into
+      //   a true thumbnail here.
+      // Note: if the attachment is a video, then this object URL won't make any sense
+      //   when we try to use it in an img tag.
+      queryMessage.updateImageUrl();
+
+      // We need to differentiate between messages we load from database and those already
+      //   in memory. More cleanup needs to happen on messages from the database because
+      //   they aren't tracked any other way.
+      // eslint-disable-next-line no-param-reassign
+      message.quotedMessageFromDatabase = queryMessage;
+
+      this.forceRender(message);
+      return true;
+    },
+    async loadQuoteThumbnail(message) {
+      const { quote } = message.attributes;
+      const { attachments } = quote;
+      const first = attachments[0];
+      const { thumbnail } = first;
+
+      if (!thumbnail) {
+        return false;
+      }
+      const thumbnailWithData = await loadAttachmentData(thumbnail);
+      thumbnailWithData.objectUrl = this.makeObjectUrl(
+        thumbnailWithData.data,
+        thumbnailWithData.contentType
+      );
+
+      // If we update this data in place, there's the risk that this data could be
+      //   saved back to the database
+      // eslint-disable-next-line no-param-reassign
+      message.quoteThumbnail = thumbnailWithData;
+
+      this.forceRender(message);
+      return true;
+    },
+
+    async processQuotes(messages) {
+      const lookup = this.makeMessagesLookup(messages);
+
+      const promises = messages.map(async (message) => {
+        const { quote } = message.attributes;
+        if (!quote) {
+          return;
+        }
+
+        const { attachments } = quote;
+        if (!this.needData(attachments)) {
+          return;
+        }
+
+        // We've already gone through this method once for this message
+        if (message.quoteIsProcessed) {
+          return;
+        }
+        // eslint-disable-next-line no-param-reassign
+        message.quoteIsProcessed = true;
+
+        // First, check to see if we've already loaded the target message into memory
+        const { author, id } = quote;
+        const key = this.makeKey(author, id);
+        const quotedMessage = lookup[key];
+
+        if (quotedMessage) {
+          // eslint-disable-next-line no-param-reassign
+          message.quotedMessage = quotedMessage;
+          this.forceRender(message);
+          return;
+        }
+
+        // Then go to the database for the real referenced attachment
+        const loaded = await this.loadQuotedMessageFromDatabase(message, id);
+        if (loaded) {
+          return;
+        }
+
+        // Finally, use the provided thumbnail
+        await this.loadQuoteThumbnail(message, quote);
+      });
+
+      return Promise.all(promises);
+    },
+
+    async fetchMessages() {
+      if (!this.id) {
+        throw new Error('This conversation has no id!');
+      }
+
+      await this.messageCollection.fetchConversation(
         this.id,
         null,
         this.get('unreadCount')
       );
+
+      // We kick this process off, but don't wait for it. If async updates happen on a
+      //   given Message, 'change' will be triggered
+      this.processQuotes(this.messageCollection);
     },
 
     hasMember(number) {
