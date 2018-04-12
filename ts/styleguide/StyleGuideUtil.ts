@@ -1,9 +1,12 @@
 import moment from 'moment';
 import qs from 'qs';
 
-import { sample, padStart } from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {
+  padStart,
+  sample,
+} from 'lodash';
 
 
 // Helper components used in the Style Guide, exposed at 'util' in the global scope via
@@ -53,7 +56,7 @@ export {
   mp4ObjectUrl,
   txt,
   txtObjectUrl,
-  ourNumber
+  ourNumber,
 };
 
 
@@ -64,6 +67,8 @@ const query = window.location.search.replace(/^\?/, '');
 const urlOptions = qs.parse(query);
 const theme = urlOptions.theme || 'android';
 const locale = urlOptions.locale || 'en';
+
+import HTML from '../ts/html';
 
 // @ts-ignore
 import localeMessages from '../../_locales/en/messages.json';
@@ -95,6 +100,7 @@ parent.moment.locale(locale);
 parent.React = React;
 parent.ReactDOM = ReactDOM;
 
+parent.Signal.HTML = HTML;
 parent.Signal.Components = {
   Quote,
 };
@@ -141,7 +147,7 @@ const CONTACTS = COLORS.map((color, index) => {
 export {
   COLORS,
   CONTACTS,
-}
+};
 
 parent.textsecure.storage.user.getNumber = () => ourNumber;
 

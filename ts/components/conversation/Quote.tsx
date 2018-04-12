@@ -6,23 +6,23 @@ import Mime from '../../../js/modules/types/mime';
 
 
 interface Props {
-  i18n: (key: string, values?: Array<string>) => string;
-  authorTitle: string;
-  authorProfileName?: string;
-  authorColor: string;
-  text: string;
   attachments: Array<QuotedAttachment>;
+  authorColor: string;
+  authorProfileName?: string;
+  authorTitle: string;
+  i18n: (key: string, values?: Array<string>) => string;
+  isIncoming: boolean;
   openQuotedMessage?: () => void;
-  quoterAuthorColor?: string,
-  isIncoming: boolean,
+  quoterAuthorColor?: string;
+  text: string;
 }
 
 interface QuotedAttachment {
-  fileName: string;
   contentType: string;
-  thumbnail?: Attachment,
+  fileName: string;
   /* Not included in protobuf */
   isVoiceMessage: boolean;
+  thumbnail?: Attachment;
 }
 
 interface Attachment {
@@ -53,14 +53,15 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | null {
 
 export class Quote extends React.Component<Props, {}> {
   public renderImage(url: string, icon?: string) {
+    const iconElement = icon
+      ? <div className={classnames('icon', icon)} />
+      : null;
+
     return (
       <div className="icon-container">
         <div className="inner">
           <img src={url} />
-          {icon
-            ? <div className={classnames('icon', icon)}></div>
-            : null
-          }
+          {iconElement}
         </div>
       </div>
     );
@@ -73,9 +74,9 @@ export class Quote extends React.Component<Props, {}> {
     const iconColor = isIncoming ? quoterAuthorColor : 'white';
 
     return (
-      <div className='icon-container'>
-        <div className={classnames('circle-background', backgroundColor)}></div>
-        <div className={classnames('icon', icon, iconColor)}></div>
+      <div className="icon-container">
+        <div className={classnames('circle-background', backgroundColor)} />
+        <div className={classnames('icon', icon, iconColor)} />
       </div>
     );
   }
@@ -111,7 +112,7 @@ export class Quote extends React.Component<Props, {}> {
     const { i18n, text, attachments } = this.props;
 
     if (text) {
-      return <div className='text'>{text}</div>;
+      return <div className="text">{text}</div>;
     }
 
     if (!attachments || attachments.length === 0) {
@@ -122,19 +123,19 @@ export class Quote extends React.Component<Props, {}> {
     const { contentType, fileName, isVoiceMessage } = first;
 
     if (Mime.isVideo(contentType)) {
-      return <div className='type-label'>{i18n('video')}</div>;
+      return <div className="type-label">{i18n('video')}</div>;
     }
     if (Mime.isImage(contentType)) {
-      return <div className='type-label'>{i18n('photo')}</div>;
+      return <div className="type-label">{i18n('photo')}</div>;
     }
     if (Mime.isAudio(contentType) && isVoiceMessage) {
-      return <div className='type-label'>{i18n('voiceMessage')}</div>;
+      return <div className="type-label">{i18n('voiceMessage')}</div>;
     }
     if (Mime.isAudio(contentType)) {
-      return <div className='type-label'>{i18n('audio')}</div>;
+      return <div className="type-label">{i18n('audio')}</div>;
     }
 
-    return <div className='filename-label'>{fileName}</div>;
+    return <div className="filename-label">{fileName}</div>;
   }
 
   public render() {
@@ -149,15 +150,15 @@ export class Quote extends React.Component<Props, {}> {
       return null;
     }
 
+    const authorProfileElement = authorProfileName
+      ? <span className="profile-name">~{authorProfileName}</span>
+      : null;
+
     return (
       <div onClick={openQuotedMessage} className={classnames(authorColor, 'quote')} >
         <div className="primary">
           <div className={classnames(authorColor, 'author')}>
-            {authorTitle}{' '}
-            {authorProfileName
-              ? <span className='profile-name'>~{authorProfileName}</span>
-              : null
-            }
+            {authorTitle}{' '}{authorProfileElement}
            </div>
           {this.renderText()}
         </div>

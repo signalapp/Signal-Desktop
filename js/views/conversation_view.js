@@ -531,7 +531,7 @@
         },
 
         scrollToMessage: function(providedOptions) {
-            const options = providedOptions || options;
+            const options = providedOptions || {};
             const { id } = options;
 
             if (id) {

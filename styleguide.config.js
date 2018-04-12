@@ -28,7 +28,7 @@ module.exports = {
     util: 'ts/styleguide/StyleGuideUtil',
   },
   contextDependencies: [
-    path.join(__dirname, 'ts/test'),
+    path.join(__dirname, 'ts/styleguide'),
   ],
   // We don't want one long, single page
   pagePerSection: true,
