@@ -428,6 +428,24 @@
     "selectAContact": {
       "message": "Select a contact or group to start chatting."
     },
+    "replyingToYourself": {
+      "message": "Replying to Yourself",
+      "description": "Shown in iOS theme when you quote yourself"
+    },
+    "replyingToYou": {
+      "message": "Replying to You",
+      "description": "Shown in iOS theme when someone else quotes a message from you"
+    },
+    "replyingTo": {
+      "message": "Replying to $name`$",
+      "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "John"
+        }
+      }
+    },
     "audio": {
       "message": "Audio",
       "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"

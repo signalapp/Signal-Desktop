@@ -379,11 +379,7 @@ li.entry .error-icon-container {
   display: none;
 }
 
-.message-list .outgoing .bubble .quote {
-  margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
-}
-
-.private .message-list .incoming .bubble .quote {
+.message-list .outgoing .bubble .quote, .private .message-list .incoming .bubble .quote {
   margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
 }
 
@@ -479,7 +475,7 @@ span.status {
       margin-bottom: 0.5em;
 
       // Accent color border:
-      border-left-width: 3;
+      border-left-width: 3px;
       border-left-style: solid;
 
       .primary {
@@ -488,6 +484,12 @@ span.status {
         padding-right: 10px;
         padding-top: 6px;
         padding-bottom: 6px;
+
+        // Will turn on in the iOS theme. This extra element is necessary because the iOS
+        //   theme requires text that isn't used at all in the Android Theme
+        .ios-label {
+          display: none;
+        }
 
         .author {
           font-weight: bold;

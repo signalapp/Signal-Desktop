@@ -11,9 +11,9 @@ interface Props {
   authorProfileName?: string;
   authorTitle: string;
   i18n: (key: string, values?: Array<string>) => string;
+  isFromMe: string;
   isIncoming: boolean;
-  openQuotedMessage?: () => void;
-  quoterAuthorColor?: string;
+  onClick?: () => void;
   text: string;
 }
 
@@ -68,10 +68,10 @@ export class Quote extends React.Component<Props, {}> {
   }
 
   public renderIcon(icon: string) {
-    const { authorColor, isIncoming, quoterAuthorColor } = this.props;
+    const { authorColor, isIncoming } = this.props;
 
     const backgroundColor = isIncoming ? 'white' : authorColor;
-    const iconColor = isIncoming ? quoterAuthorColor : 'white';
+    const iconColor = isIncoming ? authorColor : 'white';
 
     return (
       <div className="icon-container">
@@ -138,12 +138,28 @@ export class Quote extends React.Component<Props, {}> {
     return <div className="filename-label">{fileName}</div>;
   }
 
+  public renderIOSLabel() {
+    const { i18n, isIncoming, isFromMe, authorTitle, authorProfileName } = this.props;
+
+    const profileString = authorProfileName ? ` ~${authorProfileName}` : '';
+    const authorName = `${authorTitle}${profileString}`;
+
+    const label = isFromMe
+      ? isIncoming
+        ? i18n('replyingToYou')
+        : i18n('replyingToYourself')
+      : i18n('replyingTo', [authorName]);
+
+    return <div className='ios-label'>{label}</div>;
+  }
+
   public render() {
     const {
       authorTitle,
       authorProfileName,
       authorColor,
-      openQuotedMessage,
+      onClick,
+      isFromMe,
     } = this.props;
 
     if (!validateQuote(this.props)) {
@@ -155,8 +171,13 @@ export class Quote extends React.Component<Props, {}> {
       : null;
 
     return (
-      <div onClick={openQuotedMessage} className={classnames(authorColor, 'quote')} >
+      <div onClick={onClick} className={classnames(
+        authorColor,
+        'quote',
+        isFromMe ? 'from-me' : null
+      )} >
         <div className="primary">
+          {this.renderIOSLabel()}
           <div className={classnames(authorColor, 'author')}>
             {authorTitle}{' '}{authorProfileElement}
            </div>

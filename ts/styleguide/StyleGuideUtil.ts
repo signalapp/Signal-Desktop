@@ -141,9 +141,17 @@ const CONTACTS = COLORS.map((color, index) => {
   return parent.ConversationController.dangerouslyCreateAndAdd(contact);
 });
 
+const me = parent.ConversationController.dangerouslyCreateAndAdd({
+  id: ourNumber,
+  name: 'Me!',
+  type: 'private',
+  color: 'light_blue',
+});
+
 export {
   COLORS,
   CONTACTS,
+  me,
 };
 
 parent.textsecure.storage.user.getNumber = () => ourNumber;

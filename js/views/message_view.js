@@ -400,29 +400,30 @@
         });
       }
 
+      const OUR_NUMBER = textsecure.storage.user.getNumber();
       const { author } = quote;
       const contact = ConversationController.get(author);
+
       const authorTitle = contact ? contact.getTitle() : author;
       const authorProfileName = contact ? contact.getProfileName() : null;
       const authorColor = contact ? contact.getColor() : 'grey';
+      const isFromMe = contact ? contact.id === OUR_NUMBER : false;
       const isIncoming = this.model.isIncoming();
-      const quoterContact = this.model.getContact();
-      const quoterAuthorColor = quoterContact ? quoterContact.getColor() : null;
 
       const props = {
-        authorTitle,
-        authorProfileName,
+        attachments: quote.attachments && quote.attachments.map(processAttachment),
         authorColor,
+        authorProfileName,
+        authorTitle,
+        isFromMe,
         isIncoming,
-        quoterAuthorColor,
-        openQuotedMessage: () => {
+        onClick: () => {
           const { quotedMessage } = this.model;
           if (quotedMessage) {
             this.trigger('scroll-to-message', { id: quotedMessage.id });
           }
         },
         text: quote.text,
-        attachments: quote.attachments && quote.attachments.map(processAttachment),
       };
 
       if (!this.replyView) {

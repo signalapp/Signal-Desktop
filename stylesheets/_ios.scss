@@ -106,6 +106,130 @@ $ios-border-color: rgba(0,0,0,0.1);
     padding: 10px;
   }
 
+  .message-list {
+    .quote {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+
+      // Not ideal, but necessary to override the specificity of the android theme color
+      //   classes used in conversations.scss
+      background-color: white !important;
+      border: 1px solid lightgray !important;
+      border-bottom: none !important;
+
+      margin-top: 0px;
+      margin-bottom: 0px;
+      margin-left: 0px;
+      margin-right: 0px;
+
+      .primary {
+        padding: 10px;
+
+        .text,
+        .filename-label,
+        .type-label {
+          border-left: 2px solid lightgray;
+          padding: 5px;
+          padding-left: 7px;
+          // Without this smaller bottom padding, text beyond four lines still shows up!
+          padding-bottom: 2px;
+          color: black;
+        }
+
+        .author {
+          display: none;
+        }
+
+        .ios-label {
+          display: block;
+          color: lightgray;
+          font-size: smaller;
+          margin-bottom: 3px;
+        }
+      }
+
+      .icon-container {
+        height: 61px;
+        width: 61px;
+
+        .circle-background {
+          left: 12px;
+          right: 12px;
+          top: 12px;
+          bottom: 12px;
+
+          background-color: $blue !important;
+        }
+
+        .icon {
+          left: 18px;
+          right: 18px;
+          top: 18px;
+          bottom: 18px;
+
+          background-color: white !important;
+        }
+
+        .inner {
+          padding: 12px;
+        }
+      }
+
+      .from-me {
+        .primary {
+          .text,
+          .filename-label,
+          .type-label {
+            border-left: 2px solid $blue;
+          }
+        }
+      }
+    }
+
+    .incoming {
+      .bubble {
+        .quote {
+          background-color: lightgray !important;
+          border-left: none;
+
+          .ios-label {
+            color: white;
+          }
+
+          .primary {
+            .text,
+            .filename-label,
+            .type-label {
+              border-left: 2px solid white;
+            }
+          }
+        }
+      }
+    }
+
+    .bubble {
+      .quote.from-me {
+        .primary {
+          .text,
+          .filename-label,
+          .type-label {
+            border-left: 2px solid $blue;
+          }
+        }
+      }
+    }
+
+    .outgoing .bubble .quote,
+    .private .message-list .incoming .bubble .quote {
+      margin-top: 0px;
+    }
+
+    .outgoing .bubble .quote .icon-container .circle-background {
+      background-color: lightgray !important;
+    }
+  }
 
   .attachments .bubbled {
     border-radius: 15px;
