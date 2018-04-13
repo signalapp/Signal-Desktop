@@ -192,7 +192,7 @@
             'click' : 'onClick',
             'click .bottom-bar': 'focusMessageField',
             'click .back': 'resetPanel',
-            'click .microphone': 'captureAudio',
+            'click .capture-audio .microphone': 'captureAudio',
             'click .disappearing-messages': 'enableDisappearingMessages',
             'click .scroll-down-button-view': 'scrollToBottom',
             'click button.emoji': 'toggleEmojiPanel',
