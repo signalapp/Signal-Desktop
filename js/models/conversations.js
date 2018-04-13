@@ -1157,6 +1157,10 @@
       const { quote } = message.attributes;
       const { attachments } = quote;
       const first = attachments[0];
+      if (!first) {
+        return false;
+      }
+
       const { thumbnail } = first;
 
       if (!thumbnail) {
