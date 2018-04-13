@@ -9,6 +9,7 @@
     "array-type": [true, "generic"],
     "import-spacing": false,
     "interface-name": [true, "never-prefix"],
+    "max-line-length": [true, 90],
 
     "mocha-avoid-only": true,
     // Disabled until we can allow dynamically generated tests:
