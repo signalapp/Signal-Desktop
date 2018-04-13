@@ -1,14 +1,16 @@
 ```jsx
-const YEAR_MS = 1 * 12 * 30 * 24 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const MONTH_MS = 30 * DAY_MS;
+const YEAR_MS = 12 * MONTH_MS;
 const tokens = ['foo', 'bar', 'baz', 'qux', 'quux'];
 const fileExtensions = ['docx', 'pdf', 'txt', 'mp3', 'wmv', 'tiff'];
-const createRandomMessage = (props) => {
+const createRandomMessage = ({startTime, timeWindow} = {}) => (props) => {
   const now = Date.now();
   const fileName =
     `${_.sample(tokens)}${_.sample(tokens)}.${_.sample(fileExtensions)}`;
   return {
     id: _.random(now).toString(),
-    received_at: _.random(now - YEAR_MS, now),
+    received_at: _.random(startTime, startTime + timeWindow),
     attachments: [{
       data: null,
       fileName,
@@ -21,9 +23,34 @@ const createRandomMessage = (props) => {
   };
 };
 
+const createRandomMessages = ({startTime, timeWindow}) =>
+  _.range(_.random(5, 10)).map(createRandomMessage({startTime, timeWindow}));
+
+
 const startTime = Date.now();
 const messages = _.sortBy(
-  _.range(25).map(createRandomMessage),
+  [
+    ...createRandomMessages({
+      startTime,
+      timeWindow: DAY_MS,
+    }),
+    ...createRandomMessages({
+      startTime: startTime - DAY_MS,
+      timeWindow: DAY_MS,
+    }),
+    ...createRandomMessages({
+      startTime: startTime - 3 * DAY_MS,
+      timeWindow: 3 * DAY_MS,
+    }),
+    ...createRandomMessages({
+      startTime: startTime - 30 * DAY_MS,
+      timeWindow: 15 * DAY_MS,
+    }),
+    ...createRandomMessages({
+      startTime: startTime - 365 * DAY_MS,
+      timeWindow: 300 * DAY_MS,
+    }),
+  ],
   message => -message.received_at
 );
 

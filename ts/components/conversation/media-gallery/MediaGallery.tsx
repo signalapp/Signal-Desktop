@@ -4,7 +4,6 @@
 import React from 'react';
 
 import moment from 'moment';
-import { map } from 'lodash';
 
 import { AttachmentListSection } from './AttachmentListSection';
 import { groupMessagesByDate } from './groupMessagesByDate';
@@ -123,23 +122,21 @@ export class MediaGallery extends React.Component<Props, State> {
     }
 
     const now = Date.now();
-    const groups = groupMessagesByDate(now, messages);
-    return map(groups, (annotations) => {
-      const first = annotations[0];
-      const date = moment(first.message.received_at);
-
-      const header = first.label === 'yearMonth'
-        ? date.format(MONTH_FORMAT)
-        : i18n(first.label);
-      const groupMessages = map(annotations, 'message');
-
+    const sections = groupMessagesByDate(now, messages);
+    return sections.map(section => {
+      const first = section.messages[0];
+      const date = moment(first.received_at);
+      const header =
+        section.type === 'yearMonth'
+          ? date.format(MONTH_FORMAT)
+          : i18n(section.type);
       return (
         <AttachmentListSection
           key={header}
           header={header}
           i18n={i18n}
           type={type}
-          messages={groupMessages}
+          messages={section.messages}
         />
       );
     });
