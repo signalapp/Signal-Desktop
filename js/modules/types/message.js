@@ -157,8 +157,17 @@ exports._mapQuotedAttachments = upgradeAttachment => async (message, context) =>
     return message;
   }
 
-  const upgradeWithContext = attachment =>
-    upgradeAttachment(attachment, context);
+  const upgradeWithContext = async (attachment) => {
+    if (!attachment || !attachment.thumbnail) {
+      return attachment;
+    }
+
+    const thumbnail = await upgradeAttachment(attachment.thumbnail, context);
+    return Object.assign({}, attachment, {
+      thumbnail,
+    });
+  };
+
   const quotedAttachments = (message.quote && message.quote.attachments) || [];
 
   const attachments = await Promise.all(quotedAttachments.map(upgradeWithContext));

@@ -358,6 +358,21 @@ describe('Message', () => {
       assert.deepEqual(result, message);
     });
 
+    it('handles attachments with no thumbnail', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, message);
+    });
+
     it('calls provided async function for each quoted attachment', async () => {
       const upgradeAttachment = sinon.stub().resolves({
         path: '/new/path/on/disk',
@@ -369,7 +384,9 @@ describe('Message', () => {
         quote: {
           text: 'hey!',
           attachments: [{
-            data: 'data is here',
+            thumbnail: {
+              data: 'data is here',
+            },
           }],
         },
       };
@@ -378,7 +395,9 @@ describe('Message', () => {
         quote: {
           text: 'hey!',
           attachments: [{
-            path: '/new/path/on/disk',
+            thumbnail: {
+              path: '/new/path/on/disk',
+            },
           }],
         },
       };
