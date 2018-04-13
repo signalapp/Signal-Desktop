@@ -1,10 +1,12 @@
+/**
+ * @prettier
+ */
 import React from 'react';
 
 import moment from 'moment';
 import formatFileSize from 'filesize';
 
 // import { LoadingIndicator } from './LoadingIndicator';
-
 
 interface Props {
   fileName?: string;
@@ -59,28 +61,20 @@ export class DocumentListEntry extends React.Component<Props, {}> {
     // }
 
     return (
-      <div
-        style={styles.itemContainer}
-      >
+      <div style={styles.itemContainer}>
         <img
           src="images/file.svg"
           width="48"
           height="48"
           style={styles.itemIcon}
         />
-        <div
-          style={styles.itemMetadata}
-        >
+        <div style={styles.itemMetadata}>
           <strong>{fileName}</strong>
-          <span
-            style={styles.itemFileSize}
-          >
+          <span style={styles.itemFileSize}>
             {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
           </span>
         </div>
-        <div
-          style={styles.itemDate}
-        >
+        <div style={styles.itemDate}>
           {moment(timestamp).format('ddd, MMM D, Y')}
         </div>
       </div>
@@ -88,10 +82,6 @@ export class DocumentListEntry extends React.Component<Props, {}> {
   }
 
   public render() {
-    return (
-      <div style={styles.container}>
-        {this.renderContent()}
-      </div>
-    );
+    return <div style={styles.container}>{this.renderContent()}</div>;
   }
 }

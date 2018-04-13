@@ -1,18 +1,25 @@
+/**
+ * @prettier
+ */
 import moment from 'moment';
-import { groupBy, sortBy } from 'lodash';
+import { compact, groupBy, sortBy } from 'lodash';
 
 import { Message } from './propTypes/Message';
 
-
-export const groupMessagesByDate = (timestamp: number, messages: Array<Message>): any => {
+export const groupMessagesByDate = (
+  timestamp: number,
+  messages: Array<Message>
+): any => {
   const referenceDateTime = moment.utc(timestamp);
   const today = moment(referenceDateTime).startOf('day');
-  const yesterday = moment(referenceDateTime).subtract(1, 'day').startOf('day');
+  const yesterday = moment(referenceDateTime)
+    .subtract(1, 'day')
+    .startOf('day');
   const thisWeek = moment(referenceDateTime).startOf('isoWeek');
   const thisMonth = moment(referenceDateTime).startOf('month');
 
-  const sorted = sortBy(messages, (message) => -message.received_at);
-  const annotations = sorted.map((message) => {
+  const sorted = sortBy(messages, message => -message.received_at);
+  const annotations = sorted.map(message => {
     const date = moment.utc(message.received_at);
 
     if (date.isAfter(today)) {
@@ -42,7 +49,7 @@ export const groupMessagesByDate = (timestamp: number, messages: Array<Message>)
     }
 
     return {
-      order: (date.year() * 100) + date.month(),
+      order: date.year() * 100 + date.month(),
       label: 'yearMonth',
       message,
     };

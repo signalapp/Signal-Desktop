@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import React from 'react';
 
 import moment from 'moment';
@@ -6,7 +9,6 @@ import { map } from 'lodash';
 import { AttachmentListSection } from './AttachmentListSection';
 import { groupMessagesByDate } from './groupMessagesByDate';
 import { Message } from './propTypes/Message';
-
 
 type AttachmentType = 'media' | 'documents';
 
@@ -58,13 +60,12 @@ const Tab = ({
   onSelect,
   type,
 }: {
-  isSelected: boolean,
-  label: string,
-  onSelect?: (event: TabSelectEvent) => void,
-  type: AttachmentType,
+  isSelected: boolean;
+  label: string;
+  onSelect?: (event: TabSelectEvent) => void;
+  type: AttachmentType;
 }) => {
-  const handleClick = onSelect ?
-    () => onSelect({ type }) : undefined;
+  const handleClick = onSelect ? () => onSelect({ type }) : undefined;
 
   return (
     <div
@@ -75,7 +76,6 @@ const Tab = ({
     </div>
   );
 };
-
 
 export class MediaGallery extends React.Component<Props, State> {
   public state: State = {
@@ -101,16 +101,14 @@ export class MediaGallery extends React.Component<Props, State> {
             onSelect={this.handleTabSelect}
           />
         </div>
-        <div style={styles.attachmentsContainer}>
-          {this.renderSections()}
-        </div>
+        <div style={styles.attachmentsContainer}>{this.renderSections()}</div>
       </div>
     );
   }
 
   private handleTabSelect = (event: TabSelectEvent): void => {
-    this.setState({selectedTab: event.type});
-  }
+    this.setState({ selectedTab: event.type });
+  };
 
   private renderSections() {
     const { i18n, media, documents } = this.props;

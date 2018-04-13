@@ -1,8 +1,10 @@
+/**
+ * @prettier
+ */
 import is from '@sindresorhus/is';
 
 import * as GoogleChrome from '../GoogleChrome';
 import { MIMEType } from './MIME';
-
 
 export interface Attachment {
   fileName?: string;

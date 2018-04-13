@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 // `missingCaseError` is useful for compile-time checking that all `case`s in
 // a `switch` statement have been handled, e.g.
 //

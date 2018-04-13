@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import React from 'react';
 
 import { LoadingIndicator } from './LoadingIndicator';
@@ -27,7 +30,7 @@ const styles = {
 
 export class ImageThumbnail extends React.Component<Props, {}> {
   public renderContent() {
-    const {/* i18n, */message } = this.props;
+    const { /* i18n, */ message } = this.props;
 
     if (!message.objectURL) {
       return <LoadingIndicator />;
@@ -45,10 +48,6 @@ export class ImageThumbnail extends React.Component<Props, {}> {
   }
 
   public render() {
-    return (
-      <div style={styles.container}>
-        {this.renderContent()}
-      </div>
-    );
+    return <div style={styles.container}>{this.renderContent()}</div>;
   }
 }

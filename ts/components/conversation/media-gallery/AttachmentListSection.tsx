@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import React from 'react';
 
 import { DocumentListEntry } from './DocumentListEntry';
@@ -5,13 +8,11 @@ import { ImageThumbnail } from './ImageThumbnail';
 import { Message } from './propTypes/Message';
 import { missingCaseError } from '../../../missingCaseError';
 
-
 const styles = {
   container: {
     width: '100%',
   },
-  header: {
-  },
+  header: {},
   itemContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -32,18 +33,14 @@ export class AttachmentListSection extends React.Component<Props, {}> {
   public renderItems() {
     const { i18n, messages, type } = this.props;
 
-    return messages.map((message) => {
+    return messages.map(message => {
       const { attachments } = message;
       const firstAttachment = attachments[0];
 
       switch (type) {
         case 'media':
           return (
-            <ImageThumbnail
-              key={message.id}
-              i18n={i18n}
-              message={message}
-            />
+            <ImageThumbnail key={message.id} i18n={i18n} message={message} />
           );
         case 'documents':
           return (
@@ -67,9 +64,7 @@ export class AttachmentListSection extends React.Component<Props, {}> {
     return (
       <div style={styles.container}>
         <div style={styles.header}>{header}</div>
-        <div style={styles.itemContainer}>
-          {this.renderItems()}
-        </div>
+        <div style={styles.itemContainer}>{this.renderItems()}</div>
       </div>
     );
   }

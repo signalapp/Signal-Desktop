@@ -1,5 +1,7 @@
+/**
+ * @prettier
+ */
 import * as MIME from './types/MIME';
-
 
 interface MIMETypeSupportMap {
   [key: string]: boolean;
@@ -24,7 +26,7 @@ const SUPPORTED_IMAGE_MIME_TYPES: MIMETypeSupportMap = {
 };
 
 export const isImageTypeSupported = (mimeType: MIME.MIMEType): boolean =>
-   SUPPORTED_IMAGE_MIME_TYPES[mimeType] === true;
+  SUPPORTED_IMAGE_MIME_TYPES[mimeType] === true;
 
 const SUPPORTED_VIDEO_MIME_TYPES: MIMETypeSupportMap = {
   'video/mp4': true,
@@ -34,4 +36,4 @@ const SUPPORTED_VIDEO_MIME_TYPES: MIMETypeSupportMap = {
 
 // See: https://www.chromium.org/audio-video
 export const isVideoTypeSupported = (mimeType: MIME.MIMEType): boolean =>
-   SUPPORTED_VIDEO_MIME_TYPES[mimeType] === true;
+  SUPPORTED_VIDEO_MIME_TYPES[mimeType] === true;

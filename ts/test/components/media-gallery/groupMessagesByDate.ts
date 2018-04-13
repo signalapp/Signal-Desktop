@@ -1,11 +1,11 @@
+/**
+ * @prettier
+ */
 import 'mocha';
 import { assert } from 'chai';
 
-import { groupMessagesByDate } from
-  '../../../components/conversation/media-gallery/groupMessagesByDate';
-import { Message } from
-  '../../../components/conversation/media-gallery/propTypes/Message';
-
+import { groupMessagesByDate } from '../../../components/conversation/media-gallery/groupMessagesByDate';
+import { Message } from '../../../components/conversation/media-gallery/propTypes/Message';
 
 const toMessage = (date: Date): Message => ({
   id: date.toUTCString(),
