@@ -1016,8 +1016,17 @@ MessageReceiver.prototype.extend({
 
       for (let i = 0, max = attachments.length; i < max; i += 1) {
         const attachment = attachments[i];
-        if (attachment.thumbnail) {
-          promises.push(this.handleAttachment(attachment.thumbnail));
+        const { thumbnail } = attachment;
+
+        if (thumbnail) {
+          // We don't want the failure of a thumbnail download to fail the handling of
+          //   this message entirely, like we do for full attachments.
+          promises.push(this.handleAttachment(thumbnail).catch(function(error) {}
+            console.log(
+              'Problem loading thumbnail for quote',
+              error && error.stack ? error.stack : error,
+            ));
+          }));
         }
       }
     }
