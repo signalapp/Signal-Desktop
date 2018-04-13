@@ -7,7 +7,7 @@ import formatFileSize from 'filesize';
 
 
 interface Props {
-  fileName: string | null;
+  fileName?: string;
   fileSize?: number;
   i18n: (key: string, values?: Array<string>) => string;
   timestamp: number;

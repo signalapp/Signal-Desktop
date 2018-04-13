@@ -650,7 +650,8 @@
       //     Lightbox - or do we use the lightbox already in the app?
 
       const props = {
-        number: 10,
+        media: [],
+        documents: [],
       };
 
       const view = new window.Whisper.ReactWrapper({

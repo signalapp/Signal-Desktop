@@ -5,8 +5,9 @@ export interface Message {
   attachments: Array<{
     data?: ArrayBuffer;
     fileName?: string;
+    size?: number;
   }>;
 
   // TODO: Revisit
-  imageUrl: string;
+  objectURL?: string;
 }

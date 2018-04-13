@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { ImageThumbnail } from './ImageThumbnail';
 import { DocumentListEntry } from './DocumentListEntry';
+import { ImageThumbnail } from './ImageThumbnail';
 import { Message } from './propTypes/Message';
+import { missingCaseError } from '../../../missingCaseError';
+
 
 const styles = {
   container: {
@@ -29,15 +31,34 @@ interface Props {
 export class AttachmentListSection extends React.Component<Props, {}> {
   public renderItems() {
     const { i18n, messages, type } = this.props;
-    const Component = type === 'media' ? ImageThumbnail : DocumentListEntry;
 
-    return messages.map((message) => (
-      <Component
-        key={message.id}
-        i18n={i18n}
-        message={message}
-      />
-    ));
+    return messages.map((message) => {
+      const { attachments } = message;
+      const firstAttachment = attachments[0];
+
+      switch (type) {
+        case 'media':
+          return (
+            <ImageThumbnail
+              key={message.id}
+              i18n={i18n}
+              message={message}
+            />
+          );
+        case 'documents':
+          return (
+            <DocumentListEntry
+              key={message.id}
+              i18n={i18n}
+              fileSize={firstAttachment.size}
+              fileName={firstAttachment.fileName}
+              timestamp={message.received_at}
+            />
+          );
+        default:
+          return missingCaseError(type);
+      }
+    });
   }
 
   public render() {

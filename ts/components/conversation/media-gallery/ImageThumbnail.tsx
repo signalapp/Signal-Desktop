@@ -8,28 +8,38 @@ interface Props {
   i18n: (value: string) => string;
 }
 
+const size = {
+  width: 94,
+  height: 94,
+};
 const styles = {
   container: {
+    ...size,
     backgroundColor: '#f3f3f3',
     marginRight: 4,
     marginBottom: 4,
-    width: 94,
-    height: 94,
+  },
+  image: {
+    ...size,
+    backgroundSize: 'cover',
   },
 };
 
 export class ImageThumbnail extends React.Component<Props, {}> {
   public renderContent() {
-    const { i18n, message } = this.props;
+    const {/* i18n, */message } = this.props;
 
-    if (!message.imageUrl) {
+    if (!message.objectURL) {
       return <LoadingIndicator />;
     }
 
     return (
-      <img
-        src={message.imageUrl}
-        alt={`${i18n('messageCaption')}: ${message.body}`}
+      <div
+        style={{
+          ...styles.container,
+          ...styles.image,
+          backgroundImage: `url("${message.objectURL}")`,
+        }}
       />
     );
   }

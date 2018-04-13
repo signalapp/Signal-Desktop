@@ -10,24 +10,26 @@ const createRandomMessage = (props) => {
     id: _.random(now).toString(),
     received_at: _.random(now - YEAR_MS, now),
     attachments: [{
-      fileName,
       data: null,
+      fileName,
+      size: _.random(1000, 1000 * 1000 * 50),
     }],
 
     // TODO: Revisit
-    imageUrl: 'https://placekitten.com/94/94',
+    objectURL: `https://placekitten.com/${_.random(50, 150)}/${_.random(50, 150)}`,
     ...props,
   };
 };
 
 const startTime = Date.now();
 const messages = _.sortBy(
-  _.range(30).map(createRandomMessage),
+  _.range(25).map(createRandomMessage),
   message => -message.received_at
 );
 
 <MediaGallery
-  i18n={(key) => key}
-  messages={messages}
+  i18n={window.i18n}
+  media={messages}
+  documents={messages}
 />
 ```

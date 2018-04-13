@@ -1,20 +1,26 @@
 import React from 'react';
 
+import moment from 'moment';
+import { map } from 'lodash';
+
 import { AttachmentListSection } from './AttachmentListSection';
+import { groupMessagesByDate } from './groupMessagesByDate';
 import { Message } from './propTypes/Message';
 
 
 type AttachmentType = 'media' | 'documents';
 
 interface Props {
+  documents: Array<Message>;
   i18n: (key: string, values?: Array<string>) => string;
-  messages: Array<Message>;
+  media: Array<Message>;
 }
 
 interface State {
   selectedTab: AttachmentType;
 }
 
+const MONTH_FORMAT = 'MMMM YYYY';
 const COLOR_GREY = '#f3f3f3';
 
 const tabStyle = {
@@ -76,6 +82,10 @@ export class MediaGallery extends React.Component<Props, State> {
     selectedTab: 'media',
   };
 
+  private handleTabSelect = (event: TabSelectEvent): void => {
+    this.setState({selectedTab: event.type});
+  }
+
   public render() {
     const { selectedTab } = this.state;
 
@@ -96,17 +106,44 @@ export class MediaGallery extends React.Component<Props, State> {
           />
         </div>
         <div style={styles.attachmentsContainer}>
-          <AttachmentListSection
-            type={selectedTab}
-            i18n={this.props.i18n}
-            messages={this.props.messages}
-          />
+          {this.renderSections()}
         </div>
       </div>
     );
   }
 
-  private handleTabSelect = (event: TabSelectEvent): void => {
-    this.setState({selectedTab: event.type});
+  private renderSections() {
+    const { i18n, media, documents } = this.props;
+    const { selectedTab } = this.state;
+
+    const messages = selectedTab === 'media' ? media : documents;
+    const type = selectedTab;
+
+    if (!messages || messages.length === 0) {
+      // return <LoadingIndicator />;
+      return null;
+    }
+
+    const now = Date.now();
+    const groups = groupMessagesByDate(now, messages);
+    return map(groups, (annotations) => {
+      const first = annotations[0];
+      const date = moment(first.message.received_at);
+
+      const header = first.label === 'yearMonth'
+        ? date.format(MONTH_FORMAT)
+        : i18n(first.label);
+      const groupMessages = map(annotations, 'message');
+
+      return (
+        <AttachmentListSection
+          key={header}
+          header={header}
+          i18n={i18n}
+          type={type}
+          messages={groupMessages}
+        />
+      );
+    });
   }
 }
