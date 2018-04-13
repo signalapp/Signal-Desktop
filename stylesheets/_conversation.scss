@@ -460,6 +460,10 @@ span.status {
       @include message-replies-colors;
       @include twenty-percent-colors;
 
+      &.no-click {
+        cursor: auto;
+      }
+
       cursor: pointer;
       display: flex;
       flex-direction: row;

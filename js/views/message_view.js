@@ -366,10 +366,6 @@
       this.timerView.update();
     },
     getQuoteObjectUrl() {
-      // Potential sources of objectUrl, as provided in Conversation.processQuotes
-      //   1. model.quotedMessage.imageUrl
-      //   2. model.quoteThumbnail.objectUrl
-
       if (this.model.quotedMessageFromDatabase) {
         return this.model.quotedMessageFromDatabase.imageUrl;
       }
@@ -415,6 +411,12 @@
       const authorColor = contact ? contact.getColor() : 'grey';
       const isFromMe = contact ? contact.id === OUR_NUMBER : false;
       const isIncoming = this.model.isIncoming();
+      const onClick = () => {
+        const { quotedMessage } = this.model;
+        if (quotedMessage) {
+          this.model.trigger('scroll-to-message', { id: quotedMessage.id });
+        }
+      };
 
       const props = {
         attachments: (quote.attachments || []).map(processAttachment),
@@ -423,12 +425,7 @@
         authorTitle,
         isFromMe,
         isIncoming,
-        onClick: () => {
-          const { quotedMessage } = this.model;
-          if (quotedMessage) {
-            this.model.trigger('scroll-to-message', { id: quotedMessage.id });
-          }
-        },
+        onClick: this.model.quotedMessage ? onClick : null,
         text: quote.text,
       };
 

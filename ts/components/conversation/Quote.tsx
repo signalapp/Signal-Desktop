@@ -173,6 +173,7 @@ export class Quote extends React.Component<Props, {}> {
       authorColor,
       'quote',
       isFromMe ? 'from-me' : null,
+      !onClick ? 'no-click' : null,
     );
 
     return (
