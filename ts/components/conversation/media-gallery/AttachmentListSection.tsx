@@ -12,7 +12,11 @@ const styles = {
   container: {
     width: '100%',
   },
-  header: {},
+  header: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    lineHeight: '28px',
+  } as React.CSSProperties,
   itemContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -63,7 +67,7 @@ export class AttachmentListSection extends React.Component<Props, {}> {
 
     return (
       <div style={styles.container}>
-        <div style={styles.header}>{header}</div>
+        <h2 style={styles.header}>{header}</h2>
         <div style={styles.itemContainer}>{this.renderItems()}</div>
       </div>
     );
