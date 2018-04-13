@@ -3,7 +3,7 @@
  */
 import is from '@sindresorhus/is';
 
-import * as GoogleChrome from '../GoogleChrome';
+import * as GoogleChrome from '../util/GoogleChrome';
 import { MIMEType } from './MIME';
 
 export interface Attachment {

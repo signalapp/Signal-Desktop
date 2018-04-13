@@ -5,7 +5,7 @@ import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
 
 import { Message } from './propTypes/Message';
-// import { missingCaseError } from '../../../missingCaseError';
+// import { missingCaseError } from '../../../util/missingCaseError';
 
 type StaticSectionType = 'today' | 'yesterday' | 'thisWeek' | 'thisMonth';
 type YearMonthSectionType = 'yearMonth';

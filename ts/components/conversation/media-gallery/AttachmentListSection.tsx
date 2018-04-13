@@ -6,7 +6,7 @@ import React from 'react';
 import { DocumentListEntry } from './DocumentListEntry';
 import { ImageThumbnail } from './ImageThumbnail';
 import { Message } from './propTypes/Message';
-import { missingCaseError } from '../../../missingCaseError';
+import { missingCaseError } from '../../../util/missingCaseError';
 
 const styles = {
   container: {

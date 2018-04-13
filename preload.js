@@ -196,6 +196,7 @@ window.Signal.Types.Errors = require('./js/modules/types/errors');
 window.Signal.Types.Message = Message;
 window.Signal.Types.MIME = require('./ts/types/MIME');
 window.Signal.Types.Settings = require('./js/modules/types/settings');
+window.Signal.Util = require('./ts/util');
 
 window.Signal.Views = {};
 window.Signal.Views.Initialization = require('./js/modules/views/initialization');

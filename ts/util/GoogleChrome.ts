@@ -1,7 +1,7 @@
 /**
  * @prettier
  */
-import * as MIME from './types/MIME';
+import * as MIME from '../types/MIME';
 
 interface MIMETypeSupportMap {
   [key: string]: boolean;
