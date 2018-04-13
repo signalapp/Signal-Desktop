@@ -1124,7 +1124,6 @@
       // eslint-disable-next-line no-param-reassign
       message.quotedMessageFromDatabase = queryMessage;
 
-      this.forceRender(message);
       return true;
     },
     async loadQuotedMessage(message, quotedMessage) {
@@ -1174,7 +1173,6 @@
       // eslint-disable-next-line no-param-reassign
       message.quoteThumbnail = thumbnailWithData;
 
-      this.forceRender(message);
       return true;
     },
     async processQuotes(messages) {
@@ -1201,6 +1199,13 @@
         if (quotedMessage) {
           // eslint-disable-next-line no-param-reassign
           await this.loadQuotedMessage(message, quotedMessage);
+
+          // Note: in the future when we generate our own thumbnail we won't need to rely
+          //   on incoming thumbnail if we have our local message in hand.
+          if (!message.quotedMessage.imageUrl) {
+            await this.loadQuoteThumbnail(message, quote);
+          }
+
           this.forceRender(message);
           return;
         }
@@ -1222,11 +1227,21 @@
         // 2. Go to the database for the real referenced attachment
         const loaded = await this.loadQuotedMessageFromDatabase(message, id);
         if (loaded) {
+          // Note: in the future when we generate our own thumbnail we won't need to rely
+          //   on incoming thumbnail if we have our local message in hand.
+          if (!message.quotedMessageFromDatabase.imageUrl) {
+            await this.loadQuoteThumbnail(message, quote);
+          }
+
+          this.forceRender(message);
           return;
         }
 
         // 3. Finally, use the provided thumbnail
-        await this.loadQuoteThumbnail(message, quote);
+        const gotThumbnail = await this.loadQuoteThumbnail(message, quote);
+        if (gotThumbnail) {
+          this.forceRender(message);
+        }
       });
 
       return Promise.all(promises);

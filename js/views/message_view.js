@@ -366,14 +366,19 @@
       this.timerView.update();
     },
     getQuoteObjectUrl() {
-      if (this.model.quotedMessageFromDatabase) {
-        return this.model.quotedMessageFromDatabase.imageUrl;
+      const fromDB = this.model.quotedMessageFromDatabase;
+      if (fromDB && fromDB.imageUrl) {
+        return fromDB.imageUrl;
       }
-      if (this.model.quotedMessage) {
-        return this.model.quotedMessage.imageUrl;
+
+      const inMemory = this.model.quotedMessage;
+      if (inMemory && inMemory.imageUrl) {
+        return inMemory.imageUrl;
       }
-      if (this.model.quoteThumbnail) {
-        return this.model.quoteThumbnail.objectUrl;
+
+      const thumbnail = this.model.quoteThumbnail;
+      if (thumbnail && thumbnail.objectUrl) {
+        return thumbnail.objectUrl;
       }
 
       return null;
