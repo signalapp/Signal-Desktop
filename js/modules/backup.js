@@ -496,7 +496,7 @@ async function writeAttachment(attachment, options) {
   }
 
   if (!Attachment.hasData(attachment)) {
-    throw new TypeError('"attachment.data" is required');
+    throw new TypeError("'attachment.data' is required");
   }
 
   const ciphertext = await crypto.encryptSymmetric(key, attachment.data);

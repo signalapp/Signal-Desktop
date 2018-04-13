@@ -12,11 +12,11 @@ install:
   - yarn install --frozen-lockfile
 
 build_script:
-  - yarn nsp check
-  - yarn eslint
-  - yarn test-server
+  - yarn transpile
   - yarn lint
-  - yarn run icon-gen
+  - yarn test-node
+  - yarn nsp check
+  - yarn generate
   - node build\grunt.js
   - type package.json | findstr /v certificateSubjectName > temp.json
   - move temp.json package.json

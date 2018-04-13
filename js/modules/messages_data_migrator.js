@@ -29,20 +29,20 @@ exports.processNext = async ({
   upgradeMessageSchema,
 } = {}) => {
   if (!isFunction(BackboneMessage)) {
-    throw new TypeError('"BackboneMessage" (Whisper.Message) constructor is required');
+    throw new TypeError("'BackboneMessage' (Whisper.Message) constructor is required");
   }
 
   if (!isFunction(BackboneMessageCollection)) {
-    throw new TypeError('"BackboneMessageCollection" (Whisper.MessageCollection)' +
+    throw new TypeError("'BackboneMessageCollection' (Whisper.MessageCollection)" +
       ' constructor is required');
   }
 
   if (!isNumber(numMessagesPerBatch)) {
-    throw new TypeError('"numMessagesPerBatch" is required');
+    throw new TypeError("'numMessagesPerBatch' is required");
   }
 
   if (!isFunction(upgradeMessageSchema)) {
-    throw new TypeError('"upgradeMessageSchema" is required');
+    throw new TypeError("'upgradeMessageSchema' is required");
   }
 
   const startTime = Date.now();
@@ -85,19 +85,19 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
   upgradeMessageSchema,
 } = {}) => {
   if (!isString(databaseName)) {
-    throw new TypeError('"databaseName" must be a string');
+    throw new TypeError("'databaseName' must be a string");
   }
 
   if (!isNumber(minDatabaseVersion)) {
-    throw new TypeError('"minDatabaseVersion" must be a number');
+    throw new TypeError("'minDatabaseVersion' must be a number");
   }
 
   if (!isNumber(numMessagesPerBatch)) {
-    throw new TypeError('"numMessagesPerBatch" must be a number');
+    throw new TypeError("'numMessagesPerBatch' must be a number");
   }
 
   if (!isFunction(upgradeMessageSchema)) {
-    throw new TypeError('"upgradeMessageSchema" is required');
+    throw new TypeError("'upgradeMessageSchema' is required");
   }
 
   const connection = await database.open(databaseName);
@@ -155,7 +155,7 @@ exports.processNextBatchWithoutIndex = async ({
   upgradeMessageSchema,
 } = {}) => {
   if (!isFunction(upgradeMessageSchema)) {
-    throw new TypeError('"upgradeMessageSchema" is required');
+    throw new TypeError("'upgradeMessageSchema' is required");
   }
 
   const connection = await _getConnection({ databaseName, minDatabaseVersion });
@@ -170,11 +170,11 @@ exports.processNextBatchWithoutIndex = async ({
 // Private API
 const _getConnection = async ({ databaseName, minDatabaseVersion }) => {
   if (!isString(databaseName)) {
-    throw new TypeError('"databaseName" must be a string');
+    throw new TypeError("'databaseName' must be a string");
   }
 
   if (!isNumber(minDatabaseVersion)) {
-    throw new TypeError('"minDatabaseVersion" must be a number');
+    throw new TypeError("'minDatabaseVersion' must be a number");
   }
 
   const connection = await database.open(databaseName);
@@ -194,15 +194,15 @@ const _processBatch = async ({
   upgradeMessageSchema,
 } = {}) => {
   if (!isObject(connection)) {
-    throw new TypeError('"connection" must be a string');
+    throw new TypeError("'connection' must be a string");
   }
 
   if (!isFunction(upgradeMessageSchema)) {
-    throw new TypeError('"upgradeMessageSchema" is required');
+    throw new TypeError("'upgradeMessageSchema' is required");
   }
 
   if (!isNumber(numMessagesPerBatch)) {
-    throw new TypeError('"numMessagesPerBatch" is required');
+    throw new TypeError("'numMessagesPerBatch' is required");
   }
 
   const isAttachmentMigrationComplete =
@@ -273,7 +273,7 @@ const _saveMessageBackbone = ({ BackboneMessage } = {}) => (message) => {
 
 const _saveMessage = ({ transaction } = {}) => (message) => {
   if (!isObject(transaction)) {
-    throw new TypeError('"transaction" is required');
+    throw new TypeError("'transaction' is required");
   }
 
   const messagesStore = transaction.objectStore(MESSAGES_STORE_NAME);
@@ -289,12 +289,12 @@ const _saveMessage = ({ transaction } = {}) => (message) => {
 const _fetchMessagesRequiringSchemaUpgrade =
   async ({ BackboneMessageCollection, count } = {}) => {
     if (!isFunction(BackboneMessageCollection)) {
-      throw new TypeError('"BackboneMessageCollection" (Whisper.MessageCollection)' +
+      throw new TypeError("'BackboneMessageCollection' (Whisper.MessageCollection)" +
         ' constructor is required');
     }
 
     if (!isNumber(count)) {
-      throw new TypeError('"count" is required');
+      throw new TypeError("'count' is required");
     }
 
     const collection = new BackboneMessageCollection();
@@ -318,15 +318,15 @@ const _fetchMessagesRequiringSchemaUpgrade =
 const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex =
   ({ connection, count, lastIndex } = {}) => {
     if (!isObject(connection)) {
-      throw new TypeError('"connection" is required');
+      throw new TypeError("'connection' is required");
     }
 
     if (!isNumber(count)) {
-      throw new TypeError('"count" is required');
+      throw new TypeError("'count' is required");
     }
 
     if (lastIndex && !isString(lastIndex)) {
-      throw new TypeError('"lastIndex" must be a string');
+      throw new TypeError("'lastIndex' must be a string");
     }
 
     const hasLastIndex = Boolean(lastIndex);
@@ -359,7 +359,7 @@ const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex =
 
 const _getNumMessages = async ({ connection } = {}) => {
   if (!isObject(connection)) {
-    throw new TypeError('"connection" is required');
+    throw new TypeError("'connection' is required");
   }
 
   const transaction = connection.transaction(MESSAGES_STORE_NAME, 'readonly');

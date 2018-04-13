@@ -15,7 +15,7 @@ const {
 //                                 Promise Attachment
 exports.migrateDataToFileSystem = async (attachment, { writeNewAttachmentData } = {}) => {
   if (!isFunction(writeNewAttachmentData)) {
-    throw new TypeError('"writeNewAttachmentData" must be a function');
+    throw new TypeError("'writeNewAttachmentData' must be a function");
   }
 
   const { data } = attachment;

@@ -98,19 +98,19 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         'js/**/*.js',
         '!js/background.js',
-        '!js/jquery.js',
-        '!js/libtextsecure.js',
-        '!js/WebAudioRecorderMp3.js',
-        '!js/Mp3LameEncoder.min.js',
-        '!js/libsignal-protocol-worker.js',
-        '!js/components.js',
-        '!js/logging.js',
         '!js/backup.js',
+        '!js/components.js',
+        '!js/database.js',
+        '!js/jquery.js',
+        '!js/libsignal-protocol-worker.js',
+        '!js/libtextsecure.js',
+        '!js/logging.js',
         '!js/modules/**/*.js',
+        '!js/Mp3LameEncoder.min.js',
+        '!js/signal_protocol_store.js',
         '!js/views/conversation_search_view.js',
         '!js/views/debug_log_view.js',
-        '!js/signal_protocol_store.js',
-        '!js/database.js',
+        '!js/WebAudioRecorderMp3.js',
         '_locales/**/*'
       ],
       options: { jshintrc: '.jshintrc' },
@@ -149,25 +149,6 @@ module.exports = function(grunt) {
       },
       src: {
         files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }],
-        options: {
-          process: function(content, srcpath) {
-            if (srcpath.match('background.js')) {
-              return content.replace(
-                /textsecure-service-staging.whispersystems.org/g,
-                'textsecure-service-ca.whispersystems.org');
-            } else if (srcpath.match('expire.js')) {
-              var gitinfo = grunt.config.get('gitinfo');
-              var commited = gitinfo.local.branch.current.lastCommitTime;
-              var time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
-              return content.replace(
-                /var BUILD_EXPIRATION = 0/,
-                "var BUILD_EXPIRATION = " + time
-              );
-            } else {
-              return content;
-            }
-          }
-        }
       }
     },
     jscs: {
@@ -175,12 +156,12 @@ module.exports = function(grunt) {
         src: [
         'Gruntfile',
         'js/**/*.js',
-        '!js/libtextsecure.js',
-        '!js/WebAudioRecorderMp3.js',
-        '!js/Mp3LameEncoder.min.js',
-        '!js/libsignal-protocol-worker.js',
         '!js/components.js',
+        '!js/libsignal-protocol-worker.js',
+        '!js/libtextsecure.js',
         '!js/modules/**/*.js',
+        '!js/Mp3LameEncoder.min.js',
+        '!js/WebAudioRecorderMp3.js',
         'test/**/*.js',
         '!test/blanket_mocha.js',
         '!test/modules/**/*.js',
@@ -202,17 +183,24 @@ module.exports = function(grunt) {
         tasks: ['copy_dist']
       },
       scripts: {
-        files: ['<%= jshint.files %>', './js/**/*.js'],
+        files: ['<%= jshint.files %>'],
         tasks: ['jshint']
       },
       style: {
-        files: ['<%= jscs.all.src %>', './js/**/*.js'],
+        files: ['<%= jscs.all.src %>'],
         tasks: ['jscs']
       },
+      transpile: {
+        files: ['./ts/**/*.js'],
+        tasks: ['exec:transpile']
+      }
     },
     exec: {
       'tx-pull': {
         cmd: 'tx pull'
+      },
+      'transpile': {
+        cmd: 'npm run transpile',
       }
     },
     'test-release': {
@@ -492,9 +480,13 @@ module.exports = function(grunt) {
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('test', ['jshint', 'jscs', 'unit-tests', 'lib-unit-tests']);
+  grunt.registerTask('lint', ['jshint', 'jscs']);
+  grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('prep-release', ['gitinfo', 'clean-release', 'fetch-release']);
-  grunt.registerTask('default', ['concat', 'copy:deps', 'sass', 'date']);
+  grunt.registerTask(
+    'default',
+    ['concat', 'copy:deps', 'sass', 'date', 'exec:transpile']
+  );
 };

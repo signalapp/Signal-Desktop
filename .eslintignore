@@ -7,12 +7,14 @@ libtextsecure/**
 # these aren't ready yet, pulling files in one-by-one
 js/*.js
 js/models/**/*.js
-js/react/**/*.js
 js/views/**/*.js
 test/*.js
 test/models/*.js
 test/views/*.js
 /*.js
+
+# typescript-generated files
+ts/**/*.js
 
 # ES2015+ files
 !js/background.js
@@ -22,6 +24,7 @@ test/views/*.js
 !js/models/conversations.js
 !js/views/attachment_view.js
 !js/views/conversation_search_view.js
+!js/views/backbone_wrapper_view.js
 !js/views/debug_log_view.js
 !js/views/file_input_view.js
 !js/views/inbox_view.js

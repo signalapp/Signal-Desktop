@@ -116,12 +116,12 @@ exports.hasData = attachment =>
 //                  IO (Promise Attachment)
 exports.loadData = (readAttachmentData) => {
   if (!isFunction(readAttachmentData)) {
-    throw new TypeError('"readAttachmentData" must be a function');
+    throw new TypeError("'readAttachmentData' must be a function");
   }
 
   return async (attachment) => {
     if (!exports.isValid(attachment)) {
-      throw new TypeError('"attachment" is not valid');
+      throw new TypeError("'attachment' is not valid");
     }
 
     const isAlreadyLoaded = exports.hasData(attachment);
@@ -130,7 +130,7 @@ exports.loadData = (readAttachmentData) => {
     }
 
     if (!isString(attachment.path)) {
-      throw new TypeError('"attachment.path" is required');
+      throw new TypeError("'attachment.path' is required");
     }
 
     const data = await readAttachmentData(attachment.path);
@@ -143,12 +143,12 @@ exports.loadData = (readAttachmentData) => {
 //                    IO Unit
 exports.deleteData = (deleteAttachmentData) => {
   if (!isFunction(deleteAttachmentData)) {
-    throw new TypeError('"deleteAttachmentData" must be a function');
+    throw new TypeError("'deleteAttachmentData' must be a function");
   }
 
   return async (attachment) => {
     if (!exports.isValid(attachment)) {
-      throw new TypeError('"attachment" is not valid');
+      throw new TypeError("'attachment' is not valid");
     }
 
     const hasDataInMemory = exports.hasData(attachment);
@@ -157,7 +157,7 @@ exports.deleteData = (deleteAttachmentData) => {
     }
 
     if (!isString(attachment.path)) {
-      throw new TypeError('"attachment.path" is required');
+      throw new TypeError("'attachment.path' is required");
     }
 
     await deleteAttachmentData(attachment.path);
