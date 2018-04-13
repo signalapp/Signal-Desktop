@@ -9,6 +9,10 @@ import { Message } from '../Message';
 export const initializeAttachmentMetadata = async (
   message: Message
 ): Promise<Message> => {
+  if (message.type === 'verified-change') {
+    return message;
+  }
+
   const numAttachments = message.attachments.length;
   const [numVisualMediaAttachments, numFileAttachments] = partition(
     message.attachments,
