@@ -116,7 +116,7 @@ $ios-border-color: rgba(0,0,0,0.1);
       // Not ideal, but necessary to override the specificity of the android theme color
       //   classes used in conversations.scss
       background-color: white !important;
-      border: 1px solid lightgray !important;
+      border: 1px solid $grey_l1_5 !important;
       border-bottom: none !important;
 
       margin-top: 0px;
@@ -130,7 +130,7 @@ $ios-border-color: rgba(0,0,0,0.1);
         .text,
         .filename-label,
         .type-label {
-          border-left: 2px solid lightgray;
+          border-left: 2px solid $grey_l1;
           padding: 5px;
           padding-left: 7px;
           // Without this smaller bottom padding, text beyond four lines still shows up!
@@ -144,7 +144,7 @@ $ios-border-color: rgba(0,0,0,0.1);
 
         .ios-label {
           display: block;
-          color: lightgray;
+          color: $grey_l1;
           font-size: smaller;
           margin-bottom: 3px;
         }
@@ -192,20 +192,9 @@ $ios-border-color: rgba(0,0,0,0.1);
     .incoming {
       .bubble {
         .quote {
-          background-color: lightgray !important;
           border-left: none;
-
-          .ios-label {
-            color: white;
-          }
-
-          .primary {
-            .text,
-            .filename-label,
-            .type-label {
-              border-left: 2px solid white;
-            }
-          }
+          border: none !important;
+          border-bottom: 1px solid lightgray !important;
         }
       }
     }
