@@ -9,7 +9,7 @@
   'use strict';
    window.Whisper = window.Whisper || {};
 
-   const { Attachment, Conversation, Message } = window.Signal.Types;
+   const { Attachment, Message } = window.Signal.Types;
    const { upgradeMessageSchema, loadAttachmentData } = window.Signal.Migrations;
 
    // TODO: Factor out private and group subclasses of Conversation
@@ -675,7 +675,7 @@
       await collection.fetchConversation(this.id, 1);
       const lastMessage = collection.at(0);
 
-      const lastMessageUpdate = Conversation.createLastMessageUpdate({
+      const lastMessageUpdate = Signal.Types.Conversation.createLastMessageUpdate({
         currentLastMessageText: this.get('lastMessage') || null,
         currentTimestamp: this.get('timestamp') || null,
         lastMessage: lastMessage ? lastMessage.toJSON() : null,
