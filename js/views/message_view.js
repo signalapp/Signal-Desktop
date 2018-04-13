@@ -194,7 +194,7 @@
       this.listenTo(this.model, 'change:delivered', this.renderDelivered);
       this.listenTo(this.model, 'change:read_by', this.renderRead);
       this.listenTo(this.model, 'change:expirationStartTimestamp', this.renderExpiring);
-      this.listenTo(this.model, 'change', this.renderSent);
+      this.listenTo(this.model, 'change', this.onChange);
       this.listenTo(this.model, 'change:flags change:group_update', this.renderControl);
       this.listenTo(this.model, 'destroy', this.onDestroy);
       this.listenTo(this.model, 'unload', this.onUnload);
@@ -273,6 +273,10 @@
         return;
       }
       this.onUnload();
+    },
+    onChange() {
+      this.renderRead();
+      this.renderQuote();
     },
     select(e) {
       this.$el.trigger('select', { message: this.model });
@@ -379,17 +383,19 @@
       return null;
     },
     renderQuote() {
-      const VOICE_FLAG = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
-      const objectUrl = this.getQuoteObjectUrl();
       const quote = this.model.get('quote');
       if (!quote) {
         return;
       }
 
+      const VOICE_FLAG = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
+      const objectUrl = this.getQuoteObjectUrl();
+
+
       function processAttachment(attachment) {
-        const thumbnail = !attachment.thumbnail
+        const thumbnail = !objectUrl
           ? null
-          : Object.assign({}, attachment.thumbnail, {
+          : Object.assign({}, attachment.thumbnail || {}, {
             objectUrl,
           });
 
@@ -411,7 +417,7 @@
       const isIncoming = this.model.isIncoming();
 
       const props = {
-        attachments: quote.attachments && quote.attachments.map(processAttachment),
+        attachments: (quote.attachments || []).map(processAttachment),
         authorColor,
         authorProfileName,
         authorTitle,
@@ -420,14 +426,13 @@
         onClick: () => {
           const { quotedMessage } = this.model;
           if (quotedMessage) {
-            this.trigger('scroll-to-message', { id: quotedMessage.id });
+            this.model.trigger('scroll-to-message', { id: quotedMessage.id });
           }
         },
         text: quote.text,
       };
 
       if (this.replyView) {
-        this.replyView.remove();
         this.replyView = null;
       } else if (contact) {
         this.listenTo(contact, 'change:color', this.renderQuote);

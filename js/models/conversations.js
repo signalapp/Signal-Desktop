@@ -111,6 +111,11 @@
       return this.id === this.ourNumber;
     },
 
+    addSingleMessage(message) {
+      this.messageCollection.add(message, { merge: true });
+      this.processQuotes(this.messageCollection);
+    },
+
     onMessageError() {
       this.updateVerified();
     },
@@ -1030,11 +1035,13 @@
     makeKey(author, id) {
       return `${author}-${id}`;
     },
-    doMessagesMatch(left, right) {
-      if (left.get('source') !== right.get('source')) {
+    doesMessageMatch(id, author, message) {
+      const messageAuthor = message.getContact().id;
+
+      if (author !== messageAuthor) {
         return false;
       }
-      if (left.get('sent_at') !== right.get('sent_at')) {
+      if (id !== message.get('sent_at')) {
         return false;
       }
       return true;
@@ -1061,7 +1068,19 @@
     makeMessagesLookup(messages) {
       return messages.reduce((acc, message) => {
         const { source, sent_at: sentAt } = message.attributes;
-        const key = this.makeKey(source, sentAt);
+
+        // Checking for notification messages without a sender
+        if (!source && message.isIncoming()) {
+          return acc;
+        }
+
+        const contact = message.getContact();
+        if (!contact) {
+          return acc;
+        }
+
+        const author = contact.id;
+        const key = this.makeKey(author, sentAt);
 
         acc[key] = message;
 
@@ -1070,7 +1089,7 @@
     },
     async loadQuotedMessageFromDatabase(message) {
       const { quote } = message.attributes;
-      const { attachments, id } = quote;
+      const { attachments, id, author } = quote;
       const first = attachments[0];
 
       // Maybe in the future we could try to pull the thumbnail from a video ourselves,
@@ -1081,7 +1100,7 @@
 
       const collection = new Whisper.MessageCollection();
       await collection.fetchSentAt(id);
-      const queryMessage = collection.find(m => this.doMessagesMatch(message, m));
+      const queryMessage = collection.find(m => this.doesMessageMatch(id, author, m));
 
       if (!queryMessage) {
         return false;
@@ -1097,8 +1116,6 @@
 
       // Note: it would be nice to take the full-size image and downsample it into
       //   a true thumbnail here.
-      // Note: if the attachment is a video, then this object URL won't make any sense
-      //   when we try to use it in an img tag.
       queryMessage.updateImageUrl();
 
       // We need to differentiate between messages we load from database and those already
@@ -1109,6 +1126,36 @@
 
       this.forceRender(message);
       return true;
+    },
+    async loadQuotedMessage(message, quotedMessage) {
+      // eslint-disable-next-line no-param-reassign
+      message.quotedMessage = quotedMessage;
+
+      const { quote } = message.attributes;
+      const { attachments } = quote;
+      const first = attachments[0];
+
+      // Maybe in the future we could try to pull thumbnails video ourselves,
+      //   but for now we will rely on incoming thumbnails only.
+      console.log({ first, contentType: first ? first.contentType : null });
+      if (!first || !MIME.isImage(first.contentType)) {
+        return;
+      }
+
+      const quotedAttachments = quotedMessage.get('attachments') || [];
+      console.log({ quotedMessage, quotedAttachments });
+      if (quotedAttachments.length === 0) {
+        return;
+      }
+
+      const queryFirst = quotedAttachments[0];
+      // eslint-disable-next-line no-param-reassign
+      quotedMessage.attributes.attachments[0] = await loadAttachmentData(queryFirst);
+
+      // Note: it would be nice to take the full-size image and downsample it into
+      //   a true thumbnail here.
+      quotedMessage.updateImageUrl();
+      console.log({ quotedMessage });
     },
     async loadQuoteThumbnail(message) {
       const { quote } = message.attributes;
@@ -1133,18 +1180,12 @@
       this.forceRender(message);
       return true;
     },
-
     async processQuotes(messages) {
       const lookup = this.makeMessagesLookup(messages);
 
       const promises = messages.map(async (message) => {
         const { quote } = message.attributes;
         if (!quote) {
-          return;
-        }
-
-        const { attachments } = quote;
-        if (!this.needData(attachments)) {
           return;
         }
 
@@ -1162,8 +1203,15 @@
 
         if (quotedMessage) {
           // eslint-disable-next-line no-param-reassign
-          message.quotedMessage = quotedMessage;
+          await this.loadQuotedMessage(message, quotedMessage);
           this.forceRender(message);
+          return;
+        }
+
+        // We only go further if we need more data for this message. It's always important
+        //   to grab the quoted message to allow for navigating to it by clicking.
+        const { attachments } = quote;
+        if (!this.needData(attachments)) {
           return;
         }
 

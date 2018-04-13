@@ -530,11 +530,10 @@
             }
         },
 
-        scrollToMessage: function(providedOptions) {
-            const options = providedOptions || {};
+        scrollToMessage: function(options = {}) {
             const { id } = options;
 
-            if (id) {
+            if (!id) {
                 return;
             }
 
@@ -543,7 +542,7 @@
                 return;
             }
 
-            el.scrollIntoView();
+            el[0].scrollIntoView();
         },
 
         scrollToBottom: function() {
@@ -686,7 +685,7 @@
             // This is debounced, so it won't hit the database too often.
             this.lazyUpdateVerified();
 
-            this.model.messageCollection.add(message, {merge: true});
+            this.model.addSingleMessage(message);
             message.setToExpire();
 
             if (message.isOutgoing()) {
