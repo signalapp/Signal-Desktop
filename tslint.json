@@ -11,6 +11,7 @@
     "import-spacing": false,
     "indent": [true, "spaces", 2],
     "interface-name": [true, "never-prefix"],
+    "linebreak-style": [true, "LF"],
     "max-line-length": [true, 90],
 
     "mocha-avoid-only": true,
