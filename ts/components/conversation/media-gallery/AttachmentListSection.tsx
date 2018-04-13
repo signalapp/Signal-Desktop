@@ -9,7 +9,6 @@ const styles = {
     width: '100%',
   },
   header: {
-    fontFamily: '',
   },
   itemContainer: {
     display: 'flex',
