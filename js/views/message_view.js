@@ -10,7 +10,7 @@
 (function () {
   'use strict';
 
-  const { HTML } = window.Signal;
+  const { Signal } = window;
   const { loadAttachmentData } = window.Signal.Migrations;
 
   window.Whisper = window.Whisper || {};
@@ -401,7 +401,7 @@
 
         return Object.assign({}, attachment, {
           // eslint-disable-next-line no-bitwise
-          isVoiceMessage: attachment.flags & VOICE_FLAG,
+          isVoiceMessage: Boolean(attachment.flags & VOICE_FLAG),
           thumbnail,
         });
       }
@@ -456,7 +456,7 @@
       }
 
       const first = attachments[0];
-      if (first.contentType.startsWith('image/') && first.contentType !== 'image/tiff') {
+      if (Signal.Types.MIME.isImage(first.contentType)) {
         return true;
       }
 
@@ -483,7 +483,7 @@
 
       if (body.length > 0) {
         const escapedBody = body.html();
-        body.html(HTML.render(escapedBody));
+        body.html(Signal.HTML.render(escapedBody));
       }
 
       this.renderSent();

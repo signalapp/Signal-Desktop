@@ -12,6 +12,7 @@
   'use strict';
 
   const ESCAPE_KEY_CODE = 27;
+  const { Signal } = window;
 
   const FileView = Whisper.View.extend({
     tagName: 'div',
@@ -133,15 +134,16 @@
       return false;
     },
     isAudio() {
-      return this.model.contentType.startsWith('audio/');
+      const { contentType } = this.model;
+      return Signal.Types.MIME.isAudio(contentType);
     },
     isVideo() {
-      const type = this.model.contentType;
-      return type.startsWith('video/') && type !== 'image/wmv';
+      const { contentType } = this.model;
+      return Signal.Types.MIME.isVideo(contentType);
     },
     isImage() {
-      const type = this.model.contentType;
-      return type.startsWith('image/') && type !== 'image/tiff';
+      const { contentType } = this.model;
+      return Signal.Types.MIME.isImage(contentType);
     },
     mediaType() {
       if (this.isVoiceMessage()) {

@@ -359,9 +359,9 @@ describe('Message', () => {
     });
 
     it('calls provided async function for each quoted attachment', async () => {
-      const upgradeAttachment = sinon.stub().returns(Promise.resolve({
+      const upgradeAttachment = sinon.stub().resolves({
         path: '/new/path/on/disk',
-      }));
+      });
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {

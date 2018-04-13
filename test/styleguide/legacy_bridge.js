@@ -24,9 +24,6 @@ window.libphonenumber = {
 };
 
 window.Signal = {};
-window.Signal.HTML = {
-  render: thing => thing,
-};
 window.Signal.Backup = {};
 window.Signal.Crypto = {};
 window.Signal.Logs = {};
@@ -54,6 +51,9 @@ window.EmojiConvertor.prototype.img_sets = {
 
 window.i18n = () => '';
 
+// Ideally we don't need to add things here. We want to add them in StyleGuideUtil, which
+//   means that references to these things can't be early-bound, not capturing the direct
+//   reference to the function on file load.
 window.Signal.Migrations.V17 = {};
 window.Signal.OS = {};
 window.Signal.Types = {};

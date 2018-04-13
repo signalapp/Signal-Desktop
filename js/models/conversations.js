@@ -1137,13 +1137,11 @@
 
       // Maybe in the future we could try to pull thumbnails video ourselves,
       //   but for now we will rely on incoming thumbnails only.
-      console.log({ first, contentType: first ? first.contentType : null });
       if (!first || !MIME.isImage(first.contentType)) {
         return;
       }
 
       const quotedAttachments = quotedMessage.get('attachments') || [];
-      console.log({ quotedMessage, quotedAttachments });
       if (quotedAttachments.length === 0) {
         return;
       }
@@ -1155,7 +1153,6 @@
       // Note: it would be nice to take the full-size image and downsample it into
       //   a true thumbnail here.
       quotedMessage.updateImageUrl();
-      console.log({ quotedMessage });
     },
     async loadQuoteThumbnail(message) {
       const { quote } = message.attributes;

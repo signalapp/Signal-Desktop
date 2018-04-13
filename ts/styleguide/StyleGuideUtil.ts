@@ -18,7 +18,10 @@ export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 // Here we can make things inside Webpack available to Backbone views like preload.js.
 
 import { Quote } from '../components/conversation/Quote';
+import * as HTML from '../html';
 
+// @ts-ignore
+import MIME from '../../js/modules/types/mime';
 
 // TypeScript wants two things when you import:
 //   1) a normal typescript file
@@ -98,6 +101,8 @@ parent.moment.locale(locale);
 parent.React = React;
 parent.ReactDOM = ReactDOM;
 
+parent.Signal.HTML = HTML;
+parent.Signal.Types.MIME = MIME;
 parent.Signal.Components = {
   Quote,
 };
