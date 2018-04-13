@@ -150,7 +150,7 @@ export class Quote extends React.Component<Props, {}> {
         : i18n('replyingToYourself')
       : i18n('replyingTo', [authorName]);
 
-    return <div className='ios-label'>{label}</div>;
+    return <div className="ios-label">{label}</div>;
   }
 
   public render() {
@@ -169,13 +169,14 @@ export class Quote extends React.Component<Props, {}> {
     const authorProfileElement = authorProfileName
       ? <span className="profile-name">~{authorProfileName}</span>
       : null;
+    const classes = classnames(
+      authorColor,
+      'quote',
+      isFromMe ? 'from-me' : null,
+    );
 
     return (
-      <div onClick={onClick} className={classnames(
-        authorColor,
-        'quote',
-        isFromMe ? 'from-me' : null
-      )} >
+      <div onClick={onClick} className={classes}>
         <div className="primary">
           {this.renderIOSLabel()}
           <div className={classnames(authorColor, 'author')}>
