@@ -43,7 +43,7 @@
     "jshint": "yarn grunt jshint",
     "lint": "yarn eslint && yarn grunt lint && yarn tslint",
     "tslint": "tslint --config tslint.json --format stylish --project .",
-    "format": "prettier --require-pragma --single-quote --write \"ts/**/*.ts\"",
+    "format": "prettier --require-pragma --single-quote --trailing-comma es5 --write \"ts/**/*.ts\"",
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js ts/*.js",
     "open-coverage": "open coverage/lcov-report/index.html",
