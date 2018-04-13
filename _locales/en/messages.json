@@ -667,7 +667,7 @@
     },
     "deleteAllDataProgress": {
         "message": "Disconnecting and deleting all data",
-        "description": "Text of the button that deletes all data"
+        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "Notifications",
