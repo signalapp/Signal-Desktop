@@ -322,6 +322,34 @@
     "incomingError": {
       "message": "Error handling incoming message."
     },
+    "media": {
+      "message": "Media",
+      "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "documents": {
+      "message": "Documents",
+      "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
+    "messageCaption": {
+      "message": "Message caption",
+      "description": "Prefix of attachment alt tags in the media gallery"
+    },
+    "today": {
+      "message": "Today",
+      "description": "Section header in the media gallery"
+    },
+    "yesterday": {
+      "message": "Yesterday",
+      "description": "Section header in the media gallery"
+    },
+    "thisWeek": {
+      "message": "This Week",
+      "description": "Section header in the media gallery"
+    },
+    "thisMonth": {
+      "message": "This Month",
+      "description": "Section header in the media gallery"
+    },
     "unsupportedAttachment": {
       "message": "Unsupported attachment type. Click to save.",
       "description": "Displayed for incoming unsupported attachment"
