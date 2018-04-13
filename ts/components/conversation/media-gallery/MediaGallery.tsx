@@ -82,10 +82,6 @@ export class MediaGallery extends React.Component<Props, State> {
     selectedTab: 'media',
   };
 
-  private handleTabSelect = (event: TabSelectEvent): void => {
-    this.setState({selectedTab: event.type});
-  }
-
   public render() {
     const { selectedTab } = this.state;
 
@@ -110,6 +106,10 @@ export class MediaGallery extends React.Component<Props, State> {
         </div>
       </div>
     );
+  }
+
+  private handleTabSelect = (event: TabSelectEvent): void => {
+    this.setState({selectedTab: event.type});
   }
 
   private renderSections() {

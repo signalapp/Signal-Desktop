@@ -638,7 +638,6 @@
       //   events up to its parent elements in the DOM.
       this.closeMenu();
 
-
       // Next:
       //   pull latest media
       //   need a way for react component to request further data
