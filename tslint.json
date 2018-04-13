@@ -9,6 +9,7 @@
     "align": [true, "arguments", "elements", "members", "parameters", "statements"],
     "array-type": [true, "generic"],
     "import-spacing": false,
+    "indent": [true, "spaces", 2],
     "interface-name": [true, "never-prefix"],
     "max-line-length": [true, 90],
 
