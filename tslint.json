@@ -8,6 +8,13 @@
   "rules": {
     "array-type": [true, "generic"],
     "interface-name": [true, "never-prefix"],
+
+    "mocha-avoid-only": true,
+    // Disabled until we can allow dynamically generated tests:
+    // https://github.com/Microsoft/tslint-microsoft-contrib/issues/85#issuecomment-371749352
+    "mocha-no-side-effect-code": false,
+    "mocha-unneeded-done": true,
+
     "no-consecutive-blank-lines": [true, 2],
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-sort-keys": false,
@@ -22,5 +29,7 @@
     "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"]
 
   },
-  "rulesDirectory": []
+  "rulesDirectory": [
+    "node_modules/tslint-microsoft-contrib"
+  ]
 }

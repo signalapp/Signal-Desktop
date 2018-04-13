@@ -22,7 +22,7 @@ interface BackboneViewConstructor {
  * while we slowly replace the internals of a given Backbone view with React.
  */
 export class BackboneWrapper extends React.Component<Props, {}> {
-  protected el: Element | null = null;
+  protected el: HTMLElement | null = null;
   protected view: BackboneView | null = null;
 
   public componentWillUnmount() {

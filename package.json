@@ -42,7 +42,7 @@
     "jscs": "yarn grunt jscs",
     "jshint": "yarn grunt jshint",
     "lint": "yarn eslint && yarn grunt lint && yarn tslint",
-    "tslint": "tslint --config tslint.json --project . --format stylish",
+    "tslint": "tslint --config tslint.json --format stylish --project .",
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js ts/*.js",
     "open-coverage": "open coverage/lcov-report/index.html",
@@ -135,6 +135,7 @@
     "spectron": "^3.8.0",
     "ts-loader": "^4.1.0",
     "tslint": "^5.9.1",
+    "tslint-microsoft-contrib": "^5.0.3",
     "tslint-react": "^3.5.1",
     "typescript": "^2.8.1",
     "webpack": "^4.4.1"

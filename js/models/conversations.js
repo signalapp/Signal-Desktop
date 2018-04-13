@@ -669,31 +669,28 @@
         ));
       });
     },
+
+    async updateLastMessage() {
+      const collection = new Whisper.MessageCollection();
+      await collection.fetchConversation(this.id, 1);
+      const lastMessage = collection.at(0);
+
+      const lastMessageUpdate = Signal.Types.Conversation.createLastMessageUpdate({
+        currentLastMessageText: this.get('lastMessage') || null,
+        currentTimestamp: this.get('timestamp') || null,
+        lastMessage: lastMessage ? lastMessage.toJSON() : null,
+        lastMessageNotificationText: lastMessage
+          ? lastMessage.getNotificationText() : null,
+      });
+
+      this.set(lastMessageUpdate);
+
+      if (this.hasChanged('lastMessage') || this.hasChanged('timestamp')) {
+        this.save();
+      }
+    },
     /* jshint ignore:end */
     /* eslint-disable */
-
-    updateLastMessage: function() {
-        var collection = new Whisper.MessageCollection();
-        return collection.fetchConversation(this.id, 1).then(function() {
-            var lastMessage = collection.at(0);
-            if (lastMessage) {
-                var type = lastMessage.get('type');
-                var shouldSkipUpdate = type === 'verified-change' || lastMessage.get('expirationTimerUpdate');
-                if (shouldSkipUpdate) {
-                    return;
-                }
-                this.set({
-                   lastMessage : lastMessage.getNotificationText(),
-                   timestamp   : lastMessage.get('sent_at')
-                });
-            } else {
-                this.set({ lastMessage: '', timestamp: null });
-            }
-            if (this.hasChanged('lastMessage') || this.hasChanged('timestamp')) {
-                this.save();
-            }
-        }.bind(this));
-    },
 
     updateExpirationTimer: function(expireTimer, source, received_at, options) {
         options = options || {};
