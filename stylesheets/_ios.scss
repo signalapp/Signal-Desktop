@@ -234,6 +234,7 @@ $ios-border-color: rgba(0,0,0,0.1);
   .inner-bubble {
     border-radius: 15px;
     margin-bottom: 5px;
+    overflow: hidden;
 
     .body {
       margin-top: 0;
@@ -241,10 +242,6 @@ $ios-border-color: rgba(0,0,0,0.1);
       padding: 10px;
       position: relative;
       word-break: break-word;
-    }
-
-    .attachments img {
-      border-radius: 15px;
     }
   }
 
