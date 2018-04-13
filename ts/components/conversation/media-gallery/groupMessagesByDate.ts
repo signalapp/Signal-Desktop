@@ -8,12 +8,12 @@ export const groupMessagesByDate = (timestamp: number, messages: Array<Message>)
   const referenceDateTime = moment.utc(timestamp);
   const today = moment(referenceDateTime).startOf('day');
   const yesterday = moment(referenceDateTime).subtract(1, 'day').startOf('day');
-  const thisWeek = moment(referenceDateTime).startOf('week');
+  const thisWeek = moment(referenceDateTime).startOf('isoWeek');
   const thisMonth = moment(referenceDateTime).startOf('month');
 
   const sorted = sortBy(messages, (message) => -message.received_at);
   const annotations = sorted.map((message) => {
-    const date = moment(message.received_at);
+    const date = moment.utc(message.received_at);
 
     if (date.isAfter(today)) {
       return {

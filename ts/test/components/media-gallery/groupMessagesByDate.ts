@@ -15,26 +15,22 @@ const toMessage = (date: Date): Message => ({
 
 describe('groupMessagesByDate', () => {
   it('should group messages', () => {
-    const referenceTime = new Date('2018-04-12T18:00Z').getTime();
+    const referenceTime = new Date('2018-04-12T18:00Z').getTime(); // Thu
     const input: Array<Message> = [
       // Today
-      toMessage(new Date('2018-04-12T12:00Z')),
-      toMessage(new Date('2018-04-12T07:00Z')),
-      toMessage(new Date('2018-04-12T00:01Z')),
+      toMessage(new Date('2018-04-12T12:00Z')), // Thu
+      toMessage(new Date('2018-04-12T00:01Z')), // Thu
       // This week
-      toMessage(new Date('2018-04-11T23:59Z')),
-      toMessage(new Date('2018-04-09T00:01Z')),
+      toMessage(new Date('2018-04-11T23:59Z')), // Wed
+      toMessage(new Date('2018-04-09T00:01Z')), // Mon
       // This month
-      toMessage(new Date('2018-04-08T23:59Z')),
-      toMessage(new Date('2018-04-05T09:00Z')),
+      toMessage(new Date('2018-04-08T23:59Z')), // Sun
       toMessage(new Date('2018-04-01T00:01Z')),
       // March 2018
       toMessage(new Date('2018-03-31T23:59Z')),
-      toMessage(new Date('2018-03-28T14:00Z')),
       toMessage(new Date('2018-03-01T14:00Z')),
       // February 2011
       toMessage(new Date('2011-02-28T23:59Z')),
-      toMessage(new Date('2011-02-15T10:00Z')),
       toMessage(new Date('2011-02-01T10:00Z')),
     ];
 
@@ -46,15 +42,6 @@ describe('groupMessagesByDate', () => {
           message: {
             id: 'Thu, 12 Apr 2018 12:00:00 GMT',
             received_at: 1523534400000,
-            attachments: [],
-          },
-        },
-        {
-          order: 0,
-          label: 'today',
-          message: {
-            id: 'Thu, 12 Apr 2018 07:00:00 GMT',
-            received_at: 1523516400000,
             attachments: [],
           },
         },
@@ -89,23 +76,14 @@ describe('groupMessagesByDate', () => {
             attachments: [],
           },
         },
-        {
-          order: 2,
-          label: 'thisWeek',
-          message: {
-            id: 'Sun, 08 Apr 2018 23:59:00 GMT',
-            received_at: 1523231940000,
-            attachments: [],
-          },
-        },
       ],
       thisMonth: [
         {
           order: 3,
           label: 'thisMonth',
           message: {
-            id: 'Thu, 05 Apr 2018 09:00:00 GMT',
-            received_at: 1522918800000,
+            id: 'Sun, 08 Apr 2018 23:59:00 GMT',
+            received_at: 1523231940000,
             attachments: [],
           },
         },
@@ -133,15 +111,6 @@ describe('groupMessagesByDate', () => {
           order: 201802,
           label: 'yearMonth',
           message: {
-            id: 'Wed, 28 Mar 2018 14:00:00 GMT',
-            received_at: 1522245600000,
-            attachments: [],
-          },
-        },
-        {
-          order: 201802,
-          label: 'yearMonth',
-          message: {
             id: 'Thu, 01 Mar 2018 14:00:00 GMT',
             received_at: 1519912800000,
             attachments: [],
@@ -153,15 +122,6 @@ describe('groupMessagesByDate', () => {
           message: {
             id: 'Mon, 28 Feb 2011 23:59:00 GMT',
             received_at: 1298937540000,
-            attachments: [],
-          },
-        },
-        {
-          order: 201101,
-          label: 'yearMonth',
-          message: {
-            id: 'Tue, 15 Feb 2011 10:00:00 GMT',
-            received_at: 1297764000000,
             attachments: [],
           },
         },
