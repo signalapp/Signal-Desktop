@@ -15,6 +15,11 @@
     "import-spacing": false,
     "indent": [true, "spaces", 2],
     "interface-name": [true, "never-prefix"],
+
+    // Allows us to write inline `style`s. Revisit when we have a more sophisticated
+    // CSS-in-JS solution:
+    "jsx-no-multiline-js": false,
+
     "linebreak-style": [true, "LF"],
 
     // Ignore `import`s to allow Prettier formatting:
