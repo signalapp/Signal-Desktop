@@ -572,8 +572,51 @@
       el[0].scrollIntoView();
     },
 
-    viewAllMedia() {
-      console.log('View All Media');
+    async viewAllMedia() {
+      // We have to do this manually, since our React component will not propagate click
+      //   events up to its parent elements in the DOM.
+      this.closeMenu();
+
+      // TODO
+      //
+      // - [x] Fetch visual media attachments
+      // - [ ] Fetch file attachments
+      // - [ ] Add mechanism to fetch more data
+
+      const mediaWithoutAttachmentData =
+        await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
+            conversationId: this.model.get('id'),
+            WhisperMessageCollection: Whisper.MessageCollection,
+        });
+
+      const mediaWithAttachmentData =
+        await Promise.all(mediaWithoutAttachmentData.map(Signal.Migrations.loadMessage));
+
+      const withObjectURL = message => {
+        if (!message.attachments || message.attachments.length === 0) {
+            throw new TypeError('`message.attachments` cannot be empty');
+        }
+        const attachment = message.attachments[0];
+        const objectURL = Signal.Util.arrayBufferToObjectURL({
+            data: attachment.data,
+            type: attachment.contentType,
+        });
+        return Object.assign({}, message, {objectURL});
+      }
+      const mediaWithObjectURLs = mediaWithAttachmentData.map(withObjectURL);
+
+      const props = {
+        media: mediaWithObjectURLs,
+        documents: [],
+      };
+
+      const view = new Whisper.ReactWrapperView({
+        Component: MediaGallery,
+        props,
+        onClose: () => this.resetPanel(),
+      });
+
+      this.listenBack(view);
     },
 
     scrollToBottom() {
