@@ -6,14 +6,6 @@
     'use strict';
     window.Whisper = window.Whisper || {};
     const { Settings } = window.Signal.Types;
-    const electron = require('electron');
-
-    const {
-        BrowserWindow,
-        app
-    } = electron;
-
-    let win = new BrowserWindow();
 
     var SETTINGS = {
         OFF     : 'off',
