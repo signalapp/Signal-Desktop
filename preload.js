@@ -154,6 +154,7 @@ const { getPlaceholderMigrations } =
 const { IdleDetector } = require('./js/modules/idle_detector');
 
 window.Signal = {};
+window.Signal.Backbone = require('./ts/backbone');
 window.Signal.Backup = require('./js/modules/backup');
 window.Signal.Crypto = require('./js/modules/crypto');
 window.Signal.Database = require('./js/modules/database');
