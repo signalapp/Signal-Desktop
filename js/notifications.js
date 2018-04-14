@@ -66,7 +66,7 @@
             }
             var windowsFlashFrame = storage.get('windows-flashFrame-notification') || false;
             if (windowsFlashFrame) {
-                win.flashFrame();
+                win.flashFrame(true);
             }
 
             var setting = storage.get('notification-setting') || 'message';
