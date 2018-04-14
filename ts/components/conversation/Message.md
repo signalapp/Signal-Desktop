@@ -34,6 +34,31 @@ const View = Whisper.MessageView;
 </util.ConversationContext>
 ```
 
+### In a group conversation
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: 'How are you doing this fine day?',
+  sent_at: Date.now() - 18000,
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550003',
+  type: 'incoming',
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme} type="group" >
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
 ### With an attachment
 
 #### Image with caption

@@ -88,7 +88,7 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} conversationType="group">
+<util.ConversationContext theme={util.theme} type="group">
   <util.BackboneWrapper
     View={View}
     options={{ model: incoming }}
