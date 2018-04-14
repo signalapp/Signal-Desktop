@@ -8,11 +8,17 @@
   "rules": {
     "align": [true, "arguments", "elements", "members", "parameters", "statements"],
     "array-type": [true, "generic"],
+
+    // Preferred by Prettier:
+    "arrow-parens": [true, "ban-single-arg-parens"],
+
     "import-spacing": false,
     "indent": [true, "spaces", 2],
     "interface-name": [true, "never-prefix"],
     "linebreak-style": [true, "LF"],
-    "max-line-length": [true, 90],
+
+    // Ignore `import`s to allow Prettier formatting:
+    "max-line-length": [true, {"limit": 90, "ignore-pattern": "^import"}],
 
     "mocha-avoid-only": true,
     // Disabled until we can allow dynamically generated tests:
@@ -31,8 +37,25 @@
       "named-imports-order": "case-insensitive"
     }],
 
-    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"]
+    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
 
+    // Preferred by Prettier:
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+
+    // Preferred by Prettier:
+    "trailing-comma": [
+      true,
+      {
+        "singleline": "never",
+        "multiline": {
+          "objects": "always",
+          "arrays": "always",
+          "functions": "never",
+          "typeLiterals": "always"
+        },
+        "esSpecCompliant": true
+      }
+    ]
   },
   "rulesDirectory": [
     "node_modules/tslint-microsoft-contrib"
