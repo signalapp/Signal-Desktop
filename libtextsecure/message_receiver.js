@@ -1021,10 +1021,10 @@ MessageReceiver.prototype.extend({
         if (thumbnail) {
           // We don't want the failure of a thumbnail download to fail the handling of
           //   this message entirely, like we do for full attachments.
-          promises.push(this.handleAttachment(thumbnail).catch(function(error) {
+          promises.push(this.handleAttachment(thumbnail).catch((error) => {
             console.log(
               'Problem loading thumbnail for quote',
-              error && error.stack ? error.stack : error,
+              error && error.stack ? error.stack : error
             );
           }));
         }
