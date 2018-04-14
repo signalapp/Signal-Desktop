@@ -181,9 +181,9 @@ describe('Message', () => {
           fileName: 'test\uFFFDfig.exe',
           size: 1111,
         }],
-        numAttachments: 1,
-        numVisualMediaAttachments: 0,
-        numFileAttachments: 1,
+        hasAttachments: 1,
+        hasVisualMediaAttachments: undefined,
+        hasFileAttachments: 1,
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
       };
 

@@ -24,9 +24,9 @@ const PRIVATE = 'private';
 //   - Quotes: Write thumbnail data to disk and store relative path to it.
 // Version 5
 //   - Attachments: Track number and kind of attachments for media gallery
-//     - `numAttachments: Number`
-//     - `numVisualMediaAttachments: Number` (for media gallery ‘Media’ view)
-//     - `numFileAttachments: Number` (for media gallery ‘Documents’ view)
+//     - `hasAttachments?: 1 | undefined`
+//     - `hasVisualMediaAttachments?: 1 | undefined` (for media gallery ‘Media’ view)
+//     - `hasFileAttachments: ?1 | undefined` (for media gallery ‘Documents’ view)
 
 
 const INITIAL_SCHEMA_VERSION = 0;

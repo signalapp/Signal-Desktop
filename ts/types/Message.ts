@@ -2,6 +2,7 @@
  * @prettier
  */
 import { Attachment } from './Attachment';
+import { IndexableBoolean } from './IndexedDB';
 
 export type Message = IncomingMessage | OutgoingMessage | VerifiedChangeMessage;
 
@@ -73,8 +74,8 @@ type ExpirationTimerUpdate = Readonly<{
   }>;
 }>;
 
-type Message4 = Readonly<{
-  numAttachments?: number;
-  numVisualMediaAttachments?: number;
-  numFileAttachments?: number;
-}>;
+type Message4 = Partial<Readonly<{
+  hasAttachments: IndexableBoolean;
+  hasVisualMediaAttachments: IndexableBoolean;
+  hasFileAttachments: IndexableBoolean;
+}>>;

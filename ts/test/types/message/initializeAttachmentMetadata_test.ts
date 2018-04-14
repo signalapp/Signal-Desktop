@@ -38,9 +38,9 @@ describe('Message', () => {
           fileName: 'foo.jpg',
           size: 1111,
         }],
-        numAttachments: 1,
-        numVisualMediaAttachments: 1,
-        numFileAttachments: 0,
+        hasAttachments: 1,
+        hasVisualMediaAttachments: 1,
+        hasFileAttachments: undefined,
       };
 
       const actual = await Message.initializeAttachmentMetadata(input);
