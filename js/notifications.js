@@ -6,6 +6,14 @@
     'use strict';
     window.Whisper = window.Whisper || {};
     const { Settings } = window.Signal.Types;
+    const electron = require('electron');
+
+    const {
+        BrowserWindow,
+        app
+    } = electron;
+
+    let win = new BrowserWindow();
 
     var SETTINGS = {
         OFF     : 'off',
@@ -52,9 +60,13 @@
                 return;
             }
 
-            var dockFlashNotification = storage.get('dockflash-notification') || false;
-            if (dockFlashNotification) {
-                window.drawAttention();
+            var macDockBounce = storage.get('mac-dockBounce-notification') || false;
+            if (macDockBounce) {
+                app.dock.bounce();
+            }
+            var windowsFlashFrame = storage.get('windows-flashFrame-notification') || false;
+            if (windowsFlashFrame) {
+                win.flashFrame();
             }
 
             var setting = storage.get('notification-setting') || 'message';
