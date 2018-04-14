@@ -13,14 +13,16 @@ export class Message extends React.Component<{}, {}> {
         <span className="avatar" />
         <div className="bubble">
           <div className="sender" dir="auto" />
-          <div className="inner-bubble with-tail">
-            <div className="attachments" />
-            <p className="content" dir="auto">
-              <span className="body">
-                Hi there. How are you doing? Feeling pretty good? Awesome.
-              </span>
-            </p>
-           </div>
+          <div className="tail-wrapper with-tail">
+            <div className="inner-bubble">
+              <div className="attachments" />
+              <p className="content" dir="auto">
+                <span className="body">
+                  Hi there. How are you doing? Feeling pretty good? Awesome.
+                </span>
+              </p>
+            </div>
+          </div>
           <div className="meta">
             <span
               className="timestamp"

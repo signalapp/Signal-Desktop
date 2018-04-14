@@ -212,11 +212,13 @@
               <span class='profileName'>{{ profileName }} </span>
             {{ /profileName }}
           </div>
-          <div class='inner-bubble {{ innerBubbleClasses }}'>
-            <div class='quote-wrapper'></div>
-            <div class='attachments'></div>
-            <div class='content' dir='auto'>
-              {{ #message }}<div class='body'>{{ message }}</div>{{ /message }}
+          <div class='tail-wrapper {{ innerBubbleClasses }}'>
+            <div class='inner-bubble'>
+              <div class='quote-wrapper'></div>
+              <div class='attachments'></div>
+              <div class='content' dir='auto'>
+                {{ #message }}<div class='body'>{{ message }}</div>{{ /message }}
+              </div>
             </div>
           </div>
           <div class='meta'>

@@ -119,7 +119,7 @@ $ios-border-color: rgba(0,0,0,0.1);
       border: 1px solid $grey_l1_5 !important;
       border-bottom: none !important;
 
-      margin-top: 0px;
+      margin-top: 0px !important;
       margin-bottom: 0px;
       margin-left: 0px;
       margin-right: 0px;
@@ -228,12 +228,18 @@ $ios-border-color: rgba(0,0,0,0.1);
     padding-top: 0px;
     padding-bottom: 5px;
 
+    video, audio {
+      margin-bottom: 5px;
+    }
+
     position: relative;
   }
 
+  .tail-wrapper {
+    margin-bottom: 5px;
+  }
   .inner-bubble {
     border-radius: 15px;
-    margin-bottom: 5px;
     overflow: hidden;
 
     .body {
@@ -245,7 +251,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
 
-  .inner-bubble.with-tail {
+  .tail-wrapper.with-tail {
     position: relative;
 
     &:before, &:after {
@@ -268,31 +274,31 @@ $ios-border-color: rgba(0,0,0,0.1);
       bottom: -3px;
       background: #eee;
     }
-
-    .attachments img {
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
-    }
   }
 
   .meta {
     clear: both;
   }
 
-  .outgoing .inner-bubble.with-tail {
-    background-color: $blue;
-    max-width: 100%;
-    &, .body, a {
-      @include invert-text-color;
-    }
+  .outgoing .with-tail.tail-wrapper {
     float: right;
+
+    .inner-bubble {
+      .attachments {
+        background-color: $blue;
+      }
+      .content {
+        background-color: $blue;
+      }
+      max-width: 100%;
+      &, .body, a {
+        @include invert-text-color;
+      }
+    }
   }
 
-  .incoming .inner-bubble.with-tail {
-    background-color: white;
-    color: black;
+  .incoming .with-tail.tail-wrapper {
     float: left;
-    max-width: 100%;
 
     &:before {
       left: -1px;
@@ -300,6 +306,12 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
     &:after {
       left: -6px;
+    }
+
+    .inner-bubble {
+      background-color: white;
+      color: black;
+      max-width: 100%;
     }
   }
 
