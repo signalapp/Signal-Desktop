@@ -19,12 +19,12 @@ const closeDatabaseConnection = ({ Backbone } = {}) =>
 exports.runMigrations = async ({ Backbone, database } = {}) => {
   if (!isObject(Backbone) || !isObject(Backbone.Collection) ||
       !isFunction(Backbone.Collection.extend)) {
-    throw new TypeError('"Backbone" is required');
+    throw new TypeError("'Backbone' is required");
   }
 
   if (!isObject(database) || !isString(database.id) ||
       !Array.isArray(database.migrations)) {
-    throw new TypeError('"database" is required');
+    throw new TypeError("'database' is required");
   }
 
   const {
@@ -58,7 +58,7 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
 
 const getMigrationVersions = (database) => {
   if (!isObject(database) || !Array.isArray(database.migrations)) {
-    throw new TypeError('"database" is required');
+    throw new TypeError("'database' is required");
   }
 
   const firstMigration = head(database.migrations);

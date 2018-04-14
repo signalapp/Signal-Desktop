@@ -1,0 +1,35 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-react"
+  ],
+  "jsRules": {},
+  "rules": {
+    "array-type": [true, "generic"],
+    "interface-name": [true, "never-prefix"],
+
+    "mocha-avoid-only": true,
+    // Disabled until we can allow dynamically generated tests:
+    // https://github.com/Microsoft/tslint-microsoft-contrib/issues/85#issuecomment-371749352
+    "mocha-no-side-effect-code": false,
+    "mocha-unneeded-done": true,
+
+    "no-consecutive-blank-lines": [true, 2],
+    "object-literal-key-quotes": [true, "as-needed"],
+    "object-literal-sort-keys": false,
+
+    // Ignore import sources order until we can specify that we want ordering
+    // based on import name vs module name:
+    "ordered-imports": [true, {
+      "import-sources-order": "any",
+      "named-imports-order": "case-insensitive"
+    }],
+
+    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"]
+
+  },
+  "rulesDirectory": [
+    "node_modules/tslint-microsoft-contrib"
+  ]
+}

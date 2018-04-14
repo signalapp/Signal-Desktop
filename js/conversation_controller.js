@@ -100,11 +100,11 @@
         },
         getOrCreate: function(id, type) {
             if (typeof id !== 'string') {
-                throw new TypeError('"id" must be a string');
+                throw new TypeError("'id' must be a string");
             }
 
             if (type !== 'private' && type !== 'group') {
-                throw new TypeError('"type" must be "private" or "group"; got: ' + type);
+                throw new TypeError(`'type' must be 'private' or 'group'; got: '${type}'`);
             }
 
             if (!this._initialFetchComplete) {

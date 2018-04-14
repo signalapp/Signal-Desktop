@@ -56,7 +56,7 @@ exports.getVersion = async (name) => {
 
 exports.getCount = async ({ store } = {}) => {
   if (!isObject(store)) {
-    throw new TypeError('"store" is required');
+    throw new TypeError("'store' is required");
   }
 
   const request = store.count();

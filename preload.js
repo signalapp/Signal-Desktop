@@ -109,15 +109,42 @@ window.nodeFetch = require('node-fetch');
 window.nodeNotifier = require('node-notifier');
 window.ProxyAgent = require('proxy-agent');
 
+// Note: when modifying this file, consider whether our React Components or Backbone Views
+//   will need these things to render in the Style Guide. If so, go update one of these
+//   two locations:
+//
+//   1) test/styleguide/legacy_bridge.js
+//   2) ts/styleguide/StyleGuideUtil.js
+
+window.React = require('react');
+window.ReactDOM = require('react-dom');
+window.moment = require('moment');
+
+const { setup } = require('./js/modules/i18n');
+
+const { locale, localeMessages } = window.config;
+window.i18n = setup(locale, localeMessages);
+window.moment.updateLocale(locale, {
+  relativeTime: {
+    s: window.i18n('timestamp_s'),
+    m: window.i18n('timestamp_m'),
+    h: window.i18n('timestamp_h'),
+  },
+});
+window.moment.locale(locale);
+
 // ES2015+ modules
 const attachmentsPath = Attachments.getPath(app.getPath('userData'));
 const deleteAttachmentData = Attachments.createDeleter(attachmentsPath);
 const readAttachmentData = Attachments.createReader(attachmentsPath);
-const writeAttachmentData = Attachments.createWriter(attachmentsPath);
+const writeNewAttachmentData = Attachments.createWriterForNew(attachmentsPath);
+const writeExistingAttachmentData = Attachments.createWriterForExisting(attachmentsPath);
+
+const loadAttachmentData = Attachment.loadData(readAttachmentData);
 
 // Injected context functions to keep `Message` agnostic from Electron:
 const upgradeSchemaContext = {
-  writeAttachmentData,
+  writeNewAttachmentData,
 };
 const upgradeMessageSchema = message =>
   Message.upgradeSchema(message, upgradeSchemaContext);
@@ -131,13 +158,19 @@ window.Signal.Backup = require('./js/modules/backup');
 window.Signal.Crypto = require('./js/modules/crypto');
 window.Signal.Database = require('./js/modules/database');
 window.Signal.Debug = require('./js/modules/debug');
+window.Signal.HTML = require('./ts/html');
 window.Signal.Logs = require('./js/modules/logs');
+
+window.Signal.Components = {};
 
 window.Signal.Migrations = {};
 window.Signal.Migrations.deleteAttachmentData =
   Attachment.deleteData(deleteAttachmentData);
 window.Signal.Migrations.getPlaceholderMigrations = getPlaceholderMigrations;
-window.Signal.Migrations.loadAttachmentData = Attachment.loadData(readAttachmentData);
+window.Signal.Migrations.writeMessageAttachments =
+  Message.createAttachmentDataWriter(writeExistingAttachmentData);
+window.Signal.Migrations.loadAttachmentData = loadAttachmentData;
+window.Signal.Migrations.loadMessage = Message.createAttachmentLoader(loadAttachmentData);
 window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =
   require('./js/modules/migrations/migrations_0_database_with_attachment_data');
 window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =
@@ -146,9 +179,11 @@ window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =
 window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
 window.Signal.OS = require('./js/modules/os');
 window.Signal.Settings = require('./js/modules/settings');
+window.Signal.Startup = require('./js/modules/startup');
 
 window.Signal.Types = {};
 window.Signal.Types.Attachment = Attachment;
+window.Signal.Types.Conversation = require('./ts/types/Conversation');
 window.Signal.Types.Errors = require('./js/modules/types/errors');
 
 window.Signal.Types.Message = Message;
