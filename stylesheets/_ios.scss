@@ -175,6 +175,11 @@ $ios-border-color: rgba(0,0,0,0.1);
 
         .inner {
           padding: 12px;
+          height: 61px;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
 
