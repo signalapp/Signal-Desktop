@@ -57,7 +57,7 @@ describe('HTML', () => {
       },
     ];
 
-    TESTS.forEach((test) => {
+    TESTS.forEach(test => {
       (test.skipped ? it.skip : it)(`should handle ${test.name}`, () => {
         const preText = test.preText || 'Hello ';
         const postText = test.postText || ' World!';

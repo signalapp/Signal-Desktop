@@ -66,16 +66,20 @@ type SharedMessageProperties = Readonly<{
   timestamp: number;
 }>;
 
-type ExpirationTimerUpdate = Readonly<{
-  expirationTimerUpdate?: Readonly<{
-    expireTimer: number;
-    fromSync: boolean;
-    source: string; // PhoneNumber
-  }>;
-}>;
+type ExpirationTimerUpdate = Partial<
+  Readonly<{
+    expirationTimerUpdate: Readonly<{
+      expireTimer: number;
+      fromSync: boolean;
+      source: string; // PhoneNumber
+    }>;
+  }>
+>;
 
-type Message4 = Partial<Readonly<{
-  hasAttachments: IndexableBoolean;
-  hasVisualMediaAttachments: IndexableBoolean;
-  hasFileAttachments: IndexableBoolean;
-}>>;
+type Message4 = Partial<
+  Readonly<{
+    hasAttachments: IndexableBoolean;
+    hasVisualMediaAttachments: IndexableBoolean;
+    hasFileAttachments: IndexableBoolean;
+  }>
+>;
