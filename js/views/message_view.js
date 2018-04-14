@@ -275,7 +275,7 @@
       this.onUnload();
     },
     onChange() {
-      this.renderRead();
+      this.renderSent();
       this.renderQuote();
     },
     select(e) {
