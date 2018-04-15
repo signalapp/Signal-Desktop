@@ -12,9 +12,6 @@
 (function () {
   'use strict';
 
-  const ESCAPE_KEY_CODE = 27;
-  const { Signal } = window;
-
   const FileView = Whisper.View.extend({
     tagName: 'div',
     className: 'fileView',
@@ -259,44 +256,6 @@
     update() {
       clearTimeout(this.timeout);
       this.trigger('update');
-    },
-  });
-
-  Whisper.LightboxView = Whisper.View.extend({
-    templateName: 'lightbox',
-    className: 'modal lightbox',
-    initialize() {
-      this.window = window;
-      this.$document = $(this.window.document);
-      this.listener = this.onkeyup.bind(this);
-      this.$document.on('keyup', this.listener);
-    },
-    events: {
-      'click .save': 'save',
-      'click .close': 'remove',
-      click: 'onclick',
-    },
-    save() {
-      this.model.saveFile();
-    },
-    onclick(e) {
-      const $el = this.$(e.target);
-      if (!$el.hasClass('image') && !$el.closest('.controls').length) {
-        e.preventDefault();
-        this.remove();
-        return false;
-      }
-
-      return true;
-    },
-    onkeyup(e) {
-      if (e.keyCode === ESCAPE_KEY_CODE) {
-        this.remove();
-        this.$document.off('keyup', this.listener);
-      }
-    },
-    render_attributes() {
-      return { url: this.model.objectUrl };
     },
   });
 }());
