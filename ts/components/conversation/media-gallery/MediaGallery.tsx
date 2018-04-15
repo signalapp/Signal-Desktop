@@ -95,7 +95,7 @@ export class MediaGallery extends React.Component<Props, State> {
             isSelected={selectedTab === 'media'}
             onSelect={this.handleTabSelect}
           />
-          {/*
+          {/* Disable for MVP:
           <Tab
             label="Documents"
             type="documents"

@@ -36,6 +36,7 @@ export const loadWithObjectURL = (loadMessage: MapAsync<Message>) => async (
     messagesWithoutVideo.map(loadMessage)
   );
   const loadedMessages = sortBy(
+    // // Only show images for MVP:
     // [...messagesWithVideo, ...loadedMessagesWithoutVideo],
     loadedMessagesWithoutVideo,
     message => -message.received_at
