@@ -172,7 +172,6 @@
       'click .conversation': 'focusConversation',
       'select .gutter .conversation-list-item': 'openConversation',
       'input input.search': 'filterContacts',
-      'show .lightbox': 'showLightbox',
     },
     startConnectionListener() {
       this.interval = setInterval(() => {
@@ -258,9 +257,6 @@
         this.conversation_stack.open(ConversationController.get(conversation.id));
         this.focusConversation();
       }
-    },
-    showLightbox(e) {
-      this.$el.append(e.target);
     },
     closeRecording(e) {
       if (e && this.$(e.target).closest('.capture-audio').length > 0) {

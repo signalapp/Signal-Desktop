@@ -4,6 +4,7 @@
 /* global moment: false */
 
 /* global i18n: false */
+/* global Signal: false */
 /* global textsecure: false */
 /* global Whisper: false */
 
@@ -92,8 +93,8 @@
     unload() {
       this.blob = null;
 
-      if (this.lightBoxView) {
-        this.lightBoxView.remove();
+      if (this.lightboxView) {
+        this.lightboxView.remove();
       }
       if (this.fileView) {
         this.fileView.remove();
@@ -111,14 +112,26 @@
       }
     },
     onClick() {
-      if (this.isImage()) {
-        this.lightBoxView = new Whisper.LightboxView({ model: this });
-        this.lightBoxView.render();
-        this.lightBoxView.$el.appendTo(this.el);
-        this.lightBoxView.$el.trigger('show');
-      } else {
+      if (!this.isImage()) {
         this.saveFile();
+        return;
       }
+
+      const lightboxContainer = document.querySelector('.lightboxContainer');
+      lightboxContainer.innerHTML = '';
+      lightboxContainer.style.display = 'block';
+
+      const props = {
+        imageURL: this.objectUrl,
+      };
+      this.lightboxView = new Whisper.ReactWrapperView({
+        Component: Signal.Components.Lightbox,
+        props,
+        onClose: () => {
+          lightboxContainer.style.display = 'none';
+        },
+      });
+      lightboxContainer.appendChild(this.lightboxView.el);
     },
     isVoiceMessage() {
       // eslint-disable-next-line no-bitwise

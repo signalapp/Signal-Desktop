@@ -162,6 +162,8 @@ window.Signal.Debug = require('./js/modules/debug');
 window.Signal.HTML = require('./ts/html');
 window.Signal.Logs = require('./js/modules/logs');
 
+// React components
+const { Lightbox } = require('./ts/components/Lightbox');
 const { MediaGallery } =
   require('./ts/components/conversation/media-gallery/MediaGallery');
 const { Quote } = require('./ts/components/conversation/Quote');
@@ -170,6 +172,7 @@ const PropTypesMessage =
   require('./ts/components/conversation/media-gallery/propTypes/Message');
 
 window.Signal.Components = {
+  Lightbox,
   MediaGallery,
   PropTypes: {
     Message: PropTypesMessage,
