@@ -57,13 +57,13 @@ const IconButton = ({ onClick, type }: IconButtonProps) => (
 );
 
 export class Lightbox extends React.Component<Props, {}> {
-  private containerRef: HTMLDivElement | null = null;
-
   public static defaultProps: Partial<Props> = {
     shouldShowNextButton: false,
     shouldShowPreviousButton: false,
     shouldShowSaveAsButton: false,
   };
+
+  private containerRef: HTMLDivElement | null = null;
 
   public componentDidMount() {
     const useCapture = true;

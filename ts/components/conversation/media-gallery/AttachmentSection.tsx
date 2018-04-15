@@ -36,6 +36,17 @@ interface Props {
 }
 
 export class AttachmentSection extends React.Component<Props, {}> {
+  public render() {
+    const { header } = this.props;
+
+    return (
+      <div style={styles.container}>
+        <h2 style={styles.header}>{header}</h2>
+        <div style={styles.itemContainer}>{this.renderItems()}</div>
+      </div>
+    );
+  }
+
   private renderItems() {
     const { i18n, messages, type } = this.props;
 
@@ -78,15 +89,4 @@ export class AttachmentSection extends React.Component<Props, {}> {
 
     onItemClick({ message });
   };
-
-  public render() {
-    const { header } = this.props;
-
-    return (
-      <div style={styles.container}>
-        <h2 style={styles.header}>{header}</h2>
-        <div style={styles.itemContainer}>{this.renderItems()}</div>
-      </div>
-    );
-  }
 }
