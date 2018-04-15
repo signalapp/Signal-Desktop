@@ -119,13 +119,13 @@
 
       const props = {
         imageURL: this.objectUrl,
+        save: () => this.saveFile(),
+        // implicit: `close`
       };
       this.lightboxView = new Whisper.ReactWrapperView({
         Component: Signal.Components.Lightbox,
         props,
-        onClose: () => {
-          Signal.Backbone.Views.Lightbox.hide();
-        },
+        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
       });
       Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
     },

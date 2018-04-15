@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 interface Props {
   imageURL?: string;
-  onClose: () => void;
+  save: () => void;
   close: () => void;
 }
 
@@ -64,7 +64,7 @@ export class Lightbox extends React.Component<Props, {}> {
         </div>
         <div style={styles.controls}>
           <IconButton type="close" onClick={this.props.close} />
-          <IconButton type="save" />
+          <IconButton type="save" onClick={this.props.save} />
         </div>
       </div>
     );
