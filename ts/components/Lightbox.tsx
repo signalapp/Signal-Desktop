@@ -55,6 +55,16 @@ const IconButton = ({ onClick, type }: IconButtonProps) => (
 );
 
 export class Lightbox extends React.Component<Props, {}> {
+  public componentDidMount() {
+    const useCapture = true;
+    document.addEventListener('keyup', this.onKeyUp, useCapture);
+  }
+
+  public componentWillMount() {
+    const useCapture = true;
+    document.removeEventListener('keyup', this.onKeyUp, useCapture);
+  }
+
   public render() {
     const { imageURL } = this.props;
     return (
@@ -68,5 +78,13 @@ export class Lightbox extends React.Component<Props, {}> {
         </div>
       </div>
     );
+  }
+
+  private onKeyUp = (event: KeyboardEvent) => {
+    if (event.key !== 'Escape') {
+      return;
+    }
+
+    this.props.close();
   }
 }
