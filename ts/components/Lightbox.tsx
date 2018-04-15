@@ -43,7 +43,7 @@ const styles = {
 };
 
 interface IconButtonProps {
-  type: 'save' | 'close';
+  type: 'save' | 'close' | 'previous' | 'next';
   onClick?: () => void;
 }
 const IconButton = ({ onClick, type }: IconButtonProps) => (
@@ -71,6 +71,8 @@ export class Lightbox extends React.Component<Props, {}> {
         <div style={styles.controls}>
           <IconButton type="close" onClick={this.props.close} />
           <IconButton type="save" onClick={this.props.save} />
+          <IconButton type="previous" />
+          <IconButton type="next" />
         </div>
       </div>
     );
