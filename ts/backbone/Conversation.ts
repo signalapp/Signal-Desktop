@@ -29,14 +29,12 @@ export const fetchVisualMediaAttachments = async ({
   await deferredToPromise(
     collection.fetch({
       index: {
-        // 'hasVisualMediaAttachments' index on
-        // [conversationId, hasVisualMediaAttachments, received_at]
         name: 'hasVisualMediaAttachments',
         lower: [conversationId, hasVisualMediaAttachments, lowerReceivedAt],
         upper: [conversationId, hasVisualMediaAttachments, upperReceivedAt],
         order: 'desc',
       },
-      limit: 10,
+      limit: 50,
     })
   );
 
