@@ -16,8 +16,6 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { MediaGallery } = window.Signal.Components;
-
   Whisper.ExpiredToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('expiredWarning') };
@@ -610,7 +608,7 @@
       };
 
       const view = new Whisper.ReactWrapperView({
-        Component: MediaGallery,
+        Component: Signal.Components.MediaGallery,
         props: mediaGalleryProps,
         onClose: () => this.resetPanel(),
       });
@@ -673,35 +671,6 @@
           }
         }, 1);
       }
-    },
-
-    viewAllMedia() {
-      // We have to do this manually, since our React component will not propagate click
-      //   events up to its parent elements in the DOM.
-      this.closeMenu();
-
-      // Next:
-      //   pull latest media
-      //   need a way for react component to request further data
-
-      //   needed components:
-      //     GalleryPanel
-      //     Section - header, list of thumbnails
-      //     Thumbnail
-      //     Lightbox - or do we use the lightbox already in the app?
-
-      const props = {
-        media: [],
-        documents: [],
-      };
-
-      const view = new window.Whisper.ReactWrapper({
-        Component: MediaGallery,
-        props,
-        onClose: () => this.resetPanel(),
-      });
-
-      this.listenBack(view);
     },
 
     focusMessageField() {
