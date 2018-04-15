@@ -575,12 +575,6 @@
       //   events up to its parent elements in the DOM.
       this.closeMenu();
 
-      // TODO
-      //
-      // - [x] Fetch visual media attachments
-      // - [ ] Fetch file attachments
-      // - [ ] Add mechanism to fetch more data
-
       const media = await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
         conversationId: this.model.get('id'),
         WhisperMessageCollection: Whisper.MessageCollection,
