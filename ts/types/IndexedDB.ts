@@ -6,7 +6,12 @@
 // to `0`.
 // N.B. Using `undefined` allows excluding an entry from an index. Useful
 // when index size is a consideration or one only needs to query for `true`.
-export type IndexableBoolean = 1 | 0;
+export type IndexableBoolean = IndexableFalse | IndexableTrue;
+type IndexableTrue = 1;
+type IndexableFalse = 0;
+
+export const INDEXABLE_FALSE: IndexableFalse = 0;
+export const INDEXABLE_TRUE: IndexableTrue = 1;
 
 export const toIndexableBoolean = (value: boolean): IndexableBoolean =>
-  value ? 1 : 0;
+  value ? INDEXABLE_TRUE : INDEXABLE_FALSE;
