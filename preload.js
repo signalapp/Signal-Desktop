@@ -166,8 +166,14 @@ const { MediaGallery } =
   require('./ts/components/conversation/media-gallery/MediaGallery');
 const { Quote } = require('./ts/components/conversation/Quote');
 
+const PropTypesMessage =
+  require('./ts/components/conversation/media-gallery/propTypes/Message');
+
 window.Signal.Components = {
   MediaGallery,
+  PropTypes: {
+    Message: PropTypesMessage,
+  },
   Quote,
 };
 

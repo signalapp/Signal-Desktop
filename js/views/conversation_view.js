@@ -583,27 +583,14 @@
       // - [ ] Fetch file attachments
       // - [ ] Add mechanism to fetch more data
 
-      const mediaWithoutAttachmentData =
-        await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
-            conversationId: this.model.get('id'),
-            WhisperMessageCollection: Whisper.MessageCollection,
-        });
-
-      const mediaWithAttachmentData =
-        await Promise.all(mediaWithoutAttachmentData.map(Signal.Migrations.loadMessage));
-
-      const withObjectURL = message => {
-        if (!message.attachments || message.attachments.length === 0) {
-            throw new TypeError('`message.attachments` cannot be empty');
-        }
-        const attachment = message.attachments[0];
-        const objectURL = Signal.Util.arrayBufferToObjectURL({
-            data: attachment.data,
-            type: attachment.contentType,
-        });
-        return Object.assign({}, message, {objectURL});
-      }
-      const mediaWithObjectURLs = mediaWithAttachmentData.map(withObjectURL);
+      const media = await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
+        conversationId: this.model.get('id'),
+        WhisperMessageCollection: Whisper.MessageCollection,
+      });
+      const loadMessages = Signal.Components.PropTypes.Message.loadWithObjectURL(
+        Signal.Migrations.loadMessage
+      );
+      const mediaWithObjectURLs = await loadMessages(media);
 
       const props = {
         media: mediaWithObjectURLs,

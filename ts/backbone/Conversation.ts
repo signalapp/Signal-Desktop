@@ -3,8 +3,8 @@
  */
 import is from '@sindresorhus/is';
 
-import { deferredToPromise } from '../../js/modules/deferred_to_promise';
 import { Collection as BackboneCollection } from '../types/backbone/Collection';
+import { deferredToPromise } from '../../js/modules/deferred_to_promise';
 import { Message } from '../types/Message';
 
 export const fetchVisualMediaAttachments = async ({
