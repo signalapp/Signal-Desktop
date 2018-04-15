@@ -117,10 +117,6 @@
         return;
       }
 
-      const lightboxContainer = document.querySelector('.lightboxContainer');
-      lightboxContainer.innerHTML = '';
-      lightboxContainer.style.display = 'block';
-
       const props = {
         imageURL: this.objectUrl,
       };
@@ -128,10 +124,10 @@
         Component: Signal.Components.Lightbox,
         props,
         onClose: () => {
-          lightboxContainer.style.display = 'none';
+          Signal.Backbone.Views.Lightbox.hide();
         },
       });
-      lightboxContainer.appendChild(this.lightboxView.el);
+      Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
     },
     isVoiceMessage() {
       // eslint-disable-next-line no-bitwise
