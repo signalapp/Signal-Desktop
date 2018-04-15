@@ -24,6 +24,7 @@ const styles = {
     padding: 40,
   } as React.CSSProperties,
   objectContainer: {
+    flexGrow: 1,
     display: 'inline-flex',
     justifyContent: 'center',
   } as React.CSSProperties,
