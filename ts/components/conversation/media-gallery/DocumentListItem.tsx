@@ -6,8 +6,6 @@ import React from 'react';
 import moment from 'moment';
 import formatFileSize from 'filesize';
 
-// import { LoadingIndicator } from './LoadingIndicator';
-
 interface Props {
   fileName?: string;
   fileSize?: number;
@@ -56,10 +54,6 @@ const styles = {
 export class DocumentListItem extends React.Component<Props, {}> {
   public renderContent() {
     const { fileName, fileSize, timestamp } = this.props;
-
-    // if (!attachment.data) {
-    //   return <LoadingIndicator />;
-    // }
 
     return (
       <div style={styles.itemContainer} onClick={this.props.onClick}>

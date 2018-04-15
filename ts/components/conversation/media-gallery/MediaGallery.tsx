@@ -121,7 +121,6 @@ export class MediaGallery extends React.Component<Props, State> {
     const type = selectedTab;
 
     if (!messages || messages.length === 0) {
-      // return <LoadingIndicator />;
       return null;
     }
 

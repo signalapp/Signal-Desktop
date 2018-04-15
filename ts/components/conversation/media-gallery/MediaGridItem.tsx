@@ -3,7 +3,6 @@
  */
 import React from 'react';
 
-import { LoadingIndicator } from './LoadingIndicator';
 import { Message } from './propTypes/Message';
 
 interface Props {
@@ -33,7 +32,7 @@ export class MediaGridItem extends React.Component<Props, {}> {
     const { message } = this.props;
 
     if (!message.objectURL) {
-      return <LoadingIndicator />;
+      return null;
     }
 
     return (
