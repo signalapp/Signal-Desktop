@@ -3,8 +3,8 @@
  */
 import React from 'react';
 
-import { DocumentListEntry } from './DocumentListEntry';
-import { ImageThumbnail } from './ImageThumbnail';
+import { DocumentListItem } from './DocumentListItem';
+import { MediaGridItem } from './MediaGridItem';
 import { Message } from './propTypes/Message';
 import { missingCaseError } from '../../../util/missingCaseError';
 
@@ -33,7 +33,7 @@ interface Props {
   messages: Array<Message>;
 }
 
-export class AttachmentListSection extends React.Component<Props, {}> {
+export class AttachmentSection extends React.Component<Props, {}> {
   public renderItems() {
     const { i18n, messages, type } = this.props;
 
@@ -43,15 +43,10 @@ export class AttachmentListSection extends React.Component<Props, {}> {
 
       switch (type) {
         case 'media':
-          return (
-            <ImageThumbnail
-              key={message.received_at}
-              message={message}
-            />
-          );
+          return <MediaGridItem key={message.received_at} message={message} />;
         case 'documents':
           return (
-            <DocumentListEntry
+            <DocumentListItem
               key={message.received_at}
               i18n={i18n}
               fileSize={firstAttachment.size}

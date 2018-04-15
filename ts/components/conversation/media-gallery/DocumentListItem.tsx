@@ -52,7 +52,7 @@ const styles = {
   },
 };
 
-export class DocumentListEntry extends React.Component<Props, {}> {
+export class DocumentListItem extends React.Component<Props, {}> {
   public renderContent() {
     const { fileName, fileSize, timestamp } = this.props;
 

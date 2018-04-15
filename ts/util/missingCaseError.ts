@@ -9,9 +9,9 @@
 // const type: AttachmentType = selectedTab;
 // switch (type) {
 //   case 'media':
-//     return <ImageThumbnail/>;
+//     return <MediaGridItem/>;
 //   case 'documents':
-//     return <DocumentListEntry/>;
+//     return <DocumentListItem/>;
 //   default:
 //     return missingCaseError(type);
 // }

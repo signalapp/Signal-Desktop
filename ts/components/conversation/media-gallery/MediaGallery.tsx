@@ -5,7 +5,7 @@ import React from 'react';
 
 import moment from 'moment';
 
-import { AttachmentListSection } from './AttachmentListSection';
+import { AttachmentSection } from './AttachmentSection';
 import { groupMessagesByDate } from './groupMessagesByDate';
 import { Message } from './propTypes/Message';
 
@@ -131,7 +131,7 @@ export class MediaGallery extends React.Component<Props, State> {
           ? date.format(MONTH_FORMAT)
           : i18n(section.type);
       return (
-        <AttachmentListSection
+        <AttachmentSection
           key={header}
           header={header}
           i18n={i18n}

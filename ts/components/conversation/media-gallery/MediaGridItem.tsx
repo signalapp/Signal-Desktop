@@ -6,7 +6,6 @@ import React from 'react';
 import { LoadingIndicator } from './LoadingIndicator';
 import { Message } from './propTypes/Message';
 
-
 interface Props {
   message: Message;
 }
@@ -28,7 +27,7 @@ const styles = {
   },
 };
 
-export class ImageThumbnail extends React.Component<Props, {}> {
+export class MediaGridItem extends React.Component<Props, {}> {
   public renderContent() {
     const { message } = this.props;
 
