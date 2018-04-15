@@ -8,7 +8,11 @@ import classNames from 'classnames';
 interface Props {
   close: () => void;
   imageURL?: string;
+  onNext?: () => void;
+  onPrevious?: () => void;
   onSave: () => void;
+  shouldShowNextButton: boolean;
+  shouldShowPreviousButton: boolean;
 }
 
 const styles = {
@@ -54,6 +58,11 @@ const IconButton = ({ onClick, type }: IconButtonProps) => (
 export class Lightbox extends React.Component<Props, {}> {
   private containerRef: HTMLDivElement | null = null;
 
+  public static defaultProps: Partial<Props> = {
+    shouldShowNextButton: false,
+    shouldShowPreviousButton: false,
+  };
+
   public componentDidMount() {
     const useCapture = true;
     document.addEventListener('keyup', this.onKeyUp, useCapture);
@@ -65,17 +74,33 @@ export class Lightbox extends React.Component<Props, {}> {
   }
 
   public render() {
-    const { imageURL } = this.props;
+    const {
+      imageURL,
+      shouldShowNextButton,
+      shouldShowPreviousButton,
+    } = this.props;
     return (
-      <div style={styles.container} onClick={this.onContainerClick} ref={this.setContainerRef}>
+      <div
+        style={styles.container}
+        onClick={this.onContainerClick}
+        ref={this.setContainerRef}
+      >
         <div style={styles.objectContainer}>
-          <img style={styles.image} src={imageURL} onClick={this.onImageClick}/>
+          <img
+            style={styles.image}
+            src={imageURL}
+            onClick={this.onImageClick}
+          />
         </div>
         <div style={styles.controls}>
           <IconButton type="close" onClick={this.onClose} />
           <IconButton type="save" onClick={this.props.onSave} />
-          <IconButton type="previous" />
-          <IconButton type="next" />
+          {shouldShowPreviousButton ? (
+            <IconButton type="previous" onClick={this.props.onPrevious} />
+          ) : null}
+          {shouldShowNextButton ? (
+            <IconButton type="next" onClick={this.props.onNext} />
+          ) : null}
         </div>
       </div>
     );
@@ -83,7 +108,7 @@ export class Lightbox extends React.Component<Props, {}> {
 
   private setContainerRef = (value: HTMLDivElement) => {
     this.containerRef = value;
-  }
+  };
 
   private onClose = () => {
     this.props.close();
@@ -102,10 +127,10 @@ export class Lightbox extends React.Component<Props, {}> {
       return;
     }
     this.onClose();
-  }
+  };
 
   private onImageClick = (event: React.MouseEvent<HTMLImageElement>) => {
     event.stopPropagation();
     this.onClose();
-  }
+  };
 }
