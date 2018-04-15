@@ -52,6 +52,8 @@ const IconButton = ({ onClick, type }: IconButtonProps) => (
 );
 
 export class Lightbox extends React.Component<Props, {}> {
+  private containerRef: HTMLDivElement | null = null;
+
   public componentDidMount() {
     const useCapture = true;
     document.addEventListener('keyup', this.onKeyUp, useCapture);
@@ -65,12 +67,12 @@ export class Lightbox extends React.Component<Props, {}> {
   public render() {
     const { imageURL } = this.props;
     return (
-      <div style={styles.container}>
+      <div style={styles.container} onClick={this.onContainerClick} ref={this.setContainerRef}>
         <div style={styles.objectContainer}>
-          <img style={styles.image} src={imageURL} />
+          <img style={styles.image} src={imageURL} onClick={this.onImageClick}/>
         </div>
         <div style={styles.controls}>
-          <IconButton type="close" onClick={this.props.close} />
+          <IconButton type="close" onClick={this.onClose} />
           <IconButton type="save" onClick={this.props.onSave} />
           <IconButton type="previous" />
           <IconButton type="next" />
@@ -79,11 +81,31 @@ export class Lightbox extends React.Component<Props, {}> {
     );
   }
 
+  private setContainerRef = (value: HTMLDivElement) => {
+    this.containerRef = value;
+  }
+
+  private onClose = () => {
+    this.props.close();
+  };
+
   private onKeyUp = (event: KeyboardEvent) => {
     if (event.key !== 'Escape') {
       return;
     }
 
-    this.props.close();
+    this.onClose();
   };
+
+  private onContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target !== this.containerRef) {
+      return;
+    }
+    this.onClose();
+  }
+
+  private onImageClick = (event: React.MouseEvent<HTMLImageElement>) => {
+    event.stopPropagation();
+    this.onClose();
+  }
 }
