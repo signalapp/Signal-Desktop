@@ -36,7 +36,8 @@ export const loadWithObjectURL = (loadMessage: MapAsync<Message>) => async (
     messagesWithoutVideo.map(loadMessage)
   );
   const loadedMessages = sortBy(
-    [...messagesWithVideo, ...loadedMessagesWithoutVideo],
+    // [...messagesWithVideo, ...loadedMessagesWithoutVideo],
+    loadedMessagesWithoutVideo,
     message => -message.received_at
   );
 
