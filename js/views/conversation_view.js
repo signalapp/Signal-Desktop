@@ -592,14 +592,25 @@
       );
       const mediaWithObjectURLs = await loadMessages(media);
 
-      const props = {
+      const mediaGalleryProps = {
         media: mediaWithObjectURLs,
         documents: [],
+        onItemClick: ({message}) => {
+          const lightboxProps = {
+            imageURL: message.objectURL,
+          };
+          this.lightboxView = new Whisper.ReactWrapperView({
+            Component: Signal.Components.Lightbox,
+            props: lightboxProps,
+            onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+          });
+          Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+        }
       };
 
       const view = new Whisper.ReactWrapperView({
         Component: MediaGallery,
-        props,
+        props: mediaGalleryProps,
         onClose: () => this.resetPanel(),
       });
 

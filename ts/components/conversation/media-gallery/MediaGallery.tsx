@@ -7,6 +7,7 @@ import moment from 'moment';
 
 import { AttachmentSection } from './AttachmentSection';
 import { groupMessagesByDate } from './groupMessagesByDate';
+import { ItemClickEvent } from './events/ItemClickEvent';
 import { Message } from './propTypes/Message';
 
 type AttachmentType = 'media' | 'documents';
@@ -15,6 +16,7 @@ interface Props {
   documents: Array<Message>;
   i18n: (key: string, values?: Array<string>) => string;
   media: Array<Message>;
+  onItemClick?: (event: ItemClickEvent) => void;
 }
 
 interface State {
@@ -110,7 +112,7 @@ export class MediaGallery extends React.Component<Props, State> {
   };
 
   private renderSections() {
-    const { i18n, media, documents } = this.props;
+    const { i18n, media, documents, onItemClick } = this.props;
     const { selectedTab } = this.state;
 
     const messages = selectedTab === 'media' ? media : documents;
@@ -137,6 +139,7 @@ export class MediaGallery extends React.Component<Props, State> {
           i18n={i18n}
           type={type}
           messages={section.messages}
+          onItemClick={onItemClick}
         />
       );
     });

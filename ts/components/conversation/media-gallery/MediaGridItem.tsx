@@ -8,6 +8,7 @@ import { Message } from './propTypes/Message';
 
 interface Props {
   message: Message;
+  onClick?: () => void;
 }
 
 const size = {
@@ -47,6 +48,10 @@ export class MediaGridItem extends React.Component<Props, {}> {
   }
 
   public render() {
-    return <div style={styles.container}>{this.renderContent()}</div>;
+    return (
+      <div style={styles.container} onClick={this.props.onClick}>
+        {this.renderContent()}
+      </div>
+    );
   }
 }

@@ -4,6 +4,7 @@
 import React from 'react';
 
 import { DocumentListItem } from './DocumentListItem';
+import { ItemClickEvent } from './events/ItemClickEvent';
 import { MediaGridItem } from './MediaGridItem';
 import { Message } from './propTypes/Message';
 import { missingCaseError } from '../../../util/missingCaseError';
@@ -31,19 +32,27 @@ interface Props {
   header?: string;
   type: 'media' | 'documents';
   messages: Array<Message>;
+  onItemClick?: (event: ItemClickEvent) => void;
 }
 
 export class AttachmentSection extends React.Component<Props, {}> {
-  public renderItems() {
+  private renderItems() {
     const { i18n, messages, type } = this.props;
 
     return messages.map(message => {
       const { attachments } = message;
       const firstAttachment = attachments[0];
 
+      const onClick = this.createClickHandler(message);
       switch (type) {
         case 'media':
-          return <MediaGridItem key={message.received_at} message={message} />;
+          return (
+            <MediaGridItem
+              key={message.received_at}
+              message={message}
+              onClick={onClick}
+            />
+          );
         case 'documents':
           return (
             <DocumentListItem
@@ -52,6 +61,7 @@ export class AttachmentSection extends React.Component<Props, {}> {
               fileSize={firstAttachment.size}
               fileName={firstAttachment.fileName}
               timestamp={message.received_at}
+              onClick={onClick}
             />
           );
         default:
@@ -59,6 +69,15 @@ export class AttachmentSection extends React.Component<Props, {}> {
       }
     });
   }
+
+  private createClickHandler = (message: Message) => () => {
+    const { onItemClick } = this.props;
+    if (!onItemClick) {
+      return;
+    }
+
+    onItemClick({ message });
+  };
 
   public render() {
     const { header } = this.props;

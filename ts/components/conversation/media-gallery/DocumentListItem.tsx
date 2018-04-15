@@ -12,6 +12,7 @@ interface Props {
   fileName?: string;
   fileSize?: number;
   i18n: (key: string, values?: Array<string>) => string;
+  onClick?: () => void;
   timestamp: number;
 }
 
@@ -61,7 +62,7 @@ export class DocumentListItem extends React.Component<Props, {}> {
     // }
 
     return (
-      <div style={styles.itemContainer}>
+      <div style={styles.itemContainer} onClick={this.props.onClick}>
         <img
           src="images/file.svg"
           width="48"
