@@ -13,6 +13,7 @@ interface Props {
   onSave: () => void;
   shouldShowNextButton: boolean;
   shouldShowPreviousButton: boolean;
+  shouldShowSaveAsButton: boolean;
 }
 
 const styles = {
@@ -61,6 +62,7 @@ export class Lightbox extends React.Component<Props, {}> {
   public static defaultProps: Partial<Props> = {
     shouldShowNextButton: false,
     shouldShowPreviousButton: false,
+    shouldShowSaveAsButton: false,
   };
 
   public componentDidMount() {
@@ -78,6 +80,7 @@ export class Lightbox extends React.Component<Props, {}> {
       imageURL,
       shouldShowNextButton,
       shouldShowPreviousButton,
+      shouldShowSaveAsButton,
     } = this.props;
     return (
       <div
@@ -94,7 +97,9 @@ export class Lightbox extends React.Component<Props, {}> {
         </div>
         <div style={styles.controls}>
           <IconButton type="close" onClick={this.onClose} />
-          <IconButton type="save" onClick={this.props.onSave} />
+          {shouldShowSaveAsButton ? (
+            <IconButton type="save" onClick={this.props.onSave} />
+          ) : null}
           {shouldShowPreviousButton ? (
             <IconButton type="previous" onClick={this.props.onPrevious} />
           ) : null}
