@@ -6,9 +6,9 @@ import React from 'react';
 import classNames from 'classnames';
 
 interface Props {
-  imageURL?: string;
-  save: () => void;
   close: () => void;
+  imageURL?: string;
+  onSave: () => void;
 }
 
 const styles = {
@@ -71,7 +71,7 @@ export class Lightbox extends React.Component<Props, {}> {
         </div>
         <div style={styles.controls}>
           <IconButton type="close" onClick={this.props.close} />
-          <IconButton type="save" onClick={this.props.save} />
+          <IconButton type="save" onClick={this.props.onSave} />
           <IconButton type="previous" />
           <IconButton type="next" />
         </div>

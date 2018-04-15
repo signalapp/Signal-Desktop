@@ -116,7 +116,7 @@
 
       const props = {
         imageURL: this.objectUrl,
-        save: () => this.saveFile(),
+        onSave: () => this.saveFile(),
         // implicit: `close`
       };
       this.lightboxView = new Whisper.ReactWrapperView({
