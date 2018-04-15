@@ -2,7 +2,6 @@
  * @prettier
  */
 export interface Message {
-  id: string;
   body?: string;
   received_at: number;
   attachments: Array<{

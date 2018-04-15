@@ -4,7 +4,8 @@
 import { Attachment } from './Attachment';
 import { IndexableBoolean } from './IndexedDB';
 
-export type Message = IncomingMessage | OutgoingMessage | VerifiedChangeMessage;
+export type Message = UserMessage | VerifiedChangeMessage;
+export type UserMessage = IncomingMessage | OutgoingMessage;
 
 export type IncomingMessage = Readonly<
   {

@@ -44,12 +44,16 @@ export class AttachmentListSection extends React.Component<Props, {}> {
       switch (type) {
         case 'media':
           return (
-            <ImageThumbnail key={message.id} i18n={i18n} message={message} />
+            <ImageThumbnail
+              key={message.received_at}
+              i18n={i18n}
+              message={message}
+            />
           );
         case 'documents':
           return (
             <DocumentListEntry
-              key={message.id}
+              key={message.received_at}
               i18n={i18n}
               fileSize={firstAttachment.size}
               fileName={firstAttachment.fileName}
