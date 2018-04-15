@@ -46,7 +46,6 @@ export class AttachmentListSection extends React.Component<Props, {}> {
           return (
             <ImageThumbnail
               key={message.received_at}
-              i18n={i18n}
               message={message}
             />
           );

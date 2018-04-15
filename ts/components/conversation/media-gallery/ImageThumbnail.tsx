@@ -6,9 +6,9 @@ import React from 'react';
 import { LoadingIndicator } from './LoadingIndicator';
 import { Message } from './propTypes/Message';
 
+
 interface Props {
   message: Message;
-  i18n: (value: string) => string;
 }
 
 const size = {
@@ -30,7 +30,7 @@ const styles = {
 
 export class ImageThumbnail extends React.Component<Props, {}> {
   public renderContent() {
-    const { /* i18n, */ message } = this.props;
+    const { message } = this.props;
 
     if (!message.objectURL) {
       return <LoadingIndicator />;
