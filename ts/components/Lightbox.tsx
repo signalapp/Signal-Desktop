@@ -39,7 +39,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     marginLeft: 10,
-  } as React.CSSProperties
+  } as React.CSSProperties,
 };
 
 interface IconButtonProps {
@@ -47,11 +47,7 @@ interface IconButtonProps {
   onClick?: () => void;
 }
 const IconButton = ({ onClick, type }: IconButtonProps) => (
-  <a
-    href="#"
-    onClick={onClick}
-    className={classNames('iconButton', type)}
-  />
+  <a href="#" onClick={onClick} className={classNames('iconButton', type)} />
 );
 
 export class Lightbox extends React.Component<Props, {}> {
@@ -70,7 +66,7 @@ export class Lightbox extends React.Component<Props, {}> {
     return (
       <div style={styles.container}>
         <div style={styles.objectContainer}>
-          {<img style={styles.image} src={imageURL} />}
+          <img style={styles.image} src={imageURL} />
         </div>
         <div style={styles.controls}>
           <IconButton type="close" onClick={this.props.close} />
@@ -86,5 +82,5 @@ export class Lightbox extends React.Component<Props, {}> {
     }
 
     this.props.close();
-  }
+  };
 }
