@@ -151,7 +151,7 @@ exports._mapAttachments = upgradeAttachment => async (message, context) => {
 
 //      _mapQuotedAttachments :: (QuotedAttachment -> Promise QuotedAttachment) ->
 //                               (Message, Context) ->
-//
+//                               Promise Message
 exports._mapQuotedAttachments = upgradeAttachment => async (message, context) => {
   if (!message.quote) {
     return message;
