@@ -1069,7 +1069,7 @@
       return messages.reduce((acc, message) => {
         const { source, sent_at: sentAt } = message.attributes;
 
-        // Checking for notification messages without a sender
+        // Checking for notification messages (safety number change, timer change)
         if (!source && message.isIncoming()) {
           return acc;
         }
@@ -1112,19 +1112,27 @@
       }
 
       const queryFirst = queryAttachments[0];
-      queryMessage.attachments[0] = await loadAttachmentData(queryFirst);
+      try {
+        queryMessage.attachments[0] = await loadAttachmentData(queryFirst);
 
-      // Note: it would be nice to take the full-size image and downsample it into
-      //   a true thumbnail here.
-      queryMessage.updateImageUrl();
+        // Note: it would be nice to take the full-size image and downsample it into
+        //   a true thumbnail here.
+        queryMessage.updateImageUrl();
 
-      // We need to differentiate between messages we load from database and those already
-      //   in memory. More cleanup needs to happen on messages from the database because
-      //   they aren't tracked any other way.
-      // eslint-disable-next-line no-param-reassign
-      message.quotedMessageFromDatabase = queryMessage;
+        // We need to differentiate between messages we load from database and those
+        //   already in memory. More cleanup needs to happen on messages from the database
+        //   because they aren't tracked any other way.
+        // eslint-disable-next-line no-param-reassign
+        message.quotedMessageFromDatabase = queryMessage;
 
-      return true;
+        return true;
+      } catch (error) {
+        console.log(
+          'Problem loading attachment data for quoted message from database',
+          error && error.stack ? error.stack : error
+        );
+        return false;
+      }
     },
     async loadQuotedMessage(message, quotedMessage) {
       // eslint-disable-next-line no-param-reassign
@@ -1145,13 +1153,20 @@
         return;
       }
 
-      const queryFirst = quotedAttachments[0];
-      // eslint-disable-next-line no-param-reassign
-      quotedMessage.attributes.attachments[0] = await loadAttachmentData(queryFirst);
+      try {
+        const queryFirst = quotedAttachments[0];
+        // eslint-disable-next-line no-param-reassign
+        quotedMessage.attributes.attachments[0] = await loadAttachmentData(queryFirst);
 
-      // Note: it would be nice to take the full-size image and downsample it into
-      //   a true thumbnail here.
-      quotedMessage.updateImageUrl();
+        // Note: it would be nice to take the full-size image and downsample it into
+        //   a true thumbnail here.
+        quotedMessage.updateImageUrl();
+      } catch (error) {
+        console.log(
+          'Problem loading attachment data for quoted message',
+          error && error.stack ? error.stack : error
+        );
+      }
     },
     async loadQuoteThumbnail(message) {
       const { quote } = message.attributes;
