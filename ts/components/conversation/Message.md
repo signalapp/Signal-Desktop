@@ -120,6 +120,125 @@ const View = Whisper.MessageView;
 </util.ConversationContext>
 ```
 
+#### Image with portrait aspect ratio
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  sent_at: Date.now() - 18000000,
+  attachments: [{
+    data: util.portraitYellow,
+    fileName: 'portraitYellow.png',
+    contentType: 'image/png',
+  }],
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550003',
+  type: 'incoming',
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+
+#### Image with portrait aspect ratio and caption
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: 'This is an odd yellow bar. Cool, huh?',
+  sent_at: Date.now() - 18000000,
+  attachments: [{
+    data: util.portraitYellow,
+    fileName: 'portraitYellow.png',
+    contentType: 'image/png',
+  }],
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550003',
+  type: 'incoming',
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+#### Image with landscape aspect ratio
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  sent_at: Date.now() - 18000000,
+  attachments: [{
+    data: util.landscapePurple,
+    fileName: 'landscapePurple.jpg',
+    contentType: 'image/jpeg',
+  }],
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550003',
+  type: 'incoming',
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+#### Image with landscape aspect ratio and caption
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: "An interesting horizontal bar. It's art.",
+  sent_at: Date.now() - 18000000,
+  attachments: [{
+    data: util.landscapePurple,
+    fileName: 'landscapePurple.jpg',
+    contentType: 'image/jpeg',
+  }],
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550003',
+  type: 'incoming',
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
 #### Video with caption
 
 ```jsx

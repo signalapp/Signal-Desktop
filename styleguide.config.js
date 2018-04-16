@@ -163,7 +163,7 @@ module.exports = {
         },
         {
           // To test handling of attachments, we need arraybuffers in memory
-          test: /\.(gif|mp3|mp4|txt)$/,
+          test: /\.(gif|mp3|mp4|txt|jpg|jpeg|png)$/,
           loader: 'arraybuffer-loader',
         },
       ],

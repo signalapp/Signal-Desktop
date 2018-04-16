@@ -41,6 +41,23 @@ const txtObjectUrl = makeObjectUrl(txt, 'text/plain');
 import mp4 from '../../fixtures/pixabay-Soap-Bubble-7141.mp4';
 const mp4ObjectUrl = makeObjectUrl(mp4, 'video/mp4');
 
+// @ts-ignore
+import landscapeGreen from '../../fixtures/1000x50-green.jpeg';
+const landscapeGreenObjectUrl = makeObjectUrl(landscapeGreen, 'image/jpeg');
+// @ts-ignore
+import landscapePurple from '../../fixtures/200x50-purple.png';
+const landscapePurpleObjectUrl = makeObjectUrl(landscapePurple, 'image/png');
+// @ts-ignore
+import portraitYellow from '../../fixtures/20x200-yellow.png';
+const portraitYellowObjectUrl = makeObjectUrl(portraitYellow, 'image/png');
+// @ts-ignore
+import landscapeRed from '../../fixtures/300x1-red.jpeg';
+const landscapeRedObjectUrl = makeObjectUrl(landscapeRed, 'image/png');
+// @ts-ignore
+import portraitTeal from '../../fixtures/50x1000-teal.jpeg';
+const portraitTealObjectUrl = makeObjectUrl(portraitTeal, 'image/png');
+
+
 function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
   const blob = new Blob([data], {
     type: contentType,
@@ -59,6 +76,16 @@ export {
   mp4ObjectUrl,
   txt,
   txtObjectUrl,
+  landscapeGreen,
+  landscapeGreenObjectUrl,
+  landscapePurple,
+  landscapePurpleObjectUrl,
+  portraitYellow,
+  portraitYellowObjectUrl,
+  landscapeRed,
+  landscapeRedObjectUrl,
+  portraitTeal,
+  portraitTealObjectUrl,
   ourNumber,
 };
 
