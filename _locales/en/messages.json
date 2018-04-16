@@ -437,7 +437,7 @@
       "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "replyingTo": {
-      "message": "Replying to $name`$",
+      "message": "Replying to $name$",
       "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
       "placeholders": {
         "name": {
