@@ -106,13 +106,158 @@ $ios-border-color: rgba(0,0,0,0.1);
     padding: 10px;
   }
 
+  .message-container,
+  .message-list {
+    .quote {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+
+      // Not ideal, but necessary to override the specificity of the android theme color
+      //   classes used in conversations.scss
+      background-color: white !important;
+      border: 1px solid $grey_l1_5 !important;
+      border-bottom: none !important;
+
+      margin-top: 0px !important;
+      margin-bottom: 0px;
+      margin-left: 0px;
+      margin-right: 0px;
+
+      .primary {
+        padding: 10px;
+
+        .text,
+        .filename-label,
+        .type-label {
+          border-left: 2px solid $grey_l1;
+          padding: 5px;
+          padding-left: 7px;
+          // Without this smaller bottom padding, text beyond four lines still shows up!
+          padding-bottom: 2px;
+          color: black;
+        }
+
+        .author {
+          display: none;
+        }
+
+        .ios-label {
+          display: block;
+          color: $grey_l1;
+          font-size: smaller;
+          margin-bottom: 3px;
+        }
+      }
+
+      .icon-container {
+        height: 61px;
+        width: 61px;
+        min-width: 61px;
+
+        .circle-background {
+          left: 12px;
+          right: 12px;
+          top: 12px;
+          bottom: 12px;
+
+          background-color: $blue !important;
+        }
+
+        .icon {
+          left: 18px;
+          right: 18px;
+          top: 18px;
+          bottom: 18px;
+
+          background-color: white !important;
+        }
+
+        .inner {
+          padding: 12px;
+          height: 61px;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .from-me {
+        .primary {
+          .text,
+          .filename-label,
+          .type-label {
+            border-left: 2px solid $blue;
+          }
+        }
+      }
+    }
+
+    .incoming {
+      .bubble {
+        .quote {
+          border-left: none;
+          border: none !important;
+          border-bottom: 1px solid lightgray !important;
+        }
+      }
+    }
+
+    .bubble {
+      .quote.from-me {
+        .primary {
+          .text,
+          .filename-label,
+          .type-label {
+            border-left: 2px solid $blue;
+          }
+        }
+      }
+    }
+
+    .outgoing .bubble .quote,
+    .private .message-list .incoming .bubble .quote {
+      margin-top: 0px;
+    }
+
+    .outgoing .bubble .quote .icon-container .circle-background {
+      background-color: lightgray !important;
+    }
+  }
 
   .attachments .bubbled {
     border-radius: 15px;
-    margin-bottom: 0.25em;
 
     padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 5px;
 
+    video, audio {
+      margin-bottom: 5px;
+    }
+
+    position: relative;
+  }
+
+  .tail-wrapper {
+    margin-bottom: 5px;
+  }
+  .inner-bubble {
+    border-radius: 15px;
+    overflow: hidden;
+
+    .body {
+      margin-top: 0;
+      display: inline-block;
+      padding: 10px;
+      position: relative;
+      word-break: break-word;
+    }
+  }
+
+  .tail-wrapper.with-tail {
     position: relative;
 
     &:before, &:after {
@@ -137,53 +282,29 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
 
-  .bubble {
-    .content {
-      margin-bottom: 5px;
-      .body {
-        display: inline-block;
-        padding: 10px;
-        position: relative;
-        word-break: break-word;
+  .meta {
+    clear: both;
+  }
 
-        &:before, &:after {
-          content: '';
-          display: block;
-          border-radius: 20px;
-          position: absolute;
-          width: 10px;
-        }
-        &:before {
-          right: -1px;
-          bottom: -3px;
-          height: 10px;
-          border-radius: 20px;
-          background: $blue;
-        }
-        &:after {
-          height: 11px;
-          right: -6px;
-          bottom: -3px;
-          background: #eee;
-        }
+  .outgoing .with-tail.tail-wrapper {
+    float: right;
+
+    .inner-bubble {
+      .attachments {
+        background-color: $blue;
       }
-    }
-    .content, .attachments img {
-      border-radius: 15px;
-    }
-    .attachments img {
-      background-color: white;
-    }
-    .meta {
-      clear: both;
+      .content {
+        background-color: $blue;
+      }
+      max-width: 100%;
+      &, .body, a {
+        @include invert-text-color;
+      }
     }
   }
 
-  .incoming .bubbled {
-    background-color: white;
-    color: black;
+  .incoming .with-tail.tail-wrapper {
     float: left;
-    max-width: 100%;
 
     &:before {
       left: -1px;
@@ -192,30 +313,11 @@ $ios-border-color: rgba(0,0,0,0.1);
     &:after {
       left: -6px;
     }
-  }
 
-  .incoming .content {
-    background-color: white;
-    color: black;
-    float: left;
-    .body {
-      &:before {
-        left: -1px;
-        background-color: white;
-      }
-      &:after {
-        left: -6px;
-      }
-    }
-  }
-  .outgoing {
-    .content, .attachments .bubbled {
-      background-color: $blue;
+    .inner-bubble {
+      background-color: white;
+      color: black;
       max-width: 100%;
-      &, .body, a {
-        @include invert-text-color;
-      }
-      float: right;
     }
   }
 
@@ -236,7 +338,6 @@ $ios-border-color: rgba(0,0,0,0.1);
     a {
       border-radius: 15px;
     }
-    margin-bottom: 1px;
   }
   .hourglass {
     @include hourglass(#999);

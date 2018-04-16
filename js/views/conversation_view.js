@@ -114,6 +114,7 @@
             this.listenTo(this.model, 'expired', this.onExpired);
             this.listenTo(this.model, 'prune', this.onPrune);
             this.listenTo(this.model.messageCollection, 'expired', this.onExpiredCollection);
+            this.listenTo(this.model.messageCollection, 'scroll-to-message', this.scrollToMessage);
 
             this.lazyUpdateVerified = _.debounce(
                 this.model.updateVerified.bind(this.model),
@@ -191,7 +192,7 @@
             'click' : 'onClick',
             'click .bottom-bar': 'focusMessageField',
             'click .back': 'resetPanel',
-            'click .microphone': 'captureAudio',
+            'click .capture-audio .microphone': 'captureAudio',
             'click .disappearing-messages': 'enableDisappearingMessages',
             'click .scroll-down-button-view': 'scrollToBottom',
             'click button.emoji': 'toggleEmojiPanel',
@@ -529,6 +530,21 @@
             }
         },
 
+        scrollToMessage: function(options = {}) {
+            const { id } = options;
+
+            if (!id) {
+                return;
+            }
+
+            const el = this.$(`#${id}`);
+            if (!el || el.length === 0) {
+                return;
+            }
+
+            el[0].scrollIntoView();
+        },
+
         scrollToBottom: function() {
             // If we're above the last seen indicator, we should scroll there instead
             // Note: if we don't end up at the bottom of the conversation, button will not go away!
@@ -669,7 +685,7 @@
             // This is debounced, so it won't hit the database too often.
             this.lazyUpdateVerified();
 
-            this.model.messageCollection.add(message, {merge: true});
+            this.model.addSingleMessage(message);
             message.setToExpire();
 
             if (message.isOutgoing()) {

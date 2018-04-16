@@ -32,10 +32,15 @@ window.Whisper.View.Templates = {
             <span class='profileName'>{{ profileName }} </span>
           {{ /profileName }}
         </div>
-        <div class='attachments'></div>
-        <p class='content' dir='auto'>
-          {{ #message }}<span class='body'>{{ message }}</span>{{ /message }}
-        </p>
+        <div class='tail-wrapper {{ innerBubbleClasses }}'>
+          <div class='inner-bubble'>
+            <div class='quote-wrapper'></div>
+            <div class='attachments'></div>
+            <div class='content' dir='auto'>
+              {{ #message }}<div class='body'>{{ message }}</div>{{ /message }}
+            </div>
+          </div>
+        </div>
         <div class='meta'>
           <span class='timestamp' data-timestamp={{ timestamp }}></span>
           <span class='status hide'></span>
@@ -48,5 +53,14 @@ window.Whisper.View.Templates = {
   `,
   expirationTimerUpdate: `
     <span class='content'><span class='icon clock'></span> {{ content }}</span>
+  `,
+  'file-view': `
+    <div class='icon {{ mediaType }}'></div>
+    <div class='text'>
+      <div class='fileName' title='{{ altText }}'>
+        {{ fileName }}
+      </div>
+      <div class='fileSize'>{{ fileSize }}</div>
+    </div>
   `,
 };

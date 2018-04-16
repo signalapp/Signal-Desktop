@@ -161,7 +161,11 @@ window.Signal.Debug = require('./js/modules/debug');
 window.Signal.HTML = require('./ts/html');
 window.Signal.Logs = require('./js/modules/logs');
 
-window.Signal.Components = {};
+const { Quote } = require('./ts/components/conversation/Quote');
+
+window.Signal.Components = {
+  Quote,
+};
 
 window.Signal.Migrations = {};
 window.Signal.Migrations.deleteAttachmentData =
