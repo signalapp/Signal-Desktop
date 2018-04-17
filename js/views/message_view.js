@@ -4,7 +4,6 @@
 /* global _: false */
 /* global emoji_util: false */
 /* global Mustache: false */
-/* global ConversationController: false */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -217,6 +216,7 @@
       'click .status': 'select',
       'click .some-failed': 'select',
       'click .error-message': 'select',
+      'click .hover-icon-container': 'onReply',
     },
     retryMessage() {
       const retrys = _.filter(
@@ -226,6 +226,10 @@
       _.map(retrys, 'number').forEach((number) => {
         this.model.resend(number);
       });
+    },
+    onReply() {
+      console.log('onReply');
+      this.model.trigger('reply', this.model);
     },
     onExpired() {
       this.$el.addClass('expired');
@@ -366,75 +370,13 @@
       this.timerView.setElement(this.$('.timer'));
       this.timerView.update();
     },
-    getQuoteObjectUrl() {
-      const fromDB = this.model.quotedMessageFromDatabase;
-      if (fromDB && fromDB.imageUrl) {
-        return fromDB.imageUrl;
-      }
-
-      const inMemory = this.model.quotedMessage;
-      if (inMemory && inMemory.imageUrl) {
-        return inMemory.imageUrl;
-      }
-
-      const thumbnail = this.model.quoteThumbnail;
-      if (thumbnail && thumbnail.objectUrl) {
-        return thumbnail.objectUrl;
-      }
-
-      return null;
-    },
     renderQuote() {
-      const quote = this.model.get('quote');
-      if (!quote) {
+      const props = this.model.getPropsForQuote();
+      if (!props) {
         return;
       }
 
-      const VOICE_FLAG = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
-      const objectUrl = this.getQuoteObjectUrl();
-
-
-      function processAttachment(attachment) {
-        const thumbnail = !objectUrl
-          ? null
-          : Object.assign({}, attachment.thumbnail || {}, {
-            objectUrl,
-          });
-
-        return Object.assign({}, attachment, {
-          // eslint-disable-next-line no-bitwise
-          isVoiceMessage: Boolean(attachment.flags & VOICE_FLAG),
-          thumbnail,
-        });
-      }
-
-      const OUR_NUMBER = textsecure.storage.user.getNumber();
-      const { author } = quote;
-      const contact = ConversationController.get(author);
-
-      const authorTitle = contact ? contact.getTitle() : author;
-      const authorProfileName = contact ? contact.getProfileName() : null;
-      const authorColor = contact ? contact.getColor() : 'grey';
-      const isFromMe = contact ? contact.id === OUR_NUMBER : false;
-      const isIncoming = this.model.isIncoming();
-      const onClick = () => {
-        const { quotedMessage } = this.model;
-        if (quotedMessage) {
-          this.model.trigger('scroll-to-message', { id: quotedMessage.id });
-        }
-      };
-
-      const props = {
-        attachments: (quote.attachments || []).map(processAttachment),
-        authorColor,
-        authorProfileName,
-        authorTitle,
-        isFromMe,
-        isIncoming,
-        onClick: this.model.quotedMessage ? onClick : null,
-        text: quote.text,
-      };
-
+      const contact = this.model.getQuoteContact();
       if (this.replyView) {
         this.replyView.remove();
         this.replyView = null;

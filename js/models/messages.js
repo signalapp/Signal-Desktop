@@ -31,6 +31,8 @@
       this.on('change:expireTimer', this.setToExpire);
       this.on('unload', this.unload);
       this.setToExpire();
+
+      this.VOICE_FLAG = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get('sent_at')}`;
@@ -199,6 +201,84 @@
         this.updateImageUrl();
       }
       return this.imageUrl;
+    },
+    getQuoteObjectUrl() {
+      const fromDB = this.quotedMessageFromDatabase;
+      if (fromDB && fromDB.imageUrl) {
+        return fromDB.imageUrl;
+      }
+
+      const inMemory = this.quotedMessage;
+      if (inMemory && inMemory.imageUrl) {
+        return inMemory.imageUrl;
+      }
+
+      const thumbnail = this.quoteThumbnail;
+      if (thumbnail && thumbnail.objectUrl) {
+        return thumbnail.objectUrl;
+      }
+
+      return null;
+    },
+    getQuoteContact() {
+      const quote = this.get('quote');
+      if (!quote) {
+        return null;
+      }
+      const { author } = quote;
+      if (!author) {
+        return null;
+      }
+
+      return ConversationController.get(author);
+    },
+    processAttachment(attachment, objectUrl) {
+      const thumbnail = !objectUrl
+        ? null
+        : Object.assign({}, attachment.thumbnail || {}, {
+          objectUrl,
+        });
+
+      return Object.assign({}, attachment, {
+        // eslint-disable-next-line no-bitwise
+        isVoiceMessage: Boolean(attachment.flags & this.VOICE_FLAG),
+        thumbnail,
+      });
+    },
+    getPropsForQuote() {
+      const quote = this.get('quote');
+      if (!quote) {
+        return null;
+      }
+
+      const objectUrl = this.getQuoteObjectUrl();
+      const OUR_NUMBER = textsecure.storage.user.getNumber();
+      const { author } = quote;
+      const contact = this.getQuoteContact();
+
+      const authorTitle = contact ? contact.getTitle() : author;
+      const authorProfileName = contact ? contact.getProfileName() : null;
+      const authorColor = contact ? contact.getColor() : 'grey';
+      const isFromMe = contact ? contact.id === OUR_NUMBER : false;
+      const isIncoming = this.isIncoming();
+      const onClick = () => {
+        const { quotedMessage } = this;
+        if (quotedMessage) {
+          this.trigger('scroll-to-message', { id: quotedMessage.id });
+        }
+      };
+
+      return {
+        attachments: (quote.attachments || []).map(attachment =>
+          this.processAttachment(attachment, objectUrl)),
+        authorColor,
+        authorProfileName,
+        authorTitle,
+        isFromMe,
+        isIncoming,
+        onClick: this.quotedMessage ? onClick : null,
+        text: quote.text,
+      };
     },
     getConversation() {
       // This needs to be an unsafe call, because this method is called during

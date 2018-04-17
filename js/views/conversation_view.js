@@ -130,6 +130,7 @@
         'scroll-to-message',
         this.scrollToMessage
       );
+      this.listenTo(this.model.messageCollection, 'reply', this.setReplyMessage);
 
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
@@ -336,7 +337,6 @@
         return null;
       }));
     },
-
 
     markAllAsApproved(untrusted) {
       return Promise.all(untrusted.map(contact => contact.setApproved()));
@@ -1061,6 +1061,12 @@
       }
       this.focusMessageField();
     },
+
+    setMessageReply(message) {
+      this.quotedMessage = message;
+      console.log('setMessageReply', this.quotedMessage);
+    },
+
     async sendMessage(e) {
       this.removeLastSeenIndicator();
       this.closeEmojiPanel();
