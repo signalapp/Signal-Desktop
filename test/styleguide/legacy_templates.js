@@ -24,29 +24,34 @@ window.Whisper.View.Templates = {
     </span>
   `,
   message: `
-    {{> avatar }}
-    <div class='bubble {{ avatar.color }}'>
-        <div class='sender' dir='auto'>
-          {{ sender }}
-          {{ #profileName }}
-            <span class='profileName'>{{ profileName }} </span>
-          {{ /profileName }}
-        </div>
-        <div class='tail-wrapper {{ innerBubbleClasses }}'>
-          <div class='inner-bubble'>
-            <div class='quote-wrapper'></div>
-            <div class='attachments'></div>
-            <div class='content' dir='auto'>
-              {{ #message }}<div class='body'>{{ message }}</div>{{ /message }}
+      {{> avatar }}
+      <div class='bubble {{ avatar.color }}'>
+          <div class='sender' dir='auto'>
+            {{ sender }}
+            {{ #profileName }}
+              <span class='profileName'>{{ profileName }} </span>
+            {{ /profileName }}
+          </div>
+          <div class='tail-wrapper {{ innerBubbleClasses }}'>
+            <div class='inner-bubble'>
+              <div class='quote-wrapper'></div>
+              <div class='attachments'></div>
+              <div class='content' dir='auto'>
+                {{ #message }}<div class='body'>{{ message }}</div>{{ /message }}
+              </div>
             </div>
           </div>
-        </div>
-        <div class='meta'>
-          <span class='timestamp' data-timestamp={{ timestamp }}></span>
-          <span class='status hide'></span>
-          <span class='timer'></span>
-        </div>
-    </div>
+          <div class='meta'>
+            <span class='timestamp' data-timestamp={{ timestamp }}></span>
+            <span class='status hide'></span>
+            <span class='timer'></span>
+          </div>
+          {{ #hoverIcon }}
+            <div class='hover-icon-container'>
+              <span class='dots-horizontal-icon'></span>
+            </div>
+          {{ /hoverIcon }}
+      </div>
   `,
   hourglass: `
     <span class='hourglass'><span class='sand'></span></span>

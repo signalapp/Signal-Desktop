@@ -468,6 +468,9 @@
     },
     render() {
       const contact = this.model.isIncoming() ? this.model.getContact() : null;
+      const errors = this.model.get('errors');
+      const hasErrors = errors && errors.length > 0;
+
       this.$el.html(Mustache.render(_.result(this, 'template', ''), {
         message: this.model.get('body'),
         timestamp: this.model.get('sent_at'),
@@ -475,6 +478,7 @@
         avatar: (contact && contact.getAvatar()),
         profileName: (contact && contact.getProfileName()),
         innerBubbleClasses: this.isImageWithoutCaption() ? '' : 'with-tail',
+        hoverIcon: !hasErrors,
       }, this.render_partials()));
       this.timeStampView.setElement(this.$('.timestamp'));
       this.timeStampView.update();

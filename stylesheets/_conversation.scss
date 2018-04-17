@@ -353,6 +353,25 @@ li.entry .error-icon-container {
 
   &:hover .error-message { display: inline-block; }
 }
+li.entry .hover-icon-container {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 5px);
+  height: 100%;
+
+  visibility: hidden;
+
+  .dots-horizontal-icon {
+    display: block;
+    height: 100%;
+  }
+
+  cursor: pointer;
+}
+
+li.entry:hover .hover-icon-container {
+  visibility: visible;
+}
 
 .error-icon {
   display: inline-block;
@@ -360,6 +379,18 @@ li.entry .error-icon-container {
   height: $error-icon-size;
   position: relative;
   @include color-svg('../images/warning.svg', red);
+}
+
+.dots-horizontal-icon {
+  display: inline-block;
+  width: $error-icon-size;
+  height: $error-icon-size;
+  position: relative;
+  @include color-svg('../images/dots-horizontal.svg', gray);
+
+  &:hover {
+    @include color-svg('../images/dots-horizontal.svg', black);
+  }
 }
 
 .group {
@@ -664,6 +695,10 @@ span.status {
       float: right;
     }
     .error-icon-container {
+      left: auto;
+      right: calc(100% + 5px);
+    }
+    .hover-icon-container {
       left: auto;
       right: calc(100% + 5px);
     }
