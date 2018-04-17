@@ -34,11 +34,16 @@ window.Whisper.View.Templates = {
           </div>
           <div class='tail-wrapper {{ innerBubbleClasses }}'>
             <div class='inner-bubble'>
-              <div class='quote-wrapper'></div>
-              <div class='attachments'></div>
-              <div class='content' dir='auto'>
-                {{ #message }}<div class='body'>{{ message }}</div>{{ /message }}
-              </div>
+              {{ #hasAttachments }}
+                <div class='attachments'></div>
+              {{ /hasAttachments }}
+              {{ #hasBody }}
+                <div class='content' dir='auto'>
+                  {{ #message }}
+                    <div class='body'>{{ message }}</div>
+                  {{ /message }}
+                </div>
+                {{ /hasBody }}
             </div>
           </div>
           <div class='meta'>

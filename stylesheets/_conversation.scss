@@ -622,12 +622,18 @@ span.status {
     }
 
     .body {
-      margin-top: 0.5em;
       white-space: pre-wrap;
 
       a {
         word-break: break-all
       }
+    }
+
+    .attachments + .content {
+      margin-top: 0.5em;
+    }
+    .quote-wrapper + .content {
+      margin-top: 0.5em;
     }
 
     p {

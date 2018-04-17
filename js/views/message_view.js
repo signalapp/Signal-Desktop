@@ -316,7 +316,6 @@
     renderErrors() {
       const errors = this.model.get('errors');
 
-
       this.$('.error-icon-container').remove();
       if (this.errorIconView) {
         this.errorIconView.remove();
@@ -437,16 +436,18 @@
       };
 
       if (this.replyView) {
+        this.replyView.remove();
         this.replyView = null;
       } else if (contact) {
         this.listenTo(contact, 'change:color', this.renderQuote);
       }
 
       this.replyView = new Whisper.ReactWrapperView({
-        el: this.$('.quote-wrapper'),
+        className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
         props,
       });
+      this.$('.inner-bubble').prepend(this.replyView.el);
     },
     isImageWithoutCaption() {
       const attachments = this.model.get('attachments');
@@ -469,16 +470,23 @@
     render() {
       const contact = this.model.isIncoming() ? this.model.getContact() : null;
       const errors = this.model.get('errors');
+      const attachments = this.model.get('attachments');
+
       const hasErrors = errors && errors.length > 0;
+      const hasAttachments = attachments && attachments.length > 0;
+      const message = this.model.get('body');
+      const hasBody = message || (this.model.isIncoming() && hasErrors);
 
       this.$el.html(Mustache.render(_.result(this, 'template', ''), {
-        message: this.model.get('body'),
+        message,
+        hasBody,
         timestamp: this.model.get('sent_at'),
         sender: (contact && contact.getTitle()) || '',
         avatar: (contact && contact.getAvatar()),
         profileName: (contact && contact.getProfileName()),
         innerBubbleClasses: this.isImageWithoutCaption() ? '' : 'with-tail',
         hoverIcon: !hasErrors,
+        hasAttachments,
       }, this.render_partials()));
       this.timeStampView.setElement(this.$('.timestamp'));
       this.timeStampView.update();

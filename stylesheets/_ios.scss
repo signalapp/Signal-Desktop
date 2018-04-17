@@ -108,6 +108,10 @@ $ios-border-color: rgba(0,0,0,0.1);
 
   .message-container,
   .message-list {
+    .bubble .content {
+      margin-top: 0px;
+    }
+
     .quote {
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;

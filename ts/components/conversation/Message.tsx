@@ -15,7 +15,6 @@ export class Message extends React.Component<{}, {}> {
           <div className="sender" dir="auto" />
           <div className="tail-wrapper with-tail">
             <div className="inner-bubble">
-              <div className="attachments" />
               <p className="content" dir="auto">
                 <span className="body">
                   Hi there. How are you doing? Feeling pretty good? Awesome.
