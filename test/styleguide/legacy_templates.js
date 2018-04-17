@@ -63,4 +63,11 @@ window.Whisper.View.Templates = {
       <div class='fileSize'>{{ fileSize }}</div>
     </div>
   `,
+  'error-icon': `
+    <span class='error-icon'>
+    </span>
+    {{ #message }}
+      <span class='error-message'>{{message}}</span>
+    {{ /message }}
+  `,
 };

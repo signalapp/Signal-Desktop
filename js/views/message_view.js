@@ -45,8 +45,10 @@
     tagName: 'span',
     className: 'some-failed',
     templateName: 'some-failed',
-    render_attributes: {
-      someFailed: i18n('someRecipientsFailed'),
+    render_attributes() {
+      return {
+        someFailed: i18n('someRecipientsFailed'),
+      };
     },
   });
   const TimerView = Whisper.View.extend({

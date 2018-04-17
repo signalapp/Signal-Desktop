@@ -66,6 +66,8 @@ function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
 }
 
 const ourNumber = '+12025559999';
+const groupNumber = '+12025550099';
+
 
 export {
   mp3,
@@ -87,6 +89,7 @@ export {
   portraitTeal,
   portraitTealObjectUrl,
   ourNumber,
+  groupNumber,
 };
 
 
@@ -180,10 +183,22 @@ const me = parent.ConversationController.dangerouslyCreateAndAdd({
   color: 'light_blue',
 });
 
+const group = parent.ConversationController.dangerouslyCreateAndAdd({
+  id: groupNumber,
+  name: 'A place for sharing cats',
+  type: 'group',
+});
+
+group.contactCollection.add(me);
+group.contactCollection.add(CONTACTS[0]);
+group.contactCollection.add(CONTACTS[1]);
+group.contactCollection.add(CONTACTS[2]);
+
 export {
   COLORS,
   CONTACTS,
   me,
+  group,
 };
 
 parent.textsecure.storage.user.getNumber = () => ourNumber;

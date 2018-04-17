@@ -207,12 +207,12 @@
       return ConversationController.getUnsafe(this.get('conversationId'));
     },
     getExpirationTimerUpdateSource() {
-      if (this.isExpirationTimerUpdate()) {
-        const conversationId = this.get('expirationTimerUpdate').source;
-        return ConversationController.getOrCreate(conversationId, 'private');
+      if (!this.isExpirationTimerUpdate()) {
+        throw new Error('Message is not a timer update!');
       }
 
-      return Promise.resolve();
+      const conversationId = this.get('expirationTimerUpdate').source;
+      return ConversationController.getOrCreate(conversationId, 'private');
     },
     getContact() {
       let conversationId = this.get('source');
