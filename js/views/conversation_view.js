@@ -1118,7 +1118,12 @@
         Component: window.Signal.Components.Quote,
         props,
       });
-      this.$('.bottom-bar').prepend(this.quoteView.el);
+
+      const selector = storage.get('theme-setting') === 'ios'
+        ? '.bottom-bar'
+        : '.send';
+
+      this.$(selector).prepend(this.quoteView.el);
       this.updateMessageFieldSize({});
     },
 

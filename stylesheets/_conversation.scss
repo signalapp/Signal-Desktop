@@ -777,7 +777,11 @@ span.status {
     height: 18px;
     width: 18px;
 
-    @include color-svg('../images/x.svg', white);
+    .close-button {
+      width: 100%;
+      height: 100%;
+      @include color-svg('../images/x.svg', white);
+    }
   }
 
   .icon-container {
@@ -851,13 +855,26 @@ span.status {
   margin: 0px;
 }
 
+// We need to use the wrapper because the conversation view calculates the height of all
+//   things in the composition area. A margin on an inner div won't be included in that
+//   height calculation.
 .bottom-bar .quote-wrapper {
   margin-right: 5px;
   margin-bottom: 5px;
 }
 
+.send .quote-wrapper {
+  margin-left: 46px;
+  margin-top: 5px;
+  margin-right: 75px;
+  margin-bottom: 0px;
+}
+
 .incoming .quoted-message {
   background-color: rgba(white, 0.6);
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
   border-left-color: white;
 }
 

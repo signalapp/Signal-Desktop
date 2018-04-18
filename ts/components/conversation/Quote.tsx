@@ -162,9 +162,8 @@ export class Quote extends React.Component<Props, {}> {
     }
 
     // We need the container to give us the flexibility to implement the iOS design.
-    // We put the onClick on both because the Android theme juse uses close-container
     return (
-      <div className="close-container" onClick={onClose}>
+      <div className="close-container">
         <div className="close-button" onClick={onClose}></div>
       </div>
     );
