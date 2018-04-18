@@ -410,10 +410,6 @@ li.entry:hover .hover-icon-container {
   display: none;
 }
 
-.message-list .outgoing .bubble .quote, .private .message-list .incoming .bubble .quote {
-  margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
-}
-
 .sender {
   font-size: smaller;
   opacity: 0.8;
@@ -470,8 +466,6 @@ span.status {
     }
   }
 
-
-
   .bubble {
     position: relative;
     left: -2px;
@@ -485,140 +479,6 @@ span.status {
 
     @media(max-width: 825px) {
       max-width: calc(100% - 45px - #{$error-icon-size}); // avatar size + padding + error-icon size
-    }
-
-    .quote {
-      @include message-replies-colors;
-      @include twenty-percent-colors;
-
-      &.no-click {
-        cursor: auto;
-      }
-
-      cursor: pointer;
-      display: flex;
-      flex-direction: row;
-      align-items: stretch;
-      overflow: hidden;
-
-      border-radius: 2px;
-      background-color: #eee;
-      position: relative;
-
-      margin-right: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
-      margin-left: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
-      margin-bottom: 0.5em;
-
-      // Accent color border:
-      border-left-width: 3px;
-      border-left-style: solid;
-
-      .primary {
-        flex-grow: 1;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-top: 6px;
-        padding-bottom: 6px;
-
-        // Will turn on in the iOS theme. This extra element is necessary because the iOS
-        //   theme requires text that isn't used at all in the Android Theme
-        .ios-label {
-          display: none;
-        }
-
-        .author {
-          font-weight: bold;
-          margin-bottom: 0.3em;
-          @include text-colors;
-
-          .profile-name {
-            font-size: smaller;
-          }
-        }
-
-        .text {
-          white-space: pre-wrap;
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-
-          // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-          //   ... as the truncation indicator. That's not a solution that works well for
-          //   all languages. More resources:
-          //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-          //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
-        }
-
-        .type-label {
-          font-style: italic;
-          font-size: 12px;
-        }
-
-        .filename-label {
-          font-size: 12px;
-        }
-      }
-
-      .icon-container {
-        flex: initial;
-        min-width: 48px;
-        width: 48px;
-        height: 48px;
-        position: relative;
-
-        .circle-background {
-          position: absolute;
-          left: 6px;
-          right: 6px;
-          top: 6px;
-          bottom: 6px;
-
-          border-radius: 50%;
-          @include avatar-colors;
-          &.white {
-            background-color: white;
-          }
-        }
-
-        .icon {
-          position: absolute;
-          left: 12px;
-          right: 12px;
-          top: 12px;
-          bottom: 12px;
-
-          &.file {
-            @include color-svg('../images/file.svg', white);
-          }
-          &.image {
-            @include color-svg('../images/image.svg', white);
-          }
-          &.microphone {
-            @include color-svg('../images/microphone.svg', white);
-          }
-          &.play {
-            @include color-svg('../images/play.svg', white);
-          }
-
-          @include avatar-colors;
-        }
-
-        .inner {
-          position: relative;
-
-          height: 48px;
-          text-align: center;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          img {
-            max-width: 100%;
-            max-height: 100%;
-          }
-        }
-      }
     }
 
     .body {
@@ -686,13 +546,6 @@ span.status {
   .incoming {
     .avatar, .bubble {
       float: left;
-    }
-
-    .bubble {
-      .quote {
-        background-color: rgba(white, 0.6);
-        border-left-color: white;
-      }
     }
   }
 
@@ -839,6 +692,152 @@ span.status {
     font-style: italic;
   }
 }
+
+.quoted-message {
+  @include message-replies-colors;
+  @include twenty-percent-colors;
+
+  &.no-click {
+    cursor: auto;
+  }
+
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+
+  border-radius: 2px;
+  background-color: #eee;
+  position: relative;
+
+  margin-right: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
+  margin-left: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
+  margin-bottom: 0.5em;
+
+  // Accent color border:
+  border-left-width: 3px;
+  border-left-style: solid;
+
+  .primary {
+    flex-grow: 1;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+
+    // Will turn on in the iOS theme. This extra element is necessary because the iOS
+    //   theme requires text that isn't used at all in the Android Theme
+    .ios-label {
+      display: none;
+    }
+
+    .author {
+      font-weight: bold;
+      margin-bottom: 0.3em;
+      @include text-colors;
+
+      .profile-name {
+        font-size: smaller;
+      }
+    }
+
+    .text {
+      white-space: pre-wrap;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+
+      // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
+      //   ... as the truncation indicator. That's not a solution that works well for
+      //   all languages. More resources:
+      //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+      //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
+    }
+
+    .type-label {
+      font-style: italic;
+      font-size: 12px;
+    }
+
+    .filename-label {
+      font-size: 12px;
+    }
+  }
+
+  .icon-container {
+    flex: initial;
+    min-width: 48px;
+    width: 48px;
+    height: 48px;
+    position: relative;
+
+    .circle-background {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      top: 6px;
+      bottom: 6px;
+
+      border-radius: 50%;
+      @include avatar-colors;
+      &.white {
+        background-color: white;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      top: 12px;
+      bottom: 12px;
+
+      &.file {
+        @include color-svg('../images/file.svg', white);
+      }
+      &.image {
+        @include color-svg('../images/image.svg', white);
+      }
+      &.microphone {
+        @include color-svg('../images/microphone.svg', white);
+      }
+      &.play {
+        @include color-svg('../images/play.svg', white);
+      }
+
+      @include avatar-colors;
+    }
+
+    .inner {
+      position: relative;
+
+      height: 48px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
+}
+
+// We only add margin if there's no 'sender' element beforehand, which is only possible
+//   on incoming messages, and only in groups (when we're not in a .private conversation).
+.outgoing .quoted-message, .private .incoming .quoted-message {
+  margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
+}
+
+.incoming .quoted-message {
+  background-color: rgba(white, 0.6);
+  border-left-color: white;
+}
+
 
 .message-list,
 .message-container {

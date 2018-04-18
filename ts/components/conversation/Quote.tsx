@@ -171,7 +171,7 @@ export class Quote extends React.Component<Props, {}> {
       : null;
     const classes = classnames(
       authorColor,
-      'quote',
+      'quoted-message',
       isFromMe ? 'from-me' : null,
       !onClick ? 'no-click' : null,
     );
