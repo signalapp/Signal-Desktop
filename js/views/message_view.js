@@ -258,8 +258,8 @@
       if (this.timeStampView) {
         this.timeStampView.remove();
       }
-      if (this.replyView) {
-        this.replyView.remove();
+      if (this.quoteView) {
+        this.quoteView.remove();
       }
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
@@ -377,19 +377,19 @@
       }
 
       const contact = this.model.getQuoteContact();
-      if (this.replyView) {
-        this.replyView.remove();
-        this.replyView = null;
+      if (this.quoteView) {
+        this.quoteView.remove();
+        this.quoteView = null;
       } else if (contact) {
         this.listenTo(contact, 'change:color', this.renderQuote);
       }
 
-      this.replyView = new Whisper.ReactWrapperView({
+      this.quoteView = new Whisper.ReactWrapperView({
         className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
         props,
       });
-      this.$('.inner-bubble').prepend(this.replyView.el);
+      this.$('.inner-bubble').prepend(this.quoteView.el);
     },
     isImageWithoutCaption() {
       const attachments = this.model.get('attachments');
