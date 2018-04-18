@@ -228,7 +228,6 @@
       });
     },
     onReply() {
-      console.log('onReply');
       this.model.trigger('reply', this.model);
     },
     onExpired() {
