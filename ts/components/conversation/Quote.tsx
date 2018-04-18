@@ -161,10 +161,17 @@ export class Quote extends React.Component<Props, {}> {
       return null;
     }
 
+    // We don't want the overall click handler for the quote to fire, so we stop
+    //   propagation before handing control to the caller's callback.
+    const onClick = (e: React.MouseEvent<{}>): void => {
+      e.stopPropagation();
+      onClose();
+    };
+
     // We need the container to give us the flexibility to implement the iOS design.
     return (
       <div className="close-container">
-        <div className="close-button" onClick={onClose}></div>
+        <div className="close-button" onClick={onClick}></div>
       </div>
     );
   }

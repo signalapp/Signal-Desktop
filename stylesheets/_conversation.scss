@@ -353,25 +353,45 @@ li.entry .error-icon-container {
 
   &:hover .error-message { display: inline-block; }
 }
-li.entry .hover-icon-container {
+li.entry .menu-container {
   position: absolute;
   top: 0;
   left: calc(100% + 5px);
   height: 100%;
 
-  visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  .dots-horizontal-icon {
-    display: block;
-    height: 100%;
+  .menu-anchor {
+    position: relative;
+  }
+
+  li {
+    margin: 0px;
   }
 
   cursor: pointer;
 }
 
-li.entry:hover .hover-icon-container {
+.dots-horizontal-icon {
+  visibility: hidden;
+}
+
+li.entry:hover .dots-horizontal-icon {
   visibility: visible;
 }
+
+li.entry.outgoing .menu-container {
+  left: auto;
+  right: calc(100% + 5px);
+}
+
+.incoming .menu-list {
+  left: 0;
+  right: auto;
+}
+
 
 .error-icon {
   display: inline-block;
@@ -554,10 +574,6 @@ span.status {
       float: right;
     }
     .error-icon-container {
-      left: auto;
-      right: calc(100% + 5px);
-    }
-    .hover-icon-container {
       left: auto;
       right: calc(100% + 5px);
     }

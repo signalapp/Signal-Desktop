@@ -52,8 +52,13 @@ window.Whisper.View.Templates = {
             <span class='timer'></span>
           </div>
           {{ #hoverIcon }}
-            <div class='hover-icon-container'>
-              <span class='dots-horizontal-icon'></span>
+            <div class='menu-container menu'>
+              <div class='menu-anchor'>
+                <span class='dots-horizontal-icon'></span>
+                <ul class='menu-list'>
+                  <li class='reply'>{{ reply }}</li>
+                </ul>
+              </div>
             </div>
           {{ /hoverIcon }}
       </div>

@@ -4,6 +4,7 @@
 /* global _: false */
 /* global emoji_util: false */
 /* global Mustache: false */
+/* global $: false */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -216,7 +217,8 @@
       'click .status': 'select',
       'click .some-failed': 'select',
       'click .error-message': 'select',
-      'click .hover-icon-container': 'onReply',
+      'click .menu-container': 'showMenu',
+      'click .menu-list .reply': 'onReply',
     },
     retryMessage() {
       const retrys = _.filter(
@@ -226,6 +228,23 @@
       _.map(retrys, 'number').forEach((number) => {
         this.model.resend(number);
       });
+    },
+    showMenu(e) {
+      if (this.menuVisible) {
+        return;
+      }
+
+      this.menuVisible = true;
+      e.stopPropagation();
+
+      this.$('.menu-list').show();
+      $(document).one('click', () => {
+        this.hideMenu();
+      });
+    },
+    hideMenu() {
+      this.menuVisible = false;
+      this.$('.menu-list').hide();
     },
     onReply() {
       this.model.trigger('reply', this.model);
@@ -428,6 +447,7 @@
         innerBubbleClasses: this.isImageWithoutCaption() ? '' : 'with-tail',
         hoverIcon: !hasErrors,
         hasAttachments,
+        reply: i18n('replyToMessage'),
       }, this.render_partials()));
       this.timeStampView.setElement(this.$('.timestamp'));
       this.timeStampView.update();
