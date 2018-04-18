@@ -130,7 +130,7 @@
         'scroll-to-message',
         this.scrollToMessage
       );
-      this.listenTo(this.model.messageCollection, 'reply', this.setReplyMessage);
+      this.listenTo(this.model.messageCollection, 'reply', this.setQuoteMessage);
 
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
@@ -274,6 +274,9 @@
       }
       if (this.scrollDownButton) {
         this.scrollDownButton.remove();
+      }
+      if (this.quoteView) {
+        this.quoteView.remove();
       }
       if (this.panels && this.panels.length) {
         for (let i = 0, max = this.panels.length; i < max; i += 1) {
@@ -1062,9 +1065,66 @@
       this.focusMessageField();
     },
 
-    setMessageReply(message) {
+    setQuoteMessage(message) {
       this.quotedMessage = message;
       console.log('setMessageReply', this.quotedMessage);
+
+      this.renderQuotedMessage();
+    },
+
+    makeQuote(quotedMessage) {
+      const contact = quotedMessage.getContact();
+      const attachments = quotedMessage.get('attachments');
+      const first = attachments ? attachments[0] : null;
+
+      return {
+        author: contact.id,
+        id: quotedMessage.get('sent_at'),
+        text: quotedMessage.get('body'),
+        attachments: !first ? [] : [{
+          contentType: first.contentType,
+          fileName: first.fileName,
+        }],
+      };
+    },
+
+    renderQuotedMessage() {
+      if (this.quoteView) {
+        this.quoteView.remove();
+        this.quoteView = null;
+      }
+      if (!this.quotedMessage) {
+        this.updateMessageFieldSize({});
+        return;
+      }
+
+      const message = new Whisper.Message({
+        quote: this.makeQuote(this.quotedMessage),
+      });
+      console.log('quoted message attributes', message.attributes);
+      message.quotedMessage = this.quotedMessage;
+      const props = Object.assign({}, message.getPropsForQuote(), {
+        onClose: () => {
+          console.log('onClose!');
+          this.setQuoteMessage(null);
+        },
+      });
+
+      this.listenTo(message, 'scroll-to-message', this.scrollToMessage);
+
+      console.log('props', props);
+      const contact = this.quotedMessage.getContact();
+      if (contact) {
+        this.listenTo(contact, 'change:color', this.renderQuotedMesage);
+      }
+
+      this.quoteView = new Whisper.ReactWrapperView({
+        className: 'quote-wrapper',
+        Component: window.Signal.Components.Quote,
+        props,
+      });
+      this.$('.bottom-bar').prepend(this.quoteView.el);
+      this.updateMessageFieldSize({});
     },
 
     async sendMessage(e) {
@@ -1168,9 +1228,15 @@
 
       const $attachmentPreviews = this.$('.attachment-previews');
       const $bottomBar = this.$('.bottom-bar');
+      const includeMargin = true;
+      const quoteHeight = this.quoteView
+        ? this.quoteView.$el.outerHeight(includeMargin)
+        : 0;
+
       const height = this.$messageField.outerHeight() +
         $attachmentPreviews.outerHeight() +
         this.$emojiPanelContainer.outerHeight() +
+        quoteHeight +
         parseInt($bottomBar.css('min-height'), 10);
 
       $bottomBar.outerHeight(height);

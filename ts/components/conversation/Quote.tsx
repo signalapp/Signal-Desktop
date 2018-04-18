@@ -14,6 +14,7 @@ interface Props {
   isFromMe: string;
   isIncoming: boolean;
   onClick?: () => void;
+  onClose?: () => void;
   text: string;
 }
 
@@ -153,6 +154,22 @@ export class Quote extends React.Component<Props, {}> {
     return <div className="ios-label">{label}</div>;
   }
 
+  public renderClose() {
+    const { onClose } = this.props;
+
+    if (!onClose) {
+      return null;
+    }
+
+    // We need the container to give us the flexibility to implement the iOS design.
+    // We put the onClick on both because the Android theme juse uses close-container
+    return (
+      <div className="close-container" onClick={onClose}>
+        <div className="close-button" onClick={onClose}></div>
+      </div>
+    );
+  }
+
   public render() {
     const {
       authorTitle,
@@ -186,6 +203,7 @@ export class Quote extends React.Component<Props, {}> {
           {this.renderText()}
         </div>
         {this.renderIconContainer()}
+        {this.renderClose()}
       </div>
     );
   }

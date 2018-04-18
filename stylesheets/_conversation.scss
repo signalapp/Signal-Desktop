@@ -701,6 +701,7 @@ span.status {
     cursor: auto;
   }
 
+  position: relative;
   cursor: pointer;
   display: flex;
   flex-direction: row;
@@ -718,6 +719,9 @@ span.status {
   // Accent color border:
   border-left-width: 3px;
   border-left-style: solid;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
 
   .primary {
     flex-grow: 1;
@@ -764,6 +768,16 @@ span.status {
     .filename-label {
       font-size: 12px;
     }
+  }
+
+  .close-container {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 18px;
+    width: 18px;
+
+    @include color-svg('../images/x.svg', white);
   }
 
   .icon-container {
@@ -831,6 +845,15 @@ span.status {
 //   on incoming messages, and only in groups (when we're not in a .private conversation).
 .outgoing .quoted-message, .private .incoming .quoted-message {
   margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
+}
+
+.bottom-bar .quoted-message {
+  margin: 0px;
+}
+
+.bottom-bar .quote-wrapper {
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .incoming .quoted-message {

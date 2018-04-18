@@ -114,6 +114,9 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
   .quoted-message {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+
     // Not ideal, but necessary to override the specificity of the android theme color
     //   classes used in conversations.scss
     background-color: white !important;
@@ -184,6 +187,28 @@ $ios-border-color: rgba(0,0,0,0.1);
       }
     }
 
+    .close-container {
+      flex: initial;
+      min-width: 32px;
+      width: 32px;
+      height: 48px;
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      -webkit-mask: none;
+      background: none;
+
+      .close-button {
+        height: 20px;
+        width: 20px;
+
+        @include color-svg('../images/close-circle.svg', $grey_l4);
+      }
+    }
+
     .from-me {
       .primary {
         .text,
@@ -216,6 +241,56 @@ $ios-border-color: rgba(0,0,0,0.1);
 
   .outgoing .quoted-message .icon-container .circle-background {
     background-color: lightgray !important;
+  }
+
+  .bottom-bar {
+    .quote-wrapper {
+      margin-right: 0px;
+      margin-bottom: 15px;
+    }
+
+    .quoted-message {
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+
+      background: none !important;
+      border: none !important;
+
+      .primary {
+        padding: 0px;
+
+        .ios-label {
+          color: $grey_l4;
+        }
+      }
+
+      .icon-container {
+        height: 48px;
+        width: 48px;
+        min-width: 48px;
+
+        .circle-background {
+          left: 6px;
+          right: 6px;
+          top: 6px;
+          bottom: 6px;
+
+          background-color: $blue !important;
+        }
+
+        .icon {
+          left: 12px;
+          right: 12px;
+          top: 12px;
+          bottom: 12px;
+        }
+
+        .inner {
+          padding: 0px;
+          height: 48px;
+        }
+      }
+    }
   }
 
   .attachments .bubbled {

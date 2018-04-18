@@ -893,3 +893,132 @@ const View = Whisper.MessageView;
   />
 </util.ConversationContext>
 ```
+
+### In bottom bar
+
+#### Plain text
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      i18n={window.i18n}
+    />
+  </div>
+</div>
+```
+
+#### With an icon
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      i18n={window.i18n}
+      attachments={[{
+        contentType: 'image/jpeg',
+        fileName: 'llama.jpg',
+      }]}
+    />
+  </div>
+</div>
+```
+
+#### With an image
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      i18n={window.i18n}
+      attachments={[{
+        contentType: 'image/gif',
+        fileName: 'llama.gif',
+        thumbnail: {
+          objectUrl: util.gifObjectUrl
+        },
+      }]}
+    />
+  </div>
+</div>
+```
+
+#### With a close button
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      onClose={() => console.log('Close was clicked!')}
+      i18n={window.i18n}
+    />
+  </div>
+</div>
+```
+
+#### With a close button and icon
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      onClose={() => console.log('Close was clicked!')}
+      i18n={window.i18n}
+      attachments={[{
+        contentType: 'image/jpeg',
+        fileName: 'llama.jpg',
+      }]}
+    />
+  </div>
+</div>
+```
+
+#### With a close button and image
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      onClose={() => console.log('Close was clicked!')}
+      i18n={window.i18n}
+      attachments={[{
+        contentType: 'image/gif',
+        fileName: 'llama.gif',
+        thumbnail: {
+          objectUrl: util.gifObjectUrl
+        },
+      }]}
+    />
+  </div>
+</div>
+```
