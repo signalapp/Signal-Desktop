@@ -1067,8 +1067,6 @@
 
     setQuoteMessage(message) {
       this.quotedMessage = message;
-      console.log('setMessageReply', this.quotedMessage);
-
       this.renderQuotedMessage();
     },
 
@@ -1101,18 +1099,15 @@
       const message = new Whisper.Message({
         quote: this.makeQuote(this.quotedMessage),
       });
-      console.log('quoted message attributes', message.attributes);
       message.quotedMessage = this.quotedMessage;
       const props = Object.assign({}, message.getPropsForQuote(), {
         onClose: () => {
-          console.log('onClose!');
           this.setQuoteMessage(null);
         },
       });
 
       this.listenTo(message, 'scroll-to-message', this.scrollToMessage);
 
-      console.log('props', props);
       const contact = this.quotedMessage.getContact();
       if (contact) {
         this.listenTo(contact, 'change:color', this.renderQuotedMesage);
