@@ -114,14 +114,10 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
   .quoted-message {
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-
     // Not ideal, but necessary to override the specificity of the android theme color
     //   classes used in conversations.scss
     background-color: white !important;
-    border: 1px solid $grey_l1_5 !important;
-    border-bottom: none !important;
+    border: none !important;
 
     margin-top: 0px !important;
     margin-bottom: 0px;
@@ -191,7 +187,7 @@ $ios-border-color: rgba(0,0,0,0.1);
       flex: initial;
       min-width: 32px;
       width: 32px;
-      height: 48px;
+      height: 50px;
       position: relative;
 
       top: auto;
@@ -224,8 +220,6 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
   .incoming .quoted-message {
-    border-left: none;
-    border: none !important;
     border-bottom: 1px solid lightgray !important;
   }
 
@@ -253,11 +247,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
 
     .quoted-message {
-      border-top-left-radius: 0px;
-      border-top-right-radius: 0px;
-
       background: none !important;
-      border: none !important;
 
       .primary {
         padding: 0px;
@@ -268,9 +258,9 @@ $ios-border-color: rgba(0,0,0,0.1);
       }
 
       .icon-container {
-        height: 48px;
-        width: 48px;
-        min-width: 48px;
+        height: 50px;
+        width: 50px;
+        min-width: 50px;
 
         .circle-background {
           left: 6px;
@@ -290,7 +280,7 @@ $ios-border-color: rgba(0,0,0,0.1);
 
         .inner {
           padding: 0px;
-          height: 48px;
+          height: 50px;
         }
       }
     }

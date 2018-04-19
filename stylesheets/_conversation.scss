@@ -735,9 +735,6 @@ span.status {
   // Accent color border:
   border-left-width: 3px;
   border-left-style: solid;
-  border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
-  border-right: 1px solid lightgray;
 
   .primary {
     flex-grow: 1;
@@ -805,9 +802,9 @@ span.status {
 
   .icon-container {
     flex: initial;
-    min-width: 48px;
-    width: 48px;
-    height: 48px;
+    min-width: 50px;
+    width: 50px;
+    height: 50px;
     position: relative;
 
     .circle-background {
@@ -853,7 +850,7 @@ span.status {
     .inner {
       position: relative;
 
-      height: 48px;
+      height: 50px;
       text-align: center;
       display: flex;
       align-items: center;
