@@ -112,8 +112,9 @@
     },
 
     addSingleMessage(message) {
-      this.messageCollection.add(message, { merge: true });
+      const model = this.messageCollection.add(message, { merge: true });
       this.processQuotes(this.messageCollection);
+      return model;
     },
 
     onMessageError() {
@@ -685,7 +686,8 @@
           expireTimer: this.get('expireTimer'),
           recipients: this.getRecipients(),
         });
-        const message = this.messageCollection.add(messageWithSchema);
+        const message = this.addSingleMessage(messageWithSchema);
+
         if (this.isPrivate()) {
           message.set({ destination: this.id });
         }
