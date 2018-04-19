@@ -457,11 +457,11 @@ async function readAttachment(dir, attachment, name, options) {
   options = options || {};
   const { key } = options;
 
-  const anonymousName = _sanitizeFileName(name);
-  const targetPath = path.join(dir, anonymousName);
+  const sanitizedName = _sanitizeFileName(name);
+  const targetPath = path.join(dir, sanitizedName);
 
   if (!fs.existsSync(targetPath)) {
-    console.log(`Warning: attachment ${anonymousName} not found`);
+    console.log(`Warning: attachment ${sanitizedName} not found`);
     return;
   }
 
