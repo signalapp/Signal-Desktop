@@ -15,6 +15,10 @@
         "message": "Megtekintés",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "linkedDevices": {
+        "message": "Párosított eszközök",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
     "upgradingDatabase": {
         "message": "Adatbázis frissítése. Ez eltarthat egy darabig...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
@@ -25,17 +29,7 @@
     },
     "attemptingReconnection": {
         "message": "Újracsatlakozási kísérlet $reconnect_duration_in_seconds$ másodperc múlva",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "importInstructions": {
-        "message": "Első lépésként áruld el nekünk, hogy hova <a href='https://support.signal.org/hc/en-us/articles/115002502511'>mentetted Signal adataidat!</a> Ennek a könyvtárnak a neve \"Signal Export\"-tal fog kezdődni.<br><br><b>FIGYELEM</b>: Egy adathalmazt csak <b>egyszer</b> importálj be! Az importálás során az új kliens a régi teljes másolatává válik, amiből egyszerre csak egy létezhet, mivel az azonos kliensek zavarják egymás működését.",
-        "description": "Description of the export process"
+        "description": ""
     },
     "unsupportedAttachment": {
         "message": "Ez a csatolmánytípus nem támogatott. Kattints ide a lementéséhez!",
@@ -51,23 +45,11 @@
     },
     "leftTheGroup": {
         "message": "$name$ kilépett a csoportból.",
-        "description": "Shown in the conversation history when a single person leaves the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Shown in the conversation history when a single person leaves the group"
     },
     "youChangedTheTimer": {
         "message": "Az időzítő értékét a következőre módosítottad: $time$.",
-        "description": "Message displayed when you change the message expiration timer in a conversation.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
+        "description": "Message displayed when you change the message expiration timer in a conversation."
     },
     "settings": {
         "message": "Beállítások",
@@ -77,17 +59,21 @@
         "message": "5mp",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installComputerName": {
-        "message": "A számítógép neve ez lesz:",
-        "description": "Text displayed before the input where the user can enter the name for this device."
+    "importCompleteHeader": {
+        "message": "Siker!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
         "message": "1 perce",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "deviceName": {
+        "message": "Eszköz neve",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
     "debugLog": {
         "message": "Fejlesztői napló",
-        "description": "View menu item to open the debug log, capitalized"
+        "description": "View menu item to open the debug log (title case)"
     },
     "gotIt": {
         "message": "Rendben!",
@@ -107,13 +93,7 @@
     },
     "verifyHelp": {
         "message": "Ha szeretnéd ellenőrizni a végpontok közti titkosítás sértetlenségét $name$ nevű partnereddel, hasonlítsd össze a fenti számokat a partnered eszközén megjelenő számokkal!",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
+        "description": ""
     },
     "membersNeedingVerification": {
         "message": "Biztonsági azonosítóid a csoport tagjaival megváltoztak az utolsó hitelesítés óta. Kattints a csoport egy tagjára, hogy megjelenítsd új biztonsági azonosítótokat!",
@@ -127,10 +107,6 @@
         "message": "Nem támogatott fájltípus",
         "description": "Displayed for outgoing unsupported attachment"
     },
-    "exportAgain": {
-        "message": "Újraexportálás",
-        "description": "If user has already exported once, this button allows user to do it again if needed"
-    },
     "quit": {
         "message": "Kilépés",
         "description": "Command in the tray icon menu, to quit the application"
@@ -139,17 +115,9 @@
         "message": "Kattints a mentéshez!",
         "description": "Hover text for attachment filenames"
     },
-    "fileABug": {
-        "message": "Hiba bejelentése",
-        "description": "Item under the Help menu, takes you to GitHub new issue form"
-    },
     "messagesBelow": {
         "message": "Újabb üzenetek érkeztek",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
-    },
-    "installGeneratingKeys": {
-        "message": "Kulcsok generálása",
-        "description": ""
     },
     "resetSession": {
         "message": "Biztonsági munkamenet újraindítása",
@@ -183,13 +151,13 @@
         "message": "ki",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
+    "clearDataButton": {
+        "message": "Adatok törlése",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
     "syncExplanation": {
         "message": "Az összes Signal csoport és partner importálása mobileszközödről.",
         "description": "Explanatory text for sync settings"
-    },
-    "restartSignal": {
-        "message": "Signal újraindítása",
-        "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
         "message": "Kiléptél a csoportból",
@@ -219,17 +187,9 @@
         "message": "Válassz ki egy partnert vagy csoportot a beszélgetés elkezdéséhez!",
         "description": ""
     },
-    "exportError": {
-        "message": "Sajnos probléma merült fel az exportálás során. Először is ellenőrizd, hogy a célkönyvtárhoz van-e írási jogosultságod, és hogy van-e benne elég szabad hely. Ezt követően küldd el a fejlesztői naplót, hogy segíthessünk a migrálásban!",
-        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
-    },
     "aboutSignalDesktop": {
         "message": "A Signal Desktop-ról",
         "description": "Item under the Help menu, which opens a small about window"
-    },
-    "installConnecting": {
-        "message": "Kapcsolódás...",
-        "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
         "message": "kiválasztott könyvtár",
@@ -237,47 +197,31 @@
     },
     "verifyContact": {
         "message": "$tag_start$ Ide kattintva $tag_end$ ellenőrizheted partnered biztonsági azonosítóját.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code."
     },
     "changedRecently": {
         "message": "Biztonsági azonosítód $name$ nevű partnereddel nemrég megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy $name$ egyszerűen csak újratelepítette a Signal-t.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "sent": {
         "message": "Elküldve",
         "description": "Label for the time a message was sent"
     },
+    "importingHeader": {
+        "message": "Kontaktok és üzenetek betöltése",
+        "description": "Header of screen shown as data is import"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ az időzítő értékét a következőre módosította: $time$.",
-        "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            },
-            "time": {
-                "content": "$2",
-                "example": "10m"
-            }
-        }
+        "description": "Message displayed when someone else changes the message expiration timer in a conversation."
     },
     "timestamp_s": {
         "message": "mostanában",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "mainMenuSettings": {
+        "message": "Beállítások...",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "changedRecentlyMultiple": {
         "message": "Biztonsági azonosítód a csoport több tagjával is megváltozott az utóbbi időben. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy valaki egyszerűen csak újratelepítette a Signal-t.",
@@ -286,10 +230,6 @@
     "timerOption_1_day": {
         "message": "1 nap",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "exporting": {
-        "message": "Kérlek várj, míg az adatok exportálása befejeződik. A művelet több percet is igénybe vehet. A folyamat során továbbra is használhatod a Signalt telefonodon vagy egyéb eszközeiden.",
-        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Hiba bejelentése",
@@ -319,9 +259,9 @@
         "message": "&Ablak",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "installImport": {
-        "message": "Üzembe helyezés exportált adatokkal",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "importCompleteLinkButton": {
+        "message": "Jelenlegi eszköz párosítása telefonoddal",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
         "message": "Párosítsd újra a Signal Desktopot mobilkészülékeiddel az beszélgetés folytatásához!",
@@ -331,22 +271,20 @@
         "message": "Ez a naplófájl nyilvánosan elérhető lesz az interneten annak érdekében, hogy a fejlesztők megtekinthessék. A tartalmát feltöltés előtt ellenőrizheted és szabadon szerkesztheted.",
         "description": ""
     },
+    "linkYourPhone": {
+        "message": "Telefonod összepárosítása Signal Desktop-pal",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
     "newPhoneNumber": {
         "message": "Telefonszám",
         "description": "Placeholder for adding a new number to a contact"
     },
     "noLongerVerified": {
         "message": "Biztonsági azonosítód $name$ nevű partnereddel megváltozott, ezért már nincs hitelesítve. Kattints a megjelenítéshez!",
-        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified."
     },
     "searchForPeopleOrGroups": {
-        "message": "Keresés...",
+        "message": "Név vagy telefonszám",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -369,73 +307,37 @@
         "message": "Nincs párosítva",
         "description": ""
     },
-    "installFollowUs": {
-        "message": "<a $a_params$>Kövess minket</a> ha érdekel, hogy hogy áll a többeszközös működés támogatása iOS-en.",
-        "description": "",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "learnMore": {
         "message": "Tudj meg többet a bizonsági azonosítók ellenőrzéséről!",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "installNew": {
-        "message": "Teljesen új telepítés",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "timerSetOnSync": {
+        "message": "Időzítő beállítása erre: $time$.",
+        "description": "Message displayed when timer is set on initial link of desktop device."
     },
-    "importing": {
-        "message": "Kérlek várj, míg az importálás befejeződik...",
-        "description": "Shown as we are loading the user's data from disk"
+    "deleteAllDataButton": {
+        "message": "Összes adat törlése",
+        "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
         "message": "$count$ db olvasatlan üzenet",
-        "description": "Text for unread message separator, with count",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
+        "description": "Text for unread message separator, with count"
     },
     "installTooManyDevices": {
         "message": "Sajnos túl sok párosított eszközöd van. Próbálj kitörölni néhányat!",
         "description": ""
     },
-    "installSignalLinks": {
-        "message": "Először telepítsd a Signal-t <a $play_store$>Android</a> vagy <a $app_store$>iPhone</a>készülékedre!<br /> Eszközeidet összepárosítjuk, majd szinkronban tartjuk üzeneteidet.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "play_store": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            },
-            "app_store": {
-                "content": "$2",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "joinedTheGroup": {
         "message": "$name$ belépett a csoportba.",
-        "description": "Shown in the conversation history when a single person joins the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice"
-            }
-        }
+        "description": "Shown in the conversation history when a single person joins the group"
     },
     "goToForums": {
-        "message": "Fóru",
+        "message": "Fórum megnyitása",
         "description": "Item under the Help menu, takes you to the forums"
     },
-    "installSyncingGroupsAndContacts": {
-        "message": "Csoportok és partnerek szinkronizálása",
-        "description": ""
+    "menuSetupWithImport": {
+        "message": "Beállítás importálással",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30p",
@@ -451,27 +353,23 @@
     },
     "loadingMessages": {
         "message": "Üzenetek betöltése. Eddig $count$ db...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
     },
     "speech": {
         "message": "Beszéd",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
+    "importErrorHeader": {
+        "message": "Probléma merült fel!",
+        "description": "Header of the error screen after a failed import"
+    },
     "changedSinceVerified": {
         "message": "Biztonsági azonosítód $name$ nevű partnereddel megváltozott az utolsó hitelesítés óta. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy $name$ egyszerűen csak újratelepítette a Signal-t.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "importAgain": {
+        "message": "Könyvtár kiválasztása, újrapróbálkozás",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "upgrade": {
         "message": "Frissítés",
@@ -479,13 +377,7 @@
     },
     "yourSafetyNumberWith": {
         "message": "Biztonsági azonosítód (partner: $name$):",
-        "description": "Heading for safety number view",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
+        "description": "Heading for safety number view"
     },
     "showLess": {
         "message": "Részletek elrejtése",
@@ -513,13 +405,7 @@
     },
     "isNotVerified": {
         "message": "A $name$ nevű partnereddel közös biztonsági azonosítód nincs hitelesítve.",
-        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact."
     },
     "disconnected": {
         "message": "Lecsatlakozva",
@@ -541,13 +427,21 @@
         "message": "12ó",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "signalSettings": {
+        "message": "Signal beállítások",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
     "timestampFormat_M": {
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "plusButton": {
+        "message": "'+' gomb",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
     "chooseDirectory": {
-        "message": "Könyvtár kiválasztása",
-        "description": "Button to allow the user to export all data from app as part of migration process"
+        "message": "Mappa kiválasztása",
+        "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
         "message": "S&zerkesztés",
@@ -566,11 +460,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Újraindítás",
-        "description": ""
-    },
-    "importButton": {
-        "message": "Importálás",
+        "message": "Signal újraindítása",
         "description": ""
     },
     "sync": {
@@ -581,41 +471,41 @@
         "message": "1 hét",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "installGotIt": {
-        "message": "Rendben",
-        "description": "Button for the user to confirm that they have Signal installed."
-    },
     "received": {
         "message": "Beérkezett",
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
         "message": "Biztonsági azonosítódat nem hitelesítetted $name$ nevű partnereddel.",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog."
     },
     "isVerified": {
         "message": "Biztonsági azonosítódat $name$ nevű partnereddel már hitelesítetted.",
-        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Summary state shown at top of the safety number screen if user has verified contact."
     },
     "timerOption_30_seconds": {
         "message": "30 másodperc",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "deleteAllDataHeader": {
+        "message": "Törlöd az összes adatot?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataProgress": {
+        "message": "Lecsatlakozás és összes adat törlése",
+        "description": "Text of the button that deletes all data"
+    },
     "sendMessage": {
         "message": "Küldj egy üzenetet",
         "description": "Placeholder text in the message entry field"
+    },
+    "menuReportIssue": {
+        "message": "Hiba bejelentése",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "loadDataDescription": {
+        "message": "Sikeresen befejezted az exportálást, és most kontaktjaid, valamint üzeneteid türelmesen várnak számítógépeden. Válaszd ki a lementett Signal adataidat tartalmazó könyvtárat!",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "me": {
         "message": "Én",
@@ -641,8 +531,12 @@
         "message": "Üzenet törlése",
         "description": ""
     },
+    "chooseDeviceName": {
+        "message": "Jelenlegi eszköz nevének megadása",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
     "autoUpdateNewVersionInstructions": {
-        "message": "Kattint az Újraindításra a frissítések alkalmazásához!",
+        "message": "Kattints a Signal újraindítására a frissítések alkalmazásához! ",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -650,20 +544,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Sajnos hiba történt az exportálás során. <p>Először is ellenőrizd a célkönyvtárat. A nevének 'Signal Export'-tal kell kezdődnie.</p><p>Ezt követően próbálj meg egy újabb exportot készíteni a Chrome alkalmazásból.</p>Ha ez sem oldja meg a problémát, akkor <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>küldd el a fejlesztői naplót</a>, hogy segíthessünk a migrálásban",
+        "message": "Bizonyosodj meg róla, hogy valóban a Signal adataidat tartalmazó könyvtárat választottad ki. A nevének 'Signal Export'-tal kell kezdődnie. Lehetőséged van újra kimenteni adataidat a Chrome App-ból. <p>Ha a fentiek nem oldják meg a problémát, kérlek <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>küldd el a debug naplódat</a> annak érdekében, hogy segíthessünk a migrálásban! ",
         "description": "Message shown if the import went wrong."
-    },
-    "installAndroidInstructions": {
-        "message": "Nyisd meg a Signal-t a telefonodon, majd menj a Beállítások > Párosított készülékek menüpontba! Koppints az eszköz hozzáadására, majd olvasd be a fenti kódot!",
-        "description": ""
     },
     "invalidNumberError": {
         "message": "Érvénytelen telefonszám",
         "description": "When a person inputs a number that is invalid"
-    },
-    "importComplete": {
-        "message": "Sikeresen betöltöttük adataidat. Következő lépésként indítsd újra az alkalmazást!",
-        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Üdvözöl a Signal Desktop!",
@@ -673,15 +559,9 @@
         "message": "Újabb üzenet érkezett",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
-    "exportComplete": {
-        "message": "Az adatok exportálása megtörtént a következő könyvtárba: <p><b>$location$</b></p> <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>Az új Signal telepítését követően</a> ezek az adatok importálhatóak lesznek.",
-        "description": "Message shown on the migration screen when we are done exporting data",
-        "placeholders": {
-            "location": {
-                "content": "$1",
-                "example": "/Users/someone/somewhere"
-            }
-        }
+    "menuSetupAsNewDevice": {
+        "message": "Beállítás új eszközként",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
         "message": "Nem sikerült csatlakozni a kiszolgálóhoz.",
@@ -694,6 +574,10 @@
     "messageNotSent": {
         "message": "Az üzenet nem lett elküldve.",
         "description": "Informational label, appears on messages that failed to send"
+    },
+    "initialSync": {
+        "message": "Kontaktok és csoportok szinkronizálása",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "mainMenuView": {
         "message": "&Nézet",
@@ -715,10 +599,6 @@
         "message": "Üzenet küldéséhez oldd fel partnered blokkolását!",
         "description": "Brief message shown when trying to message a blocked number"
     },
-    "installIHaveSignalButton": {
-        "message": "Már van androidos Signalom",
-        "description": "Button for the user to confirm that they have Signal for Android"
-    },
     "mainMenuHelp": {
         "message": "&Súgó",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -733,25 +613,19 @@
     },
     "youMarkedAsVerified": {
         "message": "Biztonsági azonosítód $name$ nevű partnereddel hitelesítve van.",
-        "description": "Shown in the conversation history when the user marks a contact as verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Shown in the conversation history when the user marks a contact as verified."
     },
     "connecting": {
         "message": "Kapcsolódás",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "deleteAllDataBody": {
+        "message": "Az alkalmazás felhasználói adatainak törlésére készülsz (beleértve a kontaktokat és az összes üzenetet). A jövőben bármikor lehetőséged nyílik rá, hogy újrapárosítsd mobileszközeidet, de ez nem fogja helyreállítani a törölt üzeneteket.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
     "sessionEnded": {
         "message": "A biztonsági munkamenet újra lett indítva",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "installGetStartedButton": {
-        "message": "Kezdés",
-        "description": ""
     },
     "relink": {
         "message": "Újrapárosítás",
@@ -771,41 +645,19 @@
     },
     "youMarkedAsNotVerifiedOtherDevice": {
         "message": "Biztonsági azonosítódat korábban nem hitelesnek jelölted $name$ nevű partnereddel egy másik eszközön.",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "installSignalLink": {
-        "message": "Először telepítsd a <a $a_params$>Signal-t</a> telefonodra.<br /> Eszközeidet először összepárosítjuk, majd szinkronban tartjuk üzeneteidet.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
-    "installLinkingWithNumber": {
-        "message": "Párosítás a következővel:",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
     },
     "goToSupportPage": {
-        "message": "Támogatás",
+        "message": "Támogatás megnyitása",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "finishLinkingPhone": {
+        "message": "Telefon párosításának befejezése",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
         "message": "$names$ belépett a csoportba.",
-        "description": "Shown in the conversation history when more than one person joins the group",
-        "placeholders": {
-            "names": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
+        "description": "Shown in the conversation history when more than one person joins the group"
     },
     "groupMembers": {
         "message": "Csoport tagjai",
@@ -819,10 +671,6 @@
         "message": "Új üzenetek",
         "description": "Displayed in notifications for multiple messages"
     },
-    "newContact": {
-        "message": "Új partner létrehozásához kattints ide!",
-        "description": ""
-    },
     "theirIdentityUnknown": {
         "message": "Még nem váltottál üzenetet ezzel a partnerrel. Biztonsági azonosítod az első üzenet elküldését követően lesz elérhető.",
         "description": ""
@@ -831,19 +679,17 @@
         "message": "Hangüzenet",
         "description": "Name for a voice message attachment"
     },
+    "importCompleteStartButton": {
+        "message": "A Signal Desktop használatának megkezdése",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
+    },
     "submit": {
         "message": "Küldés",
         "description": ""
     },
     "keychanged": {
         "message": "Biztonsági azonosítód megváltozott a következő partnereddel: $name$ Kattints a megjelenítéshez!",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
+        "description": ""
     },
     "updatedTheGroup": {
         "message": "A csoport adatai frissítve lettek.",
@@ -851,13 +697,11 @@
     },
     "identityKeyErrorOnSend": {
         "message": "Biztonsági azonosítód $name$ nevű partnereddel megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signal-t. Javasolt újraellenőrizni a partnereddel közös biztonsági azonosítótokat.",
-        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
+    },
+    "clearDataExplanation": {
+        "message": "Ez ki fogja törölni az alkalmazás összes adatát, beleértve üzeneteidet illetve hozzáférési adataidat is.",
+        "description": "Text describing what the clear data button will do."
     },
     "to": {
         "message": "Címzett",
@@ -867,25 +711,17 @@
         "message": "1ó",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installFinalButton": {
-        "message": "Jónak tűnik",
-        "description": "The final button for the install process, after the user has entered a name for their device"
+    "optimizingApplication": {
+        "message": "Alkalmazás optimalizálása...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Kiadási megjegyzések",
+        "message": "Release notes megnyitása",
         "description": ""
     },
     "messageDetail": {
         "message": "Üzenet részletei",
         "description": ""
-    },
-    "installNewSignal": {
-        "message": "Új Signal Desktop telepítése",
-        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
-    },
-    "exportChooserTitle": {
-        "message": "Válassz könyvtárat az adatok tárolásához!",
-        "description": "Title of the popup window used to select data storage location"
     },
     "mainMenuFile": {
         "message": "&Fájl",
@@ -895,17 +731,25 @@
         "message": "Megjelölés ellenőrzöttként",
         "description": ""
     },
-    "exportButton": {
-        "message": "Exportálás",
-        "description": ""
+    "clearDataHeader": {
+        "message": "Adatok törlése",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10mp",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "linkNewDevice": {
+        "message": "Új eszköz párosítása",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
     "nameAndMessage": {
         "message": "Feladó neve és az üzenet",
         "description": "Label for setting notifications to display name and message text"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Beállítás önálló eszközként",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
         "message": "Nem sikerült elküldeni az üzenetet néhány címzettnek. Ellenőrizd a hálózati kapcsolatot!",
@@ -923,9 +767,17 @@
         "message": "Biztonsági azonosítód a csoport több tagjával is megváltozott az utolsó hitelesítés óta. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy valaki egyszerűen csak újratelepítette a Signal-t.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "loadDataHeader": {
+        "message": "Adataid betöltése",
+        "description": "Header shown on the first screen in the data import process"
+    },
     "submitDebugLog": {
-        "message": "Fejlesztői naplófájl elküldése",
-        "description": "Menu item and header text for debug log modal, title case."
+        "message": "Fejlesztői naplófájl",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "startConversation": {
+        "message": "Beszélgetés megkezdése...",
+        "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
         "message": "Hiba",
@@ -933,33 +785,15 @@
     },
     "titleIsNow": {
         "message": "A téma mostantól '$name$'.",
-        "description": "Shown in the conversation history when someone changes the title of the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Book Club"
-            }
-        }
+        "description": "Shown in the conversation history when someone changes the title of the group"
     },
     "changedRightAfterVerify": {
         "message": "A hitelesítés alatt álló biztonsági azonosító megváltozott. Kérlek ellenőrizd új biztonsági azonosítódat $name$ nevű partnereddel. Ne felejtsd, ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signal-t.",
-        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
     },
     "timerSetTo": {
         "message": "Időzítő állapota: $time$",
-        "description": "Displayed in the conversation list when the timer is updated.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "1w"
-            }
-        }
+        "description": "Displayed in the conversation list when the timer is updated."
     },
     "autoUpdateNewVersionTitle": {
         "message": "Signal frissítés elérhető",
@@ -969,17 +803,9 @@
         "message": "30mp",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "exportInstructions": {
-        "message": "Első lépésként válaszd ki, hogy melyik könyvtárba kerüljenek a kimentett adatok. Az exportált csomagba beszélgetéseid naplói és érzékeny kriptográfiai adatok kerülnek. Emiatt mindenképp privát helyre mentsd őket!",
-        "description": "Description of the export process"
-    },
     "notifications": {
         "message": "Értesítések",
         "description": "Header for notification settings"
-    },
-    "tryAgain": {
-        "message": "Újra",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Újraküldés",
@@ -987,13 +813,7 @@
     },
     "youMarkedAsVerifiedOtherDevice": {
         "message": "Biztonsági azonosítódat már hitelesítetted $name$ nevű partnereddel egy másik eszközön.",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device."
     },
     "hide": {
         "message": "Elrejtés",
