@@ -188,6 +188,16 @@
       if (this.quotedMessage) {
         this.quotedMessage = null;
       }
+      const quote = this.get('quote');
+      const attachments = (quote && quote.attachments) || [];
+      attachments.forEach((attachment) => {
+        if (attachment.thumbnail && attachment.thumbnail.objectUrl) {
+          URL.revokeObjectURL(attachment.thumbnail.objectUrl);
+          // eslint-disable-next-line no-param-reassign
+          attachment.thumbnail.objectUrl = null;
+        }
+      });
+
       this.revokeImageUrl();
     },
     revokeImageUrl() {
@@ -203,16 +213,6 @@
       return this.imageUrl;
     },
     getQuoteObjectUrl() {
-      const fromDB = this.quotedMessageFromDatabase;
-      if (fromDB && fromDB.imageUrl) {
-        return fromDB.imageUrl;
-      }
-
-      const inMemory = this.quotedMessage;
-      if (inMemory && inMemory.imageUrl) {
-        return inMemory.imageUrl;
-      }
-
       const thumbnail = this.quoteThumbnail;
       if (thumbnail && thumbnail.objectUrl) {
         return thumbnail.objectUrl;
@@ -232,8 +232,11 @@
 
       return ConversationController.get(author);
     },
-    processAttachment(attachment, objectUrl) {
-      const thumbnail = !objectUrl
+    processAttachment(attachment, externalObjectUrl) {
+      const { thumbnail } = attachment;
+      const objectUrl = (thumbnail && thumbnail.objectUrl) || externalObjectUrl;
+
+      const thumbnailWithObjectUrl = !objectUrl
         ? null
         : Object.assign({}, attachment.thumbnail || {}, {
           objectUrl,
@@ -242,7 +245,7 @@
       return Object.assign({}, attachment, {
         // eslint-disable-next-line no-bitwise
         isVoiceMessage: Boolean(attachment.flags & this.VOICE_FLAG),
-        thumbnail,
+        thumbnail: thumbnailWithObjectUrl,
       });
     },
     getPropsForQuote() {

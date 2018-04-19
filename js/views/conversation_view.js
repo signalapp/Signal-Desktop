@@ -1065,25 +1065,22 @@
       this.focusMessageField();
     },
 
-    setQuoteMessage(message) {
+    async setQuoteMessage(message) {
+      this.quote = null;
       this.quotedMessage = message;
+
+      if (this.quoteHolder) {
+        this.quoteHolder.unload();
+        this.quoteHolder = null;
+      }
+
+      if (message) {
+        const quote = await this.model.makeQuote(this.quotedMessage);
+        console.log({ quote });
+        this.quote = quote;
+      }
+
       this.renderQuotedMessage();
-    },
-
-    makeQuote(quotedMessage) {
-      const contact = quotedMessage.getContact();
-      const attachments = quotedMessage.get('attachments');
-      const first = attachments ? attachments[0] : null;
-
-      return {
-        author: contact.id,
-        id: quotedMessage.get('sent_at'),
-        text: quotedMessage.get('body'),
-        attachments: !first ? [] : [{
-          contentType: first.contentType,
-          fileName: first.fileName,
-        }],
-      };
     },
 
     renderQuotedMessage() {
@@ -1097,9 +1094,11 @@
       }
 
       const message = new Whisper.Message({
-        quote: this.makeQuote(this.quotedMessage),
+        quote: this.quote,
       });
       message.quotedMessage = this.quotedMessage;
+      this.quoteHolder = message;
+
       const props = Object.assign({}, message.getPropsForQuote(), {
         onClose: () => {
           this.setQuoteMessage(null);

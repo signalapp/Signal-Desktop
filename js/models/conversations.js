@@ -610,6 +610,59 @@
       return _.without(this.get('members'), me);
     },
 
+    blobToArrayBuffer(blob) {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+
+        fileReader.onload = e => resolve(e.target.result);
+        fileReader.onerror = reject;
+        fileReader.onabort = reject;
+
+        fileReader.readAsArrayBuffer(blob);
+      });
+    },
+
+    async makeThumbnailAttachment(attachment) {
+      const attachmentWithData = await loadAttachmentData(attachment);
+      const { data, contentType } = attachmentWithData;
+      const objectUrl = this.makeObjectUrl(data, contentType);
+      const thumbnail = await Whisper.FileInputView.makeThumbnail(128, objectUrl);
+      URL.revokeObjectURL(objectUrl);
+
+      const arrayBuffer = await this.blobToArrayBuffer(thumbnail);
+      const finalContentType = 'image/png';
+      const finalObjectUrl = this.makeObjectUrl(arrayBuffer, finalContentType);
+
+      return {
+        data: arrayBuffer,
+        objectUrl: finalObjectUrl,
+        contentType: finalContentType,
+      };
+    },
+
+    async makeQuote(quotedMessage) {
+      const contact = quotedMessage.getContact();
+      const attachments = quotedMessage.get('attachments');
+
+      return {
+        author: contact.id,
+        id: quotedMessage.get('sent_at'),
+        text: quotedMessage.get('body'),
+        attachments: await Promise.all((attachments || []).map(async (attachment) => {
+          const { contentType } = attachment;
+          const willMakeThumbnail = MIME.isImage(contentType);
+
+          return {
+            contentType,
+            fileName: attachment.fileName,
+            thumbnail: willMakeThumbnail
+              ? await this.makeThumbnailAttachment(attachment)
+              : null,
+          };
+        })),
+      };
+    },
+
     sendMessage(body, attachments) {
       this.queueJob(async () => {
         const now = Date.now();
@@ -1113,18 +1166,8 @@
 
       const queryFirst = queryAttachments[0];
       try {
-        queryMessage.attachments[0] = await loadAttachmentData(queryFirst);
-
-        // Note: it would be nice to take the full-size image and downsample it into
-        //   a true thumbnail here.
-        queryMessage.updateImageUrl();
-
-        // We need to differentiate between messages we load from database and those
-        //   already in memory. More cleanup needs to happen on messages from the database
-        //   because they aren't tracked any other way.
         // eslint-disable-next-line no-param-reassign
-        message.quotedMessageFromDatabase = queryMessage;
-
+        message.quoteThumbnail = await this.makeThumbnailAttachment(queryFirst);
         return true;
       } catch (error) {
         console.log(
@@ -1155,12 +1198,9 @@
 
       try {
         const queryFirst = quotedAttachments[0];
-        // eslint-disable-next-line no-param-reassign
-        quotedMessage.attributes.attachments[0] = await loadAttachmentData(queryFirst);
 
-        // Note: it would be nice to take the full-size image and downsample it into
-        //   a true thumbnail here.
-        quotedMessage.updateImageUrl();
+        // eslint-disable-next-line no-param-reassign
+        message.quoteThumbnail = await this.makeThumbnailAttachment(queryFirst);
       } catch (error) {
         console.log(
           'Problem loading attachment data for quoted message',
