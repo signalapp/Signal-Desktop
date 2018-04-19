@@ -95,7 +95,7 @@ export class Quote extends React.Component<Props, {}> {
     if (Mime.isVideo(contentType)) {
       return objectUrl
         ? this.renderImage(objectUrl, 'play')
-        : this.renderIcon('play');
+        : this.renderIcon('movie');
     }
     if (Mime.isImage(contentType)) {
       return objectUrl

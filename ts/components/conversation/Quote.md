@@ -183,9 +183,8 @@ const View = Whisper.MessageView;
 #### A lot of text in quotation, with image
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
-  id: '3234-23423-2342',
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
 };
 const outgoing = new Whisper.Message({
   type: 'outgoing',
@@ -218,8 +217,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
@@ -237,8 +236,8 @@ const View = Whisper.MessageView;
 #### Image with caption
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
   id: '3234-23423-2342',
 };
 const outgoing = new Whisper.Message({
@@ -268,8 +267,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
@@ -287,8 +286,8 @@ const View = Whisper.MessageView;
 #### Image
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
 };
 
 const outgoing = new Whisper.Message({
@@ -317,8 +316,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
@@ -375,8 +374,8 @@ const View = Whisper.MessageView;
 #### Video with caption
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
 };
 
 const outgoing = new Whisper.Message({
@@ -406,8 +405,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
@@ -425,8 +424,8 @@ const View = Whisper.MessageView;
 #### Video
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
 };
 
 const outgoing = new Whisper.Message({
@@ -456,8 +455,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>

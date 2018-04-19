@@ -788,15 +788,18 @@ span.status {
 
   .close-container {
     position: absolute;
-    top: 0px;
-    right: 0px;
-    height: 18px;
-    width: 18px;
+    top: 4px;
+    right: 4px;
+    height: 16px;
+    width: 16px;
+
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 50%;
 
     .close-button {
       width: 100%;
       height: 100%;
-      @include color-svg('../images/x.svg', white);
+      @include color-svg('../images/x.svg', $grey);
     }
   }
 
@@ -840,6 +843,9 @@ span.status {
       &.play {
         @include color-svg('../images/play.svg', white);
       }
+      &.movie {
+        @include color-svg('../images/movie.svg', white);
+      }
 
       @include avatar-colors;
     }
@@ -853,9 +859,12 @@ span.status {
       align-items: center;
       justify-content: center;
 
+      object-fit: cover;
+
       img {
-        max-width: 100%;
-        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
   }
