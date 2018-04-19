@@ -1157,13 +1157,13 @@
         }
 
         const attachments = await this.fileInput.getFiles();
-
         const sendDelta = Date.now() - this.sendStart;
         console.log('Send pre-checks took', sendDelta, 'milliseconds');
 
-        this.model.sendMessage(message, attachments);
+        this.model.sendMessage(message, attachments, this.quote);
 
         input.val('');
+        this.setQuoteMessage(null);
         this.focusMessageFieldAndClearDisabled();
         this.forceUpdateMessageFieldSize(e);
         this.fileInput.deleteFiles();

@@ -663,7 +663,7 @@
       };
     },
 
-    sendMessage(body, attachments) {
+    sendMessage(body, attachments, quote) {
       this.queueJob(async () => {
         const now = Date.now();
 
@@ -678,6 +678,7 @@
           type: 'outgoing',
           body,
           conversationId: this.id,
+          quote,
           attachments,
           sent_at: now,
           received_at: now,
@@ -719,6 +720,7 @@
           this.get('id'),
           body,
           attachmentsWithData,
+          quote,
           now,
           this.get('expireTimer'),
           profileKey
