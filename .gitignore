@@ -8,7 +8,6 @@ stylesheets/*.css.map
 .DS_Store
 config/local.json
 config/local-*.json
-.DS_Store
 *.provisionprofile
 release/
 /dev-app-update.yml
