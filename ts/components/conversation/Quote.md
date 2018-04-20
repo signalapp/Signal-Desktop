@@ -34,6 +34,39 @@ const View = Whisper.MessageView;
 </util.ConversationContext>
 ```
 
+#### With emoji
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: 'About 🔥six🔥',
+  sent_at: Date.now() - 18000000,
+  quote: {
+    text: 'How many 🔥ferrets🔥 do you have? ',
+    author: '+12025550011',
+    id: Date.now() - 1000,
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550011',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550005',
+  }),
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
 #### Replies to you or yourself
 
 ```jsx

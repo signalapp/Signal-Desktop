@@ -113,7 +113,7 @@ export class Quote extends React.Component<Props, {}> {
     const { i18n, text, attachments } = this.props;
 
     if (text) {
-      return <div className="text">{text}</div>;
+      return <div className="text" dangerouslySetInnerHTML={{ __html: text}} />;
     }
 
     if (!attachments || attachments.length === 0) {

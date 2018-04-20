@@ -1101,11 +1101,7 @@
       message.quotedMessage = this.quotedMessage;
       this.quoteHolder = message;
 
-      const props = Object.assign({}, message.getPropsForQuote(), {
-        onClose: () => {
-          this.setQuoteMessage(null);
-        },
-      });
+      const props = message.getPropsForQuote();
 
       this.listenTo(message, 'scroll-to-message', this.scrollToMessage);
 
@@ -1117,7 +1113,12 @@
       this.quoteView = new Whisper.ReactWrapperView({
         className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
-        props,
+        props: Object.assign({}, props, {
+          text: props.text ? window.emoji.signalReplace(props.text) : null,
+          onClose: () => {
+            this.setQuoteMessage(null);
+          },
+        }),
       });
 
       const selector = storage.get('theme-setting') === 'ios'

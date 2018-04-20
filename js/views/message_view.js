@@ -405,7 +405,9 @@
       this.quoteView = new Whisper.ReactWrapperView({
         className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
-        props,
+        props: Object.assign({}, props, {
+          text: props.text ? window.emoji.signalReplace(props.text) : null,
+        }),
       });
       this.$('.inner-bubble').prepend(this.quoteView.el);
     },
