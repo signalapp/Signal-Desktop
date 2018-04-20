@@ -1,52 +1,55 @@
+/* global Signal: false */
+/* global assert: false */
+
 'use strict';
 
-describe('Backup', function() {
-  describe('_sanitizeFileName', function() {
-    it('leaves a basic string alone', function() {
-      var initial = 'Hello, how are you #5 (\'fine\' + great).jpg';
-      var expected = initial;
+describe('Backup', () => {
+  describe('_sanitizeFileName', () => {
+    it('leaves a basic string alone', () => {
+      const initial = 'Hello, how are you #5 (\'fine\' + great).jpg';
+      const expected = initial;
       assert.strictEqual(Signal.Backup._sanitizeFileName(initial), expected);
     });
 
-    it('replaces all unknown characters', function() {
-      var initial = '!@$%^&*=';
-      var expected = '________';
+    it('replaces all unknown characters', () => {
+      const initial = '!@$%^&*=';
+      const expected = '________';
       assert.strictEqual(Signal.Backup._sanitizeFileName(initial), expected);
     });
   });
 
-  describe('_trimFileName', function() {
-    it('handles a file with no extension', function() {
-      var initial = '0123456789012345678901234567890123456789';
-      var expected = '012345678901234567890123456789';
+  describe('_trimFileName', () => {
+    it('handles a file with no extension', () => {
+      const initial = '0123456789012345678901234567890123456789';
+      const expected = '012345678901234567890123456789';
       assert.strictEqual(Signal.Backup._trimFileName(initial), expected);
     });
 
-    it('handles a file with a long extension', function() {
-      var initial = '0123456789012345678901234567890123456789.01234567890123456789';
-      var expected = '012345678901234567890123456789';
+    it('handles a file with a long extension', () => {
+      const initial = '0123456789012345678901234567890123456789.01234567890123456789';
+      const expected = '012345678901234567890123456789';
       assert.strictEqual(Signal.Backup._trimFileName(initial), expected);
     });
 
-    it('handles a file with a normal extension', function() {
-      var initial = '01234567890123456789012345678901234567890123456789.jpg';
-      var expected = '012345678901234567890123.jpg';
+    it('handles a file with a normal extension', () => {
+      const initial = '01234567890123456789012345678901234567890123456789.jpg';
+      const expected = '012345678901234567890123.jpg';
       assert.strictEqual(Signal.Backup._trimFileName(initial), expected);
     });
   });
 
-  describe('_getExportAttachmentFileName', function() {
-    it('uses original filename if attachment has one', function() {
-      var message = {
+  describe('_getExportAttachmentFileName', () => {
+    it('uses original filename if attachment has one', () => {
+      const message = {
         body: 'something',
       };
-      var index = 0;
-      var attachment = {
-        fileName: 'blah.jpg'
+      const index = 0;
+      const attachment = {
+        fileName: 'blah.jpg',
       };
-      var expected = 'blah.jpg';
+      const expected = 'blah.jpg';
 
-      var actual = Signal.Backup._getExportAttachmentFileName(
+      const actual = Signal.Backup._getExportAttachmentFileName(
         message,
         index,
         attachment
@@ -54,36 +57,17 @@ describe('Backup', function() {
       assert.strictEqual(actual, expected);
     });
 
-    it('uses attachment id if no filename', function() {
-      var message = {
+    it('uses attachment id if no filename', () => {
+      const message = {
         body: 'something',
       };
-      var index = 0;
-      var attachment = {
-        id: '123'
-      };
-      var expected = '123';
-
-      var actual = Signal.Backup._getExportAttachmentFileName(
-        message,
-        index,
-        attachment
-      );
-      assert.strictEqual(actual, expected);
-    });
-
-    it('uses filename and contentType if available', function() {
-      var message = {
-        body: 'something',
-      };
-      var index = 0;
-      var attachment = {
+      const index = 0;
+      const attachment = {
         id: '123',
-        contentType: 'image/jpeg'
       };
-      var expected = '123.jpeg';
+      const expected = '123';
 
-      var actual = Signal.Backup._getExportAttachmentFileName(
+      const actual = Signal.Backup._getExportAttachmentFileName(
         message,
         index,
         attachment
@@ -91,18 +75,37 @@ describe('Backup', function() {
       assert.strictEqual(actual, expected);
     });
 
-    it('handles strange contentType', function() {
-      var message = {
+    it('uses filename and contentType if available', () => {
+      const message = {
         body: 'something',
       };
-      var index = 0;
-      var attachment = {
+      const index = 0;
+      const attachment = {
         id: '123',
-        contentType: 'something'
+        contentType: 'image/jpeg',
       };
-      var expected = '123.something';
+      const expected = '123.jpeg';
 
-      var actual = Signal.Backup._getExportAttachmentFileName(
+      const actual = Signal.Backup._getExportAttachmentFileName(
+        message,
+        index,
+        attachment
+      );
+      assert.strictEqual(actual, expected);
+    });
+
+    it('handles strange contentType', () => {
+      const message = {
+        body: 'something',
+      };
+      const index = 0;
+      const attachment = {
+        id: '123',
+        contentType: 'something',
+      };
+      const expected = '123.something';
+
+      const actual = Signal.Backup._getExportAttachmentFileName(
         message,
         index,
         attachment
@@ -111,19 +114,19 @@ describe('Backup', function() {
     });
   });
 
-  describe('_getAnonymousAttachmentFileName', function() {
-    it('uses message id', function() {
-      var message = {
+  describe('_getAnonymousAttachmentFileName', () => {
+    it('uses message id', () => {
+      const message = {
         id: 'id-45',
         body: 'something',
       };
-      var index = 0;
-      var attachment = {
-        fileName: 'blah.jpg'
+      const index = 0;
+      const attachment = {
+        fileName: 'blah.jpg',
       };
-      var expected = 'id-45';
+      const expected = 'id-45';
 
-      var actual = Signal.Backup._getAnonymousAttachmentFileName(
+      const actual = Signal.Backup._getAnonymousAttachmentFileName(
         message,
         index,
         attachment
@@ -131,18 +134,18 @@ describe('Backup', function() {
       assert.strictEqual(actual, expected);
     });
 
-    it('appends index if it is above zero', function() {
-      var message = {
+    it('appends index if it is above zero', () => {
+      const message = {
         id: 'id-45',
         body: 'something',
       };
-      var index = 1;
-      var attachment = {
-        fileName: 'blah.jpg'
+      const index = 1;
+      const attachment = {
+        fileName: 'blah.jpg',
       };
-      var expected = 'id-45-1';
+      const expected = 'id-45-1';
 
-      var actual = Signal.Backup._getAnonymousAttachmentFileName(
+      const actual = Signal.Backup._getAnonymousAttachmentFileName(
         message,
         index,
         attachment
@@ -151,64 +154,73 @@ describe('Backup', function() {
     });
   });
 
-  describe('_getConversationDirName', function() {
-    it('uses name if available', function() {
-      var conversation = {
+  describe('_getConversationDirName', () => {
+    it('uses name if available', () => {
+      const conversation = {
         active_at: 123,
         name: '0123456789012345678901234567890123456789',
-        id: 'id'
+        id: 'id',
       };
-      var expected = '123 (012345678901234567890123456789 id)';
+      const expected = '123 (012345678901234567890123456789 id)';
       assert.strictEqual(Signal.Backup._getConversationDirName(conversation), expected);
     });
 
-    it('uses just id if name is not available', function() {
-      var conversation = {
+    it('uses just id if name is not available', () => {
+      const conversation = {
         active_at: 123,
-        id: 'id'
+        id: 'id',
       };
-      var expected = '123 (id)';
+      const expected = '123 (id)';
       assert.strictEqual(Signal.Backup._getConversationDirName(conversation), expected);
     });
 
-    it('uses inactive for missing active_at', function() {
-      var conversation = {
+    it('uses inactive for missing active_at', () => {
+      const conversation = {
         name: 'name',
-        id: 'id'
+        id: 'id',
       };
-      var expected = 'inactive (name id)';
+      const expected = 'inactive (name id)';
       assert.strictEqual(Signal.Backup._getConversationDirName(conversation), expected);
     });
   });
 
-  describe('_getConversationLoggingName', function() {
-    it('uses plain id if conversation is private', function() {
-      var conversation = {
+  describe('_getConversationLoggingName', () => {
+    it('uses plain id if conversation is private', () => {
+      const conversation = {
         active_at: 123,
         id: 'id',
-        type: 'private'
+        type: 'private',
       };
-      var expected = '123 (id)';
-      assert.strictEqual(Signal.Backup._getConversationLoggingName(conversation), expected);
+      const expected = '123 (id)';
+      assert.strictEqual(
+        Signal.Backup._getConversationLoggingName(conversation),
+        expected
+      );
     });
 
-    it('uses just id if name is not available', function() {
-      var conversation = {
+    it('uses just id if name is not available', () => {
+      const conversation = {
         active_at: 123,
         id: 'groupId',
-        type: 'group'
+        type: 'group',
       };
-      var expected = '123 ([REDACTED_GROUP]pId)';
-      assert.strictEqual(Signal.Backup._getConversationLoggingName(conversation), expected);
+      const expected = '123 ([REDACTED_GROUP]pId)';
+      assert.strictEqual(
+        Signal.Backup._getConversationLoggingName(conversation),
+        expected
+      );
     });
 
-    it('uses inactive for missing active_at', function() {
-      var conversation = {
+    it('uses inactive for missing active_at', () => {
+      const conversation = {
         id: 'id',
-        type: 'private'
+        type: 'private',
       };
-      var expected = 'inactive (id)';
-      assert.strictEqual(Signal.Backup._getConversationLoggingName(conversation), expected);
+      const expected = 'inactive (id)';
+      assert.strictEqual(
+        Signal.Backup._getConversationLoggingName(conversation),
+        expected
+      );
     });
   });
 });

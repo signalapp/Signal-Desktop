@@ -1,3 +1,5 @@
+'use strict';
+
 /* global window: false */
 
 // Taken from background.html.

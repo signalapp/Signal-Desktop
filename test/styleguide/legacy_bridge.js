@@ -1,3 +1,5 @@
+'use strict';
+
 /* global window: false */
 
 // Because we aren't hosting the Style Guide in Electron, we can't rely on preload.js
