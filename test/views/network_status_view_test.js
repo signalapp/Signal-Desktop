@@ -14,6 +14,7 @@ describe('NetworkStatusView', function() {
 
         after(function() {
             window.getSocketStatus = oldGetSocketStatus;
+            window.getSocketStatus = function() { return WebSocket.OPEN; };
         });
         /* END stubbing globals */
 
