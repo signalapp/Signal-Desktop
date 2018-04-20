@@ -266,7 +266,8 @@ describe('Backup', () => {
         return _.omit(model, ['id']);
       }
 
-      const twoSlashes = /.*\/.*\/.*/;
+      const slash = path.sep === '/' ? '\\/' : '\\\\';
+      const twoSlashes = new RegExp(`.*${slash}.*${slash}.*`);
       function removeDirs(dirs) {
         return _.filter(dirs, (fullDir) => {
           const dir = fullDir.replace(attachmentsPath, '');
