@@ -361,10 +361,11 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
 
-  // We don't add a background to the attachments div unless there's also text. The
-  //   browser doesn't always clip the border-radius properly, so we get a partial-pixel
-  //   halo effect.
-  .outgoing .with-tail.tail-wrapper {
+  // The browser doesn't always clip the border-radius properly, so we can get a
+  //   partial-pixel halo effect. Sadly, it is still needed because a quote can force the
+  //   bubble wider than an attached image, and we need a background color on the bottom
+  //   section if the image doesn't cover it all.
+  .outgoing .tail-wrapper {
     .attachments {
       background-color: $blue;
     }
@@ -377,13 +378,15 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
 
-  .incoming .with-tail.tail-wrapper {
-    &:before {
-      left: -1px;
-      background-color: white;
-    }
-    &:after {
-      left: -6px;
+  .incoming .tail-wrapper {
+    &.with-tail {
+      &:before {
+        left: -1px;
+        background-color: white;
+      }
+      &:after {
+        left: -6px;
+      }
     }
 
     .inner-bubble {
