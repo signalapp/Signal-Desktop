@@ -171,7 +171,7 @@ export class Quote extends React.Component<Props, {}> {
     // We need the container to give us the flexibility to implement the iOS design.
     return (
       <div className="close-container">
-        <div className="close-button" onClick={onClick}></div>
+        <div className="close-button" onClick={onClick} />
       </div>
     );
   }
