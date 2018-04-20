@@ -1078,6 +1078,8 @@
         const quote = await this.model.makeQuote(this.quotedMessage);
         console.log({ quote });
         this.quote = quote;
+
+        this.focusMessageFieldAndClearDisabled();
       }
 
       this.renderQuotedMessage();
