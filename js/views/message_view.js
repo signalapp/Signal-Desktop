@@ -447,7 +447,8 @@
         avatar: (contact && contact.getAvatar()),
         profileName: (contact && contact.getProfileName()),
         innerBubbleClasses: this.isImageWithoutCaption() ? '' : 'with-tail',
-        hoverIcon: !hasErrors,
+        // TODO: Turn this on when we're ready to enable sending quoted replies
+        hoverIcon: false, // !hasErrors,
         hasAttachments,
         reply: i18n('replyToMessage'),
       }, this.render_partials()));
