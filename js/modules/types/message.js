@@ -243,9 +243,12 @@ exports.createAttachmentDataWriter = (writeExistingAttachmentData) => {
 
     const message = exports.initializeSchemaVersion(rawMessage);
 
-    const { attachments } = message;
-    const hasAttachments = attachments && attachments.length > 0;
-    if (!hasAttachments) {
+    const { attachments, quote } = message;
+    const hasFilesToWrite =
+      (quote && quote.attachments && quote.attachments.length > 0) ||
+      (attachments && attachments.length > 0);
+
+    if (!hasFilesToWrite) {
       return message;
     }
 
@@ -256,7 +259,7 @@ exports.createAttachmentDataWriter = (writeExistingAttachmentData) => {
       return message;
     }
 
-    attachments.forEach((attachment) => {
+    (attachments || []).forEach((attachment) => {
       if (!Attachment.hasData(attachment)) {
         throw new TypeError("'attachment.data' is required during message import");
       }
@@ -266,12 +269,28 @@ exports.createAttachmentDataWriter = (writeExistingAttachmentData) => {
       }
     });
 
-    const messageWithoutAttachmentData = Object.assign({}, message, {
-      attachments: await Promise.all(attachments.map(async (attachment) => {
-        await writeExistingAttachmentData(attachment);
-        return omit(attachment, ['data']);
-      })),
+    const writeThumbnails = exports._mapQuotedAttachments(async (thumbnail) => {
+      const { data, path } = thumbnail;
+
+      // we want to be bulletproof to thumbnails without data
+      if (!data || !path) {
+        return thumbnail;
+      }
+
+      await writeExistingAttachmentData(thumbnail);
+      return omit(thumbnail, ['data']);
     });
+
+    const messageWithoutAttachmentData = Object.assign(
+      {},
+      await writeThumbnails(message),
+      {
+        attachments: await Promise.all((attachments || []).map(async (attachment) => {
+          await writeExistingAttachmentData(attachment);
+          return omit(attachment, ['data']);
+        })),
+      }
+    );
 
     return messageWithoutAttachmentData;
   };

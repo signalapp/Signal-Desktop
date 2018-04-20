@@ -67,6 +67,43 @@ describe('Message', () => {
         await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
       assert.deepEqual(actual, expected);
     });
+
+    it('should process quote attachment thumbnails', async () => {
+      const input = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+        quote: {
+          attachments: [{
+            thumbnail: {
+              path: 'ab/abcdefghi',
+              data: stringToArrayBuffer('It’s easy if you try'),
+            },
+          }],
+        },
+      };
+      const expected = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+        quote: {
+          attachments: [{
+            thumbnail: {
+              path: 'ab/abcdefghi',
+            },
+          }],
+        },
+      };
+
+      const writeExistingAttachmentData = (attachment) => {
+        assert.equal(attachment.path, 'ab/abcdefghi');
+        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
+      };
+
+      const actual =
+        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      assert.deepEqual(actual, expected);
+    });
   });
 
   describe('initializeSchemaVersion', () => {

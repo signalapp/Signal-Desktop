@@ -468,10 +468,70 @@ async function readAttachment(dir, attachment, name, options) {
   const data = await readFileAsArrayBuffer(targetPath);
 
   const isEncrypted = !_.isUndefined(key);
+
   if (isEncrypted) {
     attachment.data = await crypto.decryptSymmetric(key, data);
   } else {
     attachment.data = data;
+  }
+}
+
+async function writeThumbnail(attachment, options) {
+  const {
+    dir,
+    message,
+    index,
+    key,
+    newKey,
+  } = options;
+  const filename = `${_getAnonymousAttachmentFileName(message, index)}-thumbnail`;
+  const target = path.join(dir, filename);
+  const { thumbnail } = attachment;
+
+  if (!thumbnail || !thumbnail.data) {
+    return;
+  }
+
+  await writeEncryptedAttachment(target, thumbnail.data, {
+    key,
+    newKey,
+    filename,
+    dir,
+  });
+}
+
+async function writeThumbnails(rawQuotedAttachments, options) {
+  const { name } = options;
+
+  const { loadAttachmentData } = Signal.Migrations;
+  const promises = rawQuotedAttachments.map(async (attachment) => {
+    if (!attachment || !attachment.thumbnail || !attachment.thumbnail.path) {
+      return attachment;
+    }
+
+    return Object.assign(
+      {},
+      attachment,
+      { thumbnail: await loadAttachmentData(attachment.thumbnail) }
+    );
+  });
+
+  const attachments = await Promise.all(promises);
+  try {
+    await Promise.all(_.map(
+      attachments,
+      (attachment, index) => writeThumbnail(attachment, Object.assign({}, options, {
+        index,
+      }))
+    ));
+  } catch (error) {
+    console.log(
+      'writeThumbnails: error exporting conversation',
+      name,
+      ':',
+      error && error.stack ? error.stack : error
+    );
+    throw error;
   }
 }
 
@@ -485,26 +545,16 @@ async function writeAttachment(attachment, options) {
   } = options;
   const filename = _getAnonymousAttachmentFileName(message, index);
   const target = path.join(dir, filename);
-  if (fs.existsSync(target)) {
-    if (newKey) {
-      console.log(`Deleting attachment ${filename}; key has changed`);
-      fs.unlinkSync(target);
-    } else {
-      console.log(`Skipping attachment ${filename}; already exists`);
-      return;
-    }
-  }
-
   if (!Attachment.hasData(attachment)) {
     throw new TypeError("'attachment.data' is required");
   }
 
-  const ciphertext = await crypto.encryptSymmetric(key, attachment.data);
-
-  const writer = await createFileAndWriter(dir, filename);
-  const stream = createOutputStream(writer);
-  stream.write(Buffer.from(ciphertext));
-  await stream.close();
+  await writeEncryptedAttachment(target, attachment.data, {
+    key,
+    newKey,
+    filename,
+    dir,
+  });
 }
 
 async function writeAttachments(rawAttachments, options) {
@@ -531,6 +581,32 @@ async function writeAttachments(rawAttachments, options) {
   }
 }
 
+async function writeEncryptedAttachment(target, data, options = {}) {
+  const {
+    key,
+    newKey,
+    filename,
+    dir,
+  } = options;
+
+  if (fs.existsSync(target)) {
+    if (newKey) {
+      console.log(`Deleting attachment ${filename}; key has changed`);
+      fs.unlinkSync(target);
+    } else {
+      console.log(`Skipping attachment ${filename}; already exists`);
+      return;
+    }
+  }
+
+  const ciphertext = await crypto.encryptSymmetric(key, data);
+
+  const writer = await createFileAndWriter(dir, filename);
+  const stream = createOutputStream(writer);
+  stream.write(Buffer.from(ciphertext));
+  await stream.close();
+}
+
 function _sanitizeFileName(filename) {
   return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
 }
@@ -542,6 +618,7 @@ async function exportConversation(db, conversation, options) {
     dir,
     attachmentsDir,
     key,
+    newKey,
   } = options;
   if (!name) {
     throw new Error('Need a name!');
@@ -610,6 +687,7 @@ async function exportConversation(db, conversation, options) {
         }
 
         // eliminate attachment data from the JSON, since it will go to disk
+        // Note: this is for legacy messages only, which stored attachment data in the db
         message.attachments = _.map(
           attachments,
           attachment => _.omit(attachment, ['data'])
@@ -629,16 +707,32 @@ async function exportConversation(db, conversation, options) {
         const jsonString = JSON.stringify(stringify(message));
         stream.write(jsonString);
 
+        console.log({ backupMessage: message });
         if (attachments && attachments.length > 0) {
           const exportAttachments = () => writeAttachments(attachments, {
             dir: attachmentsDir,
             name,
             message,
             key,
+            newKey,
           });
 
           // eslint-disable-next-line more/no-then
           promiseChain = promiseChain.then(exportAttachments);
+        }
+
+        const quoteThumbnails = message.quote && message.quote.attachments;
+        if (quoteThumbnails && quoteThumbnails.length > 0) {
+          const exportQuoteThumbnails = () => writeThumbnails(quoteThumbnails, {
+            dir: attachmentsDir,
+            name,
+            message,
+            key,
+            newKey,
+          });
+
+          // eslint-disable-next-line more/no-then
+          promiseChain = promiseChain.then(exportQuoteThumbnails);
         }
 
         count += 1;
@@ -701,6 +795,7 @@ function exportConversations(db, options) {
     messagesDir,
     attachmentsDir,
     key,
+    newKey,
   } = options;
 
   if (!messagesDir) {
@@ -747,6 +842,7 @@ function exportConversations(db, options) {
             dir,
             attachmentsDir,
             key,
+            newKey,
           });
         };
 
@@ -808,11 +904,23 @@ function loadAttachments(dir, getName, options) {
   options = options || {};
   const { message } = options;
 
-  const promises = _.map(message.attachments, (attachment, index) => {
+  const attachmentPromises = _.map(message.attachments, (attachment, index) => {
     const name = getName(message, index, attachment);
     return readAttachment(dir, attachment, name, options);
   });
-  return Promise.all(promises);
+
+  const quoteAttachments = message.quote && message.quote.attachments;
+  const thumbnailPromises = _.map(quoteAttachments, (attachment, index) => {
+    const thumbnail = attachment && attachment.thumbnail;
+    if (!thumbnail) {
+      return null;
+    }
+
+    const name = `${getName(message, index, thumbnail)}-thumbnail`;
+    return readAttachment(dir, thumbnail, name, options);
+  });
+
+  return Promise.all(attachmentPromises.concat(thumbnailPromises));
 }
 
 function saveMessage(db, message) {
@@ -922,7 +1030,8 @@ async function importConversation(db, dir, options) {
       return false;
     }
 
-    if (message.attachments && message.attachments.length) {
+    if ((message.attachments && message.attachments.length) ||
+      (message.quote && message.quote.attachments && message.quote.attachments.length)) {
       const importMessage = async () => {
         const getName = attachmentsDir
           ? _getAnonymousAttachmentFileName
