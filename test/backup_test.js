@@ -266,11 +266,13 @@ describe('Backup', () => {
         return _.omit(model, ['id']);
       }
 
-      const slash = path.sep === '/' ? '\\/' : '\\\\';
-      const twoSlashes = new RegExp(`.*${slash}.*${slash}.*`);
+      // On windows, attachmentsPath has a normal windows path format (\ separators), but
+      //   glob returns only /. We normalize to / separators for our manipulations.
+      const twoSlashes = /[^/]*\/[^/]*\/[^/]*/;
+      const normalizedBase = attachmentsPath.replace(/\\/g, '/');
       function removeDirs(dirs) {
         return _.filter(dirs, (fullDir) => {
-          const dir = fullDir.replace(attachmentsPath, '');
+          const dir = fullDir.replace(normalizedBase, '');
           return twoSlashes.test(dir);
         });
       }
