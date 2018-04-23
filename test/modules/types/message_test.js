@@ -410,6 +410,37 @@ describe('Message', () => {
       assert.deepEqual(result, message);
     });
 
+    it('eliminates thumbnails with no data fielkd', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            fileName: 'cat.gif',
+            contentType: 'image/gif',
+            thumbnail: {
+              fileName: 'failed to download!',
+            },
+          }],
+        },
+      };
+      const expected = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            contentType: 'image/gif',
+            fileName: 'cat.gif',
+          }],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, expected);
+    });
+
     it('calls provided async function for each quoted attachment', async () => {
       const upgradeAttachment = sinon.stub().resolves({
         path: '/new/path/on/disk',
