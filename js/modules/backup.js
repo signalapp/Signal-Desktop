@@ -1030,8 +1030,11 @@ async function importConversation(db, dir, options) {
       return false;
     }
 
-    if ((message.attachments && message.attachments.length) ||
-      (message.quote && message.quote.attachments && message.quote.attachments.length)) {
+    const hasAttachments = message.attachments && message.attachments.length;
+    const hasQuotedAttachments = message.quote && message.quote.attachments &&
+      message.quote.attachments.length > 0;
+
+    if (hasAttachments || hasQuotedAttachments) {
       const importMessage = async () => {
         const getName = attachmentsDir
           ? _getAnonymousAttachmentFileName

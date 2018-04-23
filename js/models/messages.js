@@ -214,11 +214,11 @@
     },
     getQuoteObjectUrl() {
       const thumbnail = this.quoteThumbnail;
-      if (thumbnail && thumbnail.objectUrl) {
-        return thumbnail.objectUrl;
+      if (!thumbnail || !thumbnail.objectUrl) {
+        return null;
       }
 
-      return null;
+      return thumbnail.objectUrl;
     },
     getQuoteContact() {
       const quote = this.get('quote');

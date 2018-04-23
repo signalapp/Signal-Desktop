@@ -231,7 +231,6 @@ describe('Backup', () => {
     it('exports then imports to produce the same data we started with', async () => {
       const {
         attachmentsPath,
-        fs,
         fse,
         glob,
         path,
@@ -266,14 +265,16 @@ describe('Backup', () => {
         return _.omit(model, ['id']);
       }
 
+      // We want to know which paths have two slashes, since that tells us which files
+      //   in the attachment fan-out are files vs. directories.
+      const TWO_SLASHES = /[^/]*\/[^/]*\/[^/]*/;
       // On windows, attachmentsPath has a normal windows path format (\ separators), but
       //   glob returns only /. We normalize to / separators for our manipulations.
-      const twoSlashes = /[^/]*\/[^/]*\/[^/]*/;
       const normalizedBase = attachmentsPath.replace(/\\/g, '/');
       function removeDirs(dirs) {
         return _.filter(dirs, (fullDir) => {
           const dir = fullDir.replace(normalizedBase, '');
-          return twoSlashes.test(dir);
+          return TWO_SLASHES.test(dir);
         });
       }
 
@@ -433,7 +434,7 @@ describe('Backup', () => {
 
         console.log('Backup test: Ensure that messages.zip exists');
         const zipPath = path.join(backupDir, 'messages.zip');
-        const messageZipExists = fs.existsSync(zipPath);
+        const messageZipExists = fse.existsSync(zipPath);
         assert.strictEqual(true, messageZipExists);
 
         console.log('Backup test: Ensure that all attachments made it to backup dir');

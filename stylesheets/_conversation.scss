@@ -869,12 +869,13 @@ span.status {
 
 // We only add margin if there's no 'sender' element beforehand, which is only possible
 //   on incoming messages, and only in groups (when we're not in a .private conversation).
-.outgoing .quoted-message, .private .incoming .quoted-message {
+.outgoing .quoted-message,
+.private .incoming .quoted-message {
   margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
 }
 
 .bottom-bar .quoted-message {
-  margin: 0px;
+  margin: 0;
 }
 
 // We need to use the wrapper because the conversation view calculates the height of all

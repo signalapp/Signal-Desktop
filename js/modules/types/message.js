@@ -274,6 +274,13 @@ exports.createAttachmentDataWriter = (writeExistingAttachmentData) => {
 
       // we want to be bulletproof to thumbnails without data
       if (!data || !path) {
+        console.log(
+          'Thumbnail had neither data nor path.',
+          'id:',
+          message.id,
+          'source:',
+          message.source
+        );
         return thumbnail;
       }
 

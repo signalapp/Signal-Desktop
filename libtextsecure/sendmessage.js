@@ -97,11 +97,10 @@ Message.prototype = {
         if (this.quote) {
             var QuotedAttachment = textsecure.protobuf.DataMessage.Quote.QuotedAttachment;
             var Quote = textsecure.protobuf.DataMessage.Quote;
-            console.log(this.quote);
 
-            proto.quote      = new Quote();
+            proto.quote = new Quote();
+            var quote = proto.quote;
 
-            var quote         = proto.quote;
             quote.id          = this.quote.id;
             quote.author      = this.quote.author;
             quote.text        = this.quote.text;
@@ -289,9 +288,10 @@ MessageSender.prototype = {
 
     sendMessage: function(attrs) {
         var message = new Message(attrs);
-        return this.uploadAttachments(message).then(function() {
-            return this.uploadThumbnails(message);
-        }.bind(this)).then(function() {
+        return Promise.all([
+            this.uploadAttachments(message),
+            this.uploadThumbnails(message),
+        ]).then(function() {
             return new Promise(function(resolve, reject) {
                 this.sendMessageProto(
                     message.timestamp,

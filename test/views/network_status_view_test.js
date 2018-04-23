@@ -14,6 +14,11 @@ describe('NetworkStatusView', function() {
 
         after(function() {
             window.getSocketStatus = oldGetSocketStatus;
+
+            // It turns out that continued calls to window.getSocketStatus happen
+            //   because we host NetworkStatusView in three mock interfaces, and the view
+            //   checks every N seconds. That results in infinite errors unless there is
+            //   something to call.
             window.getSocketStatus = function() { return WebSocket.OPEN; };
         });
         /* END stubbing globals */
