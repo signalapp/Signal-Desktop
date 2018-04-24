@@ -1,6 +1,7 @@
 /* global $: false */
 /* global _: false */
 /* global Backbone: false */
+/* global filesize: false */
 /* global moment: false */
 
 /* global i18n: false */
@@ -244,7 +245,7 @@
         model: {
           mediaType: this.mediaType(),
           fileName: this.displayName(),
-          fileSize: window.filesize(this.model.size),
+          fileSize: filesize(this.model.size),
           altText: i18n('clickToSave'),
         },
       });
