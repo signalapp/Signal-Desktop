@@ -429,7 +429,7 @@
       }
 
       const first = attachments[0];
-      if (Signal.Types.MIME.isImage(first.contentType)) {
+      if (Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType)) {
         return true;
       }
 

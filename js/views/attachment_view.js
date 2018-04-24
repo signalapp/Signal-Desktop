@@ -142,15 +142,16 @@
     },
     isAudio() {
       const { contentType } = this.model;
+      // TODO: Implement and use `Signal.Util.GoogleChrome.isAudioTypeSupported`:
       return Signal.Types.MIME.isAudio(contentType);
     },
     isVideo() {
       const { contentType } = this.model;
-      return Signal.Types.MIME.isVideo(contentType);
+      return Signal.Util.GoogleChrome.isVideoTypeSupported(contentType);
     },
     isImage() {
       const { contentType } = this.model;
-      return Signal.Types.MIME.isImage(contentType);
+      return Signal.Util.GoogleChrome.isImageTypeSupported(contentType);
     },
     mediaType() {
       if (this.isVoiceMessage()) {

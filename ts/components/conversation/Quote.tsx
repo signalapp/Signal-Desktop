@@ -2,6 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import * as MIME from '../../../ts/types/MIME';
+import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
 
 interface Props {
@@ -91,12 +92,12 @@ export class Quote extends React.Component<Props, {}> {
     const { contentType, thumbnail } = first;
     const objectUrl = getObjectUrl(thumbnail);
 
-    if (MIME.isVideo(contentType)) {
+    if (GoogleChrome.isVideoTypeSupported(contentType)) {
       return objectUrl
         ? this.renderImage(objectUrl, 'play')
         : this.renderIcon('movie');
     }
-    if (MIME.isImage(contentType)) {
+    if (GoogleChrome.isImageTypeSupported(contentType)) {
       return objectUrl
         ? this.renderImage(objectUrl)
         : this.renderIcon('image');
@@ -122,10 +123,10 @@ export class Quote extends React.Component<Props, {}> {
     const first = attachments[0];
     const { contentType, fileName, isVoiceMessage } = first;
 
-    if (MIME.isVideo(contentType)) {
+    if (GoogleChrome.isVideoTypeSupported(contentType)) {
       return <div className="type-label">{i18n('video')}</div>;
     }
-    if (MIME.isImage(contentType)) {
+    if (GoogleChrome.isImageTypeSupported(contentType)) {
       return <div className="type-label">{i18n('photo')}</div>;
     }
     if (MIME.isAudio(contentType) && isVoiceMessage) {

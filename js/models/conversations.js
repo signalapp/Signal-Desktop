@@ -17,7 +17,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message, MIME } = window.Signal.Types;
+  const { Message } = window.Signal.Types;
   const { upgradeMessageSchema, loadAttachmentData } = window.Signal.Migrations;
 
   // TODO: Factor out private and group subclasses of Conversation
@@ -651,7 +651,8 @@
         text: quotedMessage.get('body'),
         attachments: await Promise.all((attachments || []).map(async (attachment) => {
           const { contentType } = attachment;
-          const willMakeThumbnail = MIME.isImage(contentType);
+          const willMakeThumbnail =
+            Signal.Util.GoogleChrome.isImageTypeSupported(contentType);
 
           return {
             contentType,
@@ -1111,7 +1112,9 @@
       const first = attachments[0];
       const { thumbnail, contentType } = first;
 
-      return thumbnail || MIME.isVideo(contentType) || MIME.isImage(contentType);
+      return thumbnail ||
+        Signal.Util.GoogleChrome.isImageTypeSupported(contentType) ||
+        Signal.Util.GoogleChrome.isVideoTypeSupported(contentType);
     },
     forceRender(message) {
       message.trigger('change', message);
@@ -1151,7 +1154,7 @@
 
       // Maybe in the future we could try to pull the thumbnail from a video ourselves,
       //   but for now we will rely on incoming thumbnails only.
-      if (!MIME.isImage(first.contentType)) {
+      if (!Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType)) {
         return false;
       }
 
@@ -1191,7 +1194,7 @@
 
       // Maybe in the future we could try to pull thumbnails video ourselves,
       //   but for now we will rely on incoming thumbnails only.
-      if (!first || !MIME.isImage(first.contentType)) {
+      if (!first || !Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType)) {
         return;
       }
 
