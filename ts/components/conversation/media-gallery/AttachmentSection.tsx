@@ -59,7 +59,7 @@ export class AttachmentSection extends React.Component<Props, {}> {
         case 'media':
           return (
             <MediaGridItem
-              key={message.received_at}
+              key={message.id}
               message={message}
               onClick={onClick}
             />
@@ -67,7 +67,7 @@ export class AttachmentSection extends React.Component<Props, {}> {
         case 'documents':
           return (
             <DocumentListItem
-              key={message.received_at}
+              key={message.id}
               i18n={i18n}
               fileSize={firstAttachment.size}
               fileName={firstAttachment.fileName}

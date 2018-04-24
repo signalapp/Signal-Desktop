@@ -13,6 +13,7 @@ import {
 import { Message } from '../../../components/conversation/media-gallery/propTypes/Message';
 
 const toMessage = (date: Date): Message => ({
+  id: date.toUTCString(),
   received_at: date.getTime(),
   attachments: [],
 });
@@ -43,10 +44,12 @@ describe('groupMessagesByDate', () => {
         type: 'today',
         messages: [
           {
+            id: 'Thu, 12 Apr 2018 12:00:00 GMT',
             received_at: 1523534400000,
             attachments: [],
           },
           {
+            id: 'Thu, 12 Apr 2018 00:01:00 GMT',
             received_at: 1523491260000,
             attachments: [],
           },
@@ -56,6 +59,7 @@ describe('groupMessagesByDate', () => {
         type: 'yesterday',
         messages: [
           {
+            id: 'Wed, 11 Apr 2018 23:59:00 GMT',
             received_at: 1523491140000,
             attachments: [],
           },
@@ -65,6 +69,7 @@ describe('groupMessagesByDate', () => {
         type: 'thisWeek',
         messages: [
           {
+            id: 'Mon, 09 Apr 2018 00:01:00 GMT',
             received_at: 1523232060000,
             attachments: [],
           },
@@ -74,10 +79,12 @@ describe('groupMessagesByDate', () => {
         type: 'thisMonth',
         messages: [
           {
+            id: 'Sun, 08 Apr 2018 23:59:00 GMT',
             received_at: 1523231940000,
             attachments: [],
           },
           {
+            id: 'Sun, 01 Apr 2018 00:01:00 GMT',
             received_at: 1522540860000,
             attachments: [],
           },
@@ -89,10 +96,12 @@ describe('groupMessagesByDate', () => {
         month: 2,
         messages: [
           {
+            id: 'Sat, 31 Mar 2018 23:59:00 GMT',
             received_at: 1522540740000,
             attachments: [],
           },
           {
+            id: 'Thu, 01 Mar 2018 14:00:00 GMT',
             received_at: 1519912800000,
             attachments: [],
           },
@@ -104,10 +113,12 @@ describe('groupMessagesByDate', () => {
         month: 1,
         messages: [
           {
+            id: 'Mon, 28 Feb 2011 23:59:00 GMT',
             received_at: 1298937540000,
             attachments: [],
           },
           {
+            id: 'Tue, 01 Feb 2011 10:00:00 GMT',
             received_at: 1296554400000,
             attachments: [],
           },

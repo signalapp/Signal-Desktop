@@ -11,6 +11,7 @@ import { MapAsync } from '../../../../types/MapAsync';
 import { MIMEType } from '../../../../types/MIME';
 
 export type Message = {
+  id: string;
   attachments: Array<Attachment>;
   received_at: number;
 } & { objectURL?: string };
