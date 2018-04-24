@@ -1,4 +1,5 @@
 const { assert } = require('chai');
+const sinon = require('sinon');
 
 const Message = require('../../../js/modules/types/message');
 const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buffer');
@@ -55,6 +56,43 @@ describe('Message', () => {
         attachments: [{
           path: 'ab/abcdefghi',
         }],
+      };
+
+      const writeExistingAttachmentData = (attachment) => {
+        assert.equal(attachment.path, 'ab/abcdefghi');
+        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
+      };
+
+      const actual =
+        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should process quote attachment thumbnails', async () => {
+      const input = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+        quote: {
+          attachments: [{
+            thumbnail: {
+              path: 'ab/abcdefghi',
+              data: stringToArrayBuffer('It’s easy if you try'),
+            },
+          }],
+        },
+      };
+      const expected = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+        quote: {
+          attachments: [{
+            thumbnail: {
+              path: 'ab/abcdefghi',
+            },
+          }],
+        },
       };
 
       const writeExistingAttachmentData = (attachment) => {
@@ -306,6 +344,133 @@ describe('Message', () => {
       };
       const actual = await upgradeWithVersion(input);
       assert.deepEqual(actual, expected);
+    });
+  });
+
+  describe('_mapQuotedAttachments', () => {
+    it('handles message with no quote', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, message);
+    });
+
+    it('handles quote with no attachments', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+        },
+      };
+      const expected = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, expected);
+    });
+
+    it('handles zero attachments', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, message);
+    });
+
+    it('handles attachments with no thumbnail', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, message);
+    });
+
+    it('eliminates thumbnails with no data fielkd', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            fileName: 'cat.gif',
+            contentType: 'image/gif',
+            thumbnail: {
+              fileName: 'failed to download!',
+            },
+          }],
+        },
+      };
+      const expected = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            contentType: 'image/gif',
+            fileName: 'cat.gif',
+          }],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, expected);
+    });
+
+    it('calls provided async function for each quoted attachment', async () => {
+      const upgradeAttachment = sinon.stub().resolves({
+        path: '/new/path/on/disk',
+      });
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            thumbnail: {
+              data: 'data is here',
+            },
+          }],
+        },
+      };
+      const expected = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            thumbnail: {
+              path: '/new/path/on/disk',
+            },
+          }],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, expected);
     });
   });
 });

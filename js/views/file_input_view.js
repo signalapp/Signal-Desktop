@@ -22,6 +22,41 @@
         template: i18n('unsupportedFileType')
     });
 
+    function makeThumbnail(size, objectUrl) {
+        return new Promise(function(resolve, reject) {
+            var img = document.createElement('img');
+            img.onerror = reject;
+            img.onload = function () {
+                // using components/blueimp-load-image
+
+                // first, make the correct size
+                var canvas = loadImage.scale(img, {
+                    canvas: true,
+                    cover: true,
+                    maxWidth: size,
+                    maxHeight: size,
+                    minWidth: size,
+                    minHeight: size,
+                });
+
+                // then crop
+                canvas = loadImage.scale(canvas, {
+                    canvas: true,
+                    crop: true,
+                    maxWidth: size,
+                    maxHeight: size,
+                    minWidth: size,
+                    minHeight: size,
+                });
+
+                var blob = window.dataURLToBlobSync(canvas.toDataURL('image/png'));
+
+                resolve(blob);
+            };
+            img.src = objectUrl;
+        });
+    }
+
     Whisper.FileInputView = Backbone.View.extend({
         tagName: 'span',
         className: 'file-input',
@@ -239,29 +274,11 @@
                 return Promise.resolve();
             }
 
-            return new Promise(function(resolve, reject) {
-                var url = URL.createObjectURL(file);
-                var img = document.createElement('img');
-                img.onerror = reject;
-                img.onload = function () {
-                    URL.revokeObjectURL(url);
-                    // loadImage.scale -> components/blueimp-load-image
-                    // scale, then crop.
-                    var canvas = loadImage.scale(img, {
-                        canvas: true, maxWidth: size, maxHeight: size,
-                        cover: true, minWidth: size, minHeight: size
-                    });
-                    canvas = loadImage.scale(canvas, {
-                        canvas: true, maxWidth: size, maxHeight: size,
-                        crop: true, minWidth: size, minHeight: size
-                    });
-
-                    var blob = window.dataURLToBlobSync(canvas.toDataURL('image/png'));
-
-                    resolve(blob);
-                };
-                img.src = url;
-            }).then(this.readFile);
+            const objectUrl = URL.createObjectURL(file);
+            return makeThumbnail(256, file).then(function(arrayBuffer) {
+                URL.revokeObjectURL(url);
+                return this.readFile(arrayBuffer);
+            });
         },
 
         // File -> Promise Attachment
@@ -348,4 +365,6 @@
             }
         }
     });
+
+    Whisper.FileInputView.makeThumbnail = makeThumbnail;
 })();

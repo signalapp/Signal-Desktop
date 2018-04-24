@@ -2,9 +2,9 @@ build/**
 components/**
 coverage/**
 dist/**
-libtextsecure/**
 
 # these aren't ready yet, pulling files in one-by-one
+libtextsecure/**
 js/*.js
 js/models/**/*.js
 js/views/**/*.js
@@ -22,7 +22,10 @@ ts/**/*.js
 !js/database.js
 !js/logging.js
 !js/models/conversations.js
+!js/models/messages.js
+!test/backup_test.js
 !js/views/attachment_view.js
+!js/views/conversation_view.js
 !js/views/conversation_search_view.js
 !js/views/backbone_wrapper_view.js
 !js/views/debug_log_view.js
@@ -30,6 +33,7 @@ ts/**/*.js
 !js/views/inbox_view.js
 !js/views/message_view.js
 !js/views/settings_view.js
+!libtextsecure/message_receiver.js
 !main.js
 !preload.js
 !prepare_build.js

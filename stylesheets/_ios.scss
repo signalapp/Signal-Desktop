@@ -106,13 +106,221 @@ $ios-border-color: rgba(0,0,0,0.1);
     padding: 10px;
   }
 
+  .message-container,
+  .message-list {
+    .bubble .content {
+      margin-top: 0px;
+    }
+  }
+
+  .quoted-message {
+    // Not ideal, but necessary to override the specificity of the android theme color
+    //   classes used in conversations.scss
+    background-color: white !important;
+    border: none !important;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+    margin-top: 0px !important;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+
+    .primary {
+      padding: 10px;
+
+      .text,
+      .filename-label,
+      .type-label {
+        border-left: 2px solid $grey_l1;
+        padding: 5px;
+        padding-left: 7px;
+        // Without this smaller bottom padding, text beyond four lines still shows up!
+        padding-bottom: 2px;
+        color: black;
+      }
+
+      .author {
+        display: none;
+      }
+
+      .ios-label {
+        display: block;
+        color: $grey_l1;
+        font-size: smaller;
+        margin-bottom: 3px;
+      }
+    }
+
+    .icon-container {
+      height: 61px;
+      width: 61px;
+      min-width: 61px;
+
+      .circle-background {
+        left: 12px;
+        right: 12px;
+        top: 12px;
+        bottom: 12px;
+
+        background-color: $blue !important;
+      }
+
+      .icon {
+        left: 18px;
+        right: 18px;
+        top: 18px;
+        bottom: 18px;
+
+        background-color: white !important;
+      }
+
+      .inner {
+        padding: 12px;
+        height: 61px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .close-container {
+      flex: initial;
+      min-width: 32px;
+      width: 32px;
+      height: 50px;
+      position: relative;
+
+      top: auto;
+      right: auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      -webkit-mask: none;
+      background: none;
+
+      .close-button {
+        height: 20px;
+        width: 20px;
+
+        @include color-svg('../images/close-circle.svg', $grey_l4);
+      }
+    }
+
+    .from-me {
+      .primary {
+        .text,
+        .filename-label,
+        .type-label {
+          border-left: 2px solid $blue;
+        }
+      }
+    }
+  }
+
+  .incoming .quoted-message {
+    border-bottom: 1px solid lightgray !important;
+  }
+
+  .quoted-message.from-me .primary {
+    .text,
+    .filename-label,
+    .type-label {
+      border-left: 2px solid $blue;
+    }
+  }
+
+  .outgoing .quoted-message,
+  .private .incoming .quoted-message {
+    margin-top: 0px;
+  }
+
+  .outgoing .quoted-message .icon-container .circle-background {
+    background-color: lightgray !important;
+  }
+
+  .bottom-bar {
+    .quote-wrapper {
+      margin-right: 0px;
+      margin-bottom: 15px;
+    }
+
+    .quoted-message {
+      background: none !important;
+
+      .primary {
+        padding: 0px;
+
+        .ios-label {
+          color: $grey_l4;
+        }
+      }
+
+      .icon-container {
+        height: 50px;
+        width: 50px;
+        min-width: 50px;
+
+        .circle-background {
+          left: 6px;
+          right: 6px;
+          top: 6px;
+          bottom: 6px;
+
+          background-color: $blue !important;
+        }
+
+        .icon {
+          left: 12px;
+          right: 12px;
+          top: 12px;
+          bottom: 12px;
+        }
+
+        .inner {
+          padding: 0px;
+          height: 50px;
+        }
+      }
+    }
+  }
 
   .attachments .bubbled {
     border-radius: 15px;
-    margin-bottom: 0.25em;
 
     padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 5px;
 
+    video, audio {
+      margin-bottom: 5px;
+    }
+
+    position: relative;
+  }
+
+  .tail-wrapper {
+    margin-bottom: 5px;
+  }
+  .inner-bubble {
+    border-radius: 15px;
+    overflow: hidden;
+
+    .body {
+      margin-top: 0;
+      display: inline-block;
+      padding: 10px;
+      position: relative;
+      word-break: break-word;
+    }
+  }
+
+  .tail-wrapper.with-tail {
     position: relative;
 
     &:before, &:after {
@@ -137,68 +345,45 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
 
-  .bubble {
+  .meta {
+    clear: both;
+  }
+
+  .outgoing .tail-wrapper {
+    float: right;
+
+    .inner-bubble {
+      max-width: 100%;
+    }
+  }
+
+  .incoming .tail-wrapper {
+    float: left;
+
+    .inner-bubble {
+      max-width: 100%;
+    }
+  }
+
+  // The browser doesn't always clip the border-radius properly, so we can get a
+  //   partial-pixel halo effect. Sadly, it is still needed because a quote can force the
+  //   bubble wider than an attached image, and we need a background color on the bottom
+  //   section if the image doesn't cover it all.
+  .outgoing .tail-wrapper {
+    .attachments {
+      background-color: $blue;
+    }
     .content {
-      margin-bottom: 5px;
-      .body {
-        display: inline-block;
-        padding: 10px;
-        position: relative;
-        word-break: break-word;
+      background-color: $blue;
+    }
 
-        &:before, &:after {
-          content: '';
-          display: block;
-          border-radius: 20px;
-          position: absolute;
-          width: 10px;
-        }
-        &:before {
-          right: -1px;
-          bottom: -3px;
-          height: 10px;
-          border-radius: 20px;
-          background: $blue;
-        }
-        &:after {
-          height: 11px;
-          right: -6px;
-          bottom: -3px;
-          background: #eee;
-        }
-      }
-    }
-    .content, .attachments img {
-      border-radius: 15px;
-    }
-    .attachments img {
-      background-color: white;
-    }
-    .meta {
-      clear: both;
+    &, .body, a {
+      @include invert-text-color;
     }
   }
 
-  .incoming .bubbled {
-    background-color: white;
-    color: black;
-    float: left;
-    max-width: 100%;
-
-    &:before {
-      left: -1px;
-      background-color: white;
-    }
-    &:after {
-      left: -6px;
-    }
-  }
-
-  .incoming .content {
-    background-color: white;
-    color: black;
-    float: left;
-    .body {
+  .incoming .tail-wrapper {
+    &.with-tail {
       &:before {
         left: -1px;
         background-color: white;
@@ -207,15 +392,10 @@ $ios-border-color: rgba(0,0,0,0.1);
         left: -6px;
       }
     }
-  }
-  .outgoing {
-    .content, .attachments .bubbled {
-      background-color: $blue;
-      max-width: 100%;
-      &, .body, a {
-        @include invert-text-color;
-      }
-      float: right;
+
+    .inner-bubble {
+      background-color: white;
+      color: black;
     }
   }
 
@@ -236,7 +416,10 @@ $ios-border-color: rgba(0,0,0,0.1);
     a {
       border-radius: 15px;
     }
-    margin-bottom: 1px;
+    img {
+      margin-right: auto;
+      margin-left: auto;
+    }
   }
   .hourglass {
     @include hourglass(#999);

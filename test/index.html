@@ -206,15 +206,41 @@
   <script type='text/x-tmpl-mustache' id='message'>
       {{> avatar }}
       <div class='bubble {{ avatar.color }}'>
-          <div class='sender' dir='auto'>{{ sender }}</div>
-          <div class='attachments'></div>
-          <p class='content' dir='auto'>
-            {{ #message }}<span class='body'>{{ message }}</span>{{ /message }}
-          </p>
+          <div class='sender' dir='auto'>
+            {{ sender }}
+            {{ #profileName }}
+              <span class='profileName'>{{ profileName }} </span>
+            {{ /profileName }}
+          </div>
+          <div class='tail-wrapper {{ innerBubbleClasses }}'>
+            <div class='inner-bubble'>
+              {{ #hasAttachments }}
+                <div class='attachments'></div>
+              {{ /hasAttachments }}
+              {{ #hasBody }}
+                <div class='content' dir='auto'>
+                  {{ #message }}
+                    <div class='body'>{{ message }}</div>
+                  {{ /message }}
+                </div>
+                {{ /hasBody }}
+            </div>
+          </div>
           <div class='meta'>
             <span class='timestamp' data-timestamp={{ timestamp }}></span>
             <span class='status hide'></span>
+            <span class='timer'></span>
           </div>
+          {{ #hoverIcon }}
+            <div class='menu-container menu'>
+              <div class='menu-anchor'>
+                <span class='dots-horizontal-icon'></span>
+                <ul class='menu-list'>
+                  <li class='reply'>{{ reply }}</li>
+                </ul>
+              </div>
+            </div>
+          {{ /hoverIcon }}
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='hourglass'>
@@ -583,7 +609,7 @@
 
   <script type="text/javascript" src="../js/chromium.js" data-cover></script>
 
-  <script type='text/javascript' src='../js/views/backbone_wrapper_view.js'></script>
+  <script type='text/javascript' src='../js/views/react_wrapper_view.js'></script>
   <script type='text/javascript' src='../js/views/whisper_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/debug_log_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/toast_view.js' data-cover></script>

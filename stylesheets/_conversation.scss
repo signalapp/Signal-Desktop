@@ -353,6 +353,45 @@ li.entry .error-icon-container {
 
   &:hover .error-message { display: inline-block; }
 }
+li.entry .menu-container {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 5px);
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .menu-anchor {
+    position: relative;
+  }
+
+  li {
+    margin: 0px;
+  }
+
+  cursor: pointer;
+}
+
+.dots-horizontal-icon {
+  visibility: hidden;
+}
+
+li.entry:hover .dots-horizontal-icon {
+  visibility: visible;
+}
+
+li.entry.outgoing .menu-container {
+  left: auto;
+  right: calc(100% + 5px);
+}
+
+.incoming .menu-list {
+  left: 0;
+  right: auto;
+}
+
 
 .error-icon {
   display: inline-block;
@@ -360,6 +399,18 @@ li.entry .error-icon-container {
   height: $error-icon-size;
   position: relative;
   @include color-svg('../images/warning.svg', red);
+}
+
+.dots-horizontal-icon {
+  display: inline-block;
+  width: $error-icon-size;
+  height: $error-icon-size;
+  position: relative;
+  @include color-svg('../images/dots-horizontal.svg', gray);
+
+  &:hover {
+    @include color-svg('../images/dots-horizontal.svg', black);
+  }
 }
 
 .group {
@@ -456,6 +507,13 @@ span.status {
       a {
         word-break: break-all
       }
+    }
+
+    .attachments + .content {
+      margin-top: 0.5em;
+    }
+    .quote-wrapper + .content {
+      margin-top: 0.5em;
     }
 
     p {
@@ -569,6 +627,7 @@ span.status {
     }
 
     img, audio, video {
+      display: block;
       max-width: 100%;
       max-height: 300px;
     }
@@ -591,6 +650,7 @@ span.status {
       position: relative;
       padding: 5px;
       padding-right: 10px;
+      padding-bottom: 0px;
 
       cursor: pointer;
 
@@ -648,6 +708,199 @@ span.status {
     font-style: italic;
   }
 }
+
+.quoted-message {
+  @include message-replies-colors;
+  @include twenty-percent-colors;
+
+  &.no-click {
+    cursor: auto;
+  }
+
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+
+  border-radius: 2px;
+  background-color: #eee;
+  position: relative;
+
+  margin-right: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
+  margin-left: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
+  margin-bottom: 0.5em;
+
+  // Accent color border:
+  border-left-width: 3px;
+  border-left-style: solid;
+
+  .primary {
+    flex-grow: 1;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+
+    // Will turn on in the iOS theme. This extra element is necessary because the iOS
+    //   theme requires text that isn't used at all in the Android Theme
+    .ios-label {
+      display: none;
+    }
+
+    .author {
+      font-weight: bold;
+      margin-bottom: 0.3em;
+      @include text-colors;
+
+      .profile-name {
+        font-size: smaller;
+      }
+    }
+
+    .text {
+      white-space: pre-wrap;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+
+      // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
+      //   ... as the truncation indicator. That's not a solution that works well for
+      //   all languages. More resources:
+      //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+      //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
+    }
+
+    .type-label {
+      font-style: italic;
+      font-size: 12px;
+    }
+
+    .filename-label {
+      font-size: 12px;
+    }
+  }
+
+  .close-container {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    height: 16px;
+    width: 16px;
+
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 50%;
+
+    .close-button {
+      width: 100%;
+      height: 100%;
+      @include color-svg('../images/x.svg', $grey);
+    }
+  }
+
+  .icon-container {
+    flex: initial;
+    min-width: 50px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+
+    .circle-background {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      top: 6px;
+      bottom: 6px;
+
+      border-radius: 50%;
+      @include avatar-colors;
+      &.white {
+        background-color: white;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      top: 12px;
+      bottom: 12px;
+
+      &.file {
+        @include color-svg('../images/file.svg', white);
+      }
+      &.image {
+        @include color-svg('../images/image.svg', white);
+      }
+      &.microphone {
+        @include color-svg('../images/microphone.svg', white);
+      }
+      &.play {
+        @include color-svg('../images/play.svg', white);
+      }
+      &.movie {
+        @include color-svg('../images/movie.svg', white);
+      }
+
+      @include avatar-colors;
+    }
+
+    .inner {
+      position: relative;
+
+      height: 50px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      object-fit: cover;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+// We only add margin if there's no 'sender' element beforehand, which is only possible
+//   on incoming messages, and only in groups (when we're not in a .private conversation).
+.outgoing .quoted-message,
+.private .incoming .quoted-message {
+  margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
+}
+
+.bottom-bar .quoted-message {
+  margin: 0;
+}
+
+// We need to use the wrapper because the conversation view calculates the height of all
+//   things in the composition area. A margin on an inner div won't be included in that
+//   height calculation.
+.bottom-bar .quote-wrapper {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.send .quote-wrapper {
+  margin-left: 46px;
+  margin-top: 5px;
+  margin-right: 75px;
+  margin-bottom: 0px;
+}
+
+.incoming .quoted-message {
+  background-color: rgba(white, 0.6);
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
+  border-left-color: white;
+}
+
 
 .message-list,
 .message-container {

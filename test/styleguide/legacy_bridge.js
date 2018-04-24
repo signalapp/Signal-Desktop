@@ -1,3 +1,5 @@
+'use strict';
+
 /* global window: false */
 
 // Because we aren't hosting the Style Guide in Electron, we can't rely on preload.js
@@ -10,12 +12,41 @@
 window.PROTO_ROOT = '/protos';
 window.nodeSetImmediate = () => {};
 
+window.libphonenumber = {
+  parse: number => ({
+    e164: number,
+    isValidNumber: true,
+    getCountryCode: () => '1',
+    getNationalNumber: () => number,
+  }),
+  isValidNumber: () => true,
+  getRegionCodeForNumber: () => '1',
+  format: number => number.e164,
+  PhoneNumberFormat: {},
+};
+
 window.Signal = {};
 window.Signal.Backup = {};
 window.Signal.Crypto = {};
 window.Signal.Logs = {};
 window.Signal.Migrations = {
-  getPlaceholderMigrations: () => {},
+  getPlaceholderMigrations: () => [{
+    migrate: (transaction, next) => {
+      console.log('migration version 1');
+      transaction.db.createObjectStore('conversations');
+      next();
+    },
+    version: 1,
+  }, {
+    migrate: (transaction, next) => {
+      console.log('migration version 2');
+      const messages = transaction.db.createObjectStore('messages');
+      messages.createIndex('expires_at', 'expireTimer', { unique: false });
+      next();
+    },
+    version: 2,
+  }],
+  loadAttachmentData: attachment => Promise.resolve(attachment),
 };
 
 window.Signal.Components = {};
@@ -30,6 +61,9 @@ window.EmojiConvertor.prototype.img_sets = {
 
 window.i18n = () => '';
 
+// Ideally we don't need to add things here. We want to add them in StyleGuideUtil, which
+//   means that references to these things can't be early-bound, not capturing the direct
+//   reference to the function on file load.
 window.Signal.Migrations.V17 = {};
 window.Signal.OS = {};
 window.Signal.Types = {};

@@ -1,3 +1,5 @@
+'use strict';
+
 /* global window: false */
 
 // Taken from background.html.
@@ -24,29 +26,65 @@ window.Whisper.View.Templates = {
     </span>
   `,
   message: `
-    {{> avatar }}
-    <div class='bubble {{ avatar.color }}'>
-        <div class='sender' dir='auto'>
-          {{ sender }}
-          {{ #profileName }}
-            <span class='profileName'>{{ profileName }} </span>
-          {{ /profileName }}
-        </div>
-        <div class='attachments'></div>
-        <p class='content' dir='auto'>
-          {{ #message }}<span class='body'>{{ message }}</span>{{ /message }}
-        </p>
-        <div class='meta'>
-          <span class='timestamp' data-timestamp={{ timestamp }}></span>
-          <span class='status hide'></span>
-          <span class='timer'></span>
-        </div>
-    </div>
+      {{> avatar }}
+      <div class='bubble {{ avatar.color }}'>
+          <div class='sender' dir='auto'>
+            {{ sender }}
+            {{ #profileName }}
+              <span class='profileName'>{{ profileName }} </span>
+            {{ /profileName }}
+          </div>
+          <div class='tail-wrapper {{ innerBubbleClasses }}'>
+            <div class='inner-bubble'>
+              {{ #hasAttachments }}
+                <div class='attachments'></div>
+              {{ /hasAttachments }}
+              {{ #hasBody }}
+                <div class='content' dir='auto'>
+                  {{ #message }}
+                    <div class='body'>{{ message }}</div>
+                  {{ /message }}
+                </div>
+                {{ /hasBody }}
+            </div>
+          </div>
+          <div class='meta'>
+            <span class='timestamp' data-timestamp={{ timestamp }}></span>
+            <span class='status hide'></span>
+            <span class='timer'></span>
+          </div>
+          {{ #hoverIcon }}
+            <div class='menu-container menu'>
+              <div class='menu-anchor'>
+                <span class='dots-horizontal-icon'></span>
+                <ul class='menu-list'>
+                  <li class='reply'>{{ reply }}</li>
+                </ul>
+              </div>
+            </div>
+          {{ /hoverIcon }}
+      </div>
   `,
   hourglass: `
     <span class='hourglass'><span class='sand'></span></span>
   `,
   expirationTimerUpdate: `
     <span class='content'><span class='icon clock'></span> {{ content }}</span>
+  `,
+  'file-view': `
+    <div class='icon {{ mediaType }}'></div>
+    <div class='text'>
+      <div class='fileName' title='{{ altText }}'>
+        {{ fileName }}
+      </div>
+      <div class='fileSize'>{{ fileSize }}</div>
+    </div>
+  `,
+  'error-icon': `
+    <span class='error-icon'>
+    </span>
+    {{ #message }}
+      <span class='error-message'>{{message}}</span>
+    {{ /message }}
   `,
 };

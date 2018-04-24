@@ -27,6 +27,9 @@ module.exports = {
     // Exposes necessary utilities in the global scope for all readme code snippets
     util: 'ts/styleguide/StyleGuideUtil',
   },
+  contextDependencies: [
+    path.join(__dirname, 'ts/styleguide'),
+  ],
   // We don't want one long, single page
   pagePerSection: true,
   // Expose entire repository to the styleguidist server, primarily for stylesheets
@@ -127,6 +130,9 @@ module.exports = {
           src: 'js/views/timestamp_view.js',
         },
         {
+          src: 'js/views/attachment_view.js',
+        },
+        {
           src: 'js/views/message_view.js',
         },
         // Hacky way of including templates for Backbone components
@@ -157,7 +163,7 @@ module.exports = {
         },
         {
           // To test handling of attachments, we need arraybuffers in memory
-          test: /\.(gif|mp3|mp4|txt)$/,
+          test: /\.(gif|mp3|mp4|txt|jpg|jpeg|png)$/,
           loader: 'arraybuffer-loader',
         },
       ],

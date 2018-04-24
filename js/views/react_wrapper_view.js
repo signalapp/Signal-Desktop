@@ -17,6 +17,8 @@
       const { Component, props, onClose } = options;
       this.render();
 
+      this.tagName = options.tagName;
+      this.className = options.className;
       this.Component = Component;
       this.onClose = onClose;
 

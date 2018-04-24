@@ -6,8 +6,13 @@ module.exports = {
     browser: true,
   },
 
+  "globals": {
+    check: true,
+    gen: true,
+  },
+
   parserOptions: {
-    sourceType: 'script',
+    sourceType: 'module',
   },
 
   rules: {
