@@ -44,6 +44,9 @@ const styles = {
   itemIcon: {
     flexShrink: 0,
   },
+  itemFileName: {
+    fontWeight: 'bold',
+  } as React.CSSProperties,
   itemFileSize: {
     display: 'inline-block',
     marginTop: 8,
@@ -64,7 +67,7 @@ export class DocumentListItem extends React.Component<Props, {}> {
           style={styles.itemIcon}
         />
         <div style={styles.itemMetadata}>
-          <strong>{fileName}</strong>
+          <span style={styles.itemFileName}>{fileName}</span>
           <span style={styles.itemFileSize}>
             {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
           </span>
