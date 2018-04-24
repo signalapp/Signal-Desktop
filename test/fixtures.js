@@ -2684,5 +2684,5 @@ Whisper.Fixtures = (function() {
     }
 
     return conversationCollection;
-})();
+});
 

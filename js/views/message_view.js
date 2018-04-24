@@ -4,7 +4,7 @@
 /* global _: false */
 /* global emoji_util: false */
 /* global Mustache: false */
-/* global ConversationController: false */
+/* global $: false */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -45,8 +45,10 @@
     tagName: 'span',
     className: 'some-failed',
     templateName: 'some-failed',
-    render_attributes: {
-      someFailed: i18n('someRecipientsFailed'),
+    render_attributes() {
+      return {
+        someFailed: i18n('someRecipientsFailed'),
+      };
     },
   });
   const TimerView = Whisper.View.extend({
@@ -215,6 +217,8 @@
       'click .status': 'select',
       'click .some-failed': 'select',
       'click .error-message': 'select',
+      'click .menu-container': 'showMenu',
+      'click .menu-list .reply': 'onReply',
     },
     retryMessage() {
       const retrys = _.filter(
@@ -224,6 +228,26 @@
       _.map(retrys, 'number').forEach((number) => {
         this.model.resend(number);
       });
+    },
+    showMenu(e) {
+      if (this.menuVisible) {
+        return;
+      }
+
+      this.menuVisible = true;
+      e.stopPropagation();
+
+      this.$('.menu-list').show();
+      $(document).one('click', () => {
+        this.hideMenu();
+      });
+    },
+    hideMenu() {
+      this.menuVisible = false;
+      this.$('.menu-list').hide();
+    },
+    onReply() {
+      this.model.trigger('reply', this.model);
     },
     onExpired() {
       this.$el.addClass('expired');
@@ -252,8 +276,8 @@
       if (this.timeStampView) {
         this.timeStampView.remove();
       }
-      if (this.replyView) {
-        this.replyView.remove();
+      if (this.quoteView) {
+        this.quoteView.remove();
       }
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
@@ -314,7 +338,6 @@
     renderErrors() {
       const errors = this.model.get('errors');
 
-
       this.$('.error-icon-container').remove();
       if (this.errorIconView) {
         this.errorIconView.remove();
@@ -326,6 +349,12 @@
         }
         this.errorIconView = new ErrorIconView({ model: errors[0] });
         this.errorIconView.render().$el.appendTo(this.$('.bubble'));
+      } else if (!this.hasContents()) {
+        const el = this.$('.content');
+        if (!el || el.length === 0) {
+          this.$('.inner-bubble').append("<div class='content'></div>");
+        }
+        this.$('.content').text(i18n('noContents')).addClass('error-message');
       }
 
       this.$('.meta .hasRetry').remove();
@@ -365,86 +394,28 @@
       this.timerView.setElement(this.$('.timer'));
       this.timerView.update();
     },
-    getQuoteObjectUrl() {
-      const fromDB = this.model.quotedMessageFromDatabase;
-      if (fromDB && fromDB.imageUrl) {
-        return fromDB.imageUrl;
-      }
-
-      const inMemory = this.model.quotedMessage;
-      if (inMemory && inMemory.imageUrl) {
-        return inMemory.imageUrl;
-      }
-
-      const thumbnail = this.model.quoteThumbnail;
-      if (thumbnail && thumbnail.objectUrl) {
-        return thumbnail.objectUrl;
-      }
-
-      return null;
-    },
     renderQuote() {
-      const quote = this.model.get('quote');
-      if (!quote) {
+      const props = this.model.getPropsForQuote();
+      if (!props) {
         return;
       }
 
-      const VOICE_FLAG = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
-      const objectUrl = this.getQuoteObjectUrl();
-
-
-      function processAttachment(attachment) {
-        const thumbnail = !objectUrl
-          ? null
-          : Object.assign({}, attachment.thumbnail || {}, {
-            objectUrl,
-          });
-
-        return Object.assign({}, attachment, {
-          // eslint-disable-next-line no-bitwise
-          isVoiceMessage: Boolean(attachment.flags & VOICE_FLAG),
-          thumbnail,
-        });
-      }
-
-      const OUR_NUMBER = textsecure.storage.user.getNumber();
-      const { author } = quote;
-      const contact = ConversationController.get(author);
-
-      const authorTitle = contact ? contact.getTitle() : author;
-      const authorProfileName = contact ? contact.getProfileName() : null;
-      const authorColor = contact ? contact.getColor() : 'grey';
-      const isFromMe = contact ? contact.id === OUR_NUMBER : false;
-      const isIncoming = this.model.isIncoming();
-      const onClick = () => {
-        const { quotedMessage } = this.model;
-        if (quotedMessage) {
-          this.model.trigger('scroll-to-message', { id: quotedMessage.id });
-        }
-      };
-
-      const props = {
-        attachments: (quote.attachments || []).map(processAttachment),
-        authorColor,
-        authorProfileName,
-        authorTitle,
-        isFromMe,
-        isIncoming,
-        onClick: this.model.quotedMessage ? onClick : null,
-        text: quote.text,
-      };
-
-      if (this.replyView) {
-        this.replyView = null;
+      const contact = this.model.getQuoteContact();
+      if (this.quoteView) {
+        this.quoteView.remove();
+        this.quoteView = null;
       } else if (contact) {
         this.listenTo(contact, 'change:color', this.renderQuote);
       }
 
-      this.replyView = new Whisper.ReactWrapperView({
-        el: this.$('.quote-wrapper'),
+      this.quoteView = new Whisper.ReactWrapperView({
+        className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
-        props,
+        props: Object.assign({}, props, {
+          text: props.text ? window.emoji.signalReplace(props.text) : null,
+        }),
       });
+      this.$('.inner-bubble').prepend(this.quoteView.el);
     },
     isImageWithoutCaption() {
       const attachments = this.model.get('attachments');
@@ -464,15 +435,44 @@
 
       return false;
     },
+    hasContents() {
+      const attachments = this.model.get('attachments');
+      const hasAttachments = attachments && attachments.length > 0;
+
+      return this.hasTextContents() || hasAttachments;
+    },
+    hasTextContents() {
+      const body = this.model.get('body');
+      const isGroupUpdate = this.model.isGroupUpdate();
+      const isEndSession = this.model.isEndSession();
+
+      const errors = this.model.get('errors');
+      const hasErrors = errors && errors.length > 0;
+      const errorsCanBeContents = this.model.isIncoming() && hasErrors;
+
+      return body || isGroupUpdate || isEndSession || errorsCanBeContents;
+    },
     render() {
       const contact = this.model.isIncoming() ? this.model.getContact() : null;
+      const attachments = this.model.get('attachments');
+
+      // TODO: used for the feature flag below
+      // const hasErrors = errors && errors.length > 0;
+      const hasAttachments = attachments && attachments.length > 0;
+      const hasBody = this.hasTextContents();
+
       this.$el.html(Mustache.render(_.result(this, 'template', ''), {
         message: this.model.get('body'),
+        hasBody,
         timestamp: this.model.get('sent_at'),
         sender: (contact && contact.getTitle()) || '',
         avatar: (contact && contact.getAvatar()),
         profileName: (contact && contact.getProfileName()),
         innerBubbleClasses: this.isImageWithoutCaption() ? '' : 'with-tail',
+        // TODO: Turn this on when we're ready to enable sending quoted replies
+        hoverIcon: false, // !hasErrors,
+        hasAttachments,
+        reply: i18n('replyToMessage'),
       }, this.render_partials()));
       this.timeStampView.setElement(this.$('.timestamp'));
       this.timeStampView.update();

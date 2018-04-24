@@ -17,6 +17,7 @@ function stringToArrayBuffer(str) {
 function Message(options) {
     this.body        = options.body;
     this.attachments = options.attachments || [];
+    this.quote       = options.quote;
     this.group       = options.group;
     this.flags       = options.flags;
     this.recipients  = options.recipients;
@@ -92,6 +93,28 @@ Message.prototype = {
             proto.group      = new textsecure.protobuf.GroupContext();
             proto.group.id   = stringToArrayBuffer(this.group.id);
             proto.group.type = this.group.type
+        }
+        if (this.quote) {
+            var QuotedAttachment = textsecure.protobuf.DataMessage.Quote.QuotedAttachment;
+            var Quote = textsecure.protobuf.DataMessage.Quote;
+
+            proto.quote = new Quote();
+            var quote = proto.quote;
+
+            quote.id          = this.quote.id;
+            quote.author      = this.quote.author;
+            quote.text        = this.quote.text;
+            quote.attachments = (this.quote.attachments || []).map(function(attachment) {
+                var quotedAttachment = new QuotedAttachment();
+
+                quotedAttachment.contentType = attachment.contentType;
+                quotedAttachment.fileName = attachment.fileName;
+                if (attachment.attachmentPointer) {
+                    quotedAttachment.thumbnail = attachment.attachmentPointer;
+                }
+
+                return quotedAttachment;
+            });
         }
         if (this.expireTimer) {
             proto.expireTimer = this.expireTimer;
@@ -223,7 +246,7 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    uploadMedia: function(message) {
+    uploadAttachments: function(message) {
         return Promise.all(
             message.attachments.map(this.makeAttachmentPointer.bind(this))
         ).then(function(attachmentPointers) {
@@ -237,9 +260,38 @@ MessageSender.prototype = {
         });
     },
 
+    uploadThumbnails: function(message) {
+        var makePointer = this.makeAttachmentPointer.bind(this);
+        var quote = message.quote;
+
+        if (!quote || !quote.attachments || quote.attachments.length === 0) {
+            return Promise.resolve();
+        }
+
+        return Promise.all(quote.attachments.map(function(attachment) {
+            const thumbnail = attachment.thumbnail;
+            if (!thumbnail) {
+                return;
+            }
+
+            return makePointer(thumbnail).then(function(pointer) {
+                attachment.attachmentPointer = pointer;
+            });
+        })).catch(function(error) {
+            if (error instanceof Error && error.name === 'HTTPError') {
+                throw new textsecure.MessageError(message, error);
+            } else {
+                throw error;
+            }
+        });
+    },
+
     sendMessage: function(attrs) {
         var message = new Message(attrs);
-        return this.uploadMedia(message).then(function() {
+        return Promise.all([
+            this.uploadAttachments(message),
+            this.uploadThumbnails(message),
+        ]).then(function() {
             return new Promise(function(resolve, reject) {
                 this.sendMessageProto(
                     message.timestamp,
@@ -494,12 +546,13 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendMessageToNumber: function(number, messageText, attachments, timestamp, expireTimer, profileKey) {
+    sendMessageToNumber: function(number, messageText, attachments, quote, timestamp, expireTimer, profileKey) {
         return this.sendMessage({
             recipients  : [number],
             body        : messageText,
             timestamp   : timestamp,
             attachments : attachments,
+            quote       : quote,
             needsSync   : true,
             expireTimer : expireTimer,
             profileKey  : profileKey
@@ -558,7 +611,7 @@ MessageSender.prototype = {
         ]);
     },
 
-    sendMessageToGroup: function(groupId, messageText, attachments, timestamp, expireTimer, profileKey) {
+    sendMessageToGroup: function(groupId, messageText, attachments, quote, timestamp, expireTimer, profileKey) {
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
                 return Promise.reject(new Error("Unknown Group"));
@@ -574,6 +627,7 @@ MessageSender.prototype = {
                 body        : messageText,
                 timestamp   : timestamp,
                 attachments : attachments,
+                quote       : quote,
                 needsSync   : true,
                 expireTimer : expireTimer,
                 profileKey  : profileKey,

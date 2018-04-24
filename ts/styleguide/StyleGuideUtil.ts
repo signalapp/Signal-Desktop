@@ -41,6 +41,23 @@ const txtObjectUrl = makeObjectUrl(txt, 'text/plain');
 import mp4 from '../../fixtures/pixabay-Soap-Bubble-7141.mp4';
 const mp4ObjectUrl = makeObjectUrl(mp4, 'video/mp4');
 
+// @ts-ignore
+import landscapeGreen from '../../fixtures/1000x50-green.jpeg';
+const landscapeGreenObjectUrl = makeObjectUrl(landscapeGreen, 'image/jpeg');
+// @ts-ignore
+import landscapePurple from '../../fixtures/200x50-purple.png';
+const landscapePurpleObjectUrl = makeObjectUrl(landscapePurple, 'image/png');
+// @ts-ignore
+import portraitYellow from '../../fixtures/20x200-yellow.png';
+const portraitYellowObjectUrl = makeObjectUrl(portraitYellow, 'image/png');
+// @ts-ignore
+import landscapeRed from '../../fixtures/300x1-red.jpeg';
+const landscapeRedObjectUrl = makeObjectUrl(landscapeRed, 'image/png');
+// @ts-ignore
+import portraitTeal from '../../fixtures/50x1000-teal.jpeg';
+const portraitTealObjectUrl = makeObjectUrl(portraitTeal, 'image/png');
+
+
 function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
   const blob = new Blob([data], {
     type: contentType,
@@ -49,6 +66,8 @@ function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
 }
 
 const ourNumber = '+12025559999';
+const groupNumber = '+12025550099';
+
 
 export {
   mp3,
@@ -59,7 +78,18 @@ export {
   mp4ObjectUrl,
   txt,
   txtObjectUrl,
+  landscapeGreen,
+  landscapeGreenObjectUrl,
+  landscapePurple,
+  landscapePurpleObjectUrl,
+  portraitYellow,
+  portraitYellowObjectUrl,
+  landscapeRed,
+  landscapeRedObjectUrl,
+  portraitTeal,
+  portraitTealObjectUrl,
   ourNumber,
+  groupNumber,
 };
 
 
@@ -153,10 +183,22 @@ const me = parent.ConversationController.dangerouslyCreateAndAdd({
   color: 'light_blue',
 });
 
+const group = parent.ConversationController.dangerouslyCreateAndAdd({
+  id: groupNumber,
+  name: 'A place for sharing cats',
+  type: 'group',
+});
+
+group.contactCollection.add(me);
+group.contactCollection.add(CONTACTS[0]);
+group.contactCollection.add(CONTACTS[1]);
+group.contactCollection.add(CONTACTS[2]);
+
 export {
   COLORS,
   CONTACTS,
   me,
+  group,
 };
 
 parent.textsecure.storage.user.getNumber = () => ourNumber;
@@ -164,3 +206,11 @@ parent.textsecure.storage.user.getNumber = () => ourNumber;
 // Telling Lodash to relinquish _ for use by underscore
 // @ts-ignore
 _.noConflict();
+
+parent.emoji.signalReplace = (html: string): string => {
+  return html.replace(
+    /🔥/g,
+    '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f525.png"' +
+      'class="emoji" data-codepoints="1f525" title=":fire:">',
+  );
+};

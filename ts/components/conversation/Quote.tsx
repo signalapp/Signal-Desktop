@@ -14,6 +14,7 @@ interface Props {
   isFromMe: string;
   isIncoming: boolean;
   onClick?: () => void;
+  onClose?: () => void;
   text: string;
 }
 
@@ -94,7 +95,7 @@ export class Quote extends React.Component<Props, {}> {
     if (Mime.isVideo(contentType)) {
       return objectUrl
         ? this.renderImage(objectUrl, 'play')
-        : this.renderIcon('play');
+        : this.renderIcon('movie');
     }
     if (Mime.isImage(contentType)) {
       return objectUrl
@@ -112,7 +113,7 @@ export class Quote extends React.Component<Props, {}> {
     const { i18n, text, attachments } = this.props;
 
     if (text) {
-      return <div className="text">{text}</div>;
+      return <div className="text" dangerouslySetInnerHTML={{ __html: text}} />;
     }
 
     if (!attachments || attachments.length === 0) {
@@ -153,6 +154,28 @@ export class Quote extends React.Component<Props, {}> {
     return <div className="ios-label">{label}</div>;
   }
 
+  public renderClose() {
+    const { onClose } = this.props;
+
+    if (!onClose) {
+      return null;
+    }
+
+    // We don't want the overall click handler for the quote to fire, so we stop
+    //   propagation before handing control to the caller's callback.
+    const onClick = (e: React.MouseEvent<{}>): void => {
+      e.stopPropagation();
+      onClose();
+    };
+
+    // We need the container to give us the flexibility to implement the iOS design.
+    return (
+      <div className="close-container">
+        <div className="close-button" onClick={onClick} />
+      </div>
+    );
+  }
+
   public render() {
     const {
       authorTitle,
@@ -171,7 +194,7 @@ export class Quote extends React.Component<Props, {}> {
       : null;
     const classes = classnames(
       authorColor,
-      'quote',
+      'quoted-message',
       isFromMe ? 'from-me' : null,
       !onClick ? 'no-click' : null,
     );
@@ -186,6 +209,7 @@ export class Quote extends React.Component<Props, {}> {
           {this.renderText()}
         </div>
         {this.renderIconContainer()}
+        {this.renderClose()}
       </div>
     );
   }

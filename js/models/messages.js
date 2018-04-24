@@ -31,6 +31,8 @@
       this.on('change:expireTimer', this.setToExpire);
       this.on('unload', this.unload);
       this.setToExpire();
+
+      this.VOICE_FLAG = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get('sent_at')}`;
@@ -186,6 +188,16 @@
       if (this.quotedMessage) {
         this.quotedMessage = null;
       }
+      const quote = this.get('quote');
+      const attachments = (quote && quote.attachments) || [];
+      attachments.forEach((attachment) => {
+        if (attachment.thumbnail && attachment.thumbnail.objectUrl) {
+          URL.revokeObjectURL(attachment.thumbnail.objectUrl);
+          // eslint-disable-next-line no-param-reassign
+          attachment.thumbnail.objectUrl = null;
+        }
+      });
+
       this.revokeImageUrl();
     },
     revokeImageUrl() {
@@ -200,6 +212,77 @@
       }
       return this.imageUrl;
     },
+    getQuoteObjectUrl() {
+      const thumbnail = this.quoteThumbnail;
+      if (!thumbnail || !thumbnail.objectUrl) {
+        return null;
+      }
+
+      return thumbnail.objectUrl;
+    },
+    getQuoteContact() {
+      const quote = this.get('quote');
+      if (!quote) {
+        return null;
+      }
+      const { author } = quote;
+      if (!author) {
+        return null;
+      }
+
+      return ConversationController.get(author);
+    },
+    processAttachment(attachment, externalObjectUrl) {
+      const { thumbnail } = attachment;
+      const objectUrl = (thumbnail && thumbnail.objectUrl) || externalObjectUrl;
+
+      const thumbnailWithObjectUrl = !objectUrl
+        ? null
+        : Object.assign({}, attachment.thumbnail || {}, {
+          objectUrl,
+        });
+
+      return Object.assign({}, attachment, {
+        // eslint-disable-next-line no-bitwise
+        isVoiceMessage: Boolean(attachment.flags & this.VOICE_FLAG),
+        thumbnail: thumbnailWithObjectUrl,
+      });
+    },
+    getPropsForQuote() {
+      const quote = this.get('quote');
+      if (!quote) {
+        return null;
+      }
+
+      const objectUrl = this.getQuoteObjectUrl();
+      const OUR_NUMBER = textsecure.storage.user.getNumber();
+      const { author } = quote;
+      const contact = this.getQuoteContact();
+
+      const authorTitle = contact ? contact.getTitle() : author;
+      const authorProfileName = contact ? contact.getProfileName() : null;
+      const authorColor = contact ? contact.getColor() : 'grey';
+      const isFromMe = contact ? contact.id === OUR_NUMBER : false;
+      const isIncoming = this.isIncoming();
+      const onClick = () => {
+        const { quotedMessage } = this;
+        if (quotedMessage) {
+          this.trigger('scroll-to-message', { id: quotedMessage.id });
+        }
+      };
+
+      return {
+        attachments: (quote.attachments || []).map(attachment =>
+          this.processAttachment(attachment, objectUrl)),
+        authorColor,
+        authorProfileName,
+        authorTitle,
+        isFromMe,
+        isIncoming,
+        onClick: this.quotedMessage ? onClick : null,
+        text: quote.text,
+      };
+    },
     getConversation() {
       // This needs to be an unsafe call, because this method is called during
       //   initial module setup. We may be in the middle of the initial fetch to
@@ -207,12 +290,12 @@
       return ConversationController.getUnsafe(this.get('conversationId'));
     },
     getExpirationTimerUpdateSource() {
-      if (this.isExpirationTimerUpdate()) {
-        const conversationId = this.get('expirationTimerUpdate').source;
-        return ConversationController.getOrCreate(conversationId, 'private');
+      if (!this.isExpirationTimerUpdate()) {
+        throw new Error('Message is not a timer update!');
       }
 
-      return Promise.resolve();
+      const conversationId = this.get('expirationTimerUpdate').source;
+      return ConversationController.getOrCreate(conversationId, 'private');
     },
     getContact() {
       let conversationId = this.get('source');

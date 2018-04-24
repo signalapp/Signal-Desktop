@@ -34,6 +34,39 @@ const View = Whisper.MessageView;
 </util.ConversationContext>
 ```
 
+#### With emoji
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  body: 'About 🔥six🔥',
+  sent_at: Date.now() - 18000000,
+  quote: {
+    text: 'How many 🔥ferrets🔥 do you have? ',
+    author: '+12025550011',
+    id: Date.now() - 1000,
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550011',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550005',
+  }),
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
 #### Replies to you or yourself
 
 ```jsx
@@ -183,9 +216,8 @@ const View = Whisper.MessageView;
 #### A lot of text in quotation, with image
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
-  id: '3234-23423-2342',
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
 };
 const outgoing = new Whisper.Message({
   type: 'outgoing',
@@ -218,8 +250,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
@@ -237,8 +269,8 @@ const View = Whisper.MessageView;
 #### Image with caption
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
   id: '3234-23423-2342',
 };
 const outgoing = new Whisper.Message({
@@ -268,8 +300,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
@@ -287,8 +319,8 @@ const View = Whisper.MessageView;
 #### Image
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
 };
 
 const outgoing = new Whisper.Message({
@@ -317,8 +349,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
@@ -375,8 +407,8 @@ const View = Whisper.MessageView;
 #### Video with caption
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
 };
 
 const outgoing = new Whisper.Message({
@@ -406,8 +438,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
@@ -425,8 +457,8 @@ const View = Whisper.MessageView;
 #### Video
 
 ```jsx
-const quotedMessage = {
-  imageUrl: util.gifObjectUrl,
+const thumbnail = {
+  objectUrl: util.gifObjectUrl,
 };
 
 const outgoing = new Whisper.Message({
@@ -456,8 +488,8 @@ const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
   }),
 }));
 
-outgoing.quotedMessage = quotedMessage;
-incoming.quotedMessage = quotedMessage;
+outgoing.quoteThumbnail = thumbnail;
+incoming.quoteThumbnail = thumbnail;
 
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
@@ -782,6 +814,44 @@ const View = Whisper.MessageView;
 </util.ConversationContext>
 ```
 
+#### Quote, portrait image attachment
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  sent_at: Date.now() - 18000000,
+  quote: {
+    text: 'How many ferrets do you have?',
+    author: '+12025550011',
+    id: Date.now() - 1000,
+  },
+  attachments: [{
+    data: util.portraitYellow,
+    fileName: 'pi.gif',
+    contentType: 'image/gif',
+  }],
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550011',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550005',
+  }),
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+
 #### Quote, video attachment
 
 ```jsx
@@ -892,4 +962,165 @@ const View = Whisper.MessageView;
     options={{ model: outgoing }}
   />
 </util.ConversationContext>
+```
+
+#### Quote, but no message
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  sent_at: Date.now() - 18000000,
+  quote: {
+    text: 'How many ferrets do you have?',
+    author: '+12025550011',
+    id: Date.now() - 1000,
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550011',
+  type: 'incoming',
+  quote: Object.assign({}, outgoing.attributes.quote, {
+    author: '+12025550005',
+  }),
+}));
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+### In bottom bar
+
+#### Plain text
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      i18n={window.i18n}
+    />
+  </div>
+</div>
+```
+
+#### With an icon
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      i18n={window.i18n}
+      attachments={[{
+        contentType: 'image/jpeg',
+        fileName: 'llama.jpg',
+      }]}
+    />
+  </div>
+</div>
+```
+
+#### With an image
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      i18n={window.i18n}
+      attachments={[{
+        contentType: 'image/gif',
+        fileName: 'llama.gif',
+        thumbnail: {
+          objectUrl: util.gifObjectUrl
+        },
+      }]}
+    />
+  </div>
+</div>
+```
+
+#### With a close button
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      onClose={() => console.log('Close was clicked!')}
+      i18n={window.i18n}
+    />
+  </div>
+</div>
+```
+
+#### With a close button and icon
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      onClose={() => console.log('Close was clicked!')}
+      i18n={window.i18n}
+      attachments={[{
+        contentType: 'image/jpeg',
+        fileName: 'llama.jpg',
+      }]}
+    />
+  </div>
+</div>
+```
+
+#### With a close button and image
+
+```jsx
+<div className={util.theme}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorTitle={util.ourNumber}
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      onClose={() => console.log('Close was clicked!')}
+      i18n={window.i18n}
+      attachments={[{
+        contentType: 'image/gif',
+        fileName: 'llama.gif',
+        thumbnail: {
+          objectUrl: util.gifObjectUrl
+        },
+      }]}
+    />
+  </div>
+</div>
 ```

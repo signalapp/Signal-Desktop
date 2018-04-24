@@ -225,13 +225,17 @@ $text-dark_l2: darken($text-dark, 30%);
     }
   }
 
-  .outgoing .bubble .quote .icon-container .icon {
-    background-color: black;
-    &.play.with-image {
-      background-color: $text-dark;
+  .outgoing .quoted-message {
+    background: rgba(255, 255, 255, 0.38);
+
+    .icon-container .icon {
+      background-color: black;
+      &.play.with-image {
+        background-color: $text-dark;
+      }
     }
   }
-  .incoming .bubble .quote {
+  .incoming .quoted-message {
     border-left-color: $text-dark;
     background-color: rgba(0, 0, 0, 0.6);
 

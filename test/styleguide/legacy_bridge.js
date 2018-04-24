@@ -1,3 +1,5 @@
+'use strict';
+
 /* global window: false */
 
 // Because we aren't hosting the Style Guide in Electron, we can't rely on preload.js
@@ -35,6 +37,14 @@ window.Signal.Migrations = {
       next();
     },
     version: 1,
+  }, {
+    migrate: (transaction, next) => {
+      console.log('migration version 2');
+      const messages = transaction.db.createObjectStore('messages');
+      messages.createIndex('expires_at', 'expireTimer', { unique: false });
+      next();
+    },
+    version: 2,
   }],
   loadAttachmentData: attachment => Promise.resolve(attachment),
 };

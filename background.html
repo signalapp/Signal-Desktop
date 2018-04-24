@@ -279,11 +279,16 @@
           </div>
           <div class='tail-wrapper {{ innerBubbleClasses }}'>
             <div class='inner-bubble'>
-              <div class='quote-wrapper'></div>
-              <div class='attachments'></div>
-              <div class='content' dir='auto'>
-                {{ #message }}<div class='body'>{{ message }}</div>{{ /message }}
-              </div>
+              {{ #hasAttachments }}
+                <div class='attachments'></div>
+              {{ /hasAttachments }}
+              {{ #hasBody }}
+                <div class='content' dir='auto'>
+                  {{ #message }}
+                    <div class='body'>{{ message }}</div>
+                  {{ /message }}
+                </div>
+                {{ /hasBody }}
             </div>
           </div>
           <div class='meta'>
@@ -291,6 +296,16 @@
             <span class='status hide'></span>
             <span class='timer'></span>
           </div>
+          {{ #hoverIcon }}
+            <div class='menu-container menu'>
+              <div class='menu-anchor'>
+                <span class='dots-horizontal-icon'></span>
+                <ul class='menu-list'>
+                  <li class='reply'>{{ reply }}</li>
+                </ul>
+              </div>
+            </div>
+          {{ /hoverIcon }}
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='hourglass'>

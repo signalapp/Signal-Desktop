@@ -23,7 +23,9 @@ ts/**/*.js
 !js/logging.js
 !js/models/conversations.js
 !js/models/messages.js
+!test/backup_test.js
 !js/views/attachment_view.js
+!js/views/conversation_view.js
 !js/views/conversation_search_view.js
 !js/views/backbone_wrapper_view.js
 !js/views/debug_log_view.js

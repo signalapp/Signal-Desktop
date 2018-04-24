@@ -108,122 +108,182 @@ $ios-border-color: rgba(0,0,0,0.1);
 
   .message-container,
   .message-list {
-    .quote {
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
+    .bubble .content {
+      margin-top: 0px;
+    }
+  }
 
-      // Not ideal, but necessary to override the specificity of the android theme color
-      //   classes used in conversations.scss
-      background-color: white !important;
-      border: 1px solid $grey_l1_5 !important;
-      border-bottom: none !important;
+  .quoted-message {
+    // Not ideal, but necessary to override the specificity of the android theme color
+    //   classes used in conversations.scss
+    background-color: white !important;
+    border: none !important;
+    border-radius: 0;
 
-      margin-top: 0px !important;
-      margin-bottom: 0px;
-      margin-left: 0px;
-      margin-right: 0px;
+    margin-top: 0px !important;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
 
+    .primary {
+      padding: 10px;
+
+      .text,
+      .filename-label,
+      .type-label {
+        border-left: 2px solid $grey_l1;
+        padding: 5px;
+        padding-left: 7px;
+        // Without this smaller bottom padding, text beyond four lines still shows up!
+        padding-bottom: 2px;
+        color: black;
+      }
+
+      .author {
+        display: none;
+      }
+
+      .ios-label {
+        display: block;
+        color: $grey_l1;
+        font-size: smaller;
+        margin-bottom: 3px;
+      }
+    }
+
+    .icon-container {
+      height: 61px;
+      width: 61px;
+      min-width: 61px;
+
+      .circle-background {
+        left: 12px;
+        right: 12px;
+        top: 12px;
+        bottom: 12px;
+
+        background-color: $blue !important;
+      }
+
+      .icon {
+        left: 18px;
+        right: 18px;
+        top: 18px;
+        bottom: 18px;
+
+        background-color: white !important;
+      }
+
+      .inner {
+        padding: 12px;
+        height: 61px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .close-container {
+      flex: initial;
+      min-width: 32px;
+      width: 32px;
+      height: 50px;
+      position: relative;
+
+      top: auto;
+      right: auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      -webkit-mask: none;
+      background: none;
+
+      .close-button {
+        height: 20px;
+        width: 20px;
+
+        @include color-svg('../images/close-circle.svg', $grey_l4);
+      }
+    }
+
+    .from-me {
       .primary {
-        padding: 10px;
-
         .text,
         .filename-label,
         .type-label {
-          border-left: 2px solid $grey_l1;
-          padding: 5px;
-          padding-left: 7px;
-          // Without this smaller bottom padding, text beyond four lines still shows up!
-          padding-bottom: 2px;
-          color: black;
+          border-left: 2px solid $blue;
         }
+      }
+    }
+  }
 
-        .author {
-          display: none;
-        }
+  .incoming .quoted-message {
+    border-bottom: 1px solid lightgray !important;
+  }
+
+  .quoted-message.from-me .primary {
+    .text,
+    .filename-label,
+    .type-label {
+      border-left: 2px solid $blue;
+    }
+  }
+
+  .outgoing .quoted-message,
+  .private .incoming .quoted-message {
+    margin-top: 0px;
+  }
+
+  .outgoing .quoted-message .icon-container .circle-background {
+    background-color: lightgray !important;
+  }
+
+  .bottom-bar {
+    .quote-wrapper {
+      margin-right: 0px;
+      margin-bottom: 15px;
+    }
+
+    .quoted-message {
+      background: none !important;
+
+      .primary {
+        padding: 0px;
 
         .ios-label {
-          display: block;
-          color: $grey_l1;
-          font-size: smaller;
-          margin-bottom: 3px;
+          color: $grey_l4;
         }
       }
 
       .icon-container {
-        height: 61px;
-        width: 61px;
-        min-width: 61px;
+        height: 50px;
+        width: 50px;
+        min-width: 50px;
 
         .circle-background {
-          left: 12px;
-          right: 12px;
-          top: 12px;
-          bottom: 12px;
+          left: 6px;
+          right: 6px;
+          top: 6px;
+          bottom: 6px;
 
           background-color: $blue !important;
         }
 
         .icon {
-          left: 18px;
-          right: 18px;
-          top: 18px;
-          bottom: 18px;
-
-          background-color: white !important;
+          left: 12px;
+          right: 12px;
+          top: 12px;
+          bottom: 12px;
         }
 
         .inner {
-          padding: 12px;
-          height: 61px;
-          text-align: center;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          padding: 0px;
+          height: 50px;
         }
       }
-
-      .from-me {
-        .primary {
-          .text,
-          .filename-label,
-          .type-label {
-            border-left: 2px solid $blue;
-          }
-        }
-      }
-    }
-
-    .incoming {
-      .bubble {
-        .quote {
-          border-left: none;
-          border: none !important;
-          border-bottom: 1px solid lightgray !important;
-        }
-      }
-    }
-
-    .bubble {
-      .quote.from-me {
-        .primary {
-          .text,
-          .filename-label,
-          .type-label {
-            border-left: 2px solid $blue;
-          }
-        }
-      }
-    }
-
-    .outgoing .bubble .quote,
-    .private .message-list .incoming .bubble .quote {
-      margin-top: 0px;
-    }
-
-    .outgoing .bubble .quote .icon-container .circle-background {
-      background-color: lightgray !important;
     }
   }
 
@@ -286,38 +346,53 @@ $ios-border-color: rgba(0,0,0,0.1);
     clear: both;
   }
 
-  .outgoing .with-tail.tail-wrapper {
+  .outgoing .tail-wrapper {
     float: right;
 
     .inner-bubble {
-      .attachments {
-        background-color: $blue;
-      }
-      .content {
-        background-color: $blue;
-      }
       max-width: 100%;
-      &, .body, a {
-        @include invert-text-color;
-      }
     }
   }
 
-  .incoming .with-tail.tail-wrapper {
+  .incoming .tail-wrapper {
     float: left;
 
-    &:before {
-      left: -1px;
-      background-color: white;
+    .inner-bubble {
+      max-width: 100%;
     }
-    &:after {
-      left: -6px;
+  }
+
+  // The browser doesn't always clip the border-radius properly, so we can get a
+  //   partial-pixel halo effect. Sadly, it is still needed because a quote can force the
+  //   bubble wider than an attached image, and we need a background color on the bottom
+  //   section if the image doesn't cover it all.
+  .outgoing .tail-wrapper {
+    .attachments {
+      background-color: $blue;
+    }
+    .content {
+      background-color: $blue;
+    }
+
+    &, .body, a {
+      @include invert-text-color;
+    }
+  }
+
+  .incoming .tail-wrapper {
+    &.with-tail {
+      &:before {
+        left: -1px;
+        background-color: white;
+      }
+      &:after {
+        left: -6px;
+      }
     }
 
     .inner-bubble {
       background-color: white;
       color: black;
-      max-width: 100%;
     }
   }
 
@@ -337,6 +412,10 @@ $ios-border-color: rgba(0,0,0,0.1);
   .attachment {
     a {
       border-radius: 15px;
+    }
+    img {
+      margin-right: auto;
+      margin-left: auto;
     }
   }
   .hourglass {

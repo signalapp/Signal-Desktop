@@ -67,6 +67,43 @@ describe('Message', () => {
         await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
       assert.deepEqual(actual, expected);
     });
+
+    it('should process quote attachment thumbnails', async () => {
+      const input = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+        quote: {
+          attachments: [{
+            thumbnail: {
+              path: 'ab/abcdefghi',
+              data: stringToArrayBuffer('It’s easy if you try'),
+            },
+          }],
+        },
+      };
+      const expected = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+        quote: {
+          attachments: [{
+            thumbnail: {
+              path: 'ab/abcdefghi',
+            },
+          }],
+        },
+      };
+
+      const writeExistingAttachmentData = (attachment) => {
+        assert.equal(attachment.path, 'ab/abcdefghi');
+        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
+      };
+
+      const actual =
+        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      assert.deepEqual(actual, expected);
+    });
   });
 
   describe('initializeSchemaVersion', () => {
@@ -371,6 +408,37 @@ describe('Message', () => {
       };
       const result = await upgradeVersion(message);
       assert.deepEqual(result, message);
+    });
+
+    it('eliminates thumbnails with no data fielkd', async () => {
+      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            fileName: 'cat.gif',
+            contentType: 'image/gif',
+            thumbnail: {
+              fileName: 'failed to download!',
+            },
+          }],
+        },
+      };
+      const expected = {
+        body: 'hey there!',
+        quote: {
+          text: 'hey!',
+          attachments: [{
+            contentType: 'image/gif',
+            fileName: 'cat.gif',
+          }],
+        },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, expected);
     });
 
     it('calls provided async function for each quoted attachment', async () => {
