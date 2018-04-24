@@ -349,6 +349,9 @@ describe('Backup', () => {
               1, 2, 3, 4, 5, 6, 7, 8,
             ]).buffer,
           }],
+          hasAttachments: 1,
+          hasFileAttachments: 0,
+          hasVisualMediaAttachments: 1,
           quote: {
             text: "Isn't it cute?",
             author: CONTACT_ONE_NUMBER,
