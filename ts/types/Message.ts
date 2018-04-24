@@ -23,7 +23,7 @@ export type IncomingMessage = Readonly<
     source?: string;
     sourceDevice?: number;
   } & SharedMessageProperties &
-    Message4 &
+    MessageSchemaVersion4 &
     ExpirationTimerUpdate
 >;
 
@@ -49,7 +49,7 @@ export type OutgoingMessage = Readonly<
     recipients?: Array<string>; // Array<PhoneNumber>
     synced: boolean;
   } & SharedMessageProperties &
-    Message4 &
+    MessageSchemaVersion4 &
     ExpirationTimerUpdate
 >;
 
@@ -57,7 +57,7 @@ export type VerifiedChangeMessage = Readonly<
   {
     type: 'verified-change';
   } & SharedMessageProperties &
-    Message4 &
+    MessageSchemaVersion4 &
     ExpirationTimerUpdate
 >;
 
@@ -77,7 +77,7 @@ type ExpirationTimerUpdate = Partial<
   }>
 >;
 
-type Message4 = Partial<
+type MessageSchemaVersion4 = Partial<
   Readonly<{
     hasAttachments: IndexableBoolean;
     hasVisualMediaAttachments: IndexableBoolean;
