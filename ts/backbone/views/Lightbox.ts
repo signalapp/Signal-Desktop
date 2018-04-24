@@ -3,10 +3,10 @@
  */
 export const show = (element: HTMLElement): void => {
   const container: HTMLDivElement | null = document.querySelector(
-    '.lightboxContainer'
+    '.lightbox-container'
   );
   if (container === null) {
-    throw new TypeError("'.lightboxContainer' is required");
+    throw new TypeError("'.lightbox-container' is required");
   }
   container.innerHTML = '';
   container.style.display = 'block';
@@ -15,7 +15,7 @@ export const show = (element: HTMLElement): void => {
 
 export const hide = (): void => {
   const container: HTMLDivElement | null = document.querySelector(
-    '.lightboxContainer'
+    '.lightbox-container'
   );
   if (container === null) {
     return;
