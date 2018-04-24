@@ -28,10 +28,7 @@ export const loadWithObjectURL = (loadMessage: MapAsync<Message>) => async (
   }
 
   // Messages with video are too expensive to load into memory, so we don’t:
-  const [, messagesWithoutVideo] = partition(
-    messages,
-    hasVideoAttachment
-  );
+  const [, messagesWithoutVideo] = partition(messages, hasVideoAttachment);
   const loadedMessagesWithoutVideo: Array<Message> = await Promise.all(
     messagesWithoutVideo.map(loadMessage)
   );
