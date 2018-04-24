@@ -18,7 +18,7 @@ interface Props {
 }
 
 interface QuotedAttachment {
-  contentType: string;
+  contentType: MIME.MIMEType;
   fileName: string;
   /* Not included in protobuf */
   isVoiceMessage: boolean;
@@ -26,7 +26,7 @@ interface QuotedAttachment {
 }
 
 interface Attachment {
-  contentType: string;
+  contentType: MIME.MIMEType;
   /* Not included in protobuf, and is loaded asynchronously */
   objectUrl?: string;
 }
