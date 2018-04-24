@@ -9,7 +9,13 @@
 }
 
 .iconButton {
-  // NOTE: Cannot move these to inline styles as hover breaks due to precedence:
+  // NOTE: Cannot move these to inline styles as hover breaks due to precedence.
+  // We use vanilla CSS-in-JS which outputs inline styles. The `:hover`
+  // pseudo-class cannot be expressed using vanilla CSS-in-JS, so we define it
+  // here. If we move the other properties to JS, they have higher precedence
+  // as they are inline and the `:hover` `background` change won’t override the
+  // base `background` definition. Revisit this as we adopt a more sophisticated
+  // style system in the future:
   background: transparent;
   width: 50px;
   height: 50px;
