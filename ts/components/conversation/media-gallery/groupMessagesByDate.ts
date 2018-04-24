@@ -39,7 +39,7 @@ export const groupMessagesByDate = (
     toSection(groupedMessages.yesterday),
     toSection(groupedMessages.thisWeek),
     toSection(groupedMessages.thisMonth),
-    ...yearMonthMessages.map(group => toSection(group)),
+    ...yearMonthMessages.map(toSection),
   ]);
 };
 
