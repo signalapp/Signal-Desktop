@@ -579,15 +579,14 @@
         conversationId: this.model.get('id'),
         WhisperMessageCollection: Whisper.MessageCollection,
       });
-      const loadMessages = Signal.Components.PropTypes.Message.loadWithObjectURL(
-        Signal.Migrations.loadMessage
-      );
+      const loadMessages = Signal.Components.PropTypes.Message
+        .loadWithObjectURL(Signal.Migrations.loadMessage);
       const mediaWithObjectURLs = await loadMessages(media);
 
       const mediaGalleryProps = {
         media: mediaWithObjectURLs,
         documents: [],
-        onItemClick: ({message}) => {
+        onItemClick: ({ message }) => {
           const lightboxProps = {
             imageURL: message.objectURL,
           };
@@ -597,7 +596,7 @@
             onClose: () => Signal.Backbone.Views.Lightbox.hide(),
           });
           Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
-        }
+        },
       };
 
       const view = new Whisper.ReactWrapperView({

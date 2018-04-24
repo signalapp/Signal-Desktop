@@ -222,7 +222,14 @@ exports.upgradeSchema = async (rawMessage, { writeNewAttachmentData } = {}) => {
   }
 
   let message = rawMessage;
-  const versions = [toVersion0, toVersion1, toVersion2, toVersion3, toVersion4, toVersion5];
+  const versions = [
+    toVersion0,
+    toVersion1,
+    toVersion2,
+    toVersion3,
+    toVersion4,
+    toVersion5,
+  ];
 
   for (let i = 0, max = versions.length; i < max; i += 1) {
     const currentVersion = versions[i];
