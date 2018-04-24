@@ -8,9 +8,9 @@
 
 /* global extension: false */
 /* global i18n: false */
+/* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
-/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function () {
