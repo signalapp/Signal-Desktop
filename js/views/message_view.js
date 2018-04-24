@@ -456,8 +456,8 @@
       const contact = this.model.isIncoming() ? this.model.getContact() : null;
       const attachments = this.model.get('attachments');
 
-      // TODO: used for the feature flag below
-      // const hasErrors = errors && errors.length > 0;
+      const errors = this.model.get('errors');
+      const hasErrors = errors && errors.length > 0;
       const hasAttachments = attachments && attachments.length > 0;
       const hasBody = this.hasTextContents();
 
@@ -469,8 +469,7 @@
         avatar: (contact && contact.getAvatar()),
         profileName: (contact && contact.getProfileName()),
         innerBubbleClasses: this.isImageWithoutCaption() ? '' : 'with-tail',
-        // TODO: Turn this on when we're ready to enable sending quoted replies
-        hoverIcon: false, // !hasErrors,
+        hoverIcon: !hasErrors,
         hasAttachments,
         reply: i18n('replyToMessage'),
       }, this.render_partials()));
