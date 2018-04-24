@@ -70,7 +70,7 @@ export class Lightbox extends React.Component<Props, {}> {
     document.addEventListener('keyup', this.onKeyUp, useCapture);
   }
 
-  public componentWillMount() {
+  public componentWillUnmount() {
     const useCapture = true;
     document.removeEventListener('keyup', this.onKeyUp, useCapture);
   }
