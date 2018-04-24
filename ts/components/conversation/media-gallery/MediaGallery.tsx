@@ -24,11 +24,11 @@ interface State {
 }
 
 const MONTH_FORMAT = 'MMMM YYYY';
-const COLOR_GREY = '#f3f3f3';
+const COLOR_GRAY = '#f3f3f3';
 
 const tabStyle = {
   width: '100%',
-  backgroundColor: COLOR_GREY,
+  backgroundColor: COLOR_GRAY,
   padding: 20,
   textAlign: 'center',
 };
