@@ -118,7 +118,10 @@ $ios-border-color: rgba(0,0,0,0.1);
     //   classes used in conversations.scss
     background-color: white !important;
     border: none !important;
-    border-radius: 0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 
     margin-top: 0px !important;
     margin-bottom: 0px;
