@@ -195,7 +195,7 @@ export class Quote extends React.Component<Props, {}> {
       authorColor,
       'quoted-message',
       isFromMe ? 'from-me' : null,
-      !onClick ? 'no-click' : null,
+      !onClick ? 'no-click' : null
     );
 
     return (

@@ -67,9 +67,7 @@ export class Lightbox extends React.Component<Props, {}> {
   }
 
   public render() {
-    const {
-      imageURL,
-    } = this.props;
+    const { imageURL } = this.props;
     return (
       <div
         style={styles.container}
