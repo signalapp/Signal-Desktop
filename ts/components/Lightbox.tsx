@@ -104,7 +104,12 @@ export class Lightbox extends React.Component<Props, {}> {
   };
 
   private onClose = () => {
-    this.props.close();
+    const { close } = this.props;
+    if (!close) {
+      return;
+    }
+
+    close();
   };
 
   private onKeyUp = (event: KeyboardEvent) => {
