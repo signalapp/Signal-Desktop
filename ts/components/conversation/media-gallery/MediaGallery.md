@@ -17,7 +17,6 @@ const createRandomMessage = ({startTime, timeWindow} = {}) => (props) => {
       size: _.random(1000, 1000 * 1000 * 50),
     }],
 
-    // TODO: Revisit
     objectURL: `https://placekitten.com/${_.random(50, 150)}/${_.random(50, 150)}`,
     ...props,
   };
