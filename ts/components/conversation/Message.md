@@ -133,6 +133,31 @@ const View = Whisper.MessageView;
 </util.ConversationContext>
 ```
 
+#### No message contents
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  sent_at: Date.now() - 200000,
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550003',
+  type: 'incoming',
+}));
+
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme} >
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
 ### Disappearing
 
 ```jsx
@@ -288,6 +313,64 @@ const View = Whisper.VerifiedChangeView;
   <util.BackboneWrapper
     View={View}
     options={{ model: local }}
+  />
+</util.ConversationContext>
+```
+
+#### Group update
+
+```js
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  sent_at: Date.now() - 200000,
+  group_update: {
+    joined: [
+      '+12025550007',
+      '+12025550008',
+      '+12025550009',
+    ],
+  },
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550003',
+  type: 'incoming',
+}));
+
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme} >
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
+  />
+</util.ConversationContext>
+```
+
+#### End session
+
+```js
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  sent_at: Date.now() - 200000,
+  flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
+});
+const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
+  source: '+12025550003',
+  type: 'incoming',
+}));
+
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme} >
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: incoming }}
+  />
+  <util.BackboneWrapper
+    View={View}
+    options={{ model: outgoing }}
   />
 </util.ConversationContext>
 ```

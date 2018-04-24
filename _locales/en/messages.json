@@ -546,6 +546,10 @@
         "message": "Secure session reset",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
+    "noContents": {
+        "message": "No message contents",
+        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
+    },
     "installWelcome": {
         "message": "Welcome to Signal Desktop",
         "description": "Welcome title on the install page"

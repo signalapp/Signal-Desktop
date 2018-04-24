@@ -349,6 +349,12 @@
         }
         this.errorIconView = new ErrorIconView({ model: errors[0] });
         this.errorIconView.render().$el.appendTo(this.$('.bubble'));
+      } else if (!this.hasContents()) {
+        const el = this.$('.content');
+        if (!el || el.length === 0) {
+          this.$('.inner-bubble').append("<div class='content'></div>");
+        }
+        this.$('.content').text(i18n('noContents')).addClass('error-message');
       }
 
       this.$('.meta .hasRetry').remove();
@@ -429,18 +435,34 @@
 
       return false;
     },
+    hasContents() {
+      const attachments = this.model.get('attachments');
+      const hasAttachments = attachments && attachments.length > 0;
+
+      return this.hasTextContents() || hasAttachments;
+    },
+    hasTextContents() {
+      const body = this.model.get('body');
+      const isGroupUpdate = this.model.isGroupUpdate();
+      const isEndSession = this.model.isEndSession();
+
+      const errors = this.model.get('errors');
+      const hasErrors = errors && errors.length > 0;
+      const errorsCanBeContents = this.model.isIncoming() && hasErrors;
+
+      return body || isGroupUpdate || isEndSession || errorsCanBeContents;
+    },
     render() {
       const contact = this.model.isIncoming() ? this.model.getContact() : null;
-      const errors = this.model.get('errors');
       const attachments = this.model.get('attachments');
 
-      const hasErrors = errors && errors.length > 0;
+      // TODO: used for the feature flag below
+      // const hasErrors = errors && errors.length > 0;
       const hasAttachments = attachments && attachments.length > 0;
-      const message = this.model.get('body');
-      const hasBody = message || (this.model.isIncoming() && hasErrors);
+      const hasBody = this.hasTextContents();
 
       this.$el.html(Mustache.render(_.result(this, 'template', ''), {
-        message,
+        message: this.model.get('body'),
         hasBody,
         timestamp: this.model.get('sent_at'),
         sender: (contact && contact.getTitle()) || '',
