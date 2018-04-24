@@ -11,9 +11,6 @@ interface Props {
   onNext?: () => void;
   onPrevious?: () => void;
   onSave: () => void;
-  shouldShowNextButton: boolean;
-  shouldShowPreviousButton: boolean;
-  shouldShowSaveAsButton: boolean;
 }
 
 const styles = {
@@ -57,12 +54,6 @@ const IconButton = ({ onClick, type }: IconButtonProps) => (
 );
 
 export class Lightbox extends React.Component<Props, {}> {
-  public static defaultProps: Partial<Props> = {
-    shouldShowNextButton: false,
-    shouldShowPreviousButton: false,
-    shouldShowSaveAsButton: false,
-  };
-
   private containerRef: HTMLDivElement | null = null;
 
   public componentDidMount() {
@@ -78,9 +69,6 @@ export class Lightbox extends React.Component<Props, {}> {
   public render() {
     const {
       imageURL,
-      shouldShowNextButton,
-      shouldShowPreviousButton,
-      shouldShowSaveAsButton,
     } = this.props;
     return (
       <div
@@ -97,13 +85,13 @@ export class Lightbox extends React.Component<Props, {}> {
         </div>
         <div style={styles.controls}>
           <IconButton type="close" onClick={this.onClose} />
-          {shouldShowSaveAsButton ? (
+          {this.props.onSave ? (
             <IconButton type="save" onClick={this.props.onSave} />
           ) : null}
-          {shouldShowPreviousButton ? (
+          {this.props.onPrevious ? (
             <IconButton type="previous" onClick={this.props.onPrevious} />
           ) : null}
-          {shouldShowNextButton ? (
+          {this.props.onNext ? (
             <IconButton type="next" onClick={this.props.onNext} />
           ) : null}
         </div>
