@@ -25,21 +25,10 @@ export const groupMessagesByDate = (
   messages: Array<Message>
 ): Array<Section> => {
   const referenceDateTime = moment.utc(timestamp);
-  const today = moment(referenceDateTime).startOf('day');
-  const yesterday = moment(referenceDateTime)
-    .subtract(1, 'day')
-    .startOf('day');
-  const thisWeek = moment(referenceDateTime).startOf('isoWeek');
-  const thisMonth = moment(referenceDateTime).startOf('month');
 
   const sortedMessages = sortBy(messages, message => -message.received_at);
   const messagesWithSection = sortedMessages.map(
-    withSection({
-      today,
-      yesterday,
-      thisWeek,
-      thisMonth,
-    })
+    withSection(referenceDateTime)
   );
   const groupedMessages = groupBy(messagesWithSection, 'type');
   const yearMonthMessages = Object.values(
@@ -110,17 +99,16 @@ type MessageWithSection =
   | MessageWithStaticSection
   | MessageWithYearMonthSection;
 
-const withSection = ({
-  today,
-  yesterday,
-  thisWeek,
-  thisMonth,
-}: {
-  today: moment.Moment;
-  yesterday: moment.Moment;
-  thisWeek: moment.Moment;
-  thisMonth: moment.Moment;
-}) => (message: Message): MessageWithSection => {
+const withSection = (referenceDateTime: moment.Moment) => (
+  message: Message
+): MessageWithSection => {
+  const today = moment(referenceDateTime).startOf('day');
+  const yesterday = moment(referenceDateTime)
+    .subtract(1, 'day')
+    .startOf('day');
+  const thisWeek = moment(referenceDateTime).startOf('isoWeek');
+  const thisMonth = moment(referenceDateTime).startOf('month');
+
   const messageReceivedDate = moment.utc(message.received_at);
   if (messageReceivedDate.isAfter(today)) {
     return {
