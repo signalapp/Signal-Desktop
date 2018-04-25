@@ -1250,7 +1250,7 @@
         // If we already have a quoted message, then we exit early. If we don't have it,
         //   then we'll continue to look again for an in-memory message to use. Why? This
         //   will enable us to scroll to it when the user clicks.
-        if (messages.quotedMessage) {
+        if (message.quotedMessage) {
           return;
         }
 
