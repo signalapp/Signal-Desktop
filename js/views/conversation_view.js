@@ -577,17 +577,24 @@
       //   events up to its parent elements in the DOM.
       this.closeMenu();
 
-      const media = await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
-        conversationId: this.model.get('id'),
-        WhisperMessageCollection: Whisper.MessageCollection,
+      const conversationId = this.model.get('id');
+      const WhisperMessageCollection = Whisper.MessageCollection;
+      const rawMedia = await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
+        conversationId,
+        WhisperMessageCollection,
       });
+      const documents = await Signal.Backbone.Conversation.fetchFileAttachments({
+        conversationId,
+        WhisperMessageCollection,
+      });
+
       const loadMessages = Signal.Components.PropTypes.Message
         .loadWithObjectURL(Signal.Migrations.loadMessage);
-      const mediaWithObjectURLs = await loadMessages(media);
+      const media = await loadMessages(rawMedia);
 
       const mediaGalleryProps = {
-        media: mediaWithObjectURLs,
-        documents: [],
+        media,
+        documents,
         onItemClick: ({ message }) => {
           const lightboxProps = {
             imageURL: message.objectURL,
