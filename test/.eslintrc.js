@@ -6,6 +6,10 @@ module.exports = {
     browser: true,
   },
 
+  globals: {
+    assert: true
+  },
+
   parserOptions: {
     sourceType: 'script',
   },
