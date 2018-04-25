@@ -4,13 +4,18 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import is from '@sindresorhus/is';
+
+import * as GoogleChrome from '../util/GoogleChrome';
+import * as MIME from '../types/MIME';
 
 interface Props {
   close: () => void;
-  imageURL?: string;
+  objectURL: string;
+  contentType: MIME.MIMEType | undefined;
   onNext?: () => void;
   onPrevious?: () => void;
-  onSave: () => void;
+  onSave?: () => void;
 }
 
 const styles = {
@@ -67,7 +72,7 @@ export class Lightbox extends React.Component<Props, {}> {
   }
 
   public render() {
-    const { imageURL } = this.props;
+    const { contentType, objectURL } = this.props;
     return (
       <div
         style={styles.container}
@@ -75,11 +80,9 @@ export class Lightbox extends React.Component<Props, {}> {
         ref={this.setContainerRef}
       >
         <div style={styles.objectContainer}>
-          <img
-            style={styles.image}
-            src={imageURL}
-            onClick={this.onImageClick}
-          />
+          {!is.undefined(contentType)
+            ? this.renderObject({ objectURL, contentType })
+            : null}
         </div>
         <div style={styles.controls}>
           <IconButton type="close" onClick={this.onClose} />
@@ -96,6 +99,38 @@ export class Lightbox extends React.Component<Props, {}> {
       </div>
     );
   }
+
+  private renderObject = ({
+    objectURL,
+    contentType,
+  }: {
+    objectURL: string;
+    contentType: MIME.MIMEType;
+  }) => {
+    const isImage = GoogleChrome.isImageTypeSupported(contentType);
+    if (isImage) {
+      return (
+        <img
+          style={styles.image}
+          src={objectURL}
+          onClick={this.onObjectClick}
+        />
+      );
+    }
+
+    const isVideo = GoogleChrome.isVideoTypeSupported(contentType);
+    if (isVideo) {
+      return (
+        <video controls>
+          <source src={objectURL} />
+        </video>
+      );
+    }
+
+    // tslint:disable-next-line no-console
+    console.log('Lightbox: Unexpected content type', { contentType });
+    return null;
+  };
 
   private setContainerRef = (value: HTMLDivElement) => {
     this.containerRef = value;
@@ -125,7 +160,7 @@ export class Lightbox extends React.Component<Props, {}> {
     this.onClose();
   };
 
-  private onImageClick = (event: React.MouseEvent<HTMLImageElement>) => {
+  private onObjectClick = (event: React.MouseEvent<HTMLImageElement>) => {
     event.stopPropagation();
     this.onClose();
   };

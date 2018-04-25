@@ -8,15 +8,12 @@ import * as MIME from '../../../../types/MIME';
 import { arrayBufferToObjectURL } from '../../../../util/arrayBufferToObjectURL';
 import { Attachment } from '../../../../types/Attachment';
 import { MapAsync } from '../../../../types/MapAsync';
-import { MIMEType } from '../../../../types/MIME';
 
 export type Message = {
   id: string;
   attachments: Array<Attachment>;
   received_at: number;
 } & { objectURL?: string };
-
-const DEFAULT_CONTENT_TYPE: MIMEType = 'application/octet-stream' as MIMEType;
 
 export const loadWithObjectURL = (loadMessage: MapAsync<Message>) => async (
   messages: Array<Message>
@@ -51,17 +48,17 @@ const hasVideoAttachment = (message: Message): boolean =>
       MIME.isVideo(attachment.contentType)
   );
 
-const withObjectURL = (message: Message): Message => {
+export const withObjectURL = (message: Message): Message => {
   if (message.attachments.length === 0) {
     throw new TypeError('`message.attachments` cannot be empty');
   }
 
   const attachment = message.attachments[0];
-  if (typeof attachment.contentType === 'undefined') {
+  if (is.undefined(attachment.contentType)) {
     throw new TypeError('`attachment.contentType` is required');
   }
 
-  if (MIME.isVideo(attachment.contentType)) {
+  if (is.undefined(attachment.data) && MIME.isVideo(attachment.contentType)) {
     return {
       ...message,
       objectURL: 'images/video.svg',
@@ -70,7 +67,7 @@ const withObjectURL = (message: Message): Message => {
 
   const objectURL = arrayBufferToObjectURL({
     data: attachment.data,
-    type: attachment.contentType || DEFAULT_CONTENT_TYPE,
+    type: attachment.contentType,
   });
   return {
     ...message,

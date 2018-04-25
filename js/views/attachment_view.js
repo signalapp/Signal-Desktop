@@ -109,7 +109,8 @@
       }
 
       const props = {
-        imageURL: this.objectUrl,
+        objectURL: this.objectUrl,
+        contentType: this.model.contentType,
         onSave: () => this.saveFile(),
         // implicit: `close`
       };

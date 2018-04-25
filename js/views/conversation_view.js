@@ -600,25 +600,28 @@
       const media = await loadMessages(rawMedia);
 
       const saveAttachment = async ({ message } = {}) => {
-        const loadedMessage = await Signal.Migrations.loadMessage(message);
-        const attachment = loadedMessage.attachments[0];
-        const timestamp = loadedMessage.received_at;
+        const attachment = message.attachments[0];
+        const timestamp = message.received_at;
         Signal.Types.AttachmentTS.save({ attachment, timestamp });
       };
 
       const onItemClick = async ({ message, type }) => {
+        const loadedMessage = Signal.Components.Types.Message
+          .withObjectURL(await Signal.Migrations.loadMessage(message));
         switch (type) {
           case 'documents': {
-            saveAttachment({ message });
+            saveAttachment({ message: loadedMessage });
             break;
           }
 
           case 'media': {
+            const attachment = loadedMessage.attachments[0];
             this.lightboxView = new Whisper.ReactWrapperView({
               Component: Signal.Components.Lightbox,
               props: {
-                imageURL: message.objectURL,
-                onSave: () => saveAttachment({ message }),
+                objectURL: loadedMessage.objectURL,
+                contentType: attachment.contentType,
+                onSave: () => saveAttachment({ message: loadedMessage }),
               },
               onClose: () => Signal.Backbone.Views.Lightbox.hide(),
             });
