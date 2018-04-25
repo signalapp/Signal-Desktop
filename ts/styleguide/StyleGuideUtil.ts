@@ -1,6 +1,3 @@
-import moment from 'moment';
-import qs from 'qs';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -8,6 +5,11 @@ import {
   sample,
 } from 'lodash';
 
+import _ from 'lodash';
+import moment from 'moment';
+import qs from 'qs';
+
+export { _ };
 
 // Helper components used in the Style Guide, exposed at 'util' in the global scope via
 //   the 'context' option in react-styleguidist.
@@ -20,8 +22,7 @@ export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 import { Quote } from '../components/conversation/Quote';
 import * as HTML from '../html';
 
-// @ts-ignore
-import MIME from '../../js/modules/types/mime';
+import * as MIME from '../../ts/types/MIME';
 
 // TypeScript wants two things when you import:
 //   1) a normal typescript file
@@ -211,6 +212,6 @@ parent.emoji.signalReplace = (html: string): string => {
   return html.replace(
     /🔥/g,
     '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f525.png"' +
-      'class="emoji" data-codepoints="1f525" title=":fire:">',
+      'class="emoji" data-codepoints="1f525" title=":fire:">'
   );
 };

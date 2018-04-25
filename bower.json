@@ -16,8 +16,7 @@
     "blueimp-load-image": "~1.13.0",
     "autosize": "~4.0.0",
     "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git",
-    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",
-    "filesize": "https://github.com/avoidwork/filesize.js.git"
+    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -83,9 +82,6 @@
     ],
     "mp3lameencoder": [
       "lib/Mp3LameEncoder.js"
-    ],
-    "filesize": [
-      "lib/filesize.js"
     ]
   },
   "concat": {
@@ -102,8 +98,7 @@
       "moment",
       "intl-tel-input",
       "backbone.typeahead",
-      "autosize",
-      "filesize"
+      "autosize"
     ],
     "libtextsecure": [
       "long",

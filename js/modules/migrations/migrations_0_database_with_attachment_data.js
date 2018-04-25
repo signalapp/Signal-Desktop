@@ -1,6 +1,7 @@
 const { isString, last } = require('lodash');
 
 const { runMigrations } = require('./run_migrations');
+const Migration18 = require('./18');
 
 
 // IMPORTANT: The migrations below are run on a database that may be very large
@@ -133,7 +134,23 @@ const migrations = [
       const duration = Date.now() - start;
 
       console.log(
-        'Complete migration to database version 17.',
+        'Complete migration to database version 17',
+        `Duration: ${duration}ms`
+      );
+      next();
+    },
+  },
+  {
+    version: 18,
+    migrate(transaction, next) {
+      console.log('Migration 18');
+
+      const start = Date.now();
+      Migration18.run(transaction);
+      const duration = Date.now() - start;
+
+      console.log(
+        'Complete migration to database version 18',
         `Duration: ${duration}ms`
       );
       next();

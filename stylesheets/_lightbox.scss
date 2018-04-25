@@ -1,59 +1,63 @@
-.lightbox {
-  &.modal {
-    padding: 30px;
-    text-align: center;
-    background-color: rgba(0,0,0,0.8);
+.lightbox-container {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: $z-index-modal;
+}
 
-    .content {
-      margin: 0;
-      padding: 0 60px;
-      max-width: 100%;
-      height: 100%;
-      box-shadow: none;
-      background: transparent;
+.iconButton {
+  // NOTE: Cannot move these to inline styles as hover breaks due to precedence.
+  // We use vanilla CSS-in-JS which outputs inline styles. The `:hover`
+  // pseudo-class cannot be expressed using vanilla CSS-in-JS, so we define it
+  // here. If we move the other properties to JS, they have higher precedence
+  // as they are inline and the `:hover` `background` change won’t override the
+  // base `background` definition. Revisit this as we adopt a more sophisticated
+  // style system in the future:
+  background: transparent;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
 
-      img {
-        display: block;
-        margin: auto;
-        max-width: 100%;
-        max-height: 100%;
-      }
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 3px;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover {
+    background: $grey;
+  }
+
+  &.save {
+    &:before {
+      @include color-svg('../images/save.svg', white);
     }
+  }
 
-    .controls {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 50px;
+  &.close {
+    &:before {
+      @include color-svg('../images/x.svg', white);
     }
+  }
 
-    a {
-      background: transparent;
-      width: 50px;
-      height: 50px;
-      margin-bottom: 10px;
-
-      display: inline-block;
-      cursor: pointer;
-      border-radius: 50%;
-      padding: 3px;
-
-      &:before {
-        content: '';
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-
-      &:hover {
-        background: $grey;
-      }
+  &.previous {
+    &:before {
+      @include color-svg('../images/back.svg', white);
     }
+  }
 
-    .save {
-      &:before {
-        @include color-svg('../images/save.svg', white);
-      }
+  &.next {
+    &:before {
+      @include color-svg('../images/forward.svg', white);
     }
   }
 }

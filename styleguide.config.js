@@ -8,9 +8,19 @@ const propsParser = typescriptSupport.withCustomConfig('./tsconfig.json').parse;
 module.exports = {
   sections: [
     {
+      name: 'Components',
+      description: '',
+      components: 'ts/components/*.tsx',
+    },
+    {
       name: 'Conversation',
       description: 'Everything necessary to render a conversation',
       components: 'ts/components/conversation/*.tsx',
+    },
+    {
+      name: 'Media Gallery',
+      description: 'Display media and documents in a conversation',
+      components: 'ts/components/conversation/media-gallery/*.tsx',
     },
     {
       name: 'Utility',

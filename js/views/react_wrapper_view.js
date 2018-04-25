@@ -1,9 +1,7 @@
 /* global Backbone: false */
-
-// Additional globals used:
-//   window.React
-//   window.ReactDOM
-//   window.i18n
+/* global i18n: false */
+/* global React: false */
+/* global ReactDOM: false */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -26,8 +24,8 @@
     },
     update(props) {
       const updatedProps = this.augmentProps(props);
-      const element = window.React.createElement(this.Component, updatedProps);
-      window.ReactDOM.render(element, this.el);
+      const reactElement = React.createElement(this.Component, updatedProps);
+      ReactDOM.render(reactElement, this.el);
     },
     augmentProps(props) {
       return Object.assign({}, props, {
@@ -38,11 +36,11 @@
           }
           this.remove();
         },
-        i18n: window.i18n,
+        i18n,
       });
     },
     remove() {
-      window.ReactDOM.unmountComponentAtNode(this.el);
+      ReactDOM.unmountComponentAtNode(this.el);
       Backbone.View.prototype.remove.call(this);
     },
   });

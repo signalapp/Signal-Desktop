@@ -1,6 +1,8 @@
+/**
+ * @prettier
+ */
 import is from '@sindresorhus/is';
 import { Message } from './Message';
-
 
 interface ConversationLastMessageUpdate {
   lastMessage: string | null;
@@ -13,10 +15,10 @@ export const createLastMessageUpdate = ({
   lastMessage,
   lastMessageNotificationText,
 }: {
-  currentLastMessageText: string | null,
-  currentTimestamp: number | null,
-  lastMessage: Message | null,
-  lastMessageNotificationText: string | null,
+  currentLastMessageText: string | null;
+  currentTimestamp: number | null;
+  lastMessage: Message | null;
+  lastMessageNotificationText: string | null;
 }): ConversationLastMessageUpdate => {
   if (lastMessage === null) {
     return {
@@ -30,13 +32,14 @@ export const createLastMessageUpdate = ({
   const isExpiringMessage = is.object(lastMessage.expirationTimerUpdate);
   const shouldUpdateTimestamp = !isVerifiedChangeMessage && !isExpiringMessage;
 
-  const newTimestamp = shouldUpdateTimestamp ?
-    lastMessage.sent_at :
-    currentTimestamp;
+  const newTimestamp = shouldUpdateTimestamp
+    ? lastMessage.sent_at
+    : currentTimestamp;
 
   const shouldUpdateLastMessageText = !isVerifiedChangeMessage;
-  const newLastMessageText = shouldUpdateLastMessageText ?
-    lastMessageNotificationText : currentLastMessageText;
+  const newLastMessageText = shouldUpdateLastMessageText
+    ? lastMessageNotificationText
+    : currentLastMessageText;
 
   return {
     lastMessage: newLastMessageText,

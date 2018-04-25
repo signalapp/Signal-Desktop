@@ -1,18 +1,17 @@
 /* global $: false */
 /* global _: false */
 /* global Backbone: false */
+/* global filesize: false */
 /* global moment: false */
 
 /* global i18n: false */
+/* global Signal: false */
 /* global textsecure: false */
 /* global Whisper: false */
 
 // eslint-disable-next-line func-names
 (function () {
   'use strict';
-
-  const ESCAPE_KEY_CODE = 27;
-  const { Signal } = window;
 
   const FileView = Whisper.View.extend({
     tagName: 'div',
@@ -92,8 +91,8 @@
     unload() {
       this.blob = null;
 
-      if (this.lightBoxView) {
-        this.lightBoxView.remove();
+      if (this.lightboxView) {
+        this.lightboxView.remove();
       }
       if (this.fileView) {
         this.fileView.remove();
@@ -111,14 +110,22 @@
       }
     },
     onClick() {
-      if (this.isImage()) {
-        this.lightBoxView = new Whisper.LightboxView({ model: this });
-        this.lightBoxView.render();
-        this.lightBoxView.$el.appendTo(this.el);
-        this.lightBoxView.$el.trigger('show');
-      } else {
+      if (!this.isImage()) {
         this.saveFile();
+        return;
       }
+
+      const props = {
+        imageURL: this.objectUrl,
+        onSave: () => this.saveFile(),
+        // implicit: `close`
+      };
+      this.lightboxView = new Whisper.ReactWrapperView({
+        Component: Signal.Components.Lightbox,
+        props,
+        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+      });
+      Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
     },
     isVoiceMessage() {
       // eslint-disable-next-line no-bitwise
@@ -135,15 +142,16 @@
     },
     isAudio() {
       const { contentType } = this.model;
+      // TODO: Implement and use `Signal.Util.GoogleChrome.isAudioTypeSupported`:
       return Signal.Types.MIME.isAudio(contentType);
     },
     isVideo() {
       const { contentType } = this.model;
-      return Signal.Types.MIME.isVideo(contentType);
+      return Signal.Util.GoogleChrome.isVideoTypeSupported(contentType);
     },
     isImage() {
       const { contentType } = this.model;
-      return Signal.Types.MIME.isImage(contentType);
+      return Signal.Util.GoogleChrome.isImageTypeSupported(contentType);
     },
     mediaType() {
       if (this.isVoiceMessage()) {
@@ -238,7 +246,7 @@
         model: {
           mediaType: this.mediaType(),
           fileName: this.displayName(),
-          fileSize: window.filesize(this.model.size),
+          fileSize: filesize(this.model.size),
           altText: i18n('clickToSave'),
         },
       });
@@ -250,44 +258,6 @@
     update() {
       clearTimeout(this.timeout);
       this.trigger('update');
-    },
-  });
-
-  Whisper.LightboxView = Whisper.View.extend({
-    templateName: 'lightbox',
-    className: 'modal lightbox',
-    initialize() {
-      this.window = window;
-      this.$document = $(this.window.document);
-      this.listener = this.onkeyup.bind(this);
-      this.$document.on('keyup', this.listener);
-    },
-    events: {
-      'click .save': 'save',
-      'click .close': 'remove',
-      click: 'onclick',
-    },
-    save() {
-      this.model.saveFile();
-    },
-    onclick(e) {
-      const $el = this.$(e.target);
-      if (!$el.hasClass('image') && !$el.closest('.controls').length) {
-        e.preventDefault();
-        this.remove();
-        return false;
-      }
-
-      return true;
-    },
-    onkeyup(e) {
-      if (e.keyCode === ESCAPE_KEY_CODE) {
-        this.remove();
-        this.$document.off('keyup', this.listener);
-      }
-    },
-    render_attributes() {
-      return { url: this.model.objectUrl };
     },
   });
 }());

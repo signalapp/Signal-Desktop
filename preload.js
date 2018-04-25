@@ -99,6 +99,7 @@ window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
 window.EmojiConvertor = require('emoji-js');
 window.emojiData = require('emoji-datasource');
 window.EmojiPanel = require('emoji-panel');
+window.filesize = require('filesize');
 window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 window.libphonenumber.PhoneNumberFormat =
   require('google-libphonenumber').PhoneNumberFormat;
@@ -154,6 +155,7 @@ const { getPlaceholderMigrations } =
 const { IdleDetector } = require('./js/modules/idle_detector');
 
 window.Signal = {};
+window.Signal.Backbone = require('./ts/backbone');
 window.Signal.Backup = require('./js/modules/backup');
 window.Signal.Crypto = require('./js/modules/crypto');
 window.Signal.Database = require('./js/modules/database');
@@ -161,9 +163,21 @@ window.Signal.Debug = require('./js/modules/debug');
 window.Signal.HTML = require('./ts/html');
 window.Signal.Logs = require('./js/modules/logs');
 
+// React components
+const { Lightbox } = require('./ts/components/Lightbox');
+const { MediaGallery } =
+  require('./ts/components/conversation/media-gallery/MediaGallery');
 const { Quote } = require('./ts/components/conversation/Quote');
 
+const PropTypesMessage =
+  require('./ts/components/conversation/media-gallery/propTypes/Message');
+
 window.Signal.Components = {
+  Lightbox,
+  MediaGallery,
+  PropTypes: {
+    Message: PropTypesMessage,
+  },
   Quote,
 };
 
@@ -191,8 +205,9 @@ window.Signal.Types.Conversation = require('./ts/types/Conversation');
 window.Signal.Types.Errors = require('./js/modules/types/errors');
 
 window.Signal.Types.Message = Message;
-window.Signal.Types.MIME = require('./js/modules/types/mime');
+window.Signal.Types.MIME = require('./ts/types/MIME');
 window.Signal.Types.Settings = require('./js/modules/types/settings');
+window.Signal.Util = require('./ts/util');
 
 window.Signal.Views = {};
 window.Signal.Views.Initialization = require('./js/modules/views/initialization');

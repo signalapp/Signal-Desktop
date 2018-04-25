@@ -322,6 +322,34 @@
     "incomingError": {
       "message": "Error handling incoming message."
     },
+    "media": {
+      "message": "Media",
+      "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "documents": {
+      "message": "Documents",
+      "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
+    "messageCaption": {
+      "message": "Message caption",
+      "description": "Prefix of attachment alt tags in the media gallery"
+    },
+    "today": {
+      "message": "Today",
+      "description": "Section header in the media gallery"
+    },
+    "yesterday": {
+      "message": "Yesterday",
+      "description": "Section header in the media gallery"
+    },
+    "thisWeek": {
+      "message": "This Week",
+      "description": "Section header in the media gallery"
+    },
+    "thisMonth": {
+      "message": "This Month",
+      "description": "Section header in the media gallery"
+    },
     "unsupportedAttachment": {
       "message": "Unsupported attachment type. Click to save.",
       "description": "Displayed for incoming unsupported attachment"
@@ -522,6 +550,10 @@
     "showSafetyNumber": {
       "message": "Show safety number"
     },
+    "viewAllMedia": {
+      "message": "View all media",
+      "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
     "verifyHelp": {
       "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
       "placeholders": {
@@ -635,7 +667,7 @@
     },
     "deleteAllDataProgress": {
         "message": "Disconnecting and deleting all data",
-        "description": "Text of the button that deletes all data"
+        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "Notifications",

@@ -25,13 +25,6 @@ describe('ConversationController', function() {
       timestamp: 30,
     }));
 
-    console.log('WTF!');
-    console.log(collection.at('0').attributes);
-    console.log(collection.at('1').attributes);
-    console.log(collection.at('2').attributes);
-    console.log(collection.at('3').attributes);
-    console.log(collection.at('4').attributes);
-
     assert.strictEqual(collection.at('0').get('name'), 'First!');
     assert.strictEqual(collection.at('1').get('name'), 'Á');
     assert.strictEqual(collection.at('2').get('name'), 'B');
