@@ -577,14 +577,21 @@
       //   events up to its parent elements in the DOM.
       this.closeMenu();
 
+      // We fetch more documents than media as they don’t require to be loaded
+      // into memory right away. Revisit this once we have infinite scrolling:
+      const DEFAULT_MEDIA_FETCH_COUNT = 50;
+      const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
+
       const conversationId = this.model.get('id');
       const WhisperMessageCollection = Whisper.MessageCollection;
       const rawMedia = await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
         conversationId,
+        count: DEFAULT_MEDIA_FETCH_COUNT,
         WhisperMessageCollection,
       });
       const documents = await Signal.Backbone.Conversation.fetchFileAttachments({
         conversationId,
+        count: DEFAULT_DOCUMENTS_FETCH_COUNT,
         WhisperMessageCollection,
       });
 

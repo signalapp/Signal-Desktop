@@ -8,34 +8,36 @@ import { deferredToPromise } from '../../js/modules/deferred_to_promise';
 import { IndexableBoolean } from '../types/IndexedDB';
 import { Message } from '../types/Message';
 
-const DEFAULT_FETCH_COUNT = 50;
-
 export const fetchVisualMediaAttachments = async ({
   conversationId,
+  count,
   WhisperMessageCollection,
 }: {
   conversationId: string;
+  count: number;
   WhisperMessageCollection: BackboneCollection<Message>;
 }): Promise<Array<Message>> =>
   fetchFromAttachmentsIndex({
     name: 'hasVisualMediaAttachments',
     conversationId,
     WhisperMessageCollection,
-    count: DEFAULT_FETCH_COUNT,
+    count,
   });
 
 export const fetchFileAttachments = async ({
   conversationId,
+  count,
   WhisperMessageCollection,
 }: {
   conversationId: string;
+  count: number;
   WhisperMessageCollection: BackboneCollection<Message>;
 }): Promise<Array<Message>> =>
   fetchFromAttachmentsIndex({
     name: 'hasFileAttachments',
     conversationId,
     WhisperMessageCollection,
-    count: DEFAULT_FETCH_COUNT,
+    count,
   });
 
 const fetchFromAttachmentsIndex = async ({
