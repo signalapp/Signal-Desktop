@@ -1,13 +1,15 @@
+/* global _: false */
+/* global Backbone: false */
+/* global dcodeIO: false */
+/* global libphonenumber: false */
+
+/* global ConversationController: false */
+/* global libsignal: false */
+/* global Signal: false */
 /* global storage: false */
 /* global textsecure: false */
 /* global Whisper: false */
-/* global Backbone: false */
-/* global _: false */
-/* global ConversationController: false */
-/* global libphonenumber: false */
 /* global wrapDeferred: false */
-/* global dcodeIO: false */
-/* global libsignal: false */
 
 /* eslint-disable more/no-then */
 

@@ -1,14 +1,16 @@
-/* global Whisper: false */
-/* global i18n: false */
 /* global $: false */
 /* global _: false */
-/* global emoji_util: false */
-/* global extension: false */
-/* global moment: false */
-/* global EmojiPanel: false */
 /* global emoji: false */
+/* global emoji_util: false */
 /* global emojiData: false */
+/* global EmojiPanel: false */
+/* global moment: false */
+
+/* global extension: false */
+/* global i18n: false */
 /* global storage: false */
+/* global Whisper: false */
+/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function () {
