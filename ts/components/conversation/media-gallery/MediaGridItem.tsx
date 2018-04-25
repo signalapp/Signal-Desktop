@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { Message } from './propTypes/Message';
+import { Message } from './types/Message';
 
 interface Props {
   message: Message;

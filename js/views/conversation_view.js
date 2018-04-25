@@ -588,29 +588,44 @@
         WhisperMessageCollection,
       });
 
-      const loadMessages = Signal.Components.PropTypes.Message
+      const loadMessages = Signal.Components.Types.Message
         .loadWithObjectURL(Signal.Migrations.loadMessage);
       const media = await loadMessages(rawMedia);
 
-      const mediaGalleryProps = {
-        media,
-        documents,
-        onItemClick: ({ message }) => {
-          const lightboxProps = {
-            imageURL: message.objectURL,
-          };
-          this.lightboxView = new Whisper.ReactWrapperView({
-            Component: Signal.Components.Lightbox,
-            props: lightboxProps,
-            onClose: () => Signal.Backbone.Views.Lightbox.hide(),
-          });
-          Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
-        },
+      const onItemClick = async ({ message, type }) => {
+        switch (type) {
+          case 'documents': {
+            const loadedMessage = await Signal.Migrations.loadMessage(message);
+            const attachment = loadedMessage.attachments[0];
+            const timestamp = loadedMessage.received_at;
+            Signal.Types.AttachmentTS.save({ attachment, timestamp });
+            break;
+          }
+
+          case 'media': {
+            this.lightboxView = new Whisper.ReactWrapperView({
+              Component: Signal.Components.Lightbox,
+              props: {
+                imageURL: message.objectURL,
+              },
+              onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+            });
+            Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+            break;
+          }
+
+          default:
+            throw new TypeError(`Unknown attachment type: '${type}'`);
+        }
       };
 
       const view = new Whisper.ReactWrapperView({
         Component: Signal.Components.MediaGallery,
-        props: mediaGalleryProps,
+        props: {
+          documents,
+          media,
+          onItemClick,
+        },
         onClose: () => this.resetPanel(),
       });
 

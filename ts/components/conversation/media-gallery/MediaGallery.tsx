@@ -6,11 +6,10 @@ import React from 'react';
 import moment from 'moment';
 
 import { AttachmentSection } from './AttachmentSection';
+import { AttachmentType } from './types/AttachmentType';
 import { groupMessagesByDate } from './groupMessagesByDate';
-import { ItemClickEvent } from './events/ItemClickEvent';
-import { Message } from './propTypes/Message';
-
-type AttachmentType = 'media' | 'documents';
+import { ItemClickEvent } from './types/ItemClickEvent';
+import { Message } from './types/Message';
 
 interface Props {
   documents: Array<Message>;
