@@ -265,6 +265,13 @@ describe('Backup', () => {
         return _.omit(model, ['id']);
       }
 
+      const getUndefinedKeys = object =>
+        Object.entries(object)
+          .filter(([, value]) => value === undefined)
+          .map(([name]) => name);
+      const omitUndefinedKeys = object =>
+        _.omit(object, getUndefinedKeys(object));
+
       // We want to know which paths have two slashes, since that tells us which files
       //   in the attachment fan-out are files vs. directories.
       const TWO_SLASHES = /[^/]*\/[^/]*\/[^/]*/;
@@ -463,18 +470,23 @@ describe('Backup', () => {
         await window.wrapDeferred(messageCollection.fetch());
         assert.strictEqual(messageCollection.length, MESSAGE_COUNT);
         const messageFromDB = removeId(messageCollection.at(0).attributes);
-        console.log({ messageFromDB, message });
-        assert.deepEqual(messageFromDB, message);
-
-        console.log('Backup test: check that all attachments were successfully imported');
-        const messageWithAttachmentsFromDB = await loadAllFilesFromDisk(messageFromDB);
-        console.log({ messageWithAttachmentsFromDB, messageWithAttachments });
+        const expectedMessage = omitUndefinedKeys(message);
+        console.log({ messageFromDB, expectedMessage });
         assert.deepEqual(
-          _.omit(messageWithAttachmentsFromDB, ['schemaVersion']),
-          messageWithAttachments
+          messageFromDB,
+          expectedMessage
         );
 
-        console.log('Backup test: check conversations');
+        console.log('Backup test: Check that all attachments were successfully imported');
+        const messageWithAttachmentsFromDB = await loadAllFilesFromDisk(messageFromDB);
+        const expectedMessageWithAttachments = omitUndefinedKeys(messageWithAttachments);
+        console.log({ messageWithAttachmentsFromDB, expectedMessageWithAttachments });
+        assert.deepEqual(
+          _.omit(messageWithAttachmentsFromDB, ['schemaVersion']),
+          expectedMessageWithAttachments
+        );
+
+        console.log('Backup test: Check conversations');
         const conversationCollection = new Whisper.ConversationCollection();
         await window.wrapDeferred(conversationCollection.fetch());
         assert.strictEqual(conversationCollection.length, CONVERSATION_COUNT);
