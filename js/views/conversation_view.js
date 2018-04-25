@@ -592,13 +592,17 @@
         .loadWithObjectURL(Signal.Migrations.loadMessage);
       const media = await loadMessages(rawMedia);
 
+      const saveAttachment = async ({ message } = {}) => {
+        const loadedMessage = await Signal.Migrations.loadMessage(message);
+        const attachment = loadedMessage.attachments[0];
+        const timestamp = loadedMessage.received_at;
+        Signal.Types.AttachmentTS.save({ attachment, timestamp });
+      };
+
       const onItemClick = async ({ message, type }) => {
         switch (type) {
           case 'documents': {
-            const loadedMessage = await Signal.Migrations.loadMessage(message);
-            const attachment = loadedMessage.attachments[0];
-            const timestamp = loadedMessage.received_at;
-            Signal.Types.AttachmentTS.save({ attachment, timestamp });
+            saveAttachment({ message });
             break;
           }
 
@@ -607,6 +611,7 @@
               Component: Signal.Components.Lightbox,
               props: {
                 imageURL: message.objectURL,
+                onSave: () => saveAttachment({ message }),
               },
               onClose: () => Signal.Backbone.Views.Lightbox.hide(),
             });
