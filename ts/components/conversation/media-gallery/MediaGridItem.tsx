@@ -17,6 +17,7 @@ const size = {
 const styles = {
   container: {
     ...size,
+    cursor: 'pointer',
     backgroundColor: '#f3f3f3',
     marginRight: 4,
     marginBottom: 4,
