@@ -350,7 +350,7 @@ describe('Backup', () => {
             ]).buffer,
           }],
           hasAttachments: 1,
-          hasFileAttachments: 0,
+          hasFileAttachments: undefined,
           hasVisualMediaAttachments: 1,
           quote: {
             text: "Isn't it cute?",

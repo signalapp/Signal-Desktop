@@ -40,7 +40,7 @@ describe('Message', () => {
         }],
         hasAttachments: 1,
         hasVisualMediaAttachments: 1,
-        hasFileAttachments: 0,
+        hasFileAttachments: undefined,
       };
 
       const actual = await Message.initializeAttachmentMetadata(input);

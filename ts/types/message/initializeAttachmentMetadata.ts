@@ -22,7 +22,7 @@ export const initializeAttachmentMetadata = async (
     Attachment.isVisualMedia
   )
     .map(attachments => attachments.length > 0)
-    .map(IndexedDB.toIndexableBoolean);
+    .map(IndexedDB.toIndexablePresence);
 
   return {
     ...message,

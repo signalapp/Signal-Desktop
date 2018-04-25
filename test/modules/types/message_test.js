@@ -182,7 +182,7 @@ describe('Message', () => {
           size: 1111,
         }],
         hasAttachments: 1,
-        hasVisualMediaAttachments: 0,
+        hasVisualMediaAttachments: undefined,
         hasFileAttachments: 1,
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
       };

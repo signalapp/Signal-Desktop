@@ -30,8 +30,8 @@ export const fetchVisualMediaAttachments = async ({
     collection.fetch({
       index: {
         name: 'hasVisualMediaAttachments',
-        lower: [conversationId, hasVisualMediaAttachments, lowerReceivedAt],
-        upper: [conversationId, hasVisualMediaAttachments, upperReceivedAt],
+        lower: [conversationId, lowerReceivedAt, hasVisualMediaAttachments],
+        upper: [conversationId, upperReceivedAt, hasVisualMediaAttachments],
         order: 'desc',
       },
       limit: 50,

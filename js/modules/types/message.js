@@ -25,9 +25,8 @@ const PRIVATE = 'private';
 // Version 5
 //   - Attachments: Track number and kind of attachments for media gallery
 //     - `hasAttachments?: 1 | 0`
-//     - `hasVisualMediaAttachments?: 1 | 0` (for media gallery ‘Media’ view)
-//     - `hasFileAttachments?: 1 | 0` (for media gallery ‘Documents’ view)
-
+//     - `hasVisualMediaAttachments?: 1 | undefined` (for media gallery ‘Media’ view)
+//     - `hasFileAttachments?: 1 | undefined` (for media gallery ‘Documents’ view)
 
 const INITIAL_SCHEMA_VERSION = 0;
 

@@ -2,7 +2,7 @@
  * @prettier
  */
 import { Attachment } from './Attachment';
-import { IndexableBoolean } from './IndexedDB';
+import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
 export type Message = UserMessage | VerifiedChangeMessage;
 export type UserMessage = IncomingMessage | OutgoingMessage;
@@ -23,7 +23,7 @@ export type IncomingMessage = Readonly<
     source?: string;
     sourceDevice?: number;
   } & SharedMessageProperties &
-    MessageSchemaVersion4 &
+    MessageSchemaVersion5 &
     ExpirationTimerUpdate
 >;
 
@@ -49,7 +49,7 @@ export type OutgoingMessage = Readonly<
     recipients?: Array<string>; // Array<PhoneNumber>
     synced: boolean;
   } & SharedMessageProperties &
-    MessageSchemaVersion4 &
+    MessageSchemaVersion5 &
     ExpirationTimerUpdate
 >;
 
@@ -57,7 +57,7 @@ export type VerifiedChangeMessage = Readonly<
   {
     type: 'verified-change';
   } & SharedMessageProperties &
-    MessageSchemaVersion4 &
+    MessageSchemaVersion5 &
     ExpirationTimerUpdate
 >;
 
@@ -77,10 +77,10 @@ type ExpirationTimerUpdate = Partial<
   }>
 >;
 
-type MessageSchemaVersion4 = Partial<
+type MessageSchemaVersion5 = Partial<
   Readonly<{
     hasAttachments: IndexableBoolean;
-    hasVisualMediaAttachments: IndexableBoolean;
-    hasFileAttachments: IndexableBoolean;
+    hasVisualMediaAttachments: IndexablePresence;
+    hasFileAttachments: IndexablePresence;
   }>
 >;
