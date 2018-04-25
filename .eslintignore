@@ -33,6 +33,7 @@ ts/**/*.js
 !js/views/message_view.js
 !js/views/settings_view.js
 !test/backup_test.js
+!test/views/attachment_view_test.js
 !libtextsecure/message_receiver.js
 !main.js
 !preload.js
