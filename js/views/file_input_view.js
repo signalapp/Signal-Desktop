@@ -28,7 +28,7 @@
     template: i18n('unsupportedFileType'),
   });
 
-  function makeThumbnail(size, objectUrl) {
+  function makeImageThumbnail(size, objectUrl) {
     return new Promise(((resolve, reject) => {
       const img = document.createElement('img');
       img.onerror = reject;
@@ -117,7 +117,7 @@
     const arrayBuffer = await blobToArrayBuffer(blob);
     const screenshotObjectUrl = makeObjectUrl(arrayBuffer, 'image/png');
 
-    return makeThumbnail(size, screenshotObjectUrl);
+    return makeImageThumbnail(size, screenshotObjectUrl);
   }
 
   Whisper.FileInputView = Backbone.View.extend({
@@ -354,7 +354,7 @@
 
       const objectUrl = URL.createObjectURL(file);
 
-      const arrayBuffer = await makeThumbnail(size, objectUrl);
+      const arrayBuffer = await makeImageThumbnail(size, objectUrl);
       URL.revokeObjectURL(objectUrl);
 
       return this.readFile(arrayBuffer);
@@ -447,7 +447,7 @@
     },
   });
 
-  Whisper.FileInputView.makeThumbnail = makeThumbnail;
+  Whisper.FileInputView.makeImageThumbnail = makeImageThumbnail;
   Whisper.FileInputView.makeVideoThumbnail = makeVideoThumbnail;
   Whisper.FileInputView.makeVideoScreenshot = makeVideoScreenshot;
 }());

@@ -631,7 +631,7 @@
       const objectUrl = this.makeObjectUrl(data, contentType);
 
       const thumbnail = Signal.Util.GoogleChrome.isImageTypeSupported(contentType)
-        ? await Whisper.FileInputView.makeThumbnail(128, objectUrl)
+        ? await Whisper.FileInputView.makeImageThumbnail(128, objectUrl)
         : await Whisper.FileInputView.makeVideoThumbnail(128, objectUrl);
 
       URL.revokeObjectURL(objectUrl);
@@ -1163,8 +1163,6 @@
         return true;
       }
 
-      // Maybe in the future we could try to pull the thumbnail from a video ourselves,
-      //   but for now we will rely on incoming thumbnails only.
       if (!Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType) &&
         !Signal.Util.GoogleChrome.isVideoTypeSupported(first.contentType)) {
         return false;
