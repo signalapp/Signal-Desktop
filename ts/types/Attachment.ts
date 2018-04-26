@@ -9,7 +9,7 @@ import { saveURLAsFile } from '../util/saveURLAsFile';
 import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
 import { MIMEType } from './MIME';
 
-export interface Attachment {
+export type Attachment = {
   fileName?: string;
   contentType?: MIMEType;
   size?: number;
@@ -24,6 +24,10 @@ export interface Attachment {
   // key?: ArrayBuffer;
   // digest?: ArrayBuffer;
   // flags?: number;
+} & Partial<AttachmentSchemaVersion3>;
+
+interface AttachmentSchemaVersion3 {
+  path: string;
 }
 
 const SAVE_CONTENT_TYPE = 'application/octet-stream' as MIMEType;
