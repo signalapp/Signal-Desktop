@@ -567,6 +567,9 @@
           decrypted_at: now,
           errors: [],
           flags: dataMessage.flags,
+          hasAttachments: dataMessage.hasAttachments,
+          hasFileAttachments: dataMessage.hasFileAttachments,
+          hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
           quote: dataMessage.quote,
           schemaVersion: dataMessage.schemaVersion,
         });
