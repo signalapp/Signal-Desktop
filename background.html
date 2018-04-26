@@ -237,7 +237,12 @@
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='attachment-preview'>
-        <img src='{{ source }}' class='preview' />
+        <div class='image-container'>
+          <img src='{{ source }}' class='preview' />
+          <div class='outer'>
+            <div class='play icon'></div>
+          </div>
+        </div>
         <a class='x close' alt='remove attachment' href='#'></a>
   </script>
   <script type='text/x-tmpl-mustache' id='file-view'>
