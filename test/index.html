@@ -533,6 +533,18 @@
         <input type='checkbox' name='audio-notification' id='audio-notification'/>
         <label for='audio-notification'>{{ audioNotificationDescription }}</label>
       </div>
+      {{ #isMac }}
+      <div class='mac-dockBounce-notification-setting'>
+        <input type='checkbox' name='mac-dockBounce-notification' id='mac-dockBounce-notification'/>
+        <label for='mac-dockBounce-notification'>{{ macDockBounceNotificationDescription }}</label>
+      </div>
+      {{ /isMac }}
+      {{ #isWindows }}
+      <div class='windows-flashFrame-notification-setting'>
+        <input type='checkbox' name='windows-flashFrame-notification' id='windows-flashFrame-notification'/>
+        <label for='windows-flashFrame-notification'>{{ windowsFlashFrameNotificationDescription }}</label>
+      </div>
+      {{ /isWindows }}
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='syncSettings'>

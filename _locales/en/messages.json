@@ -909,6 +909,14 @@
       "message": "Play audio notification",
       "description": "Description for audio notification setting"
     },
+    "macDockBounceNotificationDescription": {
+      "message": "Show dock bounce action on Mac",
+      "description": "Description for Mac dock bounce notification setting"
+    },
+    "windowsFlashFrameNotificationDescription": {
+      "message": "Show flash frame action on Windows",
+      "description": "Description for Windows flash frame notification setting"
+    },
     "keychanged": {
       "message": "Your safety number with $name$ has changed. Click to show.",
       "description": "",

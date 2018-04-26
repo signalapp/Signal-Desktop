@@ -52,12 +52,19 @@
                 return;
             }
 
+            var macDockBounce = storage.get('mac-dockBounce-notification') || false;
+            if (macDockBounce) {
+                app.dock.bounce();
+            }
+            var windowsFlashFrame = storage.get('windows-flashFrame-notification') || false;
+            if (windowsFlashFrame) {
+                win.flashFrame(true);
+            }
+
             var setting = storage.get('notification-setting') || 'message';
             if (setting === SETTINGS.OFF) {
                 return;
             }
-
-            window.drawAttention();
 
             var title;
             var message;

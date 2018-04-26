@@ -82,6 +82,20 @@
                     name: 'audio-notification'
                 });
             }
+            if (OS.isMac()) {
+                new CheckboxView({
+                    el: this.$('.mac-dockBounce-notification-setting'),
+                    defaultValue: false,
+                    name: 'mac-dockBounce-notification'
+                })
+            }
+            if (OS.isWindows()) {
+                new CheckboxView({
+                    el: this.$('.windows-flashFrame-notification-setting'),
+                    defaultValue: false,
+                    name: 'windows-flashFrame-notification'
+                })
+            }
             new CheckboxView({
                 el: this.$('.menu-bar-setting'),
                 defaultValue: false,
@@ -111,6 +125,8 @@
               nameOnly: i18n('nameOnly'),
               audioNotificationDescription: i18n('audioNotificationDescription'),
               isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
+              macDockBounceNotificationDescription: i18n('macDockBounceNotificationDescription'),
+              windowsFlashFrameNotificationDescription: i18n('windowsFlashFrameNotificationDescription'),
               themeAndroidDark: i18n('themeAndroidDark'),
               hideMenuBar: i18n('hideMenuBar'),
               clearDataHeader: i18n('clearDataHeader'),
