@@ -5,6 +5,7 @@ import is from '@sindresorhus/is';
 import moment from 'moment';
 
 import * as GoogleChrome from '../util/GoogleChrome';
+import { saveURLAsFile } from '../util/saveURLAsFile';
 import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
 import { MIMEType } from './MIME';
 
@@ -41,19 +42,19 @@ export const isVisualMedia = (attachment: Attachment): boolean => {
 
 export const save = ({
   attachment,
+  document,
   timestamp,
 }: {
   attachment: Attachment;
+  document: Document;
   timestamp?: number;
 }): void => {
   const url = arrayBufferToObjectURL({
     data: attachment.data,
     type: SAVE_CONTENT_TYPE,
   });
-  const anchorElement = document.createElement('a');
-  anchorElement.href = url;
-  anchorElement.download = getSuggestedFilename({ attachment, timestamp });
-  anchorElement.click();
+  const filename = getSuggestedFilename({ attachment, timestamp });
+  saveURLAsFile({ url, filename, document });
   URL.revokeObjectURL(url);
 };
 

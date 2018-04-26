@@ -179,6 +179,7 @@
     saveFile() {
       Signal.Types.AttachmentTS.save({
         attachment: this.model,
+        document,
         timestamp: this.timestamp,
       });
     },
