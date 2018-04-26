@@ -18,6 +18,9 @@ interface Props {
   onSave?: () => void;
 }
 
+const CONTROLS_WIDTH = 50;
+const CONTROLS_SPACING = 10;
+
 const styles = {
   container: {
     display: 'flex',
@@ -32,6 +35,7 @@ const styles = {
   mainContainer: {
     display: 'flex',
     flexDirection: 'row',
+    flexGrow: 1,
     paddingTop: 40,
     paddingLeft: 40,
     paddingRight: 40,
@@ -49,11 +53,17 @@ const styles = {
     maxHeight: '100%',
     objectFit: 'contain',
   } as React.CSSProperties,
+  controlsOffsetPlaceholder: {
+    width: CONTROLS_WIDTH,
+    marginRight: CONTROLS_SPACING,
+    flexShrink: 0,
+  },
   controls: {
+    width: CONTROLS_WIDTH,
     flexShrink: 0,
     display: 'flex',
     flexDirection: 'column',
-    marginLeft: 10,
+    marginLeft: CONTROLS_SPACING,
   } as React.CSSProperties,
   navigationContainer: {
     flexShrink: 0,
@@ -125,6 +135,7 @@ export class Lightbox extends React.Component<Props, {}> {
         ref={this.setContainerRef}
       >
         <div style={styles.mainContainer}>
+          <div style={styles.controlsOffsetPlaceholder} />
           <div style={styles.objectContainer}>
             {!is.undefined(contentType)
               ? this.renderObject({ objectURL, contentType })
