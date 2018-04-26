@@ -1,3 +1,17 @@
+### Empty states for missing media and documents
+
+```
+<div style={{width: '100%', height: 300}}>
+  <MediaGallery
+    i18n={window.i18n}
+    media={[]}
+    documents={[]}
+  />
+</div>
+```
+
+### Media gallery with media and documents
+
 ```jsx
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MONTH_MS = 30 * DAY_MS;

@@ -7,9 +7,11 @@ import moment from 'moment';
 
 import { AttachmentSection } from './AttachmentSection';
 import { AttachmentType } from './types/AttachmentType';
+import { EmptyState } from './EmptyState';
 import { groupMessagesByDate } from './groupMessagesByDate';
 import { ItemClickEvent } from './types/ItemClickEvent';
 import { Message } from './types/Message';
+import { missingCaseError } from '../../../util/missingCaseError';
 
 interface Props {
   documents: Array<Message>;
@@ -135,7 +137,19 @@ export class MediaGallery extends React.Component<Props, State> {
     const type = selectedTab;
 
     if (!messages || messages.length === 0) {
-      return null;
+      const label = (() => {
+        switch (type) {
+          case 'media':
+            return i18n('mediaEmptyState');
+
+          case 'documents':
+            return i18n('documentsEmptyState');
+
+          default:
+            throw missingCaseError(type);
+        }
+      })();
+      return <EmptyState data-test="EmptyState" label={label} />;
     }
 
     const now = Date.now();

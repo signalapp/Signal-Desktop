@@ -326,9 +326,17 @@
       "message": "Media",
       "description": "Header of the default pane in the media gallery, showing images and videos"
     },
+    "mediaEmptyState": {
+      "message": "You don’t have any media in this conversation",
+      "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
     "documents": {
       "message": "Documents",
       "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
+    "documentsEmptyState": {
+      "message": "You don’t have any documents in this conversation",
+      "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "messageCaption": {
       "message": "Message caption",
