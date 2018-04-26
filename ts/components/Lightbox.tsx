@@ -54,9 +54,25 @@ interface IconButtonProps {
   type: 'save' | 'close' | 'previous' | 'next';
   onClick?: () => void;
 }
-const IconButton = ({ onClick, type }: IconButtonProps) => (
-  <a href="#" onClick={onClick} className={classNames('iconButton', type)} />
-);
+
+const IconButton = ({ onClick, type }: IconButtonProps) => {
+  const clickHandler = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+    event.preventDefault();
+    if (!onClick) {
+      return;
+    }
+
+    onClick();
+  };
+
+  return (
+    <a
+      href="#"
+      onClick={clickHandler}
+      className={classNames('iconButton', type)}
+    />
+  );
+};
 
 export class Lightbox extends React.Component<Props, {}> {
   private containerRef: HTMLDivElement | null = null;
