@@ -203,11 +203,28 @@ export class Lightbox extends React.Component<Props, {}> {
   };
 
   private onKeyUp = (event: KeyboardEvent) => {
-    if (event.key !== 'Escape') {
-      return;
-    }
+    const { onClose } = this;
+    const { onNext, onPrevious } = this.props;
+    switch (event.key) {
+      case 'Escape':
+        onClose();
+        break;
 
-    this.onClose();
+      case 'ArrowLeft':
+        if (onPrevious) {
+          onPrevious();
+        }
+        break;
+
+      case 'ArrowRight':
+        if (onNext) {
+          onNext();
+        }
+        break;
+
+      default:
+        break;
+    }
   };
 
   private onContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
