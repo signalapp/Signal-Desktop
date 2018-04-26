@@ -628,7 +628,10 @@
     async makeThumbnailAttachment(attachment) {
       const attachmentWithData = await loadAttachmentData(attachment);
       const { data, contentType } = attachmentWithData;
-      const objectUrl = this.makeObjectUrl(data, contentType);
+      const objectUrl = Signal.Util.arrayBufferToObjectURL({
+        data,
+        type: contentType,
+      });
 
       const thumbnail = Signal.Util.GoogleChrome.isImageTypeSupported(contentType)
         ? await Whisper.FileInputView.makeImageThumbnail(128, objectUrl)
@@ -638,7 +641,10 @@
 
       const arrayBuffer = await this.blobToArrayBuffer(thumbnail);
       const finalContentType = 'image/png';
-      const finalObjectUrl = this.makeObjectUrl(arrayBuffer, finalContentType);
+      const finalObjectUrl = Signal.Util.arrayBufferToObjectURL({
+        data: arrayBuffer,
+        type: finalContentType,
+      });
 
       return {
         data: arrayBuffer,
@@ -1126,12 +1132,6 @@
     forceRender(message) {
       message.trigger('change', message);
     },
-    makeObjectUrl(data, contentType) {
-      const blob = new Blob([data], {
-        type: contentType,
-      });
-      return URL.createObjectURL(blob);
-    },
     makeMessagesLookup(messages) {
       return messages.reduce((acc, message) => {
         const { source, sent_at: sentAt } = message.attributes;
@@ -1189,7 +1189,7 @@
       } catch (error) {
         console.log(
           'Problem loading attachment data for quoted message from database',
-          error && error.stack ? error.stack : error
+          Signal.Types.Errors.toLogFormat(error)
         );
         return false;
       }
@@ -1244,10 +1244,11 @@
       }
       try {
         const thumbnailWithData = await loadAttachmentData(thumbnail);
-        thumbnailWithData.objectUrl = this.makeObjectUrl(
-          thumbnailWithData.data,
-          thumbnailWithData.contentType
-        );
+        const { data, contentType } = thumbnailWithData;
+        thumbnailWithData.objectUrl = Signal.Util.arrayBufferToObjectURL({
+          data,
+          type: contentType,
+        });
 
         // If we update this data in place, there's the risk that this data could be
         //   saved back to the database

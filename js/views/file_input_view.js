@@ -84,20 +84,13 @@
       video.addEventListener('error', (error) => {
         console.log(
           'makeVideoThumbnail error',
-          error && error.stack ? error.stack : error
+          Signal.Types.Errors.toLogFormat(error)
         );
         reject(error);
       });
 
       video.src = objectUrl;
     }));
-  }
-
-  function makeObjectUrl(data, contentType) {
-    const blob = new Blob([data], {
-      type: contentType,
-    });
-    return URL.createObjectURL(blob);
   }
 
   function blobToArrayBuffer(blob) {
@@ -114,8 +107,11 @@
 
   async function makeVideoThumbnail(size, videoObjectUrl) {
     const blob = await makeVideoScreenshot(videoObjectUrl);
-    const arrayBuffer = await blobToArrayBuffer(blob);
-    const screenshotObjectUrl = makeObjectUrl(arrayBuffer, 'image/png');
+    const data = await blobToArrayBuffer(blob);
+    const screenshotObjectUrl = Signal.Util.arrayBufferToObjectURL({
+      data,
+      type: 'image/png',
+    });
 
     const thumbnail = await makeImageThumbnail(size, screenshotObjectUrl);
     URL.revokeObjectURL(screenshotObjectUrl);
@@ -244,9 +240,11 @@
         const thumbnail = await makeVideoScreenshot(this.previewObjectUrl);
         URL.revokeObjectURL(this.previewObjectUrl);
 
-        const arrayBuffer = await blobToArrayBuffer(thumbnail);
-
-        this.previewObjectUrl = makeObjectUrl(arrayBuffer, 'image/png');
+        const data = await blobToArrayBuffer(thumbnail);
+        this.previewObjectUrl = Signal.Util.arrayBufferToObjectURL({
+          data,
+          type: 'image/png',
+        });
         this.addThumb(this.previewObjectUrl, { addPlayIcon: true });
       };
 
