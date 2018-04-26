@@ -1150,6 +1150,7 @@ span.status {
     background-color: white;
     border: none;
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
+    outline: none;
 
     .icon {
       @include color-svg('../images/down.svg', $grey_l3);
