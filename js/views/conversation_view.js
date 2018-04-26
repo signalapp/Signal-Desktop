@@ -282,8 +282,8 @@
       if (this.quoteView) {
         this.quoteView.remove();
       }
-      if (this.lightboxView) {
-        this.lightboxView.remove();
+      if (this.lightboxGalleryView) {
+        this.lightboxGalleryView.remove();
       }
       if (this.panels && this.panels.length) {
         for (let i = 0, max = this.panels.length; i < max; i += 1) {
@@ -598,6 +598,7 @@
         WhisperMessageCollection,
       });
 
+      // NOTE: Could we show grid previews from disk as well?
       const loadMessages = Signal.Components.Types.Message
         .loadWithObjectURL(Signal.Migrations.loadMessage);
       const media = await loadMessages(rawMedia);
@@ -605,30 +606,36 @@
       const saveAttachment = async ({ message } = {}) => {
         const attachment = message.attachments[0];
         const timestamp = message.received_at;
-        Signal.Types.AttachmentTS.save({ attachment, timestamp });
+        Signal.Types.AttachmentTS.save({
+          attachment,
+          document,
+          getAbsolutePath: Signal.Migrations.getAbsoluteAttachmentPath,
+          timestamp,
+        });
       };
 
       const onItemClick = async ({ message, type }) => {
-        const loadedMessage = Signal.Components.Types.Message
-          .withObjectURL(await Signal.Migrations.loadMessage(message));
         switch (type) {
           case 'documents': {
-            saveAttachment({ message: loadedMessage });
+            saveAttachment({ message });
             break;
           }
 
           case 'media': {
-            const attachment = loadedMessage.attachments[0];
-            this.lightboxView = new Whisper.ReactWrapperView({
-              Component: Signal.Components.Lightbox,
+            const selectedIndex = media.findIndex(mediaMessage =>
+              mediaMessage.id === message.id);
+            const { getAbsoluteAttachmentPath } = Signal.Migrations;
+            this.lightboxGalleryView = new Whisper.ReactWrapperView({
+              Component: Signal.Components.LightboxGallery,
               props: {
-                objectURL: loadedMessage.objectURL,
-                contentType: attachment.contentType,
-                onSave: () => saveAttachment({ message: loadedMessage }),
+                getAbsoluteAttachmentPath,
+                messages: media,
+                onSave: () => saveAttachment({ message }),
+                selectedIndex,
               },
               onClose: () => Signal.Backbone.Views.Lightbox.hide(),
             });
-            Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+            Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
             break;
           }
 

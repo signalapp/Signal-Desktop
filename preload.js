@@ -166,6 +166,7 @@ window.Signal.Logs = require('./js/modules/logs');
 
 // React components
 const { Lightbox } = require('./ts/components/Lightbox');
+const { LightboxGallery } = require('./ts/components/LightboxGallery');
 const { MediaGallery } =
   require('./ts/components/conversation/media-gallery/MediaGallery');
 const { Quote } = require('./ts/components/conversation/Quote');
@@ -175,6 +176,7 @@ const MediaGalleryMessage =
 
 window.Signal.Components = {
   Lightbox,
+  LightboxGallery,
   MediaGallery,
   Types: {
     Message: MediaGalleryMessage,

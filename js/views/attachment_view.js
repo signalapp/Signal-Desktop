@@ -180,6 +180,7 @@
       Signal.Types.AttachmentTS.save({
         attachment: this.model,
         document,
+        getAbsolutePath: Signal.Migrations.getAbsoluteAttachmentPath,
         timestamp: this.timestamp,
       });
     },

@@ -47,16 +47,20 @@ export const isVisualMedia = (attachment: Attachment): boolean => {
 export const save = ({
   attachment,
   document,
+  getAbsolutePath,
   timestamp,
 }: {
   attachment: Attachment;
   document: Document;
+  getAbsolutePath: (relativePath: string) => string;
   timestamp?: number;
 }): void => {
-  const url = arrayBufferToObjectURL({
-    data: attachment.data,
-    type: SAVE_CONTENT_TYPE,
-  });
+  const url = !is.undefined(attachment.path)
+    ? getAbsolutePath(attachment.path)
+    : arrayBufferToObjectURL({
+        data: attachment.data,
+        type: SAVE_CONTENT_TYPE,
+      });
   const filename = getSuggestedFilename({ attachment, timestamp });
   saveURLAsFile({ url, filename, document });
   URL.revokeObjectURL(url);

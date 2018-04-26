@@ -117,7 +117,7 @@ export class Lightbox extends React.Component<Props, {}> {
   }
 
   public render() {
-    const { contentType, objectURL } = this.props;
+    const { contentType, objectURL, onNext, onPrevious, onSave } = this.props;
     return (
       <div
         style={styles.container}
@@ -132,23 +132,23 @@ export class Lightbox extends React.Component<Props, {}> {
           </div>
           <div style={styles.controls}>
             <IconButton type="close" onClick={this.onClose} />
-            {this.props.onSave ? (
+            {onSave ? (
               <IconButton
                 type="save"
-                onClick={this.props.onSave}
+                onClick={onSave}
                 style={styles.saveButton}
               />
             ) : null}
           </div>
         </div>
         <div style={styles.navigationContainer}>
-          {this.props.onPrevious ? (
-            <IconButton type="previous" onClick={this.props.onPrevious} />
+          {onPrevious ? (
+            <IconButton type="previous" onClick={onPrevious} />
           ) : (
             <IconButtonPlaceholder />
           )}
-          {this.props.onNext ? (
-            <IconButton type="next" onClick={this.props.onNext} />
+          {onNext ? (
+            <IconButton type="next" onClick={onNext} />
           ) : (
             <IconButtonPlaceholder />
           )}
