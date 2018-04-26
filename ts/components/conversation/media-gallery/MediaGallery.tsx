@@ -33,9 +33,18 @@ const tabStyle = {
 };
 
 const styles = {
-  tabContainer: {
-    cursor: 'pointer',
+  container: {
     display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    width: '100%',
+    height: '100%',
+  } as React.CSSProperties,
+  tabContainer: {
+    display: 'flex',
+    flexGrow: 0,
+    flexShrink: 0,
+    cursor: 'pointer',
     width: '100%',
   },
   tab: {
@@ -45,9 +54,17 @@ const styles = {
       borderBottom: '2px solid #08f',
     },
   },
-  attachmentsContainer: {
+  contentContainer: {
+    display: 'flex',
+    flexGrow: 1,
+    overflowY: 'auto',
     padding: 20,
-  },
+  } as React.CSSProperties,
+  sectionContainer: {
+    display: 'flex',
+    flexGrow: 1,
+    flexDirection: 'column',
+  } as React.CSSProperties,
 };
 
 interface TabSelectEvent {
@@ -86,7 +103,7 @@ export class MediaGallery extends React.Component<Props, State> {
     const { selectedTab } = this.state;
 
     return (
-      <div>
+      <div style={styles.container}>
         <div style={styles.tabContainer}>
           <Tab
             label="Media"
@@ -101,7 +118,7 @@ export class MediaGallery extends React.Component<Props, State> {
             onSelect={this.handleTabSelect}
           />
         </div>
-        <div style={styles.attachmentsContainer}>{this.renderSections()}</div>
+        <div style={styles.contentContainer}>{this.renderSections()}</div>
       </div>
     );
   }
@@ -122,8 +139,7 @@ export class MediaGallery extends React.Component<Props, State> {
     }
 
     const now = Date.now();
-    const sections = groupMessagesByDate(now, messages);
-    return sections.map(section => {
+    const sections = groupMessagesByDate(now, messages).map(section => {
       const first = section.messages[0];
       const date = moment(first.received_at);
       const header =
@@ -141,5 +157,7 @@ export class MediaGallery extends React.Component<Props, State> {
         />
       );
     });
+
+    return <div style={styles.sectionContainer}>{sections}</div>;
   }
 }
