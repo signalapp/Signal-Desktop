@@ -178,7 +178,7 @@ export class Lightbox extends React.Component<Props, {}> {
     const isVideo = GoogleChrome.isVideoTypeSupported(contentType);
     if (isVideo) {
       return (
-        <video controls>
+        <video controls={true}>
           <source src={objectURL} />
         </video>
       );
