@@ -1159,8 +1159,8 @@
       const { attachments, id, author } = quote;
       const first = attachments[0];
 
-      if (!first || first.thumbnail) {
-        return true;
+      if (!first || message.quoteThumbnail) {
+        return false;
       }
 
       if (!Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType) &&
@@ -1202,7 +1202,7 @@
       const { attachments } = quote;
       const first = attachments[0];
 
-      if (!first || first.thumbnail) {
+      if (!first || message.quoteThumbnail) {
         return;
       }
 
@@ -1232,7 +1232,8 @@
       const { quote } = message.attributes;
       const { attachments } = quote;
       const first = attachments[0];
-      if (!first) {
+
+      if (!first || message.quoteThumbnail) {
         return false;
       }
 
@@ -1292,6 +1293,12 @@
           return;
         }
 
+        // No need to go further if we already have a thumbnail
+        if (gotThumbnail) {
+          this.forceRender(message);
+          return;
+        }
+
         // We only go further if we need more data for this message. It's always important
         //   to grab the quoted message to allow for navigating to it by clicking.
         const { attachments } = quote;
@@ -1300,7 +1307,7 @@
         }
 
         // We've don't want to go to the database or load thumbnails a second time.
-        if (message.quoteIsProcessed || gotThumbnail) {
+        if (message.quoteIsProcessed) {
           return;
         }
         // eslint-disable-next-line no-param-reassign

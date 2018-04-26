@@ -117,7 +117,9 @@
     const arrayBuffer = await blobToArrayBuffer(blob);
     const screenshotObjectUrl = makeObjectUrl(arrayBuffer, 'image/png');
 
-    return makeImageThumbnail(size, screenshotObjectUrl);
+    const thumbnail = await makeImageThumbnail(size, screenshotObjectUrl);
+    URL.revokeObjectURL(screenshotObjectUrl);
+    return thumbnail;
   }
 
   Whisper.FileInputView = Backbone.View.extend({
