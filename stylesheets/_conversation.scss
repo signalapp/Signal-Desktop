@@ -927,6 +927,33 @@ span.status {
 
   form.send {
     background: #ffffff;
+
+    &.video-attachment {
+      .image-container {
+        position: relative;
+      }
+
+      .outer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        display: flex;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .play.icon {
+          height: 30px;
+          width: 30px;
+
+          @include color-svg('../images/play.svg', white);
+        }
+      }
+    }
   }
 
   input, textarea {
@@ -935,8 +962,10 @@ span.status {
 
   .attachment-previews {
     padding: 0 36px;
+
     .attachment-preview {
       padding: 13px 10px 0;
+
     }
     img {
       border: 2px solid #ddd;

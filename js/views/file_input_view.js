@@ -3,6 +3,8 @@
 /* global i18n: false */
 /* global loadImage: false */
 /* global Backbone: false */
+/* global _: false */
+/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -61,6 +63,63 @@
     }));
   }
 
+  function makeVideoScreenshot(objectUrl) {
+    return new Promise(((resolve, reject) => {
+      const video = document.createElement('video');
+
+      function capture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const image = window.dataURLToBlobSync(canvas.toDataURL('image/png'));
+
+        video.removeEventListener('canplay', capture);
+
+        resolve(image);
+      }
+
+      video.addEventListener('canplay', capture);
+      video.addEventListener('error', (error) => {
+        console.log(
+          'makeVideoThumbnail error',
+          error && error.stack ? error.stack : error
+        );
+        reject(error);
+      });
+
+      video.src = objectUrl;
+    }));
+  }
+
+  function makeObjectUrl(data, contentType) {
+    const blob = new Blob([data], {
+      type: contentType,
+    });
+    return URL.createObjectURL(blob);
+  }
+
+  function blobToArrayBuffer(blob) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+
+      fileReader.onload = e => resolve(e.target.result);
+      fileReader.onerror = reject;
+      fileReader.onabort = reject;
+
+      fileReader.readAsArrayBuffer(blob);
+    });
+  }
+
+  async function makeVideoThumbnail(size, videoObjectUrl) {
+    const blob = await makeVideoScreenshot(videoObjectUrl);
+    const arrayBuffer = await blobToArrayBuffer(blob);
+    const screenshotObjectUrl = makeObjectUrl(arrayBuffer, 'image/png');
+
+    return makeThumbnail(size, screenshotObjectUrl);
+  }
+
   Whisper.FileInputView = Backbone.View.extend({
     tagName: 'span',
     className: 'file-input',
@@ -103,10 +162,18 @@
       }
     },
 
-    addThumb(src) {
+    addThumb(src, options = {}) {
+      _.defaults(options, { addPlayIcon: false });
       this.$('.avatar').hide();
       this.thumb.src = src;
       this.$('.attachment-previews').append(this.thumb.render().el);
+
+      if (options.addPlayIcon) {
+        this.$el.addClass('video-attachment');
+      } else {
+        this.$el.removeClass('video-attachment');
+      }
+
       this.thumb.$('img')[0].onload = () => {
         this.$el.trigger('force-resize');
       };
@@ -160,69 +227,81 @@
       }));
     },
 
-    previewImages() {
+    async previewImages() {
       this.clearForm();
       const file = this.file || this.$input.prop('files')[0];
-      if (!file) { return; }
-
-      let type = file.type.split('/')[0];
-      if (file.type === 'image/tiff') {
-        type = 'file';
+      if (!file) {
+        return;
       }
-      switch (type) {
-        case 'audio': this.addThumb('images/audio.svg'); break;
-        case 'video': this.addThumb('images/video.svg'); break;
+
+      const contentType = file.type;
+
+      const renderVideoPreview = async () => {
+        // we use the variable on this here to ensure cleanup if we're interrupted
+        this.previewObjectUrl = URL.createObjectURL(file);
+        const thumbnail = await makeVideoScreenshot(this.previewObjectUrl);
+        URL.revokeObjectURL(this.previewObjectUrl);
+
+        const arrayBuffer = await blobToArrayBuffer(thumbnail);
+
+        this.previewObjectUrl = makeObjectUrl(arrayBuffer, 'image/png');
+        this.addThumb(this.previewObjectUrl, { addPlayIcon: true });
+      };
+
+      const renderImagePreview = async () => {
+        if (!MIME.isJPEG(file.type)) {
+          this.previewObjectUrl = URL.createObjectURL(file);
+          this.addThumb(this.previewObjectUrl);
+          return;
+        }
+
+        const dataUrl = await window.autoOrientImage(file);
+        this.addThumb(dataUrl);
+      };
+
+      if (Signal.Util.GoogleChrome.isImageTypeSupported(contentType)) {
+        renderImagePreview();
+      } else if (Signal.Util.GoogleChrome.isVideoTypeSupported(contentType)) {
+        renderVideoPreview();
+      } else if (MIME.isAudio(contentType)) {
+        this.addThumb('images/audio.svg');
+      } else {
+        this.addThumb('images/file.svg');
+      }
+
+      const blob = await this.autoScale(file);
+      let limitKb = 1000000;
+      const blobType = file.type === 'image/gif'
+        ? 'gif'
+        : contentType.split('/')[0];
+
+      switch (blobType) {
         case 'image':
-          if (!MIME.isJPEG(file.type)) {
-            this.previewObjectUrl = URL.createObjectURL(file);
-            this.addThumb(this.previewObjectUrl);
-            break;
-          }
-
-          // NOTE: Temporarily allow `then` until we convert the entire file
-          // to `async` / `await`:
-          // eslint-disable-next-line more/no-then
-          window.autoOrientImage(file)
-            .then(dataURL => this.addThumb(dataURL));
-          break;
+          limitKb = 6000; break;
+        case 'gif':
+          limitKb = 25000; break;
+        case 'audio':
+          limitKb = 100000; break;
+        case 'video':
+          limitKb = 100000; break;
         default:
-          this.addThumb('images/file.svg'); break;
+          limitKb = 100000; break;
       }
-
-      // NOTE: Temporarily allow `then` until we convert the entire file
-      // to `async` / `await`:
-      // eslint-disable-next-line more/no-then
-      this.autoScale(file).then((blob) => {
-        let limitKb = 1000000;
-        const blobType = file.type === 'image/gif' ? 'gif' : type;
-        switch (blobType) {
-          case 'image':
-            limitKb = 6000; break;
-          case 'gif':
-            limitKb = 25000; break;
-          case 'audio':
-            limitKb = 100000; break;
-          case 'video':
-            limitKb = 100000; break;
-          default:
-            limitKb = 100000; break;
-        }
-        if ((blob.size / 1024).toFixed(4) >= limitKb) {
-          const units = ['kB', 'MB', 'GB'];
-          let u = -1;
-          let limit = limitKb * 1000;
-          do {
-            limit /= 1000;
-            u += 1;
-          } while (limit >= 1000 && u < units.length - 1);
-          const toast = new Whisper.FileSizeToast({
-            model: { limit, units: units[u] },
-          });
-          toast.$el.insertAfter(this.$el);
-          toast.render();
-          this.deleteFiles();
-        }
-      });
+      if ((blob.size / 1024).toFixed(4) >= limitKb) {
+        const units = ['kB', 'MB', 'GB'];
+        let u = -1;
+        let limit = limitKb * 1000;
+        do {
+          limit /= 1000;
+          u += 1;
+        } while (limit >= 1000 && u < units.length - 1);
+        const toast = new Whisper.FileSizeToast({
+          model: { limit, units: units[u] },
+        });
+        toast.$el.insertAfter(this.$el);
+        toast.render();
+        this.deleteFiles();
+      }
     },
 
     hasFiles() {
@@ -262,7 +341,7 @@
         .then(setFlags(attachmentFlags));
     },
 
-    getThumbnail() {
+    async getThumbnail() {
       // Scale and crop an image to 256px square
       const size = 256;
       const file = this.file || this.$input.prop('files')[0];
@@ -275,11 +354,10 @@
 
       const objectUrl = URL.createObjectURL(file);
 
-      // eslint-disable-next-line more/no-then
-      return makeThumbnail(size, objectUrl).then((arrayBuffer) => {
-        URL.revokeObjectURL(objectUrl);
-        return this.readFile(arrayBuffer);
-      });
+      const arrayBuffer = await makeThumbnail(size, objectUrl);
+      URL.revokeObjectURL(objectUrl);
+
+      return this.readFile(arrayBuffer);
     },
 
     // File -> Promise Attachment
@@ -370,4 +448,6 @@
   });
 
   Whisper.FileInputView.makeThumbnail = makeThumbnail;
+  Whisper.FileInputView.makeVideoThumbnail = makeVideoThumbnail;
+  Whisper.FileInputView.makeVideoScreenshot = makeVideoScreenshot;
 }());

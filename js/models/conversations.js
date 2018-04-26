@@ -629,7 +629,11 @@
       const attachmentWithData = await loadAttachmentData(attachment);
       const { data, contentType } = attachmentWithData;
       const objectUrl = this.makeObjectUrl(data, contentType);
-      const thumbnail = await Whisper.FileInputView.makeThumbnail(128, objectUrl);
+
+      const thumbnail = Signal.Util.GoogleChrome.isImageTypeSupported(contentType)
+        ? await Whisper.FileInputView.makeThumbnail(128, objectUrl)
+        : await Whisper.FileInputView.makeVideoThumbnail(128, objectUrl);
+
       URL.revokeObjectURL(objectUrl);
 
       const arrayBuffer = await this.blobToArrayBuffer(thumbnail);
@@ -654,7 +658,8 @@
         attachments: await Promise.all((attachments || []).map(async (attachment) => {
           const { contentType } = attachment;
           const willMakeThumbnail =
-            Signal.Util.GoogleChrome.isImageTypeSupported(contentType);
+            Signal.Util.GoogleChrome.isImageTypeSupported(contentType) ||
+            Signal.Util.GoogleChrome.isVideoTypeSupported(contentType);
 
           return {
             contentType,
@@ -1154,9 +1159,14 @@
       const { attachments, id, author } = quote;
       const first = attachments[0];
 
+      if (!first || first.thumbnail) {
+        return true;
+      }
+
       // Maybe in the future we could try to pull the thumbnail from a video ourselves,
       //   but for now we will rely on incoming thumbnails only.
-      if (!Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType)) {
+      if (!Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType) &&
+        !Signal.Util.GoogleChrome.isVideoTypeSupported(first.contentType)) {
         return false;
       }
 
@@ -1194,9 +1204,12 @@
       const { attachments } = quote;
       const first = attachments[0];
 
-      // Maybe in the future we could try to pull thumbnails video ourselves,
-      //   but for now we will rely on incoming thumbnails only.
-      if (!first || !Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType)) {
+      if (!first || first.thumbnail) {
+        return;
+      }
+
+      if (!Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType) &&
+        !Signal.Util.GoogleChrome.isVideoTypeSupported(first.contentType)) {
         return;
       }
 
@@ -1230,18 +1243,26 @@
       if (!thumbnail) {
         return false;
       }
-      const thumbnailWithData = await loadAttachmentData(thumbnail);
-      thumbnailWithData.objectUrl = this.makeObjectUrl(
-        thumbnailWithData.data,
-        thumbnailWithData.contentType
-      );
+      try {
+        const thumbnailWithData = await loadAttachmentData(thumbnail);
+        thumbnailWithData.objectUrl = this.makeObjectUrl(
+          thumbnailWithData.data,
+          thumbnailWithData.contentType
+        );
 
-      // If we update this data in place, there's the risk that this data could be
-      //   saved back to the database
-      // eslint-disable-next-line no-param-reassign
-      message.quoteThumbnail = thumbnailWithData;
+        // If we update this data in place, there's the risk that this data could be
+        //   saved back to the database
+        // eslint-disable-next-line no-param-reassign
+        message.quoteThumbnail = thumbnailWithData;
 
-      return true;
+        return true;
+      } catch (error) {
+        console.log(
+          'loadQuoteThumbnail: had trouble loading thumbnail data from disk',
+          error && error.stack ? error.stack : error
+        );
+        return false;
+      }
     },
     async processQuotes(messages) {
       const lookup = this.makeMessagesLookup(messages);
@@ -1259,21 +1280,16 @@
           return;
         }
 
-        // 1. Check to see if we've already loaded the target message into memory
+        // 1. Load provided thumbnail
+        const gotThumbnail = await this.loadQuoteThumbnail(message, quote);
+
+        // 2. Check to see if we've already loaded the target message into memory
         const { author, id } = quote;
         const key = this.makeKey(author, id);
         const quotedMessage = lookup[key];
 
         if (quotedMessage) {
-          // eslint-disable-next-line no-param-reassign
           await this.loadQuotedMessage(message, quotedMessage);
-
-          // Note: in the future when we generate our own thumbnail we won't need to rely
-          //   on incoming thumbnail if we have our local message in hand.
-          if (!message.quotedMessage.imageUrl) {
-            await this.loadQuoteThumbnail(message, quote);
-          }
-
           this.forceRender(message);
           return;
         }
@@ -1286,28 +1302,15 @@
         }
 
         // We've don't want to go to the database or load thumbnails a second time.
-        if (message.quoteIsProcessed) {
+        if (message.quoteIsProcessed || gotThumbnail) {
           return;
         }
         // eslint-disable-next-line no-param-reassign
         message.quoteIsProcessed = true;
 
-        // 2. Go to the database for the real referenced attachment
+        // 3. As a last resort, go to the database to generate a thumbnail on-demand
         const loaded = await this.loadQuotedMessageFromDatabase(message, id);
         if (loaded) {
-          // Note: in the future when we generate our own thumbnail we won't need to rely
-          //   on incoming thumbnail if we have our local message in hand.
-          if (!message.quotedMessageFromDatabase.imageUrl) {
-            await this.loadQuoteThumbnail(message, quote);
-          }
-
-          this.forceRender(message);
-          return;
-        }
-
-        // 3. Finally, use the provided thumbnail
-        const gotThumbnail = await this.loadQuoteThumbnail(message, quote);
-        if (gotThumbnail) {
           this.forceRender(message);
         }
       });

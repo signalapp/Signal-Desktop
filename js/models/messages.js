@@ -181,10 +181,6 @@
         URL.revokeObjectURL(this.quoteThumbnail.objectUrl);
         this.quoteThumbnail = null;
       }
-      if (this.quotedMessageFromDatabase) {
-        this.quotedMessageFromDatabase.unload();
-        this.quotedMessageFromDatabase = null;
-      }
       if (this.quotedMessage) {
         this.quotedMessage = null;
       }
