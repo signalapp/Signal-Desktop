@@ -114,7 +114,7 @@ exports.createName = () => {
   return buffer.toString('hex');
 };
 
-//      getRelativePath :: String -> IO Path
+//      getRelativePath :: String -> Path
 exports.getRelativePath = (name) => {
   if (!isString(name)) {
     throw new TypeError("'name' must be a string");
