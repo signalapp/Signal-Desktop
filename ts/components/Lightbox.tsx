@@ -21,14 +21,21 @@ interface Props {
 const styles = {
   container: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
-    padding: 40,
+  } as React.CSSProperties,
+  mainContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingTop: 40,
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingBottom: 0,
   } as React.CSSProperties,
   objectContainer: {
     flexGrow: 1,
@@ -48,14 +55,31 @@ const styles = {
     flexDirection: 'column',
     marginLeft: 10,
   } as React.CSSProperties,
+  navigationContainer: {
+    flexShrink: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+  } as React.CSSProperties,
+  saveButton: {
+    marginTop: 10,
+  },
+  iconButtonPlaceholder: {
+    // Dimensions match `.iconButton`:
+    display: 'inline-block',
+    width: 50,
+    height: 50,
+  },
 };
 
 interface IconButtonProps {
-  type: 'save' | 'close' | 'previous' | 'next';
   onClick?: () => void;
+  style?: React.CSSProperties;
+  type: 'save' | 'close' | 'previous' | 'next';
 }
 
-const IconButton = ({ onClick, type }: IconButtonProps) => {
+const IconButton = ({ onClick, style, type }: IconButtonProps) => {
   const clickHandler = (event: React.MouseEvent<HTMLAnchorElement>): void => {
     event.preventDefault();
     if (!onClick) {
@@ -70,9 +94,14 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
       href="#"
       onClick={clickHandler}
       className={classNames('iconButton', type)}
+      style={style}
     />
   );
 };
+
+const IconButtonPlaceholder = () => (
+  <div style={styles.iconButtonPlaceholder} />
+);
 
 export class Lightbox extends React.Component<Props, {}> {
   private containerRef: HTMLDivElement | null = null;
@@ -95,22 +124,34 @@ export class Lightbox extends React.Component<Props, {}> {
         onClick={this.onContainerClick}
         ref={this.setContainerRef}
       >
-        <div style={styles.objectContainer}>
-          {!is.undefined(contentType)
-            ? this.renderObject({ objectURL, contentType })
-            : null}
+        <div style={styles.mainContainer}>
+          <div style={styles.objectContainer}>
+            {!is.undefined(contentType)
+              ? this.renderObject({ objectURL, contentType })
+              : null}
+          </div>
+          <div style={styles.controls}>
+            <IconButton type="close" onClick={this.onClose} />
+            {this.props.onSave ? (
+              <IconButton
+                type="save"
+                onClick={this.props.onSave}
+                style={styles.saveButton}
+              />
+            ) : null}
+          </div>
         </div>
-        <div style={styles.controls}>
-          <IconButton type="close" onClick={this.onClose} />
-          {this.props.onSave ? (
-            <IconButton type="save" onClick={this.props.onSave} />
-          ) : null}
+        <div style={styles.navigationContainer}>
           {this.props.onPrevious ? (
             <IconButton type="previous" onClick={this.props.onPrevious} />
-          ) : null}
+          ) : (
+            <IconButtonPlaceholder />
+          )}
           {this.props.onNext ? (
             <IconButton type="next" onClick={this.props.onNext} />
-          ) : null}
+          ) : (
+            <IconButtonPlaceholder />
+          )}
         </div>
       </div>
     );
