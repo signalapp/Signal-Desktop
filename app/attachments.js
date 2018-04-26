@@ -123,3 +123,7 @@ exports.getRelativePath = (name) => {
   const prefix = name.slice(0, 2);
   return path.join(prefix, name);
 };
+
+//      createAbsolutePathGetter :: RoothPath -> RelativePath -> AbsolutePath
+exports.createAbsolutePathGetter = rootPath => relativePath =>
+  path.join(rootPath, relativePath);

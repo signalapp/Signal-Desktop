@@ -136,6 +136,7 @@ window.moment.locale(locale);
 
 // ES2015+ modules
 const attachmentsPath = Attachments.getPath(app.getPath('userData'));
+const getAbsoluteAttachmentPath = Attachments.createAbsolutePathGetter(attachmentsPath);
 const deleteAttachmentData = Attachments.createDeleter(attachmentsPath);
 const readAttachmentData = Attachments.createReader(attachmentsPath);
 const writeNewAttachmentData = Attachments.createWriterForNew(attachmentsPath);
@@ -187,6 +188,7 @@ window.Signal.Migrations.deleteAttachmentData =
 window.Signal.Migrations.getPlaceholderMigrations = getPlaceholderMigrations;
 window.Signal.Migrations.writeMessageAttachments =
   Message.createAttachmentDataWriter(writeExistingAttachmentData);
+window.Signal.Migrations.getAbsoluteAttachmentPath = getAbsoluteAttachmentPath;
 window.Signal.Migrations.loadAttachmentData = loadAttachmentData;
 window.Signal.Migrations.loadMessage = Message.createAttachmentLoader(loadAttachmentData);
 window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =
