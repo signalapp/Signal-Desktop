@@ -282,6 +282,9 @@
       if (this.quoteView) {
         this.quoteView.remove();
       }
+      if (this.lightboxView) {
+        this.lightboxView.remove();
+      }
       if (this.panels && this.panels.length) {
         for (let i = 0, max = this.panels.length; i < max; i += 1) {
           const panel = this.panels[i];
