@@ -80,7 +80,8 @@ $ios-border-color: rgba(0,0,0,0.1);
     .avatar { display: none; }
   }
 
-  .conversation .panel {
+  .conversation .panel,
+  .conversation .react-wrapper {
     position: absolute;
     top: $header-height;
     bottom: 0;
