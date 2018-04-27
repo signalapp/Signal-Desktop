@@ -13,3 +13,6 @@ test/test.js
 js/jquery.js
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
+
+/**/*.json
+/**/*.css
