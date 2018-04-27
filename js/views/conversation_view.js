@@ -606,7 +606,7 @@
       const saveAttachment = async ({ message } = {}) => {
         const attachment = message.attachments[0];
         const timestamp = message.received_at;
-        Signal.Types.AttachmentTS.save({
+        Signal.Types.Attachment.save({
           attachment,
           document,
           getAbsolutePath: Signal.Migrations.getAbsoluteAttachmentPath,

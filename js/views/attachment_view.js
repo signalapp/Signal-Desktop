@@ -177,7 +177,7 @@
       return i18n('unnamedFile');
     },
     saveFile() {
-      Signal.Types.AttachmentTS.save({
+      Signal.Types.Attachment.save({
         attachment: this.model,
         document,
         getAbsolutePath: Signal.Migrations.getAbsoluteAttachmentPath,
