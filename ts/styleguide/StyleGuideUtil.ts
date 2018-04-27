@@ -107,6 +107,8 @@ import localeMessages from '../../_locales/en/messages.json';
 
 // @ts-ignore
 import { setup } from '../../js/modules/i18n';
+import * as Util from '../util';
+import filesize from 'filesize';
 
 const i18n = setup(locale, localeMessages);
 
@@ -137,6 +139,8 @@ parent.Signal.Types.MIME = MIME;
 parent.Signal.Components = {
   Quote,
 };
+parent.Signal.Util = Util;
+parent.filesize = filesize;
 
 parent.ConversationController._initialFetchComplete = true;
 parent.ConversationController._initialPromise = Promise.resolve();
