@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
 

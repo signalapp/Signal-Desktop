@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import * as MIME from '../types/MIME';
 
 interface MIMETypeSupportMap {

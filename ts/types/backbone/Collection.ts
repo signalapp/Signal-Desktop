@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import { Model } from './Model';
 
 export interface Collection<T> {

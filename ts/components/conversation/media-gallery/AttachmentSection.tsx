@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import React from 'react';
 
 import { AttachmentType } from './types/AttachmentType';

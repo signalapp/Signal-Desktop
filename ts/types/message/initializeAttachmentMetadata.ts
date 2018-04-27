@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import { partition } from 'lodash';
 
 import * as Attachment from '../Attachment';

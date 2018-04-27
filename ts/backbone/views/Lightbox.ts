@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 export const show = (element: HTMLElement): void => {
   const container: HTMLDivElement | null = document.querySelector(
     '.lightbox-container'
