@@ -1,6 +1,4 @@
 /*
- * vim: ts=4:sw=4:expandtab
- *
  * Whisper.View
  *
  * This is the base for most of our views. The Backbone view is extended

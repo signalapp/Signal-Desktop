@@ -1,7 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-
 function ProtoParser(arrayBuffer, protobuf) {
     this.protobuf = protobuf;
     this.buffer = new dcodeIO.ByteBuffer();

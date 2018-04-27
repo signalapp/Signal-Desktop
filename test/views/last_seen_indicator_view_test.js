@@ -1,6 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
 describe('LastSeenIndicatorView', function() {
   it('renders provided count', function() {
     var view = new Whisper.LastSeenIndicatorView({ count: 10 });

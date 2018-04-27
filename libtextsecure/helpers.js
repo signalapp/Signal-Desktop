@@ -1,7 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-
 window.textsecure = window.textsecure || {};
 
 /*********************************

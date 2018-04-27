@@ -1,6 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
 describe('ScrollDownButtonView', function() {
   it('renders with count = 0', function() {
     var view = new Whisper.ScrollDownButtonView();

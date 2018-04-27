@@ -1,7 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-
 describe('Threads', function() {
   it('should be ordered newest to oldest', function() {
     // Timestamps

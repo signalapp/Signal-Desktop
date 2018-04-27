@@ -1,7 +1,4 @@
 /*global $, Whisper, Backbone, textsecure, extension*/
-/*
- * vim: ts=4:sw=4:expandtab
- */
 
 // This script should only be included in background.html
 (function() {

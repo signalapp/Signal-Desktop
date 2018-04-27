@@ -1,7 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-
 function stringToArrayBuffer(str) {
     if (typeof str !== 'string') {
         throw new Error('Passed non-string to stringToArrayBuffer');
