@@ -26,15 +26,6 @@ module.exports = {
         functions: 'never',
     }],
 
-    // putting params on their own line helps stay within line length limit
-    'function-paren-newline': ['error', 'multiline'],
-
-    // 90 characters allows three+ side-by-side screens on a standard-size monitor
-    'max-len': ['error', {
-      code: 90,
-      ignoreUrls: true,
-    }],
-
     // prevents us from accidentally checking in exclusive tests (`.only`):
     'mocha/no-exclusive-tests': 'error',
 
@@ -54,5 +45,22 @@ module.exports = {
     'operator-linebreak': 'error',
 
     'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
-  }
+
+    // Prettier overrides:
+    'arrow-parens': 'off',
+    'function-paren-newline': 'off',
+    // 90 characters allows three+ side-by-side screens on a standard-size monitor
+    'max-len': [
+      'error',
+      {
+        // Prettier generally limits line length to 80 but sometimes goes over.
+        // The `max-len` plugin doesn’t let us omit `code` so we set it to a
+        // high value as a buffer to let Prettier control the line length:
+        code: 999,
+        // We still want to limit comments as before:
+        comments: 90,
+        ignoreUrls: true,
+      },
+    ],
+  },
 };
