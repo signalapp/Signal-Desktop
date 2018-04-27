@@ -90,18 +90,37 @@
   storage.fetch();
 
   const idleDetector = new IdleDetector();
+  let isMigrationWithIndexComplete = false;
+  let isMigrationWithoutIndexComplete = false;
   idleDetector.on('idle', async () => {
     const NUM_MESSAGES_PER_BATCH = 1;
-    const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-    const batch = await MessageDataMigrator.processNextBatchWithoutIndex({
-      databaseName: database.name,
-      minDatabaseVersion: database.version,
-      numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-      upgradeMessageSchema,
-    });
-    console.log('Upgrade message schema:', batch);
 
-    if (batch.done) {
+    if (!isMigrationWithIndexComplete) {
+      const batchWithIndex = await MessageDataMigrator.processNext({
+        BackboneMessage: Whisper.Message,
+        BackboneMessageCollection: Whisper.MessageCollection,
+        numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+        upgradeMessageSchema,
+      });
+      console.log('Upgrade message schema (with index):', batchWithIndex);
+      isMigrationWithIndexComplete = batchWithIndex.done;
+    }
+
+    if (!isMigrationWithoutIndexComplete) {
+      const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+      const batchWithoutIndex = await MessageDataMigrator.processNextBatchWithoutIndex({
+        databaseName: database.name,
+        minDatabaseVersion: database.version,
+        numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+        upgradeMessageSchema,
+      });
+      console.log('Upgrade message schema (without index):', batchWithoutIndex);
+      isMigrationWithoutIndexComplete = batchWithoutIndex.done;
+    }
+
+    const areAllMigrationsComplete = isMigrationWithIndexComplete &&
+      isMigrationWithoutIndexComplete;
+    if (areAllMigrationsComplete) {
       idleDetector.stop();
     }
   });
