@@ -513,6 +513,7 @@
       const statusPromise = this.throttledGetProfiles();
       // eslint-disable-next-line more/no-then
       this.statusFetch = statusPromise.then(() =>
+        // eslint-disable-next-line more/no-then
         this.model.updateVerified().then(() => {
           this.onVerifiedChange();
           this.statusFetch = null;

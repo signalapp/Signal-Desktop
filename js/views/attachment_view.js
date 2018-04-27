@@ -119,8 +119,8 @@
       Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
     },
     isVoiceMessage() {
-      // eslint-disable-next-line no-bitwise
       if (
+        // eslint-disable-next-line no-bitwise
         this.model.flags &
         textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE
       ) {

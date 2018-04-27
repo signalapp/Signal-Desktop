@@ -675,9 +675,9 @@
               }
               if (readSync || message.isExpirationTimerUpdate()) {
                 message.unset('unread');
-                // This is primarily to allow the conversation to mark all older messages as
-                //   read, as is done when we receive a read sync for a message we already
-                //   know about.
+                // This is primarily to allow the conversation to mark all older
+                // messages as read, as is done when we receive a read sync for
+                // a message we already know about.
                 Whisper.ReadSyncs.notifyConversation(message);
               } else {
                 conversation.set(
@@ -747,9 +747,10 @@
                 } catch (e) {
                   return handleError(e);
                 }
-                // We fetch() here because, between the message.save() above and the previous
-                //   line's trigger() call, we might have marked all messages unread in the
-                //   database. This message might already be read!
+                // We fetch() here because, between the message.save() above and
+                // the previous line's trigger() call, we might have marked all
+                // messages unread in the database. This message might already
+                // be read!
                 const previousUnread = message.get('unread');
                 return message.fetch().then(
                   () => {
@@ -759,8 +760,9 @@
                           'Caught race condition on new message read state! ' +
                             'Manually starting timers.'
                         );
-                        // We call markRead() even though the message is already marked read
-                        //   because we need to start expiration timers, etc.
+                        // We call markRead() even though the message is already
+                        // marked read because we need to start expiration
+                        // timers, etc.
                         message.markRead();
                       }
 
