@@ -1,0 +1,15 @@
+# TODO: Partially duplicated from `.gitignore`. Remove once Prettier
+# supports `.gitignore`: https://github.com/prettier/prettier/issues/2294
+
+# generated files
+js/components.js
+js/libtextsecure.js
+js/libsignal-protocol-worker.js
+libtextsecure/components.js
+libtextsecure/test/test.js
+test/test.js
+
+# Third-party files
+js/jquery.js
+js/Mp3LameEncoder.min.js
+js/WebAudioRecorderMp3.js
