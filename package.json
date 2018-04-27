@@ -114,6 +114,7 @@
     "electron-publisher-s3": "^20.2.0",
     "eslint": "^4.14.0",
     "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-mocha": "^4.12.1",
     "eslint-plugin-more": "^0.3.1",
