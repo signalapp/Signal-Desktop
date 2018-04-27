@@ -570,6 +570,64 @@ async function writeAttachments(rawAttachments, options) {
   }
 }
 
+async function writeAvatar(avatar, options) {
+  console.log('writeAvatar', { avatar, options });
+  const { dir, message, index, key, newKey } = options;
+  const name = _getAnonymousAttachmentFileName(message, index);
+  const filename = `${name}-contact-avatar`;
+
+  const target = path.join(dir, filename);
+  if (!avatar || !avatar.path) {
+    return;
+  }
+
+  await writeEncryptedAttachment(target, avatar.data, {
+    key,
+    newKey,
+    filename,
+    dir,
+  });
+}
+
+async function writeContactAvatars(contact, options) {
+  const { name } = options;
+
+  const { loadAttachmentData } = Signal.Migrations;
+  const promises = contact.map(async item => {
+    if (
+      !item ||
+      !item.avatar ||
+      !item.avatar.avatar ||
+      !item.avatar.avatar.path
+    ) {
+      return null;
+    }
+
+    return loadAttachmentData(item.avatar.avatar);
+  });
+
+  try {
+    await Promise.all(
+      _.map(await Promise.all(promises), (item, index) =>
+        writeAvatar(
+          item,
+          Object.assign({}, options, {
+            index,
+          })
+        )
+      )
+    );
+  } catch (error) {
+    console.log(
+      'writeContactAvatars: error exporting conversation',
+      name,
+      ':',
+      error && error.stack ? error.stack : error
+    );
+    throw error;
+  }
+}
+
 async function writeEncryptedAttachment(target, data, options = {}) {
   const { key, newKey, filename, dir } = options;
 
@@ -712,6 +770,21 @@ async function exportConversation(db, conversation, options) {
 
           // eslint-disable-next-line more/no-then
           promiseChain = promiseChain.then(exportQuoteThumbnails);
+        }
+
+        const { contact } = message;
+        if (contact && contact.length > 0) {
+          const exportContactAvatars = () =>
+            writeContactAvatars(contact, {
+              dir: attachmentsDir,
+              name,
+              message,
+              key,
+              newKey,
+            });
+
+          // eslint-disable-next-line more/no-then
+          promiseChain = promiseChain.then(exportContactAvatars);
         }
 
         count += 1;
@@ -870,27 +943,44 @@ function getDirContents(dir) {
   });
 }
 
-function loadAttachments(dir, getName, options) {
+async function loadAttachments(dir, getName, options) {
   options = options || {};
   const { message } = options;
 
-  const attachmentPromises = _.map(message.attachments, (attachment, index) => {
-    const name = getName(message, index, attachment);
-    return readAttachment(dir, attachment, name, options);
-  });
+  await Promise.all(
+    _.map(message.attachments, (attachment, index) => {
+      const name = getName(message, index, attachment);
+      return readAttachment(dir, attachment, name, options);
+    })
+  );
 
   const quoteAttachments = message.quote && message.quote.attachments;
-  const thumbnailPromises = _.map(quoteAttachments, (attachment, index) => {
-    const thumbnail = attachment && attachment.thumbnail;
-    if (!thumbnail) {
-      return null;
-    }
+  await Promise.all(
+    _.map(quoteAttachments, (attachment, index) => {
+      const thumbnail = attachment && attachment.thumbnail;
+      if (!thumbnail) {
+        return null;
+      }
 
-    const name = `${getName(message, index, thumbnail)}-thumbnail`;
-    return readAttachment(dir, thumbnail, name, options);
-  });
+      const name = `${getName(message, index)}-thumbnail`;
+      return readAttachment(dir, thumbnail, name, options);
+    })
+  );
 
-  return Promise.all(attachmentPromises.concat(thumbnailPromises));
+  const { contact } = message;
+  await Promise.all(
+    _.map(contact, (item, index) => {
+      const avatar = item && item.avatar && item.avatar.avatar;
+      if (!avatar) {
+        return null;
+      }
+
+      const name = `${getName(message, index)}-contact-avatar`;
+      return readAttachment(dir, avatar, name, options);
+    })
+  );
+
+  console.log('loadAttachments', { message });
 }
 
 function saveMessage(db, message) {

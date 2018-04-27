@@ -1065,6 +1065,14 @@ MessageReceiver.prototype.extend({
       promises.push(this.handleAttachment(attachment));
     }
 
+    if (
+      decrypted.contact &&
+      decrypted.contact.avatar &&
+      decrypted.contact.avatar.avatar
+    ) {
+      promises.push(this.handleAttachment(decrypted.contact.avatar.avatar));
+    }
+
     if (decrypted.quote && decrypted.quote.id) {
       decrypted.quote.id = decrypted.quote.id.toNumber();
     }

@@ -1,4 +1,4 @@
-const { isFunction, isString, omit } = require('lodash');
+const { isFunction, isString, omit, compact, map } = require('lodash');
 
 const Attachment = require('./attachment');
 const Errors = require('./errors');
@@ -29,6 +29,8 @@ const PRIVATE = 'private';
 //     - `hasAttachments?: 1 | 0`
 //     - `hasVisualMediaAttachments?: 1 | undefined` (for media gallery ‘Media’ view)
 //     - `hasFileAttachments?: 1 | undefined` (for media gallery ‘Documents’ view)
+// Version 6
+//   - Contact: Write contact avatar to disk, ensure contact data is well-formed
 
 const INITIAL_SCHEMA_VERSION = 0;
 
@@ -37,7 +39,7 @@ const INITIAL_SCHEMA_VERSION = 0;
 // add more upgrade steps, we could design a pipeline that does this
 // incrementally, e.g. from version 0 / unknown -> 1, 1 --> 2, etc., similar to
 // how we do database migrations:
-exports.CURRENT_SCHEMA_VERSION = 5;
+exports.CURRENT_SCHEMA_VERSION = 6;
 
 // Public API
 exports.GROUP = GROUP;
@@ -154,6 +156,20 @@ exports._mapAttachments = upgradeAttachment => async (message, context) => {
   return Object.assign({}, message, { attachments });
 };
 
+// Public API
+//      _mapContact :: (Contact -> Promise Contact) ->
+//                     (Message, Context) ->
+//                     Promise Message
+exports._mapContact = upgradeContact => async (message, context) => {
+  const contextWithMessage = Object.assign({}, context, { message });
+  const upgradeWithContext = contact =>
+    upgradeContact(contact, contextWithMessage);
+  const contact = await Promise.all(
+    (message.contact || []).map(upgradeWithContext)
+  );
+  return Object.assign({}, message, { contact });
+};
+
 //      _mapQuotedAttachments :: (QuotedAttachment -> Promise QuotedAttachment) ->
 //                               (Message, Context) ->
 //                               Promise Message
@@ -194,6 +210,126 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
   });
 };
 
+function validateContact(contact, options = {}) {
+  const { messageId } = options;
+  const { name, number, email, address, organization } = contact;
+
+  if ((!name || !name.displayName) && !organization) {
+    console.log(
+      `Message ${messageId}: Contact had neither 'displayName' nor 'organization'`
+    );
+    return false;
+  }
+
+  if (
+    (!number || !number.length) &&
+    (!email || !email.length) &&
+    (!address || !address.length)
+  ) {
+    console.log(
+      `Message ${messageId}: Contact had no included numbers, email or addresses`
+    );
+    return false;
+  }
+
+  return true;
+}
+
+function cleanContact(contact) {
+  function cleanBasicItem(item) {
+    if (!item.value) {
+      return null;
+    }
+
+    return Object.assign({}, item, {
+      type: item.type || 1,
+    });
+  }
+
+  function cleanAddress(address) {
+    if (!address) {
+      return null;
+    }
+
+    if (
+      !address.street &&
+      !address.pobox &&
+      !address.neighborhood &&
+      !address.city &&
+      !address.region &&
+      !address.postcode &&
+      !address.country
+    ) {
+      return null;
+    }
+
+    return Object.assign({}, address, {
+      type: address.type || 1,
+    });
+  }
+
+  function cleanAvatar(avatar) {
+    if (!avatar) {
+      return null;
+    }
+
+    return {
+      avatar: Object.assign({}, avatar, {
+        isProfile: avatar.isProfile || false,
+      }),
+    };
+  }
+
+  function addArrayKey(key, array) {
+    if (!array || !array.length) {
+      return null;
+    }
+
+    return {
+      [key]: array,
+    };
+  }
+
+  return Object.assign(
+    {},
+    omit(contact, ['avatar', 'number', 'email', 'address']),
+    cleanAvatar(contact.avatar),
+    addArrayKey('number', compact(map(contact.number, cleanBasicItem))),
+    addArrayKey('email', compact(map(contact.email, cleanBasicItem))),
+    addArrayKey('address', compact(map(contact.address, cleanAddress)))
+  );
+}
+
+function idForLogging(message) {
+  return `${message.source}.${message.sourceDevice} ${message.sent_at}`;
+}
+
+exports._cleanAndWriteContactAvatar = upgradeAttachment => async (
+  contact,
+  context = {}
+) => {
+  const { message } = context;
+  const { avatar } = contact;
+  const contactWithUpdatedAvatar =
+    avatar && avatar.avatar
+      ? Object.assign({}, contact, {
+          avatar: Object.assign({}, avatar, {
+            avatar: await upgradeAttachment(avatar.avatar, context),
+          }),
+        })
+      : omit(contact, ['avatar']);
+
+  // eliminates empty numbers, emails, and addresses; adds type if not provided
+  const contactWithCleanedElements = cleanContact(contactWithUpdatedAvatar);
+
+  // We'll log if the contact is invalid, leave everything as-is
+  validateContact(contactWithCleanedElements, {
+    messageId: idForLogging(message),
+  });
+
+  return contactWithCleanedElements;
+};
+
 const toVersion0 = async message => exports.initializeSchemaVersion(message);
 
 const toVersion1 = exports._withSchemaVersion(
@@ -214,6 +350,13 @@ const toVersion4 = exports._withSchemaVersion(
 );
 const toVersion5 = exports._withSchemaVersion(5, initializeAttachmentMetadata);
 
+const toVersion6 = exports._withSchemaVersion(
+  6,
+  exports._mapContact(
+    exports._cleanAndWriteContactAvatar(Attachment.migrateDataToFileSystem)
+  )
+);
+
 // UpgradeStep
 exports.upgradeSchema = async (rawMessage, { writeNewAttachmentData } = {}) => {
   if (!isFunction(writeNewAttachmentData)) {
@@ -228,6 +371,7 @@ exports.upgradeSchema = async (rawMessage, { writeNewAttachmentData } = {}) => {
     toVersion3,
     toVersion4,
     toVersion5,
+    toVersion6,
   ];
 
   for (let i = 0, max = versions.length; i < max; i += 1) {
@@ -269,10 +413,11 @@ exports.createAttachmentDataWriter = writeExistingAttachmentData => {
 
     const message = exports.initializeSchemaVersion(rawMessage);
 
-    const { attachments, quote } = message;
+    const { attachments, quote, contact } = message;
     const hasFilesToWrite =
       (quote && quote.attachments && quote.attachments.length > 0) ||
-      (attachments && attachments.length > 0);
+      (attachments && attachments.length > 0) ||
+      (contact && contact.length > 0);
 
     if (!hasFilesToWrite) {
       return message;
@@ -318,10 +463,26 @@ exports.createAttachmentDataWriter = writeExistingAttachmentData => {
       return omit(thumbnail, ['data']);
     });
 
+    const writeContactAvatar = async messageContact => {
+      const { avatar } = messageContact;
+      if (avatar && !avatar.avatar) {
+        return omit(messageContact, ['avatar']);
+      }
+
+      await writeExistingAttachmentData(avatar.avatar);
+
+      return Object.assign({}, messageContact, {
+        avatar: Object.assign({}, avatar, {
+          avatar: omit(avatar.avatar, ['data']),
+        }),
+      });
+    };
+
     const messageWithoutAttachmentData = Object.assign(
       {},
       await writeThumbnails(message),
       {
+        contact: await Promise.all((contact || []).map(writeContactAvatar)),
         attachments: await Promise.all(
           (attachments || []).map(async attachment => {
             await writeExistingAttachmentData(attachment);
