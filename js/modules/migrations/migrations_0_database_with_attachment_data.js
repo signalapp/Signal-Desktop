@@ -3,7 +3,6 @@ const { isString, last } = require('lodash');
 const { runMigrations } = require('./run_migrations');
 const Migration18 = require('./18');
 
-
 // IMPORTANT: The migrations below are run on a database that may be very large
 // due to attachments being directly stored inside the database. Please avoid
 // any expensive operations, e.g. modifying all messages / attachments, etc., as
@@ -20,7 +19,9 @@ const migrations = [
         unique: false,
       });
       messages.createIndex('receipt', 'sent_at', { unique: false });
-      messages.createIndex('unread', ['conversationId', 'unread'], { unique: false });
+      messages.createIndex('unread', ['conversationId', 'unread'], {
+        unique: false,
+      });
       messages.createIndex('expires_at', 'expires_at', { unique: false });
 
       const conversations = transaction.db.createObjectStore('conversations');
@@ -59,7 +60,7 @@ const migrations = [
       const identityKeys = transaction.objectStore('identityKeys');
       const request = identityKeys.openCursor();
       const promises = [];
-      request.onsuccess = (event) => {
+      request.onsuccess = event => {
         const cursor = event.target.result;
         if (cursor) {
           const attributes = cursor.value;
@@ -67,14 +68,16 @@ const migrations = [
           attributes.firstUse = false;
           attributes.nonblockingApproval = false;
           attributes.verified = 0;
-          promises.push(new Promise(((resolve, reject) => {
-            const putRequest = identityKeys.put(attributes, attributes.id);
-            putRequest.onsuccess = resolve;
-            putRequest.onerror = (e) => {
-              console.log(e);
-              reject(e);
-            };
-          })));
+          promises.push(
+            new Promise((resolve, reject) => {
+              const putRequest = identityKeys.put(attributes, attributes.id);
+              putRequest.onsuccess = resolve;
+              putRequest.onerror = e => {
+                console.log(e);
+                reject(e);
+              };
+            })
+          );
           cursor.continue();
         } else {
           // no more results
@@ -84,7 +87,7 @@ const migrations = [
           });
         }
       };
-      request.onerror = (event) => {
+      request.onerror = event => {
         console.log(event);
       };
     },
@@ -129,7 +132,9 @@ const migrations = [
 
       const messagesStore = transaction.objectStore('messages');
       console.log('Create index from attachment schema version to attachment');
-      messagesStore.createIndex('schemaVersion', 'schemaVersion', { unique: false });
+      messagesStore.createIndex('schemaVersion', 'schemaVersion', {
+        unique: false,
+      });
 
       const duration = Date.now() - start;
 

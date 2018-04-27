@@ -3,7 +3,6 @@ const is = require('@sindresorhus/is');
 const Errors = require('./types/errors');
 const Settings = require('./settings');
 
-
 exports.syncReadReceiptConfiguration = async ({
   deviceId,
   sendRequestConfigurationSyncMessage,

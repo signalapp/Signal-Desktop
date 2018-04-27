@@ -1,10 +1,7 @@
 /* eslint-env node */
 
-exports.isMacOS = () =>
-  process.platform === 'darwin';
+exports.isMacOS = () => process.platform === 'darwin';
 
-exports.isLinux = () =>
-  process.platform === 'linux';
+exports.isLinux = () => process.platform === 'linux';
 
-exports.isWindows = () =>
-  process.platform === 'win32';
+exports.isWindows = () => process.platform === 'win32';

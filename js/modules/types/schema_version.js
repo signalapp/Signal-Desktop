@@ -1,5 +1,3 @@
 const { isNumber } = require('lodash');
 
-
-exports.isValid = value =>
-  isNumber(value) && value >= 0;
+exports.isValid = value => isNumber(value) && value >= 0;

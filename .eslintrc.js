@@ -2,29 +2,24 @@
 
 module.exports = {
   settings: {
-    'import/core-modules': [
-      'electron'
-    ]
+    'import/core-modules': ['electron'],
   },
 
-  extends: [
-    'airbnb-base',
-    'prettier',
-  ],
+  extends: ['airbnb-base', 'prettier'],
 
-  plugins: [
-    'mocha',
-    'more',
-  ],
+  plugins: ['mocha', 'more'],
 
   rules: {
-    'comma-dangle': ['error', {
+    'comma-dangle': [
+      'error',
+      {
         arrays: 'always-multiline',
         objects: 'always-multiline',
         imports: 'always-multiline',
         exports: 'always-multiline',
         functions: 'never',
-    }],
+      },
+    ],
 
     // prevents us from accidentally checking in exclusive tests (`.only`):
     'mocha/no-exclusive-tests': 'error',
@@ -44,7 +39,11 @@ module.exports = {
     // consistently place operators at end of line except ternaries
     'operator-linebreak': 'error',
 
-    'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
+    quotes: [
+      'error',
+      'single',
+      { avoidEscape: true, allowTemplateLiterals: false },
+    ],
 
     // Prettier overrides:
     'arrow-parens': 'off',

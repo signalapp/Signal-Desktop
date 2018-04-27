@@ -13,7 +13,7 @@
 /* global Whisper: false */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};
@@ -120,20 +120,32 @@
       this.listenTo(this.model, 'destroy', this.stopListening);
       this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
       this.listenTo(this.model, 'change:color', this.updateColor);
-      this.listenTo(this.model, 'change:avatar change:profileAvatar', this.updateAvatar);
+      this.listenTo(
+        this.model,
+        'change:avatar change:profileAvatar',
+        this.updateAvatar
+      );
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'delivered', this.updateMessage);
       this.listenTo(this.model, 'read', this.updateMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'expired', this.onExpired);
       this.listenTo(this.model, 'prune', this.onPrune);
-      this.listenTo(this.model.messageCollection, 'expired', this.onExpiredCollection);
+      this.listenTo(
+        this.model.messageCollection,
+        'expired',
+        this.onExpiredCollection
+      );
       this.listenTo(
         this.model.messageCollection,
         'scroll-to-message',
         this.scrollToMessage
       );
-      this.listenTo(this.model.messageCollection, 'reply', this.setQuoteMessage);
+      this.listenTo(
+        this.model.messageCollection,
+        'reply',
+        this.setQuoteMessage
+      );
 
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
@@ -247,7 +259,7 @@
         return;
       }
 
-      const oneHourAgo = Date.now() - (60 * 60 * 1000);
+      const oneHourAgo = Date.now() - 60 * 60 * 1000;
       if (this.isHidden() && this.lastActivity < oneHourAgo) {
         this.unload('inactivity');
       } else if (this.view.atBottom()) {
@@ -301,7 +313,7 @@
 
       this.remove();
 
-      this.model.messageCollection.forEach((model) => {
+      this.model.messageCollection.forEach(model => {
         model.trigger('unload');
       });
       this.model.messageCollection.reset([]);
@@ -333,19 +345,21 @@
       );
 
       this.model.messageCollection.remove(models);
-      _.forEach(models, (model) => {
+      _.forEach(models, model => {
         model.trigger('unload');
       });
     },
 
     markAllAsVerifiedDefault(unverified) {
-      return Promise.all(unverified.map((contact) => {
-        if (contact.isUnverified()) {
-          return contact.setVerifiedDefault();
-        }
+      return Promise.all(
+        unverified.map(contact => {
+          if (contact.isUnverified()) {
+            return contact.setVerifiedDefault();
+          }
 
-        return null;
-      }));
+          return null;
+        })
+      );
     },
 
     markAllAsApproved(untrusted) {
@@ -404,7 +418,10 @@
       }
     },
     toggleMicrophone() {
-      if (this.$('.send-message').val().length > 0 || this.fileInput.hasFiles()) {
+      if (
+        this.$('.send-message').val().length > 0 ||
+        this.fileInput.hasFiles()
+      ) {
         this.$('.capture-audio').hide();
       } else {
         this.$('.capture-audio').show();
@@ -495,11 +512,13 @@
 
       const statusPromise = this.throttledGetProfiles();
       // eslint-disable-next-line more/no-then
-      this.statusFetch = statusPromise.then(() => this.model.updateVerified().then(() => {
-        this.onVerifiedChange();
-        this.statusFetch = null;
-        console.log('done with status fetch');
-      }));
+      this.statusFetch = statusPromise.then(() =>
+        this.model.updateVerified().then(() => {
+          this.onVerifiedChange();
+          this.statusFetch = null;
+          console.log('done with status fetch');
+        })
+      );
 
       // We schedule our catch-up decrypt right after any in-progress fetch of
       //   messages from the database, then ensure that the loading screen is only
@@ -587,20 +606,25 @@
 
       const conversationId = this.model.get('id');
       const WhisperMessageCollection = Whisper.MessageCollection;
-      const rawMedia = await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
-        conversationId,
-        count: DEFAULT_MEDIA_FETCH_COUNT,
-        WhisperMessageCollection,
-      });
-      const documents = await Signal.Backbone.Conversation.fetchFileAttachments({
-        conversationId,
-        count: DEFAULT_DOCUMENTS_FETCH_COUNT,
-        WhisperMessageCollection,
-      });
+      const rawMedia = await Signal.Backbone.Conversation.fetchVisualMediaAttachments(
+        {
+          conversationId,
+          count: DEFAULT_MEDIA_FETCH_COUNT,
+          WhisperMessageCollection,
+        }
+      );
+      const documents = await Signal.Backbone.Conversation.fetchFileAttachments(
+        {
+          conversationId,
+          count: DEFAULT_DOCUMENTS_FETCH_COUNT,
+          WhisperMessageCollection,
+        }
+      );
 
       // NOTE: Could we show grid previews from disk as well?
-      const loadMessages = Signal.Components.Types.Message
-        .loadWithObjectURL(Signal.Migrations.loadMessage);
+      const loadMessages = Signal.Components.Types.Message.loadWithObjectURL(
+        Signal.Migrations.loadMessage
+      );
       const media = await loadMessages(rawMedia);
 
       const { getAbsoluteAttachmentPath } = Signal.Migrations;
@@ -624,13 +648,15 @@
 
           case 'media': {
             const mediaWithObjectURL = media.map(mediaMessage =>
-              Object.assign(
-                {},
-                mediaMessage,
-                { objectURL: getAbsoluteAttachmentPath(mediaMessage.attachments[0].path) }
-              ));
-            const selectedIndex = media.findIndex(mediaMessage =>
-              mediaMessage.id === message.id);
+              Object.assign({}, mediaMessage, {
+                objectURL: getAbsoluteAttachmentPath(
+                  mediaMessage.attachments[0].path
+                ),
+              })
+            );
+            const selectedIndex = media.findIndex(
+              mediaMessage => mediaMessage.id === message.id
+            );
             this.lightboxGalleryView = new Whisper.ReactWrapperView({
               Component: Signal.Components.LightboxGallery,
               props: {
@@ -684,7 +710,7 @@
 
       // We need to iterate here because unseen non-messages do not contribute to
       //   the badge number, but should be reflected in the indicator's count.
-      this.model.messageCollection.forEach((model) => {
+      this.model.messageCollection.forEach(model => {
         if (!model.get('unread')) {
           return;
         }
@@ -744,7 +770,7 @@
         const delta = endingHeight - startingHeight;
         const height = this.view.outerHeight;
 
-        const newScrollPosition = (this.view.scrollPosition + delta) - height;
+        const newScrollPosition = this.view.scrollPosition + delta - height;
         this.view.$el.scrollTop(newScrollPosition);
       }, 1);
     },
@@ -759,15 +785,17 @@
       // Avoiding await, since we want to capture the promise and make it available via
       //   this.inProgressFetch
       // eslint-disable-next-line more/no-then
-      this.inProgressFetch = this.model.fetchContacts()
+      this.inProgressFetch = this.model
+        .fetchContacts()
         .then(() => this.model.fetchMessages())
         .then(() => {
           this.$('.bar-container').hide();
-          this.model.messageCollection.where({ unread: 1 }).forEach((m) => {
+          this.model.messageCollection.where({ unread: 1 }).forEach(m => {
             m.fetch();
           });
           this.inProgressFetch = null;
-        }).catch((error) => {
+        })
+        .catch(error => {
           console.log(
             'fetchMessages error:',
             error && error.stack ? error.stack : error
@@ -820,8 +848,10 @@
         // The conversation is visible, but window is not focused
         if (!this.lastSeenIndicator) {
           this.resetLastSeenIndicator({ scroll: false });
-        } else if (this.view.atBottom() &&
-          this.model.get('unreadCount') === this.lastSeenIndicator.getCount()) {
+        } else if (
+          this.view.atBottom() &&
+          this.model.get('unreadCount') === this.lastSeenIndicator.getCount()
+        ) {
           // The count check ensures that the last seen indicator is still in
           //   sync with the real number of unread, so we can scroll to it.
           //   We only do this if we're at the bottom, because that signals that
@@ -1215,9 +1245,8 @@
         }),
       });
 
-      const selector = storage.get('theme-setting') === 'ios'
-        ? '.bottom-bar'
-        : '.send';
+      const selector =
+        storage.get('theme-setting') === 'ios' ? '.bottom-bar' : '.send';
 
       this.$(selector).prepend(this.quoteView.el);
       this.updateMessageFieldSize({});
@@ -1275,7 +1304,7 @@
     },
 
     replace_colons(str) {
-      return str.replace(emoji.rx_colons, (m) => {
+      return str.replace(emoji.rx_colons, m => {
         const idx = m.substr(1, m.length - 2);
         const val = emoji.map.colons[idx];
         if (val) {
@@ -1310,7 +1339,12 @@
     updateMessageFieldSize(event) {
       const keyCode = event.which || event.keyCode;
 
-      if (keyCode === 13 && !event.altKey && !event.shiftKey && !event.ctrlKey) {
+      if (
+        keyCode === 13 &&
+        !event.altKey &&
+        !event.shiftKey &&
+        !event.ctrlKey
+      ) {
         // enter pressed - submit the form now
         event.preventDefault();
         this.$('.bottom-bar form').submit();
@@ -1329,7 +1363,8 @@
         ? this.quoteView.$el.outerHeight(includeMargin)
         : 0;
 
-      const height = this.$messageField.outerHeight() +
+      const height =
+        this.$messageField.outerHeight() +
         $attachmentPreviews.outerHeight() +
         this.$emojiPanelContainer.outerHeight() +
         quoteHeight +
@@ -1350,8 +1385,10 @@
     },
 
     isHidden() {
-      return this.$el.css('display') === 'none' ||
-        this.$('.panel').css('display') === 'none';
+      return (
+        this.$el.css('display') === 'none' ||
+        this.$('.panel').css('display') === 'none'
+      );
     },
   });
-}());
+})();

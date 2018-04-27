@@ -3,13 +3,12 @@
 /* global Whisper: false */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};
 
-  const isSearchable = conversation =>
-    conversation.isSearchable();
+  const isSearchable = conversation => conversation.isSearchable();
 
   Whisper.NewContactView = Whisper.View.extend({
     templateName: 'new-contact',
@@ -46,7 +45,9 @@
       // View to display the matched contacts from typeahead
       this.typeahead_view = new Whisper.ConversationListView({
         collection: new Whisper.ConversationCollection([], {
-          comparator(m) { return m.getTitle().toLowerCase(); },
+          comparator(m) {
+            return m.getTitle().toLowerCase();
+          },
         }),
       });
       this.$el.append(this.typeahead_view.el);
@@ -75,8 +76,11 @@
         /* eslint-disable more/no-then */
         this.pending = this.pending.then(() =>
           this.typeahead.search(query).then(() => {
-            this.typeahead_view.collection.reset(this.typeahead.filter(isSearchable));
-          }));
+            this.typeahead_view.collection.reset(
+              this.typeahead.filter(isSearchable)
+            );
+          })
+        );
         /* eslint-enable more/no-then */
         this.trigger('show');
       } else {
@@ -105,8 +109,10 @@
       }
 
       const newConversationId = this.new_contact_view.model.id;
-      const conversation =
-        await ConversationController.getOrCreateAndWait(newConversationId, 'private');
+      const conversation = await ConversationController.getOrCreateAndWait(
+        newConversationId,
+        'private'
+      );
       this.trigger('open', conversation);
       this.initNewContact();
       this.resetTypeahead();
@@ -129,7 +135,9 @@
         // eslint-disable-next-line more/no-then
         this.typeahead.fetchAlphabetical().then(() => {
           if (this.typeahead.length > 0) {
-            this.typeahead_view.collection.reset(this.typeahead.filter(isSearchable));
+            this.typeahead_view.collection.reset(
+              this.typeahead.filter(isSearchable)
+            );
           } else {
             this.showHints();
           }
@@ -163,4 +171,4 @@
       return number.replace(/[\s-.()]*/g, '').match(/^\+?[0-9]*$/);
     },
   });
-}());
+})();

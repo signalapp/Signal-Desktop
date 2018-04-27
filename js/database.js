@@ -3,7 +3,7 @@
 /* global _: false */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   const { getPlaceholderMigrations } = window.Signal.Migrations;
@@ -24,13 +24,13 @@
   };
 
   function clearStores(db, names) {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const storeNames = names || db.objectStoreNames;
       console.log('Clearing these indexeddb stores:', storeNames);
       const transaction = db.transaction(storeNames, 'readwrite');
 
       let finished = false;
-      const finish = (via) => {
+      const finish = via => {
         console.log('clearing all stores done via', via);
         if (finished) {
           resolve();
@@ -50,7 +50,7 @@
       let count = 0;
 
       // can't use built-in .forEach because db.objectStoreNames is not a plain array
-      _.forEach(storeNames, (storeName) => {
+      _.forEach(storeNames, storeName => {
         const store = transaction.objectStore(storeName);
         const request = store.clear();
 
@@ -72,7 +72,7 @@
           );
         };
       });
-    }));
+    });
   }
 
   Whisper.Database.open = () => {
@@ -80,7 +80,7 @@
     const { version } = migrations[migrations.length - 1];
     const DBOpenRequest = window.indexedDB.open(Whisper.Database.id, version);
 
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       // these two event handlers act on the IDBDatabase object,
       // when the database is opened successfully, or not
       DBOpenRequest.onerror = reject;
@@ -91,7 +91,7 @@
       // been created before, or a new version number has been
       // submitted via the window.indexedDB.open line above
       DBOpenRequest.onupgradeneeded = reject;
-    }));
+    });
   };
 
   Whisper.Database.clear = async () => {
@@ -99,7 +99,7 @@
     return clearStores(db);
   };
 
-  Whisper.Database.clearStores = async (storeNames) => {
+  Whisper.Database.clearStores = async storeNames => {
     const db = await Whisper.Database.open();
     return clearStores(db, storeNames);
   };
@@ -107,7 +107,7 @@
   Whisper.Database.close = () => window.wrapDeferred(Backbone.sync('closeall'));
 
   Whisper.Database.drop = () =>
-    new Promise(((resolve, reject) => {
+    new Promise((resolve, reject) => {
       const request = window.indexedDB.deleteDatabase(Whisper.Database.id);
 
       request.onblocked = () => {
@@ -121,7 +121,7 @@
       };
 
       request.onsuccess = resolve;
-    }));
+    });
 
   Whisper.Database.migrations = getPlaceholderMigrations();
-}());
+})();

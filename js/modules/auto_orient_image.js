@@ -20,21 +20,25 @@ exports.autoOrientImage = (fileOrBlobOrURL, options = {}) => {
   );
 
   return new Promise((resolve, reject) => {
-    loadImage(fileOrBlobOrURL, (canvasOrError) => {
-      if (canvasOrError.type === 'error') {
-        const error = new Error('autoOrientImage: Failed to process image');
-        error.cause = canvasOrError;
-        reject(error);
-        return;
-      }
+    loadImage(
+      fileOrBlobOrURL,
+      canvasOrError => {
+        if (canvasOrError.type === 'error') {
+          const error = new Error('autoOrientImage: Failed to process image');
+          error.cause = canvasOrError;
+          reject(error);
+          return;
+        }
 
-      const canvas = canvasOrError;
-      const dataURL = canvas.toDataURL(
-        optionsWithDefaults.type,
-        optionsWithDefaults.quality
-      );
+        const canvas = canvasOrError;
+        const dataURL = canvas.toDataURL(
+          optionsWithDefaults.type,
+          optionsWithDefaults.quality
+        );
 
-      resolve(dataURL);
-    }, optionsWithDefaults);
+        resolve(dataURL);
+      },
+      optionsWithDefaults
+    );
   });
 };

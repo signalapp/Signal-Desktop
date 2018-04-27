@@ -3,12 +3,11 @@
  */
 
 describe('Threads', function() {
-
   it('should be ordered newest to oldest', function() {
     // Timestamps
     var today = new Date();
     var tomorrow = new Date();
-    tomorrow.setDate(today.getDate()+1);
+    tomorrow.setDate(today.getDate() + 1);
 
     // Add threads
     Whisper.Threads.add({ timestamp: today });
@@ -21,6 +20,4 @@ describe('Threads', function() {
     // Compare timestamps
     assert(firstTimestamp > secondTimestamp);
   });
-
-
 });

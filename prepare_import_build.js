@@ -56,5 +56,8 @@ _.set(packageJson, WIN_ASSET_PATH, WIN_ASSET_END_VALUE);
 
 // ---
 
-fs.writeFileSync('./config/default.json', JSON.stringify(defaultConfig, null, '  '));
+fs.writeFileSync(
+  './config/default.json',
+  JSON.stringify(defaultConfig, null, '  ')
+);
 fs.writeFileSync('./package.json', JSON.stringify(packageJson, null, '  '));

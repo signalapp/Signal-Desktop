@@ -6,22 +6,20 @@ const path = require('path');
 const { compose } = require('lodash/fp');
 const { escapeRegExp } = require('lodash');
 
-
 const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
-
 //      _redactPath :: Path -> String -> String
-exports._redactPath = (filePath) => {
+exports._redactPath = filePath => {
   if (!is.string(filePath)) {
     throw new TypeError("'filePath' must be a string");
   }
 
   const filePathPattern = exports._pathToRegExp(filePath);
 
-  return (text) => {
+  return text => {
     if (!is.string(text)) {
       throw new TypeError("'text' must be a string");
     }
@@ -35,7 +33,7 @@ exports._redactPath = (filePath) => {
 };
 
 //      _pathToRegExp :: Path -> Maybe RegExp
-exports._pathToRegExp = (filePath) => {
+exports._pathToRegExp = filePath => {
   try {
     const pathWithNormalizedSlashes = filePath.replace(/\//g, '\\');
     const pathWithEscapedSlashes = filePath.replace(/\\/g, '\\\\');
@@ -47,7 +45,9 @@ exports._pathToRegExp = (filePath) => {
       pathWithNormalizedSlashes,
       pathWithEscapedSlashes,
       urlEncodedPath,
-    ].map(escapeRegExp).join('|');
+    ]
+      .map(escapeRegExp)
+      .join('|');
     return new RegExp(patternString, 'g');
   } catch (error) {
     return null;
@@ -56,7 +56,7 @@ exports._pathToRegExp = (filePath) => {
 
 // Public API
 //      redactPhoneNumbers :: String -> String
-exports.redactPhoneNumbers = (text) => {
+exports.redactPhoneNumbers = text => {
   if (!is.string(text)) {
     throw new TypeError("'text' must be a string");
   }
@@ -65,7 +65,7 @@ exports.redactPhoneNumbers = (text) => {
 };
 
 //      redactGroupIds :: String -> String
-exports.redactGroupIds = (text) => {
+exports.redactGroupIds = text => {
   if (!is.string(text)) {
     throw new TypeError("'text' must be a string");
   }

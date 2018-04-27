@@ -14,7 +14,7 @@ interface BackboneView {
 }
 
 interface BackboneViewConstructor {
-    new (options: object): BackboneView;
+  new (options: object): BackboneView;
 }
 
 /**
@@ -41,7 +41,7 @@ export class BackboneWrapper extends React.Component<Props, {}> {
   protected setEl = (element: HTMLDivElement | null) => {
     this.el = element;
     this.setup();
-  }
+  };
 
   protected setup = () => {
     const { el } = this;
@@ -56,7 +56,7 @@ export class BackboneWrapper extends React.Component<Props, {}> {
     // It's important to let the view create its own root DOM element. This ensures that
     //   its tagName property actually takes effect.
     el.appendChild(this.view.el);
-  }
+  };
 
   protected teardown() {
     if (!this.view) {

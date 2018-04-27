@@ -1,4 +1,4 @@
-exports.run = (transaction) => {
+exports.run = transaction => {
   const messagesStore = transaction.objectStore('messages');
 
   console.log("Create message attachment metadata index: 'hasAttachments'");
@@ -8,12 +8,10 @@ exports.run = (transaction) => {
     { unique: false }
   );
 
-  ['hasVisualMediaAttachments', 'hasFileAttachments'].forEach((name) => {
+  ['hasVisualMediaAttachments', 'hasFileAttachments'].forEach(name => {
     console.log(`Create message attachment metadata index: '${name}'`);
-    messagesStore.createIndex(
-      name,
-      ['conversationId', 'received_at', name],
-      { unique: false }
-    );
+    messagesStore.createIndex(name, ['conversationId', 'received_at', name], {
+      unique: false,
+    });
   });
 };

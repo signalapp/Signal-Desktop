@@ -6,19 +6,12 @@
 
 /* global IDBKeyRange */
 
-const {
-  isFunction,
-  isNumber,
-  isObject,
-  isString,
-  last,
-} = require('lodash');
+const { isFunction, isNumber, isObject, isString, last } = require('lodash');
 
 const database = require('./database');
 const Message = require('./types/message');
 const settings = require('./settings');
 const { deferredToPromise } = require('./deferred_to_promise');
-
 
 const MESSAGES_STORE_NAME = 'messages';
 
@@ -29,12 +22,16 @@ exports.processNext = async ({
   upgradeMessageSchema,
 } = {}) => {
   if (!isFunction(BackboneMessage)) {
-    throw new TypeError("'BackboneMessage' (Whisper.Message) constructor is required");
+    throw new TypeError(
+      "'BackboneMessage' (Whisper.Message) constructor is required"
+    );
   }
 
   if (!isFunction(BackboneMessageCollection)) {
-    throw new TypeError("'BackboneMessageCollection' (Whisper.MessageCollection)" +
-      ' constructor is required');
+    throw new TypeError(
+      "'BackboneMessageCollection' (Whisper.MessageCollection)" +
+        ' constructor is required'
+    );
   }
 
   if (!isNumber(numMessagesPerBatch)) {
@@ -48,16 +45,18 @@ exports.processNext = async ({
   const startTime = Date.now();
 
   const fetchStartTime = Date.now();
-  const messagesRequiringSchemaUpgrade =
-    await _fetchMessagesRequiringSchemaUpgrade({
+  const messagesRequiringSchemaUpgrade = await _fetchMessagesRequiringSchemaUpgrade(
+    {
       BackboneMessageCollection,
       count: numMessagesPerBatch,
-    });
+    }
+  );
   const fetchDuration = Date.now() - fetchStartTime;
 
   const upgradeStartTime = Date.now();
-  const upgradedMessages =
-    await Promise.all(messagesRequiringSchemaUpgrade.map(upgradeMessageSchema));
+  const upgradedMessages = await Promise.all(
+    messagesRequiringSchemaUpgrade.map(upgradeMessageSchema)
+  );
   const upgradeDuration = Date.now() - upgradeStartTime;
 
   const saveStartTime = Date.now();
@@ -109,8 +108,10 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
     minDatabaseVersion,
   });
   if (!isValidDatabaseVersion) {
-    throw new Error(`Expected database version (${databaseVersion})` +
-      ` to be at least ${minDatabaseVersion}`);
+    throw new Error(
+      `Expected database version (${databaseVersion})` +
+        ` to be at least ${minDatabaseVersion}`
+    );
   }
 
   // NOTE: Even if we make this async using `then`, requesting `count` on an
@@ -132,10 +133,13 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
       break;
     }
     numCumulativeMessagesProcessed += status.numMessagesProcessed;
-    console.log('Upgrade message schema:', Object.assign({}, status, {
-      numTotalMessages,
-      numCumulativeMessagesProcessed,
-    }));
+    console.log(
+      'Upgrade message schema:',
+      Object.assign({}, status, {
+        numTotalMessages,
+        numCumulativeMessagesProcessed,
+      })
+    );
   }
 
   console.log('Close database connection');
@@ -181,8 +185,10 @@ const _getConnection = async ({ databaseName, minDatabaseVersion }) => {
   const databaseVersion = connection.version;
   const isValidDatabaseVersion = databaseVersion >= minDatabaseVersion;
   if (!isValidDatabaseVersion) {
-    throw new Error(`Expected database version (${databaseVersion})` +
-      ` to be at least ${minDatabaseVersion}`);
+    throw new Error(
+      `Expected database version (${databaseVersion})` +
+        ` to be at least ${minDatabaseVersion}`
+    );
   }
 
   return connection;
@@ -205,29 +211,33 @@ const _processBatch = async ({
     throw new TypeError("'numMessagesPerBatch' is required");
   }
 
-  const isAttachmentMigrationComplete =
-    await settings.isAttachmentMigrationComplete(connection);
+  const isAttachmentMigrationComplete = await settings.isAttachmentMigrationComplete(
+    connection
+  );
   if (isAttachmentMigrationComplete) {
     return {
       done: true,
     };
   }
 
-  const lastProcessedIndex =
-    await settings.getAttachmentMigrationLastProcessedIndex(connection);
+  const lastProcessedIndex = await settings.getAttachmentMigrationLastProcessedIndex(
+    connection
+  );
 
   const fetchUnprocessedMessagesStartTime = Date.now();
-  const unprocessedMessages =
-    await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex({
+  const unprocessedMessages = await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex(
+    {
       connection,
       count: numMessagesPerBatch,
       lastIndex: lastProcessedIndex,
-    });
+    }
+  );
   const fetchDuration = Date.now() - fetchUnprocessedMessagesStartTime;
 
   const upgradeStartTime = Date.now();
-  const upgradedMessages =
-    await Promise.all(unprocessedMessages.map(upgradeMessageSchema));
+  const upgradedMessages = await Promise.all(
+    unprocessedMessages.map(upgradeMessageSchema)
+  );
   const upgradeDuration = Date.now() - upgradeStartTime;
 
   const saveMessagesStartTime = Date.now();
@@ -266,12 +276,12 @@ const _processBatch = async ({
   };
 };
 
-const _saveMessageBackbone = ({ BackboneMessage } = {}) => (message) => {
+const _saveMessageBackbone = ({ BackboneMessage } = {}) => message => {
   const backboneMessage = new BackboneMessage(message);
   return deferredToPromise(backboneMessage.save());
 };
 
-const _saveMessage = ({ transaction } = {}) => (message) => {
+const _saveMessage = ({ transaction } = {}) => message => {
   if (!isObject(transaction)) {
     throw new TypeError("'transaction' is required");
   }
@@ -279,83 +289,91 @@ const _saveMessage = ({ transaction } = {}) => (message) => {
   const messagesStore = transaction.objectStore(MESSAGES_STORE_NAME);
   const request = messagesStore.put(message, message.id);
   return new Promise((resolve, reject) => {
-    request.onsuccess = () =>
-      resolve();
-    request.onerror = event =>
-      reject(event.target.error);
+    request.onsuccess = () => resolve();
+    request.onerror = event => reject(event.target.error);
   });
 };
 
-const _fetchMessagesRequiringSchemaUpgrade =
-  async ({ BackboneMessageCollection, count } = {}) => {
-    if (!isFunction(BackboneMessageCollection)) {
-      throw new TypeError("'BackboneMessageCollection' (Whisper.MessageCollection)" +
-        ' constructor is required');
-    }
+const _fetchMessagesRequiringSchemaUpgrade = async ({
+  BackboneMessageCollection,
+  count,
+} = {}) => {
+  if (!isFunction(BackboneMessageCollection)) {
+    throw new TypeError(
+      "'BackboneMessageCollection' (Whisper.MessageCollection)" +
+        ' constructor is required'
+    );
+  }
 
-    if (!isNumber(count)) {
-      throw new TypeError("'count' is required");
-    }
+  if (!isNumber(count)) {
+    throw new TypeError("'count' is required");
+  }
 
-    const collection = new BackboneMessageCollection();
-    return new Promise(resolve => collection.fetch({
-      limit: count,
-      index: {
-        name: 'schemaVersion',
-        upper: Message.CURRENT_SCHEMA_VERSION,
-        excludeUpper: true,
-        order: 'desc',
-      },
-    }).always(() => {
-      const models = collection.models || [];
-      const messages = models.map(model => model.toJSON());
-      resolve(messages);
-    }));
-  };
+  const collection = new BackboneMessageCollection();
+  return new Promise(resolve =>
+    collection
+      .fetch({
+        limit: count,
+        index: {
+          name: 'schemaVersion',
+          upper: Message.CURRENT_SCHEMA_VERSION,
+          excludeUpper: true,
+          order: 'desc',
+        },
+      })
+      .always(() => {
+        const models = collection.models || [];
+        const messages = models.map(model => model.toJSON());
+        resolve(messages);
+      })
+  );
+};
 
 // NOTE: Named ‘dangerous’ because it is not as efficient as using our
 // `messages` `schemaVersion` index:
-const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex =
-  ({ connection, count, lastIndex } = {}) => {
-    if (!isObject(connection)) {
-      throw new TypeError("'connection' is required");
-    }
+const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex = ({
+  connection,
+  count,
+  lastIndex,
+} = {}) => {
+  if (!isObject(connection)) {
+    throw new TypeError("'connection' is required");
+  }
 
-    if (!isNumber(count)) {
-      throw new TypeError("'count' is required");
-    }
+  if (!isNumber(count)) {
+    throw new TypeError("'count' is required");
+  }
 
-    if (lastIndex && !isString(lastIndex)) {
-      throw new TypeError("'lastIndex' must be a string");
-    }
+  if (lastIndex && !isString(lastIndex)) {
+    throw new TypeError("'lastIndex' must be a string");
+  }
 
-    const hasLastIndex = Boolean(lastIndex);
+  const hasLastIndex = Boolean(lastIndex);
 
-    const transaction = connection.transaction(MESSAGES_STORE_NAME, 'readonly');
-    const messagesStore = transaction.objectStore(MESSAGES_STORE_NAME);
+  const transaction = connection.transaction(MESSAGES_STORE_NAME, 'readonly');
+  const messagesStore = transaction.objectStore(MESSAGES_STORE_NAME);
 
-    const excludeLowerBound = true;
-    const range = hasLastIndex
-      ? IDBKeyRange.lowerBound(lastIndex, excludeLowerBound)
-      : undefined;
-    return new Promise((resolve, reject) => {
-      const items = [];
-      const request = messagesStore.openCursor(range);
-      request.onsuccess = (event) => {
-        const cursor = event.target.result;
-        const hasMoreData = Boolean(cursor);
-        if (!hasMoreData || items.length === count) {
-          resolve(items);
-          return;
-        }
-        const item = cursor.value;
-        items.push(item);
-        cursor.continue();
-      };
-      request.onerror = event =>
-        reject(event.target.error);
-    });
-  };
+  const excludeLowerBound = true;
+  const range = hasLastIndex
+    ? IDBKeyRange.lowerBound(lastIndex, excludeLowerBound)
+    : undefined;
+  return new Promise((resolve, reject) => {
+    const items = [];
+    const request = messagesStore.openCursor(range);
+    request.onsuccess = event => {
+      const cursor = event.target.result;
+      const hasMoreData = Boolean(cursor);
+      if (!hasMoreData || items.length === count) {
+        resolve(items);
+        return;
+      }
+      const item = cursor.value;
+      items.push(item);
+      cursor.continue();
+    };
+    request.onerror = event => reject(event.target.error);
+  });
+};
 
 const _getNumMessages = async ({ connection } = {}) => {
   if (!isObject(connection)) {

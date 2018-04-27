@@ -12,7 +12,10 @@ describe('i18n', function() {
     });
     it('returns message with multiple substitutions', function() {
       const actual = i18n('verifyContact', ['<strong>', '</strong>']);
-      assert.equal(actual, 'You may wish to <strong> verify </strong> your safety number with this contact.');
+      assert.equal(
+        actual,
+        'You may wish to <strong> verify </strong> your safety number with this contact.'
+      );
     });
   });
 

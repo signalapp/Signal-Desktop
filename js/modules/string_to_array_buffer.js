@@ -1,4 +1,4 @@
-exports.stringToArrayBuffer = (string) => {
+exports.stringToArrayBuffer = string => {
   if (typeof string !== 'string') {
     throw new TypeError("'string' must be a string");
   }

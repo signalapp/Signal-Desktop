@@ -11,7 +11,9 @@ exports.setup = (locale, messages) => {
   function getMessage(key, substitutions) {
     const entry = messages[key];
     if (!entry) {
-      console.error(`i18n: Attempted to get translation for nonexistent key '${key}'`);
+      console.error(
+        `i18n: Attempted to get translation for nonexistent key '${key}'`
+      );
       return '';
     }
 
