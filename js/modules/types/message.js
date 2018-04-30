@@ -16,6 +16,8 @@ const PRIVATE = 'private';
 //   - Schema initialized
 // Version 1
 //   - Attachments: Auto-orient JPEG attachments using EXIF `Orientation` data.
+//     N.B. The process of auto-orient for JPEGs strips (loses) all existing
+//     EXIF metadata improving privacy, e.g. geolocation, camera make, etc.
 // Version 2
 //   - Attachments: Sanitize Unicode order override characters.
 // Version 3
