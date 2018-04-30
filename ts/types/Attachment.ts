@@ -55,6 +55,7 @@ export const save = ({
   getAbsolutePath: (relativePath: string) => string;
   timestamp?: number;
 }): void => {
+  const isObjectURLRequired = is.undefined(attachment.path);
   const url = !is.undefined(attachment.path)
     ? getAbsolutePath(attachment.path)
     : arrayBufferToObjectURL({
@@ -63,7 +64,9 @@ export const save = ({
       });
   const filename = getSuggestedFilename({ attachment, timestamp });
   saveURLAsFile({ url, filename, document });
-  URL.revokeObjectURL(url);
+  if (isObjectURLRequired) {
+    URL.revokeObjectURL(url);
+  }
 };
 
 export const getSuggestedFilename = ({
