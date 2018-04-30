@@ -48,7 +48,6 @@ module.exports = {
     // Prettier overrides:
     'arrow-parens': 'off',
     'function-paren-newline': 'off',
-    // 90 characters allows three+ side-by-side screens on a standard-size monitor
     'max-len': [
       'error',
       {
