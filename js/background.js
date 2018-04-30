@@ -17,10 +17,7 @@
     const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
     const { Errors, Message } = window.Signal.Types;
     const { upgradeMessageSchema } = window.Signal.Migrations;
-    const {
-        Migrations0DatabaseWithAttachmentData,
-        Migrations1DatabaseWithoutAttachmentData,
-    } = window.Signal.Migrations;
+    const { Migrations0DatabaseWithAttachmentData } = window.Signal.Migrations;
     const { Views } = window.Signal;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
