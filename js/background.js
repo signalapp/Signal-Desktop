@@ -133,7 +133,6 @@
         first = false;
 
         ConversationController.load().then(start, start);
-        idleDetector.start();
     });
 
     Whisper.events.on('shutdown', function() {
@@ -413,6 +412,16 @@
       }
     }
 
+    storage.onready(async () => {
+      const shouldSkipAttachmentMigrationForNewUsers = firstRun === true;
+      if (shouldSkipAttachmentMigrationForNewUsers) {
+        const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+        const connection =
+          await Signal.Database.open(database.name, database.version);
+        await Signal.Settings.markAttachmentMigrationComplete(connection);
+      }
+      idleDetector.start();
+    });
   }
   /* eslint-disable */
 
