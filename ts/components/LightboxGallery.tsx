@@ -14,7 +14,6 @@ interface Item {
 
 interface Props {
   close: () => void;
-  getAbsoluteAttachmentPath: (relativePath: string) => string;
   messages: Array<Message>;
   onSave?: ({ message }: { message: Message }) => void;
   selectedIndex: number;
@@ -25,7 +24,7 @@ interface State {
 }
 
 const messageToItem = (message: Message): Item => ({
-  objectURL: message.attachments[0].path,
+  objectURL: message.objectURL,
   contentType: message.attachments[0].contentType,
 });
 
@@ -43,7 +42,7 @@ export class LightboxGallery extends React.Component<Props, State> {
   }
 
   public render() {
-    const { close, getAbsoluteAttachmentPath, messages, onSave } = this.props;
+    const { close, messages, onSave } = this.props;
     const { selectedIndex } = this.state;
 
     const selectedMessage: Message = messages[selectedIndex];
@@ -56,9 +55,7 @@ export class LightboxGallery extends React.Component<Props, State> {
     const lastIndex = messages.length - 1;
     const onNext = selectedIndex < lastIndex ? this.handleNext : undefined;
 
-    const objectURL = selectedItem.objectURL
-      ? getAbsoluteAttachmentPath(selectedItem.objectURL)
-      : 'images/video.svg';
+    const objectURL = selectedItem.objectURL || 'images/alert-outline.svg';
 
     return (
       <Lightbox

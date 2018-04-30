@@ -603,13 +603,14 @@
         .loadWithObjectURL(Signal.Migrations.loadMessage);
       const media = await loadMessages(rawMedia);
 
+      const { getAbsoluteAttachmentPath } = Signal.Migrations;
       const saveAttachment = async ({ message } = {}) => {
         const attachment = message.attachments[0];
         const timestamp = message.received_at;
         Signal.Types.Attachment.save({
           attachment,
           document,
-          getAbsolutePath: Signal.Migrations.getAbsoluteAttachmentPath,
+          getAbsolutePath: getAbsoluteAttachmentPath,
           timestamp,
         });
       };
@@ -622,14 +623,18 @@
           }
 
           case 'media': {
+            const mediaWithObjectURL = media.map(mediaMessage =>
+              Object.assign(
+                {},
+                mediaMessage,
+                { objectURL: getAbsoluteAttachmentPath(mediaMessage.attachments[0].path) }
+              ));
             const selectedIndex = media.findIndex(mediaMessage =>
               mediaMessage.id === message.id);
-            const { getAbsoluteAttachmentPath } = Signal.Migrations;
             this.lightboxGalleryView = new Whisper.ReactWrapperView({
               Component: Signal.Components.LightboxGallery,
               props: {
-                getAbsoluteAttachmentPath,
-                messages: media,
+                messages: mediaWithObjectURL,
                 onSave: () => saveAttachment({ message }),
                 selectedIndex,
               },
