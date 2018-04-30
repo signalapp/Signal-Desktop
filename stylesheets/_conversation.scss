@@ -78,10 +78,13 @@
     }
   }
 
-  .panel {
+  .panel,
+  .react-wrapper {
     height: calc(100% - #{$header-height});
     overflow-y: scroll;
+  }
 
+  .panel {
     .container {
       padding-top: 20px;
       max-width: 750px;
@@ -89,11 +92,15 @@
       padding: 20px;
     }
   }
-  .main.panel {
+
+  .main.panel,
+  .react-wrapper {
     display: flex;
     flex-direction: column;
     overflow: initial;
+  }
 
+  .main.panel {
     .discussion-container {
       flex-grow: 1;
       position: relative;

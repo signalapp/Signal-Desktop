@@ -8,9 +8,9 @@
 
 /* global extension: false */
 /* global i18n: false */
+/* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
-/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -281,6 +281,9 @@
       }
       if (this.quoteView) {
         this.quoteView.remove();
+      }
+      if (this.lightboxGalleryView) {
+        this.lightboxGalleryView.remove();
       }
       if (this.panels && this.panels.length) {
         for (let i = 0, max = this.panels.length; i < max; i += 1) {
@@ -577,33 +580,82 @@
       //   events up to its parent elements in the DOM.
       this.closeMenu();
 
-      const media = await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
-        conversationId: this.model.get('id'),
-        WhisperMessageCollection: Whisper.MessageCollection,
-      });
-      const loadMessages = Signal.Components.PropTypes.Message
-        .loadWithObjectURL(Signal.Migrations.loadMessage);
-      const mediaWithObjectURLs = await loadMessages(media);
+      // We fetch more documents than media as they don’t require to be loaded
+      // into memory right away. Revisit this once we have infinite scrolling:
+      const DEFAULT_MEDIA_FETCH_COUNT = 50;
+      const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
 
-      const mediaGalleryProps = {
-        media: mediaWithObjectURLs,
-        documents: [],
-        onItemClick: ({ message }) => {
-          const lightboxProps = {
-            imageURL: message.objectURL,
-          };
-          this.lightboxView = new Whisper.ReactWrapperView({
-            Component: Signal.Components.Lightbox,
-            props: lightboxProps,
-            onClose: () => Signal.Backbone.Views.Lightbox.hide(),
-          });
-          Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
-        },
+      const conversationId = this.model.get('id');
+      const WhisperMessageCollection = Whisper.MessageCollection;
+      const rawMedia = await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
+        conversationId,
+        count: DEFAULT_MEDIA_FETCH_COUNT,
+        WhisperMessageCollection,
+      });
+      const documents = await Signal.Backbone.Conversation.fetchFileAttachments({
+        conversationId,
+        count: DEFAULT_DOCUMENTS_FETCH_COUNT,
+        WhisperMessageCollection,
+      });
+
+      // NOTE: Could we show grid previews from disk as well?
+      const loadMessages = Signal.Components.Types.Message
+        .loadWithObjectURL(Signal.Migrations.loadMessage);
+      const media = await loadMessages(rawMedia);
+
+      const { getAbsoluteAttachmentPath } = Signal.Migrations;
+      const saveAttachment = async ({ message } = {}) => {
+        const attachment = message.attachments[0];
+        const timestamp = message.received_at;
+        Signal.Types.Attachment.save({
+          attachment,
+          document,
+          getAbsolutePath: getAbsoluteAttachmentPath,
+          timestamp,
+        });
+      };
+
+      const onItemClick = async ({ message, type }) => {
+        switch (type) {
+          case 'documents': {
+            saveAttachment({ message });
+            break;
+          }
+
+          case 'media': {
+            const mediaWithObjectURL = media.map(mediaMessage =>
+              Object.assign(
+                {},
+                mediaMessage,
+                { objectURL: getAbsoluteAttachmentPath(mediaMessage.attachments[0].path) }
+              ));
+            const selectedIndex = media.findIndex(mediaMessage =>
+              mediaMessage.id === message.id);
+            this.lightboxGalleryView = new Whisper.ReactWrapperView({
+              Component: Signal.Components.LightboxGallery,
+              props: {
+                messages: mediaWithObjectURL,
+                onSave: () => saveAttachment({ message }),
+                selectedIndex,
+              },
+              onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+            });
+            Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
+            break;
+          }
+
+          default:
+            throw new TypeError(`Unknown attachment type: '${type}'`);
+        }
       };
 
       const view = new Whisper.ReactWrapperView({
         Component: Signal.Components.MediaGallery,
-        props: mediaGalleryProps,
+        props: {
+          documents,
+          media,
+          onItemClick,
+        },
         onClose: () => this.resetPanel(),
       });
 

@@ -136,6 +136,7 @@ window.moment.locale(locale);
 
 // ES2015+ modules
 const attachmentsPath = Attachments.getPath(app.getPath('userData'));
+const getAbsoluteAttachmentPath = Attachments.createAbsolutePathGetter(attachmentsPath);
 const deleteAttachmentData = Attachments.createDeleter(attachmentsPath);
 const readAttachmentData = Attachments.createReader(attachmentsPath);
 const writeNewAttachmentData = Attachments.createWriterForNew(attachmentsPath);
@@ -165,18 +166,20 @@ window.Signal.Logs = require('./js/modules/logs');
 
 // React components
 const { Lightbox } = require('./ts/components/Lightbox');
+const { LightboxGallery } = require('./ts/components/LightboxGallery');
 const { MediaGallery } =
   require('./ts/components/conversation/media-gallery/MediaGallery');
 const { Quote } = require('./ts/components/conversation/Quote');
 
-const PropTypesMessage =
-  require('./ts/components/conversation/media-gallery/propTypes/Message');
+const MediaGalleryMessage =
+  require('./ts/components/conversation/media-gallery/types/Message');
 
 window.Signal.Components = {
   Lightbox,
+  LightboxGallery,
   MediaGallery,
-  PropTypes: {
-    Message: PropTypesMessage,
+  Types: {
+    Message: MediaGalleryMessage,
   },
   Quote,
 };
@@ -187,6 +190,7 @@ window.Signal.Migrations.deleteAttachmentData =
 window.Signal.Migrations.getPlaceholderMigrations = getPlaceholderMigrations;
 window.Signal.Migrations.writeMessageAttachments =
   Message.createAttachmentDataWriter(writeExistingAttachmentData);
+window.Signal.Migrations.getAbsoluteAttachmentPath = getAbsoluteAttachmentPath;
 window.Signal.Migrations.loadAttachmentData = loadAttachmentData;
 window.Signal.Migrations.loadMessage = Message.createAttachmentLoader(loadAttachmentData);
 window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =

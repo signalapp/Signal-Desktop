@@ -1,5 +1,6 @@
 const is = require('@sindresorhus/is');
 
+const AttachmentTS = require('../../../ts/types/Attachment');
 const MIME = require('../../../ts/types/MIME');
 const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
@@ -163,3 +164,5 @@ exports.deleteData = (deleteAttachmentData) => {
     await deleteAttachmentData(attachment.path);
   };
 };
+
+exports.save = AttachmentTS.save;

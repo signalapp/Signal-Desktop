@@ -114,7 +114,7 @@ exports.createName = () => {
   return buffer.toString('hex');
 };
 
-//      getRelativePath :: String -> IO Path
+//      getRelativePath :: String -> Path
 exports.getRelativePath = (name) => {
   if (!isString(name)) {
     throw new TypeError("'name' must be a string");
@@ -123,3 +123,7 @@ exports.getRelativePath = (name) => {
   const prefix = name.slice(0, 2);
   return path.join(prefix, name);
 };
+
+//      createAbsolutePathGetter :: RoothPath -> RelativePath -> AbsolutePath
+exports.createAbsolutePathGetter = rootPath => relativePath =>
+  path.join(rootPath, relativePath);

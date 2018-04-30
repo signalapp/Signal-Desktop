@@ -561,14 +561,17 @@
           }
         }
         message.set({
-          schemaVersion: dataMessage.schemaVersion,
+          attachments: dataMessage.attachments,
           body: dataMessage.body,
           conversationId: conversation.id,
-          attachments: dataMessage.attachments,
-          quote: dataMessage.quote,
           decrypted_at: now,
-          flags: dataMessage.flags,
           errors: [],
+          flags: dataMessage.flags,
+          hasAttachments: dataMessage.hasAttachments,
+          hasFileAttachments: dataMessage.hasFileAttachments,
+          hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
+          quote: dataMessage.quote,
+          schemaVersion: dataMessage.schemaVersion,
         });
         if (type === 'outgoing') {
           const receipts = Whisper.DeliveryReceipts.forMessage(conversation, message);

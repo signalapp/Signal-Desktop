@@ -17,10 +17,7 @@
     const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
     const { Errors, Message } = window.Signal.Types;
     const { upgradeMessageSchema } = window.Signal.Migrations;
-    const {
-        Migrations0DatabaseWithAttachmentData,
-        Migrations1DatabaseWithoutAttachmentData,
-    } = window.Signal.Migrations;
+    const { Migrations0DatabaseWithAttachmentData } = window.Signal.Migrations;
     const { Views } = window.Signal;
 
     // Implicitly used in `indexeddb-backbonejs-adapter`:
@@ -90,18 +87,37 @@
   storage.fetch();
 
   const idleDetector = new IdleDetector();
+  let isMigrationWithIndexComplete = false;
+  let isMigrationWithoutIndexComplete = false;
   idleDetector.on('idle', async () => {
     const NUM_MESSAGES_PER_BATCH = 1;
-    const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-    const batch = await MessageDataMigrator.processNextBatchWithoutIndex({
-      databaseName: database.name,
-      minDatabaseVersion: database.version,
-      numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-      upgradeMessageSchema,
-    });
-    console.log('Upgrade message schema:', batch);
 
-    if (batch.done) {
+    if (!isMigrationWithIndexComplete) {
+      const batchWithIndex = await MessageDataMigrator.processNext({
+        BackboneMessage: Whisper.Message,
+        BackboneMessageCollection: Whisper.MessageCollection,
+        numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+        upgradeMessageSchema,
+      });
+      console.log('Upgrade message schema (with index):', batchWithIndex);
+      isMigrationWithIndexComplete = batchWithIndex.done;
+    }
+
+    if (!isMigrationWithoutIndexComplete) {
+      const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+      const batchWithoutIndex = await MessageDataMigrator.processNextBatchWithoutIndex({
+        databaseName: database.name,
+        minDatabaseVersion: database.version,
+        numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+        upgradeMessageSchema,
+      });
+      console.log('Upgrade message schema (without index):', batchWithoutIndex);
+      isMigrationWithoutIndexComplete = batchWithoutIndex.done;
+    }
+
+    const areAllMigrationsComplete = isMigrationWithIndexComplete &&
+      isMigrationWithoutIndexComplete;
+    if (areAllMigrationsComplete) {
       idleDetector.stop();
     }
   });
@@ -117,7 +133,6 @@
         first = false;
 
         ConversationController.load().then(start, start);
-        idleDetector.start();
     });
 
     Whisper.events.on('shutdown', function() {
@@ -368,32 +383,47 @@
       storage,
     });
     console.log('Sync read receipt configuration status:', status);
-    /* eslint-disable */
 
-        if (firstRun === true && deviceId != '1') {
-            if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
-                storage.put('theme-setting', 'ios');
-                onChangeTheme();
-            }
-            var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
-            Whisper.events.trigger('contactsync:begin');
-            syncRequest.addEventListener('success', function() {
-                console.log('sync successful');
-                storage.put('synced_at', Date.now());
-                Whisper.events.trigger('contactsync');
-            });
-            syncRequest.addEventListener('timeout', function() {
-                console.log('sync timed out');
-                Whisper.events.trigger('contactsync');
-            });
+    if (firstRun === true && deviceId !== '1') {
+      const hasThemeSetting = Boolean(storage.get('theme-setting'));
+      if (!hasThemeSetting && textsecure.storage.get('userAgent') === 'OWI') {
+        storage.put('theme-setting', 'ios');
+        onChangeTheme();
+      }
+      const syncRequest = new textsecure.SyncRequest(
+        textsecure.messaging,
+        messageReceiver
+      );
+      Whisper.events.trigger('contactsync:begin');
+      syncRequest.addEventListener('success', () => {
+        console.log('sync successful');
+        storage.put('synced_at', Date.now());
+        Whisper.events.trigger('contactsync');
+      });
+      syncRequest.addEventListener('timeout', () => {
+        console.log('sync timed out');
+        Whisper.events.trigger('contactsync');
+      });
 
-            if (Whisper.Import.isComplete()) {
-              textsecure.messaging.sendRequestConfigurationSyncMessage().catch(function(e) {
-                console.log(e);
-              });
-            }
-        }
+      if (Whisper.Import.isComplete()) {
+        textsecure.messaging.sendRequestConfigurationSyncMessage().catch((e) => {
+          console.log(e);
+        });
+      }
     }
+
+    storage.onready(async () => {
+      const shouldSkipAttachmentMigrationForNewUsers = firstRun === true;
+      if (shouldSkipAttachmentMigrationForNewUsers) {
+        const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+        const connection =
+          await Signal.Database.open(database.name, database.version);
+        await Signal.Settings.markAttachmentMigrationComplete(connection);
+      }
+      idleDetector.start();
+    });
+  }
+  /* eslint-disable */
 
     function onChangeTheme() {
         var view = window.owsDesktopApp.appView;

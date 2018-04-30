@@ -113,7 +113,6 @@ module.exports = {
         {
           src: 'js/expiring_messages.js',
         },
-
         {
           src: 'js/chromium.js',
         },
