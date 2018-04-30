@@ -41,7 +41,7 @@
     "eslint": "eslint .",
     "jscs": "yarn grunt jscs",
     "jshint": "yarn grunt jshint",
-    "lint": "yarn eslint && yarn grunt lint && yarn tslint",
+    "lint": "yarn format --list-different && yarn eslint && yarn grunt lint && yarn tslint",
     "tslint": "tslint --config tslint.json --format stylish --project .",
     "format": "prettier --write \"*.js\" \"js/**/*.js\" \"ts/**/*.{ts,tsx}\" \"test/**/*.js\"",
     "transpile": "tsc",
