@@ -476,6 +476,10 @@
       "message": "Replying to You",
       "description": "Shown in iOS theme when someone else quotes a message from you"
     },
+    "you": {
+      "message": "You",
+      "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
     "replyingTo": {
       "message": "Replying to $name$",
       "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",

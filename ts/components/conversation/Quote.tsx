@@ -176,10 +176,32 @@ export class Quote extends React.Component<Props, {}> {
     );
   }
 
+  public renderAuthor() {
+    const {
+      authorColor,
+      authorProfileName,
+      authorTitle,
+      i18n,
+      isFromMe,
+    } = this.props;
+
+
+    const authorProfileElement = authorProfileName
+      ? <span className="profile-name">~{authorProfileName}</span>
+      : null;
+
+    return (
+      <div className={classnames(authorColor, 'author')}>
+        { isFromMe
+          ? i18n('you')
+          : <span>{authorTitle}{' '}{authorProfileElement}</span>
+        }
+      </div>
+    );
+  }
+
   public render() {
     const {
-      authorTitle,
-      authorProfileName,
       authorColor,
       onClick,
       isFromMe,
@@ -189,9 +211,6 @@ export class Quote extends React.Component<Props, {}> {
       return null;
     }
 
-    const authorProfileElement = authorProfileName
-      ? <span className="profile-name">~{authorProfileName}</span>
-      : null;
     const classes = classnames(
       authorColor,
       'quoted-message',
@@ -203,9 +222,7 @@ export class Quote extends React.Component<Props, {}> {
       <div onClick={onClick} className={classes}>
         <div className="primary">
           {this.renderIOSLabel()}
-          <div className={classnames(authorColor, 'author')}>
-            {authorTitle}{' '}{authorProfileElement}
-           </div>
+          {this.renderAuthor()}
           {this.renderText()}
         </div>
         {this.renderIconContainer()}
