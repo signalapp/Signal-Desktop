@@ -7,7 +7,7 @@ function createLink(url, text, attrs = {}) {
   const html = [];
   html.push('<a ');
   html.push(`href="${url}"`);
-  Object.keys(attrs).forEach((key) => {
+  Object.keys(attrs).forEach(key => {
     html.push(` ${key}="${attrs[key]}"`);
   });
   html.push('>');
@@ -23,7 +23,7 @@ module.exports = (text, attrs = {}) => {
   const result = [];
   let last = 0;
 
-  matchData.forEach((match) => {
+  matchData.forEach(match => {
     if (last < match.index) {
       result.push(text.slice(last, match.index));
     }

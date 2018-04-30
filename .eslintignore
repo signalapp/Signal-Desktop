@@ -13,7 +13,20 @@ test/models/*.js
 test/views/*.js
 /*.js
 
-# typescript-generated files
+# Generated files
+js/components.js
+js/libtextsecure.js
+js/libsignal-protocol-worker.js
+libtextsecure/components.js
+libtextsecure/test/test.js
+test/test.js
+
+# Third-party files
+js/jquery.js
+js/Mp3LameEncoder.min.js
+js/WebAudioRecorderMp3.js
+
+# TypeScript generated files
 ts/**/*.js
 
 # ES2015+ files

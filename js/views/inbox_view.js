@@ -5,7 +5,7 @@
 /* global Whisper: false */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};
@@ -15,9 +15,12 @@
     open(conversation) {
       const id = `conversation-${conversation.cid}`;
       if (id !== this.el.firstChild.id) {
-        this.$el.first().find('video, audio').each(function pauseMedia() {
-          this.pause();
-        });
+        this.$el
+          .first()
+          .find('video, audio')
+          .each(function pauseMedia() {
+            this.pause();
+          });
         let $el = this.$(`#${id}`);
         if ($el === null || $el.length === 0) {
           const view = new Whisper.ConversationView({
@@ -64,7 +67,6 @@
       this.$el.css('font-size', `${this.currentSize}px`);
     },
   });
-
 
   Whisper.AppLoadingScreen = Whisper.View.extend({
     templateName: 'app-loading-screen',
@@ -147,7 +149,8 @@
       );
 
       this.networkStatusView = new Whisper.NetworkStatusView();
-      this.$el.find('.network-status-container')
+      this.$el
+        .find('.network-status-container')
         .append(this.networkStatusView.render().el);
 
       extension.windows.onClosed(() => {
@@ -194,7 +197,8 @@
           default:
             console.log(
               'Whisper.InboxView::startConnectionListener:',
-              'Unknown web socket status:', status
+              'Unknown web socket status:',
+              status
             );
             break;
         }
@@ -254,7 +258,9 @@
     openConversation(e, conversation) {
       this.searchView.hideHints();
       if (conversation) {
-        this.conversation_stack.open(ConversationController.get(conversation.id));
+        this.conversation_stack.open(
+          ConversationController.get(conversation.id)
+        );
         this.focusConversation();
       }
     },
@@ -279,4 +285,4 @@
       };
     },
   });
-}());
+})();

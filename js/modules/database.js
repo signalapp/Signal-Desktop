@@ -6,14 +6,12 @@
 
 const { isObject, isNumber } = require('lodash');
 
-
 exports.open = (name, version, { onUpgradeNeeded } = {}) => {
   const request = indexedDB.open(name, version);
   return new Promise((resolve, reject) => {
-    request.onblocked = () =>
-      reject(new Error('Database blocked'));
+    request.onblocked = () => reject(new Error('Database blocked'));
 
-    request.onupgradeneeded = (event) => {
+    request.onupgradeneeded = event => {
       const hasRequestedSpecificVersion = isNumber(version);
       if (!hasRequestedSpecificVersion) {
         return;
@@ -26,14 +24,17 @@ exports.open = (name, version, { onUpgradeNeeded } = {}) => {
         return;
       }
 
-      reject(new Error('Database upgrade required:' +
-        ` oldVersion: ${oldVersion}, newVersion: ${newVersion}`));
+      reject(
+        new Error(
+          'Database upgrade required:' +
+            ` oldVersion: ${oldVersion}, newVersion: ${newVersion}`
+        )
+      );
     };
 
-    request.onerror = event =>
-      reject(event.target.error);
+    request.onerror = event => reject(event.target.error);
 
-    request.onsuccess = (event) => {
+    request.onsuccess = event => {
       const connection = event.target.result;
       resolve(connection);
     };
@@ -47,7 +48,7 @@ exports.completeTransaction = transaction =>
     transaction.addEventListener('complete', () => resolve());
   });
 
-exports.getVersion = async (name) => {
+exports.getVersion = async name => {
   const connection = await exports.open(name);
   const { version } = connection;
   connection.close();
@@ -61,9 +62,7 @@ exports.getCount = async ({ store } = {}) => {
 
   const request = store.count();
   return new Promise((resolve, reject) => {
-    request.onerror = event =>
-      reject(event.target.error);
-    request.onsuccess = event =>
-      resolve(event.target.result);
+    request.onerror = event => reject(event.target.error);
+    request.onsuccess = event => resolve(event.target.result);
   });
 };

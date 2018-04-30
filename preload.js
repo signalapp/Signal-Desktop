@@ -12,7 +12,6 @@ const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
 const { app } = electron.remote;
 
-
 window.PROTO_ROOT = 'protos';
 window.config = require('url').parse(window.location.toString(), true).query;
 
@@ -21,8 +20,7 @@ window.wrapDeferred = deferredToPromise;
 const ipc = electron.ipcRenderer;
 window.config.localeMessages = ipc.sendSync('locale-data');
 
-window.setBadgeCount = count =>
-  ipc.send('set-badge-count', count);
+window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
 window.drawAttention = () => {
   console.log('draw attention');
@@ -44,8 +42,7 @@ window.restart = () => {
   ipc.send('restart');
 };
 
-window.closeAbout = () =>
-  ipc.send('close-about');
+window.closeAbout = () => ipc.send('close-about');
 
 window.updateTrayIcon = unreadCount =>
   ipc.send('update-tray-icon', unreadCount);
@@ -70,11 +67,9 @@ ipc.on('show-settings', () => {
   Whisper.events.trigger('showSettings');
 });
 
-window.addSetupMenuItems = () =>
-  ipc.send('add-setup-menu-items');
+window.addSetupMenuItems = () => ipc.send('add-setup-menu-items');
 
-window.removeSetupMenuItems = () =>
-  ipc.send('remove-setup-menu-items');
+window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');
 
 // We pull these dependencies in now, from here, because they have Node.js dependencies
 
@@ -101,8 +96,7 @@ window.emojiData = require('emoji-datasource');
 window.EmojiPanel = require('emoji-panel');
 window.filesize = require('filesize');
 window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-window.libphonenumber.PhoneNumberFormat =
-  require('google-libphonenumber').PhoneNumberFormat;
+window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
 
 window.nodeBuffer = Buffer;
@@ -136,11 +130,15 @@ window.moment.locale(locale);
 
 // ES2015+ modules
 const attachmentsPath = Attachments.getPath(app.getPath('userData'));
-const getAbsoluteAttachmentPath = Attachments.createAbsolutePathGetter(attachmentsPath);
+const getAbsoluteAttachmentPath = Attachments.createAbsolutePathGetter(
+  attachmentsPath
+);
 const deleteAttachmentData = Attachments.createDeleter(attachmentsPath);
 const readAttachmentData = Attachments.createReader(attachmentsPath);
 const writeNewAttachmentData = Attachments.createWriterForNew(attachmentsPath);
-const writeExistingAttachmentData = Attachments.createWriterForExisting(attachmentsPath);
+const writeExistingAttachmentData = Attachments.createWriterForExisting(
+  attachmentsPath
+);
 
 const loadAttachmentData = Attachment.loadData(readAttachmentData);
 
@@ -151,8 +149,9 @@ const upgradeSchemaContext = {
 const upgradeMessageSchema = message =>
   Message.upgradeSchema(message, upgradeSchemaContext);
 
-const { getPlaceholderMigrations } =
-  require('./js/modules/migrations/get_placeholder_migrations');
+const {
+  getPlaceholderMigrations,
+} = require('./js/modules/migrations/get_placeholder_migrations');
 const { IdleDetector } = require('./js/modules/idle_detector');
 
 window.Signal = {};
@@ -167,12 +166,12 @@ window.Signal.Logs = require('./js/modules/logs');
 // React components
 const { Lightbox } = require('./ts/components/Lightbox');
 const { LightboxGallery } = require('./ts/components/LightboxGallery');
-const { MediaGallery } =
-  require('./ts/components/conversation/media-gallery/MediaGallery');
+const {
+  MediaGallery,
+} = require('./ts/components/conversation/media-gallery/MediaGallery');
 const { Quote } = require('./ts/components/conversation/Quote');
 
-const MediaGalleryMessage =
-  require('./ts/components/conversation/media-gallery/types/Message');
+const MediaGalleryMessage = require('./ts/components/conversation/media-gallery/types/Message');
 
 window.Signal.Components = {
   Lightbox,
@@ -185,18 +184,20 @@ window.Signal.Components = {
 };
 
 window.Signal.Migrations = {};
-window.Signal.Migrations.deleteAttachmentData =
-  Attachment.deleteData(deleteAttachmentData);
+window.Signal.Migrations.deleteAttachmentData = Attachment.deleteData(
+  deleteAttachmentData
+);
 window.Signal.Migrations.getPlaceholderMigrations = getPlaceholderMigrations;
-window.Signal.Migrations.writeMessageAttachments =
-  Message.createAttachmentDataWriter(writeExistingAttachmentData);
+window.Signal.Migrations.writeMessageAttachments = Message.createAttachmentDataWriter(
+  writeExistingAttachmentData
+);
 window.Signal.Migrations.getAbsoluteAttachmentPath = getAbsoluteAttachmentPath;
 window.Signal.Migrations.loadAttachmentData = loadAttachmentData;
-window.Signal.Migrations.loadMessage = Message.createAttachmentLoader(loadAttachmentData);
-window.Signal.Migrations.Migrations0DatabaseWithAttachmentData =
-  require('./js/modules/migrations/migrations_0_database_with_attachment_data');
-window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData =
-  require('./js/modules/migrations/migrations_1_database_without_attachment_data');
+window.Signal.Migrations.loadMessage = Message.createAttachmentLoader(
+  loadAttachmentData
+);
+window.Signal.Migrations.Migrations0DatabaseWithAttachmentData = require('./js/modules/migrations/migrations_0_database_with_attachment_data');
+window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData = require('./js/modules/migrations/migrations_1_database_without_attachment_data');
 
 window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
 window.Signal.OS = require('./js/modules/os');
@@ -218,8 +219,7 @@ window.Signal.Views.Initialization = require('./js/modules/views/initialization'
 
 window.Signal.Workflow = {};
 window.Signal.Workflow.IdleDetector = IdleDetector;
-window.Signal.Workflow.MessageDataMigrator =
-  require('./js/modules/messages_data_migrator');
+window.Signal.Workflow.MessageDataMigrator = require('./js/modules/messages_data_migrator');
 
 // We pull this in last, because the native module involved appears to be sensitive to
 //   /tmp mounted as noexec on Linux.

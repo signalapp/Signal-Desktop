@@ -3,7 +3,6 @@ const { assert } = require('chai');
 
 const Startup = require('../../js/modules/startup');
 
-
 describe('Startup', () => {
   const sandbox = sinon.createSandbox();
 

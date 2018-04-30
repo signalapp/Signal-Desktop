@@ -1,4 +1,4 @@
-(function () {
+(function() {
   // Note: this is all the code required to customize Backbone's trigger() method to make
   //   it resilient to exceptions thrown by event handlers. Indentation and code styles
   //   were kept inline with the Backbone implementation for easier diffs.
@@ -49,17 +49,26 @@
   // triggering events. Tries to keep the usual cases speedy (most internal
   // Backbone events have 3 arguments).
   var triggerEvents = function(events, name, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    var ev,
+      i = -1,
+      l = events.length,
+      a1 = args[0],
+      a2 = args[1],
+      a3 = args[2];
     var logError = function(error) {
-      console.log('Model caught error triggering', name, 'event:', error && error.stack ? error.stack : error);
+      console.log(
+        'Model caught error triggering',
+        name,
+        'event:',
+        error && error.stack ? error.stack : error
+      );
     };
     switch (args.length) {
       case 0:
         while (++i < l) {
           try {
             (ev = events[i]).callback.call(ev.ctx);
-          }
-          catch (error) {
+          } catch (error) {
             logError(error);
           }
         }
@@ -68,8 +77,7 @@
         while (++i < l) {
           try {
             (ev = events[i]).callback.call(ev.ctx, a1);
-          }
-          catch (error) {
+          } catch (error) {
             logError(error);
           }
         }
@@ -78,8 +86,7 @@
         while (++i < l) {
           try {
             (ev = events[i]).callback.call(ev.ctx, a1, a2);
-          }
-          catch (error) {
+          } catch (error) {
             logError(error);
           }
         }
@@ -88,8 +95,7 @@
         while (++i < l) {
           try {
             (ev = events[i]).callback.call(ev.ctx, a1, a2, a3);
-          }
-          catch (error) {
+          } catch (error) {
             logError(error);
           }
         }
@@ -98,8 +104,7 @@
         while (++i < l) {
           try {
             (ev = events[i]).callback.apply(ev.ctx, args);
-          }
-          catch (error) {
+          } catch (error) {
             logError(error);
           }
         }
@@ -122,10 +127,5 @@
     return this;
   }
 
-  Backbone.Model.prototype.trigger
-    = Backbone.View.prototype.trigger
-    = Backbone.Collection.prototype.trigger
-    = Backbone.Events.trigger
-    = trigger;
+  Backbone.Model.prototype.trigger = Backbone.View.prototype.trigger = Backbone.Collection.prototype.trigger = Backbone.Events.trigger = trigger;
 })();
-

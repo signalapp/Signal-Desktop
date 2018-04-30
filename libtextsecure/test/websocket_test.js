@@ -1,7 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-
 describe('TextSecureWebSocket', function() {
     var RealWebSocket = window.WebSocket;
     before(function() { window.WebSocket = MockSocket; });

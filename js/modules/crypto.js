@@ -19,8 +19,15 @@ async function encryptSymmetric(key, plaintext) {
   const cipherKey = await _hmac_SHA256(key, nonce);
   const macKey = await _hmac_SHA256(key, cipherKey);
 
-  const cipherText = await _encrypt_aes256_CBC_PKCSPadding(cipherKey, iv, plaintext);
-  const mac = _getFirstBytes(await _hmac_SHA256(macKey, cipherText), MAC_LENGTH);
+  const cipherText = await _encrypt_aes256_CBC_PKCSPadding(
+    cipherKey,
+    iv,
+    plaintext
+  );
+  const mac = _getFirstBytes(
+    await _hmac_SHA256(macKey, cipherText),
+    MAC_LENGTH
+  );
 
   return _concatData([nonce, cipherText, mac]);
 }
@@ -39,9 +46,14 @@ async function decryptSymmetric(key, data) {
   const cipherKey = await _hmac_SHA256(key, nonce);
   const macKey = await _hmac_SHA256(key, cipherKey);
 
-  const ourMac = _getFirstBytes(await _hmac_SHA256(macKey, cipherText), MAC_LENGTH);
+  const ourMac = _getFirstBytes(
+    await _hmac_SHA256(macKey, cipherText),
+    MAC_LENGTH
+  );
   if (!constantTimeEqual(theirMac, ourMac)) {
-    throw new Error('decryptSymmetric: Failed to decrypt; MAC verification failed');
+    throw new Error(
+      'decryptSymmetric: Failed to decrypt; MAC verification failed'
+    );
   }
 
   return _decrypt_aes256_CBC_PKCSPadding(cipherKey, iv, cipherText);
@@ -61,7 +73,6 @@ function constantTimeEqual(left, right) {
   return result === 0;
 }
 
-
 async function _hmac_SHA256(key, data) {
   const extractable = false;
   const cryptoKey = await window.crypto.subtle.importKey(
@@ -72,7 +83,11 @@ async function _hmac_SHA256(key, data) {
     ['sign']
   );
 
-  return window.crypto.subtle.sign({ name: 'HMAC', hash: 'SHA-256' }, cryptoKey, data);
+  return window.crypto.subtle.sign(
+    { name: 'HMAC', hash: 'SHA-256' },
+    cryptoKey,
+    data
+  );
 }
 
 async function _encrypt_aes256_CBC_PKCSPadding(key, iv, data) {
@@ -100,7 +115,6 @@ async function _decrypt_aes256_CBC_PKCSPadding(key, iv, data) {
 
   return window.crypto.subtle.decrypt({ name: 'AES-CBC', iv }, cryptoKey, data);
 }
-
 
 function _getRandomBytes(n) {
   const bytes = new Uint8Array(n);

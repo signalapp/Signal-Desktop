@@ -1,6 +1,9 @@
 describe('KeyChangeListener', function() {
-  var phoneNumberWithKeyChange = '+13016886524';  // nsa
-  var address = new libsignal.SignalProtocolAddress(phoneNumberWithKeyChange, 1);
+  var phoneNumberWithKeyChange = '+13016886524'; // nsa
+  var address = new libsignal.SignalProtocolAddress(
+    phoneNumberWithKeyChange,
+    1
+  );
   var oldKey = libsignal.crypto.getRandomBytes(33);
   var newKey = libsignal.crypto.getRandomBytes(33);
   var store;
@@ -42,7 +45,6 @@ describe('KeyChangeListener', function() {
     });
   });
 
-
   describe('When we have a group with this contact', function() {
     let convo;
     before(function() {
@@ -68,7 +70,5 @@ describe('KeyChangeListener', function() {
       });
       return store.saveIdentity(address.toString(), newKey);
     });
-
   });
-
 });

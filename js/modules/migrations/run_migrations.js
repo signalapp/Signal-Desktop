@@ -1,29 +1,27 @@
 /* eslint-env browser */
 
-const {
-  head,
-  isFunction,
-  isObject,
-  isString,
-  last,
-} = require('lodash');
-
+const { head, isFunction, isObject, isString, last } = require('lodash');
 
 const db = require('../database');
 const { deferredToPromise } = require('../deferred_to_promise');
-
 
 const closeDatabaseConnection = ({ Backbone } = {}) =>
   deferredToPromise(Backbone.sync('closeall'));
 
 exports.runMigrations = async ({ Backbone, database } = {}) => {
-  if (!isObject(Backbone) || !isObject(Backbone.Collection) ||
-      !isFunction(Backbone.Collection.extend)) {
+  if (
+    !isObject(Backbone) ||
+    !isObject(Backbone.Collection) ||
+    !isFunction(Backbone.Collection.extend)
+  ) {
     throw new TypeError("'Backbone' is required");
   }
 
-  if (!isObject(database) || !isString(database.id) ||
-      !Array.isArray(database.migrations)) {
+  if (
+    !isObject(database) ||
+    !isString(database.id) ||
+    !Array.isArray(database.migrations)
+  ) {
     throw new TypeError("'database' is required");
   }
 
@@ -56,7 +54,7 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
   await closeDatabaseConnection({ Backbone });
 };
 
-const getMigrationVersions = (database) => {
+const getMigrationVersions = database => {
   if (!isObject(database) || !Array.isArray(database.migrations)) {
     throw new TypeError("'database' is required");
   }
@@ -64,8 +62,12 @@ const getMigrationVersions = (database) => {
   const firstMigration = head(database.migrations);
   const lastMigration = last(database.migrations);
 
-  const firstVersion = firstMigration ? parseInt(firstMigration.version, 10) : null;
-  const lastVersion = lastMigration ? parseInt(lastMigration.version, 10) : null;
+  const firstVersion = firstMigration
+    ? parseInt(firstMigration.version, 10)
+    : null;
+  const lastVersion = lastMigration
+    ? parseInt(lastMigration.version, 10)
+    : null;
 
   return { firstVersion, lastVersion };
 };

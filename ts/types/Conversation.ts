@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import is from '@sindresorhus/is';
 import { Message } from './Message';
 

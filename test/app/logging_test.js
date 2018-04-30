@@ -26,7 +26,7 @@ describe('app/logging', () => {
     basePath = tmpDir.name;
   });
 
-  afterEach((done) => {
+  afterEach(done => {
     // we need the unsafe option to recursively remove the directory
     tmpDir.removeCallback(done);
   });
@@ -149,9 +149,11 @@ describe('app/logging', () => {
       ].join('\n');
 
       const target = path.join(basePath, 'log.log');
-      const files = [{
-        path: target,
-      }];
+      const files = [
+        {
+          path: target,
+        },
+      ];
 
       fs.writeFileSync(target, contents);
 
@@ -172,9 +174,11 @@ describe('app/logging', () => {
       ].join('\n');
 
       const target = path.join(basePath, 'log.log');
-      const files = [{
-        path: target,
-      }];
+      const files = [
+        {
+          path: target,
+        },
+      ];
 
       fs.writeFileSync(target, contents);
 
@@ -187,11 +191,16 @@ describe('app/logging', () => {
   describe('#fetchLog', () => {
     it('returns error if file does not exist', () => {
       const target = 'random_file';
-      return fetchLog(target).then(() => {
-        throw new Error('Expected an error!');
-      }, (error) => {
-        expect(error).to.have.property('message').that.match(/random_file/);
-      });
+      return fetchLog(target).then(
+        () => {
+          throw new Error('Expected an error!');
+        },
+        error => {
+          expect(error)
+            .to.have.property('message')
+            .that.match(/random_file/);
+        }
+      );
     });
     it('returns empty array if file has no valid JSON lines', () => {
       const contents = 'line 1\nline2\n';
@@ -200,7 +209,7 @@ describe('app/logging', () => {
 
       fs.writeFileSync(target, contents);
 
-      return fetchLog(target).then((result) => {
+      return fetchLog(target).then(result => {
         expect(result).to.deep.equal(expected);
       });
     });
@@ -222,21 +231,24 @@ describe('app/logging', () => {
         }),
         '',
       ].join('\n');
-      const expected = [{
-        level: 1,
-        time: 2,
-        msg: 3,
-      }, {
-        level: 2,
-        time: 3,
-        msg: 4,
-      }];
+      const expected = [
+        {
+          level: 1,
+          time: 2,
+          msg: 3,
+        },
+        {
+          level: 2,
+          time: 3,
+          msg: 4,
+        },
+      ];
 
       const target = path.join(basePath, 'test.log');
 
       fs.writeFileSync(target, contents);
 
-      return fetchLog(target).then((result) => {
+      return fetchLog(target).then(result => {
         expect(result).to.deep.equal(expected);
       });
     });
@@ -244,7 +256,7 @@ describe('app/logging', () => {
 
   describe('#fetch', () => {
     it('returns single entry if no files', () => {
-      return fetch(basePath).then((results) => {
+      return fetch(basePath).then(results => {
         expect(results).to.have.length(1);
         expect(results[0].msg).to.match(/Loaded this list/);
       });
@@ -263,7 +275,7 @@ describe('app/logging', () => {
       fs.writeFileSync(path.join(basePath, 'first.log'), first);
       fs.writeFileSync(path.join(basePath, 'second.log'), second);
 
-      return fetch(basePath).then((results) => {
+      return fetch(basePath).then(results => {
         expect(results).to.have.length(4);
         expect(results[0].msg).to.equal(1);
         expect(results[1].msg).to.equal(2);

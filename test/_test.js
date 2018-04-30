@@ -27,7 +27,7 @@ window.PROTO_ROOT = '../protos';
         result: false,
         message: err.message,
         stack: err.stack,
-        titles: flattenTitles(test)
+        titles: flattenTitles(test),
       });
     });
 
@@ -37,10 +37,10 @@ window.PROTO_ROOT = '../protos';
   SauceReporter.prototype = OriginalReporter.prototype;
 
   mocha.reporter(SauceReporter);
-}());
+})();
 
 // Override the database id.
-window.Whisper          = window.Whisper          || {};
+window.Whisper = window.Whisper || {};
 window.Whisper.Database = window.Whisper.Database || {};
 Whisper.Database.id = 'test';
 
@@ -49,21 +49,23 @@ Whisper.Database.id = 'test';
  */
 function assertEqualArrayBuffers(ab1, ab2) {
   assert.deepEqual(new Uint8Array(ab1), new Uint8Array(ab2));
-};
+}
 
 function hexToArrayBuffer(str) {
   var ret = new ArrayBuffer(str.length / 2);
   var array = new Uint8Array(ret);
-  for (var i = 0; i < str.length/2; i++) {
-    array[i] = parseInt(str.substr(i*2, 2), 16);
+  for (var i = 0; i < str.length / 2; i++) {
+    array[i] = parseInt(str.substr(i * 2, 2), 16);
   }
   return ret;
-};
+}
 
 /* Delete the database before running any tests */
 before(function(done) {
   var idbReq = indexedDB.deleteDatabase('test');
-  idbReq.onsuccess = function() { done(); };
+  idbReq.onsuccess = function() {
+    done();
+  };
 });
 
 async function clearDatabase(done) {
@@ -80,5 +82,5 @@ async function clearDatabase(done) {
   await messages.destroyAll();
   if (done) {
     done();
-  };
+  }
 }

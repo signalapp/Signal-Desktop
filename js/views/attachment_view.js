@@ -9,7 +9,7 @@
 /* global Whisper: false */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   const FileView = Whisper.View.extend({
@@ -62,10 +62,7 @@
   const VideoView = MediaView.extend({ tagName: 'video' });
 
   // Blacklist common file types known to be unsupported in Chrome
-  const unsupportedFileTypes = [
-    'audio/aiff',
-    'video/quicktime',
-  ];
+  const unsupportedFileTypes = ['audio/aiff', 'video/quicktime'];
 
   Whisper.AttachmentView = Backbone.View.extend({
     tagName: 'div',
@@ -122,8 +119,11 @@
       Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
     },
     isVoiceMessage() {
-      // eslint-disable-next-line no-bitwise
-      if (this.model.flags & textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE) {
+      if (
+        // eslint-disable-next-line no-bitwise
+        this.model.flags &
+        textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE
+      ) {
         return true;
       }
 
@@ -241,4 +241,4 @@
       this.trigger('update');
     },
   });
-}());
+})();

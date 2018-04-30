@@ -6,13 +6,7 @@ const _ = require('lodash');
 const electron = require('electron');
 const semver = require('semver');
 
-const {
-  BrowserWindow,
-  app,
-  Menu,
-  shell,
-  ipcMain: ipc,
-} = electron;
+const { BrowserWindow, app, Menu, shell, ipcMain: ipc } = electron;
 
 const packageJson = require('./package.json');
 
@@ -27,7 +21,9 @@ const { createTemplate } = require('./app/menu');
 GlobalErrors.addHandler();
 
 const appUserModelId = `org.whispersystems.${packageJson.name}`;
-console.log('Set Windows Application User Model ID (AUMID)', { appUserModelId });
+console.log('Set Windows Application User Model ID (AUMID)', {
+  appUserModelId,
+});
 app.setAppUserModelId(appUserModelId);
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -41,13 +37,13 @@ function getMainWindow() {
 // Tray icon and related objects
 let tray = null;
 const startInTray = process.argv.some(arg => arg === '--start-in-tray');
-const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
-
+const usingTrayIcon =
+  startInTray || process.argv.some(arg => arg === '--use-tray-icon');
 
 const config = require('./app/config');
 
-const importMode = process.argv.some(arg => arg === '--import') || config.get('import');
-
+const importMode =
+  process.argv.some(arg => arg === '--import') || config.get('import');
 
 const development = config.environment === 'development';
 
@@ -107,7 +103,12 @@ const WINDOWS_8 = '8.0.0';
 const osRelease = os.release();
 const polyfillNotifications =
   os.platform() === 'win32' && semver.lt(osRelease, WINDOWS_8);
-console.log('OS Release:', osRelease, '- notifications polyfill?', polyfillNotifications);
+console.log(
+  'OS Release:',
+  osRelease,
+  '- notifications polyfill?',
+  polyfillNotifications
+);
 
 function prepareURL(pathSegments) {
   return url.format({
@@ -146,7 +147,6 @@ function captureClicks(window) {
   window.webContents.on('new-window', handleUrl);
 }
 
-
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 610;
 const MIN_WIDTH = 640;
@@ -160,35 +160,50 @@ function isVisible(window, bounds) {
   const boundsHeight = _.get(bounds, 'height') || DEFAULT_HEIGHT;
 
   // requiring BOUNDS_BUFFER pixels on the left or right side
-  const rightSideClearOfLeftBound = (window.x + window.width >= boundsX + BOUNDS_BUFFER);
-  const leftSideClearOfRightBound = (window.x <= (boundsX + boundsWidth) - BOUNDS_BUFFER);
+  const rightSideClearOfLeftBound =
+    window.x + window.width >= boundsX + BOUNDS_BUFFER;
+  const leftSideClearOfRightBound =
+    window.x <= boundsX + boundsWidth - BOUNDS_BUFFER;
 
   // top can't be offscreen, and must show at least BOUNDS_BUFFER pixels at bottom
   const topClearOfUpperBound = window.y >= boundsY;
-  const topClearOfLowerBound = (window.y <= (boundsY + boundsHeight) - BOUNDS_BUFFER);
+  const topClearOfLowerBound =
+    window.y <= boundsY + boundsHeight - BOUNDS_BUFFER;
 
-  return rightSideClearOfLeftBound &&
+  return (
+    rightSideClearOfLeftBound &&
     leftSideClearOfRightBound &&
     topClearOfUpperBound &&
-    topClearOfLowerBound;
+    topClearOfLowerBound
+  );
 }
 
 function createWindow() {
   const { screen } = electron;
-  const windowOptions = Object.assign({
-    show: !startInTray, // allow to start minimised in tray
-    width: DEFAULT_WIDTH,
-    height: DEFAULT_HEIGHT,
-    minWidth: MIN_WIDTH,
-    minHeight: MIN_HEIGHT,
-    autoHideMenuBar: false,
-    webPreferences: {
-      nodeIntegration: false,
-      // sandbox: true,
-      preload: path.join(__dirname, 'preload.js'),
+  const windowOptions = Object.assign(
+    {
+      show: !startInTray, // allow to start minimised in tray
+      width: DEFAULT_WIDTH,
+      height: DEFAULT_HEIGHT,
+      minWidth: MIN_WIDTH,
+      minHeight: MIN_HEIGHT,
+      autoHideMenuBar: false,
+      webPreferences: {
+        nodeIntegration: false,
+        // sandbox: true,
+        preload: path.join(__dirname, 'preload.js'),
+      },
+      icon: path.join(__dirname, 'images', 'icon_256.png'),
     },
-    icon: path.join(__dirname, 'images', 'icon_256.png'),
-  }, _.pick(windowConfig, ['maximized', 'autoHideMenuBar', 'width', 'height', 'x', 'y']));
+    _.pick(windowConfig, [
+      'maximized',
+      'autoHideMenuBar',
+      'width',
+      'height',
+      'x',
+      'y',
+    ])
+  );
 
   if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
     windowOptions.width = DEFAULT_WIDTH;
@@ -203,7 +218,7 @@ function createWindow() {
     delete windowOptions.autoHideMenuBar;
   }
 
-  const visibleOnAnyScreen = _.some(screen.getAllDisplays(), (display) => {
+  const visibleOnAnyScreen = _.some(screen.getAllDisplays(), display => {
     if (!_.isNumber(windowOptions.x) || !_.isNumber(windowOptions.y)) {
       return false;
     }
@@ -220,7 +235,10 @@ function createWindow() {
     delete windowOptions.fullscreen;
   }
 
-  logger.info('Initializing BrowserWindow config: %s', JSON.stringify(windowOptions));
+  logger.info(
+    'Initializing BrowserWindow config: %s',
+    JSON.stringify(windowOptions)
+  );
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
@@ -249,7 +267,10 @@ function createWindow() {
       windowConfig.fullscreen = true;
     }
 
-    logger.info('Updating BrowserWindow config: %s', JSON.stringify(windowConfig));
+    logger.info(
+      'Updating BrowserWindow config: %s',
+      JSON.stringify(windowConfig)
+    );
     userConfig.set('window', windowConfig);
   }
 
@@ -263,7 +284,7 @@ function createWindow() {
   });
 
   // Ingested in preload.js via a sendSync call
-  ipc.on('locale-data', (event) => {
+  ipc.on('locale-data', event => {
     // eslint-disable-next-line no-param-reassign
     event.returnValue = locale.messages;
   });
@@ -271,7 +292,9 @@ function createWindow() {
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
   } else if (config.environment === 'test-lib') {
-    mainWindow.loadURL(prepareURL([__dirname, 'libtextsecure', 'test', 'index.html']));
+    mainWindow.loadURL(
+      prepareURL([__dirname, 'libtextsecure', 'test', 'index.html'])
+    );
   } else {
     mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
   }
@@ -283,16 +306,19 @@ function createWindow() {
 
   captureClicks(mainWindow);
 
-  mainWindow.webContents.on('will-navigate', (e) => {
+  mainWindow.webContents.on('will-navigate', e => {
     logger.info('will-navigate');
     e.preventDefault();
   });
 
   // Emitted when the window is about to be closed.
-  mainWindow.on('close', (e) => {
+  mainWindow.on('close', e => {
     // If the application is terminating, just do the default
-    if (windowState.shouldQuit() ||
-        config.environment === 'test' || config.environment === 'test-lib') {
+    if (
+      windowState.shouldQuit() ||
+      config.environment === 'test' ||
+      config.environment === 'test-lib'
+    ) {
       return;
     }
 
@@ -337,7 +363,9 @@ function showSettings() {
 }
 
 function openReleaseNotes() {
-  shell.openExternal(`https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`);
+  shell.openExternal(
+    `https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`
+  );
 }
 
 function openNewBugForm() {
@@ -345,7 +373,9 @@ function openNewBugForm() {
 }
 
 function openSupportPage() {
-  shell.openExternal('https://support.signal.org/hc/en-us/categories/202319038-Desktop');
+  shell.openExternal(
+    'https://support.signal.org/hc/en-us/categories/202319038-Desktop'
+  );
 }
 
 function openForums() {
@@ -369,7 +399,6 @@ function setupAsStandalone() {
     mainWindow.webContents.send('set-up-as-standalone');
   }
 }
-
 
 let aboutWindow;
 function showAbout() {
@@ -416,38 +445,42 @@ app.on('ready', () => {
   // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
   /* eslint-disable more/no-then */
   let loggingSetupError;
-  logging.initialize().catch((error) => {
-    loggingSetupError = error;
-  }).then(async () => {
-  /* eslint-enable more/no-then */
-    logger = logging.getLogger();
-    logger.info('app ready');
+  logging
+    .initialize()
+    .catch(error => {
+      loggingSetupError = error;
+    })
+    .then(async () => {
+      /* eslint-enable more/no-then */
+      logger = logging.getLogger();
+      logger.info('app ready');
 
-    if (loggingSetupError) {
-      logger.error('Problem setting up logging', loggingSetupError.stack);
-    }
+      if (loggingSetupError) {
+        logger.error('Problem setting up logging', loggingSetupError.stack);
+      }
 
-    if (!locale) {
-      const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
-      locale = loadLocale({ appLocale, logger });
-    }
+      if (!locale) {
+        const appLocale =
+          process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+        locale = loadLocale({ appLocale, logger });
+      }
 
-    console.log('Ensure attachments directory exists');
-    const userDataPath = app.getPath('userData');
-    await Attachments.ensureDirectory(userDataPath);
+      console.log('Ensure attachments directory exists');
+      const userDataPath = app.getPath('userData');
+      await Attachments.ensureDirectory(userDataPath);
 
-    ready = true;
+      ready = true;
 
-    autoUpdate.initialize(getMainWindow, locale.messages);
+      autoUpdate.initialize(getMainWindow, locale.messages);
 
-    createWindow();
+      createWindow();
 
-    if (usingTrayIcon) {
-      tray = createTrayIcon(getMainWindow, locale.messages);
-    }
+      if (usingTrayIcon) {
+        tray = createTrayIcon(getMainWindow, locale.messages);
+      }
 
-    setupMenu();
-  });
+      setupMenu();
+    });
 });
 
 function setupMenu(options) {
@@ -472,7 +505,6 @@ function setupMenu(options) {
   Menu.setApplicationMenu(menu);
 }
 
-
 app.on('before-quit', () => {
   windowState.markShouldQuit();
 });
@@ -481,9 +513,11 @@ app.on('before-quit', () => {
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin' ||
-      config.environment === 'test' ||
-      config.environment === 'test-lib') {
+  if (
+    process.platform !== 'darwin' ||
+    config.environment === 'test' ||
+    config.environment === 'test-lib'
+  ) {
     app.quit();
   }
 });
@@ -504,7 +538,7 @@ app.on('activate', () => {
 
 // Defense in depth. We never intend to open webviews, so this prevents it completely.
 app.on('web-contents-created', (createEvent, win) => {
-  win.on('will-attach-webview', (attachEvent) => {
+  win.on('will-attach-webview', attachEvent => {
     attachEvent.preventDefault();
   });
 });
@@ -522,7 +556,6 @@ ipc.on('add-setup-menu-items', () => {
     includeSetup: true,
   });
 });
-
 
 ipc.on('draw-attention', () => {
   if (process.platform === 'darwin') {

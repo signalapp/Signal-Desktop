@@ -1,4 +1,4 @@
-(function () {
+(function() {
   var electron = require('electron');
   var remote = electron.remote;
   var app = remote.app;
@@ -31,7 +31,7 @@
     'shouldn',
     'wasn',
     'weren',
-    'wouldn'
+    'wouldn',
   ];
 
   function setupLinux(locale) {
@@ -39,7 +39,12 @@
       // apt-get install hunspell-<locale> can be run for easy access to other dictionaries
       var location = process.env.HUNSPELL_DICTIONARIES || '/usr/share/hunspell';
 
-      console.log('Detected Linux. Setting up spell check with locale', locale, 'and dictionary location', location);
+      console.log(
+        'Detected Linux. Setting up spell check with locale',
+        locale,
+        'and dictionary location',
+        location
+      );
       spellchecker.setDictionary(locale, location);
     } else {
       console.log('Detected Linux. Using default en_US spell check dictionary');
@@ -50,10 +55,17 @@
     if (process.env.HUNSPELL_DICTIONARIES || locale !== 'en_US') {
       var location = process.env.HUNSPELL_DICTIONARIES;
 
-      console.log('Detected Windows 7 or below. Setting up spell-check with locale', locale, 'and dictionary location', location);
+      console.log(
+        'Detected Windows 7 or below. Setting up spell-check with locale',
+        locale,
+        'and dictionary location',
+        location
+      );
       spellchecker.setDictionary(locale, location);
     } else {
-      console.log('Detected Windows 7 or below. Using default en_US spell check dictionary');
+      console.log(
+        'Detected Windows 7 or below. Using default en_US spell check dictionary'
+      );
     }
   }
 
@@ -69,14 +81,17 @@
 
   if (process.platform === 'linux') {
     setupLinux(locale);
-  } else if (process.platform === 'windows' && semver.lt(os.release(), '8.0.0')) {
+  } else if (
+    process.platform === 'windows' &&
+    semver.lt(os.release(), '8.0.0')
+  ) {
     setupWin7AndEarlier(locale);
   } else {
     // OSX and Windows 8+ have OS-level spellcheck APIs
     console.log('Using OS-level spell check API with locale', process.env.LANG);
   }
 
-  var simpleChecker = window.spellChecker = {
+  var simpleChecker = (window.spellChecker = {
     spellCheck: function(text) {
       return !this.isMisspelled(text);
     },
@@ -101,8 +116,8 @@
     },
     add: function(text) {
       spellchecker.add(text);
-    }
-  };
+    },
+  });
 
   webFrame.setSpellCheckProvider(
     'en-US',
@@ -120,7 +135,8 @@
 
     var selectedText = window.getSelection().toString();
     var isMisspelled = selectedText && simpleChecker.isMisspelled(selectedText);
-    var spellingSuggestions = isMisspelled && simpleChecker.getSuggestions(selectedText).slice(0, 5);
+    var spellingSuggestions =
+      isMisspelled && simpleChecker.getSuggestions(selectedText).slice(0, 5);
     var menu = buildEditorContextMenu({
       isMisspelled: isMisspelled,
       spellingSuggestions: spellingSuggestions,

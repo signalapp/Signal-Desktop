@@ -4,7 +4,6 @@ const { assert } = require('chai');
 
 const Errors = require('../../../js/modules/types/errors');
 
-
 const APP_ROOT_PATH = Path.join(__dirname, '..', '..', '..');
 
 describe('Errors', () => {
@@ -15,7 +14,11 @@ describe('Errors', () => {
 
       const formattedError = Errors.toLogFormat(error);
       assert.include(formattedError, 'errors_test.js');
-      assert.include(formattedError, APP_ROOT_PATH, 'Formatted stack has app path');
+      assert.include(
+        formattedError,
+        APP_ROOT_PATH,
+        'Formatted stack has app path'
+      );
     });
 
     it('should return error string representation if stack is missing', () => {
@@ -28,12 +31,7 @@ describe('Errors', () => {
       assert.strictEqual(formattedError, 'Error: boom');
     });
 
-    [
-      0,
-      false,
-      null,
-      undefined,
-    ].forEach((value) => {
+    [0, false, null, undefined].forEach(value => {
       it(`should return \`${value}\` argument`, () => {
         const formattedNonError = Errors.toLogFormat(value);
         assert.strictEqual(formattedNonError, value);

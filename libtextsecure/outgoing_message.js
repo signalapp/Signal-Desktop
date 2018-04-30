@@ -1,6 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
 function OutgoingMessage(server, timestamp, numbers, message, silent, callback) {
     if (message instanceof textsecure.protobuf.DataMessage) {
         var content = new textsecure.protobuf.Content();

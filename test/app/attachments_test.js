@@ -4,8 +4,9 @@ const tmp = require('tmp');
 const { assert } = require('chai');
 
 const Attachments = require('../../app/attachments');
-const { stringToArrayBuffer } = require('../../js/modules/string_to_array_buffer');
-
+const {
+  stringToArrayBuffer,
+} = require('../../js/modules/string_to_array_buffer');
 
 const PREFIX_LENGTH = 2;
 const NUM_SEPARATORS = 1;
@@ -30,7 +31,9 @@ describe('Attachments', () => {
         'Attachments_createWriterForNew'
       );
 
-      const outputPath = await Attachments.createWriterForNew(tempDirectory)(input);
+      const outputPath = await Attachments.createWriterForNew(tempDirectory)(
+        input
+      );
       const output = await fse.readFile(path.join(tempDirectory, outputPath));
 
       assert.lengthOf(outputPath, PATH_LENGTH);
@@ -57,13 +60,16 @@ describe('Attachments', () => {
         'Attachments_createWriterForExisting'
       );
 
-      const relativePath = Attachments.getRelativePath(Attachments.createName());
+      const relativePath = Attachments.getRelativePath(
+        Attachments.createName()
+      );
       const attachment = {
         path: relativePath,
         data: input,
       };
-      const outputPath =
-        await Attachments.createWriterForExisting(tempDirectory)(attachment);
+      const outputPath = await Attachments.createWriterForExisting(
+        tempDirectory
+      )(attachment);
       const output = await fse.readFile(path.join(tempDirectory, outputPath));
 
       assert.equal(outputPath, relativePath);
@@ -84,16 +90,23 @@ describe('Attachments', () => {
     });
 
     it('should read file from disk', async () => {
-      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createReader');
+      const tempDirectory = path.join(
+        tempRootDirectory,
+        'Attachments_createReader'
+      );
 
-      const relativePath = Attachments.getRelativePath(Attachments.createName());
+      const relativePath = Attachments.getRelativePath(
+        Attachments.createName()
+      );
       const fullPath = path.join(tempDirectory, relativePath);
       const input = stringToArrayBuffer('test string');
 
       const inputBuffer = Buffer.from(input);
       await fse.ensureFile(fullPath);
       await fse.writeFile(fullPath, inputBuffer);
-      const output = await Attachments.createReader(tempDirectory)(relativePath);
+      const output = await Attachments.createReader(tempDirectory)(
+        relativePath
+      );
 
       assert.deepEqual(input, output);
     });
@@ -110,9 +123,14 @@ describe('Attachments', () => {
     });
 
     it('should delete file from disk', async () => {
-      const tempDirectory = path.join(tempRootDirectory, 'Attachments_createDeleter');
+      const tempDirectory = path.join(
+        tempRootDirectory,
+        'Attachments_createDeleter'
+      );
 
-      const relativePath = Attachments.getRelativePath(Attachments.createName());
+      const relativePath = Attachments.getRelativePath(
+        Attachments.createName()
+      );
       const fullPath = path.join(tempDirectory, relativePath);
       const input = stringToArrayBuffer('test string');
 
@@ -134,7 +152,8 @@ describe('Attachments', () => {
 
   describe('getRelativePath', () => {
     it('should return correct path', () => {
-      const name = '608ce3bc536edbf7637a6aeb6040bdfec49349140c0dd43e97c7ce263b15ff7e';
+      const name =
+        '608ce3bc536edbf7637a6aeb6040bdfec49349140c0dd43e97c7ce263b15ff7e';
       assert.lengthOf(Attachments.getRelativePath(name), PATH_LENGTH);
     });
   });

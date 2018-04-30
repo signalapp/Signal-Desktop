@@ -3,7 +3,6 @@ const _ = require('lodash');
 
 const packageJson = require('./package.json');
 
-
 const { version } = packageJson;
 const beta = /beta/;
 
@@ -36,7 +35,6 @@ const BETA_APP_ID = 'org.whispersystems.signal-desktop-beta';
 const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.StartupWMClass';
 const PRODUCTION_STARTUP_WM_CLASS = 'Signal';
 const BETA_STARTUP_WM_CLASS = 'Signal Beta';
-
 
 // -------
 

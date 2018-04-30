@@ -1,5 +1,5 @@
 //      toLogFormat :: Error -> String
-exports.toLogFormat = (error) => {
+exports.toLogFormat = error => {
   if (!error) {
     return error;
   }

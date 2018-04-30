@@ -3,7 +3,9 @@ require('mocha-testcheck').install();
 const { assert } = require('chai');
 
 const Attachment = require('../../../js/modules/types/attachment');
-const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buffer');
+const {
+  stringToArrayBuffer,
+} = require('../../../js/modules/string_to_array_buffer');
 
 describe('Attachment', () => {
   describe('replaceUnicodeOrderOverrides', () => {
@@ -67,7 +69,7 @@ describe('Attachment', () => {
     check.it(
       'should ignore non-order-override characters',
       gen.string.suchThat(hasNoUnicodeOrderOverrides),
-      (fileName) => {
+      fileName => {
         const input = {
           contentType: 'image/jpeg',
           data: null,
@@ -120,15 +122,14 @@ describe('Attachment', () => {
       };
 
       const expectedAttachmentData = stringToArrayBuffer('Above us only sky');
-      const writeNewAttachmentData = async (attachmentData) => {
+      const writeNewAttachmentData = async attachmentData => {
         assert.deepEqual(attachmentData, expectedAttachmentData);
         return 'abc/abcdefgh123456789';
       };
 
-      const actual = await Attachment.migrateDataToFileSystem(
-        input,
-        { writeNewAttachmentData }
-      );
+      const actual = await Attachment.migrateDataToFileSystem(input, {
+        writeNewAttachmentData,
+      });
       assert.deepEqual(actual, expected);
     });
 
@@ -145,13 +146,11 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const writeNewAttachmentData = async () =>
-        'abc/abcdefgh123456789';
+      const writeNewAttachmentData = async () => 'abc/abcdefgh123456789';
 
-      const actual = await Attachment.migrateDataToFileSystem(
-        input,
-        { writeNewAttachmentData }
-      );
+      const actual = await Attachment.migrateDataToFileSystem(input, {
+        writeNewAttachmentData,
+      });
       assert.deepEqual(actual, expected);
     });
 
@@ -163,11 +162,12 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const writeNewAttachmentData = async () =>
-        'abc/abcdefgh123456789';
+      const writeNewAttachmentData = async () => 'abc/abcdefgh123456789';
 
       try {
-        await Attachment.migrateDataToFileSystem(input, { writeNewAttachmentData });
+        await Attachment.migrateDataToFileSystem(input, {
+          writeNewAttachmentData,
+        });
       } catch (error) {
         assert.strictEqual(
           error.message,
