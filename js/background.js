@@ -384,32 +384,37 @@
       storage,
     });
     console.log('Sync read receipt configuration status:', status);
-    /* eslint-disable */
 
-        if (firstRun === true && deviceId != '1') {
-            if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
-                storage.put('theme-setting', 'ios');
-                onChangeTheme();
-            }
-            var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
-            Whisper.events.trigger('contactsync:begin');
-            syncRequest.addEventListener('success', function() {
-                console.log('sync successful');
-                storage.put('synced_at', Date.now());
-                Whisper.events.trigger('contactsync');
-            });
-            syncRequest.addEventListener('timeout', function() {
-                console.log('sync timed out');
-                Whisper.events.trigger('contactsync');
-            });
+    if (firstRun === true && deviceId !== '1') {
+      const hasThemeSetting = Boolean(storage.get('theme-setting'));
+      if (!hasThemeSetting && textsecure.storage.get('userAgent') === 'OWI') {
+        storage.put('theme-setting', 'ios');
+        onChangeTheme();
+      }
+      const syncRequest = new textsecure.SyncRequest(
+        textsecure.messaging,
+        messageReceiver
+      );
+      Whisper.events.trigger('contactsync:begin');
+      syncRequest.addEventListener('success', () => {
+        console.log('sync successful');
+        storage.put('synced_at', Date.now());
+        Whisper.events.trigger('contactsync');
+      });
+      syncRequest.addEventListener('timeout', () => {
+        console.log('sync timed out');
+        Whisper.events.trigger('contactsync');
+      });
 
-            if (Whisper.Import.isComplete()) {
-              textsecure.messaging.sendRequestConfigurationSyncMessage().catch(function(e) {
-                console.log(e);
-              });
-            }
-        }
+      if (Whisper.Import.isComplete()) {
+        textsecure.messaging.sendRequestConfigurationSyncMessage().catch((e) => {
+          console.log(e);
+        });
+      }
     }
+
+  }
+  /* eslint-disable */
 
     function onChangeTheme() {
         var view = window.owsDesktopApp.appView;
