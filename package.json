@@ -100,7 +100,6 @@
     "electron": "1.8.4",
     "electron-builder": "^20.2.0",
     "electron-icon-maker": "0.0.3",
-    "electron-publisher-s3": "^20.2.0",
     "eslint": "^4.14.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-config-prettier": "^2.9.0",
@@ -150,13 +149,6 @@
         {
           "provider": "generic",
           "url": "https://updates.signal.org/desktop"
-        },
-        {
-          "provider": "s3",
-          "region": "us-east-1",
-          "bucket": "updates.signal.org",
-          "path": "desktop",
-          "acl": "public-read"
         }
       ],
       "target": [
@@ -175,13 +167,6 @@
         {
           "provider": "generic",
           "url": "https://updates.signal.org/desktop"
-        },
-        {
-          "provider": "s3",
-          "region": "us-east-1",
-          "bucket": "updates.signal.org",
-          "path": "desktop",
-          "acl": "public-read"
         }
       ],
       "target": [
