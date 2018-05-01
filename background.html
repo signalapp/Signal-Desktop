@@ -100,6 +100,7 @@
         </div>
       </div>
     </div>
+    <div class='lightbox-container'></div>
   </script>
   <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
     <button class='text {{ cssClass }}' alt='{{ moreBelow }}'>
@@ -159,6 +160,8 @@
               <button class='hamburger' alt='conversation menu'></button>
               <ul class='menu-list'>
                   <li class='disappearing-messages'>{{ disappearing-messages }}</li>
+                  <!-- TODO: Enable once media gallerys ships: -->
+                  <!-- <li class='view-all-media'>{{ view-all-media }}</li> -->
                   {{#group}}
                       <li class='show-members'>{{ show-members }}</li>
                       <!-- <li class='update-group'>Update group</li> -->
@@ -221,15 +224,6 @@
       <button class='finish'><span class='icon'></span></button>
       <span class='time'>0:00</span>
       <button class='close'><span class='icon'></span></button>
-  </script>
-  <script type='text/x-tmpl-mustache' id='lightbox'>
-    <div class='content'>
-      <div class='controls'>
-        <a class='x close' alt='Close image.' href='#'></a>
-        <a class='save' alt='Save as...' href='#'></a>
-      </div>
-      <img class='image' src='{{ url }}' />
-    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
     <div class="content">

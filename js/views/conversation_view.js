@@ -1,14 +1,16 @@
-/* global Whisper: false */
-/* global i18n: false */
 /* global $: false */
 /* global _: false */
-/* global emoji_util: false */
-/* global extension: false */
-/* global moment: false */
-/* global EmojiPanel: false */
 /* global emoji: false */
+/* global emoji_util: false */
 /* global emojiData: false */
+/* global EmojiPanel: false */
+/* global moment: false */
+
+/* global extension: false */
+/* global i18n: false */
 /* global storage: false */
+/* global Whisper: false */
+/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -111,6 +113,7 @@
         'disappearing-messages': i18n('disappearingMessages'),
         'android-length-warning': i18n('androidMessageLengthWarning'),
         timer_options: Whisper.ExpirationTimerOptions.models,
+        'view-all-media': i18n('viewAllMedia'),
       };
     },
     initialize(options) {
@@ -207,6 +210,7 @@
       'click .update-group': 'newGroupUpdate',
       'click .show-identity': 'showSafetyNumber',
       'click .show-members': 'showMembers',
+      'click .view-all-media': 'viewAllMedia',
       'click .conversation-menu .hamburger': 'toggleMenu',
       click: 'onClick',
       'click .bottom-bar': 'focusMessageField',
@@ -566,6 +570,44 @@
       }
 
       el[0].scrollIntoView();
+    },
+
+    async viewAllMedia() {
+      // We have to do this manually, since our React component will not propagate click
+      //   events up to its parent elements in the DOM.
+      this.closeMenu();
+
+      const media = await Signal.Backbone.Conversation.fetchVisualMediaAttachments({
+        conversationId: this.model.get('id'),
+        WhisperMessageCollection: Whisper.MessageCollection,
+      });
+      const loadMessages = Signal.Components.PropTypes.Message
+        .loadWithObjectURL(Signal.Migrations.loadMessage);
+      const mediaWithObjectURLs = await loadMessages(media);
+
+      const mediaGalleryProps = {
+        media: mediaWithObjectURLs,
+        documents: [],
+        onItemClick: ({ message }) => {
+          const lightboxProps = {
+            imageURL: message.objectURL,
+          };
+          this.lightboxView = new Whisper.ReactWrapperView({
+            Component: Signal.Components.Lightbox,
+            props: lightboxProps,
+            onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+          });
+          Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+        },
+      };
+
+      const view = new Whisper.ReactWrapperView({
+        Component: Signal.Components.MediaGallery,
+        props: mediaGalleryProps,
+        onClose: () => this.resetPanel(),
+      });
+
+      this.listenBack(view);
     },
 
     scrollToBottom() {

@@ -1,6 +1,6 @@
 const { assert } = require('chai');
 
-const MIME = require('../../../js/modules/types/mime');
+const MIME = require('../../../ts/types/MIME');
 
 
 describe('MIME', () => {

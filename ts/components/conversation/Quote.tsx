@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
-// @ts-ignore
-import Mime from '../../../js/modules/types/mime';
+import * as MIME from '../../../ts/types/MIME';
+import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
 }
 
 interface QuotedAttachment {
-  contentType: string;
+  contentType: MIME.MIMEType;
   fileName: string;
   /* Not included in protobuf */
   isVoiceMessage: boolean;
@@ -27,7 +27,7 @@ interface QuotedAttachment {
 }
 
 interface Attachment {
-  contentType: string;
+  contentType: MIME.MIMEType;
   /* Not included in protobuf, and is loaded asynchronously */
   objectUrl?: string;
 }
@@ -92,17 +92,17 @@ export class Quote extends React.Component<Props, {}> {
     const { contentType, thumbnail } = first;
     const objectUrl = getObjectUrl(thumbnail);
 
-    if (Mime.isVideo(contentType)) {
+    if (GoogleChrome.isVideoTypeSupported(contentType)) {
       return objectUrl
         ? this.renderImage(objectUrl, 'play')
         : this.renderIcon('movie');
     }
-    if (Mime.isImage(contentType)) {
+    if (GoogleChrome.isImageTypeSupported(contentType)) {
       return objectUrl
         ? this.renderImage(objectUrl)
         : this.renderIcon('image');
     }
-    if (Mime.isAudio(contentType)) {
+    if (MIME.isAudio(contentType)) {
       return this.renderIcon('microphone');
     }
 
@@ -123,16 +123,16 @@ export class Quote extends React.Component<Props, {}> {
     const first = attachments[0];
     const { contentType, fileName, isVoiceMessage } = first;
 
-    if (Mime.isVideo(contentType)) {
+    if (GoogleChrome.isVideoTypeSupported(contentType)) {
       return <div className="type-label">{i18n('video')}</div>;
     }
-    if (Mime.isImage(contentType)) {
+    if (GoogleChrome.isImageTypeSupported(contentType)) {
       return <div className="type-label">{i18n('photo')}</div>;
     }
-    if (Mime.isAudio(contentType) && isVoiceMessage) {
+    if (MIME.isAudio(contentType) && isVoiceMessage) {
       return <div className="type-label">{i18n('voiceMessage')}</div>;
     }
-    if (Mime.isAudio(contentType)) {
+    if (MIME.isAudio(contentType)) {
       return <div className="type-label">{i18n('audio')}</div>;
     }
 
@@ -196,7 +196,7 @@ export class Quote extends React.Component<Props, {}> {
       authorColor,
       'quoted-message',
       isFromMe ? 'from-me' : null,
-      !onClick ? 'no-click' : null,
+      !onClick ? 'no-click' : null
     );
 
     return (

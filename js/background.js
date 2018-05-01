@@ -373,6 +373,7 @@
         if (firstRun === true && deviceId != '1') {
             if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
                 storage.put('theme-setting', 'ios');
+                onChangeTheme();
             }
             var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
             Whisper.events.trigger('contactsync:begin');
@@ -394,6 +395,12 @@
         }
     }
 
+    function onChangeTheme() {
+        var view = window.owsDesktopApp.appView;
+        if (view) {
+            view.applyTheme();
+        }
+    }
     function onEmpty() {
         initialLoadComplete = true;
 

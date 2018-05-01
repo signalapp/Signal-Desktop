@@ -1,13 +1,15 @@
+/* global _: false */
+/* global Backbone: false */
+/* global dcodeIO: false */
+/* global libphonenumber: false */
+
+/* global ConversationController: false */
+/* global libsignal: false */
+/* global Signal: false */
 /* global storage: false */
 /* global textsecure: false */
 /* global Whisper: false */
-/* global Backbone: false */
-/* global _: false */
-/* global ConversationController: false */
-/* global libphonenumber: false */
 /* global wrapDeferred: false */
-/* global dcodeIO: false */
-/* global libsignal: false */
 
 /* eslint-disable more/no-then */
 
@@ -17,7 +19,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message, MIME } = window.Signal.Types;
+  const { Message } = window.Signal.Types;
   const { upgradeMessageSchema, loadAttachmentData } = window.Signal.Migrations;
 
   // TODO: Factor out private and group subclasses of Conversation
@@ -651,7 +653,8 @@
         text: quotedMessage.get('body'),
         attachments: await Promise.all((attachments || []).map(async (attachment) => {
           const { contentType } = attachment;
-          const willMakeThumbnail = MIME.isImage(contentType);
+          const willMakeThumbnail =
+            Signal.Util.GoogleChrome.isImageTypeSupported(contentType);
 
           return {
             contentType,
@@ -1111,7 +1114,9 @@
       const first = attachments[0];
       const { thumbnail, contentType } = first;
 
-      return thumbnail || MIME.isVideo(contentType) || MIME.isImage(contentType);
+      return thumbnail ||
+        Signal.Util.GoogleChrome.isImageTypeSupported(contentType) ||
+        Signal.Util.GoogleChrome.isVideoTypeSupported(contentType);
     },
     forceRender(message) {
       message.trigger('change', message);
@@ -1151,7 +1156,7 @@
 
       // Maybe in the future we could try to pull the thumbnail from a video ourselves,
       //   but for now we will rely on incoming thumbnails only.
-      if (!MIME.isImage(first.contentType)) {
+      if (!Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType)) {
         return false;
       }
 
@@ -1191,7 +1196,7 @@
 
       // Maybe in the future we could try to pull thumbnails video ourselves,
       //   but for now we will rely on incoming thumbnails only.
-      if (!first || !MIME.isImage(first.contentType)) {
+      if (!first || !Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType)) {
         return;
       }
 
@@ -1250,7 +1255,7 @@
         // If we already have a quoted message, then we exit early. If we don't have it,
         //   then we'll continue to look again for an in-memory message to use. Why? This
         //   will enable us to scroll to it when the user clicks.
-        if (messages.quotedMessage) {
+        if (message.quotedMessage) {
           return;
         }
 
