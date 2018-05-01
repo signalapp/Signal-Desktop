@@ -4,7 +4,7 @@ Signal Desktop
 
 Signal Desktop is an Electron application that links with your
 [Signal Android](https://github.com/signalapp/Signal-Android)
- or [Signal iOS](https://github.com/signalapp/Signal-iOS) app.
+or [Signal iOS](https://github.com/signalapp/Signal-iOS) app.
 
 ## Install production version: https://signal.org/download/
 
@@ -12,16 +12,14 @@ Signal Desktop is an Electron application that links with your
 
 You can install it on a computer which already has the production version installed. It uses different data and install locations.
 
-- _Windows:_ You can find the most recent build here: https://updates.signal.org/desktop/beta.yml
-- _Mac:_ You can find the most recent build here: https://updates.signal.org/desktop/beta-mac.yml
-- _Linux:_ same instructions as the production install steps linked above, but run `apt-get install signal-desktop-beta` instead
-
+* _Windows:_ You can find the most recent build here: https://updates.signal.org/desktop/beta.yml
+* _Mac:_ You can find the most recent build here: https://updates.signal.org/desktop/beta-mac.yml
+* _Linux:_ same instructions as the production install steps linked above, but run `apt-get install signal-desktop-beta` instead
 
 ## Got a question?
 
 You can find answers to a number of frequently asked questions on our support site: https://support.signal.org/.
 The community forum is another good place for questions: https://community.signalusers.org/.
-
 
 ## Found a Bug? Have a feature request?
 
@@ -29,12 +27,11 @@ Please search the existing issues for your bug and create a new one if the issue
 
 https://github.com/signalapp/Signal-Desktop/issues
 
-
 ## Contributing Translations
+
 Interested in helping to translate Signal? Contribute here:
 
 https://www.transifex.com/projects/p/signal-desktop
-
 
 ## Contributing Code
 
@@ -42,10 +39,9 @@ Please see [CONTRIBUTING.md](https://github.com/signalapp/Signal-Desktop/blob/ma
 for setup instructions and contributor guidelines. And don't forget to sign the
 [CLA](https://signal.org/cla/).
 
-
 ## Contributing Funds
-You can donate to Signal development through the [Freedom of the Press Foundation](https://freedom.press/crowdfunding/signal/).
 
+You can donate to Signal development through the [Freedom of the Press Foundation](https://freedom.press/crowdfunding/signal/).
 
 ## Cryptography Notice
 

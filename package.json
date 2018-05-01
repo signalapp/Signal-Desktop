@@ -31,7 +31,7 @@
     "lint": "yarn format --list-different && yarn lint-windows",
     "lint-windows": "yarn eslint && yarn grunt lint && yarn tslint",
     "tslint": "tslint --config tslint.json --format stylish --project .",
-    "format": "prettier --write \"*.js\" \"js/**/*.js\" \"ts/**/*.{ts,tsx}\" \"test/**/*.js\"",
+    "format": "prettier --write \"*.js\" \"js/**/*.js\" \"ts/**/*.{ts,tsx}\" \"test/**/*.js\" \"*.md\" \"./**/*.md\"",
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js ts/*.js",
     "open-coverage": "open coverage/lcov-report/index.html",

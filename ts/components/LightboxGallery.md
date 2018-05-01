@@ -10,10 +10,7 @@ const items = [
   { objectURL: 'https://placekitten.com/920/620', contentType: 'image/jpeg' },
 ];
 
-<div style={{position: 'relative', width: '100%', height: 500}}>
-  <LightboxGallery
-    items={items}
-    onSave={noop}
-  />
-</div>
+<div style={{ position: 'relative', width: '100%', height: 500 }}>
+  <LightboxGallery items={items} onSave={noop} />
+</div>;
 ```

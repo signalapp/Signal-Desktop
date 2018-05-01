@@ -12,34 +12,34 @@ locations if you have a question or comment:
 Lastly, be sure to preview your issue before saving. Thanks!
 -->
 
-- [ ] I have searched open and closed issues for duplicates
-<!--
-  You can search all issues here:
-    https://github.com/WhisperSystems/Signal-Desktop/issues?utf8=%E2%9C%93&q=is%3Aissue
-  Replace [ ] with [X] once you've searched
--->
+* [ ] I have searched open and closed issues for duplicates
+  <!--
+    You can search all issues here:
+      https://github.com/WhisperSystems/Signal-Desktop/issues?utf8=%E2%9C%93&q=is%3Aissue
+    Replace [ ] with [X] once you've searched
+  -->
 
-----------------------------------------
+---
 
 ### Bug description
 
 <!-- Give an overall summary of the issue. -->
 
-
 ### Steps to reproduce
 
 <!-- Using bullet points, list the steps that reproduce the bug. -->
 
-1.
-2.
-3.
+1.  step one
+2.  step two
+3.  step three
 
 Actual result:
+
 <!-- Describe the details of the buggy behaviour. -->
 
 Expected result:
-<!-- Describe in detail what the correct behavior should be. -->
 
+<!-- Describe in detail what the correct behavior should be. -->
 
 ### Screenshots
 
@@ -48,19 +48,19 @@ How to take screenshots on all OSes: https://www.take-a-screenshot.org/
 You can drag and drop images into this text box.
 -->
 
-
 ### Platform info
 
-
 Signal version:
+
 <!-- You can see Signal's version number at Help -> About or File -> About Signal Desktop -->
 
 Operating System:
+
 <!-- Instructions for finding your OS version are here: http://whatsmyos.com/ -->
 
 Linked device version:
-<!-- Android: Settings -> Advanced,  iOS: Settings -> General -> About -->
 
+<!-- Android: Settings -> Advanced,  iOS: Settings -> General -> About -->
 
 ### Link to debug log
 

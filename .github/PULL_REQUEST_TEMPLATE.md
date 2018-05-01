@@ -8,17 +8,17 @@ Remember, you can preview this before saving it.
 <!-- You can remove this first section if you have contributed before -->
 
 ### First time contributor checklist:
-- [ ] I have read the [README](https://github.com/WhisperSystems/Signal-Desktop/blob/master/README.md) and [Contributor Guidelines](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
-- [ ] I have signed the [Contributor Licence Agreement](https://whispersystems.org/cla/)
 
+* [ ] I have read the [README](https://github.com/WhisperSystems/Signal-Desktop/blob/master/README.md) and [Contributor Guidelines](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
+* [ ] I have signed the [Contributor Licence Agreement](https://whispersystems.org/cla/)
 
 ### Contributor checklist:
-- [ ] My contribution is **not** related to translations. _Please submit translation changes via our [Signal Desktop Transifex project](https://www.transifex.com/liliakai/signal-desktop/)._
-- [ ] My commits are in nice logical chunks with [good commit messages](http://chris.beams.io/posts/git-commit/)
-- [ ] My changes are [rebased](https://medium.freecodecamp.org/git-rebase-and-the-golden-rule-explained-70715eccc372) on the latest [`development`](https://github.com/WhisperSystems/Signal-Desktop/tree/development) branch
-- [ ] My changes pass 100% of [local tests](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md#tests)
-- [ ] My changes are ready to be shipped to users
 
+* [ ] My contribution is **not** related to translations. _Please submit translation changes via our [Signal Desktop Transifex project](https://www.transifex.com/liliakai/signal-desktop/)._
+* [ ] My commits are in nice logical chunks with [good commit messages](http://chris.beams.io/posts/git-commit/)
+* [ ] My changes are [rebased](https://medium.freecodecamp.org/git-rebase-and-the-golden-rule-explained-70715eccc372) on the latest [`development`](https://github.com/WhisperSystems/Signal-Desktop/tree/development) branch
+* [ ] My changes pass 100% of [local tests](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md#tests)
+* [ ] My changes are ready to be shipped to users
 
 ### Description
 
