@@ -152,7 +152,6 @@
         }
       ],
       "target": [
-        "dmg",
         "zip"
       ],
       "bundleVersion": "1"
@@ -170,8 +169,7 @@
         }
       ],
       "target": [
-        "nsis",
-        "zip"
+        "nsis"
       ]
     },
     "nsis": {
@@ -184,8 +182,7 @@
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [
-        "deb",
-        "zip"
+        "deb"
       ],
       "icon": "build/icons/png"
     },
