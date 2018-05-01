@@ -165,7 +165,6 @@
           received: i18n('received'),
           errorLabel: i18n('error'),
           deleteLabel: i18n('deleteMessage'),
-          retryDescription: i18n('retryDescription'),
         })
       );
       this.view.$el.prependTo(this.$('.message-container'));
