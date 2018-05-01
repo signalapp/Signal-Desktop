@@ -61,11 +61,14 @@ yarn test                      # A good idea to make sure tests run first
 yarn start                     # Start Signal!
 ```
 
-You'll need to restart the application regularly to see your changes, as there is no
-automatic restart mechanism.
+You'll need to restart the application regularly to see your changes, as there
+is no automatic restart mechanism. Alternatively, keep the developer tools open
+(`View > Toggle Developer Tools`), hover over them, and press
+<kbd>Cmd</kbd> + <kbd>R</kbd> (macOS) or <kbd>Ctrl</kbd> + <kbd>R</kbd>
+(Windows & Linux).
 
 Also, note that the assets loaded by the application are not necessarily the same files
-you're touching. You may not see your changes until you run `yarn grunt` on the
+you’re touching. You may not see your changes until you run `yarn grunt` on the
 command-line like you did during setup. You can make it easier on yourself by generating
 the latest built assets when you change a file. Run this in its own terminal instance
 while you make changes:
