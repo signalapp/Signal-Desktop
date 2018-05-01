@@ -1,5 +1,4 @@
-Contributor Guidelines
-======================
+# Contributor Guidelines
 
 ## Advice for new contributors
 
@@ -20,7 +19,6 @@ Once you've spent a little bit of time planning your solution, it's a good idea 
 back to the issue and talk about your approach. We'd be happy to provide feedback. [An
 ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ounce-of-prevention-is-worth-a-pound-of-cure)
 
-
 ## Developer Setup
 
 First, you'll need [Node.js](https://nodejs.org/) which matches our current version.
@@ -33,7 +31,7 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 
 And for the final step before we actually get started, you'll need build tools to install
 the native modules used by the application. On Windows, it's easiest to open the [Command
-Prompt (`cmd.exe`) as Administrator](https://technet.microsoft.com/en-us/library/cc947813(v=ws.10).aspx)
+Prompt (`cmd.exe`) as Administrator](<https://technet.microsoft.com/en-us/library/cc947813(v=ws.10).aspx>)
 and run this:
 
 ```
@@ -78,7 +76,6 @@ Fear not! You don't have to link the app with your phone. During setup in develo
 mode, you'll be presented with a 'Standalone' button which goes through the registration
 process like you would on a phone. But you won't be linked to any other devices.
 
-
 ## The staging environment
 
 Sadly, this default setup results in no contacts and no message history, an entirely
@@ -86,9 +83,10 @@ empty application. But you can use the information from your production install 
 Desktop to populate your testing application!
 
 First, find your application data:
-  - OSX: `~/Library/Application Support/Signal`
-  - Linux: `~/.config/Signal`
-  - Windows 10: `C:\Users\<YourName>\AppData\Roaming\Signal`
+
+* OSX: `~/Library/Application Support/Signal`
+* Linux: `~/.config/Signal`
+* Windows 10: `C:\Users\<YourName>\AppData\Roaming\Signal`
 
 Now make a copy of this production data directory in the same place, and call it
 `Signal-development`. Now start up the development version of the app as normal,
@@ -104,7 +102,6 @@ message history and contact list.
 
 Here's the catch: you can't message any of these contacts, since they haven't done the
 same thing. Who can you message for testing?
-
 
 ## Additional storage profiles
 
@@ -134,12 +131,10 @@ NODE_APP_INSTANCE=alice yarn run start
 This changes the [userData](https://electron.atom.io/docs/all/#appgetpathname)
 directory from `%appData%/Signal` to `%appData%/Signal-aliceProfile`.
 
-
 # Making changes
 
 So you're in the process of preparing that pull request. Here's how to make that go
 smoothly.
-
 
 ## Tests
 
@@ -163,43 +158,42 @@ the report with `yarn open-coverage`.
 
 So you wanna make a pull request? Please observe the following guidelines.
 
- * Please do not submit pull requests for translation fixes. Anyone can update
-   the translations in
-   [Transifex](https://www.transifex.com/projects/p/signal-desktop).
- * Never use plain strings right in the source code - pull them from `messages.json`!
-   You **only** need to modify the default locale
-   [`_locales/en/messages.json`](_locales/en/messages.json). Other locales are generated
-   automatically based on that file and then periodically uploaded to Transifex for
-   translation.
- * [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
-   changes on the latest `development` branch, resolving any conflicts.
-   This ensures that your changes will merge cleanly when you open your PR.
- * Be sure to add and run tests!
- * Make sure the diff between our master and your branch contains only the
-   minimal set of changes needed to implement your feature or bugfix. This will
-   make it easier for the person reviewing your code to approve the changes.
-   Please do not submit a PR with commented out code or unfinished features.
- * Avoid meaningless or too-granular commits. If your branch contains commits like
-   the lines of "Oops, reverted this change" or "Just experimenting, will
-   delete this later", please [squash or rebase those changes away](https://robots.thoughtbot.com/git-interactive-rebase-squash-amend-rewriting-history).
- * Don't have too few commits. If you have a complicated or long lived feature
-   branch, it may make sense to break the changes up into logical atomic chunks
-   to aid in the review process.
- * Provide a well written and nicely formatted commit message. See [this
-   link](http://chris.beams.io/posts/git-commit/)
-   for some tips on formatting. As far as content, try to include in your
-   summary
-     1. What you changed
-     2. Why this change was made (including git issue # if appropriate)
-     3. Any relevant technical details or motivations for your implementation
-        choices that may be helpful to someone reviewing or auditing the commit
-        history in the future. When in doubt, err on the side of a longer
-        commit message.
+* Please do not submit pull requests for translation fixes. Anyone can update
+  the translations in
+  [Transifex](https://www.transifex.com/projects/p/signal-desktop).
+* Never use plain strings right in the source code - pull them from `messages.json`!
+  You **only** need to modify the default locale
+  [`_locales/en/messages.json`](_locales/en/messages.json). Other locales are generated
+  automatically based on that file and then periodically uploaded to Transifex for
+  translation.
+* [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
+  changes on the latest `development` branch, resolving any conflicts.
+  This ensures that your changes will merge cleanly when you open your PR.
+* Be sure to add and run tests!
+* Make sure the diff between our master and your branch contains only the
+  minimal set of changes needed to implement your feature or bugfix. This will
+  make it easier for the person reviewing your code to approve the changes.
+  Please do not submit a PR with commented out code or unfinished features.
+* Avoid meaningless or too-granular commits. If your branch contains commits like
+  the lines of "Oops, reverted this change" or "Just experimenting, will
+  delete this later", please [squash or rebase those changes away](https://robots.thoughtbot.com/git-interactive-rebase-squash-amend-rewriting-history).
+* Don't have too few commits. If you have a complicated or long lived feature
+  branch, it may make sense to break the changes up into logical atomic chunks
+  to aid in the review process.
+* Provide a well written and nicely formatted commit message. See [this
+  link](http://chris.beams.io/posts/git-commit/)
+  for some tips on formatting. As far as content, try to include in your
+  summary
+  1.  What you changed
+  2.  Why this change was made (including git issue # if appropriate)
+  3.  Any relevant technical details or motivations for your implementation
+      choices that may be helpful to someone reviewing or auditing the commit
+      history in the future. When in doubt, err on the side of a longer
+      commit message.
 
 Above all, spend some time with the repository. Follow the pull request template added to
 your pull request description automatically. Take a look at recent approved pull requests,
 see how they did things.
-
 
 ## Linking to a staging mobile device
 
@@ -226,7 +220,6 @@ Then you can set up your development build of Signal Desktop as normal. If you'v
 set up as a standalone install, you can switch by opening the DevTools (View -> Toggle
 Developer Tools) and entering this into the Console and pressing enter: `window.owsDesktopApp.appView.openInstaller();`
 
-
 ## Changing to production
 
 If you're completely sure that your changes will have no impact to the production servers,
@@ -244,16 +237,16 @@ you can connect your development build to the production server by putting a fil
 production servers will _unregister_ your mobile device! All messages from your contacts
 will go to your new development desktop app instead of your phone.
 
-
 ## Testing Production Builds
 
 To test changes to the build system, build a release using
+
 ```
 yarn generate
 yarn build-release
 ```
-Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
 
+Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
 
 ## Dependencies
 
@@ -265,11 +258,11 @@ npm, then run `npm install` to install bower, grunt, and related plugins.
 
 ### Adding a bower component
 
-Add the package name and version to bower.json under 'dependencies' or `bower
-install package-name --save`
+Add the package name and version to bower.json under 'dependencies' or `bower install package-name --save`
 
 Next update the "preen" config in bower.json with the list of files we will
 actually use from the new package, e.g.:
+
 ```
   "preen": {
     "package-name": [
@@ -279,6 +272,7 @@ actually use from the new package, e.g.:
     ...
   }
 ```
+
 If you'd like to add the new dependency to js/components.js to be included on
 all html pages, simply append the package name to the concat.app list in
 `bower.json`. Take care to insert it in the order you would like it
