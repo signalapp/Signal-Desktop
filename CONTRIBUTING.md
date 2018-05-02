@@ -258,5 +258,14 @@ yarn build-release
 
 Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
 
+## Translations
 
+To pull the latest translations, follow these steps:
 
+1.  Download Transifex client:
+    https://docs.transifex.com/client/installing-the-client
+1.  Create Transifex account: https://transifex.com
+1.  Generate API token: https://www.transifex.com/user/settings/api/
+1.  Create `~/.transifexrc` configuration:
+    https://docs.transifex.com/client/client-configuration#-transifexrc
+1.  Run `yarn grunt tx`.
