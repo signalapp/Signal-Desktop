@@ -4,6 +4,7 @@ interface Environment {
   isAudioNotificationSupported: boolean;
   isEnabled: boolean;
   numNotifications: number;
+  hasNotificationSupport: boolean;
   userSetting: UserSetting;
 }
 
@@ -11,6 +12,7 @@ interface Status {
   shouldClearNotifications: boolean;
   shouldPlayNotificationSound: boolean;
   shouldShowNotifications: boolean;
+  hasNotificationSupport: boolean;
   type: Type;
 }
 
@@ -23,22 +25,30 @@ type Type =
   | 'noNotifications'
   | 'userSetting';
 
-export const getStatus = (environment: Environment): Status => {
+export const getStatus = ({
+  hasNotificationSupport,
+  isAppFocused,
+  isAudioNotificationEnabled,
+  isAudioNotificationSupported,
+  isEnabled,
+  numNotifications,
+  userSetting,
+}: Environment): Status => {
   const type = ((): Type => {
-    if (!environment.isEnabled) {
+    if (!isEnabled) {
       return 'disabled';
     }
 
-    const hasNotifications = environment.numNotifications > 0;
+    const hasNotifications = numNotifications > 0;
     if (!hasNotifications) {
       return 'noNotifications';
     }
 
-    if (environment.isAppFocused) {
+    if (isAppFocused) {
       return 'appIsFocused';
     }
 
-    if (environment.userSetting === 'off') {
+    if (userSetting === 'off') {
       return 'userSetting';
     }
 
@@ -46,12 +56,14 @@ export const getStatus = (environment: Environment): Status => {
   })();
 
   const shouldPlayNotificationSound =
-    environment.isAudioNotificationSupported &&
-    environment.isAudioNotificationEnabled;
+    isAudioNotificationSupported &&
+    isAudioNotificationEnabled &&
+    hasNotificationSupport;
   const shouldShowNotifications = type === 'ok';
   const shouldClearNotifications = type === 'appIsFocused';
 
   return {
+    hasNotificationSupport,
     shouldClearNotifications,
     shouldPlayNotificationSound,
     shouldShowNotifications,

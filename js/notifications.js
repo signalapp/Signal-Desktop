@@ -42,12 +42,14 @@
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
       const numNotifications = this.length;
       const userSetting = this.getUserSetting();
+      const hasNotificationSupport = !Boolean(config.polyfillNotifications);
 
       const status = Signal.Notifications.getStatus({
-        isEnabled,
+        hasNotificationSupport,
         isAppFocused,
         isAudioNotificationEnabled,
         isAudioNotificationSupported,
+        isEnabled,
         numNotifications,
         userSetting,
       });
@@ -102,16 +104,7 @@
 
       drawAttention();
 
-      if (config.polyfillNotifications) {
-        nodeNotifier.notify({
-          title,
-          message,
-          sound: false,
-        });
-        nodeNotifier.on('click', () => {
-          last.get('conversationId');
-        });
-      } else {
+      if (hasNotificationSupport) {
         const notification = new Notification(title, {
           body: message,
           icon: iconUrl,
@@ -123,6 +116,15 @@
           this,
           last.get('conversationId')
         );
+      } else {
+        nodeNotifier.notify({
+          title,
+          message,
+          sound: false,
+        });
+        nodeNotifier.on('click', () => {
+          last.get('conversationId');
+        });
       }
 
       // We don't want to notify the user about these same messages again
