@@ -15,6 +15,22 @@
         "message": "Anzeigen",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "linkedDevices": {
+        "message": "Verknüpfte Geräte",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "yesterday": {
+        "message": "Gestern",
+        "description": "Section header in the media gallery"
+    },
+    "replyingToYourself": {
+        "message": "Antwort auf dich selbst",
+        "description": "Shown in iOS theme when you quote yourself"
+    },
+    "documents": {
+        "message": "Dokumente",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
     "upgradingDatabase": {
         "message": "Datenbank wird aktualisiert. Dies kann einige Zeit in Anspruch nehmen …",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
@@ -33,9 +49,9 @@
             }
         }
     },
-    "importInstructions": {
-        "message": "Teile uns zunächst bitte mit, wohin du zuvor deine Signal-Daten exportiert hast. Es wird ein Verzeichnis sein, dessen Name mit »Signal Export« beginnt.<br><br><b>HINWEIS</b>: Exportierte Daten dürfen nur <b>einmalig</b> importiert werden. Während des Importierens wird eine Kopie des exportierten Clients angelegt und doppelte Clients stören sich gegenseitig.",
-        "description": "Description of the export process"
+    "thisMonth": {
+        "message": "Diesen Monat",
+        "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
         "message": "Nicht unterstützter Anhangstyp. Zum Speichern anklicken.",
@@ -77,17 +93,21 @@
         "message": "5s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installComputerName": {
-        "message": "Der Name dieses Computers lautet",
-        "description": "Text displayed before the input where the user can enter the name for this device."
+    "importCompleteHeader": {
+        "message": "Erfolgreich!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
         "message": "1 Minute",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "deviceName": {
+        "message": "Gerätename",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
     "debugLog": {
         "message": "Diagnoseprotokoll",
-        "description": "View menu item to open the debug log, capitalized"
+        "description": "View menu item to open the debug log (title case)"
     },
     "gotIt": {
         "message": "Alles klar!",
@@ -127,10 +147,6 @@
         "message": "Nicht unterstützter Dateityp",
         "description": "Displayed for outgoing unsupported attachment"
     },
-    "exportAgain": {
-        "message": "Erneut exportieren",
-        "description": "If user has already exported once, this button allows user to do it again if needed"
-    },
     "quit": {
         "message": "Beenden",
         "description": "Command in the tray icon menu, to quit the application"
@@ -139,21 +155,17 @@
         "message": "Zum Speichern anklicken",
         "description": "Hover text for attachment filenames"
     },
-    "fileABug": {
-        "message": "Fehler melden",
-        "description": "Item under the Help menu, takes you to GitHub new issue form"
-    },
     "messagesBelow": {
         "message": "Neue Nachrichten unten",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
-    "installGeneratingKeys": {
-        "message": "Schlüssel werden erzeugt …",
-        "description": ""
-    },
     "resetSession": {
-        "message": "Verschlüsselung zurücksetzen",
+        "message": "Verschlüsselung neu starten",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "replyingToYou": {
+        "message": "Antwort auf dich",
+        "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "offline": {
         "message": "Nicht verbunden",
@@ -183,13 +195,13 @@
         "message": "aus",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
+    "clearDataButton": {
+        "message": "Daten löschen",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
     "syncExplanation": {
         "message": "Alle Signal-Gruppen und -Kontakte von deinem Mobilgerät importieren.",
         "description": "Explanatory text for sync settings"
-    },
-    "restartSignal": {
-        "message": "Signal neu starten",
-        "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
         "message": "Du hast die Gruppe verlassen",
@@ -219,17 +231,9 @@
         "message": "Wähle einen Kontakt oder eine Gruppe aus, um eine Unterhaltung zu beginnen.",
         "description": ""
     },
-    "exportError": {
-        "message": "Leider gab es während des Exportierens ein Problem. Überprüfe zuerst dein leeres Zielverzeichnis auf Schreibzugriffsrechte und ausreichenden Speicherplatz. Übermittle dann ein Diagnoseprotokoll, sodass wir dir bei der Migration helfen können!",
-        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
-    },
     "aboutSignalDesktop": {
         "message": "Über Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
-    },
-    "installConnecting": {
-        "message": "Verbindung wird hergestellt …",
-        "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
         "message": "dein ausgewählter Ort",
@@ -261,6 +265,14 @@
         "message": "Gesendet",
         "description": "Label for the time a message was sent"
     },
+    "thisWeek": {
+        "message": "Diese Woche",
+        "description": "Section header in the media gallery"
+    },
+    "importingHeader": {
+        "message": "Kontakte und Nachrichten werden geladen …",
+        "description": "Header of screen shown as data is import"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ hat die Zeitbegrenzung auf $time$ festgelegt.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -279,6 +291,10 @@
         "message": "Gerade eben",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "mainMenuSettings": {
+        "message": "Einstellungen …",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
     "changedRecentlyMultiple": {
         "message": "Deine Sicherheitsnummern mit mehreren Gruppenmitgliedern haben sich kürzlich geändert. Dies könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber die entsprechenden Mitglieder haben Signal einfach erneut installiert.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -286,10 +302,6 @@
     "timerOption_1_day": {
         "message": "1 Tag",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "exporting": {
-        "message": "Bitte warte, während deine Daten exportiert werden. Dies kann einige Minuten dauern. Während dieser Zeit kannst du Signal weiterhin auf deinem Telefon und anderen Geräten verwenden.",
-        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Problem melden",
@@ -319,21 +331,33 @@
         "message": "&Fenster",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "installImport": {
-        "message": "Einrichten mit exportierten Daten",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "importCompleteLinkButton": {
+        "message": "Dieses Gerät mit deinem Telefon verknüpfen",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
         "message": "Verknüpfe Signal Desktop erneut mit deinem Mobilgerät, um weiterhin Nachrichten austauschen zu können.",
         "description": ""
     },
+    "today": {
+        "message": "Heute",
+        "description": "Section header in the media gallery"
+    },
     "debugLogExplanation": {
         "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Bevor du das Protokoll übermittelst, kannst du es noch einmal untersuchen und bearbeiten.",
         "description": ""
     },
+    "linkYourPhone": {
+        "message": "Verknüpfe dein Telefon mit Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
     "newPhoneNumber": {
         "message": "Rufnummer eingeben, um Kontakt hinzuzufügen.",
         "description": "Placeholder for adding a new number to a contact"
+    },
+    "viewAllMedia": {
+        "message": "Alle Medieninhalte anzeigen",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "noLongerVerified": {
         "message": "Deine Sicherheitsnummer mit $name$ hat sich geändert und ist nicht mehr verifiziert. Zum Anzeigen anklicken.",
@@ -345,8 +369,12 @@
             }
         }
     },
+    "video": {
+        "message": "Video",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
     "searchForPeopleOrGroups": {
-        "message": "Suchen …",
+        "message": "Name oder Rufnummer eingeben",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -369,27 +397,27 @@
         "message": "Verknüpfung aufgehoben",
         "description": ""
     },
-    "installFollowUs": {
-        "message": "<a $a_params$>Folge uns</a> für Neuigkeiten zur Unterstützung mehrerer Geräte für iOS.",
-        "description": "",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "learnMore": {
         "message": "Erfahre mehr über das Verifizieren von Sicherheitsnummern",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "installNew": {
-        "message": "Einrichten als neue Installation",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "timerSetOnSync": {
+        "message": "Zeitbegrenzung wird auf $time$ aktualisiert.",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
-    "importing": {
-        "message": "Bitte warten. Deine Daten werden importiert …",
-        "description": "Shown as we are loading the user's data from disk"
+    "messageCaption": {
+        "message": "Message caption",
+        "description": "Prefix of attachment alt tags in the media gallery"
+    },
+    "deleteAllDataButton": {
+        "message": "Alle Daten löschen",
+        "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
         "message": "$count$ ungelesene Nachrichten",
@@ -405,20 +433,6 @@
         "message": "Es sind bereits zu viele Geräte verknüpft. Versuche einige zu entfernen.",
         "description": ""
     },
-    "installSignalLinks": {
-        "message": "Installiere zunächst Signal auf deinem <a $play_store$>Android-Gerät</a> oder <a $app_store$>iPhone</a>.<br /> Wir werden deine Geräte verknüpfen und deine Nachrichten synchronisiert halten.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "play_store": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            },
-            "app_store": {
-                "content": "$2",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "joinedTheGroup": {
         "message": "$name$ ist der Gruppe beigetreten.",
         "description": "Shown in the conversation history when a single person joins the group",
@@ -433,9 +447,9 @@
         "message": "Forum",
         "description": "Item under the Help menu, takes you to the forums"
     },
-    "installSyncingGroupsAndContacts": {
-        "message": "Gruppen und Kontakte werden synchronisiert …",
-        "description": ""
+    "menuSetupWithImport": {
+        "message": "Einrichten mit Importieren",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30min",
@@ -463,6 +477,10 @@
         "message": "Sprachausgabe",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
+    "importErrorHeader": {
+        "message": "Etwas ist schiefgelaufen!",
+        "description": "Header of the error screen after a failed import"
+    },
     "changedSinceVerified": {
         "message": "Deine Sicherheitsnummer mit $name$ hat sich seit eurer letzten Verifikation geändert. Dies könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber $name$ hat Signal einfach erneut installiert.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -472,6 +490,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "importAgain": {
+        "message": "Ordner wählen und erneut versuchen",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "upgrade": {
         "message": "Aktualisieren",
@@ -541,13 +563,21 @@
         "message": "12h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "signalSettings": {
+        "message": "Signal-Einstellungen",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
     "timestampFormat_M": {
         "message": "D. MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "plusButton": {
+        "message": "»+«-Schaltfläche",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
     "chooseDirectory": {
-        "message": "Verzeichnis wählen",
-        "description": "Button to allow the user to export all data from app as part of migration process"
+        "message": "Ordner wählen",
+        "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
         "message": "&Bearbeiten",
@@ -565,12 +595,18 @@
         "message": "1d",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Neu starten",
-        "description": ""
+    "replyingTo": {
+        "message": "Antwort auf $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
-    "importButton": {
-        "message": "Jetzt importieren",
+    "autoUpdateRestartButtonLabel": {
+        "message": "Signal neu starten",
         "description": ""
     },
     "sync": {
@@ -580,10 +616,6 @@
     "timerOption_1_week": {
         "message": "1 Woche",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "installGotIt": {
-        "message": "Verstanden",
-        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Empfangen",
@@ -613,9 +645,25 @@
         "message": "30 Sekunden",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "deleteAllDataHeader": {
+        "message": "Alle Daten löschen?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataProgress": {
+        "message": "Verbindung wird getrennt und alle Daten gelöscht",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
     "sendMessage": {
         "message": "Eine Nachricht senden",
         "description": "Placeholder text in the message entry field"
+    },
+    "menuReportIssue": {
+        "message": "Problem melden",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "loadDataDescription": {
+        "message": "Du hast gerade den Exportierungsprozess durchlaufen, und deine Kontakte und Nachrichten warten geduldig auf deinem Computer. Wähle nun den Ordner aus, der deine gespeicherten Signal-Daten enthält.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "me": {
         "message": "Ich",
@@ -641,8 +689,12 @@
         "message": "Diese Nachricht löschen",
         "description": ""
     },
+    "chooseDeviceName": {
+        "message": "Wähle einen Namen für dieses Gerät aus",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
     "autoUpdateNewVersionInstructions": {
-        "message": "Klicke auf »Neu starten«, um die Aktualisierungen anzuwenden.",
+        "message": "Klicke auf »Signal neu starten«, um die Aktualisierungen durchzuführen.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -650,20 +702,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Leider ist während des Importierens etwas schief gelaufen. <p>Überprüfe zunächst noch einmal das Zielverzeichnis. Es sollte mit \"Signal Export\" beginnen.</p><p>Versuche als Nächstes, deine Daten aus der Chrome-App erneut zu exportieren.</p> Falls dies immer noch fehlschlägt, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>übermittle bitte ein Diagnoseprotokoll</a>, sodass wir dir bei der Migration helfen können!",
+        "message": "Stelle sicher, dass du den richtigen Ordner ausgewählt hast, der deine abgespeicherten Signal-Daten enthält. Sein Name sollte mit »Signal Export« beginnen. Du kannst auch eine neue Kopie deiner Daten aus der Chrome-App exportieren.<p>Falls diese Schritte bei dir nicht funktionieren sollten, <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>übermittle bitte ein Diagnoseprotokoll</a>, sodass wir dir bei der Migration helfen können!</p>",
         "description": "Message shown if the import went wrong."
-    },
-    "installAndroidInstructions": {
-        "message": "Öffne Signal auf deinem Mobilgerät und gehe zu »Einstellungen« > »Verknüpfte Geräte«. Tippe die Schaltfläche zum Hinzufügen eines neuen Geräts an und scanne dann den oben dargestellten Code ein.",
-        "description": ""
     },
     "invalidNumberError": {
         "message": "Ungültige Rufnummer",
         "description": "When a person inputs a number that is invalid"
-    },
-    "importComplete": {
-        "message": "Deine Daten wurden erfolgreich geladen. Bitte starte die Anwendung neu!",
-        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Willkommen bei Signal Desktop",
@@ -673,15 +717,9 @@
         "message": "Neue Nachricht unten",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
-    "exportComplete": {
-        "message": "Deine Daten wurde exportiert nach: <p><b>$location$</b></p> Du wirst diese Daten importieren können, sobald du <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>das neue Signal Desktop</a> einrichtest.",
-        "description": "Message shown on the migration screen when we are done exporting data",
-        "placeholders": {
-            "location": {
-                "content": "$1",
-                "example": "/Users/someone/somewhere"
-            }
-        }
+    "menuSetupAsNewDevice": {
+        "message": "Einrichten als neues Gerät",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
         "message": "Verbinden mit Server gescheitert.",
@@ -695,6 +733,10 @@
         "message": "Nachricht nicht gesendet.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "initialSync": {
+        "message": "Kontakte und Gruppen werden synchronisiert …",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "mainMenuView": {
         "message": "&Ansicht",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -703,9 +745,25 @@
         "message": "Eine neue Version von Signal ist verfügbar.",
         "description": ""
     },
+    "replyToMessage": {
+        "message": "Auf Nachricht antworten",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
     "disableNotifications": {
         "message": "Benachrichtigungen deaktivieren",
         "description": "Label for disabling notifications"
+    },
+    "photo": {
+        "message": "Foto",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "media": {
+        "message": "Medieninhalte",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "noContents": {
+        "message": "Keine Nachrichteninhalte",
+        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
         "message": "Abbrechen",
@@ -714,10 +772,6 @@
     "unblockToSend": {
         "message": "Hebe die Blockierung für diesen Kontakt auf, um eine Nachricht zu senden.",
         "description": "Brief message shown when trying to message a blocked number"
-    },
-    "installIHaveSignalButton": {
-        "message": "Ich habe Signal für Android",
-        "description": "Button for the user to confirm that they have Signal for Android"
     },
     "mainMenuHelp": {
         "message": "&Hilfe",
@@ -745,13 +799,13 @@
         "message": "Verbindung wird hergestellt …",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "deleteAllDataBody": {
+        "message": "Du bist dabei, alle gespeicherten Benutzerkontoinformationen dieser Anwendung zu löschen, einschließlich aller Kontakte und Nachrichten. Du kannst jederzeit wieder eine Verknüpfung mit deinem Mobilgerät herstellen, dies wird aber gelöschte Nachrichten nicht wiederherstellen.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
     "sessionEnded": {
         "message": "Verschlüsselung zurückgesetzt",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "installGetStartedButton": {
-        "message": "Loslegen",
-        "description": ""
     },
     "relink": {
         "message": "Erneut verknüpfen",
@@ -779,23 +833,13 @@
             }
         }
     },
-    "installSignalLink": {
-        "message": "Installiere zunächst <a $a_params$>Signal</a> auf deinem Mobilgerät. Wir werden deine Geräte verknüpfen und deine Nachrichten synchronisiert halten.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
-    "installLinkingWithNumber": {
-        "message": "Verknüpfung wird durchgeführt mit",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
-    },
     "goToSupportPage": {
         "message": "Support",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "finishLinkingPhone": {
+        "message": "Verknüpfen mit Telefon abschließen",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
         "message": "$names$ sind der Gruppe beigetreten.",
@@ -819,10 +863,6 @@
         "message": "Neue Nachrichten",
         "description": "Displayed in notifications for multiple messages"
     },
-    "newContact": {
-        "message": "Für neuen Kontakt anklicken",
-        "description": ""
-    },
     "theirIdentityUnknown": {
         "message": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Eure gemeinsame Sicherheitsnummer wird nach der ersten Nachricht verfügbar sein.",
         "description": ""
@@ -830,6 +870,10 @@
     "voiceMessage": {
         "message": "Sprachnachricht",
         "description": "Name for a voice message attachment"
+    },
+    "importCompleteStartButton": {
+        "message": "Signal Desktop verwenden",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "submit": {
         "message": "Übermitteln",
@@ -859,6 +903,10 @@
             }
         }
     },
+    "clearDataExplanation": {
+        "message": "Dies wird alle Benutzerdaten der Anwendung löschen, d. h. alle Nachrichten und gespeicherte Benutzerkontoinformationen.",
+        "description": "Text describing what the clear data button will do."
+    },
     "to": {
         "message": "An",
         "description": "Label for the receiver of a message"
@@ -867,9 +915,9 @@
         "message": "1h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installFinalButton": {
-        "message": "Sieht gut aus",
-        "description": "The final button for the install process, after the user has entered a name for their device"
+    "optimizingApplication": {
+        "message": "Anwendung wird optimiert …",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
         "message": "Versionshinweise",
@@ -879,14 +927,6 @@
         "message": "Nachrichtendetails",
         "description": ""
     },
-    "installNewSignal": {
-        "message": "Neues Signal Desktop installieren",
-        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
-    },
-    "exportChooserTitle": {
-        "message": "Verzeichnis wählen",
-        "description": "Title of the popup window used to select data storage location"
-    },
     "mainMenuFile": {
         "message": "&Datei",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -895,17 +935,25 @@
         "message": "Als verifiziert markieren",
         "description": ""
     },
-    "exportButton": {
-        "message": "Exportieren",
-        "description": ""
+    "clearDataHeader": {
+        "message": "Daten löschen",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "linkNewDevice": {
+        "message": "Neues Gerät verknüpfen",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
     "nameAndMessage": {
         "message": "Kontaktname und Nachricht",
         "description": "Label for setting notifications to display name and message text"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Einrichten als eigenständiges Gerät",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
         "message": "Versand an einige Empfänger gescheitert. Überprüfe deine Netzwerkverbindung.",
@@ -923,9 +971,17 @@
         "message": "Deine Sicherheitsnummern mit mehreren Gruppenmitgliedern  haben sich seit eurer letzten Verifikation geändert. Dies könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber die entsprechenden Mitglieder haben Signal einfach erneut installiert.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "loadDataHeader": {
+        "message": "Lade deine Daten",
+        "description": "Header shown on the first screen in the data import process"
+    },
     "submitDebugLog": {
-        "message": "Diagnoseprotokoll senden",
-        "description": "Menu item and header text for debug log modal, title case."
+        "message": "Diagnoseprotokoll",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "startConversation": {
+        "message": "Unterhaltung beginnen …",
+        "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
         "message": "Fehler",
@@ -969,17 +1025,13 @@
         "message": "30s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "exportInstructions": {
-        "message": "Der erste Schritt ist die Auswahl eines Verzeichnisses, um die exportierten Daten dieser App zu speichern. Dieses wird deinen Nachrichtenverlauf und vertrauliche, kryptografische Daten enthalten. Achte daher auf einen sicheren Speicherort.",
-        "description": "Description of the export process"
+    "audio": {
+        "message": "Audio",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
         "message": "Benachrichtigungen",
         "description": "Header for notification settings"
-    },
-    "tryAgain": {
-        "message": "Erneut importieren",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Erneut senden",

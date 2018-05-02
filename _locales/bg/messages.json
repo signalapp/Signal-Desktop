@@ -4,7 +4,7 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "Изберете директория с експортираните данни",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
@@ -14,6 +14,22 @@
     "view": {
         "message": "Преглед",
         "description": "Used as a label on a button allowing user to see more information"
+    },
+    "linkedDevices": {
+        "message": "Свързани Устройства",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "yesterday": {
+        "message": "Yesterday",
+        "description": "Section header in the media gallery"
+    },
+    "replyingToYourself": {
+        "message": "Отговаряйки на себе си",
+        "description": "Shown in iOS theme when you quote yourself"
+    },
+    "documents": {
+        "message": "Documents",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
         "message": "Подновяване на базата данни. Това може да отнеме извесно време...",
@@ -33,9 +49,9 @@
             }
         }
     },
-    "importInstructions": {
-        "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
-        "description": "Description of the export process"
+    "thisMonth": {
+        "message": "This Month",
+        "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
         "message": "Неподдържан прикачен тип. Натиснете за да го запишете.",
@@ -50,7 +66,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ напусна групата.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -77,17 +93,21 @@
         "message": "5сек",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installComputerName": {
-        "message": "Името на този компютър ще бъде ",
-        "description": "Text displayed before the input where the user can enter the name for this device."
+    "importCompleteHeader": {
+        "message": "Готово!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
         "message": "1 минута",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "deviceName": {
+        "message": "Име на Устройството",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
     "debugLog": {
-        "message": "Debug Log",
-        "description": "View menu item to open the debug log, capitalized"
+        "message": "Доклад (debug log)",
+        "description": "View menu item to open the debug log (title case)"
     },
     "gotIt": {
         "message": "Разбрах!",
@@ -127,40 +147,32 @@
         "message": "Неподдържан файлов тип",
         "description": "Displayed for outgoing unsupported attachment"
     },
-    "exportAgain": {
-        "message": "Изнесете отново",
-        "description": "If user has already exported once, this button allows user to do it again if needed"
-    },
     "quit": {
-        "message": "Quit",
+        "message": "Изход",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
         "message": "Кликнете, за да запазите",
         "description": "Hover text for attachment filenames"
     },
-    "fileABug": {
-        "message": "File a bug",
-        "description": "Item under the Help menu, takes you to GitHub new issue form"
-    },
     "messagesBelow": {
         "message": "Нови съобщения по-долу",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
-    "installGeneratingKeys": {
-        "message": "Генериране на ключове",
-        "description": ""
-    },
     "resetSession": {
         "message": "Нулирай сесията",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "replyingToYou": {
+        "message": "Отговаряне на Вас",
+        "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "offline": {
         "message": "Не е на линия",
         "description": "Displayed when the desktop client has no network connection."
     },
     "hideMenuBar": {
-        "message": "Hide menu bar",
+        "message": "Скрий лентата с менютата",
         "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
@@ -183,13 +195,13 @@
         "message": "изключено",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
-    "syncExplanation": {
-        "message": "Импортиране на всички Signal групи и контакти от Вашето мобилно устройство.",
-        "description": "Explanatory text for sync settings"
+    "clearDataButton": {
+        "message": "Изчистване на данните",
+        "description": "Button in the settings dialog starting process to delete all data"
     },
-    "restartSignal": {
-        "message": "Рестартиране на Signal",
-        "description": "Menu item for restarting the program."
+    "syncExplanation": {
+        "message": "Импортиране на всички Сигнал групи и контакти от Вашето мобилно устройство.",
+        "description": "Explanatory text for sync settings"
     },
     "youLeftTheGroup": {
         "message": "Напуснахте групата",
@@ -212,24 +224,16 @@
         "description": ""
     },
     "trayTooltip": {
-        "message": "Signal Desktop",
+        "message": "Сигнал Десктоп",
         "description": "Tooltip for the tray icon"
     },
     "selectAContact": {
         "message": "Изберете контакт или група за да започнете разговор.",
         "description": ""
     },
-    "exportError": {
-        "message": "За съжаление нещо се обърка при изнасянето. Първо, проверете отново правата за писане във вашата дестинация и дали имате достатъчно място. После, моля изпратете debug log, за да можем да ви помогнем с пренасянето!",
-        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
-    },
     "aboutSignalDesktop": {
-        "message": "About Signal Desktop",
+        "message": "Относно Сигнал Десктоп",
         "description": "Item under the Help menu, which opens a small about window"
-    },
-    "installConnecting": {
-        "message": "Свързване...",
-        "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
         "message": "избраното от вас място",
@@ -261,6 +265,14 @@
         "message": "Изпратено",
         "description": "Label for the time a message was sent"
     },
+    "thisWeek": {
+        "message": "This Week",
+        "description": "Section header in the media gallery"
+    },
+    "importingHeader": {
+        "message": "Зареждане на контакти и съобщения",
+        "description": "Header of screen shown as data is import"
+    },
     "theyChangedTheTimer": {
         "message": "$name$  настрои таймера на $time$. ",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -279,17 +291,17 @@
         "message": "сега",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "mainMenuSettings": {
+        "message": "Настройки...",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
     "changedRecentlyMultiple": {
-        "message": "Номерата ви за безопасност с няколко членове от групата наскоро са се променили. Това може да означава, че някой се опитва да прихване комуникацията ви или те просто повторно са инсталирали Signal.",
+        "message": "Номерата ви за безопасност с няколко членове от групата наскоро са се променили. Това може да означава, че някой се опитва да прихване комуникацията ви или те просто повторно са инсталирали Сигнал.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
         "message": "1 ден",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "exporting": {
-        "message": "Моля изчакайте докато изнесем вашите данни. Това може да отнеме няколко минути. Може да продължите да използвате Signal на вашия телефон, както и от други устройства през това време.",
-        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Докладвай за проблем",
@@ -304,7 +316,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "По-късно",
         "description": ""
     },
     "from": {
@@ -316,24 +328,36 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "mainMenuWindow": {
-        "message": "&Window",
+        "message": "&Прозорец",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "installImport": {
-        "message": "Set up with exported data",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "importCompleteLinkButton": {
+        "message": "Свържете това устройство с телефона си",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
-        "message": "Свържете повторно Signal Desktop към вашето мобилно устройство за да изпращате съобщения.",
+        "message": "Свържете повторно Сигнал Десктоп към вашето мобилно устройство за да изпращате съобщения.",
         "description": ""
+    },
+    "today": {
+        "message": "Today",
+        "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
         "message": "Съобщенията ще бъдат публикувани онлайн за да бъдат прегледани от сътрудниците. Може да ги разгледате и редактирате преди да ги изпратите.",
         "description": ""
     },
+    "linkYourPhone": {
+        "message": "Свържете телефона си със Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
     "newPhoneNumber": {
         "message": "Въведете телефонен номер за да добавите контакт.",
         "description": "Placeholder for adding a new number to a contact"
+    },
+    "viewAllMedia": {
+        "message": "View all media",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "noLongerVerified": {
         "message": "Вашият номер за сигурност с $name$ е променен и все още не е потвърден. Натиснете за преглед.",
@@ -345,8 +369,12 @@
             }
         }
     },
+    "video": {
+        "message": "Видео",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
     "searchForPeopleOrGroups": {
-        "message": "Търсене...",
+        "message": "Въведете име или номер",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -369,27 +397,27 @@
         "message": "Разкачи",
         "description": ""
     },
-    "installFollowUs": {
-        "message": "<a $a_params$>Следвайте ни</a> за обновления относно поддръжката на различни устройства за iOS.",
-        "description": "",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "learnMore": {
         "message": "Научете по-вече за потвърждението на номерата за безопасност.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "installNew": {
-        "message": "Set up as new install",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "timerSetOnSync": {
+        "message": "Актуализиране на таймера до $time$.",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
-    "importing": {
-        "message": "Please wait while we import your data...",
-        "description": "Shown as we are loading the user's data from disk"
+    "messageCaption": {
+        "message": "Message caption",
+        "description": "Prefix of attachment alt tags in the media gallery"
+    },
+    "deleteAllDataButton": {
+        "message": "Изтрийте всички данни",
+        "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
         "message": "$count$Непрочетени Съобщения",
@@ -405,22 +433,8 @@
         "message": "Съжаляваме, вече имате прекалено много регистрирани устройства. Пробвайте да премахнете някое.",
         "description": ""
     },
-    "installSignalLinks": {
-        "message": "Първо, инсталирай Signal на своя <a $play_store$>Android</a> или <a $app_store$>iPhone</a>.<br /> Ние ще свържем вашите устройства и ще запазим съобщенията ви синхронизирани.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "play_store": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            },
-            "app_store": {
-                "content": "$2",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ се присъедини към групата.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -430,12 +444,12 @@
         }
     },
     "goToForums": {
-        "message": "Go to forums",
+        "message": "Към форумите",
         "description": "Item under the Help menu, takes you to the forums"
     },
-    "installSyncingGroupsAndContacts": {
-        "message": "Синхронизиране на групи и контакти",
-        "description": ""
+    "menuSetupWithImport": {
+        "message": "Инсталация с импортиране",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30м",
@@ -460,11 +474,15 @@
         }
     },
     "speech": {
-        "message": "Speech",
+        "message": "Говор",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
+    "importErrorHeader": {
+        "message": "Нещо се обърка!",
+        "description": "Header of the error screen after a failed import"
+    },
     "changedSinceVerified": {
-        "message": "Вашият номер за безопасност с $name$ се е променил след последното потвърждение. Това може да означава, че някой се опитва да прихване комуникацията ви или $name$ прост повторно е инсталирал Signal.",
+        "message": "Вашият номер за безопасност с $name$ се е променил след последното потвърждение. Това може да означава, че някой се опитва да прихване комуникацията ви или $name$ прост повторно е инсталирал Сигнал.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -472,6 +490,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "importAgain": {
+        "message": "Изберете папка и опитайте отново",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "upgrade": {
         "message": "Обновяване",
@@ -504,7 +526,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "show": {
-        "message": "Show",
+        "message": "Покажи",
         "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
@@ -541,16 +563,24 @@
         "message": "12ч",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "signalSettings": {
+        "message": "Signal Настройки",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "plusButton": {
+        "message": "'+' Бутон",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
     "chooseDirectory": {
         "message": "Изберете папка",
-        "description": "Button to allow the user to export all data from app as part of migration process"
+        "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
-        "message": "&Edit",
+        "message": "&Редактирай",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
@@ -565,12 +595,18 @@
         "message": "1д",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Restart",
-        "description": ""
+    "replyingTo": {
+        "message": "Отговор до $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
-    "importButton": {
-        "message": "Import",
+    "autoUpdateRestartButtonLabel": {
+        "message": "Рестарт на Signal",
         "description": ""
     },
     "sync": {
@@ -580,10 +616,6 @@
     "timerOption_1_week": {
         "message": "1 седмица",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "installGotIt": {
-        "message": "Разбрах!",
-        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Получено",
@@ -613,9 +645,25 @@
         "message": "30 секунди",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "deleteAllDataHeader": {
+        "message": "Изтриване на всички данни?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataProgress": {
+        "message": "Прекъсване и изтриване на всички данни",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
     "sendMessage": {
         "message": "Изпрати съобщение",
         "description": "Placeholder text in the message entry field"
+    },
+    "menuReportIssue": {
+        "message": "Докладвай Проблем",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "loadDataDescription": {
+        "message": "Току-що сте преминали процеса на експортиране и вашите контакти и съобщения чакат търпеливо на вашия компютър. Изберете папката, която съдържа запаметените ви данни на Signal.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "me": {
         "message": "Аз",
@@ -630,7 +678,7 @@
         "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
-        "message": "Тази версия на Signal за компютър вече е остаряла. Моля, обновете до последната версия за да можете да изпращате съобщения.",
+        "message": "Тази версия на Сигнал за компютър вече е остаряла. Моля, обновете до последната версия за да можете да изпращате съобщения.",
         "description": "Warning notification that this version of the app has expired"
     },
     "fileSizeWarning": {
@@ -641,8 +689,12 @@
         "message": "Изтрий съобщението",
         "description": ""
     },
+    "chooseDeviceName": {
+        "message": "Изберете име за устройството",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart to apply the updates.",
+        "message": "Натиснете Рестарт на Signal за да валидирате промените.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -650,20 +702,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Уверете се, че сте избрали правилната директория, която съдържа запаметените данни от Signal. Името му трябва да започва с \"Експортиране на Сигнал\". Също така можете да запазите ново копие на данните си от приложението в Chrome.<p>Ако тези стъпки не работят за вас, моля, <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>изпратете регистрационен файл за отстраняване на грешки,</a> за да можем да ви помогнем да мигрирате!</p>",
         "description": "Message shown if the import went wrong."
-    },
-    "installAndroidInstructions": {
-        "message": "Отворете Signal на телефона си, след което отворете 'Настройки' > 'Регистрирани устройства'. Натиснете бутона за да добавите ново устройство, след което сканирайте кода отгоре.",
-        "description": ""
     },
     "invalidNumberError": {
         "message": "Невалиден номер",
         "description": "When a person inputs a number that is invalid"
-    },
-    "importComplete": {
-        "message": "We've successfully loaded your data. The next step is to restart the application!",
-        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Добре дошли в Сигнал за настолен компютър",
@@ -673,15 +717,9 @@
         "message": "Ново съобщение по-долу",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
-    "exportComplete": {
-        "message": "Вашата информация беше изнесена на: <p><b>$location$</b></p> Вие ще може да внесете тази информация след настройването на <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>новия Signal Desktop</a>.",
-        "description": "Message shown on the migration screen when we are done exporting data",
-        "placeholders": {
-            "location": {
-                "content": "$1",
-                "example": "/Users/someone/somewhere"
-            }
-        }
+    "menuSetupAsNewDevice": {
+        "message": "Инсталиране като ново устройство",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
         "message": "Неуспешна връзка със сървъра.",
@@ -695,17 +733,37 @@
         "message": "Съобщението не беше изпратено.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "initialSync": {
+        "message": "Синхронизиране на контакти и групи",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "mainMenuView": {
-        "message": "&View",
+        "message": "&Изглед",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Достъпна е нова версия на Сигнал.",
         "description": ""
+    },
+    "replyToMessage": {
+        "message": "Отговор на съобщението",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "disableNotifications": {
         "message": "Изключване на известията",
         "description": "Label for disabling notifications"
+    },
+    "photo": {
+        "message": "Изображение",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "media": {
+        "message": "Media",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "noContents": {
+        "message": "Няма съдържание на съобщението",
+        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
         "message": "Отказ",
@@ -715,12 +773,8 @@
         "message": "Отблокирай този контакт за да изпратиш съобщение.",
         "description": "Brief message shown when trying to message a blocked number"
     },
-    "installIHaveSignalButton": {
-        "message": "Имам Сигнал за Андройд",
-        "description": "Button for the user to confirm that they have Signal for Android"
-    },
     "mainMenuHelp": {
-        "message": "&Help",
+        "message": "&Помощ",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
@@ -745,13 +799,13 @@
         "message": "Свързване",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "deleteAllDataBody": {
+        "message": "На път сте да изтриете цялата информация за запазения профил на приложението, включително всички контакти и всички съобщения. Винаги можете да се свързвате отново с мобилното си устройство, но това няма да възстанови изтритите съобщения.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
     "sessionEnded": {
         "message": "Рестартиране на поверителна сесия",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "installGetStartedButton": {
-        "message": "Да започваме",
-        "description": ""
     },
     "relink": {
         "message": "Свържете отново",
@@ -779,26 +833,16 @@
             }
         }
     },
-    "installSignalLink": {
-        "message": "Първо, инсталирайте <a $a_params$>Сигнал</a> на вашият мобилен телефон.<br /> Ние ще свържем вашите устройства и ще синхронизираме съобщенията Ви.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
-    "installLinkingWithNumber": {
-        "message": "Свързване с ",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
-    },
     "goToSupportPage": {
-        "message": "Go to support page",
+        "message": "Отворете страницата за поддръжка",
         "description": "Item under the Help menu, takes you to the support page"
     },
+    "finishLinkingPhone": {
+        "message": "Завършете свързването на телефона",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
+    },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ се присъедини към групата.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -819,10 +863,6 @@
         "message": "Нови съобщения",
         "description": "Displayed in notifications for multiple messages"
     },
-    "newContact": {
-        "message": "Докосни за създаване на нов контакт",
-        "description": ""
-    },
     "theirIdentityUnknown": {
         "message": "Все още не сте се обменяли съобщения с този контакт. Вашият номер за безопасност с него ще бъде на разположение след първото съобщение.",
         "description": ""
@@ -830,6 +870,10 @@
     "voiceMessage": {
         "message": "Гласово съобщение",
         "description": "Name for a voice message attachment"
+    },
+    "importCompleteStartButton": {
+        "message": "Започнете да използвате Signal Desktop",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "submit": {
         "message": "Изпрати",
@@ -846,11 +890,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Updated the group.",
+        "message": "Групата беше актуализирана.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "identityKeyErrorOnSend": {
-        "message": "Номерът ви за безопасност с $name$ се е променил. Това може да означава, че някой се опитва да прихване комуникацията ви или че $name$ просто повторно е инсталирал Signal. Вероятно желаете да потвърдите вашия номер за безопасност с този контакт.",
+        "message": "Номерът ви за безопасност с $name$ се е променил. Това може да означава, че някой се опитва да прихване комуникацията ви или че $name$ просто повторно е инсталирал Сигнал. Вероятно желаете да потвърдите вашия номер за безопасност с този контакт.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -858,6 +902,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "clearDataExplanation": {
+        "message": "Това ще изчисти всички данни в приложението, премахвайки всички съобщения и запазената информация за профила.",
+        "description": "Text describing what the clear data button will do."
     },
     "to": {
         "message": "До",
@@ -867,45 +915,45 @@
         "message": "1ч",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installFinalButton": {
-        "message": "Изглежда добре",
-        "description": "The final button for the install process, after the user has entered a name for their device"
+    "optimizingApplication": {
+        "message": "Оптимизиране на приложението...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Go to release notes",
+        "message": "Отворете бележките за изданието",
         "description": ""
     },
     "messageDetail": {
         "message": "Детайли за съобщението",
         "description": ""
     },
-    "installNewSignal": {
-        "message": "Инсталирай новия Signal Desktop",
-        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
-    },
-    "exportChooserTitle": {
-        "message": "Choose target directory for data",
-        "description": "Title of the popup window used to select data storage location"
-    },
     "mainMenuFile": {
-        "message": "&File",
+        "message": "&Файл",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Маркирайте, както е потвърдено",
         "description": ""
     },
-    "exportButton": {
-        "message": "Export",
-        "description": ""
+    "clearDataHeader": {
+        "message": "Изчистване на данните",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10сек",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "linkNewDevice": {
+        "message": "Свържи Ново Устройство",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
     "nameAndMessage": {
         "message": "Име на изпращача и съобщение",
         "description": "Label for setting notifications to display name and message text"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Инсталиране като отделно устройство",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
         "message": "Неупешно изпращане до някои от получателите. Проверете вашата връзка към мрежата.",
@@ -920,19 +968,27 @@
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Номерата ви за безопасност с няколко членове от групата са се променили след последното потвърждение. Това може да означава, че някой се опитва да прихване комуникацията ви или те просто повторно са инсталирали Signal.",
+        "message": "Номерата ви за безопасност с няколко членове от групата са се променили след последното потвърждение. Това може да означава, че някой се опитва да прихване комуникацията ви или те просто повторно са инсталирали Сигнал.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "loadDataHeader": {
+        "message": "Зареждане на данните ви",
+        "description": "Header shown on the first screen in the data import process"
+    },
     "submitDebugLog": {
-        "message": "Изпрати файл с грешките",
-        "description": "Menu item and header text for debug log modal, title case."
+        "message": "Отчет за грешки",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "startConversation": {
+        "message": "Започнете разговор...",
+        "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
         "message": "Грешка",
         "description": ""
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'.",
+        "message": "Заглавието сега е '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -962,24 +1018,20 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Достъпна е актуализация на Сигнал.",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
         "message": "30сек",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "exportInstructions": {
-        "message": "Първата стъпка е да изберете папка за записването на информацията от приложението. Тя ще съдържа вашата история на кореспондецията ви, както и криптирана информация, така че моля запишете я на сигурно място.",
-        "description": "Description of the export process"
+    "audio": {
+        "message": "Аудио",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
         "message": "Известия",
         "description": "Header for notification settings"
-    },
-    "tryAgain": {
-        "message": "Try again",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Изпрати отново",
@@ -996,7 +1048,7 @@
         }
     },
     "hide": {
-        "message": "Hide",
+        "message": "Скрий",
         "description": "Command in the tray icon menu, to hide the window"
     }
 }

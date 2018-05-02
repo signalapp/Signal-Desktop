@@ -15,6 +15,22 @@
         "message": "Εμφάνιση",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "linkedDevices": {
+        "message": "Συνδεδεμένες συσκευές ",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "yesterday": {
+        "message": "Yesterday",
+        "description": "Section header in the media gallery"
+    },
+    "replyingToYourself": {
+        "message": "Replying to Yourself",
+        "description": "Shown in iOS theme when you quote yourself"
+    },
+    "documents": {
+        "message": "Documents",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
     "upgradingDatabase": {
         "message": "Αναβάθμιση βάσης δεδομένων. Αυτό μπορεί να πάρει κάποια ώρα...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
@@ -33,9 +49,9 @@
             }
         }
     },
-    "importInstructions": {
-        "message": "Το πρώτο βήμα είναι να μας πεις <a href='https://support.signal.org/hc/en-us/articles/115002502511'>πού εξήγαγες τα δεδομένα του Signal</a>. Θα είναι ένας φάκελος που το όνομά του ξεκινά με 'Signal Export'.<br><br><b>Σημείωση</b>: Πρέπει να εισάγεις ένα σετ εξαγομένων δεδομένων μόνο <b>μία φορά</b>. Η εισαγωγή δημιουργεί ένα αντίγραφο της εξαγόμενης εφαρμογής, και διπλότυπα της εφαρμογής παρεμβαίνουν μεταξύ τους.",
-        "description": "Description of the export process"
+    "thisMonth": {
+        "message": "This Month",
+        "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
         "message": "Μη υποστηριζόμενος τύπος συνημμένου. Κλικ για αποθήκευση.",
@@ -77,17 +93,21 @@
         "message": "5δ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installComputerName": {
-        "message": "Το όνομα αυτού του υπολογιστή θα είναι",
-        "description": "Text displayed before the input where the user can enter the name for this device."
+    "importCompleteHeader": {
+        "message": "Επιτυχία!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
         "message": "1 λεπτό",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "deviceName": {
+        "message": "Όνομα συσκεύης",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
     "debugLog": {
         "message": "Αρχείο καταγραφής αποσφαλμάτωσης",
-        "description": "View menu item to open the debug log, capitalized"
+        "description": "View menu item to open the debug log (title case)"
     },
     "gotIt": {
         "message": "Κατάλαβα!",
@@ -127,33 +147,25 @@
         "message": "Μη υποστηριζόμενος τύπος αρχείου",
         "description": "Displayed for outgoing unsupported attachment"
     },
-    "exportAgain": {
-        "message": "Εξαγωγή ξανά",
-        "description": "If user has already exported once, this button allows user to do it again if needed"
-    },
     "quit": {
-        "message": "Quit",
+        "message": "Έξοδος",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
         "message": "Κλικ για αποθήκευση",
         "description": "Hover text for attachment filenames"
     },
-    "fileABug": {
-        "message": "Υπέβαλε ένα σφάλμα/πρόβλημα",
-        "description": "Item under the Help menu, takes you to GitHub new issue form"
-    },
     "messagesBelow": {
         "message": "Νέα μηνύματα παρακάτω",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
-    "installGeneratingKeys": {
-        "message": "Δημιουργούνται Κλειδιά",
-        "description": ""
-    },
     "resetSession": {
         "message": "Επανεκκίνηση συνεδρίας",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "replyingToYou": {
+        "message": "Replying to You",
+        "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "offline": {
         "message": "Εκτός σύνδεσης",
@@ -183,13 +195,13 @@
         "message": "κλειστό",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
+    "clearDataButton": {
+        "message": "Εκκαθάριση δεδομένων",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
     "syncExplanation": {
         "message": "Εισαγωγή όλων των Signal ομάδων και επαφών από την φορητή συσκευή σου.",
         "description": "Explanatory text for sync settings"
-    },
-    "restartSignal": {
-        "message": "Επανεκκίνηση του Signal",
-        "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
         "message": "Αποχώρησες από την ομάδα",
@@ -219,17 +231,9 @@
         "message": "Επέλεξε μία επαφή ή ομάδα για να ξεκινήσεις να συζητάς.",
         "description": ""
     },
-    "exportError": {
-        "message": "Δυστυχώς, κάτι πήγε στραβά κατά την εξαγωγή. Πρώτα, έλεγξε τα δικαιώματα εγγραφής και τον διαθέσιμο χώρο στον φάκελο που διάλεξες. Έπειτα, παρακαλώ καταχώρησε ένα αρχείο καταγραφής αποσφαλμάτωσης ώστε να σε βοηθήσουμε να μεταφερθείς!",
-        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
-    },
     "aboutSignalDesktop": {
         "message": "Σχετικά με το Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
-    },
-    "installConnecting": {
-        "message": "Σύνδεση...",
-        "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
         "message": "επιλεγμένη τοποθεσία σου",
@@ -261,6 +265,14 @@
         "message": "Στάλθηκε",
         "description": "Label for the time a message was sent"
     },
+    "thisWeek": {
+        "message": "This Week",
+        "description": "Section header in the media gallery"
+    },
+    "importingHeader": {
+        "message": "Φόρτωση επαφών και μυνημάτων",
+        "description": "Header of screen shown as data is import"
+    },
     "theyChangedTheTimer": {
         "message": "Ο/Η $name$ ρύθμισε την αντίστροφη μέτρηση ίση με $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -279,6 +291,10 @@
         "message": "τώρα",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "mainMenuSettings": {
+        "message": "Προτιμήσεις...",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
     "changedRecentlyMultiple": {
         "message": "Οι αριθμοί ασφαλείας με πολλαπλά μέλη της ομάδας άλλαξαν πρόσφατα. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου ή ότι απλά επανεγκατέστησαν το Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -286,10 +302,6 @@
     "timerOption_1_day": {
         "message": "1 ημέρα",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "exporting": {
-        "message": "Παρακαλώ περίμενε όσο εξάγουμε τα δεδομένα σου. Αυτό μπορεί να πάρει αρκετά λεπτά. Μπορείς ακόμα να χρησιμοποιείς το Signal στο κινητό σου και σε άλλες συσκευές.",
-        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Υποβολή παραπόνου",
@@ -319,21 +331,33 @@
         "message": "&Παράθυρο",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "installImport": {
-        "message": "Εγκατάσταση με προϋπάρχοντα στοιχεία",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "importCompleteLinkButton": {
+        "message": "Σύνδεση αυτής της συσκευής στο τηλέφωνό σας",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
         "message": "Επανασύνδεσε το Signal Desktop με την φορητή συσκευή σου για να συνεχίσεις να συνομιλείς.",
         "description": ""
     },
+    "today": {
+        "message": "Today",
+        "description": "Section header in the media gallery"
+    },
     "debugLogExplanation": {
         "message": "Αυτό το αρχείο καταγραφής συμβάντων θα δημοσιευτεί στο internet ώστε να το εξετάσουν εθελοντές. Μπορείς να το μελετήσεις και να το αλλάξεις πριν το υποβάλλεις.",
         "description": ""
     },
+    "linkYourPhone": {
+        "message": "Σύνδεση τού τηλεφώνου σας με το Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
     "newPhoneNumber": {
         "message": "Βάλε αριθμό τηλεφώνου για να προσθέσεις μια επαφή",
         "description": "Placeholder for adding a new number to a contact"
+    },
+    "viewAllMedia": {
+        "message": "View all media",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "noLongerVerified": {
         "message": "Ο αριθμός ασφαλείας με τον/την $name$ άλλαξε και δεν είναι πια επιβεβαιωμένος. Κλικ για εμφάνιση.",
@@ -345,8 +369,12 @@
             }
         }
     },
+    "video": {
+        "message": "Video",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
     "searchForPeopleOrGroups": {
-        "message": "Αναζήτηση...",
+        "message": "Γράψε όνομα ή αριθμό",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -369,27 +397,27 @@
         "message": "Αποσυνδεδεμένο",
         "description": ""
     },
-    "installFollowUs": {
-        "message": "<a $a_params$>Ακολούθησέ μας</a> για ενημερώσεις σχετικά με την υποστήριξη πολλαπλών συσκευών στο iOS.",
-        "description": "",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "learnMore": {
         "message": "Μάθε περισσότερα για την επαλήθευση αριθμών ασφαλείας",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "installNew": {
-        "message": "Σετάρισμα ως νέα εγκατάσταση",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "timerSetOnSync": {
+        "message": "Ανανέωση της αντίστροφης μέτρησης σε  $time$",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
-    "importing": {
-        "message": "Παρακαλώ περίμενε όσο εισάγονται τα δεδομένα σου...",
-        "description": "Shown as we are loading the user's data from disk"
+    "messageCaption": {
+        "message": "Message caption",
+        "description": "Prefix of attachment alt tags in the media gallery"
+    },
+    "deleteAllDataButton": {
+        "message": "Διαγραφή όλων των δεδομένων",
+        "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
         "message": "$count$ μη αναγνωσμένα μηνύματα",
@@ -405,20 +433,6 @@
         "message": "Δυστυχώς έχεις ήδη πάρα πολλές συνδεδεμένες συσκευές. Προσπάθησε να αφαιρέσεις μερικές.",
         "description": ""
     },
-    "installSignalLinks": {
-        "message": "Πρώτα εγκατάστησε το Signal στο <a $play_store$>Android</a> ή στο <a $app_store$>iPhone</a><br /> Θα συνδέσουμε τις συσκευές σου και θα κρατήσουμε τα μηνύματα συγχρονισμένα.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "play_store": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            },
-            "app_store": {
-                "content": "$2",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "joinedTheGroup": {
         "message": "Ο/Η $name$ μπήκε στην ομάδα.",
         "description": "Shown in the conversation history when a single person joins the group",
@@ -430,12 +444,12 @@
         }
     },
     "goToForums": {
-        "message": "Πήγαινε στα φόρουμ",
+        "message": "Πήγαινε στα Forum",
         "description": "Item under the Help menu, takes you to the forums"
     },
-    "installSyncingGroupsAndContacts": {
-        "message": "Συγχρονισμός ομάδων και επαφών",
-        "description": ""
+    "menuSetupWithImport": {
+        "message": "Εγκατάσταση με Εισαγωγή",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30λ",
@@ -463,6 +477,10 @@
         "message": "Ομιλία",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
+    "importErrorHeader": {
+        "message": "Κάτι πήγε στραβά!",
+        "description": "Header of the error screen after a failed import"
+    },
     "changedSinceVerified": {
         "message": "Ο αριθμός ασφαλείας με τον/την $name$ άλλαξε από την τελευταία φορά που επιβεβαιώθηκε. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου ή ότι απλά ο/η $name$ επανεγκατέστησε το Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -472,6 +490,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "importAgain": {
+        "message": "Επιλέξτε το φάκελο και προσπαθήστε ξανά",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "upgrade": {
         "message": "Αναβάθμιση",
@@ -541,13 +563,21 @@
         "message": "12ω",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "signalSettings": {
+        "message": "Ρυθμίσεις τού Signal",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
     "timestampFormat_M": {
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "plusButton": {
+        "message": "Πλήκτρο '+'",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
     "chooseDirectory": {
         "message": "Επιλογή φακέλου",
-        "description": "Button to allow the user to export all data from app as part of migration process"
+        "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
         "message": "&Αλλαγές",
@@ -565,12 +595,18 @@
         "message": "1η",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Επανεκκίνηση",
-        "description": ""
+    "replyingTo": {
+        "message": "Replying to $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
-    "importButton": {
-        "message": "Εισαγωγή",
+    "autoUpdateRestartButtonLabel": {
+        "message": "Επανεκκίνηση του Signal",
         "description": ""
     },
     "sync": {
@@ -580,10 +616,6 @@
     "timerOption_1_week": {
         "message": "1 εβδομάδα",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "installGotIt": {
-        "message": "Κατάλαβα!",
-        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Λήφθηκε",
@@ -613,9 +645,25 @@
         "message": "30 δευτερόλεπτα",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "deleteAllDataHeader": {
+        "message": "Διαγραφή όλων των δεδομένων;",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataProgress": {
+        "message": "Αποσύνδεση και διαγραφή όλων των δεδομένων",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
     "sendMessage": {
         "message": "Αποστολή μηνύματος",
         "description": "Placeholder text in the message entry field"
+    },
+    "menuReportIssue": {
+        "message": "Αναφορά Σφάλματος",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "loadDataDescription": {
+        "message": "Μόλις έχετε περάσει από τη διαδικασία εξαγωγής, καθώς και οι επαφές και τα μηνύματα σας περιμένουν υπομονετικά στον υπολογιστή σας. Επιλέξτε τον φάκελο που περιέχει την αποθηκευμένα Signal δεδομένα.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "me": {
         "message": "Εγώ",
@@ -641,8 +689,12 @@
         "message": "Διαγραφή αυτού του μηνύματος",
         "description": ""
     },
+    "chooseDeviceName": {
+        "message": "Επιλέξτε το όνομα αυτής της συσκευής ",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
     "autoUpdateNewVersionInstructions": {
-        "message": "Πάτα Επανεκκίνηση για να εφαρμόσεις τις αναβαθμίσεις.",
+        "message": "Πατήστε Επανεκκίνηση για την εφαρμογή των αναβαθμίσεων.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -650,20 +702,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Δυστυχώς, κάτι πήγε στραβά κατά την εισαγωγή. <p>Πρώτα, ξαναέλεγξε τον φάκελο. Το όνομά του θα πρέπει να ξεκινά με \"Signal Export\".</p><p>Μετά, δοκίμασε να κάνεις μια νέα εξαγωγή των δεδομένων σου από την εφαρμογή Chrome.</p> Αν και αυτό αποτύχει, παρακαλώ <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>υπέβαλε ένα αρχείο καταγραφής αποσφαλμάτωσης</a> ώστε να μπορέσουμε να σε βοηθήσουμε να μεταφερθείς!",
+        "message": "Βεβαιωθείτε ότι έχετε επιλέξει τον σωστό κατάλογο που περιέχει τα αποθηκευμένα σήματα δεδομένων. Το όνομα του θα πρέπει να ξεκινά με 'Signal Export.'  Μπορείτε επίσης να αποθηκεύσετε ένα νέο αντίγραφο των δεδομένων σας από την εφαρμογή Chrome.<p>Αν αυτά τα βήματα δεν λειτουργούν για σας, παρακαλείστε να <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>υπεβάλετε ένα αρχείο καταγραφής αποσφαλμάτωσης</a>ώστε να μπορέσουμε να σας βοηθήσουμε να μεταφερθείτε!</p>",
         "description": "Message shown if the import went wrong."
-    },
-    "installAndroidInstructions": {
-        "message": "Άνοιξε το Signal στο κινητό σου και Πήγαινε στις Ρυθμίσεις > Συνδεδεμένες συσκευές. Πάτα το πλήκτρο προσθήκης νέας συσκευής και σάρωσε το παραπάνω γραφικό.",
-        "description": ""
     },
     "invalidNumberError": {
         "message": "Μη έγκυρος αριθμός",
         "description": "When a person inputs a number that is invalid"
-    },
-    "importComplete": {
-        "message": "Τα δεδομένα σου φορτώθηκαν με επιτυχία. Το επόμενο βήμα είναι η επανεκκίνηση της εφαρμογής!",
-        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Καλωσόρισες στο Signal Desktop",
@@ -673,15 +717,9 @@
         "message": "Νέο μήνυμα παρακάτω",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
-    "exportComplete": {
-        "message": "Τα δεδομένα σου εξήχθησαν σε: <p><b>$location$</b></p> Θα μπορέσεις να εισάγεις αυτά τα δεδομένα κατά την εγκατάσταση του <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>νέου Signal Desktop</a>.",
-        "description": "Message shown on the migration screen when we are done exporting data",
-        "placeholders": {
-            "location": {
-                "content": "$1",
-                "example": "/Users/someone/somewhere"
-            }
-        }
+    "menuSetupAsNewDevice": {
+        "message": "Εγκατάσταση ως νέα συσκευή",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
         "message": "Αδυναμία σύνδεσης με τον διακομιστή.",
@@ -695,6 +733,10 @@
         "message": "Το μήνυμα δεν στάλθηκε.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "initialSync": {
+        "message": "Συγχρονισμός ομάδων και επαφών",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "mainMenuView": {
         "message": "&Εμφάνιση",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -703,9 +745,25 @@
         "message": "Μια νέα έκδοση του Signal είναι διαθέσιμη.",
         "description": ""
     },
+    "replyToMessage": {
+        "message": "Reply to Message",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
     "disableNotifications": {
         "message": "Απενεργοποίηση ειδοποιήσεων",
         "description": "Label for disabling notifications"
+    },
+    "photo": {
+        "message": "Photo",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "media": {
+        "message": "Media",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "noContents": {
+        "message": "No message contents",
+        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
         "message": "Άκυρο",
@@ -714,10 +772,6 @@
     "unblockToSend": {
         "message": "Ξεμπλόκαρε αυτή την επαφή για να στείλεις ένα μήνυμα",
         "description": "Brief message shown when trying to message a blocked number"
-    },
-    "installIHaveSignalButton": {
-        "message": "Έχω το Signal στο Android",
-        "description": "Button for the user to confirm that they have Signal for Android"
     },
     "mainMenuHelp": {
         "message": "&Βοήθεια",
@@ -745,13 +799,13 @@
         "message": "Συνδέεται",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "deleteAllDataBody": {
+        "message": "Πρόκειται να διαγράψεις όλες τις αποθηκευμένες πληροφορίες του λογαριασμού σου σε αυτή την εφαρμογή, περιλαμβανομένων όλων των επαφών και όλων των μηνυμάτων. Μπορείς πάντα να συνδέσεις την εφαρμογή με το κινητό σου τηλέφωνο και πάλι, αλλά αυτό δεν θα επαναφέρει τα διαγεγραμμένα μηνύματα.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
     "sessionEnded": {
         "message": "Η ασφαλής σύνδεση επανεκκινήθηκε",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "installGetStartedButton": {
-        "message": "Πρώτα βήματα",
-        "description": ""
     },
     "relink": {
         "message": "Επανασύνδεση",
@@ -779,23 +833,13 @@
             }
         }
     },
-    "installSignalLink": {
-        "message": "Πρώτα, εγκατέστησε το <a $a_params$>Signal</a> στο κινητό σου. Θα συνδέσουμε τις συσκευές και θα διατηρήσουμε τα μηνύματα συγχρονισμένα.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
-    "installLinkingWithNumber": {
-        "message": "Σύνδεση με",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
-    },
     "goToSupportPage": {
-        "message": "Πήγαινε στην σελίδα υποστήριξης",
+        "message": "Πήγαινε στη σελίδα υποστήριξης",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "finishLinkingPhone": {
+        "message": "Τέλος σύνδεσης του τηλεφώνου",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
         "message": "Οι$names$ μπήκαν στην ομάδα.",
@@ -819,10 +863,6 @@
         "message": "Νέα Μηνύματα",
         "description": "Displayed in notifications for multiple messages"
     },
-    "newContact": {
-        "message": "Κλικ για να προσθέσεις καινούρια επαφή",
-        "description": ""
-    },
     "theirIdentityUnknown": {
         "message": "Δεν έχεις ανταλλάξει μηνύματα με αυτή την επαφή ακόμα. Ο αριθμός ασφαλείας με αυτή την επαφή θα είναι διαθέσιμος μετά το πρώτο μήνυμα.",
         "description": ""
@@ -830,6 +870,10 @@
     "voiceMessage": {
         "message": "Μήνυμα φωνής",
         "description": "Name for a voice message attachment"
+    },
+    "importCompleteStartButton": {
+        "message": "Εκκίνηση με το Signal Desktop",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "submit": {
         "message": "Υποβολή",
@@ -859,6 +903,10 @@
             }
         }
     },
+    "clearDataExplanation": {
+        "message": "Αυτό θα διαγράψει όλα τα δεδομένα σε αυτή την εφαρμογή, αφαιρώντας όλα τα μηνύματα και τις αποθηκευμένες πληροφορίες λογαριασμού",
+        "description": "Text describing what the clear data button will do."
+    },
     "to": {
         "message": "Προς",
         "description": "Label for the receiver of a message"
@@ -867,9 +915,9 @@
         "message": "1ω",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installFinalButton": {
-        "message": "Όλα δείχνουν να είναι εντάξει",
-        "description": "The final button for the install process, after the user has entered a name for their device"
+    "optimizingApplication": {
+        "message": "Βελτιστοποίηση εφαρμογής",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
         "message": "Πήγαινε στις σημειώσεις έκδοσης",
@@ -879,14 +927,6 @@
         "message": "Λεπτομέρειες μηνύματος",
         "description": ""
     },
-    "installNewSignal": {
-        "message": "Εγκατάσταση του νέου Signal Desktop",
-        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
-    },
-    "exportChooserTitle": {
-        "message": "Επέλεξε φάκελο για δεδομένα",
-        "description": "Title of the popup window used to select data storage location"
-    },
     "mainMenuFile": {
         "message": "&Φάκελος",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -895,17 +935,25 @@
         "message": "Σημείωση ως επιβεβαιωμένο",
         "description": ""
     },
-    "exportButton": {
-        "message": "Εξαγωγή",
-        "description": ""
+    "clearDataHeader": {
+        "message": "Εκκαθάριση δεδομένων",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10δ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "linkNewDevice": {
+        "message": "Σύνδεση νέας συσκεύης",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
     "nameAndMessage": {
         "message": "Όνομα αποστολέα και μήνυμα",
         "description": "Label for setting notifications to display name and message text"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Εγκατάσταση ως αυτόνομη συσκευή",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
         "message": "Αποτυχία αποστολής σε κάποιους παραλήπτες. Έλεγξε την σύνδεση του δικτύου.",
@@ -923,9 +971,17 @@
         "message": "Οι αριθμοί ασφαλείας με πολλαπλά μέλη αυτής της ομάδας άλλαξαν από την τελευταία φορά που επιβεβαιώθηκαν. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου ή ότι απλά επανεγκατέστησαν το Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "loadDataHeader": {
+        "message": "Φόρτωση δεδομένων",
+        "description": "Header shown on the first screen in the data import process"
+    },
     "submitDebugLog": {
-        "message": "Υποβολή καταχωρήσεων αποσφαλμάτωσης",
-        "description": "Menu item and header text for debug log modal, title case."
+        "message": "Αρχείο αποσφαλμάτωσης",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "startConversation": {
+        "message": "Εκκίνηση συνομιλίας...",
+        "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
         "message": "Σφάλμα",
@@ -969,17 +1025,13 @@
         "message": "30δ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "exportInstructions": {
-        "message": "Το πρώτο βήμα είναι η επιλογή ενός φακέλου για την αποθήκευση των δεδομένων που θα εξαχθούν από αυτή την εφαρμογή. Αυτά περιέχουν το ιστορικό μηνυμάτων σου και ευαίσθητες κρυπτογραφικές πληροφορίες, γι' αυτό επιβεβαιώσου πως το αποθηκεύεις κάπου όπου θα είναι ασφαλές και μη δημόσιο.",
-        "description": "Description of the export process"
+    "audio": {
+        "message": "Audio",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
         "message": "Ειδοποιήσεις",
         "description": "Header for notification settings"
-    },
-    "tryAgain": {
-        "message": "Προσπάθησε ξανά",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Επαναποστολή",
@@ -996,7 +1048,7 @@
         }
     },
     "hide": {
-        "message": "Hide",
+        "message": "Σμίκρυνση",
         "description": "Command in the tray icon menu, to hide the window"
     }
 }
