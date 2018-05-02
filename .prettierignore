@@ -19,6 +19,7 @@ components/*
 dist/*
 libtextsecure/libsignal-protocol.js
 test/fixtures.js
+libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js
 
 /**/*.json
