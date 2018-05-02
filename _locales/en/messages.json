@@ -338,10 +338,6 @@
       "message": "You don’t have any documents in this conversation",
       "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
-    "messageCaption": {
-      "message": "Message caption",
-      "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "today": {
       "message": "Today",
       "description": "Section header in the media gallery"
