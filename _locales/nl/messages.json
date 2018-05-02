@@ -15,6 +15,22 @@
         "message": "Bekijken",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "linkedDevices": {
+        "message": "Gekoppelde apparaten",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "yesterday": {
+        "message": "Yesterday",
+        "description": "Section header in the media gallery"
+    },
+    "replyingToYourself": {
+        "message": "Replying to Yourself",
+        "description": "Shown in iOS theme when you quote yourself"
+    },
+    "documents": {
+        "message": "Documents",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
     "upgradingDatabase": {
         "message": "De database wordt opgewaardeerd. Dit kan even duren…",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
@@ -33,9 +49,9 @@
             }
         }
     },
-    "importInstructions": {
-        "message": "Vertel ons eerst waar je <a href='https://support.signal.org/hc/en-us/articles/115002502511'>je vorige Signal-gegevens hebt geëxporteerd</a>. De naam van de map begint met ‘Signal Export’.<br><br><b>LET OP:</b> importeer geëxporteerde gegevens slechts <b>één keer</b>. Importeren maakt een kopie van de geëxporteerde cliënt aan, en duplicate cliënten kunnen voor problemen zorgen.",
-        "description": "Description of the export process"
+    "thisMonth": {
+        "message": "This Month",
+        "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
         "message": "Niet-ondersteund bestandstype. Klik om op te slaan.",
@@ -77,17 +93,21 @@
         "message": "5s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installComputerName": {
-        "message": "De naam van deze computer zal zijn",
-        "description": "Text displayed before the input where the user can enter the name for this device."
+    "importCompleteHeader": {
+        "message": "Klaar!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
         "message": "1 minuut",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "deviceName": {
+        "message": "Apparaatnaam",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
     "debugLog": {
         "message": "Debuglog",
-        "description": "View menu item to open the debug log, capitalized"
+        "description": "View menu item to open the debug log (title case)"
     },
     "gotIt": {
         "message": "Begrepen!",
@@ -127,10 +147,6 @@
         "message": "Niet-ondersteund bestandstype",
         "description": "Displayed for outgoing unsupported attachment"
     },
-    "exportAgain": {
-        "message": "Opnieuw exporteren",
-        "description": "If user has already exported once, this button allows user to do it again if needed"
-    },
     "quit": {
         "message": "Afsluiten",
         "description": "Command in the tray icon menu, to quit the application"
@@ -139,21 +155,17 @@
         "message": "Klik om op te slaan",
         "description": "Hover text for attachment filenames"
     },
-    "fileABug": {
-        "message": "Meld een probleem",
-        "description": "Item under the Help menu, takes you to GitHub new issue form"
-    },
     "messagesBelow": {
         "message": "Nieuwe berichten hieronder",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
-    "installGeneratingKeys": {
-        "message": "Sleutels aan het genereren",
-        "description": ""
-    },
     "resetSession": {
         "message": "Sessie opnieuw instellen",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "replyingToYou": {
+        "message": "Replying to You",
+        "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "offline": {
         "message": "Offline",
@@ -183,13 +195,13 @@
         "message": "uit",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
+    "clearDataButton": {
+        "message": "Clear data",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
     "syncExplanation": {
         "message": "Importeer alle Signal-groepen en -contacten van je mobiele apparaat.",
         "description": "Explanatory text for sync settings"
-    },
-    "restartSignal": {
-        "message": "Signal herstarten",
-        "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
         "message": "Je hebt de groep verlaten",
@@ -219,17 +231,9 @@
         "message": "Kies een contact of groep om te starten met chatten.",
         "description": ""
     },
-    "exportError": {
-        "message": "Er ging iets mis bij het exporteren. Controleer nogmaals of je gekozen lege map schrijftoegang en voldoende vrije ruimte beschikbaar heeft. Dien vervolgens een debuglog in zodat we je kunnen helpen migreren!",
-        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
-    },
     "aboutSignalDesktop": {
         "message": "Over Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
-    },
-    "installConnecting": {
-        "message": "Aan het verbinden…",
-        "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
         "message": "je geselecteerde locatie",
@@ -261,6 +265,14 @@
         "message": "Verzonden",
         "description": "Label for the time a message was sent"
     },
+    "thisWeek": {
+        "message": "This Week",
+        "description": "Section header in the media gallery"
+    },
+    "importingHeader": {
+        "message": "Contacten en berichten aan het laden",
+        "description": "Header of screen shown as data is import"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ heeft de timer ingesteld op $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -279,6 +291,10 @@
         "message": "nu",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "mainMenuSettings": {
+        "message": "Voorkeuren…",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
     "changedRecentlyMultiple": {
         "message": "Je veiligheidsnummers met meerdere groepsleden zijn onlangs veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat ze Signal opnieuw hebben geïnstalleerd.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -286,10 +302,6 @@
     "timerOption_1_day": {
         "message": "1 dag",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "exporting": {
-        "message": "Even geduld, we exporteren je gegevens. Dit kan enkele minuten duren. Je kan tijdens de procedure Signal nog steeds gebruiken op je telefoon en andere apparaten.",
-        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Meld een probleem",
@@ -319,21 +331,33 @@
         "message": "&Venster",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "installImport": {
-        "message": "Instellen met geëxporteerde gegevens",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "importCompleteLinkButton": {
+        "message": "Koppel dit apparaat aan je telefoon",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
         "message": "Herkoppel Signal Desktop met je mobiel apparaat om verder te kunnen chatten.",
         "description": ""
     },
+    "today": {
+        "message": "Today",
+        "description": "Section header in the media gallery"
+    },
     "debugLogExplanation": {
         "message": "Deze log zal online publiek beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
         "description": ""
     },
+    "linkYourPhone": {
+        "message": "Koppel je telefoon aan Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
     "newPhoneNumber": {
         "message": "Voer een telefoonnummer in om een contact toe te voegen.",
         "description": "Placeholder for adding a new number to a contact"
+    },
+    "viewAllMedia": {
+        "message": "View all media",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "noLongerVerified": {
         "message": "Je veiligheidsnummer met $name$ is veranderd en niet meer geverifieerd. Klik om het te tonen.",
@@ -345,8 +369,12 @@
             }
         }
     },
+    "video": {
+        "message": "Video",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
     "searchForPeopleOrGroups": {
-        "message": "Zoeken…",
+        "message": "Voer naam of nummer in",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -369,27 +397,27 @@
         "message": "Ontkoppeld",
         "description": ""
     },
-    "installFollowUs": {
-        "message": "<a $a_params$>Volg ons</a> voor updates over apparaten koppelen met iOS.",
-        "description": "",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "learnMore": {
         "message": "Lees meer over het verifiëren van veiligheidsnummers",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "installNew": {
-        "message": "Instellen als nieuwe installatie",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "timerSetOnSync": {
+        "message": "Timer opnieuw instellen op $time$.",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
-    "importing": {
-        "message": "Even geduld, we importeren je gegevens…",
-        "description": "Shown as we are loading the user's data from disk"
+    "messageCaption": {
+        "message": "Message caption",
+        "description": "Prefix of attachment alt tags in the media gallery"
+    },
+    "deleteAllDataButton": {
+        "message": "Delete all data",
+        "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
         "message": "$count$ ongelezen berichten",
@@ -405,20 +433,6 @@
         "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
         "description": ""
     },
-    "installSignalLinks": {
-        "message": "Installeer eerst Signal op je <a $play_store$>Android-telefoon</a> of <a $app_store$>iPhone</a>.<br /> We zullen je apparaten koppelen en je berichten gesynchroniseerd houden.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "play_store": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            },
-            "app_store": {
-                "content": "$2",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "joinedTheGroup": {
         "message": "$name$ zit nu in de groep.",
         "description": "Shown in the conversation history when a single person joins the group",
@@ -433,9 +447,9 @@
         "message": "Ga naar forums",
         "description": "Item under the Help menu, takes you to the forums"
     },
-    "installSyncingGroupsAndContacts": {
-        "message": "Groepen en contacten aan het synchroniseren",
-        "description": ""
+    "menuSetupWithImport": {
+        "message": "Instellen met importeren",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
@@ -463,6 +477,10 @@
         "message": "Spraak",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
+    "importErrorHeader": {
+        "message": "Er ging iets mis!",
+        "description": "Header of the error screen after a failed import"
+    },
     "changedSinceVerified": {
         "message": "Je veiligheidsnummer met $name$ is veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ opnieuw heeft geïnstalleerd.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -472,6 +490,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "importAgain": {
+        "message": "Kies een map en probeer het opnieuw",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "upgrade": {
         "message": "Opwaarderen",
@@ -541,13 +563,21 @@
         "message": "12u",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "signalSettings": {
+        "message": "Signal-instellingen",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "plusButton": {
+        "message": "‘+’-knop",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
     "chooseDirectory": {
         "message": "Map kiezen",
-        "description": "Button to allow the user to export all data from app as part of migration process"
+        "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
         "message": "B&ewerken",
@@ -565,12 +595,18 @@
         "message": "1d",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Herstarten",
-        "description": ""
+    "replyingTo": {
+        "message": "Replying to $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
-    "importButton": {
-        "message": "Importeren",
+    "autoUpdateRestartButtonLabel": {
+        "message": "Signal herstarten",
         "description": ""
     },
     "sync": {
@@ -580,10 +616,6 @@
     "timerOption_1_week": {
         "message": "1 week",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "installGotIt": {
-        "message": "Begrepen",
-        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Ontvangen",
@@ -613,9 +645,25 @@
         "message": "30 seconden",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "deleteAllDataHeader": {
+        "message": "Delete all data?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataProgress": {
+        "message": "Disconnecting and deleting all data",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
     "sendMessage": {
         "message": "Verzend een bericht",
         "description": "Placeholder text in the message entry field"
+    },
+    "menuReportIssue": {
+        "message": "Meld een probleem",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "loadDataDescription": {
+        "message": "Je bent net de exportprodedure doorlopen, en je contacten en berichten wachten geduldig op je computer. Kies de map die je opgeslagen Signal-gegevens bevat.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "me": {
         "message": "Ik",
@@ -641,8 +689,12 @@
         "message": "Dit bericht verwijderen",
         "description": ""
     },
+    "chooseDeviceName": {
+        "message": "Kies de naam van dit apparaat",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
     "autoUpdateNewVersionInstructions": {
-        "message": "Klik op Herstarten om de updates toe te passen.",
+        "message": "Klik op ‘Signal herstarten’ om de updates toe te passen.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -650,20 +702,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Er ging iets mis bij het importeren. <p>Controleer nogmaals je doelmap. De naam van de map begint met ‘Signal Export’.</p><p>Probeer daarna met een nieuwe map geëxporteerde gegevens uit de Chrome-app.</p>Als het dan nog steeds niet lukt, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>dien dan een debuglog in</a> zodat we je kunnen helpen migreren!",
+        "message": "Zorg dat je de juiste map met je opgeslagen Signal-gegevens kiest. De naam begint normaal gezien met ‘Signal Export’. Je kan ook een nieuwe kopie van je gegevens uit de Chrome-app opslaan.<p>Als deze stappen nog niet helpen, <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>dien dan een debuglog in</a> zodat we je kunnen helpen overschakelen!</p>",
         "description": "Message shown if the import went wrong."
-    },
-    "installAndroidInstructions": {
-        "message": "Open Signal op je telefoon en ga naar Instellingen > Gekoppelde apparaten. Tik op de knop om een nieuw apparaat toe te voegen en scan daarna de code hierboven.",
-        "description": ""
     },
     "invalidNumberError": {
         "message": "Ongeldig nummer",
         "description": "When a person inputs a number that is invalid"
-    },
-    "importComplete": {
-        "message": "We hebben je gegevens geladen. De volgende stap is de toepassing te herstarten!",
-        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Welkom bij Signal Desktop",
@@ -673,15 +717,9 @@
         "message": "Nieuw bericht hieronder",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
-    "exportComplete": {
-        "message": "Je gegevens zijn geëxporteerd naar: <p><b>$location$</b></p> Je zal deze gegevens kunnen importeren wanneer je <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>de nieuwe Signal Desktop</a> instelt.",
-        "description": "Message shown on the migration screen when we are done exporting data",
-        "placeholders": {
-            "location": {
-                "content": "$1",
-                "example": "/Users/someone/somewhere"
-            }
-        }
+    "menuSetupAsNewDevice": {
+        "message": "Instellen als nieuw apparaat",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
         "message": "Verbinden met server mislukt.",
@@ -695,6 +733,10 @@
         "message": "Bericht niet verzonden.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "initialSync": {
+        "message": "Contacten en groepen aan het synchroniseren",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "mainMenuView": {
         "message": "Be&kijken",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -703,9 +745,25 @@
         "message": "Er is een nieuwe versie van Signal beschikbaar.",
         "description": ""
     },
+    "replyToMessage": {
+        "message": "Reply to Message",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
     "disableNotifications": {
         "message": "Meldingen uitschakelen",
         "description": "Label for disabling notifications"
+    },
+    "photo": {
+        "message": "Photo",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "media": {
+        "message": "Media",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "noContents": {
+        "message": "No message contents",
+        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
         "message": "Annuleren",
@@ -714,10 +772,6 @@
     "unblockToSend": {
         "message": "Deblokkeer dit contact om een bericht te verzenden.",
         "description": "Brief message shown when trying to message a blocked number"
-    },
-    "installIHaveSignalButton": {
-        "message": "Ik heb Signal voor Android",
-        "description": "Button for the user to confirm that they have Signal for Android"
     },
     "mainMenuHelp": {
         "message": "&Hulp",
@@ -745,13 +799,13 @@
         "message": "Aan het verbinden",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "deleteAllDataBody": {
+        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
     "sessionEnded": {
         "message": "Beveiligde sessie opnieuw ingesteld",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "installGetStartedButton": {
-        "message": "Aan de slag",
-        "description": ""
     },
     "relink": {
         "message": "Herkoppelen",
@@ -779,23 +833,13 @@
             }
         }
     },
-    "installSignalLink": {
-        "message": "Installeer eerst <a $a_params$>Signal</a> op je telefoon. We zullen je apparaten koppelen en je berichten gesynchroniseerd houden.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
-    "installLinkingWithNumber": {
-        "message": "Aan het koppelen met",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
-    },
     "goToSupportPage": {
         "message": "Ga naar ondersteuningspagina",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "finishLinkingPhone": {
+        "message": "Koppelen van telefoon voltooien",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
         "message": "$names$ zit nu in de groep.",
@@ -819,10 +863,6 @@
         "message": "nieuwe berichten",
         "description": "Displayed in notifications for multiple messages"
     },
-    "newContact": {
-        "message": "Klik om een nieuw contact aan te maken",
-        "description": ""
-    },
     "theirIdentityUnknown": {
         "message": "Je hebt nog geen berichten uitgewisseld met dit contact. Je veiligheidsnummer met hen zal beschikbaar zijn na het eerste bericht.",
         "description": ""
@@ -830,6 +870,10 @@
     "voiceMessage": {
         "message": "Audiobericht",
         "description": "Name for a voice message attachment"
+    },
+    "importCompleteStartButton": {
+        "message": "Begin Signal Desktop te gebruiken",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "submit": {
         "message": "Verzenden",
@@ -859,6 +903,10 @@
             }
         }
     },
+    "clearDataExplanation": {
+        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "description": "Text describing what the clear data button will do."
+    },
     "to": {
         "message": "Naar",
         "description": "Label for the receiver of a message"
@@ -867,25 +915,17 @@
         "message": "1u",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installFinalButton": {
-        "message": "Prima",
-        "description": "The final button for the install process, after the user has entered a name for their device"
+    "optimizingApplication": {
+        "message": "Optimizing application...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Ga naar uitgavenotities",
+        "message": "Ga naar uitgaveopmerkingen",
         "description": ""
     },
     "messageDetail": {
         "message": "Berichtdetails",
         "description": ""
-    },
-    "installNewSignal": {
-        "message": "Nieuwe Signal Desktop installeren",
-        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
-    },
-    "exportChooserTitle": {
-        "message": "Kies doelmap voor gegevens",
-        "description": "Title of the popup window used to select data storage location"
     },
     "mainMenuFile": {
         "message": "&Bestand",
@@ -895,17 +935,25 @@
         "message": "Markeren als geverifieerd",
         "description": ""
     },
-    "exportButton": {
-        "message": "Exporteren",
-        "description": ""
+    "clearDataHeader": {
+        "message": "Clear Data",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "linkNewDevice": {
+        "message": "Nieuw apparaat koppelen",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
     "nameAndMessage": {
         "message": "Naam van afzender en berichtinhoud",
         "description": "Label for setting notifications to display name and message text"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Instellen als apart apparaat",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
         "message": "Verzenden naar bepaalde ontvangers mislukt. Controleer je netwerkverbinding.",
@@ -923,9 +971,17 @@
         "message": "Je veiligheidsnummers met meerdere groepsleden zijn veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat ze Signal opnieuw hebben geïnstalleerd.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "loadDataHeader": {
+        "message": "Laad je gegevens",
+        "description": "Header shown on the first screen in the data import process"
+    },
     "submitDebugLog": {
-        "message": "Debug log indienen",
-        "description": "Menu item and header text for debug log modal, title case."
+        "message": "Debuglog",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "startConversation": {
+        "message": "Begin een gesprek…",
+        "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
         "message": "Fout",
@@ -969,17 +1025,13 @@
         "message": "30s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "exportInstructions": {
-        "message": "De eerste stap is het kiezen van een map om de geëxporteerde gegevens van deze toepassing in op te slaan. Ze zal je berichtgeschiedenis en gevoelige cryptografische gegevens bevatten, dus zorg dat je ze ergens privé opslaat.",
-        "description": "Description of the export process"
+    "audio": {
+        "message": "Audio",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
         "message": "Meldingen",
         "description": "Header for notification settings"
-    },
-    "tryAgain": {
-        "message": "Opnieuw proberen",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Opnieuw verzenden",

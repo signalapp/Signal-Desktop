@@ -15,6 +15,22 @@
         "message": "Vizualizare",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "linkedDevices": {
+        "message": "Dispozitive asociate",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "yesterday": {
+        "message": "Yesterday",
+        "description": "Section header in the media gallery"
+    },
+    "replyingToYourself": {
+        "message": "Replying to Yourself",
+        "description": "Shown in iOS theme when you quote yourself"
+    },
+    "documents": {
+        "message": "Documents",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
     "upgradingDatabase": {
         "message": "Se actualizează baza de date. Va dura ceva timp...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
@@ -33,9 +49,9 @@
             }
         }
     },
-    "importInstructions": {
-        "message": "Primul pas este să indici unde <a href='https://support.signal.org/hc/en-us/articles/115002502511'>ai exportat anterior datele tale din Signal</a>. Este un dosar al cărui nume începe cu 'Signal Export.'<br><br><b>NOTĂ</b>: Trebuie sa imporți un set de datet exportate doar <b>o dată</b>. Importarea face o copie a datelor, și clienții duplicați interferează unul cu celălalt.",
-        "description": "Description of the export process"
+    "thisMonth": {
+        "message": "This Month",
+        "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
         "message": "Tipul ataşamentului nu este suportat. Click pentru a salva.",
@@ -77,17 +93,21 @@
         "message": "5s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installComputerName": {
-        "message": "Numele acestui calculator va fi",
-        "description": "Text displayed before the input where the user can enter the name for this device."
+    "importCompleteHeader": {
+        "message": "Succes!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
         "message": "1 minut",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "deviceName": {
+        "message": "Numele dispozitivului",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
     "debugLog": {
         "message": "Jurnalul de depanare",
-        "description": "View menu item to open the debug log, capitalized"
+        "description": "View menu item to open the debug log (title case)"
     },
     "gotIt": {
         "message": "Am înţeles!",
@@ -127,33 +147,25 @@
         "message": "Tipul fişierului nu este suportat",
         "description": "Displayed for outgoing unsupported attachment"
     },
-    "exportAgain": {
-        "message": "Exportă din nou",
-        "description": "If user has already exported once, this button allows user to do it again if needed"
-    },
     "quit": {
-        "message": "Quit",
+        "message": "Închide",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
         "message": "Apasă pentru a salva",
         "description": "Hover text for attachment filenames"
     },
-    "fileABug": {
-        "message": "Deschide un defect",
-        "description": "Item under the Help menu, takes you to GitHub new issue form"
-    },
     "messagesBelow": {
         "message": "Mesaje noi mai jos",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
-    "installGeneratingKeys": {
-        "message": "Se generează cheile",
-        "description": ""
-    },
     "resetSession": {
         "message": "Resetează sesiunea",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "replyingToYou": {
+        "message": "Replying to You",
+        "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "offline": {
         "message": "Deconectat",
@@ -183,13 +195,13 @@
         "message": "Oprit",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
+    "clearDataButton": {
+        "message": "Șterge datele",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
     "syncExplanation": {
         "message": "Importă toate grupurile și contactele Signal de pe dispozitivul tău mobil.",
         "description": "Explanatory text for sync settings"
-    },
-    "restartSignal": {
-        "message": "Repornește Signal",
-        "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
         "message": "Ai părăsit grupul",
@@ -219,17 +231,9 @@
         "message": "Alege un contact sau un grup pentru a discuta.",
         "description": ""
     },
-    "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Apoi, trimite-ne un debug log pentru a te putea ajuta cu migrarea!",
-        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
-    },
     "aboutSignalDesktop": {
         "message": "Despre Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
-    },
-    "installConnecting": {
-        "message": "Se conectează...",
-        "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
         "message": "locația ta selectată",
@@ -261,6 +265,14 @@
         "message": "Trimis",
         "description": "Label for the time a message was sent"
     },
+    "thisWeek": {
+        "message": "This Week",
+        "description": "Section header in the media gallery"
+    },
+    "importingHeader": {
+        "message": "Se încarcă contactele și mesajele",
+        "description": "Header of screen shown as data is import"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ a setat cronometrul la $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -279,6 +291,10 @@
         "message": "acum",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "mainMenuSettings": {
+        "message": "Preferințe...",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
     "changedRecentlyMultiple": {
         "message": "Numerele tale de siguranță pentru mai mulți membrii din grup s-au schimbat recent. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactele și-au reinstalat Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -286,10 +302,6 @@
     "timerOption_1_day": {
         "message": "1 zi",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "exporting": {
-        "message": "Te rog să aștepți exportul datelor, care poate dura mai multe minute. În acest timp poți folosi Signal pe telefon sau alte dispozitive.",
-        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Raportează o problemă",
@@ -319,21 +331,33 @@
         "message": "&Fereastră",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "installImport": {
-        "message": "Instalare cu date exportate",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "importCompleteLinkButton": {
+        "message": "Asociază acest dispozitiv cu telefonul tău",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
         "message": "Asociază din nou Signal Desktop la dispozitivul tău mobil pentru a putea comunica din nou.",
         "description": ""
     },
+    "today": {
+        "message": "Today",
+        "description": "Section header in the media gallery"
+    },
     "debugLogExplanation": {
         "message": "Acest log v-a fi publicat online pentru vizualizare de către contributori. Poţi sa-l examinezi şi să-l editezi înainte să fie publicat. ",
         "description": ""
     },
+    "linkYourPhone": {
+        "message": "Asociază telefonul tău cu Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
     "newPhoneNumber": {
         "message": "Introdu un număr de telefon pentru a adăuga un contact.",
         "description": "Placeholder for adding a new number to a contact"
+    },
+    "viewAllMedia": {
+        "message": "View all media",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "noLongerVerified": {
         "message": "Numărul tău de siguranță cu $name$ s-a modificat și nu mai este verificat. Apasă pentru a afișa.",
@@ -345,8 +369,12 @@
             }
         }
     },
+    "video": {
+        "message": "Video",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
     "searchForPeopleOrGroups": {
-        "message": "Caută...",
+        "message": "Introdu nume sau număr",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -369,27 +397,27 @@
         "message": "Disociat",
         "description": ""
     },
-    "installFollowUs": {
-        "message": "<a $a_params$>Urmează-ne</a> pentru actualizări despre suportul multi-dispozitiv iOS.",
-        "description": "",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "learnMore": {
         "message": "Află mai multe despre verificarea numerelor de siguranță.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "installNew": {
-        "message": "Setează ca instalare nouă",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "timerSetOnSync": {
+        "message": "Se actualizează cronometrul la $time$.",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
-    "importing": {
-        "message": "Te rog așteaptă cât timp importăm datele tale...",
-        "description": "Shown as we are loading the user's data from disk"
+    "messageCaption": {
+        "message": "Message caption",
+        "description": "Prefix of attachment alt tags in the media gallery"
+    },
+    "deleteAllDataButton": {
+        "message": "Șterge toate datele",
+        "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
         "message": "$count$ Mesaje necitite",
@@ -405,20 +433,6 @@
         "message": "Ne pare rău, ai prea multe dispozitive asociate deja. Încearcă să elimini câteva.",
         "description": ""
     },
-    "installSignalLinks": {
-        "message": "Mai întâi, instalează Signal pe <a $play_store$>Android</a> sau <a $app_store$>iPhone</a>.<br /> O să asociem dispozitivele tale și o să sincronizăm mesajele tale.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "play_store": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            },
-            "app_store": {
-                "content": "$2",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "joinedTheGroup": {
         "message": "$name$ s-a alăturat grupului.",
         "description": "Shown in the conversation history when a single person joins the group",
@@ -430,12 +444,12 @@
         }
     },
     "goToForums": {
-        "message": "Navighează la forum",
+        "message": "Mergi la Forumuri",
         "description": "Item under the Help menu, takes you to the forums"
     },
-    "installSyncingGroupsAndContacts": {
-        "message": "Sincronizare grupuri şi contacte",
-        "description": ""
+    "menuSetupWithImport": {
+        "message": "Setează prin import",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
@@ -463,6 +477,10 @@
         "message": "Vorbire",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
+    "importErrorHeader": {
+        "message": "Ceva a funcționat greșit!",
+        "description": "Header of the error screen after a failed import"
+    },
     "changedSinceVerified": {
         "message": "Numărul tău de siguranță cu $name$ s-a modificat de când ai verificat ultima oară. Asta ar putea însemna că cineva încearcă să vă intercepteze comunicarea sau că $name$ a reinstalat Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -472,6 +490,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "importAgain": {
+        "message": "Alege directorul și încearcă din nou",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "upgrade": {
         "message": "Actualizează",
@@ -541,13 +563,21 @@
         "message": "12h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "signalSettings": {
+        "message": "Setări Signal",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "plusButton": {
+        "message": "Butonul '+'",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
     "chooseDirectory": {
-        "message": "Alege un director",
-        "description": "Button to allow the user to export all data from app as part of migration process"
+        "message": "Alege directorul",
+        "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
         "message": "&Editare",
@@ -565,12 +595,18 @@
         "message": "1d",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Repornește",
-        "description": ""
+    "replyingTo": {
+        "message": "Replying to $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
-    "importButton": {
-        "message": "Importă",
+    "autoUpdateRestartButtonLabel": {
+        "message": "Repornește Signal",
         "description": ""
     },
     "sync": {
@@ -580,10 +616,6 @@
     "timerOption_1_week": {
         "message": "1 săptămână",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "installGotIt": {
-        "message": "Am înţeles!",
-        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Primit",
@@ -613,9 +645,25 @@
         "message": "30 secunde",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "deleteAllDataHeader": {
+        "message": "Șterg toate datele?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataProgress": {
+        "message": "Deconectare în curs și se șterg toate datele",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
     "sendMessage": {
         "message": "Trimite mesaj",
         "description": "Placeholder text in the message entry field"
+    },
+    "menuReportIssue": {
+        "message": "Raportează o problemă",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "loadDataDescription": {
+        "message": "Tocmai ai trecut prin procesul de exportare și contactele și mesajele tale așteaptă răbdător în calculatorul tău. Alege directorul care conține datele tale Signal salvate.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "me": {
         "message": "Eu",
@@ -641,8 +689,12 @@
         "message": "Şterge acest mesaj",
         "description": ""
     },
+    "chooseDeviceName": {
+        "message": "Alege numele dispozitivului",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
     "autoUpdateNewVersionInstructions": {
-        "message": "Apasă pe Repornire pentru a aplica actualizările.",
+        "message": "Apasă pe Repornire Signal pentru a aplica actualizările.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -650,20 +702,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Din păcate ceva nu a funcționat la import. <p>Mai întâi, verifică dosarul destinție. Trebuie să înceapă cu 'Signal Export.'</p><p>Apoi, încearcă un nou export al datelor din Chrome App.</p>Dacă nici așa nu funcționează, te rugăm să <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>trimiți un debug log (jurnal depanare)</a> pentru a te putea ajuta cu migrarea!",
+        "message": "Asigură-te că ai ales directorul corect care conține datele tale Signal salvate. Numele acestuia ar trebui să înceapă cu 'Signal Export'.  Poți de asemenea să salvezi o copie nou a datelor tale din aplicația Chrome.<p> Dacă acești pași nu funcționează, te rog<a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>trimite un jurnal de depanare</a> ca să te putem ajuta cu migrarea!</p>",
         "description": "Message shown if the import went wrong."
-    },
-    "installAndroidInstructions": {
-        "message": "Deschide Signal de pe telefonul tău şi navighează la Setări > Dispozitive asociate. Apasă pe buton pentru a adăuga un dispozitiv nou, şi scanează codul de deasupra.",
-        "description": ""
     },
     "invalidNumberError": {
         "message": "Număr invalid",
         "description": "When a person inputs a number that is invalid"
-    },
-    "importComplete": {
-        "message": "Am încărcat datele cu succes. Următorul pas este să restartezi aplicația!",
-        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Bun venit la Signal Desktop",
@@ -673,15 +717,9 @@
         "message": "Mesaj nou mai jos",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
-    "exportComplete": {
-        "message": "Datele au fost exportate în: <p><b>$location$</b></p> Vei putea importa aceste date când vei seta <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>noul Signal Desktop</a>.",
-        "description": "Message shown on the migration screen when we are done exporting data",
-        "placeholders": {
-            "location": {
-                "content": "$1",
-                "example": "/Users/someone/somewhere"
-            }
-        }
+    "menuSetupAsNewDevice": {
+        "message": "Setează ca dispozitiv nou",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
         "message": "Conectarea la server a eșuat.",
@@ -695,6 +733,10 @@
         "message": "Mesajul nu a fost trimis.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "initialSync": {
+        "message": "Sincronizare contacte și grupuri",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "mainMenuView": {
         "message": "&Vizualizare",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -703,9 +745,25 @@
         "message": "Este disponibilă o nouă versiune de Signal.",
         "description": ""
     },
+    "replyToMessage": {
+        "message": "Răspunde la mesaj",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
     "disableNotifications": {
         "message": "Dezactivează notificările",
         "description": "Label for disabling notifications"
+    },
+    "photo": {
+        "message": "Poză",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "media": {
+        "message": "Media",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "noContents": {
+        "message": "Mesaj fără conținut",
+        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
         "message": "Anulare",
@@ -714,10 +772,6 @@
     "unblockToSend": {
         "message": "Deblochează acest contact pentru a putea trimite mesaje.",
         "description": "Brief message shown when trying to message a blocked number"
-    },
-    "installIHaveSignalButton": {
-        "message": "Am Signal pentru Android",
-        "description": "Button for the user to confirm that they have Signal for Android"
     },
     "mainMenuHelp": {
         "message": "&Ajutor",
@@ -745,13 +799,13 @@
         "message": "Se conectează",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "deleteAllDataBody": {
+        "message": "Ești pe cale să ștergi toate informațiile de cont salvate ale acestei aplicații, inclusiv toate persoanele de contact și toate mesajele. Poți oricând să te conectezi din nou cu dispozitivul mobil, dar mesajele șterse nu vor fi restabilite.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
     "sessionEnded": {
         "message": "Sesiune securizată resetată",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "installGetStartedButton": {
-        "message": "Începe",
-        "description": ""
     },
     "relink": {
         "message": "Asociază din nou",
@@ -779,23 +833,13 @@
             }
         }
     },
-    "installSignalLink": {
-        "message": "Mai întâi instalează <a $a_params$>Signal</a> pe telefon. Vom asocia dispozitivele tale și vom sincroniza mesajele.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
-    "installLinkingWithNumber": {
-        "message": "Se asociază cu",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
-    },
     "goToSupportPage": {
-        "message": "Navighează la pagina de suport",
+        "message": "Mergi la Pagina de Suport",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "finishLinkingPhone": {
+        "message": "Finalizează asocierea telefonului",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
         "message": "$names$ s-a alăturat grupului.",
@@ -819,10 +863,6 @@
         "message": "Mesaje noi",
         "description": "Displayed in notifications for multiple messages"
     },
-    "newContact": {
-        "message": "Click pentru a crea un contact nou",
-        "description": ""
-    },
     "theirIdentityUnknown": {
         "message": "Nu ai schimbat până acum nici un mesaj cu acest contact.  Numărul de siguranță va fi disponibil după primul mesaj.",
         "description": ""
@@ -830,6 +870,10 @@
     "voiceMessage": {
         "message": "Mesaj vocal",
         "description": "Name for a voice message attachment"
+    },
+    "importCompleteStartButton": {
+        "message": "Începe să utlizezi Signal Desktop",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "submit": {
         "message": "Trimite",
@@ -859,6 +903,10 @@
             }
         }
     },
+    "clearDataExplanation": {
+        "message": "Această acțiune va șterge toate datele din aplicație, înlăturând toate mesajele și informațiile salvate despre cont",
+        "description": "Text describing what the clear data button will do."
+    },
     "to": {
         "message": "Către",
         "description": "Label for the receiver of a message"
@@ -867,25 +915,17 @@
         "message": "1h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installFinalButton": {
-        "message": "Totul e ok",
-        "description": "The final button for the install process, after the user has entered a name for their device"
+    "optimizingApplication": {
+        "message": "Se optimizează aplicația...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Navighează la notele de lansare",
+        "message": "Mergi la Notele de Lansare",
         "description": ""
     },
     "messageDetail": {
         "message": "Detalii mesaj",
         "description": ""
-    },
-    "installNewSignal": {
-        "message": "Instalează noul Signal Desktop",
-        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
-    },
-    "exportChooserTitle": {
-        "message": "Alege dosarul destinație pentru date",
-        "description": "Title of the popup window used to select data storage location"
     },
     "mainMenuFile": {
         "message": "&Fișier",
@@ -895,17 +935,25 @@
         "message": "Marchează ca fiind verificat",
         "description": ""
     },
-    "exportButton": {
-        "message": "Exportă",
-        "description": ""
+    "clearDataHeader": {
+        "message": "Șterge datele",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "linkNewDevice": {
+        "message": "Asociază dispozitiv nou",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
     "nameAndMessage": {
         "message": "Şi numele expeditorului şi mesajul",
         "description": "Label for setting notifications to display name and message text"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Setează ca dispozitiv de sine stătător",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
         "message": "Mesajul nu a putut fi trimis la unii destinatari. Verifică conexiunea la rețea.",
@@ -923,9 +971,17 @@
         "message": "Numerele tale de siguranță cu mai mulți membri din grup s-au modificat de la ultima verificare. Asta poate însemna că cineva încearcă să vă intercepteze comunicarea sau doar că ei au reinstalat Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "loadDataHeader": {
+        "message": "Încarcă-ți datele",
+        "description": "Header shown on the first screen in the data import process"
+    },
     "submitDebugLog": {
-        "message": "Trimite log-ul de depanare",
-        "description": "Menu item and header text for debug log modal, title case."
+        "message": "Jurnal depanare",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "startConversation": {
+        "message": "Pornește conversația...",
+        "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
         "message": "Eroare",
@@ -969,17 +1025,13 @@
         "message": "30s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "exportInstructions": {
-        "message": "Primul pas este să alegi un dosar în care să salvezi datele exportate din aplicație. Acest va conține istoricul mesajelor tale și date de criptare sensibile, de aceea fii sigur că le salvezi într-un loc confidențial.",
-        "description": "Description of the export process"
+    "audio": {
+        "message": "Audio",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
         "message": "Notificări",
         "description": "Header for notification settings"
-    },
-    "tryAgain": {
-        "message": "Încearcă din nou",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Re-trimite",
@@ -996,7 +1048,7 @@
         }
     },
     "hide": {
-        "message": "Hide",
+        "message": "Ascunde",
         "description": "Command in the tray icon menu, to hide the window"
     }
 }
