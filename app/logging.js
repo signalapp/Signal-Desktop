@@ -12,13 +12,9 @@ const readFirstLine = require('firstline');
 const readLastLines = require('read-last-lines').read;
 const rimraf = require('rimraf');
 
-const {
-  app,
-  ipcMain: ipc,
-} = electron;
+const { app, ipcMain: ipc } = electron;
 const LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'];
 let logger;
-
 
 module.exports = {
   initialize,
@@ -45,32 +41,38 @@ function initialize() {
 
     logger = bunyan.createLogger({
       name: 'log',
-      streams: [{
-        level: 'debug',
-        stream: process.stdout,
-      }, {
-        type: 'rotating-file',
-        path: logFile,
-        period: '1d',
-        count: 3,
-      }],
+      streams: [
+        {
+          level: 'debug',
+          stream: process.stdout,
+        },
+        {
+          type: 'rotating-file',
+          path: logFile,
+          period: '1d',
+          count: 3,
+        },
+      ],
     });
 
-    LEVELS.forEach((level) => {
+    LEVELS.forEach(level => {
       ipc.on(`log-${level}`, (first, ...rest) => {
         logger[level](...rest);
       });
     });
 
-    ipc.on('fetch-log', (event) => {
-      fetch(logPath).then((data) => {
-        event.sender.send('fetched-log', data);
-      }, (error) => {
-        logger.error(`Problem loading log from disk: ${error.stack}`);
-      });
+    ipc.on('fetch-log', event => {
+      fetch(logPath).then(
+        data => {
+          event.sender.send('fetched-log', data);
+        },
+        error => {
+          logger.error(`Problem loading log from disk: ${error.stack}`);
+        }
+      );
     });
 
-    ipc.on('delete-all-logs', async (event) => {
+    ipc.on('delete-all-logs', async event => {
       try {
         await deleteAllLogs(logPath);
       } catch (error) {
@@ -84,27 +86,29 @@ function initialize() {
 
 async function deleteAllLogs(logPath) {
   return new Promise((resolve, reject) => {
-    rimraf(logPath, {
-      disableGlob: true,
-    }, (error) => {
-      if (error) {
-        return reject(error);
-      }
+    rimraf(
+      logPath,
+      {
+        disableGlob: true,
+      },
+      error => {
+        if (error) {
+          return reject(error);
+        }
 
-      return resolve();
-    });
+        return resolve();
+      }
+    );
   });
 }
 
 function cleanupLogs(logPath) {
   const now = new Date();
-  const earliestDate = new Date(Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate() - 3
-  ));
+  const earliestDate = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 3)
+  );
 
-  return eliminateOutOfDateFiles(logPath, earliestDate).then((remaining) => {
+  return eliminateOutOfDateFiles(logPath, earliestDate).then(remaining => {
     const files = _.filter(remaining, file => !file.start && file.end);
 
     if (!files.length) {
@@ -122,7 +126,7 @@ function isLineAfterDate(line, date) {
 
   try {
     const data = JSON.parse(line);
-    return (new Date(data.time)).getTime() > date.getTime();
+    return new Date(data.time).getTime() > date.getTime();
   } catch (e) {
     console.log('error parsing log line', e.stack, line);
     return false;
@@ -133,48 +137,53 @@ function eliminateOutOfDateFiles(logPath, date) {
   const files = fs.readdirSync(logPath);
   const paths = files.map(file => path.join(logPath, file));
 
-  return Promise.all(_.map(
-    paths,
-    target => Promise.all([
-      readFirstLine(target),
-      readLastLines(target, 2),
-    ]).then((results) => {
-      const start = results[0];
-      const end = results[1].split('\n');
+  return Promise.all(
+    _.map(paths, target =>
+      Promise.all([readFirstLine(target), readLastLines(target, 2)]).then(
+        results => {
+          const start = results[0];
+          const end = results[1].split('\n');
 
-      const file = {
-        path: target,
-        start: isLineAfterDate(start, date),
-        end: isLineAfterDate(end[end.length - 1], date) ||
-             isLineAfterDate(end[end.length - 2], date),
-      };
+          const file = {
+            path: target,
+            start: isLineAfterDate(start, date),
+            end:
+              isLineAfterDate(end[end.length - 1], date) ||
+              isLineAfterDate(end[end.length - 2], date),
+          };
 
-      if (!file.start && !file.end) {
-        fs.unlinkSync(file.path);
-      }
+          if (!file.start && !file.end) {
+            fs.unlinkSync(file.path);
+          }
 
-      return file;
-    })
-  ));
+          return file;
+        }
+      )
+    )
+  );
 }
 
 function eliminateOldEntries(files, date) {
   const earliest = date.getTime();
 
-  return Promise.all(_.map(
-    files,
-    file => fetchLog(file.path).then((lines) => {
-      const recent = _.filter(lines, line => (new Date(line.time)).getTime() >= earliest);
-      const text = _.map(recent, line => JSON.stringify(line)).join('\n');
+  return Promise.all(
+    _.map(files, file =>
+      fetchLog(file.path).then(lines => {
+        const recent = _.filter(
+          lines,
+          line => new Date(line.time).getTime() >= earliest
+        );
+        const text = _.map(recent, line => JSON.stringify(line)).join('\n');
 
-      return fs.writeFileSync(file.path, `${text}\n`);
-    })
-  ));
+        return fs.writeFileSync(file.path, `${text}\n`);
+      })
+    )
+  );
 }
 
 function getLogger() {
   if (!logger) {
-    throw new Error('Logger hasn\'t been initialized yet!');
+    throw new Error("Logger hasn't been initialized yet!");
   }
 
   return logger;
@@ -188,13 +197,15 @@ function fetchLog(logFile) {
       }
 
       const lines = _.compact(text.split('\n'));
-      const data = _.compact(lines.map((line) => {
-        try {
-          return _.pick(JSON.parse(line), ['level', 'time', 'msg']);
-        } catch (e) {
-          return null;
-        }
-      }));
+      const data = _.compact(
+        lines.map(line => {
+          try {
+            return _.pick(JSON.parse(line), ['level', 'time', 'msg']);
+          } catch (e) {
+            return null;
+          }
+        })
+      );
 
       return resolve(data);
     });
@@ -213,7 +224,7 @@ function fetch(logPath) {
     msg: `Loaded this list of log files from logPath: ${files.join(', ')}`,
   };
 
-  return Promise.all(paths.map(fetchLog)).then((results) => {
+  return Promise.all(paths.map(fetchLog)).then(results => {
     const data = _.flatten(results);
 
     data.push(fileListEntry);
@@ -222,11 +233,10 @@ function fetch(logPath) {
   });
 }
 
-
 function logAtLevel(level, ...args) {
   if (logger) {
     // To avoid [Object object] in our log since console.log handles non-strings smoothly
-    const str = args.map((item) => {
+    const str = args.map(item => {
       if (typeof item !== 'string') {
         try {
           return JSON.stringify(item);

@@ -39,7 +39,7 @@ config.environment = environment;
   'HOSTNAME',
   'NODE_APP_INSTANCE',
   'SUPPRESS_NO_CONFIG_WARNING',
-].forEach((s) => {
+].forEach(s => {
   console.log(`${s} ${config.util.getEnv(s)}`);
 });
 

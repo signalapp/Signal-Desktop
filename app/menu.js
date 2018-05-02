@@ -1,6 +1,5 @@
 const { isString } = require('lodash');
 
-
 exports.createTemplate = (options, messages) => {
   if (!isString(options.platform)) {
     throw new TypeError('`options.platform` must be a string');
@@ -21,127 +20,129 @@ exports.createTemplate = (options, messages) => {
     showSettings,
   } = options;
 
-  const template = [{
-    label: messages.mainMenuFile.message,
-    submenu: [
-      {
-        label: messages.mainMenuSettings.message,
-        click: showSettings,
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'quit',
-      },
-    ],
-  },
-  {
-    label: messages.mainMenuEdit.message,
-    submenu: [
-      {
-        role: 'undo',
-      },
-      {
-        role: 'redo',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'cut',
-      },
-      {
-        role: 'copy',
-      },
-      {
-        role: 'paste',
-      },
-      {
-        role: 'pasteandmatchstyle',
-      },
-      {
-        role: 'delete',
-      },
-      {
-        role: 'selectall',
-      },
-    ],
-  },
-  {
-    label: messages.mainMenuView.message,
-    submenu: [
-      {
-        role: 'resetzoom',
-      },
-      {
-        role: 'zoomin',
-      },
-      {
-        role: 'zoomout',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'togglefullscreen',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        label: messages.debugLog.message,
-        click: showDebugLog,
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'toggledevtools',
-      },
-    ],
-  },
-  {
-    label: messages.mainMenuWindow.message,
-    role: 'window',
-    submenu: [
-      {
-        role: 'minimize',
-      },
-    ],
-  },
-  {
-    label: messages.mainMenuHelp.message,
-    role: 'help',
-    submenu: [
-      {
-        label: messages.goToReleaseNotes.message,
-        click: openReleaseNotes,
-      },
-      {
-        type: 'separator',
-      },
-      {
-        label: messages.goToForums.message,
-        click: openForums,
-      },
-      {
-        label: messages.goToSupportPage.message,
-        click: openSupportPage,
-      },
-      {
-        label: messages.menuReportIssue.message,
-        click: openNewBugForm,
-      },
-      {
-        type: 'separator',
-      },
-      {
-        label: messages.aboutSignalDesktop.message,
-        click: showAbout,
-      },
-    ],
-  }];
+  const template = [
+    {
+      label: messages.mainMenuFile.message,
+      submenu: [
+        {
+          label: messages.mainMenuSettings.message,
+          click: showSettings,
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'quit',
+        },
+      ],
+    },
+    {
+      label: messages.mainMenuEdit.message,
+      submenu: [
+        {
+          role: 'undo',
+        },
+        {
+          role: 'redo',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'cut',
+        },
+        {
+          role: 'copy',
+        },
+        {
+          role: 'paste',
+        },
+        {
+          role: 'pasteandmatchstyle',
+        },
+        {
+          role: 'delete',
+        },
+        {
+          role: 'selectall',
+        },
+      ],
+    },
+    {
+      label: messages.mainMenuView.message,
+      submenu: [
+        {
+          role: 'resetzoom',
+        },
+        {
+          role: 'zoomin',
+        },
+        {
+          role: 'zoomout',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'togglefullscreen',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: messages.debugLog.message,
+          click: showDebugLog,
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'toggledevtools',
+        },
+      ],
+    },
+    {
+      label: messages.mainMenuWindow.message,
+      role: 'window',
+      submenu: [
+        {
+          role: 'minimize',
+        },
+      ],
+    },
+    {
+      label: messages.mainMenuHelp.message,
+      role: 'help',
+      submenu: [
+        {
+          label: messages.goToReleaseNotes.message,
+          click: openReleaseNotes,
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: messages.goToForums.message,
+          click: openForums,
+        },
+        {
+          label: messages.goToSupportPage.message,
+          click: openSupportPage,
+        },
+        {
+          label: messages.menuReportIssue.message,
+          click: openNewBugForm,
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: messages.aboutSignalDesktop.message,
+          click: showAbout,
+        },
+      ],
+    },
+  ];
 
   if (includeSetup) {
     const fileMenu = template[0];
