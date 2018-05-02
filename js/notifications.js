@@ -3,7 +3,9 @@
 
 /* global config: false */
 /* global ConversationController: false */
+/* global drawAttention: false */
 /* global i18n: false */
+/* global isFocused: false */
 /* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
@@ -34,7 +36,7 @@
     },
     update() {
       const { isEnabled } = this;
-      const isFocused = window.isFocused();
+      const isAppFocused = isFocused();
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
@@ -42,7 +44,7 @@
         isAudioNotificationSupported && isAudioNotificationEnabled;
       const numNotifications = this.length;
       console.log('Update notifications:', {
-        isFocused,
+        isAppFocused,
         isEnabled,
         numNotifications,
         shouldPlayNotificationSound,
@@ -57,7 +59,7 @@
         return;
       }
 
-      const isNotificationOmitted = isFocused;
+      const isNotificationOmitted = isAppFocused;
       if (isNotificationOmitted) {
         this.clear();
         return;
@@ -68,7 +70,7 @@
         return;
       }
 
-      window.drawAttention();
+      drawAttention();
 
       let title;
       let message;
