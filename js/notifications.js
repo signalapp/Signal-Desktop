@@ -40,37 +40,27 @@
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
-      const shouldPlayNotificationSound =
-        isAudioNotificationSupported && isAudioNotificationEnabled;
       const numNotifications = this.length;
-      console.log('Update notifications:', {
-        isAppFocused,
+      const userSetting = this.getUserSetting();
+
+      const status = Signal.Notifications.getStatus({
         isEnabled,
+        isAppFocused,
+        isAudioNotificationEnabled,
+        isAudioNotificationSupported,
         numNotifications,
-        shouldPlayNotificationSound,
+        userSetting,
       });
 
-      if (!isEnabled) {
+      console.log('Update notifications:', status);
+
+      if (status.type !== 'ok') {
+        if (status.shouldClearNotifications) {
+          this.clear();
+        }
+
         return;
       }
-
-      const hasNotifications = numNotifications > 0;
-      if (!hasNotifications) {
-        return;
-      }
-
-      const isNotificationOmitted = isAppFocused;
-      if (isNotificationOmitted) {
-        this.clear();
-        return;
-      }
-
-      const setting = this.getSetting();
-      if (setting === SettingNames.OFF) {
-        return;
-      }
-
-      drawAttention();
 
       let title;
       let message;
@@ -86,7 +76,7 @@
       ].join(' ');
 
       const last = this.last();
-      switch (setting) {
+      switch (userSetting) {
         case SettingNames.COUNT:
           title = 'Signal';
           message = newMessageCount;
@@ -106,9 +96,11 @@
           iconUrl = last.get('iconUrl');
           break;
         default:
-          console.log(`Error: Unknown setting: '${setting}'`);
+          console.log(`Error: Unknown user setting: '${userSetting}'`);
           break;
       }
+
+      drawAttention();
 
       if (config.polyfillNotifications) {
         nodeNotifier.notify({
@@ -124,7 +116,7 @@
           body: message,
           icon: iconUrl,
           tag: 'signal',
-          silent: !shouldPlayNotificationSound,
+          silent: !status.shouldPlayNotificationSound,
         });
 
         notification.onclick = this.onClick.bind(
@@ -136,14 +128,14 @@
       // We don't want to notify the user about these same messages again
       this.clear();
     },
-    getSetting() {
+    getUserSetting() {
       return storage.get('notification-setting') || SettingNames.MESSAGE;
     },
     onRemove() {
-      console.log('remove notification');
+      console.log('Remove notification');
     },
     clear() {
-      console.log('remove all notifications');
+      console.log('Remove all notifications');
       this.reset([]);
     },
     enable() {
