@@ -200,6 +200,7 @@ window.Signal.Migrations.Migrations0DatabaseWithAttachmentData = require('./js/m
 window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData = require('./js/modules/migrations/migrations_1_database_without_attachment_data');
 
 window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
+window.Signal.Notifications = require('./ts/notifications');
 window.Signal.OS = require('./js/modules/os');
 window.Signal.Settings = require('./js/modules/settings');
 window.Signal.Startup = require('./js/modules/startup');
