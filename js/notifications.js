@@ -1,9 +1,21 @@
+/* global Backbone: false */
+/* global nodeNotifier: false */
+
+/* global config: false */
+/* global ConversationController: false */
+/* global i18n: false */
+/* global Signal: false */
+/* global storage: false */
+/* global Whisper: false */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
-  window.Whisper = window.Whisper || {};
-  const { Settings } = window.Signal.Types;
 
-  var SETTINGS = {
+  window.Whisper = window.Whisper || {};
+  const { Settings } = Signal.Types;
+
+  const SETTINGS = {
     OFF: 'off',
     COUNT: 'count',
     NAME: 'name',
@@ -11,16 +23,16 @@
   };
 
   Whisper.Notifications = new (Backbone.Collection.extend({
-    initialize: function() {
+    initialize() {
       this.isEnabled = false;
       this.on('add', this.update);
       this.on('remove', this.onRemove);
     },
-    onClick: function(conversationId) {
-      var conversation = ConversationController.get(conversationId);
+    onClick(conversationId) {
+      const conversation = ConversationController.get(conversationId);
       this.trigger('click', conversation);
     },
-    update: function() {
+    update() {
       const { isEnabled } = this;
       const isFocused = window.isFocused();
       const isAudioNotificationEnabled =
@@ -51,35 +63,35 @@
         return;
       }
 
-      var setting = storage.get('notification-setting') || 'message';
+      const setting = this.getSetting();
       if (setting === SETTINGS.OFF) {
         return;
       }
 
       window.drawAttention();
 
-      var title;
-      var message;
-      var iconUrl;
+      let title;
+      let message;
+      let iconUrl;
 
       // NOTE: i18n has more complex rules for pluralization than just
       // distinguishing between zero (0) and other (non-zero),
       // e.g. Russian:
       // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
-      var newMessageCount = [
+      const newMessageCount = [
         numNotifications,
         numNotifications === 1 ? i18n('newMessage') : i18n('newMessages'),
       ].join(' ');
 
-      var last = this.last();
-      switch (this.getSetting()) {
+      const last = this.last();
+      switch (setting) {
         case SETTINGS.COUNT:
           title = 'Signal';
           message = newMessageCount;
           break;
         case SETTINGS.NAME:
           title = newMessageCount;
-          message = 'Most recent from ' + last.get('title');
+          message = `Most recent from ${last.get('title')}`;
           iconUrl = last.get('iconUrl');
           break;
         case SETTINGS.MESSAGE:
@@ -91,19 +103,22 @@
           message = last.get('message');
           iconUrl = last.get('iconUrl');
           break;
+        default:
+          console.log(`Error: Unknown setting: '${setting}'`);
+          break;
       }
 
-      if (window.config.polyfillNotifications) {
-        window.nodeNotifier.notify({
-          title: title,
-          message: message,
+      if (config.polyfillNotifications) {
+        nodeNotifier.notify({
+          title,
+          message,
           sound: false,
         });
-        window.nodeNotifier.on('click', function(notifierObject, options) {
+        nodeNotifier.on('click', () => {
           last.get('conversationId');
         });
       } else {
-        var notification = new Notification(title, {
+        const notification = new Notification(title, {
           body: message,
           icon: iconUrl,
           tag: 'signal',
@@ -119,24 +134,24 @@
       // We don't want to notify the user about these same messages again
       this.clear();
     },
-    getSetting: function() {
+    getSetting() {
       return storage.get('notification-setting') || SETTINGS.MESSAGE;
     },
-    onRemove: function() {
+    onRemove() {
       console.log('remove notification');
     },
-    clear: function() {
+    clear() {
       console.log('remove all notifications');
       this.reset([]);
     },
-    enable: function() {
+    enable() {
       const needUpdate = !this.isEnabled;
       this.isEnabled = true;
       if (needUpdate) {
         this.update();
       }
     },
-    disable: function() {
+    disable() {
       this.isEnabled = false;
     },
   }))();
