@@ -4,7 +4,6 @@ const os = require('os');
 
 const _ = require('lodash');
 const electron = require('electron');
-const semver = require('semver');
 
 const { BrowserWindow, app, Menu, shell, ipcMain: ipc } = electron;
 
@@ -99,17 +98,6 @@ const loadLocale = require('./app/locale').load;
 let logger;
 let locale;
 
-const WINDOWS_8 = '8.0.0';
-const osRelease = os.release();
-const polyfillNotifications =
-  os.platform() === 'win32' && semver.lt(osRelease, WINDOWS_8);
-console.log(
-  'OS Release:',
-  osRelease,
-  '- notifications polyfill?',
-  polyfillNotifications
-);
-
 function prepareURL(pathSegments) {
   return url.format({
     pathname: path.join.apply(null, pathSegments),
@@ -127,7 +115,6 @@ function prepareURL(pathSegments) {
       node_version: process.versions.node,
       hostname: os.hostname(),
       appInstance: process.env.NODE_APP_INSTANCE,
-      polyfillNotifications: polyfillNotifications ? true : undefined, // for stringify()
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
       importMode: importMode ? true : undefined, // for stringify()
     },

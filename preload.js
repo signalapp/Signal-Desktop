@@ -101,7 +101,6 @@ window.loadImage = require('blueimp-load-image');
 
 window.nodeBuffer = Buffer;
 window.nodeFetch = require('node-fetch');
-window.nodeNotifier = require('node-notifier');
 window.ProxyAgent = require('proxy-agent');
 
 // Note: when modifying this file, consider whether our React Components or Backbone Views

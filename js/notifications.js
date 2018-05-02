@@ -1,7 +1,5 @@
 /* global Backbone: false */
-/* global nodeNotifier: false */
 
-/* global config: false */
 /* global ConversationController: false */
 /* global drawAttention: false */
 /* global i18n: false */
@@ -42,10 +40,8 @@
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
       const numNotifications = this.length;
       const userSetting = this.getUserSetting();
-      const hasNotificationSupport = !Boolean(config.polyfillNotifications);
 
       const status = Signal.Notifications.getStatus({
-        hasNotificationSupport,
         isAppFocused,
         isAudioNotificationEnabled,
         isAudioNotificationSupported,
@@ -104,28 +100,14 @@
 
       drawAttention();
 
-      if (hasNotificationSupport) {
-        const notification = new Notification(title, {
-          body: message,
-          icon: iconUrl,
-          tag: 'signal',
-          silent: !status.shouldPlayNotificationSound,
-        });
+      const notification = new Notification(title, {
+        body: message,
+        icon: iconUrl,
+        tag: 'signal',
+        silent: !status.shouldPlayNotificationSound,
+      });
 
-        notification.onclick = this.onClick.bind(
-          this,
-          last.get('conversationId')
-        );
-      } else {
-        nodeNotifier.notify({
-          title,
-          message,
-          sound: false,
-        });
-        nodeNotifier.on('click', () => {
-          last.get('conversationId');
-        });
-      }
+      notification.onclick = () => this.onClick(last.get('conversationId'));
 
       // We don't want to notify the user about these same messages again
       this.clear();
