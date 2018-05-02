@@ -5,11 +5,10 @@ const fse = require('fs-extra');
 const toArrayBuffer = require('to-arraybuffer');
 const { isArrayBuffer, isString } = require('lodash');
 
-
 const PATH = 'attachments.noindex';
 
 //      getPath :: AbsolutePath -> AbsolutePath
-exports.getPath = (userDataPath) => {
+exports.getPath = userDataPath => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
@@ -17,7 +16,7 @@ exports.getPath = (userDataPath) => {
 };
 
 //      ensureDirectory :: AbsolutePath -> IO Unit
-exports.ensureDirectory = async (userDataPath) => {
+exports.ensureDirectory = async userDataPath => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
@@ -27,12 +26,12 @@ exports.ensureDirectory = async (userDataPath) => {
 //      createReader :: AttachmentsPath ->
 //                      RelativePath ->
 //                      IO (Promise ArrayBuffer)
-exports.createReader = (root) => {
+exports.createReader = root => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async (relativePath) => {
+  return async relativePath => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
@@ -46,12 +45,12 @@ exports.createReader = (root) => {
 //      createWriterForNew :: AttachmentsPath ->
 //                            ArrayBuffer ->
 //                            IO (Promise RelativePath)
-exports.createWriterForNew = (root) => {
+exports.createWriterForNew = root => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async (arrayBuffer) => {
+  return async arrayBuffer => {
     if (!isArrayBuffer(arrayBuffer)) {
       throw new TypeError("'arrayBuffer' must be an array buffer");
     }
@@ -68,7 +67,7 @@ exports.createWriterForNew = (root) => {
 //      createWriter :: AttachmentsPath ->
 //                      { data: ArrayBuffer, path: RelativePath } ->
 //                      IO (Promise RelativePath)
-exports.createWriterForExisting = (root) => {
+exports.createWriterForExisting = root => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
@@ -93,12 +92,12 @@ exports.createWriterForExisting = (root) => {
 //      createDeleter :: AttachmentsPath ->
 //                       RelativePath ->
 //                       IO Unit
-exports.createDeleter = (root) => {
+exports.createDeleter = root => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async (relativePath) => {
+  return async relativePath => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
@@ -115,7 +114,7 @@ exports.createName = () => {
 };
 
 //      getRelativePath :: String -> Path
-exports.getRelativePath = (name) => {
+exports.getRelativePath = name => {
   if (!isString(name)) {
     throw new TypeError("'name' must be a string");
   }

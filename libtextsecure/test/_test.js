@@ -1,4 +1,4 @@
-mocha.setup("bdd");
+mocha.setup('bdd');
 window.assert = chai.assert;
 window.PROTO_ROOT = '../../protos';
 
@@ -27,7 +27,7 @@ window.PROTO_ROOT = '../../protos';
         result: false,
         message: err.message,
         stack: err.stack,
-        titles: flattenTitles(test)
+        titles: flattenTitles(test),
       });
     });
 
@@ -37,21 +37,21 @@ window.PROTO_ROOT = '../../protos';
   SauceReporter.prototype = OriginalReporter.prototype;
 
   mocha.reporter(SauceReporter);
-}());
+})();
 
 /*
  * global helpers for tests
  */
 function assertEqualArrayBuffers(ab1, ab2) {
   assert.deepEqual(new Uint8Array(ab1), new Uint8Array(ab2));
-};
+}
 
 function hexToArrayBuffer(str) {
   var ret = new ArrayBuffer(str.length / 2);
   var array = new Uint8Array(ret);
-  for (var i = 0; i < str.length/2; i++)
-    array[i] = parseInt(str.substr(i*2, 2), 16);
+  for (var i = 0; i < str.length / 2; i++)
+    array[i] = parseInt(str.substr(i * 2, 2), 16);
   return ret;
-};
+}
 
 window.MockSocket.prototype.addEventListener = function() {};

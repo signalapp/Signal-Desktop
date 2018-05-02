@@ -14,5 +14,13 @@ js/jquery.js
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
 
+ts/**/*.js
+components/*
+dist/*
+libtextsecure/libsignal-protocol.js
+test/fixtures.js
+libtextsecure/test/blanket_mocha.js
+test/blanket_mocha.js
+
 /**/*.json
 /**/*.css

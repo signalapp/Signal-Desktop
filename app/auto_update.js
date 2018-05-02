@@ -11,7 +11,11 @@ const RESTART_BUTTON = 0;
 const LATER_BUTTON = 1;
 
 function autoUpdateDisabled() {
-  return process.platform === 'linux' || process.mas || config.get('disableAutoUpdate');
+  return (
+    process.platform === 'linux' ||
+    process.mas ||
+    config.get('disableAutoUpdate')
+  );
 }
 
 function checkForUpdates() {
@@ -38,7 +42,7 @@ function showUpdateDialog(mainWindow, messages) {
     cancelId: RESTART_BUTTON,
   };
 
-  dialog.showMessageBox(mainWindow, options, (response) => {
+  dialog.showMessageBox(mainWindow, options, response => {
     if (response === RESTART_BUTTON) {
       // We delay these update calls because they don't seem to work in this
       //   callback - but only if the message box has a parent window.
