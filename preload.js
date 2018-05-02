@@ -200,7 +200,7 @@ window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData = require('./j
 
 window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
 window.Signal.Notifications = require('./ts/notifications');
-window.Signal.OS = require('./js/modules/os');
+window.Signal.OS = require('./ts/OS');
 window.Signal.Settings = require('./js/modules/settings');
 window.Signal.Startup = require('./js/modules/startup');
 
@@ -211,7 +211,7 @@ window.Signal.Types.Errors = require('./js/modules/types/errors');
 
 window.Signal.Types.Message = Message;
 window.Signal.Types.MIME = require('./ts/types/MIME');
-window.Signal.Types.Settings = require('./js/modules/types/settings');
+window.Signal.Types.Settings = require('./ts/types/Settings');
 window.Signal.Util = require('./ts/util');
 
 window.Signal.Views = {};

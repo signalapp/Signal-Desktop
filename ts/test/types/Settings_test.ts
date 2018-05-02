@@ -1,7 +1,8 @@
-const sinon = require('sinon');
-const { assert } = require('chai');
+import os from 'os';
+import sinon from 'sinon';
+import { assert } from 'chai';
 
-const Settings = require('../../../js/modules/types/settings');
+import * as Settings from '../../../ts/types/Settings';
 
 describe('Settings', () => {
   const sandbox = sinon.createSandbox();
@@ -22,16 +23,19 @@ describe('Settings', () => {
     });
 
     context('on Windows', () => {
-      beforeEach(() => {
-        sandbox.stub(process, 'platform').value('win32');
-      });
+      context('version 8+', () => {
+        beforeEach(() => {
+          sandbox.stub(process, 'platform').value('win32');
+          sandbox.stub(os, 'release').returns('8.0.0');
+        });
 
-      afterEach(() => {
-        sandbox.restore();
-      });
+        afterEach(() => {
+          sandbox.restore();
+        });
 
-      it('should return true', () => {
-        assert.isTrue(Settings.isAudioNotificationSupported());
+        it('should return true', () => {
+          assert.isTrue(Settings.isAudioNotificationSupported());
+        });
       });
     });
 
