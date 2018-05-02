@@ -258,37 +258,14 @@ yarn build-release
 
 Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
 
-## Dependencies
+## Translations
 
-**Note**: You probably won't end up doing this. Feel free to skip for now.
+To pull the latest translations, follow these steps:
 
-Dependencies are managed by [bower](http://bower.io) and built with
-[grunt](http://gruntjs.com). To change them, you'll need to install node and
-npm, then run `npm install` to install bower, grunt, and related plugins.
-
-### Adding a bower component
-
-Add the package name and version to bower.json under 'dependencies' or `bower install package-name --save`
-
-Next update the "preen" config in bower.json with the list of files we will
-actually use from the new package, e.g.:
-
-```
-  "preen": {
-    "package-name": [
-      "path/to/main.js",
-      "directory/**/*.js"
-    ],
-    ...
-  }
-```
-
-If you'd like to add the new dependency to js/components.js to be included on
-all html pages, simply append the package name to the concat.app list in
-`bower.json`. Take care to insert it in the order you would like it
-concatenated.
-
-Now, run `grunt` to delete unused package files and build `js/components.js`.
-
-Finally, stage and commit changes to bower.json, `js/components.js`,
-and `components/`. The latter should be limited to files we actually use.
+1.  Download Transifex client:
+    https://docs.transifex.com/client/installing-the-client
+2.  Create Transifex account: https://transifex.com
+3.  Generate API token: https://www.transifex.com/user/settings/api/
+4.  Create `~/.transifexrc` configuration:
+    https://docs.transifex.com/client/client-configuration#-transifexrc
+5.  Run `yarn grunt tx`.
