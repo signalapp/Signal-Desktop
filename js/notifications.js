@@ -17,7 +17,7 @@
   window.Whisper = window.Whisper || {};
   const { Settings } = Signal.Types;
 
-  const SETTINGS = {
+  const SettingNames = {
     OFF: 'off',
     COUNT: 'count',
     NAME: 'name',
@@ -66,7 +66,7 @@
       }
 
       const setting = this.getSetting();
-      if (setting === SETTINGS.OFF) {
+      if (setting === SettingNames.OFF) {
         return;
       }
 
@@ -87,16 +87,16 @@
 
       const last = this.last();
       switch (setting) {
-        case SETTINGS.COUNT:
+        case SettingNames.COUNT:
           title = 'Signal';
           message = newMessageCount;
           break;
-        case SETTINGS.NAME:
+        case SettingNames.NAME:
           title = newMessageCount;
           message = `Most recent from ${last.get('title')}`;
           iconUrl = last.get('iconUrl');
           break;
-        case SETTINGS.MESSAGE:
+        case SettingNames.MESSAGE:
           if (numNotifications === 1) {
             title = last.get('title');
           } else {
@@ -137,7 +137,7 @@
       this.clear();
     },
     getSetting() {
-      return storage.get('notification-setting') || SETTINGS.MESSAGE;
+      return storage.get('notification-setting') || SettingNames.MESSAGE;
     },
     onRemove() {
       console.log('remove notification');
