@@ -18,6 +18,8 @@ ts/**/*.js
 components/*
 dist/*
 libtextsecure/libsignal-protocol.js
+test/fixtures.js
+test/blanket_mocha.js
 
 /**/*.json
 /**/*.css
