@@ -23,6 +23,21 @@ describe('Settings', () => {
     });
 
     context('on Windows', () => {
+      context('version 7', () => {
+        beforeEach(() => {
+          sandbox.stub(process, 'platform').value('win32');
+          sandbox.stub(os, 'release').returns('7.0.0');
+        });
+
+        afterEach(() => {
+          sandbox.restore();
+        });
+
+        it('should return false', () => {
+          assert.isFalse(Settings.isAudioNotificationSupported());
+        });
+      });
+
       context('version 8+', () => {
         beforeEach(() => {
           sandbox.stub(process, 'platform').value('win32');
