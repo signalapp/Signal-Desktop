@@ -73,7 +73,7 @@ exports.redactGroupIds = text => {
   return text.replace(
     GROUP_ID_PATTERN,
     (match, before, id, after) =>
-      `${before}${REDACTION_PLACEHOLDER}${id.slice(-3)}${after}`
+      `${before}${REDACTION_PLACEHOLDER}${removeNewlines(id).slice(-3)}${after}`
   );
 };
 
@@ -86,3 +86,5 @@ exports.redactAll = compose(
   exports.redactGroupIds,
   exports.redactPhoneNumbers
 );
+
+const removeNewlines = text => text.replace(/\r?\n|\r/g, '');

@@ -632,13 +632,11 @@
             const shouldLogExpireTimerChange =
               message.isExpirationTimerUpdate() || expireTimer;
             if (shouldLogExpireTimerChange) {
-              console.log(
-                'Updating expireTimer for conversation',
-                conversation.idForLogging(),
-                'to',
+              console.log("Update conversation 'expireTimer'", {
+                id: conversation.idForLogging(),
                 expireTimer,
-                'via `handleDataMessage`'
-              );
+                source: 'handleDataMessage',
+              });
             }
 
             if (!message.isEndSession() && !message.isGroupUpdate()) {
@@ -847,7 +845,10 @@
         }
 
         Whisper.ExpiringMessagesListener.update();
-        console.log('message', this.get('sent_at'), 'expires at', expiresAt);
+        console.log('Set message expiration', {
+          expiresAt,
+          sentAt: this.get('sent_at'),
+        });
       }
     },
   });
@@ -961,7 +962,7 @@
     },
 
     fetchExpired() {
-      console.log('loading expired messages');
+      console.log('Load expired messages');
       this.fetch({
         conditions: { expires_at: { $lte: Date.now() } },
         addIndividually: true,
