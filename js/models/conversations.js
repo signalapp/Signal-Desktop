@@ -813,17 +813,24 @@
       await collection.fetchConversation(this.id, 1);
       const lastMessage = collection.at(0);
 
+      const lastMessageJSON = lastMessage ? lastMessage.toJSON() : null;
       const lastMessageUpdate = window.Signal.Types.Conversation.createLastMessageUpdate(
         {
           currentLastMessageText: this.get('lastMessage') || null,
           currentTimestamp: this.get('timestamp') || null,
-          lastMessage: lastMessage ? lastMessage.toJSON() : null,
+          lastMessage: lastMessageJSON,
           lastMessageNotificationText: lastMessage
             ? lastMessage.getNotificationText()
             : null,
         }
       );
 
+      console.log('Conversation: Update last message:', {
+        id: this.idForLogging() || null,
+        messageTimestamp: lastMessageUpdate.timestamp || null,
+        messageType: lastMessageJSON ? lastMessageJSON.type : null,
+        messageSentAt: lastMessageJSON ? lastMessageJSON.sent_at : null,
+      });
       this.set(lastMessageUpdate);
 
       if (this.hasChanged('lastMessage') || this.hasChanged('timestamp')) {
