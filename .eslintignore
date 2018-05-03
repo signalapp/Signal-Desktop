@@ -36,6 +36,7 @@ ts/**/*.js
 !js/logging.js
 !js/models/conversations.js
 !js/models/messages.js
+!js/notifications.js
 !js/views/attachment_view.js
 !js/views/backbone_wrapper_view.js
 !js/views/conversation_search_view.js

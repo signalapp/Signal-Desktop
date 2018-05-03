@@ -1,6 +1,7 @@
-/* global Whisper: false */
-/* global Backbone: false */
 /* global _: false */
+/* global Backbone: false */
+
+/* global Whisper: false */
 
 // eslint-disable-next-line func-names
 (function() {

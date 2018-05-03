@@ -101,7 +101,6 @@ window.loadImage = require('blueimp-load-image');
 
 window.nodeBuffer = Buffer;
 window.nodeFetch = require('node-fetch');
-window.nodeNotifier = require('node-notifier');
 window.ProxyAgent = require('proxy-agent');
 
 // Note: when modifying this file, consider whether our React Components or Backbone Views
@@ -200,7 +199,8 @@ window.Signal.Migrations.Migrations0DatabaseWithAttachmentData = require('./js/m
 window.Signal.Migrations.Migrations1DatabaseWithoutAttachmentData = require('./js/modules/migrations/migrations_1_database_without_attachment_data');
 
 window.Signal.Migrations.upgradeMessageSchema = upgradeMessageSchema;
-window.Signal.OS = require('./js/modules/os');
+window.Signal.Notifications = require('./ts/notifications');
+window.Signal.OS = require('./ts/OS');
 window.Signal.Settings = require('./js/modules/settings');
 window.Signal.Startup = require('./js/modules/startup');
 
@@ -211,7 +211,7 @@ window.Signal.Types.Errors = require('./js/modules/types/errors');
 
 window.Signal.Types.Message = Message;
 window.Signal.Types.MIME = require('./ts/types/MIME');
-window.Signal.Types.Settings = require('./js/modules/types/settings');
+window.Signal.Types.Settings = require('./ts/types/Settings');
 window.Signal.Util = require('./ts/util');
 
 window.Signal.Views = {};
