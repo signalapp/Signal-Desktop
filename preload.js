@@ -169,6 +169,9 @@ const {
   MediaGallery,
 } = require('./ts/components/conversation/media-gallery/MediaGallery');
 const { Quote } = require('./ts/components/conversation/Quote');
+const {
+  EmbeddedContact,
+} = require('./ts/components/conversation/EmbeddedContact');
 
 const MediaGalleryMessage = require('./ts/components/conversation/media-gallery/types/Message');
 
@@ -180,6 +183,7 @@ window.Signal.Components = {
     Message: MediaGalleryMessage,
   },
   Quote,
+  EmbeddedContact,
 };
 
 window.Signal.Migrations = {};

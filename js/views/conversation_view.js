@@ -146,6 +146,16 @@
         'reply',
         this.setQuoteMessage
       );
+      this.listenTo(
+        this.model.messageCollection,
+        'show-contact-detail',
+        this.showContactDetail
+      );
+      this.listenTo(
+        this.model.messageCollection,
+        'open-conversation',
+        this.openConversation
+      );
 
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
@@ -994,6 +1004,41 @@
       });
       view.render();
       this.listenBack(view);
+    },
+
+    showContactDetail(contact) {
+      console.log('showContactDetail', contact); // TODO
+
+      // TODO: need to run contact through selector to format email, get absolute path
+      //   think it's probably time to move it to typescript
+
+      const view = new Whisper.ReactWrapperView({
+        Component: Signal.Components.MediaGallery,
+        props: {
+          contact,
+          hasSignalAccount: true,
+          onSendMessage: () => {
+            const number =
+              contact.number && contact.number[0] && contact.number[0].value;
+            if (number) {
+              this.openConversation(number);
+            }
+          },
+        },
+        onClose: () => this.resetPanel(),
+      });
+
+      this.listenBack(view);
+    },
+
+    async openConversation(number) {
+      console.log('openConversation', number); // TODO
+
+      const conversation = await window.ConversationController.getOrCreateAndWait(
+        number,
+        'private'
+      );
+      window.Whisper.Events.trigger('click', conversation);
     },
 
     listenBack(view) {

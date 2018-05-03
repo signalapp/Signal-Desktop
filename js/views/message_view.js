@@ -5,6 +5,8 @@
 /* global emoji_util: false */
 /* global Mustache: false */
 /* global $: false */
+/* global libphonenumber: false */
+/* global storage: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -290,6 +292,9 @@
       if (this.quoteView) {
         this.quoteView.remove();
       }
+      if (this.contactView) {
+        this.contactView.remove();
+      }
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
       // as our tests rely on `onUnload` synchronously removing the view from
@@ -436,6 +441,108 @@
       });
       this.$('.inner-bubble').prepend(this.quoteView.el);
     },
+    formatPhoneNumber(number, options = {}) {
+      const { ourRegionCode } = options;
+      const parsedNumber = libphonenumber.parse(number);
+      const regionCode = libphonenumber.getRegionCodeForNumber(parsedNumber);
+      if (ourRegionCode && regionCode === ourRegionCode) {
+        return libphonenumber.format(
+          parsedNumber,
+          libphonenumber.PhoneNumberFormat.NATIONAL
+        );
+      }
+      return libphonenumber.format(
+        parsedNumber,
+        libphonenumber.PhoneNumberFormat.INTERNATIONAL
+      );
+    },
+    contactSelector(contact) {
+      const { getAbsoluteAttachmentPath } = Signal.Migrations;
+      const region = storage.get('regionCode');
+
+      let { avatar } = contact;
+      if (avatar && avatar.avatar && avatar.avatar.path) {
+        avatar = Object.assign({}, avatar, {
+          avatar: Object.assign({}, avatar.avatar, {
+            path: getAbsoluteAttachmentPath(avatar.avatar.path),
+          }),
+        });
+      }
+      return Object.assign({}, contact, {
+        avatar,
+        number:
+          contact.number &&
+          contact.number.map(item =>
+            Object.assign({}, item, {
+              value: this.formatPhoneNumber(item.value, {
+                ourRegionCode: region,
+              }),
+            })
+          ),
+      });
+    },
+    renderContact() {
+      const contacts = this.model.get('contact');
+      if (!contacts || !contacts.length) {
+        return;
+      }
+      const contact = contacts[0];
+
+      const number =
+        contact.number && contact.number[0] && contact.number[0].value;
+      const haveConversation =
+        number && Boolean(window.ConversationController.get(number));
+      let hasSignalAccount = number && haveConversation;
+
+      const onSendMessage = number
+        ? () => {
+            this.model.trigger('open-conversation', number);
+          }
+        : null;
+      const onOpenContact = () => {
+        this.model.trigger('show-contact-detail', contact);
+      };
+
+      const getProps = () => {
+        return {
+          contact: this.contactSelector(contact),
+          hasSignalAccount,
+          onSendMessage,
+          onOpenContact,
+        };
+      };
+
+      if (this.contactView) {
+        this.contactView.remove();
+        this.contactView = null;
+      }
+
+      this.contactView = new Whisper.ReactWrapperView({
+        className: 'contact-wrapper',
+        Component: window.Signal.Components.EmbeddedContact,
+        props: getProps(),
+      });
+
+      this.$('.inner-bubble').prepend(this.contactView.el);
+
+      // If we can't verify a signal account locally, we'll go to the Signal Server.
+      if (number && !hasSignalAccount) {
+        // eslint-disable-next-line more/no-then
+        window.textsecure.messaging
+          .getProfile(number)
+          .then(() => {
+            if (!this.contactView) {
+              return;
+            }
+
+            hasSignalAccount = true;
+            this.contactView.update(getProps());
+          })
+          .catch(() => {
+            // No account available, or network connectivity problem
+          });
+      }
+    },
     isImageWithoutCaption() {
       const attachments = this.model.get('attachments');
       const body = this.model.get('body');
@@ -458,7 +565,10 @@
       const attachments = this.model.get('attachments');
       const hasAttachments = attachments && attachments.length > 0;
 
-      return this.hasTextContents() || hasAttachments;
+      const contacts = this.model.get('contact');
+      const hasContact = contacts && contacts.length > 0;
+
+      return this.hasTextContents() || hasAttachments || hasContact;
     },
     hasTextContents() {
       const body = this.model.get('body');
@@ -525,6 +635,7 @@
       this.renderErrors();
       this.renderExpiring();
       this.renderQuote();
+      this.renderContact();
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
       // as our code / Backbone seems to rely on `render` synchronously returning
