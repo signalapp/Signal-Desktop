@@ -6,7 +6,9 @@
     // Load messages that have expired and destroy them
     var expired = new Whisper.MessageCollection();
     expired.on('add', function(message) {
-      console.log('message', message.get('sent_at'), 'expired');
+      console.log('Message expired', {
+        sentAt: message.get('sent_at'),
+      });
       var conversation = message.getConversation();
       if (conversation) {
         conversation.trigger('expired', message);

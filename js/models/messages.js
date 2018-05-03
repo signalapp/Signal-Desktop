@@ -845,7 +845,10 @@
         }
 
         Whisper.ExpiringMessagesListener.update();
-        console.log('message', this.get('sent_at'), 'expires at', expiresAt);
+        console.log('Set message expiration', {
+          expiresAt,
+          sentAt: this.get('sent_at'),
+        });
       }
     },
   });
@@ -959,7 +962,7 @@
     },
 
     fetchExpired() {
-      console.log('loading expired messages');
+      console.log('Load expired messages');
       this.fetch({
         conditions: { expires_at: { $lte: Date.now() } },
         addIndividually: true,

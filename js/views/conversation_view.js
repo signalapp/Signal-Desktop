@@ -815,11 +815,9 @@
     },
     async onExpiredCollection(message) {
       const removeMessage = () => {
-        console.log(
-          'removing message',
-          message.get('sent_at'),
-          'from collection'
-        );
+        console.log('Remove expired message from message collection', {
+          sentAt: message.get('sent_at'),
+        });
         this.model.messageCollection.remove(message.id);
       };
 
