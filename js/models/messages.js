@@ -632,13 +632,11 @@
             const shouldLogExpireTimerChange =
               message.isExpirationTimerUpdate() || expireTimer;
             if (shouldLogExpireTimerChange) {
-              console.log(
-                'Updating expireTimer for conversation',
-                conversation.idForLogging(),
-                'to',
+              console.log("Update conversation 'expireTimer'", {
+                id: conversation.idForLogging(),
                 expireTimer,
-                'via `handleDataMessage`'
-              );
+                source: 'handleDataMessage',
+              });
             }
 
             if (!message.isEndSession() && !message.isGroupUpdate()) {

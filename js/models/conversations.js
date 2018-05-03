@@ -860,14 +860,12 @@
         return Promise.resolve();
       }
 
-      console.log(
-        'Updating expireTimer for conversation',
-        this.idForLogging(),
-        'to',
+      console.log("Update conversation 'expireTimer'", {
+        id: this.idForLogging(),
         expireTimer,
-        'via',
-        source
-      );
+        source,
+      });
+
       source = source || textsecure.storage.user.getNumber();
       const timestamp = receivedAt || Date.now();
 
