@@ -100,16 +100,15 @@
 
       drawAttention();
 
+      const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
       const notification = new Notification(title, {
         body: message,
         icon: iconUrl,
-        tag: 'signal',
+        tag: isNotificationGroupingSupported ? 'signal' : undefined,
         silent: !status.shouldPlayNotificationSound,
       });
-
       notification.onclick = () => this.onClick(last.get('conversationId'));
 
-      // We don't want to notify the user about these same messages again
       this.clear();
     },
     getUserSetting() {
