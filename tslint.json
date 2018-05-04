@@ -1,12 +1,16 @@
 {
   "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended",
-    "tslint-react"
-  ],
+  "extends": ["tslint:recommended", "tslint-react"],
   "jsRules": {},
   "rules": {
-    "align": [true, "arguments", "elements", "members", "parameters", "statements"],
+    "align": [
+      true,
+      "arguments",
+      "elements",
+      "members",
+      "parameters",
+      "statements"
+    ],
     "array-type": [true, "generic"],
 
     // Preferred by Prettier:
@@ -23,7 +27,7 @@
     "linebreak-style": [true, "LF"],
 
     // Ignore `import`s to allow Prettier formatting:
-    "max-line-length": [true, {"limit": 90, "ignore-pattern": "^import"}],
+    "max-line-length": [true, { "limit": 90, "ignore-pattern": "^import" }],
 
     "mocha-avoid-only": true,
     // Disabled until we can allow dynamically generated tests:
@@ -37,12 +41,21 @@
 
     // Ignore import sources order until we can specify that we want ordering
     // based on import name vs module name:
-    "ordered-imports": [true, {
-      "import-sources-order": "any",
-      "named-imports-order": "case-insensitive"
-    }],
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "any",
+        "named-imports-order": "case-insensitive"
+      }
+    ],
 
-    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double",
+      "avoid-template",
+      "avoid-escape"
+    ],
 
     // Preferred by Prettier:
     "semicolon": [true, "always", "ignore-bound-class-methods"],
@@ -62,7 +75,5 @@
       }
     ]
   },
-  "rulesDirectory": [
-    "node_modules/tslint-microsoft-contrib"
-  ]
+  "rulesDirectory": ["node_modules/tslint-microsoft-contrib"]
 }
