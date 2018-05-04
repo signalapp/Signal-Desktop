@@ -38,6 +38,7 @@
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
+      const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
       const numNotifications = this.length;
       const userSetting = this.getUserSetting();
 
@@ -50,7 +51,12 @@
         userSetting,
       });
 
-      console.log('Update notifications:', status);
+      console.log(
+        'Update notifications:',
+        Object.assign({}, status, {
+          isNotificationGroupingSupported,
+        })
+      );
 
       if (status.type !== 'ok') {
         if (status.shouldClearNotifications) {
@@ -103,13 +109,11 @@
       const notification = new Notification(title, {
         body: message,
         icon: iconUrl,
-        tag: 'signal',
+        tag: isNotificationGroupingSupported ? 'signal' : undefined,
         silent: !status.shouldPlayNotificationSound,
       });
-
       notification.onclick = () => this.onClick(last.get('conversationId'));
 
-      // We don't want to notify the user about these same messages again
       this.clear();
     },
     getUserSetting() {

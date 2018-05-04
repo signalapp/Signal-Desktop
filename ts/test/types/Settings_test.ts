@@ -68,4 +68,66 @@ describe('Settings', () => {
       });
     });
   });
+
+  describe('isNotificationGroupingSupported', () => {
+    context('on macOS', () => {
+      beforeEach(() => {
+        sandbox.stub(process, 'platform').value('darwin');
+      });
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
+      it('should return true', () => {
+        assert.isTrue(Settings.isNotificationGroupingSupported());
+      });
+    });
+
+    context('on Windows', () => {
+      context('version 7', () => {
+        beforeEach(() => {
+          sandbox.stub(process, 'platform').value('win32');
+          sandbox.stub(os, 'release').returns('7.0.0');
+        });
+
+        afterEach(() => {
+          sandbox.restore();
+        });
+
+        it('should return false', () => {
+          assert.isFalse(Settings.isNotificationGroupingSupported());
+        });
+      });
+
+      context('version 8+', () => {
+        beforeEach(() => {
+          sandbox.stub(process, 'platform').value('win32');
+          sandbox.stub(os, 'release').returns('8.0.0');
+        });
+
+        afterEach(() => {
+          sandbox.restore();
+        });
+
+        it('should return true', () => {
+          assert.isTrue(Settings.isNotificationGroupingSupported());
+        });
+      });
+    });
+
+    context('on Linux', () => {
+      beforeEach(() => {
+        sandbox.stub(process, 'platform').value('linux');
+      });
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
+      it('should return true', () => {
+        assert.isTrue(Settings.isNotificationGroupingSupported());
+      });
+    });
+  });
 });
