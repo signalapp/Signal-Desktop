@@ -9,6 +9,4 @@ end_of_line = lf
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
-
-[{js/modules/**/*.js, ts/**/*.ts, test/app/**/*.js, test/modules/**/*.js}]
 indent_size = 2
