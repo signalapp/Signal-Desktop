@@ -38,6 +38,7 @@
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
+      const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
       const numNotifications = this.length;
       const userSetting = this.getUserSetting();
 
@@ -50,7 +51,12 @@
         userSetting,
       });
 
-      console.log('Update notifications:', status);
+      console.log(
+        'Update notifications:',
+        Object.assign({}, status, {
+          isNotificationGroupingSupported,
+        })
+      );
 
       if (status.type !== 'ok') {
         if (status.shouldClearNotifications) {
@@ -100,7 +106,6 @@
 
       drawAttention();
 
-      const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
       const notification = new Notification(title, {
         body: message,
         icon: iconUrl,
