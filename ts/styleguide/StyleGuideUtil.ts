@@ -19,6 +19,8 @@ export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 
 import { Quote } from '../components/conversation/Quote';
 import { EmbeddedContact } from '../components/conversation/EmbeddedContact';
+import * as Contact from '../types/Contact';
+
 import * as HTML from '../html';
 
 import * as Attachment from '../../ts/types/Attachment';
@@ -130,6 +132,7 @@ parent.ReactDOM = ReactDOM;
 parent.Signal.HTML = HTML;
 parent.Signal.Types.MIME = MIME;
 parent.Signal.Types.Attachment = Attachment;
+parent.Signal.Types.Contact = Contact;
 parent.Signal.Components = {
   Quote,
   EmbeddedContact,

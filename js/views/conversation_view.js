@@ -1007,15 +1007,17 @@
     },
 
     showContactDetail(contact) {
-      console.log('showContactDetail', contact); // TODO
-
-      // TODO: need to run contact through selector to format email, get absolute path
-      //   think it's probably time to move it to typescript
+      const regionCode = storage.get('regionCode');
+      const { contactSelector } = Signal.Types.Contact;
+      const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
       const view = new Whisper.ReactWrapperView({
-        Component: Signal.Components.MediaGallery,
+        Component: Signal.Components.ContactDetail,
         props: {
-          contact,
+          contact: contactSelector(contact, {
+            regionCode,
+            getAbsoluteAttachmentPath,
+          }),
           hasSignalAccount: true,
           onSendMessage: () => {
             const number =
@@ -1032,13 +1034,11 @@
     },
 
     async openConversation(number) {
-      console.log('openConversation', number); // TODO
-
       const conversation = await window.ConversationController.getOrCreateAndWait(
         number,
         'private'
       );
-      window.Whisper.Events.trigger('click', conversation);
+      window.Whisper.events.trigger('showConversation', conversation);
     },
 
     listenBack(view) {
@@ -1244,7 +1244,6 @@
 
       if (message) {
         const quote = await this.model.makeQuote(this.quotedMessage);
-        console.log({ quote });
         this.quote = quote;
 
         this.focusMessageFieldAndClearDisabled();

@@ -1,5 +1,13 @@
 import React from 'react';
 
+import {
+  Contact,
+  ContactType,
+  AddressType,
+  Phone,
+  Email,
+  PostalAddress,
+} from '../../types/Contact';
 import { missingCaseError } from '../../util/missingCaseError';
 
 type Localizer = (key: string, values?: Array<string>) => string;
@@ -9,70 +17,6 @@ interface Props {
   hasSignalAccount: boolean;
   i18n: Localizer;
   onSendMessage: () => void;
-}
-
-interface Contact {
-  name: Name;
-  number?: Array<Phone>;
-  email?: Array<Email>;
-  address?: Array<PostalAddress>;
-  avatar?: Avatar;
-  organization?: string;
-}
-
-interface Name {
-  givenName?: string;
-  familyName?: string;
-  prefix?: string;
-  suffix?: string;
-  middleName?: string;
-  displayName: string;
-}
-
-enum ContactType {
-  HOME = 1,
-  MOBILE = 2,
-  WORK = 3,
-  CUSTOM = 4,
-}
-
-enum AddressType {
-  HOME = 1,
-  WORK = 2,
-  CUSTOM = 3,
-}
-
-interface Phone {
-  value: string;
-  type: ContactType;
-  label?: string;
-}
-
-interface Email {
-  value: string;
-  type: ContactType;
-  label?: string;
-}
-
-interface PostalAddress {
-  type: AddressType;
-  label?: string;
-  street?: string;
-  pobox?: string;
-  neighborhood?: string;
-  city?: string;
-  region?: string;
-  postcode?: string;
-  country?: string;
-}
-
-interface Avatar {
-  avatar: Attachment;
-  isProfile: boolean;
-}
-
-interface Attachment {
-  path: string;
 }
 
 function getLabelForContactMethod(method: Phone | Email, i18n: Localizer) {

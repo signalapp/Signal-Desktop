@@ -852,8 +852,11 @@ span.status {
 
   .send-message {
     color: white;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    // We would like to use these border colors for incoming messages, but the version
+    //   of Chromium in our Electron version doesn't render these appropriately. Both
+    //   borders disappear for some reason, and it seems to have to do with transparency.
+    // border-top: 1px solid rgba(255, 255, 255, 0.5);
+    // border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 
     .bubble-icon {
       background-color: white;
@@ -961,6 +964,10 @@ span.status {
       margin-bottom: 3px;
     }
   }
+}
+
+.conversation .contact-detail {
+  margin-top: 40px;
 }
 
 .quoted-message {

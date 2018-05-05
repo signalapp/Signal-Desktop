@@ -172,10 +172,13 @@ const { Quote } = require('./ts/components/conversation/Quote');
 const {
   EmbeddedContact,
 } = require('./ts/components/conversation/EmbeddedContact');
+const { ContactDetail } = require('./ts/components/conversation/ContactDetail');
 
 const MediaGalleryMessage = require('./ts/components/conversation/media-gallery/types/Message');
 
 window.Signal.Components = {
+  ContactDetail,
+  EmbeddedContact,
   Lightbox,
   LightboxGallery,
   MediaGallery,
@@ -183,7 +186,6 @@ window.Signal.Components = {
     Message: MediaGalleryMessage,
   },
   Quote,
-  EmbeddedContact,
 };
 
 window.Signal.Migrations = {};
@@ -210,6 +212,7 @@ window.Signal.Startup = require('./js/modules/startup');
 
 window.Signal.Types = {};
 window.Signal.Types.Attachment = Attachment;
+window.Signal.Types.Contact = require('./ts/types/Contact');
 window.Signal.Types.Conversation = require('./ts/types/Conversation');
 window.Signal.Types.Errors = require('./js/modules/types/errors');
 
