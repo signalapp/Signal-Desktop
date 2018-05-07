@@ -18,6 +18,7 @@
     "generate": "npm run icon-gen && grunt",
     "build": "build  --config.extraMetadata.environment=$SIGNAL_ENV",
     "build-release": "SIGNAL_ENV=production npm run build -- --config.directories.output=release",
+    "build-protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/SignalService.js protos/SignalService.proto && pbts --out ts/protobuf/SignalService.d.ts ts/protobuf/SignalService.js",
     "prepare-beta-build": "node prepare_beta_build.js",
     "prepare-import-build": "node prepare_import_build.js",
     "publish-to-apt": "NAME=$npm_package_name VERSION=$npm_package_version ./aptly.sh",
