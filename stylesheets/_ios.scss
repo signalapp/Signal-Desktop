@@ -118,6 +118,57 @@ $ios-border-color: rgba(0, 0, 0, 0.1);
     }
   }
 
+  .embedded-contact {
+    margin: 0;
+    color: white;
+
+    .first-line {
+      margin: 0;
+      padding: 10px;
+
+      .text-container {
+        .contact-name {
+          color: white;
+        }
+      }
+    }
+
+    .send-message {
+      font-weight: normal;
+      border-bottom: none;
+      margin-top: 0;
+      color: white;
+
+      .bubble-icon {
+        @include color-svg('../images/chat-bubble-outline.svg', white);
+      }
+    }
+  }
+
+  .incoming .embedded-contact {
+    .first-line {
+      .text-container {
+        .contact-name {
+          color: $blue;
+        }
+      }
+    }
+
+    color: black;
+
+    .send-message {
+      color: $blue;
+
+      .bubble-icon {
+        @include color-svg('../images/chat-bubble-outline.svg', $blue);
+      }
+    }
+  }
+
+  .embedded-contact + .content {
+    border-bottom: 1px solid white;
+  }
+
   .quoted-message {
     // Not ideal, but necessary to override the specificity of the android theme color
     //   classes used in conversations.scss
@@ -378,10 +429,7 @@ $ios-border-color: rgba(0, 0, 0, 0.1);
   //   bubble wider than an attached image, and we need a background color on the bottom
   //   section if the image doesn't cover it all.
   .outgoing .tail-wrapper {
-    .attachments {
-      background-color: $blue;
-    }
-    .content {
+    .inner-bubble {
       background-color: $blue;
     }
 
