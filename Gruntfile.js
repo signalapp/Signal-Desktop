@@ -194,6 +194,10 @@ module.exports = function(grunt) {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
         tasks: ['concat:libtextsecure'],
       },
+      protobuf: {
+        files: ['./protos/SignalService.proto'],
+        tasks: ['exec:build-protobuf'],
+      },
       sass: {
         files: ['./stylesheets/*.scss'],
         tasks: ['sass'],
@@ -217,6 +221,9 @@ module.exports = function(grunt) {
       },
       transpile: {
         cmd: 'yarn transpile',
+      },
+      'build-protobuf': {
+        cmd: 'yarn build-protobuf',
       },
     },
     'test-release': {
@@ -503,6 +510,7 @@ module.exports = function(grunt) {
     'copy:deps',
     'sass',
     'date',
+    'exec:build-protobuf',
     'exec:transpile',
   ]);
 };

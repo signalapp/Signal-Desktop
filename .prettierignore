@@ -10,7 +10,8 @@ libtextsecure/components.js
 libtextsecure/test/test.js
 test/test.js
 ts/**/*.js
-ts/protobuf/**
+ts/protobuf/*.js
+ts/protobuf/*.d.ts
 
 # Third-party files
 components/**
