@@ -35,13 +35,6 @@ const PRIVATE = 'private';
 
 const INITIAL_SCHEMA_VERSION = 0;
 
-// Increment this version number every time we add a message schema upgrade
-// step. This will allow us to retroactively upgrade existing messages. As we
-// add more upgrade steps, we could design a pipeline that does this
-// incrementally, e.g. from version 0 / unknown -> 1, 1 --> 2, etc., similar to
-// how we do database migrations:
-exports.CURRENT_SCHEMA_VERSION = 6;
-
 // Public API
 exports.GROUP = GROUP;
 exports.PRIVATE = PRIVATE;
@@ -212,7 +205,6 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
 };
 
 const toVersion0 = async message => exports.initializeSchemaVersion(message);
-
 const toVersion1 = exports._withSchemaVersion(
   1,
   exports._mapAttachments(Attachment.autoOrientJPEG)
@@ -230,13 +222,22 @@ const toVersion4 = exports._withSchemaVersion(
   exports._mapQuotedAttachments(Attachment.migrateDataToFileSystem)
 );
 const toVersion5 = exports._withSchemaVersion(5, initializeAttachmentMetadata);
-
 const toVersion6 = exports._withSchemaVersion(
   6,
   exports._mapContact(
     Contact.parseAndWriteAvatar(Attachment.migrateDataToFileSystem)
   )
 );
+
+const VERSIONS = [
+  toVersion0,
+  toVersion1,
+  toVersion2,
+  toVersion3,
+  toVersion4,
+  toVersion5,
+];
+exports.CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
 
 // UpgradeStep
 exports.upgradeSchema = async (rawMessage, { writeNewAttachmentData } = {}) => {
@@ -245,18 +246,8 @@ exports.upgradeSchema = async (rawMessage, { writeNewAttachmentData } = {}) => {
   }
 
   let message = rawMessage;
-  const versions = [
-    toVersion0,
-    toVersion1,
-    toVersion2,
-    toVersion3,
-    toVersion4,
-    toVersion5,
-    toVersion6,
-  ];
-
-  for (let i = 0, max = versions.length; i < max; i += 1) {
-    const currentVersion = versions[i];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const currentVersion of VERSIONS) {
     // We really do want this intra-loop await because this is a chained async action,
     //   each step dependent on the previous
     // eslint-disable-next-line no-await-in-loop
