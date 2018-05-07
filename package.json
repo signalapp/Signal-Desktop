@@ -19,6 +19,7 @@
     "build": "build  --config.extraMetadata.environment=$SIGNAL_ENV",
     "build-release": "SIGNAL_ENV=production npm run build -- --config.directories.output=release",
     "build-protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/SignalService.js protos/SignalService.proto && pbts --out ts/protobuf/SignalService.d.ts ts/protobuf/SignalService.js",
+    "clean-protobuf": "rimraf ts/protobuf/*.d.ts",
     "prepare-beta-build": "node prepare_beta_build.js",
     "prepare-import-build": "node prepare_import_build.js",
     "publish-to-apt": "NAME=$npm_package_name VERSION=$npm_package_version ./aptly.sh",
@@ -34,7 +35,7 @@
     "tslint": "tslint --config tslint.json --format stylish --project .",
     "format": "prettier --write \"*.{css,js,json,md,scss,ts,tsx}\" \"./**/*.{css,js,json,md,scss,ts,tsx}\"",
     "transpile": "tsc",
-    "clean-transpile": "rimraf ts/**/*.js ts/*.js ts/protobuf/*.d.ts",
+    "clean-transpile": "rimraf ts/**/*.js ts/*.js",
     "open-coverage": "open coverage/lcov-report/index.html",
     "styleguide": "styleguidist server"
   },
