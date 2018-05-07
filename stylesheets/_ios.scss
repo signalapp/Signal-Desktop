@@ -1,5 +1,5 @@
-$ios-header-border-color: rgba(0,0,0,0.05);
-$ios-border-color: rgba(0,0,0,0.1);
+$ios-header-border-color: rgba(0, 0, 0, 0.05);
+$ios-border-color: rgba(0, 0, 0, 0.1);
 
 .ios {
   #header {
@@ -8,7 +8,9 @@ $ios-border-color: rgba(0,0,0,0.1);
     border-width: 0 1px 1px 0;
     background-color: $grey_l;
     color: $grey_d;
-    h1 { display: none; }
+    h1 {
+      display: none;
+    }
   }
   .gutter {
     border-right: 1px solid $ios-border-color;
@@ -37,11 +39,11 @@ $ios-border-color: rgba(0,0,0,0.1);
     float: left;
     padding: 15px;
   }
-  input[type=text]:active,
-  input[type=text]:focus,
-  input[type=search]:active,
-  input[type=search]:focus,
-  input[type=search].active,
+  input[type='text']:active,
+  input[type='text']:focus,
+  input[type='search']:active,
+  input[type='search']:focus,
+  input[type='search'].active,
   form.active {
     outline-offset: 0;
     outline: -webkit-focus-ring-color auto 5px;
@@ -54,7 +56,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     line-height: 34px;
     background-color: #dddddd;
     &.active.rtl {
-      background-position : left $search-padding-left-ios center;
+      background-position: left $search-padding-left-ios center;
     }
   }
   .conversation-header {
@@ -77,7 +79,9 @@ $ios-border-color: rgba(0,0,0,0.1);
       }
     }
 
-    .avatar { display: none; }
+    .avatar {
+      display: none;
+    }
   }
 
   .conversation .panel,
@@ -299,7 +303,8 @@ $ios-border-color: rgba(0,0,0,0.1);
     padding-top: 0px;
     padding-bottom: 5px;
 
-    video, audio {
+    video,
+    audio {
       margin-bottom: 5px;
     }
 
@@ -325,7 +330,8 @@ $ios-border-color: rgba(0,0,0,0.1);
   .tail-wrapper.with-tail {
     position: relative;
 
-    &:before, &:after {
+    &:before,
+    &:after {
       content: '';
       display: block;
       border-radius: 20px;
@@ -379,7 +385,9 @@ $ios-border-color: rgba(0,0,0,0.1);
       background-color: $blue;
     }
 
-    &, .body, a {
+    &,
+    .body,
+    a {
       @include invert-text-color;
     }
   }

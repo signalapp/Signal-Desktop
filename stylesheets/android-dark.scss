@@ -3,7 +3,7 @@ $grey-dark_l2: darken($grey-dark, 4%);
 $grey-dark_l3: darken($grey-dark_l2, 7%);
 $grey-dark_l4: darken($grey-dark_l3, 8%);
 $button-dark: #ccc;
-$text-dark: #CCCCCC;
+$text-dark: #cccccc;
 $text-dark_l2: darken($text-dark, 30%);
 
 .android-dark {
@@ -14,7 +14,9 @@ $text-dark_l2: darken($text-dark, 30%);
     background-color: $grey-dark;
   }
   color: $text-dark;
-  a { color: #57a5e5; }
+  a {
+    color: #57a5e5;
+  }
   hr {
     border-color: $grey-dark;
   }
@@ -40,7 +42,9 @@ $text-dark_l2: darken($text-dark, 30%);
       background-color: darken($button-dark, 8%);
     }
   }
-  .message-detail, .message-container, .conversation,
+  .message-detail,
+  .message-container,
+  .conversation,
   .discussion-container {
     background-color: $grey-dark_l3;
   }
@@ -87,10 +91,12 @@ $text-dark_l2: darken($text-dark, 30%);
   .contact-details .number {
     color: $text-dark_l2;
     .verified-icon {
-       @include color-svg('../images/verified-check.svg', $text-dark_l2);
+      @include color-svg('../images/verified-check.svg', $text-dark_l2);
     }
   }
-  .group-member-list .members .contact, .new-group-update .members .contact, .attachment-previews img {
+  .group-member-list .members .contact,
+  .new-group-update .members .contact,
+  .attachment-previews img {
     background-color: $grey-dark_l3;
     border-color: $grey-dark;
   }
@@ -100,7 +106,9 @@ $text-dark_l2: darken($text-dark, 30%);
   .conversation .conversation-loading-screen {
     background-color: $grey-dark_l3;
   }
-  .avatar, .conversation-header, .bubble {
+  .avatar,
+  .conversation-header,
+  .bubble {
     @include dark-avatar-colors;
   }
   .message-list .advisory {
@@ -146,7 +154,7 @@ $text-dark_l2: darken($text-dark, 30%);
     transform: rotateZ(-45deg);
   }
   .capture-audio .microphone:before {
-      @include color-svg('../images/microphone.svg', white);
+    @include color-svg('../images/microphone.svg', white);
   }
   .conversations {
     background-color: $grey-dark_l2;
@@ -166,7 +174,8 @@ $text-dark_l2: darken($text-dark, 30%);
     background-color: $grey-dark_l3;
     border-color: $grey-dark_l2;
     @include invert-text-color;
-    &.active.ltr, &.active.rtl {
+    &.active.ltr,
+    &.active.rtl {
       background-image: url('../images/x_white.svg');
     }
   }
@@ -189,7 +198,12 @@ $text-dark_l2: darken($text-dark, 30%);
   }
 
   .incoming .bubble {
-    .sender, .content, .body, .meta, a, .fileView {
+    .sender,
+    .content,
+    .body,
+    .meta,
+    a,
+    .fileView {
       @include invert-text-color;
     }
     .content {
@@ -199,7 +213,7 @@ $text-dark_l2: darken($text-dark, 30%);
     }
   }
 
-  .incoming .bubble .fileView .icon{
+  .incoming .bubble .fileView .icon {
     @include color-svg('../images/file.svg', white);
     &.audio {
       @include color-svg('../images/audio.svg', white);
@@ -213,15 +227,15 @@ $text-dark_l2: darken($text-dark, 30%);
   }
 
   .outgoing .bubble .fileView .icon {
-    @include color-svg('../images/file.svg', #CCCCCC);
+    @include color-svg('../images/file.svg', #cccccc);
     &.audio {
-      @include color-svg('../images/audio.svg', #CCCCCC);
+      @include color-svg('../images/audio.svg', #cccccc);
     }
     &.video {
-      @include color-svg('../images/video.svg', #CCCCCC);
+      @include color-svg('../images/video.svg', #cccccc);
     }
     &.voice {
-      @include color-svg('../images/voice.svg', #CCCCCC);
+      @include color-svg('../images/voice.svg', #cccccc);
     }
   }
 
@@ -260,10 +274,10 @@ $text-dark_l2: darken($text-dark, 30%);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
 
     &:hover {
-      background: rgba(255,255,255,0.25);
+      background: rgba(255, 255, 255, 0.25);
     }
   }
   ::-webkit-scrollbar-track {
@@ -275,7 +289,7 @@ $text-dark_l2: darken($text-dark, 30%);
 
   .message-list .last-seen-indicator-view {
     .bar {
-      border-top: 1px solid rgba(255, 255, 255, .0625);
+      border-top: 1px solid rgba(255, 255, 255, 0.0625);
       border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 
       background-color: rgba(255, 255, 255, 0.1);
@@ -294,17 +308,17 @@ $text-dark_l2: darken($text-dark, 30%);
         @include color-svg('../images/down.svg', black);
       }
       .icon:hover {
-	      background-color: white;
+        background-color: white;
       }
 
-      &.new-messages  {
+      &.new-messages {
         background-color: $blue;
         .icon {
           @include color-svg('../images/down.svg', white);
         }
-      	&:hover {
-      	  background-color: #1472bd;
-      	}
+        &:hover {
+          background-color: #1472bd;
+        }
       }
     }
   }

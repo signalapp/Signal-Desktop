@@ -19,7 +19,7 @@ body {
 .clearfix:before,
 .clearfix:after {
   display: table;
-  content: " ";
+  content: ' ';
 }
 .clearfix:after {
   clear: both;
@@ -67,8 +67,9 @@ button.grey {
     box-shadow: 0 0 10px -3px rgba($grey, 0.7);
   }
 
-  &[disabled=disabled] {
-    &, &:hover {
+  &[disabled='disabled'] {
+    &,
+    &:hover {
       opacity: 0.5;
       box-shadow: none;
       cursor: default;
@@ -76,7 +77,9 @@ button.grey {
   }
 }
 
-a { color: $blue; }
+a {
+  color: $blue;
+}
 
 button.back {
   @include header-icon-black('../images/back.svg');
@@ -88,9 +91,8 @@ button.hamburger {
   @include header-icon-black('../images/menu.svg');
 }
 
-
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -98,11 +100,11 @@ button.hamburger {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.15);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: $border-radius;
 
   &:hover {
-    background: rgba(0,0,0,0.25);
+    background: rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -161,7 +163,7 @@ button.hamburger {
     margin: 0;
     padding: 0;
     background-color: white;
-    box-shadow: 0 0 1px 1px rgba(0,0,0, 0.2);
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
 
     li {
       display: block;
@@ -199,12 +201,13 @@ button.hamburger {
       transform: rotateZ(-45deg);
     }
 
-    &:focus, &:hover {
-      opacity: 1.0;
+    &:focus,
+    &:hover {
+      opacity: 1;
     }
   }
 
-  input[type=file] {
+  input[type='file'] {
     display: none;
     position: absolute;
     width: 100%;
@@ -247,7 +250,8 @@ $avatar-size: 44px;
     padding: 2px 0px 0px 2px;
   }
 
-  .file-input .thumbnail, .thumbnail .avatar,
+  .file-input .thumbnail,
+  .thumbnail .avatar,
   img {
     height: 54px;
     width: 54px;
@@ -282,7 +286,8 @@ $avatar-size: 44px;
   .members .contact {
     box-shadow: none;
     border-bottom: 1px solid #eee;
-    .last-message, .last-timestamp {
+    .last-message,
+    .last-timestamp {
       display: none;
     }
   }
@@ -319,7 +324,7 @@ $avatar-size: 44px;
     border-radius: $border-radius;
     background-color: $blue;
     color: white;
-    border: solid 1px rgba(255,255,255,0.6);
+    border: solid 1px rgba(255, 255, 255, 0.6);
   }
 }
 .inactive .contact.selected {
@@ -330,7 +335,7 @@ $avatar-size: 44px;
   padding: 12px;
   white-space: nowrap;
   overflow: hidden;
-  background: rgba(255,255,255,0.6);
+  background: rgba(255, 255, 255, 0.6);
   margin: 1px;
 
   &.selected {
@@ -416,14 +421,13 @@ $avatar-size: 44px;
   }
 
   .verified-icon {
-      @include color-svg('../images/verified-check.svg', $grey);
-      display: inline-block;
-      width: 1.25em;
-      height: 1.25em;
-      vertical-align: text-bottom;
+    @include color-svg('../images/verified-check.svg', $grey);
+    display: inline-block;
+    width: 1.25em;
+    height: 1.25em;
+    vertical-align: text-bottom;
   }
 }
-
 
 .recipients-input {
   position: relative;
@@ -475,7 +479,6 @@ $avatar-size: 44px;
   img {
     max-width: 100%;
   }
-
 }
 .new-conversation .recipients-input .recipients::before {
   content: 'To: ';
@@ -489,7 +492,7 @@ $avatar-size: 44px;
   &::before {
     display: block;
     margin: 0px auto;
-    content: " ";
+    content: ' ';
     height: $loading-height;
     width: $loading-height;
     border-radius: 2 * $loading-height;
@@ -499,7 +502,9 @@ $avatar-size: 44px;
   }
 
   @keyframes rotate {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
 
@@ -522,14 +527,17 @@ $avatar-size: 44px;
   }
 }
 
-input[type=text], input[type=search], textarea {
-  &:active, &:focus {
+input[type='text'],
+input[type='search'],
+textarea {
+  &:active,
+  &:focus {
     outline: 1px solid $blue;
   }
 }
 
 .expiredAlert {
-  background: #F3F3A7;
+  background: #f3f3a7;
   padding: 10px;
 
   button {
@@ -628,12 +636,12 @@ input[type=text], input[type=search], textarea {
   }
   background: linear-gradient(
     to bottom,
-    rgb(238,238,238) 0%, // (1 - 0.41) * 255 + 0.41 * 213
-    rgb(243,243,243) 12%, // (1 - 0.19) * 255 + 0.19 * 191
-    rgb(255,255,255) 27%,
-    rgb(255,255,255) 60%,
-    rgb(249,249,249) 85%, // (1 - 0.19) * 255 + 0.19 * 222
-    rgb(213,213,213) 100% // (1 - 0.27) * 255 + 0.27 * 98
+    /* (1 - 0.41) * 255 + 0.41 * 213*/ rgb(238, 238, 238) 0%,
+    /* (1 - 0.19) * 255 + 0.19 * 191*/ rgb(243, 243, 243) 12%,
+    rgb(255, 255, 255) 27%,
+    rgb(255, 255, 255) 60%,
+    /* (1 - 0.19) * 255 + 0.19 * 222*/ rgb(249, 249, 249) 85%,
+    /* (1 - 0.27) * 255 + 0.27 * 98 */ rgb(213, 213, 213) 100%
   );
   display: flex;
   align-items: center;
@@ -787,29 +795,29 @@ input[type=text], input[type=search], textarea {
 
     // generic
     &.check-circle-outline {
-      @include color-svg('../images/check-circle-outline.svg', #DEDEDE);
+      @include color-svg('../images/check-circle-outline.svg', #dedede);
     }
     &.alert-outline {
-      @include color-svg('../images/alert-outline.svg', #DEDEDE);
+      @include color-svg('../images/alert-outline.svg', #dedede);
     }
 
     // import and export
     &.folder-outline {
-      @include color-svg('../images/folder-outline.svg', #DEDEDE);
+      @include color-svg('../images/folder-outline.svg', #dedede);
     }
     &.import {
-      @include color-svg('../images/import.svg', #DEDEDE);
+      @include color-svg('../images/import.svg', #dedede);
     }
     &.export {
-      @include color-svg('../images/export.svg', #DEDEDE);
+      @include color-svg('../images/export.svg', #dedede);
     }
 
     // registration process
     &.lead-pencil {
-      @include color-svg('../images/lead-pencil.svg', #DEDEDE);
+      @include color-svg('../images/lead-pencil.svg', #dedede);
     }
     &.sync {
-      @include color-svg('../images/sync.svg', #DEDEDE);
+      @include color-svg('../images/sync.svg', #dedede);
     }
 
     // delete
@@ -817,7 +825,7 @@ input[type=text], input[type=search], textarea {
       @include color-svg('../images/alert-outline.svg', red);
     }
     &.delete {
-      @include color-svg('../images/delete.svg', #DEDEDE);
+      @include color-svg('../images/delete.svg', #dedede);
     }
   }
 
@@ -838,7 +846,7 @@ input[type=text], input[type=search], textarea {
 
     &.neutral {
       color: black;
-      background: #DEDEDE;
+      background: #dedede;
     }
     &.destructive {
       background: red;
@@ -912,11 +920,16 @@ input[type=text], input[type=search], textarea {
 
 //yellow border fix
 .inbox:focus {
-    outline: none;
+  outline: none;
 }
 
 .text-security .inbox {
-  .name, .body, .last-message, .sender, .conversation-title, .number {
-      -webkit-text-security: square;
+  .name,
+  .body,
+  .last-message,
+  .sender,
+  .conversation-title,
+  .number {
+    -webkit-text-security: square;
   }
 }

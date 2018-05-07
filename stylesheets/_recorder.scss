@@ -10,8 +10,9 @@
     padding: 0;
     border: none;
 
-    &:focus, &:hover {
-      opacity: 1.0;
+    &:focus,
+    &:hover {
+      opacity: 1;
     }
 
     &:before {
@@ -36,8 +37,9 @@
     text-align: center;
     padding: 0;
 
-    &:focus, &:hover {
-      opacity: 1.0;
+    &:focus,
+    &:hover {
+      opacity: 1;
     }
 
     .icon {
@@ -51,14 +53,18 @@
     background: lighten($green, 20%);
     border: 1px solid $green;
 
-    .icon { @include color-svg('../images/check.svg', $green); }
+    .icon {
+      @include color-svg('../images/check.svg', $green);
+    }
   }
 
   .close {
     background: lighten($red, 20%);
     border: 1px solid $red;
 
-    .icon { @include color-svg('../images/x.svg', $red); }
+    .icon {
+      @include color-svg('../images/x.svg', $red);
+    }
   }
 
   .time {
@@ -68,9 +74,15 @@
     padding: 0 10px;
 
     @keyframes pulse {
-      0%   { opacity:0; }
-      50%  { opacity:1; }
-      100%  { opacity:0; }
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
     }
 
     &::before {

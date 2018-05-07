@@ -4,11 +4,16 @@
   @include color-svg('../images/hourglass_full.svg', transparent);
   background-size: 100%;
 
-  &, .sand, &:before, &:after {
+  &,
+  .sand,
+  &:before,
+  &:after {
     width: 13px;
     height: 11px;
   }
-  .sand, &:before, &:after {
+  .sand,
+  &:before,
+  &:after {
     content: '';
     display: inline-block;
     position: absolute;
