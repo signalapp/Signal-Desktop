@@ -56,6 +56,7 @@ module.exports = function(grunt) {
           'libtextsecure/storage/user.js',
           'libtextsecure/storage/groups.js',
           'libtextsecure/storage/unprocessed.js',
+          'libtextsecure/protobufs.js',
           'libtextsecure/helpers.js',
           'libtextsecure/stringview.js',
           'libtextsecure/event_target.js',

@@ -9,7 +9,6 @@ const Attachment = require('./js/modules/types/attachment');
 const Attachments = require('./app/attachments');
 const Message = require('./js/modules/types/message');
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
-const { SignalService } = require('./ts/protobuf');
 
 const { app } = electron.remote;
 
@@ -99,12 +98,10 @@ window.filesize = require('filesize');
 window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
+
 window.nodeBuffer = Buffer;
 window.nodeFetch = require('node-fetch');
 window.ProxyAgent = require('proxy-agent');
-
-window.textsecure = window.textsecure || {};
-window.textsecure.protobuf = SignalService;
 
 // Note: when modifying this file, consider whether our React Components or Backbone Views
 //   will need these things to render in the Style Guide. If so, go update one of these
