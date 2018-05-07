@@ -15,7 +15,7 @@
     "start": "electron .",
     "grunt": "grunt",
     "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
-    "generate": "npm run icon-gen && grunt",
+    "generate": "yarn icon-gen && yarn grunt",
     "build": "build  --config.extraMetadata.environment=$SIGNAL_ENV",
     "build-release": "SIGNAL_ENV=production npm run build -- --config.directories.output=release",
     "build-protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/SignalService.js protos/SignalService.proto && pbts --out ts/protobuf/SignalService.d.ts ts/protobuf/SignalService.js",

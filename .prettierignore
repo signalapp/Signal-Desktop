@@ -2,16 +2,19 @@
 # supports `.gitignore`: https://github.com/prettier/prettier/issues/2294
 
 # Generated files
+config/local-*.json
+config/local.json
 dist/**
 js/components.js
 js/libsignal-protocol-worker.js
 js/libtextsecure.js
 libtextsecure/components.js
 libtextsecure/test/test.js
+stylesheets/*.css
 test/test.js
 ts/**/*.js
-ts/protobuf/*.js
 ts/protobuf/*.d.ts
+ts/protobuf/*.js
 
 # Third-party files
 components/**
