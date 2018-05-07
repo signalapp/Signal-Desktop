@@ -41,6 +41,24 @@ export const isVisualMedia = (attachment: Attachment): boolean => {
   return MIME.isImage(contentType) || MIME.isVideo(contentType);
 };
 
+export const isFile = (attachment: Attachment): boolean => {
+  const { contentType } = attachment;
+
+  if (is.undefined(contentType)) {
+    return false;
+  }
+
+  if (isVisualMedia(attachment)) {
+    return false;
+  }
+
+  if (isVoiceMessage(attachment)) {
+    return false;
+  }
+
+  return true;
+};
+
 export const isVoiceMessage = (attachment: Attachment): boolean => {
   const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
   const hasFlag =
