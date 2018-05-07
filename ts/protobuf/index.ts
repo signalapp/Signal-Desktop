@@ -1,3 +1,3 @@
-import { signalservice as SignalService } from './SignalService';
+import { signalservice as SignalService } from './compiled';
 
 export { SignalService };
