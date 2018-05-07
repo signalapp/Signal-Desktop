@@ -216,7 +216,7 @@ module.exports = function(grunt) {
         cmd: 'tx pull',
       },
       transpile: {
-        cmd: 'npm run transpile',
+        cmd: 'yarn transpile',
       },
     },
     'test-release': {
