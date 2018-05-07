@@ -597,7 +597,7 @@ const outgoing = new Whisper.Message({
   sent_at: Date.now() - 15000,
   attachments: [
     {
-      flags: textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
+      flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
       data: util.mp3,
       fileName: 'agnus_dei.mp3',
       contentType: 'audio/mp3',

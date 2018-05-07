@@ -33,9 +33,6 @@
       this.on('change:expireTimer', this.setToExpire);
       this.on('unload', this.unload);
       this.setToExpire();
-
-      this.VOICE_FLAG =
-        textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -248,8 +245,7 @@
           });
 
       return Object.assign({}, attachment, {
-        // eslint-disable-next-line no-bitwise
-        isVoiceMessage: Boolean(attachment.flags & this.VOICE_FLAG),
+        isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
         thumbnail: thumbnailWithObjectUrl,
       });
     },
