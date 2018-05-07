@@ -2,10 +2,10 @@ import is from '@sindresorhus/is';
 import moment from 'moment';
 
 import * as GoogleChrome from '../util/GoogleChrome';
-import { saveURLAsFile } from '../util/saveURLAsFile';
-import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
 import * as MIME from './MIME';
-import { signalservice as SignalService } from '../protobuf/SignalService';
+import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
+import { saveURLAsFile } from '../util/saveURLAsFile';
+import { SignalService } from '../protobuf';
 
 export type Attachment = {
   fileName?: string | null;

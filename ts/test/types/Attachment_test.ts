@@ -6,7 +6,7 @@ import { assert } from 'chai';
 
 import * as Attachment from '../../types/Attachment';
 import * as MIME from '../../types/MIME';
-import { signalservice as SignalService } from '../../protobuf/SignalService';
+import { SignalService } from '../../protobuf';
 // @ts-ignore
 import { stringToArrayBuffer } from '../../../js/modules/string_to_array_buffer';
 

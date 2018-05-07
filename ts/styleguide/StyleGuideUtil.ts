@@ -21,7 +21,7 @@ import * as HTML from '../html';
 
 import * as Attachment from '../../ts/types/Attachment';
 import * as MIME from '../../ts/types/MIME';
-import { signalservice as SignalService } from '../../ts/protobuf/SignalService';
+import { SignalService } from '../../ts/protobuf';
 
 // TypeScript wants two things when you import:
 //   1) a normal typescript file
