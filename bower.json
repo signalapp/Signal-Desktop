@@ -8,7 +8,6 @@
     "jquery": "liliakai/jquery#2.1.1-ajax-nativetransport",
     "underscore": "~1.7.0",
     "backbone": "~1.1.2",
-    "protobuf": "~3.8.0",
     "mustache": "~0.8.2",
     "qrcode": "https://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
     "indexeddb-backbonejs-adapter": "*",
@@ -32,9 +31,6 @@
     ],
     "bytebuffer": [
       "dist/ByteBufferAB.js"
-    ],
-    "protobuf": [
-      "dist/ProtoBuf.js"
     ],
     "mustache": [
       "mustache.js"
@@ -89,7 +85,6 @@
       "jquery",
       "long",
       "bytebuffer",
-      "protobuf",
       "mustache",
       "underscore",
       "backbone",
@@ -102,8 +97,7 @@
     ],
     "libtextsecure": [
       "long",
-      "bytebuffer",
-      "protobuf"
+      "bytebuffer"
     ]
   }
 }
