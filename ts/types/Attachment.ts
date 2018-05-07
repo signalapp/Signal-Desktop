@@ -4,11 +4,11 @@ import moment from 'moment';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { saveURLAsFile } from '../util/saveURLAsFile';
 import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
-import { MIMEType } from './MIME';
+import * as MIME from './MIME';
 
 export type Attachment = {
   fileName?: string;
-  contentType?: MIMEType;
+  contentType?: MIME.MIMEType;
   size?: number;
   data: ArrayBuffer;
 
@@ -26,8 +26,6 @@ export type Attachment = {
 interface AttachmentSchemaVersion3 {
   path: string;
 }
-
-const SAVE_CONTENT_TYPE = 'application/octet-stream' as MIMEType;
 
 export const isVisualMedia = (attachment: Attachment): boolean => {
   const { contentType } = attachment;
@@ -57,7 +55,7 @@ export const save = ({
     ? getAbsolutePath(attachment.path)
     : arrayBufferToObjectURL({
         data: attachment.data,
-        type: SAVE_CONTENT_TYPE,
+        type: MIME.APPLICATION_OCTET_STREAM,
       });
   const filename = getSuggestedFilename({ attachment, timestamp });
   saveURLAsFile({ url, filename, document });
