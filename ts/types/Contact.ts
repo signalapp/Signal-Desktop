@@ -97,3 +97,8 @@ export function contactSelector(
       })),
   });
 }
+
+export function getName(contact: Contact): string | null {
+  const { name, organization } = contact;
+  return (name && name.displayName) || organization || null;
+}

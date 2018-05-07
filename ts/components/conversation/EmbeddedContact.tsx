@@ -1,5 +1,5 @@
 import React from 'react';
-import { Contact } from '../../types/Contact';
+import { Contact, getName } from '../../types/Contact';
 
 interface Props {
   contact: Contact;
@@ -13,11 +13,6 @@ function getInitials(name: string): string {
   return name.trim()[0] || '#';
 }
 
-function getName(contact: Contact): string {
-  const { name, organization } = contact;
-  return (name && name.displayName) || organization || '';
-}
-
 export class EmbeddedContact extends React.Component<Props, {}> {
   public renderAvatar() {
     const { contact } = this.props;
@@ -26,7 +21,7 @@ export class EmbeddedContact extends React.Component<Props, {}> {
     const path = avatar && avatar.avatar && avatar.avatar.path;
     if (!path) {
       const name = getName(contact);
-      const initials = getInitials(name);
+      const initials = getInitials(name || '');
       return (
         <div className="image-container">
           <div className="default-avatar">{initials}</div>
