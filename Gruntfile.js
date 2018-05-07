@@ -186,17 +186,17 @@ module.exports = function(grunt) {
       },
     },
     watch: {
-      sass: {
-        files: ['./stylesheets/*.scss'],
-        tasks: ['sass'],
+      dist: {
+        files: ['<%= dist.src %>', '<%= dist.res %>'],
+        tasks: ['copy_dist'],
       },
       libtextsecure: {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
         tasks: ['concat:libtextsecure'],
       },
-      dist: {
-        files: ['<%= dist.src %>', '<%= dist.res %>'],
-        tasks: ['copy_dist'],
+      sass: {
+        files: ['./stylesheets/*.scss'],
+        tasks: ['sass'],
       },
       scripts: {
         files: ['<%= jshint.files %>'],
