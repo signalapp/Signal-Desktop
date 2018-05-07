@@ -4,7 +4,7 @@ import moment from 'moment';
 import formatFileSize from 'filesize';
 
 interface Props {
-  fileName?: string;
+  fileName?: string | null;
   fileSize?: number;
   i18n: (key: string, values?: Array<string>) => string;
   onClick?: () => void;

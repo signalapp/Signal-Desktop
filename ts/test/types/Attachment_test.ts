@@ -6,6 +6,7 @@ import { assert } from 'chai';
 
 import * as Attachment from '../../types/Attachment';
 import * as MIME from '../../types/MIME';
+import { signalservice as SignalService } from '../../protobuf/SignalService';
 // @ts-ignore
 import { stringToArrayBuffer } from '../../../js/modules/string_to_array_buffer';
 
@@ -55,6 +56,36 @@ describe('Attachment', () => {
         const expected = 'signal-attachment-1970-01-01-000000.mov';
         assert.strictEqual(actual, expected);
       });
+    });
+  });
+
+  describe('isVoiceMessage', () => {
+    it('should return true for voice message attachment', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'Voice Message.aac',
+        flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+        data: stringToArrayBuffer('voice message'),
+        contentType: MIME.AUDIO_AAC,
+      };
+      assert.isTrue(Attachment.isVoiceMessage(attachment));
+    });
+
+    it('should return true for legacy Android voice message attachment', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: null,
+        data: stringToArrayBuffer('voice message'),
+        contentType: MIME.AUDIO_MP3,
+      };
+      assert.isTrue(Attachment.isVoiceMessage(attachment));
+    });
+
+    it('should return false for other attachments', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'foo.gif',
+        data: stringToArrayBuffer('foo'),
+        contentType: MIME.IMAGE_GIF,
+      };
+      assert.isFalse(Attachment.isVoiceMessage(attachment));
     });
   });
 });

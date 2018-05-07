@@ -5,9 +5,11 @@ import * as GoogleChrome from '../util/GoogleChrome';
 import { saveURLAsFile } from '../util/saveURLAsFile';
 import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
 import * as MIME from './MIME';
+import { signalservice as SignalService } from '../protobuf/SignalService';
 
 export type Attachment = {
-  fileName?: string;
+  fileName?: string | null;
+  flags?: SignalService.AttachmentPointer.Flags;
   contentType?: MIME.MIMEType;
   size?: number;
   data: ArrayBuffer;
@@ -20,7 +22,6 @@ export type Attachment = {
   // thumbnail?: ArrayBuffer;
   // key?: ArrayBuffer;
   // digest?: ArrayBuffer;
-  // flags?: number;
 } & Partial<AttachmentSchemaVersion3>;
 
 interface AttachmentSchemaVersion3 {
@@ -37,6 +38,26 @@ export const isVisualMedia = (attachment: Attachment): boolean => {
   const isSupportedImageType = GoogleChrome.isImageTypeSupported(contentType);
   const isSupportedVideoType = GoogleChrome.isVideoTypeSupported(contentType);
   return isSupportedImageType || isSupportedVideoType;
+};
+
+export const isVoiceMessage = (attachment: Attachment): boolean => {
+  const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
+  const hasFlag =
+    // tslint:disable-next-line no-bitwise
+    !is.undefined(attachment.flags) && (attachment.flags & flag) === flag;
+  if (hasFlag) {
+    return true;
+  }
+
+  const isLegacyAndroidVoiceMessage =
+    !is.undefined(attachment.contentType) &&
+    MIME.isAudio(attachment.contentType) &&
+    attachment.fileName === null;
+  if (isLegacyAndroidVoiceMessage) {
+    return true;
+  }
+
+  return false;
 };
 
 export const save = ({
