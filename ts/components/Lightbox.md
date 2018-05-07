@@ -5,8 +5,6 @@ const noop = () => {};
   <Lightbox
     objectURL="https://placekitten.com/800/600"
     contentType="image/jpeg"
-    onNext={noop}
-    onPrevious={noop}
     onSave={noop}
   />
 </div>;
