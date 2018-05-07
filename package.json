@@ -34,7 +34,7 @@
     "tslint": "tslint --config tslint.json --format stylish --project .",
     "format": "prettier --write \"*.{css,js,json,md,scss,ts,tsx}\" \"./**/*.{css,js,json,md,scss,ts,tsx}\"",
     "transpile": "tsc",
-    "clean-transpile": "rimraf ts/**/*.js ts/*.js",
+    "clean-transpile": "rimraf ts/**/*.js ts/*.js ts/protobuf/*.d.ts",
     "open-coverage": "open coverage/lcov-report/index.html",
     "styleguide": "styleguidist server"
   },
