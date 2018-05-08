@@ -14,14 +14,18 @@ exports.parseAndWriteAvatar = upgradeAttachment => async (
 ) => {
   const { message } = context;
   const { avatar } = contact;
+
+  // This is to ensure that an omit() call doesn't pull in prototype props/methods
+  const contactShallowCopy = Object.assign({}, contact);
+
   const contactWithUpdatedAvatar =
     avatar && avatar.avatar
-      ? Object.assign({}, contact, {
+      ? Object.assign({}, contactShallowCopy, {
           avatar: Object.assign({}, avatar, {
             avatar: await upgradeAttachment(avatar.avatar, context),
           }),
         })
-      : omit(contact, ['avatar']);
+      : omit(contactShallowCopy, ['avatar']);
 
   // eliminates empty numbers, emails, and addresses; adds type if not provided
   const parsedContact = parseContact(contactWithUpdatedAvatar);
