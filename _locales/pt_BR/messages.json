@@ -20,15 +20,15 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "Ontem",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
-        "message": "Replying to Yourself",
+        "message": "Respondendo para si mesma/o",
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Documentos",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "Esse mês",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -164,7 +164,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "replyingToYou": {
-        "message": "Replying to You",
+        "message": "Respondendo para você",
         "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "offline": {
@@ -266,7 +266,7 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "Essa semana",
         "description": "Section header in the media gallery"
     },
     "importingHeader": {
@@ -340,7 +340,7 @@
         "description": ""
     },
     "today": {
-        "message": "Today",
+        "message": "Hoje",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
@@ -356,7 +356,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "Ver todas as mídias",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "noLongerVerified": {
@@ -370,7 +370,7 @@
         }
     },
     "video": {
-        "message": "Video",
+        "message": "Vídeo",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "searchForPeopleOrGroups": {
@@ -412,7 +412,7 @@
         }
     },
     "messageCaption": {
-        "message": "Message caption",
+        "message": "Captura de mensagem",
         "description": "Prefix of attachment alt tags in the media gallery"
     },
     "deleteAllDataButton": {
@@ -596,7 +596,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "Respondendo para $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -746,7 +746,7 @@
         "description": ""
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "Responder à mensagem",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "disableNotifications": {
@@ -754,15 +754,15 @@
         "description": "Label for disabling notifications"
     },
     "photo": {
-        "message": "Photo",
+        "message": "Foto",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
-        "message": "Media",
+        "message": "Mídia",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "noContents": {
-        "message": "No message contents",
+        "message": "Mensagem sem conteúdo",
         "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
@@ -1026,7 +1026,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Áudio",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
