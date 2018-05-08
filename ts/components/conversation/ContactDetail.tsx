@@ -73,7 +73,7 @@ export class ContactDetail extends React.Component<Props, {}> {
     });
   }
 
-  public renderAddressLineIfTruthy(value: string | undefined) {
+  public renderAddressLine(value: string | undefined) {
     if (!value) {
       return;
     }
@@ -117,11 +117,11 @@ export class ContactDetail extends React.Component<Props, {}> {
       return (
         <div key={index} className="additional-contact">
           <div className="type">{getLabelForAddress(address, i18n)}</div>
-          {this.renderAddressLineIfTruthy(address.street)}
+          {this.renderAddressLine(address.street)}
           {this.renderPOBox(address.pobox, i18n)}
-          {this.renderAddressLineIfTruthy(address.neighborhood)}
+          {this.renderAddressLine(address.neighborhood)}
           {this.renderAddressLineTwo(address)}
-          {this.renderAddressLineIfTruthy(address.country)}
+          {this.renderAddressLine(address.country)}
         </div>
       );
     });
