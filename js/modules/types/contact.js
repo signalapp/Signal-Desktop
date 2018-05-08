@@ -30,10 +30,10 @@ function parseContact(contact) {
   return Object.assign(
     {},
     omit(contact, ['avatar', 'number', 'email', 'address']),
-    cleanAvatar(contact.avatar),
-    addArrayKey('number', compact(map(contact.number, cleanBasicItem))),
-    addArrayKey('email', compact(map(contact.email, cleanBasicItem))),
-    addArrayKey('address', compact(map(contact.address, cleanAddress)))
+    parseAvatar(contact.avatar),
+    createArrayKey('number', compact(map(contact.number, cleanBasicItem))),
+    createArrayKey('email', compact(map(contact.email, cleanBasicItem))),
+    createArrayKey('address', compact(map(contact.address, cleanAddress)))
   );
 }
 
@@ -98,7 +98,7 @@ function cleanAddress(address) {
   });
 }
 
-function cleanAvatar(avatar) {
+function parseAvatar(avatar) {
   if (!avatar) {
     return null;
   }
@@ -110,7 +110,7 @@ function cleanAvatar(avatar) {
   };
 }
 
-function addArrayKey(key, array) {
+function createArrayKey(key, array) {
   if (!array || !array.length) {
     return null;
   }
