@@ -85,7 +85,8 @@ export function contactSelector(
       },
     };
   }
-  return Object.assign({}, contact, {
+  return {
+    ...contact,
     avatar,
     number:
       contact.number &&
@@ -95,7 +96,7 @@ export function contactSelector(
           ourRegionCode: regionCode,
         }),
       })),
-  });
+  };
 }
 
 export function getName(contact: Contact): string | null {
