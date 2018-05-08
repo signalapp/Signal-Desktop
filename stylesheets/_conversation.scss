@@ -751,7 +751,7 @@ span.status {
   cursor: pointer;
 
   button {
-    @include remove-button-styles;
+    @include button-reset;
   }
 
   .first-line {
@@ -869,7 +869,7 @@ span.status {
   margin-right: auto;
 
   button {
-    @include remove-button-styles;
+    @include button-reset;
   }
 
   .image-container {
