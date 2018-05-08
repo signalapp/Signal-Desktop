@@ -234,7 +234,7 @@ const toVersion5 = exports._withSchemaVersion(5, initializeAttachmentMetadata);
 const toVersion6 = exports._withSchemaVersion(
   6,
   exports._mapContact(
-    Contact.parseAndWriteContactAvatar(Attachment.migrateDataToFileSystem)
+    Contact.parseAndWriteAvatar(Attachment.migrateDataToFileSystem)
   )
 );
 

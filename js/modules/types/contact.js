@@ -8,7 +8,7 @@ const DEFAULT_EMAIL_TYPE = SignalService.DataMessage.Contact.Email.Type.HOME;
 const DEFAULT_ADDRESS_TYPE =
   SignalService.DataMessage.Contact.PostalAddress.Type.HOME;
 
-exports.parseAndWriteContactAvatar = upgradeAttachment => async (
+exports.parseAndWriteAvatar = upgradeAttachment => async (
   contact,
   context = {}
 ) => {
@@ -24,19 +24,19 @@ exports.parseAndWriteContactAvatar = upgradeAttachment => async (
       : omit(contact, ['avatar']);
 
   // eliminates empty numbers, emails, and addresses; adds type if not provided
-  const contactWithCleanedElements = parseContact(contactWithUpdatedAvatar);
+  const parsedContact = parseContact(contactWithUpdatedAvatar);
 
-  const error = exports._validateContact(contactWithCleanedElements, {
+  const error = exports._validate(parsedContact, {
     messageId: idForLogging(message),
   });
   if (error) {
     console.log(
-      'Contact.parseAndWriteContactAvatar: contact was malformed.',
+      'Contact.parseAndWriteAvatar: contact was malformed.',
       toLogFormat(error)
     );
   }
 
-  return contactWithCleanedElements;
+  return parsedContact;
 };
 
 function parseContact(contact) {
@@ -44,9 +44,9 @@ function parseContact(contact) {
     {},
     omit(contact, ['avatar', 'number', 'email', 'address']),
     parseAvatar(contact.avatar),
-    createArrayKey('number', compact(map(contact.number, cleanPhoneItem))),
-    createArrayKey('email', compact(map(contact.email, cleanEmailItem))),
-    createArrayKey('address', compact(map(contact.address, cleanAddress)))
+    createArrayKey('number', compact(map(contact.number, parsePhoneItem))),
+    createArrayKey('email', compact(map(contact.email, parseEmailItem))),
+    createArrayKey('address', compact(map(contact.address, parseAddress)))
   );
 }
 
@@ -54,7 +54,7 @@ function idForLogging(message) {
   return `${message.source}.${message.sourceDevice} ${message.sent_at}`;
 }
 
-exports._validateContact = (contact, options = {}) => {
+exports._validate = (contact, options = {}) => {
   const { messageId } = options;
   const { name, number, email, address, organization } = contact;
 
@@ -77,7 +77,7 @@ exports._validateContact = (contact, options = {}) => {
   return null;
 };
 
-function cleanPhoneItem(item) {
+function parsePhoneItem(item) {
   if (!item.value) {
     return null;
   }
@@ -87,7 +87,7 @@ function cleanPhoneItem(item) {
   });
 }
 
-function cleanEmailItem(item) {
+function parseEmailItem(item) {
   if (!item.value) {
     return null;
   }
@@ -97,7 +97,7 @@ function cleanEmailItem(item) {
   });
 }
 
-function cleanAddress(address) {
+function parseAddress(address) {
   if (!address) {
     return null;
   }

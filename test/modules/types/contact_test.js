@@ -9,14 +9,12 @@ const {
 describe('Contact', () => {
   const NUMBER = '+12025550099';
 
-  describe('parseAndWriteContactAvatar', () => {
+  describe('parseAndWriteAvatar', () => {
     it('handles message with no avatar in contact', async () => {
       const upgradeAttachment = sinon
         .stub()
         .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = Contact.parseAndWriteContactAvatar(
-        upgradeAttachment
-      );
+      const upgradeVersion = Contact.parseAndWriteAvatar(upgradeAttachment);
 
       const message = {
         body: 'hey there!',
@@ -42,9 +40,7 @@ describe('Contact', () => {
       const upgradeAttachment = sinon
         .stub()
         .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = Contact.parseAndWriteContactAvatar(
-        upgradeAttachment
-      );
+      const upgradeVersion = Contact.parseAndWriteAvatar(upgradeAttachment);
 
       const message = {
         body: 'hey there!',
@@ -86,9 +82,7 @@ describe('Contact', () => {
           path: 'abc/abcdefg',
         };
       };
-      const upgradeVersion = Contact.parseAndWriteContactAvatar(
-        upgradeAttachment
-      );
+      const upgradeVersion = Contact.parseAndWriteAvatar(upgradeAttachment);
 
       const message = {
         body: 'hey there!',
@@ -164,9 +158,7 @@ describe('Contact', () => {
       const upgradeAttachment = sinon
         .stub()
         .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = Contact.parseAndWriteContactAvatar(
-        upgradeAttachment
-      );
+      const upgradeVersion = Contact.parseAndWriteAvatar(upgradeAttachment);
 
       const message = {
         body: 'hey there!',
@@ -207,9 +199,7 @@ describe('Contact', () => {
       const upgradeAttachment = sinon
         .stub()
         .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = Contact.parseAndWriteContactAvatar(
-        upgradeAttachment
-      );
+      const upgradeVersion = Contact.parseAndWriteAvatar(upgradeAttachment);
 
       const message = {
         body: 'hey there!',
@@ -250,9 +240,7 @@ describe('Contact', () => {
       const upgradeAttachment = sinon
         .stub()
         .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = Contact.parseAndWriteContactAvatar(
-        upgradeAttachment
-      );
+      const upgradeVersion = Contact.parseAndWriteAvatar(upgradeAttachment);
 
       const message = {
         body: 'hey there!',
@@ -290,9 +278,7 @@ describe('Contact', () => {
       const upgradeAttachment = sinon
         .stub()
         .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = Contact.parseAndWriteContactAvatar(
-        upgradeAttachment
-      );
+      const upgradeVersion = Contact.parseAndWriteAvatar(upgradeAttachment);
 
       const message = {
         contact: [
@@ -312,7 +298,7 @@ describe('Contact', () => {
     });
   });
 
-  describe('_validateContact', () => {
+  describe('_validate', () => {
     it('returns error if contact has no name.displayName or organization', () => {
       const messageId = 'the-message-id';
       const contact = {
@@ -329,7 +315,7 @@ describe('Contact', () => {
       const expected =
         "Message the-message-id: Contact had neither 'displayName' nor 'organization'";
 
-      const result = Contact._validateContact(contact, { messageId });
+      const result = Contact._validate(contact, { messageId });
       assert.deepEqual(result.message, expected);
     });
 
@@ -345,7 +331,7 @@ describe('Contact', () => {
       const expected =
         'Message the-message-id: Contact had no included numbers, email or addresses';
 
-      const result = Contact._validateContact(contact, { messageId });
+      const result = Contact._validate(contact, { messageId });
       assert.deepEqual(result.message, expected);
     });
   });
