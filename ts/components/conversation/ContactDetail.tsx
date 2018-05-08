@@ -26,10 +26,10 @@ interface Props {
   onSendMessage: () => void;
 }
 
-function getLabelForContactMethod(method: Phone | Email, i18n: Localizer) {
+function getLabelForEmail(method: Email, i18n: Localizer): string {
   switch (method.type) {
     case ContactType.CUSTOM:
-      return method.label;
+      return method.label || i18n('email');
     case ContactType.HOME:
       return i18n('home');
     case ContactType.MOBILE:
@@ -37,36 +37,63 @@ function getLabelForContactMethod(method: Phone | Email, i18n: Localizer) {
     case ContactType.WORK:
       return i18n('work');
     default:
-      return missingCaseError(method.type);
+      throw missingCaseError(method.type);
   }
 }
 
-function getLabelForAddress(address: PostalAddress, i18n: Localizer) {
+function getLabelForPhone(method: Email, i18n: Localizer): string {
+  switch (method.type) {
+    case ContactType.CUSTOM:
+      return method.label || i18n('phone');
+    case ContactType.HOME:
+      return i18n('home');
+    case ContactType.MOBILE:
+      return i18n('mobile');
+    case ContactType.WORK:
+      return i18n('work');
+    default:
+      throw missingCaseError(method.type);
+  }
+}
+
+function getLabelForAddress(address: PostalAddress, i18n: Localizer): string {
   switch (address.type) {
     case AddressType.CUSTOM:
-      return address.label;
+      return address.label || i18n('address');
     case AddressType.HOME:
       return i18n('home');
     case AddressType.WORK:
       return i18n('work');
     default:
-      return missingCaseError(address.type);
+      throw missingCaseError(address.type);
   }
 }
 
 export class ContactDetail extends React.Component<Props, {}> {
-  public renderAdditionalContact(
-    items: Array<Phone | Email> | undefined,
-    i18n: Localizer
-  ) {
+  public renderEmail(items: Array<Email> | undefined, i18n: Localizer) {
     if (!items || items.length === 0) {
       return;
     }
 
-    return items.map((item: Phone | Email) => {
+    return items.map((item: Email) => {
       return (
         <div key={item.value} className="additional-contact">
-          <div className="type">{getLabelForContactMethod(item, i18n)}</div>
+          <div className="type">{getLabelForEmail(item, i18n)}</div>
+          {item.value}
+        </div>
+      );
+    });
+  }
+
+  public renderPhone(items: Array<Phone> | undefined, i18n: Localizer) {
+    if (!items || items.length === 0) {
+      return;
+    }
+
+    return items.map((item: Phone) => {
+      return (
+        <div key={item.value} className="additional-contact">
+          <div className="type">{getLabelForPhone(item, i18n)}</div>
           {item.value}
         </div>
       );
@@ -136,8 +163,8 @@ export class ContactDetail extends React.Component<Props, {}> {
         {renderName(contact)}
         {renderContactShorthand(contact)}
         {renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}
-        {this.renderAdditionalContact(contact.number, i18n)}
-        {this.renderAdditionalContact(contact.email, i18n)}
+        {this.renderPhone(contact.number, i18n)}
+        {this.renderEmail(contact.email, i18n)}
         {this.renderAddresses(contact.address, i18n)}
       </div>
     );

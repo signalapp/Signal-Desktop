@@ -476,6 +476,18 @@
       "message": "mobile",
       "description": "Shown on contact detail screen as a label for aa phone or email"
     },
+    "email": {
+      "message": "email",
+      "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "phone": {
+      "message": "phone",
+      "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "address": {
+      "message": "address",
+      "description": "Generic label shown if contact address has custom type but no label"
+    },
     "poBox": {
       "message": "PO Box",
       "description": "When rendering an address, used to provide context to a post office box"
