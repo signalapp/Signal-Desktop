@@ -7,6 +7,7 @@ interface Props {
   fileName?: string | null;
   fileSize?: number;
   i18n: (key: string, values?: Array<string>) => string;
+  isLast: boolean;
   onClick?: () => void;
   timestamp: number;
 }
@@ -15,6 +16,8 @@ const styles = {
   container: {
     width: '100%',
     height: 72,
+  },
+  containerSeparator: {
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     borderBottomStyle: 'solid',
@@ -78,6 +81,16 @@ export class DocumentListItem extends React.Component<Props, {}> {
   }
 
   public render() {
-    return <div style={styles.container}>{this.renderContent()}</div>;
+    const { isLast } = this.props;
+    return (
+      <div
+        style={{
+          ...styles.container,
+          ...(isLast ? {} : styles.containerSeparator),
+        }}
+      >
+        {this.renderContent()}
+      </div>
+    );
   }
 }
