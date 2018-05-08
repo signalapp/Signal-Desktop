@@ -572,7 +572,7 @@ const outgoing = new Whisper.Message({
     attachments: [
       {
         // proposed as of afternoon of 4/6 in Quoted Replies group
-        flags: textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
+        flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
         contentType: 'audio/mp3',
         fileName: 'agnus_dei.mp4',
       },

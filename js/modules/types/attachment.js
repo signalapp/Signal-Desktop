@@ -179,4 +179,5 @@ exports.deleteData = deleteAttachmentData => {
   };
 };
 
+exports.isVoiceMessage = AttachmentTS.isVoiceMessage;
 exports.save = AttachmentTS.save;

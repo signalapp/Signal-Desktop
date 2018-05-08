@@ -2,13 +2,15 @@ import is from '@sindresorhus/is';
 import moment from 'moment';
 
 import * as GoogleChrome from '../util/GoogleChrome';
-import { saveURLAsFile } from '../util/saveURLAsFile';
+import * as MIME from './MIME';
 import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
-import { MIMEType } from './MIME';
+import { saveURLAsFile } from '../util/saveURLAsFile';
+import { SignalService } from '../protobuf';
 
 export type Attachment = {
-  fileName?: string;
-  contentType?: MIMEType;
+  fileName?: string | null;
+  flags?: SignalService.AttachmentPointer.Flags;
+  contentType?: MIME.MIMEType;
   size?: number;
   data: ArrayBuffer;
 
@@ -20,14 +22,11 @@ export type Attachment = {
   // thumbnail?: ArrayBuffer;
   // key?: ArrayBuffer;
   // digest?: ArrayBuffer;
-  // flags?: number;
 } & Partial<AttachmentSchemaVersion3>;
 
 interface AttachmentSchemaVersion3 {
   path: string;
 }
-
-const SAVE_CONTENT_TYPE = 'application/octet-stream' as MIMEType;
 
 export const isVisualMedia = (attachment: Attachment): boolean => {
   const { contentType } = attachment;
@@ -39,6 +38,26 @@ export const isVisualMedia = (attachment: Attachment): boolean => {
   const isSupportedImageType = GoogleChrome.isImageTypeSupported(contentType);
   const isSupportedVideoType = GoogleChrome.isVideoTypeSupported(contentType);
   return isSupportedImageType || isSupportedVideoType;
+};
+
+export const isVoiceMessage = (attachment: Attachment): boolean => {
+  const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
+  const hasFlag =
+    // tslint:disable-next-line no-bitwise
+    !is.undefined(attachment.flags) && (attachment.flags & flag) === flag;
+  if (hasFlag) {
+    return true;
+  }
+
+  const isLegacyAndroidVoiceMessage =
+    !is.undefined(attachment.contentType) &&
+    MIME.isAudio(attachment.contentType) &&
+    attachment.fileName === null;
+  if (isLegacyAndroidVoiceMessage) {
+    return true;
+  }
+
+  return false;
 };
 
 export const save = ({
@@ -57,7 +76,7 @@ export const save = ({
     ? getAbsolutePath(attachment.path)
     : arrayBufferToObjectURL({
         data: attachment.data,
-        type: SAVE_CONTENT_TYPE,
+        type: MIME.APPLICATION_OCTET_STREAM,
       });
   const filename = getSuggestedFilename({ attachment, timestamp });
   saveURLAsFile({ url, filename, document });

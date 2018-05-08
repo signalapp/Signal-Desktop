@@ -19,7 +19,9 @@ export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 import { Quote } from '../components/conversation/Quote';
 import * as HTML from '../html';
 
+import * as Attachment from '../../ts/types/Attachment';
 import * as MIME from '../../ts/types/MIME';
+import { SignalService } from '../../ts/protobuf';
 
 // TypeScript wants two things when you import:
 //   1) a normal typescript file
@@ -125,10 +127,12 @@ parent.ReactDOM = ReactDOM;
 
 parent.Signal.HTML = HTML;
 parent.Signal.Types.MIME = MIME;
+parent.Signal.Types.Attachment = Attachment;
 parent.Signal.Components = {
   Quote,
 };
 parent.Signal.Util = Util;
+parent.SignalService = SignalService;
 parent.filesize = filesize;
 
 parent.ConversationController._initialFetchComplete = true;

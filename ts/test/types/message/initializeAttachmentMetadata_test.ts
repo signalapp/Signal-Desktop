@@ -3,7 +3,7 @@ import { assert } from 'chai';
 
 import * as Message from '../../../../ts/types/message/initializeAttachmentMetadata';
 import { IncomingMessage } from '../../../../ts/types/Message';
-import { MIMEType } from '../../../../ts/types/MIME';
+import * as MIME from '../../../../ts/types/MIME';
 // @ts-ignore
 import { stringToArrayBuffer } from '../../../../js/modules/string_to_array_buffer';
 
@@ -19,7 +19,7 @@ describe('Message', () => {
         sent_at: 1523317140800,
         attachments: [
           {
-            contentType: 'image/jpeg' as MIMEType,
+            contentType: MIME.IMAGE_JPEG,
             data: stringToArrayBuffer('foo'),
             fileName: 'foo.jpg',
             size: 1111,
@@ -35,7 +35,7 @@ describe('Message', () => {
         sent_at: 1523317140800,
         attachments: [
           {
-            contentType: 'image/jpeg' as MIMEType,
+            contentType: MIME.IMAGE_JPEG,
             data: stringToArrayBuffer('foo'),
             fileName: 'foo.jpg',
             size: 1111,
