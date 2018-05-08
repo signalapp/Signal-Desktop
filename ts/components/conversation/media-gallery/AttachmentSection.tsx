@@ -49,7 +49,7 @@ export class AttachmentSection extends React.Component<Props, {}> {
     const { i18n, messages, type } = this.props;
 
     return messages.map((message, index, array) => {
-      const isLast = index === array.length - 1;
+      const shouldShowSeparator = index < array.length - 1;
       const { attachments } = message;
       const firstAttachment = attachments[0];
 
@@ -70,7 +70,7 @@ export class AttachmentSection extends React.Component<Props, {}> {
               fileName={firstAttachment.fileName}
               fileSize={firstAttachment.size}
               i18n={i18n}
-              isLast={isLast}
+              shouldShowSeparator={shouldShowSeparator}
               onClick={onClick}
               timestamp={message.received_at}
             />

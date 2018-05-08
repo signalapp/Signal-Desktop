@@ -4,12 +4,15 @@ import moment from 'moment';
 import formatFileSize from 'filesize';
 
 interface Props {
+  // Required
+  i18n: (key: string, values?: Array<string>) => string;
+  timestamp: number;
+
+  // Optional
   fileName?: string | null;
   fileSize?: number;
-  i18n: (key: string, values?: Array<string>) => string;
-  isLast: boolean;
   onClick?: () => void;
-  timestamp: number;
+  shouldShowSeparator?: boolean;
 }
 
 const styles = {
@@ -56,7 +59,25 @@ const styles = {
 };
 
 export class DocumentListItem extends React.Component<Props, {}> {
-  public renderContent() {
+  public static defaultProps: Partial<Props> = {
+    shouldShowSeparator: true,
+  };
+
+  public render() {
+    const { shouldShowSeparator } = this.props;
+    return (
+      <div
+        style={{
+          ...styles.container,
+          ...(shouldShowSeparator ? styles.containerSeparator : {}),
+        }}
+      >
+        {this.renderContent()}
+      </div>
+    );
+  }
+
+  private renderContent() {
     const { fileName, fileSize, timestamp } = this.props;
 
     return (
@@ -76,20 +97,6 @@ export class DocumentListItem extends React.Component<Props, {}> {
         <div style={styles.itemDate}>
           {moment(timestamp).format('ddd, MMM D, Y')}
         </div>
-      </div>
-    );
-  }
-
-  public render() {
-    const { isLast } = this.props;
-    return (
-      <div
-        style={{
-          ...styles.container,
-          ...(isLast ? {} : styles.containerSeparator),
-        }}
-      >
-        {this.renderContent()}
       </div>
     );
   }

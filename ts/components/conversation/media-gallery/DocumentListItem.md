@@ -15,5 +15,6 @@ DocumentListItem example:
   fileName="kitten.gif"
   fileSize={1024 * 1000 * 1.2}
   timestamp={Date.now() - 14 * 24 * 60 * 1000}
+  shouldShowSeparator={false}
 />
 ```
