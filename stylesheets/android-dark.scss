@@ -239,6 +239,51 @@ $text-dark_l2: darken($text-dark, 30%);
     }
   }
 
+  .embedded-contact {
+    .first-line {
+      .image-container {
+        .default-avatar {
+          background-color: gray;
+          color: white;
+        }
+      }
+
+      .text-container .contact-name {
+        color: $blue;
+      }
+    }
+
+    .send-message {
+      color: $blue;
+      border-top: 1px solid $grey;
+      border-bottom: 1px solid $grey;
+
+      .bubble-icon {
+        @include color-svg('../images/chat-bubble.svg', $blue);
+      }
+    }
+  }
+
+  .incoming .embedded-contact {
+    color: white;
+
+    .text-container .contact-name {
+      color: white;
+    }
+
+    .send-message {
+      color: white;
+      // Note: would like to use transparency here, but Chromium in Electron doesn't
+      //   render the borders when they are transparent.
+      border-top: 1px solid $grey_l1_5;
+      border-bottom: 1px solid $grey_l1_5;
+
+      .bubble-icon {
+        background-color: white;
+      }
+    }
+  }
+
   .outgoing .quoted-message {
     background: rgba(255, 255, 255, 0.38);
 

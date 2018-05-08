@@ -24,6 +24,11 @@ $z-index-modal: 100;
 }
 @font-face {
   font-family: 'Roboto';
+  src: url('../fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Roboto';
   src: url('../fonts/Roboto-Italic.ttf') format('truetype');
   font-style: italic;
 }

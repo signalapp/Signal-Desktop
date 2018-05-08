@@ -526,6 +526,9 @@ span.status {
     .quote-wrapper + .content {
       margin-top: 0.5em;
     }
+    .contact-wrapper + .content {
+      margin-top: 0.5em;
+    }
 
     p {
       margin: 0;
@@ -738,6 +741,221 @@ span.status {
     cursor: pointer;
     font-style: italic;
   }
+}
+
+.embedded-contact {
+  margin-top: -9px;
+  margin-left: -12px;
+  margin-right: -12px;
+
+  cursor: pointer;
+
+  button {
+    @include button-reset;
+  }
+
+  .first-line {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    margin: 8px;
+
+    .image-container {
+      flex: initial;
+      min-width: 50px;
+      width: 50px;
+      height: 50px;
+
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      object-fit: cover;
+
+      img {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .default-avatar {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        background-color: gray;
+        color: white;
+        font-size: 25px;
+        line-height: 52px;
+      }
+    }
+
+    .text-container {
+      flex-grow: 1;
+      margin-left: 8px;
+
+      .contact-name {
+        font-size: 16px;
+        font-weight: 300;
+        margin-top: 3px;
+        color: $blue;
+      }
+
+      .contact-method {
+        font-size: 14px;
+        margin-top: 6px;
+      }
+    }
+  }
+
+  .send-message {
+    margin-top: 8px;
+    margin-bottom: 3px;
+    padding: 11px;
+    border-top: 1px solid $grey_l1_5;
+    border-bottom: 1px solid $grey_l1_5;
+
+    color: $blue;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .inner {
+      display: flex;
+      align-items: center;
+    }
+
+    .bubble-icon {
+      height: 17px;
+      width: 18px;
+      display: inline-block;
+      margin-right: 5px;
+      @include color-svg('../images/chat-bubble.svg', $blue);
+    }
+  }
+}
+
+.incoming .embedded-contact {
+  color: white;
+
+  .text-container .contact-name {
+    color: white;
+  }
+
+  .send-message {
+    color: white;
+    // We would like to use these border colors for incoming messages, but the version
+    //   of Chromium in our Electron version doesn't render these appropriately. Both
+    //   borders disappear for some reason, and it seems to have to do with transparency.
+    // border-top: 1px solid rgba(255, 255, 255, 0.5);
+    // border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+    .bubble-icon {
+      background-color: white;
+    }
+  }
+}
+
+.group .incoming .embedded-contact {
+  margin-top: -2px;
+}
+
+.contact-detail {
+  text-align: center;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+
+  button {
+    @include button-reset;
+  }
+
+  .image-container {
+    height: 80px;
+    width: 80px;
+    margin-bottom: 4px;
+
+    text-align: center;
+    display: inline-block;
+    object-fit: cover;
+
+    img {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .default-avatar {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      background-color: gray;
+      color: white;
+      font-size: 50px;
+      line-height: 82px;
+    }
+  }
+
+  .contact-name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .contact-method {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .send-message {
+    cursor: pointer;
+
+    border-radius: 4px;
+    background-color: $blue;
+    display: inline-block;
+    padding: 6px;
+    margin-top: 20px;
+
+    // TODO: border
+    // TODO: gradient
+
+    color: white;
+
+    flex-direction: column;
+    align-items: center;
+
+    .inner {
+      display: flex;
+      align-items: center;
+    }
+
+    .bubble-icon {
+      height: 17px;
+      width: 18px;
+      display: inline-block;
+      margin-right: 5px;
+      @include color-svg('../images/chat-bubble.svg', white);
+    }
+  }
+
+  .additional-contact {
+    text-align: left;
+    border-top: 1px solid $grey_l1_5;
+    margin-top: 15px;
+    padding-top: 8px;
+
+    .type {
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+  }
+}
+
+.conversation .contact-detail {
+  margin-top: 40px;
 }
 
 .quoted-message {

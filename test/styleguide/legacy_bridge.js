@@ -48,8 +48,17 @@ window.Signal.Migrations = {
       },
       version: 2,
     },
+    {
+      migrate: (transaction, next) => {
+        console.log('migration version 3');
+        transaction.db.createObjectStore('items');
+        next();
+      },
+      version: 3,
+    },
   ],
   loadAttachmentData: attachment => Promise.resolve(attachment),
+  getAbsoluteAttachmentPath: path => path,
 };
 
 window.Signal.Components = {};

@@ -146,6 +146,16 @@
         'reply',
         this.setQuoteMessage
       );
+      this.listenTo(
+        this.model.messageCollection,
+        'show-contact-detail',
+        this.showContactDetail
+      );
+      this.listenTo(
+        this.model.messageCollection,
+        'open-conversation',
+        this.openConversation
+      );
 
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
@@ -996,6 +1006,41 @@
       this.listenBack(view);
     },
 
+    showContactDetail(contact) {
+      const regionCode = storage.get('regionCode');
+      const { contactSelector } = Signal.Types.Contact;
+      const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
+
+      const view = new Whisper.ReactWrapperView({
+        Component: Signal.Components.ContactDetail,
+        props: {
+          contact: contactSelector(contact, {
+            regionCode,
+            getAbsoluteAttachmentPath,
+          }),
+          hasSignalAccount: true,
+          onSendMessage: () => {
+            const number =
+              contact.number && contact.number[0] && contact.number[0].value;
+            if (number) {
+              this.openConversation(number);
+            }
+          },
+        },
+        onClose: () => this.resetPanel(),
+      });
+
+      this.listenBack(view);
+    },
+
+    async openConversation(number) {
+      const conversation = await window.ConversationController.getOrCreateAndWait(
+        number,
+        'private'
+      );
+      window.Whisper.events.trigger('showConversation', conversation);
+    },
+
     listenBack(view) {
       this.panels = this.panels || [];
       if (this.panels.length > 0) {
@@ -1199,7 +1244,6 @@
 
       if (message) {
         const quote = await this.model.makeQuote(this.quotedMessage);
-        console.log({ quote });
         this.quote = quote;
 
         this.focusMessageFieldAndClearDisabled();

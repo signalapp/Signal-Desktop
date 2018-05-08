@@ -711,13 +711,21 @@
     },
 
     async makeQuote(quotedMessage) {
+      const { getName } = Signal.Types.Contact;
       const contact = quotedMessage.getContact();
       const attachments = quotedMessage.get('attachments');
+
+      const body = quotedMessage.get('body');
+      const embeddedContact = quotedMessage.get('contact');
+      const embeddedContactName =
+        embeddedContact && embeddedContact.length > 0
+          ? getName(embeddedContact[0])
+          : '';
 
       return {
         author: contact.id,
         id: quotedMessage.get('sent_at'),
-        text: quotedMessage.get('body'),
+        text: body || embeddedContactName,
         attachments: await Promise.all(
           (attachments || []).map(async attachment => {
             const { contentType } = attachment;

@@ -1,8 +1,19 @@
+@mixin button-reset {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
 @mixin color-svg($svg, $color) {
   -webkit-mask: url($svg) no-repeat center;
   -webkit-mask-size: 100%;
   background-color: $color;
 }
+
 @mixin header-icon-white($svg) {
   @include color-svg($svg, rgba(255, 255, 255, 0.8));
   &:focus,
@@ -17,6 +28,7 @@
     @include color-svg($svg, black);
   }
 }
+
 @mixin avatar-colors {
   &.red {
     background-color: $material_red;

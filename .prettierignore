@@ -15,6 +15,7 @@ test/test.js
 ts/**/*.js
 ts/protobuf/*.d.ts
 ts/protobuf/*.js
+stylesheets/manifest.css
 
 # Third-party files
 components/**
@@ -37,3 +38,4 @@ _locales/**
 
 # Symlink into third-party `components`:
 stylesheets/_intlTelInput.scss
+

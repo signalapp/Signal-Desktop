@@ -5,13 +5,17 @@
 /* global emoji_util: false */
 /* global Mustache: false */
 /* global $: false */
+/* global storage: false */
+/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function() {
   'use strict';
 
-  const { Signal } = window;
-  const { loadAttachmentData } = window.Signal.Migrations;
+  const {
+    loadAttachmentData,
+    getAbsoluteAttachmentPath,
+  } = window.Signal.Migrations;
 
   window.Whisper = window.Whisper || {};
 
@@ -290,6 +294,9 @@
       if (this.quoteView) {
         this.quoteView.remove();
       }
+      if (this.contactView) {
+        this.contactView.remove();
+      }
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
       // as our tests rely on `onUnload` synchronously removing the view from
@@ -436,6 +443,73 @@
       });
       this.$('.inner-bubble').prepend(this.quoteView.el);
     },
+    renderContact() {
+      const contacts = this.model.get('contact');
+      if (!contacts || !contacts.length) {
+        return;
+      }
+      const contact = contacts[0];
+
+      const regionCode = storage.get('regionCode');
+      const { contactSelector } = Signal.Types.Contact;
+
+      const number =
+        contact.number && contact.number[0] && contact.number[0].value;
+      const haveConversation =
+        number && Boolean(window.ConversationController.get(number));
+      const hasLocalSignalAccount = number && haveConversation;
+
+      const onSendMessage = number
+        ? () => {
+            this.model.trigger('open-conversation', number);
+          }
+        : null;
+      const onOpenContact = () => {
+        this.model.trigger('show-contact-detail', contact);
+      };
+
+      const getProps = ({ hasSignalAccount }) => ({
+        contact: contactSelector(contact, {
+          regionCode,
+          getAbsoluteAttachmentPath,
+        }),
+        hasSignalAccount,
+        onSendMessage,
+        onOpenContact,
+      });
+
+      if (this.contactView) {
+        this.contactView.remove();
+        this.contactView = null;
+      }
+
+      this.contactView = new Whisper.ReactWrapperView({
+        className: 'contact-wrapper',
+        Component: window.Signal.Components.EmbeddedContact,
+        props: getProps({
+          hasSignalAccount: hasLocalSignalAccount,
+        }),
+      });
+
+      this.$('.inner-bubble').prepend(this.contactView.el);
+
+      // If we can't verify a signal account locally, we'll go to the Signal Server.
+      if (number && !hasLocalSignalAccount) {
+        // eslint-disable-next-line more/no-then
+        window.textsecure.messaging
+          .getProfile(number)
+          .then(() => {
+            if (!this.contactView) {
+              return;
+            }
+
+            this.contactView.update(getProps({ hasSignalAccount: true }));
+          })
+          .catch(() => {
+            // No account available, or network connectivity problem
+          });
+      }
+    },
     isImageWithoutCaption() {
       const attachments = this.model.get('attachments');
       const body = this.model.get('body');
@@ -458,7 +532,10 @@
       const attachments = this.model.get('attachments');
       const hasAttachments = attachments && attachments.length > 0;
 
-      return this.hasTextContents() || hasAttachments;
+      const contacts = this.model.get('contact');
+      const hasContact = contacts && contacts.length > 0;
+
+      return this.hasTextContents() || hasAttachments || hasContact;
     },
     hasTextContents() {
       const body = this.model.get('body');
@@ -525,6 +602,7 @@
       this.renderErrors();
       this.renderExpiring();
       this.renderQuote();
+      this.renderContact();
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
       // as our code / Backbone seems to rely on `render` synchronously returning

@@ -63,6 +63,7 @@ describe('Message', () => {
             path: 'ab/abcdefghi',
           },
         ],
+        contact: [],
       };
 
       const writeExistingAttachmentData = attachment => {
@@ -108,6 +109,56 @@ describe('Message', () => {
             },
           ],
         },
+        contact: [],
+      };
+
+      const writeExistingAttachmentData = attachment => {
+        assert.equal(attachment.path, 'ab/abcdefghi');
+        assert.deepEqual(
+          attachment.data,
+          stringToArrayBuffer('It’s easy if you try')
+        );
+      };
+
+      const actual = await Message.createAttachmentDataWriter(
+        writeExistingAttachmentData
+      )(input);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should process contact avatars', async () => {
+      const input = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+        contact: [
+          {
+            name: 'john',
+            avatar: {
+              isProfile: false,
+              avatar: {
+                path: 'ab/abcdefghi',
+                data: stringToArrayBuffer('It’s easy if you try'),
+              },
+            },
+          },
+        ],
+      };
+      const expected = {
+        body: 'Imagine there is no heaven…',
+        schemaVersion: 4,
+        attachments: [],
+        contact: [
+          {
+            name: 'john',
+            avatar: {
+              isProfile: false,
+              avatar: {
+                path: 'ab/abcdefghi',
+              },
+            },
+          },
+        ],
       };
 
       const writeExistingAttachmentData = attachment => {
@@ -212,6 +263,7 @@ describe('Message', () => {
         hasVisualMediaAttachments: undefined,
         hasFileAttachments: 1,
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
+        contact: [],
       };
 
       const expectedAttachmentData = stringToArrayBuffer(
@@ -458,7 +510,7 @@ describe('Message', () => {
       assert.deepEqual(result, message);
     });
 
-    it('eliminates thumbnails with no data fielkd', async () => {
+    it('eliminates thumbnails with no data field', async () => {
       const upgradeAttachment = sinon
         .stub()
         .throws(new Error("Shouldn't be called"));
@@ -526,6 +578,53 @@ describe('Message', () => {
             },
           ],
         },
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, expected);
+    });
+  });
+
+  describe('_mapContact', () => {
+    it('handles message with no contact field', async () => {
+      const upgradeContact = sinon
+        .stub()
+        .throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Message._mapContact(upgradeContact);
+
+      const message = {
+        body: 'hey there!',
+      };
+      const expected = {
+        body: 'hey there!',
+        contact: [],
+      };
+      const result = await upgradeVersion(message);
+      assert.deepEqual(result, expected);
+    });
+
+    it('handles one contact', async () => {
+      const upgradeContact = contact => Promise.resolve(contact);
+      const upgradeVersion = Message._mapContact(upgradeContact);
+
+      const message = {
+        body: 'hey there!',
+        contact: [
+          {
+            name: {
+              displayName: 'Someone somewhere',
+            },
+          },
+        ],
+      };
+      const expected = {
+        body: 'hey there!',
+        contact: [
+          {
+            name: {
+              displayName: 'Someone somewhere',
+            },
+          },
+        ],
       };
       const result = await upgradeVersion(message);
       assert.deepEqual(result, expected);

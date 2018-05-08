@@ -238,6 +238,12 @@
         appView.openInbox();
       }
     });
+    Whisper.events.on('showConversation', function(conversation) {
+      if (appView) {
+        appView.openConversation(conversation);
+      }
+    });
+
     Whisper.Notifications.on('click', function(conversation) {
       showWindow();
       if (conversation) {

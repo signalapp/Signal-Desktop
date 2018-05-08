@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { padStart, sample } from 'lodash';
+import libphonenumber from 'google-libphonenumber';
 
 import _ from 'lodash';
 import moment from 'moment';
@@ -14,14 +15,9 @@ export { _ };
 export { ConversationContext } from './ConversationContext';
 export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 
-// Here we can make things inside Webpack available to Backbone views like preload.js.
-
-import { Quote } from '../components/conversation/Quote';
-import * as HTML from '../html';
-
-import * as Attachment from '../../ts/types/Attachment';
-import * as MIME from '../../ts/types/MIME';
-import { SignalService } from '../../ts/protobuf';
+// @ts-ignore
+import * as Signal from '../../js/signal';
+import { SignalService } from '../protobuf';
 
 // TypeScript wants two things when you import:
 //   1) a normal typescript file
@@ -103,14 +99,15 @@ import localeMessages from '../../_locales/en/messages.json';
 
 // @ts-ignore
 import { setup } from '../../js/modules/i18n';
-import * as Util from '../util';
 import filesize from 'filesize';
 
 const i18n = setup(locale, localeMessages);
 
-export { theme, locale, i18n };
+parent.filesize = filesize;
 
 parent.i18n = i18n;
+parent.React = React;
+parent.ReactDOM = ReactDOM;
 parent.moment = moment;
 
 parent.moment.updateLocale(locale, {
@@ -122,18 +119,26 @@ parent.moment.updateLocale(locale, {
 });
 parent.moment.locale(locale);
 
-parent.React = React;
-parent.ReactDOM = ReactDOM;
+export { theme, locale, i18n };
 
-parent.Signal.HTML = HTML;
-parent.Signal.Types.MIME = MIME;
-parent.Signal.Types.Attachment = Attachment;
-parent.Signal.Components = {
-  Quote,
+// Used by signal.js to set up code that deals with message attachments/avatars
+const Attachments = {
+  createAbsolutePathGetter: () => () => '/fake/path',
+  createDeleter: () => async () => undefined,
+  createReader: () => async () => new ArrayBuffer(10),
+  createWriterForExisting: () => async () => '/fake/path',
+  createWriterForNew: () => async () => ({
+    data: new ArrayBuffer(10),
+    path: '/fake/path',
+  }),
+  getPath: (path: string) => path,
 };
-parent.Signal.Util = Util;
+
+parent.Signal = Signal.setup({
+  Attachments,
+  userDataPath: '/',
+});
 parent.SignalService = SignalService;
-parent.filesize = filesize;
 
 parent.ConversationController._initialFetchComplete = true;
 parent.ConversationController._initialPromise = Promise.resolve();
@@ -194,6 +199,20 @@ group.contactCollection.add(CONTACTS[2]);
 export { COLORS, CONTACTS, me, group };
 
 parent.textsecure.storage.user.getNumber = () => ourNumber;
+parent.textsecure.messaging = {
+  getProfile: async (phoneNumber: string): Promise<boolean> => {
+    if (parent.ConversationController.get(phoneNumber)) {
+      return true;
+    }
+
+    throw new Error('User does not have Signal account');
+  },
+};
+
+parent.libphonenumber = libphonenumber.PhoneNumberUtil.getInstance();
+parent.libphonenumber.PhoneNumberFormat = libphonenumber.PhoneNumberFormat;
+
+parent.storage.put('regionCode', 'US');
 
 // Telling Lodash to relinquish _ for use by underscore
 // @ts-ignore
