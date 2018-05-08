@@ -223,6 +223,7 @@
     },
 
     events: {
+      keydown: 'onKeyDown',
       'submit .send': 'checkUnverifiedSendMessage',
       'input .send-message': 'updateMessageFieldSize',
       'keydown .send-message': 'updateMessageFieldSize',
@@ -1201,6 +1202,13 @@
         this.closeEmojiPanel();
       }
     },
+    onKeyDown(event) {
+      if (event.key !== 'Escape') {
+        return;
+      }
+
+      this.closeEmojiPanel();
+    },
     openEmojiPanel() {
       this.$emojiPanelContainer.outerHeight(200);
       this.emojiPanel = new EmojiPanel(this.$emojiPanelContainer[0], {
@@ -1209,6 +1217,10 @@
       this.updateMessageFieldSize({});
     },
     closeEmojiPanel() {
+      if (this.emojiPanel === null) {
+        return;
+      }
+
       this.$emojiPanelContainer.empty().outerHeight(0);
       this.emojiPanel = null;
       this.updateMessageFieldSize({});
