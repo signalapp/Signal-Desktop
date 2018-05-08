@@ -45,14 +45,7 @@ const styles = {
     display: 'inline-flex',
     justifyContent: 'center',
   } as React.CSSProperties,
-  image: {
-    flexGrow: 1,
-    flexShrink: 0,
-    maxWidth: '100%',
-    maxHeight: '100%',
-    objectFit: 'contain',
-  } as React.CSSProperties,
-  video: {
+  object: {
     flexGrow: 1,
     flexShrink: 0,
     maxWidth: '100%',
@@ -130,7 +123,7 @@ const Icon = ({
 }) => (
   <div
     style={{
-      ...styles.image,
+      ...styles.object,
       ...colorSVG(url, Colors.ICON_SECONDARY),
       maxWidth: 200,
     }}
@@ -204,7 +197,7 @@ export class Lightbox extends React.Component<Props, {}> {
     if (isImageTypeSupported) {
       return (
         <img
-          style={styles.image}
+          style={styles.object}
           src={objectURL}
           onClick={this.onObjectClick}
         />
@@ -214,7 +207,7 @@ export class Lightbox extends React.Component<Props, {}> {
     const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
     if (isVideoTypeSupported) {
       return (
-        <video controls={true} style={styles.video}>
+        <video controls={true} style={styles.object}>
           <source src={objectURL} />
         </video>
       );
