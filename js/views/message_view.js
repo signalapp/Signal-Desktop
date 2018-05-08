@@ -313,6 +313,7 @@
     onChange() {
       this.renderSent();
       this.renderQuote();
+      this.addId();
     },
     select(e) {
       this.$el.trigger('select', { message: this.model });
@@ -469,6 +470,13 @@
       const errorsCanBeContents = this.model.isIncoming() && hasErrors;
 
       return body || isGroupUpdate || isEndSession || errorsCanBeContents;
+    },
+    addId() {
+      // Because we initially render a sent Message before we've roundtripped with the
+      //   database, we don't have its id for that first render. We do get a change event,
+      //   however, and can add the id manually.
+      const { id } = this.model;
+      this.$el.attr('id', id);
     },
     render() {
       const contact = this.model.isIncoming() ? this.model.getContact() : null;
