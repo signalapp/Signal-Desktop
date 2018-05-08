@@ -17,7 +17,7 @@ interface Name {
   prefix?: string;
   suffix?: string;
   middleName?: string;
-  displayName: string;
+  displayName?: string;
 }
 
 export enum ContactType {
@@ -101,5 +101,11 @@ export function contactSelector(
 
 export function getName(contact: Contact): string | null {
   const { name, organization } = contact;
-  return (name && name.displayName) || organization || null;
+  const displayName = (name && name.displayName) || null;
+  const givenName = (name && name.givenName) || null;
+  const familyName = (name && name.familyName) || null;
+  const backupName =
+    (givenName && familyName && `${givenName} ${familyName}`) || null;
+
+  return displayName || organization || backupName || givenName || familyName;
 }
