@@ -1,6 +1,12 @@
 const { omit, compact, map } = require('lodash');
 
 const { toLogFormat } = require('./errors');
+const { SignalService } = require('../../../ts/protobuf');
+
+const DEFAULT_PHONE_TYPE = SignalService.DataMessage.Contact.Phone.Type.HOME;
+const DEFAULT_EMAIL_TYPE = SignalService.DataMessage.Contact.Email.Type.HOME;
+const DEFAULT_ADDRESS_TYPE =
+  SignalService.DataMessage.Contact.PostalAddress.Type.HOME;
 
 exports.parseAndWriteContactAvatar = upgradeAttachment => async (
   contact,
@@ -38,8 +44,8 @@ function parseContact(contact) {
     {},
     omit(contact, ['avatar', 'number', 'email', 'address']),
     parseAvatar(contact.avatar),
-    createArrayKey('number', compact(map(contact.number, cleanBasicItem))),
-    createArrayKey('email', compact(map(contact.email, cleanBasicItem))),
+    createArrayKey('number', compact(map(contact.number, cleanPhoneItem))),
+    createArrayKey('email', compact(map(contact.email, cleanEmailItem))),
     createArrayKey('address', compact(map(contact.address, cleanAddress)))
   );
 }
@@ -71,13 +77,23 @@ exports._validateContact = (contact, options = {}) => {
   return null;
 };
 
-function cleanBasicItem(item) {
+function cleanPhoneItem(item) {
   if (!item.value) {
     return null;
   }
 
   return Object.assign({}, item, {
-    type: item.type || 1,
+    type: item.type || DEFAULT_PHONE_TYPE,
+  });
+}
+
+function cleanEmailItem(item) {
+  if (!item.value) {
+    return null;
+  }
+
+  return Object.assign({}, item, {
+    type: item.type || DEFAULT_EMAIL_TYPE,
   });
 }
 
@@ -99,7 +115,7 @@ function cleanAddress(address) {
   }
 
   return Object.assign({}, address, {
-    type: address.type || 1,
+    type: address.type || DEFAULT_ADDRESS_TYPE,
   });
 }
 
