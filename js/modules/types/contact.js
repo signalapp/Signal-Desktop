@@ -1,5 +1,7 @@
 const { omit, compact, map } = require('lodash');
 
+const { toLogFormat } = require('./errors');
+
 exports.parseAndWriteContactAvatar = upgradeAttachment => async (
   contact,
   context = {}
@@ -18,10 +20,15 @@ exports.parseAndWriteContactAvatar = upgradeAttachment => async (
   // eliminates empty numbers, emails, and addresses; adds type if not provided
   const contactWithCleanedElements = parseContact(contactWithUpdatedAvatar);
 
-  // We'll log if the contact is invalid, leave everything as-is
-  validateContact(contactWithCleanedElements, {
+  const error = exports._validateContact(contactWithCleanedElements, {
     messageId: idForLogging(message),
   });
+  if (error) {
+    console.log(
+      'Contact.parseAndWriteContactAvatar: contact was malformed.',
+      toLogFormat(error)
+    );
+  }
 
   return contactWithCleanedElements;
 };
@@ -41,15 +48,14 @@ function idForLogging(message) {
   return `${message.source}.${message.sourceDevice} ${message.sent_at}`;
 }
 
-function validateContact(contact, options = {}) {
+exports._validateContact = (contact, options = {}) => {
   const { messageId } = options;
   const { name, number, email, address, organization } = contact;
 
   if ((!name || !name.displayName) && !organization) {
-    console.log(
+    return new Error(
       `Message ${messageId}: Contact had neither 'displayName' nor 'organization'`
     );
-    return false;
   }
 
   if (
@@ -57,14 +63,13 @@ function validateContact(contact, options = {}) {
     (!email || !email.length) &&
     (!address || !address.length)
   ) {
-    console.log(
+    return new Error(
       `Message ${messageId}: Contact had no included numbers, email or addresses`
     );
-    return false;
   }
 
-  return true;
-}
+  return null;
+};
 
 function cleanBasicItem(item) {
   if (!item.value) {

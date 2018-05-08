@@ -7,9 +7,9 @@ const {
 } = require('../../../js/modules/string_to_array_buffer');
 
 describe('Contact', () => {
-  describe('parseAndWriteContactAvatar', () => {
-    const NUMBER = '+12025550099';
+  const NUMBER = '+12025550099';
 
+  describe('parseAndWriteContactAvatar', () => {
     it('handles message with no avatar in contact', async () => {
       const upgradeAttachment = sinon
         .stub()
@@ -246,49 +246,7 @@ describe('Contact', () => {
       assert.deepEqual(result, expected);
     });
 
-    it('logs if contact has no name.displayName or organization', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = Contact.parseAndWriteContactAvatar(
-        upgradeAttachment
-      );
-
-      const message = {
-        body: 'hey there!',
-        source: NUMBER,
-        sourceDevice: '1',
-        sent_at: 1232132,
-        contact: [
-          {
-            name: {
-              name: 'Someone',
-            },
-            number: [
-              {
-                type: 1,
-                value: NUMBER,
-              },
-            ],
-          },
-        ],
-      };
-      const expected = {
-        name: {
-          name: 'Someone',
-        },
-        number: [
-          {
-            type: 1,
-            value: NUMBER,
-          },
-        ],
-      };
-      const result = await upgradeVersion(message.contact[0], { message });
-      assert.deepEqual(result, expected);
-    });
-
-    it('removes invalid elements then logs if no values remain in contact', async () => {
+    it('removes invalid elements if no values remain in contact', async () => {
       const upgradeAttachment = sinon
         .stub()
         .throws(new Error("Shouldn't be called"));
@@ -351,6 +309,44 @@ describe('Contact', () => {
       };
       const result = await upgradeVersion(message.contact[0], { message });
       assert.deepEqual(result, message.contact[0]);
+    });
+  });
+
+  describe('_validateContact', () => {
+    it('returns error if contact has no name.displayName or organization', () => {
+      const messageId = 'the-message-id';
+      const contact = {
+        name: {
+          name: 'Someone',
+        },
+        number: [
+          {
+            type: 1,
+            value: NUMBER,
+          },
+        ],
+      };
+      const expected =
+        "Message the-message-id: Contact had neither 'displayName' nor 'organization'";
+
+      const result = Contact._validateContact(contact, { messageId });
+      assert.deepEqual(result.message, expected);
+    });
+
+    it('logs if no values remain in contact', async () => {
+      const messageId = 'the-message-id';
+      const contact = {
+        name: {
+          displayName: 'Someone Somewhere',
+        },
+        number: [],
+        email: [],
+      };
+      const expected =
+        'Message the-message-id: Contact had no included numbers, email or addresses';
+
+      const result = Contact._validateContact(contact, { messageId });
+      assert.deepEqual(result.message, expected);
     });
   });
 });
