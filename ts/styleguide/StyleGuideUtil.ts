@@ -200,8 +200,8 @@ export { COLORS, CONTACTS, me, group };
 
 parent.textsecure.storage.user.getNumber = () => ourNumber;
 parent.textsecure.messaging = {
-  getProfile: async (number: string): Promise<Boolean> => {
-    if (parent.ConversationController.get(number)) {
+  getProfile: async (phoneNumber: string): Promise<boolean> => {
+    if (parent.ConversationController.get(phoneNumber)) {
       return true;
     }
 

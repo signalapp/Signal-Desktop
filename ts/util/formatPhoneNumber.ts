@@ -1,15 +1,14 @@
-import { toLogFormat } from '../../js/modules/types/errors';
 import { instance, PhoneNumberFormat } from './libphonenumberInstance';
 
 export function formatPhoneNumber(
-  number: string,
+  phoneNumber: string,
   options: {
     ourRegionCode: string;
   }
 ) {
   try {
     const { ourRegionCode } = options;
-    const parsedNumber = instance.parse(number);
+    const parsedNumber = instance.parse(phoneNumber);
     const regionCode = instance.getRegionCodeForNumber(parsedNumber);
 
     if (ourRegionCode && regionCode === ourRegionCode) {
@@ -18,10 +17,6 @@ export function formatPhoneNumber(
 
     return instance.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL);
   } catch (error) {
-    console.log(
-      'formatPhoneNumber - had problems formatting number:',
-      toLogFormat(error)
-    );
-    return number;
+    return phoneNumber;
   }
 }

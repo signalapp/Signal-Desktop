@@ -1,14 +1,21 @@
 import React from 'react';
 
 import {
+  AddressType,
   Contact,
   ContactType,
-  AddressType,
-  Phone,
   Email,
+  Phone,
   PostalAddress,
 } from '../../types/Contact';
 import { missingCaseError } from '../../util/missingCaseError';
+
+import {
+  renderAvatar,
+  renderContactShorthand,
+  renderName,
+  renderSendMessage,
+} from './EmbeddedContact';
 
 type Localizer = (key: string, values?: Array<string>) => string;
 
@@ -47,77 +54,7 @@ function getLabelForAddress(address: PostalAddress, i18n: Localizer) {
   }
 }
 
-function getInitials(name: string): string {
-  return name.trim()[0] || '#';
-}
-
-function getName(contact: Contact): string {
-  const { name, organization } = contact;
-  return (name && name.displayName) || organization || '';
-}
-
 export class ContactDetail extends React.Component<Props, {}> {
-  public renderAvatar() {
-    const { contact } = this.props;
-    const { avatar } = contact;
-
-    const path = avatar && avatar.avatar && avatar.avatar.path;
-    if (!path) {
-      const name = getName(contact);
-      const initials = getInitials(name);
-      return (
-        <div className="image-container">
-          <div className="default-avatar">{initials}</div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="image-container">
-        <img src={path} />
-      </div>
-    );
-  }
-
-  public renderName() {
-    const { contact } = this.props;
-
-    return <div className="contact-name">{getName(contact)}</div>;
-  }
-
-  public renderContactShorthand() {
-    const { contact } = this.props;
-    const { number, email } = contact;
-    const firstNumber = number && number[0] && number[0].value;
-    const firstEmail = email && email[0] && email[0].value;
-
-    return <div className="contact-method">{firstNumber || firstEmail}</div>;
-  }
-
-  public renderSendMessage() {
-    const { hasSignalAccount, i18n, onSendMessage } = this.props;
-
-    if (!hasSignalAccount) {
-      return null;
-    }
-
-    // We don't want the overall click handler for this element to fire, so we stop
-    //   propagation before handing control to the caller's callback.
-    const onClick = (e: React.MouseEvent<{}>): void => {
-      e.stopPropagation();
-      onSendMessage();
-    };
-
-    return (
-      <div className="send-message" onClick={onClick}>
-        <button className="inner">
-          <div className="icon bubble-icon" />
-          {i18n('sendMessageToContact')}
-        </button>
-      </div>
-    );
-  }
-
   public renderAdditionalContact(
     items: Array<Phone | Email> | undefined,
     i18n: Localizer
@@ -191,14 +128,14 @@ export class ContactDetail extends React.Component<Props, {}> {
   }
 
   public render() {
-    const { contact, i18n } = this.props;
+    const { contact, hasSignalAccount, i18n, onSendMessage } = this.props;
 
     return (
       <div className="contact-detail">
-        {this.renderAvatar()}
-        {this.renderName()}
-        {this.renderContactShorthand()}
-        {this.renderSendMessage()}
+        {renderAvatar(contact)}
+        {renderName(contact)}
+        {renderContactShorthand(contact)}
+        {renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}
         {this.renderAdditionalContact(contact.number, i18n)}
         {this.renderAdditionalContact(contact.email, i18n)}
         {this.renderAddresses(contact.address, i18n)}
