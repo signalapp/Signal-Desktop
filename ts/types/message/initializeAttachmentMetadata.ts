@@ -1,8 +1,14 @@
-import { partition } from 'lodash';
-
 import * as Attachment from '../Attachment';
 import * as IndexedDB from '../IndexedDB';
-import { Message } from '../Message';
+import { Message, UserMessage } from '../Message';
+
+const hasAttachment = (
+  predicate: (value: Attachment.Attachment) => boolean
+) => (message: UserMessage): IndexedDB.IndexablePresence =>
+  IndexedDB.toIndexablePresence(message.attachments.some(predicate));
+
+const hasFileAttachment = hasAttachment(Attachment.isFile);
+const hasVisualMediaAttachment = hasAttachment(Attachment.isVisualMedia);
 
 export const initializeAttachmentMetadata = async (
   message: Message
@@ -14,17 +20,14 @@ export const initializeAttachmentMetadata = async (
   const hasAttachments = IndexedDB.toIndexableBoolean(
     message.attachments.length > 0
   );
-  const [hasVisualMediaAttachments, hasFileAttachments] = partition(
-    message.attachments,
-    Attachment.isVisualMedia
-  )
-    .map(attachments => attachments.length > 0)
-    .map(IndexedDB.toIndexablePresence);
+
+  const hasFileAttachments = hasFileAttachment(message);
+  const hasVisualMediaAttachments = hasVisualMediaAttachment(message);
 
   return {
     ...message,
     hasAttachments,
-    hasVisualMediaAttachments,
     hasFileAttachments,
+    hasVisualMediaAttachments,
   };
 };

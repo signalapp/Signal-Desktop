@@ -59,6 +59,84 @@ describe('Attachment', () => {
     });
   });
 
+  describe('isVisualMedia', () => {
+    it('should return true for images', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'meme.gif',
+        data: stringToArrayBuffer('gif'),
+        contentType: MIME.IMAGE_GIF,
+      };
+      assert.isTrue(Attachment.isVisualMedia(attachment));
+    });
+
+    it('should return true for videos', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'meme.mp4',
+        data: stringToArrayBuffer('mp4'),
+        contentType: MIME.VIDEO_MP4,
+      };
+      assert.isTrue(Attachment.isVisualMedia(attachment));
+    });
+
+    it('should return false for voice message attachment', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'Voice Message.aac',
+        flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+        data: stringToArrayBuffer('voice message'),
+        contentType: MIME.AUDIO_AAC,
+      };
+      assert.isFalse(Attachment.isVisualMedia(attachment));
+    });
+
+    it('should return false for other attachments', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'foo.json',
+        data: stringToArrayBuffer('{"foo": "bar"}'),
+        contentType: MIME.APPLICATION_JSON,
+      };
+      assert.isFalse(Attachment.isVisualMedia(attachment));
+    });
+  });
+
+  describe('isFile', () => {
+    it('should return true for JSON', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'foo.json',
+        data: stringToArrayBuffer('{"foo": "bar"}'),
+        contentType: MIME.APPLICATION_JSON,
+      };
+      assert.isTrue(Attachment.isFile(attachment));
+    });
+
+    it('should return false for images', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'meme.gif',
+        data: stringToArrayBuffer('gif'),
+        contentType: MIME.IMAGE_GIF,
+      };
+      assert.isFalse(Attachment.isFile(attachment));
+    });
+
+    it('should return false for videos', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'meme.mp4',
+        data: stringToArrayBuffer('mp4'),
+        contentType: MIME.VIDEO_MP4,
+      };
+      assert.isFalse(Attachment.isFile(attachment));
+    });
+
+    it('should return false for voice message attachment', () => {
+      const attachment: Attachment.Attachment = {
+        fileName: 'Voice Message.aac',
+        flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+        data: stringToArrayBuffer('voice message'),
+        contentType: MIME.AUDIO_AAC,
+      };
+      assert.isFalse(Attachment.isFile(attachment));
+    });
+  });
+
   describe('isVoiceMessage', () => {
     it('should return true for voice message attachment', () => {
       const attachment: Attachment.Attachment = {

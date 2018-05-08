@@ -48,7 +48,8 @@ export class AttachmentSection extends React.Component<Props, {}> {
   private renderItems() {
     const { i18n, messages, type } = this.props;
 
-    return messages.map(message => {
+    return messages.map((message, index, array) => {
+      const shouldShowSeparator = index < array.length - 1;
       const { attachments } = message;
       const firstAttachment = attachments[0];
 
@@ -66,11 +67,12 @@ export class AttachmentSection extends React.Component<Props, {}> {
           return (
             <DocumentListItem
               key={message.id}
-              i18n={i18n}
-              fileSize={firstAttachment.size}
               fileName={firstAttachment.fileName}
-              timestamp={message.received_at}
+              fileSize={firstAttachment.size}
+              i18n={i18n}
+              shouldShowSeparator={shouldShowSeparator}
               onClick={onClick}
+              timestamp={message.received_at}
             />
           );
         default:

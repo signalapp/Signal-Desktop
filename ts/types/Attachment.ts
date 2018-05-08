@@ -1,7 +1,6 @@
 import is from '@sindresorhus/is';
 import moment from 'moment';
 
-import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from './MIME';
 import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
 import { saveURLAsFile } from '../util/saveURLAsFile';
@@ -35,9 +34,29 @@ export const isVisualMedia = (attachment: Attachment): boolean => {
     return false;
   }
 
-  const isSupportedImageType = GoogleChrome.isImageTypeSupported(contentType);
-  const isSupportedVideoType = GoogleChrome.isVideoTypeSupported(contentType);
-  return isSupportedImageType || isSupportedVideoType;
+  if (isVoiceMessage(attachment)) {
+    return false;
+  }
+
+  return MIME.isImage(contentType) || MIME.isVideo(contentType);
+};
+
+export const isFile = (attachment: Attachment): boolean => {
+  const { contentType } = attachment;
+
+  if (is.undefined(contentType)) {
+    return false;
+  }
+
+  if (isVisualMedia(attachment)) {
+    return false;
+  }
+
+  if (isVoiceMessage(attachment)) {
+    return false;
+  }
+
+  return true;
 };
 
 export const isVoiceMessage = (attachment: Attachment): boolean => {

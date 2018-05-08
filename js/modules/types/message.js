@@ -25,22 +25,23 @@ const PRIVATE = 'private';
 //   - Attachments: Write attachment data to disk and store relative path to it.
 // Version 4
 //   - Quotes: Write thumbnail data to disk and store relative path to it.
-// Version 5
+// Version 5 (deprecated)
 //   - Attachments: Track number and kind of attachments for media gallery
 //     - `hasAttachments?: 1 | 0`
 //     - `hasVisualMediaAttachments?: 1 | undefined` (for media gallery ‘Media’ view)
 //     - `hasFileAttachments?: 1 | undefined` (for media gallery ‘Documents’ view)
+//   - IMPORTANT: Version 7 changes the classification of visual media and files.
+//     Therefore version 5 is considered deprecated. For an easier implementation,
+//     new files have the same classification in version 5 as in version 7.
 // Version 6
 //   - Contact: Write contact avatar to disk, ensure contact data is well-formed
+// Version 7 (supersedes attachment classification in version 5)
+//   - Attachments: Update classification for:
+//     - `hasVisualMediaAttachments`: Include all images and video regardless of
+//       whether Chromium can render it or not.
+//     - `hasFileAttachments`: Exclude voice messages.
 
 const INITIAL_SCHEMA_VERSION = 0;
-
-// Increment this version number every time we add a message schema upgrade
-// step. This will allow us to retroactively upgrade existing messages. As we
-// add more upgrade steps, we could design a pipeline that does this
-// incrementally, e.g. from version 0 / unknown -> 1, 1 --> 2, etc., similar to
-// how we do database migrations:
-exports.CURRENT_SCHEMA_VERSION = 6;
 
 // Public API
 exports.GROUP = GROUP;
@@ -212,7 +213,6 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
 };
 
 const toVersion0 = async message => exports.initializeSchemaVersion(message);
-
 const toVersion1 = exports._withSchemaVersion(
   1,
   exports._mapAttachments(Attachment.autoOrientJPEG)
@@ -230,13 +230,28 @@ const toVersion4 = exports._withSchemaVersion(
   exports._mapQuotedAttachments(Attachment.migrateDataToFileSystem)
 );
 const toVersion5 = exports._withSchemaVersion(5, initializeAttachmentMetadata);
-
 const toVersion6 = exports._withSchemaVersion(
   6,
   exports._mapContact(
     Contact.parseAndWriteAvatar(Attachment.migrateDataToFileSystem)
   )
 );
+// IMPORTANT: We’ve updated our definition of `initializeAttachmentMetadata`, so
+// we need to run it again on existing items that have previously been incorrectly
+// classified:
+const toVersion7 = exports._withSchemaVersion(7, initializeAttachmentMetadata);
+
+const VERSIONS = [
+  toVersion0,
+  toVersion1,
+  toVersion2,
+  toVersion3,
+  toVersion4,
+  toVersion5,
+  toVersion6,
+  toVersion7,
+];
+exports.CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
 
 // UpgradeStep
 exports.upgradeSchema = async (rawMessage, { writeNewAttachmentData } = {}) => {
@@ -245,18 +260,8 @@ exports.upgradeSchema = async (rawMessage, { writeNewAttachmentData } = {}) => {
   }
 
   let message = rawMessage;
-  const versions = [
-    toVersion0,
-    toVersion1,
-    toVersion2,
-    toVersion3,
-    toVersion4,
-    toVersion5,
-    toVersion6,
-  ];
-
-  for (let i = 0, max = versions.length; i < max; i += 1) {
-    const currentVersion = versions[i];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const currentVersion of VERSIONS) {
     // We really do want this intra-loop await because this is a chained async action,
     //   each step dependent on the previous
     // eslint-disable-next-line no-await-in-loop

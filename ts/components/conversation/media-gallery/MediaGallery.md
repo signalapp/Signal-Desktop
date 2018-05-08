@@ -74,3 +74,14 @@ const messages = _.sortBy(
 
 <MediaGallery i18n={window.i18n} media={messages} documents={messages} />;
 ```
+
+## Media gallery with one document
+
+```jsx
+const messages = [
+  {
+    attachments: [{ fileName: 'foo.jpg', contentType: 'application/json' }],
+  },
+];
+<MediaGallery i18n={window.i18n} media={messages} documents={messages} />;
+```
