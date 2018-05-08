@@ -457,7 +457,7 @@
         contact.number && contact.number[0] && contact.number[0].value;
       const haveConversation =
         number && Boolean(window.ConversationController.get(number));
-      let hasSignalAccount = number && haveConversation;
+      const hasLocalSignalAccount = number && haveConversation;
 
       const onSendMessage = number
         ? () => {
@@ -468,7 +468,7 @@
         this.model.trigger('show-contact-detail', contact);
       };
 
-      const getProps = () => ({
+      const getProps = ({ hasSignalAccount }) => ({
         contact: contactSelector(contact, {
           regionCode,
           getAbsoluteAttachmentPath,
@@ -486,13 +486,15 @@
       this.contactView = new Whisper.ReactWrapperView({
         className: 'contact-wrapper',
         Component: window.Signal.Components.EmbeddedContact,
-        props: getProps(),
+        props: getProps({
+          hasSignalAccount: hasLocalSignalAccount,
+        }),
       });
 
       this.$('.inner-bubble').prepend(this.contactView.el);
 
       // If we can't verify a signal account locally, we'll go to the Signal Server.
-      if (number && !hasSignalAccount) {
+      if (number && !hasLocalSignalAccount) {
         // eslint-disable-next-line more/no-then
         window.textsecure.messaging
           .getProfile(number)
@@ -501,8 +503,7 @@
               return;
             }
 
-            hasSignalAccount = true;
-            this.contactView.update(getProps());
+            this.contactView.update(getProps({ hasSignalAccount: true }));
           })
           .catch(() => {
             // No account available, or network connectivity problem
