@@ -20,7 +20,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "Вчера",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
@@ -28,7 +28,7 @@
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Документы",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "В этом месяце",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -266,7 +266,7 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "На этой неделе",
         "description": "Section header in the media gallery"
     },
     "importingHeader": {
@@ -340,7 +340,7 @@
         "description": ""
     },
     "today": {
-        "message": "Today",
+        "message": "Сегодня",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
@@ -356,7 +356,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "Просмотреть все медиа",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "noLongerVerified": {
@@ -412,7 +412,7 @@
         }
     },
     "messageCaption": {
-        "message": "Message caption",
+        "message": "Заголовок сообщения",
         "description": "Prefix of attachment alt tags in the media gallery"
     },
     "deleteAllDataButton": {
@@ -758,7 +758,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
-        "message": "Media",
+        "message": "Медиа",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "noContents": {
