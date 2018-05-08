@@ -213,6 +213,7 @@
     },
 
     events: {
+      'keydown': 'escapeEmojiPanel',
       'submit .send': 'checkUnverifiedSendMessage',
       'input .send-message': 'updateMessageFieldSize',
       'keydown .send-message': 'updateMessageFieldSize',
@@ -1153,6 +1154,13 @@
       if (!this.emojiPanel) {
         this.openEmojiPanel();
       } else {
+        this.closeEmojiPanel();
+      }
+    },
+    escapeEmojiPanel(e){
+      // Close emoji panel on escape key press
+      const keyCode = e.keyCode || e.which;
+      if (keyCode == 27 && this.emojiPanel != null) {
         this.closeEmojiPanel();
       }
     },
