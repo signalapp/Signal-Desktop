@@ -37,8 +37,8 @@ $z-index-modal: 100;
   src: url('../fonts/Roboto-Bold.ttf') format('truetype');
   font-weight: bold;
 }
-$roboto: Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-$roboto-light: Roboto-Light, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+$font: system-ui, Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+$font-light: system-ui, Roboto-Light, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 
 $header-height: 64px;
 $button-height: 24px;
