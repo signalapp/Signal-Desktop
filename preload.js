@@ -129,6 +129,7 @@ window.moment.locale(locale);
 window.Signal = Signal.setup({
   Attachments,
   userDataPath: app.getPath('userData'),
+  getRegionCode: () => window.storage.get('regionCode'),
 });
 
 // Pulling these in separately since they access filesystem, electron

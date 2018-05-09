@@ -277,6 +277,7 @@ describe('Message', () => {
           assert.deepEqual(attachmentData, expectedAttachmentData);
           return 'abc/abcdefg';
         },
+        getRegionCode: () => 'US',
       };
       const actual = await Message.upgradeSchema(input, context);
       assert.deepEqual(actual, expected);

@@ -137,6 +137,7 @@ const Attachments = {
 parent.Signal = Signal.setup({
   Attachments,
   userDataPath: '/',
+  getRegionCode: () => parent.storage.get('regionCode'),
 });
 parent.SignalService = SignalService;
 
