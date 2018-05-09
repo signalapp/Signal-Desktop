@@ -238,6 +238,10 @@
         appView.openInbox();
       }
     });
+
+    window.addEventListener('focus', () => Whisper.Notifications.clear());
+    window.addEventListener('unload', () => Whisper.Notifications.clear());
+
     Whisper.events.on('showConversation', function(conversation) {
       if (appView) {
         appView.openConversation(conversation);

@@ -1,3 +1,4 @@
+/* global Signal:false */
 /* global Backbone: false */
 
 /* global ConversationController: false */
@@ -16,7 +17,6 @@
   const { Settings } = Signal.Types;
 
   const SettingNames = {
-    OFF: 'off',
     COUNT: 'count',
     NAME: 'name',
     MESSAGE: 'message',
@@ -27,6 +27,8 @@
       this.isEnabled = false;
       this.on('add', this.update);
       this.on('remove', this.onRemove);
+
+      this.lastNotification = null;
     },
     onClick(conversationId) {
       const conversation = ConversationController.get(conversationId);
@@ -74,34 +76,54 @@
       // distinguishing between zero (0) and other (non-zero),
       // e.g. Russian:
       // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
-      const newMessageCount = [
-        numNotifications,
-        numNotifications === 1 ? i18n('newMessage') : i18n('newMessages'),
-      ].join(' ');
+      const newMessageCountLabel = `${numNotifications} ${
+        numNotifications === 1 ? i18n('newMessage') : i18n('newMessages')
+      }`;
 
-      const last = this.last();
+      const last = this.last().toJSON();
       switch (userSetting) {
         case SettingNames.COUNT:
           title = 'Signal';
-          message = newMessageCount;
+          message = newMessageCountLabel;
           break;
-        case SettingNames.NAME:
-          title = newMessageCount;
-          message = `Most recent from ${last.get('title')}`;
-          iconUrl = last.get('iconUrl');
+        case SettingNames.NAME: {
+          const lastMessageTitle = last.title;
+          title = newMessageCountLabel;
+          // eslint-disable-next-line prefer-destructuring
+          iconUrl = last.iconUrl;
+          if (numNotifications === 1) {
+            message = `${i18n('notificationFrom')} ${lastMessageTitle}`;
+          } else {
+            message = `${i18n(
+              'notificationMostRecentFrom'
+            )} ${lastMessageTitle}`;
+          }
           break;
+        }
         case SettingNames.MESSAGE:
           if (numNotifications === 1) {
-            title = last.get('title');
+            // eslint-disable-next-line prefer-destructuring
+            title = last.title;
+            // eslint-disable-next-line prefer-destructuring
+            message = last.message;
           } else {
-            title = newMessageCount;
+            title = newMessageCountLabel;
+            message = `${i18n('notificationMostRecent')} ${last.message}`;
           }
-          message = last.get('message');
-          iconUrl = last.get('iconUrl');
+          // eslint-disable-next-line prefer-destructuring
+          iconUrl = last.iconUrl;
           break;
         default:
-          console.log(`Error: Unknown user setting: '${userSetting}'`);
+          console.log(
+            `Error: Unknown user notification setting: '${userSetting}'`
+          );
           break;
+      }
+
+      const shouldHideExpiringMessageBody =
+        last.isExpiringMessage && Signal.OS.isMacOS();
+      if (shouldHideExpiringMessageBody) {
+        message = i18n('newMessage');
       }
 
       drawAttention();
@@ -112,18 +134,31 @@
         tag: isNotificationGroupingSupported ? 'signal' : undefined,
         silent: !status.shouldPlayNotificationSound,
       });
-      notification.onclick = () => this.onClick(last.get('conversationId'));
+      notification.onclick = () => this.onClick(last.conversationId);
+      this.lastNotification = notification;
 
-      this.clear();
+      // We continue to build up more and more messages for our notifications
+      // until the user comes back to our app or closes the app. Then we’ll
+      // clear everything out. The good news is that we'll have a maximum of
+      // 1 notification in the Notification area (something like
+      // ‘10 new messages’) assuming that `Notification::close` does its job.
     },
     getUserSetting() {
       return storage.get('notification-setting') || SettingNames.MESSAGE;
     },
     onRemove() {
       console.log('Remove notification');
+      if (this.length === 0) {
+        this.clear();
+      } else {
+        this.update();
+      }
     },
     clear() {
       console.log('Remove all notifications');
+      if (this.lastNotification) {
+        this.lastNotification.close();
+      }
       this.reset([]);
     },
     enable() {

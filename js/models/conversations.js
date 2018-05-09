@@ -1642,14 +1642,27 @@
         'private'
       ).then(sender =>
         sender.getNotificationIcon().then(iconUrl => {
-          console.log('adding notification');
+          const messageJSON = message.toJSON();
+          const messageSentAt = messageJSON.sent_at;
+          const messageId = message.id;
+          const isExpiringMessage = Signal.Types.Message.hasExpiration(
+            messageJSON
+          );
+
+          console.log('Add notification', {
+            conversationId: this.idForLogging(),
+            isExpiringMessage,
+            messageSentAt,
+          });
           Whisper.Notifications.add({
-            title: sender.getTitle(),
-            message: message.getNotificationText(),
+            conversationId,
             iconUrl,
             imageUrl: message.getImageUrl(),
-            conversationId,
-            messageId: message.id,
+            isExpiringMessage,
+            message: message.getNotificationText(),
+            messageId,
+            messageSentAt,
+            title: sender.getTitle(),
           });
         })
       );
