@@ -2,7 +2,7 @@ const { omit, compact, map } = require('lodash');
 
 const { toLogFormat } = require('./errors');
 const { SignalService } = require('../../../ts/protobuf');
-const { parsePhoneNumber } = require('../../../ts/util/parsePhoneNumber');
+const { parse: parsePhoneNumber } = require('../../../ts/types/PhoneNumber');
 
 const DEFAULT_PHONE_TYPE = SignalService.DataMessage.Contact.Phone.Type.HOME;
 const DEFAULT_EMAIL_TYPE = SignalService.DataMessage.Contact.Email.Type.HOME;
