@@ -713,6 +713,18 @@
         "message": "New Messages",
         "description": "Displayed in notifications for multiple messages"
     },
+    "notificationMostRecentFrom": {
+        "message": "Most recent from:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+    },
+    "notificationFrom": {
+        "message": "From:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
+    "notificationMostRecent": {
+        "message": "Most recent:",
+        "description": "Displayed in notifications when setting is 'name and message' and "
+    },
     "messageNotSent": {
         "message": "Message not sent.",
         "description": "Informational label, appears on messages that failed to send"

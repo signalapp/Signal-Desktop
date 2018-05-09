@@ -25,6 +25,7 @@
             );
           });
           if (message) {
+            Whisper.Notifications.remove(message);
             return message.markRead(receipt.get('read_at')).then(
               function() {
                 this.notifyConversation(message);

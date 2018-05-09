@@ -16,6 +16,7 @@ export type IncomingMessage = Readonly<
     body?: string;
     decrypted_at?: number;
     errors?: Array<any>;
+    expireTimer?: number;
     flags?: number;
     source?: string;
     sourceDevice?: number;
@@ -81,3 +82,15 @@ type MessageSchemaVersion5 = Partial<
     hasFileAttachments: IndexablePresence;
   }>
 >;
+
+export const isUserMessage = (message: Message): message is UserMessage =>
+  message.type === 'incoming' || message.type === 'outgoing';
+
+export const hasExpiration = (message: Message): boolean => {
+  if (!isUserMessage(message)) {
+    return false;
+  }
+
+  const { expireTimer } = message;
+  return typeof expireTimer === 'number' && expireTimer > 0;
+};

@@ -6,6 +6,7 @@ const SchemaVersion = require('./schema_version');
 const {
   initializeAttachmentMetadata,
 } = require('../../../ts/types/message/initializeAttachmentMetadata');
+const MessageTS = require('../../../ts/types/Message');
 
 const GROUP = 'group';
 const PRIVATE = 'private';
@@ -334,3 +335,5 @@ exports.createAttachmentDataWriter = writeExistingAttachmentData => {
     return messageWithoutAttachmentData;
   };
 };
+
+exports.hasExpiration = MessageTS.hasExpiration;
