@@ -41,7 +41,7 @@ function getLabelForEmail(method: Email, i18n: Localizer): string {
   }
 }
 
-function getLabelForPhone(method: Email, i18n: Localizer): string {
+function getLabelForPhone(method: Phone, i18n: Localizer): string {
   switch (method.type) {
     case ContactType.CUSTOM:
       return method.label || i18n('phone');

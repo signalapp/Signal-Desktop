@@ -3,7 +3,7 @@ import Attachments from '../../app/attachments';
 import { format as formatPhoneNumber } from '../types/PhoneNumber';
 
 export interface Contact {
-  name: Name;
+  name?: Name;
   number?: Array<Phone>;
   email?: Array<Email>;
   address?: Array<PostalAddress>;
