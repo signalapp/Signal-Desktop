@@ -16,7 +16,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage } = Signal.Types;
+  const { Message: TypedMessage, Contact } = Signal.Types;
   const { deleteAttachmentData } = Signal.Migrations;
 
   window.Whisper.Message = Backbone.Model.extend({
@@ -161,6 +161,10 @@
       if (this.isKeyChange()) {
         const conversation = this.getModelForKeyChange();
         return i18n('keychanged', conversation.getTitle());
+      }
+      const contacts = this.get('contact');
+      if (contacts && contacts.length) {
+        return Contact.getName(contacts[0]);
       }
 
       return '';
