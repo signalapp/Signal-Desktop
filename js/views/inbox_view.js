@@ -49,14 +49,13 @@
       if (!e.ctrlKey) {
         return;
       }
-      const keyCode = e.which || e.keyCode;
       const maxSize = 22; // if bigger text goes outside send-message textarea
       const minSize = 14;
-      if (keyCode === 189 || keyCode === 109) {
+      if (event.key === "-") {
         if (this.currentSize > minSize) {
           this.currentSize -= 1;
         }
-      } else if (keyCode === 187 || keyCode === 107) {
+      } else if (event.key === "=") {
         if (this.currentSize < maxSize) {
           this.currentSize += 1;
         }

@@ -1392,10 +1392,8 @@
     },
 
     updateMessageFieldSize(event) {
-      const keyCode = event.which || event.keyCode;
-
       if (
-        keyCode === 13 &&
+        event.key === "Enter" &&
         !event.altKey &&
         !event.shiftKey &&
         !event.ctrlKey
