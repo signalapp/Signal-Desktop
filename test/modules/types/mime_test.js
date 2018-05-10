@@ -2,7 +2,6 @@ const { assert } = require('chai');
 
 const MIME = require('../../../ts/types/MIME');
 
-
 describe('MIME', () => {
   describe('isJPEG', () => {
     it('should return true for `image/jpeg`', () => {
@@ -20,11 +19,10 @@ describe('MIME', () => {
       false,
       null,
       undefined,
-    ]
-      .forEach((value) => {
-        it(`should return false for \`${value}\``, () => {
-          assert.isFalse(MIME.isJPEG(value));
-        });
+    ].forEach(value => {
+      it(`should return false for \`${value}\``, () => {
+        assert.isFalse(MIME.isJPEG(value));
       });
+    });
   });
 });

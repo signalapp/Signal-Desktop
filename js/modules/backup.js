@@ -23,12 +23,7 @@ const electronRemote = require('electron').remote;
 const Attachment = require('./types/attachment');
 const crypto = require('./crypto');
 
-
-const {
-  dialog,
-  BrowserWindow,
-} = electronRemote;
-
+const { dialog, BrowserWindow } = electronRemote;
 
 module.exports = {
   getDirectoryForExport,
@@ -43,7 +38,6 @@ module.exports = {
   _getConversationDirName,
   _getConversationLoggingName,
 };
-
 
 function stringify(object) {
   // eslint-disable-next-line no-restricted-syntax
@@ -69,10 +63,12 @@ function unstringify(object) {
   // eslint-disable-next-line no-restricted-syntax
   for (const key in object) {
     const val = object[key];
-    if (val &&
-        val.type === 'ArrayBuffer' &&
-        val.encoding === 'base64' &&
-        typeof val.data === 'string') {
+    if (
+      val &&
+      val.type === 'ArrayBuffer' &&
+      val.encoding === 'base64' &&
+      typeof val.data === 'string'
+    ) {
       object[key] = dcodeIO.ByteBuffer.wrap(val.data, 'base64').toArrayBuffer();
     } else if (val instanceof Object) {
       object[key] = unstringify(object[key]);
@@ -86,19 +82,22 @@ function createOutputStream(writer) {
   return {
     write(string) {
       // eslint-disable-next-line more/no-then
-      wait = wait.then(() => new Promise((resolve) => {
-        if (writer.write(string)) {
-          resolve();
-          return;
-        }
+      wait = wait.then(
+        () =>
+          new Promise(resolve => {
+            if (writer.write(string)) {
+              resolve();
+              return;
+            }
 
-        //  If write() returns true, we don't need to wait for the drain event
-        //   https://nodejs.org/dist/latest-v7.x/docs/api/stream.html#stream_class_stream_writable
-        writer.once('drain', resolve);
+            //  If write() returns true, we don't need to wait for the drain event
+            //   https://nodejs.org/dist/latest-v7.x/docs/api/stream.html#stream_class_stream_writable
+            writer.once('drain', resolve);
 
-        // We don't register for the 'error' event here, only in close(). Otherwise,
-        //   we'll get "Possible EventEmitter memory leak detected" warnings.
-      }));
+            // We don't register for the 'error' event here, only in close(). Otherwise,
+            //   we'll get "Possible EventEmitter memory leak detected" warnings.
+          })
+      );
       return wait;
     },
     async close() {
@@ -141,7 +140,7 @@ function exportContactsAndGroups(db, fileWriter) {
 
     stream.write('{');
 
-    _.each(storeNames, (storeName) => {
+    _.each(storeNames, storeName => {
       // Both the readwrite permission and the multi-store transaction are required to
       //   keep this function working. They serve to serialize all of these transactions,
       //   one per store to be exported.
@@ -167,7 +166,7 @@ function exportContactsAndGroups(db, fileWriter) {
           reject
         );
       };
-      request.onsuccess = async (event) => {
+      request.onsuccess = async event => {
         if (count === 0) {
           console.log('cursor opened');
           stream.write(`"${storeName}": [`);
@@ -180,10 +179,7 @@ function exportContactsAndGroups(db, fileWriter) {
           }
 
           // Preventing base64'd images from reaching the disk, making db.json too big
-          const item = _.omit(
-            cursor.value,
-            ['avatar', 'profileAvatar']
-          );
+          const item = _.omit(cursor.value, ['avatar', 'profileAvatar']);
 
           const jsonString = JSON.stringify(stringify(item));
           stream.write(jsonString);
@@ -235,10 +231,7 @@ function importFromJsonString(db, jsonString, targetPath, options) {
     groupLookup: {},
   });
 
-  const {
-    conversationLookup,
-    groupLookup,
-  } = options;
+  const { conversationLookup, groupLookup } = options;
   const result = {
     fullImport: true,
   };
@@ -269,7 +262,7 @@ function importFromJsonString(db, jsonString, targetPath, options) {
     console.log('Importing to these stores:', storeNames.join(', '));
 
     let finished = false;
-    const finish = (via) => {
+    const finish = via => {
       console.log('non-messages import done via', via);
       if (finished) {
         resolve(result);
@@ -287,7 +280,7 @@ function importFromJsonString(db, jsonString, targetPath, options) {
     };
     transaction.oncomplete = finish.bind(null, 'transaction complete');
 
-    _.each(storeNames, (storeName) => {
+    _.each(storeNames, storeName => {
       console.log('Importing items for store', storeName);
 
       if (!importObject[storeName].length) {
@@ -316,14 +309,14 @@ function importFromJsonString(db, jsonString, targetPath, options) {
         }
       };
 
-      _.each(importObject[storeName], (toAdd) => {
+      _.each(importObject[storeName], toAdd => {
         toAdd = unstringify(toAdd);
 
         const haveConversationAlready =
-              storeName === 'conversations' &&
-              conversationLookup[getConversationKey(toAdd)];
+          storeName === 'conversations' &&
+          conversationLookup[getConversationKey(toAdd)];
         const haveGroupAlready =
-              storeName === 'groups' && groupLookup[getGroupKey(toAdd)];
+          storeName === 'groups' && groupLookup[getGroupKey(toAdd)];
 
         if (haveConversationAlready || haveGroupAlready) {
           skipCount += 1;
@@ -365,7 +358,7 @@ function createDirectory(parent, name) {
       return;
     }
 
-    fs.mkdir(targetDir, (error) => {
+    fs.mkdir(targetDir, error => {
       if (error) {
         reject(error);
         return;
@@ -377,7 +370,7 @@ function createDirectory(parent, name) {
 }
 
 function createFileAndWriter(parent, name) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const sanitized = _sanitizeFileName(name);
     const targetPath = path.join(parent, sanitized);
     const options = {
@@ -430,7 +423,6 @@ function _trimFileName(filename) {
   return `${name.join('.').slice(0, 24)}.${extension}`;
 }
 
-
 function _getExportAttachmentFileName(message, index, attachment) {
   if (attachment.fileName) {
     return _trimFileName(attachment.fileName);
@@ -440,7 +432,9 @@ function _getExportAttachmentFileName(message, index, attachment) {
 
   if (attachment.contentType) {
     const components = attachment.contentType.split('/');
-    name += `.${components.length > 1 ? components[1] : attachment.contentType}`;
+    name += `.${
+      components.length > 1 ? components[1] : attachment.contentType
+    }`;
   }
 
   return name;
@@ -477,14 +471,11 @@ async function readAttachment(dir, attachment, name, options) {
 }
 
 async function writeThumbnail(attachment, options) {
-  const {
-    dir,
+  const { dir, message, index, key, newKey } = options;
+  const filename = `${_getAnonymousAttachmentFileName(
     message,
-    index,
-    key,
-    newKey,
-  } = options;
-  const filename = `${_getAnonymousAttachmentFileName(message, index)}-thumbnail`;
+    index
+  )}-thumbnail`;
   const target = path.join(dir, filename);
   const { thumbnail } = attachment;
 
@@ -504,26 +495,28 @@ async function writeThumbnails(rawQuotedAttachments, options) {
   const { name } = options;
 
   const { loadAttachmentData } = Signal.Migrations;
-  const promises = rawQuotedAttachments.map(async (attachment) => {
+  const promises = rawQuotedAttachments.map(async attachment => {
     if (!attachment || !attachment.thumbnail || !attachment.thumbnail.path) {
       return attachment;
     }
 
-    return Object.assign(
-      {},
-      attachment,
-      { thumbnail: await loadAttachmentData(attachment.thumbnail) }
-    );
+    return Object.assign({}, attachment, {
+      thumbnail: await loadAttachmentData(attachment.thumbnail),
+    });
   });
 
   const attachments = await Promise.all(promises);
   try {
-    await Promise.all(_.map(
-      attachments,
-      (attachment, index) => writeThumbnail(attachment, Object.assign({}, options, {
-        index,
-      }))
-    ));
+    await Promise.all(
+      _.map(attachments, (attachment, index) =>
+        writeThumbnail(
+          attachment,
+          Object.assign({}, options, {
+            index,
+          })
+        )
+      )
+    );
   } catch (error) {
     console.log(
       'writeThumbnails: error exporting conversation',
@@ -536,13 +529,7 @@ async function writeThumbnails(rawQuotedAttachments, options) {
 }
 
 async function writeAttachment(attachment, options) {
-  const {
-    dir,
-    message,
-    index,
-    key,
-    newKey,
-  } = options;
+  const { dir, message, index, key, newKey } = options;
   const filename = _getAnonymousAttachmentFileName(message, index);
   const target = path.join(dir, filename);
   if (!Attachment.hasData(attachment)) {
@@ -562,11 +549,13 @@ async function writeAttachments(rawAttachments, options) {
 
   const { loadAttachmentData } = Signal.Migrations;
   const attachments = await Promise.all(rawAttachments.map(loadAttachmentData));
-  const promises = _.map(
-    attachments,
-    (attachment, index) => writeAttachment(attachment, Object.assign({}, options, {
-      index,
-    }))
+  const promises = _.map(attachments, (attachment, index) =>
+    writeAttachment(
+      attachment,
+      Object.assign({}, options, {
+        index,
+      })
+    )
   );
   try {
     await Promise.all(promises);
@@ -582,12 +571,7 @@ async function writeAttachments(rawAttachments, options) {
 }
 
 async function writeEncryptedAttachment(target, data, options = {}) {
-  const {
-    key,
-    newKey,
-    filename,
-    dir,
-  } = options;
+  const { key, newKey, filename, dir } = options;
 
   if (fs.existsSync(target)) {
     if (newKey) {
@@ -613,13 +597,7 @@ function _sanitizeFileName(filename) {
 
 async function exportConversation(db, conversation, options) {
   options = options || {};
-  const {
-    name,
-    dir,
-    attachmentsDir,
-    key,
-    newKey,
-  } = options;
+  const { name, dir, attachmentsDir, key, newKey } = options;
   if (!name) {
     throw new Error('Need a name!');
   }
@@ -670,7 +648,7 @@ async function exportConversation(db, conversation, options) {
         reject
       );
     };
-    request.onsuccess = async (event) => {
+    request.onsuccess = async event => {
       const cursor = event.target.result;
       if (cursor) {
         const message = cursor.value;
@@ -688,13 +666,12 @@ async function exportConversation(db, conversation, options) {
 
         // eliminate attachment data from the JSON, since it will go to disk
         // Note: this is for legacy messages only, which stored attachment data in the db
-        message.attachments = _.map(
-          attachments,
-          attachment => _.omit(attachment, ['data'])
+        message.attachments = _.map(attachments, attachment =>
+          _.omit(attachment, ['data'])
         );
         // completely drop any attachments in messages cached in error objects
         // TODO: move to lodash. Sadly, a number of the method signatures have changed!
-        message.errors = _.map(message.errors, (error) => {
+        message.errors = _.map(message.errors, error => {
           if (error && error.args) {
             error.args = [];
           }
@@ -709,13 +686,14 @@ async function exportConversation(db, conversation, options) {
 
         console.log({ backupMessage: message });
         if (attachments && attachments.length > 0) {
-          const exportAttachments = () => writeAttachments(attachments, {
-            dir: attachmentsDir,
-            name,
-            message,
-            key,
-            newKey,
-          });
+          const exportAttachments = () =>
+            writeAttachments(attachments, {
+              dir: attachmentsDir,
+              name,
+              message,
+              key,
+              newKey,
+            });
 
           // eslint-disable-next-line more/no-then
           promiseChain = promiseChain.then(exportAttachments);
@@ -723,13 +701,14 @@ async function exportConversation(db, conversation, options) {
 
         const quoteThumbnails = message.quote && message.quote.attachments;
         if (quoteThumbnails && quoteThumbnails.length > 0) {
-          const exportQuoteThumbnails = () => writeThumbnails(quoteThumbnails, {
-            dir: attachmentsDir,
-            name,
-            message,
-            key,
-            newKey,
-          });
+          const exportQuoteThumbnails = () =>
+            writeThumbnails(quoteThumbnails, {
+              dir: attachmentsDir,
+              name,
+              message,
+              key,
+              newKey,
+            });
 
           // eslint-disable-next-line more/no-then
           promiseChain = promiseChain.then(exportQuoteThumbnails);
@@ -739,11 +718,7 @@ async function exportConversation(db, conversation, options) {
         cursor.continue();
       } else {
         try {
-          await Promise.all([
-            stream.write(']}'),
-            promiseChain,
-            stream.close(),
-          ]);
+          await Promise.all([stream.write(']}'), promiseChain, stream.close()]);
         } catch (error) {
           console.log(
             'exportConversation: error exporting conversation',
@@ -791,12 +766,7 @@ function _getConversationLoggingName(conversation) {
 
 function exportConversations(db, options) {
   options = options || {};
-  const {
-    messagesDir,
-    attachmentsDir,
-    key,
-    newKey,
-  } = options;
+  const { messagesDir, attachmentsDir, key, newKey } = options;
 
   if (!messagesDir) {
     return Promise.reject(new Error('Need a messages directory!'));
@@ -828,7 +798,7 @@ function exportConversations(db, options) {
         reject
       );
     };
-    request.onsuccess = async (event) => {
+    request.onsuccess = async event => {
       const cursor = event.target.result;
       if (cursor && cursor.value) {
         const conversation = cursor.value;
@@ -873,7 +843,7 @@ function getDirectory(options) {
       buttonLabel: options.buttonLabel,
     };
 
-    dialog.showOpenDialog(browserWindow, dialogOptions, (directory) => {
+    dialog.showOpenDialog(browserWindow, dialogOptions, directory => {
       if (!directory || !directory[0]) {
         const error = new Error('Error choosing directory');
         error.name = 'ChooseError';
@@ -940,7 +910,7 @@ async function saveAllMessages(db, rawMessages) {
 
   return new Promise((resolve, reject) => {
     let finished = false;
-    const finish = (via) => {
+    const finish = via => {
       console.log('messages done saving via', via);
       if (finished) {
         resolve();
@@ -962,7 +932,7 @@ async function saveAllMessages(db, rawMessages) {
     const { conversationId } = messages[0];
     let count = 0;
 
-    _.forEach(messages, (message) => {
+    _.forEach(messages, message => {
       const request = store.put(message, message.id);
       request.onsuccess = () => {
         count += 1;
@@ -997,11 +967,7 @@ async function importConversation(db, dir, options) {
   options = options || {};
   _.defaults(options, { messageLookup: {} });
 
-  const {
-    messageLookup,
-    attachmentsDir,
-    key,
-  } = options;
+  const { messageLookup, attachmentsDir, key } = options;
 
   let conversationId = 'unknown';
   let total = 0;
@@ -1018,11 +984,13 @@ async function importConversation(db, dir, options) {
 
   const json = JSON.parse(contents);
   if (json.messages && json.messages.length) {
-    conversationId = `[REDACTED]${(json.messages[0].conversationId || '').slice(-3)}`;
+    conversationId = `[REDACTED]${(json.messages[0].conversationId || '').slice(
+      -3
+    )}`;
   }
   total = json.messages.length;
 
-  const messages = _.filter(json.messages, (message) => {
+  const messages = _.filter(json.messages, message => {
     message = unstringify(message);
 
     if (messageLookup[getMessageKey(message)]) {
@@ -1031,7 +999,9 @@ async function importConversation(db, dir, options) {
     }
 
     const hasAttachments = message.attachments && message.attachments.length;
-    const hasQuotedAttachments = message.quote && message.quote.attachments &&
+    const hasQuotedAttachments =
+      message.quote &&
+      message.quote.attachments &&
       message.quote.attachments.length > 0;
 
     if (hasAttachments || hasQuotedAttachments) {
@@ -1039,8 +1009,8 @@ async function importConversation(db, dir, options) {
         const getName = attachmentsDir
           ? _getAnonymousAttachmentFileName
           : _getExportAttachmentFileName;
-        const parentDir = attachmentsDir ||
-          path.join(dir, message.received_at.toString());
+        const parentDir =
+          attachmentsDir || path.join(dir, message.received_at.toString());
 
         await loadAttachments(parentDir, getName, {
           message,
@@ -1075,12 +1045,13 @@ async function importConversations(db, dir, options) {
   const contents = await getDirContents(dir);
   let promiseChain = Promise.resolve();
 
-  _.forEach(contents, (conversationDir) => {
+  _.forEach(contents, conversationDir => {
     if (!fs.statSync(conversationDir).isDirectory()) {
       return;
     }
 
-    const loadConversation = () => importConversation(db, conversationDir, options);
+    const loadConversation = () =>
+      importConversation(db, conversationDir, options);
 
     // eslint-disable-next-line more/no-then
     promiseChain = promiseChain.then(loadConversation);
@@ -1142,7 +1113,7 @@ function assembleLookup(db, storeName, keyFunction) {
         reject
       );
     };
-    request.onsuccess = (event) => {
+    request.onsuccess = event => {
       const cursor = event.target.result;
       if (cursor && cursor.value) {
         lookup[keyFunction(cursor.value)] = true;
@@ -1175,7 +1146,7 @@ function createZip(zipDir, targetDir) {
       resolve(target);
     });
 
-    archive.on('warning', (error) => {
+    archive.on('warning', error => {
       console.log(`Archive generation warning: ${error.stack}`);
     });
     archive.on('error', reject);
@@ -1247,10 +1218,13 @@ async function exportToDirectory(directory, options) {
     const attachmentsDir = await createDirectory(directory, 'attachments');
 
     await exportContactAndGroupsToFile(db, stagingDir);
-    await exportConversations(db, Object.assign({}, options, {
-      messagesDir: stagingDir,
-      attachmentsDir,
-    }));
+    await exportConversations(
+      db,
+      Object.assign({}, options, {
+        messagesDir: stagingDir,
+        attachmentsDir,
+      })
+    );
 
     const zip = await createZip(encryptionDir, stagingDir);
     await encryptFile(zip, path.join(directory, 'messages.zip'), options);
@@ -1302,7 +1276,9 @@ async function importFromDirectory(directory, options) {
     if (fs.existsSync(zipPath)) {
       // we're in the world of an encrypted, zipped backup
       if (!options.key) {
-        throw new Error('Importing an encrypted backup; decryption key is required!');
+        throw new Error(
+          'Importing an encrypted backup; decryption key is required!'
+        );
       }
 
       let stagingDir;

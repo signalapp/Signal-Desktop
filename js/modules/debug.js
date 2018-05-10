@@ -18,7 +18,6 @@ const Message = require('./types/message');
 const { deferredToPromise } = require('./deferred_to_promise');
 const { sleep } = require('./sleep');
 
-
 // See: https://en.wikipedia.org/wiki/Fictitious_telephone_number#North_American_Numbering_Plan
 const SENDER_ID = '+12126647665';
 
@@ -27,8 +26,10 @@ exports.createConversation = async ({
   numMessages,
   WhisperMessage,
 } = {}) => {
-  if (!isObject(ConversationController) ||
-      !isFunction(ConversationController.getOrCreateAndWait)) {
+  if (
+    !isObject(ConversationController) ||
+    !isFunction(ConversationController.getOrCreateAndWait)
+  ) {
     throw new TypeError("'ConversationController' is required");
   }
 
@@ -40,8 +41,10 @@ exports.createConversation = async ({
     throw new TypeError("'WhisperMessage' is required");
   }
 
-  const conversation =
-    await ConversationController.getOrCreateAndWait(SENDER_ID, 'private');
+  const conversation = await ConversationController.getOrCreateAndWait(
+    SENDER_ID,
+    'private'
+  );
   conversation.set({
     active_at: Date.now(),
     unread: numMessages,
@@ -50,13 +53,15 @@ exports.createConversation = async ({
 
   const conversationId = conversation.get('id');
 
-  await Promise.all(range(0, numMessages).map(async (index) => {
-    await sleep(index * 100);
-    console.log(`Create message ${index + 1}`);
-    const messageAttributes = await createRandomMessage({ conversationId });
-    const message = new WhisperMessage(messageAttributes);
-    return deferredToPromise(message.save());
-  }));
+  await Promise.all(
+    range(0, numMessages).map(async index => {
+      await sleep(index * 100);
+      console.log(`Create message ${index + 1}`);
+      const messageAttributes = await createRandomMessage({ conversationId });
+      const message = new WhisperMessage(messageAttributes);
+      return deferredToPromise(message.save());
+    })
+  );
 };
 
 const SAMPLE_MESSAGES = [
@@ -88,7 +93,8 @@ const createRandomMessage = async ({ conversationId } = {}) => {
 
   const hasAttachment = Math.random() <= ATTACHMENT_SAMPLE_RATE;
   const attachments = hasAttachment
-    ? [await createRandomInMemoryAttachment()] : [];
+    ? [await createRandomInMemoryAttachment()]
+    : [];
   const type = sample(['incoming', 'outgoing']);
   const commonProperties = {
     attachments,
@@ -145,7 +151,7 @@ const createFileEntry = fileName => ({
   fileName,
   contentType: fileNameToContentType(fileName),
 });
-const fileNameToContentType = (fileName) => {
+const fileNameToContentType = fileName => {
   const fileExtension = path.extname(fileName).toLowerCase();
   switch (fileExtension) {
     case '.gif':

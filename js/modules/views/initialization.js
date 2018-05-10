@@ -2,7 +2,6 @@
 
 /* global i18n: false */
 
-
 const OPTIMIZATION_MESSAGE_DISPLAY_THRESHOLD = 1000; // milliseconds
 
 const setMessage = () => {

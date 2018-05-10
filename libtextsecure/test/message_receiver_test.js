@@ -1,7 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-
 describe('MessageReceiver', function() {
     textsecure.storage.impl = new SignalProtocolStore();
     var WebSocket = window.WebSocket;

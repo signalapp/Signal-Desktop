@@ -13,7 +13,7 @@ install:
 
 build_script:
   - yarn transpile
-  - yarn lint
+  - yarn lint-windows
   - yarn test-node
   - yarn nsp check
   - yarn generate

@@ -3,7 +3,6 @@
 const FormData = require('form-data');
 const got = require('got');
 
-
 const BASE_URL = 'https://debuglogs.org';
 
 // Workaround: Submitting `FormData` using native `FormData::submit` procedure
@@ -12,7 +11,7 @@ const BASE_URL = 'https://debuglogs.org';
 // https://github.com/sindresorhus/got/pull/466
 const submitFormData = (form, url) =>
   new Promise((resolve, reject) => {
-    form.submit(url, (error) => {
+    form.submit(url, error => {
       if (error) {
         return reject(error);
       }
@@ -22,7 +21,7 @@ const submitFormData = (form, url) =>
   });
 
 //      upload :: String -> Promise URL
-exports.upload = async (content) => {
+exports.upload = async content => {
   const signedForm = await got.get(BASE_URL, { json: true });
   const { fields, url } = signedForm.body;
 

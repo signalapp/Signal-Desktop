@@ -3,7 +3,10 @@
 describe('Crypto', function() {
   it('roundtrip symmetric encryption succeeds', async function() {
     var message = 'this is my message';
-    var plaintext = new dcodeIO.ByteBuffer.wrap(message, 'binary').toArrayBuffer();
+    var plaintext = new dcodeIO.ByteBuffer.wrap(
+      message,
+      'binary'
+    ).toArrayBuffer();
     var key = textsecure.crypto.getRandomBytes(32);
 
     var encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
@@ -17,7 +20,10 @@ describe('Crypto', function() {
 
   it('roundtrip fails if nonce is modified', async function() {
     var message = 'this is my message';
-    var plaintext = new dcodeIO.ByteBuffer.wrap(message, 'binary').toArrayBuffer();
+    var plaintext = new dcodeIO.ByteBuffer.wrap(
+      message,
+      'binary'
+    ).toArrayBuffer();
     var key = textsecure.crypto.getRandomBytes(32);
 
     var encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
@@ -25,7 +31,10 @@ describe('Crypto', function() {
     uintArray[2] = 9;
 
     try {
-      var decrypted = await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
+      var decrypted = await Signal.Crypto.decryptSymmetric(
+        key,
+        uintArray.buffer
+      );
     } catch (error) {
       assert.strictEqual(
         error.message,
@@ -39,7 +48,10 @@ describe('Crypto', function() {
 
   it('fails if mac is modified', async function() {
     var message = 'this is my message';
-    var plaintext = new dcodeIO.ByteBuffer.wrap(message, 'binary').toArrayBuffer();
+    var plaintext = new dcodeIO.ByteBuffer.wrap(
+      message,
+      'binary'
+    ).toArrayBuffer();
     var key = textsecure.crypto.getRandomBytes(32);
 
     var encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
@@ -47,7 +59,10 @@ describe('Crypto', function() {
     uintArray[uintArray.length - 3] = 9;
 
     try {
-      var decrypted = await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
+      var decrypted = await Signal.Crypto.decryptSymmetric(
+        key,
+        uintArray.buffer
+      );
     } catch (error) {
       assert.strictEqual(
         error.message,
@@ -61,7 +76,10 @@ describe('Crypto', function() {
 
   it('fails if encrypted contents are modified', async function() {
     var message = 'this is my message';
-    var plaintext = new dcodeIO.ByteBuffer.wrap(message, 'binary').toArrayBuffer();
+    var plaintext = new dcodeIO.ByteBuffer.wrap(
+      message,
+      'binary'
+    ).toArrayBuffer();
     var key = textsecure.crypto.getRandomBytes(32);
 
     var encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
@@ -69,7 +87,10 @@ describe('Crypto', function() {
     uintArray[35] = 9;
 
     try {
-      var decrypted = await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
+      var decrypted = await Signal.Crypto.decryptSymmetric(
+        key,
+        uintArray.buffer
+      );
     } catch (error) {
       assert.strictEqual(
         error.message,

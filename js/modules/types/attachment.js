@@ -1,9 +1,16 @@
 const is = require('@sindresorhus/is');
 
+const AttachmentTS = require('../../../ts/types/Attachment');
 const MIME = require('../../../ts/types/MIME');
-const { arrayBufferToBlob, blobToArrayBuffer, dataURLToBlob } = require('blob-util');
+const {
+  arrayBufferToBlob,
+  blobToArrayBuffer,
+  dataURLToBlob,
+} = require('blob-util');
 const { autoOrientImage } = require('../auto_orient_image');
-const { migrateDataToFileSystem } = require('./attachment/migrate_data_to_file_system');
+const {
+  migrateDataToFileSystem,
+} = require('./attachment/migrate_data_to_file_system');
 
 // // Incoming message attachment fields
 // {
@@ -29,7 +36,7 @@ const { migrateDataToFileSystem } = require('./attachment/migrate_data_to_file_s
 // Returns true if `rawAttachment` is a valid attachment based on our current schema.
 // Over time, we can expand this definition to become more narrow, e.g. require certain
 // fields, etc.
-exports.isValid = (rawAttachment) => {
+exports.isValid = rawAttachment => {
   // NOTE: We cannot use `_.isPlainObject` because `rawAttachment` is
   // deserialized by protobuf:
   if (!rawAttachment) {
@@ -40,12 +47,17 @@ exports.isValid = (rawAttachment) => {
 };
 
 // Upgrade steps
-exports.autoOrientJPEG = async (attachment) => {
+// NOTE: This step strips all EXIF metadata from JPEG images as
+// part of re-encoding the image:
+exports.autoOrientJPEG = async attachment => {
   if (!MIME.isJPEG(attachment.contentType)) {
     return attachment;
   }
 
-  const dataBlob = await arrayBufferToBlob(attachment.data, attachment.contentType);
+  const dataBlob = await arrayBufferToBlob(
+    attachment.data,
+    attachment.contentType
+  );
   const newDataBlob = await dataURLToBlob(await autoOrientImage(dataBlob));
   const newDataArrayBuffer = await blobToArrayBuffer(newDataBlob);
 
@@ -75,7 +87,7 @@ const INVALID_CHARACTERS_PATTERN = new RegExp(
 // NOTE: Expose synchronous version to do property-based testing using `testcheck`,
 // which currently doesn’t support async testing:
 // https://github.com/leebyron/testcheck-js/issues/45
-exports._replaceUnicodeOrderOverridesSync = (attachment) => {
+exports._replaceUnicodeOrderOverridesSync = attachment => {
   if (!is.string(attachment.fileName)) {
     return attachment;
   }
@@ -94,9 +106,12 @@ exports._replaceUnicodeOrderOverridesSync = (attachment) => {
 exports.replaceUnicodeOrderOverrides = async attachment =>
   exports._replaceUnicodeOrderOverridesSync(attachment);
 
-exports.removeSchemaVersion = (attachment) => {
+exports.removeSchemaVersion = attachment => {
   if (!exports.isValid(attachment)) {
-    console.log('Attachment.removeSchemaVersion: Invalid input attachment:', attachment);
+    console.log(
+      'Attachment.removeSchemaVersion: Invalid input attachment:',
+      attachment
+    );
     return attachment;
   }
 
@@ -114,12 +129,12 @@ exports.hasData = attachment =>
 //      loadData :: (RelativePath -> IO (Promise ArrayBuffer))
 //                  Attachment ->
 //                  IO (Promise Attachment)
-exports.loadData = (readAttachmentData) => {
+exports.loadData = readAttachmentData => {
   if (!is.function(readAttachmentData)) {
     throw new TypeError("'readAttachmentData' must be a function");
   }
 
-  return async (attachment) => {
+  return async attachment => {
     if (!exports.isValid(attachment)) {
       throw new TypeError("'attachment' is not valid");
     }
@@ -141,12 +156,12 @@ exports.loadData = (readAttachmentData) => {
 //      deleteData :: (RelativePath -> IO Unit)
 //                    Attachment ->
 //                    IO Unit
-exports.deleteData = (deleteAttachmentData) => {
+exports.deleteData = deleteAttachmentData => {
   if (!is.function(deleteAttachmentData)) {
     throw new TypeError("'deleteAttachmentData' must be a function");
   }
 
-  return async (attachment) => {
+  return async attachment => {
     if (!exports.isValid(attachment)) {
       throw new TypeError("'attachment' is not valid");
     }
@@ -163,3 +178,5 @@ exports.deleteData = (deleteAttachmentData) => {
     await deleteAttachmentData(attachment.path);
   };
 };
+
+exports.save = AttachmentTS.save;

@@ -1,12 +1,10 @@
-/**
- * @prettier
- */
 import React from 'react';
 
+import { AttachmentType } from './types/AttachmentType';
 import { DocumentListItem } from './DocumentListItem';
-import { ItemClickEvent } from './events/ItemClickEvent';
+import { ItemClickEvent } from './types/ItemClickEvent';
 import { MediaGridItem } from './MediaGridItem';
-import { Message } from './propTypes/Message';
+import { Message } from './types/Message';
 import { missingCaseError } from '../../../util/missingCaseError';
 
 const styles = {
@@ -30,7 +28,7 @@ const styles = {
 interface Props {
   i18n: (value: string) => string;
   header?: string;
-  type: 'media' | 'documents';
+  type: AttachmentType;
   messages: Array<Message>;
   onItemClick?: (event: ItemClickEvent) => void;
 }
@@ -82,11 +80,11 @@ export class AttachmentSection extends React.Component<Props, {}> {
   }
 
   private createClickHandler = (message: Message) => () => {
-    const { onItemClick } = this.props;
+    const { onItemClick, type } = this.props;
     if (!onItemClick) {
       return;
     }
 
-    onItemClick({ message });
+    onItemClick({ type, message });
   };
 }

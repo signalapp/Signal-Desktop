@@ -1,10 +1,7 @@
-/**
- * @prettier
- */
 import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
 
-import { Message } from './propTypes/Message';
+import { Message } from './types/Message';
 // import { missingCaseError } from '../../../util/missingCaseError';
 
 type StaticSectionType = 'today' | 'yesterday' | 'thisWeek' | 'thisMonth';

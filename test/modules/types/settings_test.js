@@ -3,7 +3,6 @@ const { assert } = require('chai');
 
 const Settings = require('../../../js/modules/types/settings');
 
-
 describe('Settings', () => {
   const sandbox = sinon.createSandbox();
 

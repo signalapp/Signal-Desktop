@@ -8,7 +8,6 @@ stylesheets/*.css.map
 .DS_Store
 config/local.json
 config/local-*.json
-.DS_Store
 *.provisionprofile
 release/
 /dev-app-update.yml
@@ -17,11 +16,11 @@ release/
 
 # generated files
 js/components.js
-libtextsecure/components.js
 js/libtextsecure.js
+libtextsecure/components.js
+libtextsecure/test/test.js
 stylesheets/*.css
 test/test.js
-libtextsecure/test/test.js
 
 # React / TypeScript
 ts/**/*.js

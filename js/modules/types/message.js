@@ -3,9 +3,9 @@ const { isFunction, isString, omit } = require('lodash');
 const Attachment = require('./attachment');
 const Errors = require('./errors');
 const SchemaVersion = require('./schema_version');
-const { initializeAttachmentMetadata } =
-  require('../../../ts/types/message/initializeAttachmentMetadata');
-
+const {
+  initializeAttachmentMetadata,
+} = require('../../../ts/types/message/initializeAttachmentMetadata');
 
 const GROUP = 'group';
 const PRIVATE = 'private';
@@ -16,6 +16,8 @@ const PRIVATE = 'private';
 //   - Schema initialized
 // Version 1
 //   - Attachments: Auto-orient JPEG attachments using EXIF `Orientation` data.
+//     N.B. The process of auto-orient for JPEGs strips (loses) all existing
+//     EXIF metadata improving privacy, e.g. geolocation, camera make, etc.
 // Version 2
 //   - Attachments: Sanitize Unicode order override characters.
 // Version 3
@@ -37,19 +39,17 @@ const INITIAL_SCHEMA_VERSION = 0;
 // how we do database migrations:
 exports.CURRENT_SCHEMA_VERSION = 5;
 
-
 // Public API
 exports.GROUP = GROUP;
 exports.PRIVATE = PRIVATE;
 
 // Placeholder until we have stronger preconditions:
-exports.isValid = () =>
-  true;
+exports.isValid = () => true;
 
 // Schema
-exports.initializeSchemaVersion = (message) => {
-  const isInitialized = SchemaVersion.isValid(message.schemaVersion) &&
-    message.schemaVersion >= 1;
+exports.initializeSchemaVersion = message => {
+  const isInitialized =
+    SchemaVersion.isValid(message.schemaVersion) && message.schemaVersion >= 1;
   if (isInitialized) {
     return message;
   }
@@ -59,27 +59,23 @@ exports.initializeSchemaVersion = (message) => {
     : 0;
   const hasAttachments = numAttachments > 0;
   if (!hasAttachments) {
-    return Object.assign(
-      {},
-      message,
-      { schemaVersion: INITIAL_SCHEMA_VERSION }
-    );
+    return Object.assign({}, message, {
+      schemaVersion: INITIAL_SCHEMA_VERSION,
+    });
   }
 
   // All attachments should have the same schema version, so we just pick
   // the first one:
   const firstAttachment = message.attachments[0];
-  const inheritedSchemaVersion = SchemaVersion.isValid(firstAttachment.schemaVersion)
+  const inheritedSchemaVersion = SchemaVersion.isValid(
+    firstAttachment.schemaVersion
+  )
     ? firstAttachment.schemaVersion
     : INITIAL_SCHEMA_VERSION;
-  const messageWithInitialSchema = Object.assign(
-    {},
-    message,
-    {
-      schemaVersion: inheritedSchemaVersion,
-      attachments: message.attachments.map(Attachment.removeSchemaVersion),
-    }
-  );
+  const messageWithInitialSchema = Object.assign({}, message, {
+    schemaVersion: inheritedSchemaVersion,
+    attachments: message.attachments.map(Attachment.removeSchemaVersion),
+  });
 
   return messageWithInitialSchema;
 };
@@ -98,7 +94,10 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
 
   return async (message, context) => {
     if (!exports.isValid(message)) {
-      console.log('Message._withSchemaVersion: Invalid input message:', message);
+      console.log(
+        'Message._withSchemaVersion: Invalid input message:',
+        message
+      );
       return message;
     }
 
@@ -138,14 +137,9 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
       return message;
     }
 
-    return Object.assign(
-      {},
-      upgradedMessage,
-      { schemaVersion }
-    );
+    return Object.assign({}, upgradedMessage, { schemaVersion });
   };
 };
-
 
 // Public API
 //      _mapAttachments :: (Attachment -> Promise Attachment) ->
@@ -154,19 +148,24 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
 exports._mapAttachments = upgradeAttachment => async (message, context) => {
   const upgradeWithContext = attachment =>
     upgradeAttachment(attachment, context);
-  const attachments = await Promise.all(message.attachments.map(upgradeWithContext));
+  const attachments = await Promise.all(
+    message.attachments.map(upgradeWithContext)
+  );
   return Object.assign({}, message, { attachments });
 };
 
 //      _mapQuotedAttachments :: (QuotedAttachment -> Promise QuotedAttachment) ->
 //                               (Message, Context) ->
 //                               Promise Message
-exports._mapQuotedAttachments = upgradeAttachment => async (message, context) => {
+exports._mapQuotedAttachments = upgradeAttachment => async (
+  message,
+  context
+) => {
   if (!message.quote) {
     return message;
   }
 
-  const upgradeWithContext = async (attachment) => {
+  const upgradeWithContext = async attachment => {
     const { thumbnail } = attachment;
     if (!thumbnail) {
       return attachment;
@@ -185,7 +184,9 @@ exports._mapQuotedAttachments = upgradeAttachment => async (message, context) =>
 
   const quotedAttachments = (message.quote && message.quote.attachments) || [];
 
-  const attachments = await Promise.all(quotedAttachments.map(upgradeWithContext));
+  const attachments = await Promise.all(
+    quotedAttachments.map(upgradeWithContext)
+  );
   return Object.assign({}, message, {
     quote: Object.assign({}, message.quote, {
       attachments,
@@ -193,8 +194,7 @@ exports._mapQuotedAttachments = upgradeAttachment => async (message, context) =>
   });
 };
 
-const toVersion0 = async message =>
-  exports.initializeSchemaVersion(message);
+const toVersion0 = async message => exports.initializeSchemaVersion(message);
 
 const toVersion1 = exports._withSchemaVersion(
   1,
@@ -241,25 +241,28 @@ exports.upgradeSchema = async (rawMessage, { writeNewAttachmentData } = {}) => {
   return message;
 };
 
-exports.createAttachmentLoader = (loadAttachmentData) => {
+exports.createAttachmentLoader = loadAttachmentData => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError('`loadAttachmentData` is required');
   }
 
-  return async message => (Object.assign({}, message, {
-    attachments: await Promise.all(message.attachments.map(loadAttachmentData)),
-  }));
+  return async message =>
+    Object.assign({}, message, {
+      attachments: await Promise.all(
+        message.attachments.map(loadAttachmentData)
+      ),
+    });
 };
 
 //      createAttachmentDataWriter :: (RelativePath -> IO Unit)
 //                                    Message ->
 //                                    IO (Promise Message)
-exports.createAttachmentDataWriter = (writeExistingAttachmentData) => {
+exports.createAttachmentDataWriter = writeExistingAttachmentData => {
   if (!isFunction(writeExistingAttachmentData)) {
     throw new TypeError("'writeExistingAttachmentData' must be a function");
   }
 
-  return async (rawMessage) => {
+  return async rawMessage => {
     if (!exports.isValid(rawMessage)) {
       throw new TypeError("'rawMessage' is not valid");
     }
@@ -282,17 +285,21 @@ exports.createAttachmentDataWriter = (writeExistingAttachmentData) => {
       return message;
     }
 
-    (attachments || []).forEach((attachment) => {
+    (attachments || []).forEach(attachment => {
       if (!Attachment.hasData(attachment)) {
-        throw new TypeError("'attachment.data' is required during message import");
+        throw new TypeError(
+          "'attachment.data' is required during message import"
+        );
       }
 
       if (!isString(attachment.path)) {
-        throw new TypeError("'attachment.path' is required during message import");
+        throw new TypeError(
+          "'attachment.path' is required during message import"
+        );
       }
     });
 
-    const writeThumbnails = exports._mapQuotedAttachments(async (thumbnail) => {
+    const writeThumbnails = exports._mapQuotedAttachments(async thumbnail => {
       const { data, path } = thumbnail;
 
       // we want to be bulletproof to thumbnails without data
@@ -315,10 +322,12 @@ exports.createAttachmentDataWriter = (writeExistingAttachmentData) => {
       {},
       await writeThumbnails(message),
       {
-        attachments: await Promise.all((attachments || []).map(async (attachment) => {
-          await writeExistingAttachmentData(attachment);
-          return omit(attachment, ['data']);
-        })),
+        attachments: await Promise.all(
+          (attachments || []).map(async attachment => {
+            await writeExistingAttachmentData(attachment);
+            return omit(attachment, ['data']);
+          })
+        ),
       }
     );
 

@@ -32,10 +32,10 @@ describe('Conversation', () => {
           currentLastMessageText: 'Existing message',
           currentTimestamp: 555,
           lastMessage: {
-             type: 'outgoing',
-             conversationId: 'foo',
-             sent_at: 666,
-             timestamp: 666,
+            type: 'outgoing',
+            conversationId: 'foo',
+            sent_at: 666,
+            timestamp: 666,
           } as OutgoingMessage,
           lastMessageNotificationText: 'New outgoing message',
         };
@@ -54,10 +54,10 @@ describe('Conversation', () => {
           currentLastMessageText: 'bingo',
           currentTimestamp: 555,
           lastMessage: {
-             type: 'verified-change',
-             conversationId: 'foo',
-             sent_at: 666,
-             timestamp: 666,
+            type: 'verified-change',
+            conversationId: 'foo',
+            sent_at: 666,
+            timestamp: 666,
           } as VerifiedChangeMessage,
           lastMessageNotificationText: 'Verified Changed',
         };
@@ -77,15 +77,15 @@ describe('Conversation', () => {
           currentLastMessageText: 'I am expired',
           currentTimestamp: 555,
           lastMessage: {
-             type: 'incoming',
-             conversationId: 'foo',
-             sent_at: 666,
-             timestamp: 666,
-             expirationTimerUpdate: {
-               expireTimer: 111,
-               fromSync: false,
-               source: '+12223334455',
-             },
+            type: 'incoming',
+            conversationId: 'foo',
+            sent_at: 666,
+            timestamp: 666,
+            expirationTimerUpdate: {
+              expireTimer: 111,
+              fromSync: false,
+              source: '+12223334455',
+            },
           } as IncomingMessage,
           lastMessageNotificationText: 'Last message before expired',
         };

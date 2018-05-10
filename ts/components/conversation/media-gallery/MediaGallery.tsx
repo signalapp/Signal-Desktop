@@ -1,16 +1,14 @@
-/**
- * @prettier
- */
 import React from 'react';
 
 import moment from 'moment';
 
 import { AttachmentSection } from './AttachmentSection';
+import { AttachmentType } from './types/AttachmentType';
+import { EmptyState } from './EmptyState';
 import { groupMessagesByDate } from './groupMessagesByDate';
-import { ItemClickEvent } from './events/ItemClickEvent';
-import { Message } from './propTypes/Message';
-
-type AttachmentType = 'media' | 'documents';
+import { ItemClickEvent } from './types/ItemClickEvent';
+import { Message } from './types/Message';
+import { missingCaseError } from '../../../util/missingCaseError';
 
 interface Props {
   documents: Array<Message>;
@@ -34,9 +32,18 @@ const tabStyle = {
 };
 
 const styles = {
-  tabContainer: {
-    cursor: 'pointer',
+  container: {
     display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    width: '100%',
+    height: '100%',
+  } as React.CSSProperties,
+  tabContainer: {
+    display: 'flex',
+    flexGrow: 0,
+    flexShrink: 0,
+    cursor: 'pointer',
     width: '100%',
   },
   tab: {
@@ -46,9 +53,17 @@ const styles = {
       borderBottom: '2px solid #08f',
     },
   },
-  attachmentsContainer: {
+  contentContainer: {
+    display: 'flex',
+    flexGrow: 1,
+    overflowY: 'auto',
     padding: 20,
-  },
+  } as React.CSSProperties,
+  sectionContainer: {
+    display: 'flex',
+    flexGrow: 1,
+    flexDirection: 'column',
+  } as React.CSSProperties,
 };
 
 interface TabSelectEvent {
@@ -87,7 +102,7 @@ export class MediaGallery extends React.Component<Props, State> {
     const { selectedTab } = this.state;
 
     return (
-      <div>
+      <div style={styles.container}>
         <div style={styles.tabContainer}>
           <Tab
             label="Media"
@@ -95,16 +110,14 @@ export class MediaGallery extends React.Component<Props, State> {
             isSelected={selectedTab === 'media'}
             onSelect={this.handleTabSelect}
           />
-          {/* Disable for MVP:
           <Tab
             label="Documents"
             type="documents"
             isSelected={selectedTab === 'documents'}
             onSelect={this.handleTabSelect}
           />
-          */}
         </div>
-        <div style={styles.attachmentsContainer}>{this.renderSections()}</div>
+        <div style={styles.contentContainer}>{this.renderSections()}</div>
       </div>
     );
   }
@@ -121,12 +134,23 @@ export class MediaGallery extends React.Component<Props, State> {
     const type = selectedTab;
 
     if (!messages || messages.length === 0) {
-      return null;
+      const label = (() => {
+        switch (type) {
+          case 'media':
+            return i18n('mediaEmptyState');
+
+          case 'documents':
+            return i18n('documentsEmptyState');
+
+          default:
+            throw missingCaseError(type);
+        }
+      })();
+      return <EmptyState data-test="EmptyState" label={label} />;
     }
 
     const now = Date.now();
-    const sections = groupMessagesByDate(now, messages);
-    return sections.map(section => {
+    const sections = groupMessagesByDate(now, messages).map(section => {
       const first = section.messages[0];
       const date = moment(first.received_at);
       const header =
@@ -144,5 +168,7 @@ export class MediaGallery extends React.Component<Props, State> {
         />
       );
     });
+
+    return <div style={styles.sectionContainer}>{sections}</div>;
   }
 }

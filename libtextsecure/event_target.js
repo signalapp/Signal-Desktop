@@ -1,11 +1,7 @@
 /*
- * vim: ts=4:sw=4:expandtab
- *
  * Implements EventTarget
  * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
- *
  */
-
 ;(function () {
     'use strict';
     window.textsecure = window.textsecure || {};

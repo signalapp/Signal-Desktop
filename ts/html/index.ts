@@ -1,6 +1,5 @@
 import linkTextInternal from '../../js/modules/link_text';
 
-
 export const linkText = (value: string): string =>
   linkTextInternal(value, { target: '_blank' });
 

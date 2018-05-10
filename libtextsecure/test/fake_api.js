@@ -1,7 +1,3 @@
-/*
- * vim: ts=4:sw=4:expandtab
- */
-
 var getKeysForNumberMap = {};
 TextSecureServer.getKeysForNumber = function(number, deviceId) {
     var res = getKeysForNumberMap[number];

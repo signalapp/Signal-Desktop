@@ -34,7 +34,7 @@ function log(...args) {
   console._log(...consoleArgs);
 
   // To avoid [Object object] in our log since console.log handles non-strings smoothly
-  const str = args.map((item) => {
+  const str = args.map(item => {
     if (typeof item !== 'string') {
       try {
         return JSON.stringify(item);
@@ -54,7 +54,6 @@ if (window.console) {
   console._log = console.log;
   console.log = log;
 }
-
 
 // The mechanics of preparing a log for publish
 
@@ -85,7 +84,7 @@ function format(entries) {
 }
 
 function fetch() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     ipc.send('fetch-log');
 
     ipc.on('fetched-log', (event, text) => {
@@ -103,14 +102,16 @@ const publish = debuglogs.upload;
 //   Anyway, the default process.stdout stream goes to the command-line, not the devtools.
 const logger = bunyan.createLogger({
   name: 'log',
-  streams: [{
-    level: 'debug',
-    stream: {
-      write(entry) {
-        console._log(formatLine(JSON.parse(entry)));
+  streams: [
+    {
+      level: 'debug',
+      stream: {
+        write(entry) {
+          console._log(formatLine(JSON.parse(entry)));
+        },
       },
     },
-  }],
+  ],
 });
 
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
@@ -137,6 +138,8 @@ window.onerror = (message, script, line, col, error) => {
   window.log.error(`Top-level unhandled error: ${errorInfo}`);
 };
 
-window.addEventListener('unhandledrejection', (rejectionEvent) => {
-  window.log.error(`Top-level unhandled promise rejection: ${rejectionEvent.reason}`);
+window.addEventListener('unhandledrejection', rejectionEvent => {
+  window.log.error(
+    `Top-level unhandled promise rejection: ${rejectionEvent.reason}`
+  );
 });

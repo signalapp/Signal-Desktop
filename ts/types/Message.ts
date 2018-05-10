@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import { Attachment } from './Attachment';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 

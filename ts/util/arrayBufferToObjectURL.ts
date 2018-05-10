@@ -1,6 +1,5 @@
-/**
- * @prettier
- */
+import is from '@sindresorhus/is';
+
 import { MIMEType } from '../types/MIME';
 
 export const arrayBufferToObjectURL = ({
@@ -10,6 +9,10 @@ export const arrayBufferToObjectURL = ({
   data: ArrayBuffer;
   type: MIMEType;
 }): string => {
+  if (!is.arrayBuffer(data)) {
+    throw new TypeError('`data` must be an ArrayBuffer');
+  }
+
   const blob = new Blob([data], { type });
   return URL.createObjectURL(blob);
 };

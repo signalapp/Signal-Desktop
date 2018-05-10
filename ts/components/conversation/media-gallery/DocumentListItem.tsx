@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import React from 'react';
 
 import moment from 'moment';
@@ -23,6 +20,7 @@ const styles = {
     borderBottomStyle: 'solid',
   },
   itemContainer: {
+    cursor: 'pointer',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'nowrap',

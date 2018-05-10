@@ -1,7 +1,3 @@
-/**
- * @prettier
- */
-
 // IndexedDB doesn’t support boolean indexes so we map `true` to 1 and `false`
 // to `0`, i.e. `IndexableBoolean`.
 // N.B. Using `undefined` allows excluding an entry from an index. Useful

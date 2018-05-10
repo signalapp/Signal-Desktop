@@ -1,9 +1,6 @@
-/**
- * @prettier
- */
 import React from 'react';
 
-import { Message } from './propTypes/Message';
+import { Message } from './types/Message';
 
 interface Props {
   message: Message;
@@ -17,6 +14,7 @@ const size = {
 const styles = {
   container: {
     ...size,
+    cursor: 'pointer',
     backgroundColor: '#f3f3f3',
     marginRight: 4,
     marginBottom: 4,

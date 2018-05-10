@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
-
 interface Props {
   attachments: Array<QuotedAttachment>;
   authorColor: string;
@@ -54,9 +53,9 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | null {
 
 export class Quote extends React.Component<Props, {}> {
   public renderImage(url: string, icon?: string) {
-    const iconElement = icon
-      ? <div className={classnames('icon', 'with-image', icon)} />
-      : null;
+    const iconElement = icon ? (
+      <div className={classnames('icon', 'with-image', icon)} />
+    ) : null;
 
     return (
       <div className="icon-container">
@@ -98,9 +97,7 @@ export class Quote extends React.Component<Props, {}> {
         : this.renderIcon('movie');
     }
     if (GoogleChrome.isImageTypeSupported(contentType)) {
-      return objectUrl
-        ? this.renderImage(objectUrl)
-        : this.renderIcon('image');
+      return objectUrl ? this.renderImage(objectUrl) : this.renderIcon('image');
     }
     if (MIME.isAudio(contentType)) {
       return this.renderIcon('microphone');
@@ -113,7 +110,9 @@ export class Quote extends React.Component<Props, {}> {
     const { i18n, text, attachments } = this.props;
 
     if (text) {
-      return <div className="text" dangerouslySetInnerHTML={{ __html: text}} />;
+      return (
+        <div className="text" dangerouslySetInnerHTML={{ __html: text }} />
+      );
     }
 
     if (!attachments || attachments.length === 0) {
@@ -140,7 +139,13 @@ export class Quote extends React.Component<Props, {}> {
   }
 
   public renderIOSLabel() {
-    const { i18n, isIncoming, isFromMe, authorTitle, authorProfileName } = this.props;
+    const {
+      i18n,
+      isIncoming,
+      isFromMe,
+      authorTitle,
+      authorProfileName,
+    } = this.props;
 
     const profileString = authorProfileName ? ` ~${authorProfileName}` : '';
     const authorName = `${authorTitle}${profileString}`;
@@ -176,22 +181,39 @@ export class Quote extends React.Component<Props, {}> {
     );
   }
 
-  public render() {
+  public renderAuthor() {
     const {
-      authorTitle,
-      authorProfileName,
       authorColor,
-      onClick,
+      authorProfileName,
+      authorTitle,
+      i18n,
       isFromMe,
     } = this.props;
+
+    const authorProfileElement = authorProfileName ? (
+      <span className="profile-name">~{authorProfileName}</span>
+    ) : null;
+
+    return (
+      <div className={classnames(authorColor, 'author')}>
+        {isFromMe ? (
+          i18n('you')
+        ) : (
+          <span>
+            {authorTitle} {authorProfileElement}
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  public render() {
+    const { authorColor, onClick, isFromMe } = this.props;
 
     if (!validateQuote(this.props)) {
       return null;
     }
 
-    const authorProfileElement = authorProfileName
-      ? <span className="profile-name">~{authorProfileName}</span>
-      : null;
     const classes = classnames(
       authorColor,
       'quoted-message',
@@ -203,9 +225,7 @@ export class Quote extends React.Component<Props, {}> {
       <div onClick={onClick} className={classes}>
         <div className="primary">
           {this.renderIOSLabel()}
-          <div className={classnames(authorColor, 'author')}>
-            {authorTitle}{' '}{authorProfileElement}
-           </div>
+          {this.renderAuthor()}
           {this.renderText()}
         </div>
         {this.renderIconContainer()}

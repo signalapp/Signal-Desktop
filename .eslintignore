@@ -13,7 +13,20 @@ test/models/*.js
 test/views/*.js
 /*.js
 
-# typescript-generated files
+# Generated files
+js/components.js
+js/libtextsecure.js
+js/libsignal-protocol-worker.js
+libtextsecure/components.js
+libtextsecure/test/test.js
+test/test.js
+
+# Third-party files
+js/jquery.js
+js/Mp3LameEncoder.min.js
+js/WebAudioRecorderMp3.js
+
+# TypeScript generated files
 ts/**/*.js
 
 # ES2015+ files
@@ -23,16 +36,17 @@ ts/**/*.js
 !js/logging.js
 !js/models/conversations.js
 !js/models/messages.js
-!test/backup_test.js
 !js/views/attachment_view.js
-!js/views/conversation_view.js
-!js/views/conversation_search_view.js
 !js/views/backbone_wrapper_view.js
+!js/views/conversation_search_view.js
+!js/views/conversation_view.js
 !js/views/debug_log_view.js
 !js/views/file_input_view.js
 !js/views/inbox_view.js
 !js/views/message_view.js
 !js/views/settings_view.js
+!test/backup_test.js
+!test/views/attachment_view_test.js
 !libtextsecure/message_receiver.js
 !main.js
 !preload.js

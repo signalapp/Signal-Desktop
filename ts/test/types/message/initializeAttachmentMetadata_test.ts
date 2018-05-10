@@ -7,7 +7,6 @@ import { MIMEType } from '../../../../ts/types/MIME';
 // @ts-ignore
 import { stringToArrayBuffer } from '../../../../js/modules/string_to_array_buffer';
 
-
 describe('Message', () => {
   describe('initializeAttachmentMetadata', () => {
     it('should handle visual media attachments', async () => {
@@ -18,12 +17,14 @@ describe('Message', () => {
         timestamp: 1523317140899,
         received_at: 1523317140899,
         sent_at: 1523317140800,
-        attachments: [{
-          contentType: 'image/jpeg' as MIMEType,
-          data: stringToArrayBuffer('foo'),
-          fileName: 'foo.jpg',
-          size: 1111,
-        }],
+        attachments: [
+          {
+            contentType: 'image/jpeg' as MIMEType,
+            data: stringToArrayBuffer('foo'),
+            fileName: 'foo.jpg',
+            size: 1111,
+          },
+        ],
       };
       const expected: IncomingMessage = {
         type: 'incoming',
@@ -32,12 +33,14 @@ describe('Message', () => {
         timestamp: 1523317140899,
         received_at: 1523317140899,
         sent_at: 1523317140800,
-        attachments: [{
-          contentType: 'image/jpeg' as MIMEType,
-          data: stringToArrayBuffer('foo'),
-          fileName: 'foo.jpg',
-          size: 1111,
-        }],
+        attachments: [
+          {
+            contentType: 'image/jpeg' as MIMEType,
+            data: stringToArrayBuffer('foo'),
+            fileName: 'foo.jpg',
+            size: 1111,
+          },
+        ],
         hasAttachments: 1,
         hasVisualMediaAttachments: 1,
         hasFileAttachments: undefined,

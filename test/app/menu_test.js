@@ -3,7 +3,6 @@ const { assert } = require('chai');
 const SignalMenu = require('../../app/menu');
 const { load: loadLocale } = require('../../app/locale');
 
-
 const PLATFORMS = [
   {
     label: 'macOS',
@@ -37,7 +36,7 @@ describe('SignalMenu', () => {
   describe('createTemplate', () => {
     PLATFORMS.forEach(({ label, platform, fixtures }) => {
       context(label, () => {
-        INCLUDE_SETUP_OPTIONS.forEach((includeSetup) => {
+        INCLUDE_SETUP_OPTIONS.forEach(includeSetup => {
           const prefix = includeSetup ? 'with' : 'without';
           context(`${prefix} setup options`, () => {
             it('should return correct template', () => {
@@ -65,7 +64,9 @@ describe('SignalMenu', () => {
               const { messages } = loadLocale({ appLocale, logger });
 
               const actual = SignalMenu.createTemplate(options, messages);
-              const fixturePath = includeSetup ? fixtures.setup : fixtures.default;
+              const fixturePath = includeSetup
+                ? fixtures.setup
+                : fixtures.default;
               // eslint-disable-next-line global-require, import/no-dynamic-require
               const fixture = require(fixturePath);
               assert.deepEqual(actual, fixture);

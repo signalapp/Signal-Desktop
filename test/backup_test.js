@@ -9,7 +9,7 @@
 describe('Backup', () => {
   describe('_sanitizeFileName', () => {
     it('leaves a basic string alone', () => {
-      const initial = 'Hello, how are you #5 (\'fine\' + great).jpg';
+      const initial = "Hello, how are you #5 ('fine' + great).jpg";
       const expected = initial;
       assert.strictEqual(Signal.Backup._sanitizeFileName(initial), expected);
     });
@@ -29,7 +29,8 @@ describe('Backup', () => {
     });
 
     it('handles a file with a long extension', () => {
-      const initial = '0123456789012345678901234567890123456789.01234567890123456789';
+      const initial =
+        '0123456789012345678901234567890123456789.01234567890123456789';
       const expected = '012345678901234567890123456789';
       assert.strictEqual(Signal.Backup._trimFileName(initial), expected);
     });
@@ -165,7 +166,10 @@ describe('Backup', () => {
         id: 'id',
       };
       const expected = '123 (012345678901234567890123456789 id)';
-      assert.strictEqual(Signal.Backup._getConversationDirName(conversation), expected);
+      assert.strictEqual(
+        Signal.Backup._getConversationDirName(conversation),
+        expected
+      );
     });
 
     it('uses just id if name is not available', () => {
@@ -174,7 +178,10 @@ describe('Backup', () => {
         id: 'id',
       };
       const expected = '123 (id)';
-      assert.strictEqual(Signal.Backup._getConversationDirName(conversation), expected);
+      assert.strictEqual(
+        Signal.Backup._getConversationDirName(conversation),
+        expected
+      );
     });
 
     it('uses inactive for missing active_at', () => {
@@ -183,7 +190,10 @@ describe('Backup', () => {
         id: 'id',
       };
       const expected = 'inactive (name id)';
-      assert.strictEqual(Signal.Backup._getConversationDirName(conversation), expected);
+      assert.strictEqual(
+        Signal.Backup._getConversationDirName(conversation),
+        expected
+      );
     });
   });
 
@@ -229,23 +239,45 @@ describe('Backup', () => {
 
   describe('end-to-end', () => {
     it('exports then imports to produce the same data we started with', async () => {
-      const {
-        attachmentsPath,
-        fse,
-        glob,
-        path,
-        tmp,
-      } = window.test;
+      const { attachmentsPath, fse, glob, path, tmp } = window.test;
       const {
         upgradeMessageSchema,
         loadAttachmentData,
       } = window.Signal.Migrations;
 
       const key = new Uint8Array([
-        1, 3, 4, 5, 6, 7, 8, 11,
-        23, 34, 1, 34, 3, 5, 45, 45,
-        1, 3, 4, 5, 6, 7, 8, 11,
-        23, 34, 1, 34, 3, 5, 45, 45,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11,
+        23,
+        34,
+        1,
+        34,
+        3,
+        5,
+        45,
+        45,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11,
+        23,
+        34,
+        1,
+        34,
+        3,
+        5,
+        45,
+        45,
       ]);
       const attachmentsPattern = path.join(attachmentsPath, '**');
 
@@ -279,7 +311,7 @@ describe('Backup', () => {
       //   glob returns only /. We normalize to / separators for our manipulations.
       const normalizedBase = attachmentsPath.replace(/\\/g, '/');
       function removeDirs(dirs) {
-        return _.filter(dirs, (fullDir) => {
+        return _.filter(dirs, fullDir => {
           const dir = fullDir.replace(normalizedBase, '');
           return TWO_SLASHES.test(dir);
         });
@@ -291,7 +323,7 @@ describe('Backup', () => {
             return message;
           }
 
-          const wrappedMapper = async (attachment) => {
+          const wrappedMapper = async attachment => {
             if (!attachment || !attachment.thumbnail) {
               return attachment;
             }
@@ -301,18 +333,21 @@ describe('Backup', () => {
             });
           };
 
-          const quotedAttachments = (message.quote && message.quote.attachments) || [];
+          const quotedAttachments =
+            (message.quote && message.quote.attachments) || [];
 
           return Object.assign({}, message, {
             quote: Object.assign({}, message.quote, {
-              attachments: await Promise.all(quotedAttachments.map(wrappedMapper)),
+              attachments: await Promise.all(
+                quotedAttachments.map(wrappedMapper)
+              ),
             }),
           });
         };
       }
 
       async function loadAllFilesFromDisk(message) {
-        const loadThumbnails = _mapQuotedAttachments((thumbnail) => {
+        const loadThumbnails = _mapQuotedAttachments(thumbnail => {
           // we want to be bulletproof to thumbnails without data
           if (!thumbnail.path) {
             return thumbnail;
@@ -322,15 +357,12 @@ describe('Backup', () => {
         });
 
         const promises = (message.attachments || []).map(attachment =>
-          wrappedLoadAttachment(attachment));
-
-        return Object.assign(
-          {},
-          await loadThumbnails(message),
-          {
-            attachments: await Promise.all(promises),
-          }
+          wrappedLoadAttachment(attachment)
         );
+
+        return Object.assign({}, await loadThumbnails(message), {
+          attachments: await Promise.all(promises),
+        });
       }
 
       let backupDir;
@@ -346,16 +378,46 @@ describe('Backup', () => {
           received_at: 1524185933350,
           timestamp: 1524185933350,
           errors: [],
-          attachments: [{
-            contentType: 'image/gif',
-            fileName: 'sad_cat.gif',
-            data: new Uint8Array([
-              1, 2, 3, 4, 5, 6, 7, 8,
-              1, 2, 3, 4, 5, 6, 7, 8,
-              1, 2, 3, 4, 5, 6, 7, 8,
-              1, 2, 3, 4, 5, 6, 7, 8,
-            ]).buffer,
-          }],
+          attachments: [
+            {
+              contentType: 'image/gif',
+              fileName: 'sad_cat.gif',
+              data: new Uint8Array([
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+              ]).buffer,
+            },
+          ],
           hasAttachments: 1,
           hasFileAttachments: undefined,
           hasVisualMediaAttachments: 1,
@@ -363,22 +425,53 @@ describe('Backup', () => {
             text: "Isn't it cute?",
             author: CONTACT_ONE_NUMBER,
             id: 12345678,
-            attachments: [{
-              contentType: 'audio/mp3',
-              fileName: 'song.mp3',
-            }, {
-              contentType: 'image/gif',
-              fileName: 'happy_cat.gif',
-              thumbnail: {
-                contentType: 'image/png',
-                data: new Uint8Array([
-                  2, 2, 3, 4, 5, 6, 7, 8,
-                  1, 2, 3, 4, 5, 6, 7, 8,
-                  1, 2, 3, 4, 5, 6, 7, 8,
-                  1, 2, 3, 4, 5, 6, 7, 8,
-                ]).buffer,
+            attachments: [
+              {
+                contentType: 'audio/mp3',
+                fileName: 'song.mp3',
               },
-            }],
+              {
+                contentType: 'image/gif',
+                fileName: 'happy_cat.gif',
+                thumbnail: {
+                  contentType: 'image/png',
+                  data: new Uint8Array([
+                    2,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                  ]).buffer,
+                },
+              },
+            ],
           },
         };
 
@@ -401,18 +494,74 @@ describe('Backup', () => {
           profileAvatar: {
             contentType: 'image/jpeg',
             data: new Uint8Array([
-              3, 2, 3, 4, 5, 6, 7, 8,
-              1, 2, 3, 4, 5, 6, 7, 8,
-              1, 2, 3, 4, 5, 6, 7, 8,
-              1, 2, 3, 4, 5, 6, 7, 8,
+              3,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
             ]).buffer,
             size: 64,
           },
           profileKey: new Uint8Array([
-            4, 2, 3, 4, 5, 6, 7, 8,
-            1, 2, 3, 4, 5, 6, 7, 8,
-            1, 2, 3, 4, 5, 6, 7, 8,
-            1, 2, 3, 4, 5, 6, 7, 8,
+            4,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
           ]).buffer,
           profileName: 'Someone! 🤔',
           profileSharing: true,
@@ -432,7 +581,9 @@ describe('Backup', () => {
         const conversationModel = new Whisper.Conversation(conversation);
         await window.wrapDeferred(conversationModel.save());
 
-        console.log('Backup test: Ensure that all attachments were saved to disk');
+        console.log(
+          'Backup test: Ensure that all attachments were saved to disk'
+        );
         const attachmentFiles = removeDirs(glob.sync(attachmentsPattern));
         console.log({ attachmentFiles });
         assert.strictEqual(ATTACHMENT_COUNT, attachmentFiles.length);
@@ -447,7 +598,9 @@ describe('Backup', () => {
         const messageZipExists = fse.existsSync(zipPath);
         assert.strictEqual(true, messageZipExists);
 
-        console.log('Backup test: Ensure that all attachments made it to backup dir');
+        console.log(
+          'Backup test: Ensure that all attachments made it to backup dir'
+        );
         const backupAttachmentPattern = path.join(backupDir, 'attachments/*');
         const backupAttachments = glob.sync(backupAttachmentPattern);
         console.log({ backupAttachments });
@@ -460,7 +613,9 @@ describe('Backup', () => {
         await Signal.Backup.importFromDirectory(backupDir, { key });
 
         console.log('Backup test: ensure that all attachments were imported');
-        const recreatedAttachmentFiles = removeDirs(glob.sync(attachmentsPattern));
+        const recreatedAttachmentFiles = removeDirs(
+          glob.sync(attachmentsPattern)
+        );
         console.log({ recreatedAttachmentFiles });
         assert.strictEqual(ATTACHMENT_COUNT, recreatedAttachmentFiles.length);
         assert.deepEqual(attachmentFiles, recreatedAttachmentFiles);
@@ -472,15 +627,21 @@ describe('Backup', () => {
         const messageFromDB = removeId(messageCollection.at(0).attributes);
         const expectedMessage = omitUndefinedKeys(message);
         console.log({ messageFromDB, expectedMessage });
-        assert.deepEqual(
-          messageFromDB,
-          expectedMessage
-        );
+        assert.deepEqual(messageFromDB, expectedMessage);
 
-        console.log('Backup test: Check that all attachments were successfully imported');
-        const messageWithAttachmentsFromDB = await loadAllFilesFromDisk(messageFromDB);
-        const expectedMessageWithAttachments = omitUndefinedKeys(messageWithAttachments);
-        console.log({ messageWithAttachmentsFromDB, expectedMessageWithAttachments });
+        console.log(
+          'Backup test: Check that all attachments were successfully imported'
+        );
+        const messageWithAttachmentsFromDB = await loadAllFilesFromDisk(
+          messageFromDB
+        );
+        const expectedMessageWithAttachments = omitUndefinedKeys(
+          messageWithAttachments
+        );
+        console.log({
+          messageWithAttachmentsFromDB,
+          expectedMessageWithAttachments,
+        });
         assert.deepEqual(
           _.omit(messageWithAttachmentsFromDB, ['schemaVersion']),
           expectedMessageWithAttachments

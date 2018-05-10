@@ -2,7 +2,7 @@
 /* global Whisper: false */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};
@@ -27,7 +27,7 @@
       this.$('textarea').val(i18n('loading'));
 
       // eslint-disable-next-line more/no-then
-      window.log.fetch().then((text) => {
+      window.log.fetch().then(text => {
         this.$('textarea').val(text);
       });
     },
@@ -63,7 +63,9 @@
       });
       this.$('.loading').removeClass('loading');
       view.render();
-      this.$('.link').focus().select();
+      this.$('.link')
+        .focus()
+        .select();
     },
   });
-}());
+})();

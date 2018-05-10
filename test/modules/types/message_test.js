@@ -2,8 +2,9 @@ const { assert } = require('chai');
 const sinon = require('sinon');
 
 const Message = require('../../../js/modules/types/message');
-const { stringToArrayBuffer } = require('../../../js/modules/string_to_array_buffer');
-
+const {
+  stringToArrayBuffer,
+} = require('../../../js/modules/string_to_array_buffer');
 
 describe('Message', () => {
   describe('createAttachmentDataWriter', () => {
@@ -18,8 +19,9 @@ describe('Message', () => {
       };
       const writeExistingAttachmentData = () => {};
 
-      const actual =
-        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      const actual = await Message.createAttachmentDataWriter(
+        writeExistingAttachmentData
+      )(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -36,8 +38,9 @@ describe('Message', () => {
       };
       const writeExistingAttachmentData = () => {};
 
-      const actual =
-        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      const actual = await Message.createAttachmentDataWriter(
+        writeExistingAttachmentData
+      )(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -45,26 +48,34 @@ describe('Message', () => {
       const input = {
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
-        attachments: [{
-          path: 'ab/abcdefghi',
-          data: stringToArrayBuffer('It’s easy if you try'),
-        }],
+        attachments: [
+          {
+            path: 'ab/abcdefghi',
+            data: stringToArrayBuffer('It’s easy if you try'),
+          },
+        ],
       };
       const expected = {
         body: 'Imagine there is no heaven…',
         schemaVersion: 4,
-        attachments: [{
-          path: 'ab/abcdefghi',
-        }],
+        attachments: [
+          {
+            path: 'ab/abcdefghi',
+          },
+        ],
       };
 
-      const writeExistingAttachmentData = (attachment) => {
+      const writeExistingAttachmentData = attachment => {
         assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
+        assert.deepEqual(
+          attachment.data,
+          stringToArrayBuffer('It’s easy if you try')
+        );
       };
 
-      const actual =
-        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      const actual = await Message.createAttachmentDataWriter(
+        writeExistingAttachmentData
+      )(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -74,12 +85,14 @@ describe('Message', () => {
         schemaVersion: 4,
         attachments: [],
         quote: {
-          attachments: [{
-            thumbnail: {
-              path: 'ab/abcdefghi',
-              data: stringToArrayBuffer('It’s easy if you try'),
+          attachments: [
+            {
+              thumbnail: {
+                path: 'ab/abcdefghi',
+                data: stringToArrayBuffer('It’s easy if you try'),
+              },
             },
-          }],
+          ],
         },
       };
       const expected = {
@@ -87,21 +100,27 @@ describe('Message', () => {
         schemaVersion: 4,
         attachments: [],
         quote: {
-          attachments: [{
-            thumbnail: {
-              path: 'ab/abcdefghi',
+          attachments: [
+            {
+              thumbnail: {
+                path: 'ab/abcdefghi',
+              },
             },
-          }],
+          ],
         },
       };
 
-      const writeExistingAttachmentData = (attachment) => {
+      const writeExistingAttachmentData = attachment => {
         assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.deepEqual(attachment.data, stringToArrayBuffer('It’s easy if you try'));
+        assert.deepEqual(
+          attachment.data,
+          stringToArrayBuffer('It’s easy if you try')
+        );
       };
 
-      const actual =
-        await Message.createAttachmentDataWriter(writeExistingAttachmentData)(input);
+      const actual = await Message.createAttachmentDataWriter(
+        writeExistingAttachmentData
+      )(input);
       assert.deepEqual(actual, expected);
     });
   });
@@ -142,18 +161,22 @@ describe('Message', () => {
       it('should inherit existing attachment schema version', () => {
         const input = {
           body: 'Imagine there is no heaven…',
-          attachments: [{
-            contentType: 'image/jpeg',
-            fileName: 'lennon.jpg',
-            schemaVersion: 7,
-          }],
+          attachments: [
+            {
+              contentType: 'image/jpeg',
+              fileName: 'lennon.jpg',
+              schemaVersion: 7,
+            },
+          ],
         };
         const expected = {
           body: 'Imagine there is no heaven…',
-          attachments: [{
-            contentType: 'image/jpeg',
-            fileName: 'lennon.jpg',
-          }],
+          attachments: [
+            {
+              contentType: 'image/jpeg',
+              fileName: 'lennon.jpg',
+            },
+          ],
           schemaVersion: 7,
         };
 
@@ -166,30 +189,36 @@ describe('Message', () => {
   describe('upgradeSchema', () => {
     it('should upgrade an unversioned message to the latest version', async () => {
       const input = {
-        attachments: [{
-          contentType: 'application/json',
-          data: stringToArrayBuffer('It’s easy if you try'),
-          fileName: 'test\u202Dfig.exe',
-          size: 1111,
-        }],
+        attachments: [
+          {
+            contentType: 'application/json',
+            data: stringToArrayBuffer('It’s easy if you try'),
+            fileName: 'test\u202Dfig.exe',
+            size: 1111,
+          },
+        ],
         schemaVersion: 0,
       };
       const expected = {
-        attachments: [{
-          contentType: 'application/json',
-          path: 'abc/abcdefg',
-          fileName: 'test\uFFFDfig.exe',
-          size: 1111,
-        }],
+        attachments: [
+          {
+            contentType: 'application/json',
+            path: 'abc/abcdefg',
+            fileName: 'test\uFFFDfig.exe',
+            size: 1111,
+          },
+        ],
         hasAttachments: 1,
         hasVisualMediaAttachments: undefined,
         hasFileAttachments: 1,
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
       };
 
-      const expectedAttachmentData = stringToArrayBuffer('It’s easy if you try');
+      const expectedAttachmentData = stringToArrayBuffer(
+        'It’s easy if you try'
+      );
       const context = {
-        writeNewAttachmentData: async (attachmentData) => {
+        writeNewAttachmentData: async attachmentData => {
           assert.deepEqual(attachmentData, expectedAttachmentData);
           return 'abc/abcdefg';
         },
@@ -201,21 +230,25 @@ describe('Message', () => {
     context('with multiple upgrade steps', () => {
       it('should return last valid message when any upgrade step fails', async () => {
         const input = {
-          attachments: [{
-            contentType: 'application/json',
-            data: null,
-            fileName: 'test\u202Dfig.exe',
-            size: 1111,
-          }],
+          attachments: [
+            {
+              contentType: 'application/json',
+              data: null,
+              fileName: 'test\u202Dfig.exe',
+              size: 1111,
+            },
+          ],
           schemaVersion: 0,
         };
         const expected = {
-          attachments: [{
-            contentType: 'application/json',
-            data: null,
-            fileName: 'test\u202Dfig.exe',
-            size: 1111,
-          }],
+          attachments: [
+            {
+              contentType: 'application/json',
+              data: null,
+              fileName: 'test\u202Dfig.exe',
+              size: 1111,
+            },
+          ],
           hasUpgradedToVersion1: true,
           schemaVersion: 1,
         };
@@ -241,21 +274,25 @@ describe('Message', () => {
 
       it('should skip out-of-order upgrade steps', async () => {
         const input = {
-          attachments: [{
-            contentType: 'application/json',
-            data: null,
-            fileName: 'test\u202Dfig.exe',
-            size: 1111,
-          }],
+          attachments: [
+            {
+              contentType: 'application/json',
+              data: null,
+              fileName: 'test\u202Dfig.exe',
+              size: 1111,
+            },
+          ],
           schemaVersion: 0,
         };
         const expected = {
-          attachments: [{
-            contentType: 'application/json',
-            data: null,
-            fileName: 'test\u202Dfig.exe',
-            size: 1111,
-          }],
+          attachments: [
+            {
+              contentType: 'application/json',
+              data: null,
+              fileName: 'test\u202Dfig.exe',
+              size: 1111,
+            },
+          ],
           schemaVersion: 2,
           hasUpgradedToVersion1: true,
           hasUpgradedToVersion2: true,
@@ -352,7 +389,9 @@ describe('Message', () => {
 
   describe('_mapQuotedAttachments', () => {
     it('handles message with no quote', async () => {
-      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeAttachment = sinon
+        .stub()
+        .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -363,7 +402,9 @@ describe('Message', () => {
     });
 
     it('handles quote with no attachments', async () => {
-      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeAttachment = sinon
+        .stub()
+        .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -384,7 +425,9 @@ describe('Message', () => {
     });
 
     it('handles zero attachments', async () => {
-      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeAttachment = sinon
+        .stub()
+        .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -399,7 +442,9 @@ describe('Message', () => {
     });
 
     it('handles attachments with no thumbnail', async () => {
-      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeAttachment = sinon
+        .stub()
+        .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -414,30 +459,36 @@ describe('Message', () => {
     });
 
     it('eliminates thumbnails with no data fielkd', async () => {
-      const upgradeAttachment = sinon.stub().throws(new Error("Shouldn't be called"));
+      const upgradeAttachment = sinon
+        .stub()
+        .throws(new Error("Shouldn't be called"));
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
         body: 'hey there!',
         quote: {
           text: 'hey!',
-          attachments: [{
-            fileName: 'cat.gif',
-            contentType: 'image/gif',
-            thumbnail: {
-              fileName: 'failed to download!',
+          attachments: [
+            {
+              fileName: 'cat.gif',
+              contentType: 'image/gif',
+              thumbnail: {
+                fileName: 'failed to download!',
+              },
             },
-          }],
+          ],
         },
       };
       const expected = {
         body: 'hey there!',
         quote: {
           text: 'hey!',
-          attachments: [{
-            contentType: 'image/gif',
-            fileName: 'cat.gif',
-          }],
+          attachments: [
+            {
+              contentType: 'image/gif',
+              fileName: 'cat.gif',
+            },
+          ],
         },
       };
       const result = await upgradeVersion(message);
@@ -454,22 +505,26 @@ describe('Message', () => {
         body: 'hey there!',
         quote: {
           text: 'hey!',
-          attachments: [{
-            thumbnail: {
-              data: 'data is here',
+          attachments: [
+            {
+              thumbnail: {
+                data: 'data is here',
+              },
             },
-          }],
+          ],
         },
       };
       const expected = {
         body: 'hey there!',
         quote: {
           text: 'hey!',
-          attachments: [{
-            thumbnail: {
-              path: '/new/path/on/disk',
+          attachments: [
+            {
+              thumbnail: {
+                path: '/new/path/on/disk',
+              },
             },
-          }],
+          ],
         },
       };
       const result = await upgradeVersion(message);

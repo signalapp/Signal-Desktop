@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  padStart,
-  sample,
-} from 'lodash';
+import { padStart, sample } from 'lodash';
 
 import _ from 'lodash';
 import moment from 'moment';
@@ -58,7 +55,6 @@ const landscapeRedObjectUrl = makeObjectUrl(landscapeRed, 'image/png');
 import portraitTeal from '../../fixtures/50x1000-teal.jpeg';
 const portraitTealObjectUrl = makeObjectUrl(portraitTeal, 'image/png');
 
-
 function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
   const blob = new Blob([data], {
     type: contentType,
@@ -68,7 +64,6 @@ function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
 
 const ourNumber = '+12025559999';
 const groupNumber = '+12025550099';
-
 
 export {
   mp3,
@@ -93,7 +88,6 @@ export {
   groupNumber,
 };
 
-
 // Required, or TypeScript complains about adding keys to window
 const parent = window as any;
 
@@ -107,15 +101,12 @@ import localeMessages from '../../_locales/en/messages.json';
 
 // @ts-ignore
 import { setup } from '../../js/modules/i18n';
+import * as Util from '../util';
+import filesize from 'filesize';
 
 const i18n = setup(locale, localeMessages);
 
-export {
-  theme,
-  locale,
-  i18n,
-};
-
+export { theme, locale, i18n };
 
 parent.i18n = i18n;
 parent.moment = moment;
@@ -137,10 +128,11 @@ parent.Signal.Types.MIME = MIME;
 parent.Signal.Components = {
   Quote,
 };
+parent.Signal.Util = Util;
+parent.filesize = filesize;
 
 parent.ConversationController._initialFetchComplete = true;
 parent.ConversationController._initialPromise = Promise.resolve();
-
 
 const COLORS = [
   'red',
@@ -195,12 +187,7 @@ group.contactCollection.add(CONTACTS[0]);
 group.contactCollection.add(CONTACTS[1]);
 group.contactCollection.add(CONTACTS[2]);
 
-export {
-  COLORS,
-  CONTACTS,
-  me,
-  group,
-};
+export { COLORS, CONTACTS, me, group };
 
 parent.textsecure.storage.user.getNumber = () => ourNumber;
 

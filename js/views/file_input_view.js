@@ -1,238 +1,337 @@
-/* eslint-disable */
-
 /* global textsecure: false */
+/* global Whisper: false */
+/* global i18n: false */
+/* global loadImage: false */
+/* global Backbone: false */
+/* global _: false */
+/* global Signal: false */
 
-(function () {
-    'use strict';
-    window.Whisper = window.Whisper || {};
+// eslint-disable-next-line func-names
+(function() {
+  'use strict';
 
-    const { MIME } = window.Signal.Types;
+  window.Whisper = window.Whisper || {};
 
-    Whisper.FileSizeToast = Whisper.ToastView.extend({
-        templateName: 'file-size-modal',
-        render_attributes: function() {
-            return {
-                'file-size-warning': i18n('fileSizeWarning'),
-                limit: this.model.limit,
-                units: this.model.units
-            };
-        }
-    });
-    Whisper.UnsupportedFileTypeToast = Whisper.ToastView.extend({
-        template: i18n('unsupportedFileType')
-    });
+  const { MIME } = window.Signal.Types;
 
-    function makeThumbnail(size, objectUrl) {
-        return new Promise(function(resolve, reject) {
-            var img = document.createElement('img');
-            img.onerror = reject;
-            img.onload = function () {
-                // using components/blueimp-load-image
+  Whisper.FileSizeToast = Whisper.ToastView.extend({
+    templateName: 'file-size-modal',
+    render_attributes() {
+      return {
+        'file-size-warning': i18n('fileSizeWarning'),
+        limit: this.model.limit,
+        units: this.model.units,
+      };
+    },
+  });
+  Whisper.UnsupportedFileTypeToast = Whisper.ToastView.extend({
+    template: i18n('unsupportedFileType'),
+  });
 
-                // first, make the correct size
-                var canvas = loadImage.scale(img, {
-                    canvas: true,
-                    cover: true,
-                    maxWidth: size,
-                    maxHeight: size,
-                    minWidth: size,
-                    minHeight: size,
-                });
+  function makeImageThumbnail(size, objectUrl) {
+    return new Promise((resolve, reject) => {
+      const img = document.createElement('img');
+      img.onerror = reject;
+      img.onload = () => {
+        // using components/blueimp-load-image
 
-                // then crop
-                canvas = loadImage.scale(canvas, {
-                    canvas: true,
-                    crop: true,
-                    maxWidth: size,
-                    maxHeight: size,
-                    minWidth: size,
-                    minHeight: size,
-                });
-
-                var blob = window.dataURLToBlobSync(canvas.toDataURL('image/png'));
-
-                resolve(blob);
-            };
-            img.src = objectUrl;
+        // first, make the correct size
+        let canvas = loadImage.scale(img, {
+          canvas: true,
+          cover: true,
+          maxWidth: size,
+          maxHeight: size,
+          minWidth: size,
+          minHeight: size,
         });
-    }
 
-    Whisper.FileInputView = Backbone.View.extend({
-        tagName: 'span',
-        className: 'file-input',
-        initialize: function(options) {
-            this.$input = this.$('input[type=file]');
-            this.$input.click(function(e) {
-              e.stopPropagation();
+        // then crop
+        canvas = loadImage.scale(canvas, {
+          canvas: true,
+          crop: true,
+          maxWidth: size,
+          maxHeight: size,
+          minWidth: size,
+          minHeight: size,
+        });
+
+        const blob = window.dataURLToBlobSync(canvas.toDataURL('image/png'));
+
+        resolve(blob);
+      };
+      img.src = objectUrl;
+    });
+  }
+
+  function makeVideoScreenshot(objectUrl) {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement('video');
+
+      function capture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas
+          .getContext('2d')
+          .drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const image = window.dataURLToBlobSync(canvas.toDataURL('image/png'));
+
+        video.removeEventListener('canplay', capture);
+
+        resolve(image);
+      }
+
+      video.addEventListener('canplay', capture);
+      video.addEventListener('error', error => {
+        console.log(
+          'makeVideoThumbnail error',
+          Signal.Types.Errors.toLogFormat(error)
+        );
+        reject(error);
+      });
+
+      video.src = objectUrl;
+    });
+  }
+
+  function blobToArrayBuffer(blob) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+
+      fileReader.onload = e => resolve(e.target.result);
+      fileReader.onerror = reject;
+      fileReader.onabort = reject;
+
+      fileReader.readAsArrayBuffer(blob);
+    });
+  }
+
+  async function makeVideoThumbnail(size, videoObjectUrl) {
+    const blob = await makeVideoScreenshot(videoObjectUrl);
+    const data = await blobToArrayBuffer(blob);
+    const screenshotObjectUrl = Signal.Util.arrayBufferToObjectURL({
+      data,
+      type: 'image/png',
+    });
+
+    const thumbnail = await makeImageThumbnail(size, screenshotObjectUrl);
+    URL.revokeObjectURL(screenshotObjectUrl);
+    return thumbnail;
+  }
+
+  Whisper.FileInputView = Backbone.View.extend({
+    tagName: 'span',
+    className: 'file-input',
+    initialize(options) {
+      this.$input = this.$('input[type=file]');
+      this.$input.click(e => {
+        e.stopPropagation();
+      });
+      this.thumb = new Whisper.AttachmentPreviewView();
+      this.$el.addClass('file-input');
+      this.window = options.window;
+      this.previewObjectUrl = null;
+    },
+
+    events: {
+      'change .choose-file': 'previewImages',
+      'click .close': 'deleteFiles',
+      'click .choose-file': 'open',
+      drop: 'openDropped',
+      dragover: 'showArea',
+      dragleave: 'hideArea',
+      paste: 'onPaste',
+    },
+
+    open(e) {
+      e.preventDefault();
+      // hack
+      if (this.window && this.window.chrome && this.window.chrome.fileSystem) {
+        this.window.chrome.fileSystem.chooseEntry(
+          { type: 'openFile' },
+          entry => {
+            if (!entry) {
+              return;
+            }
+            entry.file(file => {
+              this.file = file;
+              this.previewImages();
             });
-            this.thumb = new Whisper.AttachmentPreviewView();
-            this.$el.addClass('file-input');
-            this.window = options.window;
-            this.previewObjectUrl = null;
-        },
+          }
+        );
+      } else {
+        this.$input.click();
+      }
+    },
 
-        events: {
-            'change .choose-file': 'previewImages',
-            'click .close': 'deleteFiles',
-            'click .choose-file': 'open',
-            'drop': 'openDropped',
-            'dragover': 'showArea',
-            'dragleave': 'hideArea',
-            'paste': 'onPaste'
-        },
+    addThumb(src, options = {}) {
+      _.defaults(options, { addPlayIcon: false });
+      this.$('.avatar').hide();
+      this.thumb.src = src;
+      this.$('.attachment-previews').append(this.thumb.render().el);
 
-        open: function(e) {
-            e.preventDefault();
-            // hack
-            if (this.window && this.window.chrome && this.window.chrome.fileSystem) {
-                this.window.chrome.fileSystem.chooseEntry({type: 'openFile'}, function(entry) {
-                    if (!entry) {
-                        return;
-                    }
-                    entry.file(function(file) {
-                        this.file = file;
-                        this.previewImages();
-                    }.bind(this));
-                }.bind(this));
-            } else {
-                this.$input.click();
+      if (options.addPlayIcon) {
+        this.$el.addClass('video-attachment');
+      } else {
+        this.$el.removeClass('video-attachment');
+      }
+
+      this.thumb.$('img')[0].onload = () => {
+        this.$el.trigger('force-resize');
+      };
+    },
+
+    autoScale(file) {
+      if (
+        file.type.split('/')[0] !== 'image' ||
+        file.type === 'image/gif' ||
+        file.type === 'image/tiff'
+      ) {
+        // nothing to do
+        return Promise.resolve(file);
+      }
+
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = document.createElement('img');
+        img.onerror = reject;
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+
+          const maxSize = 6000 * 1024;
+          const maxHeight = 4096;
+          const maxWidth = 4096;
+          if (
+            img.width <= maxWidth &&
+            img.height <= maxHeight &&
+            file.size <= maxSize
+          ) {
+            resolve(file);
+            return;
+          }
+
+          const canvas = loadImage.scale(img, {
+            canvas: true,
+            maxWidth,
+            maxHeight,
+          });
+
+          let quality = 0.95;
+          let i = 4;
+          let blob;
+          do {
+            i -= 1;
+            blob = window.dataURLToBlobSync(
+              canvas.toDataURL('image/jpeg', quality)
+            );
+            quality = quality * maxSize / blob.size;
+            // NOTE: During testing with a large image, we observed the
+            // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
+            // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax
+            if (quality < 0.5) {
+              quality = 0.5;
             }
-        },
+          } while (i > 0 && blob.size > maxSize);
 
-        addThumb: function(src) {
-            this.$('.avatar').hide();
-            this.thumb.src = src;
-            this.$('.attachment-previews').append(this.thumb.render().el);
-            this.thumb.$('img')[0].onload = function() {
-                this.$el.trigger('force-resize');
-            }.bind(this);
-        },
+          resolve(blob);
+        };
+        img.src = url;
+      });
+    },
 
-        autoScale: function(file) {
-            if (file.type.split('/')[0] !== 'image'
-                || file.type === 'image/gif'
-                || file.type === 'image/tiff') {
-                // nothing to do
-                return Promise.resolve(file);
-            }
+    async previewImages() {
+      this.clearForm();
+      const file = this.file || this.$input.prop('files')[0];
+      if (!file) {
+        return;
+      }
 
-            return new Promise(function(resolve, reject) {
-                var url = URL.createObjectURL(file);
-                var img = document.createElement('img');
-                img.onerror = reject;
-                img.onload = function () {
-                    URL.revokeObjectURL(url);
+      const contentType = file.type;
 
-                    var maxSize = 6000 * 1024;
-                    var maxHeight = 4096;
-                    var maxWidth = 4096;
-                    if (img.width <= maxWidth && img.height <= maxHeight &&
-                        file.size <= maxSize) {
-                        resolve(file);
-                        return;
-                    }
+      const renderVideoPreview = async () => {
+        // we use the variable on this here to ensure cleanup if we're interrupted
+        this.previewObjectUrl = URL.createObjectURL(file);
+        const thumbnail = await makeVideoScreenshot(this.previewObjectUrl);
+        URL.revokeObjectURL(this.previewObjectUrl);
 
-                    var canvas = loadImage.scale(img, {
-                        canvas: true, maxWidth: maxWidth, maxHeight: maxHeight
-                    });
+        const data = await blobToArrayBuffer(thumbnail);
+        this.previewObjectUrl = Signal.Util.arrayBufferToObjectURL({
+          data,
+          type: 'image/png',
+        });
+        this.addThumb(this.previewObjectUrl, { addPlayIcon: true });
+      };
 
-                    var quality = 0.95;
-                    var i = 4;
-                    var blob;
-                    do {
-                        i = i - 1;
-                        blob = window.dataURLToBlobSync(
-                            canvas.toDataURL('image/jpeg', quality)
-                        );
-                        quality = quality * maxSize / blob.size;
-                        // NOTE: During testing with a large image, we observed the
-                        // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
-                        // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax
-                        if (quality < 0.5) {
-                            quality = 0.5;
-                        }
-                    } while (i > 0 && blob.size > maxSize);
+      const renderImagePreview = async () => {
+        if (!MIME.isJPEG(file.type)) {
+          this.previewObjectUrl = URL.createObjectURL(file);
+          this.addThumb(this.previewObjectUrl);
+          return;
+        }
 
-                    resolve(blob);
-                };
-                img.src = url;
-            });
-        },
+        const dataUrl = await window.autoOrientImage(file);
+        this.addThumb(dataUrl);
+      };
 
-        previewImages: function() {
-            this.clearForm();
-            var file = this.file || this.$input.prop('files')[0];
-            if (!file) { return; }
+      if (Signal.Util.GoogleChrome.isImageTypeSupported(contentType)) {
+        renderImagePreview();
+      } else if (Signal.Util.GoogleChrome.isVideoTypeSupported(contentType)) {
+        renderVideoPreview();
+      } else if (MIME.isAudio(contentType)) {
+        this.addThumb('images/audio.svg');
+      } else {
+        this.addThumb('images/file.svg');
+      }
 
-            var type = file.type.split('/')[0];
-            if (file.type === 'image/tiff') {
-                type = 'file';
-            }
-            switch (type) {
-                case 'audio': this.addThumb('images/audio.svg'); break;
-                case 'video': this.addThumb('images/video.svg'); break;
-                case 'image':
-                    if (!MIME.isJPEG(file.type)) {
-                        this.previewObjectUrl = URL.createObjectURL(file);
-                        this.addThumb(this.previewObjectUrl);
-                        break;
-                    }
+      const blob = await this.autoScale(file);
+      let limitKb = 1000000;
+      const blobType =
+        file.type === 'image/gif' ? 'gif' : contentType.split('/')[0];
 
-                    // NOTE: Temporarily allow `then` until we convert the entire file
-                    // to `async` / `await`:
-                    // eslint-disable-next-line more/no-then
-                    window.autoOrientImage(file)
-                        .then(dataURL => this.addThumb(dataURL));
-                    break;
-                default:
-                    this.addThumb('images/file.svg'); break;
-            }
+      switch (blobType) {
+        case 'image':
+          limitKb = 6000;
+          break;
+        case 'gif':
+          limitKb = 25000;
+          break;
+        case 'audio':
+          limitKb = 100000;
+          break;
+        case 'video':
+          limitKb = 100000;
+          break;
+        default:
+          limitKb = 100000;
+          break;
+      }
+      if ((blob.size / 1024).toFixed(4) >= limitKb) {
+        const units = ['kB', 'MB', 'GB'];
+        let u = -1;
+        let limit = limitKb * 1000;
+        do {
+          limit /= 1000;
+          u += 1;
+        } while (limit >= 1000 && u < units.length - 1);
+        const toast = new Whisper.FileSizeToast({
+          model: { limit, units: units[u] },
+        });
+        toast.$el.insertAfter(this.$el);
+        toast.render();
+        this.deleteFiles();
+      }
+    },
 
-            // NOTE: Temporarily allow `then` until we convert the entire file
-            // to `async` / `await`:
-            // eslint-disable-next-line more/no-then
-            this.autoScale(file).then(function(blob) {
-                var limitKb = 1000000;
-                var blobType = file.type === 'image/gif' ? 'gif' : type;
-                switch (blobType) {
-                    case 'image':
-                        limitKb = 6000; break;
-                    case 'gif':
-                        limitKb = 25000; break;
-                    case 'audio':
-                        limitKb = 100000; break;
-                    case 'video':
-                        limitKb = 100000; break;
-                    default:
-                        limitKb = 100000; break;
-                }
-                if ((blob.size/1024).toFixed(4) >= limitKb) {
-                    var units = ['kB','MB','GB'];
-                    var u = -1;
-                    var limit = limitKb * 1000;
-                    do {
-                      limit /= 1000;
-                      ++u;
-                    } while (limit >= 1000 && u < units.length - 1);
-                    var toast = new Whisper.FileSizeToast({
-                        model: {limit: limit, units: units[u]}
-                    });
-                    toast.$el.insertAfter(this.$el);
-                    toast.render();
-                    this.deleteFiles();
-                }
-            }.bind(this));
-        },
+    hasFiles() {
+      const files = this.file ? [this.file] : this.$input.prop('files');
+      return files && files.length && files.length > 0;
+    },
 
-        hasFiles: function() {
-            var files = this.file ? [this.file] : this.$input.prop('files');
-            return files && files.length && files.length > 0;
-        },
-
-    /* eslint-enable */
-    /* jshint ignore:start */
     getFiles() {
-      const files = this.file ? [this.file] : Array.from(this.$input.prop('files'));
+      const files = this.file
+        ? [this.file]
+        : Array.from(this.$input.prop('files'));
       const promise = Promise.all(files.map(file => this.getFile(file)));
       this.clearForm();
       return promise;
@@ -247,7 +346,7 @@
         ? textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE
         : null;
 
-      const setFlags = flags => (attachment) => {
+      const setFlags = flags => attachment => {
         const newAttachment = Object.assign({}, attachment);
         if (flags) {
           newAttachment.flags = flags;
@@ -262,109 +361,121 @@
         .then(this.readFile)
         .then(setFlags(attachmentFlags));
     },
-    /* jshint ignore:end */
-    /* eslint-disable */
 
-        getThumbnail: function() {
-            // Scale and crop an image to 256px square
-            var size = 256;
-            var file = this.file || this.$input.prop('files')[0];
-            if (file === undefined || file.type.split('/')[0] !== 'image' || file.type === 'image/gif') {
-                // nothing to do
-                return Promise.resolve();
-            }
+    async getThumbnail() {
+      // Scale and crop an image to 256px square
+      const size = 256;
+      const file = this.file || this.$input.prop('files')[0];
+      if (
+        file === undefined ||
+        file.type.split('/')[0] !== 'image' ||
+        file.type === 'image/gif'
+      ) {
+        // nothing to do
+        return Promise.resolve();
+      }
 
-            const objectUrl = URL.createObjectURL(file);
-            return makeThumbnail(256, file).then(function(arrayBuffer) {
-                URL.revokeObjectURL(url);
-                return this.readFile(arrayBuffer);
-            });
-        },
+      const objectUrl = URL.createObjectURL(file);
 
-        // File -> Promise Attachment
-        readFile: function(file) {
-            return new Promise(function(resolve, reject) {
-                var FR = new FileReader();
-                FR.onload = function(e) {
-                    resolve({
-                      data: e.target.result,
-                      contentType: file.type,
-                      fileName: file.name,
-                      size: file.size
-                    });
-                };
-                FR.onerror = reject;
-                FR.onabort = reject;
-                FR.readAsArrayBuffer(file);
-            });
-        },
+      const arrayBuffer = await makeImageThumbnail(size, objectUrl);
+      URL.revokeObjectURL(objectUrl);
 
-        clearForm: function() {
-            if (this.previewObjectUrl) {
-                URL.revokeObjectURL(this.previewObjectUrl);
-                this.previewObjectUrl = null;
-            }
+      return this.readFile(arrayBuffer);
+    },
 
-            this.thumb.remove();
-            this.$('.avatar').show();
-            this.$el.trigger('force-resize');
-        },
+    // File -> Promise Attachment
+    readFile(file) {
+      return new Promise((resolve, reject) => {
+        const FR = new FileReader();
+        FR.onload = e => {
+          resolve({
+            data: e.target.result,
+            contentType: file.type,
+            fileName: file.name,
+            size: file.size,
+          });
+        };
+        FR.onerror = reject;
+        FR.onabort = reject;
+        FR.readAsArrayBuffer(file);
+      });
+    },
 
-        deleteFiles: function(e) {
-            if (e) { e.stopPropagation(); }
-            this.clearForm();
-            this.$input.wrap('<form>').parent('form').trigger('reset');
-            this.$input.unwrap();
-            this.file = null;
-            this.$input.trigger('change');
-            this.isVoiceNote = false;
-        },
+    clearForm() {
+      if (this.previewObjectUrl) {
+        URL.revokeObjectURL(this.previewObjectUrl);
+        this.previewObjectUrl = null;
+      }
 
-        openDropped: function(e) {
-            if (e.originalEvent.dataTransfer.types[0] != 'Files') {
-                return;
-            }
+      this.thumb.remove();
+      this.$('.avatar').show();
+      this.$el.trigger('force-resize');
+    },
 
-            e.stopPropagation();
-            e.preventDefault();
-            this.file = e.originalEvent.dataTransfer.files[0];
-            this.previewImages();
-            this.$el.removeClass('dropoff');
-        },
+    deleteFiles(e) {
+      if (e) {
+        e.stopPropagation();
+      }
+      this.clearForm();
+      this.$input
+        .wrap('<form>')
+        .parent('form')
+        .trigger('reset');
+      this.$input.unwrap();
+      this.file = null;
+      this.$input.trigger('change');
+      this.isVoiceNote = false;
+    },
 
-        showArea: function(e) {
-            if (e.originalEvent.dataTransfer.types[0] != 'Files') {
-                return;
-            }
+    openDropped(e) {
+      if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
+        return;
+      }
 
-            e.stopPropagation();
-            e.preventDefault();
-            this.$el.addClass('dropoff');
-        },
+      e.stopPropagation();
+      e.preventDefault();
 
-        hideArea: function(e) {
-            if (e.originalEvent.dataTransfer.types[0] != 'Files') {
-                return;
-            }
+      // eslint-disable-next-line prefer-destructuring
+      this.file = e.originalEvent.dataTransfer.files[0];
+      this.previewImages();
+      this.$el.removeClass('dropoff');
+    },
 
-            e.stopPropagation();
-            e.preventDefault();
-            this.$el.removeClass('dropoff');
-        },
-        onPaste: function(e) {
-            var items = e.originalEvent.clipboardData.items;
-            var imgBlob = null;
-            for (var i = 0; i < items.length; i++) {
-                if (items[i].type.split('/')[0] === 'image') {
-                   imgBlob = items[i].getAsFile();
-                }
-            }
-            if (imgBlob !== null) {
-                this.file = imgBlob;
-                this.previewImages();
-            }
+    showArea(e) {
+      if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
+        return;
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+      this.$el.addClass('dropoff');
+    },
+
+    hideArea(e) {
+      if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
+        return;
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+      this.$el.removeClass('dropoff');
+    },
+    onPaste(e) {
+      const { items } = e.originalEvent.clipboardData;
+      let imgBlob = null;
+      for (let i = 0; i < items.length; i += 1) {
+        if (items[i].type.split('/')[0] === 'image') {
+          imgBlob = items[i].getAsFile();
         }
-    });
+      }
+      if (imgBlob !== null) {
+        this.file = imgBlob;
+        this.previewImages();
+      }
+    },
+  });
 
-    Whisper.FileInputView.makeThumbnail = makeThumbnail;
+  Whisper.FileInputView.makeImageThumbnail = makeImageThumbnail;
+  Whisper.FileInputView.makeVideoThumbnail = makeVideoThumbnail;
+  Whisper.FileInputView.makeVideoScreenshot = makeVideoScreenshot;
 })();

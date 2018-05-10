@@ -78,10 +78,13 @@
     }
   }
 
-  .panel {
+  .panel,
+  .react-wrapper {
     height: calc(100% - #{$header-height});
     overflow-y: scroll;
+  }
 
+  .panel {
     .container {
       padding-top: 20px;
       max-width: 750px;
@@ -89,11 +92,15 @@
       padding: 20px;
     }
   }
-  .main.panel {
+
+  .main.panel,
+  .react-wrapper {
     display: flex;
     flex-direction: column;
     overflow: initial;
+  }
 
+  .main.panel {
     .discussion-container {
       flex-grow: 1;
       position: relative;
@@ -927,6 +934,32 @@ span.status {
 
   form.send {
     background: #ffffff;
+
+    &.video-attachment {
+      .image-container {
+        position: relative;
+      }
+
+      .outer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .play.icon {
+          height: 30px;
+          width: 30px;
+
+          @include color-svg('../images/play.svg', white);
+        }
+      }
+    }
   }
 
   input, textarea {
@@ -935,8 +968,10 @@ span.status {
 
   .attachment-previews {
     padding: 0 36px;
+
     .attachment-preview {
       padding: 13px 10px 0;
+
     }
     img {
       border: 2px solid #ddd;
@@ -1122,6 +1157,7 @@ span.status {
     background-color: white;
     border: none;
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
+    outline: none;
 
     .icon {
       @include color-svg('../images/down.svg', $grey_l3);
