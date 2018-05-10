@@ -1065,12 +1065,26 @@ MessageReceiver.prototype.extend({
       promises.push(this.handleAttachment(attachment));
     }
 
-    if (
-      decrypted.contact &&
-      decrypted.contact.avatar &&
-      decrypted.contact.avatar.avatar
-    ) {
-      promises.push(this.handleAttachment(decrypted.contact.avatar.avatar));
+    if (decrypted.contact && decrypted.contact.length) {
+      const contacts = decrypted.contact;
+
+      for (let i = 0, max = contacts.length; i < max; i += 1) {
+        const contact = contacts[i];
+        const { avatar } = contact;
+
+        if (avatar && avatar.avatar) {
+          // We don't want the failure of a thumbnail download to fail the handling of
+          //   this message entirely, like we do for full attachments.
+          promises.push(
+            this.handleAttachment(avatar.avatar).catch(error => {
+              console.log(
+                'Problem loading avatar for contact',
+                error && error.stack ? error.stack : error
+              );
+            })
+          );
+        }
+      }
     }
 
     if (decrypted.quote && decrypted.quote.id) {

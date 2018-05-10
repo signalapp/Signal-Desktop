@@ -2,6 +2,7 @@ const { omit, compact, map } = require('lodash');
 
 const { toLogFormat } = require('./errors');
 const { SignalService } = require('../../../ts/protobuf');
+const { parse: parsePhoneNumber } = require('../../../ts/types/PhoneNumber');
 
 const DEFAULT_PHONE_TYPE = SignalService.DataMessage.Contact.Phone.Type.HOME;
 const DEFAULT_EMAIL_TYPE = SignalService.DataMessage.Contact.Email.Type.HOME;
@@ -12,19 +13,23 @@ exports.parseAndWriteAvatar = upgradeAttachment => async (
   contact,
   context = {}
 ) => {
-  const { message } = context;
+  const { message, regionCode } = context;
   const { avatar } = contact;
+
+  // This is to ensure that an omit() call doesn't pull in prototype props/methods
+  const contactShallowCopy = Object.assign({}, contact);
+
   const contactWithUpdatedAvatar =
     avatar && avatar.avatar
-      ? Object.assign({}, contact, {
+      ? Object.assign({}, contactShallowCopy, {
           avatar: Object.assign({}, avatar, {
             avatar: await upgradeAttachment(avatar.avatar, context),
           }),
         })
-      : omit(contact, ['avatar']);
+      : omit(contactShallowCopy, ['avatar']);
 
   // eliminates empty numbers, emails, and addresses; adds type if not provided
-  const parsedContact = parseContact(contactWithUpdatedAvatar);
+  const parsedContact = parseContact(contactWithUpdatedAvatar, { regionCode });
 
   const error = exports._validate(parsedContact, {
     messageId: idForLogging(message),
@@ -39,12 +44,17 @@ exports.parseAndWriteAvatar = upgradeAttachment => async (
   return parsedContact;
 };
 
-function parseContact(contact) {
+function parseContact(contact, options = {}) {
+  const { regionCode } = options;
+
+  const boundParsePhone = phoneNumber =>
+    parsePhoneItem(phoneNumber, { regionCode });
+
   return Object.assign(
     {},
     omit(contact, ['avatar', 'number', 'email', 'address']),
     parseAvatar(contact.avatar),
-    createArrayKey('number', compact(map(contact.number, parsePhoneItem))),
+    createArrayKey('number', compact(map(contact.number, boundParsePhone))),
     createArrayKey('email', compact(map(contact.email, parseEmailItem))),
     createArrayKey('address', compact(map(contact.address, parseAddress)))
   );
@@ -77,13 +87,16 @@ exports._validate = (contact, options = {}) => {
   return null;
 };
 
-function parsePhoneItem(item) {
+function parsePhoneItem(item, options = {}) {
+  const { regionCode } = options;
+
   if (!item.value) {
     return null;
   }
 
   return Object.assign({}, item, {
     type: item.type || DEFAULT_PHONE_TYPE,
+    value: parsePhoneNumber(item.value, { regionCode }),
   });
 }
 

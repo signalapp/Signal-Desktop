@@ -62,6 +62,45 @@ const contact = {
 />;
 ```
 
+### With missing custom labels
+
+```jsx
+const contact = {
+  avatar: {
+    avatar: {
+      path: util.gifObjectUrl,
+    },
+  },
+  name: {
+    displayName: 'Someone Somewhere',
+  },
+  number: [
+    {
+      value: '(202) 555-0000',
+      type: 4,
+    },
+  ],
+  email: [
+    {
+      value: 'someone2@somewhere.com',
+      type: 4,
+    },
+  ],
+  address: [
+    {
+      street: '10 Pike Place, Seattle WA',
+      type: 3,
+    },
+  ],
+};
+<ContactDetail
+  contact={contact}
+  hasSignalAccount={true}
+  i18n={util.i18n}
+  onSendMessage={() => console.log('onSendMessage')}
+/>;
+```
+
 ### With default avatar
 
 ```jsx

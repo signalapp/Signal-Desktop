@@ -150,6 +150,44 @@ const View = Whisper.MessageView;
 </util.ConversationContext>;
 ```
 
+#### No displayName or organization
+
+```jsx
+const outgoing = new Whisper.Message({
+  type: 'outgoing',
+  sent_at: Date.now() - 18000000,
+  contact: [
+    {
+      name: {
+        givenName: 'Someone',
+      },
+      number: [
+        {
+          value: '+12025551000',
+          type: 1,
+        },
+      ],
+      avatar: {
+        avatar: {
+          path: util.gifObjectUrl,
+        },
+      },
+    },
+  ],
+});
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550011',
+    type: 'incoming',
+  })
+);
+const View = Whisper.MessageView;
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
+```
+
 #### Default avatar
 
 ```jsx

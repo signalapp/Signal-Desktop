@@ -50,7 +50,7 @@ const { IdleDetector } = require('./modules/idle_detector');
 const MessageDataMigrator = require('./modules/messages_data_migrator');
 
 exports.setup = (options = {}) => {
-  const { Attachments, userDataPath } = options;
+  const { Attachments, userDataPath, getRegionCode } = options;
 
   const Components = {
     ContactDetail,
@@ -84,6 +84,7 @@ exports.setup = (options = {}) => {
     upgradeMessageSchema: message =>
       Message.upgradeSchema(message, {
         writeNewAttachmentData: Attachments.createWriterForNew(attachmentsPath),
+        getRegionCode,
       }),
     writeMessageAttachments: Message.createAttachmentDataWriter(
       Attachments.createWriterForExisting(attachmentsPath)

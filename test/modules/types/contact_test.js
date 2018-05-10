@@ -36,6 +36,46 @@ describe('Contact', () => {
       assert.deepEqual(result, message.contact[0]);
     });
 
+    it('turns phone numbers to e164 format', async () => {
+      const upgradeAttachment = sinon
+        .stub()
+        .throws(new Error("Shouldn't be called"));
+      const upgradeVersion = Contact.parseAndWriteAvatar(upgradeAttachment);
+
+      const message = {
+        body: 'hey there!',
+        contact: [
+          {
+            name: {
+              displayName: 'Someone Somewhere',
+            },
+            number: [
+              {
+                type: 1,
+                value: '(202) 555-0099',
+              },
+            ],
+          },
+        ],
+      };
+      const expected = {
+        name: {
+          displayName: 'Someone Somewhere',
+        },
+        number: [
+          {
+            type: 1,
+            value: '+12025550099',
+          },
+        ],
+      };
+      const result = await upgradeVersion(message.contact[0], {
+        message,
+        regionCode: 'US',
+      });
+      assert.deepEqual(result, expected);
+    });
+
     it('removes contact avatar if it has no sub-avatar', async () => {
       const upgradeAttachment = sinon
         .stub()
