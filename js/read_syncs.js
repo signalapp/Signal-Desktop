@@ -24,21 +24,32 @@
               message.get('source') === receipt.get('sender')
             );
           });
-          if (message) {
-            Whisper.Notifications.remove(message);
-            return message.markRead(receipt.get('read_at')).then(
-              function() {
-                this.notifyConversation(message);
-                this.remove(receipt);
-              }.bind(this)
-            );
-          } else {
-            console.log(
-              'No message for read sync',
-              receipt.get('sender'),
-              receipt.get('timestamp')
-            );
-          }
+          const notificationForMessage = message
+            ? Whisper.Notifications.findWhere({ messageId: message.id })
+            : null;
+          const removedNotification = Whisper.Notifications.remove(
+            notificationForMessage
+          );
+          const receiptSender = receipt.get('sender');
+          const receiptTimestamp = receipt.get('timestamp');
+          const wasMessageFound = Boolean(message);
+          const wasNotificationFound = Boolean(notificationForMessage);
+          const wasNotificationRemoved = Boolean(removedNotification);
+          console.log('Receive read sync:', {
+            receiptSender,
+            receiptTimestamp,
+            wasMessageFound,
+            wasNotificationFound,
+            wasNotificationRemoved,
+          });
+          return message
+            ? message.markRead(receipt.get('read_at')).then(
+                function() {
+                  this.notifyConversation(message);
+                  this.remove(receipt);
+                }.bind(this)
+              )
+            : Promise.resolve();
         }.bind(this)
       );
     },
