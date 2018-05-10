@@ -128,6 +128,9 @@
 
       drawAttention();
 
+      if (this.lastNotification) {
+        this.lastNotification.close();
+      }
       const notification = new Notification(title, {
         body: message,
         icon: iconUrl,
