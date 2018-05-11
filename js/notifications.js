@@ -36,6 +36,7 @@
       //   to manually close them. This introduces a minimum amount of time between calls,
       //   and batches up the quick successive update() calls we get from an incoming
       //   read sync, which might have a number of messages referenced inside of it.
+      this.fastUpdate = this.update;
       this.update = _.debounce(this.update, 1000);
     },
     onClick(conversationId) {
@@ -43,6 +44,11 @@
       this.trigger('click', conversation);
     },
     update() {
+      if (this.lastNotification) {
+        this.lastNotification.close();
+        this.lastNotification = null;
+      }
+
       const { isEnabled } = this;
       const isAppFocused = isFocused();
       const isAudioNotificationEnabled =
@@ -70,7 +76,7 @@
 
       if (status.type !== 'ok') {
         if (status.shouldClearNotifications) {
-          this.clear();
+          this.reset([]);
         }
 
         return;
@@ -136,9 +142,6 @@
 
       drawAttention();
 
-      if (this.lastNotification) {
-        this.lastNotification.close();
-      }
       const notification = new Notification(title, {
         body: message,
         icon: iconUrl,
@@ -159,18 +162,19 @@
     },
     onRemove() {
       console.log('Remove notification');
-      if (this.length === 0) {
-        this.clear();
-      } else {
-        this.update();
-      }
+      this.update();
     },
     clear() {
       console.log('Remove all notifications');
-      if (this.lastNotification) {
-        this.lastNotification.close();
-      }
       this.reset([]);
+      this.update();
+    },
+    // We don't usually call this, but when the process is shutting down, we should at
+    //   least try to remove the notification immediately instead of waiting for the
+    //   normal debounce.
+    fastClear() {
+      this.reset([]);
+      this.fastUpdate();
     },
     enable() {
       const needUpdate = !this.isEnabled;
