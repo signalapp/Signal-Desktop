@@ -8,6 +8,7 @@
 /* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
+/* global _: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -29,6 +30,13 @@
       this.on('remove', this.onRemove);
 
       this.lastNotification = null;
+
+      // Testing indicated that trying to create/destroy notifications too quickly
+      //   resulted in notifications that stuck around forever, requiring the user
+      //   to manually close them. This introduces a minimum amount of time between calls,
+      //   and batches up the quick successive update() calls we get from an incoming
+      //   read sync, which might have a number of messages referenced inside of it.
+      this.update = _.debounce(this.update, 1000);
     },
     onClick(conversationId) {
       const conversation = ConversationController.get(conversationId);
