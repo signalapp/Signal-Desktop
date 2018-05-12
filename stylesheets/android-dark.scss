@@ -284,6 +284,12 @@ $text-dark_l2: darken($text-dark, 30%);
     }
   }
 
+  .contact-detail {
+    .additional-contact .type {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
   .outgoing .quoted-message {
     background: rgba(255, 255, 255, 0.38);
 
