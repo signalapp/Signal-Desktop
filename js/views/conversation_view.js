@@ -1007,7 +1007,7 @@
       this.listenBack(view);
     },
 
-    showContactDetail(contact) {
+    showContactDetail({ contact, hasSignalAccount }) {
       const regionCode = storage.get('regionCode');
       const { contactSelector } = Signal.Types.Contact;
       const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
@@ -1019,7 +1019,7 @@
             regionCode,
             getAbsoluteAttachmentPath,
           }),
-          hasSignalAccount: true,
+          hasSignalAccount,
           onSendMessage: () => {
             const number =
               contact.number && contact.number[0] && contact.number[0].value;

@@ -457,15 +457,27 @@
         contact.number && contact.number[0] && contact.number[0].value;
       const haveConversation =
         number && Boolean(window.ConversationController.get(number));
-      const hasLocalSignalAccount = number && haveConversation;
+      const hasLocalSignalAccount =
+        this.contactHasSignalAccount || (number && haveConversation);
+
+      // We store this value on this. because a re-render shouldn't kick off another
+      //   profile check. To the web.
+      this.contactHasSignalAccount = hasLocalSignalAccount;
 
       const onSendMessage = number
         ? () => {
             this.model.trigger('open-conversation', number);
           }
         : null;
-      const onOpenContact = () => {
-        this.model.trigger('show-contact-detail', contact);
+      const onOpenContact = async () => {
+        // First let's finish our check with the central server to see if this user has
+        //   a signal account. Then we won't have to do it a second time for the detail
+        //   screen.
+        await this.checkingProfile;
+        this.model.trigger('show-contact-detail', {
+          contact,
+          hasSignalAccount: this.contactHasSignalAccount,
+        });
       };
 
       const getProps = ({ hasSignalAccount }) => ({
@@ -496,18 +508,21 @@
       // If we can't verify a signal account locally, we'll go to the Signal Server.
       if (number && !hasLocalSignalAccount) {
         // eslint-disable-next-line more/no-then
-        window.textsecure.messaging
+        this.checkingProfile = window.textsecure.messaging
           .getProfile(number)
           .then(() => {
+            this.contactHasSignalAccount = true;
+
             if (!this.contactView) {
               return;
             }
-
             this.contactView.update(getProps({ hasSignalAccount: true }));
           })
           .catch(() => {
             // No account available, or network connectivity problem
           });
+      } else {
+        this.checkingProfile = Promise.resolve();
       }
     },
     isImageWithoutCaption() {
