@@ -66,6 +66,7 @@
             avatar: this.model.getAvatar(),
             profileName: this.model.getProfileName(),
             unreadCount: this.model.get('unreadCount'),
+            message_status: this.model.get('status')
           },
           this.render_partials()
         )
