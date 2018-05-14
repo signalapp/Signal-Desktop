@@ -55,12 +55,14 @@
     },
 
     render: function() {
+      const lastMessage = this.model.get('lastMessage');
+
       this.$el.html(
         Mustache.render(
           _.result(this, 'template', ''),
           {
             title: this.model.getTitle(),
-            last_message: this.model.get('lastMessage'),
+            last_message: Boolean(lastMessage),
             last_message_timestamp: this.model.get('timestamp'),
             number: this.model.getNumber(),
             avatar: this.model.getAvatar(),
@@ -74,7 +76,23 @@
       this.timeStampView.update();
 
       emoji_util.parse(this.$('.name'));
-      emoji_util.parse(this.$('.last-message'));
+
+      if (lastMessage) {
+        if (this.bodyView) {
+          this.bodyView.remove();
+          this.bodyView = null;
+        }
+        this.bodyView = new Whisper.ReactWrapperView({
+          className: 'body-wrapper',
+          Component: window.Signal.Components.MessageBody,
+          props: {
+            text: lastMessage,
+            disableJumbomoji: true,
+            disableLinks: true,
+          },
+        });
+        this.$('.last-message').append(this.bodyView.el);
+      }
 
       var unread = this.model.get('unreadCount');
       if (unread > 0) {

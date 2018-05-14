@@ -8,14 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'none';
+            child-src 'self';
             connect-src 'self' https: wss:;
+            font-src 'self';
+            frame-src 'none';
+            img-src 'self' blob: data:;
+            media-src 'self' blob:;
+            object-src 'none'"
             script-src 'self';
             style-src 'self' 'unsafe-inline';
-            img-src 'self' blob: data:;
-            font-src 'self';
-            media-src 'self' blob:;
-            child-src 'self';
-            object-src 'none'"
   >
   <title>Signal</title>
   <link href='images/icon_128.png' rel='shortcut icon'>
@@ -283,7 +284,7 @@
               {{ #hasBody }}
                 <div class='content' dir='auto'>
                   {{ #message }}
-                    <div class='body'>{{ message }}</div>
+                    <div class='body'></div>
                   {{ /message }}
                 </div>
                 {{ /hasBody }}
@@ -375,7 +376,7 @@
             <span class='unread-count'>{{ unreadCount }}</span>
           {{ /unreadCount }}
           {{ #last_message }}
-            <p class='last-message' dir='auto'> {{ last_message }} </p>
+            <p class='last-message' dir='auto'></p>
           {{ /last_message }}
       </div>
   </script>

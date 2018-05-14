@@ -42,7 +42,7 @@ window.Whisper.View.Templates = {
               {{ #hasBody }}
                 <div class='content' dir='auto'>
                   {{ #message }}
-                    <div class='body'>{{ message }}</div>
+                    <div class='body'></div>
                   {{ /message }}
                 </div>
                 {{ /hasBody }}

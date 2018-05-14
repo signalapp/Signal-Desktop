@@ -4,6 +4,8 @@ import classnames from 'classnames';
 import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
+import { MessageBody } from './MessageBody';
+
 interface Props {
   attachments: Array<QuotedAttachment>;
   authorColor: string;
@@ -111,7 +113,9 @@ export class Quote extends React.Component<Props, {}> {
 
     if (text) {
       return (
-        <div className="text" dangerouslySetInnerHTML={{ __html: text }} />
+        <div className="text">
+          <MessageBody text={text} />
+        </div>
       );
     }
 

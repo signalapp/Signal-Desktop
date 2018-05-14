@@ -399,6 +399,8 @@ $avatar-size: 44px;
 
   p {
     overflow-x: hidden;
+    overflow-y: hidden;
+    height: 1.2em;
     text-overflow: ellipsis;
   }
 

@@ -1293,7 +1293,7 @@
         className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
         props: Object.assign({}, props, {
-          text: props.text ? window.emoji.signalReplace(props.text) : null,
+          text: props.text,
           onClose: () => {
             this.setQuoteMessage(null);
           },

@@ -23,6 +23,7 @@ const { LightboxGallery } = require('../ts/components/LightboxGallery');
 const {
   MediaGallery,
 } = require('../ts/components/conversation/media-gallery/MediaGallery');
+const { MessageBody } = require('../ts/components/conversation/MessageBody');
 const { Quote } = require('../ts/components/conversation/Quote');
 
 // Migrations
@@ -58,6 +59,7 @@ exports.setup = (options = {}) => {
     Lightbox,
     LightboxGallery,
     MediaGallery,
+    MessageBody,
     Types: {
       Message: MediaGalleryMessage,
     },
