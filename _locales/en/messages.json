@@ -338,10 +338,6 @@
       "message": "You don’t have any documents in this conversation",
       "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
-    "messageCaption": {
-      "message": "Message caption",
-      "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "today": {
       "message": "Today",
       "description": "Section header in the media gallery"
@@ -463,6 +459,38 @@
     },
     "selectAContact": {
       "message": "Select a contact or group to start chatting."
+    },
+    "sendMessageToContact": {
+      "message": "Send Message",
+      "description": "Shown when you are sent a contact and that contact has a signal account"
+    },
+    "home": {
+      "message": "home",
+      "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "work": {
+      "message": "work",
+      "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "mobile": {
+      "message": "mobile",
+      "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "email": {
+      "message": "email",
+      "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "phone": {
+      "message": "phone",
+      "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "address": {
+      "message": "address",
+      "description": "Generic label shown if contact address has custom type but no label"
+    },
+    "poBox": {
+      "message": "PO Box",
+      "description": "When rendering an address, used to provide context to a post office box"
     },
     "replyToMessage": {
       "message": "Reply to Message",

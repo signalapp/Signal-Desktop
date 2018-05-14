@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
 
-
 function normalizeLocaleName(locale) {
   if (/^en-/.test(locale)) {
     return 'en';
@@ -50,7 +49,9 @@ function load({ appLocale, logger } = {}) {
     // We start with english, then overwrite that with anything present in locale
     messages = _.merge(english, messages);
   } catch (e) {
-    logger.error(`Problem loading messages for locale ${localeName} ${e.stack}`);
+    logger.error(
+      `Problem loading messages for locale ${localeName} ${e.stack}`
+    );
     logger.error('Falling back to en locale');
 
     localeName = 'en';

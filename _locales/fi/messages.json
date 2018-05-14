@@ -15,6 +15,22 @@
         "message": "Näytä",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "linkedDevices": {
+        "message": "Yhdistetyt laitteet",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "yesterday": {
+        "message": "Huomenna",
+        "description": "Section header in the media gallery"
+    },
+    "replyingToYourself": {
+        "message": "Vastaus itsellesi",
+        "description": "Shown in iOS theme when you quote yourself"
+    },
+    "documents": {
+        "message": "Dokumentit",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
     "upgradingDatabase": {
         "message": "Päivitetään tietokantaa. Tämä saattaa kestää hetken...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
@@ -24,7 +40,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Yritetään uudelleen yhteyttä $reconnect_duration_in_seconds$ sekunnissa",
+        "message": "Yritetään uudelleen $reconnect_duration_in_seconds$ sekunnin kuluttua",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -33,9 +49,9 @@
             }
         }
     },
-    "importInstructions": {
-        "message": "Ensimmäinen askel on kertoa meille, minne olet aikaisemmin <a href='https://support.signal.org/hc/en-us/articles/115002502511'>tallentanut Signal tietosi</a>. Se on kansio, jonka nimi alkaa sanoilla 'Signal Export.'<br><br><b>HUOM</b>: Sinun tulee tuoda tallentamasi tiedot <b>vain kerran</b>. Tietojen tuominen luo kopion tallennetusta ohjelmasta ja useammat ohjelmat häiritsevät toistensa toimintaa.",
-        "description": "Description of the export process"
+    "thisMonth": {
+        "message": "Tämä kuukausi",
+        "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
         "message": "Liitetiedoston tyyppiä ei tueta. Tallenna napsauttamalla.",
@@ -77,17 +93,21 @@
         "message": "5s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installComputerName": {
-        "message": "Tämän tietokoneen nimeksi tulee",
-        "description": "Text displayed before the input where the user can enter the name for this device."
+    "importCompleteHeader": {
+        "message": "Onnistui!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
         "message": "1 minuutti",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "deviceName": {
+        "message": "Laitteen nimi",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
     "debugLog": {
         "message": "Virheenkorjausloki",
-        "description": "View menu item to open the debug log, capitalized"
+        "description": "View menu item to open the debug log (title case)"
     },
     "gotIt": {
         "message": "Selvä!",
@@ -127,10 +147,6 @@
         "message": "Tiedostotyyppiä ei tueta",
         "description": "Displayed for outgoing unsupported attachment"
     },
-    "exportAgain": {
-        "message": "Vie uudelleen",
-        "description": "If user has already exported once, this button allows user to do it again if needed"
-    },
     "quit": {
         "message": "Lopeta",
         "description": "Command in the tray icon menu, to quit the application"
@@ -139,21 +155,17 @@
         "message": "Tallenna napsauttamalla",
         "description": "Hover text for attachment filenames"
     },
-    "fileABug": {
-        "message": "Ilmoita ongelmasta",
-        "description": "Item under the Help menu, takes you to GitHub new issue form"
-    },
     "messagesBelow": {
         "message": "Uusia viestejä alla",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
-    "installGeneratingKeys": {
-        "message": "Luodaan avaimia",
-        "description": ""
-    },
     "resetSession": {
         "message": "Alusta istunto",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "replyingToYou": {
+        "message": "Vastaus sinulle",
+        "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "offline": {
         "message": "Ei yhteyttä",
@@ -183,13 +195,13 @@
         "message": "poissa päältä",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
+    "clearDataButton": {
+        "message": "Tyhjennä tiedot.",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
     "syncExplanation": {
         "message": "Tuo kaikkien Signal-yhteystietojen ja -ryhmien tiedot mobiililaitteestasi.",
         "description": "Explanatory text for sync settings"
-    },
-    "restartSignal": {
-        "message": "Käynnistä Signal uudelleen",
-        "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
         "message": "Olet poistunut ryhmästä.",
@@ -219,17 +231,9 @@
         "message": "Aloita keskustelu valitsemalla jokin yhteystieto tai ryhmä",
         "description": ""
     },
-    "exportError": {
-        "message": "Valitettavasti jokin meni pieleen viemisessä. Aluksi tarkasta että kansio, johon olet viemässä, on tyhjä, sinulla on kirjoitusoikeus siihen ja tilaa on riittävästi vapaana. Sitten lähetä meille virheenkorjausloki, jotta voimme auttaa sinua siirtymisessä.",
-        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
-    },
     "aboutSignalDesktop": {
         "message": "Tietoja Signal Desktopista",
         "description": "Item under the Help menu, which opens a small about window"
-    },
-    "installConnecting": {
-        "message": "Yhdistetään...",
-        "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
         "message": "valitsemasi kansio",
@@ -261,6 +265,14 @@
         "message": "Lähetetty",
         "description": "Label for the time a message was sent"
     },
+    "thisWeek": {
+        "message": "Tämä viikko",
+        "description": "Section header in the media gallery"
+    },
+    "importingHeader": {
+        "message": "Ladataan yhteystietoja ja viestejä ",
+        "description": "Header of screen shown as data is import"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ asetti katoamisajan: $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -279,6 +291,10 @@
         "message": "nyt",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "mainMenuSettings": {
+        "message": "Asetukset...",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
     "changedRecentlyMultiple": {
         "message": "Turvanumerosi on hiljattain vaihtunut usean tämän ryhmän jäsenen kanssa. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että he on yksinkertaisesti uudelleenasentaneet Signalin.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -286,10 +302,6 @@
     "timerOption_1_day": {
         "message": "1 päivä",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "exporting": {
-        "message": "Ole hyvä ja odota kun tallennamme tietosi. Tämä voi viedä muutaman minuutin. Voit edelleen käyttää Signalia kännykälläsi ja muilla laitteilla samanaikaisesti.",
-        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Ilmoita ongelmasta",
@@ -316,24 +328,36 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "mainMenuWindow": {
-        "message": "&Window",
+        "message": "&Ikkuna",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "installImport": {
-        "message": "Asenna käyttäen tuotuja tietoja",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "importCompleteLinkButton": {
+        "message": "Yhdistä tämä laite puhelimeesi",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
         "message": "Jotta voit jatkaa viestittelyä, yhdistä Signal Desktop uudelleen mobiililaitteeseesi.",
         "description": ""
     },
+    "today": {
+        "message": "Tänään",
+        "description": "Section header in the media gallery"
+    },
     "debugLogExplanation": {
         "message": "Tämä loki tullaan julkaisemaan verkossa, jotta kehittäjät ja muut voivat tarkastella sitä. Voit esikatsella ja muokata lokia vielä ennen kuin lähetät sen.",
         "description": ""
     },
+    "linkYourPhone": {
+        "message": "Yhdistä puhelimesi ja Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
     "newPhoneNumber": {
         "message": "Syötä puhelinnumero lisätäksesi uuden yhteystiedon",
         "description": "Placeholder for adding a new number to a contact"
+    },
+    "viewAllMedia": {
+        "message": "Näytä kaikki media",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "noLongerVerified": {
         "message": "Turvanumerosi yhteystiedon $name$ kanssa on vaihtunut eikä se ole enää varmennettu. Näytä napsauttamalla.",
@@ -345,8 +369,12 @@
             }
         }
     },
+    "video": {
+        "message": "Video",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
     "searchForPeopleOrGroups": {
-        "message": "Hae...",
+        "message": "Syötä nimi tai numero",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -369,27 +397,27 @@
         "message": "Ei yhdistetty",
         "description": ""
     },
-    "installFollowUs": {
-        "message": "Jos haluat saada uutisia ja tietoja usean laitteen tuesta iOS:lle voit <a $a_params$>seurata meitä</a>.",
-        "description": "",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "learnMore": {
         "message": "Lue lisää turvanumeroiden varmentamisesta.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "installNew": {
-        "message": "Asenna uutena",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "timerSetOnSync": {
+        "message": "Ajastin päivitetään: $time$.",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
-    "importing": {
-        "message": "Ole hyvä ja odota kun tuomme tietosi...",
-        "description": "Shown as we are loading the user's data from disk"
+    "messageCaption": {
+        "message": "Viestin kuvaus",
+        "description": "Prefix of attachment alt tags in the media gallery"
+    },
+    "deleteAllDataButton": {
+        "message": "Poista kaikki tiedot",
+        "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
         "message": "$count$ uutta viestiä",
@@ -405,20 +433,6 @@
         "message": "Valitettavasti sinulla on jo liian monta laitetta yhdistettynä. Kokeile poistaa joitakin.",
         "description": ""
     },
-    "installSignalLinks": {
-        "message": "Asenna Signal ensin <a $play_store$>Android</a>- tai <a $app_store$>iPhone</a>-puhelimeesi.<br /> Yhdistämme sitten laitteesi toisiinsa ja synkronoimme viestisi.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "play_store": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            },
-            "app_store": {
-                "content": "$2",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "joinedTheGroup": {
         "message": "$name$ liittyi ryhmään.",
         "description": "Shown in the conversation history when a single person joins the group",
@@ -430,12 +444,12 @@
         }
     },
     "goToForums": {
-        "message": "Mene keskustelupalstalle",
+        "message": "Siirry keskustelupalstalle",
         "description": "Item under the Help menu, takes you to the forums"
     },
-    "installSyncingGroupsAndContacts": {
-        "message": "Synkronoidaan ryhmiä ja yhteystietoja",
-        "description": ""
+    "menuSetupWithImport": {
+        "message": "Asenna tuoduilla tiedoilla",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
@@ -463,6 +477,10 @@
         "message": "Puhe",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
+    "importErrorHeader": {
+        "message": "Jokin meni pieleen!",
+        "description": "Header of the error screen after a failed import"
+    },
     "changedSinceVerified": {
         "message": "Turvanumerosi yhteystiedon $name$ kanssa on vaihtunut sen jälkeen kun viimeksi varmensit. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että $name$ on yksinkertaisesti uudelleenasentanut Signalin.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -472,6 +490,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "importAgain": {
+        "message": "Valitse kansio ja yritä uudelleen",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "upgrade": {
         "message": "Päivitä",
@@ -541,16 +563,24 @@
         "message": "12t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "signalSettings": {
+        "message": "Signal Asetukset",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "plusButton": {
+        "message": "'+' Nappi",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
     "chooseDirectory": {
         "message": "Valitse kansio",
-        "description": "Button to allow the user to export all data from app as part of migration process"
+        "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
-        "message": "&Edit",
+        "message": "&Muokkaa",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
@@ -565,12 +595,18 @@
         "message": "1p",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Käynnistä uudelleen",
-        "description": ""
+    "replyingTo": {
+        "message": "Vastaus: $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
-    "importButton": {
-        "message": "Tuo",
+    "autoUpdateRestartButtonLabel": {
+        "message": "Käynnistä Signal uudelleen",
         "description": ""
     },
     "sync": {
@@ -580,10 +616,6 @@
     "timerOption_1_week": {
         "message": "1 viikko",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "installGotIt": {
-        "message": "Selvä!",
-        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Vastaanotettu",
@@ -613,9 +645,25 @@
         "message": "30 sekuntia",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "deleteAllDataHeader": {
+        "message": "Poistetaanko kaikki tiedot?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataProgress": {
+        "message": "Katkaistaan yhteyttä ja tuhotaan kaikki tiedot",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
     "sendMessage": {
         "message": "Lähetä viesti",
         "description": "Placeholder text in the message entry field"
+    },
+    "menuReportIssue": {
+        "message": "Ilmoita ongelmasta",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "loadDataDescription": {
+        "message": "Olet juuri suorittanut vientiprosessin, ja yhteystietosi ja viesisi odottavat nyt kärsivällisesti tietokoneellasi. Valitse kansio, joka sisältää tallennetut Signal tietosi.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "me": {
         "message": "Minä",
@@ -641,8 +689,12 @@
         "message": "Poista tämä viesti",
         "description": ""
     },
+    "chooseDeviceName": {
+        "message": "Valitse nimi tälle laitteelle",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
     "autoUpdateNewVersionInstructions": {
-        "message": "Paina Käynnistä uudelleen asentaaksesi päivitykset.",
+        "message": "Paina Käynnistä Signal uudelleen asentaaksesi päivitykset.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -650,20 +702,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Valitettavasti jokin meni pieleen tuomisessa. <p>Aluksi tarkasta että kohteena olevan kansion nimi alkaa sanoilla 'Signal Export'.</p> <p>Seuraavaksi, yritä tehdä uusi vieminen Chrome-sovelluksesta.</p> Jos sekään ei onnistu, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>lähetä meille virheenkorjausloki</a>, jotta voimme auttaa sinua siirtymisessä!",
+        "message": "Varmista, että olet valinnut oikean kansion, jossa on sinun Signal tiedot. Sen nimen tulisi alkaa sanoilla 'Signal Export.' Voit myös tallentaa uuden kopion Chrome-sovelluksessa olevista tiedoistasi.<p>Jos tämä ei onnistu, ole hyvä ja <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>lähetä meille virheenkorjausloki</a> jotta voimme auttaa sinua siirtymisessä!</p>",
         "description": "Message shown if the import went wrong."
-    },
-    "installAndroidInstructions": {
-        "message": "Avaa Signal puhelimessasi ja mene valikosta Asetukset > Yhdistetyt laitteet. Lisätäksesi uuden laitteen napsauta siellä olevaa sinistä nappia ja sitten skannaa yllä näkyvä QR-koodi.",
-        "description": ""
     },
     "invalidNumberError": {
         "message": "Virheellinen numero",
         "description": "When a person inputs a number that is invalid"
-    },
-    "importComplete": {
-        "message": "Tietojesi tuonti onnistui. Seuraavaksi sovellus täytyy uudellenkäynnistää!",
-        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Tervetuloa Signal Desktopiin",
@@ -673,15 +717,9 @@
         "message": "Uusi viesti alla",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
-    "exportComplete": {
-        "message": "Tietosi on tallennettu seuraavaan paikkaan: <p><b>$location$</b></p> Voit tuoda tietosi kun asennat <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>uuden Signal Desktopin</a>.",
-        "description": "Message shown on the migration screen when we are done exporting data",
-        "placeholders": {
-            "location": {
-                "content": "$1",
-                "example": "/Users/someone/somewhere"
-            }
-        }
+    "menuSetupAsNewDevice": {
+        "message": "Asenna uutena laitteena",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
         "message": "Palvelimeen ei saada yhteyttä.",
@@ -695,17 +733,37 @@
         "message": "Viestiä ei lähetetty",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "initialSync": {
+        "message": "Synkronoidaan yhteystietoja ja ryhmiä",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "mainMenuView": {
-        "message": "&View",
+        "message": "&Näytä",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "autoUpdateNewVersionMessage": {
         "message": "Uusi versio Signalista on saatavilla.",
         "description": ""
     },
+    "replyToMessage": {
+        "message": "Vastaa viestiin",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
     "disableNotifications": {
         "message": "ilmoitukset kokonaan pois päältä",
         "description": "Label for disabling notifications"
+    },
+    "photo": {
+        "message": "Kuva",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "media": {
+        "message": "Media",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "noContents": {
+        "message": "Ei sisältöä",
+        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
         "message": "Peruuta",
@@ -715,12 +773,8 @@
         "message": "Lähettääksesi viestin tälle yhteystiedolle sinun tulee ensin poistaa asettamasi esto.",
         "description": "Brief message shown when trying to message a blocked number"
     },
-    "installIHaveSignalButton": {
-        "message": "Minulla on Signal Androidille",
-        "description": "Button for the user to confirm that they have Signal for Android"
-    },
     "mainMenuHelp": {
-        "message": "&Help",
+        "message": "&Ohje",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
@@ -745,13 +799,13 @@
         "message": "Yhdistetään",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "deleteAllDataBody": {
+        "message": "Olet tuhoamassa tämän ohjelman kaikki käyttäjätiedot, mukaanlukien kaikki yhteystiedot ja viestit. Voit aina yhdistää mobiililaitteesi uudelleen, mutta se ei palauta jo tuhottuja viestejä.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
     "sessionEnded": {
         "message": "Suojattu istunto alustettu",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "installGetStartedButton": {
-        "message": "Aloita",
-        "description": ""
     },
     "relink": {
         "message": "Yhdistä uudelleen",
@@ -779,23 +833,13 @@
             }
         }
     },
-    "installSignalLink": {
-        "message": "Asenna ensin <a $a_params$>Signal</a> kännykkääsi. Yhdistämme laitteesi ja synkronoimme viestisi.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
-    "installLinkingWithNumber": {
-        "message": "Olet yhdistämässä puhelimesi Signalia, joka on rekisteröity numerollasi",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
-    },
     "goToSupportPage": {
-        "message": "Mene tukisivulle",
+        "message": "Siirry tukisivulle",
         "description": "Item under the Help menu, takes you to the support page"
+    },
+    "finishLinkingPhone": {
+        "message": "Viimeistele yhdistys puhelimeen",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
         "message": "$names$ liittyivät ryhmään.",
@@ -819,10 +863,6 @@
         "message": "uutta viestiä",
         "description": "Displayed in notifications for multiple messages"
     },
-    "newContact": {
-        "message": "Luo uusi yhteystieto napsauttamalla",
-        "description": ""
-    },
     "theirIdentityUnknown": {
         "message": "Et ole lähettänyt tai vastaanottanut vielä viestejä tämän yhteystiedon kanssa. Turvanumero on saatavilla vasta ensimmäisen viestin jälkeen.",
         "description": ""
@@ -830,6 +870,10 @@
     "voiceMessage": {
         "message": "Ääniviesti",
         "description": "Name for a voice message attachment"
+    },
+    "importCompleteStartButton": {
+        "message": "Aloita Signal Desktopin käyttö",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "submit": {
         "message": "Lähetä",
@@ -859,6 +903,10 @@
             }
         }
     },
+    "clearDataExplanation": {
+        "message": "Tämä tyhjentää kaikki tiedot tästä sovelluksesta ja poistaa kaikki viestit ja käyttäjätilisi tiedot.",
+        "description": "Text describing what the clear data button will do."
+    },
     "to": {
         "message": "Vastaanottajat",
         "description": "Label for the receiver of a message"
@@ -867,45 +915,45 @@
         "message": "1t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installFinalButton": {
-        "message": "Hyvältä näyttää",
-        "description": "The final button for the install process, after the user has entered a name for their device"
+    "optimizingApplication": {
+        "message": "Optimoidaan sovellusta...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Mene julkaisutietoihin",
+        "message": "Siirry julkaisutietoihin",
         "description": ""
     },
     "messageDetail": {
         "message": "Viestin tiedot",
         "description": ""
     },
-    "installNewSignal": {
-        "message": "Asenna uusi Signal Desktop",
-        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
-    },
-    "exportChooserTitle": {
-        "message": "Valitse kohde kansio tiedoille",
-        "description": "Title of the popup window used to select data storage location"
-    },
     "mainMenuFile": {
-        "message": "&File",
+        "message": "&Arkisto",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Merkitse varmennetuksi",
         "description": ""
     },
-    "exportButton": {
-        "message": "Vie",
-        "description": ""
+    "clearDataHeader": {
+        "message": "Tyhjennä tiedot.",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "linkNewDevice": {
+        "message": "Yhdistä uusi laite",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
     "nameAndMessage": {
         "message": "sekä nimi että viesti",
         "description": "Label for setting notifications to display name and message text"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Asenna itsenäisenä laitteena",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
         "message": "Lähettäminen joillekin vastaanottajille epäonnistui. Tarkista verkkoyhteytesi.",
@@ -923,9 +971,17 @@
         "message": "Turvanumerosi on vaihtunut usean tämän ryhmän jäsenen kanssa sen jälkeen kun olet viimeksi varmentanut ne. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että he on yksinkertaisesti uudelleenasentaneet Signalin.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "loadDataHeader": {
+        "message": "Tuo tietosi",
+        "description": "Header shown on the first screen in the data import process"
+    },
     "submitDebugLog": {
-        "message": "Lähetä virheenkorjausloki",
-        "description": "Menu item and header text for debug log modal, title case."
+        "message": "Virheenkorjausloki",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "startConversation": {
+        "message": "Aloita keskustelu",
+        "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
         "message": "Virhe",
@@ -969,17 +1025,13 @@
         "message": "30s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "exportInstructions": {
-        "message": "Ensimmäinen askel on valita kansio, johon haluat tallentaa tämän ohjelman tiedot. Ne tulevat sisältämään viestihistoriasi ja yksityisiä salausavaimia, joten ole tarkkana, että tallennat sen jonnekin turvalliseen paikkaan.",
-        "description": "Description of the export process"
+    "audio": {
+        "message": "Äänitiedosto",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
         "message": "Ilmoitukset",
         "description": "Header for notification settings"
-    },
-    "tryAgain": {
-        "message": "Yritä uudelleen",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Lähetä uudelleen",

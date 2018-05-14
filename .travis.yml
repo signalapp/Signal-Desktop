@@ -7,23 +7,16 @@ dist: trusty
 install:
   - yarn install --frozen-lockfile
 script:
-  - yarn transpile
+  - yarn generate
   - yarn lint
   - yarn test-node
   - yarn nsp check
-  - yarn generate
   - yarn prepare-beta-build
   - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
   - ./travis.sh
 env:
   global:
     - SIGNAL_ENV: production
-    - secure: LeXDynRSyeHXR9KdmhYuP/zsc8uFsnYoOWI3fqg8x5SLOilfDyQ766idkT9NTRrdSR8WY7wP4DPs3hrBWGmcVq7BhytI9Q34YSgGS/Sds0jlm5AzSpYfAHpSQ+9ufQXNKN6lgxTkupdsWlc2Em20wUd5EfluDSOoeWVMlqHmKrw=
-    - secure: WzXjaiy6BmEyKI3uXeanjbAlmzadlwIWxJbC7Mff2duIl/nsaOTK6ElYu23IfeBCvK1DxXV8DVUfTIZXkeFeqHKPtgq2t3HcS12YiNnb7ToGpgOpzElYY4wAOPxRbqPE/ZcthbSxo1x/thgDeWNWxqK1X4XJ3qEIRoE+tPsGKG8=
 sudo: false
 notifications:
   email: false
-addons:
-  artifacts:
-    paths:
-      - $(ls ./dist/*.* | tr "\n" ":")

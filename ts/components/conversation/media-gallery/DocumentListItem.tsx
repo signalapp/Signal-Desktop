@@ -4,17 +4,23 @@ import moment from 'moment';
 import formatFileSize from 'filesize';
 
 interface Props {
-  fileName?: string;
-  fileSize?: number;
+  // Required
   i18n: (key: string, values?: Array<string>) => string;
-  onClick?: () => void;
   timestamp: number;
+
+  // Optional
+  fileName?: string | null;
+  fileSize?: number;
+  onClick?: () => void;
+  shouldShowSeparator?: boolean;
 }
 
 const styles = {
   container: {
     width: '100%',
     height: 72,
+  },
+  containerSeparator: {
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     borderBottomStyle: 'solid',
@@ -53,7 +59,25 @@ const styles = {
 };
 
 export class DocumentListItem extends React.Component<Props, {}> {
-  public renderContent() {
+  public static defaultProps: Partial<Props> = {
+    shouldShowSeparator: true,
+  };
+
+  public render() {
+    const { shouldShowSeparator } = this.props;
+    return (
+      <div
+        style={{
+          ...styles.container,
+          ...(shouldShowSeparator ? styles.containerSeparator : {}),
+        }}
+      >
+        {this.renderContent()}
+      </div>
+    );
+  }
+
+  private renderContent() {
     const { fileName, fileSize, timestamp } = this.props;
 
     return (
@@ -75,9 +99,5 @@ export class DocumentListItem extends React.Component<Props, {}> {
         </div>
       </div>
     );
-  }
-
-  public render() {
-    return <div style={styles.container}>{this.renderContent()}</div>;
   }
 }

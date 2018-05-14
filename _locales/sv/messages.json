@@ -15,6 +15,22 @@
         "message": "Visa",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "linkedDevices": {
+        "message": "Länkade enheter",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "yesterday": {
+        "message": "Igår",
+        "description": "Section header in the media gallery"
+    },
+    "replyingToYourself": {
+        "message": "Svarar till dig själv",
+        "description": "Shown in iOS theme when you quote yourself"
+    },
+    "documents": {
+        "message": "Dokument",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
     "upgradingDatabase": {
         "message": "Uppgraderar databasen. Detta kan ta lite tid...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
@@ -33,9 +49,9 @@
             }
         }
     },
-    "importInstructions": {
-        "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
-        "description": "Description of the export process"
+    "thisMonth": {
+        "message": "Denna månad",
+        "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
         "message": "Okänd filtyp på bilaga. Klicka för att spara.",
@@ -50,7 +66,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ har lämnat gruppen.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -77,17 +93,21 @@
         "message": "5s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installComputerName": {
-        "message": "Datornamnet kommer att vara",
-        "description": "Text displayed before the input where the user can enter the name for this device."
+    "importCompleteHeader": {
+        "message": "Det funkade!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
         "message": "1 minut",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "deviceName": {
+        "message": "Enhetsnamn",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
     "debugLog": {
-        "message": "Debug Log",
-        "description": "View menu item to open the debug log, capitalized"
+        "message": "Felsökningslogg",
+        "description": "View menu item to open the debug log (title case)"
     },
     "gotIt": {
         "message": "Uppfattat!",
@@ -127,40 +147,32 @@
         "message": "Filtypen stöds ej",
         "description": "Displayed for outgoing unsupported attachment"
     },
-    "exportAgain": {
-        "message": "Exportera igen",
-        "description": "If user has already exported once, this button allows user to do it again if needed"
-    },
     "quit": {
-        "message": "Quit",
+        "message": "Avsluta",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
         "message": "Klicka för att spara",
         "description": "Hover text for attachment filenames"
     },
-    "fileABug": {
-        "message": "File a bug",
-        "description": "Item under the Help menu, takes you to GitHub new issue form"
-    },
     "messagesBelow": {
         "message": "Nya meddelanden nedanför",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
-    "installGeneratingKeys": {
-        "message": "Genererar nycklar",
-        "description": ""
-    },
     "resetSession": {
         "message": "Återställ session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "replyingToYou": {
+        "message": "Svarar till Dig",
+        "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "offline": {
         "message": "Ej ansluten",
         "description": "Displayed when the desktop client has no network connection."
     },
     "hideMenuBar": {
-        "message": "Hide menu bar",
+        "message": "Göm menyraden",
         "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
@@ -183,13 +195,13 @@
         "message": "av",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
+    "clearDataButton": {
+        "message": "Radera data",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
     "syncExplanation": {
         "message": "Importera alla grupper och kontakter från Signal-appen på din mobil.",
         "description": "Explanatory text for sync settings"
-    },
-    "restartSignal": {
-        "message": "Starta om Signal",
-        "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
         "message": "Du lämnade gruppen",
@@ -219,17 +231,9 @@
         "message": "Välj en kontakt eller grupp för att börja prata.",
         "description": ""
     },
-    "exportError": {
-        "message": "Dessvärre gick något fel under exporten. Dubbelkolla först att du har skrivrättigheter för mappen du valde, samt att du har tillräckligt med plats. Om det fortfarande inte fungerar kan du skicka in en debuglogg så kan vi hjälpa dig migrera!",
-        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
-    },
     "aboutSignalDesktop": {
-        "message": "About Signal Desktop",
+        "message": "Om Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
-    },
-    "installConnecting": {
-        "message": "Ansluter...",
-        "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
         "message": "din valda plats",
@@ -261,6 +265,14 @@
         "message": "Skickat",
         "description": "Label for the time a message was sent"
     },
+    "thisWeek": {
+        "message": "Denna vecka",
+        "description": "Section header in the media gallery"
+    },
+    "importingHeader": {
+        "message": "Laddar kontakter och meddelanden",
+        "description": "Header of screen shown as data is import"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ satte timern på $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -279,6 +291,10 @@
         "message": "nyss",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "mainMenuSettings": {
+        "message": "Inställningar",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
     "changedRecentlyMultiple": {
         "message": "Dina säkerhetsnummer med flera gruppmedlemmar har nyligen ändrats. Det kan innebära att någon försöker lyssna av din kommunikation eller att de bara installerat om Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
@@ -286,10 +302,6 @@
     "timerOption_1_day": {
         "message": "1 dag",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "exporting": {
-        "message": "Vänligen vänta medan vi exporterar dina data. Du kan fortfarande använda Signal på din mobil eller på andra enheter under tiden.",
-        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Anmäl ett programfel",
@@ -316,24 +328,36 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "mainMenuWindow": {
-        "message": "&Window",
+        "message": "&Fönster",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "installImport": {
-        "message": "Set up with exported data",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "importCompleteLinkButton": {
+        "message": "Länka denna enhet till din mobil",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
         "message": "Länka om Signal Desktop till din mobila enhet för att fortsätta skicka meddelanden.",
         "description": ""
     },
+    "today": {
+        "message": "Idag",
+        "description": "Section header in the media gallery"
+    },
     "debugLogExplanation": {
         "message": "Den här loggen kommer att bli postad publikt på internet så att våra medarbetare kan kolla igenom den. Du kan gå igenom och ändra på den innan du skickar in den.",
         "description": ""
     },
+    "linkYourPhone": {
+        "message": "Länka din mobil till Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
     "newPhoneNumber": {
         "message": "Skriv in ett telefonnummer för att lägga till en kontakt.",
         "description": "Placeholder for adding a new number to a contact"
+    },
+    "viewAllMedia": {
+        "message": "Visa alla media",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "noLongerVerified": {
         "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
@@ -345,8 +369,12 @@
             }
         }
     },
+    "video": {
+        "message": "Video",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
     "searchForPeopleOrGroups": {
-        "message": "Sök...",
+        "message": "Skriv in namn eller nummer",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -369,27 +397,27 @@
         "message": "Olänkad",
         "description": ""
     },
-    "installFollowUs": {
-        "message": "<a $a_params$>Följ oss</a> för uppdateringar om iOS-stöd för fler enheter.",
-        "description": "",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "learnMore": {
         "message": "Lär dig mer om att verifiera säkerhetsnummer",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "installNew": {
-        "message": "Ställ in som ny installation",
-        "description": "One of two choices presented on the screen shown on first launch"
+    "timerSetOnSync": {
+        "message": "Uppdaterar tidsgränsen till $time$.",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
-    "importing": {
-        "message": "Vänligen vänta medan vi importerar din data...",
-        "description": "Shown as we are loading the user's data from disk"
+    "messageCaption": {
+        "message": "Medelandetext",
+        "description": "Prefix of attachment alt tags in the media gallery"
+    },
+    "deleteAllDataButton": {
+        "message": "Radera all data",
+        "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
         "message": "$count$ olästa meddelanden",
@@ -405,22 +433,8 @@
         "message": "Tyvärr har du för många enheter redan länkade. Försök att ta bort några.",
         "description": ""
     },
-    "installSignalLinks": {
-        "message": "Börja med att installera Signal på din <a $play_store$>Android-enhet</a> eller <a $app_store$>iPhone</a>.<br /> Vi länkar då ihop dina enheter och synkar dina meddelanden.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "play_store": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            },
-            "app_store": {
-                "content": "$2",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ gick med i gruppen.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -430,12 +444,12 @@
         }
     },
     "goToForums": {
-        "message": "Go to forums",
+        "message": "Gå till forumet",
         "description": "Item under the Help menu, takes you to the forums"
     },
-    "installSyncingGroupsAndContacts": {
-        "message": "Synkroniserar grupper och kontakter",
-        "description": ""
+    "menuSetupWithImport": {
+        "message": "Ställ in med import",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
@@ -460,8 +474,12 @@
         }
     },
     "speech": {
-        "message": "Speech",
+        "message": "Tal",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
+    "importErrorHeader": {
+        "message": "Något gick fel!",
+        "description": "Header of the error screen after a failed import"
     },
     "changedSinceVerified": {
         "message": "Ditt säkerhetsnummer med $name$ har ändrats sen du senast verifierade. Detta kan betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Signal.",
@@ -472,6 +490,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "importAgain": {
+        "message": "Välj mapp och försök igen",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "upgrade": {
         "message": "Uppgradera",
@@ -504,7 +526,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "show": {
-        "message": "Show",
+        "message": "Visa",
         "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
@@ -541,16 +563,24 @@
         "message": "12t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "signalSettings": {
+        "message": "Signal-inställningar",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "plusButton": {
+        "message": "'+'-knappen",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
     "chooseDirectory": {
         "message": "Välj mapp",
-        "description": "Button to allow the user to export all data from app as part of migration process"
+        "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
-        "message": "&Edit",
+        "message": "&Redigera",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
@@ -565,12 +595,18 @@
         "message": "1d",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Starta om",
-        "description": ""
+    "replyingTo": {
+        "message": "Svarar till $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
-    "importButton": {
-        "message": "Importera",
+    "autoUpdateRestartButtonLabel": {
+        "message": "Starta om Signal",
         "description": ""
     },
     "sync": {
@@ -580,10 +616,6 @@
     "timerOption_1_week": {
         "message": "1 vecka",
         "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "installGotIt": {
-        "message": "OK",
-        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Mottagit",
@@ -613,9 +645,25 @@
         "message": "30 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "deleteAllDataHeader": {
+        "message": "Radera all data?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataProgress": {
+        "message": "Kopplar bort och raderar all data",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
     "sendMessage": {
         "message": "Skicka ett meddelande",
         "description": "Placeholder text in the message entry field"
+    },
+    "menuReportIssue": {
+        "message": "Rapportera ett fel",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "loadDataDescription": {
+        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "me": {
         "message": "Jag",
@@ -641,8 +689,12 @@
         "message": "Radera detta meddelande",
         "description": ""
     },
+    "chooseDeviceName": {
+        "message": "Välj enhetsnamn",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
     "autoUpdateNewVersionInstructions": {
-        "message": "Klicka på Starta om för att inställningarna ska börja gälla.",
+        "message": "Vänligen starta om Signal för att uppdatera",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -650,20 +702,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.<p>If these steps don't work for you, please <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>submit a debug log</a> so that we can help you get migrated!</p>",
         "description": "Message shown if the import went wrong."
-    },
-    "installAndroidInstructions": {
-        "message": "Öppna Signal-appen på din telefon och gå till Settings > Linked devices. Tryck på knappen för att lägga en ny enhet och skanna sedan kodan ovan.",
-        "description": ""
     },
     "invalidNumberError": {
         "message": "Felaktigt nummer",
         "description": "When a person inputs a number that is invalid"
-    },
-    "importComplete": {
-        "message": "Vi har lyckats ladda in dina data. Nästa steg är att starta om applikationen!",
-        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Välkommen till Signal Desktop",
@@ -673,15 +717,9 @@
         "message": "Nytt meddelande nedanför",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
-    "exportComplete": {
-        "message": "Dina data har blivit exporterade till: <p><b>$location$</b></p>. Du kommer kunna importera denna data när du ställer in <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>den nya Signal Desktop-appen</a>.",
-        "description": "Message shown on the migration screen when we are done exporting data",
-        "placeholders": {
-            "location": {
-                "content": "$1",
-                "example": "/Users/someone/somewhere"
-            }
-        }
+    "menuSetupAsNewDevice": {
+        "message": "Ställ in som ny enhet",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
         "message": "Kunde inte kontakta servern.",
@@ -695,17 +733,37 @@
         "message": "Meddelandet kunde ej skickas.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "initialSync": {
+        "message": "Synkroniserar kontakter och grupper",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "mainMenuView": {
-        "message": "&View",
+        "message": "&Visa",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "autoUpdateNewVersionMessage": {
         "message": "Det finns en ny version av Signal tillgänglig.",
         "description": ""
     },
+    "replyToMessage": {
+        "message": "Svara på meddelande",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
     "disableNotifications": {
         "message": "Stäng av aviseringar",
         "description": "Label for disabling notifications"
+    },
+    "photo": {
+        "message": "Foto",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "media": {
+        "message": "Media",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "noContents": {
+        "message": "Inget meddelandeinnehåll",
+        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
         "message": "Avbryt",
@@ -715,12 +773,8 @@
         "message": "Avblockera denna kontakt för att skicka meddelanden.",
         "description": "Brief message shown when trying to message a blocked number"
     },
-    "installIHaveSignalButton": {
-        "message": "Jag har Signal för Android",
-        "description": "Button for the user to confirm that they have Signal for Android"
-    },
     "mainMenuHelp": {
-        "message": "&Help",
+        "message": "&Hjälp",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
@@ -745,13 +799,13 @@
         "message": "Ansluter",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "deleteAllDataBody": {
+        "message": "Du är på väg att radera alla denna applikations sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan länka till din mobila enhet igen, men det kommer inte återställa de raderade meddelandena.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
     "sessionEnded": {
         "message": "Återställning av säkerhetssession",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "installGetStartedButton": {
-        "message": "Komma igång",
-        "description": ""
     },
     "relink": {
         "message": "Återkoppla",
@@ -779,26 +833,16 @@
             }
         }
     },
-    "installSignalLink": {
-        "message": "Börja med att installera <a $a_params$>Signal</a> på din telefon. Vi kommer att länka dina enheter och hålla dina meddelanden synkroniserade.",
-        "description": "Prompt the user to install Signal on their phone before linking",
-        "placeholders": {
-            "a_params": {
-                "content": "$1",
-                "example": "href='http://example.com'"
-            }
-        }
-    },
-    "installLinkingWithNumber": {
-        "message": "Länkar till",
-        "description": "Text displayed before the phone number that the user is in the process of linking with"
-    },
     "goToSupportPage": {
-        "message": "Go to support page",
+        "message": "Gå till supportsidan",
         "description": "Item under the Help menu, takes you to the support page"
     },
+    "finishLinkingPhone": {
+        "message": "Slutför länkning till mobil",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
+    },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ gick med i gruppen.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -819,10 +863,6 @@
         "message": "Nya meddelanden",
         "description": "Displayed in notifications for multiple messages"
     },
-    "newContact": {
-        "message": "Tryck för att skapa en ny kontakt",
-        "description": ""
-    },
     "theirIdentityUnknown": {
         "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med dem kommer att vara tillgängliga efter det första meddelandet.",
         "description": ""
@@ -830,6 +870,10 @@
     "voiceMessage": {
         "message": "Röstmeddelande",
         "description": "Name for a voice message attachment"
+    },
+    "importCompleteStartButton": {
+        "message": "Börja använd Signal Desktop",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "submit": {
         "message": "Skicka",
@@ -846,7 +890,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Updated the group.",
+        "message": "Uppdaterade gruppen.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "identityKeyErrorOnSend": {
@@ -859,6 +903,10 @@
             }
         }
     },
+    "clearDataExplanation": {
+        "message": "Detta kommer radera all data i applikationen, det tar bort alla meddelanden och sparad kontoinformation.",
+        "description": "Text describing what the clear data button will do."
+    },
     "to": {
         "message": "Till",
         "description": "Label for the receiver of a message"
@@ -867,45 +915,45 @@
         "message": "1t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "installFinalButton": {
-        "message": "Ser bra ut",
-        "description": "The final button for the install process, after the user has entered a name for their device"
+    "optimizingApplication": {
+        "message": "Optimerar applikationen...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Go to release notes",
+        "message": "Gå till versionsanteckningar",
         "description": ""
     },
     "messageDetail": {
         "message": "Meddelandedetaljer",
         "description": ""
     },
-    "installNewSignal": {
-        "message": "Installera nya Signal Desktop",
-        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
-    },
-    "exportChooserTitle": {
-        "message": "Välj mapp där data lagras",
-        "description": "Title of the popup window used to select data storage location"
-    },
     "mainMenuFile": {
-        "message": "&File",
+        "message": "&Arkiv",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
         "message": "Markera som verifierad",
         "description": ""
     },
-    "exportButton": {
-        "message": "Exportera",
-        "description": ""
+    "clearDataHeader": {
+        "message": "Rensa data",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "linkNewDevice": {
+        "message": "Länka ny enhet",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
     "nameAndMessage": {
         "message": "Både sändarens namn och meddelande",
         "description": "Label for setting notifications to display name and message text"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Ställ in som fristående enhet",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
         "message": "Kunde inte skicka till vissa mottagare. Kontrollera din internetuppkoppling.",
@@ -923,16 +971,24 @@
         "message": "Dina säkerhetsnummer med flera gruppmedlemmar har ändrats sen du sist verifierade dem. Detta kan betyda att någon försöker lyssna av din kommunikation eller att de bara installerat om Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "loadDataHeader": {
+        "message": "Ladda din data",
+        "description": "Header shown on the first screen in the data import process"
+    },
     "submitDebugLog": {
-        "message": "Skicka felsökningslogg",
-        "description": "Menu item and header text for debug log modal, title case."
+        "message": "Loggfil för felsökning",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "startConversation": {
+        "message": "Påbörja konversation...",
+        "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
         "message": "Fel",
         "description": ""
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'.",
+        "message": "Rubriken är nu '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -969,17 +1025,13 @@
         "message": "30s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "exportInstructions": {
-        "message": "Första steget är att välja en mapp dit du vill lagra appens exporterade data. Den kommer innehålla din meddelandehistorik och känslig kryptografik data, så spara den någonstans privat.",
-        "description": "Description of the export process"
+    "audio": {
+        "message": "Ljud",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
         "message": "Aviseringar",
         "description": "Header for notification settings"
-    },
-    "tryAgain": {
-        "message": "Försök igen",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Skicka om",
@@ -996,7 +1048,7 @@
         }
     },
     "hide": {
-        "message": "Hide",
+        "message": "Göm",
         "description": "Command in the tray icon menu, to hide the window"
     }
 }

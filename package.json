@@ -3,7 +3,7 @@
   "productName": "Signal",
   "description": "Private messaging from your desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "1.10.1",
+  "version": "1.11.0-beta.5",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",
@@ -13,27 +13,18 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "start": "electron .",
-    "asarl": "asar l release/mac/Signal.app/Contents/Resources/app.asar",
+    "grunt": "grunt",
     "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
-    "generate": "npm run icon-gen && grunt",
+    "generate": "yarn icon-gen && yarn grunt",
     "build": "build  --config.extraMetadata.environment=$SIGNAL_ENV",
-    "dist": "npm run generate && npm run build",
-    "pack": "npm run generate && npm run build -- --dir",
+    "build-release": "SIGNAL_ENV=production npm run build -- --config.directories.output=release",
+    "build-module-protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
+    "clean-module-protobuf": "rm -f ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
+    "build-protobuf": "yarn build-module-protobuf",
+    "clean-protobuf": "yarn clean-module-protobuf",
     "prepare-beta-build": "node prepare_beta_build.js",
     "prepare-import-build": "node prepare_import_build.js",
-    "pack-prod": "SIGNAL_ENV=production npm run pack",
-    "dist-prod": "SIGNAL_ENV=production npm run dist",
-    "dist-prod-all": "SIGNAL_ENV=production npm run dist -- -mwl",
-    "build-release": "SIGNAL_ENV=production npm run build -- --config.directories.output=release",
-    "build-mas-release": "npm run build-release -- -m --config.mac.target=mas",
-    "build-mas-dev": "npm run build-release -- -m --config.mac.target=mas --config.type=development",
-    "grunt": "grunt",
-    "prep-mac-release": "npm run build-release -- -m --dir",
-    "prep-release": "npm run generate && grunt prep-release && npm run build-release && npm run build-mas-release && grunt test-release",
-    "release-mac": "npm run build-release -- -m --prepackaged release/mac/Signal*.app --publish=always",
-    "release-win": "npm run build-release -- -w --prepackaged release/windows --publish=always",
-    "release-lin": "npm run build-release -- -l --prepackaged release/linux && NAME=$npm_package_name VERSION=$npm_package_version ./aptly.sh",
-    "release": "npm run release-mac && npm run release-win && npm run release-lin",
+    "publish-to-apt": "NAME=$npm_package_name VERSION=$npm_package_version ./aptly.sh",
     "test": "yarn test-node && yarn test-electron",
     "test-electron": "yarn grunt test",
     "test-node": "mocha --recursive test/app test/modules ts/test",
@@ -44,7 +35,7 @@
     "lint": "yarn format --list-different && yarn lint-windows",
     "lint-windows": "yarn eslint && yarn grunt lint && yarn tslint",
     "tslint": "tslint --config tslint.json --format stylish --project .",
-    "format": "prettier --write \"*.js\" \"js/**/*.js\" \"ts/**/*.{ts,tsx}\" \"test/**/*.js\"",
+    "format": "prettier --write \"*.{css,js,json,md,scss,ts,tsx}\" \"./**/*.{css,js,json,md,scss,ts,tsx}\"",
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js ts/*.js",
     "open-coverage": "open coverage/lcov-report/index.html",
@@ -52,6 +43,8 @@
   },
   "dependencies": {
     "@sindresorhus/is": "^0.8.0",
+    "@types/google-libphonenumber": "^7.4.14",
+    "@types/linkify-it": "^2.0.3",
     "archiver": "^2.1.1",
     "blob-util": "^1.3.0",
     "blueimp-canvas-to-blob": "^3.14.0",
@@ -80,9 +73,9 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.21.0",
     "node-fetch": "https://github.com/scottnonnenberg/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4",
-    "node-notifier": "^5.1.2",
     "os-locale": "^2.1.0",
     "pify": "^3.0.0",
+    "protobufjs": "^6.8.6",
     "proxy-agent": "^2.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -105,6 +98,8 @@
     "@types/qs": "^6.5.1",
     "@types/react": "^16.3.1",
     "@types/react-dom": "^16.0.4",
+    "@types/semver": "^5.5.0",
+    "@types/sinon": "^4.3.1",
     "arraybuffer-loader": "^1.0.3",
     "asar": "^0.14.0",
     "bower": "^1.8.2",
@@ -112,7 +107,6 @@
     "electron": "1.8.4",
     "electron-builder": "^20.2.0",
     "electron-icon-maker": "0.0.3",
-    "electron-publisher-s3": "^20.2.0",
     "eslint": "^4.14.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-config-prettier": "^2.9.0",
@@ -162,17 +156,9 @@
         {
           "provider": "generic",
           "url": "https://updates.signal.org/desktop"
-        },
-        {
-          "provider": "s3",
-          "region": "us-east-1",
-          "bucket": "updates.signal.org",
-          "path": "desktop",
-          "acl": "public-read"
         }
       ],
       "target": [
-        "dmg",
         "zip"
       ],
       "bundleVersion": "1"
@@ -187,18 +173,10 @@
         {
           "provider": "generic",
           "url": "https://updates.signal.org/desktop"
-        },
-        {
-          "provider": "s3",
-          "region": "us-east-1",
-          "bucket": "updates.signal.org",
-          "path": "desktop",
-          "acl": "public-read"
         }
       ],
       "target": [
-        "nsis",
-        "zip"
+        "nsis"
       ]
     },
     "nsis": {
@@ -211,8 +189,7 @@
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [
-        "deb",
-        "zip"
+        "deb"
       ],
       "icon": "build/icons/png"
     },

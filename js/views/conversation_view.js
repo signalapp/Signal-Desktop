@@ -146,6 +146,16 @@
         'reply',
         this.setQuoteMessage
       );
+      this.listenTo(
+        this.model.messageCollection,
+        'show-contact-detail',
+        this.showContactDetail
+      );
+      this.listenTo(
+        this.model.messageCollection,
+        'open-conversation',
+        this.openConversation
+      );
 
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
@@ -213,6 +223,7 @@
     },
 
     events: {
+      keydown: 'onKeyDown',
       'submit .send': 'checkUnverifiedSendMessage',
       'input .send-message': 'updateMessageFieldSize',
       'keydown .send-message': 'updateMessageFieldSize',
@@ -815,11 +826,9 @@
     },
     async onExpiredCollection(message) {
       const removeMessage = () => {
-        console.log(
-          'removing message',
-          message.get('sent_at'),
-          'from collection'
-        );
+        console.log('Remove expired message from message collection', {
+          sentAt: message.get('sent_at'),
+        });
         this.model.messageCollection.remove(message.id);
       };
 
@@ -998,6 +1007,41 @@
       this.listenBack(view);
     },
 
+    showContactDetail(contact) {
+      const regionCode = storage.get('regionCode');
+      const { contactSelector } = Signal.Types.Contact;
+      const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
+
+      const view = new Whisper.ReactWrapperView({
+        Component: Signal.Components.ContactDetail,
+        props: {
+          contact: contactSelector(contact, {
+            regionCode,
+            getAbsoluteAttachmentPath,
+          }),
+          hasSignalAccount: true,
+          onSendMessage: () => {
+            const number =
+              contact.number && contact.number[0] && contact.number[0].value;
+            if (number) {
+              this.openConversation(number);
+            }
+          },
+        },
+        onClose: () => this.resetPanel(),
+      });
+
+      this.listenBack(view);
+    },
+
+    async openConversation(number) {
+      const conversation = await window.ConversationController.getOrCreateAndWait(
+        number,
+        'private'
+      );
+      window.Whisper.events.trigger('showConversation', conversation);
+    },
+
     listenBack(view) {
       this.panels = this.panels || [];
       if (this.panels.length > 0) {
@@ -1158,6 +1202,13 @@
         this.closeEmojiPanel();
       }
     },
+    onKeyDown(event) {
+      if (event.key !== 'Escape') {
+        return;
+      }
+
+      this.closeEmojiPanel();
+    },
     openEmojiPanel() {
       this.$emojiPanelContainer.outerHeight(200);
       this.emojiPanel = new EmojiPanel(this.$emojiPanelContainer[0], {
@@ -1166,6 +1217,10 @@
       this.updateMessageFieldSize({});
     },
     closeEmojiPanel() {
+      if (this.emojiPanel === null) {
+        return;
+      }
+
       this.$emojiPanelContainer.empty().outerHeight(0);
       this.emojiPanel = null;
       this.updateMessageFieldSize({});
@@ -1201,7 +1256,6 @@
 
       if (message) {
         const quote = await this.model.makeQuote(this.quotedMessage);
-        console.log({ quote });
         this.quote = quote;
 
         this.focusMessageFieldAndClearDisabled();
@@ -1239,7 +1293,7 @@
         className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
         props: Object.assign({}, props, {
-          text: props.text ? window.emoji.signalReplace(props.text) : null,
+          text: props.text,
           onClose: () => {
             this.setQuoteMessage(null);
           },

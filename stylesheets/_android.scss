@@ -15,7 +15,8 @@
   .conversation.placeholder .conversation-header {
     display: none;
   }
-  .conversation-header, .bubble {
+  .conversation-header,
+  .bubble {
     @include avatar-colors;
   }
   .bottom-bar {
@@ -38,10 +39,16 @@
   }
 
   .incoming .bubble {
-    .sender, .content, .body, .meta, a, .fileView {
+    .sender,
+    .content,
+    .body,
+    .meta,
+    a,
+    .fileView {
       @include invert-text-color;
     }
-    .attachments, .content {
+    .attachments,
+    .content {
       a {
         color: $grey_l;
       }
@@ -79,5 +86,4 @@
   .inactive button.back {
     @include header-icon-black('../images/back.svg');
   }
-
 }

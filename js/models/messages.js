@@ -1,10 +1,12 @@
 /* global _: false */
 /* global Backbone: false */
-/* global Whisper: false */
-/* global textsecure: false */
+
 /* global ConversationController: false */
-/* global i18n: false */
 /* global getAccountManager: false */
+/* global i18n: false */
+/* global Signal: false */
+/* global textsecure: false */
+/* global Whisper: false */
 
 /* eslint-disable more/no-then */
 
@@ -14,8 +16,8 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage } = window.Signal.Types;
-  const { deleteAttachmentData } = window.Signal.Migrations;
+  const { Message: TypedMessage, Contact } = Signal.Types;
+  const { deleteAttachmentData } = Signal.Migrations;
 
   window.Whisper.Message = Backbone.Model.extend({
     database: Whisper.Database,
@@ -31,9 +33,6 @@
       this.on('change:expireTimer', this.setToExpire);
       this.on('unload', this.unload);
       this.setToExpire();
-
-      this.VOICE_FLAG =
-        textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -163,6 +162,10 @@
         const conversation = this.getModelForKeyChange();
         return i18n('keychanged', conversation.getTitle());
       }
+      const contacts = this.get('contact');
+      if (contacts && contacts.length) {
+        return Contact.getName(contacts[0]);
+      }
 
       return '';
     },
@@ -246,8 +249,7 @@
           });
 
       return Object.assign({}, attachment, {
-        // eslint-disable-next-line no-bitwise
-        isVoiceMessage: Boolean(attachment.flags & this.VOICE_FLAG),
+        isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
         thumbnail: thumbnailWithObjectUrl,
       });
     },
@@ -590,6 +592,7 @@
             message.set({
               attachments: dataMessage.attachments,
               body: dataMessage.body,
+              contact: dataMessage.contact,
               conversationId: conversation.id,
               decrypted_at: now,
               errors: [],
@@ -632,13 +635,11 @@
             const shouldLogExpireTimerChange =
               message.isExpirationTimerUpdate() || expireTimer;
             if (shouldLogExpireTimerChange) {
-              console.log(
-                'Updating expireTimer for conversation',
-                conversation.idForLogging(),
-                'to',
+              console.log("Update conversation 'expireTimer'", {
+                id: conversation.idForLogging(),
                 expireTimer,
-                'via `handleDataMessage`'
-              );
+                source: 'handleDataMessage',
+              });
             }
 
             if (!message.isEndSession() && !message.isGroupUpdate()) {
@@ -847,7 +848,10 @@
         }
 
         Whisper.ExpiringMessagesListener.update();
-        console.log('message', this.get('sent_at'), 'expires at', expiresAt);
+        console.log('Set message expiration', {
+          expiresAt,
+          sentAt: this.get('sent_at'),
+        });
       }
     },
   });
@@ -961,7 +965,7 @@
     },
 
     fetchExpired() {
-      console.log('loading expired messages');
+      console.log('Load expired messages');
       this.fetch({
         conditions: { expires_at: { $lte: Date.now() } },
         addIndividually: true,

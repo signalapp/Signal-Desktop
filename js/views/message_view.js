@@ -5,17 +5,19 @@
 /* global emoji_util: false */
 /* global Mustache: false */
 /* global $: false */
+/* global storage: false */
+/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function() {
   'use strict';
 
-  const { Signal } = window;
-  const { loadAttachmentData } = window.Signal.Migrations;
+  const {
+    loadAttachmentData,
+    getAbsoluteAttachmentPath,
+  } = window.Signal.Migrations;
 
   window.Whisper = window.Whisper || {};
-
-  const URL_REGEX = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[-A-Z0-9\u00A0-\uD7FF\uE000-\uFDCF\uFDF0-\uFFFD+\u0026\u2019@#/%?=()~_|!:,.;]*[-A-Z0-9+\u0026@#/%=~()_|])/gi;
 
   const ErrorIconView = Whisper.View.extend({
     templateName: 'error-icon',
@@ -292,6 +294,9 @@
       if (this.quoteView) {
         this.quoteView.remove();
       }
+      if (this.contactView) {
+        this.contactView.remove();
+      }
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
       // as our tests rely on `onUnload` synchronously removing the view from
@@ -315,6 +320,7 @@
     onChange() {
       this.renderSent();
       this.renderQuote();
+      this.addId();
     },
     select(e) {
       this.$el.trigger('select', { message: this.model });
@@ -432,10 +438,77 @@
         className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
         props: Object.assign({}, props, {
-          text: props.text ? window.emoji.signalReplace(props.text) : null,
+          text: props.text,
         }),
       });
       this.$('.inner-bubble').prepend(this.quoteView.el);
+    },
+    renderContact() {
+      const contacts = this.model.get('contact');
+      if (!contacts || !contacts.length) {
+        return;
+      }
+      const contact = contacts[0];
+
+      const regionCode = storage.get('regionCode');
+      const { contactSelector } = Signal.Types.Contact;
+
+      const number =
+        contact.number && contact.number[0] && contact.number[0].value;
+      const haveConversation =
+        number && Boolean(window.ConversationController.get(number));
+      const hasLocalSignalAccount = number && haveConversation;
+
+      const onSendMessage = number
+        ? () => {
+            this.model.trigger('open-conversation', number);
+          }
+        : null;
+      const onOpenContact = () => {
+        this.model.trigger('show-contact-detail', contact);
+      };
+
+      const getProps = ({ hasSignalAccount }) => ({
+        contact: contactSelector(contact, {
+          regionCode,
+          getAbsoluteAttachmentPath,
+        }),
+        hasSignalAccount,
+        onSendMessage,
+        onOpenContact,
+      });
+
+      if (this.contactView) {
+        this.contactView.remove();
+        this.contactView = null;
+      }
+
+      this.contactView = new Whisper.ReactWrapperView({
+        className: 'contact-wrapper',
+        Component: window.Signal.Components.EmbeddedContact,
+        props: getProps({
+          hasSignalAccount: hasLocalSignalAccount,
+        }),
+      });
+
+      this.$('.inner-bubble').prepend(this.contactView.el);
+
+      // If we can't verify a signal account locally, we'll go to the Signal Server.
+      if (number && !hasLocalSignalAccount) {
+        // eslint-disable-next-line more/no-then
+        window.textsecure.messaging
+          .getProfile(number)
+          .then(() => {
+            if (!this.contactView) {
+              return;
+            }
+
+            this.contactView.update(getProps({ hasSignalAccount: true }));
+          })
+          .catch(() => {
+            // No account available, or network connectivity problem
+          });
+      }
     },
     isImageWithoutCaption() {
       const attachments = this.model.get('attachments');
@@ -459,7 +532,10 @@
       const attachments = this.model.get('attachments');
       const hasAttachments = attachments && attachments.length > 0;
 
-      return this.hasTextContents() || hasAttachments;
+      const contacts = this.model.get('contact');
+      const hasContact = contacts && contacts.length > 0;
+
+      return this.hasTextContents() || hasAttachments || hasContact;
     },
     hasTextContents() {
       const body = this.model.get('body');
@@ -472,6 +548,13 @@
 
       return body || isGroupUpdate || isEndSession || errorsCanBeContents;
     },
+    addId() {
+      // Because we initially render a sent Message before we've roundtripped with the
+      //   database, we don't have its id for that first render. We do get a change event,
+      //   however, and can add the id manually.
+      const { id } = this.model;
+      this.$el.attr('id', id);
+    },
     render() {
       const contact = this.model.isIncoming() ? this.model.getContact() : null;
       const attachments = this.model.get('attachments');
@@ -481,11 +564,13 @@
       const hasAttachments = attachments && attachments.length > 0;
       const hasBody = this.hasTextContents();
 
+      const messageBody = this.model.get('body');
+
       this.$el.html(
         Mustache.render(
           _.result(this, 'template', ''),
           {
-            message: this.model.get('body'),
+            message: Boolean(messageBody),
             hasBody,
             timestamp: this.model.get('sent_at'),
             sender: (contact && contact.getTitle()) || '',
@@ -504,17 +589,19 @@
 
       this.renderControl();
 
-      const body = this.$('.body');
-
-      emoji_util.parse(body);
-
-      if (body.length > 0) {
-        const escapedBody = body.html();
-        body.html(
-          escapedBody
-            .replace(/\n/g, '<br>')
-            .replace(URL_REGEX, "$1<a href='$2' target='_blank'>$2</a>")
-        );
+      if (messageBody) {
+        if (this.bodyView) {
+          this.bodyView.remove();
+          this.bodyView = null;
+        }
+        this.bodyView = new Whisper.ReactWrapperView({
+          className: 'body-wrapper',
+          Component: window.Signal.Components.MessageBody,
+          props: {
+            text: messageBody,
+          },
+        });
+        this.$('.body').append(this.bodyView.el);
       }
 
       this.renderSent();
@@ -523,6 +610,7 @@
       this.renderErrors();
       this.renderExpiring();
       this.renderQuote();
+      this.renderContact();
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
       // as our code / Backbone seems to rely on `render` synchronously returning

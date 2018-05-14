@@ -9,14 +9,14 @@
 }
 .conversation-name + .conversation-number {
   &:before {
-    content:"\00b7"; // &middot
+    content: '\00b7'; // &middot
     font-weight: bold;
     padding: 0 5px 0 4px;
   }
 }
 .conversation-title .verified {
   &:before {
-    content:"\00b7"; // &middot
+    content: '\00b7'; // &middot
     font-weight: bold;
     padding: 0 5px 0 4px;
   }
@@ -149,7 +149,8 @@
     }
   }
 
-  .key, .placeholder {
+  .key,
+  .placeholder {
     padding: 0 1em;
     -webkit-user-select: text;
   }
@@ -285,7 +286,6 @@
       font-weight: bold;
       color: red;
     }
-
   }
 
   h3 {
@@ -358,7 +358,9 @@ li.entry .error-icon-container {
     }
   }
 
-  &:hover .error-message { display: inline-block; }
+  &:hover .error-message {
+    display: inline-block;
+  }
 }
 li.entry .menu-container {
   position: absolute;
@@ -399,7 +401,6 @@ li.entry.outgoing .menu-container {
   right: auto;
 }
 
-
 .error-icon {
   display: inline-block;
   width: $error-icon-size;
@@ -425,7 +426,6 @@ li.entry.outgoing .menu-container {
     display: none;
   }
 }
-
 
 .group-update {
   font-size: smaller;
@@ -469,7 +469,9 @@ span.status {
 .pending span.status {
   display: inline-block;
   background: none;
-  &:before { content: '...'; }
+  &:before {
+    content: '...';
+  }
 }
 
 .message-container,
@@ -487,7 +489,7 @@ span.status {
       visibility: hidden;
       display: block;
       font-size: 0;
-      content: " ";
+      content: ' ';
       clear: both;
       height: 0;
     }
@@ -504,15 +506,17 @@ span.status {
     text-align: -webkit-auto;
     -webkit-user-select: text;
 
-    @media(max-width: 825px) {
-      max-width: calc(100% - 45px - #{$error-icon-size}); // avatar size + padding + error-icon size
+    @media (max-width: 825px) {
+      max-width: calc(
+        100% - 45px - #{$error-icon-size}
+      ); // avatar size + padding + error-icon size
     }
 
     .body {
       white-space: pre-wrap;
 
       a {
-        word-break: break-all
+        word-break: break-all;
       }
     }
 
@@ -520,6 +524,9 @@ span.status {
       margin-top: 0.5em;
     }
     .quote-wrapper + .content {
+      margin-top: 0.5em;
+    }
+    .contact-wrapper + .content {
       margin-top: 0.5em;
     }
 
@@ -536,7 +543,7 @@ span.status {
 
     .hasRetry + .timestamp {
       &:before {
-        content:"\00b7"; // &middot
+        content: '\00b7'; // &middot
         font-weight: bold;
         padding: 0 5px 0 4px;
         text-decoration: none;
@@ -556,22 +563,27 @@ span.status {
       cursor: pointer;
     }
 
-    .hasRetry, .timestamp, .status, .timer {
+    .hasRetry,
+    .timestamp,
+    .status,
+    .timer {
       float: left;
     }
 
-    .timestamp, .status {
+    .timestamp,
+    .status {
       cursor: pointer;
       opacity: 0.5;
 
       &:hover {
-        opacity: 1.0;
+        opacity: 1;
       }
     }
   }
 
   .incoming {
-    .avatar, .bubble {
+    .avatar,
+    .bubble {
       float: left;
     }
   }
@@ -585,7 +597,8 @@ span.status {
       right: calc(100% + 5px);
     }
 
-    .avatar, .bubble {
+    .avatar,
+    .bubble {
       float: right;
     }
 
@@ -595,11 +608,21 @@ span.status {
   }
 
   @keyframes shake {
-    0%   { transform: translateX(0px); }
-    25%  { transform: translateX(-5px); }
-    50%  { transform: translateX(0px); }
-    75%  { transform: translateX(5px); }
-    100% { transform: translateX(0px); }
+    0% {
+      transform: translateX(0px);
+    }
+    25% {
+      transform: translateX(-5px);
+    }
+    50% {
+      transform: translateX(0px);
+    }
+    75% {
+      transform: translateX(5px);
+    }
+    100% {
+      transform: translateX(0px);
+    }
   }
 
   .expired .bubble {
@@ -619,7 +642,8 @@ span.status {
         font-style: italic;
       }
 
-      &::before, &::after {
+      &::before,
+      &::after {
         display: none;
       }
     }
@@ -633,7 +657,9 @@ span.status {
       background-color: #ccc;
     }
 
-    img, audio, video {
+    img,
+    audio,
+    video {
       display: block;
       max-width: 100%;
       max-height: 300px;
@@ -673,13 +699,15 @@ span.status {
         overflow: hidden;
       }
 
-      .icon, .text {
+      .icon,
+      .text {
         opacity: 0.75;
       }
 
       &:hover {
-        .icon, .text {
-          opacity: 1.0;
+        .icon,
+        .text {
+          opacity: 1;
         }
       }
 
@@ -703,7 +731,6 @@ span.status {
         }
       }
     }
-
   }
 
   .outgoing .avatar {
@@ -714,6 +741,221 @@ span.status {
     cursor: pointer;
     font-style: italic;
   }
+}
+
+.embedded-contact {
+  margin-top: -9px;
+  margin-left: -12px;
+  margin-right: -12px;
+
+  cursor: pointer;
+
+  button {
+    @include button-reset;
+  }
+
+  .first-line {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    margin: 8px;
+
+    .image-container {
+      flex: initial;
+      min-width: 50px;
+      width: 50px;
+      height: 50px;
+
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      object-fit: cover;
+
+      img {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .default-avatar {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        background-color: gray;
+        color: white;
+        font-size: 25px;
+        line-height: 52px;
+      }
+    }
+
+    .text-container {
+      flex-grow: 1;
+      margin-left: 8px;
+
+      .contact-name {
+        font-size: 16px;
+        font-weight: 300;
+        margin-top: 3px;
+        color: $blue;
+      }
+
+      .contact-method {
+        font-size: 14px;
+        margin-top: 6px;
+      }
+    }
+  }
+
+  .send-message {
+    margin-top: 8px;
+    margin-bottom: 3px;
+    padding: 11px;
+    border-top: 1px solid $grey_l1_5;
+    border-bottom: 1px solid $grey_l1_5;
+
+    color: $blue;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .inner {
+      display: flex;
+      align-items: center;
+    }
+
+    .bubble-icon {
+      height: 17px;
+      width: 18px;
+      display: inline-block;
+      margin-right: 5px;
+      @include color-svg('../images/chat-bubble.svg', $blue);
+    }
+  }
+}
+
+.incoming .embedded-contact {
+  color: white;
+
+  .text-container .contact-name {
+    color: white;
+  }
+
+  .send-message {
+    color: white;
+    // We would like to use these border colors for incoming messages, but the version
+    //   of Chromium in our Electron version doesn't render these appropriately. Both
+    //   borders disappear for some reason, and it seems to have to do with transparency.
+    // border-top: 1px solid rgba(255, 255, 255, 0.5);
+    // border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+    .bubble-icon {
+      background-color: white;
+    }
+  }
+}
+
+.group .incoming .embedded-contact {
+  margin-top: -2px;
+}
+
+.contact-detail {
+  text-align: center;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+
+  button {
+    @include button-reset;
+  }
+
+  .image-container {
+    height: 80px;
+    width: 80px;
+    margin-bottom: 4px;
+
+    text-align: center;
+    display: inline-block;
+    object-fit: cover;
+
+    img {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .default-avatar {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      background-color: gray;
+      color: white;
+      font-size: 50px;
+      line-height: 82px;
+    }
+  }
+
+  .contact-name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .contact-method {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .send-message {
+    cursor: pointer;
+
+    border-radius: 4px;
+    background-color: $blue;
+    display: inline-block;
+    padding: 6px;
+    margin-top: 20px;
+
+    // TODO: border
+    // TODO: gradient
+
+    color: white;
+
+    flex-direction: column;
+    align-items: center;
+
+    .inner {
+      display: flex;
+      align-items: center;
+    }
+
+    .bubble-icon {
+      height: 17px;
+      width: 18px;
+      display: inline-block;
+      margin-right: 5px;
+      @include color-svg('../images/chat-bubble.svg', white);
+    }
+  }
+
+  .additional-contact {
+    text-align: left;
+    border-top: 1px solid $grey_l1_5;
+    margin-top: 15px;
+    padding-top: 8px;
+
+    .type {
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+  }
+}
+
+.conversation .contact-detail {
+  margin-top: 40px;
 }
 
 .quoted-message {
@@ -735,8 +977,10 @@ span.status {
   background-color: #eee;
   position: relative;
 
-  margin-right: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
-  margin-left: $android-bubble-quote-padding - $android-bubble-padding-horizontal;
+  margin-right: $android-bubble-quote-padding -
+    $android-bubble-padding-horizontal;
+  margin-left: $android-bubble-quote-padding -
+    $android-bubble-padding-horizontal;
   margin-bottom: 0.5em;
 
   // Accent color border:
@@ -908,7 +1152,6 @@ span.status {
   border-left-color: white;
 }
 
-
 .message-list,
 .message-container {
   .avatar {
@@ -962,7 +1205,8 @@ span.status {
     }
   }
 
-  input, textarea {
+  input,
+  textarea {
     color: $grey_d;
   }
 
@@ -971,7 +1215,6 @@ span.status {
 
     .attachment-preview {
       padding: 13px 10px 0;
-
     }
     img {
       border: 2px solid #ddd;
@@ -1016,7 +1259,7 @@ span.status {
     font-size: 1em;
     font-family: inherit;
 
-    &[disabled=disabled] {
+    &[disabled='disabled'] {
       background: transparent;
     }
   }
@@ -1026,9 +1269,8 @@ span.status {
   }
   .android-length-warning {
     padding: 10px;
-    max-width:150px;
+    max-width: 150px;
   }
-
 }
 
 .toast {
@@ -1120,7 +1362,6 @@ span.status {
   padding-top: 25px;
   padding-bottom: 35px;
 
-
   .bar {
     display: flex;
     flex-direction: column;
@@ -1137,7 +1378,7 @@ span.status {
   .text {
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: .06em;
+    letter-spacing: 0.06em;
     background-color: white;
     border-radius: 1.5em;
     padding: 10px 21px 9px 21px;
@@ -1156,7 +1397,7 @@ span.status {
     text-align: center;
     background-color: white;
     border: none;
-    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
     outline: none;
 
     .icon {
@@ -1168,7 +1409,7 @@ span.status {
       background-color: #616161;
     }
 
-    &.new-messages  {
+    &.new-messages {
       background-color: $blue;
       .icon {
         @include color-svg('../images/down.svg', white);

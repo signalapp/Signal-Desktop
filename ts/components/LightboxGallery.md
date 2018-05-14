@@ -1,19 +1,38 @@
 ```js
 const noop = () => {};
 
-const items = [
-  { objectURL: 'https://placekitten.com/800/600', contentType: 'image/jpeg' },
-  { objectURL: 'https://placekitten.com/900/600', contentType: 'image/jpeg' },
-  { objectURL: 'https://placekitten.com/980/800', contentType: 'image/jpeg' },
-  { objectURL: 'https://placekitten.com/656/540', contentType: 'image/jpeg' },
-  { objectURL: 'https://placekitten.com/762/400', contentType: 'image/jpeg' },
-  { objectURL: 'https://placekitten.com/920/620', contentType: 'image/jpeg' },
+const messages = [
+  {
+    objectURL: 'https://placekitten.com/800/600',
+    attachments: [{ contentType: 'image/jpeg' }],
+  },
+  {
+    objectURL: 'https://placekitten.com/900/600',
+    attachments: [{ contentType: 'image/jpeg' }],
+  },
+  {
+    objectURL: 'foo.tif',
+    attachments: [{ contentType: 'image/tiff' }],
+  },
+  {
+    objectURL: 'https://placekitten.com/980/800',
+    attachments: [{ contentType: 'image/jpeg' }],
+  },
+  {
+    objectURL: 'https://placekitten.com/656/540',
+    attachments: [{ contentType: 'image/jpeg' }],
+  },
+  {
+    objectURL: 'https://placekitten.com/762/400',
+    attachments: [{ contentType: 'image/jpeg' }],
+  },
+  {
+    objectURL: 'https://placekitten.com/920/620',
+    attachments: [{ contentType: 'image/jpeg' }],
+  },
 ];
 
-<div style={{position: 'relative', width: '100%', height: 500}}>
-  <LightboxGallery
-    items={items}
-    onSave={noop}
-  />
-</div>
+<div style={{ position: 'relative', width: '100%', height: 500 }}>
+  <LightboxGallery messages={messages} onSave={noop} />
+</div>;
 ```

@@ -1,10 +1,13 @@
 .conversation-stack,
-.new-conversation, .inbox, .gutter {
+.new-conversation,
+.inbox,
+.gutter {
   height: 100%;
 }
 
 .expired {
-  .conversation-stack, .gutter {
+  .conversation-stack,
+  .gutter {
     height: calc(100% - 56px);
   }
 }
@@ -36,7 +39,7 @@
     padding-left: 2 * $button-height;
     display: none;
 
-    .network-status-message{
+    .network-status-message {
       h3 {
         padding: 0px;
         margin: 0px;
@@ -79,7 +82,7 @@
   color: white;
   background-color: #999999;
   transition: background-color 0.5s;
-  border-bottom: 1px solid rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
   .avatar {
     margin-bottom: -30px;
@@ -94,7 +97,7 @@
 .inactive .conversation-header {
   background-color: $grey_l !important;
   color: $grey_d;
-  border-color: rgba(0,0,0,0.05);
+  border-color: rgba(0, 0, 0, 0.05);
   .verified-icon {
     @include color-svg('../images/verified-check.svg', $grey_d);
   }
@@ -137,11 +140,11 @@ input.search {
     background-size: $search-x-size;
 
     &.ltr {
-      background-position : right $search-padding-right center;
+      background-position: right $search-padding-right center;
     }
 
     &.rtl {
-      background-position : left $search-padding-left center;
+      background-position: left $search-padding-left center;
     }
   }
 
@@ -175,12 +178,11 @@ input.search {
   }
 
   &.valid {
-    opacity: 1.0
+    opacity: 1;
   }
 }
 
 .index {
-
   .gutter .new-group-update-form {
     display: none;
     padding: 0.5em;
@@ -189,7 +191,6 @@ input.search {
   .last-message {
     margin: 6px 0 0;
     font-size: $font-size-small;
-    font-weight: 300;
   }
 
   .gutter .timestamp {
@@ -198,15 +199,14 @@ input.search {
     right: 12px;
     color: $grey;
   }
-
 }
 
 .conversations .unread .contact-details {
-    .name,
-    .last-message,
-    .last-timestamp {
-      font-weight: bold;
-    }
+  .name,
+  .last-message,
+  .last-timestamp {
+    font-weight: bold;
+  }
 }
 
 .hint {
@@ -226,7 +226,8 @@ input.search {
     left: 302px;
     width: 225px;
 
-    &:before, &:after {
+    &:before,
+    &:after {
       content: ' ';
       display: block;
       position: absolute;
@@ -271,8 +272,11 @@ input.search {
   color: white;
   border: 2px dashed white;
   overflow: visible;
-  p { color: white; }
-  &:before, &:after {
+  p {
+    color: white;
+  }
+  &:before,
+  &:after {
     content: ' ';
     display: block;
     position: absolute;

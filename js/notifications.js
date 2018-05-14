@@ -1,91 +1,110 @@
 /* global Signal:false */
+/* global Backbone: false */
 
+/* global ConversationController: false */
+/* global drawAttention: false */
+/* global i18n: false */
+/* global isFocused: false */
+/* global Signal: false */
+/* global storage: false */
+/* global Whisper: false */
+/* global _: false */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
   const { Settings } = Signal.Types;
 
-  var SETTINGS = {
-    OFF: 'off',
+  const SettingNames = {
     COUNT: 'count',
     NAME: 'name',
     MESSAGE: 'message',
   };
 
   Whisper.Notifications = new (Backbone.Collection.extend({
-    initialize: function() {
+    initialize() {
       this.isEnabled = false;
       this.on('add', this.update);
       this.on('remove', this.onRemove);
 
       this.lastNotification = null;
+
+      // Testing indicated that trying to create/destroy notifications too quickly
+      //   resulted in notifications that stuck around forever, requiring the user
+      //   to manually close them. This introduces a minimum amount of time between calls,
+      //   and batches up the quick successive update() calls we get from an incoming
+      //   read sync, which might have a number of messages referenced inside of it.
+      this.fastUpdate = this.update;
+      this.update = _.debounce(this.update, 1000);
     },
-    onClick: function(conversationId) {
-      var conversation = ConversationController.get(conversationId);
+    onClick(conversationId) {
+      const conversation = ConversationController.get(conversationId);
       this.trigger('click', conversation);
     },
-    update: function() {
+    update() {
+      if (this.lastNotification) {
+        this.lastNotification.close();
+        this.lastNotification = null;
+      }
+
       const { isEnabled } = this;
-      const isFocused = window.isFocused();
+      const isAppFocused = isFocused();
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
-      const userSetting = this.getSetting();
-      const shouldPlayNotificationSound =
-        isAudioNotificationSupported && isAudioNotificationEnabled;
+      const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
       const numNotifications = this.length;
-      console.log('Update notifications:', {
-        userSetting,
-        isFocused,
+      const userSetting = this.getUserSetting();
+
+      const status = Signal.Notifications.getStatus({
+        isAppFocused,
+        isAudioNotificationEnabled,
+        isAudioNotificationSupported,
         isEnabled,
         numNotifications,
-        shouldPlayNotificationSound,
+        userSetting,
       });
 
-      if (!isEnabled) {
+      console.log(
+        'Update notifications:',
+        Object.assign({}, status, {
+          isNotificationGroupingSupported,
+        })
+      );
+
+      if (status.type !== 'ok') {
+        if (status.shouldClearNotifications) {
+          this.reset([]);
+        }
+
         return;
       }
 
-      const hasNotifications = numNotifications > 0;
-      if (!hasNotifications) {
-        return;
-      }
-
-      const isNotificationOmitted = isFocused;
-      if (isNotificationOmitted) {
-        this.clear();
-        return;
-      }
-
-      if (userSetting === SETTINGS.OFF) {
-        return;
-      }
-
-      window.drawAttention();
-
-      var title;
-      var message;
-      var iconUrl;
+      let title;
+      let message;
+      let iconUrl;
 
       // NOTE: i18n has more complex rules for pluralization than just
       // distinguishing between zero (0) and other (non-zero),
       // e.g. Russian:
       // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
-      var newMessageCountLabel = `${numNotifications} ${
+      const newMessageCountLabel = `${numNotifications} ${
         numNotifications === 1 ? i18n('newMessage') : i18n('newMessages')
       }`;
 
-      const last = this.last();
-      const lastJSON = last.toJSON();
+      const last = this.last().toJSON();
       switch (userSetting) {
-        case SETTINGS.COUNT:
+        case SettingNames.COUNT:
           title = 'Signal';
           message = newMessageCountLabel;
           break;
-        case SETTINGS.NAME:
-          const lastMessageTitle = last.get('title');
+        case SettingNames.NAME: {
+          const lastMessageTitle = last.title;
           title = newMessageCountLabel;
-          iconUrl = last.get('iconUrl');
+          // eslint-disable-next-line prefer-destructuring
+          iconUrl = last.iconUrl;
           if (numNotifications === 1) {
             message = `${i18n('notificationFrom')} ${lastMessageTitle}`;
           } else {
@@ -94,84 +113,77 @@
             )} ${lastMessageTitle}`;
           }
           break;
-        case SETTINGS.MESSAGE:
+        }
+        case SettingNames.MESSAGE:
           if (numNotifications === 1) {
-            title = last.get('title');
-            message = last.get('message');
+            // eslint-disable-next-line prefer-destructuring
+            title = last.title;
+            // eslint-disable-next-line prefer-destructuring
+            message = last.message;
           } else {
             title = newMessageCountLabel;
-            message = `${i18n('notificationMostRecent')} ${last.get(
-              'message'
-            )}`;
+            message = `${i18n('notificationMostRecent')} ${last.message}`;
           }
-          iconUrl = last.get('iconUrl');
+          // eslint-disable-next-line prefer-destructuring
+          iconUrl = last.iconUrl;
+          break;
+        default:
+          console.log(
+            `Error: Unknown user notification setting: '${userSetting}'`
+          );
           break;
       }
 
       const shouldHideExpiringMessageBody =
-        lastJSON.isExpiringMessage && Signal.OS.isMacOS();
+        last.isExpiringMessage && Signal.OS.isMacOS();
       if (shouldHideExpiringMessageBody) {
         message = i18n('newMessage');
       }
 
-      if (window.config.polyfillNotifications) {
-        window.nodeNotifier.notify({
-          title: title,
-          message: message,
-          sound: false,
-        });
-        window.nodeNotifier.on('click', function(notifierObject, options) {
-          last.get('conversationId');
-        });
-      } else {
-        if (this.lastNotification) {
-          this.lastNotification.close();
-        }
-        const notification = new Notification(title, {
-          body: message,
-          icon: iconUrl,
-          tag: 'signal',
-          silent: !shouldPlayNotificationSound,
-        });
-        notification.onclick = this.onClick.bind(
-          this,
-          last.get('conversationId')
-        );
-        this.lastNotification = notification;
-      }
+      drawAttention();
 
-      // We continue to build up more and more messages for our notifications until
-      //   the user comes back to our app or closes the app. Then we'll clear everything
-      //   out. The good news is that we'll have a maximum of 1 notification in the
-      //   Notification area (something like '10 new messages') assuming that close() does
-      //   its job.
+      const notification = new Notification(title, {
+        body: message,
+        icon: iconUrl,
+        tag: isNotificationGroupingSupported ? 'signal' : undefined,
+        silent: !status.shouldPlayNotificationSound,
+      });
+      notification.onclick = () => this.onClick(last.conversationId);
+      this.lastNotification = notification;
+
+      // We continue to build up more and more messages for our notifications
+      // until the user comes back to our app or closes the app. Then we’ll
+      // clear everything out. The good news is that we'll have a maximum of
+      // 1 notification in the Notification area (something like
+      // ‘10 new messages’) assuming that `Notification::close` does its job.
     },
-    getSetting: function() {
-      return storage.get('notification-setting') || SETTINGS.MESSAGE;
+    getUserSetting() {
+      return storage.get('notification-setting') || SettingNames.MESSAGE;
     },
-    onRemove: function() {
+    onRemove() {
       console.log('Remove notification');
-      if (this.length === 0) {
-        this.clear();
-      } else {
-        this.update();
-      }
+      this.update();
     },
-    clear: function() {
+    clear() {
       console.log('Remove all notifications');
-      if (this.lastNotification) {
-        this.lastNotification.close();
-      }
       this.reset([]);
+      this.update();
     },
-    enable: function() {
+    // We don't usually call this, but when the process is shutting down, we should at
+    //   least try to remove the notification immediately instead of waiting for the
+    //   normal debounce.
+    fastClear() {
+      this.reset([]);
+      this.fastUpdate();
+    },
+    enable() {
       const needUpdate = !this.isEnabled;
       this.isEnabled = true;
       if (needUpdate) {
         this.update();
       }
     },
-    disable: function() {
+    disable() {
       this.isEnabled = false;
     },
   }))();

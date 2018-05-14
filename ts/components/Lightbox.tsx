@@ -3,8 +3,10 @@ import React from 'react';
 import classNames from 'classnames';
 import is from '@sindresorhus/is';
 
+import * as Colors from './styles/Colors';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
+import { colorSVG } from '../styles/colorSVG';
 
 interface Props {
   close: () => void;
@@ -43,7 +45,7 @@ const styles = {
     display: 'inline-flex',
     justifyContent: 'center',
   } as React.CSSProperties,
-  image: {
+  object: {
     flexGrow: 1,
     flexShrink: 0,
     maxWidth: '100%',
@@ -110,6 +112,25 @@ const IconButtonPlaceholder = () => (
   <div style={styles.iconButtonPlaceholder} />
 );
 
+const Icon = ({
+  onClick,
+  url,
+}: {
+  onClick?: (
+    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
+  ) => void;
+  url: string;
+}) => (
+  <div
+    style={{
+      ...styles.object,
+      ...colorSVG(url, Colors.ICON_SECONDARY),
+      maxWidth: 200,
+    }}
+    onClick={onClick}
+  />
+);
+
 export class Lightbox extends React.Component<Props, {}> {
   private containerRef: HTMLDivElement | null = null;
 
@@ -172,29 +193,42 @@ export class Lightbox extends React.Component<Props, {}> {
     objectURL: string;
     contentType: MIME.MIMEType;
   }) => {
-    const isImage = GoogleChrome.isImageTypeSupported(contentType);
-    if (isImage) {
+    const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
+    if (isImageTypeSupported) {
       return (
         <img
-          style={styles.image}
+          style={styles.object}
           src={objectURL}
           onClick={this.onObjectClick}
         />
       );
     }
 
-    const isVideo = GoogleChrome.isVideoTypeSupported(contentType);
-    if (isVideo) {
+    const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
+    if (isVideoTypeSupported) {
       return (
-        <video controls={true}>
+        <video controls={true} style={styles.object}>
           <source src={objectURL} />
         </video>
       );
     }
 
+    const isUnsupportedImageType =
+      !isImageTypeSupported && MIME.isImage(contentType);
+    const isUnsupportedVideoType =
+      !isVideoTypeSupported && MIME.isVideo(contentType);
+    if (isUnsupportedImageType || isUnsupportedVideoType) {
+      return (
+        <Icon
+          url={isUnsupportedVideoType ? 'images/video.svg' : 'images/image.svg'}
+          onClick={this.onObjectClick}
+        />
+      );
+    }
+
     // tslint:disable-next-line no-console
     console.log('Lightbox: Unexpected content type', { contentType });
-    return null;
+    return <Icon onClick={this.onObjectClick} url="images/file.svg" />;
   };
 
   private setContainerRef = (value: HTMLDivElement) => {
@@ -242,7 +276,9 @@ export class Lightbox extends React.Component<Props, {}> {
     this.onClose();
   };
 
-  private onObjectClick = (event: React.MouseEvent<HTMLImageElement>) => {
+  private onObjectClick = (
+    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
+  ) => {
     event.stopPropagation();
     this.onClose();
   };

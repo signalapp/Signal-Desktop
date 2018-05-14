@@ -711,13 +711,21 @@
     },
 
     async makeQuote(quotedMessage) {
+      const { getName } = Signal.Types.Contact;
       const contact = quotedMessage.getContact();
       const attachments = quotedMessage.get('attachments');
+
+      const body = quotedMessage.get('body');
+      const embeddedContact = quotedMessage.get('contact');
+      const embeddedContactName =
+        embeddedContact && embeddedContact.length > 0
+          ? getName(embeddedContact[0])
+          : '';
 
       return {
         author: contact.id,
         id: quotedMessage.get('sent_at'),
-        text: quotedMessage.get('body'),
+        text: body || embeddedContactName,
         attachments: await Promise.all(
           (attachments || []).map(async attachment => {
             const { contentType } = attachment;
@@ -813,17 +821,24 @@
       await collection.fetchConversation(this.id, 1);
       const lastMessage = collection.at(0);
 
+      const lastMessageJSON = lastMessage ? lastMessage.toJSON() : null;
       const lastMessageUpdate = window.Signal.Types.Conversation.createLastMessageUpdate(
         {
           currentLastMessageText: this.get('lastMessage') || null,
           currentTimestamp: this.get('timestamp') || null,
-          lastMessage: lastMessage ? lastMessage.toJSON() : null,
+          lastMessage: lastMessageJSON,
           lastMessageNotificationText: lastMessage
             ? lastMessage.getNotificationText()
             : null,
         }
       );
 
+      console.log('Conversation: Update last message:', {
+        id: this.idForLogging() || null,
+        messageTimestamp: lastMessageUpdate.timestamp || null,
+        messageType: lastMessageJSON ? lastMessageJSON.type : null,
+        messageSentAt: lastMessageJSON ? lastMessageJSON.sent_at : null,
+      });
       this.set(lastMessageUpdate);
 
       if (this.hasChanged('lastMessage') || this.hasChanged('timestamp')) {
@@ -853,14 +868,12 @@
         return Promise.resolve();
       }
 
-      console.log(
-        'Updating expireTimer for conversation',
-        this.idForLogging(),
-        'to',
+      console.log("Update conversation 'expireTimer'", {
+        id: this.idForLogging(),
         expireTimer,
-        'via',
-        source
-      );
+        source,
+      });
+
       source = source || textsecure.storage.user.getNumber();
       const timestamp = receivedAt || Date.now();
 
@@ -1637,9 +1650,9 @@
           );
 
           console.log('Add notification', {
-            conversationId,
-            messageSentAt,
+            conversationId: this.idForLogging(),
             isExpiringMessage,
+            messageSentAt,
           });
           Whisper.Notifications.add({
             conversationId,

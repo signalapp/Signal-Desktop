@@ -1,4 +1,3 @@
-
 Placeholder component:
 
 ```jsx
@@ -17,21 +16,17 @@ const outgoing = new Whisper.Message({
   body: 'How are you doing this fine day?',
   sent_at: Date.now() - 18000,
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 ### In a group conversation
@@ -42,21 +37,17 @@ const outgoing = new Whisper.Message({
   body: 'How are you doing this fine day?',
   sent_at: Date.now() - 200000,
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} type="group" >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme} type="group">
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 ### With an error
@@ -72,22 +63,18 @@ const outgoing = new Whisper.Message({
   sent_at: Date.now() - 200000,
   errors: [error],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-  body: null,
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+    body: null,
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Network error (outgoing only)
@@ -103,12 +90,9 @@ const outgoing = new Whisper.Message({
   body: "This message won't get through...",
 });
 const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} type="group" >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme} type="group">
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Network error, partial send in group (outgoing only)
@@ -125,12 +109,9 @@ const outgoing = new Whisper.Message({
   body: "This message won't get through...",
 });
 const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} type="group" >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme} type="group">
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### No message contents
@@ -140,22 +121,18 @@ const outgoing = new Whisper.Message({
   type: 'outgoing',
   sent_at: Date.now() - 200000,
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 
 const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 ### Disappearing
@@ -168,22 +145,18 @@ const outgoing = new Whisper.Message({
   expirationStartTimestamp: Date.now() - 1000,
   body: 'This message will self-destruct in two minutes',
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 
 const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 ### Notfications
@@ -200,7 +173,7 @@ const fromOther = new Whisper.Message({
   expirationStartTimestamp: Date.now() - 1000,
   expirationTimerUpdate: {
     source: '+12025550003',
-  }
+  },
 });
 const fromUpdate = new Whisper.Message({
   type: 'incoming',
@@ -212,7 +185,7 @@ const fromUpdate = new Whisper.Message({
   expirationTimerUpdate: {
     fromSync: true,
     source: util.ourNumber,
-  }
+  },
 });
 const fromMe = new Whisper.Message({
   type: 'incoming',
@@ -223,23 +196,14 @@ const fromMe = new Whisper.Message({
   expirationStartTimestamp: Date.now() - 1000,
   expirationTimerUpdate: {
     source: util.ourNumber,
-  }
+  },
 });
 const View = Whisper.ExpirationTimerUpdateView;
-<util.ConversationContext theme={util.theme} >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: fromOther }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: fromUpdate }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: fromMe }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper View={View} options={{ model: fromOther }} />
+  <util.BackboneWrapper View={View} options={{ model: fromUpdate }} />
+  <util.BackboneWrapper View={View} options={{ model: fromMe }} />
+</util.ConversationContext>;
 ```
 
 #### Safety number change
@@ -251,12 +215,9 @@ const incoming = new Whisper.Message({
   key_changed: '+12025550003',
 });
 const View = Whisper.KeyChangeView;
-<util.ConversationContext theme={util.theme} >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+</util.ConversationContext>;
 ```
 
 #### Marking as verified
@@ -277,16 +238,10 @@ const local = new Whisper.Message({
 });
 
 const View = Whisper.VerifiedChangeView;
-<util.ConversationContext theme={util.theme} >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: fromPrimary }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: local }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper View={View} options={{ model: fromPrimary }} />
+  <util.BackboneWrapper View={View} options={{ model: local }} />
+</util.ConversationContext>;
 ```
 
 #### Marking as not verified
@@ -305,16 +260,10 @@ const local = new Whisper.Message({
 });
 
 const View = Whisper.VerifiedChangeView;
-<util.ConversationContext theme={util.theme} >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: fromPrimary }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: local }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper View={View} options={{ model: fromPrimary }} />
+  <util.BackboneWrapper View={View} options={{ model: local }} />
+</util.ConversationContext>;
 ```
 
 #### Group update
@@ -324,29 +273,21 @@ const outgoing = new Whisper.Message({
   type: 'outgoing',
   sent_at: Date.now() - 200000,
   group_update: {
-    joined: [
-      '+12025550007',
-      '+12025550008',
-      '+12025550009',
-    ],
+    joined: ['+12025550007', '+12025550008', '+12025550009'],
   },
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 
 const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### End session
@@ -357,22 +298,18 @@ const outgoing = new Whisper.Message({
   sent_at: Date.now() - 200000,
   flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 
 const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} >
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+<util.ConversationContext theme={util.theme}>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 ### With an attachment
@@ -384,27 +321,25 @@ const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: 'I am pretty confused about Pi.',
   sent_at: Date.now() - 18000000,
-  attachments: [{
-    data: util.gif,
-    fileName: 'pi.gif',
-    contentType: 'image/gif',
-  }],
+  attachments: [
+    {
+      data: util.gif,
+      fileName: 'pi.gif',
+      contentType: 'image/gif',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Image
@@ -413,27 +348,25 @@ const View = Whisper.MessageView;
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   sent_at: Date.now() - 18000000,
-  attachments: [{
-    data: util.gif,
-    fileName: 'pi.gif',
-    contentType: 'image/gif',
-  }],
+  attachments: [
+    {
+      data: util.gif,
+      fileName: 'pi.gif',
+      contentType: 'image/gif',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Image with portrait aspect ratio
@@ -442,29 +375,26 @@ const View = Whisper.MessageView;
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   sent_at: Date.now() - 18000000,
-  attachments: [{
-    data: util.portraitYellow,
-    fileName: 'portraitYellow.png',
-    contentType: 'image/png',
-  }],
+  attachments: [
+    {
+      data: util.portraitYellow,
+      fileName: 'portraitYellow.png',
+      contentType: 'image/png',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
-
 
 #### Image with portrait aspect ratio and caption
 
@@ -473,27 +403,25 @@ const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: 'This is an odd yellow bar. Cool, huh?',
   sent_at: Date.now() - 18000000,
-  attachments: [{
-    data: util.portraitYellow,
-    fileName: 'portraitYellow.png',
-    contentType: 'image/png',
-  }],
+  attachments: [
+    {
+      data: util.portraitYellow,
+      fileName: 'portraitYellow.png',
+      contentType: 'image/png',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Image with landscape aspect ratio
@@ -502,27 +430,25 @@ const View = Whisper.MessageView;
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   sent_at: Date.now() - 18000000,
-  attachments: [{
-    data: util.landscapePurple,
-    fileName: 'landscapePurple.jpg',
-    contentType: 'image/jpeg',
-  }],
+  attachments: [
+    {
+      data: util.landscapePurple,
+      fileName: 'landscapePurple.jpg',
+      contentType: 'image/jpeg',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Image with landscape aspect ratio and caption
@@ -532,27 +458,25 @@ const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: "An interesting horizontal bar. It's art.",
   sent_at: Date.now() - 18000000,
-  attachments: [{
-    data: util.landscapePurple,
-    fileName: 'landscapePurple.jpg',
-    contentType: 'image/jpeg',
-  }],
+  attachments: [
+    {
+      data: util.landscapePurple,
+      fileName: 'landscapePurple.jpg',
+      contentType: 'image/jpeg',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Video with caption
@@ -562,27 +486,25 @@ const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: "Beautiful, isn't it?",
   sent_at: Date.now() - 10000,
-  attachments: [{
-    data: util.mp4,
-    fileName: 'freezing_bubble.mp4',
-    contentType: 'video/mp4',
-  }],
+  attachments: [
+    {
+      data: util.mp4,
+      fileName: 'freezing_bubble.mp4',
+      contentType: 'video/mp4',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Video
@@ -591,27 +513,25 @@ const View = Whisper.MessageView;
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   sent_at: Date.now() - 10000,
-  attachments: [{
-    data: util.mp4,
-    fileName: 'freezing_bubble.mp4',
-    contentType: 'video/mp4',
-  }],
+  attachments: [
+    {
+      data: util.mp4,
+      fileName: 'freezing_bubble.mp4',
+      contentType: 'video/mp4',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Audio with caption
@@ -621,27 +541,25 @@ const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: 'This is a nice song',
   sent_at: Date.now() - 15000,
-  attachments: [{
-    data: util.mp3,
-    fileName: 'agnus_dei.mp3',
-    contentType: 'audio/mp3',
-  }],
+  attachments: [
+    {
+      data: util.mp3,
+      fileName: 'agnus_dei.mp3',
+      contentType: 'audio/mp3',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Audio
@@ -650,27 +568,25 @@ const View = Whisper.MessageView;
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   sent_at: Date.now() - 15000,
-  attachments: [{
-    data: util.mp3,
-    fileName: 'agnus_dei.mp3',
-    contentType: 'audio/mp3',
-  }],
+  attachments: [
+    {
+      data: util.mp3,
+      fileName: 'agnus_dei.mp3',
+      contentType: 'audio/mp3',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Voice message
@@ -679,28 +595,26 @@ const View = Whisper.MessageView;
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   sent_at: Date.now() - 15000,
-  attachments: [{
-    flags: textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
-    data: util.mp3,
-    fileName: 'agnus_dei.mp3',
-    contentType: 'audio/mp3',
-  }],
+  attachments: [
+    {
+      flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+      data: util.mp3,
+      fileName: 'agnus_dei.mp3',
+      contentType: 'audio/mp3',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Other file type with caption
@@ -710,27 +624,25 @@ const outgoing = new Whisper.Message({
   type: 'outgoing',
   body: 'My manifesto is now complete!',
   sent_at: Date.now() - 15000,
-  attachments: [{
-    data: util.txt,
-    fileName: 'lorum_ipsum.txt',
-    contentType: 'text/plain',
-  }],
+  attachments: [
+    {
+      data: util.txt,
+      fileName: 'lorum_ipsum.txt',
+      contentType: 'text/plain',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```
 
 #### Other file type
@@ -739,25 +651,23 @@ const View = Whisper.MessageView;
 const outgoing = new Whisper.Message({
   type: 'outgoing',
   sent_at: Date.now() - 15000,
-  attachments: [{
-    data: util.txt,
-    fileName: 'lorum_ipsum.txt',
-    contentType: 'text/plain',
-  }],
+  attachments: [
+    {
+      data: util.txt,
+      fileName: 'lorum_ipsum.txt',
+      contentType: 'text/plain',
+    },
+  ],
 });
-const incoming = new Whisper.Message(Object.assign({}, outgoing.attributes, {
-  source: '+12025550003',
-  type: 'incoming',
-}));
+const incoming = new Whisper.Message(
+  Object.assign({}, outgoing.attributes, {
+    source: '+12025550003',
+    type: 'incoming',
+  })
+);
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: incoming }}
-  />
-  <util.BackboneWrapper
-    View={View}
-    options={{ model: outgoing }}
-  />
-</util.ConversationContext>
+  <util.BackboneWrapper View={View} options={{ model: incoming }} />
+  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+</util.ConversationContext>;
 ```

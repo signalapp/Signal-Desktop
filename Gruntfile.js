@@ -186,17 +186,21 @@ module.exports = function(grunt) {
       },
     },
     watch: {
-      sass: {
-        files: ['./stylesheets/*.scss'],
-        tasks: ['sass'],
+      dist: {
+        files: ['<%= dist.src %>', '<%= dist.res %>'],
+        tasks: ['copy_dist'],
       },
       libtextsecure: {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
         tasks: ['concat:libtextsecure'],
       },
-      dist: {
-        files: ['<%= dist.src %>', '<%= dist.res %>'],
-        tasks: ['copy_dist'],
+      protobuf: {
+        files: ['./protos/SignalService.proto'],
+        tasks: ['exec:build-protobuf'],
+      },
+      sass: {
+        files: ['./stylesheets/*.scss'],
+        tasks: ['sass'],
       },
       scripts: {
         files: ['<%= jshint.files %>'],
@@ -216,7 +220,10 @@ module.exports = function(grunt) {
         cmd: 'tx pull',
       },
       transpile: {
-        cmd: 'npm run transpile',
+        cmd: 'yarn transpile',
+      },
+      'build-protobuf': {
+        cmd: 'yarn build-protobuf',
       },
     },
     'test-release': {
@@ -306,79 +313,6 @@ module.exports = function(grunt) {
   grunt.registerTask('clean-release', function() {
     require('rimraf').sync('release');
     require('mkdirp').sync('release');
-  });
-
-  grunt.registerTask('fetch-release', function() {
-    grunt.task.requires('gitinfo');
-    require('mkdirp').sync('release');
-    var fs = require('fs');
-    var done = this.async();
-    var gitinfo = grunt.config.get('gitinfo');
-    var https = require('https');
-
-    var urlBase = 'https://s3-us-west-1.amazonaws.com/signal-desktop-builds';
-    var keyBase = 'signalapp/Signal-Desktop';
-    var sha = gitinfo.local.branch.current.SHA;
-    var files = [
-      {
-        zip: packageJson.name + '-' + packageJson.version + '.zip',
-        extractedTo: 'linux',
-      },
-    ];
-
-    var extract = require('extract-zip');
-    var download = function(url, dest, extractedTo, cb) {
-      var file = fs.createWriteStream(dest);
-      var request = https
-        .get(url, function(response) {
-          if (response.statusCode !== 200) {
-            cb(response.statusCode);
-          } else {
-            response.pipe(file);
-            file.on('finish', function() {
-              file.close(function() {
-                extract(
-                  dest,
-                  { dir: path.join(__dirname, 'release', extractedTo) },
-                  cb
-                );
-              });
-            });
-          }
-        })
-        .on('error', function(err) {
-          // Handle errors
-          fs.unlink(dest); // Delete the file async. (But we don't check the result)
-          if (cb) cb(err.message);
-        });
-    };
-
-    Promise.all(
-      files.map(function(item) {
-        var key = [keyBase, sha, 'dist', item.zip].join('/');
-        var url = [urlBase, key].join('/');
-        var dest = 'release/' + item.zip;
-        return new Promise(function(resolve) {
-          console.log(url);
-          download(url, dest, item.extractedTo, function(err) {
-            if (err) {
-              console.log('failed', dest, err);
-              resolve(err);
-            } else {
-              console.log('done', dest);
-              resolve();
-            }
-          });
-        });
-      })
-    ).then(function(results) {
-      results.forEach(function(error) {
-        if (error) {
-          grunt.fail.warn('Failed to fetch some release artifacts');
-        }
-      });
-      done();
-    });
   });
 
   function runTests(environment, cb) {
@@ -571,16 +505,12 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
-  grunt.registerTask('prep-release', [
-    'gitinfo',
-    'clean-release',
-    'fetch-release',
-  ]);
   grunt.registerTask('default', [
+    'exec:build-protobuf',
+    'exec:transpile',
     'concat',
     'copy:deps',
     'sass',
     'date',
-    'exec:transpile',
   ]);
 };

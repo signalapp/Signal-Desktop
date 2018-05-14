@@ -1,18 +1,41 @@
 # TODO: Partially duplicated from `.gitignore`. Remove once Prettier
 # supports `.gitignore`: https://github.com/prettier/prettier/issues/2294
 
-# generated files
+# Generated files
+config/local-*.json
+config/local.json
+dist/**
 js/components.js
-js/libtextsecure.js
 js/libsignal-protocol-worker.js
+js/libtextsecure.js
 libtextsecure/components.js
 libtextsecure/test/test.js
+stylesheets/*.css
 test/test.js
+ts/**/*.js
+ts/protobuf/*.d.ts
+ts/protobuf/*.js
+stylesheets/manifest.css
 
 # Third-party files
+components/**
 js/jquery.js
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
+libtextsecure/libsignal-protocol.js
+libtextsecure/test/blanket_mocha.js
+test/blanket_mocha.js
 
-/**/*.json
-/**/*.css
+# Test fixtures
+test/fixtures.js
+
+# Managed by Transifex:
+_locales/**
+
+# Managed by package manager (`bower` and `yarn`/`npm`):
+/bower.json
+/package.json
+
+# Symlink into third-party `components`:
+stylesheets/_intlTelInput.scss
+
