@@ -832,6 +832,7 @@
             : null,
         }
       );
+      lastMessageUpdate.status = lastMessage.getStatus(this.id);
 
       console.log('Conversation: Update last message:', {
         id: this.idForLogging() || null,
@@ -841,7 +842,7 @@
       });
       this.set(lastMessageUpdate);
 
-      if (this.hasChanged('lastMessage') || this.hasChanged('timestamp')) {
+      if (this.hasChanged('lastMessage') || this.hasChanged('timestamp') || this.hasChanged('status')) {
         this.save();
       }
     },

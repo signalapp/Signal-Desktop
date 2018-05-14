@@ -371,6 +371,11 @@
       {{> avatar }}
       <div class='contact-details'>
           <span class='last-timestamp' data-timestamp='{{ last_message_timestamp }}' dir='auto' > </span>
+          {{ #message_status }}
+            <div class='status-icon-container {{ message_status }}'>
+              <span class='status'></span>
+            </div>
+          {{ /message_status }}
           {{> contact_name_and_number }}
           {{ #unreadCount }}
             <span class='unread-count'>{{ unreadCount }}</span>
