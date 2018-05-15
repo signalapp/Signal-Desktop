@@ -1014,6 +1014,7 @@
 
       const view = new Whisper.ReactWrapperView({
         Component: Signal.Components.ContactDetail,
+        className: 'contact-detail-pane panel',
         props: {
           contact: contactSelector(contact, {
             regionCode,
