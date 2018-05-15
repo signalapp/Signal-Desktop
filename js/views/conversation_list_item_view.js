@@ -56,6 +56,8 @@
 
     render: function() {
       const lastMessage = this.model.get('lastMessage');
+      const unreadCount = this.model.get('unreadCount');
+      const messageStatus = this.model.get('lastStatus');
 
       this.$el.html(
         Mustache.render(
@@ -67,8 +69,9 @@
             number: this.model.getNumber(),
             avatar: this.model.getAvatar(),
             profileName: this.model.getProfileName(),
-            unreadCount: this.model.get('unreadCount'),
-            message_status: this.model.get('unreadCount') == 0 ? this.model.get('status'): null
+            unreadCount: unreadCount,
+            showStatus: !unreadCount && messageStatus,
+            messageStatus: messageStatus
           },
           this.render_partials()
         )

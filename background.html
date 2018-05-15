@@ -375,11 +375,11 @@
           {{ #unreadCount }}
             <span class='unread-count'>{{ unreadCount }}</span>
           {{ /unreadCount }}
-          {{ #message_status }}
-            <div class='last-status {{ message_status }}'>
+          {{ #showStatus }}
+            <div class='last-status {{ messageStatus }}'>
               <span class='status hide'></span>
             </div>
-          {{ /message_status }}
+          {{ /showStatus }}
           {{ #last_message }}
             <p class='last-message' dir='auto'></p>
           {{ /last_message }}

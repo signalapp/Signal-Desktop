@@ -832,7 +832,7 @@
             : null,
         }
       );
-      lastMessageUpdate.status = lastMessage.getStatus(this.id);
+      lastMessageUpdate.lastStatus = lastMessage.getStatus(this.id);
 
       console.log('Conversation: Update last message:', {
         id: this.idForLogging() || null,
