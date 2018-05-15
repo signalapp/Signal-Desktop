@@ -842,7 +842,7 @@
       });
       this.set(lastMessageUpdate);
 
-      if (this.hasChanged('lastMessage') || this.hasChanged('timestamp') || this.hasChanged('status')) {
+      if (this.hasChanged('lastMessage') || this.hasChanged('timestamp') || this.hasChanged('lastStatus')) {
         this.save();
       }
     },
