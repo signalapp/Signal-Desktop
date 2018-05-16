@@ -104,7 +104,7 @@
     "asar": "^0.14.0",
     "bower": "^1.8.2",
     "chai": "^4.1.2",
-    "electron": "1.8.4",
+    "electron": "2.0.1",
     "electron-builder": "^20.2.0",
     "electron-icon-maker": "0.0.3",
     "eslint": "^4.14.0",
