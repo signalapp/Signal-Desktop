@@ -751,7 +751,7 @@
     },
     "notificationMostRecent": {
         "message": "Most recent:",
-        "description": "Displayed in notifications when setting is 'name and message' and "
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "messageNotSent": {
         "message": "Message not sent.",

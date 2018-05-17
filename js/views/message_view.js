@@ -461,7 +461,7 @@
         this.contactHasSignalAccount || (number && haveConversation);
 
       // We store this value on this. because a re-render shouldn't kick off another
-      //   profile check. To the web.
+      //   profile check, going to the web.
       this.contactHasSignalAccount = hasLocalSignalAccount;
 
       const onSendMessage = number
