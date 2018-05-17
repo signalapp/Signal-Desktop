@@ -144,7 +144,7 @@
     "webpack": "^4.4.1"
   },
   "engines": {
-    "node": "^8.2.1"
+    "node": "^8.9.3"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
