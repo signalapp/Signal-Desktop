@@ -177,7 +177,6 @@
         model: this.model,
       });
 
-      emoji_util.parse(this.$('.conversation-name'));
 
       this.window = options.window;
       this.fileInput = new Whisper.FileInputView({
@@ -1331,7 +1330,7 @@
       }
 
       const input = this.$messageField;
-      const message = this.replace_colons(input.val()).trim();
+      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
 
       try {
         if (!message.length && !this.fileInput.hasFiles()) {

@@ -75,7 +75,6 @@
       this.timeStampView.setElement(this.$('.last-timestamp'));
       this.timeStampView.update();
 
-      emoji_util.parse(this.$('.name'));
 
       if (lastMessage) {
         if (this.bodyView) {

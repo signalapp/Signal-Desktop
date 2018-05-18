@@ -408,7 +408,6 @@
         this.$el.addClass('control');
         const content = this.$('.content');
         content.text(this.model.getDescription());
-        emoji_util.parse(content);
       } else {
         this.$el.removeClass('control');
       }

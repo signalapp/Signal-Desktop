@@ -2,7 +2,8 @@ import React from 'react';
 
 import createLinkify from 'linkify-it';
 
-import { Emojify, getSizeClass } from './Emojify';
+import { getSizeClass } from '../../util/emoji';
+import { Emojify } from './Emojify';
 
 const linkify = createLinkify();
 

@@ -3,6 +3,7 @@
 const Backbone = require('../ts/backbone');
 const Crypto = require('./modules/crypto');
 const Database = require('./modules/database');
+const Emoji = require('../ts/util/emoji');
 const HTML = require('../ts/html');
 const Message = require('./modules/types/message');
 const Notifications = require('../ts/notifications');
@@ -117,6 +118,7 @@ exports.setup = (options = {}) => {
     Components,
     Crypto,
     Database,
+    Emoji,
     HTML,
     Migrations,
     Notifications,
