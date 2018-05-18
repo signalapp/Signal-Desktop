@@ -9,7 +9,8 @@ import {
   getReplacementData,
   getTitle,
 } from '../../util/emoji';
-import { AddNewLines } from './AddNewLines';
+
+import { RenderTextCallback } from '../../types/Util';
 
 // Some of this logic taken from emoji-js/replacement
 function getImageTag({
@@ -43,27 +44,40 @@ function getImageTag({
 
 interface Props {
   text: string;
-  sizeClass?: string;
+  /** A class name to be added to the generated emoji images */
+  sizeClass?: '' | 'small' | 'medium' | 'large' | 'jumbo';
+  /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
+  renderNonEmoji?: RenderTextCallback;
 }
 
 export class Emojify extends React.Component<Props, {}> {
+  public static defaultProps: Partial<Props> = {
+    renderNonEmoji: ({ text, key }) => <span key={key}>{text}</span>,
+  };
+
   public render() {
-    const { text, sizeClass } = this.props;
+    const { text, sizeClass, renderNonEmoji } = this.props;
     const results: Array<any> = [];
     const regex = getRegex();
+
+    // We have to do this, because renderNonEmoji is not required in our Props object,
+    //  but it is always provided via defaultProps.
+    if (!renderNonEmoji) {
+      return;
+    }
 
     let match = regex.exec(text);
     let last = 0;
     let count = 1;
 
     if (!match) {
-      return <AddNewLines text={text} />;
+      return renderNonEmoji({ text, key: 0 });
     }
 
     while (match) {
       if (last < match.index) {
         const textWithNoEmoji = text.slice(last, match.index);
-        results.push(<AddNewLines key={count++} text={textWithNoEmoji} />);
+        results.push(renderNonEmoji({ text: textWithNoEmoji, key: count++ }));
       }
 
       results.push(getImageTag({ match, sizeClass, key: count++ }));
@@ -73,9 +87,9 @@ export class Emojify extends React.Component<Props, {}> {
     }
 
     if (last < text.length) {
-      results.push(<AddNewLines key={count++} text={text.slice(last)} />);
+      results.push(renderNonEmoji({ text: text.slice(last), key: count++ }));
     }
 
-    return <span>{results}</span>;
+    return results;
   }
 }

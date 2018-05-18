@@ -17,7 +17,7 @@ import {
   renderSendMessage,
 } from './EmbeddedContact';
 
-type Localizer = (key: string, values?: Array<string>) => string;
+import { Localizer } from '../../types/Util';
 
 interface Props {
   contact: Contact;

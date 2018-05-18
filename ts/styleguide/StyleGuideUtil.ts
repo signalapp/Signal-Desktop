@@ -218,11 +218,3 @@ parent.storage.put('regionCode', 'US');
 // Telling Lodash to relinquish _ for use by underscore
 // @ts-ignore
 _.noConflict();
-
-parent.emoji.signalReplace = (html: string): string => {
-  return html.replace(
-    /🔥/g,
-    '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f525.png"' +
-      'class="emoji" data-codepoints="1f525" title=":fire:">'
-  );
-};
