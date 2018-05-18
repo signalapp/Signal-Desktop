@@ -96,17 +96,6 @@
   <script type='text/x-tmpl-mustache' id='hint'>
     <p> {{ content }}</p>
   </script>
-  <script type='text/x-tmpl-mustache' id='conversation-title'>
-    {{ #name }}
-      <span class='conversation-name' dir='auto'>{{ name }}</span>
-    {{ /name }}
-    {{ #number }}
-      <span class='conversation-number'>{{ number }}</span>
-    {{ /number }}
-    {{ #isVerified }}
-      <span class='verified'><span class='verified-icon'></span> {{ verified }}</span>
-    {{ /isVerified }}
-  </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header {{ avatar.color }}'>
         <div class='header-buttons left'>

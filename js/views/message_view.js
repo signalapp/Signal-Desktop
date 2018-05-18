@@ -2,7 +2,6 @@
 /* global i18n: false */
 /* global textsecure: false */
 /* global _: false */
-/* global emoji_util: false */
 /* global Mustache: false */
 /* global $: false */
 /* global storage: false */
@@ -279,23 +278,29 @@
       if (this.avatarView) {
         this.avatarView.remove();
       }
+      if (this.bodyView) {
+        this.bodyView.remove();
+      }
+      if (this.contactView) {
+        this.contactView.remove();
+      }
+      if (this.controlView) {
+        this.controlView.remove();
+      }
       if (this.errorIconView) {
         this.errorIconView.remove();
       }
       if (this.networkErrorView) {
         this.networkErrorView.remove();
       }
+      if (this.quoteView) {
+        this.quoteView.remove();
+      }
       if (this.someFailedView) {
         this.someFailedView.remove();
       }
       if (this.timeStampView) {
         this.timeStampView.remove();
-      }
-      if (this.quoteView) {
-        this.quoteView.remove();
-      }
-      if (this.contactView) {
-        this.contactView.remove();
       }
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
@@ -406,8 +411,20 @@
     renderControl() {
       if (this.model.isEndSession() || this.model.isGroupUpdate()) {
         this.$el.addClass('control');
-        const content = this.$('.content');
-        content.text(this.model.getDescription());
+
+        if (this.controlView) {
+          this.controlView.remove();
+          this.controlView = null;
+        }
+
+        this.controlView = new Whisper.ReactWrapperView({
+          className: 'content-wrapper',
+          Component: window.Signal.Components.Emojify,
+          props: {
+            text: this.model.getDescription(),
+          },
+        });
+        this.$('.content').prepend(this.controlView.el);
       } else {
         this.$el.removeClass('control');
       }

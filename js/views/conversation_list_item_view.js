@@ -54,6 +54,18 @@
       this.$el.trigger('select', this.model);
     },
 
+    remove() {
+      if (this.nameView) {
+        this.nameView.remove();
+        this.nameView = null;
+      }
+      if (this.bodyView) {
+        this.bodyView.remove();
+        this.bodyView = null;
+      }
+      Backbone.View.prototype.remove.call(this);
+    },
+
     render: function() {
       const lastMessage = this.model.get('lastMessage');
 
@@ -61,12 +73,10 @@
         Mustache.render(
           _.result(this, 'template', ''),
           {
-            title: this.model.getTitle(),
             last_message: Boolean(lastMessage),
             last_message_timestamp: this.model.get('timestamp'),
             number: this.model.getNumber(),
             avatar: this.model.getAvatar(),
-            profileName: this.model.getProfileName(),
             unreadCount: this.model.get('unreadCount'),
           },
           this.render_partials()
@@ -75,6 +85,20 @@
       this.timeStampView.setElement(this.$('.last-timestamp'));
       this.timeStampView.update();
 
+      if (this.nameView) {
+        this.nameView.remove();
+        this.nameView = null;
+      }
+      this.nameView = new Whisper.ReactWrapperView({
+        className: 'name-wrapper',
+        Component: window.Signal.Components.ContactName,
+        props: {
+          phoneNumber: this.model.getNumber(),
+          name: this.model.getName(),
+          profileName: this.model.getProfileName(),
+        },
+      });
+      this.$('.name').append(this.nameView.el);
 
       if (lastMessage) {
         if (this.bodyView) {

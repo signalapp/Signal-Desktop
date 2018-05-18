@@ -16,9 +16,14 @@ const Util = require('../ts/util');
 const {
   ContactDetail,
 } = require('../ts/components/conversation/ContactDetail');
+const { ContactName } = require('../ts/components/conversation/ContactName');
+const {
+  ConversationTitle,
+} = require('../ts/components/conversation/ConversationTitle');
 const {
   EmbeddedContact,
 } = require('../ts/components/conversation/EmbeddedContact');
+const { Emojify } = require('../ts/components/conversation/Emojify');
 const { Lightbox } = require('../ts/components/Lightbox');
 const { LightboxGallery } = require('../ts/components/LightboxGallery');
 const {
@@ -56,7 +61,10 @@ exports.setup = (options = {}) => {
 
   const Components = {
     ContactDetail,
+    ContactName,
+    ConversationTitle,
     EmbeddedContact,
+    Emojify,
     Lightbox,
     LightboxGallery,
     MediaGallery,

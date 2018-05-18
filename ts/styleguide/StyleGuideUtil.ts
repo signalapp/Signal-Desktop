@@ -165,7 +165,7 @@ const COLORS = [
 ];
 
 const CONTACTS = COLORS.map((color, index) => {
-  const title = `${sample(['Mr.', 'Mrs.', 'Ms.', 'Unknown'])} ${color}`;
+  const title = `${sample(['Mr.', 'Mrs.', 'Ms.', 'Unknown'])} ${color} 🔥`;
   const key = sample(['name', 'profileName']) as string;
   const id = `+1202555${padStart(index.toString(), 4, '0')}`;
 
