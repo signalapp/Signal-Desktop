@@ -19,6 +19,9 @@ window.config.localeMessages = ipc.sendSync('locale-data');
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
+// We never do this in our code, so we'll prevent it everywhere
+window.open = () => null;
+
 window.drawAttention = () => {
   console.log('draw attention');
   ipc.send('draw-attention');
