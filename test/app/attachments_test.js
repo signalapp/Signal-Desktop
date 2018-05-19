@@ -77,6 +77,28 @@ describe('Attachments', () => {
       const inputBuffer = Buffer.from(input);
       assert.deepEqual(inputBuffer, output);
     });
+
+    it('throws if relative path goes higher than root', async () => {
+      const input = stringToArrayBuffer('test string');
+      const tempDirectory = path.join(
+        tempRootDirectory,
+        'Attachments_createWriterForExisting'
+      );
+
+      const relativePath = '../../parent';
+      const attachment = {
+        path: relativePath,
+        data: input,
+      };
+      try {
+        await Attachments.createWriterForExisting(tempDirectory)(attachment);
+      } catch (error) {
+        assert.strictEqual(error.message, 'Invalid relative path');
+        return;
+      }
+
+      throw new Error('Expected an error');
+    });
   });
 
   describe('createReader', () => {
@@ -110,6 +132,24 @@ describe('Attachments', () => {
 
       assert.deepEqual(input, output);
     });
+
+    it('throws if relative path goes higher than root', async () => {
+      const tempDirectory = path.join(
+        tempRootDirectory,
+        'Attachments_createReader'
+      );
+
+      const relativePath = '../../parent';
+
+      try {
+        await Attachments.createReader(tempDirectory)(relativePath);
+      } catch (error) {
+        assert.strictEqual(error.message, 'Invalid relative path');
+        return;
+      }
+
+      throw new Error('Expected an error');
+    });
   });
 
   describe('createDeleter', () => {
@@ -142,6 +182,24 @@ describe('Attachments', () => {
       const existsFile = await fse.exists(fullPath);
       assert.isFalse(existsFile);
     });
+
+    it('throws if relative path goes higher than root', async () => {
+      const tempDirectory = path.join(
+        tempRootDirectory,
+        'Attachments_createDeleter'
+      );
+
+      const relativePath = '../../parent';
+
+      try {
+        await Attachments.createDeleter(tempDirectory)(relativePath);
+      } catch (error) {
+        assert.strictEqual(error.message, 'Invalid relative path');
+        return;
+      }
+
+      throw new Error('Expected an error');
+    });
   });
 
   describe('createName', () => {
@@ -155,6 +213,32 @@ describe('Attachments', () => {
       const name =
         '608ce3bc536edbf7637a6aeb6040bdfec49349140c0dd43e97c7ce263b15ff7e';
       assert.lengthOf(Attachments.getRelativePath(name), PATH_LENGTH);
+    });
+  });
+
+  describe('createAbsolutePathGetter', () => {
+    it('combines root and relative path', () => {
+      const root = '/tmp';
+      const relative = 'ab/abcdef';
+      const pathGetter = Attachments.createAbsolutePathGetter(root);
+      const absolutePath = pathGetter(relative);
+
+      assert.strictEqual(absolutePath, '/tmp/ab/abcdef');
+    });
+
+    it('throws if relative path goes higher than root', () => {
+      const root = '/tmp';
+      const relative = '../../ab/abcdef';
+      const pathGetter = Attachments.createAbsolutePathGetter(root);
+
+      try {
+        pathGetter(relative);
+      } catch (error) {
+        assert.strictEqual(error.message, 'Invalid relative path');
+        return;
+      }
+
+      throw new Error('Expected an error');
     });
   });
 });

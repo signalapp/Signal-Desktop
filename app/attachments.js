@@ -37,7 +37,11 @@ exports.createReader = root => {
     }
 
     const absolutePath = path.join(root, relativePath);
-    const buffer = await fse.readFile(absolutePath);
+    const normalized = path.normalize(absolutePath);
+    if (!normalized.startsWith(root)) {
+      throw new Error('Invalid relative path');
+    }
+    const buffer = await fse.readFile(normalized);
     return toArrayBuffer(buffer);
   };
 };
@@ -83,8 +87,13 @@ exports.createWriterForExisting = root => {
 
     const buffer = Buffer.from(arrayBuffer);
     const absolutePath = path.join(root, relativePath);
-    await fse.ensureFile(absolutePath);
-    await fse.writeFile(absolutePath, buffer);
+    const normalized = path.normalize(absolutePath);
+    if (!normalized.startsWith(root)) {
+      throw new Error('Invalid relative path');
+    }
+
+    await fse.ensureFile(normalized);
+    await fse.writeFile(normalized, buffer);
     return relativePath;
   };
 };
@@ -103,6 +112,10 @@ exports.createDeleter = root => {
     }
 
     const absolutePath = path.join(root, relativePath);
+    const normalized = path.normalize(absolutePath);
+    if (!normalized.startsWith(root)) {
+      throw new Error('Invalid relative path');
+    }
     await fse.remove(absolutePath);
   };
 };
@@ -124,5 +137,11 @@ exports.getRelativePath = name => {
 };
 
 //      createAbsolutePathGetter :: RoothPath -> RelativePath -> AbsolutePath
-exports.createAbsolutePathGetter = rootPath => relativePath =>
-  path.join(rootPath, relativePath);
+exports.createAbsolutePathGetter = rootPath => relativePath => {
+  const absolutePath = path.join(rootPath, relativePath);
+  const normalized = path.normalize(absolutePath);
+  if (!normalized.startsWith(rootPath)) {
+    throw new Error('Invalid relative path');
+  }
+  return normalized;
+};
