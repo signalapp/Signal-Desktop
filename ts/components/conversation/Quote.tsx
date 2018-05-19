@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
+import { Emojify } from './Emojify';
 import { MessageBody } from './MessageBody';
 
 interface Props {
@@ -195,7 +196,9 @@ export class Quote extends React.Component<Props, {}> {
     } = this.props;
 
     const authorProfileElement = authorProfileName ? (
-      <span className="profile-name">~{authorProfileName}</span>
+      <span className="profile-name">
+        ~<Emojify text={authorProfileName} />
+      </span>
     ) : null;
 
     return (
@@ -204,7 +207,7 @@ export class Quote extends React.Component<Props, {}> {
           i18n('you')
         ) : (
           <span>
-            {authorTitle} {authorProfileElement}
+            <Emojify text={authorTitle} /> {authorProfileElement}
           </span>
         )}
       </div>
