@@ -188,6 +188,7 @@ function createWindow() {
       autoHideMenuBar: false,
       webPreferences: {
         nodeIntegration: false,
+        nodeIntegrationInWorker: false,
         // sandbox: true,
         preload: path.join(__dirname, 'preload.js'),
       },
@@ -415,6 +416,7 @@ function showAbout() {
     show: false,
     webPreferences: {
       nodeIntegration: false,
+      nodeIntegrationInWorker: false,
       preload: path.join(__dirname, 'preload.js'),
     },
     parent: mainWindow,
