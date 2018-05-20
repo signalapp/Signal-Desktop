@@ -22,7 +22,6 @@ libtextsecure/test/test.js
 test/test.js
 
 # Third-party files
-js/jquery.js
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
 

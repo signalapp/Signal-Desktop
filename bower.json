@@ -5,28 +5,18 @@
   "license": "GPLV3",
   "private": true,
   "dependencies": {
-    "jquery": "liliakai/jquery#2.1.1-ajax-nativetransport",
-    "underscore": "~1.7.0",
-    "backbone": "~1.1.2",
-    "protobuf": "~3.8.0",
-    "mustache": "~0.8.2",
-    "qrcode": "https://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
-    "indexeddb-backbonejs-adapter": "*",
-    "intl-tel-input": "~4.0.1",
-    "blueimp-load-image": "~1.13.0",
     "autosize": "~4.0.0",
-    "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git",
-    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git"
+    "blueimp-load-image": "~1.13.0",
+    "indexeddb-backbonejs-adapter": "*",
+    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",
+    "protobuf": "~3.8.0",
+    "qrcode": "https://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
+    "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git"
   },
   "devDependencies": {
-    "mocha": "~2.0.1",
-    "chai": "~3.5.0",
     "mock-socket": "~0.3.2"
   },
   "preen": {
-    "jquery": [
-      "dist/jquery.js"
-    ],
     "long": [
       "dist/Long.js"
     ],
@@ -36,39 +26,11 @@
     "protobuf": [
       "dist/ProtoBuf.js"
     ],
-    "mustache": [
-      "mustache.js"
-    ],
-    "underscore": [
-      "underscore.js"
-    ],
-    "backbone": [
-      "backbone.js"
-    ],
     "qrcode": [
       "qrcode.js"
     ],
-    "mocha": [
-      "mocha.js",
-      "mocha.css"
-    ],
-    "chai": [
-      "chai.js"
-    ],
     "indexeddb-backbonejs-adapter": [
       "backbone-indexeddb.js"
-    ],
-    "intl-tel-input": [
-      "build/css/intlTelInput.css",
-      "build/img/flags.png",
-      "build/js/intlTelInput.js"
-    ],
-    "emojijs": [
-      "lib/emoji.js",
-      "demo/emoji.css"
-    ],
-    "emojidata": [
-      "img-apple-64/*"
     ],
     "mock-socket": [
       "dist/mock-socket.js"
@@ -86,24 +48,23 @@
   },
   "concat": {
     "app": [
-      "jquery",
-      "long",
-      "bytebuffer",
-      "protobuf",
-      "mustache",
-      "underscore",
-      "backbone",
-      "indexeddb-backbonejs-adapter",
-      "qrcode",
-      "moment",
-      "intl-tel-input",
-      "backbone.typeahead",
-      "autosize"
+      "node_modules/jquery/dist/jquery.js",
+      "components/long/**/*.js",
+      "components/bytebuffer/**/*.js",
+      "components/protobuf/**/*.js",
+      "node_modules/mustache/mustache.js",
+      "node_modules/underscore/underscore.js",
+      "node_modules/backbone/backbone.js",
+      "components/indexeddb-backbonejs-adapter/**/*.js",
+      "components/qrcode/**/*.js",
+      "node_modules/intl-tel-input/build/js/intlTelInput.js",
+      "components/autosize/**/*.js",
+      "components/webaudiorecorder/lib/WebAudioRecorder.js"
     ],
     "libtextsecure": [
-      "long",
-      "bytebuffer",
-      "protobuf"
+      "components/long/**/*.js",
+      "components/bytebuffer/**/*.js",
+      "components/protobuf/**/*.js"
     ]
   }
 }

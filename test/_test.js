@@ -68,19 +68,16 @@ before(function(done) {
   };
 });
 
-async function clearDatabase(done) {
+async function clearDatabase() {
   await Signal.Migrations.Migrations0DatabaseWithAttachmentData.run({
     Backbone,
     databaseName: Whisper.Database.id,
   });
 
   const convos = new Whisper.ConversationCollection();
-  await convos.fetch();
-  await convos.destroyAll();
+  await wrapDeferred(convos.fetch());
+  await wrapDeferred(convos.destroyAll());
   const messages = new Whisper.MessageCollection();
-  await messages.fetch();
-  await messages.destroyAll();
-  if (done) {
-    done();
-  }
+  await wrapDeferred(messages.fetch());
+  await wrapDeferred(messages.destroyAll());
 }

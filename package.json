@@ -44,6 +44,7 @@
   "dependencies": {
     "@sindresorhus/is": "^0.8.0",
     "archiver": "^2.1.1",
+    "backbone": "^1.3.3",
     "blob-util": "^1.3.0",
     "blueimp-canvas-to-blob": "^3.14.0",
     "blueimp-load-image": "^2.18.0",
@@ -66,10 +67,13 @@
     "fs-extra": "^5.0.0",
     "google-libphonenumber": "^3.0.7",
     "got": "^8.2.0",
+    "intl-tel-input": "^12.1.15",
+    "jquery": "^3.3.1",
     "linkify-it": "^2.0.3",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "moment": "^2.21.0",
+    "mustache": "^2.3.0",
     "node-fetch": "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4",
     "os-locale": "^2.1.0",
     "pify": "^3.0.0",
@@ -84,6 +88,7 @@
     "testcheck": "^1.0.0-rc.2",
     "tmp": "^0.0.33",
     "to-arraybuffer": "^1.0.1",
+    "underscore": "^1.9.0",
     "websocket": "^1.0.25"
   },
   "devDependencies": {

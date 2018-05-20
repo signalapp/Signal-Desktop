@@ -7,15 +7,12 @@ module.exports = function(grunt) {
   var bower = grunt.file.readJSON('bower.json');
   var components = [];
   for (var i in bower.concat.app) {
-    components.push('components/' + bower.concat.app[i] + '/**/*.js');
+    components.push(bower.concat.app[i]);
   }
-  components.push('components/' + 'webaudiorecorder/lib/WebAudioRecorder.js');
 
   var libtextsecurecomponents = [];
   for (i in bower.concat.libtextsecure) {
-    libtextsecurecomponents.push(
-      'components/' + bower.concat.libtextsecure[i] + '/**/*.js'
-    );
+    libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
   }
 
   var importOnce = require('node-sass-import-once');
@@ -34,8 +31,8 @@ module.exports = function(grunt) {
       },
       test: {
         src: [
-          'components/mocha/mocha.js',
-          'components/chai/chai.js',
+          'node_modules/mocha/mocha.js',
+          'node_modules/chai/chai.js',
           'test/_test.js',
         ],
         dest: 'test/test.js',
@@ -75,10 +72,10 @@ module.exports = function(grunt) {
       },
       libtextsecuretest: {
         src: [
-          'components/jquery/dist/jquery.js',
+          'node_modules/jquery/dist/jquery.js',
           'components/mock-socket/dist/mock-socket.js',
-          'components/mocha/mocha.js',
-          'components/chai/chai.js',
+          'node_modules/mocha/mocha.js',
+          'node_modules/chai/chai.js',
           'libtextsecure/test/_test.js',
         ],
         dest: 'libtextsecure/test/test.js',
@@ -103,7 +100,6 @@ module.exports = function(grunt) {
         '!js/backup.js',
         '!js/components.js',
         '!js/database.js',
-        '!js/jquery.js',
         '!js/libsignal-protocol-worker.js',
         '!js/libtextsecure.js',
         '!js/logging.js',
@@ -146,10 +142,6 @@ module.exports = function(grunt) {
           {
             src: 'components/webaudiorecorder/lib/WebAudioRecorderMp3.js',
             dest: 'js/WebAudioRecorderMp3.js',
-          },
-          {
-            src: 'components/jquery/dist/jquery.js',
-            dest: 'js/jquery.js',
           },
         ],
       },
@@ -326,6 +318,7 @@ module.exports = function(grunt) {
       env: {
         NODE_ENV: environment,
       },
+      requireName: 'unused',
     });
 
     function getMochaResults() {
@@ -468,6 +461,7 @@ module.exports = function(grunt) {
 
     var app = new Application({
       path: [dir, config.exe].join('/'),
+      requireName: 'unused',
     });
 
     app

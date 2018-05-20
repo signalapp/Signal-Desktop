@@ -19,7 +19,6 @@ stylesheets/manifest.css
 
 # Third-party files
 components/**
-js/jquery.js
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
 libtextsecure/libsignal-protocol.js
