@@ -6,7 +6,6 @@
   "private": true,
   "dependencies": {
     "autosize": "~4.0.0",
-    "blueimp-load-image": "~1.13.0",
     "indexeddb-backbonejs-adapter": "*",
     "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",
     "protobuf": "~3.8.0",
@@ -17,11 +16,23 @@
     "mock-socket": "~0.3.2"
   },
   "preen": {
-    "long": [
-      "dist/Long.js"
+    "autosize": [
+      "dist/autosize.js"
     ],
     "bytebuffer": [
       "dist/ByteBufferAB.js"
+    ],
+    "indexeddb-backbonejs-adapter": [
+      "backbone-indexeddb.js"
+    ],
+    "long": [
+      "dist/Long.js"
+    ],
+    "mock-socket": [
+      "dist/mock-socket.js"
+    ],
+    "mp3lameencoder": [
+      "lib/Mp3LameEncoder.js"
     ],
     "protobuf": [
       "dist/ProtoBuf.js"
@@ -29,21 +40,9 @@
     "qrcode": [
       "qrcode.js"
     ],
-    "indexeddb-backbonejs-adapter": [
-      "backbone-indexeddb.js"
-    ],
-    "mock-socket": [
-      "dist/mock-socket.js"
-    ],
-    "autosize": [
-      "dist/autosize.js"
-    ],
     "webaudiorecorder": [
       "lib/WebAudioRecorder.js",
       "lib/WebAudioRecorderMp3.js"
-    ],
-    "mp3lameencoder": [
-      "lib/Mp3LameEncoder.js"
     ]
   },
   "concat": {

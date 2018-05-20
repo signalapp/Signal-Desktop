@@ -119,19 +119,6 @@ module.exports = function(grunt) {
       ],
       options: { jshintrc: '.jshintrc' },
     },
-    dist: {
-      src: [
-        'background.html',
-        'index.html',
-        'options.html',
-        '_locales/**',
-        'protos/*',
-        'js/**',
-        'stylesheets/*.css',
-        '!js/register.js',
-      ],
-      res: ['images/**/*', 'fonts/*'],
-    },
     copy: {
       deps: {
         files: [
@@ -144,12 +131,6 @@ module.exports = function(grunt) {
             dest: 'js/WebAudioRecorderMp3.js',
           },
         ],
-      },
-      res: {
-        files: [{ expand: true, dest: 'dist/', src: ['<%= dist.res %>'] }],
-      },
-      src: {
-        files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }],
       },
     },
     watch: {
