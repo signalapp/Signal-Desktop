@@ -152,31 +152,6 @@ module.exports = function(grunt) {
         files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }],
       },
     },
-    jscs: {
-      all: {
-        src: [
-          'Gruntfile',
-          'js/**/*.js',
-          '!js/components.js',
-          '!js/libsignal-protocol-worker.js',
-          '!js/libtextsecure.js',
-          '!js/modules/**/*.js',
-          '!js/models/conversations.js',
-          '!js/models/messages.js',
-          '!js/views/conversation_search_view.js',
-          '!js/views/conversation_view.js',
-          '!js/views/debug_log_view.js',
-          '!js/views/file_input_view.js',
-          '!js/views/message_view.js',
-          '!js/Mp3LameEncoder.min.js',
-          '!js/WebAudioRecorderMp3.js',
-          'test/**/*.js',
-          '!test/blanket_mocha.js',
-          '!test/modules/**/*.js',
-          '!test/test.js',
-        ],
-      },
-    },
     watch: {
       dist: {
         files: ['<%= dist.src %>', '<%= dist.res %>'],
@@ -197,10 +172,6 @@ module.exports = function(grunt) {
       scripts: {
         files: ['<%= jshint.files %>'],
         tasks: ['jshint'],
-      },
-      style: {
-        files: ['<%= jscs.all.src %>'],
-        tasks: ['jscs'],
       },
       transpile: {
         files: ['./ts/**/*.ts'],
@@ -507,7 +478,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('lint', ['jshint', 'jscs']);
+  grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);

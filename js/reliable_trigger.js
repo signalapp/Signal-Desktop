@@ -10,8 +10,6 @@
   // And of course, we update the protoypes of Backbone.Model/Backbone.View as well as
   //   Backbone.Events itself
 
-  // jscs:disable
-
   var arr = [];
 
   var slice = arr.slice;
