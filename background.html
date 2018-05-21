@@ -28,30 +28,6 @@
     2) test/index.html
   -->
 
-  <script type='text/x-tmpl-mustache' id='app-migration-screen'>
-    <div class='content'>
-      <img src='images/icon_128.png'>
-      {{ ^hideProgress }}
-        <div class='container'>
-          <span class='dot'></span>
-          <span class='dot'></span>
-          <span class='dot'></span>
-        </div>
-      {{ /hideProgress }}
-      <div class='message'>{{& message }}</div>
-      <div>
-        {{ #importButton }}
-          <button class='import grey'>{{ importButton }}</button>
-        {{ /importButton }}
-        {{ #restartButton }}
-          <button class='restart grey'>{{ restartButton }}</button>
-        {{ /restartButton }}
-        {{ #cancelButton }}
-          <button class='cancel grey'>{{ cancelButton }}</button>
-        {{ /cancelButton }}
-      </div>
-    </div>
-  </script>
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
       <img src='images/icon_128.png'>
