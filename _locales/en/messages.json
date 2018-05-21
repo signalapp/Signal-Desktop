@@ -267,18 +267,6 @@
     "submit": {
       "message": "Submit"
     },
-    "verifyContact": {
-      "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
-      "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-      "placeholders": {
-        "tag_start": {
-          "content": "<a class='verify' href='#'>"
-        },
-        "tag_end": {
-          "content": "</a>"
-        }
-      }
-    },
     "acceptNewKey": {
       "message": "Accept",
       "description": "Label for a button to accept a new safety number"
