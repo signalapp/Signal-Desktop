@@ -58,7 +58,8 @@
         return {
           isError: true,
           errorHeader: i18n('importErrorHeader'),
-          errorMessage: i18n('importError'),
+          errorMessageFirst: i18n('importErrorFirst'),
+          errorMessageSecond: i18n('importErrorSecond'),
           chooseButton: i18n('importAgain'),
         };
       }

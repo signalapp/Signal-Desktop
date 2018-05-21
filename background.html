@@ -740,7 +740,10 @@
         <div class='step-body'>
           <span class='banner-icon alert-outline'></span>
           <div class='header'>{{ errorHeader }}</div>
-          <div class='body-text-wide'>{{& errorMessage }}</div>
+          <div class='body-text-wide'>
+            {{ errorMessageFirst }}
+            <p>{{ errorMessageSecond }}</p>
+          </div>
         </div>
         <div class='nav'>
           <div>
