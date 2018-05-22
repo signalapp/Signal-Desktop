@@ -100,5 +100,6 @@ export const hasExpiration = (message: Message): boolean => {
   }
 
   const { expireTimer } = message;
+
   return typeof expireTimer === 'number' && expireTimer > 0;
 };

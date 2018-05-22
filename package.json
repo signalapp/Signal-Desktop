@@ -34,7 +34,7 @@
     "jshint": "yarn grunt jshint",
     "lint": "yarn format --list-different && yarn lint-windows",
     "lint-windows": "yarn eslint && yarn grunt lint && yarn tslint",
-    "tslint": "tslint --config tslint.json --format stylish --project .",
+    "tslint": "tslint --format stylish --project .",
     "format": "prettier --write \"*.{css,js,json,md,scss,ts,tsx}\" \"./**/*.{css,js,json,md,scss,ts,tsx}\"",
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js ts/*.js",

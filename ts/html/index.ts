@@ -1,3 +1,4 @@
+// tslint:disable-next-line: match-default-export-name
 import linkTextInternal from '../../js/modules/link_text';
 
 export const linkText = (value: string): string =>

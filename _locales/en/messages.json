@@ -460,6 +460,10 @@
     "selectAContact": {
       "message": "Select a contact or group to start chatting."
     },
+    "contactAvatarAlt": {
+      "message": "Contact avatar",
+      "description": "Used in the alt tag for the image avatar of a contact"
+    },
     "sendMessageToContact": {
       "message": "Send Message",
       "description": "Shown when you are sent a contact and that contact has a signal account"
@@ -617,6 +621,28 @@
     "sessionEnded": {
         "message": "Secure session reset",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "quoteThumbnailAlt": {
+      "message": "Thumbnail of image from quoted message",
+      "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "lightboxImageAlt": {
+      "message": "Image sent in conversation",
+      "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
+    "fileIconAlt": {
+      "message": "File icon",
+      "description": "Used in the media gallery documents tab to visually represent a file"
+    },
+    "emojiAlt": {
+      "message": "Emoji image of '$title$'",
+      "description": "Used in the alt tag of all emoji images",
+      "placeholders": {
+        "title": {
+          "content": "$1",
+          "example": "grinning"
+        }
+      }
     },
     "noContents": {
         "message": "No message contents",

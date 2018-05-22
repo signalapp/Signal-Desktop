@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { padStart, sample } from 'lodash';
+import { default as _, padStart, sample } from 'lodash';
 import libphonenumber from 'google-libphonenumber';
 
-import _ from 'lodash';
 import moment from 'moment';
-import qs from 'qs';
+import QueryString from 'qs';
 
 export { _ };
 
@@ -57,6 +56,7 @@ function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
   const blob = new Blob([data], {
     type: contentType,
   });
+
   return URL.createObjectURL(blob);
 }
 
@@ -90,7 +90,7 @@ export {
 const parent = window as any;
 
 const query = window.location.search.replace(/^\?/, '');
-const urlOptions = qs.parse(query);
+const urlOptions = QueryString.parse(query);
 const theme = urlOptions.theme || 'android';
 const locale = urlOptions.locale || 'en';
 
@@ -99,11 +99,11 @@ import localeMessages from '../../_locales/en/messages.json';
 
 // @ts-ignore
 import { setup } from '../../js/modules/i18n';
-import filesize from 'filesize';
+import fileSize from 'filesize';
 
 const i18n = setup(locale, localeMessages);
 
-parent.filesize = filesize;
+parent.filesize = fileSize;
 
 parent.i18n = i18n;
 parent.React = React;
@@ -137,6 +137,7 @@ const Attachments = {
 parent.Signal = Signal.setup({
   Attachments,
   userDataPath: '/',
+  // tslint:disable-next-line:no-backbone-get-set-outside-model
   getRegionCode: () => parent.storage.get('regionCode'),
 });
 parent.SignalService = SignalService;

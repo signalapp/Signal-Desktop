@@ -21,7 +21,7 @@ interface BackboneViewConstructor {
  * Allows Backbone Views to be rendered inside of React (primarily for the Style Guide)
  * while we slowly replace the internals of a given Backbone view with React.
  */
-export class BackboneWrapper extends React.Component<Props, {}> {
+export class BackboneWrapper extends React.Component<Props> {
   protected el: HTMLElement | null = null;
   protected view: BackboneView | null = null;
 
@@ -44,10 +44,9 @@ export class BackboneWrapper extends React.Component<Props, {}> {
   };
 
   protected setup = () => {
-    const { el } = this;
     const { View, options } = this.props;
 
-    if (!el) {
+    if (!this.el) {
       return;
     }
     this.view = new View(options);
@@ -55,7 +54,7 @@ export class BackboneWrapper extends React.Component<Props, {}> {
 
     // It's important to let the view create its own root DOM element. This ensures that
     //   its tagName property actually takes effect.
-    el.appendChild(this.view.el);
+    this.el.appendChild(this.view.el);
   };
 
   protected teardown() {

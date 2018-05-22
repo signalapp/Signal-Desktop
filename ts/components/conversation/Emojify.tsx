@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classnames from 'classnames';
+import classNames from 'classnames';
 import is from '@sindresorhus/is';
 
 import {
@@ -10,17 +10,19 @@ import {
   getTitle,
 } from '../../util/emoji';
 
-import { RenderTextCallback } from '../../types/Util';
+import { Localizer, RenderTextCallback } from '../../types/Util';
 
 // Some of this logic taken from emoji-js/replacement
 function getImageTag({
   match,
   sizeClass,
   key,
+  i18n,
 }: {
   match: any;
   sizeClass: string | undefined;
   key: string | number;
+  i18n: Localizer;
 }) {
   const result = getReplacementData(match[0], match[1], match[2]);
 
@@ -35,7 +37,8 @@ function getImageTag({
     <img
       key={key}
       src={img.path}
-      className={classnames('emoji', sizeClass)}
+      alt={i18n('emojiAlt', [title || ''])}
+      className={classNames('emoji', sizeClass)}
       data-codepoints={img.full_idx}
       title={`:${title}:`}
     />
@@ -48,15 +51,16 @@ interface Props {
   sizeClass?: '' | 'small' | 'medium' | 'large' | 'jumbo';
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonEmoji?: RenderTextCallback;
+  i18n: Localizer;
 }
 
-export class Emojify extends React.Component<Props, {}> {
+export class Emojify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
     renderNonEmoji: ({ text, key }) => <span key={key}>{text}</span>,
   };
 
   public render() {
-    const { text, sizeClass, renderNonEmoji } = this.props;
+    const { text, sizeClass, renderNonEmoji, i18n } = this.props;
     const results: Array<any> = [];
     const regex = getRegex();
 
@@ -80,7 +84,7 @@ export class Emojify extends React.Component<Props, {}> {
         results.push(renderNonEmoji({ text: textWithNoEmoji, key: count++ }));
       }
 
-      results.push(getImageTag({ match, sizeClass, key: count++ }));
+      results.push(getImageTag({ match, sizeClass, key: count++, i18n }));
 
       last = regex.lastIndex;
       match = regex.exec(text);

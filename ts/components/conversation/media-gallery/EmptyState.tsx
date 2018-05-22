@@ -21,9 +21,10 @@ const styles = {
   } as React.CSSProperties,
 };
 
-export class EmptyState extends React.Component<Props, {}> {
+export class EmptyState extends React.Component<Props> {
   public render() {
     const { label } = this.props;
+
     return <div style={styles.container}>{label}</div>;
   }
 }

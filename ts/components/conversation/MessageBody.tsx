@@ -5,7 +5,7 @@ import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';
 
-import { RenderTextCallback } from '../../types/Util';
+import { Localizer, RenderTextCallback } from '../../types/Util';
 
 interface Props {
   text: string;
@@ -13,6 +13,7 @@ interface Props {
   disableJumbomoji?: boolean;
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
   disableLinks?: boolean;
+  i18n: Localizer;
 }
 
 const renderNewLines: RenderTextCallback = ({
@@ -30,9 +31,9 @@ const renderLinks: RenderTextCallback = ({ text: textWithLinks, key }) => (
  * configurable with their `renderXXX` props, this component will assemble all three of
  * them for you.
  */
-export class MessageBody extends React.Component<Props, {}> {
+export class MessageBody extends React.Component<Props> {
   public render() {
-    const { text, disableJumbomoji, disableLinks } = this.props;
+    const { text, disableJumbomoji, disableLinks, i18n } = this.props;
     const sizeClass = disableJumbomoji ? '' : getSizeClass(text);
 
     return (
@@ -40,6 +41,7 @@ export class MessageBody extends React.Component<Props, {}> {
         text={text}
         sizeClass={sizeClass}
         renderNonEmoji={disableLinks ? renderNewLines : renderLinks}
+        i18n={i18n}
       />
     );
   }

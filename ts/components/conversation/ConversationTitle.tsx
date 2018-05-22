@@ -11,7 +11,7 @@ interface Props {
   profileName?: string;
 }
 
-export class ConversationTitle extends React.Component<Props, {}> {
+export class ConversationTitle extends React.Component<Props> {
   public render() {
     const { name, phoneNumber, i18n, profileName, isVerified } = this.props;
 
@@ -19,7 +19,7 @@ export class ConversationTitle extends React.Component<Props, {}> {
       <span className="conversation-title">
         {name ? (
           <span className="conversation-name" dir="auto">
-            <Emojify text={name} />
+            <Emojify text={name} i18n={i18n} />
           </span>
         ) : null}
         {phoneNumber ? (
@@ -27,7 +27,7 @@ export class ConversationTitle extends React.Component<Props, {}> {
         ) : null}{' '}
         {profileName ? (
           <span className="profileName">
-            <Emojify text={profileName} />
+            <Emojify text={profileName} i18n={i18n} />
           </span>
         ) : null}
         {isVerified ? (

@@ -1,4 +1,3 @@
-import 'mocha';
 import { assert } from 'chai';
 
 import * as HTML from '../../html';
@@ -52,6 +51,7 @@ describe('HTML', () => {
       {
         name: 'URLs without protocols',
         input: 'github.com',
+        // tslint:disable-next-line:no-http-string
         outputHref: 'http://github.com',
         outputLabel: 'github.com',
       },

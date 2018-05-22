@@ -81,12 +81,17 @@ const Tab = ({
   onSelect?: (event: TabSelectEvent) => void;
   type: AttachmentType;
 }) => {
-  const handleClick = onSelect ? () => onSelect({ type }) : undefined;
+  const handleClick = onSelect
+    ? () => {
+        onSelect({ type });
+      }
+    : undefined;
 
   return (
     <div
       style={isSelected ? styles.tab.active : styles.tab.default}
       onClick={handleClick}
+      role="tab"
     >
       {label}
     </div>
@@ -146,6 +151,7 @@ export class MediaGallery extends React.Component<Props, State> {
             throw missingCaseError(type);
         }
       })();
+
       return <EmptyState data-test="EmptyState" label={label} />;
     }
 
@@ -157,6 +163,7 @@ export class MediaGallery extends React.Component<Props, State> {
         section.type === 'yearMonth'
           ? date.format(MONTH_FORMAT)
           : i18n(section.type);
+
       return (
         <AttachmentSection
           key={header}

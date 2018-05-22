@@ -1,10 +1,10 @@
 import React from 'react';
 
-import createLinkify from 'linkify-it';
+import LinkifyIt from 'linkify-it';
 
 import { RenderTextCallback } from '../../types/Util';
 
-const linkify = createLinkify();
+const linkify = LinkifyIt();
 
 interface Props {
   text: string;
@@ -14,7 +14,7 @@ interface Props {
 
 const SUPPORTED_PROTOCOLS = /^(http|https):/i;
 
-export class Linkify extends React.Component<Props, {}> {
+export class Linkify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
     renderNonLink: ({ text, key }) => <span key={key}>{text}</span>,
   };

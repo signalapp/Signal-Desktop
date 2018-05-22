@@ -1,4 +1,3 @@
-import 'mocha';
 import { assert } from 'chai';
 
 import * as Message from '../../../../ts/types/message/initializeAttachmentMetadata';

@@ -1,18 +1,21 @@
+// tslint:disable:react-this-binding-issue
+
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
 import { Emojify } from './Emojify';
 import { MessageBody } from './MessageBody';
+import { Localizer } from '../../types/Util';
 
 interface Props {
   attachments: Array<QuotedAttachment>;
   authorColor: string;
   authorProfileName?: string;
   authorTitle: string;
-  i18n: (key: string, values?: Array<string>) => string;
+  i18n: Localizer;
   isFromMe: string;
   isIncoming: boolean;
   onClick?: () => void;
@@ -23,14 +26,14 @@ interface Props {
 interface QuotedAttachment {
   contentType: MIME.MIMEType;
   fileName: string;
-  /* Not included in protobuf */
+  /** Not included in protobuf */
   isVoiceMessage: boolean;
   thumbnail?: Attachment;
 }
 
 interface Attachment {
   contentType: MIME.MIMEType;
-  /* Not included in protobuf, and is loaded asynchronously */
+  /** Not included in protobuf, and is loaded asynchronously */
   objectUrl?: string;
 }
 
@@ -54,16 +57,16 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | null {
   return null;
 }
 
-export class Quote extends React.Component<Props, {}> {
-  public renderImage(url: string, icon?: string) {
+export class Quote extends React.Component<Props> {
+  public renderImage(url: string, i18n: Localizer, icon?: string) {
     const iconElement = icon ? (
-      <div className={classnames('icon', 'with-image', icon)} />
+      <div className={classNames('icon', 'with-image', icon)} />
     ) : null;
 
     return (
       <div className="icon-container">
         <div className="inner">
-          <img src={url} />
+          <img src={url} alt={i18n('quoteThumbnailAlt')} />
           {iconElement}
         </div>
       </div>
@@ -78,14 +81,14 @@ export class Quote extends React.Component<Props, {}> {
 
     return (
       <div className="icon-container">
-        <div className={classnames('circle-background', backgroundColor)} />
-        <div className={classnames('icon', icon, iconColor)} />
+        <div className={classNames('circle-background', backgroundColor)} />
+        <div className={classNames('icon', icon, iconColor)} />
       </div>
     );
   }
 
   public renderIconContainer() {
-    const { attachments } = this.props;
+    const { attachments, i18n } = this.props;
     if (!attachments || attachments.length === 0) {
       return null;
     }
@@ -96,11 +99,13 @@ export class Quote extends React.Component<Props, {}> {
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
       return objectUrl
-        ? this.renderImage(objectUrl, 'play')
+        ? this.renderImage(objectUrl, i18n, 'play')
         : this.renderIcon('movie');
     }
     if (GoogleChrome.isImageTypeSupported(contentType)) {
-      return objectUrl ? this.renderImage(objectUrl) : this.renderIcon('image');
+      return objectUrl
+        ? this.renderImage(objectUrl, i18n)
+        : this.renderIcon('image');
     }
     if (MIME.isAudio(contentType)) {
       return this.renderIcon('microphone');
@@ -115,7 +120,7 @@ export class Quote extends React.Component<Props, {}> {
     if (text) {
       return (
         <div className="text">
-          <MessageBody text={text} />
+          <MessageBody text={text} i18n={i18n} />
         </div>
       );
     }
@@ -181,7 +186,7 @@ export class Quote extends React.Component<Props, {}> {
     // We need the container to give us the flexibility to implement the iOS design.
     return (
       <div className="close-container">
-        <div className="close-button" onClick={onClick} />
+        <div className="close-button" role="button" onClick={onClick} />
       </div>
     );
   }
@@ -197,17 +202,17 @@ export class Quote extends React.Component<Props, {}> {
 
     const authorProfileElement = authorProfileName ? (
       <span className="profile-name">
-        ~<Emojify text={authorProfileName} />
+        ~<Emojify text={authorProfileName} i18n={i18n} />
       </span>
     ) : null;
 
     return (
-      <div className={classnames(authorColor, 'author')}>
+      <div className={classNames(authorColor, 'author')}>
         {isFromMe ? (
           i18n('you')
         ) : (
           <span>
-            <Emojify text={authorTitle} /> {authorProfileElement}
+            <Emojify text={authorTitle} i18n={i18n} /> {authorProfileElement}
           </span>
         )}
       </div>
@@ -221,7 +226,7 @@ export class Quote extends React.Component<Props, {}> {
       return null;
     }
 
-    const classes = classnames(
+    const classes = classNames(
       authorColor,
       'quoted-message',
       isFromMe ? 'from-me' : null,
@@ -229,7 +234,7 @@ export class Quote extends React.Component<Props, {}> {
     );
 
     return (
-      <div onClick={onClick} className={classes}>
+      <div onClick={onClick} role="button" className={classes}>
         <div className="primary">
           {this.renderIOSLabel()}
           {this.renderAuthor()}

@@ -1,6 +1,6 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended", "tslint-react"],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-microsoft-contrib"],
   "jsRules": {},
   "rules": {
     "align": [
@@ -34,6 +34,9 @@
     // https://github.com/Microsoft/tslint-microsoft-contrib/issues/85#issuecomment-371749352
     "mocha-no-side-effect-code": false,
     "mocha-unneeded-done": true,
+
+    // We always want 'as Type'
+    "no-angle-bracket-type-assertion": true,
 
     "no-consecutive-blank-lines": [true, 2],
     "object-literal-key-quotes": [true, "as-needed"],
@@ -73,7 +76,54 @@
         },
         "esSpecCompliant": true
       }
-    ]
+    ],
+
+    // Disabling a large set of Microsoft-recommended rules
+
+    // Modifying:
+
+    // React components and namespaces are Pascal case
+    "variable-name": [true, "allow-pascal-case"],
+
+    // Maybe will turn on:
+
+    // We're not trying to be comprehensive with JSDoc right now. We have the style guide.
+    "completed-docs": false,
+    // Today we have files with a single named export which isn't the filename. Eventually.
+    "export-name": false,
+    // We have a lot of 'any' in our code today
+    "no-any": false,
+    // We use this today, could get rid of it
+    "no-increment-decrement": false,
+    // This seems to detect false positives: any multi-level object literal, for example
+    "no-object-literal-type-assertion": false,
+    // I like relative references to the current dir, or absolute. Maybe can do this?
+    "no-relative-imports": false,
+    // We have a lot of 'any' in our code today
+    "no-unsafe-any": false,
+    // Not everything needs to be typed right now
+    "typedef": false,
+
+    // Probably won't turn on:
+
+    // We want to import a capitalized React, for example
+    "import-name": false,
+    // We have the styleguide for better docs
+    "missing-jsdoc": false,
+    // 'type' and 'number' are just too common
+    "no-reserved-keywords": false,
+    // The style guide needs JSDoc-style block comments to extract proptype documentation
+    "no-single-line-block-comment": false,
+    // Out-of-order functions can improve readability
+    "no-use-before-declare": false,
+    // We use Array<type> syntax
+    "prefer-array-literal": false,
+    // We prefer key: () => void syntax, because it suggests an object instead of a class
+    "prefer-method-signature": false,
+    // 'as' is nicer than angle brackets.
+    "prefer-type-cast": false,
+    // We use || and && shortcutting because we're javascript programmers
+    "strict-boolean-expressions": false
   },
   "rulesDirectory": ["node_modules/tslint-microsoft-contrib"]
 }

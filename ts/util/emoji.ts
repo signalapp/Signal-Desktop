@@ -29,6 +29,7 @@ export function replaceColons(str: string) {
     if (code) {
       return instance.data[code][0][0];
     }
+
     return m;
   });
 }
@@ -51,6 +52,7 @@ function getCountOfAllMatches(str: string, regex: RegExp) {
 
 function hasNormalCharacters(str: string) {
   const noEmoji = str.replace(instance.rx_unified, '').trim();
+
   return noEmoji.length > 0;
 }
 
@@ -96,6 +98,7 @@ export function getReplacementData(
         variation,
       };
     }
+
     return {
       value: unified,
     };

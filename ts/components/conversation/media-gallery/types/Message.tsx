@@ -66,6 +66,7 @@ export const withObjectURL = (message: Message): Message => {
     data: attachment.data,
     type: attachment.contentType,
   });
+
   return {
     ...message,
     objectURL,

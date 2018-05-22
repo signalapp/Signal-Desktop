@@ -1,4 +1,3 @@
-import 'mocha';
 import { assert } from 'chai';
 
 import * as Conversation from '../../types/Conversation';

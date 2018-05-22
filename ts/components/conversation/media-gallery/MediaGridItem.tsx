@@ -25,7 +25,7 @@ const styles = {
   },
 };
 
-export class MediaGridItem extends React.Component<Props, {}> {
+export class MediaGridItem extends React.Component<Props> {
   public renderContent() {
     const { message } = this.props;
 
@@ -46,7 +46,7 @@ export class MediaGridItem extends React.Component<Props, {}> {
 
   public render() {
     return (
-      <div style={styles.container} onClick={this.props.onClick}>
+      <div style={styles.container} role="button" onClick={this.props.onClick}>
         {this.renderContent()}
       </div>
     );
