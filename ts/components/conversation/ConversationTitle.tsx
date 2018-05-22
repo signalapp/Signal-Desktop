@@ -25,7 +25,7 @@ export class ConversationTitle extends React.Component<Props> {
         {phoneNumber ? (
           <span className="conversation-number">{phoneNumber}</span>
         ) : null}{' '}
-        {profileName ? (
+        {profileName && !name ? (
           <span className="profileName">
             <Emojify text={profileName} i18n={i18n} />
           </span>
