@@ -1,60 +1,59 @@
 // The idea with this file is to make it webpackable for the style guide
 
-const Backbone = require('../ts/backbone');
-const Crypto = require('./modules/crypto');
-const Database = require('./modules/database');
-const Emoji = require('../ts/util/emoji');
-const HTML = require('../ts/html');
-const Message = require('./modules/types/message');
-const Notifications = require('../ts/notifications');
-const OS = require('../ts/OS');
-const Settings = require('./modules/settings');
-const Startup = require('./modules/startup');
-const Util = require('../ts/util');
+const Backbone = require('../../ts/backbone');
+const Crypto = require('./crypto');
+const Database = require('./database');
+const Emoji = require('../../ts/util/emoji');
+const Message = require('./types/message');
+const Notifications = require('../../ts/notifications');
+const OS = require('../../ts/OS');
+const Settings = require('./settings');
+const Startup = require('./startup');
+const Util = require('../../ts/util');
 
 // Components
 const {
   ContactDetail,
-} = require('../ts/components/conversation/ContactDetail');
-const { ContactName } = require('../ts/components/conversation/ContactName');
+} = require('../../ts/components/conversation/ContactDetail');
+const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
   ConversationTitle,
-} = require('../ts/components/conversation/ConversationTitle');
+} = require('../../ts/components/conversation/ConversationTitle');
 const {
   EmbeddedContact,
-} = require('../ts/components/conversation/EmbeddedContact');
-const { Emojify } = require('../ts/components/conversation/Emojify');
-const { Lightbox } = require('../ts/components/Lightbox');
-const { LightboxGallery } = require('../ts/components/LightboxGallery');
+} = require('../../ts/components/conversation/EmbeddedContact');
+const { Emojify } = require('../../ts/components/conversation/Emojify');
+const { Lightbox } = require('../../ts/components/Lightbox');
+const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const {
   MediaGallery,
-} = require('../ts/components/conversation/media-gallery/MediaGallery');
-const { MessageBody } = require('../ts/components/conversation/MessageBody');
-const { Quote } = require('../ts/components/conversation/Quote');
+} = require('../../ts/components/conversation/media-gallery/MediaGallery');
+const { MessageBody } = require('../../ts/components/conversation/MessageBody');
+const { Quote } = require('../../ts/components/conversation/Quote');
 
 // Migrations
 const {
   getPlaceholderMigrations,
-} = require('./modules/migrations/get_placeholder_migrations');
+} = require('./migrations/get_placeholder_migrations');
 
-const Migrations0DatabaseWithAttachmentData = require('./modules/migrations/migrations_0_database_with_attachment_data');
-const Migrations1DatabaseWithoutAttachmentData = require('./modules/migrations/migrations_1_database_without_attachment_data');
+const Migrations0DatabaseWithAttachmentData = require('./migrations/migrations_0_database_with_attachment_data');
+const Migrations1DatabaseWithoutAttachmentData = require('./migrations/migrations_1_database_without_attachment_data');
 
 // Types
-const AttachmentType = require('./modules/types/attachment');
-const Contact = require('../ts/types/Contact');
-const Conversation = require('../ts/types/Conversation');
-const Errors = require('./modules/types/errors');
-const MediaGalleryMessage = require('../ts/components/conversation/media-gallery/types/Message');
-const MIME = require('../ts/types/MIME');
-const SettingsType = require('../ts/types/Settings');
+const AttachmentType = require('./types/attachment');
+const Contact = require('../../ts/types/Contact');
+const Conversation = require('../../ts/types/Conversation');
+const Errors = require('./types/errors');
+const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
+const MIME = require('../../ts/types/MIME');
+const SettingsType = require('../../ts/types/Settings');
 
 // Views
-const Initialization = require('./modules/views/initialization');
+const Initialization = require('./views/initialization');
 
 // Workflow
-const { IdleDetector } = require('./modules/idle_detector');
-const MessageDataMigrator = require('./modules/messages_data_migrator');
+const { IdleDetector } = require('./idle_detector');
+const MessageDataMigrator = require('./messages_data_migrator');
 
 exports.setup = (options = {}) => {
   const { Attachments, userDataPath, getRegionCode } = options;
@@ -127,7 +126,6 @@ exports.setup = (options = {}) => {
     Crypto,
     Database,
     Emoji,
-    HTML,
     Migrations,
     Notifications,
     OS,

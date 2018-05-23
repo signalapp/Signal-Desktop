@@ -15,7 +15,7 @@ export { ConversationContext } from './ConversationContext';
 export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 
 // @ts-ignore
-import * as Signal from '../../js/signal';
+import * as Signal from '../../js/modules/signal';
 import { SignalService } from '../protobuf';
 
 // TypeScript wants two things when you import:
