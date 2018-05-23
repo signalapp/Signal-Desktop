@@ -1007,19 +1007,20 @@
       this.listenBack(view);
     },
 
-    showContactDetail(contact) {
+    showContactDetail({ contact, hasSignalAccount }) {
       const regionCode = storage.get('regionCode');
       const { contactSelector } = Signal.Types.Contact;
       const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
       const view = new Whisper.ReactWrapperView({
         Component: Signal.Components.ContactDetail,
+        className: 'contact-detail-pane panel',
         props: {
           contact: contactSelector(contact, {
             regionCode,
             getAbsoluteAttachmentPath,
           }),
-          hasSignalAccount: true,
+          hasSignalAccount,
           onSendMessage: () => {
             const number =
               contact.number && contact.number[0] && contact.number[0].value;
