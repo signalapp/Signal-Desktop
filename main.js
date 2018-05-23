@@ -293,9 +293,9 @@ function createWindow() {
 
   captureClicks(mainWindow);
 
-  mainWindow.webContents.on('will-navigate', e => {
+  mainWindow.webContents.on('will-navigate', event => {
     logger.info('will-navigate');
-    e.preventDefault();
+    event.preventDefault();
   });
 
   // Emitted when the window is about to be closed.
@@ -523,10 +523,13 @@ app.on('activate', () => {
   }
 });
 
-// Defense in depth. We never intend to open webviews, so this prevents it completely.
-app.on('web-contents-created', (createEvent, win) => {
-  win.on('will-attach-webview', attachEvent => {
+// Defense in depth. We never intend to open webviews or windows. Prevent it completely.
+app.on('web-contents-created', (createEvent, contents) => {
+  contents.on('will-attach-webview', attachEvent => {
     attachEvent.preventDefault();
+  });
+  contents.on('new-window', newEvent => {
+    newEvent.preventDefault();
   });
 });
 
