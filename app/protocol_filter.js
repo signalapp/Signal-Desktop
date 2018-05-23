@@ -41,15 +41,26 @@ function installFileHandler({ protocol, userDataPath, installPath }) {
   );
 }
 
-// Turn off all browser web requests since we do all web requests via Node.js
-function _webHandler(request, callback) {
+// Turn off browser URI scheme since we do all network requests via Node.js
+function _disabledHandler(request, callback) {
   return callback();
 }
 
 function installWebHandler({ protocol }) {
-  protocol.interceptFileProtocol('http', _webHandler);
-  protocol.interceptFileProtocol('https', _webHandler);
-  protocol.interceptFileProtocol('ftp', _webHandler);
+  protocol.interceptFileProtocol('about', _disabledHandler);
+  protocol.interceptFileProtocol('content', _disabledHandler);
+  protocol.interceptFileProtocol('chrome', _disabledHandler);
+  protocol.interceptFileProtocol('cid', _disabledHandler);
+  protocol.interceptFileProtocol('data', _disabledHandler);
+  protocol.interceptFileProtocol('filesystem', _disabledHandler);
+  protocol.interceptFileProtocol('ftp', _disabledHandler);
+  protocol.interceptFileProtocol('gopher', _disabledHandler);
+  protocol.interceptFileProtocol('http', _disabledHandler);
+  protocol.interceptFileProtocol('https', _disabledHandler);
+  protocol.interceptFileProtocol('javascript', _disabledHandler);
+  protocol.interceptFileProtocol('mailto', _disabledHandler);
+  protocol.interceptFileProtocol('ws', _disabledHandler);
+  protocol.interceptFileProtocol('wss', _disabledHandler);
 }
 
 module.exports = {
