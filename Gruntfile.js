@@ -380,7 +380,19 @@ module.exports = function(grunt) {
         // We need to use the failure variable and this early stop to clean up before
         // shutting down. Grunt's fail methods are the only way to set the return value,
         // but they shut the process down immediately!
-        return app.stop();
+        if (failure) {
+          console.log();
+          console.log('Main process logs:');
+          return app.client.getMainProcessLogs().then(function(logs) {
+            logs.forEach(function(log) {
+              console.log(log);
+            });
+
+            return app.stop();
+          });
+        } else {
+          return app.stop();
+        }
       })
       .then(function() {
         if (failure) {
