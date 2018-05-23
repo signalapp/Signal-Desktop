@@ -5,7 +5,14 @@ const os = require('os');
 const _ = require('lodash');
 const electron = require('electron');
 
-const { BrowserWindow, app, Menu, shell, ipcMain: ipc } = electron;
+const {
+  BrowserWindow,
+  app,
+  Menu,
+  shell,
+  ipcMain: ipc,
+  protocol: electronProtocol,
+} = electron;
 
 const packageJson = require('./package.json');
 
@@ -16,6 +23,10 @@ const GlobalErrors = require('./js/modules/global_errors');
 const logging = require('./app/logging');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');
+const {
+  installFileHandler,
+  installWebHandler,
+} = require('./app/protocol_filter');
 
 GlobalErrors.addHandler();
 
@@ -429,6 +440,21 @@ function showAbout() {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', () => {
+  const userDataPath = app.getPath('userData');
+  const installPath = app.getAppPath();
+
+  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'test-lib') {
+    installFileHandler({
+      protocol: electronProtocol,
+      userDataPath,
+      installPath,
+    });
+  }
+
+  installWebHandler({
+    protocol: electronProtocol,
+  });
+
   // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
   /* eslint-disable more/no-then */
   let loggingSetupError;
@@ -453,7 +479,6 @@ app.on('ready', () => {
       }
 
       console.log('Ensure attachments directory exists');
-      const userDataPath = app.getPath('userData');
       await Attachments.ensureDirectory(userDataPath);
 
       ready = true;
