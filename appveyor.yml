@@ -8,7 +8,7 @@ cache:
 install:
   - systeminfo | findstr /C:"OS"
   - set PATH=C:\Ruby23-x64\bin;%PATH%
-  - ps: Install-Product node 8.2.1 x64
+  - ps: Install-Product node 8.9.3 x64
   - yarn install --frozen-lockfile
 
 build_script:

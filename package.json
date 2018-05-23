@@ -43,8 +43,6 @@
   },
   "dependencies": {
     "@sindresorhus/is": "^0.8.0",
-    "@types/google-libphonenumber": "^7.4.14",
-    "@types/linkify-it": "^2.0.3",
     "archiver": "^2.1.1",
     "blob-util": "^1.3.0",
     "blueimp-canvas-to-blob": "^3.14.0",
@@ -57,7 +55,7 @@
     "electron-editor-context-menu": "^1.1.1",
     "electron-is-dev": "^0.3.0",
     "electron-unhandled": "https://github.com/gasi/electron-unhandled.git#1edf81fe542e505368fafaeef27609dc21678f8c",
-    "electron-updater": "^2.21.0",
+    "electron-updater": "^2.21.10",
     "emoji-datasource": "4.0.0",
     "emoji-datasource-apple": "4.0.0",
     "emoji-js": "^3.4.0",
@@ -92,7 +90,9 @@
     "@types/chai": "^4.1.2",
     "@types/classnames": "^2.2.3",
     "@types/filesize": "^3.6.0",
+    "@types/google-libphonenumber": "^7.4.14",
     "@types/jquery": "^3.3.1",
+    "@types/linkify-it": "^2.0.3",
     "@types/lodash": "^4.14.106",
     "@types/mocha": "^5.0.0",
     "@types/qs": "^6.5.1",
@@ -104,8 +104,8 @@
     "asar": "^0.14.0",
     "bower": "^1.8.2",
     "chai": "^4.1.2",
-    "electron": "1.8.4",
-    "electron-builder": "^20.2.0",
+    "electron": "2.0.1",
+    "electron-builder": "^20.13.5",
     "electron-icon-maker": "0.0.3",
     "eslint": "^4.14.0",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -144,7 +144,7 @@
     "webpack": "^4.4.1"
   },
   "engines": {
-    "node": "^8.2.1"
+    "node": "^8.9.3"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
