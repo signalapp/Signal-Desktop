@@ -48,46 +48,39 @@ export function getSizeClass(str: string) {
   }
 }
 
+const VARIATION_LOOKUP: { [index: string]: string } = {
+  '\uD83C\uDFFB': '1f3fb',
+  '\uD83C\uDFFC': '1f3fc',
+  '\uD83C\uDFFD': '1f3fd',
+  '\uD83C\uDFFE': '1f3fe',
+  '\uD83C\uDFFF': '1f3ff',
+};
+
 // Taken from emoji-js/replace_unified
 function getEmojiReplacementData(
   m: string,
   p1: string | undefined,
   p2: string | undefined
 ) {
-  let val = instance.map.unified[p1];
-  if (val) {
-    let idx = null;
-    if (p2 === '\uD83C\uDFFB') {
-      idx = '1f3fb';
-    }
-    if (p2 === '\uD83C\uDFFC') {
-      idx = '1f3fc';
-    }
-    if (p2 === '\uD83C\uDFFD') {
-      idx = '1f3fd';
-    }
-    if (p2 === '\uD83C\uDFFE') {
-      idx = '1f3fe';
-    }
-    if (p2 === '\uD83C\uDFFF') {
-      idx = '1f3ff';
-    }
-    if (idx) {
+  const unified = instance.map.unified[p1];
+  if (unified) {
+    const variation = VARIATION_LOOKUP[p2 || ''];
+    if (variation) {
       return {
-        idx,
-        actual: p2,
+        value: unified,
+        variation,
       };
     }
     return {
-      idx: val,
+      value: unified,
     };
   }
 
-  val = instance.map.unified_vars[p1];
-  if (val) {
+  const unifiedVars = instance.map.unified_vars[p1];
+  if (unifiedVars) {
     return {
-      idx: val[1],
-      actual: '',
+      value: unifiedVars[0],
+      variation: unifiedVars[1],
     };
   }
 
@@ -110,8 +103,8 @@ function getImageTag({
     return <span key={key}>{match[0]}</span>;
   }
 
-  const img = instance.find_image(result.idx);
-  const title = instance.data[result.idx][3][0];
+  const img = instance.find_image(result.value, result.variation);
+  const title = instance.data[result.value][3][0];
 
   return (
     <img

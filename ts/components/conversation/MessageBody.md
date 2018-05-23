@@ -30,6 +30,10 @@
 <MessageBody text="🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥" />
 ```
 
+```jsx
+<MessageBody text="With skin color modifier: 👍🏾" />
+```
+
 ### Text and emoji
 
 ```jsx
