@@ -191,6 +191,7 @@ function createWindow() {
         nodeIntegrationInWorker: false,
         // sandbox: true,
         preload: path.join(__dirname, 'preload.js'),
+        nativeWindowOpen: true,
       },
       icon: path.join(__dirname, 'images', 'icon_256.png'),
     },
@@ -418,6 +419,7 @@ function showAbout() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       preload: path.join(__dirname, 'preload.js'),
+      nativeWindowOpen: true,
     },
     parent: mainWindow,
   };
