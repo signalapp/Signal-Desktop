@@ -6,12 +6,13 @@ const _ = require('lodash');
 const electron = require('electron');
 
 const {
-  BrowserWindow,
   app,
-  Menu,
-  shell,
+  BrowserWindow,
   ipcMain: ipc,
+  Menu,
   protocol: electronProtocol,
+  session,
+  shell,
 } = electron;
 
 const packageJson = require('./package.json');
@@ -27,6 +28,7 @@ const {
   installFileHandler,
   installWebHandler,
 } = require('./app/protocol_filter');
+const { installPermissionsHandler } = require('./app/permissions');
 
 GlobalErrors.addHandler();
 
@@ -306,11 +308,6 @@ function createWindow() {
 
   captureClicks(mainWindow);
 
-  mainWindow.webContents.on('will-navigate', event => {
-    logger.info('will-navigate');
-    event.preventDefault();
-  });
-
   // Emitted when the window is about to be closed.
   mainWindow.on('close', e => {
     // If the application is terminating, just do the default
@@ -459,6 +456,8 @@ app.on('ready', () => {
   installWebHandler({
     protocol: electronProtocol,
   });
+
+  installPermissionsHandler({ session });
 
   // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
   /* eslint-disable more/no-then */
