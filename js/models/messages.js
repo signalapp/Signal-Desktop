@@ -7,6 +7,7 @@
 /* global Signal: false */
 /* global textsecure: false */
 /* global Whisper: false */
+/* global wrapDeferred: false */
 
 /* eslint-disable more/no-then */
 
@@ -798,7 +799,7 @@
           })
       );
     },
-    markRead(readAt) {
+    async markRead(readAt) {
       this.unset('unread');
       if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
         this.set('expirationStartTimestamp', readAt || Date.now());
@@ -808,9 +809,7 @@
           messageId: this.id,
         })
       );
-      return new Promise((resolve, reject) => {
-        this.save().then(resolve, reject);
-      });
+      return wrapDeferred(this.save());
     },
     isExpiring() {
       return this.get('expireTimer') && this.get('expirationStartTimestamp');
