@@ -29,6 +29,7 @@ js/WebAudioRecorderMp3.js
 ts/**/*.js
 
 # ES2015+ files
+!libtextsecure/api.js
 !js/background.js
 !js/backup.js
 !js/database.js
