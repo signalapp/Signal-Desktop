@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /* global Backbone: false */
 /* global $: false */
 
@@ -10,7 +8,9 @@
 /* global textsecure: false */
 /* global Whisper: false */
 /* global wrapDeferred: false */
+/* global _: false */
 
+// eslint-disable-next-line func-names
 (async function() {
   'use strict';
 
@@ -22,54 +22,52 @@
 
   // Implicitly used in `indexeddb-backbonejs-adapter`:
   // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
-  window.onInvalidStateError = function(e) {
-    console.log(e);
-  };
+  window.onInvalidStateError = e => console.log(e);
 
   console.log('background page reloaded');
   console.log('environment:', window.config.environment);
 
-  var initialLoadComplete = false;
+  let initialLoadComplete = false;
   window.owsDesktopApp = {};
 
-  var title = window.config.name;
+  let title = window.config.name;
   if (window.config.environment !== 'production') {
-    title += ' - ' + window.config.environment;
+    title += ` - ${window.config.environment}`;
   }
   if (window.config.appInstance) {
-    title += ' - ' + window.config.appInstance;
+    title += ` - ${window.config.appInstance}`;
   }
-  window.config.title = window.document.title = title;
+  window.config.title = title;
+  window.document.title = title;
 
   // start a background worker for ecc
   textsecure.startWorker('js/libsignal-protocol-worker.js');
   Whisper.KeyChangeListener.init(textsecure.storage.protocol);
-  textsecure.storage.protocol.on('removePreKey', function() {
+  textsecure.storage.protocol.on('removePreKey', () => {
     getAccountManager().refreshPreKeys();
   });
 
-  var SERVER_URL = window.config.serverUrl;
-  var CDN_URL = window.config.cdnUrl;
-  var messageReceiver;
-  window.getSocketStatus = function() {
+  const SERVER_URL = window.config.serverUrl;
+  const CDN_URL = window.config.cdnUrl;
+  let messageReceiver;
+  window.getSocketStatus = () => {
     if (messageReceiver) {
       return messageReceiver.getStatus();
-    } else {
-      return -1;
     }
+    return -1;
   };
   Whisper.events = _.clone(Backbone.Events);
-  var accountManager;
-  window.getAccountManager = function() {
+  let accountManager;
+  window.getAccountManager = () => {
     if (!accountManager) {
-      var USERNAME = storage.get('number_id');
-      var PASSWORD = storage.get('password');
+      const USERNAME = storage.get('number_id');
+      const PASSWORD = storage.get('password');
       accountManager = new textsecure.AccountManager(
         SERVER_URL,
         USERNAME,
         PASSWORD
       );
-      accountManager.addEventListener('registration', function() {
+      accountManager.addEventListener('registration', () => {
         Whisper.Registration.markDone();
         console.log('dispatching registration event');
         Whisper.events.trigger('registration_done');
@@ -78,7 +76,6 @@
     return accountManager;
   };
 
-  /* eslint-enable */
   const cancelInitializationMessage = Views.Initialization.setMessage();
   console.log('Start IndexedDB migrations');
 
@@ -125,57 +122,57 @@
       idleDetector.stop();
     }
   });
-  /* eslint-disable */
 
   // We need this 'first' check because we don't want to start the app up any other time
   //   than the first time. And storage.fetch() will cause onready() to fire.
-  var first = true;
-  storage.onready(function() {
+  let first = true;
+  storage.onready(async () => {
     if (!first) {
       return;
     }
     first = false;
 
-    ConversationController.load().then(start, start);
-  });
-
-  Whisper.events.on('shutdown', function() {
-    idleDetector.stop();
-
-    if (messageReceiver) {
-      messageReceiver.close().then(function() {
-        Whisper.events.trigger('shutdown-complete');
-      });
-    } else {
-      Whisper.events.trigger('shutdown-complete');
+    try {
+      await ConversationController.load();
+    } finally {
+      start();
     }
   });
 
-  Whisper.events.on('setupWithImport', function() {
-    var appView = window.owsDesktopApp.appView;
+  Whisper.events.on('shutdown', async () => {
+    idleDetector.stop();
+
+    if (messageReceiver) {
+      await messageReceiver.close();
+    }
+    Whisper.events.trigger('shutdown-complete');
+  });
+
+  Whisper.events.on('setupWithImport', () => {
+    const { appView } = window.owsDesktopApp;
     if (appView) {
       appView.openImporter();
     }
   });
 
-  Whisper.events.on('setupAsNewDevice', function() {
-    var appView = window.owsDesktopApp.appView;
+  Whisper.events.on('setupAsNewDevice', () => {
+    const { appView } = window.owsDesktopApp;
     if (appView) {
       appView.openInstaller();
     }
   });
 
-  Whisper.events.on('setupAsStandalone', function() {
-    var appView = window.owsDesktopApp.appView;
+  Whisper.events.on('setupAsStandalone', () => {
+    const { appView } = window.owsDesktopApp;
     if (appView) {
       appView.openStandalone();
     }
   });
 
   function start() {
-    var currentVersion = window.config.version;
-    var lastVersion = storage.get('version');
-    var newVersion = !lastVersion || currentVersion !== lastVersion;
+    const currentVersion = window.config.version;
+    const lastVersion = storage.get('version');
+    const newVersion = !lastVersion || currentVersion !== lastVersion;
     storage.put('version', currentVersion);
 
     if (newVersion) {
@@ -185,16 +182,17 @@
     window.dispatchEvent(new Event('storage_ready'));
 
     console.log('listening for registration events');
-    Whisper.events.on('registration_done', function() {
+    Whisper.events.on('registration_done', () => {
       console.log('handling registration event');
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
       connect(true);
     });
 
     cancelInitializationMessage();
-    var appView = (window.owsDesktopApp.appView = new Whisper.AppView({
+    const appView = new Whisper.AppView({
       el: $('body'),
-    }));
+    });
+    window.owsDesktopApp.appView = appView;
 
     Whisper.WallClockListener.init(Whisper.events);
     Whisper.ExpiringMessagesListener.init(Whisper.events);
@@ -206,7 +204,7 @@
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
       connect();
       appView.openInbox({
-        initialLoadComplete: initialLoadComplete,
+        initialLoadComplete,
       });
     } else if (window.config.importMode) {
       appView.openImporter();
@@ -214,7 +212,7 @@
       appView.openInstaller();
     }
 
-    Whisper.events.on('showDebugLog', function() {
+    Whisper.events.on('showDebugLog', () => {
       appView.openDebugLog();
     });
     Whisper.events.on('showSettings', () => {
@@ -227,13 +225,13 @@
       }
       appView.inboxView.showSettings();
     });
-    Whisper.events.on('unauthorized', function() {
+    Whisper.events.on('unauthorized', () => {
       appView.inboxView.networkStatusView.update();
     });
-    Whisper.events.on('reconnectTimer', function() {
+    Whisper.events.on('reconnectTimer', () => {
       appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
     });
-    Whisper.events.on('contactsync', function() {
+    Whisper.events.on('contactsync', () => {
       if (appView.installView) {
         appView.openInbox();
       }
@@ -242,39 +240,35 @@
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
-    Whisper.events.on('showConversation', function(conversation) {
+    Whisper.events.on('showConversation', conversation => {
       if (appView) {
         appView.openConversation(conversation);
       }
     });
 
-    Whisper.Notifications.on('click', function(conversation) {
-      showWindow();
+    Whisper.Notifications.on('click', conversation => {
+      window.showWindow();
       if (conversation) {
         appView.openConversation(conversation);
       } else {
         appView.openInbox({
-          initialLoadComplete: initialLoadComplete,
+          initialLoadComplete,
         });
       }
     });
   }
 
-  window.getSyncRequest = function() {
-    return new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
-  };
+  window.getSyncRequest = () =>
+    new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
 
-  Whisper.events.on('start-shutdown', function() {
+  Whisper.events.on('start-shutdown', async () => {
     if (messageReceiver) {
-      messageReceiver.close().then(function() {
-        Whisper.events.trigger('shutdown-complete');
-      });
-    } else {
-      Whisper.events.trigger('shutdown-complete');
+      await messageReceiver.close();
     }
+    Whisper.events.trigger('shutdown-complete');
   });
 
-  var disconnectTimer = null;
+  let disconnectTimer = null;
   function onOffline() {
     console.log('offline');
 
@@ -308,7 +302,7 @@
   }
 
   function isSocketOnline() {
-    var socketStatus = window.getSocketStatus();
+    const socketStatus = window.getSocketStatus();
     return (
       socketStatus === WebSocket.CONNECTING || socketStatus === WebSocket.OPEN
     );
@@ -325,7 +319,7 @@
     }
   }
 
-  var connectCount = 0;
+  let connectCount = 0;
   async function connect(firstRun) {
     console.log('connect');
 
@@ -353,12 +347,12 @@
       messageReceiver.close();
     }
 
-    var USERNAME = storage.get('number_id');
-    var PASSWORD = storage.get('password');
-    var mySignalingKey = storage.get('signaling_key');
+    const USERNAME = storage.get('number_id');
+    const PASSWORD = storage.get('password');
+    const mySignalingKey = storage.get('signaling_key');
 
     connectCount += 1;
-    var options = {
+    const options = {
       retryCached: connectCount === 1,
     };
 
@@ -395,16 +389,16 @@
     // Because v0.43.2 introduced a bug that lost contact details, v0.43.4 introduces
     //   a one-time contact sync to restore all lost contact/group information. We
     //   disable this checking if a user is first registering.
-    var key = 'chrome-contact-sync-v0.43.4';
+    const key = 'chrome-contact-sync-v0.43.4';
     if (!storage.get(key)) {
       storage.put(key, true);
 
+      // eslint-disable-next-line eqeqeq
       if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
         window.getSyncRequest();
       }
     }
 
-    /* eslint-enable */
     const deviceId = textsecure.storage.user.getDeviceId();
     const { sendRequestConfigurationSyncMessage } = textsecure.messaging;
     const status = await Signal.Startup.syncReadReceiptConfiguration({
@@ -455,10 +449,9 @@
       idleDetector.start();
     });
   }
-  /* eslint-disable */
 
   function onChangeTheme() {
-    var view = window.owsDesktopApp.appView;
+    const view = window.owsDesktopApp.appView;
     if (view) {
       view.applyTheme();
     }
@@ -466,8 +459,8 @@
   function onEmpty() {
     initialLoadComplete = true;
 
-    var interval = setInterval(function() {
-      var view = window.owsDesktopApp.appView;
+    let interval = setInterval(() => {
+      const view = window.owsDesktopApp.appView;
       if (view) {
         clearInterval(interval);
         interval = null;
@@ -478,9 +471,9 @@
     Whisper.Notifications.enable();
   }
   function onProgress(ev) {
-    var count = ev.count;
+    const { count } = ev;
 
-    var view = window.owsDesktopApp.appView;
+    const view = window.owsDesktopApp.appView;
     if (view) {
       view.onProgress(count);
     }
@@ -489,10 +482,10 @@
     storage.put('read-receipt-setting', ev.configuration.readReceipts);
   }
 
-  function onContactReceived(ev) {
-    var details = ev.contactDetails;
+  async function onContactReceived(ev) {
+    const details = ev.contactDetails;
 
-    var id = details.number;
+    const id = details.number;
 
     if (id === textsecure.storage.user.getNumber()) {
       // special case for syncing details about ourselves
@@ -502,138 +495,137 @@
       }
     }
 
-    var c = new Whisper.Conversation({
-      id: id,
+    const c = new Whisper.Conversation({
+      id,
     });
-    var error = c.validateNumber();
-    if (error) {
-      console.log('Invalid contact received:', Errors.toLogFormat(error));
+    const validationError = c.validateNumber();
+    if (validationError) {
+      console.log(
+        'Invalid contact received:',
+        Errors.toLogFormat(validationError)
+      );
       return;
     }
 
-    return ConversationController.getOrCreateAndWait(id, 'private')
-      .then(function(conversation) {
-        var activeAt = conversation.get('active_at');
+    try {
+      const conversation = await ConversationController.getOrCreateAndWait(
+        id,
+        'private'
+      );
+      let activeAt = conversation.get('active_at');
 
-        // The idea is to make any new contact show up in the left pane. If
-        //   activeAt is null, then this contact has been purposefully hidden.
-        if (activeAt !== null) {
-          activeAt = activeAt || Date.now();
-        }
-
-        if (details.profileKey) {
-          conversation.set({ profileKey: details.profileKey });
-        }
-
-        if (typeof details.blocked !== 'undefined') {
-          if (details.blocked) {
-            storage.addBlockedNumber(id);
-          } else {
-            storage.removeBlockedNumber(id);
-          }
-        }
-
-        return wrapDeferred(
-          conversation.save({
-            name: details.name,
-            avatar: details.avatar,
-            color: details.color,
-            active_at: activeAt,
-          })
-        ).then(function() {
-          const { expireTimer } = details;
-          const isValidExpireTimer = typeof expireTimer === 'number';
-          if (!isValidExpireTimer) {
-            console.log(
-              'Ignore invalid expire timer.',
-              'Expected numeric `expireTimer`, got:',
-              expireTimer
-            );
-            return;
-          }
-
-          var source = textsecure.storage.user.getNumber();
-          var receivedAt = Date.now();
-          return conversation.updateExpirationTimer(
-            expireTimer,
-            source,
-            receivedAt,
-            { fromSync: true }
-          );
-        });
-      })
-      .then(function() {
-        if (details.verified) {
-          var verified = details.verified;
-          var ev = new Event('verified');
-          ev.verified = {
-            state: verified.state,
-            destination: verified.destination,
-            identityKey: verified.identityKey.toArrayBuffer(),
-          };
-          ev.viaContactSync = true;
-          return onVerified(ev);
-        }
-      })
-      .then(ev.confirm)
-      .catch(function(error) {
-        console.log('onContactReceived error:', Errors.toLogFormat(error));
-      });
-  }
-
-  function onGroupReceived(ev) {
-    var details = ev.groupDetails;
-    var id = details.id;
-
-    return ConversationController.getOrCreateAndWait(id, 'group').then(function(
-      conversation
-    ) {
-      var updates = {
-        name: details.name,
-        members: details.members,
-        avatar: details.avatar,
-        type: 'group',
-      };
-      if (details.active) {
-        var activeAt = conversation.get('active_at');
-
-        // The idea is to make any new group show up in the left pane. If
-        //   activeAt is null, then this group has been purposefully hidden.
-        if (activeAt !== null) {
-          updates.active_at = activeAt || Date.now();
-        }
-        updates.left = false;
-      } else {
-        updates.left = true;
+      // The idea is to make any new contact show up in the left pane. If
+      //   activeAt is null, then this contact has been purposefully hidden.
+      if (activeAt !== null) {
+        activeAt = activeAt || Date.now();
       }
 
-      return wrapDeferred(conversation.save(updates))
-        .then(function() {
-          const { expireTimer } = details;
-          const isValidExpireTimer = typeof expireTimer === 'number';
-          if (!isValidExpireTimer) {
-            console.log(
-              'Ignore invalid expire timer.',
-              'Expected numeric `expireTimer`, got:',
-              expireTimer
-            );
-            return;
-          }
+      if (details.profileKey) {
+        conversation.set({ profileKey: details.profileKey });
+      }
 
-          var source = textsecure.storage.user.getNumber();
-          var receivedAt = Date.now();
-          return conversation.updateExpirationTimer(
-            expireTimer,
-            source,
-            receivedAt,
-            { fromSync: true }
-          );
+      if (typeof details.blocked !== 'undefined') {
+        if (details.blocked) {
+          storage.addBlockedNumber(id);
+        } else {
+          storage.removeBlockedNumber(id);
+        }
+      }
+
+      await wrapDeferred(
+        conversation.save({
+          name: details.name,
+          avatar: details.avatar,
+          color: details.color,
+          active_at: activeAt,
         })
-        .then(ev.confirm);
-    });
+      );
+      const { expireTimer } = details;
+      const isValidExpireTimer = typeof expireTimer === 'number';
+      if (!isValidExpireTimer) {
+        console.log(
+          'Ignore invalid expire timer.',
+          'Expected numeric `expireTimer`, got:',
+          expireTimer
+        );
+        return;
+      }
+
+      const source = textsecure.storage.user.getNumber();
+      const receivedAt = Date.now();
+
+      await conversation.updateExpirationTimer(
+        expireTimer,
+        source,
+        receivedAt,
+        { fromSync: true }
+      );
+
+      if (details.verified) {
+        const { verified } = details;
+        const verifiedEvent = new Event('verified');
+        verifiedEvent.verified = {
+          state: verified.state,
+          destination: verified.destination,
+          identityKey: verified.identityKey.toArrayBuffer(),
+        };
+        verifiedEvent.viaContactSync = true;
+        await onVerified(verifiedEvent);
+      }
+
+      ev.confirm();
+    } catch (error) {
+      console.log('onContactReceived error:', Errors.toLogFormat(error));
+    }
   }
 
-  /* eslint-enable */
+  async function onGroupReceived(ev) {
+    const details = ev.groupDetails;
+    const { id } = details;
+
+    const conversation = await ConversationController.getOrCreateAndWait(
+      id,
+      'group'
+    );
+    const updates = {
+      name: details.name,
+      members: details.members,
+      avatar: details.avatar,
+      type: 'group',
+    };
+    if (details.active) {
+      const activeAt = conversation.get('active_at');
+
+      // The idea is to make any new group show up in the left pane. If
+      //   activeAt is null, then this group has been purposefully hidden.
+      if (activeAt !== null) {
+        updates.active_at = activeAt || Date.now();
+      }
+      updates.left = false;
+    } else {
+      updates.left = true;
+    }
+
+    await wrapDeferred(conversation.save(updates));
+    const { expireTimer } = details;
+    const isValidExpireTimer = typeof expireTimer === 'number';
+    if (!isValidExpireTimer) {
+      console.log(
+        'Ignore invalid expire timer.',
+        'Expected numeric `expireTimer`, got:',
+        expireTimer
+      );
+      return;
+    }
+
+    const source = textsecure.storage.user.getNumber();
+    const receivedAt = Date.now();
+    await conversation.updateExpirationTimer(expireTimer, source, receivedAt, {
+      fromSync: true,
+    });
+
+    ev.confirm();
+  }
 
   // Descriptors
   const getGroupDescriptor = group => ({
@@ -741,12 +733,11 @@
     getMessageDescriptor: getDescriptorForSent,
     createMessage: createSentMessage,
   });
-  /* eslint-disable */
 
   function isMessageDuplicate(message) {
-    return new Promise(function(resolve) {
-      var fetcher = new Whisper.Message();
-      var options = {
+    return new Promise(resolve => {
+      const fetcher = new Whisper.Message();
+      const options = {
         index: {
           name: 'unique',
           value: [
@@ -757,21 +748,21 @@
         },
       };
 
-      fetcher.fetch(options).always(function() {
+      fetcher.fetch(options).always(() => {
         if (fetcher.get('id')) {
           return resolve(true);
         }
 
         return resolve(false);
       });
-    }).catch(function(error) {
+    }).catch(error => {
       console.log('isMessageDuplicate error:', Errors.toLogFormat(error));
       return false;
     });
   }
 
   function initIncomingMessage(data) {
-    var message = new Whisper.Message({
+    const message = new Whisper.Message({
       source: data.source,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
@@ -784,13 +775,13 @@
     return message;
   }
 
-  function onError(ev) {
-    var error = ev.error;
+  async function onError(ev) {
+    const { error } = ev;
     console.log('background onError:', Errors.toLogFormat(error));
 
     if (
       error.name === 'HTTPError' &&
-      (error.code == 401 || error.code == 403)
+      (error.code === 401 || error.code === 403)
     ) {
       Whisper.events.trigger('unauthorized');
 
@@ -798,28 +789,26 @@
         'Client is no longer authorized; deleting local configuration'
       );
       Whisper.Registration.remove();
-      var previousNumberId = textsecure.storage.get('number_id');
+      const previousNumberId = textsecure.storage.get('number_id');
 
-      textsecure.storage.protocol.removeAllConfiguration().then(
-        function() {
-          // These two bits of data are important to ensure that the app loads up
-          //   the conversation list, instead of showing just the QR code screen.
-          Whisper.Registration.markEverDone();
-          textsecure.storage.put('number_id', previousNumberId);
-          console.log('Successfully cleared local configuration');
-        },
-        function(error) {
-          console.log(
-            'Something went wrong clearing local configuration',
-            error && error.stack ? error.stack : error
-          );
-        }
-      );
+      try {
+        await textsecure.storage.protocol.removeAllConfiguration();
+        // These two bits of data are important to ensure that the app loads up
+        //   the conversation list, instead of showing just the QR code screen.
+        Whisper.Registration.markEverDone();
+        textsecure.storage.put('number_id', previousNumberId);
+        console.log('Successfully cleared local configuration');
+      } catch (eraseError) {
+        console.log(
+          'Something went wrong clearing local configuration',
+          eraseError && eraseError.stack ? eraseError.stack : eraseError
+        );
+      }
 
       return;
     }
 
-    if (error.name === 'HTTPError' && error.code == -1) {
+    if (error.name === 'HTTPError' && error.code === -1) {
       // Failed to connect to server
       if (navigator.onLine) {
         console.log('retrying in 1 minute');
@@ -839,59 +828,53 @@
         // because the server lost our ack the first time.
         return;
       }
-      var envelope = ev.proto;
-      var message = initIncomingMessage(envelope);
+      const envelope = ev.proto;
+      const message = initIncomingMessage(envelope);
 
-      return message.saveErrors(error).then(function() {
-        var id = message.get('conversationId');
-        return ConversationController.getOrCreateAndWait(id, 'private').then(
-          function(conversation) {
-            conversation.set({
-              active_at: Date.now(),
-              unreadCount: conversation.get('unreadCount') + 1,
-            });
-
-            var conversation_timestamp = conversation.get('timestamp');
-            var message_timestamp = message.get('timestamp');
-            if (
-              !conversation_timestamp ||
-              message_timestamp > conversation_timestamp
-            ) {
-              conversation.set({ timestamp: message.get('sent_at') });
-            }
-
-            conversation.trigger('newmessage', message);
-            conversation.notify(message);
-
-            if (ev.confirm) {
-              ev.confirm();
-            }
-
-            return new Promise(function(resolve, reject) {
-              conversation.save().then(resolve, reject);
-            });
-          }
-        );
+      await message.saveErrors(error);
+      const id = message.get('conversationId');
+      const conversation = await ConversationController.getOrCreateAndWait(
+        id,
+        'private'
+      );
+      conversation.set({
+        active_at: Date.now(),
+        unreadCount: conversation.get('unreadCount') + 1,
       });
+
+      const conversationTimestamp = conversation.get('timestamp');
+      const messageTimestamp = message.get('timestamp');
+      if (!conversationTimestamp || messageTimestamp > conversationTimestamp) {
+        conversation.set({ timestamp: message.get('sent_at') });
+      }
+
+      conversation.trigger('newmessage', message);
+      conversation.notify(message);
+
+      if (ev.confirm) {
+        ev.confirm();
+      }
+
+      await wrapDeferred(conversation.save());
     }
 
     throw error;
   }
 
   function onReadReceipt(ev) {
-    var read_at = ev.timestamp;
-    var timestamp = ev.read.timestamp;
-    var reader = ev.read.reader;
+    const readAt = ev.timestamp;
+    const { timestamp } = ev.read;
+    const { reader } = ev.read;
     console.log('read receipt', reader, timestamp);
 
     if (!storage.get('read-receipt-setting')) {
       return ev.confirm();
     }
 
-    var receipt = Whisper.ReadReceipts.add({
-      reader: reader,
-      timestamp: timestamp,
-      read_at: read_at,
+    const receipt = Whisper.ReadReceipts.add({
+      reader,
+      timestamp,
+      read_at: readAt,
     });
 
     receipt.on('remove', ev.confirm);
@@ -901,15 +884,15 @@
   }
 
   function onReadSync(ev) {
-    var read_at = ev.timestamp;
-    var timestamp = ev.read.timestamp;
-    var sender = ev.read.sender;
+    const readAt = ev.timestamp;
+    const { timestamp } = ev.read;
+    const { sender } = ev.read;
     console.log('read sync', sender, timestamp);
 
-    var receipt = Whisper.ReadSyncs.add({
-      sender: sender,
-      timestamp: timestamp,
-      read_at: read_at,
+    const receipt = Whisper.ReadSyncs.add({
+      sender,
+      timestamp,
+      read_at: readAt,
     });
 
     receipt.on('remove', ev.confirm);
@@ -918,15 +901,15 @@
     return Whisper.ReadSyncs.onReceipt(receipt);
   }
 
-  function onVerified(ev) {
-    var number = ev.verified.destination;
-    var key = ev.verified.identityKey;
-    var state;
+  async function onVerified(ev) {
+    const number = ev.verified.destination;
+    const key = ev.verified.identityKey;
+    let state;
 
-    var c = new Whisper.Conversation({
+    const c = new Whisper.Conversation({
       id: number,
     });
-    var error = c.validateNumber();
+    const error = c.validateNumber();
     if (error) {
       console.log('Invalid verified sync received:', Errors.toLogFormat(error));
       return;
@@ -942,6 +925,8 @@
       case textsecure.protobuf.Verified.State.UNVERIFIED:
         state = 'UNVERIFIED';
         break;
+      default:
+        console.log(`Got unexpected verified state: ${ev.verified.state}`);
     }
 
     console.log(
@@ -951,34 +936,38 @@
       ev.viaContactSync ? 'via contact sync' : ''
     );
 
-    return ConversationController.getOrCreateAndWait(number, 'private').then(
-      function(contact) {
-        var options = {
-          viaSyncMessage: true,
-          viaContactSync: ev.viaContactSync,
-          key: key,
-        };
-
-        if (state === 'VERIFIED') {
-          return contact.setVerified(options).then(ev.confirm);
-        } else if (state === 'DEFAULT') {
-          return contact.setVerifiedDefault(options).then(ev.confirm);
-        } else {
-          return contact.setUnverified(options).then(ev.confirm);
-        }
-      }
+    const contact = await ConversationController.getOrCreateAndWait(
+      number,
+      'private'
     );
+    const options = {
+      viaSyncMessage: true,
+      viaContactSync: ev.viaContactSync,
+      key,
+    };
+
+    if (state === 'VERIFIED') {
+      await contact.setVerified(options);
+    } else if (state === 'DEFAULT') {
+      await contact.setVerifiedDefault(options);
+    } else {
+      await contact.setUnverified(options);
+    }
+
+    if (ev.confirm) {
+      ev.confirm();
+    }
   }
 
   function onDeliveryReceipt(ev) {
-    var deliveryReceipt = ev.deliveryReceipt;
+    const { deliveryReceipt } = ev;
     console.log(
       'delivery receipt from',
-      deliveryReceipt.source + '.' + deliveryReceipt.sourceDevice,
+      `${deliveryReceipt.source}.${deliveryReceipt.sourceDevice}`,
       deliveryReceipt.timestamp
     );
 
-    var receipt = Whisper.DeliveryReceipts.add({
+    const receipt = Whisper.DeliveryReceipts.add({
       timestamp: deliveryReceipt.timestamp,
       source: deliveryReceipt.source,
     });
