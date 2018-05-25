@@ -452,6 +452,7 @@ app.on('ready', () => {
       protocol: electronProtocol,
       userDataPath,
       installPath,
+      isWindows: process.platform === 'win32',
     });
   }
 

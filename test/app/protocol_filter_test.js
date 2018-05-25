@@ -34,12 +34,13 @@ describe('Protocol Filter', () => {
       expect(actual).to.equal(expected);
     });
 
-    it('returns proper file path for windows style file URI', () => {
+    it('returns proper file path for file URI on windows', () => {
       const path =
         'file:///C:/Users/Someone/dev/desktop/background.html?name=Signal&locale=en&version=2.4.0';
       const expected = 'C:/Users/Someone/dev/desktop/background.html';
+      const isWindows = true;
 
-      const actual = _urlToPath(path, { isWindows: true });
+      const actual = _urlToPath(path, { isWindows });
       expect(actual).to.equal(expected);
     });
 
@@ -69,6 +70,15 @@ describe('Protocol Filter', () => {
       const expected = 'relative/path';
 
       const actual = _urlToPath(path);
+      expect(actual).to.equal(expected);
+    });
+
+    it('handles SMB share path on windows', () => {
+      const path = 'file://relative/path';
+      const expected = 'elative/path';
+      const isWindows = true;
+
+      const actual = _urlToPath(path, { isWindows });
       expect(actual).to.equal(expected);
     });
 

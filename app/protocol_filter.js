@@ -1,23 +1,29 @@
 const path = require('path');
 
-const FILE_SCHEME = /^file:\/\//;
-const WINDOWS_PREFIX = /^\/[A-Z]:/;
-function _urlToPath(targetUrl) {
-  let withoutScheme = targetUrl.replace(FILE_SCHEME, '');
-  if (WINDOWS_PREFIX.test(withoutScheme)) {
-    withoutScheme = withoutScheme.slice(1);
+function _eliminateAllAfterCharacter(string, character) {
+  const index = string.indexOf(character);
+  if (index < 0) {
+    return string;
   }
 
-  const withoutQuerystring = withoutScheme.replace(/\?.*$/, '');
-  const withoutHash = withoutQuerystring.replace(/#.*$/, '');
-
-  return decodeURIComponent(withoutHash);
+  return string.slice(0, index);
 }
 
-function _createFileHandler({ userDataPath, installPath }) {
+function _urlToPath(targetUrl, options = {}) {
+  const { isWindows } = options;
+
+  const decoded = decodeURIComponent(targetUrl);
+  const withoutScheme = decoded.slice(isWindows ? 8 : 7);
+  const withoutQuerystring = _eliminateAllAfterCharacter(withoutScheme, '?');
+  const withoutHash = _eliminateAllAfterCharacter(withoutQuerystring, '#');
+
+  return withoutHash;
+}
+
+function _createFileHandler({ userDataPath, installPath, isWindows }) {
   return (request, callback) => {
     // normalize() is primarily useful here for switching / to \ on windows
-    const target = path.normalize(_urlToPath(request.url));
+    const target = path.normalize(_urlToPath(request.url, { isWindows }));
 
     if (!path.isAbsolute(target)) {
       return callback();
@@ -34,10 +40,15 @@ function _createFileHandler({ userDataPath, installPath }) {
   };
 }
 
-function installFileHandler({ protocol, userDataPath, installPath }) {
+function installFileHandler({
+  protocol,
+  userDataPath,
+  installPath,
+  isWindows,
+}) {
   protocol.interceptFileProtocol(
     'file',
-    _createFileHandler({ userDataPath, installPath })
+    _createFileHandler({ userDataPath, installPath, isWindows })
   );
 }
 
