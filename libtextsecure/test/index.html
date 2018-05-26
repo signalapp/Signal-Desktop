@@ -12,6 +12,8 @@
   <div id="tests">
   </div>
 
+  <script type="text/javascript" src="fake_web_api.js"></script>
+
   <script type="text/javascript" src="test.js"></script>
   <script type="text/javascript" src="in_memory_signal_protocol_store.js"></script>
 
@@ -33,8 +35,6 @@
   <script type="text/javascript" src="../contacts_parser.js" data-cover></script>
   <script type="text/javascript" src="../task_with_timeout.js" data-cover></script>
 
-  <script type="text/javascript" src="fake_api.js"></script>
-
   <script type="text/javascript" src="errors_test.js"></script>
   <script type="text/javascript" src="helpers_test.js"></script>
   <script type="text/javascript" src="storage_test.js"></script>
@@ -47,11 +47,12 @@
   <script type="text/javascript" src="account_manager_test.js"></script>
 
   <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
-  <script type="text/javascript" src="blanket_mocha.js"></script>
+  <!--   NOTE: blanket doesn't support modern syntax and will choke until we find a replacement. :0( -->
+  <!-- <script type="text/javascript" src="blanket_mocha.js"></script> -->
 
   <!-- Uncomment to start tests without code coverage enabled -->
-  <!-- <script type="text/javascript">
+  <script type="text/javascript">
     mocha.run();
-  </script> -->
+  </script>
 </body>
 </html>

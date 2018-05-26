@@ -123,7 +123,7 @@ function prepareURL(pathSegments) {
       buildExpiration: config.get('buildExpiration'),
       serverUrl: config.get('serverUrl'),
       cdnUrl: config.get('cdnUrl'),
-      certificateAuthorities: config.get('certificateAuthorities'),
+      certificateAuthority: config.get('certificateAuthority'),
       environment: config.environment,
       node_version: process.versions.node,
       hostname: os.hostname(),

@@ -14,6 +14,10 @@
 (async function() {
   'use strict';
 
+  // We add this to window here because the default Node context is erased at the end
+  //   of preload.js processing
+  window.setImmediate = window.nodeSetImmediate;
+
   const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
   const { Errors, Message } = window.Signal.Types;
   const { upgradeMessageSchema } = window.Signal.Migrations;

@@ -57,7 +57,6 @@ module.exports = function(grunt) {
           'libtextsecure/helpers.js',
           'libtextsecure/stringview.js',
           'libtextsecure/event_target.js',
-          'libtextsecure/api.js',
           'libtextsecure/account_manager.js',
           'libtextsecure/websocket-resources.js',
           'libtextsecure/message_receiver.js',

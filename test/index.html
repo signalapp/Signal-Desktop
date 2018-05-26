@@ -564,6 +564,8 @@
     </div>
   </script>
 
+  <script type="text/javascript" src="../libtextsecure/test/fake_web_api.js"></script>
+
   <script type="text/javascript" src="../js/components.js"></script>
   <script type="text/javascript" src="../js/reliable_trigger.js" data-cover></script>
   <script type="text/javascript" src="test.js"></script>
@@ -653,6 +655,7 @@
   <script type="text/javascript" src="fixtures_test.js"></script>
 
   <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
+  <!--   NOTE: blanket doesn't support modern syntax and will choke until we find a replacement. :0( -->
   <!-- <script type="text/javascript" src="blanket_mocha.js"></script> -->
 
   <!-- Uncomment to start tests without code coverage enabled -->

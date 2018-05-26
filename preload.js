@@ -82,7 +82,15 @@ if (window.config.proxyUrl) {
 }
 
 window.nodeSetImmediate = setImmediate;
-window.nodeWebSocket = require('websocket').w3cwebsocket;
+
+const { initialize: initializeWebAPI } = require('./js/modules/web_api');
+
+window.WebAPI = initializeWebAPI({
+  url: window.config.serverUrl,
+  cdnUrl: window.config.cdnUrl,
+  certificateAuthority: window.config.certificateAuthority,
+  proxyUrl: window.config.proxyUrl,
+});
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
@@ -99,10 +107,6 @@ window.filesize = require('filesize');
 window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
-
-window.nodeBuffer = Buffer;
-window.nodeFetch = require('node-fetch');
-window.ProxyAgent = require('proxy-agent');
 
 // Note: when modifying this file, consider whether our React Components or Backbone Views
 //   will need these things to render in the Style Guide. If so, go update one of these
