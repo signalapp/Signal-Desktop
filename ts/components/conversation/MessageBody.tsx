@@ -1,66 +1,48 @@
 import React from 'react';
 
-import createLinkify from 'linkify-it';
+import { getSizeClass } from '../../util/emoji';
+import { Emojify } from './Emojify';
+import { AddNewLines } from './AddNewLines';
+import { Linkify } from './Linkify';
 
-import { Emojify, getSizeClass } from './Emojify';
-
-const linkify = createLinkify();
+import { Localizer, RenderTextCallback } from '../../types/Util';
 
 interface Props {
   text: string;
+  /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
   disableJumbomoji?: boolean;
+  /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
   disableLinks?: boolean;
+  i18n: Localizer;
 }
 
-const SUPPORTED_PROTOCOLS = /^(http|https):/i;
+const renderNewLines: RenderTextCallback = ({
+  text: textWithNewLines,
+  key,
+}) => <AddNewLines key={key} text={textWithNewLines} />;
 
-export class MessageBody extends React.Component<Props, {}> {
+const renderLinks: RenderTextCallback = ({ text: textWithLinks, key }) => (
+  <Linkify key={key} text={textWithLinks} renderNonLink={renderNewLines} />
+);
+
+/**
+ * This component makes it very easy to use all three of our message formatting
+ * components: `Emojify`, `Linkify`, and `AddNewLines`. Because each of them is fully
+ * configurable with their `renderXXX` props, this component will assemble all three of
+ * them for you.
+ */
+export class MessageBody extends React.Component<Props> {
   public render() {
-    const { text, disableJumbomoji, disableLinks } = this.props;
-    const matchData = linkify.match(text) || [];
-    const results: Array<any> = [];
-    let last = 0;
-    let count = 1;
-
-    // We only use this sizeClass if there was no link detected, because jumbo emoji
-    //   only fire when there's no other text in the message.
+    const { text, disableJumbomoji, disableLinks, i18n } = this.props;
     const sizeClass = disableJumbomoji ? '' : getSizeClass(text);
 
-    if (disableLinks || matchData.length === 0) {
-      return <Emojify text={text} sizeClass={sizeClass} />;
-    }
-
-    matchData.forEach(
-      (match: {
-        index: number;
-        url: string;
-        lastIndex: number;
-        text: string;
-      }) => {
-        if (last < match.index) {
-          const textWithNoLink = text.slice(last, match.index);
-          results.push(<Emojify key={count++} text={textWithNoLink} />);
-        }
-
-        const { url, text: originalText } = match;
-        if (SUPPORTED_PROTOCOLS.test(url)) {
-          results.push(
-            <a key={count++} href={url}>
-              {originalText}
-            </a>
-          );
-        } else {
-          results.push(<Emojify key={count++} text={originalText} />);
-        }
-
-        last = match.lastIndex;
-      }
+    return (
+      <Emojify
+        text={text}
+        sizeClass={sizeClass}
+        renderNonEmoji={disableLinks ? renderNewLines : renderLinks}
+        i18n={i18n}
+      />
     );
-
-    if (last < text.length) {
-      results.push(<Emojify key={count++} text={text.slice(last)} />);
-    }
-
-    return <span>{results}</span>;
   }
 }

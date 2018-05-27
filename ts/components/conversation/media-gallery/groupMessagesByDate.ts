@@ -31,6 +31,7 @@ export const groupMessagesByDate = (
   const yearMonthMessages = Object.values(
     groupBy(groupedMessages.yearMonth, 'order')
   ).reverse();
+
   return compact([
     toSection(groupedMessages.today),
     toSection(groupedMessages.yesterday),
@@ -138,6 +139,7 @@ const withSection = (referenceDateTime: moment.Moment) => (
 
   const month: number = messageReceivedDate.month();
   const year: number = messageReceivedDate.year();
+
   return {
     order: year * 100 + month,
     type: 'yearMonth',

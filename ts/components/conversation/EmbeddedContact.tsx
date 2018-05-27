@@ -1,15 +1,17 @@
 import React from 'react';
 import { Contact, getName } from '../../types/Contact';
 
+import { Localizer } from '../../types/Util';
+
 interface Props {
   contact: Contact;
   hasSignalAccount: boolean;
-  i18n: (key: string, values?: Array<string>) => string;
+  i18n: Localizer;
   onSendMessage: () => void;
   onOpenContact: () => void;
 }
 
-export class EmbeddedContact extends React.Component<Props, {}> {
+export class EmbeddedContact extends React.Component<Props> {
   public render() {
     const {
       contact,
@@ -20,9 +22,9 @@ export class EmbeddedContact extends React.Component<Props, {}> {
     } = this.props;
 
     return (
-      <div className="embedded-contact" onClick={onOpenContact}>
+      <div className="embedded-contact" role="button" onClick={onOpenContact}>
         <div className="first-line">
-          {renderAvatar(contact)}
+          {renderAvatar(contact, i18n)}
           <div className="text-container">
             {renderName(contact)}
             {renderContactShorthand(contact)}
@@ -40,13 +42,14 @@ function getInitials(name: string): string {
   return name.trim()[0] || '#';
 }
 
-export function renderAvatar(contact: Contact) {
+export function renderAvatar(contact: Contact, i18n: Localizer) {
   const { avatar } = contact;
 
   const path = avatar && avatar.avatar && avatar.avatar.path;
   if (!path) {
     const name = getName(contact);
     const initials = getInitials(name || '');
+
     return (
       <div className="image-container">
         <div className="default-avatar">{initials}</div>
@@ -56,7 +59,7 @@ export function renderAvatar(contact: Contact) {
 
   return (
     <div className="image-container">
-      <img src={path} />
+      <img src={path} alt={i18n('contactAvatarAlt')} />
     </div>
   );
 }
@@ -92,7 +95,7 @@ export function renderSendMessage(props: {
   };
 
   return (
-    <div className="send-message" onClick={onClick}>
+    <div className="send-message" role="button" onClick={onClick}>
       <button className="inner">
         <div className="icon bubble-icon" />
         {i18n('sendMessageToContact')}

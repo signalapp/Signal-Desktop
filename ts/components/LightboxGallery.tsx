@@ -7,6 +7,8 @@ import * as MIME from '../types/MIME';
 import { Lightbox } from './Lightbox';
 import { Message } from './conversation/media-gallery/types/Message';
 
+import { Localizer } from '../types/Util';
+
 interface Item {
   objectURL?: string;
   contentType: MIME.MIMEType | undefined;
@@ -14,6 +16,7 @@ interface Item {
 
 interface Props {
   close: () => void;
+  i18n: Localizer;
   messages: Array<Message>;
   onSave?: ({ message }: { message: Message }) => void;
   selectedIndex: number;
@@ -42,7 +45,7 @@ export class LightboxGallery extends React.Component<Props, State> {
   }
 
   public render() {
-    const { close, messages, onSave } = this.props;
+    const { close, messages, onSave, i18n } = this.props;
     const { selectedIndex } = this.state;
 
     const selectedMessage: Message = messages[selectedIndex];
@@ -65,6 +68,7 @@ export class LightboxGallery extends React.Component<Props, State> {
         onSave={onSave ? this.handleSave : undefined}
         objectURL={objectURL}
         contentType={selectedItem.contentType}
+        i18n={i18n}
       />
     );
   }

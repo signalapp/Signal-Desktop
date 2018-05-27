@@ -1,11 +1,8 @@
 /* global $: false */
 /* global _: false */
-/* global emoji: false */
-/* global emoji_util: false */
 /* global emojiData: false */
 /* global EmojiPanel: false */
 /* global moment: false */
-
 /* global extension: false */
 /* global i18n: false */
 /* global Signal: false */
@@ -73,22 +70,6 @@
   Whisper.ConversationLoadingScreen = Whisper.View.extend({
     templateName: 'conversation-loading-screen',
     className: 'conversation-loading-screen',
-  });
-
-  Whisper.ConversationTitleView = Whisper.View.extend({
-    templateName: 'conversation-title',
-    initialize() {
-      this.listenTo(this.model, 'change', this.render);
-    },
-    render_attributes() {
-      return {
-        isVerified: this.model.isVerified(),
-        verified: i18n('verified'),
-        name: this.model.getName(),
-        number: this.model.getNumber(),
-        profileName: this.model.getProfileName(),
-      };
-    },
   });
 
   Whisper.ConversationView = Whisper.View.extend({
@@ -177,19 +158,27 @@
         model: this.model,
       });
 
-      emoji_util.parse(this.$('.conversation-name'));
-
       this.window = options.window;
       this.fileInput = new Whisper.FileInputView({
         el: this.$('form.send'),
         window: this.window,
       });
 
-      this.titleView = new Whisper.ConversationTitleView({
-        el: this.$('.conversation-title'),
-        model: this.model,
+      const getTitleProps = model => ({
+        isVerified: model.isVerified(),
+        name: model.getName(),
+        phoneNumber: model.getNumber(),
+        profileName: model.getProfileName(),
       });
-      this.titleView.render();
+      this.titleView = new Whisper.ReactWrapperView({
+        className: 'title-wrapper',
+        Component: window.Signal.Components.ConversationTitle,
+        props: getTitleProps(this.model),
+      });
+      this.listenTo(this.model, 'change', () =>
+        this.titleView.update(getTitleProps(this.model))
+      );
+      this.$('.conversation-title').prepend(this.titleView.el);
 
       this.view = new Whisper.MessageListView({
         collection: this.model.messageCollection,
@@ -1007,19 +996,20 @@
       this.listenBack(view);
     },
 
-    showContactDetail(contact) {
+    showContactDetail({ contact, hasSignalAccount }) {
       const regionCode = storage.get('regionCode');
       const { contactSelector } = Signal.Types.Contact;
       const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
       const view = new Whisper.ReactWrapperView({
         Component: Signal.Components.ContactDetail,
+        className: 'contact-detail-pane panel',
         props: {
           contact: contactSelector(contact, {
             regionCode,
             getAbsoluteAttachmentPath,
           }),
-          hasSignalAccount: true,
+          hasSignalAccount,
           onSendMessage: () => {
             const number =
               contact.number && contact.number[0] && contact.number[0].value;
@@ -1330,7 +1320,7 @@
       }
 
       const input = this.$messageField;
-      const message = this.replace_colons(input.val()).trim();
+      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
 
       try {
         if (!message.length && !this.fileInput.hasFiles()) {
@@ -1356,17 +1346,6 @@
       } finally {
         this.focusMessageFieldAndClearDisabled();
       }
-    },
-
-    replace_colons(str) {
-      return str.replace(emoji.rx_colons, m => {
-        const idx = m.substr(1, m.length - 2);
-        const val = emoji.map.colons[idx];
-        if (val) {
-          return emoji.data[val][0][0];
-        }
-        return m;
-      });
     },
 
     updateColor(model, color) {

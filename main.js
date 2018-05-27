@@ -5,7 +5,14 @@ const os = require('os');
 const _ = require('lodash');
 const electron = require('electron');
 
-const { BrowserWindow, app, Menu, shell, ipcMain: ipc } = electron;
+const {
+  BrowserWindow,
+  app,
+  Menu,
+  shell,
+  ipcMain: ipc,
+  protocol: electronProtocol,
+} = electron;
 
 const packageJson = require('./package.json');
 
@@ -16,6 +23,10 @@ const GlobalErrors = require('./js/modules/global_errors');
 const logging = require('./app/logging');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');
+const {
+  installFileHandler,
+  installWebHandler,
+} = require('./app/protocol_filter');
 
 GlobalErrors.addHandler();
 
@@ -177,8 +188,10 @@ function createWindow() {
       autoHideMenuBar: false,
       webPreferences: {
         nodeIntegration: false,
+        nodeIntegrationInWorker: false,
         // sandbox: true,
         preload: path.join(__dirname, 'preload.js'),
+        nativeWindowOpen: true,
       },
       icon: path.join(__dirname, 'images', 'icon_256.png'),
     },
@@ -293,9 +306,9 @@ function createWindow() {
 
   captureClicks(mainWindow);
 
-  mainWindow.webContents.on('will-navigate', e => {
+  mainWindow.webContents.on('will-navigate', event => {
     logger.info('will-navigate');
-    e.preventDefault();
+    event.preventDefault();
   });
 
   // Emitted when the window is about to be closed.
@@ -404,7 +417,9 @@ function showAbout() {
     show: false,
     webPreferences: {
       nodeIntegration: false,
+      nodeIntegrationInWorker: false,
       preload: path.join(__dirname, 'preload.js'),
+      nativeWindowOpen: true,
     },
     parent: mainWindow,
   };
@@ -429,6 +444,21 @@ function showAbout() {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', () => {
+  const userDataPath = app.getPath('userData');
+  const installPath = app.getAppPath();
+
+  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'test-lib') {
+    installFileHandler({
+      protocol: electronProtocol,
+      userDataPath,
+      installPath,
+    });
+  }
+
+  installWebHandler({
+    protocol: electronProtocol,
+  });
+
   // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
   /* eslint-disable more/no-then */
   let loggingSetupError;
@@ -453,7 +483,6 @@ app.on('ready', () => {
       }
 
       console.log('Ensure attachments directory exists');
-      const userDataPath = app.getPath('userData');
       await Attachments.ensureDirectory(userDataPath);
 
       ready = true;
@@ -523,10 +552,13 @@ app.on('activate', () => {
   }
 });
 
-// Defense in depth. We never intend to open webviews, so this prevents it completely.
-app.on('web-contents-created', (createEvent, win) => {
-  win.on('will-attach-webview', attachEvent => {
+// Defense in depth. We never intend to open webviews or windows. Prevent it completely.
+app.on('web-contents-created', (createEvent, contents) => {
+  contents.on('will-attach-webview', attachEvent => {
     attachEvent.preventDefault();
+  });
+  contents.on('new-window', newEvent => {
+    newEvent.preventDefault();
   });
 });
 

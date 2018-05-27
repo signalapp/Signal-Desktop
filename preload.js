@@ -19,6 +19,9 @@ window.config.localeMessages = ipc.sendSync('locale-data');
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
+// We never do this in our code, so we'll prevent it everywhere
+window.open = () => null;
+
 window.drawAttention = () => {
   console.log('draw attention');
   ipc.send('draw-attention');
@@ -88,7 +91,6 @@ const { autoOrientImage } = require('./js/modules/auto_orient_image');
 
 window.autoOrientImage = autoOrientImage;
 window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
-window.EmojiConvertor = require('emoji-js');
 window.emojiData = require('emoji-datasource');
 window.EmojiPanel = require('emoji-panel');
 window.filesize = require('filesize');
@@ -111,7 +113,7 @@ window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');
 
-const Signal = require('./js/signal');
+const Signal = require('./js/modules/signal');
 const i18n = require('./js/modules/i18n');
 const Attachments = require('./app/attachments');
 

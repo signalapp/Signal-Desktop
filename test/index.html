@@ -3,7 +3,7 @@
 <head>
   <meta charset='utf-8'>
   <title>TextSecure test runner</title>
-  <link rel="stylesheet" href="../components/mocha/mocha.css" />
+  <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
   <link rel="stylesheet" href="../stylesheets/manifest.css" />
 </head>
 <body>
@@ -95,17 +95,6 @@
   </script>
   <script type='text/x-tmpl-mustache' id='hint'>
     <p> {{ content }}</p>
-  </script>
-  <script type='text/x-tmpl-mustache' id='conversation-title'>
-    {{ #name }}
-      <span class='conversation-name' dir='auto'>{{ name }}</span>
-    {{ /name }}
-    {{ #number }}
-      <span class='conversation-number'>{{ number }}</span>
-    {{ /number }}
-    {{ #isVerified }}
-      <span class='verified'><span class='verified-icon'></span> {{ verified }}</span>
-    {{ /isVerified }}
   </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header {{ avatar.color }}'>
@@ -592,7 +581,6 @@
   <script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
   <script type="text/javascript" src="../js/models/blockedNumbers.js" data-cover></script>
   <script type="text/javascript" src="../js/conversation_controller.js" data-cover></script>
-  <script type='text/javascript' src='../js/emoji_util.js' data-cover></script>
   <script type="text/javascript" src="../js/keychange_listener.js" data-cover></script>
   <script type='text/javascript' src='../js/expiring_messages.js' data-cover></script>
   <script type='text/javascript' src='../js/notifications.js' data-cover></script>
@@ -654,7 +642,6 @@
   <script type="text/javascript" src="conversation_controller_test.js"></script>
   <script type="text/javascript" src="storage_test.js"></script>
   <script type="text/javascript" src="keychange_listener_test.js"></script>
-  <script type="text/javascript" src="emoji_util_test.js"></script>
   <script type="text/javascript" src="reliable_trigger_test.js"></script>
   <script type="text/javascript" src="backup_test.js"></script>
   <script type="text/javascript" src="crypto_test.js"></script>

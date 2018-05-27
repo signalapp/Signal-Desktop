@@ -7,15 +7,12 @@ module.exports = function(grunt) {
   var bower = grunt.file.readJSON('bower.json');
   var components = [];
   for (var i in bower.concat.app) {
-    components.push('components/' + bower.concat.app[i] + '/**/*.js');
+    components.push(bower.concat.app[i]);
   }
-  components.push('components/' + 'webaudiorecorder/lib/WebAudioRecorder.js');
 
   var libtextsecurecomponents = [];
   for (i in bower.concat.libtextsecure) {
-    libtextsecurecomponents.push(
-      'components/' + bower.concat.libtextsecure[i] + '/**/*.js'
-    );
+    libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
   }
 
   var importOnce = require('node-sass-import-once');
@@ -34,8 +31,8 @@ module.exports = function(grunt) {
       },
       test: {
         src: [
-          'components/mocha/mocha.js',
-          'components/chai/chai.js',
+          'node_modules/mocha/mocha.js',
+          'node_modules/chai/chai.js',
           'test/_test.js',
         ],
         dest: 'test/test.js',
@@ -75,10 +72,10 @@ module.exports = function(grunt) {
       },
       libtextsecuretest: {
         src: [
-          'components/jquery/dist/jquery.js',
+          'node_modules/jquery/dist/jquery.js',
           'components/mock-socket/dist/mock-socket.js',
-          'components/mocha/mocha.js',
-          'components/chai/chai.js',
+          'node_modules/mocha/mocha.js',
+          'node_modules/chai/chai.js',
           'libtextsecure/test/_test.js',
         ],
         dest: 'libtextsecure/test/test.js',
@@ -103,7 +100,6 @@ module.exports = function(grunt) {
         '!js/backup.js',
         '!js/components.js',
         '!js/database.js',
-        '!js/jquery.js',
         '!js/libsignal-protocol-worker.js',
         '!js/libtextsecure.js',
         '!js/logging.js',
@@ -123,19 +119,6 @@ module.exports = function(grunt) {
       ],
       options: { jshintrc: '.jshintrc' },
     },
-    dist: {
-      src: [
-        'background.html',
-        'index.html',
-        'options.html',
-        '_locales/**',
-        'protos/*',
-        'js/**',
-        'stylesheets/*.css',
-        '!js/register.js',
-      ],
-      res: ['images/**/*', 'fonts/*'],
-    },
     copy: {
       deps: {
         files: [
@@ -147,41 +130,6 @@ module.exports = function(grunt) {
             src: 'components/webaudiorecorder/lib/WebAudioRecorderMp3.js',
             dest: 'js/WebAudioRecorderMp3.js',
           },
-          {
-            src: 'components/jquery/dist/jquery.js',
-            dest: 'js/jquery.js',
-          },
-        ],
-      },
-      res: {
-        files: [{ expand: true, dest: 'dist/', src: ['<%= dist.res %>'] }],
-      },
-      src: {
-        files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }],
-      },
-    },
-    jscs: {
-      all: {
-        src: [
-          'Gruntfile',
-          'js/**/*.js',
-          '!js/components.js',
-          '!js/libsignal-protocol-worker.js',
-          '!js/libtextsecure.js',
-          '!js/modules/**/*.js',
-          '!js/models/conversations.js',
-          '!js/models/messages.js',
-          '!js/views/conversation_search_view.js',
-          '!js/views/conversation_view.js',
-          '!js/views/debug_log_view.js',
-          '!js/views/file_input_view.js',
-          '!js/views/message_view.js',
-          '!js/Mp3LameEncoder.min.js',
-          '!js/WebAudioRecorderMp3.js',
-          'test/**/*.js',
-          '!test/blanket_mocha.js',
-          '!test/modules/**/*.js',
-          '!test/test.js',
         ],
       },
     },
@@ -205,10 +153,6 @@ module.exports = function(grunt) {
       scripts: {
         files: ['<%= jshint.files %>'],
         tasks: ['jshint'],
-      },
-      style: {
-        files: ['<%= jscs.all.src %>'],
-        tasks: ['jscs'],
       },
       transpile: {
         files: ['./ts/**/*.ts'],
@@ -326,6 +270,7 @@ module.exports = function(grunt) {
       env: {
         NODE_ENV: environment,
       },
+      requireName: 'unused',
     });
 
     function getMochaResults() {
@@ -380,7 +325,19 @@ module.exports = function(grunt) {
         // We need to use the failure variable and this early stop to clean up before
         // shutting down. Grunt's fail methods are the only way to set the return value,
         // but they shut the process down immediately!
-        return app.stop();
+        if (failure) {
+          console.log();
+          console.log('Main process logs:');
+          return app.client.getMainProcessLogs().then(function(logs) {
+            logs.forEach(function(log) {
+              console.log(log);
+            });
+
+            return app.stop();
+          });
+        } else {
+          return app.stop();
+        }
       })
       .then(function() {
         if (failure) {
@@ -456,6 +413,7 @@ module.exports = function(grunt) {
 
     var app = new Application({
       path: [dir, config.exe].join('/'),
+      requireName: 'unused',
     });
 
     app
@@ -501,7 +459,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('lint', ['jshint', 'jscs']);
+  grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);

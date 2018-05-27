@@ -292,12 +292,17 @@ $avatar-size: 44px;
     }
   }
 }
+// the old way
 .profileName {
   font-size: smaller;
 
   &:before {
     content: '~';
   }
+}
+// the new way
+.profile-name {
+  font-size: smaller;
 }
 
 .conversation-list-item {

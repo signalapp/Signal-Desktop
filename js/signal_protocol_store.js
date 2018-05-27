@@ -915,19 +915,15 @@
         );
       });
     },
-    removeIdentityKey: function(number) {
-      return new Promise(function(resolve, reject) {
-        var identityRecord = new IdentityRecord({ id: number });
-        identityRecord
-          .fetch()
-          .then(function() {
-            identityRecord.destroy();
-          })
-          .fail(function() {
-            reject(new Error('Tried to remove identity for unknown number'));
-          });
-        resolve(textsecure.storage.protocol.removeAllSessions(number));
-      });
+    removeIdentityKey: async function(number) {
+      const identityRecord = new IdentityRecord({ id: number });
+      try {
+        await wrapDeferred(identityRecord.fetch());
+        await wrapDeferred(identityRecord.destroy());
+        return textsecure.storage.protocol.removeAllSessions(number);
+      } catch (error) {
+        throw new Error('Tried to remove identity for unknown number');
+      }
     },
 
     // Groups
@@ -972,7 +968,7 @@
         return collection.fetch().then(resolve, reject);
       }).then(function() {
         // Return a plain array of plain objects
-        return collection.map('attributes');
+        return collection.map(model => model.attributes);
       });
     },
     addUnprocessed: function(data) {

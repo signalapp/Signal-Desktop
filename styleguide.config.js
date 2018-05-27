@@ -124,9 +124,6 @@ module.exports = {
         {
           src: 'js/conversation_controller.js',
         },
-        {
-          src: 'js/emoji_util.js',
-        },
         // Select Backbone views
         {
           src: 'js/views/react_wrapper_view.js',

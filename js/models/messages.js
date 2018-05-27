@@ -76,7 +76,6 @@
     // to propagate. We don't want the unset key in the db so our unread index stays
     // small.
     /* eslint-disable */
-    /* jscs:disable */
     fetch(options) {
       options = options ? _.clone(options) : {};
       if (options.parse === void 0) options.parse = true;
@@ -95,7 +94,6 @@
       };
       return this.sync('read', this, options);
     },
-    /* jscs:enable */
     /* eslint-enable */
     /* eslint-disable more/no-then */
     getNameForNumber(number) {

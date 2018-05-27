@@ -14,5 +14,6 @@ export const arrayBufferToObjectURL = ({
   }
 
   const blob = new Blob([data], { type });
+
   return URL.createObjectURL(blob);
 };

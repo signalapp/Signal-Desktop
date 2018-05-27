@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 interface Props {
   /**
@@ -13,13 +13,13 @@ interface Props {
  * Provides the parent elements necessary to allow the main Signal Desktop stylesheet to
  * apply (with no changes) to messages in the Style Guide.
  */
-export class ConversationContext extends React.Component<Props, {}> {
+export class ConversationContext extends React.Component<Props> {
   public render() {
     const { theme, type } = this.props;
 
     return (
       <div className={theme || 'android'}>
-        <div className={classnames('conversation', type || 'private')}>
+        <div className={classNames('conversation', type || 'private')}>
           <div className="discussion-container" style={{ padding: '0.5em' }}>
             <ul className="message-list">{this.props.children}</ul>
           </div>

@@ -1,7 +1,7 @@
 describe('MessageView', function() {
   var convo, message;
 
-  before(async done => {
+  before(async () => {
     await clearDatabase();
     convo = new Whisper.Conversation({ id: 'foo' });
     message = convo.messageCollection.add({
@@ -13,7 +13,6 @@ describe('MessageView', function() {
     });
 
     await storage.put('number_id', '+18088888888.1');
-    done();
   });
 
   it('should display the message text', function() {

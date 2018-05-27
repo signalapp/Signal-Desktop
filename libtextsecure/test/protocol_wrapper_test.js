@@ -20,7 +20,7 @@ describe('Protocol Wrapper', function() {
       });
   });
   describe('processPreKey', function() {
-    it('rejects if the identity key changes', function(done) {
+    it('rejects if the identity key changes', function() {
       var address = new libsignal.SignalProtocolAddress(identifier, 1);
       var builder = new libsignal.SessionBuilder(store, address);
       return builder
@@ -29,11 +29,10 @@ describe('Protocol Wrapper', function() {
           encodedNumber: address.toString(),
         })
         .then(function() {
-          done(new Error('Allowed to overwrite identity key'));
+          throw new Error('Allowed to overwrite identity key');
         })
         .catch(function(e) {
           assert.strictEqual(e.message, 'Identity key changed');
-          done();
         });
     });
   });

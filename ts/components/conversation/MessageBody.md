@@ -1,59 +1,46 @@
-### Plain text
+### All components: emoji, links, newline
 
 ```jsx
-<MessageBody text="Plain text message" />
-```
-
-```jsx
-<MessageBody text="Plain text message\n\nWith a new line." />
+<MessageBody
+  text="Fire 🔥 http://somewhere.com\nSecond Line"
+  i18n={util.i18n}
+/>
 ```
 
 ### Jumbo emoji
 
 ```jsx
-<MessageBody text="🔥" />
+<MessageBody text="🔥" i18n={util.i18n} />
 ```
 
 ```jsx
-<MessageBody text="🔥🔥" />
+<MessageBody text="🔥🔥" i18n={util.i18n} />
 ```
 
 ```jsx
-<MessageBody text="🔥🔥🔥🔥" />
+<MessageBody text="🔥🔥🔥🔥" i18n={util.i18n} />
 ```
 
 ```jsx
-<MessageBody text="🔥🔥🔥🔥🔥🔥🔥🔥" />
+<MessageBody text="🔥🔥🔥🔥🔥🔥🔥🔥" i18n={util.i18n} />
 ```
 
 ```jsx
-<MessageBody text="🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥" />
-```
-
-### Text and emoji
-
-```jsx
-<MessageBody text="Plain text 🔥message. With 🔥emoji🔥 sprinkled 🔥about" />
+<MessageBody text="🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥" i18n={util.i18n} />
 ```
 
 ```jsx
-<MessageBody text="🔥Message starting and ending with emoji🔥" />
+<MessageBody text="🔥 text disables jumbomoji" i18n={util.i18n} />
 ```
 
-### Links
+### Jumbomoji disabled
 
 ```jsx
-<MessageBody text="This before and after link. Before. https://somewhere.com After." />
+<MessageBody text="🔥" disableJumbomoji i18n={util.i18n} />
 ```
 
-```jsx
-<MessageBody text="Link https://somewhere.com\nWhat do you think? How about this one? \n\nhttps://anotherlink.com" />
-```
+### Links disabled
 
 ```jsx
-<MessageBody text="Link https://somewhere.com\nWhat do you think? How about this one? \n\nhttps://anotherlink.com" />
-```
-
-```jsx
-<MessageBody text="should not render as link:\nmailto:someone@somewhere.com\nftp://something.com\n//local/share\n\\local\share\n\nshould render as link:\ngithub.com\nhttps://blah.com" />
+<MessageBody text="http://somewhere.com" disableLinks i18n={util.i18n} />
 ```

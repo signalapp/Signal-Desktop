@@ -742,7 +742,6 @@ async function exportConversation(db, conversation, options) {
         const jsonString = JSON.stringify(stringify(message));
         stream.write(jsonString);
 
-        console.log({ backupMessage: message });
         if (attachments && attachments.length > 0) {
           const exportAttachments = () =>
             writeAttachments(attachments, {

@@ -11,11 +11,8 @@ describe('i18n', function() {
       assert.equal(actual, 'Attempting reconnect in 5 seconds');
     });
     it('returns message with multiple substitutions', function() {
-      const actual = i18n('verifyContact', ['<strong>', '</strong>']);
-      assert.equal(
-        actual,
-        'You may wish to <strong> verify </strong> your safety number with this contact.'
-      );
+      const actual = i18n('theyChangedTheTimer', ['Someone', '5 minutes']);
+      assert.equal(actual, 'Someone set the timer to 5 minutes.');
     });
   });
 

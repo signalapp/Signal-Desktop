@@ -31,8 +31,8 @@ describe('ConversationSearchView', function() {
       type: 'group',
       left: true,
     });
-    before(function(done) {
-      convo.save().then(done);
+    before(() => {
+      return wrapDeferred(convo.save());
     });
     describe('with no messages', function() {
       var input = $('<input>');
@@ -82,13 +82,13 @@ describe('ConversationSearchView', function() {
       type: 'group',
       left: true,
     });
-    before(function(done) {
-      convo.save().then(done);
+    before(() => {
+      return wrapDeferred(convo.save());
     });
     describe('with no messages', function() {
       before(function(done) {
         view.resetTypeahead();
-        view.typeahead_view.collection.on('reset', function() {
+        view.typeahead_view.collection.once('reset', function() {
           done();
         });
       });
@@ -100,12 +100,12 @@ describe('ConversationSearchView', function() {
       });
     });
     describe('with messages', function() {
-      before(function(done) {
-        convo.save({ lastMessage: 'asdf' }).then(function() {
-          view.typeahead_view.collection.on('reset', function() {
+      before(done => {
+        wrapDeferred(convo.save({ lastMessage: 'asdf' })).then(function() {
+          view.resetTypeahead();
+          view.typeahead_view.collection.once('reset', function() {
             done();
           });
-          view.resetTypeahead();
         });
       });
       it('should surface left groups with messages', function() {

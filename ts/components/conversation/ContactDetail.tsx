@@ -17,7 +17,7 @@ import {
   renderSendMessage,
 } from './EmbeddedContact';
 
-type Localizer = (key: string, values?: Array<string>) => string;
+import { Localizer } from '../../types/Util';
 
 interface Props {
   contact: Contact;
@@ -69,7 +69,7 @@ function getLabelForAddress(address: PostalAddress, i18n: Localizer): string {
   }
 }
 
-export class ContactDetail extends React.Component<Props, {}> {
+export class ContactDetail extends React.Component<Props> {
   public renderEmail(items: Array<Email> | undefined, i18n: Localizer) {
     if (!items || items.length === 0) {
       return;
@@ -159,7 +159,7 @@ export class ContactDetail extends React.Component<Props, {}> {
 
     return (
       <div className="contact-detail">
-        {renderAvatar(contact)}
+        {renderAvatar(contact, i18n)}
         {renderName(contact)}
         {renderContactShorthand(contact)}
         {renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}
