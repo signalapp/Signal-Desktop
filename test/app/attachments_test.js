@@ -217,17 +217,22 @@ describe('Attachments', () => {
   });
 
   describe('createAbsolutePathGetter', () => {
+    const isWindows = process.platform === 'win32';
+
     it('combines root and relative path', () => {
-      const root = '/tmp';
+      const root = isWindows ? 'C:\\temp' : '/tmp';
       const relative = 'ab/abcdef';
       const pathGetter = Attachments.createAbsolutePathGetter(root);
       const absolutePath = pathGetter(relative);
 
-      assert.strictEqual(absolutePath, '/tmp/ab/abcdef');
+      assert.strictEqual(
+        absolutePath,
+        isWindows ? 'C:\\temp\\ab\\abcdef' : '/tmp/ab/abcdef'
+      );
     });
 
     it('throws if relative path goes higher than root', () => {
-      const root = '/tmp';
+      const root = isWindows ? 'C:\\temp' : 'tmp';
       const relative = '../../ab/abcdef';
       const pathGetter = Attachments.createAbsolutePathGetter(root);
 
