@@ -26,11 +26,12 @@ function _createFileHandler({ userDataPath, installPath, isWindows }) {
     const target = path.normalize(_urlToPath(request.url, { isWindows }));
 
     if (!path.isAbsolute(target)) {
+      console.log(`Warning: denying request to non-absolute path '${target}'`);
       return callback();
     }
 
     if (!target.startsWith(userDataPath) && !target.startsWith(installPath)) {
-      console.log(`Warning: denying request to ${target}`);
+      console.log(`Warning: denying request to path '${target}'`);
       return callback();
     }
 
