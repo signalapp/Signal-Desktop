@@ -720,6 +720,7 @@
 
   function createSentMessage(data) {
     const now = Date.now();
+
     return new Whisper.Message({
       source: textsecure.storage.user.getNumber(),
       sourceDevice: data.device,
@@ -728,7 +729,9 @@
       conversationId: data.destination,
       type: 'outgoing',
       sent: true,
-      expirationStartTimestamp: data.expirationStartTimestamp,
+      expirationStartTimestamp: data.expirationStartTimestamp
+        ? Math.min(data.expirationStartTimestamp, Date.now())
+        : null,
     });
   }
 

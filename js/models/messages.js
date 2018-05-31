@@ -669,7 +669,7 @@
                 ) {
                   message.set(
                     'expirationStartTimestamp',
-                    readSync.get('read_at')
+                    Math.min(readSync.get('read_at'), Date.now())
                   );
                 }
               }
@@ -802,7 +802,8 @@
     async markRead(readAt) {
       this.unset('unread');
       if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
-        this.set('expirationStartTimestamp', readAt || Date.now());
+        const expireTimerStart = Math.min(Date.now(), readAt || Date.now());
+        this.set('expirationStartTimestamp', expireTimerStart);
       }
       Whisper.Notifications.remove(
         Whisper.Notifications.where({
