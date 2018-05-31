@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { padStart, sample } from 'lodash';
+import { default as _, padStart, sample } from 'lodash';
 import libphonenumber from 'google-libphonenumber';
 
-import _ from 'lodash';
 import moment from 'moment';
-import qs from 'qs';
+import QueryString from 'qs';
 
 export { _ };
 
@@ -16,7 +15,7 @@ export { ConversationContext } from './ConversationContext';
 export { BackboneWrapper } from '../components/utility/BackboneWrapper';
 
 // @ts-ignore
-import * as Signal from '../../js/signal';
+import * as Signal from '../../js/modules/signal';
 import { SignalService } from '../protobuf';
 
 // TypeScript wants two things when you import:
@@ -57,6 +56,7 @@ function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
   const blob = new Blob([data], {
     type: contentType,
   });
+
   return URL.createObjectURL(blob);
 }
 
@@ -90,7 +90,7 @@ export {
 const parent = window as any;
 
 const query = window.location.search.replace(/^\?/, '');
-const urlOptions = qs.parse(query);
+const urlOptions = QueryString.parse(query);
 const theme = urlOptions.theme || 'android';
 const locale = urlOptions.locale || 'en';
 
@@ -99,11 +99,11 @@ import localeMessages from '../../_locales/en/messages.json';
 
 // @ts-ignore
 import { setup } from '../../js/modules/i18n';
-import filesize from 'filesize';
+import fileSize from 'filesize';
 
 const i18n = setup(locale, localeMessages);
 
-parent.filesize = filesize;
+parent.filesize = fileSize;
 
 parent.i18n = i18n;
 parent.React = React;
@@ -137,6 +137,7 @@ const Attachments = {
 parent.Signal = Signal.setup({
   Attachments,
   userDataPath: '/',
+  // tslint:disable-next-line:no-backbone-get-set-outside-model
   getRegionCode: () => parent.storage.get('regionCode'),
 });
 parent.SignalService = SignalService;
@@ -165,7 +166,7 @@ const COLORS = [
 ];
 
 const CONTACTS = COLORS.map((color, index) => {
-  const title = `${sample(['Mr.', 'Mrs.', 'Ms.', 'Unknown'])} ${color}`;
+  const title = `${sample(['Mr.', 'Mrs.', 'Ms.', 'Unknown'])} ${color} 🔥`;
   const key = sample(['name', 'profileName']) as string;
   const id = `+1202555${padStart(index.toString(), 4, '0')}`;
 
@@ -218,11 +219,3 @@ parent.storage.put('regionCode', 'US');
 // Telling Lodash to relinquish _ for use by underscore
 // @ts-ignore
 _.noConflict();
-
-parent.emoji.signalReplace = (html: string): string => {
-  return html.replace(
-    /🔥/g,
-    '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f525.png"' +
-      'class="emoji" data-codepoints="1f525" title=":fire:">'
-  );
-};

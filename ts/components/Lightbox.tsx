@@ -1,3 +1,5 @@
+// tslint:disable:react-a11y-anchors
+
 import React from 'react';
 
 import classNames from 'classnames';
@@ -8,10 +10,13 @@ import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
 import { colorSVG } from '../styles/colorSVG';
 
+import { Localizer } from '../types/Util';
+
 interface Props {
   close: () => void;
-  objectURL: string;
   contentType: MIME.MIMEType | undefined;
+  i18n: Localizer;
+  objectURL: string;
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
@@ -103,6 +108,7 @@ const IconButton = ({ onClick, style, type }: IconButtonProps) => {
       href="#"
       onClick={clickHandler}
       className={classNames('iconButton', type)}
+      role="button"
       style={style}
     />
   );
@@ -128,10 +134,11 @@ const Icon = ({
       maxWidth: 200,
     }}
     onClick={onClick}
+    role="button"
   />
 );
 
-export class Lightbox extends React.Component<Props, {}> {
+export class Lightbox extends React.Component<Props> {
   private containerRef: HTMLDivElement | null = null;
 
   public componentDidMount() {
@@ -145,18 +152,27 @@ export class Lightbox extends React.Component<Props, {}> {
   }
 
   public render() {
-    const { contentType, objectURL, onNext, onPrevious, onSave } = this.props;
+    const {
+      contentType,
+      objectURL,
+      onNext,
+      onPrevious,
+      onSave,
+      i18n,
+    } = this.props;
+
     return (
       <div
         style={styles.container}
         onClick={this.onContainerClick}
         ref={this.setContainerRef}
+        role="dialog"
       >
         <div style={styles.mainContainer}>
           <div style={styles.controlsOffsetPlaceholder} />
           <div style={styles.objectContainer}>
             {!is.undefined(contentType)
-              ? this.renderObject({ objectURL, contentType })
+              ? this.renderObject({ objectURL, contentType, i18n })
               : null}
           </div>
           <div style={styles.controls}>
@@ -189,14 +205,17 @@ export class Lightbox extends React.Component<Props, {}> {
   private renderObject = ({
     objectURL,
     contentType,
+    i18n,
   }: {
     objectURL: string;
     contentType: MIME.MIMEType;
+    i18n: Localizer;
   }) => {
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
     if (isImageTypeSupported) {
       return (
         <img
+          alt={i18n('lightboxImageAlt')}
           style={styles.object}
           src={objectURL}
           onClick={this.onObjectClick}
@@ -228,6 +247,7 @@ export class Lightbox extends React.Component<Props, {}> {
 
     // tslint:disable-next-line no-console
     console.log('Lightbox: Unexpected content type', { contentType });
+
     return <Icon onClick={this.onObjectClick} url="images/file.svg" />;
   };
 
@@ -245,11 +265,10 @@ export class Lightbox extends React.Component<Props, {}> {
   };
 
   private onKeyUp = (event: KeyboardEvent) => {
-    const { onClose } = this;
     const { onNext, onPrevious } = this.props;
     switch (event.key) {
       case 'Escape':
-        onClose();
+        this.onClose();
         break;
 
       case 'ArrowLeft':
@@ -265,7 +284,6 @@ export class Lightbox extends React.Component<Props, {}> {
         break;
 
       default:
-        break;
     }
   };
 

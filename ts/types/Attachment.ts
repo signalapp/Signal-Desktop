@@ -121,6 +121,7 @@ export const getSuggestedFilename = ({
     : '';
   const fileType = getFileExtension(attachment);
   const extension = fileType ? `.${fileType}` : '';
+
   return `${prefix}${suffix}${extension}`;
 };
 
@@ -133,7 +134,6 @@ export const getFileExtension = (attachment: Attachment): string | null => {
     case 'video/quicktime':
       return 'mov';
     default:
-      // TODO: Use better MIME --> file extension mapping:
       return attachment.contentType.split('/')[1];
   }
 };

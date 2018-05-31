@@ -14,23 +14,21 @@ describe('Key generation', function() {
     assert.strictEqual(keyPair.privKey.byteLength, 32);
   }
   function itStoresPreKey(keyId) {
-    it('prekey ' + keyId + ' is valid', function(done) {
+    it('prekey ' + keyId + ' is valid', function() {
       return textsecure.storage.protocol
         .loadPreKey(keyId)
         .then(function(keyPair) {
           validateStoredKeyPair(keyPair);
-        })
-        .then(done, done);
+        });
     });
   }
   function itStoresSignedPreKey(keyId) {
-    it('signed prekey ' + keyId + ' is valid', function(done) {
+    it('signed prekey ' + keyId + ' is valid', function() {
       return textsecure.storage.protocol
         .loadSignedPreKey(keyId)
         .then(function(keyPair) {
           validateStoredKeyPair(keyPair);
-        })
-        .then(done, done);
+        });
     });
   }
   function validateResultKey(resultKey) {
@@ -48,13 +46,13 @@ describe('Key generation', function() {
       });
   }
 
-  before(function(done) {
+  before(function() {
     localStorage.clear();
-    libsignal.KeyHelper.generateIdentityKeyPair()
-      .then(function(keyPair) {
-        return textsecure.storage.protocol.put('identityKey', keyPair);
-      })
-      .then(done, done);
+    return libsignal.KeyHelper.generateIdentityKeyPair().then(function(
+      keyPair
+    ) {
+      return textsecure.storage.protocol.put('identityKey', keyPair);
+    });
   });
 
   describe('the first time', function() {
@@ -66,14 +64,11 @@ describe('Key generation', function() {
          *   identityKey: <ArrayBuffer>
          * }
          */
-    before(function(done) {
+    before(function() {
       var accountManager = new textsecure.AccountManager('');
-      accountManager
-        .generateKeys(count)
-        .then(function(res) {
-          result = res;
-        })
-        .then(done, done);
+      return accountManager.generateKeys(count).then(function(res) {
+        result = res;
+      });
     });
     for (var i = 1; i <= count; i++) {
       itStoresPreKey(i);
@@ -92,29 +87,22 @@ describe('Key generation', function() {
         assert.strictEqual(result.preKeys[i].keyId, i + 1);
       }
     });
-    it('result contains the correct public keys', function(done) {
-      Promise.all(result.preKeys.map(validateResultKey))
-        .then(function() {
-          done();
-        })
-        .catch(done);
+    it('result contains the correct public keys', function() {
+      return Promise.all(result.preKeys.map(validateResultKey));
     });
-    it('returns a signed prekey', function(done) {
+    it('returns a signed prekey', function() {
       assert.strictEqual(result.signedPreKey.keyId, 1);
       assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
-      validateResultSignedKey(result.signedPreKey).then(done, done);
+      return validateResultSignedKey(result.signedPreKey);
     });
   });
   describe('the second time', function() {
     var result;
-    before(function(done) {
+    before(function() {
       var accountManager = new textsecure.AccountManager('');
-      accountManager
-        .generateKeys(count)
-        .then(function(res) {
-          result = res;
-        })
-        .then(done, done);
+      return accountManager.generateKeys(count).then(function(res) {
+        result = res;
+      });
     });
     for (var i = 1; i <= 2 * count; i++) {
       itStoresPreKey(i);
@@ -133,29 +121,22 @@ describe('Key generation', function() {
         assert.strictEqual(result.preKeys[i - 1].keyId, i + count);
       }
     });
-    it('result contains the correct public keys', function(done) {
-      Promise.all(result.preKeys.map(validateResultKey))
-        .then(function() {
-          done();
-        })
-        .catch(done);
+    it('result contains the correct public keys', function() {
+      return Promise.all(result.preKeys.map(validateResultKey));
     });
-    it('returns a signed prekey', function(done) {
+    it('returns a signed prekey', function() {
       assert.strictEqual(result.signedPreKey.keyId, 2);
       assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
-      validateResultSignedKey(result.signedPreKey).then(done, done);
+      return validateResultSignedKey(result.signedPreKey);
     });
   });
   describe('the third time', function() {
     var result;
-    before(function(done) {
+    before(function() {
       var accountManager = new textsecure.AccountManager('');
-      accountManager
-        .generateKeys(count)
-        .then(function(res) {
-          result = res;
-        })
-        .then(done, done);
+      return accountManager.generateKeys(count).then(function(res) {
+        result = res;
+      });
     });
     for (var i = 1; i <= 3 * count; i++) {
       itStoresPreKey(i);
@@ -174,17 +155,13 @@ describe('Key generation', function() {
         assert.strictEqual(result.preKeys[i - 1].keyId, i + 2 * count);
       }
     });
-    it('result contains the correct public keys', function(done) {
-      Promise.all(result.preKeys.map(validateResultKey))
-        .then(function() {
-          done();
-        })
-        .catch(done);
+    it('result contains the correct public keys', function() {
+      return Promise.all(result.preKeys.map(validateResultKey));
     });
-    it('result contains a signed prekey', function(done) {
+    it('result contains a signed prekey', function() {
       assert.strictEqual(result.signedPreKey.keyId, 3);
       assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
-      validateResultSignedKey(result.signedPreKey).then(done, done);
+      return validateResultSignedKey(result.signedPreKey);
     });
   });
 });

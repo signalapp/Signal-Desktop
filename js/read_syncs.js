@@ -45,7 +45,10 @@
           return message
             ? message.markRead(receipt.get('read_at')).then(
                 function() {
-                  this.notifyConversation(message);
+                  // This notification may result in messages older than this one being
+                  //   marked read. We want those messages to have the same expire timer
+                  //   start time as this one, so we pass the read_at value through.
+                  this.notifyConversation(message, receipt.get('read_at'));
                   this.remove(receipt);
                 }.bind(this)
               )
@@ -53,13 +56,13 @@
         }.bind(this)
       );
     },
-    notifyConversation: function(message) {
+    notifyConversation: function(message, readAt) {
       var conversation = ConversationController.get({
         id: message.get('conversationId'),
       });
 
       if (conversation) {
-        conversation.onReadMessage(message);
+        conversation.onReadMessage(message, readAt);
       }
     },
   }))();

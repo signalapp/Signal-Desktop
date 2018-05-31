@@ -63,14 +63,6 @@ window.Signal.Migrations = {
 
 window.Signal.Components = {};
 
-window.EmojiConvertor = function EmojiConvertor() {};
-window.EmojiConvertor.prototype.init_colons = () => {};
-window.EmojiConvertor.prototype.signalReplace = html => html;
-window.EmojiConvertor.prototype.replace_unified = string => string;
-window.EmojiConvertor.prototype.img_sets = {
-  apple: {},
-};
-
 window.i18n = () => '';
 
 // Ideally we don't need to add things here. We want to add them in StyleGuideUtil, which

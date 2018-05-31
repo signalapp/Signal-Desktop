@@ -5,7 +5,7 @@
   var ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
 
   function AccountManager(url, username, password) {
-    this.server = new TextSecureServer(url, username, password);
+    this.server = window.WebAPI.connect({ username, password });
     this.pending = Promise.resolve();
   }
 
@@ -426,7 +426,6 @@
               'regionCode',
               libphonenumber.util.getRegionCodeForNumber(number)
             );
-            this.server.username = textsecure.storage.get('number_id');
           }.bind(this)
         );
     },

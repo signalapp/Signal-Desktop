@@ -6,6 +6,7 @@
     i18n={window.i18n}
     media={[]}
     documents={[]}
+    i18n={util.i18n}
   />
 </div>
 ```
@@ -72,7 +73,7 @@ const messages = _.sortBy(
   message => -message.received_at
 );
 
-<MediaGallery i18n={window.i18n} media={messages} documents={messages} />;
+<MediaGallery i18n={util.i18n} media={messages} documents={messages} />;
 ```
 
 ## Media gallery with one document
@@ -83,5 +84,5 @@ const messages = [
     attachments: [{ fileName: 'foo.jpg', contentType: 'application/json' }],
   },
 ];
-<MediaGallery i18n={window.i18n} media={messages} documents={messages} />;
+<MediaGallery i18n={util.i18n} media={messages} documents={messages} />;
 ```

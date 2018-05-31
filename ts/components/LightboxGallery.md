@@ -33,6 +33,6 @@ const messages = [
 ];
 
 <div style={{ position: 'relative', width: '100%', height: 500 }}>
-  <LightboxGallery messages={messages} onSave={noop} />
+  <LightboxGallery messages={messages} onSave={noop} i18n={util.i18n} />
 </div>;
 ```

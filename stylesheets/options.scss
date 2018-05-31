@@ -1,9 +1,9 @@
 @import 'variables';
-@import '../components/intl-tel-input/build/css/intlTelInput.css';
+@import '../node_modules/intl-tel-input/build/css/intlTelInput.css';
 @import 'progress';
 .iti-flag {
   // override intlTelInput's flags image location
-  background: url('../images/flags.png');
+  background: url('../node_modules/intl-tel-input/build/img/flags.png');
 }
 
 .intl-tel-input .country-list {

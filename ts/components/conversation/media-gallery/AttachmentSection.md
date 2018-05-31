@@ -20,5 +20,10 @@ const messages = [
   },
 ];
 
-<AttachmentSection header="Today" type="documents" messages={messages} />;
+<AttachmentSection
+  header="Today"
+  type="documents"
+  messages={messages}
+  i18n={util.i18n}
+/>;
 ```

@@ -541,7 +541,7 @@
       }
     },
 
-    onReadMessage(message) {
+    onReadMessage(message, readAt) {
       if (this.messageCollection.get(message.id)) {
         this.messageCollection.get(message.id).fetch();
       }
@@ -558,7 +558,10 @@
       // Lastly, we don't send read syncs for any message marked read due to a read
       //   sync. That's a notification explosion we don't need.
       return this.queueJob(() =>
-        this.markRead(message.get('received_at'), { sendReadReceipts: false })
+        this.markRead(message.get('received_at'), {
+          sendReadReceipts: false,
+          readAt,
+        })
       );
     },
 
@@ -1018,7 +1021,7 @@
                 'it was not in messageCollection.'
             );
           }
-          promises.push(m.markRead());
+          promises.push(m.markRead(options.readAt));
           const errors = m.get('errors');
           return {
             sender: m.get('source'),

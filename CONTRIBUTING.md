@@ -35,8 +35,10 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 
 ### Windows
 
-1.  **Windows 7 only:** Install Microsoft .NET Framework 4.5.1:
-    https://www.microsoft.com/en-us/download/details.aspx?id=40773
+1.  **Windows 7 only:**
+    * Install Microsoft .NET Framework 4.5.1:
+      https://www.microsoft.com/en-us/download/details.aspx?id=40773
+    * Install Windows SDK version 8.1: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive
 1.  Install _Windows Build Tools_: Open the [Command Prompt (`cmd.exe`) as Administrator](<https://technet.microsoft.com/en-us/library/cc947813(v=ws.10).aspx>)
     and run: `npm install --global --production --add-python-to-path windows-build-tools`
 

@@ -41,7 +41,7 @@ describe('KeyChangeListener', function() {
           done();
         });
       });
-      return store.saveIdentity(address.toString(), newKey);
+      store.saveIdentity(address.toString(), newKey);
     });
   });
 
@@ -68,7 +68,7 @@ describe('KeyChangeListener', function() {
           done();
         });
       });
-      return store.saveIdentity(address.toString(), newKey);
+      store.saveIdentity(address.toString(), newKey);
     });
   });
 });

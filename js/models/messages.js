@@ -7,6 +7,7 @@
 /* global Signal: false */
 /* global textsecure: false */
 /* global Whisper: false */
+/* global wrapDeferred: false */
 
 /* eslint-disable more/no-then */
 
@@ -76,7 +77,6 @@
     // to propagate. We don't want the unset key in the db so our unread index stays
     // small.
     /* eslint-disable */
-    /* jscs:disable */
     fetch(options) {
       options = options ? _.clone(options) : {};
       if (options.parse === void 0) options.parse = true;
@@ -95,7 +95,6 @@
       };
       return this.sync('read', this, options);
     },
-    /* jscs:enable */
     /* eslint-enable */
     /* eslint-disable more/no-then */
     getNameForNumber(number) {
@@ -670,7 +669,7 @@
                 ) {
                   message.set(
                     'expirationStartTimestamp',
-                    readSync.get('read_at')
+                    Math.min(readSync.get('read_at'), Date.now())
                   );
                 }
               }
@@ -800,19 +799,18 @@
           })
       );
     },
-    markRead(readAt) {
+    async markRead(readAt) {
       this.unset('unread');
       if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
-        this.set('expirationStartTimestamp', readAt || Date.now());
+        const expireTimerStart = Math.min(Date.now(), readAt || Date.now());
+        this.set('expirationStartTimestamp', expireTimerStart);
       }
       Whisper.Notifications.remove(
         Whisper.Notifications.where({
           messageId: this.id,
         })
       );
-      return new Promise((resolve, reject) => {
-        this.save().then(resolve, reject);
-      });
+      return wrapDeferred(this.save());
     },
     isExpiring() {
       return this.get('expireTimer') && this.get('expirationStartTimestamp');

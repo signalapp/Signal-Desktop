@@ -1,11 +1,11 @@
 import os from 'os';
-import sinon from 'sinon';
+import Sinon from 'sinon';
 import { assert } from 'chai';
 
 import * as Settings from '../../../ts/types/Settings';
 
 describe('Settings', () => {
-  const sandbox = sinon.createSandbox();
+  const sandbox = Sinon.createSandbox();
 
   describe('isAudioNotificationSupported', () => {
     context('on macOS', () => {

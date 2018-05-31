@@ -81,16 +81,15 @@ describe('SignalProtocolStore', function() {
     });
 
     describe('When there is no existing key (first use)', function() {
-      before(function(done) {
-        store.removeIdentityKey(identifier).then(function() {
-          store
-            .saveIdentity(address.toString(), testKey.pubKey)
-            .then(function() {
-              record.fetch().then(function() {
-                done();
-              });
-            });
-        });
+      before(function() {
+        return store
+          .removeIdentityKey(identifier)
+          .then(function() {
+            return store.saveIdentity(address.toString(), testKey.pubKey);
+          })
+          .then(function() {
+            return wrapDeferred(record.fetch());
+          });
       });
       it('marks the key firstUse', function() {
         assert(record.get('firstUse'));
@@ -1197,13 +1196,10 @@ describe('SignalProtocolStore', function() {
         })
         .then(done, done);
     });
-    it('returns empty array for a number with no device ids', function(done) {
-      return store
-        .getDeviceIds('foo')
-        .then(function(deviceIds) {
-          assert.sameMembers(deviceIds, []);
-        })
-        .then(done, done);
+    it('returns empty array for a number with no device ids', function() {
+      return store.getDeviceIds('foo').then(function(deviceIds) {
+        assert.sameMembers(deviceIds, []);
+      });
     });
   });
 

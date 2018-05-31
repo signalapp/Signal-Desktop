@@ -19,6 +19,11 @@ window.config.localeMessages = ipc.sendSync('locale-data');
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
+// We never do these in our code, so we'll prevent it everywhere
+window.open = () => null;
+// eslint-disable-next-line no-eval, no-multi-assign
+window.eval = global.eval = () => null;
+
 window.drawAttention = () => {
   console.log('draw attention');
   ipc.send('draw-attention');
@@ -77,7 +82,15 @@ if (window.config.proxyUrl) {
 }
 
 window.nodeSetImmediate = setImmediate;
-window.nodeWebSocket = require('websocket').w3cwebsocket;
+
+const { initialize: initializeWebAPI } = require('./js/modules/web_api');
+
+window.WebAPI = initializeWebAPI({
+  url: window.config.serverUrl,
+  cdnUrl: window.config.cdnUrl,
+  certificateAuthority: window.config.certificateAuthority,
+  proxyUrl: window.config.proxyUrl,
+});
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
@@ -88,17 +101,12 @@ const { autoOrientImage } = require('./js/modules/auto_orient_image');
 
 window.autoOrientImage = autoOrientImage;
 window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
-window.EmojiConvertor = require('emoji-js');
 window.emojiData = require('emoji-datasource');
 window.EmojiPanel = require('emoji-panel');
 window.filesize = require('filesize');
 window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
-
-window.nodeBuffer = Buffer;
-window.nodeFetch = require('node-fetch');
-window.ProxyAgent = require('proxy-agent');
 
 // Note: when modifying this file, consider whether our React Components or Backbone Views
 //   will need these things to render in the Style Guide. If so, go update one of these
@@ -111,7 +119,7 @@ window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');
 
-const Signal = require('./js/signal');
+const Signal = require('./js/modules/signal');
 const i18n = require('./js/modules/i18n');
 const Attachments = require('./app/attachments');
 

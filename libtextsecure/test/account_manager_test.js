@@ -2,15 +2,6 @@
 
 describe('AccountManager', function() {
   let accountManager;
-  let originalServer;
-
-  before(function() {
-    originalServer = window.TextSecureServer;
-    window.TextSecureServer = function() {};
-  });
-  after(function() {
-    window.TextSecureServer = originalServer;
-  });
 
   beforeEach(function() {
     accountManager = new window.textsecure.AccountManager();

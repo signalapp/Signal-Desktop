@@ -189,12 +189,9 @@ describe('SignalProtocolStore', function() {
       })
       .then(done, done);
   });
-  it('returns empty array for a number with no device ids', function(done) {
-    return store
-      .getDeviceIds('foo')
-      .then(function(deviceIds) {
-        assert.sameMembers(deviceIds, []);
-      })
-      .then(done, done);
+  it('returns empty array for a number with no device ids', function() {
+    return store.getDeviceIds('foo').then(function(deviceIds) {
+      assert.sameMembers(deviceIds, []);
+    });
   });
 });

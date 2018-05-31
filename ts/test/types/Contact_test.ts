@@ -1,4 +1,3 @@
-import 'mocha';
 import { assert } from 'chai';
 
 import { getName } from '../../types/Contact';

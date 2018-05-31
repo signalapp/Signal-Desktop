@@ -33,7 +33,7 @@ interface Props {
   onItemClick?: (event: ItemClickEvent) => void;
 }
 
-export class AttachmentSection extends React.Component<Props, {}> {
+export class AttachmentSection extends React.Component<Props> {
   public render() {
     const { header } = this.props;
 

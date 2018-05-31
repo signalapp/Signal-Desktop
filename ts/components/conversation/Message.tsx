@@ -1,3 +1,5 @@
+// tslint:disable:newline-before-return
+
 import React from 'react';
 
 /**
@@ -5,7 +7,7 @@ import React from 'react';
  * none of the dynamic functionality. This page will be used to build up our corpus of
  * permutations before we start moving all message functionality to React.
  */
-export class Message extends React.Component<{}, {}> {
+export class Message extends React.Component {
   public render() {
     return (
       <li className="entry outgoing sent delivered">

@@ -140,7 +140,7 @@ Message.prototype = {
 };
 
 function MessageSender(url, username, password, cdn_url) {
-  this.server = new TextSecureServer(url, username, password, cdn_url);
+  this.server = WebAPI.connect({ username, password });
   this.pendingMessages = {};
 }
 

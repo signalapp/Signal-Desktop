@@ -1,11 +1,14 @@
 import React from 'react';
 
 import moment from 'moment';
+// tslint:disable-next-line:match-default-export-name
 import formatFileSize from 'filesize';
+
+import { Localizer } from '../../../types/Util';
 
 interface Props {
   // Required
-  i18n: (key: string, values?: Array<string>) => string;
+  i18n: Localizer;
   timestamp: number;
 
   // Optional
@@ -58,13 +61,14 @@ const styles = {
   },
 };
 
-export class DocumentListItem extends React.Component<Props, {}> {
+export class DocumentListItem extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
     shouldShowSeparator: true,
   };
 
   public render() {
     const { shouldShowSeparator } = this.props;
+
     return (
       <div
         style={{
@@ -78,11 +82,16 @@ export class DocumentListItem extends React.Component<Props, {}> {
   }
 
   private renderContent() {
-    const { fileName, fileSize, timestamp } = this.props;
+    const { fileName, fileSize, timestamp, i18n } = this.props;
 
     return (
-      <div style={styles.itemContainer} onClick={this.props.onClick}>
+      <div
+        style={styles.itemContainer}
+        role="button"
+        onClick={this.props.onClick}
+      >
         <img
+          alt={i18n('fileIconAlt')}
           src="images/file.svg"
           width="48"
           height="48"

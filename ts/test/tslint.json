@@ -1,0 +1,11 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["../../tslint.json"],
+  "rules": {
+    // To allow the use of devDependencies here
+    "no-implicit-dependencies": false,
+
+    // All tests use arrow functions, and they can be long
+    "max-func-body-length": false
+  }
+}

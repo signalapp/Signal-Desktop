@@ -1,5 +1,3 @@
-import 'mocha';
-
 import { assert } from 'chai';
 import { shuffle } from 'lodash';
 

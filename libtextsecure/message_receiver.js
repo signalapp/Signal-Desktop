@@ -1,6 +1,6 @@
 /* global window: false */
 /* global textsecure: false */
-/* global TextSecureServer: false */
+/* global WebAPI: false */
 /* global libsignal: false */
 /* global WebSocketResource: false */
 /* global WebSocket: false */
@@ -19,7 +19,7 @@ function MessageReceiver(url, username, password, signalingKey, options = {}) {
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
-  this.server = new TextSecureServer(url, username, password);
+  this.server = WebAPI.connect({ username, password });
 
   const address = libsignal.SignalProtocolAddress.fromString(username);
   this.number = address.getName();

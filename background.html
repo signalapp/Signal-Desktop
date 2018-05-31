@@ -11,6 +11,7 @@
             child-src 'self';
             connect-src 'self' https: wss:;
             font-src 'self';
+            form-action 'self';
             frame-src 'none';
             img-src 'self' blob: data:;
             media-src 'self' blob:;
@@ -27,30 +28,6 @@
     2) test/index.html
   -->
 
-  <script type='text/x-tmpl-mustache' id='app-migration-screen'>
-    <div class='content'>
-      <img src='images/icon_128.png'>
-      {{ ^hideProgress }}
-        <div class='container'>
-          <span class='dot'></span>
-          <span class='dot'></span>
-          <span class='dot'></span>
-        </div>
-      {{ /hideProgress }}
-      <div class='message'>{{& message }}</div>
-      <div>
-        {{ #importButton }}
-          <button class='import grey'>{{ importButton }}</button>
-        {{ /importButton }}
-        {{ #restartButton }}
-          <button class='restart grey'>{{ restartButton }}</button>
-        {{ /restartButton }}
-        {{ #cancelButton }}
-          <button class='cancel grey'>{{ cancelButton }}</button>
-        {{ /cancelButton }}
-      </div>
-    </div>
-  </script>
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
       <img src='images/icon_128.png'>
@@ -133,20 +110,6 @@
   </script>
   <script type='text/x-tmpl-mustache' id='hint'>
     <p> {{ content }}</p>
-  </script>
-  <script type='text/x-tmpl-mustache' id='conversation-title'>
-    {{ #name }}
-      <span class='conversation-name' dir='auto'>{{ name }}</span>
-    {{ /name }}
-    {{ #number }}
-      <span class='conversation-number'>{{ number }}</span>
-    {{ /number }}
-    {{ #profileName }}
-      <span class='profileName'>{{ profileName }} </span>
-    {{ /profileName }}
-    {{ #isVerified }}
-      <span class='verified'><span class='verified-icon'></span> {{ verified }}</span>
-    {{ /isVerified }}
   </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header {{ avatar.color }}'>
@@ -371,7 +334,7 @@
       {{> avatar }}
       <div class='contact-details'>
           <span class='last-timestamp' data-timestamp='{{ last_message_timestamp }}' dir='auto' > </span>
-          {{> contact_name_and_number }}
+          <h3 class='name' dir='auto'></h3>
           {{ #unreadCount }}
             <span class='unread-count'>{{ unreadCount }}</span>
           {{ /unreadCount }}
@@ -777,7 +740,10 @@
         <div class='step-body'>
           <span class='banner-icon alert-outline'></span>
           <div class='header'>{{ errorHeader }}</div>
-          <div class='body-text-wide'>{{& errorMessage }}</div>
+          <div class='body-text-wide'>
+            {{ errorMessageFirst }}
+            <p>{{ errorMessageSecond }}</p>
+          </div>
         </div>
         <div class='nav'>
           <div>
@@ -933,7 +899,6 @@
   <script type='text/javascript' src='js/registration.js'></script>
   <script type='text/javascript' src='js/expire.js'></script>
   <script type='text/javascript' src='js/conversation_controller.js'></script>
-  <script type='text/javascript' src='js/emoji_util.js'></script>
 
   <script type='text/javascript' src='js/views/react_wrapper_view.js'></script>
   <script type='text/javascript' src='js/views/whisper_view.js'></script>

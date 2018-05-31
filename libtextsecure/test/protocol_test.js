@@ -33,6 +33,4 @@ describe('Protocol', function() {
         .catch(done);
     });
   });
-
-  // TODO: Use fake_api's hiding of api.sendMessage to test sendmessage.js' maze
 });

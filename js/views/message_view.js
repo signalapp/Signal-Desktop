@@ -2,7 +2,6 @@
 /* global i18n: false */
 /* global textsecure: false */
 /* global _: false */
-/* global emoji_util: false */
 /* global Mustache: false */
 /* global $: false */
 /* global storage: false */
@@ -279,23 +278,29 @@
       if (this.avatarView) {
         this.avatarView.remove();
       }
+      if (this.bodyView) {
+        this.bodyView.remove();
+      }
+      if (this.contactView) {
+        this.contactView.remove();
+      }
+      if (this.controlView) {
+        this.controlView.remove();
+      }
       if (this.errorIconView) {
         this.errorIconView.remove();
       }
       if (this.networkErrorView) {
         this.networkErrorView.remove();
       }
+      if (this.quoteView) {
+        this.quoteView.remove();
+      }
       if (this.someFailedView) {
         this.someFailedView.remove();
       }
       if (this.timeStampView) {
         this.timeStampView.remove();
-      }
-      if (this.quoteView) {
-        this.quoteView.remove();
-      }
-      if (this.contactView) {
-        this.contactView.remove();
       }
 
       // NOTE: We have to do this in the background (`then` instead of `await`)
@@ -406,9 +411,20 @@
     renderControl() {
       if (this.model.isEndSession() || this.model.isGroupUpdate()) {
         this.$el.addClass('control');
-        const content = this.$('.content');
-        content.text(this.model.getDescription());
-        emoji_util.parse(content);
+
+        if (this.controlView) {
+          this.controlView.remove();
+          this.controlView = null;
+        }
+
+        this.controlView = new Whisper.ReactWrapperView({
+          className: 'content-wrapper',
+          Component: window.Signal.Components.Emojify,
+          props: {
+            text: this.model.getDescription(),
+          },
+        });
+        this.$('.content').prepend(this.controlView.el);
       } else {
         this.$el.removeClass('control');
       }
@@ -457,15 +473,27 @@
         contact.number && contact.number[0] && contact.number[0].value;
       const haveConversation =
         number && Boolean(window.ConversationController.get(number));
-      const hasLocalSignalAccount = number && haveConversation;
+      const hasLocalSignalAccount =
+        this.contactHasSignalAccount || (number && haveConversation);
+
+      // We store this value on this. because a re-render shouldn't kick off another
+      //   profile check, going to the web.
+      this.contactHasSignalAccount = hasLocalSignalAccount;
 
       const onSendMessage = number
         ? () => {
             this.model.trigger('open-conversation', number);
           }
         : null;
-      const onOpenContact = () => {
-        this.model.trigger('show-contact-detail', contact);
+      const onOpenContact = async () => {
+        // First let's finish our check with the central server to see if this user has
+        //   a signal account. Then we won't have to do it a second time for the detail
+        //   screen.
+        await this.checkingProfile;
+        this.model.trigger('show-contact-detail', {
+          contact,
+          hasSignalAccount: this.contactHasSignalAccount,
+        });
       };
 
       const getProps = ({ hasSignalAccount }) => ({
@@ -496,18 +524,21 @@
       // If we can't verify a signal account locally, we'll go to the Signal Server.
       if (number && !hasLocalSignalAccount) {
         // eslint-disable-next-line more/no-then
-        window.textsecure.messaging
+        this.checkingProfile = window.textsecure.messaging
           .getProfile(number)
           .then(() => {
+            this.contactHasSignalAccount = true;
+
             if (!this.contactView) {
               return;
             }
-
             this.contactView.update(getProps({ hasSignalAccount: true }));
           })
           .catch(() => {
             // No account available, or network connectivity problem
           });
+      } else {
+        this.checkingProfile = Promise.resolve();
       }
     },
     isImageWithoutCaption() {

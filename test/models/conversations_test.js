@@ -268,15 +268,11 @@
     it('matches by name', function(done) {
       testSearch(['John', 'Doe', 'john', 'doe', 'John Doe', 'john doe'], done);
     });
-    it('does not match +', function(done) {
+    it('does not match +', function() {
       var collection = new Whisper.ConversationCollection();
-      return collection
-        .search('+')
-        .then(function() {
-          assert.isUndefined(collection.get(convo.id), 'got result for "+"');
-          done();
-        })
-        .catch(done);
+      return collection.search('+').then(function() {
+        assert.isUndefined(collection.get(convo.id), 'got result for "+"');
+      });
     });
   });
 })();

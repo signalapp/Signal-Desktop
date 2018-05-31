@@ -85,6 +85,7 @@ export function contactSelector(
       },
     };
   }
+
   return {
     ...contact,
     avatar,
