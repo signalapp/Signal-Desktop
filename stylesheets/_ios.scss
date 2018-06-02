@@ -196,6 +196,9 @@ $ios-border-color: rgba(0, 0, 0, 0.1);
         // Without this smaller bottom padding, text beyond four lines still shows up!
         padding-bottom: 2px;
         color: black;
+        a {
+          color: $blue;
+        }
       }
 
       .author {
