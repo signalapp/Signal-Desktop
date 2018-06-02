@@ -419,7 +419,8 @@ function showAbout() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'about_preload.js'),
+      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,

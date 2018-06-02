@@ -1,4 +1,8 @@
 {
+    "privacyPolicy": {
+      "message": "Terms & Privacy Policy",
+      "description": "Shown in the about box for the link to https://signal.org/legal"
+    },
     "mainMenuFile": {
       "message": "&File",
       "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."

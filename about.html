@@ -11,8 +11,7 @@ body {
 }
 
 img {
-  margin-top: 2em;
-  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 a {
@@ -47,6 +46,10 @@ a {
 <div>
   <a href="https://signal.org">signal.org</a>
 </div>
+<br>
+<div>
+  <a class="privacy" href="https://signal.org/legal">Terms &amp; Privacy Policy</a>
+</div>
 
 <script type='text/javascript' src='node_modules/jquery/dist/jquery.js'></script>
 <script>
@@ -55,6 +58,8 @@ $(document).on('keyup', function(e) {
     window.closeAbout();
   }
 });
+
+$('.privacy').text(window.i18n('privacyPolicy'));
 </script>
 
 
