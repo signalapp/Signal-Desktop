@@ -142,7 +142,7 @@
     setDeviceNameDefault: function() {
       var deviceName = textsecure.storage.user.getDeviceName();
 
-      this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.config.hostname);
+      this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());
       this.$(DEVICE_NAME_SELECTOR).focus();
     },
     finishLinking: function() {

@@ -91,7 +91,7 @@
       }
     },
     openStandalone: function() {
-      if (window.config.environment !== 'production') {
+      if (window.getEnvironment() !== 'production') {
         window.addSetupMenuItems();
         this.resetViews();
         this.standaloneView = new Whisper.StandaloneRegistrationView();

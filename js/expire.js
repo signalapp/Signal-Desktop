@@ -2,7 +2,7 @@
   'use strict';
   var BUILD_EXPIRATION = 0;
   try {
-    BUILD_EXPIRATION = parseInt(window.config.buildExpiration);
+    BUILD_EXPIRATION = parseInt(window.getExpiration());
     if (BUILD_EXPIRATION) {
       console.log('Build expires: ', new Date(BUILD_EXPIRATION).toISOString());
     }

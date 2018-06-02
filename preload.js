@@ -10,12 +10,28 @@ const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 const { app } = electron.remote;
 
 window.PROTO_ROOT = 'protos';
-window.config = require('url').parse(window.location.toString(), true).query;
+const config = require('url').parse(window.location.toString(), true).query;
+
+let title = config.name;
+if (config.environment !== 'production') {
+  title += ` - ${config.environment}`;
+}
+if (config.appInstance) {
+  title += ` - ${config.appInstance}`;
+}
+
+window.getTitle = () => title;
+window.getEnvironment = () => config.environment;
+window.getVersion = () => config.version;
+window.isImportMode = () => config.importMode;
+window.getExpiration = () => config.buildExpiration;
+window.getNodeVersion = () => config.node_version;
+window.getHostName = () => config.hostname;
 
 window.wrapDeferred = deferredToPromise;
 
 const ipc = electron.ipcRenderer;
-window.config.localeMessages = ipc.sendSync('locale-data');
+const localeMessages = ipc.sendSync('locale-data');
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
@@ -77,8 +93,8 @@ window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');
 
 require('./js/logging');
 
-if (window.config.proxyUrl) {
-  console.log('using proxy url', window.config.proxyUrl);
+if (config.proxyUrl) {
+  console.log('using proxy url', config.proxyUrl);
 }
 
 window.nodeSetImmediate = setImmediate;
@@ -86,10 +102,10 @@ window.nodeSetImmediate = setImmediate;
 const { initialize: initializeWebAPI } = require('./js/modules/web_api');
 
 window.WebAPI = initializeWebAPI({
-  url: window.config.serverUrl,
-  cdnUrl: window.config.cdnUrl,
-  certificateAuthority: window.config.certificateAuthority,
-  proxyUrl: window.config.proxyUrl,
+  url: config.serverUrl,
+  cdnUrl: config.cdnUrl,
+  certificateAuthority: config.certificateAuthority,
+  proxyUrl: config.proxyUrl,
 });
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
@@ -123,7 +139,7 @@ const Signal = require('./js/modules/signal');
 const i18n = require('./js/modules/i18n');
 const Attachments = require('./app/attachments');
 
-const { locale, localeMessages } = window.config;
+const { locale } = config;
 window.i18n = i18n.setup(locale, localeMessages);
 window.moment.updateLocale(locale, {
   relativeTime: {
@@ -149,7 +165,7 @@ window.Signal.Logs = require('./js/modules/logs');
 //   /tmp mounted as noexec on Linux.
 require('./js/spell_check');
 
-if (window.config.environment === 'test') {
+if (config.environment === 'test') {
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.test = {
     glob: require('glob'),
