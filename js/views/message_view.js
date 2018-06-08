@@ -94,6 +94,7 @@
       this.conversation = this.model.getExpirationTimerUpdateSource();
       this.listenTo(this.conversation, 'change', this.render);
       this.listenTo(this.model, 'unload', this.remove);
+      this.listenTo(this.model, 'change', this.onChange);
     },
     render_attributes() {
       const seconds = this.model.get('expirationTimerUpdate').expireTimer;
@@ -113,6 +114,13 @@
         ]);
       }
       return { content: timerMessage };
+    },
+    onChange() {
+      this.addId();
+    },
+    addId() {
+      // This is important to enable the lastSeenIndicator when it's just been added.
+      this.$el.attr('id', this.id());
     },
   });
 
