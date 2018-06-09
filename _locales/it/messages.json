@@ -16,7 +16,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "linkedDevices": {
-        "message": "Dispositivi collegati",
+        "message": "Dispositivi associati",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
