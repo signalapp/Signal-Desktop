@@ -749,6 +749,15 @@
     },
 
     sendMessage(body, attachments, quote) {
+      const destination = this.id;
+      const expireTimer = this.get('expireTimer');
+      const recipients = this.getRecipients();
+
+      let profileKey;
+      if (this.get('profileSharing')) {
+        profileKey = storage.get('profileKey');
+      }
+
       this.queueJob(async () => {
         const now = Date.now();
 
@@ -762,18 +771,18 @@
         const messageWithSchema = await upgradeMessageSchema({
           type: 'outgoing',
           body,
-          conversationId: this.id,
+          conversationId: destination,
           quote,
           attachments,
           sent_at: now,
           received_at: now,
-          expireTimer: this.get('expireTimer'),
-          recipients: this.getRecipients(),
+          expireTimer,
+          recipients,
         });
         const message = this.addSingleMessage(messageWithSchema);
 
         if (this.isPrivate()) {
-          message.set({ destination: this.id });
+          message.set({ destination });
         }
         message.save();
 
@@ -797,22 +806,17 @@
           }
         })();
 
-        let profileKey;
-        if (this.get('profileSharing')) {
-          profileKey = storage.get('profileKey');
-        }
-
         const attachmentsWithData = await Promise.all(
           messageWithSchema.attachments.map(loadAttachmentData)
         );
         message.send(
           sendFunction(
-            this.get('id'),
+            destination,
             body,
             attachmentsWithData,
             quote,
             now,
-            this.get('expireTimer'),
+            expireTimer,
             profileKey
           )
         );
