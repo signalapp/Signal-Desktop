@@ -319,25 +319,27 @@
 
       Whisper.Migration.beginExport()
         .then(this.completeMigration.bind(this))
-        .catch(this.onError.bind(this));
+        .catch(function(error) {
+          // We ensure that a restart of the app acts as if the user never tried
+          //   to export.
+          Whisper.Migration.cancel();
+
+          // We special-case the error we get when the user cancels out of the
+          //   filesystem choice dialog: it's not shown an error.
+          if (!error || error.name !== 'ChooseError') {
+            this.error = error || new Error('in case we reject() null!');
+          }
+
+          // Because this is our first time attempting to export, we go back to
+          //   the choice step. Compare this to the end of onClickChoose().
+          this.selectStep(STEPS.CHOOSE);
+        }.bind(this));
     },
     completeMigration: function(target) {
       // This will prevent connection to the server on future app launches
       Whisper.Migration.markComplete(target);
       this.selectStep(STEPS.COMPLETE);
     },
-    onError: function(error) {
-      if (error && error.name === 'ChooseError') {
-        this.cancelMigration();
-      } else {
-        this.error = error || new Error('in case we reject() null!');
-        this.cancelMigration();
-      }
-    },
-    cancelMigration: function() {
-      Whisper.Migration.cancel();
-      this.render();
-    }
   });
 }());
 
