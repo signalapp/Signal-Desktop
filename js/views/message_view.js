@@ -78,6 +78,7 @@
             this.conversation = this.model.getExpirationTimerUpdateSource();
             this.listenTo(this.conversation, 'change', this.render);
             this.listenTo(this.model, 'unload', this.remove);
+            this.listenTo(this.model, 'change', this.onChange);
         },
         render_attributes: function() {
             var seconds = this.model.get('expirationTimerUpdate').expireTimer;
@@ -91,6 +92,13 @@
                   Whisper.ExpirationTimerOptions.getName(seconds)]);
             }
             return { content: timerMessage };
+        },
+        onChange: function() {
+            this.addId();
+        },
+        addId: function() {
+            // This is important to enable the lastSeenIndicator when it's just been added.
+            this.$el.attr('id', this.id());
         }
     });
 

@@ -618,11 +618,16 @@
     updateExpirationTimer: function(expireTimer, source, received_at) {
         if (!expireTimer) { expireTimer = null; }
         source = source || textsecure.storage.user.getNumber();
-        var timestamp = received_at || Date.now();
+        // When we add a disappearing messages notification to the conversation, we want it
+        //   to be above the message that initiated that change, hence the subtraction.
+        var timestamp = (received_at || Date.now()) - 1;
         this.save({ expireTimer: expireTimer });
         var message = this.messageCollection.add({
+            // Even though this isn't reflected to the user, we want to place the last seen
+            //   indicator above it. We set it to 'unread' to trigger that placement.
+            unread                : 1,
             conversationId        : this.id,
-            type                  : received_at ? 'incoming' : 'outgoing',
+            // No type; 'incoming' messages are specially treated by conversation.markRead()
             sent_at               : timestamp,
             received_at           : timestamp,
             flags                 : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
