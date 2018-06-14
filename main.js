@@ -1,9 +1,13 @@
 const path = require('path');
 const url = require('url');
 const os = require('os');
+const fs = require('fs');
 
 const _ = require('lodash');
+const pify = require('pify');
 const electron = require('electron');
+
+const getRealPath = pify(fs.realpath);
 
 const {
   app,
@@ -440,9 +444,9 @@ function showAbout() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 let ready = false;
-app.on('ready', () => {
-  const userDataPath = app.getPath('userData');
-  const installPath = app.getAppPath();
+app.on('ready', async () => {
+  const userDataPath = await getRealPath(app.getPath('userData'));
+  const installPath = await getRealPath(app.getAppPath());
 
   if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'test-lib') {
     installFileHandler({
