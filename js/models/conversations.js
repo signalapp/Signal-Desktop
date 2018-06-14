@@ -749,6 +749,15 @@
     },
 
     sendMessage(body, attachments, quote) {
+      const destination = this.id;
+      const expireTimer = this.get('expireTimer');
+      const recipients = this.getRecipients();
+
+      let profileKey;
+      if (this.get('profileSharing')) {
+        profileKey = storage.get('profileKey');
+      }
+
       this.queueJob(async () => {
         const now = Date.now();
 
@@ -762,18 +771,18 @@
         const messageWithSchema = await upgradeMessageSchema({
           type: 'outgoing',
           body,
-          conversationId: this.id,
+          conversationId: destination,
           quote,
           attachments,
           sent_at: now,
           received_at: now,
-          expireTimer: this.get('expireTimer'),
-          recipients: this.getRecipients(),
+          expireTimer,
+          recipients,
         });
         const message = this.addSingleMessage(messageWithSchema);
 
         if (this.isPrivate()) {
-          message.set({ destination: this.id });
+          message.set({ destination });
         }
         message.save();
 
@@ -797,22 +806,17 @@
           }
         })();
 
-        let profileKey;
-        if (this.get('profileSharing')) {
-          profileKey = storage.get('profileKey');
-        }
-
         const attachmentsWithData = await Promise.all(
           messageWithSchema.attachments.map(loadAttachmentData)
         );
         message.send(
           sendFunction(
-            this.get('id'),
+            destination,
             body,
             attachmentsWithData,
             quote,
             now,
-            this.get('expireTimer'),
+            expireTimer,
             profileKey
           )
         );
@@ -878,11 +882,17 @@
       });
 
       source = source || textsecure.storage.user.getNumber();
-      const timestamp = receivedAt || Date.now();
+
+      // When we add a disappearing messages notification to the conversation, we want it
+      //   to be above the message that initiated that change, hence the subtraction.
+      const timestamp = (receivedAt || Date.now()) - 1;
 
       const message = this.messageCollection.add({
+        // Even though this isn't reflected to the user, we want to place the last seen
+        //   indicator above it. We set it to 'unread' to trigger that placement.
+        unread: 1,
         conversationId: this.id,
-        type: receivedAt ? 'incoming' : 'outgoing',
+        // No type; 'incoming' messages are specially treated by conversation.markRead()
         sent_at: timestamp,
         received_at: timestamp,
         flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
