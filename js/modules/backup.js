@@ -8,13 +8,12 @@
 /* eslint-env browser */
 /* eslint-env node */
 
-/* eslint-disable no-param-reassign, guard-for-in */
+/* eslint-disable no-param-reassign, guard-for-in, no-unreachable */
 
 const fs = require('fs');
 const path = require('path');
 
 const tmp = require('tmp');
-const decompress = require('decompress');
 const pify = require('pify');
 const archiver = require('archiver');
 const rimraf = require('rimraf');
@@ -23,6 +22,7 @@ const electronRemote = require('electron').remote;
 const Attachment = require('./types/attachment');
 const crypto = require('./crypto');
 
+const decompress = () => null;
 const { dialog, BrowserWindow } = electronRemote;
 
 module.exports = {
@@ -1291,6 +1291,8 @@ function deleteAll(pattern) {
 }
 
 async function exportToDirectory(directory, options) {
+  throw new Error('Encrypted export/import is disabled');
+
   options = options || {};
 
   if (!options.key) {
@@ -1363,6 +1365,8 @@ async function importFromDirectory(directory, options) {
 
     const zipPath = path.join(directory, 'messages.zip');
     if (fs.existsSync(zipPath)) {
+      throw new Error('Encrypted export/import is disabled');
+
       // we're in the world of an encrypted, zipped backup
       if (!options.key) {
         throw new Error(

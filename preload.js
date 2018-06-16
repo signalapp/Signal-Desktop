@@ -164,16 +164,3 @@ window.Signal.Logs = require('./js/modules/logs');
 // We pull this in last, because the native module involved appears to be sensitive to
 //   /tmp mounted as noexec on Linux.
 require('./js/spell_check');
-
-if (config.environment === 'test') {
-  /* eslint-disable global-require, import/no-extraneous-dependencies */
-  window.test = {
-    glob: require('glob'),
-    fse: require('fs-extra'),
-    tmp: require('tmp'),
-    path: require('path'),
-    basePath: __dirname,
-    attachmentsPath: window.Signal.Migrations.attachmentsPath,
-  };
-  /* eslint-enable global-require, import/no-extraneous-dependencies */
-}
