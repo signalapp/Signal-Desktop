@@ -158,7 +158,7 @@ export class ContactDetail extends React.Component<Props> {
     const { contact, hasSignalAccount, i18n, onSendMessage } = this.props;
 
     return (
-      <div className="contact-detail">
+      <div className="contact-detail-component">
         {renderAvatar(contact, i18n)}
         {renderName(contact)}
         {renderContactShorthand(contact)}
