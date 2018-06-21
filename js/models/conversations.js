@@ -753,7 +753,7 @@
             return {
               contentType,
               fileName: attachment.fileName,
-              thumbnail: makeThumbnail(),
+              thumbnail: await makeThumbnail(),
             };
           })
         ),
