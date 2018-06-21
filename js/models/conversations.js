@@ -640,16 +640,21 @@
             message.set({destination: this.id});
         }
         message.save();
-        if (message.isOutgoing()) { // outgoing update, send it to the number/group
-            var sendFunc;
-            if (this.get('type') == 'private') {
-                sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
-            }
-            else {
-                sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
-            }
-            message.send(sendFunc(this.get('id'), this.get('expireTimer'), message.get('sent_at')));
+
+        // if change was made remotely, don't send it to the number/group
+        if (received_at) {
+           return message;
         }
+
+        var sendFunc;
+        if (this.get('type') == 'private') {
+            sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
+        }
+        else {
+            sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
+        }
+        message.send(sendFunc(this.get('id'), this.get('expireTimer'), message.get('sent_at')));
+
         return message;
     },
 
