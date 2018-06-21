@@ -20,15 +20,15 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "Dün",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
-        "message": "Replying to Yourself",
+        "message": "Kendinize yanıt veriliyor",
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Belgeler",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "Bu ay",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -104,6 +104,10 @@
     "deviceName": {
         "message": "Cihaz adı",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "address": {
+        "message": "adres",
+        "description": "Generic label shown if contact address has custom type but no label"
     },
     "debugLog": {
         "message": "Hata Ayıklama Günlüğü",
@@ -164,8 +168,12 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "replyingToYou": {
-        "message": "Replying to You",
+        "message": "Size cevap veriyor",
         "description": "Shown in iOS theme when someone else quotes a message from you"
+    },
+    "you": {
+        "message": "Sen",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "offline": {
         "message": "Çevrimdışı",
@@ -196,7 +204,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "Verileri temizle",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "syncExplanation": {
@@ -214,6 +222,10 @@
     "incomingError": {
         "message": "Gelen mesajda hata oluştu.",
         "description": ""
+    },
+    "poBox": {
+        "message": "Posta Kutusu",
+        "description": "When rendering an address, used to provide context to a post office box"
     },
     "delete": {
         "message": "Sil",
@@ -239,17 +251,9 @@
         "message": "seçtiğiniz konum",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "Bu kullanıcı ile olan güvenlik numaranızı $tag_start$ doğrulamak $tag_end$ isteyebilirsiniz.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "telefon",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "$name$ ile olan güvenlik numaranız yakın zamanda değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Sinyal'i yeniden yüklediği anlamına gelebilir.",
@@ -266,8 +270,12 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "Bu hafta",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "Mesaj Gönder",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "Kişileri ve mesajları yüklüyor",
@@ -292,12 +300,22 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "mainMenuSettings": {
-        "message": "Preferences…",
+        "message": "Tercihler...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "changedRecentlyMultiple": {
         "message": "Birden çok grup üyesi ile birlikte güvenlik numaralarınız yakın zamanda değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da basitçe Sinyal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "emojiAlt": {
+        "message": "$title$ emoji resmi",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
     },
     "timerOption_1_day": {
         "message": "1 gün",
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "Sadece gönderenin adı",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "Alıntılanmış mesajdan mini resim",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "Bu sohbette hiç medya yok",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "En son:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Sonra",
@@ -340,7 +370,7 @@
         "description": ""
     },
     "today": {
-        "message": "Today",
+        "message": "Bugün",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
@@ -356,8 +386,12 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "Tüm medyaları görüntüle",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Kaydedilmiş Signal verinizi içeren doğru dizinini seçtiğinize emin olun. Dizinin ismi 'Signal Export' ile başlamalı. Verinizin yeni bir kopyasını Chrome aplikasyonundan da kaydedebilirsiniz.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "$name$ ile olan güvenlik numaranız değişti ve henüz doğrulanmadı. Göstermek için tıklayın.",
@@ -374,7 +408,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "searchForPeopleOrGroups": {
-        "message": "Enter name or number",
+        "message": "İsim ya da numara girin",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -411,12 +445,8 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Message caption",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
-        "message": "Delete all data",
+        "message": "Tüm verileri sil",
         "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
@@ -443,12 +473,16 @@
             }
         }
     },
+    "work": {
+        "message": "iş",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
-        "message": "Go to Forums",
+        "message": "Forumlara git",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "menuSetupWithImport": {
-        "message": "Set Up with Import",
+        "message": "İçe aktar ile ayarla",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1dk",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "ev",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "Mesajlar yükleniyor. Şimdiye kadar $count$...",
@@ -498,6 +536,10 @@
     "upgrade": {
         "message": "Yükselt",
         "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "notificationMostRecent": {
+        "message": "En son:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "yourSafetyNumberWith": {
         "message": "$name$ ile senin güvenlik numaran:",
@@ -551,6 +593,10 @@
         "message": "İçe aktarılıyor...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
+    "lightboxImageAlt": {
+        "message": "Konuşmada gönderilen resim",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
     "multipleNoLongerVerified": {
         "message": "Bu grubun birden fazla üyesiyle birlikte güvenlik numaralarınız değişti ve doğrulanmadı. Göstermek için tıklayın.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
@@ -596,7 +642,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "$name$ yanıt veriliyor",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -609,6 +655,14 @@
         "message": "Signal'i yeniden başlat.",
         "description": ""
     },
+    "mobile": {
+        "message": "mobil",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "Kime:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "Kişiler",
         "description": "Label for contact and group sync settings"
@@ -616,6 +670,10 @@
     "timerOption_1_week": {
         "message": "1 hafta",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Kişi avatarı",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "Alındı",
@@ -646,11 +704,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "Tüm veri silinsin mi?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "Tüm verilerin bağlantısı kesiliyor ve siliniyor",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "sendMessage": {
@@ -658,7 +716,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "menuReportIssue": {
-        "message": "Report an Issue",
+        "message": "Sorunu raporla",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "loadDataDescription": {
@@ -685,6 +743,10 @@
         "message": "Üzgünüz. Seçilen dosya, mesaj büyüklüğü kısıtlamalarını aşıyor.",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "Bu sohbette hiç belge yok",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "Bu mesajı sil",
         "description": ""
@@ -697,13 +759,13 @@
         "message": "Güncellemeleri uygulamak için Signal'i Yeniden Başlat'a basınız.",
         "description": ""
     },
+    "fileIconAlt": {
+        "message": "Dosya ikonu",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
     "timerOption_0_seconds": {
         "message": "kapalı",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "Kaydettiğiniz Sinyal verilerinizi içeren doğru dizini seçtiğinizden emin olun. Adı 'Signal Export (Dışa Aktarım)' ile başlamalıdır. Ayrıca verilerinizin yeni bir kopyasını Chrome Uygulamasından da kaydedebilirsiniz. Bu adımlar sizde çalışmadıysa lütfen taşımanıza yardımcı olabilmemiz için bir hata ayıklama günlüğü gönderin!",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "Geçersiz numara",
@@ -718,7 +780,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
+        "message": "Yeni cihaz olarak ayarla",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
@@ -738,7 +800,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "mainMenuView": {
-        "message": "&Görüntüle",
+        "message": "&Görünüm",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "autoUpdateNewVersionMessage": {
@@ -746,7 +808,7 @@
         "description": ""
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "Mesaja yanıt ver",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "disableNotifications": {
@@ -754,15 +816,15 @@
         "description": "Label for disabling notifications"
     },
     "photo": {
-        "message": "Photo",
+        "message": "Fotoğraf",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
-        "message": "Media",
+        "message": "Medya",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "noContents": {
-        "message": "No message contents",
+        "message": "Mesaj içeriği yok",
         "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
@@ -800,7 +862,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "Tüm kişilerin ve tüm mesajların dahil olduğu bu uygulamanın tüm kayıtlı hesap bilgilerini silmek üzeresiniz. Her zaman mobil cihazınızla tekrar bağlantı kurabilirsiniz, ancak bu silinen mesajları geri yükleyemezsiniz.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "sessionEnded": {
@@ -833,8 +895,12 @@
             }
         }
     },
+    "email": {
+        "message": "eposta",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
-        "message": "Go to Support Page",
+        "message": "Destek sayfasına git",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "finishLinkingPhone": {
@@ -862,6 +928,10 @@
     "newMessages": {
         "message": "Yeni Mesajlar",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "importErrorSecond": {
+        "message": "Eğer bu adımlar işinize yaramadıysa, lütfen hata ayıklama günlüğü gönderin (Görünüm -> Hata Ayıklama Günlüğü), ki taşımanıza yardım edebilelim!",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
         "message": "Bu kişiyle henüz mesaj alışverişi yapmadınız. Onlarla olan güvenlik numaranız ilk mesajdan sonra geçerli olacak.",
@@ -904,7 +974,7 @@
         }
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "Bu, tüm mesajları ve kayıtlı hesap bilgilerini kaldırarak uygulamadaki tüm verileri temizler.",
         "description": "Text describing what the clear data button will do."
     },
     "to": {
@@ -916,11 +986,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "Uygulama optimize ediliyor...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Go to Release Notes",
+        "message": "Sürüm notlarına git",
         "description": ""
     },
     "messageDetail": {
@@ -936,7 +1006,7 @@
         "description": ""
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "Verileri temizle",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
@@ -952,7 +1022,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "menuSetupAsStandalone": {
-        "message": "Set Up as Standalone Device",
+        "message": "Bağımsız cihaz olarak ayarla",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
@@ -976,11 +1046,11 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "submitDebugLog": {
-        "message": "Debug log",
+        "message": "Hata ayıklama günlüğü",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "startConversation": {
-        "message": "Start conversation…",
+        "message": "Sohbeti başlat…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
@@ -1026,7 +1096,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Ses",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
