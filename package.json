@@ -3,7 +3,7 @@
   "productName": "Signal",
   "description": "Private messaging from your desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "1.13.0-beta.2",
+  "version": "1.13.0",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",
