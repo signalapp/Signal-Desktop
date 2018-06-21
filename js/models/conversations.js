@@ -735,13 +735,25 @@
             const willMakeThumbnail =
               Signal.Util.GoogleChrome.isImageTypeSupported(contentType) ||
               Signal.Util.GoogleChrome.isVideoTypeSupported(contentType);
+            const makeThumbnail = async () => {
+              try {
+                if (willMakeThumbnail) {
+                  return await this.makeThumbnailAttachment(attachment);
+                }
+              } catch (error) {
+                console.log(
+                  'Failed to create quote thumbnail',
+                  error && error.stack ? error.stack : error
+                );
+              }
+
+              return null;
+            };
 
             return {
               contentType,
               fileName: attachment.fileName,
-              thumbnail: willMakeThumbnail
-                ? await this.makeThumbnailAttachment(attachment)
-                : null,
+              thumbnail: makeThumbnail(),
             };
           })
         ),
