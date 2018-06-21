@@ -925,11 +925,11 @@
         wrapDeferred(message.save()),
         wrapDeferred(this.save({ expireTimer })),
       ]).then(() => {
-        if (message.isIncoming()) {
+        // if change was made remotely, don't send it to the number/group
+        if (receivedAt) {
           return message;
         }
 
-        // change was made locally, send it to the number/group
         let sendFunc;
         if (this.get('type') === 'private') {
           sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
