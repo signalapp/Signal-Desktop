@@ -866,7 +866,7 @@ span.status {
   overflow-y: scroll;
 }
 
-.contact-detail {
+.contact-detail-component {
   text-align: center;
   max-width: 300px;
   margin-left: auto;
@@ -958,8 +958,9 @@ span.status {
   }
 }
 
-.conversation .contact-detail {
+.conversation .contact-detail-component {
   margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .quoted-message {
