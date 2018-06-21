@@ -22,6 +22,7 @@ if (config.appInstance) {
 
 window.getTitle = () => title;
 window.getEnvironment = () => config.environment;
+window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
 window.isImportMode = () => config.importMode;
 window.getExpiration = () => config.buildExpiration;

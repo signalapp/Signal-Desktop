@@ -27,18 +27,18 @@ a {
 
 <div>
 <script>
-  document.write('v', window.config.version);
+  document.write('v', window.getVersion());
 </script>
 </div>
 <div>
 <script>
-  var states = [];
+  const states = [];
 
-  if (window.config.environment !== 'production') {
-    states.push(window.config.environment);
+  if (window.getEnvironment() !== 'production') {
+    states.push(window.getEnvironment());
   }
-  if (window.config.appInstance) {
-    states.push(window.config.appInstance);
+  if (window.getAppInstance()) {
+    states.push(window.getAppInstance());
   }
 
   document.write(states.join(' - '));
