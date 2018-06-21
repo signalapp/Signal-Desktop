@@ -29,20 +29,11 @@
   window.onInvalidStateError = e => console.log(e);
 
   console.log('background page reloaded');
-  console.log('environment:', window.config.environment);
+  console.log('environment:', window.getEnvironment());
 
   let initialLoadComplete = false;
   window.owsDesktopApp = {};
-
-  let title = window.config.name;
-  if (window.config.environment !== 'production') {
-    title += ` - ${window.config.environment}`;
-  }
-  if (window.config.appInstance) {
-    title += ` - ${window.config.appInstance}`;
-  }
-  window.config.title = title;
-  window.document.title = title;
+  window.document.title = window.getTitle();
 
   // start a background worker for ecc
   textsecure.startWorker('js/libsignal-protocol-worker.js');
@@ -51,8 +42,6 @@
     getAccountManager().refreshPreKeys();
   });
 
-  const SERVER_URL = window.config.serverUrl;
-  const CDN_URL = window.config.cdnUrl;
   let messageReceiver;
   window.getSocketStatus = () => {
     if (messageReceiver) {
@@ -66,11 +55,7 @@
     if (!accountManager) {
       const USERNAME = storage.get('number_id');
       const PASSWORD = storage.get('password');
-      accountManager = new textsecure.AccountManager(
-        SERVER_URL,
-        USERNAME,
-        PASSWORD
-      );
+      accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
       accountManager.addEventListener('registration', () => {
         Whisper.Registration.markDone();
         console.log('dispatching registration event');
@@ -174,13 +159,15 @@
   });
 
   function start() {
-    const currentVersion = window.config.version;
+    const currentVersion = window.getVersion();
     const lastVersion = storage.get('version');
     const newVersion = !lastVersion || currentVersion !== lastVersion;
     storage.put('version', currentVersion);
 
     if (newVersion) {
-      console.log('New version detected:', currentVersion);
+      console.log(
+        `New version detected: ${currentVersion}; previous: ${lastVersion}`
+      );
     }
 
     window.dispatchEvent(new Event('storage_ready'));
@@ -210,7 +197,7 @@
       appView.openInbox({
         initialLoadComplete,
       });
-    } else if (window.config.importMode) {
+    } else if (window.isImportMode()) {
       appView.openImporter();
     } else {
       appView.openInstaller();
@@ -364,7 +351,6 @@
 
     // initialize the socket and start listening for messages
     messageReceiver = new textsecure.MessageReceiver(
-      SERVER_URL,
       USERNAME,
       PASSWORD,
       mySignalingKey,
@@ -384,10 +370,8 @@
     messageReceiver.addEventListener('configuration', onConfiguration);
 
     window.textsecure.messaging = new textsecure.MessageSender(
-      SERVER_URL,
       USERNAME,
-      PASSWORD,
-      CDN_URL
+      PASSWORD
     );
 
     // Because v0.43.2 introduced a bug that lost contact details, v0.43.4 introduces

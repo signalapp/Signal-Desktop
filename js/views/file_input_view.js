@@ -274,13 +274,21 @@
         this.addThumb(dataUrl);
       };
 
-      if (Signal.Util.GoogleChrome.isImageTypeSupported(contentType)) {
-        renderImagePreview();
-      } else if (Signal.Util.GoogleChrome.isVideoTypeSupported(contentType)) {
-        renderVideoPreview();
-      } else if (MIME.isAudio(contentType)) {
-        this.addThumb('images/audio.svg');
-      } else {
+      try {
+        if (Signal.Util.GoogleChrome.isImageTypeSupported(contentType)) {
+          await renderImagePreview();
+        } else if (Signal.Util.GoogleChrome.isVideoTypeSupported(contentType)) {
+          await renderVideoPreview();
+        } else if (MIME.isAudio(contentType)) {
+          this.addThumb('images/audio.svg');
+        } else {
+          this.addThumb('images/file.svg');
+        }
+      } catch (e) {
+        console.log(
+          `Was unable to generate thumbnail for file type ${contentType}`,
+          e && e.stack ? e.stack : e
+        );
         this.addThumb('images/file.svg');
       }
 

@@ -735,13 +735,25 @@
             const willMakeThumbnail =
               Signal.Util.GoogleChrome.isImageTypeSupported(contentType) ||
               Signal.Util.GoogleChrome.isVideoTypeSupported(contentType);
+            const makeThumbnail = async () => {
+              try {
+                if (willMakeThumbnail) {
+                  return await this.makeThumbnailAttachment(attachment);
+                }
+              } catch (error) {
+                console.log(
+                  'Failed to create quote thumbnail',
+                  error && error.stack ? error.stack : error
+                );
+              }
+
+              return null;
+            };
 
             return {
               contentType,
               fileName: attachment.fileName,
-              thumbnail: willMakeThumbnail
-                ? await this.makeThumbnailAttachment(attachment)
-                : null,
+              thumbnail: await makeThumbnail(),
             };
           })
         ),
@@ -913,11 +925,11 @@
         wrapDeferred(message.save()),
         wrapDeferred(this.save({ expireTimer })),
       ]).then(() => {
-        if (message.isIncoming()) {
+        // if change was made remotely, don't send it to the number/group
+        if (receivedAt) {
           return message;
         }
 
-        // change was made locally, send it to the number/group
         let sendFunc;
         if (this.get('type') === 'private') {
           sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;

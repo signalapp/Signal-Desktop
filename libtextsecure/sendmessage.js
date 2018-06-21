@@ -139,7 +139,7 @@ Message.prototype = {
   },
 };
 
-function MessageSender(url, username, password, cdn_url) {
+function MessageSender(username, password) {
   this.server = WebAPI.connect({ username, password });
   this.pendingMessages = {};
 }

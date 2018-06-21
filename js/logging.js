@@ -60,8 +60,8 @@ if (window.console) {
 function getHeader() {
   let header = window.navigator.userAgent;
 
-  header += ` node/${window.config.node_version}`;
-  header += ` env/${window.config.environment}`;
+  header += ` node/${window.getNodeVersion()}`;
+  header += ` env/${window.getEnvironment()}`;
 
   return header;
 }

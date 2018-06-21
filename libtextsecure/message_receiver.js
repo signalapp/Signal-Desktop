@@ -12,10 +12,9 @@
 
 /* eslint-disable more/no-then */
 
-function MessageReceiver(url, username, password, signalingKey, options = {}) {
+function MessageReceiver(username, password, signalingKey, options = {}) {
   this.count = 0;
 
-  this.url = url;
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
@@ -1121,14 +1120,12 @@ MessageReceiver.prototype.extend({
 window.textsecure = window.textsecure || {};
 
 textsecure.MessageReceiver = function MessageReceiverWrapper(
-  url,
   username,
   password,
   signalingKey,
   options
 ) {
   const messageReceiver = new MessageReceiver(
-    url,
     username,
     password,
     signalingKey,

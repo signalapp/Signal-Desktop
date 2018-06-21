@@ -12,8 +12,8 @@ or [Signal iOS](https://github.com/signalapp/Signal-iOS) app.
 
 You can install it on a computer which already has the production version installed. It uses different data and install locations.
 
-* _Windows:_ You can find the most recent build here: https://updates.signal.org/desktop/beta.yml
-* _Mac:_ You can find the most recent build here: https://updates.signal.org/desktop/beta-mac.yml
+* _Windows:_ First, download this yml file: https://updates.signal.org/desktop/beta.yml In it, you'll find a `url` property which will specify the installer location. Download the installer by constructing the final url: `https://updates.signal.org/desktop/<installer location>`. Then run the installer.
+* _Mac:_ First, download this yml file: https://updates.signal.org/desktop/beta-mac.yml. In it, you find a `url` property which will specify the package location. Download that package by constructing the final url: `https://updates.signal.org/desktop/<package locatdion>`. Then unzip that package and copy the `.app` file into `/Applications` in Finder.
 * _Linux:_ same instructions as the production install steps linked above, but run `apt-get install signal-desktop-beta` instead
 
 ## Got a question?
