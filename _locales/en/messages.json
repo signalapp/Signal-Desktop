@@ -27,6 +27,98 @@
       "message": "Preferences…",
       "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
+    "appMenuHide": {
+      "message": "Hide",
+      "description": "Application menu command to hide the window"
+    },
+    "appMenuHideOthers": {
+      "message": "Hide Others",
+      "description": "Application menu command to hide all other windows"
+    },
+    "appMenuUnhide": {
+      "message": "Show All",
+      "description": "Application menu command to show all application windows"
+    },
+    "appMenuQuit": {
+      "message": "Quit Signal",
+      "description": "Application menu command to close the application"
+    },
+    "editMenuUndo": {
+      "message": "Undo",
+      "description": "Edit menu command to remove recently-typed text"
+    },
+    "editMenuRedo": {
+      "message": "Redo",
+      "description": "Edit menu command to restore previously undone typed text"
+    },
+    "editMenuCut": {
+      "message": "Cut",
+      "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
+    "editMenuCopy": {
+      "message": "Copy",
+      "description": "Edit menu command to add selected text to clipboard"
+    },
+    "editMenuPaste": {
+      "message": "Paste",
+      "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
+    "editMenuPasteAndMatchStyle": {
+      "message": "Paste and Match Style",
+      "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    },
+    "editMenuDelete": {
+      "message": "Delete",
+      "description": "Edit menu command to remove the selected text"
+    },
+    "editMenuSelectAll": {
+      "message": "Select All",
+      "description": "Edit menu comand to select all of the text in selected text box"
+    },
+    "editMenuStartSpeaking": {
+      "message": "Start speaking",
+      "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "editMenuStopSpeaking": {
+      "message": "Stop speaking",
+      "description": "Edit menu item under 'speech' to stop dictation"
+    },
+    "windowMenuClose": {
+      "message": "Close Window",
+      "description": "Window menu command to close the current window"
+    },
+    "windowMenuMinimize": {
+      "message": "Minimize",
+      "description": "Window menu command to minimize the current window"
+    },
+    "windowMenuZoom": {
+      "message": "Zoom",
+      "description": "Window menu command to make the current window the size of the whole screen"
+    },
+    "windowMenuBringAllToFront": {
+      "message": "Bring All to Front",
+      "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
+    "viewMenuResetZoom": {
+      "message": "Actual Size",
+      "description": "View menu command to go back to the default zoom"
+    },
+    "viewMenuZoomIn": {
+      "message": "Zoom In",
+      "description": "View menu command to make everything bigger"
+    },
+    "viewMenuZoomOut": {
+      "message": "Zoom Out",
+      "description": "View menu command to make everything smaller"
+    },
+    "viewMenuToggleFullScreen": {
+      "message": "Toggle Full Screen",
+      "description": "View menu command to enter or leave Full Screen mode"
+    },
+    "viewMenuToggleDevTools": {
+      "message": "Toggle Developer Tools",
+      "description": "View menu command to show or hide the developer tools"
+    },
     "menuSetupWithImport": {
       "message": "Set Up with Import",
       "description": "When the application is not yet set up, menu option to start up the import sequence"

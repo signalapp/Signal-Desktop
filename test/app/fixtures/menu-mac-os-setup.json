@@ -17,18 +17,22 @@
         "type": "separator"
       },
       {
+        "label": "Hide",
         "role": "hide"
       },
       {
+        "label": "Hide Others",
         "role": "hideothers"
       },
       {
+        "label": "Show All",
         "role": "unhide"
       },
       {
         "type": "separator"
       },
       {
+        "label": "Quit Signal",
         "role": "quit"
       }
     ]
@@ -50,30 +54,38 @@
     "label": "&Edit",
     "submenu": [
       {
+        "label": "Undo",
         "role": "undo"
       },
       {
+        "label": "Redo",
         "role": "redo"
       },
       {
         "type": "separator"
       },
       {
+        "label": "Cut",
         "role": "cut"
       },
       {
+        "label": "Copy",
         "role": "copy"
       },
       {
+        "label": "Paste",
         "role": "paste"
       },
       {
+        "label": "Paste and Match Style",
         "role": "pasteandmatchstyle"
       },
       {
+        "label": "Delete",
         "role": "delete"
       },
       {
+        "label": "Select All",
         "role": "selectall"
       },
       {
@@ -83,9 +95,11 @@
         "label": "Speech",
         "submenu": [
           {
+            "label": "Start speaking",
             "role": "startspeaking"
           },
           {
+            "label": "Stop speaking",
             "role": "stopspeaking"
           }
         ]
@@ -96,18 +110,22 @@
     "label": "&View",
     "submenu": [
       {
+        "label": "Actual Size",
         "role": "resetzoom"
       },
       {
+        "label": "Zoom In",
         "role": "zoomin"
       },
       {
+        "label": "Zoom Out",
         "role": "zoomout"
       },
       {
         "type": "separator"
       },
       {
+        "label": "Toggle Full Screen",
         "role": "togglefullscreen"
       },
       {
@@ -121,6 +139,7 @@
         "type": "separator"
       },
       {
+        "label": "Toggle Developer Tools",
         "role": "toggledevtools"
       }
     ]
@@ -130,14 +149,17 @@
     "role": "window",
     "submenu": [
       {
+        "label": "Close Window",
         "accelerator": "CmdOrCtrl+W",
         "role": "close"
       },
       {
+        "label": "Minimize",
         "accelerator": "CmdOrCtrl+M",
         "role": "minimize"
       },
       {
+        "label": "Zoom",
         "role": "zoom"
       },
       {
@@ -148,6 +170,7 @@
         "type": "separator"
       },
       {
+        "label": "Bring All to Front",
         "role": "front"
       }
     ]
