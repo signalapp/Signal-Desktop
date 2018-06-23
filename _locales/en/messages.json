@@ -909,6 +909,30 @@
       "message": "30 seconds",
       "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "timerOption_1_minute": {
+      "message": "1 minute",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_5_minutes": {
+      "message": "5 minutes",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_30_minutes": {
+      "message": "30 minutes",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_hour": {
+      "message": "1 hour",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_6_hours": {
+      "message": "6 hours",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_12_hours": {
+      "message": "12 hours",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "timerOption_1_day": {
       "message": "1 day",
       "description": "Label for a selectable option in the message expiration timer menu"
