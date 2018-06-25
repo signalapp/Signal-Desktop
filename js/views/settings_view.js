@@ -85,10 +85,9 @@
         value: window.initialData.themeSetting,
         setFn: theme => {
           $(document.body)
-            .removeClass('android')
-            .removeClass('android-dark')
-            .removeClass('ios')
-            .addClass(theme);
+            .removeClass('dark-theme')
+            .removeClass('light-theme')
+            .addClass(`${theme}-theme`);
           window.setThemeSetting(theme);
         },
       });
@@ -132,7 +131,8 @@
         nameOnly: i18n('nameOnly'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
-        themeAndroidDark: i18n('themeAndroidDark'),
+        themeLight: i18n('themeLight'),
+        themeDark: i18n('themeDark'),
         hideMenuBar: i18n('hideMenuBar'),
         clearDataHeader: i18n('clearDataHeader'),
         clearDataButton: i18n('clearDataButton'),

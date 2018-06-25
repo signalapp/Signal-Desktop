@@ -16,9 +16,8 @@
 // Build the main view
 @import 'index';
 @import 'conversation';
-@import 'ios';
-@import 'android';
-@import 'android-dark';
+@import 'theme_light';
+@import 'theme_dark';
 
 // Installer
 @import 'options';

@@ -16,12 +16,11 @@
       openInbox: 'openInbox',
     },
     applyTheme: function() {
-      var theme = storage.get('theme-setting') || 'android';
+      var theme = storage.get('theme-setting') || 'light';
       this.$el
-        .removeClass('ios')
-        .removeClass('android-dark')
-        .removeClass('android')
-        .addClass(theme);
+        .removeClass('light-theme')
+        .removeClass('dark-theme')
+        .addClass(`${theme}-theme`);
     },
     applyHideMenu: function() {
       var hideMenuBar = storage.get('hide-menu-bar', false);

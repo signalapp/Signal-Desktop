@@ -5,7 +5,7 @@ $(document).on('keyup', function(e) {
 });
 
 const $body = $(document.body);
-$body.addClass(window.theme);
+$body.addClass(`${window.theme}-theme`);
 
 window.view = new Whisper.ConfirmationDialogView({
   message: i18n('audioPermissionNeeded'),

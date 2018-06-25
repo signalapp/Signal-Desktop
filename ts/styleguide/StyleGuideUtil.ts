@@ -91,7 +91,7 @@ const parent = window as any;
 
 const query = window.location.search.replace(/^\?/, '');
 const urlOptions = QueryString.parse(query);
-const theme = urlOptions.theme || 'android';
+const theme = urlOptions.theme || 'light-theme';
 const locale = urlOptions.locale || 'en';
 
 // @ts-ignore

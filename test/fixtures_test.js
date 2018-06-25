@@ -20,17 +20,12 @@ describe('Fixtures', function() {
       .then(function() {
         var view = new Whisper.InboxView({ window: window });
         view.onEmpty();
-        view.$el.prependTo($('#render-android'));
+        view.$el.prependTo($('#render-light-theme'));
 
         var view = new Whisper.InboxView({ window: window });
-        view.$el.removeClass('android').addClass('ios');
+        view.$el.removeClass('light-theme').addClass('dark-theme');
         view.onEmpty();
-        view.$el.prependTo($('#render-ios'));
-
-        var view = new Whisper.InboxView({ window: window });
-        view.$el.removeClass('android').addClass('android-dark');
-        view.onEmpty();
-        view.$el.prependTo($('#render-android-dark'));
+        view.$el.prependTo($('#render-dark-theme'));
       })
       .then(done, done);
   });

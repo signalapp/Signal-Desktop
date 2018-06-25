@@ -11,11 +11,10 @@
   </div>
   <div id="tests">
   </div>
-  <div id="render-android" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
+  <div id="render-light-theme" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
-  <div id="render-android-dark" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
+  <div id="render-dark-theme" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
-  <div id="render-ios" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
@@ -449,97 +448,6 @@
       {{ learnMore }}
     </a>
   </script>
-  <script type='text/x-tmpl-mustache' id='debug-log'>
-    <div class='content'>
-      <div>
-        <a class='x close' alt='close debug log' href='#'></a>
-        <h1> {{ title }} </h1>
-        <p> {{ debugLogExplanation }}</p>
-      </div>
-      <textarea spellcheck='false' rows='5'></textarea>
-      <div class='buttons'>
-        <button class='grey submit'>{{ submit }}</button>
-      </div>
-      <div class='result'>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='debug-log-link'>
-    <div class='input-group clearfix'>
-      <input type='text' class='link' readonly value='{{ url }}' />
-      <a class='open' alt='open in a new browser tab' target='_blank' href='{{ url }}'></a>
-    </div>
-    <p>
-      <a class='report-link' target='_blank'
-          href='https://github.com/signalapp/Signal-Desktop/issues/new/'>
-          {{ reportIssue }}
-      </a>
-    </p>
-  </script>
-  <script type='text/x-tmpl-mustache' id='settings'>
-    <div class='content'>
-      <a class='x close' alt='close settings' href='#'></a>
-      <h2>{{ settings }}</h2>
-      <hr>
-      <div class='theme-settings'>
-        <h3>{{ theme }}</h3>
-        <div>
-          <input type='radio' name='theme' id='theme-setting-android' value='android'>
-          <label for='theme-setting-android'>Android</label>
-        </div>
-        <div>
-          <input type='radio' name='theme' id='theme-setting-android-dark' value='android-dark'>
-          <label for='theme-setting-android-dark'>{{ themeAndroidDark }}</label>
-        </div>
-        <div>
-          <input type='radio' name='theme' id='theme-setting-ios'  value='ios'/>
-          <label for='theme-setting-ios'>iOS</label>
-        </div>
-      </div>
-      <hr>
-      <div class='notification-settings'>
-        <h3>{{ notifications }}</h3>
-        <p>{{ notificationSettingsDialog }}</p>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-message' value='message'>
-          <label for='notification-setting-message'>{{ nameAndMessage }} </label>
-        </div>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-name'  value='name'/>
-          <label for='notification-setting-name'>{{ nameOnly }} </label>
-        </div>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-count' value='count'/>
-          <label for='notification-setting-count'>{{ noNameOrMessage }} </label>
-        </div>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-off' value='off'/>
-          <label for='notification-setting-off'>{{ disableNotifications }} </label>
-        </div>
-      </div>
-      <br />
-      <div class='audio-notification-setting'>
-        <input type='checkbox' name='audio-notification' id='audio-notification'/>
-        <label for='audio-notification'>{{ audioNotificationDescription }}</label>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='syncSettings'>
-      <hr>
-      <h3>{{ sync }}</h3>
-      <div>
-        <button class='grey sync'>{{ syncNow }}</button>
-        <p>
-          {{ syncExplanation }}
-          <div class='synced_at'>
-              {{ lastSynced }} {{ syncDate }} {{ syncTime }}
-          </div>
-          <div class='sync_failed'>{{ syncFailed }}</div>
-        </p>
-      </div>
-  </script>
-
-
   <script type='text/x-tmpl-mustache' id='networkStatus'>
     <div class='network-status-message'>
       <h3>{{ message }}</h3>

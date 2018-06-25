@@ -1143,9 +1143,13 @@
         }
       }
     },
-    "themeAndroidDark": {
-      "message": "Android (dark)",
-      "description": "Label text for dark Android theme"
+    "themeLight": {
+      "message": "Light",
+      "description": "Label text for light theme (normal)"
+    },
+    "themeDark": {
+      "message": "Dark",
+      "description": "Label text for dark theme"
     },
     "hideMenuBar": {
       "message": "Hide menu bar",
