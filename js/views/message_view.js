@@ -103,7 +103,10 @@
       const timerUpdate = this.model.get('expirationTimerUpdate');
       const prettySeconds = Whisper.ExpirationTimerOptions.getName(seconds);
 
-      if (timerUpdate && timerUpdate.fromSync) {
+      if (
+        timerUpdate &&
+        (timerUpdate.fromSync || timerUpdate.fromGroupUpdate)
+      ) {
         timerMessage = i18n('timerSetOnSync', prettySeconds);
       } else if (this.conversation.id === textsecure.storage.user.getNumber()) {
         timerMessage = i18n('youChangedTheTimer', prettySeconds);

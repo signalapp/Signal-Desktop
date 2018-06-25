@@ -899,13 +899,12 @@
       providedExpireTimer,
       providedSource,
       receivedAt,
-      providedOptions
+      options = {}
     ) {
-      const options = providedOptions || {};
       let expireTimer = providedExpireTimer;
       let source = providedSource;
 
-      _.defaults(options, { fromSync: false });
+      _.defaults(options, { fromSync: false, fromGroupUpdate: false });
 
       if (!expireTimer) {
         expireTimer = null;
@@ -942,6 +941,7 @@
           expireTimer,
           source,
           fromSync: options.fromSync,
+          fromGroupUpdate: options.fromGroupUpdate,
         },
       });
       if (this.isPrivate()) {

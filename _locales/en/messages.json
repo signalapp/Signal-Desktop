@@ -1087,7 +1087,7 @@
     },
     "timerSetTo": {
       "message": "Timer set to $time$",
-      "description": "Displayed in the conversation list when the timer is updated.",
+      "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
       "placeholders": {
         "time": {
           "content": "$1",
