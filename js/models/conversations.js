@@ -107,10 +107,40 @@
       this.on('change:profileAvatar', this.updateAvatarUrl);
       this.on('change:profileKey', this.onChangeProfileKey);
       this.on('destroy', this.revokeAvatarUrl);
+
+      this.on('expired', this.onExpired);
+      this.listenTo(
+        this.messageCollection,
+        'expired',
+        this.onExpiredCollection
+      );
     },
 
     isMe() {
       return this.id === this.ourNumber;
+    },
+
+    onExpired(message) {
+      const mine = this.messageCollection.get(message.id);
+      if (mine && mine.cid !== message.cid) {
+        mine.trigger('expired', mine);
+      }
+    },
+    async onExpiredCollection(message) {
+      console.log('onExpiredCollection', message.attributes);
+      const removeMessage = () => {
+        console.log('Remove expired message from collection', {
+          sentAt: message.get('sent_at'),
+        });
+        this.messageCollection.remove(message.id);
+      };
+
+      // If a fetch is in progress, then we need to wait until that's complete to
+      //   do this removal. Otherwise we could remove from messageCollection, then
+      //   the async database fetch could include the removed message.
+
+      await this.inProgressFetch;
+      removeMessage();
     },
 
     addSingleMessage(message) {
@@ -1462,11 +1492,14 @@
         throw new Error('This conversation has no id!');
       }
 
-      await this.messageCollection.fetchConversation(
+      this.inProgressFetch = this.messageCollection.fetchConversation(
         this.id,
         null,
         this.get('unreadCount')
       );
+
+      await this.inProgressFetch;
+      this.inProgressFetch = null;
 
       // We kick this process off, but don't wait for it. If async updates happen on a
       //   given Message, 'change' will be triggered
