@@ -1,4 +1,6 @@
 import React from 'react';
+import classnames from 'classnames';
+
 import { Contact, getName } from '../../types/Contact';
 
 import { Localizer } from '../../types/Util';
@@ -7,30 +9,44 @@ interface Props {
   contact: Contact;
   hasSignalAccount: boolean;
   i18n: Localizer;
-  onSendMessage: () => void;
-  onOpenContact: () => void;
+  isIncoming: boolean;
+  withContentAbove: boolean;
+  withContentBelow: boolean;
+  onSendMessage?: () => void;
+  onClickContact?: () => void;
 }
 
 export class EmbeddedContact extends React.Component<Props> {
   public render() {
     const {
       contact,
-      hasSignalAccount,
       i18n,
-      onOpenContact,
-      onSendMessage,
+      isIncoming,
+      onClickContact,
+      withContentAbove,
+      withContentBelow,
     } = this.props;
+    const module = 'embedded-contact';
 
     return (
-      <div className="embedded-contact" role="button" onClick={onOpenContact}>
-        <div className="first-line">
-          {renderAvatar(contact, i18n)}
-          <div className="text-container">
-            {renderName(contact)}
-            {renderContactShorthand(contact)}
-          </div>
+      <div
+        className={classnames(
+          'module-embedded-contact',
+          withContentAbove
+            ? 'module-embedded-contact--with-content-above'
+            : null,
+          withContentBelow
+            ? 'module-embedded-contact--with-content-below'
+            : null
+        )}
+        role="button"
+        onClick={onClickContact}
+      >
+        {renderAvatar({ contact, i18n, module })}
+        <div className="module-embedded-contact__text-container">
+          {renderName({ contact, isIncoming, module })}
+          {renderContactShorthand({ contact, isIncoming, module })}
         </div>
-        {renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}
       </div>
     );
   }
@@ -38,68 +54,85 @@ export class EmbeddedContact extends React.Component<Props> {
 
 // Note: putting these below the main component so style guide picks up EmbeddedContact
 
-function getInitials(name: string): string {
+function getInitial(name: string): string {
   return name.trim()[0] || '#';
 }
 
-export function renderAvatar(contact: Contact, i18n: Localizer) {
+export function renderAvatar({
+  contact,
+  i18n,
+  module,
+}: {
+  contact: Contact;
+  i18n: Localizer;
+  module: string;
+}) {
   const { avatar } = contact;
 
   const path = avatar && avatar.avatar && avatar.avatar.path;
+  const name = getName(contact) || '';
+
   if (!path) {
-    const name = getName(contact);
-    const initials = getInitials(name || '');
+    const initials = getInitial(name);
 
     return (
-      <div className="image-container">
-        <div className="default-avatar">{initials}</div>
+      <div className={`module-${module}__image-container`}>
+        <div className={`module-${module}__image-container__default-avatar`}>
+          {initials}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="image-container">
-      <img src={path} alt={i18n('contactAvatarAlt')} />
+    <div className={`module-${module}__image-container`}>
+      <img src={path} alt={i18n('contactAvatarAlt', [name])} />
     </div>
   );
 }
 
-export function renderName(contact: Contact) {
-  return <div className="contact-name">{getName(contact)}</div>;
+export function renderName({
+  contact,
+  isIncoming,
+  module,
+}: {
+  contact: Contact;
+  isIncoming: boolean;
+  module: string;
+}) {
+  return (
+    <div
+      className={classnames(
+        `module-${module}__contact-name`,
+        isIncoming ? `module-${module}__contact-name--incoming` : null
+      )}
+    >
+      {getName(contact)}
+    </div>
+  );
 }
 
-export function renderContactShorthand(contact: Contact) {
+export function renderContactShorthand({
+  contact,
+  isIncoming,
+  module,
+}: {
+  contact: Contact;
+  isIncoming: boolean;
+  module: string;
+}) {
   const { number: phoneNumber, email } = contact;
   const firstNumber = phoneNumber && phoneNumber[0] && phoneNumber[0].value;
   const firstEmail = email && email[0] && email[0].value;
 
-  return <div className="contact-method">{firstNumber || firstEmail}</div>;
-}
-
-export function renderSendMessage(props: {
-  hasSignalAccount: boolean;
-  i18n: (key: string, values?: Array<string>) => string;
-  onSendMessage: () => void;
-}) {
-  const { hasSignalAccount, i18n, onSendMessage } = props;
-
-  if (!hasSignalAccount) {
-    return null;
-  }
-
-  // We don't want the overall click handler for this element to fire, so we stop
-  //   propagation before handing control to the caller's callback.
-  const onClick = (e: React.MouseEvent<{}>): void => {
-    e.stopPropagation();
-    onSendMessage();
-  };
-
   return (
-    <div className="send-message" role="button" onClick={onClick}>
-      <button className="inner">
-        <div className="icon bubble-icon" />
-        {i18n('sendMessageToContact')}
-      </button>
+    <div
+      className={classnames(
+        `module-${module}__contact-method`,
+        isIncoming ? `module-${module}__contact-method--incoming` : null
+      )}
+    >
+      {firstNumber || firstEmail}
     </div>
   );
 }

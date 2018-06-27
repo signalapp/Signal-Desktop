@@ -1,1 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M36 14l-2.83-2.83-12.68 12.69 2.83 2.83L36 14zm8.49-2.83L23.31 32.34 14.97 24l-2.83 2.83L23.31 38l24-24-2.82-2.83zM.83 26.83L12 38l2.83-2.83L3.66 24 .83 26.83z"/></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="12px" viewBox="0 0 18 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>double check</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M7.91731278,0.313257194 C7.58941091,0.549084144 7.28273546,0.812570593 7.00070199,1.10030099 C6.67734551,1.03453102 6.34268082,1 6,1 C3.24,1 1,3.24 1,6 C1,8.76 3.24,11 6,11 C6.34268082,11 6.67734551,10.965469 7.00070199,10.899699 C7.28273546,11.1874294 7.58941091,11.4509159 7.91731278,11.6867428 C7.31518343,11.8898758 6.67037399,12 6,12 C2.688,12 0,9.312 0,6 C0,2.688 2.688,0 6,0 C6.67037399,0 7.31518343,0.110124239 7.91731278,0.313257194 Z M5.07266453,7.01233547 C5.12977459,7.4065842 5.21974274,7.79019382 5.33970233,8.16029767 L5,8.5 L2.5,6 L3.205,5.295 L5,7.085 L5.07266453,7.01233547 Z M12,0 C15.312,0 18,2.688 18,6 C18,9.312 15.312,12 12,12 C8.688,12 6,9.312 6,6 C6,2.688 8.688,0 12,0 Z M12,1 C9.24,1 7,3.24 7,6 C7,8.76 9.24,11 12,11 C14.76,11 17,8.76 17,6 C17,3.24 14.76,1 12,1 Z M11,8.5 L8.5,6 L9.205,5.295 L11,7.085 L14.795,3.29 L15.5,4 L11,8.5 Z" id="path-1"></path>
+    </defs>
+    <g id="Android-Light" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Android-Light/Message/Status/Delivered">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="double-check" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+        </g>
+    </g>
+</svg>

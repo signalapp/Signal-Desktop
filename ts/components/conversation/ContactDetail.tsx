@@ -14,7 +14,6 @@ import {
   renderAvatar,
   renderContactShorthand,
   renderName,
-  renderSendMessage,
 } from './EmbeddedContact';
 
 import { Localizer } from '../../types/Util';
@@ -70,6 +69,40 @@ function getLabelForAddress(address: PostalAddress, i18n: Localizer): string {
 }
 
 export class ContactDetail extends React.Component<Props> {
+  public renderSendMessage({
+    hasSignalAccount,
+    i18n,
+    onSendMessage,
+  }: {
+    hasSignalAccount: boolean;
+    i18n: (key: string, values?: Array<string>) => string;
+    onSendMessage: () => void;
+  }) {
+    if (!hasSignalAccount) {
+      return null;
+    }
+
+    // We don't want the overall click handler for this element to fire, so we stop
+    //   propagation before handing control to the caller's callback.
+    const onClick = (e: React.MouseEvent<{}>): void => {
+      e.stopPropagation();
+      onSendMessage();
+    };
+
+    return (
+      <div
+        className="module-contact-detail__send-message"
+        role="button"
+        onClick={onClick}
+      >
+        <button className="module-contact-detail__send-message__inner">
+          <div className="module-contact-detail__send-message__bubble-icon" />
+          {i18n('sendMessageToContact')}
+        </button>
+      </div>
+    );
+  }
+
   public renderEmail(items: Array<Email> | undefined, i18n: Localizer) {
     if (!items || items.length === 0) {
       return;
@@ -77,8 +110,13 @@ export class ContactDetail extends React.Component<Props> {
 
     return items.map((item: Email) => {
       return (
-        <div key={item.value} className="additional-contact">
-          <div className="type">{getLabelForEmail(item, i18n)}</div>
+        <div
+          key={item.value}
+          className="module-contact-detail__additional-contact"
+        >
+          <div className="module-contact-detail__additional-contact__type">
+            {getLabelForEmail(item, i18n)}
+          </div>
           {item.value}
         </div>
       );
@@ -92,8 +130,13 @@ export class ContactDetail extends React.Component<Props> {
 
     return items.map((item: Phone) => {
       return (
-        <div key={item.value} className="additional-contact">
-          <div className="type">{getLabelForPhone(item, i18n)}</div>
+        <div
+          key={item.value}
+          className="module-contact-detail__additional-contact"
+        >
+          <div className="module-contact-detail__additional-contact__type">
+            {getLabelForPhone(item, i18n)}
+          </div>
           {item.value}
         </div>
       );
@@ -142,8 +185,10 @@ export class ContactDetail extends React.Component<Props> {
 
     return addresses.map((address: PostalAddress, index: number) => {
       return (
-        <div key={index} className="additional-contact">
-          <div className="type">{getLabelForAddress(address, i18n)}</div>
+        <div key={index} className="module-contact-detail__additional-contact">
+          <div className="module-contact-detail__additional-contact__type">
+            {getLabelForAddress(address, i18n)}
+          </div>
           {this.renderAddressLine(address.street)}
           {this.renderPOBox(address.pobox, i18n)}
           {this.renderAddressLine(address.neighborhood)}
@@ -156,13 +201,15 @@ export class ContactDetail extends React.Component<Props> {
 
   public render() {
     const { contact, hasSignalAccount, i18n, onSendMessage } = this.props;
+    const isIncoming = false;
+    const module = 'contact-detail';
 
     return (
-      <div className="contact-detail-component">
-        {renderAvatar(contact, i18n)}
-        {renderName(contact)}
-        {renderContactShorthand(contact)}
-        {renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}
+      <div className="module-contact-detail">
+        {renderAvatar({ contact, i18n, module })}
+        {renderName({ contact, isIncoming, module })}
+        {renderContactShorthand({ contact, isIncoming, module })}
+        {this.renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}
         {this.renderPhone(contact.number, i18n)}
         {this.renderEmail(contact.email, i18n)}
         {this.renderAddresses(contact.address, i18n)}

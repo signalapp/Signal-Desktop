@@ -1,0 +1,1057 @@
+// Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
+
+$color-signal-blue: #2090ea;
+$color-core-green: #4caf50;
+$color-core-red: #f44336;
+
+$color-white: #ffffff;
+$color-white-07: rgba($color-white, 0.7);
+$color-white-075: rgba($color-white, 0.75);
+$color-light-02: #f9fafa;
+$color-light-10: #eeefef;
+$color-light-35: #a4a6a9;
+$color-light-45: #8b8e91;
+$color-light-60: #62656a;
+$color-light-90: #070c14;
+
+$color-dark-05: #efefef;
+$color-dark-30: #a8a9aa;
+$color-dark-55: #88898c;
+$color-dark-60: #797a7c;
+$color-dark-70: #414347;
+$color-dark-85: #1a1c20;
+$color-black: #000000;
+$color-black-012: rgba($color-black, 0.12);
+
+// TODO: need the final color for grey conversations
+$color-conversation-grey: #757575;
+$color-conversation-blue: #1976d2;
+$color-conversation-cyan: #00838f;
+$color-conversation-deep_orange: #bf360c;
+$color-conversation-green: #2e7d32;
+$color-conversation-indigo: #3949ab;
+$color-conversation-pink: #d81b60;
+$color-conversation-purple: #8e24aa;
+$color-conversation-red: #d32f2f;
+$color-conversation-teal: #00796b;
+
+// Module: Message
+
+.module-message {
+  position: relative;
+  display: inline-block;
+  border-radius: 16px;
+  padding-right: 12px;
+  padding-left: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  max-width: 370px; // 350 + left/right padding
+}
+
+.module-message__attachment-container {
+  // Entirely to ensure that images are centered if they aren't full width of bubble
+  text-align: center;
+  position: relative;
+}
+
+.module-message__img-attachment {
+  max-width: 370px;
+  margin-left: -12px;
+  margin-right: -12px;
+  margin-top: -10px;
+  // The padding on the bottom of the bubble produces three extra pixels of space at the
+  //   bottom, so this doesn't match up with the padding numbers above.
+  margin-bottom: -13px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 0 4px 0 rgba(0, 0, 0, 0.08);
+
+  object-fit: cover;
+  width: calc(100% + 24px);
+  min-width: 200px;
+  min-height: 150px;
+  max-height: 300px;
+  cursor: pointer;
+}
+
+.module-message__img-overlay {
+  height: 48px;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0) 9%,
+    rgba(0, 0, 0, 0.02) 17%,
+    rgba(0, 0, 0, 0.05) 24%,
+    rgba(0, 0, 0, 0.08) 31%,
+    rgba(0, 0, 0, 0.12) 37%,
+    rgba(0, 0, 0, 0.16) 44%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.24) 56%,
+    rgba(0, 0, 0, 0.28) 63%,
+    rgba(0, 0, 0, 0.32) 69%,
+    rgba(0, 0, 0, 0.35) 76%,
+    rgba(0, 0, 0, 0.38) 83%,
+    rgba(0, 0, 0, 0.4) 91%,
+    rgba(0, 0, 0, 0.4)
+  );
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  margin-left: -12px;
+  margin-right: -12px;
+  margin-bottom: -10px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.module-message__img-attachment--with-content-below {
+  margin-bottom: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.module-message__img-attachment--with-content-above {
+  margin-top: 4px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.module-message__audio-attachment {
+  margin-top: 2px;
+}
+
+.module-message__audio-attachment--with-content-below {
+  margin-bottom: 5px;
+}
+
+.module-message__audio-attachment--with-content-above {
+  margin-top: 6px;
+}
+
+.module-message__generic-attachment {
+  display: flex;
+  flex-direction: row;
+}
+
+.module-message__generic-attachment--with-content-below {
+  padding-bottom: 6px;
+}
+
+.module-message__generic-attachment--with-content-above {
+  padding-top: 4px;
+}
+
+.module-message__generic-attachment__icon {
+  background: url('../images/file-gradient.svg') no-repeat center;
+  height: 44px;
+  width: 56px;
+  margin-left: -13px;
+  margin-right: -14px;
+  margin-bottom: -4px;
+
+  // So we can center the extension text inside this icon
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-message__generic-attachment__icon__extension {
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.1px;
+  text-transform: uppercase;
+
+  // Along with flow layout in parent item, centers text
+  text-align: center;
+  width: 25px;
+  margin-left: auto;
+  margin-right: auto;
+
+  // We don't have much room for text here, cut it off without ellipse
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+}
+
+.module-message__generic-attachment__text {
+  flex-grow: 1;
+  margin-left: 8px;
+  // The width of the icon plus our 8px margin
+  max-width: calc(100% - 37px);
+}
+
+.module-message__generic-attachment__file-name {
+  color: $color-light-90;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 300;
+  margin-top: 2px;
+
+  // Handling really long filenames - cut them off
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.module-message__generic-attachment__file-name--incoming {
+  color: $color-white;
+}
+
+.module-message__generic-attachment__file-size {
+  color: $color-light-90;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  margin-top: 3px;
+}
+
+.module-message__generic-attachment__file-size--incoming {
+  color: $color-white;
+}
+
+.module-message__author {
+  color: $color-white;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 18px;
+  height: 18px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.module-message__author__profile-name {
+  color: $color-white-07;
+  // TODO: finalize this font
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.module-message--outgoing {
+  background-color: $color-light-10;
+  float: right;
+}
+
+// In case the color gets messed up
+.module-message--incoming {
+  background-color: $color-conversation-grey;
+}
+
+.module-message--incoming-grey {
+  background-color: $color-conversation-grey;
+}
+.module-message--incoming-blue {
+  background-color: $color-conversation-blue;
+}
+.module-message--incoming-cyan {
+  background-color: $color-conversation-cyan;
+}
+.module-message--incoming-deep_orange {
+  background-color: $color-conversation-deep_orange;
+}
+.module-message--incoming-green {
+  background-color: $color-conversation-green;
+}
+.module-message--incoming-indigo {
+  background-color: $color-conversation-indigo;
+}
+.module-message--incoming-pink {
+  background-color: $color-conversation-pink;
+}
+.module-message--incoming-purple {
+  background-color: $color-conversation-purple;
+}
+.module-message--incoming-red {
+  background-color: $color-conversation-red;
+}
+.module-message--incoming-teal {
+  background-color: $color-conversation-teal;
+}
+
+.module-message--with-image-only {
+  background-color: transparent;
+}
+
+.module-message__text {
+  color: $color-light-90;
+  font-size: 14px;
+  line-height: 18px;
+  a {
+    text-decoration: underline;
+    color: $color-light-90;
+  }
+}
+
+.module-message__text--incoming {
+  color: $color-white;
+  a {
+    text-decoration: underline;
+    color: $color-white;
+  }
+}
+
+.module-message__metadata {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 3px;
+  margin-bottom: -3px;
+}
+
+// With an image and no caption, this section needs to be on top of the image
+.module-message__metadata--with-image-no-caption {
+  position: absolute;
+  bottom: 9px;
+  z-index: 1;
+
+  width: 100%;
+  // Because this is absolutely positioned, we 100% is too big, take it down by parent
+  //   padding sizes.
+  padding-right: 24px;
+}
+
+.module-message__metadata__date {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  color: $color-light-60;
+  text-transform: uppercase;
+}
+.module-message__metadata__date--incoming {
+  color: $color-white-07;
+}
+.module-message__metadata__date--with-image-no-caption {
+  color: $color-white;
+}
+
+.module-message__metadata__timer {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-left: 6px;
+  margin-bottom: 2px;
+  @include color-svg('../images/timer-60.svg', $color-light-45);
+}
+
+.module-message__metadata__timer--55 {
+  @include color-svg('../images/timer-55.svg', $color-light-45);
+}
+.module-message__metadata__timer--50 {
+  @include color-svg('../images/timer-50.svg', $color-light-45);
+}
+.module-message__metadata__timer--45 {
+  @include color-svg('../images/timer-45.svg', $color-light-45);
+}
+.module-message__metadata__timer--40 {
+  @include color-svg('../images/timer-40.svg', $color-light-45);
+}
+.module-message__metadata__timer--35 {
+  @include color-svg('../images/timer-35.svg', $color-light-45);
+}
+.module-message__metadata__timer--30 {
+  @include color-svg('../images/timer-30.svg', $color-light-45);
+}
+.module-message__metadata__timer--25 {
+  @include color-svg('../images/timer-25.svg', $color-light-45);
+}
+.module-message__metadata__timer--20 {
+  @include color-svg('../images/timer-20.svg', $color-light-45);
+}
+.module-message__metadata__timer--15 {
+  @include color-svg('../images/timer-15.svg', $color-light-45);
+}
+.module-message__metadata__timer--10 {
+  @include color-svg('../images/timer-10.svg', $color-light-45);
+}
+.module-message__metadata__timer--05 {
+  @include color-svg('../images/timer-05.svg', $color-light-45);
+}
+.module-message__metadata__timer--00 {
+  @include color-svg('../images/timer-00.svg', $color-light-45);
+}
+
+.module-message__metadata__timer--incoming {
+  background-color: $color-white-07;
+}
+
+// When status indicators are overlaid on top of an image, they use different colors
+.module-message__metadata__timer--with-image-no-caption {
+  background-color: white;
+}
+
+.module-message__metadata__spacer {
+  flex-grow: 1;
+}
+
+.module-message__metadata__status-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-left: 6px;
+  margin-bottom: 2px;
+}
+
+.module-message__metadata__status-icon-sending {
+  @include color-svg('../images/sending.svg', $color-light-60);
+  animation: module-message__metdata__status-icon--spinning 4s linear infinite;
+}
+
+@keyframes module-message__metdata__status-icon--spinning {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.module-message__metadata__status-icon-sent {
+  @include color-svg('../images/check-circle-outline.svg', $color-light-35);
+}
+.module-message__metadata__status-icon-delivered {
+  @include color-svg('../images/double-check.svg', $color-light-35);
+  width: 18px;
+}
+.module-message__metadata__status-icon-read {
+  @include color-svg('../images/double-check.svg', $color-light-35);
+  width: 18px;
+}
+
+.module-message__metadata__status-icon-grey {
+  background-color: $color-conversation-grey;
+}
+.module-message__metadata__status-icon-blue {
+  background-color: $color-conversation-blue;
+}
+.module-message__metadata__status-icon-cyan {
+  background-color: $color-conversation-cyan;
+}
+.module-message__metadata__status-icon-deep_orange {
+  background-color: $color-conversation-deep_orange;
+}
+.module-message__metadata__status-icon-green {
+  background-color: $color-conversation-green;
+}
+.module-message__metadata__status-icon-indigo {
+  background-color: $color-conversation-indigo;
+}
+.module-message__metadata__status-icon-pink {
+  background-color: $color-conversation-pink;
+}
+.module-message__metadata__status-icon-purple {
+  background-color: $color-conversation-purple;
+}
+.module-message__metadata__status-icon-red {
+  background-color: $color-conversation-red;
+}
+.module-message__metadata__status-icon-teal {
+  background-color: $color-conversation-teal;
+}
+
+// When status indicators are overlaid on top of an image, they use different colors
+.module-message__metadata__status-icon--with-image-no-caption {
+  background-color: white;
+}
+
+.module-message__metadata__status-icon--read-with-image-no-caption {
+  background-color: $color-signal-blue;
+}
+
+.module-message__send-message-button {
+  cursor: pointer;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 18px;
+  color: $color-signal-blue;
+  background-color: $color-light-02;
+  border: 1px solid $color-black-012;
+
+  margin-top: 8px;
+  margin-bottom: -10px;
+  margin-left: -12px;
+  margin-right: -12px;
+
+  text-align: center;
+  padding: 10px;
+
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.module-message__author-avatar {
+  position: absolute;
+  // This accounts for the weird extra 3px we get at the bottom of messages
+  bottom: -3px;
+  right: calc(100% + 4px);
+
+  img {
+    height: 36px;
+    width: 36px;
+    border-radius: 18px;
+    object-fit: cover;
+  }
+}
+
+.module-message__author-default-avatar {
+  position: absolute;
+  bottom: 0px;
+  right: calc(100% + 4px);
+
+  height: 36px;
+  width: 36px;
+  background-color: $color-conversation-grey;
+  border-radius: 18px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+}
+
+.module-message__author-default-avatar__label {
+  width: 100%;
+  font-size: 18px;
+  color: $color-white;
+
+  // Because it just doesn't look properly centered
+  padding-right: 1px;
+}
+
+// Module: Quoted Reply
+
+.module-quote {
+  border-radius: 4px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+  margin-left: -6px;
+  margin-right: -6px;
+  margin-top: -4px;
+  margin-bottom: 5px;
+
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
+.module-quote--no-click {
+  cursor: auto;
+}
+
+.module-quote--with-content-above {
+  margin-top: 3px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.module-quote--incoming {
+  background-color: $color-white-075;
+  border-left-color: $color-white;
+}
+
+.module-quote--outgoing-grey {
+  border-left-color: $color-conversation-grey;
+  background-color: rgba($color-conversation-grey, 0.25);
+}
+.module-quote--outgoing-blue {
+  border-left-color: $color-conversation-blue;
+  background-color: rgba($color-conversation-blue, 0.25);
+}
+.module-quote--outgoing-cyan {
+  border-left-color: $color-conversation-cyan;
+  background-color: rgba($color-conversation-cyan, 0.25);
+}
+.module-quote--outgoing-deep_orange {
+  border-left-color: $color-conversation-deep_orange;
+  background-color: rgba($color-conversation-deep_orange, 0.25);
+}
+.module-quote--outgoing-green {
+  border-left-color: $color-conversation-green;
+  background-color: rgba($color-conversation-green, 0.25);
+}
+.module-quote--outgoing-indigo {
+  border-left-color: $color-conversation-indigo;
+  background-color: rgba($color-conversation-indigo, 0.25);
+}
+.module-quote--outgoing-pink {
+  border-left-color: $color-conversation-pink;
+  background-color: rgba($color-conversation-pink, 0.25);
+}
+.module-quote--outgoing-purple {
+  border-left-color: $color-conversation-purple;
+  background-color: rgba($color-conversation-purple, 0.25);
+}
+.module-quote--outgoing-red {
+  border-left-color: $color-conversation-red;
+  background-color: rgba($color-conversation-red, 0.25);
+}
+.module-quote--outgoing-teal {
+  border-left-color: $color-conversation-teal;
+  background-color: rgba($color-conversation-teal, 0.25);
+}
+
+.module-quote__primary {
+  flex-grow: 1;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.module-quote__primary__author {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 300;
+  color: $color-light-90;
+}
+
+.module-quote__primary__profile-name {
+  font-size: smaller;
+}
+
+.module-quote__primary__text {
+  font-size: 14px;
+  line-height: 18px;
+  color: $color-light-90;
+
+  white-space: pre-wrap;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
+  //   ... as the truncation indicator. That's not a solution that works well for
+  //   all languages. More resources:
+  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
+}
+
+.module-quote__primary__type-label {
+  font-style: italic;
+  color: $color-light-90;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.module-quote__primary__filename-label {
+  font-size: 12px;
+}
+
+.module-quote__close-container {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  height: 16px;
+  width: 16px;
+
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+}
+
+.module-quote__close-button {
+  width: 100%;
+  height: 100%;
+  @include color-svg('../images/x.svg', $grey);
+}
+
+.module-quote__icon-container {
+  flex: initial;
+  min-width: 54px;
+  width: 54px;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.module-quote__icon-container__inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.module-quote__icon-container__circle-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.module-quote__icon-container__icon {
+  width: 24px;
+  height: 24px;
+}
+
+.module-quote__icon-container__icon--file {
+  @include color-svg('../images/file.svg', $color-signal-blue);
+}
+.module-quote__icon-container__icon--image {
+  @include color-svg('../images/image.svg', $color-signal-blue);
+}
+.module-quote__icon-container__icon--microphone {
+  @include color-svg('../images/microphone.svg', $color-signal-blue);
+}
+.module-quote__icon-container__icon--play {
+  @include color-svg('../images/play.svg', $color-signal-blue);
+}
+.module-quote__icon-container__icon--movie {
+  @include color-svg('../images/movie.svg', $color-signal-blue);
+}
+
+.module-quote__generic-file {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.module-quote__generic-file__icon {
+  background: url('../images/file-gradient.svg');
+  background-size: 75%;
+  background-repeat: no-repeat;
+  height: 28px;
+  width: 36px;
+  margin-left: -4px;
+  margin-right: -6px;
+  margin-bottom: 5px;
+}
+.module-quote__generic-file__text {
+  font-size: 14px;
+  line-height: 18px;
+  color: $color-light-90;
+}
+
+// Module: Embedded Contact
+
+.module-embedded-contact {
+  // Cursor is always a pointer because this component is always wired up to the contact detail screen
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.module-embedded-contact--with-content-above {
+  padding-top: 4px;
+}
+
+.module-embedded-contact--with-content-below {
+  padding-bottom: 4px;
+}
+
+.module-embedded-contact__image-container {
+  flex: initial;
+  min-width: 50px;
+  width: 50px;
+  height: 50px;
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  object-fit: cover;
+
+  img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.module-embedded-contact__image-container__default-avatar {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+  color: white;
+  font-size: 25px;
+  line-height: 52px;
+}
+
+.module-embedded-contact__text-container {
+  flex-grow: 1;
+  margin-left: 8px;
+
+  max-width: calc(100% - 58px);
+}
+
+.module-embedded-contact__contact-name {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 300;
+  margin-top: 6px;
+  color: $color-light-90;
+
+  max-width: 100%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.module-embedded-contact__contact-name--incoming {
+  color: $color-white;
+}
+
+.module-embedded-contact__contact-method {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  margin-top: 3px;
+  color: $color-light-60;
+
+  max-width: 100%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.module-embedded-contact__contact-method--incoming {
+  color: $color-white-07;
+}
+
+// Module: Contact Detail
+
+.module-contact-detail {
+  text-align: center;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.module-contact-detail__image-container {
+  height: 80px;
+  width: 80px;
+  margin-bottom: 4px;
+
+  text-align: center;
+  display: inline-block;
+  object-fit: cover;
+
+  img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.module-contact-detail__image-container__default-avatar {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+  color: white;
+  font-size: 50px;
+  line-height: 82px;
+}
+
+.module-contact-detail__contact-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.module-contact-detail__contact-method {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.module-contact-detail__send-message {
+  cursor: pointer;
+
+  border-radius: 4px;
+  background-color: $blue;
+  display: inline-block;
+  padding: 6px;
+  margin-top: 20px;
+
+  color: white;
+
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    @include button-reset;
+  }
+}
+
+.module-contact-detail__send-message__inner {
+  display: flex;
+  align-items: center;
+}
+
+.module-contact-detail__send-message__bubble-icon {
+  height: 17px;
+  width: 18px;
+  display: inline-block;
+  margin-right: 5px;
+  @include color-svg('../images/chat-bubble.svg', white);
+}
+
+.module-contact-detail__additional-contact {
+  text-align: left;
+  border-top: 1px solid $grey_l1_5;
+  margin-top: 15px;
+  padding-top: 8px;
+}
+
+.module-contact-detail__additional-contact__type {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+// Module: Notification
+
+.module-notification {
+  font-size: 13px;
+  line-height: 18px;
+  color: $color-light-60;
+  text-align: center;
+}
+
+.module-notification--with-click-handler {
+  cursor: pointer;
+}
+
+.module-notification__icon {
+  height: 1.25em;
+  width: 1.25em;
+  vertical-align: text-bottom;
+  display: inline-block;
+}
+
+.module-notification__icon--verified {
+  @include color-svg('../images/verified-check.svg', $color-light-60);
+}
+
+.module-notification__icon--shield {
+  @include color-svg('../images/shield.svg', $color-light-60);
+}
+
+.module-notification__icon--clock {
+  @include color-svg('../images/clock.svg', $color-light-60);
+}
+
+// Module: Contact List Item
+
+.module-contact-list-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  color: $color-light-60;
+}
+
+.module-contact-list-item--with-click-handler {
+  cursor: pointer;
+}
+
+.module-contact-list-item__avatar {
+  display: inline-block;
+
+  img {
+    height: 44px;
+    width: 44px;
+    border-radius: 22px;
+  }
+}
+
+.module-contact-list-item__avatar-default {
+  height: 44px;
+  width: 44px;
+  border-radius: 22px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  text-align: center;
+  background-color: $color-conversation-grey;
+}
+
+.module-contact-list-item__avatar-default--grey {
+  background-color: $color-conversation-grey;
+}
+.module-contact-list-item__avatar-default--blue {
+  background-color: $color-conversation-blue;
+}
+.module-contact-list-item__avatar-default--cyan {
+  background-color: $color-conversation-cyan;
+}
+.module-contact-list-item__avatar-default--deep_orange {
+  background-color: $color-conversation-deep_orange;
+}
+.module-contact-list-item__avatar-default--green {
+  background-color: $color-conversation-green;
+}
+.module-contact-list-item__avatar-default--indigo {
+  background-color: $color-conversation-indigo;
+}
+.module-contact-list-item__avatar-default--pink {
+  background-color: $color-conversation-pink;
+}
+.module-contact-list-item__avatar-default--purple {
+  background-color: $color-conversation-purple;
+}
+.module-contact-list-item__avatar-default--red {
+  background-color: $color-conversation-red;
+}
+.module-contact-list-item__avatar-default--teal {
+  background-color: $color-conversation-teal;
+}
+
+.module-contact-list-item__avatar-default__label {
+  width: 100%;
+  color: $color-white;
+  font-size: 18px;
+}
+
+.module-contact-list-item__text {
+  margin-left: 8px;
+}
+
+.module-contact-list-item__text__name {
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.module-contact-list-item__text__profile-name {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.module-contact-list-item__text__additional-data {
+  margin-top: 3px;
+  font-size: 14px;
+}
+
+.module-contact-list-item__text__verified-icon {
+  @include color-svg('../images/verified-check.svg', $color-light-60);
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  vertical-align: text-bottom;
+
+  // Trying to account for the whitespace around the check mark
+  margin-bottom: -1px;
+}

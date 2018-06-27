@@ -3,6 +3,6 @@ export type RenderTextCallback = (
     text: string;
     key: number;
   }
-) => JSX.Element;
+) => JSX.Element | string;
 
 export type Localizer = (key: string, values?: Array<string>) => string;

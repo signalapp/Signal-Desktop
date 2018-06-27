@@ -15,6 +15,7 @@ const Util = require('../../ts/util');
 const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
+const { ContactListItem } = require('../../ts/components/ContactListItem');
 const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
   ConversationTitle,
@@ -105,6 +106,7 @@ exports.setup = (options = {}) => {
 
   const Components = {
     ContactDetail,
+    ContactListItem,
     ContactName,
     ConversationTitle,
     EmbeddedContact,

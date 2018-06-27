@@ -56,7 +56,7 @@ interface Props {
 
 export class Emojify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
-    renderNonEmoji: ({ text, key }) => <span key={key}>{text}</span>,
+    renderNonEmoji: ({ text }) => text,
   };
 
   public render() {

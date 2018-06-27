@@ -445,6 +445,12 @@ $avatar-size: 44px;
     height: 1.25em;
     vertical-align: text-bottom;
   }
+
+  .body-wrapper {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .recipients-input {

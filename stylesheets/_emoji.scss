@@ -43,6 +43,7 @@ span.emoji-inner {
 img.emoji {
   width: 1em;
   height: 1em;
+  margin-bottom: -1px;
 }
 
 img.emoji.small {
@@ -50,16 +51,16 @@ img.emoji.small {
   height: 1.25em;
 }
 img.emoji.medium {
-  width: 1.5em;
-  height: 1.5em;
-}
-img.emoji.large {
   width: 1.75em;
   height: 1.75em;
 }
+img.emoji.large {
+  width: 2.5em;
+  height: 2.5em;
+}
 img.emoji.jumbo {
-  width: 2em;
-  height: 2em;
+  width: 3em;
+  height: 3em;
 }
 
 // we need these, or we'll make conversation items too big in the left-nav

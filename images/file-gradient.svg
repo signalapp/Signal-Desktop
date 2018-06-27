@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="56px" viewBox="0 0 44 56" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>File</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M27.4611409,10.6408637 C27.795393,10.9983288 28,11.4785445 28,12.0065487 C28,12.0141465 28,20.3474799 28,37.0065487 C28,38.663403 26.6568542,40.0065487 25,40.0065487 L3,40.0065487 C1.34314575,40.0065487 2.02906125e-16,38.663403 0,37.0065487 L0,3.00654871 C-2.02906125e-16,1.34969446 1.34314575,0.00654871324 3,0.00654871324 L16.0265395,0 C16.5865346,0.0158576852 17.0851294,0.249509571 17.4418757,0.620545804 C17.7827796,0.975104947 27.0961475,10.2505223 27.4611409,10.6408637 Z" id="path-1"></path>
+        <filter x="-50.0%" y="-30.0%" width="200.0%" height="170.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="4" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.08 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMorphology radius="0.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter2"></feMorphology>
+            <feOffset dx="0" dy="0" in="shadowSpreadOuter2" result="shadowOffsetOuter2"></feOffset>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowOffsetOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M16,0.00654871324 L28,0.00654871324 L28,12.0065487 C28,10.9019792 27.1045695,10.0065487 26,10.0065487 L21,10.0065487 C19.3431458,10.0065487 18,8.66340296 18,7.00654871 L18,2.00654871 C18,0.901979214 17.1045695,0.00654871324 16,0.00654871324 Z" id="path-4"></path>
+        <filter x="-58.3%" y="-41.7%" width="216.7%" height="216.7%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-37.5%" y="-20.8%" width="175.0%" height="175.0%" filterUnits="objectBoundingBox" id="filter-6">
+            <feMorphology radius="1" operator="erode" in="SourceAlpha" result="shadowSpreadInner1"></feMorphology>
+            <feOffset dx="0" dy="0" in="shadowSpreadInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Desktop-Light" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-Light/Primitives/File" transform="translate(8.000000, 6.000000)">
+            <g id="File">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Combined-Shape">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <g id="Combined-Shape" mask="url(#mask-2)">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-4"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-4"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

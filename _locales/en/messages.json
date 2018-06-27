@@ -553,8 +553,14 @@
       "message": "Select a contact or group to start chatting."
     },
     "contactAvatarAlt": {
-      "message": "Contact avatar",
-      "description": "Used in the alt tag for the image avatar of a contact"
+      "message": "Avatar for contact $name$",
+      "description": "Used in the alt tag for the image avatar of a contact",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "John"
+        }
+      }
     },
     "sendMessageToContact": {
       "message": "Send Message",
@@ -729,6 +735,10 @@
     "quoteThumbnailAlt": {
       "message": "Thumbnail of image from quoted message",
       "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "imageAttachmentAlt": {
+      "message": "Image attached to message",
+      "description": "Used in alt tag of image attachment"
     },
     "lightboxImageAlt": {
       "message": "Image sent in conversation",
@@ -956,20 +966,44 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-       "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble.",
-       "message": "now"
+      "message": "now",
+      "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-       "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble.",
-       "message": "1 minute"
+      "message": "1 minute",
+      "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-       "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble.",
-       "message": "1 hour"
+      "message": "1 hour",
+      "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
+    },
+    "hoursAgo": {
+      "message": "$hours$ hr ago",
+      "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+      "placeholders": {
+        "hours": {
+          "content": "$1",
+          "example": "2"
+        }
+      }
+    },
+    "minutesAgo": {
+      "message": "$minutes$ min ago",
+      "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+      "placeholders": {
+        "minutes": {
+          "content": "$1",
+          "example": "10"
+        }
+      }
+    },
+    "justNow": {
+      "message": "now",
+      "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-       "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'.",
-       "message": "MMM D"
+      "message": "MMM D",
+      "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "unblockToSend": {
       "message": "Unblock this contact to send a message.",

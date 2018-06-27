@@ -1,1 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z" /></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>check</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Android-Light" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Android-Light/Message/Status/Sent" transform="translate(-6.000000, 0.000000)" fill="#000000" fill-rule="nonzero">
+            <path d="M12,0 C15.312,0 18,2.688 18,6 C18,9.312 15.312,12 12,12 C8.688,12 6,9.312 6,6 C6,2.688 8.688,0 12,0 Z M12,1 C9.24,1 7,3.24 7,6 C7,8.76 9.24,11 12,11 C14.76,11 17,8.76 17,6 C17,3.24 14.76,1 12,1 Z M11,8.5 L8.5,6 L9.205,5.295 L11,7.085 L14.795,3.29 L15.5,4 L11,8.5 Z" id="check"></path>
+        </g>
+    </g>
+</svg>

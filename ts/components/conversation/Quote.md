@@ -3,560 +3,679 @@
 #### Plain text
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'About six',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="About six"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="About six"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### With emoji
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'About 🔥six🔥',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many 🔥ferrets🔥 do you have? ',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="About 🔥six🔥"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many 🔥ferrets🔥 do you have?',
+      attachments: [],
+      authorName: 'Mr. 🔥Fire🔥',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="About 🔥six🔥"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many 🔥ferrets🔥 do you have?',
+      attachments: [],
+      authorName: 'Mr. 🔥Fire🔥',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Replies to you or yourself
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'About six',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: util.ourNumber,
-    id: Date.now() - 1000,
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: util.ourNumber,
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="About six"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+      isFromMe: true,
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="About six"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+      isFromMe: true,
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### In a group conversation
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'About six',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: '+12025550010',
-    id: Date.now() - 1000,
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550007',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550002',
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme} type="group">
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    conversationType="group"
+    authorName="Mr. 🔥Fire🔥"
+    color="green"
+    text="About six"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    authorAvatarPath={util.gifObjectUrl}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    conversationType="group"
+    authorName="Mr. 🔥Fire🔥"
+    status="sending"
+    color="green"
+    text="About six"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    authorAvatarPath={util.gifObjectUrl}
+  />
+</util.ConversationContext>
 ```
 
 #### A lot of text in quotation
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'Woo, otters!',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text:
-      'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
-      'After that, probably dogs. And then, you know, reptiles of all types. ' +
-      'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
-      'really smart.',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Woo, otters!"
+    i18n={util.i18n}
+    quote={{
+      text:
+        'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
+        'After that, probably dogs. And then, you know, reptiles of all types. ' +
+        'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
+        'really smart.',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Woo, otters!"
+    i18n={util.i18n}
+    quote={{
+      text:
+        'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
+        'After that, probably dogs. And then, you know, reptiles of all types. ' +
+        'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
+        'really smart.',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### A lot of text in quotation, with icon
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'Woo, otters!',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text:
-      'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
-      'After that, probably dogs. And then, you know, reptiles of all types. ' +
-      'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
-      'really smart.',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'text/plain',
-        fileName: 'lorum_ipsum.txt',
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Woo, otters!"
+    i18n={util.i18n}
+    quote={{
+      text:
+        'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
+        'After that, probably dogs. And then, you know, reptiles of all types. ' +
+        'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
+        'really smart.',
+      attachments: [
+        {
+          contentType: 'text/plain',
+          fileName: 'lorum_ipsum.txt',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Woo, otters!"
+    i18n={util.i18n}
+    quote={{
+      text:
+        'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
+        'After that, probably dogs. And then, you know, reptiles of all types. ' +
+        'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
+        'really smart.',
+      attachments: [
+        {
+          contentType: 'text/plain',
+          fileName: 'lorum_ipsum.txt',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### A lot of text in quotation, with image
 
 ```jsx
-const thumbnail = {
-  objectUrl: util.gifObjectUrl,
-};
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'Woo, otters!',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text:
-      'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
-      'After that, probably dogs. And then, you know, reptiles of all types. ' +
-      'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
-      'really smart.',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'image/gif',
-        fileName: 'pi.gif',
-        thumbnail: {
-          contentType: 'image/gif',
-        },
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-
-outgoing.quoteThumbnail = thumbnail;
-incoming.quoteThumbnail = thumbnail;
-
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Woo, otters!"
+    i18n={util.i18n}
+    quote={{
+      text:
+        'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
+        'After that, probably dogs. And then, you know, reptiles of all types. ' +
+        'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
+        'really smart.',
+      attachments: [
+        {
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Woo, otters!"
+    i18n={util.i18n}
+    quote={{
+      text:
+        'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
+        'After that, probably dogs. And then, you know, reptiles of all types. ' +
+        'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
+        'really smart.',
+      attachments: [
+        {
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Image with caption
 
 ```jsx
-const thumbnail = {
-  objectUrl: util.gifObjectUrl,
-  id: '3234-23423-2342',
-};
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: "Totally, it's a pretty unintuitive concept.",
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'I am pretty confused about Pi.',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'image/gif',
-        fileName: 'pi.gif',
-        thumbnail: {
-          contentType: 'image/gif',
-        },
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-
-outgoing.quoteThumbnail = thumbnail;
-incoming.quoteThumbnail = thumbnail;
-
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Totally, it's a pretty unintuitive concept."
+    i18n={util.i18n}
+    quote={{
+      text: 'I am pretty confused about Pi.',
+      attachments: [
+        {
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Totally, it's a pretty unintuitive concept."
+    i18n={util.i18n}
+    quote={{
+      text: 'I am pretty confused about Pi.',
+      attachments: [
+        {
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Image
 
 ```jsx
-const thumbnail = {
-  objectUrl: util.gifObjectUrl,
-};
-
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'Yeah, pi. Tough to wrap your head around.',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    author: '+12025550011',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'image/gif',
-        fileName: 'pi.gif',
-        thumbnail: {
-          contentType: 'image/gif',
-        },
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-
-outgoing.quoteThumbnail = thumbnail;
-incoming.quoteThumbnail = thumbnail;
-
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Yeah, pi. Tough to wrap your head around."
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Yeah, pi. Tough to wrap your head around."
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Image with no thumbnail
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'Yeah, pi. Tough to wrap your head around.',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    author: '+12025550011',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'image/gif',
-        fileName: 'pi.gif',
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Yeah, pi. Tough to wrap your head around."
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Yeah, pi. Tough to wrap your head around."
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Video with caption
 
 ```jsx
-const thumbnail = {
-  objectUrl: util.gifObjectUrl,
-};
-
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'Sweet the way the video sneaks up on you!',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    author: '+12025550011',
-    text: 'Check out this video I found!',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'video/mp4',
-        fileName: 'freezing_bubble.mp4',
-        thumbnail: {
-          contentType: 'image/gif',
-        },
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-
-outgoing.quoteThumbnail = thumbnail;
-incoming.quoteThumbnail = thumbnail;
-
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Sweet the way the video sneaks up on you!"
+    i18n={util.i18n}
+    quote={{
+      text: 'Check out this video I found!',
+      attachments: [
+        {
+          contentType: 'video/mp4',
+          fileName: 'freezing_bubble.mp4',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Sweet the way the video sneaks up on you!"
+    i18n={util.i18n}
+    quote={{
+      text: 'Check out this video I found!',
+      attachments: [
+        {
+          contentType: 'video/mp4',
+          fileName: 'freezing_bubble.mp4',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Video
 
 ```jsx
-const thumbnail = {
-  objectUrl: util.gifObjectUrl,
-};
-
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'Awesome!',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    author: '+12025550011',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'video/mp4',
-        fileName: 'freezing_bubble.mp4',
-        thumbnail: {
-          contentType: 'image/gif',
-          data: util.gif,
-        },
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-
-outgoing.quoteThumbnail = thumbnail;
-incoming.quoteThumbnail = thumbnail;
-
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Awesome!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'video/mp4',
+          fileName: 'freezing_bubble.mp4',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Awesome!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'video/mp4',
+          fileName: 'freezing_bubble.mp4',
+          thumbnail: {
+            contentType: 'image/gif',
+            objectUrl: util.gifObjectUrl,
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Video with no thumbnail
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'Awesome!',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    author: '+12025550011',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'video/mp4',
-        fileName: 'freezing_bubble.mp4',
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Awesome!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'video/mp4',
+          fileName: 'freezing_bubble.mp4',
+          thumbnail: {
+            contentType: 'image/gif',
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Awesome!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'video/mp4',
+          fileName: 'freezing_bubble.mp4',
+          thumbnail: {
+            contentType: 'image/gif',
+          },
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Audio with caption
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'I really like it!',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    author: '+12025550011',
-    text: 'Check out this beautiful song!',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'audio/mp3',
-        fileName: 'agnus_dei.mp4',
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="I really like it!"
+    i18n={util.i18n}
+    quote={{
+      text: 'Check out this beautiful song!',
+      attachments: [
+        {
+          contentType: 'audio/mp3',
+          fileName: 'agnus_dei.mp4',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="I really like it!"
+    i18n={util.i18n}
+    quote={{
+      text: 'Check out this beautiful song!',
+      attachments: [
+        {
+          contentType: 'audio/mp3',
+          fileName: 'agnus_dei.mp4',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Audio
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'I really like it!',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    author: '+12025550011',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'audio/mp3',
-        fileName: 'agnus_dei.mp4',
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="I really like it!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'audio/mp3',
+          fileName: 'agnus_dei.mp4',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="I really like it!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'audio/mp3',
+          fileName: 'agnus_dei.mp4',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Voice message
@@ -571,8 +690,6 @@ const outgoing = new Whisper.Message({
     id: Date.now() - 1000,
     attachments: [
       {
-        // proposed as of afternoon of 4/6 in Quoted Replies group
-        flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
         contentType: 'audio/mp3',
         fileName: 'agnus_dei.mp4',
       },
@@ -590,78 +707,132 @@ const incoming = new Whisper.Message(
 );
 const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Thanks for letting me know!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'audio/mp3',
+          fileName: 'agnus_dei.mp4',
+          // Note: generated from 'flags' attribute, proposed afternoon of
+          //   4/6 in Quoted Replies group
+          isVoiceMessage: true,
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Thanks for letting me know!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'audio/mp3',
+          fileName: 'agnus_dei.mp4',
+          isVoiceMessage: true,
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
 </util.ConversationContext>;
 ```
 
 #### Other file type with caption
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: "I can't read latin.",
-  sent_at: Date.now() - 18000000,
-  quote: {
-    author: '+12025550011',
-    text: 'This is my manifesto. Tell me what you think!',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'text/plain',
-        fileName: 'lorum_ipsum.txt',
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="I can't read latin."
+    i18n={util.i18n}
+    quote={{
+      text: 'This is my manifesto. Tell me what you think!',
+      attachments: [
+        {
+          contentType: 'text/plain',
+          fileName: 'lorum_ipsum.txt',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="I can't read latin."
+    i18n={util.i18n}
+    quote={{
+      text: 'This is my manifesto. Tell me what you think!',
+      attachments: [
+        {
+          contentType: 'text/plain',
+          fileName: 'lorum_ipsum.txt',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Other file type
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: "Sorry, I can't read latin!",
-  sent_at: Date.now() - 18000000,
-  quote: {
-    author: '+12025550011',
-    id: Date.now() - 1000,
-    attachments: [
-      {
-        contentType: 'text/plain',
-        fileName: 'lorum_ipsum.txt',
-      },
-    ],
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
 <util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    text="Sorry, I can't read latin!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'text/plain',
+          fileName: 'lorum_ipsum.txt',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    color="green"
+    text="Sorry, I can't read latin!"
+    i18n={util.i18n}
+    quote={{
+      attachments: [
+        {
+          contentType: 'text/plain',
+          fileName: 'lorum_ipsum.txt',
+        },
+      ],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 ### With a quotation, including attachment
@@ -669,240 +840,269 @@ const View = Whisper.MessageView;
 #### Quote, image attachment, and caption
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: 'Like pi or so?',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-  attachments: [
-    {
-      data: util.gif,
+<util.ConversationContext theme={util.theme}>
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    attachment={{
+      url: util.gifObjectUrl,
       fileName: 'pi.gif',
       contentType: 'image/gif',
-    },
-  ],
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    text="About six"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    attachment={{
+      url: util.gifObjectUrl,
+      fileName: 'pi.gif',
+      contentType: 'image/gif',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    color="green"
+    text="About six"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Quote, image attachment
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-  attachments: [
-    {
-      data: util.gif,
+<util.ConversationContext theme={util.theme}>
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    attachment={{
+      url: util.gifObjectUrl,
       fileName: 'pi.gif',
       contentType: 'image/gif',
-    },
-  ],
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    attachment={{
+      url: util.gifObjectUrl,
+      fileName: 'pi.gif',
+      contentType: 'image/gif',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    color="green"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Quote, portrait image attachment
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-  attachments: [
-    {
-      data: util.portraitYellow,
+<util.ConversationContext theme={util.theme}>
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    attachment={{
+      url: util.portraitYellowObjectUrl,
       fileName: 'pi.gif',
       contentType: 'image/gif',
-    },
-  ],
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    attachment={{
+      url: util.portraitYellowObjectUrl,
+      fileName: 'pi.gif',
+      contentType: 'image/gif',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    color="green"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Quote, video attachment
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-  attachments: [
-    {
-      data: util.mp4,
+<util.ConversationContext theme={util.theme}>
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    attachment={{
+      url: util.mp4ObjectUrl,
       fileName: 'freezing_bubble.mp4',
       contentType: 'video/mp4',
-    },
-  ],
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    attachment={{
+      url: util.mp4ObjectUrl,
+      fileName: 'freezing_bubble.mp4',
+      contentType: 'video/mp4',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    color="green"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Quote, audio attachment
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-  attachments: [
-    {
-      data: util.mp3,
+<util.ConversationContext theme={util.theme}>
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    attachment={{
+      data: util.mp3ObjectUrl,
       fileName: 'agnus_dei.mp3',
       contentType: 'audio/mp3',
-    },
-  ],
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    attachment={{
+      data: util.mp3ObjectUrl,
+      fileName: 'agnus_dei.mp3',
+      contentType: 'audio/mp3',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    color="green"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 #### Quote, file attachment
 
 ```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-  attachments: [
-    {
-      data: util.txt,
+<util.ConversationContext theme={util.theme}>
+  <Message
+    direction="incoming"
+    timestamp={Date.now()}
+    color="green"
+    attachment={{
+      data: util.txtObjectUrl,
       fileName: 'lorum_ipsum.txt',
       contentType: 'text/plain',
-    },
-  ],
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
-```
-
-#### Quote, but no message
-
-```jsx
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  sent_at: Date.now() - 18000000,
-  quote: {
-    text: 'How many ferrets do you have?',
-    author: '+12025550011',
-    id: Date.now() - 1000,
-  },
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550011',
-    type: 'incoming',
-    quote: Object.assign({}, outgoing.attributes.quote, {
-      author: '+12025550005',
-    }),
-  })
-);
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
+      fileSize: '3.05 KB',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+  <Message
+    direction="outgoing"
+    timestamp={Date.now()}
+    status="sending"
+    attachment={{
+      data: util.txtObjectUrl,
+      fileName: 'lorum_ipsum.txt',
+      contentType: 'text/plain',
+      fileSize: '3.05 KB',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+    color="green"
+    i18n={util.i18n}
+    quote={{
+      text: 'How many ferrets do you have?',
+      attachments: [],
+      authorPhoneNumber: '(202) 555-0011',
+    }}
+    onClickQuote={() => console.log('onClickQuote')}
+  />
+</util.ConversationContext>
 ```
 
 ### In bottom bar
