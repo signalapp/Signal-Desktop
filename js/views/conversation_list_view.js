@@ -49,7 +49,9 @@
       }
 
       if ($('.selected').length)
-        $('.selected')[0].scrollIntoView();
+        $('.selected')[0].scrollIntoView({
+          'block': 'nearest'
+        });
     },
     removeItem: function(conversation) {
       var $el = this.$('.' + conversation.cid);
