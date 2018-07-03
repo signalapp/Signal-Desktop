@@ -224,6 +224,7 @@
       "!js/views/standalone_registration_view.js",
       "app/*",
       "preload.js",
+      "about_preload.js",
       "main.js",
       "images/**",
       "fonts/*",
