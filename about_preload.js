@@ -10,6 +10,8 @@ window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getAppInstance = () => config.appInstance;
 
-window.closeAbout = () => ipc.send('close-about');
+window.closeAbout = () => ipcRenderer.send('close-about');
 
 window.i18n = i18n.setup(locale, localeMessages);
+
+require('./js/logging');

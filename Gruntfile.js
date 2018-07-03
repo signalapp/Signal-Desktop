@@ -105,12 +105,15 @@ module.exports = function(grunt) {
         '!js/expiring_messages.js',
         '!js/modules/**/*.js',
         '!js/Mp3LameEncoder.min.js',
+        '!js/settings_start.js',
         '!js/signal_protocol_store.js',
+        '!js/views/clear_data_view.js',
         '!js/views/conversation_search_view.js',
         '!js/views/conversation_view.js',
         '!js/views/debug_log_view.js',
         '!js/views/file_input_view.js',
         '!js/views/message_view.js',
+        '!js/views/settings_view.js',
         '!js/models/conversations.js',
         '!js/models/messages.js',
         '!js/WebAudioRecorderMp3.js',
@@ -134,10 +137,6 @@ module.exports = function(grunt) {
       },
     },
     watch: {
-      dist: {
-        files: ['<%= dist.src %>', '<%= dist.res %>'],
-        tasks: ['copy_dist'],
-      },
       libtextsecure: {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
         tasks: ['concat:libtextsecure'],
@@ -461,7 +460,6 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', ['default', 'watch']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
-  grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', [
     'exec:build-protobuf',

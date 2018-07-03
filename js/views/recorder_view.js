@@ -31,17 +31,25 @@
       if (this.recorder.isRecording()) {
         this.recorder.cancelRecording();
       }
+      this.recorder = null;
+
       if (this.interval) {
         clearInterval(this.interval);
       }
+      this.interval = null;
+
       if (this.source) {
         this.source.disconnect();
       }
+      this.source = null;
+
       if (this.context) {
         this.context.close().then(function() {
           console.log('audio context closed');
         });
       }
+      this.context = null;
+
       this.remove();
       this.trigger('closed');
     },
@@ -74,8 +82,23 @@
       this.recorder.startRecording();
     },
     onError: function(error) {
-      console.log(error.stack);
+      // Protect against out-of-band errors, which can happen if the user revokes media
+      //   permissions after successfully accessing the microphone.
+      if (!this.recorder) {
+        return;
+      }
+
       this.close();
+
+      if (error && error.name === 'PermissionDeniedError') {
+        console.log('RecorderView.onError: Microphone access is not allowed!');
+        window.showPermissionsPopup();
+      } else {
+        console.log(
+          'RecorderView.onError:',
+          error && error.stack ? error.stack : error
+        );
+      }
     },
   });
 })();

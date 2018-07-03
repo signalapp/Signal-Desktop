@@ -61,6 +61,10 @@ window.restart = () => {
   ipc.send('restart');
 };
 
+window.setMediaPermissions = enabled =>
+  ipc.send('set-media-permissions', enabled);
+window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
+
 window.closeAbout = () => ipc.send('close-about');
 
 window.updateTrayIcon = unreadCount =>
@@ -82,12 +86,89 @@ ipc.on('set-up-as-standalone', () => {
   Whisper.events.trigger('setupAsStandalone');
 });
 
-ipc.on('show-settings', () => {
-  Whisper.events.trigger('showSettings');
+// Settings-related events
+
+window.showSettings = () => ipc.send('show-settings');
+window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
+
+ipc.on('add-dark-overlay', () => {
+  const { addDarkOverlay } = window.Events;
+  if (addDarkOverlay) {
+    addDarkOverlay();
+  }
+});
+ipc.on('remove-dark-overlay', () => {
+  const { removeDarkOverlay } = window.Events;
+  if (removeDarkOverlay) {
+    removeDarkOverlay();
+  }
 });
 
-window.addSetupMenuItems = () => ipc.send('add-setup-menu-items');
+installGetter('device-name', 'getDeviceName');
 
+installGetter('theme-setting', 'getThemeSetting');
+installSetter('theme-setting', 'setThemeSetting');
+installGetter('hide-menu-bar', 'getHideMenuBar');
+installSetter('hide-menu-bar', 'setHideMenuBar');
+
+installGetter('notification-setting', 'getNotificationSetting');
+installSetter('notification-setting', 'setNotificationSetting');
+installGetter('audio-notification', 'getAudioNotification');
+installSetter('audio-notification', 'setAudioNotification');
+
+window.getMediaPermissions = () =>
+  new Promise((resolve, reject) => {
+    ipc.once('get-success-media-permissions', (_event, error, value) => {
+      if (error) {
+        return reject(error);
+      }
+
+      return resolve(value);
+    });
+    ipc.send('get-media-permissions');
+  });
+
+installGetter('is-primary', 'isPrimary');
+installGetter('sync-request', 'getSyncRequest');
+installGetter('sync-time', 'getLastSyncTime');
+installSetter('sync-time', 'setLastSyncTime');
+
+ipc.on('delete-all-data', () => {
+  const { deleteAllData } = window.Events;
+  if (deleteAllData) {
+    deleteAllData();
+  }
+});
+
+function installGetter(name, functionName) {
+  ipc.on(`get-${name}`, async () => {
+    const getFn = window.Events[functionName];
+    if (getFn) {
+      // eslint-disable-next-line no-param-reassign
+      try {
+        ipc.send(`get-success-${name}`, null, await getFn());
+      } catch (error) {
+        ipc.send(`get-success-${name}`, error);
+      }
+    }
+  });
+}
+
+function installSetter(name, functionName) {
+  ipc.on(`set-${name}`, async (_event, value) => {
+    const setFn = window.Events[functionName];
+    if (setFn) {
+      try {
+        await setFn(value);
+        ipc.send(`set-success-${name}`);
+      } catch (error) {
+        ipc.send(`set-success-${name}`, error);
+      }
+    }
+  });
+}
+
+window.addSetupMenuItems = () => ipc.send('add-setup-menu-items');
 window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');
 
 // We pull these dependencies in now, from here, because they have Node.js dependencies

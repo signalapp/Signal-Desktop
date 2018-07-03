@@ -519,114 +519,6 @@
       {{ learnMore }}
     </a>
   </script>
-  <script type='text/x-tmpl-mustache' id='debug-log'>
-    <div class='content'>
-      <div>
-        <a class='x close' alt='close debug log' href='#'></a>
-        <h1> {{ title }} </h1>
-        <p> {{ debugLogExplanation }}</p>
-      </div>
-      <textarea spellcheck='false' rows='5'></textarea>
-      <div class='buttons'>
-        <button class='grey submit'>{{ submit }}</button>
-      </div>
-      <div class='result'>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='debug-log-link'>
-    <div class='input-group clearfix'>
-      <input type='text' class='link' readonly value='{{ url }}' />
-      <a class='open' alt='open in a new browser tab' target='_blank' href='{{ url }}'></a>
-    </div>
-    <p>
-      <a class='report-link' target='_blank'
-          href='https://github.com/signalapp/Signal-Desktop/issues/new/'>
-          {{ reportIssue }}
-      </a>
-    </p>
-  </script>
-  <script type='text/x-tmpl-mustache' id='settings'>
-    <div class='content'>
-      <a class='x close' alt='close settings' href='#'></a>
-      <h2>{{ settings }}</h2>
-      <div class='device-name-settings'>
-        <b>{{ deviceNameLabel }}:</b> {{ deviceName }}
-      </div>
-      <hr>
-      <div class='theme-settings'>
-        <h3>{{ theme }}</h3>
-        <div>
-          <input type='radio' name='theme' id='theme-setting-android' value='android'>
-          <label for='theme-setting-android'>Android</label>
-        </div>
-        <div>
-          <input type='radio' name='theme' id='theme-setting-android-dark' value='android-dark'>
-          <label for='theme-setting-android-dark'>{{ themeAndroidDark }}</label>
-        </div>
-        <div>
-          <input type='radio' name='theme' id='theme-setting-ios'  value='ios'/>
-          <label for='theme-setting-ios'>iOS</label>
-        </div>
-      </div>
-      <br />
-      <div class='menu-bar-setting'>
-        <input type='checkbox' name='hide-menu-bar' id='hide-menu-bar'/>
-        <label for='hide-menu-bar'>{{ hideMenuBar }}</label>
-      </div>
-      <hr>
-      <div class='notification-settings'>
-        <h3>{{ notifications }}</h3>
-        <p>{{ notificationSettingsDialog }}</p>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-message' value='message'>
-          <label for='notification-setting-message'>{{ nameAndMessage }} </label>
-        </div>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-name'  value='name'/>
-          <label for='notification-setting-name'>{{ nameOnly }} </label>
-        </div>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-count' value='count'/>
-          <label for='notification-setting-count'>{{ noNameOrMessage }} </label>
-        </div>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-off' value='off'/>
-          <label for='notification-setting-off'>{{ disableNotifications }} </label>
-        </div>
-      </div>
-      <br />
-      {{ #isAudioNotificationSupported }}
-      <div class='audio-notification-setting'>
-        <input type='checkbox' name='audio-notification' id='audio-notification'/>
-        <label for='audio-notification'>{{ audioNotificationDescription }}</label>
-      </div>
-      {{ /isAudioNotificationSupported }}
-      <div class='sync-setting'></div>
-      <hr>
-      <div class='clear-data-settings'>
-        <h3>{{ clearDataHeader }}</h3>
-        <div>
-          <button class='grey destructive clear-data'>{{ clearDataButton }}</button>
-          <p>{{ clearDataExplanation }}</p>
-        </div>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='syncSettings'>
-      <hr>
-      <h3>{{ sync }}</h3>
-      <div>
-        <button class='grey sync'>{{ syncNow }}</button>
-        <p>
-          {{ syncExplanation }}
-          <div class='synced_at'>
-              {{ lastSynced }} {{ syncDate }} {{ syncTime }}
-          </div>
-          <div class='sync_failed'>{{ syncFailed }}</div>
-        </p>
-      </div>
-  </script>
   <script type='text/x-tmpl-mustache' id='clear-data'>
     {{#isStep1}}
     <div class='step'>
@@ -904,7 +796,6 @@
   <script type='text/javascript' src='js/views/whisper_view.js'></script>
   <script type='text/javascript' src='js/views/last_seen_indicator_view.js'></script>
   <script type='text/javascript' src='js/views/scroll_down_button_view.js'></script>
-  <script type='text/javascript' src='js/views/debug_log_view.js'></script>
   <script type='text/javascript' src='js/views/toast_view.js'></script>
   <script type='text/javascript' src='js/views/attachment_preview_view.js'></script>
   <script type='text/javascript' src='js/views/file_input_view.js'></script>
@@ -929,7 +820,6 @@
   <script type='text/javascript' src='js/views/network_status_view.js'></script>
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
-  <script type='text/javascript' src='js/views/settings_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>
   <script type='text/javascript' src='js/views/identity_key_send_error_view.js'></script>
@@ -937,6 +827,7 @@
   <script type='text/javascript' src='js/views/standalone_registration_view.js'></script>
   <script type='text/javascript' src='js/views/app_view.js'></script>
   <script type='text/javascript' src='js/views/import_view.js'></script>
+  <script type='text/javascript' src='js/views/clear_data_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>

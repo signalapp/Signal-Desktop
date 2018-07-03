@@ -233,13 +233,6 @@
     reloadBackgroundPage() {
       window.location.reload();
     },
-    showSettings() {
-      if (this.$el.find('.settings').length) {
-        return;
-      }
-      const view = new Whisper.SettingsView();
-      view.$el.appendTo(this.el);
-    },
     filterContacts(e) {
       this.searchView.filterContacts(e);
       const input = this.$('input.search');

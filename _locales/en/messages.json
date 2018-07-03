@@ -514,6 +514,10 @@
       "message": "Report an Issue",
       "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
+    "signalDesktopPreferences": {
+      "message": "Signal Desktop Preferences",
+      "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "aboutSignalDesktop": {
       "message": "About Signal Desktop",
       "description": "Item under the Help menu, which opens a small about window"
@@ -609,6 +613,18 @@
           "example": "John"
         }
       }
+    },
+    "audioPermissionNeeded": {
+      "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+      "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "allowAccess": {
+      "message": "Allow Access",
+      "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
+    "showSettings": {
+      "message": "Show Settings",
+      "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
       "message": "Audio",
@@ -794,6 +810,14 @@
     "theme": {
         "message": "Theme",
         "description": "Header for theme settings"
+    },
+    "permissions": {
+      "message": "Permissions",
+      "description": "Header for permissions section of settings"
+    },
+    "mediaPermissionsDescription": {
+      "message": "Allow access to camera and microphone",
+      "description": "Description of the media permission description"
     },
     "clearDataHeader": {
         "message": "Clear Data",

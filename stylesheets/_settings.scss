@@ -1,11 +1,17 @@
 .settings {
   &.modal {
-    padding: 50px;
+    padding: 0;
+    background-color: transparent;
 
     .content {
-      margin: 0 auto;
+      margin: 0;
+      margin-left: auto;
+      margin-right: auto;
+
       width: 100%;
-      max-width: 500px;
+      max-width: 450px;
+      border-radius: 0;
+      box-shadow: 0px 0px 0px 0px;
     }
   }
   hr {
@@ -32,6 +38,10 @@
       color: red;
     }
   }
+  .restart-needed {
+    margin-top: 1em;
+  }
+
   .clear-data-settings {
     button {
       float: right;

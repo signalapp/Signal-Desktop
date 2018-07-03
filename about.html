@@ -1,68 +1,50 @@
 <html>
 <head>
-<link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-<style>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none';
+            child-src 'self';
+            connect-src 'self' https: wss:;
+            font-src 'self';
+            form-action 'self';
+            frame-src 'none';
+            img-src 'self' blob: data:;
+            media-src 'self' blob:;
+            object-src 'none';
+            script-src 'self';
+            style-src 'self' 'unsafe-inline';"
+  >
+  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+  <style>
+    body {
+      text-align: center;
+      background-color: #2090EA;
+      color: white;
+      font-size: 14px;
+    }
 
-body {
-  text-align: center;
-  background-color: #2090EA;
-  color: white;
-  font-size: 14px;
-}
+    img {
+      margin-top: 1em;
+    }
 
-img {
-  margin-top: 1em;
-}
-
-a {
-  color: white;
-}
-
-</style>
+    a {
+      color: white;
+    }
+  </style>
 </head>
 <body>
+  <img src='images/icon_250.png'>
 
-<img src='images/icon_250.png'>
+  <div class='version'></div>
+  <div class='environment'></div>
+  <div>
+    <a href="https://signal.org">signal.org</a>
+  </div>
+  <br>
+  <div>
+    <a class="privacy" href="https://signal.org/legal">Terms &amp; Privacy Policy</a>
+  </div>
 
-<div>
-<script>
-  document.write('v', window.getVersion());
-</script>
-</div>
-<div>
-<script>
-  const states = [];
-
-  if (window.getEnvironment() !== 'production') {
-    states.push(window.getEnvironment());
-  }
-  if (window.getAppInstance()) {
-    states.push(window.getAppInstance());
-  }
-
-  document.write(states.join(' - '));
-</script>
-</div>
-<div>
-  <a href="https://signal.org">signal.org</a>
-</div>
-<br>
-<div>
-  <a class="privacy" href="https://signal.org/legal">Terms &amp; Privacy Policy</a>
-</div>
-
-<script type='text/javascript' src='node_modules/jquery/dist/jquery.js'></script>
-<script>
-$(document).on('keyup', function(e) {
-  if (e.keyCode === 27) {
-    window.closeAbout();
-  }
-});
-
-$('.privacy').text(window.i18n('privacyPolicy'));
-</script>
-
-
+  <script type='text/javascript' src='node_modules/jquery/dist/jquery.js'></script>
+  <script type='text/javascript' src='js/about_start.js'></script>
 </body>
-
 </html>

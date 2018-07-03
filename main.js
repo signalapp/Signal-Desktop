@@ -349,20 +349,6 @@ function createWindow() {
   });
 }
 
-function showDebugLog() {
-  if (mainWindow) {
-    mainWindow.webContents.send('debug-log');
-  }
-}
-
-function showSettings() {
-  if (!mainWindow) {
-    return;
-  }
-
-  mainWindow.webContents.send('show-settings');
-}
-
 function openReleaseNotes() {
   shell.openExternal(
     `https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`
@@ -441,6 +427,146 @@ function showAbout() {
   });
 }
 
+let settingsWindow;
+function showSettingsWindow() {
+  if (settingsWindow) {
+    settingsWindow.show();
+    return;
+  }
+  if (!mainWindow) {
+    return;
+  }
+
+  const size = mainWindow.getSize();
+  const options = {
+    width: Math.min(500, size[0]),
+    height: Math.max(size[1] - 100, MIN_HEIGHT),
+    resizable: false,
+    title: locale.messages.signalDesktopPreferences.message,
+    autoHideMenuBar: true,
+    backgroundColor: '#FFFFFF',
+    show: false,
+    modal: true,
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      preload: path.join(__dirname, 'settings_preload.js'),
+      // sandbox: true,
+      nativeWindowOpen: true,
+    },
+    parent: mainWindow,
+  };
+
+  settingsWindow = new BrowserWindow(options);
+
+  captureClicks(settingsWindow);
+
+  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html']));
+
+  settingsWindow.on('closed', () => {
+    removeDarkOverlay();
+    settingsWindow = null;
+  });
+
+  settingsWindow.once('ready-to-show', () => {
+    addDarkOverlay();
+    settingsWindow.show();
+  });
+}
+
+let debugLogWindow;
+function showDebugLogWindow() {
+  if (debugLogWindow) {
+    debugLogWindow.show();
+    return;
+  }
+
+  const size = mainWindow.getSize();
+  const options = {
+    width: Math.max(size[0] - 100, MIN_WIDTH),
+    height: Math.max(size[1] - 100, MIN_HEIGHT),
+    resizable: false,
+    title: locale.messages.signalDesktopPreferences.message,
+    autoHideMenuBar: true,
+    backgroundColor: '#FFFFFF',
+    show: false,
+    modal: true,
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      preload: path.join(__dirname, 'debug_log_preload.js'),
+      // sandbox: true,
+      nativeWindowOpen: true,
+    },
+    parent: mainWindow,
+  };
+
+  debugLogWindow = new BrowserWindow(options);
+
+  captureClicks(debugLogWindow);
+
+  debugLogWindow.loadURL(prepareURL([__dirname, 'debug_log.html']));
+
+  debugLogWindow.on('closed', () => {
+    removeDarkOverlay();
+    debugLogWindow = null;
+  });
+
+  debugLogWindow.once('ready-to-show', () => {
+    addDarkOverlay();
+    debugLogWindow.show();
+  });
+}
+
+let permissionsPopupWindow;
+function showPermissionsPopupWindow() {
+  if (permissionsPopupWindow) {
+    permissionsPopupWindow.show();
+    return;
+  }
+  if (!mainWindow) {
+    return;
+  }
+
+  const size = mainWindow.getSize();
+  const options = {
+    width: Math.min(400, size[0]),
+    height: Math.min(150, size[1]),
+    resizable: false,
+    title: locale.messages.signalDesktopPreferences.message,
+    autoHideMenuBar: true,
+    backgroundColor: '#FFFFFF',
+    show: false,
+    modal: true,
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      preload: path.join(__dirname, 'permissions_popup_preload.js'),
+      // sandbox: true,
+      nativeWindowOpen: true,
+    },
+    parent: mainWindow,
+  };
+
+  permissionsPopupWindow = new BrowserWindow(options);
+
+  captureClicks(permissionsPopupWindow);
+
+  permissionsPopupWindow.loadURL(
+    prepareURL([__dirname, 'permissions_popup.html'])
+  );
+
+  permissionsPopupWindow.on('closed', () => {
+    removeDarkOverlay();
+    permissionsPopupWindow = null;
+  });
+
+  permissionsPopupWindow.once('ready-to-show', () => {
+    addDarkOverlay();
+    permissionsPopupWindow.show();
+  });
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -462,7 +588,7 @@ app.on('ready', async () => {
     protocol: electronProtocol,
   });
 
-  installPermissionsHandler({ session });
+  installPermissionsHandler({ session, userConfig });
 
   // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
   /* eslint-disable more/no-then */
@@ -508,9 +634,10 @@ function setupMenu(options) {
   const { platform } = process;
   const menuOptions = Object.assign({}, options, {
     development,
-    showDebugLog,
+    showDebugLog: showDebugLogWindow,
     showWindow,
     showAbout,
+    showSettings: showSettingsWindow,
     openReleaseNotes,
     openNewBugForm,
     openSupportPage,
@@ -519,7 +646,6 @@ function setupMenu(options) {
     setupWithImport,
     setupAsNewDevice,
     setupAsStandalone,
-    showSettings,
   });
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);
@@ -591,6 +717,14 @@ ipc.on('draw-attention', () => {
   }
 });
 
+ipc.on('set-media-permissions', (event, enabled) => {
+  userConfig.set('mediaPermissions', enabled);
+});
+ipc.on('get-media-permissions', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = userConfig.get('mediaPermissions') || false;
+});
+
 ipc.on('restart', () => {
   app.relaunch();
   app.quit();
@@ -619,3 +753,103 @@ ipc.on('update-tray-icon', (event, unreadCount) => {
     tray.updateIcon(unreadCount);
   }
 });
+
+// Debug Log-related IPC calls
+
+ipc.on('show-debug-log', showDebugLogWindow);
+ipc.on('close-debug-log', () => {
+  if (debugLogWindow) {
+    debugLogWindow.close();
+  }
+});
+
+// Permissions Popup-related IPC calls
+
+ipc.on('show-permissions-popup', showPermissionsPopupWindow);
+ipc.on('close-permissions-popup', () => {
+  if (permissionsPopupWindow) {
+    permissionsPopupWindow.close();
+  }
+});
+
+// Settings-related IPC calls
+
+function addDarkOverlay() {
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send('add-dark-overlay');
+  }
+}
+function removeDarkOverlay() {
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send('remove-dark-overlay');
+  }
+}
+
+ipc.on('show-settings', showSettingsWindow);
+ipc.on('close-settings', () => {
+  if (settingsWindow) {
+    settingsWindow.close();
+  }
+});
+
+installSettingsGetter('device-name');
+
+installSettingsGetter('theme-setting');
+installSettingsSetter('theme-setting');
+installSettingsGetter('hide-menu-bar');
+installSettingsSetter('hide-menu-bar');
+
+installSettingsGetter('notification-setting');
+installSettingsSetter('notification-setting');
+installSettingsGetter('audio-notification');
+installSettingsSetter('audio-notification');
+
+// This one is different because its single source of truth is userConfig, not IndexedDB
+ipc.on('get-media-permissions', event => {
+  event.sender.send(
+    'get-success-media-permissions',
+    null,
+    userConfig.get('mediaPermissions') || false
+  );
+});
+ipc.on('set-media-permissions', (event, value) => {
+  userConfig.set('mediaPermissions', value);
+
+  // We reinstall permissions handler to ensure that a revoked permission takes effect
+  installPermissionsHandler({ session, userConfig });
+
+  event.sender.send('set-success-media-permissions', null);
+});
+
+installSettingsGetter('is-primary');
+installSettingsGetter('sync-request');
+installSettingsGetter('sync-time');
+installSettingsSetter('sync-time');
+
+ipc.on('delete-all-data', () => {
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send('delete-all-data');
+  }
+});
+
+function installSettingsGetter(name) {
+  ipc.on(`get-${name}`, event => {
+    if (mainWindow && mainWindow.webContents) {
+      ipc.once(`get-success-${name}`, (_event, error, value) =>
+        event.sender.send(`get-success-${name}`, error, value)
+      );
+      mainWindow.webContents.send(`get-${name}`);
+    }
+  });
+}
+
+function installSettingsSetter(name) {
+  ipc.on(`set-${name}`, (event, value) => {
+    if (mainWindow && mainWindow.webContents) {
+      ipc.once(`set-success-${name}`, (_event, error) =>
+        event.sender.send(`set-success-${name}`, error)
+      );
+      mainWindow.webContents.send(`set-${name}`, value);
+    }
+  });
+}

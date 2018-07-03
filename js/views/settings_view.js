@@ -1,106 +1,119 @@
-/* global storage: false */
-/* global textsecure: false */
 /* global i18n: false */
 /* global Whisper: false */
 
-/* eslint-disable */
+/* eslint-disable no-new */
 
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
-  const { Database } = window.Whisper;
-  const { OS, Logs } = window.Signal;
   const { Settings } = window.Signal.Types;
 
-  var CheckboxView = Whisper.View.extend({
-    initialize: function(options) {
-      this.name = options.name;
-      this.defaultValue = options.defaultValue;
-      this.event = options.event;
+  const CheckboxView = Whisper.View.extend({
+    initialize(options) {
+      this.setFn = options.setFn;
+      this.value = options.value;
       this.populate();
     },
     events: {
       change: 'change',
     },
-    change: function(e) {
-      var value = e.target.checked;
-      storage.put(this.name, value);
+    change(e) {
+      const value = e.target.checked;
+      this.setFn(value);
       console.log(this.name, 'changed to', value);
-      if (this.event) {
-        this.$el.trigger(this.event);
-      }
     },
-    populate: function() {
-      var value = storage.get(this.name, this.defaultValue);
-      this.$('input').prop('checked', !!value);
+    populate() {
+      this.$('input').prop('checked', !!this.value);
     },
   });
-  var RadioButtonGroupView = Whisper.View.extend({
-    initialize: function(options) {
-      this.name = options.name;
-      this.defaultValue = options.defaultValue;
-      this.event = options.event;
+
+  const MediaPermissionsSettingView = Whisper.View.extend({
+    initialize(options) {
+      this.value = options.value;
+      this.setFn = options.setFn;
       this.populate();
     },
     events: {
       change: 'change',
     },
-    change: function(e) {
-      var value = this.$(e.target).val();
-      storage.put(this.name, value);
-      console.log(this.name, 'changed to', value);
-      if (this.event) {
-        this.$el.trigger(this.event);
-      }
+    change(e) {
+      this.value = e.target.checked;
+      this.setFn(this.value);
+      console.log('media-permissions changed to', this.value);
     },
-    populate: function() {
-      var value = storage.get(this.name, this.defaultValue);
-      this.$('#' + this.name + '-' + value).attr('checked', 'checked');
+    populate() {
+      this.$('input').prop('checked', Boolean(this.value));
+    },
+  });
+
+  const RadioButtonGroupView = Whisper.View.extend({
+    initialize(options) {
+      this.name = options.name;
+      this.setFn = options.setFn;
+      this.value = options.value;
+      this.populate();
+    },
+    events: {
+      change: 'change',
+    },
+    change(e) {
+      const value = this.$(e.target).val();
+      this.setFn(value);
+      console.log(this.name, 'changed to', value);
+    },
+    populate() {
+      this.$(`#${this.name}-${this.value}`).attr('checked', 'checked');
     },
   });
   Whisper.SettingsView = Whisper.View.extend({
     className: 'settings modal expand',
     templateName: 'settings',
-    initialize: function() {
-      this.deviceName = textsecure.storage.user.getDeviceName();
+    initialize() {
       this.render();
       new RadioButtonGroupView({
         el: this.$('.notification-settings'),
-        defaultValue: 'message',
         name: 'notification-setting',
+        value: window.initialData.notificationSetting,
+        setFn: window.setNotificationSetting,
       });
       new RadioButtonGroupView({
         el: this.$('.theme-settings'),
-        defaultValue: 'android',
         name: 'theme-setting',
-        event: 'change-theme',
+        value: window.initialData.themeSetting,
+        setFn: window.setThemeSetting,
       });
       if (Settings.isAudioNotificationSupported()) {
         new CheckboxView({
           el: this.$('.audio-notification-setting'),
-          defaultValue: false,
-          name: 'audio-notification',
+          value: window.initialData.audioNotification,
+          setFn: window.setAudioNotification,
         });
       }
       new CheckboxView({
         el: this.$('.menu-bar-setting'),
-        defaultValue: false,
-        name: 'hide-menu-bar',
-        event: 'change-hide-menu',
+        value: window.initialData.hideMenuBar,
+        setFn: window.setHideMenuBar,
       });
-      if (textsecure.storage.user.getDeviceId() != '1') {
-        var syncView = new SyncView().render();
+      new MediaPermissionsSettingView({
+        el: this.$('.media-permissions'),
+        value: window.initialData.mediaPermissions,
+        setFn: window.setMediaPermissions,
+      });
+      if (!window.initialData.isPrimary) {
+        const syncView = new SyncView().render();
         this.$('.sync-setting').append(syncView.el);
       }
     },
     events: {
-      'click .close': 'remove',
+      'click .close': 'onClose',
       'click .clear-data': 'onClearData',
     },
-    render_attributes: function() {
+    render_attributes() {
       return {
         deviceNameLabel: i18n('deviceName'),
-        deviceName: this.deviceName,
+        deviceName: window.initialData.deviceName,
         theme: i18n('theme'),
         notifications: i18n('notifications'),
         notificationSettingsDialog: i18n('notificationSettingsDialog'),
@@ -116,121 +129,72 @@
         clearDataHeader: i18n('clearDataHeader'),
         clearDataButton: i18n('clearDataButton'),
         clearDataExplanation: i18n('clearDataExplanation'),
+        permissions: i18n('permissions'),
+        mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
       };
     },
-    onClearData: function() {
-      var clearDataView = new ClearDataView().render();
-      $('body').append(clearDataView.el);
+    onClose() {
+      window.closeSettings();
+    },
+    onClearData() {
+      window.deleteAllData();
+      window.closeSettings();
     },
   });
 
-  /* jshint ignore:start */
-  /* eslint-enable */
-
-  const CLEAR_DATA_STEPS = {
-    CHOICE: 1,
-    DELETING: 2,
-  };
-  const ClearDataView = Whisper.View.extend({
-    templateName: 'clear-data',
-    className: 'full-screen-flow overlay',
-    events: {
-      'click .cancel': 'onCancel',
-      'click .delete-all-data': 'onDeleteAllData',
-    },
-    initialize() {
-      this.step = CLEAR_DATA_STEPS.CHOICE;
-    },
-    onCancel() {
-      this.remove();
-    },
-    async onDeleteAllData() {
-      console.log('Deleting everything!');
-      this.step = CLEAR_DATA_STEPS.DELETING;
-      this.render();
-
-      try {
-        await Database.close();
-        console.log('All database connections closed. Starting delete.');
-      } catch (error) {
-        console.log('Something went wrong closing all database connections.');
-      }
-
-      this.clearAllData();
-    },
-    async clearAllData() {
-      try {
-        await Promise.all([Logs.deleteAll(), Database.drop()]);
-      } catch (error) {
-        console.log(
-          'Something went wrong deleting all data:',
-          error && error.stack ? error.stack : error
-        );
-      }
-      window.restart();
-    },
-    render_attributes() {
-      return {
-        isStep1: this.step === CLEAR_DATA_STEPS.CHOICE,
-        header: i18n('deleteAllDataHeader'),
-        body: i18n('deleteAllDataBody'),
-        cancelButton: i18n('cancel'),
-        deleteButton: i18n('deleteAllDataButton'),
-
-        isStep2: this.step === CLEAR_DATA_STEPS.DELETING,
-        deleting: i18n('deleteAllDataProgress'),
-      };
-    },
-  });
-
-  /* eslint-disable */
-  /* jshint ignore:end */
-
-  var SyncView = Whisper.View.extend({
+  const SyncView = Whisper.View.extend({
     templateName: 'syncSettings',
     className: 'syncSettings',
     events: {
       'click .sync': 'sync',
     },
-    enable: function() {
+    initialize() {
+      this.lastSyncTime = window.initialData.lastSyncTime;
+    },
+    enable() {
       this.$('.sync').text(i18n('syncNow'));
       this.$('.sync').removeAttr('disabled');
     },
-    disable: function() {
+    disable() {
       this.$('.sync').attr('disabled', 'disabled');
       this.$('.sync').text(i18n('syncing'));
     },
-    onsuccess: function() {
-      storage.put('synced_at', Date.now());
+    onsuccess() {
+      window.setLastSyncTime(Date.now());
+      this.lastSyncTime = Date.now();
       console.log('sync successful');
       this.enable();
       this.render();
     },
-    ontimeout: function() {
+    ontimeout() {
       console.log('sync timed out');
       this.$('.synced_at').hide();
       this.$('.sync_failed').show();
       this.enable();
     },
-    sync: function() {
+    async sync() {
       this.$('.sync_failed').hide();
-      if (textsecure.storage.user.getDeviceId() != '1') {
-        this.disable();
-        var syncRequest = window.getSyncRequest();
-        syncRequest.addEventListener('success', this.onsuccess.bind(this));
-        syncRequest.addEventListener('timeout', this.ontimeout.bind(this));
-      } else {
+      if (window.initialData.isPrimary) {
         console.log('Tried to sync from device 1');
+        return;
+      }
+
+      this.disable();
+      try {
+        await window.makeSyncRequest();
+        this.onsuccess();
+      } catch (error) {
+        this.ontimeout();
       }
     },
-    render_attributes: function() {
-      var attrs = {
+    render_attributes() {
+      const attrs = {
         sync: i18n('sync'),
         syncNow: i18n('syncNow'),
         syncExplanation: i18n('syncExplanation'),
         syncFailed: i18n('syncFailed'),
       };
-      var date = storage.get('synced_at');
+      let date = this.lastSyncTime;
       if (date) {
         date = new Date(date);
         attrs.lastSynced = i18n('lastSynced');

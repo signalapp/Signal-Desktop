@@ -14,8 +14,6 @@
     events: {
       'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
       openInbox: 'openInbox',
-      'change-theme': 'applyTheme',
-      'change-hide-menu': 'applyHideMenu',
     },
     applyTheme: function() {
       var theme = storage.get('theme-setting') || 'android';

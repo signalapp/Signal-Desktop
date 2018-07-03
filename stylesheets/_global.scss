@@ -16,6 +16,17 @@ body {
   color: $grey_d;
 }
 
+.dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  opacity: 0.25;
+  z-index: 200;
+}
+
 .clearfix:before,
 .clearfix:after {
   display: table;
