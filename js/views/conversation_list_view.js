@@ -48,10 +48,11 @@
         $el.insertAfter(target);
       }
 
-      if ($('.selected').length)
+      if ($('.selected').length) {
         $('.selected')[0].scrollIntoView({
-          'block': 'nearest'
+          block: 'nearest',
         });
+      }
     },
     removeItem: function(conversation) {
       var $el = this.$('.' + conversation.cid);
