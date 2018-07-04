@@ -805,9 +805,6 @@
       // This is debounced, so it won't hit the database too often.
       this.lazyUpdateVerified();
 
-      this.model.addSingleMessage(message);
-      message.setToExpire();
-
       if (message.isOutgoing()) {
         this.removeLastSeenIndicator();
       }
