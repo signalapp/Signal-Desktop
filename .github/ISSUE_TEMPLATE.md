@@ -7,7 +7,7 @@ locations if you have a question or comment:
 
   https://community.signalusers.org/
   http://support.signal.org/
-  support@whispersystems.org
+  support@signal.org
 
 Lastly, be sure to preview your issue before saving. Thanks!
 -->
@@ -15,7 +15,7 @@ Lastly, be sure to preview your issue before saving. Thanks!
 * [ ] I have searched open and closed issues for duplicates
   <!--
     You can search all issues here:
-      https://github.com/WhisperSystems/Signal-Desktop/issues?utf8=%E2%9C%93&q=is%3Aissue
+      https://github.com/signalapp/Signal-Desktop/issues?utf8=%E2%9C%93&q=is%3Aissue
     Replace [ ] with [X] once you've searched
   -->
 
