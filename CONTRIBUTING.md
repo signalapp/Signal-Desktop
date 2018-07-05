@@ -13,7 +13,7 @@ your intentions and get feedback from the users most likely to appreciate your c
 You're most likely to have your pull request accepted easily if it addresses bugs already
 in the [Next Steps project](https://github.com/signalapp/Signal-Desktop/projects/1),
 especially if they are near the top of the Backlog column. Those are what we'll be looking
-at next, so it would be a great help if you helped us out!
+at next, so it would be great if you helped us out!
 
 Once you've spent a little bit of time planning your solution, it's a good idea to go
 back to the issue and talk about your approach. We'd be happy to provide feedback. [An
@@ -96,7 +96,7 @@ Desktop to populate your testing application!
 
 First, find your application data:
 
-* OSX: `~/Library/Application Support/Signal`
+* macOS: `~/Library/Application Support/Signal`
 * Linux: `~/.config/Signal`
 * Windows 10: `C:\Users\<YourName>\AppData\Roaming\Signal`
 
@@ -214,11 +214,11 @@ of the Signal experience requires a primary mobile device: contact management,
 synchronizing read and verification states among all linked devices, etc.
 
 This presents a problem - even if you had another phone, the production versions of the
-iOS and Android apps are locked to the production servers. To test all secenarios in
+iOS and Android apps are locked to the production servers. To test all scenarios in
 staging, your best bet is to pull down the development version of the iOS or Android app,
 and register it with one of your extra phone numbers:
 
-First, build Signal for Android or iOS from source, and point its TextSecure service URL to `textsecure-service-staging.whispersystems.org`:
+First, build Signal for Android or iOS from source, and point its service URL to `textsecure-service-staging.whispersystems.org`:
 
 **on Android:** Replace the `SIGNAL_URL` value in [build.gradle](https://github.com/signalapp/Signal-Android/blob/master/build.gradle)
 
