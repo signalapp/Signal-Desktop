@@ -1,41 +1,50 @@
+/* eslint-disable */
+
+// This file was taken from Backbone and then modified. It does not conform to this
+//   project's standards.
+
 (function() {
+  'use strict';
+
   // Note: this is all the code required to customize Backbone's trigger() method to make
   //   it resilient to exceptions thrown by event handlers. Indentation and code styles
   //   were kept inline with the Backbone implementation for easier diffs.
 
   // The changes are:
-  //   1. added 'name' parameter to triggerEvents to give it access to the current event name
-  //   2. added try/catch handlers to triggerEvents with error logging inside every while loop
+  //   1. added 'name' parameter to triggerEvents to give it access to the
+  //      current event name
+  //   2. added try/catch handlers to triggerEvents with error logging inside
+  //      every while loop
 
   // And of course, we update the protoypes of Backbone.Model/Backbone.View as well as
   //   Backbone.Events itself
 
-  var arr = [];
+  const arr = [];
 
-  var slice = arr.slice;
+  const slice = arr.slice;
 
   // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
+  const eventSplitter = /\s+/;
 
   // Implement fancy features of the Events API such as multiple event
   // names `"change blur"` and jQuery-style event maps `{change: action}`
   // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
+  const eventsApi = function(obj, action, name, rest) {
     if (!name) return true;
 
     // Handle event maps.
     if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
+      for (const key in name) {
+        obj[action](...[key, name[key]].concat(rest));
       }
       return false;
     }
 
     // Handle space separated event names.
     if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, l = names.length; i < l; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
+      const names = name.split(eventSplitter);
+      for (let i = 0, l = names.length; i < l; i++) {
+        obj[action](...[names[i]].concat(rest));
       }
       return false;
     }
@@ -46,14 +55,14 @@
   // A difficult-to-believe, but optimized internal dispatch function for
   // triggering events. Tries to keep the usual cases speedy (most internal
   // Backbone events have 3 arguments).
-  var triggerEvents = function(events, name, args) {
-    var ev,
+  const triggerEvents = function(events, name, args) {
+    let ev,
       i = -1,
       l = events.length,
       a1 = args[0],
       a2 = args[1],
       a3 = args[2];
-    var logError = function(error) {
+    const logError = function(error) {
       console.log(
         'Model caught error triggering',
         name,
@@ -106,7 +115,6 @@
             logError(error);
           }
         }
-        return;
     }
   };
 
@@ -116,10 +124,10 @@
   // receive the true name of the event as the first argument).
   function trigger(name) {
     if (!this._events) return this;
-    var args = slice.call(arguments, 1);
+    const args = slice.call(arguments, 1);
     if (!eventsApi(this, 'trigger', name, args)) return this;
-    var events = this._events[name];
-    var allEvents = this._events.all;
+    const events = this._events[name];
+    const allEvents = this._events.all;
     if (events) triggerEvents(events, name, args);
     if (allEvents) triggerEvents(allEvents, name, arguments);
     return this;

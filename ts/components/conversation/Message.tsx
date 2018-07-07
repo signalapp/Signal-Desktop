@@ -1,9 +1,13 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import moment from 'moment';
 import { padStart } from 'lodash';
 
 import { formatRelativeTime } from '../../util/formatRelativeTime';
+import {
+  isImageTypeSupported,
+  isVideoTypeSupported,
+} from '../../util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
 import { Emojify } from './Emojify';
@@ -69,15 +73,18 @@ interface Props {
 }
 
 function isImage(attachment?: Attachment) {
-  // TODO: exclude svg and tiff here
   return (
-    attachment && attachment.contentType && MIME.isImage(attachment.contentType)
+    attachment &&
+    attachment.contentType &&
+    isImageTypeSupported(attachment.contentType)
   );
 }
 
 function isVideo(attachment?: Attachment) {
   return (
-    attachment && attachment.contentType && MIME.isVideo(attachment.contentType)
+    attachment &&
+    attachment.contentType &&
+    isVideoTypeSupported(attachment.contentType)
   );
 }
 
@@ -143,7 +150,7 @@ export class Message extends React.Component<Props> {
 
     return (
       <div
-        className={classnames(
+        className={classNames(
           'module-message__metadata__timer',
           `module-message__metadata__timer--${bucket}`,
           `module-message__metadata__timer--${direction}`,
@@ -179,7 +186,7 @@ export class Message extends React.Component<Props> {
 
     return (
       <div
-        className={classnames(
+        className={classNames(
           'module-message__metadata',
           withImageNoCaption
             ? 'module-message__metadata--with-image-no-caption'
@@ -187,7 +194,7 @@ export class Message extends React.Component<Props> {
         )}
       >
         <span
-          className={classnames(
+          className={classNames(
             'module-message__metadata__date',
             `module-message__metadata__date--${direction}`,
             withImageNoCaption
@@ -202,7 +209,7 @@ export class Message extends React.Component<Props> {
         <span className="module-message__metadata__spacer" />
         {direction === 'outgoing' ? (
           <div
-            className={classnames(
+            className={classNames(
               'module-message__metadata__status-icon',
               `module-message__metadata__status-icon-${status}`,
               status === 'read'
@@ -251,6 +258,7 @@ export class Message extends React.Component<Props> {
     );
   }
 
+  // tslint:disable-next-line max-func-body-length
   public renderAttachment() {
     const {
       i18n,
@@ -277,7 +285,7 @@ export class Message extends React.Component<Props> {
       return (
         <div className="module-message__attachment-container">
           <img
-            className={classnames(
+            className={classNames(
               'module-message__img-attachment',
               withCaption
                 ? 'module-message__img-attachment--with-content-below'
@@ -299,7 +307,7 @@ export class Message extends React.Component<Props> {
       return (
         <video
           controls={true}
-          className={classnames(
+          className={classNames(
             'module-message__img-attachment',
             withCaption
               ? 'module-message__img-attachment--with-content-below'
@@ -316,7 +324,7 @@ export class Message extends React.Component<Props> {
       return (
         <audio
           controls={true}
-          className={classnames(
+          className={classNames(
             'module-message__audio-attachment',
             withContentBelow
               ? 'module-message__audio-attachment--with-content-below'
@@ -335,7 +343,7 @@ export class Message extends React.Component<Props> {
 
       return (
         <div
-          className={classnames(
+          className={classNames(
             'module-message__generic-attachment',
             withContentBelow
               ? 'module-message__generic-attachment--with-content-below'
@@ -354,7 +362,7 @@ export class Message extends React.Component<Props> {
           </div>
           <div className="module-message__generic-attachment__text">
             <div
-              className={classnames(
+              className={classNames(
                 'module-message__generic-attachment__file-name',
                 `module-message__generic-attachment__file-name--${direction}`
               )}
@@ -362,7 +370,7 @@ export class Message extends React.Component<Props> {
               {fileName}
             </div>
             <div
-              className={classnames(
+              className={classNames(
                 'module-message__generic-attachment__file-size',
                 `module-message__generic-attachment__file-size--${direction}`
               )}
@@ -503,7 +511,7 @@ export class Message extends React.Component<Props> {
     if (!authorAvatarPath) {
       return (
         <div
-          className={classnames(
+          className={classNames(
             'module-message__author-default-avatar',
             `module-message__author-default-avatar--${color}`
           )}
@@ -529,7 +537,7 @@ export class Message extends React.Component<Props> {
 
     return (
       <div
-        className={classnames(
+        className={classNames(
           'module-message__text',
           `module-message__text--${direction}`
         )}
@@ -557,7 +565,7 @@ export class Message extends React.Component<Props> {
       <li>
         <div
           id={id}
-          className={classnames(
+          className={classNames(
             'module-message',
             `module-message--${direction}`,
             imageAndNothingElse ? 'module-message--with-image-only' : null,

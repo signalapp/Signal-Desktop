@@ -1,32 +1,40 @@
+/* global Whisper, i18n, _, ConversationController, Mustache, moment */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
-  var ContactView = Whisper.View.extend({
+  const ContactView = Whisper.View.extend({
     className: 'contact-detail',
     templateName: 'contact-detail',
-    initialize: function(options) {
+    initialize(options) {
       this.listenBack = options.listenBack;
       this.resetPanel = options.resetPanel;
       this.message = options.message;
 
-      var newIdentity = i18n('newIdentity');
-      this.errors = _.map(options.errors, function(error) {
+      const newIdentity = i18n('newIdentity');
+      this.errors = _.map(options.errors, error => {
         if (error.name === 'OutgoingIdentityKeyError') {
+          // eslint-disable-next-line no-param-reassign
           error.message = newIdentity;
         }
         return error;
       });
-      this.outgoingKeyError = _.find(this.errors, function(error) {
-        return error.name === 'OutgoingIdentityKeyError';
-      });
+      this.outgoingKeyError = _.find(
+        this.errors,
+        error => error.name === 'OutgoingIdentityKeyError'
+      );
     },
     events: {
       click: 'onClick',
     },
-    onClick: function() {
+    onClick() {
       if (this.outgoingKeyError) {
-        var view = new Whisper.IdentityKeySendErrorPanelView({
+        const view = new Whisper.IdentityKeySendErrorPanelView({
           model: this.model,
           listenBack: this.listenBack,
           resetPanel: this.resetPanel,
@@ -40,41 +48,33 @@
         view.$('.cancel').focus();
       }
     },
-    forceSend: function() {
+    forceSend() {
       this.model
         .updateVerified()
-        .then(
-          function() {
-            if (this.model.isUnverified()) {
-              return this.model.setVerifiedDefault();
-            }
-          }.bind(this)
-        )
-        .then(
-          function() {
-            return this.model.isUntrusted();
-          }.bind(this)
-        )
-        .then(
-          function(untrusted) {
-            if (untrusted) {
-              return this.model.setApproved();
-            }
-          }.bind(this)
-        )
-        .then(
-          function() {
-            this.message.resend(this.outgoingKeyError.number);
-          }.bind(this)
-        );
+        .then(() => {
+          if (this.model.isUnverified()) {
+            return this.model.setVerifiedDefault();
+          }
+          return null;
+        })
+        .then(() => this.model.isUntrusted())
+        .then(untrusted => {
+          if (untrusted) {
+            return this.model.setApproved();
+          }
+          return null;
+        })
+        .then(() => {
+          this.message.resend(this.outgoingKeyError.number);
+        });
     },
-    onSendAnyway: function() {
+    onSendAnyway() {
       if (this.outgoingKeyError) {
         this.forceSend();
       }
     },
-    render_attributes: function() {
-      var showButton = Boolean(this.outgoingKeyError);
+    render_attributes() {
+      const showButton = Boolean(this.outgoingKeyError);
 
       return {
         status: this.message.getStatus(this.model.id),
@@ -90,7 +90,7 @@
   Whisper.MessageDetailView = Whisper.View.extend({
     className: 'message-detail panel',
     templateName: 'message-detail',
-    initialize: function(options) {
+    initialize(options) {
       this.listenBack = options.listenBack;
       this.resetPanel = options.resetPanel;
 
@@ -103,22 +103,22 @@
     events: {
       'click button.delete': 'onDelete',
     },
-    onDelete: function() {
-      var dialog = new Whisper.ConfirmationDialogView({
+    onDelete() {
+      const dialog = new Whisper.ConfirmationDialogView({
         message: i18n('deleteWarning'),
         okText: i18n('delete'),
-        resolve: function() {
+        resolve: () => {
           this.model.destroy();
           this.resetPanel();
-        }.bind(this),
+        },
       });
 
       this.$el.prepend(dialog.el);
       dialog.focusCancel();
     },
-    getContacts: function() {
+    getContacts() {
       // Return the set of models to be rendered in this view
-      var ids;
+      let ids;
       if (this.model.isIncoming()) {
         ids = [this.model.get('source')];
       } else if (this.model.isOutgoing()) {
@@ -130,13 +130,13 @@
         }
       }
       return Promise.all(
-        ids.map(function(number) {
-          return ConversationController.getOrCreateAndWait(number, 'private');
-        })
+        ids.map(number =>
+          ConversationController.getOrCreateAndWait(number, 'private')
+        )
       );
     },
-    renderContact: function(contact) {
-      var view = new ContactView({
+    renderContact(contact) {
+      const view = new ContactView({
         model: contact,
         errors: this.grouped[contact.id],
         listenBack: this.listenBack,
@@ -145,12 +145,10 @@
       }).render();
       this.$('.contacts').append(view.el);
     },
-    render: function() {
-      var errorsWithoutNumber = _.reject(this.model.get('errors'), function(
-        error
-      ) {
-        return Boolean(error.number);
-      });
+    render() {
+      const errorsWithoutNumber = _.reject(this.model.get('errors'), error =>
+        Boolean(error.number)
+      );
 
       this.$el.html(
         Mustache.render(_.result(this, 'template', ''), {
@@ -171,19 +169,14 @@
 
       this.grouped = _.groupBy(this.model.get('errors'), 'number');
 
-      this.getContacts().then(
-        function(contacts) {
-          _.sortBy(
-            contacts,
-            function(c) {
-              var prefix = this.grouped[c.id] ? '0' : '1';
-              // this prefix ensures that contacts with errors are listed first;
-              //   otherwise it's alphabetical
-              return prefix + c.getTitle();
-            }.bind(this)
-          ).forEach(this.renderContact.bind(this));
-        }.bind(this)
-      );
+      this.getContacts().then(contacts => {
+        _.sortBy(contacts, c => {
+          const prefix = this.grouped[c.id] ? '0' : '1';
+          // this prefix ensures that contacts with errors are listed first;
+          //   otherwise it's alphabetical
+          return prefix + c.getTitle();
+        }).forEach(this.renderContact.bind(this));
+      });
     },
   });
 })();

@@ -1,15 +1,14 @@
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
 
-  var windowFocused = false;
-  window.addEventListener('blur', function() {
+  let windowFocused = false;
+  window.addEventListener('blur', () => {
     windowFocused = false;
   });
-  window.addEventListener('focus', function() {
+  window.addEventListener('focus', () => {
     windowFocused = true;
   });
 
-  window.isFocused = function() {
-    return windowFocused;
-  };
+  window.isFocused = () => windowFocused;
 })();

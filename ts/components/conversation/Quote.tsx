@@ -1,7 +1,7 @@
 // tslint:disable:react-this-binding-issue
 
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
@@ -89,7 +89,7 @@ export class Quote extends React.Component<Props> {
       <div className="module-quote__icon-container__inner">
         <div className="module-quote__icon-container__circle-background">
           <div
-            className={classnames(
+            className={classNames(
               'module-quote__icon-container__icon',
               `module-quote__icon-container__icon--${icon}`
             )}
@@ -112,7 +112,7 @@ export class Quote extends React.Component<Props> {
         <div className="module-quote__icon-container__inner">
           <div className="module-quote__icon-container__circle-background">
             <div
-              className={classnames(
+              className={classNames(
                 'module-quote__icon-container__icon',
                 `module-quote__icon-container__icon--${icon}`
               )}
@@ -263,7 +263,7 @@ export class Quote extends React.Component<Props> {
       <div
         onClick={onClick}
         role="button"
-        className={classnames(
+        className={classNames(
           'module-quote',
           isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
           !isIncoming ? `module-quote--outgoing-${color}` : null,

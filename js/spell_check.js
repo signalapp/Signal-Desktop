@@ -1,152 +1,153 @@
-(function() {
-  var electron = require('electron');
-  var remote = electron.remote;
-  var app = remote.app;
-  var webFrame = electron.webFrame;
-  var path = require('path');
+/* global require, process, _ */
 
-  var osLocale = require('os-locale');
-  var os = require('os');
-  var semver = require('semver');
-  var spellchecker = require('spellchecker');
+/* eslint-disable strict */
 
-  // `remote.require` since `Menu` is a main-process module.
-  var buildEditorContextMenu = remote.require('electron-editor-context-menu');
+const electron = require('electron');
 
-  var EN_VARIANT = /^en/;
+const osLocale = require('os-locale');
+const os = require('os');
+const semver = require('semver');
+const spellchecker = require('spellchecker');
 
-  // Prevent the spellchecker from showing contractions as errors.
-  var ENGLISH_SKIP_WORDS = [
-    'ain',
-    'couldn',
-    'didn',
-    'doesn',
-    'hadn',
-    'hasn',
-    'mightn',
-    'mustn',
-    'needn',
-    'oughtn',
-    'shan',
-    'shouldn',
-    'wasn',
-    'weren',
-    'wouldn',
-  ];
+const { remote, webFrame } = electron;
 
-  function setupLinux(locale) {
-    if (process.env.HUNSPELL_DICTIONARIES || locale !== 'en_US') {
-      // apt-get install hunspell-<locale> can be run for easy access to other dictionaries
-      var location = process.env.HUNSPELL_DICTIONARIES || '/usr/share/hunspell';
+// `remote.require` since `Menu` is a main-process module.
+const buildEditorContextMenu = remote.require('electron-editor-context-menu');
 
-      console.log(
-        'Detected Linux. Setting up spell check with locale',
-        locale,
-        'and dictionary location',
-        location
-      );
-      spellchecker.setDictionary(locale, location);
-    } else {
-      console.log('Detected Linux. Using default en_US spell check dictionary');
-    }
-  }
+const EN_VARIANT = /^en/;
 
-  function setupWin7AndEarlier(locale) {
-    if (process.env.HUNSPELL_DICTIONARIES || locale !== 'en_US') {
-      var location = process.env.HUNSPELL_DICTIONARIES;
+// Prevent the spellchecker from showing contractions as errors.
+const ENGLISH_SKIP_WORDS = [
+  'ain',
+  'couldn',
+  'didn',
+  'doesn',
+  'hadn',
+  'hasn',
+  'mightn',
+  'mustn',
+  'needn',
+  'oughtn',
+  'shan',
+  'shouldn',
+  'wasn',
+  'weren',
+  'wouldn',
+];
 
-      console.log(
-        'Detected Windows 7 or below. Setting up spell-check with locale',
-        locale,
-        'and dictionary location',
-        location
-      );
-      spellchecker.setDictionary(locale, location);
-    } else {
-      console.log(
-        'Detected Windows 7 or below. Using default en_US spell check dictionary'
-      );
-    }
-  }
+function setupLinux(locale) {
+  if (process.env.HUNSPELL_DICTIONARIES || locale !== 'en_US') {
+    // apt-get install hunspell-<locale> can be run for easy access
+    //   to other dictionaries
+    const location = process.env.HUNSPELL_DICTIONARIES || '/usr/share/hunspell';
 
-  // We load locale this way and not via app.getLocale() because this call returns
-  //   'es_ES' and not just 'es.' And hunspell requires the fully-qualified locale.
-  var locale = osLocale.sync().replace('-', '_');
-
-  // The LANG environment variable is how node spellchecker finds its default language:
-  //   https://github.com/atom/node-spellchecker/blob/59d2d5eee5785c4b34e9669cd5d987181d17c098/lib/spellchecker.js#L29
-  if (!process.env.LANG) {
-    process.env.LANG = locale;
-  }
-
-  if (process.platform === 'linux') {
-    setupLinux(locale);
-  } else if (
-    process.platform === 'windows' &&
-    semver.lt(os.release(), '8.0.0')
-  ) {
-    setupWin7AndEarlier(locale);
+    console.log(
+      'Detected Linux. Setting up spell check with locale',
+      locale,
+      'and dictionary location',
+      location
+    );
+    spellchecker.setDictionary(locale, location);
   } else {
-    // OSX and Windows 8+ have OS-level spellcheck APIs
-    console.log('Using OS-level spell check API with locale', process.env.LANG);
+    console.log('Detected Linux. Using default en_US spell check dictionary');
   }
+}
 
-  var simpleChecker = (window.spellChecker = {
-    spellCheck: function(text) {
-      return !this.isMisspelled(text);
-    },
-    isMisspelled: function(text) {
-      var misspelled = spellchecker.isMisspelled(text);
+function setupWin7AndEarlier(locale) {
+  if (process.env.HUNSPELL_DICTIONARIES || locale !== 'en_US') {
+    const location = process.env.HUNSPELL_DICTIONARIES;
 
-      // The idea is to make this as fast as possible. For the many, many calls which
-      //   don't result in the red squiggly, we minimize the number of checks.
-      if (!misspelled) {
-        return false;
-      }
+    console.log(
+      'Detected Windows 7 or below. Setting up spell-check with locale',
+      locale,
+      'and dictionary location',
+      location
+    );
+    spellchecker.setDictionary(locale, location);
+  } else {
+    console.log(
+      'Detected Windows 7 or below. Using default en_US spell check dictionary'
+    );
+  }
+}
 
-      // Only if we think we've found an error do we check the locale and skip list.
-      if (locale.match(EN_VARIANT) && _.contains(ENGLISH_SKIP_WORDS, text)) {
-        return false;
-      }
+// We load locale this way and not via app.getLocale() because this call returns
+//   'es_ES' and not just 'es.' And hunspell requires the fully-qualified locale.
+const locale = osLocale.sync().replace('-', '_');
 
-      return true;
-    },
-    getSuggestions: function(text) {
-      return spellchecker.getCorrectionsForMisspelling(text);
-    },
-    add: function(text) {
-      spellchecker.add(text);
-    },
-  });
+// The LANG environment variable is how node spellchecker finds its default language:
+//   https://github.com/atom/node-spellchecker/blob/59d2d5eee5785c4b34e9669cd5d987181d17c098/lib/spellchecker.js#L29
+if (!process.env.LANG) {
+  process.env.LANG = locale;
+}
 
-  webFrame.setSpellCheckProvider(
-    'en-US',
-    // Not sure what this parameter (`autoCorrectWord`) does: https://github.com/atom/electron/issues/4371
-    // The documentation for `webFrame.setSpellCheckProvider` passes `true` so we do too.
-    true,
-    simpleChecker
-  );
+if (process.platform === 'linux') {
+  setupLinux(locale);
+} else if (process.platform === 'windows' && semver.lt(os.release(), '8.0.0')) {
+  setupWin7AndEarlier(locale);
+} else {
+  // OSX and Windows 8+ have OS-level spellcheck APIs
+  console.log('Using OS-level spell check API with locale', process.env.LANG);
+}
 
-  window.addEventListener('contextmenu', function(e) {
-    // Only show the context menu in text editors.
-    if (!e.target.closest('textarea, input, [contenteditable="true"]')) {
-      return;
+const simpleChecker = {
+  spellCheck(text) {
+    return !this.isMisspelled(text);
+  },
+  isMisspelled(text) {
+    const misspelled = spellchecker.isMisspelled(text);
+
+    // The idea is to make this as fast as possible. For the many, many calls which
+    //   don't result in the red squiggly, we minimize the number of checks.
+    if (!misspelled) {
+      return false;
     }
 
-    var selectedText = window.getSelection().toString();
-    var isMisspelled = selectedText && simpleChecker.isMisspelled(selectedText);
-    var spellingSuggestions =
-      isMisspelled && simpleChecker.getSuggestions(selectedText).slice(0, 5);
-    var menu = buildEditorContextMenu({
-      isMisspelled: isMisspelled,
-      spellingSuggestions: spellingSuggestions,
-    });
+    // Only if we think we've found an error do we check the locale and skip list.
+    if (locale.match(EN_VARIANT) && _.contains(ENGLISH_SKIP_WORDS, text)) {
+      return false;
+    }
 
-    // The 'contextmenu' event is emitted after 'selectionchange' has fired but possibly before the
-    // visible selection has changed. Try to wait to show the menu until after that, otherwise the
-    // visible selection will update after the menu dismisses and look weird.
-    setTimeout(function() {
-      menu.popup(remote.getCurrentWindow());
-    }, 30);
+    return true;
+  },
+  getSuggestions(text) {
+    return spellchecker.getCorrectionsForMisspelling(text);
+  },
+  add(text) {
+    spellchecker.add(text);
+  },
+};
+
+window.spellChecker = simpleChecker;
+
+webFrame.setSpellCheckProvider(
+  'en-US',
+  // Not sure what this parameter (`autoCorrectWord`) does: https://github.com/atom/electron/issues/4371
+  // The documentation for `webFrame.setSpellCheckProvider` passes `true` so we do too.
+  true,
+  simpleChecker
+);
+
+window.addEventListener('contextmenu', e => {
+  // Only show the context menu in text editors.
+  if (!e.target.closest('textarea, input, [contenteditable="true"]')) {
+    return;
+  }
+
+  const selectedText = window.getSelection().toString();
+  const isMisspelled = selectedText && simpleChecker.isMisspelled(selectedText);
+  const spellingSuggestions =
+    isMisspelled && simpleChecker.getSuggestions(selectedText).slice(0, 5);
+  const menu = buildEditorContextMenu({
+    isMisspelled,
+    spellingSuggestions,
   });
-})();
+
+  // The 'contextmenu' event is emitted after 'selectionchange' has fired
+  //   but possibly before the visible selection has changed. Try to wait
+  //   to show the menu until after that, otherwise the visible selection
+  //   will update after the menu dismisses and look weird.
+  setTimeout(() => {
+    menu.popup(remote.getCurrentWindow());
+  }, 30);
+});

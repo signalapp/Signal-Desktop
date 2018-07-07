@@ -1,12 +1,18 @@
+/* global Whisper, _ */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.NewGroupUpdateView = Whisper.View.extend({
     tagName: 'div',
     className: 'new-group-update',
     templateName: 'new-group-update',
-    initialize: function(options) {
+    initialize(options) {
       this.render();
       this.avatarInput = new Whisper.FileInputView({
         el: this.$('.group-avatar'),
@@ -14,15 +20,13 @@
       });
 
       this.recipients_view = new Whisper.RecipientsInputView();
-      this.listenTo(this.recipients_view.typeahead, 'sync', function() {
-        this.model.contactCollection.models.forEach(
-          function(model) {
-            if (this.recipients_view.typeahead.get(model)) {
-              this.recipients_view.typeahead.remove(model);
-            }
-          }.bind(this)
-        );
-      });
+      this.listenTo(this.recipients_view.typeahead, 'sync', () =>
+        this.model.contactCollection.models.forEach(model => {
+          if (this.recipients_view.typeahead.get(model)) {
+            this.recipients_view.typeahead.remove(model);
+          }
+        })
+      );
       this.recipients_view.$el.insertBefore(this.$('.container'));
 
       this.member_list_view = new Whisper.ContactListView({
@@ -38,49 +42,47 @@
       'focusin input.search': 'showResults',
       'focusout input.search': 'hideResults',
     },
-    hideResults: function() {
+    hideResults() {
       this.$('.results').hide();
     },
-    showResults: function() {
+    showResults() {
       this.$('.results').show();
     },
-    goBack: function() {
+    goBack() {
       this.trigger('back');
     },
-    render_attributes: function() {
+    render_attributes() {
       return {
         name: this.model.getTitle(),
         avatar: this.model.getAvatar(),
       };
     },
-    send: function() {
-      return this.avatarInput.getThumbnail().then(
-        function(avatarFile) {
-          var now = Date.now();
-          var attrs = {
-            timestamp: now,
-            active_at: now,
-            name: this.$('.name').val(),
-            members: _.union(
-              this.model.get('members'),
-              this.recipients_view.recipients.pluck('id')
-            ),
-          };
-          if (avatarFile) {
-            attrs.avatar = avatarFile;
-          }
-          this.model.set(attrs);
-          var group_update = this.model.changed;
-          this.model.save();
+    send() {
+      return this.avatarInput.getThumbnail().then(avatarFile => {
+        const now = Date.now();
+        const attrs = {
+          timestamp: now,
+          active_at: now,
+          name: this.$('.name').val(),
+          members: _.union(
+            this.model.get('members'),
+            this.recipients_view.recipients.pluck('id')
+          ),
+        };
+        if (avatarFile) {
+          attrs.avatar = avatarFile;
+        }
+        this.model.set(attrs);
+        const groupUpdate = this.model.changed;
+        this.model.save();
 
-          if (group_update.avatar) {
-            this.model.trigger('change:avatar');
-          }
+        if (groupUpdate.avatar) {
+          this.model.trigger('change:avatar');
+        }
 
-          this.model.updateGroup(group_update);
-          this.goBack();
-        }.bind(this)
-      );
+        this.model.updateGroup(groupUpdate);
+        this.goBack();
+      });
     },
   });
 })();

@@ -6,7 +6,6 @@ config/local-*.json
 config/local.json
 dist/**
 js/components.js
-js/libsignal-protocol-worker.js
 js/libtextsecure.js
 libtextsecure/components.js
 libtextsecure/test/test.js
@@ -21,6 +20,7 @@ stylesheets/manifest.css
 components/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
+js/libsignal-protocol-worker.js
 libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js

@@ -93,6 +93,7 @@ export class ContactDetail extends React.Component<Props> {
       <div
         className="module-contact-detail__send-message"
         role="button"
+        // tslint:disable-next-line react-this-binding-issue
         onClick={onClick}
       >
         <button className="module-contact-detail__send-message__inner">

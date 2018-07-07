@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import { Contact, getName } from '../../types/Contact';
 
@@ -30,7 +30,7 @@ export class EmbeddedContact extends React.Component<Props> {
 
     return (
       <div
-        className={classnames(
+        className={classNames(
           'module-embedded-contact',
           withContentAbove
             ? 'module-embedded-contact--with-content-above'
@@ -102,7 +102,7 @@ export function renderName({
 }) {
   return (
     <div
-      className={classnames(
+      className={classNames(
         `module-${module}__contact-name`,
         isIncoming ? `module-${module}__contact-name--incoming` : null
       )}
@@ -127,7 +127,7 @@ export function renderContactShorthand({
 
   return (
     <div
-      className={classnames(
+      className={classNames(
         `module-${module}__contact-method`,
         isIncoming ? `module-${module}__contact-method--incoming` : null
       )}

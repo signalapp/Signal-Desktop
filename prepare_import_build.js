@@ -41,11 +41,15 @@ _.set(defaultConfig, IMPORT_PATH, IMPORT_END_VALUE);
 console.log('prepare_import_build: updating package.json');
 
 const MAC_ASSET_PATH = 'build.mac.artifactName';
+// eslint-disable-next-line no-template-curly-in-string
 const MAC_ASSET_START_VALUE = '${name}-mac-${version}.${ext}';
+// eslint-disable-next-line no-template-curly-in-string
 const MAC_ASSET_END_VALUE = '${name}-mac-${version}-import.${ext}';
 
 const WIN_ASSET_PATH = 'build.win.artifactName';
+// eslint-disable-next-line no-template-curly-in-string
 const WIN_ASSET_START_VALUE = '${name}-win-${version}.${ext}';
+// eslint-disable-next-line no-template-curly-in-string
 const WIN_ASSET_END_VALUE = '${name}-win-${version}-import.${ext}';
 
 checkValue(packageJson, MAC_ASSET_PATH, MAC_ASSET_START_VALUE);

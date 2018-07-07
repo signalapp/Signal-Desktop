@@ -1,4 +1,8 @@
-$(document).on('keyup', function(e) {
+/* global $, Whisper */
+
+$(document).on('keyup', e => {
+  'use strict';
+
   if (e.keyCode === 27) {
     window.closeSettings();
   }
@@ -7,6 +11,7 @@ $(document).on('keyup', function(e) {
 const $body = $(document.body);
 $body.addClass(`${window.theme}-theme`);
 
+// eslint-disable-next-line strict
 const getInitialData = async () => ({
   deviceName: await window.getDeviceName(),
 
@@ -23,7 +28,11 @@ const getInitialData = async () => ({
 });
 
 window.initialRequest = getInitialData();
+
+// eslint-disable-next-line more/no-then
 window.initialRequest.then(data => {
+  'use strict';
+
   window.initialData = data;
   window.view = new Whisper.SettingsView();
   window.view.$el.appendTo($body);

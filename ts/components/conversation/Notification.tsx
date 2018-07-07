@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 interface Props {
   type: string;
@@ -20,7 +20,7 @@ export class Notification extends React.Component<Props> {
       <div
         role="button"
         onClick={onClick}
-        className={classnames(
+        className={classNames(
           'module-notification',
           onClick ? 'module-notification--with-click-handler' : null
         )}

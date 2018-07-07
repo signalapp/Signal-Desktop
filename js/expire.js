@@ -1,16 +1,19 @@
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
-  var BUILD_EXPIRATION = 0;
+
+  let BUILD_EXPIRATION = 0;
   try {
-    BUILD_EXPIRATION = parseInt(window.getExpiration());
+    BUILD_EXPIRATION = parseInt(window.getExpiration(), 10);
     if (BUILD_EXPIRATION) {
       console.log('Build expires: ', new Date(BUILD_EXPIRATION).toISOString());
     }
-  } catch (e) {}
+  } catch (e) {
+    // nothing
+  }
 
   window.extension = window.extension || {};
 
-  extension.expired = function() {
-    return BUILD_EXPIRATION && Date.now() > BUILD_EXPIRATION;
-  };
+  window.extension.expired = () =>
+    BUILD_EXPIRATION && Date.now() > BUILD_EXPIRATION;
 })();

@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import { Emojify } from './conversation/Emojify';
 
@@ -37,7 +37,7 @@ export class ContactListItem extends React.Component<Props> {
 
     return (
       <div
-        className={classnames(
+        className={classNames(
           'module-contact-list-item__avatar-default',
           `module-contact-list-item__avatar-default--${color}`
         )}
@@ -77,7 +77,7 @@ export class ContactListItem extends React.Component<Props> {
       <div
         role="button"
         onClick={onClick}
-        className={classnames(
+        className={classNames(
           'module-contact-list-item',
           onClick ? 'module-contact-list-item--with-click-handler' : null
         )}

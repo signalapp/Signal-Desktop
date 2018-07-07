@@ -1,19 +1,23 @@
+/* global Whisper, Mustache, _ */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.ToastView = Whisper.View.extend({
     className: 'toast',
     templateName: 'toast',
-    initialize: function() {
+    initialize() {
       this.$el.hide();
     },
 
-    close: function() {
+    close() {
       this.$el.fadeOut(this.remove.bind(this));
     },
 
-    render: function() {
+    render() {
       this.$el.html(
         Mustache.render(
           _.result(this, 'template', ''),

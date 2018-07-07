@@ -1,4 +1,9 @@
-$(document).on('keyup', function(e) {
+/* global $: false */
+/* global Whisper: false */
+
+$(document).on('keyup', e => {
+  'use strict';
+
   if (e.keyCode === 27) {
     window.closeDebugLog();
   }

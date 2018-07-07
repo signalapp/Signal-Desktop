@@ -1,5 +1,9 @@
+/* global Whisper */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.BannerView = Whisper.View.extend({
@@ -9,7 +13,7 @@
       'click .dismiss': 'onDismiss',
       'click .body': 'onClick',
     },
-    initialize: function(options) {
+    initialize(options) {
       this.message = options.message;
       this.callbacks = {
         onDismiss: options.onDismiss,
@@ -17,16 +21,16 @@
       };
       this.render();
     },
-    render_attributes: function() {
+    render_attributes() {
       return {
         message: this.message,
       };
     },
-    onDismiss: function(e) {
+    onDismiss(e) {
       this.callbacks.onDismiss();
       e.stopPropagation();
     },
-    onClick: function() {
+    onClick() {
       this.callbacks.onClick();
     },
   });

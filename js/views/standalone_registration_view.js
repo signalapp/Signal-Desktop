@@ -1,16 +1,22 @@
+/* global Whisper, $, getAccountManager, textsecure */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.StandaloneRegistrationView = Whisper.View.extend({
     templateName: 'standalone',
     className: 'full-screen-flow',
-    initialize: function() {
+    initialize() {
       this.accountManager = getAccountManager();
 
       this.render();
 
-      var number = textsecure.storage.user.getNumber();
+      const number = textsecure.storage.user.getNumber();
       if (number) {
         this.$('input.number').val(number);
       }
@@ -26,58 +32,59 @@
       'change #code': 'onChangeCode',
       'click #verifyCode': 'verifyCode',
     },
-    verifyCode: function(e) {
-      var number = this.phoneView.validateNumber();
-      var verificationCode = $('#code')
+    verifyCode() {
+      const number = this.phoneView.validateNumber();
+      const verificationCode = $('#code')
         .val()
         .replace(/\D+/g, '');
 
       this.accountManager
         .registerSingleDevice(number, verificationCode)
-        .then(
-          function() {
-            this.$el.trigger('openInbox');
-          }.bind(this)
-        )
+        .then(() => {
+          this.$el.trigger('openInbox');
+        })
         .catch(this.log.bind(this));
     },
-    log: function(s) {
+    log(s) {
       console.log(s);
       this.$('#status').text(s);
     },
-    validateCode: function() {
-      var verificationCode = $('#code')
+    validateCode() {
+      const verificationCode = $('#code')
         .val()
         .replace(/\D/g, '');
-      if (verificationCode.length == 6) {
+
+      if (verificationCode.length === 6) {
         return verificationCode;
       }
+
+      return null;
     },
-    displayError: function(error) {
+    displayError(error) {
       this.$('#error')
         .hide()
         .text(error)
         .addClass('in')
         .fadeIn();
     },
-    onValidation: function() {
+    onValidation() {
       if (this.$('#number-container').hasClass('valid')) {
         this.$('#request-sms, #request-voice').removeAttr('disabled');
       } else {
         this.$('#request-sms, #request-voice').prop('disabled', 'disabled');
       }
     },
-    onChangeCode: function() {
+    onChangeCode() {
       if (!this.validateCode()) {
         this.$('#code').addClass('invalid');
       } else {
         this.$('#code').removeClass('invalid');
       }
     },
-    requestVoice: function() {
+    requestVoice() {
       window.removeSetupMenuItems();
       this.$('#error').hide();
-      var number = this.phoneView.validateNumber();
+      const number = this.phoneView.validateNumber();
       if (number) {
         this.accountManager
           .requestVoiceVerification(number)
@@ -89,10 +96,10 @@
         this.$('#number-container').addClass('invalid');
       }
     },
-    requestSMSVerification: function() {
+    requestSMSVerification() {
       window.removeSetupMenuItems();
       $('#error').hide();
-      var number = this.phoneView.validateNumber();
+      const number = this.phoneView.validateNumber();
       if (number) {
         this.accountManager
           .requestSMSVerification(number)

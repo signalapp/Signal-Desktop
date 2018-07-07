@@ -1,93 +1,89 @@
+/* global Whisper, Backbone, _, ConversationController */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
   Whisper.ReadReceipts = new (Backbone.Collection.extend({
-    forMessage: function(conversation, message) {
+    forMessage(conversation, message) {
       if (!message.isOutgoing()) {
         return [];
       }
-      var ids = [];
+      let ids = [];
       if (conversation.isPrivate()) {
         ids = [conversation.id];
       } else {
         ids = conversation.get('members');
       }
-      var receipts = this.filter(function(receipt) {
-        return (
+      const receipts = this.filter(
+        receipt =>
           receipt.get('timestamp') === message.get('sent_at') &&
           _.contains(ids, receipt.get('reader'))
-        );
-      });
+      );
       if (receipts.length) {
         console.log('Found early read receipts for message');
         this.remove(receipts);
       }
       return receipts;
     },
-    onReceipt: function(receipt) {
-      var messages = new Whisper.MessageCollection();
+    onReceipt(receipt) {
+      const messages = new Whisper.MessageCollection();
       return messages
         .fetchSentAt(receipt.get('timestamp'))
-        .then(function() {
+        .then(() => {
           if (messages.length === 0) {
-            return;
+            return null;
           }
-          var message = messages.find(function(message) {
-            return (
-              message.isOutgoing() &&
-              receipt.get('reader') === message.get('conversationId')
-            );
-          });
+          const message = messages.find(
+            item =>
+              item.isOutgoing() &&
+              receipt.get('reader') === item.get('conversationId')
+          );
           if (message) {
             return message;
           }
 
-          var groups = new Whisper.GroupCollection();
-          return groups.fetchGroups(receipt.get('reader')).then(function() {
-            var ids = groups.pluck('id');
+          const groups = new Whisper.GroupCollection();
+          return groups.fetchGroups(receipt.get('reader')).then(() => {
+            const ids = groups.pluck('id');
             ids.push(receipt.get('reader'));
-            return messages.find(function(message) {
-              return (
-                message.isOutgoing() &&
-                _.contains(ids, message.get('conversationId'))
-              );
-            });
+            return messages.find(
+              item =>
+                item.isOutgoing() && _.contains(ids, item.get('conversationId'))
+            );
           });
         })
-        .then(
-          function(message) {
-            if (message) {
-              var read_by = message.get('read_by') || [];
-              read_by.push(receipt.get('reader'));
-              return new Promise(
-                function(resolve, reject) {
-                  message.save({ read_by: read_by }).then(
-                    function() {
-                      // notify frontend listeners
-                      var conversation = ConversationController.get(
-                        message.get('conversationId')
-                      );
-                      if (conversation) {
-                        conversation.trigger('read', message);
-                      }
+        .then(message => {
+          if (message) {
+            const readBy = message.get('read_by') || [];
+            readBy.push(receipt.get('reader'));
+            return new Promise((resolve, reject) => {
+              message.save({ read_by: readBy }).then(() => {
+                // notify frontend listeners
+                const conversation = ConversationController.get(
+                  message.get('conversationId')
+                );
+                if (conversation) {
+                  conversation.trigger('read', message);
+                }
 
-                      this.remove(receipt);
-                      resolve();
-                    }.bind(this),
-                    reject
-                  );
-                }.bind(this)
-              );
-            } else {
-              console.log(
-                'No message for read receipt',
-                receipt.get('reader'),
-                receipt.get('timestamp')
-              );
-            }
-          }.bind(this)
-        )
-        .catch(function(error) {
+                this.remove(receipt);
+                resolve();
+              }, reject);
+            });
+          }
+          console.log(
+            'No message for read receipt',
+            receipt.get('reader'),
+            receipt.get('timestamp')
+          );
+
+          return null;
+        })
+        .catch(error => {
           console.log(
             'ReadReceipts.onReceipt error:',
             error && error.stack ? error.stack : error

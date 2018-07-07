@@ -1,11 +1,15 @@
+/* global Whisper, i18n */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.IdentityKeySendErrorPanelView = Whisper.View.extend({
     className: 'identity-key-send-error panel',
     templateName: 'identity-key-send-error',
-    initialize: function(options) {
+    initialize(options) {
       this.listenBack = options.listenBack;
       this.resetPanel = options.resetPanel;
 
@@ -17,31 +21,31 @@
       'click .send-anyway': 'sendAnyway',
       'click .cancel': 'cancel',
     },
-    showSafetyNumber: function() {
-      var view = new Whisper.KeyVerificationPanelView({
+    showSafetyNumber() {
+      const view = new Whisper.KeyVerificationPanelView({
         model: this.model,
       });
       this.listenBack(view);
     },
-    sendAnyway: function() {
+    sendAnyway() {
       this.resetPanel();
       this.trigger('send-anyway');
     },
-    cancel: function() {
+    cancel() {
       this.resetPanel();
     },
-    render_attributes: function() {
-      var send = i18n('sendAnyway');
+    render_attributes() {
+      let send = i18n('sendAnyway');
       if (this.wasUnverified && !this.model.isUnverified()) {
         send = i18n('resend');
       }
 
-      var errorExplanation = i18n('identityKeyErrorOnSend', [
+      const errorExplanation = i18n('identityKeyErrorOnSend', [
         this.model.getTitle(),
         this.model.getTitle(),
       ]);
       return {
-        errorExplanation: errorExplanation,
+        errorExplanation,
         showSafetyNumber: i18n('showSafetyNumber'),
         sendAnyway: send,
         cancel: i18n('cancel'),

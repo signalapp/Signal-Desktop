@@ -1,5 +1,4 @@
 /* global Whisper: false */
-/* global i18n: false */
 /* global textsecure: false */
 
 // eslint-disable-next-line func-names

@@ -1,5 +1,5 @@
-const webpack = require('webpack');
 const path = require('path');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const typescriptSupport = require('react-docgen-typescript');
 
 const propsParser = typescriptSupport.withCustomConfig('./tsconfig.json').parse;

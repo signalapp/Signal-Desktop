@@ -1,5 +1,11 @@
+/* global Whisper, textsecure, QRCode, dcodeIO, libsignal, i18n, _ */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.KeyVerificationPanelView = Whisper.View.extend({
@@ -8,58 +14,54 @@
     events: {
       'click button.verify': 'toggleVerified',
     },
-    initialize: function(options) {
+    initialize(options) {
       this.ourNumber = textsecure.storage.user.getNumber();
       if (options.newKey) {
         this.theirKey = options.newKey;
       }
 
-      this.loadKeys().then(
-        function() {
-          this.listenTo(this.model, 'change', this.render);
-        }.bind(this)
-      );
+      this.loadKeys().then(() => {
+        this.listenTo(this.model, 'change', this.render);
+      });
     },
-    loadKeys: function() {
+    loadKeys() {
       return Promise.all([this.loadTheirKey(), this.loadOurKey()])
         .then(this.generateSecurityNumber.bind(this))
         .then(this.render.bind(this));
-      //.then(this.makeQRCode.bind(this));
+      // .then(this.makeQRCode.bind(this));
     },
-    makeQRCode: function() {
+    makeQRCode() {
       // Per Lilia: We can't turn this on until it generates a Latin1 string, as is
       //   required by the mobile clients.
       new QRCode(this.$('.qr')[0]).makeCode(
         dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')
       );
     },
-    loadTheirKey: function() {
-      return textsecure.storage.protocol.loadIdentityKey(this.model.id).then(
-        function(theirKey) {
+    loadTheirKey() {
+      return textsecure.storage.protocol
+        .loadIdentityKey(this.model.id)
+        .then(theirKey => {
           this.theirKey = theirKey;
-        }.bind(this)
-      );
+        });
     },
-    loadOurKey: function() {
-      return textsecure.storage.protocol.loadIdentityKey(this.ourNumber).then(
-        function(ourKey) {
+    loadOurKey() {
+      return textsecure.storage.protocol
+        .loadIdentityKey(this.ourNumber)
+        .then(ourKey => {
           this.ourKey = ourKey;
-        }.bind(this)
-      );
+        });
     },
-    generateSecurityNumber: function() {
+    generateSecurityNumber() {
       return new libsignal.FingerprintGenerator(5200)
         .createFor(this.ourNumber, this.ourKey, this.model.id, this.theirKey)
-        .then(
-          function(securityNumber) {
-            this.securityNumber = securityNumber;
-          }.bind(this)
-        );
+        .then(securityNumber => {
+          this.securityNumber = securityNumber;
+        });
     },
-    onSafetyNumberChanged: function() {
+    onSafetyNumberChanged() {
       this.model.getProfiles().then(this.loadKeys.bind(this));
 
-      var dialog = new Whisper.ConfirmationDialogView({
+      const dialog = new Whisper.ConfirmationDialogView({
         message: i18n('changedRightAfterVerify', [
           this.model.getTitle(),
           this.model.getTitle(),
@@ -70,65 +72,62 @@
       dialog.$el.insertBefore(this.el);
       dialog.focusCancel();
     },
-    toggleVerified: function() {
+    toggleVerified() {
       this.$('button.verify').attr('disabled', true);
       this.model
         .toggleVerified()
-        .catch(
-          function(result) {
-            if (result instanceof Error) {
-              if (result.name === 'OutgoingIdentityKeyError') {
-                this.onSafetyNumberChanged();
-              } else {
-                console.log('failed to toggle verified:', result.stack);
-              }
+        .catch(result => {
+          if (result instanceof Error) {
+            if (result.name === 'OutgoingIdentityKeyError') {
+              this.onSafetyNumberChanged();
             } else {
-              var keyError = _.some(result.errors, function(error) {
-                return error.name === 'OutgoingIdentityKeyError';
-              });
-              if (keyError) {
-                this.onSafetyNumberChanged();
-              } else {
-                _.forEach(result.errors, function(error) {
-                  console.log('failed to toggle verified:', error.stack);
-                });
-              }
+              console.log('failed to toggle verified:', result.stack);
             }
-          }.bind(this)
-        )
-        .then(
-          function() {
-            this.$('button.verify').removeAttr('disabled');
-          }.bind(this)
-        );
+          } else {
+            const keyError = _.some(
+              result.errors,
+              error => error.name === 'OutgoingIdentityKeyError'
+            );
+            if (keyError) {
+              this.onSafetyNumberChanged();
+            } else {
+              _.forEach(result.errors, error => {
+                console.log('failed to toggle verified:', error.stack);
+              });
+            }
+          }
+        })
+        .then(() => {
+          this.$('button.verify').removeAttr('disabled');
+        });
     },
-    render_attributes: function() {
-      var s = this.securityNumber;
-      var chunks = [];
-      for (var i = 0; i < s.length; i += 5) {
+    render_attributes() {
+      const s = this.securityNumber;
+      const chunks = [];
+      for (let i = 0; i < s.length; i += 5) {
         chunks.push(s.substring(i, i + 5));
       }
-      var name = this.model.getTitle();
-      var yourSafetyNumberWith = i18n('yourSafetyNumberWith', name);
-      var isVerified = this.model.isVerified();
-      var verifyButton = isVerified ? i18n('unverify') : i18n('verify');
-      var verifiedStatus = isVerified
+      const name = this.model.getTitle();
+      const yourSafetyNumberWith = i18n(
+        'yourSafetyNumberWith',
+        this.model.getTitle()
+      );
+      const isVerified = this.model.isVerified();
+      const verifyButton = isVerified ? i18n('unverify') : i18n('verify');
+      const verifiedStatus = isVerified
         ? i18n('isVerified', name)
         : i18n('isNotVerified', name);
 
       return {
         learnMore: i18n('learnMore'),
         theirKeyUnknown: i18n('theirIdentityUnknown'),
-        yourSafetyNumberWith: i18n(
-          'yourSafetyNumberWith',
-          this.model.getTitle()
-        ),
+        yourSafetyNumberWith,
         verifyHelp: i18n('verifyHelp', this.model.getTitle()),
-        verifyButton: verifyButton,
+        verifyButton,
         hasTheirKey: this.theirKey !== undefined,
-        chunks: chunks,
-        isVerified: isVerified,
-        verifiedStatus: verifiedStatus,
+        chunks,
+        isVerified,
+        verifiedStatus,
       };
     },
   });

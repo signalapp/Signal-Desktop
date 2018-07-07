@@ -1,8 +1,14 @@
+/* global Whisper, i18n, getAccountManager, $, textsecure, QRCode */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
-  var Steps = {
+  const Steps = {
     INSTALL_SIGNAL: 2,
     SCAN_QR_CODE: 3,
     ENTER_NAME: 4,
@@ -11,9 +17,9 @@
     NETWORK_ERROR: 'NetworkError',
   };
 
-  var DEVICE_NAME_SELECTOR = 'input.device-name';
-  var CONNECTION_ERROR = -1;
-  var TOO_MANY_DEVICES = 411;
+  const DEVICE_NAME_SELECTOR = 'input.device-name';
+  const CONNECTION_ERROR = -1;
+  const TOO_MANY_DEVICES = 411;
 
   Whisper.InstallView = Whisper.View.extend({
     templateName: 'link-flow-template',
@@ -23,9 +29,7 @@
       'click .finish': 'finishLinking',
       // the actual next step happens in confirmNumber() on submit form #link-phone
     },
-    initialize: function(options) {
-      options = options || {};
-
+    initialize(options = {}) {
       this.selectStep(Steps.SCAN_QR_CODE);
       this.connect();
       this.on('disconnected', this.reconnect);
@@ -34,18 +38,18 @@
       this.shouldRetainData =
         Whisper.Registration.everDone() || options.hasExistingData;
     },
-    render_attributes: function() {
-      var errorMessage;
+    render_attributes() {
+      let errorMessage;
 
       if (this.error) {
         if (
           this.error.name === 'HTTPError' &&
-          this.error.code == TOO_MANY_DEVICES
+          this.error.code === TOO_MANY_DEVICES
         ) {
           errorMessage = i18n('installTooManyDevices');
         } else if (
           this.error.name === 'HTTPError' &&
-          this.error.code == CONNECTION_ERROR
+          this.error.code === CONNECTION_ERROR
         ) {
           errorMessage = i18n('installConnectionFailed');
         } else if (this.error.message === 'websocket closed') {
@@ -78,11 +82,11 @@
         syncing: i18n('initialSync'),
       };
     },
-    selectStep: function(step) {
+    selectStep(step) {
       this.step = step;
       this.render();
     },
-    connect: function() {
+    connect() {
       this.error = null;
       this.selectStep(Steps.SCAN_QR_CODE);
       this.clearQR();
@@ -91,7 +95,7 @@
         this.timeout = null;
       }
 
-      var accountManager = getAccountManager();
+      const accountManager = getAccountManager();
 
       accountManager
         .registerSecondDevice(
@@ -100,7 +104,7 @@
         )
         .catch(this.handleDisconnect.bind(this));
     },
-    handleDisconnect: function(e) {
+    handleDisconnect(e) {
       console.log('provisioning failed', e.stack);
 
       this.error = e;
@@ -115,20 +119,20 @@
         throw e;
       }
     },
-    reconnect: function() {
+    reconnect() {
       if (this.timeout) {
         clearTimeout(this.timeout);
         this.timeout = null;
       }
       this.timeout = setTimeout(this.connect.bind(this), 10000);
     },
-    clearQR: function() {
+    clearQR() {
       this.$('#qr img').remove();
       this.$('#qr canvas').remove();
       this.$('#qr .container').show();
       this.$('#qr').removeClass('ready');
     },
-    setProvisioningUrl: function(url) {
+    setProvisioningUrl(url) {
       if ($('#qr').length === 0) {
         console.log('Did not find #qr element in the DOM!');
         return;
@@ -139,63 +143,57 @@
       this.$('#qr').removeAttr('title');
       this.$('#qr').addClass('ready');
     },
-    setDeviceNameDefault: function() {
-      var deviceName = textsecure.storage.user.getDeviceName();
+    setDeviceNameDefault() {
+      const deviceName = textsecure.storage.user.getDeviceName();
 
       this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());
       this.$(DEVICE_NAME_SELECTOR).focus();
     },
-    finishLinking: function() {
+    finishLinking() {
       // We use a form so we get submit-on-enter behavior
       this.$('#link-phone').submit();
     },
-    confirmNumber: function(number) {
-      var tsp = textsecure.storage.protocol;
+    confirmNumber() {
+      const tsp = textsecure.storage.protocol;
 
       window.removeSetupMenuItems();
       this.selectStep(Steps.ENTER_NAME);
       this.setDeviceNameDefault();
 
-      return new Promise(
-        function(resolve, reject) {
-          this.$('#link-phone').submit(
-            function(e) {
-              e.stopPropagation();
-              e.preventDefault();
+      return new Promise(resolve => {
+        this.$('#link-phone').submit(e => {
+          e.stopPropagation();
+          e.preventDefault();
 
-              var name = this.$(DEVICE_NAME_SELECTOR).val();
-              name = name.replace(/\0/g, ''); // strip unicode null
-              if (name.trim().length === 0) {
-                this.$(DEVICE_NAME_SELECTOR).focus();
-                return;
-              }
+          let name = this.$(DEVICE_NAME_SELECTOR).val();
+          name = name.replace(/\0/g, ''); // strip unicode null
+          if (name.trim().length === 0) {
+            this.$(DEVICE_NAME_SELECTOR).focus();
+            return null;
+          }
 
-              this.selectStep(Steps.PROGRESS_BAR);
+          this.selectStep(Steps.PROGRESS_BAR);
 
-              var finish = function() {
-                resolve(name);
-              };
+          const finish = () => resolve(name);
 
-              // Delete all data from database unless we're in the middle
-              //   of a re-link, or we are finishing a light import. Without this,
-              //   app restarts at certain times can cause weird things to happen,
-              //   like data from a previous incomplete light import showing up
-              //   after a new install.
-              if (this.shouldRetainData) {
-                return finish();
-              }
+          // Delete all data from database unless we're in the middle
+          //   of a re-link, or we are finishing a light import. Without this,
+          //   app restarts at certain times can cause weird things to happen,
+          //   like data from a previous incomplete light import showing up
+          //   after a new install.
+          if (this.shouldRetainData) {
+            return finish();
+          }
 
-              tsp.removeAllData().then(finish, function(error) {
-                console.log(
-                  'confirmNumber: error clearing database',
-                  error && error.stack ? error.stack : error
-                );
-                finish();
-              });
-            }.bind(this)
-          );
-        }.bind(this)
-      );
+          return tsp.removeAllData().then(finish, error => {
+            console.log(
+              'confirmNumber: error clearing database',
+              error && error.stack ? error.stack : error
+            );
+            finish();
+          });
+        });
+      });
     },
   });
 })();

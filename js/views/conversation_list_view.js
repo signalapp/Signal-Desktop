@@ -1,12 +1,16 @@
+/* global Whisper, getInboxCollection */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.ConversationListView = Whisper.ListView.extend({
     tagName: 'div',
     itemView: Whisper.ConversationListItemView,
-    updateLocation: function(conversation) {
-      var $el = this.$('.' + conversation.cid);
+    updateLocation(conversation) {
+      const $el = this.$(`.${conversation.cid}`);
 
       if (!$el || !$el.length) {
         console.log(
@@ -23,11 +27,11 @@
         return;
       }
 
-      var $allConversations = this.$('.conversation-list-item');
-      var inboxCollection = getInboxCollection();
-      var index = inboxCollection.indexOf(conversation);
+      const $allConversations = this.$('.conversation-list-item');
+      const inboxCollection = getInboxCollection();
+      const index = inboxCollection.indexOf(conversation);
 
-      var elIndex = $allConversations.index($el);
+      const elIndex = $allConversations.index($el);
       if (elIndex < 0) {
         console.log(
           'updateLocation: did not find index for conversation',
@@ -43,8 +47,8 @@
       } else if (index === this.collection.length - 1) {
         this.$el.append($el);
       } else {
-        var targetConversation = inboxCollection.at(index - 1);
-        var target = this.$('.' + targetConversation.cid);
+        const targetConversation = inboxCollection.at(index - 1);
+        const target = this.$(`.${targetConversation.cid}`);
         $el.insertAfter(target);
       }
 
@@ -54,8 +58,8 @@
         });
       }
     },
-    removeItem: function(conversation) {
-      var $el = this.$('.' + conversation.cid);
+    removeItem(conversation) {
+      const $el = this.$(`.${conversation.cid}`);
       if ($el && $el.length > 0) {
         $el.remove();
       }
