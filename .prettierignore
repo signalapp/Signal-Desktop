@@ -29,7 +29,10 @@ test/blanket_mocha.js
 test/fixtures.js
 
 # Managed by Transifex:
-_locales/**
+# Note: the negate pattern only works because it's targeting the same depth as the
+#   glob on the previous line.
+_locales/**/*.json
+!_locales/en/messages.json
 
 # Managed by package manager (`bower` and `yarn`/`npm`):
 /bower.json
