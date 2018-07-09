@@ -13,7 +13,7 @@ body {
   margin: 0;
   font-family: $roboto;
   font-size: 14px;
-  color: $grey_d;
+  color: $color-light-90;
 }
 
 .dark-overlay {
@@ -22,7 +22,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: black;
+  background-color: $color-black;
   opacity: 0.25;
   z-index: 200;
 }
@@ -40,23 +40,21 @@ body {
   display: none;
 }
 
-#header {
-  h1 {
-    margin: 0;
-    line-height: $header-height;
-    padding-left: 20px;
-    font-size: 22px;
-    font-weight: normal;
-  }
+.title-bar {
+  color: $color-light-90;
+
+  height: $header-height;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.conversation-header button,
-.title-bar button {
-  width: $button-height;
-  height: $button-height;
-  line-height: $button-height;
-  padding: 0;
-  border: 0;
+.logo {
+  margin-left: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 300;
+  color: $color-light-90;
 }
 
 button {
@@ -90,103 +88,6 @@ button.grey {
 
 a {
   color: $blue;
-}
-
-button.back {
-  @include header-icon-black('../images/back.svg');
-}
-button.clock {
-  @include header-icon-black('../images/clock.svg');
-}
-button.hamburger {
-  @include header-icon-black('../images/menu.svg');
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: $border-radius;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.25);
-  }
-}
-
-.header-buttons {
-  &.left {
-    float: left;
-    padding-left: 10px;
-  }
-  &.right {
-    float: right;
-    padding-right: 10px;
-  }
-  height: 0;
-
-  .vertical-align {
-    height: $header-height;
-    vertical-align: middle;
-    display: table-cell;
-  }
-}
-
-.conversation-header .timer-menu {
-  margin-right: 10px;
-
-  &:before {
-    content: attr(data-time);
-    display: inline-block;
-    position: absolute;
-    bottom: -10px;
-    height: 10px;
-    width: 100%;
-    text-align: center;
-    font-size: 8px;
-    font-weight: bold;
-  }
-}
-
-.menu {
-  position: relative;
-  float: right;
-
-  .hamburger {
-    width: $button-height;
-    height: $button-height;
-    vertical-align: middle;
-  }
-  .menu-list {
-    display: none;
-    position: absolute;
-    color: $grey_d;
-    z-index: 50;
-    text-align: initial;
-
-    top: 100%;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    background-color: white;
-    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
-
-    li {
-      display: block;
-      white-space: nowrap;
-      cursor: pointer;
-      padding: 5px 15px 5px 10px;
-
-      &:hover {
-        background-color: $grey_l;
-      }
-    }
-  }
 }
 
 .file-input {
@@ -248,13 +149,13 @@ $avatar-size: 44px;
   line-height: $avatar-size;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  color: white;
+  color: $color-white;
   font-size: 18px;
-  @include avatar-colors;
+  background-color: $grey;
 }
 
 .group-info-input {
-  background: white;
+  background: $color-white;
 
   .group-avatar {
     display: inline-block;
@@ -303,23 +204,15 @@ $avatar-size: 44px;
     }
   }
 }
-// the old way
-.profileName {
-  font-size: smaller;
 
-  &:before {
-    content: '~';
-  }
-}
-// the new way
-.profile-name {
-  font-size: smaller;
-}
+$unread-badge-size: 21px;
 
 .conversation-list-item {
   cursor: pointer;
+  color: $color-light-90;
+
   &:hover {
-    background: #f8f8f8;
+    background: $color-black-008;
   }
 
   .number {
@@ -351,12 +244,6 @@ $avatar-size: 44px;
   padding: 12px;
   white-space: nowrap;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.6);
-  margin: 1px;
-
-  &.selected {
-    background: rgb(236, 243, 252);
-  }
 
   &:first-child {
     margin-top: 0;
@@ -510,6 +397,8 @@ $avatar-size: 44px;
 .new-group-update .recipients-input .recipients::before {
   content: 'Add: ';
 }
+
+$loading-height: 16px;
 
 .loading {
   position: relative;

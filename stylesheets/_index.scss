@@ -3,12 +3,13 @@
 .inbox,
 .gutter {
   height: 100%;
+  overflow: hidden;
 }
 
 .expired {
   .conversation-stack,
   .gutter {
-    height: calc(100% - 56px);
+    height: calc(100% - 48px);
   }
 }
 
@@ -18,16 +19,12 @@
 }
 
 .gutter {
-  color: $grey_d;
+  background-color: $color-black-008;
   float: left;
   width: 300px;
-  display: flex;
-  flex-direction: column;
-
   .content {
-    background-color: $grey_l;
-    flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
+    max-height: calc(100% - 88px);
   }
 }
 .network-status-container {
@@ -66,8 +63,6 @@
 }
 
 .conversation-stack {
-  padding-left: 300px;
-
   .conversation {
     display: none;
   }
@@ -76,62 +71,49 @@
   }
 }
 
-.conversation-header {
-  height: $header-height;
-  text-align: center;
-  color: white;
-  background-color: #999999;
-  transition: background-color 0.5s;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-
-  .avatar {
-    margin-bottom: -30px;
-    border: solid 2px white;
-    z-index: 10;
-    width: 48px;
-    height: 48px;
-    line-height: 44px;
-    position: relative;
-  }
-}
-.inactive .conversation-header {
-  background-color: $grey_l !important;
-  color: $grey_d;
-  border-color: rgba(0, 0, 0, 0.05);
-  .verified-icon {
-    @include color-svg('../images/verified-check.svg', $grey_d);
-  }
-}
-
 .tool-bar {
+  color: $color-light-90;
+
+  padding: 8px;
+  padding-top: 0px;
+  margin-top: -1px;
+
   position: relative;
   .search-icon {
     content: '';
     display: inline-block;
     float: left;
     width: 24px;
-    height: 100%;
+    height: 33px;
     -webkit-mask: url('../images/search.svg') no-repeat left center;
     -webkit-mask-size: 100%;
-    background-color: #ccc;
+    background-color: $color-light-35;
     position: absolute;
     left: 20px;
     top: 0;
   }
 }
 
+$search-x-size: 16px;
+$search-padding-right: 12px;
+$search-padding-left: 30px;
+
 input.search {
-  border: none;
+  border: 1px solid $color-black-02;
   padding: 0 $search-padding-right 0 $search-padding-left;
-  margin: 0;
+  margin-left: 8px;
+  margin-right: 8px;
   outline: 0;
-  height: $search-height;
-  line-height: $search-height;
-  width: 100%;
-  border: solid 1px $grey_l;
+  height: 32px;
+  width: calc(100% - 16px);
   outline-offset: -2px;
-  font-size: inherit;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: normal;
+  color: $color-light-35;
+
   position: relative;
+  border-radius: 4px;
 
   &.active {
     outline: solid 1px $blue;

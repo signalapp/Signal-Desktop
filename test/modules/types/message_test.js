@@ -278,6 +278,12 @@ describe('Message', () => {
           return 'abc/abcdefg';
         },
         getRegionCode: () => 'US',
+        getAbsoluteAttachmentPath: () => 'some/path/on/disk',
+        makeObjectUrl: () => 'blob://FAKE',
+        revokeObjectUrl: () => null,
+        getImageDimensions: () => ({ height: 10, width: 15 }),
+        makeImageThumbnail: () => new Blob(),
+        makeVideoScreenshot: () => new Blob(),
       };
       const actual = await Message.upgradeSchema(input, context);
       assert.deepEqual(actual, expected);

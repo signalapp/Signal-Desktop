@@ -1,43 +1,134 @@
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
 
-$color-signal-blue: #2090ea;
-$color-core-green: #4caf50;
-$color-core-red: #f44336;
+// Module: Contact Name
 
-$color-white: #ffffff;
-$color-white-07: rgba($color-white, 0.7);
-$color-white-075: rgba($color-white, 0.75);
-$color-light-02: #f9fafa;
-$color-light-10: #eeefef;
-$color-light-35: #a4a6a9;
-$color-light-45: #8b8e91;
-$color-light-60: #62656a;
-$color-light-90: #070c14;
-
-$color-dark-05: #efefef;
-$color-dark-30: #a8a9aa;
-$color-dark-55: #88898c;
-$color-dark-60: #797a7c;
-$color-dark-70: #414347;
-$color-dark-85: #1a1c20;
-$color-black: #000000;
-$color-black-012: rgba($color-black, 0.12);
-
-// TODO: need the final color for grey conversations
-$color-conversation-grey: #757575;
-$color-conversation-blue: #1976d2;
-$color-conversation-cyan: #00838f;
-$color-conversation-deep_orange: #bf360c;
-$color-conversation-green: #2e7d32;
-$color-conversation-indigo: #3949ab;
-$color-conversation-pink: #d81b60;
-$color-conversation-purple: #8e24aa;
-$color-conversation-red: #d32f2f;
-$color-conversation-teal: #00796b;
+.module-contact-name__profile-name {
+  font-style: italic;
+}
 
 // Module: Message
 
 .module-message {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.module-message--expired {
+  animation: module-message__shake 0.2s linear infinite;
+}
+
+@keyframes module-message__shake {
+  0% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(0px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.module-message--outgoing {
+  float: right;
+}
+
+.module-message__buttons {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  opacity: 0;
+}
+
+.module-message:hover .module-message__buttons {
+  opacity: 1;
+}
+
+.module-message__buttons__download {
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+  cursor: pointer;
+  @include color-svg('../images/download.svg', $color-light-45);
+  &:hover {
+    @include color-svg('../images/download.svg', $color-light-90);
+  }
+}
+
+.module-message__buttons__download--incoming {
+  margin-left: 12px;
+}
+.module-message__buttons__download--outgoing {
+  margin-right: 12px;
+}
+
+.module-message__buttons__reply {
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+  cursor: pointer;
+  @include color-svg('../images/reply.svg', $color-light-45);
+  &:hover {
+    @include color-svg('../images/reply.svg', $color-light-90);
+  }
+}
+
+.module-message__buttons__reply--incoming {
+  margin-left: 12px;
+}
+.module-message__buttons__reply--outgoing {
+  margin-right: 12px;
+}
+
+.module-message__buttons__menu {
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+  cursor: pointer;
+  @include color-svg('../images/ellipsis.svg', $color-light-45);
+  &:hover {
+    @include color-svg('../images/ellipsis.svg', $color-light-90);
+  }
+}
+
+.module-message__buttons__menu--incoming {
+  margin-left: 12px;
+}
+
+.module_message__buttons__menu--outgoing {
+  margin-right: 12px;
+}
+
+.module-message__error-container {
+  width: 28px;
+  position: relative;
+}
+
+.module-message__error {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  position: absolute;
+  bottom: 4px;
+  @include color-svg('../images/error.svg', $color-core-red);
+}
+
+.module-message__error--outgoing {
+  left: 8px;
+}
+
+.module-message__error--incoming {
+  right: 8px;
+}
+
+.module-message__container {
   position: relative;
   display: inline-block;
   border-radius: 16px;
@@ -45,17 +136,58 @@ $color-conversation-teal: #00796b;
   padding-left: 12px;
   padding-top: 10px;
   padding-bottom: 10px;
-  max-width: 370px; // 350 + left/right padding
+  max-width: 386px;
+}
+
+.module-message__container--outgoing {
+  background-color: $color-light-10;
+}
+
+// In case the color gets messed up
+.module-message__container--incoming {
+  background-color: $color-conversation-grey;
+}
+
+.module-message__container--incoming-grey {
+  background-color: $color-conversation-grey;
+}
+.module-message__container--incoming-blue {
+  background-color: $color-conversation-blue;
+}
+.module-message__container--incoming-cyan {
+  background-color: $color-conversation-cyan;
+}
+.module-message__container--incoming-deep_orange {
+  background-color: $color-conversation-deep_orange;
+}
+.module-message__container--incoming-green {
+  background-color: $color-conversation-green;
+}
+.module-message__container--incoming-indigo {
+  background-color: $color-conversation-indigo;
+}
+.module-message__container--incoming-pink {
+  background-color: $color-conversation-pink;
+}
+.module-message__container--incoming-purple {
+  background-color: $color-conversation-purple;
+}
+.module-message__container--incoming-red {
+  background-color: $color-conversation-red;
+}
+.module-message__container--incoming-teal {
+  background-color: $color-conversation-teal;
 }
 
 .module-message__attachment-container {
   // Entirely to ensure that images are centered if they aren't full width of bubble
   text-align: center;
   position: relative;
+  cursor: pointer;
 }
 
 .module-message__img-attachment {
-  max-width: 370px;
+  max-width: 386px;
   margin-left: -12px;
   margin-right: -12px;
   margin-top: -10px;
@@ -63,13 +195,16 @@ $color-conversation-teal: #00796b;
   //   bottom, so this doesn't match up with the padding numbers above.
   margin-bottom: -13px;
   border-radius: 16px;
-  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 0 4px 0 rgba(0, 0, 0, 0.08);
+  border: 1px solid $color-black-02;
+  background-color: $color-white;
 
   object-fit: cover;
   width: calc(100% + 24px);
   min-width: 200px;
   min-height: 150px;
   max-height: 300px;
+
+  // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
 }
 
@@ -115,6 +250,61 @@ $color-conversation-teal: #00796b;
   margin-top: 4px;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
+}
+
+.module-message__broken-image {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  color: $color-light-90;
+}
+
+.module-message__broken-image--incoming {
+  color: $color-white;
+}
+
+.module-message__video-overlay__circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 48px;
+  height: 48px;
+  background-color: $color-white;
+  border-radius: 24px;
+}
+
+.module-message__video-overlay__play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height: 36px;
+  width: 36px;
+  @include color-svg('../images/play.svg', $color-signal-blue);
+}
+
+.module-message__broken-video-screenshot {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  color: $color-light-90;
+
+  cursor: pointer;
+}
+
+.module-message__broken-video-screenshot--incoming {
+  color: $color-white;
 }
 
 .module-message__audio-attachment {
@@ -223,61 +413,19 @@ $color-conversation-teal: #00796b;
 }
 
 .module-message__author__profile-name {
-  color: $color-white-07;
-  // TODO: finalize this font
-  font-size: 11px;
-  line-height: 18px;
-}
-
-.module-message--outgoing {
-  background-color: $color-light-10;
-  float: right;
-}
-
-// In case the color gets messed up
-.module-message--incoming {
-  background-color: $color-conversation-grey;
-}
-
-.module-message--incoming-grey {
-  background-color: $color-conversation-grey;
-}
-.module-message--incoming-blue {
-  background-color: $color-conversation-blue;
-}
-.module-message--incoming-cyan {
-  background-color: $color-conversation-cyan;
-}
-.module-message--incoming-deep_orange {
-  background-color: $color-conversation-deep_orange;
-}
-.module-message--incoming-green {
-  background-color: $color-conversation-green;
-}
-.module-message--incoming-indigo {
-  background-color: $color-conversation-indigo;
-}
-.module-message--incoming-pink {
-  background-color: $color-conversation-pink;
-}
-.module-message--incoming-purple {
-  background-color: $color-conversation-purple;
-}
-.module-message--incoming-red {
-  background-color: $color-conversation-red;
-}
-.module-message--incoming-teal {
-  background-color: $color-conversation-teal;
-}
-
-.module-message--with-image-only {
-  background-color: transparent;
+  font-style: italic;
 }
 
 .module-message__text {
   color: $color-light-90;
   font-size: 14px;
   line-height: 18px;
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+
   a {
     text-decoration: underline;
     color: $color-light-90;
@@ -290,6 +438,10 @@ $color-conversation-teal: #00796b;
     text-decoration: underline;
     color: $color-white;
   }
+}
+
+.module-message__text--error {
+  font-style: italic;
 }
 
 .module-message__metadata {
@@ -326,61 +478,6 @@ $color-conversation-teal: #00796b;
   color: $color-white;
 }
 
-.module-message__metadata__timer {
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  margin-left: 6px;
-  margin-bottom: 2px;
-  @include color-svg('../images/timer-60.svg', $color-light-45);
-}
-
-.module-message__metadata__timer--55 {
-  @include color-svg('../images/timer-55.svg', $color-light-45);
-}
-.module-message__metadata__timer--50 {
-  @include color-svg('../images/timer-50.svg', $color-light-45);
-}
-.module-message__metadata__timer--45 {
-  @include color-svg('../images/timer-45.svg', $color-light-45);
-}
-.module-message__metadata__timer--40 {
-  @include color-svg('../images/timer-40.svg', $color-light-45);
-}
-.module-message__metadata__timer--35 {
-  @include color-svg('../images/timer-35.svg', $color-light-45);
-}
-.module-message__metadata__timer--30 {
-  @include color-svg('../images/timer-30.svg', $color-light-45);
-}
-.module-message__metadata__timer--25 {
-  @include color-svg('../images/timer-25.svg', $color-light-45);
-}
-.module-message__metadata__timer--20 {
-  @include color-svg('../images/timer-20.svg', $color-light-45);
-}
-.module-message__metadata__timer--15 {
-  @include color-svg('../images/timer-15.svg', $color-light-45);
-}
-.module-message__metadata__timer--10 {
-  @include color-svg('../images/timer-10.svg', $color-light-45);
-}
-.module-message__metadata__timer--05 {
-  @include color-svg('../images/timer-05.svg', $color-light-45);
-}
-.module-message__metadata__timer--00 {
-  @include color-svg('../images/timer-00.svg', $color-light-45);
-}
-
-.module-message__metadata__timer--incoming {
-  background-color: $color-white-07;
-}
-
-// When status indicators are overlaid on top of an image, they use different colors
-.module-message__metadata__timer--with-image-no-caption {
-  background-color: white;
-}
-
 .module-message__metadata__spacer {
   flex-grow: 1;
 }
@@ -393,7 +490,7 @@ $color-conversation-teal: #00796b;
   margin-bottom: 2px;
 }
 
-.module-message__metadata__status-icon-sending {
+.module-message__metadata__status-icon--sending {
   @include color-svg('../images/sending.svg', $color-light-60);
   animation: module-message__metdata__status-icon--spinning 4s linear infinite;
 }
@@ -405,56 +502,21 @@ $color-conversation-teal: #00796b;
   }
 }
 
-.module-message__metadata__status-icon-sent {
+.module-message__metadata__status-icon--sent {
   @include color-svg('../images/check-circle-outline.svg', $color-light-35);
 }
-.module-message__metadata__status-icon-delivered {
+.module-message__metadata__status-icon--delivered {
   @include color-svg('../images/double-check.svg', $color-light-35);
   width: 18px;
 }
-.module-message__metadata__status-icon-read {
-  @include color-svg('../images/double-check.svg', $color-light-35);
+.module-message__metadata__status-icon--read {
+  @include color-svg('../images/read.svg', $color-light-35);
   width: 18px;
-}
-
-.module-message__metadata__status-icon-grey {
-  background-color: $color-conversation-grey;
-}
-.module-message__metadata__status-icon-blue {
-  background-color: $color-conversation-blue;
-}
-.module-message__metadata__status-icon-cyan {
-  background-color: $color-conversation-cyan;
-}
-.module-message__metadata__status-icon-deep_orange {
-  background-color: $color-conversation-deep_orange;
-}
-.module-message__metadata__status-icon-green {
-  background-color: $color-conversation-green;
-}
-.module-message__metadata__status-icon-indigo {
-  background-color: $color-conversation-indigo;
-}
-.module-message__metadata__status-icon-pink {
-  background-color: $color-conversation-pink;
-}
-.module-message__metadata__status-icon-purple {
-  background-color: $color-conversation-purple;
-}
-.module-message__metadata__status-icon-red {
-  background-color: $color-conversation-red;
-}
-.module-message__metadata__status-icon-teal {
-  background-color: $color-conversation-teal;
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
 .module-message__metadata__status-icon--with-image-no-caption {
-  background-color: white;
-}
-
-.module-message__metadata__status-icon--read-with-image-no-caption {
-  background-color: $color-signal-blue;
+  background-color: $color-white;
 }
 
 .module-message__send-message-button {
@@ -499,13 +561,43 @@ $color-conversation-teal: #00796b;
 
   height: 36px;
   width: 36px;
-  background-color: $color-conversation-grey;
   border-radius: 18px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
   text-align: center;
+}
+
+.module-message__author-default-avatar--grey {
+  background-color: $color-conversation-grey;
+}
+.module-message__author-default-avatar--blue {
+  background-color: $color-conversation-blue;
+}
+.module-message__author-default-avatar--cyan {
+  background-color: $color-conversation-cyan;
+}
+.module-message__author-default-avatar--deep_orange {
+  background-color: $color-conversation-deep_orange;
+}
+.module-message__author-default-avatar--green {
+  background-color: $color-conversation-green;
+}
+.module-message__author-default-avatar--indigo {
+  background-color: $color-conversation-indigo;
+}
+.module-message__author-default-avatar--pink {
+  background-color: $color-conversation-pink;
+}
+.module-message__author-default-avatar--purple {
+  background-color: $color-conversation-purple;
+}
+.module-message__author-default-avatar--red {
+  background-color: $color-conversation-red;
+}
+.module-message__author-default-avatar--teal {
+  background-color: $color-conversation-teal;
 }
 
 .module-message__author-default-avatar__label {
@@ -517,9 +609,67 @@ $color-conversation-teal: #00796b;
   padding-right: 1px;
 }
 
+// Module: Expire Timer
+
+.module-expire-timer {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-left: 6px;
+  margin-bottom: 2px;
+  @include color-svg('../images/timer-60.svg', $color-light-45);
+}
+
+.module-expire-timer--55 {
+  @include color-svg('../images/timer-55.svg', $color-light-45);
+}
+.module-expire-timer--50 {
+  @include color-svg('../images/timer-50.svg', $color-light-45);
+}
+.module-expire-timer--45 {
+  @include color-svg('../images/timer-45.svg', $color-light-45);
+}
+.module-expire-timer--40 {
+  @include color-svg('../images/timer-40.svg', $color-light-45);
+}
+.module-expire-timer--35 {
+  @include color-svg('../images/timer-35.svg', $color-light-45);
+}
+.module-expire-timer--30 {
+  @include color-svg('../images/timer-30.svg', $color-light-45);
+}
+.module-expire-timer--25 {
+  @include color-svg('../images/timer-25.svg', $color-light-45);
+}
+.module-expire-timer--20 {
+  @include color-svg('../images/timer-20.svg', $color-light-45);
+}
+.module-expire-timer--15 {
+  @include color-svg('../images/timer-15.svg', $color-light-45);
+}
+.module-expire-timer--10 {
+  @include color-svg('../images/timer-10.svg', $color-light-45);
+}
+.module-expire-timer--05 {
+  @include color-svg('../images/timer-05.svg', $color-light-45);
+}
+.module-expire-timer--00 {
+  @include color-svg('../images/timer-00.svg', $color-light-45);
+}
+
+.module-expire-timer--incoming {
+  background-color: $color-white-07;
+}
+
+// When status indicators are overlaid on top of an image, they use different colors
+.module-expire-timer--with-image-no-caption {
+  background-color: $color-white;
+}
+
 // Module: Quoted Reply
 
 .module-quote {
+  position: relative;
   border-radius: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -554,6 +704,10 @@ $color-conversation-teal: #00796b;
   border-left-color: $color-white;
 }
 
+.module-quote--outgoing-you {
+  border-left-color: $color-light-35;
+  background-color: $color-light-02;
+}
 .module-quote--outgoing-grey {
   border-left-color: $color-conversation-grey;
   background-color: rgba($color-conversation-grey, 0.25);
@@ -601,6 +755,8 @@ $color-conversation-teal: #00796b;
   padding-right: 8px;
   padding-top: 7px;
   padding-bottom: 7px;
+
+  max-width: 100%;
 }
 
 .module-quote__primary__author {
@@ -608,10 +764,45 @@ $color-conversation-teal: #00796b;
   line-height: 18px;
   font-weight: 300;
   color: $color-light-90;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.module-quote__primary__author--grey {
+  color: $color-conversation-grey;
+}
+.module-quote__primary__author--blue {
+  color: $color-conversation-blue;
+}
+.module-quote__primary__author--cyan {
+  color: $color-conversation-cyan;
+}
+.module-quote__primary__author--deep_orange {
+  color: $color-conversation-deep_orange;
+}
+.module-quote__primary__author--green {
+  color: $color-conversation-green;
+}
+.module-quote__primary__author--indigo {
+  color: $color-conversation-indigo;
+}
+.module-quote__primary__author--pink {
+  color: $color-conversation-pink;
+}
+.module-quote__primary__author--purple {
+  color: $color-conversation-purple;
+}
+.module-quote__primary__author--red {
+  color: $color-conversation-red;
+}
+.module-quote__primary__author--teal {
+  color: $color-conversation-teal;
 }
 
 .module-quote__primary__profile-name {
-  font-size: smaller;
+  font-style: italic;
 }
 
 .module-quote__primary__text {
@@ -619,7 +810,11 @@ $color-conversation-teal: #00796b;
   line-height: 18px;
   color: $color-light-90;
 
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
   white-space: pre-wrap;
+
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -657,6 +852,7 @@ $color-conversation-teal: #00796b;
 .module-quote__close-button {
   width: 100%;
   height: 100%;
+  cursor: pointer;
   @include color-svg('../images/x.svg', $grey);
 }
 
@@ -694,7 +890,7 @@ $color-conversation-teal: #00796b;
   height: 32px;
   width: 32px;
   border-radius: 50%;
-  background-color: white;
+  background-color: $color-white;
 }
 
 .module-quote__icon-container__icon {
@@ -737,6 +933,11 @@ $color-conversation-teal: #00796b;
   font-size: 14px;
   line-height: 18px;
   color: $color-light-90;
+
+  max-width: calc(100% - 26px);
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 // Module: Embedded Contact
@@ -782,8 +983,8 @@ $color-conversation-teal: #00796b;
   border-radius: 50%;
   width: 100%;
   height: 100%;
-  background-color: gray;
-  color: white;
+  background-color: $color-conversation-grey;
+  color: $color-white;
   font-size: 25px;
   line-height: 52px;
 }
@@ -859,8 +1060,8 @@ $color-conversation-teal: #00796b;
   border-radius: 50%;
   width: 100%;
   height: 100%;
-  background-color: gray;
-  color: white;
+  background-color: $color-conversation-grey;
+  color: $color-white;
   font-size: 50px;
   line-height: 82px;
 }
@@ -884,7 +1085,7 @@ $color-conversation-teal: #00796b;
   padding: 6px;
   margin-top: 20px;
 
-  color: white;
+  color: $color-white;
 
   flex-direction: column;
   align-items: center;
@@ -920,13 +1121,151 @@ $color-conversation-teal: #00796b;
   margin-bottom: 3px;
 }
 
-// Module: Notification
+// Module: Group Notification
 
-.module-notification {
-  font-size: 13px;
-  line-height: 18px;
+.module-group-notification {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
   color: $color-light-60;
   text-align: center;
+}
+
+.module-group-notification__change {
+  margin-top: 10px;
+}
+
+.module-group-notification__contact {
+  font-weight: 300;
+}
+
+// Module: Reset Session Notification
+
+.module-reset-session-notification {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  color: $color-light-60;
+  text-align: center;
+}
+
+// Module: Safety Number Notification
+
+.module-safety-number-notification {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.module-safety-number-notification__icon {
+  height: 24px;
+  width: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 7px;
+  @include color-svg('../images/shield.svg', $color-light-60);
+}
+
+.module-safety-number-notification__text {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  color: $color-light-60;
+}
+
+.module-safety-number-notification__contact {
+  font-weight: 300;
+}
+
+.module-verification-notification__button {
+  margin-top: 5px;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 18px;
+  padding: 12px;
+  color: $color-signal-blue;
+  background-color: $color-light-02;
+  border-radius: 4px;
+}
+
+// Module: Verification Notification
+
+.module-verification-notification {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  color: $color-light-60;
+  text-align: center;
+}
+
+.module-verification-notification__contact {
+  font-weight: 300;
+}
+
+.module-verification-notification__icon--mark-verified {
+  height: 24px;
+  width: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 4px;
+  @include color-svg('../images/verified-check.svg', $color-light-60);
+}
+
+.module-verification-notification__icon--mark-not-verified {
+  height: 24px;
+  width: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 7px;
+  @include color-svg('../images/shield.svg', $color-light-60);
+}
+
+// Module: Timer Notification
+
+.module-timer-notification {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  color: $color-light-60;
+  text-align: center;
+}
+
+.module-timer-notification__icon-container {
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.module-timer-notification__icon {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  @include color-svg('../images/timer.svg', $color-light-60);
+}
+
+.module-timer-notification__icon-label {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  margin-left: 6px;
+  text-transform: uppercase;
+
+  // Didn't seem centered otherwise
+  margin-top: 1px;
+}
+
+.module-timer-notification__message {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
 }
 
 .module-notification--with-click-handler {
@@ -934,22 +1273,10 @@ $color-conversation-teal: #00796b;
 }
 
 .module-notification__icon {
-  height: 1.25em;
-  width: 1.25em;
-  vertical-align: text-bottom;
-  display: inline-block;
-}
-
-.module-notification__icon--verified {
-  @include color-svg('../images/verified-check.svg', $color-light-60);
-}
-
-.module-notification__icon--shield {
-  @include color-svg('../images/shield.svg', $color-light-60);
-}
-
-.module-notification__icon--clock {
-  @include color-svg('../images/clock.svg', $color-light-60);
+  height: 24px;
+  width: 24px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 // Module: Contact List Item
@@ -1036,8 +1363,7 @@ $color-conversation-teal: #00796b;
 }
 
 .module-contact-list-item__text__profile-name {
-  font-size: 12px;
-  font-weight: normal;
+  font-style: italic;
 }
 
 .module-contact-list-item__text__additional-data {
@@ -1054,4 +1380,379 @@ $color-conversation-teal: #00796b;
 
   // Trying to account for the whitespace around the check mark
   margin-bottom: -1px;
+}
+
+// Module: Conversation Header
+
+.module-conversation-header {
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  height: $header-height;
+  color: $color-light-90;
+
+  background-color: $color-white;
+  border-bottom: 1px solid $color-black-02;
+}
+
+.module-conversation-header__back-icon {
+  @include color-svg('../images/back.svg', $color-light-90);
+  display: inline-block;
+  margin-left: -10px;
+  margin-right: -2px;
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  vertical-align: text-bottom;
+  cursor: pointer;
+}
+
+.module-conversation-header___avatar {
+  height: 32px;
+  width: 32px;
+  min-width: 32px;
+  border-radius: 16px;
+}
+
+.module-conversation-header___default-avatar {
+  background-color: $color-conversation-grey;
+
+  line-height: 32px;
+  font-size: 16px;
+  color: $color-white;
+  text-align: center;
+}
+
+.module-conversation-header___default-avatar--blue {
+  background-color: $color-conversation-blue;
+}
+.module-conversation-header___default-avatar--cyan {
+  background-color: $color-conversation-cyan;
+}
+.module-conversation-header___default-avatar--deep_orange {
+  background-color: $color-conversation-deep_orange;
+}
+.module-conversation-header___default-avatar--green {
+  background-color: $color-conversation-green;
+}
+.module-conversation-header___default-avatar--indigo {
+  background-color: $color-conversation-indigo;
+}
+.module-conversation-header___default-avatar--pink {
+  background-color: $color-conversation-pink;
+}
+.module-conversation-header___default-avatar--purple {
+  background-color: $color-conversation-purple;
+}
+.module-conversation-header___default-avatar--red {
+  background-color: $color-conversation-red;
+}
+.module-conversation-header___default-avatar--teal {
+  background-color: $color-conversation-teal;
+}
+
+.module-conversation-header__title {
+  flex-grow: 1;
+  display: block;
+
+  margin-left: 8px;
+
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 300;
+  color: $color-light-90;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  -webkit-user-select: text;
+}
+
+.module-conversation-header__title__profile-name {
+  font-style: italic;
+}
+
+.module-conversation-header__title__verified-icon {
+  @include color-svg('../images/verified-check.svg', $color-light-90);
+  display: inline-block;
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: text-bottom;
+}
+
+.module-conversation-header__expiration {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.module-conversation-header__expiration__clock-icon {
+  @include color-svg('../images/timer.svg', $color-light-60);
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+}
+
+.module-conversation-header__expiration__setting {
+  margin-left: 5px;
+}
+
+.module-conversation-header__gear-icon {
+  @include color-svg('../images/gear.svg', $color-light-60);
+  height: 20px;
+  width: 20px;
+  padding-left: 4px;
+  cursor: pointer;
+}
+
+// Module: Message Detail
+
+.module-message-detail {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+}
+
+.module-message-detail__message-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  &:after {
+    content: '.';
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
+
+.module-message-detail__label {
+  font-weight: 300;
+  padding-right: 5px;
+}
+
+.module-message-detail__unix-timestamp {
+  color: $color-light-10;
+}
+
+.module-message-detail__delete-button-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.module-message-detail__delete-button {
+  @include button-reset;
+
+  background-color: $color-core-red;
+  color: $color-white;
+  box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
+  border-radius: 5px;
+  border: solid 1px $color-light-35;
+  cursor: pointer;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+.module-message-detail__contact-container {
+  margin: 20px;
+}
+
+.module-message-detail__contact {
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-message-detail__contact__avatar {
+  height: 44px;
+  width: 44px;
+  min-width: 44px;
+  border-radius: 22px;
+}
+
+.module-message-detail__contact__default-avatar {
+  background-color: $color-conversation-grey;
+
+  line-height: 44px;
+  font-size: 20px;
+  color: $color-white;
+  text-align: center;
+}
+
+.module-message-detail__contact__default-avatar--blue {
+  background-color: $color-conversation-blue;
+}
+.module-message-detail__contact__default-avatar--cyan {
+  background-color: $color-conversation-cyan;
+}
+.module-message-detail__contact__default-avatar--deep_orange {
+  background-color: $color-conversation-deep_orange;
+}
+.module-message-detail__contact__default-avatar--green {
+  background-color: $color-conversation-green;
+}
+.module-message-detail__contact__default-avatar--indigo {
+  background-color: $color-conversation-indigo;
+}
+.module-message-detail__contact__default-avatar--pink {
+  background-color: $color-conversation-pink;
+}
+.module-message-detail__contact__default-avatar--purple {
+  background-color: $color-conversation-purple;
+}
+.module-message-detail__contact__default-avatar--red {
+  background-color: $color-conversation-red;
+}
+.module-message-detail__contact__default-avatar--teal {
+  background-color: $color-conversation-teal;
+}
+
+.module-message-detail__contact__text {
+  margin-left: 10px;
+  flex-grow: 1;
+}
+
+.module-message-detail__contact__error {
+  color: $color-core-red;
+  font-weight: 300;
+}
+
+.module-message-detail__contact__status-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-left: 6px;
+  margin-bottom: 2px;
+}
+
+.module-message-detail__contact__status-icon--sending {
+  @include color-svg('../images/sending.svg', $color-light-60);
+  animation: module-message-detail__contact__status-icon--spinning 4s linear
+    infinite;
+}
+
+@keyframes module-message-detail__contact__status-icon--spinning {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.module-message-detail__contact__status-icon--sent {
+  @include color-svg('../images/check-circle-outline.svg', $color-light-35);
+}
+.module-message-detail__contact__status-icon--delivered {
+  @include color-svg('../images/double-check.svg', $color-light-35);
+  width: 18px;
+}
+.module-message-detail__contact__status-icon--read {
+  @include color-svg('../images/read.svg', $color-light-35);
+  width: 18px;
+}
+.module-message-detail__contact__status-icon--error {
+  @include color-svg('../images/error.svg', $color-core-red);
+}
+
+.module-message-detail__contact__error-buttons {
+  text-align: right;
+}
+
+.module-message-detail__contact__show-safety-number {
+  @include button-reset;
+  padding: 4px;
+  color: $color-white;
+  background-color: $color-light-35;
+  border-radius: 4px;
+}
+.module-message-detail__contact__send-anyway {
+  @include button-reset;
+  color: $color-white;
+  background-color: $color-core-red;
+  margin-left: 5px;
+  margin-top: 5px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+// Third-party module: react-contextmenu
+
+.react-contextmenu {
+  background-color: $color-light-02;
+  border-radius: 4px;
+  min-width: 160px;
+  padding: 0px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border: 1px solid $color-dark-05;
+  opacity: 0;
+}
+
+.react-contextmenu--visible {
+  z-index: 1000;
+  opacity: 1;
+}
+
+.react-contextmenu-item {
+  color: $color-light-90;
+
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 18px;
+  white-space: nowrap;
+
+  padding-left: 16px;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  padding-right: 16px;
+}
+
+.react-contextmenu-item--checked:before {
+  content: '✓';
+  display: inline-block;
+  position: absolute;
+  right: 7px;
+  color: $color-light-90;
+}
+
+.react-contextmenu-item.react-contextmenu-submenu {
+  padding: 0;
+}
+
+.react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item {
+  padding-right: 36px;
+}
+
+.react-contextmenu-item.react-contextmenu-submenu
+  > .react-contextmenu-item:after {
+  content: '\25B6';
+  display: inline-block;
+  position: absolute;
+  right: 7px;
+  color: $color-light-90;
+}
+
+.react-contextmenu-item.react-contextmenu-item--active,
+.react-contextmenu-item.react-contextmenu-item--selected {
+  color: $color-white;
+  background-color: $color-light-35;
+}
+
+.react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,
+.react-contextmenu-item.react-contextmenu-item--selected.react-contextmenu-item--checked:before {
+  color: $color-white;
+}
+
+.react-contextmenu-item.react-contextmenu-submenu
+  > .react-contextmenu-item.react-contextmenu-item--active:after,
+.react-contextmenu-item.react-contextmenu-submenu
+  > .react-contextmenu-item.react-contextmenu-item--selected:after {
+  color: $color-white;
 }

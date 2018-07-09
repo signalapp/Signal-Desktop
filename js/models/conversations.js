@@ -5,7 +5,6 @@
 
 /* global ConversationController: false */
 /* global libsignal: false */
-/* global Signal: false */
 /* global storage: false */
 /* global textsecure: false */
 /* global Whisper: false */
@@ -19,7 +18,15 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message } = window.Signal.Types;
+  const { Util } = window.Signal;
+  const { GoogleChrome } = Util;
+  const {
+    Conversation,
+    Contact,
+    Errors,
+    Message,
+    VisualAttachment,
+  } = window.Signal.Types;
   const { upgradeMessageSchema, loadAttachmentData } = window.Signal.Migrations;
 
   // TODO: Factor out private and group subclasses of Conversation
@@ -108,7 +115,10 @@
       this.on('change:profileKey', this.onChangeProfileKey);
       this.on('destroy', this.revokeAvatarUrl);
 
+      // Listening for out-of-band data updates
       this.on('newmessage', this.addSingleMessage);
+      this.on('delivered', this.updateMessage);
+      this.on('read', this.updateMessage);
       this.on('expired', this.onExpired);
       this.listenTo(
         this.messageCollection,
@@ -127,6 +137,7 @@
         mine.trigger('expired', mine);
       }
     },
+
     async onExpiredCollection(message) {
       console.log('onExpiredCollection', message.attributes);
       const removeMessage = () => {
@@ -142,6 +153,12 @@
 
       await this.inProgressFetch;
       removeMessage();
+    },
+
+    // Used to update existing messages when updated from out-of-band db access,
+    //   like read and delivery receipts.
+    updateMessage(message) {
+      this.messageCollection.add(message, { merge: true });
     },
 
     addSingleMessage(message) {
@@ -716,24 +733,23 @@
     },
 
     async makeThumbnailAttachment(attachment) {
+      const { arrayBufferToObjectURL } = Util;
       const attachmentWithData = await loadAttachmentData(attachment);
       const { data, contentType } = attachmentWithData;
-      const objectUrl = Signal.Util.arrayBufferToObjectURL({
+      const objectUrl = arrayBufferToObjectURL({
         data,
         type: contentType,
       });
 
-      const thumbnail = Signal.Util.GoogleChrome.isImageTypeSupported(
-        contentType
-      )
-        ? await Whisper.FileInputView.makeImageThumbnail(128, objectUrl)
-        : await Whisper.FileInputView.makeVideoThumbnail(128, objectUrl);
+      const thumbnail = GoogleChrome.isImageTypeSupported(contentType)
+        ? await VisualAttachment.makeImageThumbnail(128, objectUrl)
+        : await VisualAttachment.makeVideoThumbnail(128, objectUrl);
 
       URL.revokeObjectURL(objectUrl);
 
       const arrayBuffer = await this.blobToArrayBuffer(thumbnail);
       const finalContentType = 'image/png';
-      const finalObjectUrl = Signal.Util.arrayBufferToObjectURL({
+      const finalObjectUrl = arrayBufferToObjectURL({
         data: arrayBuffer,
         type: finalContentType,
       });
@@ -746,7 +762,7 @@
     },
 
     async makeQuote(quotedMessage) {
-      const { getName } = Signal.Types.Contact;
+      const { getName } = Contact;
       const contact = quotedMessage.getContact();
       const attachments = quotedMessage.get('attachments');
 
@@ -765,8 +781,8 @@
           (attachments || []).map(async attachment => {
             const { contentType } = attachment;
             const willMakeThumbnail =
-              Signal.Util.GoogleChrome.isImageTypeSupported(contentType) ||
-              Signal.Util.GoogleChrome.isVideoTypeSupported(contentType);
+              GoogleChrome.isImageTypeSupported(contentType) ||
+              GoogleChrome.isVideoTypeSupported(contentType);
             const makeThumbnail = async () => {
               try {
                 if (willMakeThumbnail) {
@@ -873,16 +889,14 @@
       const lastMessage = collection.at(0);
 
       const lastMessageJSON = lastMessage ? lastMessage.toJSON() : null;
-      const lastMessageUpdate = window.Signal.Types.Conversation.createLastMessageUpdate(
-        {
-          currentLastMessageText: this.get('lastMessage') || null,
-          currentTimestamp: this.get('timestamp') || null,
-          lastMessage: lastMessageJSON,
-          lastMessageNotificationText: lastMessage
-            ? lastMessage.getNotificationText()
-            : null,
-        }
-      );
+      const lastMessageUpdate = Conversation.createLastMessageUpdate({
+        currentLastMessageText: this.get('lastMessage') || null,
+        currentTimestamp: this.get('timestamp') || null,
+        lastMessage: lastMessageJSON,
+        lastMessageNotificationText: lastMessage
+          ? lastMessage.getNotificationText()
+          : null,
+      });
 
       console.log('Conversation: Update last message:', {
         id: this.idForLogging() || null,
@@ -1284,8 +1298,8 @@
 
       return (
         thumbnail ||
-        Signal.Util.GoogleChrome.isImageTypeSupported(contentType) ||
-        Signal.Util.GoogleChrome.isVideoTypeSupported(contentType)
+        GoogleChrome.isImageTypeSupported(contentType) ||
+        GoogleChrome.isVideoTypeSupported(contentType)
       );
     },
     forceRender(message) {
@@ -1323,8 +1337,8 @@
       }
 
       if (
-        !Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType) &&
-        !Signal.Util.GoogleChrome.isVideoTypeSupported(first.contentType)
+        !GoogleChrome.isImageTypeSupported(first.contentType) &&
+        !GoogleChrome.isVideoTypeSupported(first.contentType)
       ) {
         return false;
       }
@@ -1352,7 +1366,7 @@
       } catch (error) {
         console.log(
           'Problem loading attachment data for quoted message from database',
-          Signal.Types.Errors.toLogFormat(error)
+          Errors.toLogFormat(error)
         );
         return false;
       }
@@ -1370,8 +1384,8 @@
       }
 
       if (
-        !Signal.Util.GoogleChrome.isImageTypeSupported(first.contentType) &&
-        !Signal.Util.GoogleChrome.isVideoTypeSupported(first.contentType)
+        !GoogleChrome.isImageTypeSupported(first.contentType) &&
+        !GoogleChrome.isVideoTypeSupported(first.contentType)
       ) {
         return;
       }
@@ -1410,7 +1424,7 @@
       try {
         const thumbnailWithData = await loadAttachmentData(thumbnail);
         const { data, contentType } = thumbnailWithData;
-        thumbnailWithData.objectUrl = Signal.Util.arrayBufferToObjectURL({
+        thumbnailWithData.objectUrl = Util.arrayBufferToObjectURL({
           data,
           type: contentType,
         });
@@ -1489,9 +1503,29 @@
       return Promise.all(promises);
     },
 
+    async upgradeMessages(messages) {
+      for (let max = messages.length, i = 0; i < max; i += 1) {
+        const message = messages.at(i);
+        const { attributes } = message;
+        const { schemaVersion } = attributes;
+
+        if (schemaVersion < Message.CURRENT_SCHEMA_VERSION) {
+          const upgradedMessage = upgradeMessageSchema(attributes);
+          message.set(upgradedMessage);
+          // Yep, we really do want to wait for each of these
+          // eslint-disable-next-line no-await-in-loop
+          await wrapDeferred(message.save());
+        }
+      }
+    },
+
     async fetchMessages() {
       if (!this.id) {
         throw new Error('This conversation has no id!');
+      }
+      if (this.inProgressFetch) {
+        console.log('Attempting to start a parallel fetchMessages() call');
+        return;
       }
 
       this.inProgressFetch = this.messageCollection.fetchConversation(
@@ -1501,11 +1535,24 @@
       );
 
       await this.inProgressFetch;
-      this.inProgressFetch = null;
+
+      try {
+        // We are now doing the work to upgrade messages before considering the load from
+        //   the database complete. Note that we do save messages back, so it is a
+        //   one-time hit. We do this so we have guarantees about message structure.
+        await this.upgradeMessages(this.messageCollection);
+      } catch (error) {
+        console.log(
+          'fetchMessages: failed to upgrade messages',
+          Errors.toLogFormat(error)
+        );
+      }
 
       // We kick this process off, but don't wait for it. If async updates happen on a
       //   given Message, 'change' will be triggered
       this.processQuotes(this.messageCollection);
+
+      this.inProgressFetch = null;
     },
 
     hasMember(number) {
@@ -1534,28 +1581,36 @@
       });
     },
 
-    destroyMessages() {
-      this.messageCollection
-        .fetch({
-          index: {
-            // 'conversation' index on [conversationId, received_at]
-            name: 'conversation',
-            lower: [this.id],
-            upper: [this.id, Number.MAX_VALUE],
-          },
-        })
-        .then(() => {
-          const { models } = this.messageCollection;
-          this.messageCollection.reset([]);
-          _.each(models, message => {
-            message.destroy();
-          });
-          this.save({
-            lastMessage: null,
-            timestamp: null,
-            active_at: null,
-          });
+    async destroyMessages() {
+      let loaded;
+      do {
+        // Yes, we really want the await in the loop. We're deleting 100 at a
+        //   time so we don't use too much memory.
+        // eslint-disable-next-line no-await-in-loop
+        await wrapDeferred(
+          this.messageCollection.fetch({
+            limit: 100,
+            index: {
+              // 'conversation' index on [conversationId, received_at]
+              name: 'conversation',
+              lower: [this.id],
+              upper: [this.id, Number.MAX_VALUE],
+            },
+          })
+        );
+
+        loaded = this.messageCollection.models;
+        this.messageCollection.reset([]);
+        _.each(loaded, message => {
+          message.destroy();
         });
+      } while (loaded.length > 0);
+
+      this.save({
+        lastMessage: null,
+        timestamp: null,
+        active_at: null,
+      });
     },
 
     getName() {
@@ -1646,20 +1701,8 @@
       }
     },
     getColor() {
-      const title = this.get('name');
-      let color = this.get('color');
-      if (!color) {
-        if (this.isPrivate()) {
-          if (title) {
-            color = COLORS[Math.abs(this.hashCode()) % 15];
-          } else {
-            color = 'grey';
-          }
-        } else {
-          color = 'default';
-        }
-      }
-      return color;
+      const { migrateColor } = Util;
+      return migrateColor(this.get('color'));
     },
     getAvatar() {
       if (this.avatarUrl === undefined) {
@@ -1705,9 +1748,7 @@
           const messageJSON = message.toJSON();
           const messageSentAt = messageJSON.sent_at;
           const messageId = message.id;
-          const isExpiringMessage = Signal.Types.Message.hasExpiration(
-            messageJSON
-          );
+          const isExpiringMessage = Message.hasExpiration(messageJSON);
 
           console.log('Add notification', {
             conversationId: this.idForLogging(),

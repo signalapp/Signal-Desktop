@@ -41,6 +41,9 @@ const PRIVATE = 'private';
 //     - `hasVisualMediaAttachments`: Include all images and video regardless of
 //       whether Chromium can render it or not.
 //     - `hasFileAttachments`: Exclude voice messages.
+// Version 8
+//   - Attachments: Capture video/image dimensions and thumbnails, as well as a
+//       full-size screenshot for video.
 
 const INITIAL_SCHEMA_VERSION = 0;
 
@@ -128,7 +131,7 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
       upgradedMessage = await upgrade(message, context);
     } catch (error) {
       console.log(
-        'Message._withSchemaVersion: error:',
+        `Message._withSchemaVersion: error updating message ${message.id}:`,
         Errors.toLogFormat(error)
       );
       return message;
@@ -242,6 +245,11 @@ const toVersion6 = exports._withSchemaVersion(
 // classified:
 const toVersion7 = exports._withSchemaVersion(7, initializeAttachmentMetadata);
 
+const toVersion8 = exports._withSchemaVersion(
+  8,
+  exports._mapAttachments(Attachment.captureDimensionsAndScreenshot)
+);
+
 const VERSIONS = [
   toVersion0,
   toVersion1,
@@ -251,19 +259,47 @@ const VERSIONS = [
   toVersion5,
   toVersion6,
   toVersion7,
+  toVersion8,
 ];
 exports.CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
 
 // UpgradeStep
 exports.upgradeSchema = async (
   rawMessage,
-  { writeNewAttachmentData, getRegionCode } = {}
+  {
+    writeNewAttachmentData,
+    getRegionCode,
+    getAbsoluteAttachmentPath,
+    makeObjectUrl,
+    revokeObjectUrl,
+    getImageDimensions,
+    makeImageThumbnail,
+    makeVideoScreenshot,
+  } = {}
 ) => {
   if (!isFunction(writeNewAttachmentData)) {
-    throw new TypeError('`context.writeNewAttachmentData` is required');
+    throw new TypeError('context.writeNewAttachmentData is required');
   }
   if (!isFunction(getRegionCode)) {
-    throw new TypeError('`context.getRegionCode` is required');
+    throw new TypeError('context.getRegionCode is required');
+  }
+  if (!isFunction(getAbsoluteAttachmentPath)) {
+    throw new TypeError('context.getAbsoluteAttachmentPath is required');
+  }
+  if (!isFunction(makeObjectUrl)) {
+    throw new TypeError('context.makeObjectUrl is required');
+  }
+  if (!isFunction(revokeObjectUrl)) {
+    throw new TypeError('context.revokeObjectUrl is required');
+  }
+  if (!isFunction(getImageDimensions)) {
+    throw new TypeError('context.getImageDimensions is required');
+  }
+  if (!isFunction(makeImageThumbnail)) {
+    throw new TypeError('context.makeImageThumbnail is required');
+  }
+  if (!isFunction(makeVideoScreenshot)) {
+    throw new TypeError('context.makeVideoScreenshot is required');
   }
 
   let message = rawMessage;
@@ -275,6 +311,12 @@ exports.upgradeSchema = async (
     message = await currentVersion(message, {
       writeNewAttachmentData,
       regionCode: getRegionCode(),
+      getAbsoluteAttachmentPath,
+      makeObjectUrl,
+      revokeObjectUrl,
+      getImageDimensions,
+      makeImageThumbnail,
+      makeVideoScreenshot,
     });
   }
 

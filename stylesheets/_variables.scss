@@ -1,19 +1,3 @@
-// colors
-$blue_l: #a2d2f4;
-$blue: #2090ea;
-$grey_l: #f3f3f3;
-$grey_l1: #bdbdbd;
-$grey_l1_5: #e6e6e6;
-$grey_l2: #d9d9d9; // ~ Equivalent to darken($grey_l, 10%), unreliably compiles
-$grey_l3: darken($grey_l, 20%);
-$grey_l4: darken($grey_l, 40%);
-$grey: #616161;
-$grey_d: #454545;
-$green: #47d647;
-$red: #ef8989;
-
-$z-index-modal: 100;
-
 @font-face {
   font-family: 'Roboto-Light';
   src: url('../fonts/Roboto-Light.ttf') format('truetype');
@@ -37,62 +21,69 @@ $z-index-modal: 100;
   src: url('../fonts/Roboto-Bold.ttf') format('truetype');
   font-weight: bold;
 }
+
 $roboto: Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 $roboto-light: Roboto-Light, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 
-$header-height: 64px;
+// New colors
+
+$color-signal-blue: #2090ea;
+$color-core-green: #4caf50;
+$color-core-red: #f44336;
+
+$color-white: #ffffff;
+$color-white-02: rgba($color-white, 0.2);
+$color-white-07: rgba($color-white, 0.7);
+$color-white-075: rgba($color-white, 0.75);
+$color-light-02: #f9fafa;
+$color-light-10: #eeefef;
+$color-light-35: #a4a6a9;
+$color-light-45: #8b8e91;
+$color-light-60: #62656a;
+$color-light-90: #070c14;
+
+$color-dark-05: #efefef;
+$color-dark-30: #a8a9aa;
+$color-dark-55: #88898c;
+$color-dark-60: #797a7c;
+$color-dark-70: #414347;
+$color-dark-85: #1a1c20;
+$color-black: #000000;
+$color-black-008: rgba($color-black, 0.08);
+$color-black-012: rgba($color-black, 0.12);
+$color-black-02: rgba($color-black, 0.2);
+$color-black-04: rgba($color-black, 0.4);
+
+$color-conversation-grey: #757575;
+$color-conversation-blue: #1976d2;
+$color-conversation-cyan: #00838f;
+$color-conversation-deep_orange: #bf360c;
+$color-conversation-green: #2e7d32;
+$color-conversation-indigo: #3949ab;
+$color-conversation-pink: #d81b60;
+$color-conversation-purple: #8e24aa;
+$color-conversation-red: #d32f2f;
+$color-conversation-teal: #00796b;
+
+// Old colors
+
+$blue_l: #a2d2f4;
+$blue: #2090ea;
+$grey_l: #f3f3f3;
+$grey_l1: #bdbdbd;
+$grey_l1_5: #e6e6e6;
+$grey_l2: #d9d9d9; // ~ Equivalent to darken($grey_l, 10%), unreliably compiles
+$grey_l3: darken($grey_l, 20%);
+$grey_l4: darken($grey_l, 40%);
+$grey: #616161;
+$grey_d: #454545;
+
+// A few layout variables used cross-file
+
+$header-height: 48px;
 $button-height: 24px;
-$header-color: $blue;
-
-$search-height: 36px;
-$search-padding-right: 10px;
-$search-padding-left: 65px;
-$search-padding-left-ios: 30px;
-$search-x-size: 16px;
-
-$unread-badge-size: 21px;
-$loading-height: 16px;
 
 $border-radius: 5px;
 
-$error-icon-size: 24px;
-
 $font-size: 14px;
 $font-size-small: (13/14) + em;
-
-$material_red: #ef5350;
-$material_pink: #ec407a;
-$material_purple: #ab47bc;
-$material_deep_purple: #7e57c2;
-$material_indigo: #5c6bc0;
-$material_blue: #2196f3;
-$material_light_blue: #03a9f4;
-$material_cyan: #00bcd4;
-$material_teal: #009688;
-$material_green: #4caf50;
-$material_light_green: #7cb342;
-$material_orange: #ff9800;
-$material_deep_orange: #ff5722;
-$material_amber: #ffb300;
-$material_blue_grey: #607d8b;
-
-$dark_material_red: #d32f2f;
-$dark_material_pink: #c2185b;
-$dark_material_purple: #7b1fa2;
-$dark_material_deep_purple: #512da8;
-$dark_material_indigo: #303f9f;
-$dark_material_blue: #1976d2;
-$dark_material_light_blue: #0288d1;
-$dark_material_cyan: #0097a7;
-$dark_material_teal: #00796b;
-$dark_material_green: #388e3c;
-$dark_material_light_green: #689f38;
-$dark_material_orange: #f57c00;
-$dark_material_deep_orange: #e64a19;
-$dark_material_amber: #ffa000;
-$dark_material_blue_grey: #455a64;
-
-// Android
-$android-bubble-padding-horizontal: 12px;
-$android-bubble-padding-vertical: 9px;
-$android-bubble-quote-padding: 4px;

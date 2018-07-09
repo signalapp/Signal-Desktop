@@ -202,13 +202,6 @@ window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInst
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
 
-// Note: when modifying this file, consider whether our React Components or Backbone Views
-//   will need these things to render in the Style Guide. If so, go update one of these
-//   two locations:
-//
-//   1) test/styleguide/legacy_bridge.js
-//   2) ts/styleguide/StyleGuideUtil.js
-
 window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');

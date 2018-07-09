@@ -2,7 +2,6 @@
 /* global _: false */
 /* global emojiData: false */
 /* global EmojiPanel: false */
-/* global moment: false */
 /* global extension: false */
 /* global i18n: false */
 /* global Signal: false */
@@ -14,6 +13,7 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
+  const { Migrations } = Signal;
 
   Whisper.ExpiredToast = Whisper.ToastView.extend({
     render_attributes() {
@@ -28,42 +28,6 @@
   Whisper.LeftGroupToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('youLeftTheGroup') };
-    },
-  });
-
-  const MenuView = Whisper.View.extend({
-    toggleMenu() {
-      this.$('.menu-list').toggle();
-    },
-  });
-
-  const TimerMenuView = MenuView.extend({
-    initialize() {
-      this.render();
-      this.listenTo(this.model, 'change:expireTimer', this.render);
-    },
-    events: {
-      'click button': 'toggleMenu',
-      'click li': 'setTimer',
-    },
-    setTimer(e) {
-      const { seconds } = this.$(e.target).data();
-      if (seconds > 0) {
-        this.model.updateExpirationTimer(seconds);
-      } else {
-        this.model.updateExpirationTimer(null);
-      }
-    },
-    render() {
-      const seconds = this.model.get('expireTimer');
-      if (seconds) {
-        const s = Whisper.ExpirationTimerOptions.getAbbreviated(seconds);
-        this.$el.attr('data-time', s);
-        this.$el.show();
-      } else {
-        this.$el.attr('data-time', null);
-        this.$el.hide();
-      }
     },
   });
 
@@ -82,35 +46,23 @@
     template: $('#conversation').html(),
     render_attributes() {
       return {
-        group: this.model.get('type') === 'group',
-        isMe: this.model.isMe(),
-        avatar: this.model.getAvatar(),
-        expireTimer: this.model.get('expireTimer'),
-        'show-members': i18n('showMembers'),
-        'end-session': i18n('resetSession'),
-        'show-identity': i18n('showSafetyNumber'),
-        destroy: i18n('deleteMessages'),
         'send-message': i18n('sendMessage'),
-        'disappearing-messages': i18n('disappearingMessages'),
         'android-length-warning': i18n('androidMessageLengthWarning'),
-        timer_options: Whisper.ExpirationTimerOptions.models,
-        'view-all-media': i18n('viewAllMedia'),
       };
     },
     initialize(options) {
       this.listenTo(this.model, 'destroy', this.stopListening);
       this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
-      this.listenTo(this.model, 'change:color', this.updateColor);
-      this.listenTo(
-        this.model,
-        'change:avatar change:profileAvatar',
-        this.updateAvatar
-      );
       this.listenTo(this.model, 'newmessage', this.addMessage);
-      this.listenTo(this.model, 'delivered', this.updateMessage);
-      this.listenTo(this.model, 'read', this.updateMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
+      this.listenTo(
+        this.model.messageCollection,
+        'show-identity',
+        this.showSafetyNumber
+      );
+      this.listenTo(this.model.messageCollection, 'force-send', this.forceSend);
+      this.listenTo(this.model.messageCollection, 'delete', this.deleteMessage);
       this.listenTo(
         this.model.messageCollection,
         'scroll-to-message',
@@ -128,8 +80,23 @@
       );
       this.listenTo(
         this.model.messageCollection,
+        'show-lightbox',
+        this.showLightbox
+      );
+      this.listenTo(
+        this.model.messageCollection,
+        'download',
+        this.downloadAttachment
+      );
+      this.listenTo(
+        this.model.messageCollection,
         'open-conversation',
         this.openConversation
+      );
+      this.listenTo(
+        this.model.messageCollection,
+        'show-message-detail',
+        this.showMessageDetail
       );
 
       this.lazyUpdateVerified = _.debounce(
@@ -145,12 +112,7 @@
 
       this.loadingScreen = new Whisper.ConversationLoadingScreen();
       this.loadingScreen.render();
-      this.loadingScreen.$el.prependTo(this.el);
-
-      this.timerMenu = new TimerMenuView({
-        el: this.$('.timer-menu'),
-        model: this.model,
-      });
+      this.loadingScreen.$el.prependTo(this.$('.discussion-container'));
 
       this.window = options.window;
       this.fileInput = new Whisper.FileInputView({
@@ -158,21 +120,64 @@
         window: this.window,
       });
 
-      const getTitleProps = model => ({
-        isVerified: model.isVerified(),
-        name: model.getName(),
-        phoneNumber: model.getNumber(),
-        profileName: model.getProfileName(),
-      });
+      const getHeaderProps = () => {
+        const avatar = this.model.getAvatar();
+        const avatarPath = avatar ? avatar.url : null;
+        const expireTimer = this.model.get('expireTimer');
+        const expirationSettingName = expireTimer
+          ? Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
+          : null;
+
+        return {
+          id: this.model.id,
+          name: this.model.getName(),
+          phoneNumber: this.model.getNumber(),
+          profileName: this.model.getProfileName(),
+          color: this.model.getColor(),
+          avatarPath,
+          isVerified: this.model.isVerified(),
+          isMe: this.model.isMe(),
+          isGroup: !this.model.isPrivate(),
+          expirationSettingName,
+          showBackButton: Boolean(this.panels && this.panels.length),
+          timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
+            name: item.getName(),
+            value: item.get('seconds'),
+          })),
+
+          onSetDisappearingMessages: seconds =>
+            this.setDisappearingMessages(seconds),
+          onDeleteMessages: () => this.destroyMessages(),
+          onResetSession: () => this.endSession(),
+
+          // These are view only and done update the Conversation model, so they
+          //   need a manual update call.
+          onShowSafetyNumber: () => {
+            this.showSafetyNumber();
+            this.updateHeader();
+          },
+          onShowAllMedia: async () => {
+            await this.showAllMedia();
+            this.updateHeader();
+          },
+          onShowGroupMembers: () => {
+            this.showMembers();
+            this.updateHeader();
+          },
+          onGoBack: () => {
+            this.resetPanel();
+            this.updateHeader();
+          },
+        };
+      };
       this.titleView = new Whisper.ReactWrapperView({
         className: 'title-wrapper',
-        Component: window.Signal.Components.ConversationTitle,
-        props: getTitleProps(this.model),
+        Component: window.Signal.Components.ConversationHeader,
+        props: getHeaderProps(this.model),
       });
-      this.listenTo(this.model, 'change', () =>
-        this.titleView.update(getTitleProps(this.model))
-      );
-      this.$('.conversation-title').prepend(this.titleView.el);
+      this.updateHeader = () => this.titleView.update(getHeaderProps());
+      this.listenTo(this.model, 'change', this.updateHeader);
+      this.$('.conversation-header').append(this.titleView.el);
 
       this.view = new Whisper.MessageListView({
         collection: this.model.messageCollection,
@@ -210,20 +215,10 @@
       'submit .send': 'checkUnverifiedSendMessage',
       'input .send-message': 'updateMessageFieldSize',
       'keydown .send-message': 'updateMessageFieldSize',
-      'click .destroy': 'destroyMessages',
-      'click .end-session': 'endSession',
-      'click .leave-group': 'leaveGroup',
-      'click .update-group': 'newGroupUpdate',
-      'click .show-identity': 'showSafetyNumber',
-      'click .show-members': 'showMembers',
-      'click .view-all-media': 'viewAllMedia',
-      'click .conversation-menu .hamburger': 'toggleMenu',
       click: 'onClick',
       'click .bottom-bar': 'focusMessageField',
-      'click .back': 'resetPanel',
       'click .capture-audio .microphone': 'captureAudio',
-      'click .disappearing-messages': 'enableDisappearingMessages',
-      'click .scroll-down-button-view': 'scrollToBottom',
+      'click .module-scroll-down': 'scrollToBottom',
       'click button.emoji': 'toggleEmojiPanel',
       'focus .send-message': 'focusBottomBar',
       'change .file-input': 'toggleMicrophone',
@@ -233,10 +228,7 @@
       'atBottom .message-list': 'removeScrollDownButton',
       'farFromBottom .message-list': 'addScrollDownButton',
       'lazyScroll .message-list': 'onLazyScroll',
-      'close .menu': 'closeMenu',
-      'select .message-list .entry': 'messageDetail',
       'force-resize': 'forceUpdateMessageFieldSize',
-      'show-identity': 'showSafetyNumber',
       dragover: 'sendToFileInput',
       drop: 'sendToFileInput',
       dragleave: 'sendToFileInput',
@@ -269,7 +261,6 @@
         reason
       );
 
-      this.timerMenu.remove();
       this.fileInput.remove();
       this.titleView.remove();
 
@@ -287,6 +278,9 @@
       }
       if (this.quoteView) {
         this.quoteView.remove();
+      }
+      if (this.lightBoxView) {
+        this.lightBoxView.remove();
       }
       if (this.lightboxGalleryView) {
         this.lightboxGalleryView.remove();
@@ -362,7 +356,7 @@
 
     openSafetyNumberScreens(unverified) {
       if (unverified.length === 1) {
-        this.showSafetyNumber(null, unverified.at(0));
+        this.showSafetyNumber(unverified.at(0));
         return;
       }
 
@@ -406,11 +400,6 @@
       }
     },
 
-    enableDisappearingMessages() {
-      if (!this.model.get('expireTimer')) {
-        this.model.updateExpirationTimer(moment.duration(1, 'day').asSeconds());
-      }
-    },
     toggleMicrophone() {
       if (
         this.$('.send-message').val().length > 0 ||
@@ -591,11 +580,7 @@
       el[0].scrollIntoView();
     },
 
-    async viewAllMedia() {
-      // We have to do this manually, since our React component will not propagate click
-      //   events up to its parent elements in the DOM.
-      this.closeMenu();
-
+    async showAllMedia() {
       // We fetch more documents than media as they don’t require to be loaded
       // into memory right away. Revisit this once we have infinite scrolling:
       const DEFAULT_MEDIA_FETCH_COUNT = 50;
@@ -620,7 +605,7 @@
 
       // NOTE: Could we show grid previews from disk as well?
       const loadMessages = Signal.Components.Types.Message.loadWithObjectURL(
-        Signal.Migrations.loadMessage
+        Migrations.loadMessage
       );
       const media = await loadMessages(rawMedia);
 
@@ -655,6 +640,7 @@
               mediaMessage => mediaMessage.id === message.id
             );
             this.lightboxGalleryView = new Whisper.ReactWrapperView({
+              className: 'lightbox-wrapper',
               Component: Signal.Components.LightboxGallery,
               props: {
                 messages: mediaWithObjectURL,
@@ -673,6 +659,7 @@
       };
 
       const view = new Whisper.ReactWrapperView({
+        className: 'panel-wrapper',
         Component: Signal.Components.MediaGallery,
         props: {
           documents,
@@ -840,14 +827,10 @@
         }
       }
     },
-    updateMessage(message) {
-      this.model.messageCollection.add(message, { merge: true });
-    },
 
-    onClick(e) {
+    onClick() {
       // If there are sub-panels open, we don't want to respond to clicks
       if (!this.panels || !this.panels.length) {
-        this.closeMenu(e);
         this.markRead();
       }
     },
@@ -930,7 +913,31 @@
       this.listenBack(view);
     },
 
-    showSafetyNumber(e, providedModel) {
+    forceSend({ contact, message }) {
+      const dialog = new Whisper.ConfirmationDialogView({
+        message: i18n('identityKeyErrorOnSend'),
+        okText: i18n('sendAnyway'),
+        resolve: async () => {
+          await contact.updateVerified();
+
+          if (contact.isUnverified()) {
+            await contact.setVerifiedDefault();
+          }
+
+          const untrusted = await contact.isUntrusted();
+          if (untrusted) {
+            await contact.setApproved();
+          }
+
+          message.resend(contact.id);
+        },
+      });
+
+      this.$el.prepend(dialog.el);
+      dialog.focusCancel();
+    },
+
+    showSafetyNumber(providedModel) {
       let model = providedModel;
 
       if (!model && this.model.isPrivate()) {
@@ -945,26 +952,78 @@
       }
     },
 
-    messageDetail(e, data) {
-      const view = new Whisper.MessageDetailView({
-        model: data.message,
-        conversation: this.model,
-        // we pass these in to allow nested panels
-        listenBack: this.listenBack.bind(this),
-        resetPanel: this.resetPanel.bind(this),
+    downloadAttachment({ attachment, message }) {
+      const { getAbsoluteAttachmentPath } = Migrations;
+
+      Signal.Types.Attachment.save({
+        attachment,
+        document,
+        getAbsolutePath: getAbsoluteAttachmentPath,
+        timestamp: message.get('sent_at'),
       });
-      this.listenBack(view);
-      view.render();
     },
 
-    // not currently in use
-    newGroupUpdate() {
-      const view = new Whisper.NewGroupUpdateView({
-        model: this.model,
-        window: this.window,
+    deleteMessage(message) {
+      const dialog = new Whisper.ConfirmationDialogView({
+        message: i18n('deleteWarning'),
+        okText: i18n('delete'),
+        resolve: () => {
+          message.destroy();
+          this.resetPanel();
+          this.updateHeader();
+        },
       });
-      view.render();
+
+      this.$el.prepend(dialog.el);
+      dialog.focusCancel();
+    },
+
+    showLightbox({ attachment, message }) {
+      const { getAbsoluteAttachmentPath } = Migrations;
+      const { contentType, path } = attachment;
+
+      if (
+        !Signal.Util.GoogleChrome.isImageTypeSupported(contentType) &&
+        !Signal.Util.GoogleChrome.isVideoTypeSupported(contentType)
+      ) {
+        this.downloadAttachment({ attachment, message });
+        return;
+      }
+
+      const props = {
+        objectURL: getAbsoluteAttachmentPath(path),
+        contentType,
+        onSave: () => this.downloadAttachment({ attachment, message }),
+      };
+      this.lightboxView = new Whisper.ReactWrapperView({
+        className: 'lightbox-wrapper',
+        Component: Signal.Components.Lightbox,
+        props,
+        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+      });
+      Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+    },
+
+    showMessageDetail(message) {
+      const props = message.getPropsForMessageDetail();
+      const view = new Whisper.ReactWrapperView({
+        className: 'message-detail-wrapper',
+        Component: Signal.Components.MessageDetail,
+        props,
+        onClose: () => {
+          this.stopListening(message, 'change', update);
+          this.resetPanel();
+          this.updateHeader();
+        },
+      });
+
+      const update = () => view.update(message.getPropsForMessageDetail());
+      this.listenTo(message, 'change', update);
+      // We could listen to all involved contacts, but we'll call that overkill
+
       this.listenBack(view);
+      this.updateHeader();
+      view.render();
     },
 
     showContactDetail({ contact, hasSignalAccount }) {
@@ -989,7 +1048,10 @@
             }
           },
         },
-        onClose: () => this.resetPanel(),
+        onClose: () => {
+          this.resetPanel();
+          this.updateHeader();
+        },
       });
 
       this.listenBack(view);
@@ -1009,57 +1071,45 @@
         this.panels[0].$el.hide();
       }
       this.panels.unshift(view);
-
-      if (this.panels.length === 1) {
-        this.$('.main.panel, .header-buttons.right').hide();
-        this.$('.back').show();
-      }
-
       view.$el.insertBefore(this.$('.panel').first());
     },
     resetPanel() {
+      if (!this.panels || !this.panels.length) {
+        return;
+      }
+
       const view = this.panels.shift();
+
       if (this.panels.length > 0) {
         this.panels[0].$el.show();
       }
       view.remove();
 
       if (this.panels.length === 0) {
-        this.$('.main.panel, .header-buttons.right').show();
-        this.$('.back').hide();
         this.$el.trigger('force-resize');
-      }
-    },
-
-    closeMenu(e) {
-      if (e && !$(e.target).hasClass('hamburger')) {
-        this.$('.conversation-menu .menu-list').hide();
-      }
-      if (e && !$(e.target).hasClass('clock')) {
-        this.$('.timer-menu .menu-list').hide();
       }
     },
 
     endSession() {
       this.model.endSession();
-      this.$('.menu-list').hide();
     },
 
-    leaveGroup() {
-      this.model.leaveGroup();
-      this.$('.menu-list').hide();
-    },
-
-    toggleMenu() {
-      this.$('.conversation-menu .menu-list').toggle();
+    setDisappearingMessages(seconds) {
+      if (seconds > 0) {
+        this.model.updateExpirationTimer(seconds);
+      } else {
+        this.model.updateExpirationTimer(null);
+      }
     },
 
     async destroyMessages() {
-      this.$('.menu-list').hide();
-
-      await this.confirm(i18n('deleteConversationConfirmation'));
-      this.model.destroyMessages();
-      this.remove();
+      try {
+        await this.confirm(i18n('deleteConversationConfirmation'));
+        await this.model.destroyMessages();
+        this.remove();
+      } catch (error) {
+        // nothing to see here
+      }
     },
 
     showSendConfirmationDialog(e, contacts) {
@@ -1247,24 +1297,21 @@
 
       const contact = this.quotedMessage.getContact();
       if (contact) {
-        this.listenTo(contact, 'change:color', this.renderQuotedMesage);
+        this.listenTo(contact, 'change', this.renderQuotedMesage);
       }
 
       this.quoteView = new Whisper.ReactWrapperView({
         className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
         props: Object.assign({}, props, {
-          text: props.text,
+          withContentAbove: true,
           onClose: () => {
             this.setQuoteMessage(null);
           },
         }),
       });
 
-      const selector =
-        storage.get('theme-setting') === 'ios' ? '.bottom-bar' : '.send';
-
-      this.$(selector).prepend(this.quoteView.el);
+      this.$('.send').prepend(this.quoteView.el);
       this.updateMessageFieldSize({});
     },
 
@@ -1317,28 +1364,6 @@
       } finally {
         this.focusMessageFieldAndClearDisabled();
       }
-    },
-
-    updateColor(model, color) {
-      const header = this.$('.conversation-header');
-      header.removeClass(Whisper.Conversation.COLORS);
-      if (color) {
-        header.addClass(color);
-      }
-      const avatarView = new (Whisper.View.extend({
-        templateName: 'avatar',
-        render_attributes: { avatar: this.model.getAvatar() },
-      }))();
-      header.find('.avatar').replaceWith(avatarView.render().$('.avatar'));
-    },
-
-    updateAvatar() {
-      const header = this.$('.conversation-header');
-      const avatarView = new (Whisper.View.extend({
-        templateName: 'avatar',
-        render_attributes: { avatar: this.model.getAvatar() },
-      }))();
-      header.find('.avatar').replaceWith(avatarView.render().$('.avatar'));
     },
 
     updateMessageFieldSize(event) {

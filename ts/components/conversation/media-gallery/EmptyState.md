@@ -6,10 +6,10 @@
     display: 'flex',
     position: 'relative',
     width: '100%',
-    height: 300,
+    height: 200,
   }}
 >
-  <EmptyState label="You have no attachments with media" />
+  <EmptyState label={util.i18n('mediaEmptyState')} />
 </div>
 ```
 
@@ -24,6 +24,6 @@
     height: 500,
   }}
 >
-  <EmptyState label="You have no documents with media" />
+  <EmptyState label={util.i18n('documentsEmptyState')} />
 </div>
 ```

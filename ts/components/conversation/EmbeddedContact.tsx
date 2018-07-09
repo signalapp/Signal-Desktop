@@ -12,8 +12,7 @@ interface Props {
   isIncoming: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
-  onSendMessage?: () => void;
-  onClickContact?: () => void;
+  onClick?: () => void;
 }
 
 export class EmbeddedContact extends React.Component<Props> {
@@ -22,7 +21,7 @@ export class EmbeddedContact extends React.Component<Props> {
       contact,
       i18n,
       isIncoming,
-      onClickContact,
+      onClick,
       withContentAbove,
       withContentBelow,
     } = this.props;
@@ -40,7 +39,7 @@ export class EmbeddedContact extends React.Component<Props> {
             : null
         )}
         role="button"
-        onClick={onClickContact}
+        onClick={onClick}
       >
         {renderAvatar({ contact, i18n, module })}
         <div className="module-embedded-contact__text-container">

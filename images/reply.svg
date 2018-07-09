@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons/Reply/reply-24</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M10,8 L10,4 L3,11 L10,18 L10,13.9 C15,13.9 18.5,15.5 21,19 C20,14 17,9 10,8 Z" id="path-1"></path>
+        <rect id="path-3" x="0" y="0" width="24" height="24"></rect>
+    </defs>
+    <g id="Icons/Reply/reply-24" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="Shape" fill-rule="nonzero"></g>
+        <g id="Color/Dark/Black" mask="url(#mask-2)">
+            <mask id="mask-4" fill="white">
+                <use xlink:href="#path-3"></use>
+            </mask>
+            <use id="fill" fill="#000000" fill-rule="evenodd" xlink:href="#path-3"></use>
+        </g>
+    </g>
+</svg>

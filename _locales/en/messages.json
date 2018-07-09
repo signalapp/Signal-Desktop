@@ -279,7 +279,7 @@
     }
   },
   "youMarkedAsVerified": {
-    "message": "You marked your safety number with $name$ as verified.",
+    "message": "You marked your Safety Number with $name$ as verified",
     "description":
       "Shown in the conversation history when the user marks a contact as verified.",
     "placeholders": {
@@ -290,9 +290,9 @@
     }
   },
   "youMarkedAsNotVerified": {
-    "message": "You marked your safety number with $name$ as unverified.",
+    "message": "You marked your Safety Number with $name$ as not verified",
     "description":
-      "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+      "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -302,7 +302,7 @@
   },
   "youMarkedAsVerifiedOtherDevice": {
     "message":
-      "You marked your safety number with $name$ as verified from another device.",
+      "You marked your Safety Number with $name$ as verified from another device",
     "description":
       "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
     "placeholders": {
@@ -314,7 +314,7 @@
   },
   "youMarkedAsNotVerifiedOtherDevice": {
     "message":
-      "You marked your safety number with $name$ as not verified from another device.",
+      "You marked your Safety Number with $name$ as not verified from another device",
     "description":
       "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
     "placeholders": {
@@ -473,7 +473,7 @@
       "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
   },
   "incomingError": {
-    "message": "Error handling incoming message."
+    "message": "Error handling incoming message"
   },
   "media": {
     "message": "Media",
@@ -754,9 +754,6 @@
   "error": {
     "message": "Error"
   },
-  "resend": {
-    "message": "Resend"
-  },
   "messageDetail": {
     "message": "Message Detail"
   },
@@ -767,7 +764,7 @@
     "message":
       "Are you sure? Clicking 'delete' will permanently remove this message from this device."
   },
-  "deleteMessage": {
+  "deleteThisMessage": {
     "message": "Delete this message"
   },
   "from": {
@@ -823,6 +820,21 @@
     "message":
       "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
+  "moreInfo": {
+    "message": "More Info...",
+    "description":
+      "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "retrySend": {
+    "message": "Retry Send",
+    "description":
+      "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+  },
+  "deleteMessage": {
+    "message": "Delete Message",
+    "description":
+      "Shown on the drop-down menu for an individual message, deletes single message"
+  },
   "deleteMessages": {
     "message": "Delete messages",
     "description": "Menu item for deleting messages, title case."
@@ -842,9 +854,22 @@
     "description":
       "Used in alt tag of thumbnail images inside of an embedded message quote"
   },
+  "imageFailedToLoad": {
+    "message": "Image failed to load",
+    "description": "When an image attachment is missing, this message is shown"
+  },
+  "videoScreenshotFailedToLoad": {
+    "message": "Video screenshot failed to load",
+    "description":
+      "When a attachment video screenshot is missing, this message is shown"
+  },
   "imageAttachmentAlt": {
     "message": "Image attached to message",
     "description": "Used in alt tag of image attachment"
+  },
+  "videoAttachmentAlt": {
+    "message": "Screenshot of video attached to message",
+    "description": "Used in alt tag of video attachment preview"
   },
   "lightboxImageAlt": {
     "message": "Image sent in conversation",
@@ -865,11 +890,6 @@
         "example": "grinning"
       }
     }
-  },
-  "noContents": {
-    "message": "No message contents",
-    "description":
-      "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
   },
   "installWelcome": {
     "message": "Welcome to Signal Desktop",
@@ -1032,15 +1052,9 @@
     "description":
       "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
   },
-  "messageNotSent": {
-    "message": "Message not sent.",
-    "description":
-      "Informational label, appears on messages that failed to send"
-  },
-  "someRecipientsFailed": {
-    "message": "Some recipients failed.",
-    "description":
-      "When you send to multiple recipients via a group, and the message went to some recipients but not others."
+  "sendFailed": {
+    "message": "Send failed",
+    "description": "Shown on outgoing message if it fails to send"
   },
   "showMore": {
     "message": "Details",
@@ -1159,7 +1173,7 @@
     "description": "Brief message shown when trying to message a blocked number"
   },
   "youChangedTheTimer": {
-    "message": "You set the timer to $time$.",
+    "message": "You set the disappearing message timer to $time$",
     "description":
       "Message displayed when you change the message expiration timer in a conversation.",
     "placeholders": {
@@ -1170,7 +1184,7 @@
     }
   },
   "timerSetOnSync": {
-    "message": "Updating timer to $time$.",
+    "message": "Updated disappearing message timer to $time$",
     "description":
       "Message displayed when timer is set on initial link of desktop device.",
     "placeholders": {
@@ -1181,7 +1195,7 @@
     }
   },
   "theyChangedTheTimer": {
-    "message": "$name$ set the timer to $time$.",
+    "message": "$name$ set the disappearing message timer to $time$",
     "description":
       "Message displayed when someone else changes the message expiration timer in a conversation.",
     "placeholders": {
@@ -1334,15 +1348,26 @@
     "message": "Play audio notification",
     "description": "Description for audio notification setting"
   },
-  "keychanged": {
-    "message": "Your safety number with $name$ has changed. Click to show.",
-    "description": "",
+  "safetyNumberChanged": {
+    "message": "Safety Number has changed",
+    "description":
+      "A notification shown in the conversation when a contact reinstalls"
+  },
+  "safetyNumberChangedGroup": {
+    "message": "Safety Number with $name$ has changed",
+    "description":
+      "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
     "placeholders": {
       "name": {
         "content": "$1",
         "example": "John"
       }
     }
+  },
+  "verifyNewNumber": {
+    "message": "Verify New Number",
+    "description":
+      "Label on button included with safety number change notification in the conversation"
   },
   "yourSafetyNumberWith": {
     "message": "Your safety number with $name$:",
@@ -1405,7 +1430,7 @@
     "message": "Later"
   },
   "leftTheGroup": {
-    "message": "$name$ left the group.",
+    "message": "$name$ left the group",
     "description":
       "Shown in the conversation history when a single person leaves the group",
     "placeholders": {
@@ -1415,13 +1440,24 @@
       }
     }
   },
+  "multipleLeftTheGroup": {
+    "message": "$name$ left the group",
+    "description":
+      "Shown in the conversation history when multiple people leave the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice, Bob"
+      }
+    }
+  },
   "updatedTheGroup": {
-    "message": "Updated the group.",
+    "message": "Group updated",
     "description":
       "Shown in the conversation history when someone updates the group"
   },
   "titleIsNow": {
-    "message": "Title is now '$name$'.",
+    "message": "Title is now '$name$'",
     "description":
       "Shown in the conversation history when someone changes the title of the group",
     "placeholders": {
@@ -1432,7 +1468,7 @@
     }
   },
   "joinedTheGroup": {
-    "message": "$name$ joined the group.",
+    "message": "$name$ joined the group",
     "description":
       "Shown in the conversation history when a single person joins the group",
     "placeholders": {
@@ -1443,7 +1479,7 @@
     }
   },
   "multipleJoinedTheGroup": {
-    "message": "$names$ joined the group.",
+    "message": "$names$ joined the group",
     "description":
       "Shown in the conversation history when more than one person joins the group",
     "placeholders": {

@@ -7,7 +7,7 @@
   window.Whisper = window.Whisper || {};
 
   Whisper.LastSeenIndicatorView = Whisper.View.extend({
-    className: 'last-seen-indicator-view',
+    className: 'module-last-seen-indicator',
     templateName: 'last-seen-indicator-view',
     initialize(options = {}) {
       this.count = options.count || 0;

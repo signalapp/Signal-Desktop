@@ -13,9 +13,6 @@
       tagName: 'div',
       className: 'contact',
       templateName: 'contact',
-      events: {
-        click: 'showIdentity',
-      },
       initialize(options) {
         this.ourNumber = textsecure.storage.user.getNumber();
         this.listenBack = options.listenBack;

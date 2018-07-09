@@ -6,15 +6,16 @@ import classNames from 'classnames';
 import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
-import { Emojify } from './Emojify';
 import { MessageBody } from './MessageBody';
-import { Localizer } from '../../types/Util';
+import { Color, Localizer } from '../../types/Util';
+import { ContactName } from './ContactName';
 
 interface Props {
-  attachments: Array<QuotedAttachment>;
-  color: string;
+  attachment?: QuotedAttachment;
+  authorPhoneNumber: string;
   authorProfileName?: string;
-  authorTitle: string;
+  authorName?: string;
+  authorColor: Color;
   i18n: Localizer;
   isFromMe: boolean;
   isIncoming: boolean;
@@ -43,7 +44,7 @@ function validateQuote(quote: Props): boolean {
     return true;
   }
 
-  if (quote.attachments && quote.attachments.length > 0) {
+  if (quote.attachment) {
     return true;
   }
 
@@ -124,14 +125,13 @@ export class Quote extends React.Component<Props> {
   }
 
   public renderGenericFile() {
-    const { attachments } = this.props;
+    const { attachment } = this.props;
 
-    if (!attachments || !attachments.length) {
+    if (!attachment) {
       return;
     }
 
-    const first = attachments[0];
-    const { fileName, contentType } = first;
+    const { fileName, contentType } = attachment;
     const isGenericFile =
       !GoogleChrome.isVideoTypeSupported(contentType) &&
       !GoogleChrome.isImageTypeSupported(contentType) &&
@@ -150,13 +150,12 @@ export class Quote extends React.Component<Props> {
   }
 
   public renderIconContainer() {
-    const { attachments, i18n } = this.props;
-    if (!attachments || attachments.length === 0) {
+    const { attachment, i18n } = this.props;
+    if (!attachment) {
       return null;
     }
 
-    const first = attachments[0];
-    const { contentType, thumbnail } = first;
+    const { contentType, thumbnail } = attachment;
     const objectUrl = getObjectUrl(thumbnail);
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
@@ -177,7 +176,7 @@ export class Quote extends React.Component<Props> {
   }
 
   public renderText() {
-    const { i18n, text, attachments } = this.props;
+    const { i18n, text, attachment } = this.props;
 
     if (text) {
       return (
@@ -187,12 +186,11 @@ export class Quote extends React.Component<Props> {
       );
     }
 
-    if (!attachments || attachments.length === 0) {
+    if (!attachment) {
       return null;
     }
 
-    const first = attachments[0];
-    const { contentType, isVoiceMessage } = first;
+    const { contentType, isVoiceMessage } = attachment;
 
     const typeLabel = getTypeLabel({ i18n, contentType, isVoiceMessage });
     if (typeLabel) {
@@ -231,29 +229,44 @@ export class Quote extends React.Component<Props> {
   }
 
   public renderAuthor() {
-    const { authorProfileName, authorTitle, i18n, isFromMe } = this.props;
-
-    const authorProfileElement = authorProfileName ? (
-      <span className="module-quote__primary__profile-name">
-        ~<Emojify text={authorProfileName} i18n={i18n} />
-      </span>
-    ) : null;
+    const {
+      authorProfileName,
+      authorPhoneNumber,
+      authorName,
+      authorColor,
+      i18n,
+      isFromMe,
+    } = this.props;
 
     return (
-      <div className="module-quote__primary__author">
+      <div
+        className={classNames(
+          'module-quote__primary__author',
+          !isFromMe ? `module-quote__primary__author--${authorColor}` : null
+        )}
+      >
         {isFromMe ? (
           i18n('you')
         ) : (
-          <span>
-            <Emojify text={authorTitle} i18n={i18n} /> {authorProfileElement}
-          </span>
+          <ContactName
+            phoneNumber={authorPhoneNumber}
+            name={authorName}
+            profileName={authorProfileName}
+            i18n={i18n}
+          />
         )}
       </div>
     );
   }
 
   public render() {
-    const { color, isIncoming, onClick, withContentAbove } = this.props;
+    const {
+      authorColor,
+      isFromMe,
+      isIncoming,
+      onClick,
+      withContentAbove,
+    } = this.props;
 
     if (!validateQuote(this.props)) {
       return null;
@@ -266,7 +279,10 @@ export class Quote extends React.Component<Props> {
         className={classNames(
           'module-quote',
           isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
-          !isIncoming ? `module-quote--outgoing-${color}` : null,
+          !isIncoming && !isFromMe
+            ? `module-quote--outgoing-${authorColor}`
+            : null,
+          !isIncoming && isFromMe ? 'module-quote--outgoing-you' : null,
           !onClick ? 'module-quote--no-click' : null,
           withContentAbove ? 'module-quote--with-content-above' : null
         )}

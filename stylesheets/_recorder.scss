@@ -25,7 +25,7 @@
   }
 }
 .recorder {
-  background: $grey_l;
+  background: $color-white;
 
   button {
     float: right;
@@ -50,20 +50,20 @@
   }
 
   .finish {
-    background: lighten($green, 20%);
-    border: 1px solid $green;
+    background: lighten($color-core-green, 20%);
+    border: 1px solid $color-core-green;
 
     .icon {
-      @include color-svg('../images/check.svg', $green);
+      @include color-svg('../images/check.svg', $color-core-green);
     }
   }
 
   .close {
-    background: lighten($red, 20%);
-    border: 1px solid $red;
+    background: lighten($color-core-red, 20%);
+    border: 1px solid $color-core-red;
 
     .icon {
-      @include color-svg('../images/x.svg', $red);
+      @include color-svg('../images/x.svg', $color-core-red);
     }
   }
 

@@ -1,4 +1,4 @@
-/* global Whisper, getInboxCollection */
+/* global Whisper, getInboxCollection, $ */
 
 // eslint-disable-next-line func-names
 (function() {

@@ -311,17 +311,21 @@ module.exports = grunt => {
       });
   }
 
-  grunt.registerTask('unit-tests', 'Run unit tests w/Electron', () => {
-    const environment = grunt.option('env') || 'test';
-    const done = this.async();
+  grunt.registerTask(
+    'unit-tests',
+    'Run unit tests w/Electron',
+    function thisNeeded() {
+      const environment = grunt.option('env') || 'test';
+      const done = this.async();
 
-    runTests(environment, done);
-  });
+      runTests(environment, done);
+    }
+  );
 
   grunt.registerTask(
     'lib-unit-tests',
     'Run libtextsecure unit tests w/Electron',
-    () => {
+    function thisNeeded() {
       const environment = grunt.option('env') || 'test-lib';
       const done = this.async();
 
@@ -329,82 +333,86 @@ module.exports = grunt => {
     }
   );
 
-  grunt.registerMultiTask('test-release', 'Test packaged releases', () => {
-    const dir = grunt.option('dir') || 'dist';
-    const environment = grunt.option('env') || 'production';
-    const config = this.data;
-    const archive = [dir, config.archive].join('/');
-    const files = [
-      'config/default.json',
-      `config/${environment}.json`,
-      `config/local-${environment}.json`,
-    ];
+  grunt.registerMultiTask(
+    'test-release',
+    'Test packaged releases',
+    function thisNeeded() {
+      const dir = grunt.option('dir') || 'dist';
+      const environment = grunt.option('env') || 'production';
+      const config = this.data;
+      const archive = [dir, config.archive].join('/');
+      const files = [
+        'config/default.json',
+        `config/${environment}.json`,
+        `config/local-${environment}.json`,
+      ];
 
-    console.log(this.target, archive);
-    const releaseFiles = files.concat(config.files || []);
-    releaseFiles.forEach(fileName => {
-      console.log(fileName);
-      try {
-        asar.statFile(archive, fileName);
-        return true;
-      } catch (e) {
-        console.log(e);
-        throw new Error(`Missing file ${fileName}`);
-      }
-    });
+      console.log(this.target, archive);
+      const releaseFiles = files.concat(config.files || []);
+      releaseFiles.forEach(fileName => {
+        console.log(fileName);
+        try {
+          asar.statFile(archive, fileName);
+          return true;
+        } catch (e) {
+          console.log(e);
+          throw new Error(`Missing file ${fileName}`);
+        }
+      });
 
-    if (config.appUpdateYML) {
-      const appUpdateYML = [dir, config.appUpdateYML].join('/');
-      if (fs.existsSync(appUpdateYML)) {
-        console.log('auto update ok');
-      } else {
-        throw new Error(`Missing auto update config ${appUpdateYML}`);
+      if (config.appUpdateYML) {
+        const appUpdateYML = [dir, config.appUpdateYML].join('/');
+        if (fs.existsSync(appUpdateYML)) {
+          console.log('auto update ok');
+        } else {
+          throw new Error(`Missing auto update config ${appUpdateYML}`);
+        }
       }
+
+      const done = this.async();
+      // A simple test to verify a visible window is opened with a title
+      const { Application } = spectron;
+
+      const app = new Application({
+        path: [dir, config.exe].join('/'),
+        requireName: 'unused',
+      });
+
+      app
+        .start()
+        .then(() => app.client.getWindowCount())
+        .then(count => {
+          assert.equal(count, 1);
+          console.log('window opened');
+        })
+        .then(() =>
+          // Get the window's title
+          app.client.getTitle()
+        )
+        .then(title => {
+          // Verify the window's title
+          assert.equal(title, packageJson.productName);
+          console.log('title ok');
+        })
+        .then(() => {
+          assert(
+            app.chromeDriver.logLines.indexOf(`NODE_ENV ${environment}`) > -1
+          );
+          console.log('environment ok');
+        })
+        .then(
+          () =>
+            // Successfully completed test
+            app.stop(),
+          error =>
+            // Test failed!
+            app.stop().then(() => {
+              grunt.fail.fatal(`Test failed: ${error.message} ${error.stack}`);
+            })
+        )
+        .then(done);
     }
-
-    const done = this.async();
-    // A simple test to verify a visible window is opened with a title
-    const { Application } = spectron;
-
-    const app = new Application({
-      path: [dir, config.exe].join('/'),
-      requireName: 'unused',
-    });
-
-    app
-      .start()
-      .then(() => app.client.getWindowCount())
-      .then(count => {
-        assert.equal(count, 1);
-        console.log('window opened');
-      })
-      .then(() =>
-        // Get the window's title
-        app.client.getTitle()
-      )
-      .then(title => {
-        // Verify the window's title
-        assert.equal(title, packageJson.productName);
-        console.log('title ok');
-      })
-      .then(() => {
-        assert(
-          app.chromeDriver.logLines.indexOf(`NODE_ENV ${environment}`) > -1
-        );
-        console.log('environment ok');
-      })
-      .then(
-        () =>
-          // Successfully completed test
-          app.stop(),
-        error =>
-          // Test failed!
-          app.stop().then(() => {
-            grunt.fail.fatal(`Test failed: ${error.message} ${error.stack}`);
-          })
-      )
-      .then(done);
-  });
+  );
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);

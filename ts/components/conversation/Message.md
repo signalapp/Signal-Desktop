@@ -4,473 +4,324 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    color="green"
-    text="🔥"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    color="green"
-    text="Hello there from the new world! http://somewhere.com"
-    i18n={util.i18n}
-  />
-  <Message
-    collapseMetadata
-    direction="incoming"
-    timestamp={Date.now()}
-    color="red"
-    text="Hello there from the new world!"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    color="grey"
-    text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="deep_orange"
-    timestamp={Date.now()}
-    collapseMetadata
-    text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    timestamp={Date.now()}
-    status="sent"
-    color="pink"
-    text="🔥"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    timestamp={Date.now()}
-    status="read"
-    color="pink"
-    text="Hello there from the new world! http://somewhere.com"
-    i18n={util.i18n}
-  />
-  <Message
-    collapseMetadata
-    direction="outgoing"
-    status="sent"
-    timestamp={Date.now()}
-    text="Hello there from the new world! 🔥"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    status="sent"
-    timestamp={Date.now()}
-    color="blue"
-    text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    status="read"
-    timestamp={Date.now()}
-    collapseMetadata
-    text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
-    i18n={util.i18n}
-  />
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorPhoneNumber="(202) 555-2001"
+      authorColor="green"
+      text="🔥"
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      text="Hello there from the new world! http://somewhere.com"
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
+  <li>
+    <Message
+      collapseMetadata
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="red"
+      text="Hello there from the new world!"
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="grey"
+      text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      authorColor="deep_orange"
+      timestamp={Date.now()}
+      collapseMetadata
+      text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sent"
+      authorColor="pink"
+      text="🔥"
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="read"
+      authorColor="pink"
+      text="Hello there from the new world! http://somewhere.com"
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
+  <li>
+    <Message
+      collapseMetadata
+      direction="outgoing"
+      status="sent"
+      timestamp={Date.now()}
+      text="Hello there from the new world! 🔥"
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="sent"
+      timestamp={Date.now()}
+      authorColor="blue"
+      text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="read"
+      timestamp={Date.now()}
+      collapseMetadata
+      text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
+      i18n={util.i18n}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+      onShowDetail={() => console.log('onShowDetail')}
+      onDelete={() => console.log('onDelete')}
+    />
+  </li>
 </util.ConversationContext>
-```
-
-### Timestamps
-
-```jsx
-function get1201() {
-  const d = new Date();
-  d.setHours(0, 0, 1, 0);
-  return d.getTime();
-}
-function getYesterday1159() {
-  return get1201() - 2 * 60 * 1000;
-}
-function getJanuary1201() {
-  const now = new Date();
-  const d = new Date(now.getFullYear(), 0, 1, 0, 1);
-  return d.getTime();
-}
-function getDecember1159() {
-  return getJanuary1201() - 2 * 60 * 1000;
-}
-
-<util.ConversationContext theme={util.theme}>
-  <Message
-    direction="incoming"
-    color="red"
-    timestamp={Date.now() - 500}
-    text="500ms ago - all below 1 minute are 'now'"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={Date.now() - 5 * 1000}
-    text="Five seconds ago"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={Date.now() - 30 * 1000}
-    text="30 seconds ago"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="red"
-    timestamp={Date.now() - 60 * 1000}
-    text="One minute ago - in minutes"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={Date.now() - 30 * 60 * 1000}
-    text="30 minutes ago"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={Date.now() - 45 * 60 * 1000}
-    text="45 minutes ago (used to round up to 1 hour with moment)"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="red"
-    timestamp={Date.now() - 60 * 60 * 1000}
-    text="One hour ago - in hours"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={get1201()}
-    text="12:01am today"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="red"
-    timestamp={getYesterday1159()}
-    text="11:59pm yesterday - adds day name"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={Date.now() - 24 * 60 * 60 * 1000}
-    text="24 hours ago"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={Date.now() - 2 * 24 * 60 * 60 * 1000}
-    text="Two days ago"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="red"
-    timestamp={Date.now() - 7 * 24 * 60 * 60 * 1000}
-    text="Seven days ago - adds month"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={Date.now() - 30 * 24 * 60 * 60 * 1000}
-    text="Thirty days ago"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={getJanuary1201()}
-    text="January 1st at 12:01am"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="red"
-    timestamp={getDecember1159()}
-    text="December 31st at 11:59pm - adds year"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    color="teal"
-    timestamp={Date.now() - 366 * 24 * 60 * 60 * 1000}
-    text="One year ago"
-    i18n={util.i18n}
-  />
-</util.ConversationContext>;
 ```
 
 ### Status
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    direction="outgoing"
-    status="sending"
-    color="pink"
-    timestamp={Date.now()}
-    text="This is still sending."
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    status="sent"
-    color="red"
-    timestamp={Date.now()}
-    text="This has been successfully sent!"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    color="blue"
-    timestamp={Date.now()}
-    text="This has been delivered!"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    status="read"
-    color="purple"
-    timestamp={Date.now()}
-    text="This has been read!"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    status="sending"
-    color="pink"
-    timestamp={Date.now()}
-    text="🔥"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    status="sent"
-    color="red"
-    timestamp={Date.now()}
-    text="🔥"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    color="blue"
-    timestamp={Date.now()}
-    text="🔥"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    status="read"
-    color="purple"
-    timestamp={Date.now()}
-    text="🔥"
-    i18n={util.i18n}
-  />
+  <li>
+    <Message
+      direction="outgoing"
+      status="sending"
+      authorColor="pink"
+      timestamp={Date.now()}
+      text="This is still sending."
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="sent"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="This has been successfully sent!"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      authorColor="blue"
+      timestamp={Date.now()}
+      text="This has been delivered!"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="read"
+      authorColor="purple"
+      timestamp={Date.now()}
+      text="This has been read!"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="error"
+      authorColor="purple"
+      timestamp={Date.now() - 56}
+      text="Error!"
+      i18n={util.i18n}
+      onRetrySend={() => console.log('onRetrySend')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      status="error"
+      authorColor="purple"
+      timestamp={Date.now()}
+      text="Error!"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="sending"
+      authorColor="pink"
+      timestamp={Date.now()}
+      text="🔥"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="sent"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="🔥"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      authorColor="blue"
+      timestamp={Date.now()}
+      text="🔥"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="read"
+      authorColor="purple"
+      timestamp={Date.now()}
+      text="🔥"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="error"
+      authorColor="purple"
+      timestamp={Date.now() - 57}
+      text="🔥"
+      i18n={util.i18n}
+      onRetrySend={() => console.log('onRetrySend')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      status="error"
+      authorColor="purple"
+      timestamp={Date.now()}
+      text="🔥"
+      i18n={util.i18n}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
-### With an error
-
-#### General error
-
-```jsx
-const error = new Error('Something went wrong!');
-
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  body: "This message won't get through...",
-  sent_at: Date.now() - 200000,
-  errors: [error],
-});
-const incoming = new Whisper.Message(
-  Object.assign({}, outgoing.attributes, {
-    source: '+12025550003',
-    type: 'incoming',
-    body: null,
-  })
-);
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme}>
-  <util.BackboneWrapper View={View} options={{ model: incoming }} />
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
-```
-
-#### Network error (outgoing only)
-
-```jsx
-const error = new Error('Something went wrong!');
-error.name = 'MessageError';
-
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  sent_at: Date.now() - 200000,
-  errors: [error],
-  body: "This message won't get through...",
-});
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} type="group">
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
-```
-
-#### Network error, partial send in group (outgoing only)
-
-```jsx
-const error = new Error('Something went wrong!');
-error.name = 'MessageError';
-
-const outgoing = new Whisper.Message({
-  type: 'outgoing',
-  sent_at: Date.now() - 200000,
-  errors: [error],
-  conversationId: util.groupNumber,
-  body: "This message won't get through...",
-});
-const View = Whisper.MessageView;
-<util.ConversationContext theme={util.theme} type="group">
-  <util.BackboneWrapper View={View} options={{ model: outgoing }} />
-</util.ConversationContext>;
-```
-
-### Disappearing messages
+### Long data
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="cyan"
-    direction="incoming"
-    text="Full timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 60 * 1000}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    text="Full timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 60 * 1000}
-  />
-  <Message
-    color="cyan"
-    direction="incoming"
-    text="55 timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 55 * 1000}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    text="55 timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 55 * 1000}
-  />
-  <Message
-    color="cyan"
-    direction="incoming"
-    text="30 timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 30 * 1000}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    text="30 timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 30 * 1000}
-  />
-  <Message
-    color="cyan"
-    direction="incoming"
-    text="5 timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 5 * 1000}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    text="5 timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 5 * 1000}
-  />
-  <Message
-    color="cyan"
-    direction="incoming"
-    text="Expired timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now()}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    text="Expired timer"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now()}
-  />
-  <Message
-    color="cyan"
-    direction="incoming"
-    text="Expiration is too far away"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 120 * 1000}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    text="Expiration is too far away"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 120 * 1000}
-  />
-  <Message
-    color="cyan"
-    direction="incoming"
-    text="Already expired"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() - 20 * 1000}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    text="Already expired"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() - 20 * 1000}
-  />
+  <li>
+    <Message
+      authorColor="cyan"
+      direction="incoming"
+      text="A really long link https://app.zeplin.io/project/5b2136b8e490ad6a54399857/screen/5b3bd068e03b763a0ee4c3e9"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      text="A really long link https://app.zeplin.io/project/5b2136b8e490ad6a54399857/screen/5b3bd068e03b763a0ee4c3e9"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="cyan"
+      direction="incoming"
+      text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget condimentum tellus. Aenean vulputate, dui a gravida rhoncus, mi orci varius urna, ut placerat felis ex ac elit. In pulvinar quis velit convallis varius. Quisque mattis, metus id lobortis porttitor, lacus ex laoreet dui, sit amet laoreet massa leo sed tellus. Phasellus iaculis pulvinar bibendum. In vitae imperdiet felis. Vivamus lacinia eros nec arcu varius, sodales faucibus nulla molestie. Etiam luctus lectus sit amet nulla facilisis, a porta mi tempus. Donec sit amet convallis ipsum.
+
+      In eros risus, posuere non viverra at, finibus ac elit. Nunc convallis vulputate risus. Donec ligula justo, lacinia id vulputate in, semper non nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque porttitor neque a metus dapibus varius. Sed luctus purus vel semper rhoncus. In imperdiet risus ut convallis porttitor. Fusce vel ligula placerat, imperdiet ante vel, mollis ipsum.
+
+      Etiam ultricies tortor eget mi sollicitudin suscipit. Nullam non ligula lacinia, ornare tortor in, tempor enim. Nullam nec ullamcorper enim. Vestibulum aliquet leo eget nisl aliquet vulputate. Duis quis nisl ligula. Nunc pulvinar lacus urna. Morbi imperdiet tortor eu finibus dictum. Cras ullamcorper aliquet eros, non malesuada tellus cursus eget.
+
+      Cras sagittis, sapien vel gravida pellentesque, sem sem semper velit, vel congue ligula leo aliquet massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur eros diam, tempor sed lacus non, commodo imperdiet quam. Praesent eget tristique lectus, sit amet iaculis felis. Morbi molestie dui blandit augue vulputate tempus. Nulla facilisi. Nulla dictum felis eu nulla rhoncus, sed ultricies est scelerisque. Nam risus arcu, sodales at nisl eget, volutpat elementum lacus. Morbi dictum condimentum lorem, at placerat nulla eleifend a. Vestibulum hendrerit diam vulputate, sollicitudin urna vel, luctus nisl. Mauris semper sem quam, sed venenatis quam convallis in. Donec hendrerit, nibh ut mattis congue, quam nibh consectetur magna, eu posuere urna orci et turpis. Integer vitae arcu vitae est varius maximus. Sed ultrices tortor lacus, venenatis pulvinar nibh ullamcorper sit amet. Nulla vehicula metus sed diam gravida auctor sed cursus enim. Curabitur viverra non erat et mollis.`}
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget condimentum tellus. Aenean vulputate, dui a gravida rhoncus, mi orci varius urna, ut placerat felis ex ac elit. In pulvinar quis velit convallis varius. Quisque mattis, metus id lobortis porttitor, lacus ex laoreet dui, sit amet laoreet massa leo sed tellus. Phasellus iaculis pulvinar bibendum. In vitae imperdiet felis. Vivamus lacinia eros nec arcu varius, sodales faucibus nulla molestie. Etiam luctus lectus sit amet nulla facilisis, a porta mi tempus. Donec sit amet convallis ipsum.
+
+      In eros risus, posuere non viverra at, finibus ac elit. Nunc convallis vulputate risus. Donec ligula justo, lacinia id vulputate in, semper non nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque porttitor neque a metus dapibus varius. Sed luctus purus vel semper rhoncus. In imperdiet risus ut convallis porttitor. Fusce vel ligula placerat, imperdiet ante vel, mollis ipsum.
+
+      Etiam ultricies tortor eget mi sollicitudin suscipit. Nullam non ligula lacinia, ornare tortor in, tempor enim. Nullam nec ullamcorper enim. Vestibulum aliquet leo eget nisl aliquet vulputate. Duis quis nisl ligula. Nunc pulvinar lacus urna. Morbi imperdiet tortor eu finibus dictum. Cras ullamcorper aliquet eros, non malesuada tellus cursus eget.
+
+      Cras sagittis, sapien vel gravida pellentesque, sem sem semper velit, vel congue ligula leo aliquet massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur eros diam, tempor sed lacus non, commodo imperdiet quam. Praesent eget tristique lectus, sit amet iaculis felis. Morbi molestie dui blandit augue vulputate tempus. Nulla facilisi. Nulla dictum felis eu nulla rhoncus, sed ultricies est scelerisque. Nam risus arcu, sodales at nisl eget, volutpat elementum lacus. Morbi dictum condimentum lorem, at placerat nulla eleifend a. Vestibulum hendrerit diam vulputate, sollicitudin urna vel, luctus nisl. Mauris semper sem quam, sed venenatis quam convallis in. Donec hendrerit, nibh ut mattis congue, quam nibh consectetur magna, eu posuere urna orci et turpis. Integer vitae arcu vitae est varius maximus. Sed ultrices tortor lacus, venenatis pulvinar nibh ullamcorper sit amet. Nulla vehicula metus sed diam gravida auctor sed cursus enim. Curabitur viverra non erat et mollis.`}
+      i18n={util.i18n}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -480,39 +331,55 @@ const View = Whisper.MessageView;
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="cyan"
-    direction="incoming"
-    text="I am pretty confused about Pi."
-    i18n={util.i18n}
-    attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    text="I am pretty confused about Pi."
-    i18n={util.i18n}
-    attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="blue"
-    direction="incoming"
-    text="I am pretty confused about Pi."
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="I am pretty confused about Pi."
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="cyan"
+      direction="incoming"
+      text="I am pretty confused about Pi."
+      i18n={util.i18n}
+      attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      text="I am pretty confused about Pi."
+      i18n={util.i18n}
+      attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="blue"
+      direction="incoming"
+      text="I am pretty confused about Pi."
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="I am pretty confused about Pi."
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+      onDownload={() => console.log('onDownload')}
+      onReply={() => console.log('onReply')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -522,54 +389,66 @@ First, showing the metadata overlay on dark and light images, then a message wit
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 30 * 1000}
-    attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="sent"
-    i18n={util.i18n}
-    expirationLength={60 * 1000}
-    expirationTimestamp={Date.now() + 30 * 1000}
-    attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="sent"
-    i18n={util.i18n}
-    attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="purple"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    collapseMetadata
-    status="sent"
-    i18n={util.i18n}
-    attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      expirationLength={60 * 1000}
+      expirationTimestamp={Date.now() + 30 * 1000}
+      attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="sent"
+      i18n={util.i18n}
+      expirationLength={60 * 1000}
+      expirationTimestamp={Date.now() + 30 * 1000}
+      attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="sent"
+      i18n={util.i18n}
+      attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="purple"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      collapseMetadata
+      status="sent"
+      i18n={util.i18n}
+      attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -579,42 +458,50 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    direction="outgoing"
-    status="sending"
-    color="pink"
-    timestamp={Date.now()}
-    i18n={util.i18n}
-    attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="sent"
-    color="red"
-    timestamp={Date.now()}
-    i18n={util.i18n}
-    attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    color="blue"
-    timestamp={Date.now()}
-    i18n={util.i18n}
-    attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="read"
-    color="purple"
-    timestamp={Date.now()}
-    i18n={util.i18n}
-    attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      direction="outgoing"
+      status="sending"
+      authorColor="pink"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="sent"
+      authorColor="red"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      authorColor="blue"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="read"
+      authorColor="purple"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachment={{ url: util.pngObjectUrl, contentType: 'image/png' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -622,35 +509,55 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{ url: util.portraitYellowObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    attachment={{ url: util.portraitYellowObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="purple"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{ url: util.portraitYellowObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{ url: util.portraitYellowObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        url: util.portraitYellowObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        url: util.portraitYellowObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="purple"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.portraitYellowObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.portraitYellowObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -658,39 +565,59 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    text="This is an odd yellow bar. Cool, huh?"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{ url: util.portraitYellowObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    text="This is an odd yellow bar. Cool, huh?"
-    i18n={util.i18n}
-    attachment={{ url: util.portraitYellowObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="purple"
-    text="This is an odd yellow bar. Cool, huh?"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{ url: util.portraitYellowObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="This is an odd yellow bar. Cool, huh?"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{ url: util.portraitYellowObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      text="This is an odd yellow bar. Cool, huh?"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        url: util.portraitYellowObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      text="This is an odd yellow bar. Cool, huh?"
+      i18n={util.i18n}
+      attachment={{
+        url: util.portraitYellowObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="purple"
+      text="This is an odd yellow bar. Cool, huh?"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.portraitYellowObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="This is an odd yellow bar. Cool, huh?"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.portraitYellowObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -698,47 +625,55 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.landscapePurpleObjectUrl,
-      contentType: 'image/gif',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    i18n={util.i18n}
-    status="delivered"
-    attachment={{
-      url: util.landscapePurpleObjectUrl,
-      contentType: 'image/gif',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="purple"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.landscapePurpleObjectUrl,
-      contentType: 'image/gif',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.landscapePurpleObjectUrl,
-      contentType: 'image/gif',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        url: util.landscapePurpleObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      i18n={util.i18n}
+      status="delivered"
+      attachment={{
+        url: util.landscapePurpleObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="purple"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.landscapePurpleObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.landscapePurpleObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -746,51 +681,59 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    text="An interesting horizontal bar. It's art."
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.landscapePurpleObjectUrl,
-      contentType: 'image/gif',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="An interesting horizontal bar. It's art."
-    i18n={util.i18n}
-    status="delivered"
-    attachment={{
-      url: util.landscapePurpleObjectUrl,
-      contentType: 'image/gif',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="purple"
-    text="An interesting horizontal bar. It's art."
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.landscapePurpleObjectUrl,
-      contentType: 'image/gif',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="An interesting horizontal bar. It's art."
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.landscapePurpleObjectUrl,
-      contentType: 'image/gif',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      text="An interesting horizontal bar. It's art."
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        url: util.landscapePurpleObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="An interesting horizontal bar. It's art."
+      i18n={util.i18n}
+      status="delivered"
+      attachment={{
+        url: util.landscapePurpleObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="purple"
+      text="An interesting horizontal bar. It's art."
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.landscapePurpleObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="An interesting horizontal bar. It's art."
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.landscapePurpleObjectUrl,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -798,80 +741,370 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    text="Beautiful, isn't it?"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp4ObjectUrl,
-      contentType: 'video/mp4',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="Beautiful, isn't it?"
-    status="delivered"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp4ObjectUrl,
-      contentType: 'video/mp4',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="green"
-    text="Beautiful, isn't it?"
-    collapseMetadata
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp4ObjectUrl,
-      contentType: 'video/mp4',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="Beautiful, isn't it?"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp4ObjectUrl,
-      contentType: 'video/mp4',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      text="Beautiful, isn't it?"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: util.gifObjectUrl,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="Beautiful, isn't it?"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: util.gifObjectUrl,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      text="Beautiful, isn't it?"
+      collapseMetadata
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: util.pngObjectUrl,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="Beautiful, isn't it?"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: util.pngObjectUrl,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
 #### Video
 
-We don't currently overlay message metadata on top of videos like we do with images.
+```jsx
+<util.ConversationContext theme={util.theme}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: util.pngObjectUrl,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      i18n={util.i18n}
+      status="delivered"
+      attachment={{
+        screenshot: {
+          url: util.pngObjectUrl,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: util.pngObjectUrl,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: util.pngObjectUrl,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Missing images and videos
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    status="delivered"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp4ObjectUrl,
-      contentType: 'video/mp4',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp4ObjectUrl,
-      contentType: 'video/mp4',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        url: null,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        url: null,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      text="Did something go wrong?"
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        url: null,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      text="Did something go wrong?"
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        url: null,
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: null,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      i18n={util.i18n}
+      status="delivered"
+      attachment={{
+        screenshot: {
+          url: null,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      text="Did something go wrong?"
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: null,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      text="Did something go wrong?"
+      direction="outgoing"
+      i18n={util.i18n}
+      status="delivered"
+      attachment={{
+        screenshot: {
+          url: null,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Broken source URL images and videos
+
+```jsx
+<util.ConversationContext theme={util.theme}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        url: 'nonexistent',
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        url: 'nonexistent',
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      text="Did something go wrong?"
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        url: 'nonexistent',
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      text="Did something go wrong?"
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        url: 'nonexistent',
+        contentType: 'image/gif',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: 'nonexistent',
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      i18n={util.i18n}
+      status="delivered"
+      attachment={{
+        screenshot: {
+          url: 'nonexistent',
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      text="Did something go wrong?"
+      authorColor="green"
+      direction="incoming"
+      status="delivered"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: 'nonexistent',
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      text="Did something go wrong?"
+      direction="outgoing"
+      i18n={util.i18n}
+      status="delivered"
+      attachment={{
+        screenshot: {
+          url: 'nonexistent',
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -879,51 +1112,59 @@ We don't currently overlay message metadata on top of videos like we do with ima
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    text="This is a nice song"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp3ObjectUrl,
-      contentType: 'audio/mp3',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="sent"
-    text="This is a nice song"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp3ObjectUrl,
-      contentType: 'audio/mp3',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="green"
-    text="This is a nice song"
-    collapseMetadata
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp3ObjectUrl,
-      contentType: 'audio/mp3',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="This is a nice song"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp3ObjectUrl,
-      contentType: 'audio/mp3',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      text="This is a nice song"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        url: util.mp3ObjectUrl,
+        contentType: 'audio/mp3',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="sent"
+      text="This is a nice song"
+      i18n={util.i18n}
+      attachment={{
+        url: util.mp3ObjectUrl,
+        contentType: 'audio/mp3',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      text="This is a nice song"
+      collapseMetadata
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        url: util.mp3ObjectUrl,
+        contentType: 'audio/mp3',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="This is a nice song"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.mp3ObjectUrl,
+        contentType: 'audio/mp3',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -931,47 +1172,55 @@ We don't currently overlay message metadata on top of videos like we do with ima
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp3ObjectUrl,
-      contentType: 'audio/mp3',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    status="sent"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp3ObjectUrl,
-      contentType: 'audio/mp3',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp3ObjectUrl,
-      contentType: 'audio/mp3',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    i18n={util.i18n}
-    collapseMetadata
-    attachment={{
-      url: util.mp3ObjectUrl,
-      contentType: 'audio/mp3',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        url: util.mp3ObjectUrl,
+        contentType: 'audio/mp3',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="sent"
+      i18n={util.i18n}
+      attachment={{
+        url: util.mp3ObjectUrl,
+        contentType: 'audio/mp3',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.mp3ObjectUrl,
+        contentType: 'audio/mp3',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      i18n={util.i18n}
+      collapseMetadata
+      attachment={{
+        url: util.mp3ObjectUrl,
+        contentType: 'audio/mp3',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -983,99 +1232,113 @@ Voice notes are not shown any differently from audio attachments.
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    text="My manifesto is now complete!"
-    i18n={util.i18n}
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'my_manifesto.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="My manifesto is now complete!"
-    status="sent"
-    i18n={util.i18n}
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'my_manifesto.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    text="My manifesto is now complete!"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'my_manifesto.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="My manifesto is now complete!"
-    i18n={util.i18n}
-    collapseMetadata
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'my_manifesto.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    text="My manifesto is now complete!"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName:
-        'reallly_long_filename_because_it_needs_all_the_information.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="My manifesto is now complete!"
-    i18n={util.i18n}
-    collapseMetadata
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'filename_with_long_extension.the_txt_is_beautiful',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    text="My manifesto is now complete!"
-    i18n={util.i18n}
-    collapseMetadata
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'a_normal_four_letter_extension.jpeg',
-      fileSize: '3.05 KB',
-    }}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      text="My manifesto is now complete!"
+      i18n={util.i18n}
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'my_manifesto.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="My manifesto is now complete!"
+      status="sent"
+      i18n={util.i18n}
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'my_manifesto.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      text="My manifesto is now complete!"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'my_manifesto.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="My manifesto is now complete!"
+      i18n={util.i18n}
+      collapseMetadata
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'my_manifesto.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      text="My manifesto is now complete!"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName:
+          'reallly_long_filename_because_it_needs_all_the_information.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="My manifesto is now complete!"
+      i18n={util.i18n}
+      collapseMetadata
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'filename_with_long_extension.the_txt_is_beautiful',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      text="My manifesto is now complete!"
+      i18n={util.i18n}
+      collapseMetadata
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'a_normal_four_letter_extension.jpeg',
+        fileSize: '3.05 KB',
+      }}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -1083,55 +1346,63 @@ Voice notes are not shown any differently from audio attachments.
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'my_manifesto.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    i18n={util.i18n}
-    status="sent"
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'my_manifesto.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'my_manifesto.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
-  <Message
-    direction="outgoing"
-    i18n={util.i18n}
-    collapseMetadata
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'my_manifesto.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'my_manifesto.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      i18n={util.i18n}
+      status="sent"
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'my_manifesto.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'my_manifesto.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      i18n={util.i18n}
+      collapseMetadata
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'my_manifesto.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
 </util.ConversationContext>
 ```
 
@@ -1141,144 +1412,171 @@ Note that the author avatar goes away if `collapseMetadata` is set.
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    color="pink"
-    conversationType="group"
-    authorPhoneNumber="(202) 555-0003"
-    text="Just phone number"
-    i18n={util.i18n}
-    authorAvatarPath={util.gifObjectUrl}
-  />
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    color="blue"
-    conversationType="group"
-    authorPhoneNumber="(202) 555-0003"
-    authorProfileName="On🔥!"
-    text="Phone number and profile name"
-    i18n={util.i18n}
-    authorAvatarPath={util.gifObjectUrl}
-  />
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    color="deep_orange"
-    conversationType="group"
-    authorName="Mr. Fire"
-    authorPhoneNumber="(202) 555-0003"
-    authorProfileName="On🔥!"
-    text="Just contact"
-    i18n={util.i18n}
-    authorAvatarPath={util.gifObjectUrl}
-  />
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    color="purple"
-    conversationType="group"
-    authorName="Mr. Fire with a super-long name and that's just what's gonna happen. No doubt."
-    authorPhoneNumber="(202) 555-0003"
-    authorProfileName="On🔥!"
-    text="Just contact"
-    i18n={util.i18n}
-    authorAvatarPath={util.gifObjectUrl}
-  />
-  <Message
-    color="green"
-    authorName="Mr. Fire"
-    conversationType="group"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-    authorAvatarPath={util.gifObjectUrl}
-  />
-  <Message
-    color="green"
-    conversationType="group"
-    authorName="Mr. Fire"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp4ObjectUrl,
-      contentType: 'video/mp4',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-    authorAvatarPath={util.gifObjectUrl}
-  />
-  <Message
-    color="green"
-    conversationType="group"
-    authorName="Mr. Fire"
-    direction="incoming"
-    i18n={util.i18n}
-    attachment={{
-      url: util.mp3ObjectUrl,
-      contentType: 'audio/mp3',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-    authorAvatarPath={util.gifObjectUrl}
-  />
-  <Message
-    direction="incoming"
-    conversationType="group"
-    color="red"
-    authorName="Mr. Fire"
-    text="My manifesto is now complete!"
-    i18n={util.i18n}
-    attachment={{
-      url: util.txtObjectUrl,
-      contentType: 'text/plain',
-      fileName: 'my_manifesto.txt',
-      fileSize: '3.05 KB',
-    }}
-    onClickAttachment={() => console.log('onClickAttachment')}
-    authorAvatarPath={util.gifObjectUrl}
-  />
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    color="deep_orange"
-    conversationType="group"
-    authorName="Mr. Fire"
-    collapseMetadata
-    authorPhoneNumber="(202) 555-0003"
-    authorProfileName="On🔥!"
-    text="No metadata and no author avatar"
-    i18n={util.i18n}
-    authorAvatarPath={util.gifObjectUrl}
-  />
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    conversationType="group"
-    authorPhoneNumber="(202) 555-0003"
-    text="No contact, no avatar"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="incoming"
-    timestamp={Date.now()}
-    color="deep_orange"
-    conversationType="group"
-    authorName="Mr. Fire"
-    authorPhoneNumber="(202) 555-0003"
-    text="Contact and color, but no avatar"
-    i18n={util.i18n}
-  />
-  <Message
-    direction="outgoing"
-    color="pink"
-    status="delivered"
-    timestamp={Date.now()}
-    conversationType="group"
-    authorName="Not shown"
-    text="Outgoing group messages look just like normal"
-    i18n={util.i18n}
-    authorAvatarPath={util.gifObjectUrl}
-  />
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="pink"
+      conversationType="group"
+      authorPhoneNumber="(202) 555-0003"
+      text="Just phone number"
+      i18n={util.i18n}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="blue"
+      conversationType="group"
+      authorPhoneNumber="(202) 555-0003"
+      authorProfileName="On🔥!"
+      text="Phone number and profile name"
+      i18n={util.i18n}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="deep_orange"
+      conversationType="group"
+      authorName="Mr. Fire"
+      authorPhoneNumber="(202) 555-0003"
+      authorProfileName="On🔥!"
+      text="Just contact"
+      i18n={util.i18n}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="purple"
+      conversationType="group"
+      authorName="Mr. Fire with a super-long name and that's just what's gonna happen. No doubt."
+      authorPhoneNumber="(202) 555-0003"
+      authorProfileName="On🔥!"
+      text="Just contact"
+      i18n={util.i18n}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      authorName="Mr. Fire"
+      conversationType="group"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{ url: util.gifObjectUrl, contentType: 'image/gif' }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      conversationType="group"
+      authorName="Mr. Fire"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        screenshot: {
+          url: util.pngObjectUrl,
+        },
+        contentType: 'video/mp4',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      conversationType="group"
+      authorName="Mr. Fire"
+      direction="incoming"
+      i18n={util.i18n}
+      attachment={{
+        url: util.mp3ObjectUrl,
+        contentType: 'audio/mp3',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      conversationType="group"
+      authorColor="red"
+      authorName="Mr. Fire"
+      text="My manifesto is now complete!"
+      i18n={util.i18n}
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'my_manifesto.txt',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="deep_orange"
+      conversationType="group"
+      authorName="Mr. Fire"
+      collapseMetadata
+      authorPhoneNumber="(202) 555-0003"
+      authorProfileName="On🔥!"
+      text="No metadata and no author avatar -- collapsed metadata"
+      i18n={util.i18n}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorPhoneNumber="(202) 555-0003"
+      text="No contact, no avatar"
+      authorColor="grey"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="deep_orange"
+      conversationType="group"
+      authorName="Mr. Fire"
+      authorPhoneNumber="(202) 555-0003"
+      authorColor="teal"
+      text="Contact and color, but no avatar"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      authorColor="pink"
+      status="delivered"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorName="Not shown"
+      text="Outgoing group messages look just like normal"
+      i18n={util.i18n}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
 </util.ConversationContext>
 ```

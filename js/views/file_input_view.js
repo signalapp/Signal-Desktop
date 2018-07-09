@@ -12,7 +12,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { MIME } = window.Signal.Types;
+  const { MIME, VisualAttachment } = window.Signal.Types;
 
   Whisper.FileSizeToast = Whisper.ToastView.extend({
     templateName: 'file-size-modal',
@@ -27,98 +27,6 @@
   Whisper.UnsupportedFileTypeToast = Whisper.ToastView.extend({
     template: i18n('unsupportedFileType'),
   });
-
-  function makeImageThumbnail(size, objectUrl) {
-    return new Promise((resolve, reject) => {
-      const img = document.createElement('img');
-      img.onerror = reject;
-      img.onload = () => {
-        // using components/blueimp-load-image
-
-        // first, make the correct size
-        let canvas = loadImage.scale(img, {
-          canvas: true,
-          cover: true,
-          maxWidth: size,
-          maxHeight: size,
-          minWidth: size,
-          minHeight: size,
-        });
-
-        // then crop
-        canvas = loadImage.scale(canvas, {
-          canvas: true,
-          crop: true,
-          maxWidth: size,
-          maxHeight: size,
-          minWidth: size,
-          minHeight: size,
-        });
-
-        const blob = window.dataURLToBlobSync(canvas.toDataURL('image/png'));
-
-        resolve(blob);
-      };
-      img.src = objectUrl;
-    });
-  }
-
-  function makeVideoScreenshot(objectUrl) {
-    return new Promise((resolve, reject) => {
-      const video = document.createElement('video');
-
-      function capture() {
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        canvas
-          .getContext('2d')
-          .drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        const image = window.dataURLToBlobSync(canvas.toDataURL('image/png'));
-
-        video.removeEventListener('canplay', capture);
-
-        resolve(image);
-      }
-
-      video.addEventListener('canplay', capture);
-      video.addEventListener('error', error => {
-        console.log(
-          'makeVideoThumbnail error',
-          Signal.Types.Errors.toLogFormat(error)
-        );
-        reject(error);
-      });
-
-      video.src = objectUrl;
-    });
-  }
-
-  function blobToArrayBuffer(blob) {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-
-      fileReader.onload = e => resolve(e.target.result);
-      fileReader.onerror = reject;
-      fileReader.onabort = reject;
-
-      fileReader.readAsArrayBuffer(blob);
-    });
-  }
-
-  async function makeVideoThumbnail(size, videoObjectUrl) {
-    const blob = await makeVideoScreenshot(videoObjectUrl);
-    const data = await blobToArrayBuffer(blob);
-    const screenshotObjectUrl = Signal.Util.arrayBufferToObjectURL({
-      data,
-      type: 'image/png',
-    });
-
-    const thumbnail = await makeImageThumbnail(size, screenshotObjectUrl);
-    URL.revokeObjectURL(screenshotObjectUrl);
-    return thumbnail;
-  }
 
   Whisper.FileInputView = Backbone.View.extend({
     tagName: 'span',
@@ -252,10 +160,14 @@
       const renderVideoPreview = async () => {
         // we use the variable on this here to ensure cleanup if we're interrupted
         this.previewObjectUrl = URL.createObjectURL(file);
-        const thumbnail = await makeVideoScreenshot(this.previewObjectUrl);
+        const type = 'image/png';
+        const thumbnail = await VisualAttachment.makeVideoScreenshot(
+          this.previewObjectUrl,
+          type
+        );
         URL.revokeObjectURL(this.previewObjectUrl);
 
-        const data = await blobToArrayBuffer(thumbnail);
+        const data = await VisualAttachment.blobToArrayBuffer(thumbnail);
         this.previewObjectUrl = Signal.Util.arrayBufferToObjectURL({
           data,
           type: 'image/png',
@@ -385,7 +297,10 @@
 
       const objectUrl = URL.createObjectURL(file);
 
-      const arrayBuffer = await makeImageThumbnail(size, objectUrl);
+      const arrayBuffer = await VisualAttachment.makeImageThumbnail(
+        size,
+        objectUrl
+      );
       URL.revokeObjectURL(objectUrl);
 
       return this.readFile(arrayBuffer);
@@ -482,8 +397,4 @@
       }
     },
   });
-
-  Whisper.FileInputView.makeImageThumbnail = makeImageThumbnail;
-  Whisper.FileInputView.makeVideoThumbnail = makeVideoThumbnail;
-  Whisper.FileInputView.makeVideoScreenshot = makeVideoScreenshot;
 })();

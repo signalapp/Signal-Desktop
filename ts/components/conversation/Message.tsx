@@ -1,22 +1,27 @@
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
-import { padStart } from 'lodash';
 
-import { formatRelativeTime } from '../../util/formatRelativeTime';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
-import { Emojify } from './Emojify';
+import { ExpireTimer, getIncrement } from './ExpireTimer';
+import { Timestamp } from './Timestamp';
+import { ContactName } from './ContactName';
 import { Quote, QuotedAttachment } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
 
 import { Contact } from '../../types/Contact';
-import { Localizer } from '../../types/Util';
+import { Color, Localizer } from '../../types/Util';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+
 import * as MIME from '../../../ts/types/MIME';
+
+interface Trigger {
+  handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+}
 
 interface Attachment {
   contentType: MIME.MIMEType;
@@ -26,50 +31,69 @@ interface Attachment {
   /** For messages not already on disk, this will be a data url */
   url: string;
   fileSize?: string;
+  width: number;
+  height: number;
+  screenshot?: {
+    height: number;
+    width: number;
+    url: string;
+    contentType: MIME.MIMEType;
+  };
+  thumbnail?: {
+    height: number;
+    width: number;
+    url: string;
+    contentType: MIME.MIMEType;
+  };
 }
 
-interface Props {
+export interface Props {
+  disableMenu?: boolean;
   text?: string;
   id?: string;
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
   timestamp: number;
-  status?: 'sending' | 'sent' | 'delivered' | 'read';
-  contacts?: Array<Contact>;
-  color:
-    | 'gray'
-    | 'blue'
-    | 'cyan'
-    | 'deep-orange'
-    | 'green'
-    | 'indigo'
-    | 'pink'
-    | 'purple'
-    | 'red'
-    | 'teal';
+  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
+  // What if changed this over to a single contact like quote, and put the events on it?
+  contact?: Contact & {
+    hasSignalAccount: boolean;
+    onSendMessage?: () => void;
+    onClick?: () => void;
+  };
   i18n: Localizer;
   authorName?: string;
   authorProfileName?: string;
   /** Note: this should be formatted for display */
-  authorPhoneNumber?: string;
+  authorPhoneNumber: string;
+  authorColor: Color;
   conversationType: 'group' | 'direct';
   attachment?: Attachment;
   quote?: {
     text: string;
-    attachments: Array<QuotedAttachment>;
+    attachment?: QuotedAttachment;
     isFromMe: boolean;
-    authorName?: string;
-    authorPhoneNumber?: string;
+    authorPhoneNumber: string;
     authorProfileName?: string;
+    authorName?: string;
+    authorColor: Color;
+    onClick?: () => void;
   };
   authorAvatarPath?: string;
-  contactHasSignalAccount: boolean;
   expirationLength?: number;
   expirationTimestamp?: number;
-  onClickQuote?: () => void;
-  onSendMessageToContact?: () => void;
-  onClickContact?: () => void;
   onClickAttachment?: () => void;
+  onReply?: () => void;
+  onRetrySend?: () => void;
+  onDownload?: () => void;
+  onDelete?: () => void;
+  onShowDetail: () => void;
+}
+
+interface State {
+  expiring: boolean;
+  expired: boolean;
+  imageBroken: boolean;
 }
 
 function isImage(attachment?: Attachment) {
@@ -80,6 +104,10 @@ function isImage(attachment?: Attachment) {
   );
 }
 
+function hasImage(attachment?: Attachment) {
+  return attachment && attachment.url;
+}
+
 function isVideo(attachment?: Attachment) {
   return (
     attachment &&
@@ -88,24 +116,18 @@ function isVideo(attachment?: Attachment) {
   );
 }
 
+function hasVideoScreenshot(attachment?: Attachment) {
+  return attachment && attachment.screenshot && attachment.screenshot.url;
+}
+
 function isAudio(attachment?: Attachment) {
   return (
     attachment && attachment.contentType && MIME.isAudio(attachment.contentType)
   );
 }
 
-function getTimerBucket(expiration: number, length: number): string {
-  const delta = expiration - Date.now();
-  if (delta < 0) {
-    return '00';
-  }
-  if (delta > length) {
-    return '60';
-  }
-
-  const increment = Math.round(delta / length * 12);
-
-  return padStart(String(increment * 5), 2, '0');
+function getInitial(name: string): string {
+  return name.trim()[0] || '#';
 }
 
 function getExtension({
@@ -131,58 +153,118 @@ function getExtension({
   return null;
 }
 
-export class Message extends React.Component<Props> {
-  public renderTimer() {
-    const {
-      attachment,
-      direction,
-      expirationLength,
-      expirationTimestamp,
-      text,
-    } = this.props;
+const MINIMUM_IMG_HEIGHT = 150;
+const MAXIMUM_IMG_HEIGHT = 300;
+const EXPIRATION_CHECK_MINIMUM = 2000;
+const EXPIRED_DELAY = 600;
 
-    if (!expirationLength || !expirationTimestamp) {
-      return null;
+export class Message extends React.Component<Props, State> {
+  public captureMenuTriggerBound: (trigger: any) => void;
+  public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
+  public handleImageErrorBound: () => void;
+
+  public menuTriggerRef: Trigger | null;
+  public expirationCheckInterval: any;
+  public expiredTimeout: any;
+
+  public constructor(props: Props) {
+    super(props);
+
+    this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
+    this.showMenuBound = this.showMenu.bind(this);
+    this.handleImageErrorBound = this.handleImageError.bind(this);
+
+    this.menuTriggerRef = null;
+    this.expirationCheckInterval = null;
+    this.expiredTimeout = null;
+
+    this.state = {
+      expiring: false,
+      expired: false,
+      imageBroken: false,
+    };
+  }
+
+  public componentDidMount() {
+    const { expirationLength } = this.props;
+    if (!expirationLength) {
+      return;
     }
 
-    const withImageNoCaption = !text && isImage(attachment);
-    const bucket = getTimerBucket(expirationTimestamp, expirationLength);
+    const increment = getIncrement(expirationLength);
+    const checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
 
-    return (
-      <div
-        className={classNames(
-          'module-message__metadata__timer',
-          `module-message__metadata__timer--${bucket}`,
-          `module-message__metadata__timer--${direction}`,
-          withImageNoCaption
-            ? 'module-message__metadata__timer--with-image-no-caption'
-            : null
-        )}
-      />
-    );
+    this.checkExpired();
+
+    this.expirationCheckInterval = setInterval(() => {
+      this.checkExpired();
+    }, checkFrequency);
+  }
+
+  public componentWillUnmount() {
+    if (this.expirationCheckInterval) {
+      clearInterval(this.expirationCheckInterval);
+    }
+    if (this.expiredTimeout) {
+      clearTimeout(this.expiredTimeout);
+    }
+  }
+
+  public checkExpired() {
+    const now = Date.now();
+    const { expirationTimestamp, expirationLength } = this.props;
+
+    if (!expirationTimestamp || !expirationLength) {
+      return;
+    }
+
+    if (now >= expirationTimestamp) {
+      this.setState({
+        expiring: true,
+      });
+
+      const setExpired = () => {
+        this.setState({
+          expired: true,
+        });
+      };
+      this.expiredTimeout = setTimeout(setExpired, EXPIRED_DELAY);
+    }
+  }
+
+  public handleImageError() {
+    // tslint:disable-next-line no-console
+    console.log('Message: Image failed to load; failing over to placeholder');
+    this.setState({
+      imageBroken: true,
+    });
   }
 
   public renderMetadata() {
     const {
+      attachment,
       collapseMetadata,
-      color,
       direction,
+      expirationLength,
+      expirationTimestamp,
       i18n,
       status,
-      timestamp,
       text,
-      attachment,
+      timestamp,
     } = this.props;
+    const { imageBroken } = this.state;
 
     if (collapseMetadata) {
       return null;
     }
-    // We're not showing metadata on top of videos since they still have native controls
-    if (!text && isVideo(attachment)) {
-      return null;
-    }
 
-    const withImageNoCaption = !text && isImage(attachment);
+    const withImageNoCaption = Boolean(
+      !text &&
+        !imageBroken &&
+        ((isImage(attachment) && hasImage(attachment)) ||
+          (isVideo(attachment) && hasVideoScreenshot(attachment)))
+    );
+    const showError = status === 'error' && direction === 'outgoing';
 
     return (
       <div
@@ -193,33 +275,43 @@ export class Message extends React.Component<Props> {
             : null
         )}
       >
-        <span
-          className={classNames(
-            'module-message__metadata__date',
-            `module-message__metadata__date--${direction}`,
-            withImageNoCaption
-              ? 'module-message__metadata__date--with-image-no-caption'
-              : null
-          )}
-          title={moment(timestamp).format('llll')}
-        >
-          {formatRelativeTime(timestamp, { i18n, extended: true })}
-        </span>
-        {this.renderTimer()}
+        {showError ? (
+          <span
+            className={classNames(
+              'module-message__metadata__date',
+              `module-message__metadata__date--${direction}`,
+              withImageNoCaption
+                ? 'module-message__metadata__date--with-image-no-caption'
+                : null
+            )}
+          >
+            {i18n('sendFailed')}
+          </span>
+        ) : (
+          <Timestamp
+            i18n={i18n}
+            timestamp={timestamp}
+            direction={direction}
+            withImageNoCaption={withImageNoCaption}
+            module="module-message__metadata__date"
+          />
+        )}
+        {expirationLength && expirationTimestamp ? (
+          <ExpireTimer
+            direction={direction}
+            expirationLength={expirationLength}
+            expirationTimestamp={expirationTimestamp}
+            withImageNoCaption={withImageNoCaption}
+          />
+        ) : null}
         <span className="module-message__metadata__spacer" />
-        {direction === 'outgoing' ? (
+        {direction === 'outgoing' && status !== 'error' ? (
           <div
             className={classNames(
               'module-message__metadata__status-icon',
-              `module-message__metadata__status-icon-${status}`,
-              status === 'read'
-                ? `module-message__metadata__status-icon-${color}`
-                : null,
+              `module-message__metadata__status-icon--${status}`,
               withImageNoCaption
                 ? 'module-message__metadata__status-icon--with-image-no-caption'
-                : null,
-              withImageNoCaption && status === 'read'
-                ? 'module-message__metadata__status-icon--read-with-image-no-caption'
                 : null
             )}
           />
@@ -231,11 +323,11 @@ export class Message extends React.Component<Props> {
   public renderAuthor() {
     const {
       authorName,
+      authorPhoneNumber,
+      authorProfileName,
       conversationType,
       direction,
       i18n,
-      authorPhoneNumber,
-      authorProfileName,
     } = this.props;
 
     const title = authorName ? authorName : authorPhoneNumber;
@@ -244,21 +336,20 @@ export class Message extends React.Component<Props> {
       return null;
     }
 
-    const profileElement =
-      authorProfileName && !authorName ? (
-        <span className="module-message__author__profile-name">
-          ~<Emojify text={authorProfileName} i18n={i18n} />
-        </span>
-      ) : null;
-
     return (
       <div className="module-message__author">
-        <Emojify text={title} i18n={i18n} /> {profileElement}
+        <ContactName
+          phoneNumber={authorPhoneNumber}
+          name={authorName}
+          profileName={authorProfileName}
+          module="module-message__author"
+          i18n={i18n}
+        />
       </div>
     );
   }
 
-  // tslint:disable-next-line max-func-body-length
+  // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   public renderAttachment() {
     const {
       i18n,
@@ -270,6 +361,7 @@ export class Message extends React.Component<Props> {
       quote,
       onClickAttachment,
     } = this.props;
+    const { imageBroken } = this.state;
 
     if (!attachment) {
       return null;
@@ -282,9 +374,30 @@ export class Message extends React.Component<Props> {
       quote || (conversationType === 'group' && direction === 'incoming');
 
     if (isImage(attachment)) {
+      if (imageBroken || !attachment.url) {
+        return (
+          <div
+            className={classNames(
+              'module-message__broken-image',
+              `module-message__broken-image--${direction}`
+            )}
+          >
+            {i18n('imageFailedToLoad')}
+          </div>
+        );
+      }
+
+      // Calculating height to prevent reflow when image loads
+      const height = Math.max(MINIMUM_IMG_HEIGHT, attachment.height || 0);
+
       return (
-        <div className="module-message__attachment-container">
+        <div
+          onClick={onClickAttachment}
+          role="button"
+          className="module-message__attachment-container"
+        >
           <img
+            onError={this.handleImageErrorBound}
             className={classNames(
               'module-message__img-attachment',
               withCaption
@@ -294,9 +407,9 @@ export class Message extends React.Component<Props> {
                 ? 'module-message__img-attachment--with-content-above'
                 : null
             )}
+            height={Math.min(MAXIMUM_IMG_HEIGHT, height)}
             src={attachment.url}
             alt={i18n('imageAttachmentAlt')}
-            onClick={onClickAttachment}
           />
           {!withCaption && !collapseMetadata ? (
             <div className="module-message__img-overlay" />
@@ -304,21 +417,53 @@ export class Message extends React.Component<Props> {
         </div>
       );
     } else if (isVideo(attachment)) {
+      const { screenshot } = attachment;
+      if (imageBroken || !screenshot || !screenshot.url) {
+        return (
+          <div
+            role="button"
+            onClick={onClickAttachment}
+            className={classNames(
+              'module-message__broken-video-screenshot',
+              `module-message__broken-video-screenshot--${direction}`
+            )}
+          >
+            {i18n('videoScreenshotFailedToLoad')}
+          </div>
+        );
+      }
+
+      // Calculating height to prevent reflow when image loads
+      const height = Math.max(MINIMUM_IMG_HEIGHT, screenshot.height || 0);
+
       return (
-        <video
-          controls={true}
-          className={classNames(
-            'module-message__img-attachment',
-            withCaption
-              ? 'module-message__img-attachment--with-content-below'
-              : null,
-            withContentAbove
-              ? 'module-message__img-attachment--with-content-above'
-              : null
-          )}
+        <div
+          onClick={onClickAttachment}
+          role="button"
+          className="module-message__attachment-container"
         >
-          <source src={attachment.url} />
-        </video>
+          <img
+            onError={this.handleImageErrorBound}
+            className={classNames(
+              'module-message__img-attachment',
+              withCaption
+                ? 'module-message__img-attachment--with-content-below'
+                : null,
+              withContentAbove
+                ? 'module-message__img-attachment--with-content-above'
+                : null
+            )}
+            alt={i18n('videoAttachmentAlt')}
+            height={Math.min(MAXIMUM_IMG_HEIGHT, height)}
+            src={screenshot.url}
+          />
+          {!withCaption && !collapseMetadata ? (
+            <div className="module-message__img-overlay" />
+          ) : null}
+          <div className="module-message__video-overlay__circle">
+            <div className="module-message__video-overlay__play-icon" />
+          </div>
+        </div>
       );
     } else if (isAudio(attachment)) {
       return (
@@ -384,38 +529,26 @@ export class Message extends React.Component<Props> {
   }
 
   public renderQuote() {
-    const {
-      color,
-      conversationType,
-      direction,
-      i18n,
-      onClickQuote,
-      quote,
-    } = this.props;
+    const { conversationType, direction, i18n, quote } = this.props;
 
     if (!quote) {
       return null;
     }
 
-    const authorTitle = quote.authorName
-      ? quote.authorName
-      : quote.authorPhoneNumber;
-    const authorProfileName = !quote.authorName
-      ? quote.authorProfileName
-      : undefined;
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
 
     return (
       <Quote
         i18n={i18n}
-        onClick={onClickQuote}
-        color={color}
+        onClick={quote.onClick}
         text={quote.text}
-        attachments={quote.attachments}
+        attachment={quote.attachment}
         isIncoming={direction === 'incoming'}
-        authorTitle={authorTitle || ''}
-        authorProfileName={authorProfileName}
+        authorPhoneNumber={quote.authorPhoneNumber}
+        authorProfileName={quote.authorProfileName}
+        authorName={quote.authorName}
+        authorColor={quote.authorColor}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
       />
@@ -425,18 +558,13 @@ export class Message extends React.Component<Props> {
   public renderEmbeddedContact() {
     const {
       collapseMetadata,
-      contactHasSignalAccount,
-      contacts,
+      contact,
       conversationType,
       direction,
       i18n,
-      onClickContact,
-      onSendMessageToContact,
       text,
     } = this.props;
-    const first = contacts && contacts[0];
-
-    if (!first) {
+    if (!contact) {
       return null;
     }
 
@@ -447,12 +575,11 @@ export class Message extends React.Component<Props> {
 
     return (
       <EmbeddedContact
-        contact={first}
-        hasSignalAccount={contactHasSignalAccount}
+        contact={contact}
+        hasSignalAccount={contact.hasSignalAccount}
         isIncoming={direction === 'incoming'}
         i18n={i18n}
-        onSendMessage={onSendMessageToContact}
-        onClickContact={onClickContact}
+        onClick={contact.onClick}
         withContentAbove={withContentAbove}
         withContentBelow={withContentBelow}
       />
@@ -460,22 +587,15 @@ export class Message extends React.Component<Props> {
   }
 
   public renderSendMessageButton() {
-    const {
-      contactHasSignalAccount,
-      contacts,
-      i18n,
-      onSendMessageToContact,
-    } = this.props;
-    const first = contacts && contacts[0];
-
-    if (!first || !contactHasSignalAccount) {
+    const { contact, i18n } = this.props;
+    if (!contact || !contact.hasSignalAccount) {
       return null;
     }
 
     return (
       <div
         role="button"
-        onClick={onSendMessageToContact}
+        onClick={contact.onSendMessage}
         className="module-message__send-message-button"
       >
         {i18n('sendMessageToContact')}
@@ -489,8 +609,8 @@ export class Message extends React.Component<Props> {
       authorPhoneNumber,
       authorProfileName,
       authorAvatarPath,
+      authorColor,
       collapseMetadata,
-      color,
       conversationType,
       direction,
       i18n,
@@ -509,14 +629,18 @@ export class Message extends React.Component<Props> {
     }
 
     if (!authorAvatarPath) {
+      const label = authorName ? getInitial(authorName) : '#';
+
       return (
         <div
           className={classNames(
             'module-message__author-default-avatar',
-            `module-message__author-default-avatar--${color}`
+            `module-message__author-default-avatar--${authorColor}`
           )}
         >
-          <div className="module-message__author-default-avatar__label">#</div>
+          <div className="module-message__author-default-avatar__label">
+            {label}
+          </div>
         </div>
       );
     }
@@ -529,9 +653,14 @@ export class Message extends React.Component<Props> {
   }
 
   public renderText() {
-    const { text, i18n, direction } = this.props;
+    const { text, i18n, direction, status } = this.props;
 
-    if (!text) {
+    const contents =
+      direction === 'incoming' && status === 'error'
+        ? i18n('incomingError')
+        : text;
+
+    if (!contents) {
       return null;
     }
 
@@ -539,38 +668,162 @@ export class Message extends React.Component<Props> {
       <div
         className={classNames(
           'module-message__text',
-          `module-message__text--${direction}`
+          `module-message__text--${direction}`,
+          status === 'error' && direction === 'incoming'
+            ? 'module-message__text--error'
+            : null
         )}
       >
-        <MessageBody text={text || ''} i18n={i18n} />
+        <MessageBody text={contents || ''} i18n={i18n} />
       </div>
+    );
+  }
+
+  public renderError(isCorrectSide: boolean) {
+    const { status, direction } = this.props;
+
+    if (!isCorrectSide || status !== 'error') {
+      return null;
+    }
+
+    return (
+      <div className="module-message__error-container">
+        <div
+          className={classNames(
+            'module-message__error',
+            `module-message__error--${direction}`
+          )}
+        />
+      </div>
+    );
+  }
+
+  public captureMenuTrigger(triggerRef: Trigger) {
+    this.menuTriggerRef = triggerRef;
+  }
+  public showMenu(event: React.MouseEvent<HTMLDivElement>) {
+    if (this.menuTriggerRef) {
+      this.menuTriggerRef.handleContextClick(event);
+    }
+  }
+
+  public renderMenu(isCorrectSide: boolean, triggerId: string) {
+    const {
+      attachment,
+      direction,
+      disableMenu,
+      onDownload,
+      onReply,
+    } = this.props;
+
+    if (!isCorrectSide || disableMenu) {
+      return null;
+    }
+
+    const downloadButton = attachment ? (
+      <div
+        onClick={onDownload}
+        role="button"
+        className={classNames(
+          'module-message__buttons__download',
+          `module-message__buttons__download--${direction}`
+        )}
+      />
+    ) : null;
+
+    const replyButton = (
+      <div
+        onClick={onReply}
+        role="button"
+        className={classNames(
+          'module-message__buttons__reply',
+          `module-message__buttons__download--${direction}`
+        )}
+      />
+    );
+
+    const menuButton = (
+      <ContextMenuTrigger id={triggerId} ref={this.captureMenuTriggerBound}>
+        <div
+          role="button"
+          onClick={this.showMenuBound}
+          className={classNames(
+            'module-message__buttons__menu',
+            `module-message__buttons__download--${direction}`
+          )}
+        />
+      </ContextMenuTrigger>
+    );
+
+    const first = direction === 'incoming' ? downloadButton : menuButton;
+    const last = direction === 'incoming' ? menuButton : downloadButton;
+
+    return (
+      <div className="module-message__buttons">
+        {first}
+        {replyButton}
+        {last}
+      </div>
+    );
+  }
+
+  public renderContextMenu(triggerId: string) {
+    const {
+      direction,
+      status,
+      onDelete,
+      onRetrySend,
+      onShowDetail,
+      i18n,
+    } = this.props;
+
+    const showRetry = status === 'error' && direction === 'outgoing';
+
+    return (
+      <ContextMenu id={triggerId}>
+        <MenuItem onClick={onShowDetail}>{i18n('moreInfo')}</MenuItem>
+        {showRetry ? (
+          <MenuItem onClick={onRetrySend}>{i18n('retrySend')}</MenuItem>
+        ) : null}
+        <MenuItem onClick={onDelete}>{i18n('deleteMessage')}</MenuItem>
+      </ContextMenu>
     );
   }
 
   public render() {
     const {
-      attachment,
-      color,
-      conversationType,
+      authorPhoneNumber,
+      authorColor,
       direction,
       id,
-      quote,
-      text,
+      timestamp,
     } = this.props;
+    const { expired, expiring } = this.state;
 
-    const imageAndNothingElse =
-      !text && isImage(attachment) && conversationType !== 'group' && !quote;
+    // This id is what connects our triple-dot click with our associated pop-up menu.
+    //   It needs to be unique.
+    const triggerId = String(id || `${authorPhoneNumber}-${timestamp}`);
+
+    if (expired) {
+      return null;
+    }
 
     return (
-      <li>
+      <div
+        className={classNames(
+          'module-message',
+          `module-message--${direction}`,
+          expiring ? 'module-message--expired' : null
+        )}
+      >
+        {this.renderError(direction === 'incoming')}
+        {this.renderMenu(direction === 'outgoing', triggerId)}
         <div
-          id={id}
           className={classNames(
-            'module-message',
-            `module-message--${direction}`,
-            imageAndNothingElse ? 'module-message--with-image-only' : null,
+            'module-message__container',
+            `module-message__container--${direction}`,
             direction === 'incoming'
-              ? `module-message--incoming-${color}`
+              ? `module-message__container--incoming-${authorColor}`
               : null
           )}
         >
@@ -583,7 +836,10 @@ export class Message extends React.Component<Props> {
           {this.renderSendMessageButton()}
           {this.renderAvatar()}
         </div>
-      </li>
+        {this.renderError(direction === 'outgoing')}
+        {this.renderMenu(direction === 'incoming', triggerId)}
+        {this.renderContextMenu(triggerId)}
+      </div>
     );
   }
 }

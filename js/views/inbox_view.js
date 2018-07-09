@@ -108,7 +108,9 @@
       const inboxCollection = getInboxCollection();
 
       inboxCollection.on('messageError', () => {
-        this.networkStatusView.render();
+        if (this.networkStatusView) {
+          this.networkStatusView.render();
+        }
       });
 
       this.inboxListView = new Whisper.ConversationListView({

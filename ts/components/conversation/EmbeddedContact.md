@@ -3,516 +3,533 @@
 #### Including all data types
 
 ```jsx
-const contacts = [
-  {
-    name: {
-      displayName: 'Someone Somewhere',
+const contact = {
+  name: {
+    displayName: 'Someone Somewhere',
+  },
+  number: [
+    {
+      value: '(202) 555-0000',
+      type: 1,
     },
-    number: [
-      {
-        value: '(202) 555-0000',
-        type: 1,
-      },
-    ],
+  ],
+  avatar: {
     avatar: {
-      avatar: {
-        path: util.gifObjectUrl,
-      },
+      path: util.gifObjectUrl,
     },
   },
-];
+  onClick: () => console.log('onClick'),
+  onSendMessage: () => console.log('onSendMessage'),
+  hasSignalAccount: true,
+};
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    contacts={contacts}
-    contactHasSignalAccount
-    onClickContact={() => console.log('onClickContact')}
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    contactHasSignalAccount
-    onClickContact={() => console.log('onClickContact')}
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    contacts={contacts}
-    contactHasSignalAccount
-    onClickContact={() => console.log('onClickContact')}
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
-  <Message
-    direction="outgoing"
-    collapseMetadata
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    contactHasSignalAccount
-    onClickContact={() => console.log('onClickContact')}
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      collapseMetadata
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
 </util.ConversationContext>;
 ```
 
-#### Really long long data
+#### Really long data
 
 ```
-const contacts = [
-  {
-    name: {
-      displayName: 'Dr. First Middle Last Junior Senior and all that and a bag of chips',
+const contact = {
+  name: {
+    displayName: 'Dr. First Middle Last Junior Senior and all that and a bag of chips',
+  },
+  number: [
+    {
+      value: '(202) 555-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000',
+      type: 1,
     },
-    number: [
-      {
-        value: '(202) 555-0000 0000 0000 0000 0000 0000 0000 0000 0000 0000',
-        type: 1,
-      },
-    ],
+  ],
+  avatar: {
     avatar: {
-      avatar: {
-        path: util.gifObjectUrl,
-      },
+      path: util.gifObjectUrl,
     },
   },
-];
+  hasSignalAccount: true,
+};
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
+  <li><Message
+    authorColor="green"
     direction="incoming"
     i18n={util.i18n}
-    contacts={contacts}
-    contactHasSignalAccount
-    onClickContact={() => console.log('onClickContact')}
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
-  <Message
+    contact={contact}/></li>
+  <li><Message
     direction="outgoing"
     status="delivered"
     i18n={util.i18n}
-    contacts={contacts}
-    contactHasSignalAccount
-    onClickContact={() => console.log('onClickContact')}
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
+    contact={contact}/></li>
 </util.ConversationContext>;
 ```
 
 #### In group conversation
 
 ```jsx
-const contacts = [
-  {
-    name: {
-      displayName: 'Someone Somewhere',
+const contact = {
+  name: {
+    displayName: 'Someone Somewhere',
+  },
+  number: [
+    {
+      value: '(202) 555-0000',
+      type: 1,
     },
-    number: [
-      {
-        value: '(202) 555-0000',
-        type: 1,
-      },
-    ],
+  ],
+  avatar: {
     avatar: {
-      avatar: {
-        path: util.gifObjectUrl,
-      },
+      path: util.gifObjectUrl,
     },
   },
-];
+  hasSignalAccount: true,
+};
 <util.ConversationContext theme={util.theme} type="group">
-  <Message
-    color="green"
-    conversationType="group"
-    authorName="Mr. Fire"
-    authorAvatarPath={util.gifObjectUrl}
-    direction="incoming"
-    i18n={util.i18n}
-    contacts={contacts}
-    contactHasSignalAccount
-    onClickContact={() => console.log('onClickContact')}
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    authorName="Mr. Fire"
-    conversationType="group"
-    collapseMetadata
-    i18n={util.i18n}
-    contacts={contacts}
-    contactHasSignalAccount
-    onClickContact={() => console.log('onClickContact')}
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
-  <Message
-    direction="outgoing"
-    conversationType="group"
-    authorName="Mr. Fire"
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    contactHasSignalAccount
-    onClickContact={() => console.log('onClickContact')}
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      conversationType="group"
+      authorName="Mr. Fire"
+      authorAvatarPath={util.gifObjectUrl}
+      direction="incoming"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      authorName="Mr. Fire"
+      conversationType="group"
+      collapseMetadata
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      conversationType="group"
+      authorName="Mr. Fire"
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
 </util.ConversationContext>;
 ```
 
 #### If contact has no signal account
 
 ```jsx
-const contacts = [
-  {
-    name: {
-      displayName: 'Someone Somewhere',
+const contact = {
+  name: {
+    displayName: 'Someone Somewhere',
+  },
+  number: [
+    {
+      value: '(202) 555-0000',
+      type: 1,
     },
-    number: [
-      {
-        value: '(202) 555-0000',
-        type: 1,
-      },
-    ],
+  ],
+  avatar: {
     avatar: {
-      avatar: {
-        path: util.gifObjectUrl,
-      },
+      path: util.gifObjectUrl,
     },
   },
-];
+  hasSignalAccount: false,
+};
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    direction="outgoing"
-    collapseMetadata
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      collapseMetadata
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
 </util.ConversationContext>;
 ```
 
 #### With organization name instead of name
 
 ```jsx
-const contacts = [
-  {
-    organization: 'United Somewheres, Inc.',
-    email: [
-      {
-        value: 'someone@somewheres.com',
-        type: 2,
-      },
-    ],
+const contact = {
+  organization: 'United Somewheres, Inc.',
+  email: [
+    {
+      value: 'someone@somewheres.com',
+      type: 2,
+    },
+  ],
+  avatar: {
     avatar: {
-      avatar: {
-        path: util.gifObjectUrl,
-      },
+      path: util.gifObjectUrl,
     },
   },
-];
+  hasSignalAccount: false,
+};
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    contacts={contacts}
-  />
-  <Message
-    direction="outgoing"
-    collapseMetadata
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      collapseMetadata
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
 </util.ConversationContext>;
 ```
 
 #### No displayName or organization
 
 ```jsx
-const contacts = [
-  {
-    name: {
-      givenName: 'Someone',
+const contact = {
+  name: {
+    givenName: 'Someone',
+  },
+  number: [
+    {
+      value: '(202) 555-1000',
+      type: 1,
     },
-    number: [
-      {
-        value: '+12025551000',
-        type: 1,
-      },
-    ],
+  ],
+  avatar: {
     avatar: {
-      avatar: {
-        path: util.gifObjectUrl,
-      },
+      path: util.gifObjectUrl,
     },
   },
-];
+  hasSignalAccount: false,
+};
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    direction="outgoing"
-    collapseMetadata
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      collapseMetadata
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
 </util.ConversationContext>;
 ```
 
 #### Default avatar
 
 ```jsx
-const contacts = [
-  {
-    name: {
-      displayName: 'Someone Somewhere',
-    },
-    number: [
-      {
-        value: util.CONTACTS[0].id,
-        type: 1,
-      },
-    ],
+const contact = {
+  name: {
+    displayName: 'Someone Somewhere',
   },
-];
+  number: [
+    {
+      value: '(202) 555-1001',
+      type: 1,
+    },
+  ],
+  hasSignalAccount: true,
+};
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    direction="outgoing"
-    collapseMetadata
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      collapseMetadata
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
 </util.ConversationContext>;
 ```
 
 #### Empty contact
 
 ```jsx
-const contacts = [{}];
+const contact = {};
 <util.ConversationContext theme={util.theme}>
-  <Message
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    direction="outgoing"
-    collapseMetadata
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      collapseMetadata
+      status="delivered"
+      i18n={util.i18n}
+      contact={contact}
+    />
+  </li>
 </util.ConversationContext>;
 ```
 
 #### Contact with caption (cannot currently be sent)
 
 ```jsx
-const contacts = [
-  {
-    name: {
-      displayName: 'Someone Somewhere',
+const contactWithAccount = {
+  name: {
+    displayName: 'Someone Somewhere',
+  },
+  number: [
+    {
+      value: '(202) 555-0000',
+      type: 1,
     },
-    number: [
-      {
-        value: '(202) 555-0000',
-        type: 1,
-      },
-    ],
+  ],
+  avatar: {
     avatar: {
-      avatar: {
-        path: util.gifObjectUrl,
-      },
+      path: util.gifObjectUrl,
     },
   },
-];
+  hasSignalAccount: true,
+};
+const contactWithoutAccount = {
+  name: {
+    displayName: 'Someone Somewhere',
+  },
+  number: [
+    {
+      value: '(202) 555-0000',
+      type: 1,
+    },
+  ],
+  avatar: {
+    avatar: {
+      path: util.gifObjectUrl,
+    },
+  },
+  hasSignalAccount: false,
+};
 <util.ConversationContext theme={util.theme}>
-  <Message
-    text="I want to introduce you to Someone..."
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    text="I want to introduce you to Someone..."
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    text="I want to introduce you to Someone..."
-    color="green"
-    direction="incoming"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-    contactHasSignalAccount
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
-  <Message
-    text="I want to introduce you to Someone..."
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-    contactHasSignalAccount
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
-  <Message
-    text="I want to introduce you to Someone..."
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    text="I want to introduce you to Someone..."
-    direction="outgoing"
-    collapseMetadata
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-  />
-  <Message
-    text="I want to introduce you to Someone..."
-    color="green"
-    direction="incoming"
-    collapseMetadata
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-    contactHasSignalAccount
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
-  <Message
-    text="I want to introduce you to Someone..."
-    direction="outgoing"
-    collapseMetadata
-    status="delivered"
-    i18n={util.i18n}
-    contacts={contacts}
-    onClickContact={() => console.log('onClickContact')}
-    contactHasSignalAccount
-    onSendMessageToContact={() => console.log('onSendMessageToContact')}
-  />
+  <li>
+    <Message
+      text="I want to introduce you to Someone..."
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      contact={contactWithAccount}
+    />
+  </li>
+  <li>
+    <Message
+      text="I want to introduce you to Someone..."
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      contact={contactWithAccount}
+    />
+  </li>
+  <li>
+    <Message
+      text="I want to introduce you to Someone..."
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      contact={contactWithAccount}
+    />
+  </li>
+  <li>
+    <Message
+      text="I want to introduce you to Someone..."
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      contact={contactWithAccount}
+    />
+  </li>
+  <li>
+    <Message
+      text="I want to introduce you to Someone..."
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      contact={contactWithoutAccount}
+    />
+  </li>
+  <li>
+    <Message
+      text="I want to introduce you to Someone..."
+      direction="outgoing"
+      collapseMetadata
+      status="delivered"
+      i18n={util.i18n}
+      contact={contactWithoutAccount}
+    />
+  </li>
+  <li>
+    <Message
+      text="I want to introduce you to Someone..."
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      contact={contactWithoutAccount}
+    />
+  </li>
+  <li>
+    <Message
+      text="I want to introduce you to Someone..."
+      direction="outgoing"
+      collapseMetadata
+      status="delivered"
+      i18n={util.i18n}
+      contact={contactWithoutAccount}
+    />
+  </li>
 </util.ConversationContext>;
 ```

@@ -3,16 +3,22 @@ const noop = () => {};
 
 const messages = [
   {
-    objectURL: 'https://placekitten.com/800/600',
+    objectURL: 'https://placekitten.com/799/600',
     attachments: [{ contentType: 'image/jpeg' }],
   },
   {
     objectURL: 'https://placekitten.com/900/600',
     attachments: [{ contentType: 'image/jpeg' }],
   },
+  // Unsupported image type
   {
     objectURL: 'foo.tif',
     attachments: [{ contentType: 'image/tiff' }],
+  },
+  // Video
+  {
+    objectURL: util.mp4ObjectUrl,
+    attachments: [{ contentType: 'video/mp4' }],
   },
   {
     objectURL: 'https://placekitten.com/980/800',

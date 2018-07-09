@@ -116,6 +116,9 @@
 
   function mapOldThemeToNew(theme) {
     switch (theme) {
+      case 'dark':
+      case 'light':
+        return theme;
       case 'android-dark':
         return 'dark';
       case 'android':

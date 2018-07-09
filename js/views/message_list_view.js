@@ -64,19 +64,10 @@
       this.measureScrollPosition();
     },
     addOne(model) {
-      let view;
-      if (model.isExpirationTimerUpdate()) {
-        view = new Whisper.ExpirationTimerUpdateView({ model }).render();
-      } else if (model.get('type') === 'keychange') {
-        view = new Whisper.KeyChangeView({ model }).render();
-      } else if (model.get('type') === 'verified-change') {
-        view = new Whisper.VerifiedChangeView({ model }).render();
-      } else {
-        // eslint-disable-next-line new-cap
-        view = new this.itemView({ model }).render();
-        this.listenTo(view, 'beforeChangeHeight', this.measureScrollPosition);
-        this.listenTo(view, 'afterChangeHeight', this.scrollToBottomIfNeeded);
-      }
+      // eslint-disable-next-line new-cap
+      const view = new this.itemView({ model }).render();
+      this.listenTo(view, 'beforeChangeHeight', this.measureScrollPosition);
+      this.listenTo(view, 'afterChangeHeight', this.scrollToBottomIfNeeded);
 
       const index = this.collection.indexOf(model);
       this.measureScrollPosition();

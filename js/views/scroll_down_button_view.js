@@ -7,7 +7,7 @@
   window.Whisper = window.Whisper || {};
 
   Whisper.ScrollDownButtonView = Whisper.View.extend({
-    className: 'scroll-down-button-view',
+    className: 'module-scroll-down',
     templateName: 'scroll-down-button-view',
 
     initialize(options = {}) {
@@ -20,7 +20,8 @@
     },
 
     render_attributes() {
-      const cssClass = this.count > 0 ? 'new-messages' : '';
+      const buttonClass =
+        this.count > 0 ? 'module-scroll-down__button--new-messages' : '';
 
       let moreBelow = i18n('scrollDown');
       if (this.count > 1) {
@@ -30,7 +31,7 @@
       }
 
       return {
-        cssClass,
+        buttonClass,
         moreBelow,
       };
     },
