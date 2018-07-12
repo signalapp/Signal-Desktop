@@ -504,6 +504,8 @@
       this.openStart = Date.now();
       this.lastActivity = Date.now();
 
+      this.model.updateLastMessage();
+
       const statusPromise = this.throttledGetProfiles();
       // eslint-disable-next-line more/no-then
       this.statusFetch = statusPromise.then(() =>
