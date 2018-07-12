@@ -20,7 +20,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "Včera",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
@@ -28,7 +28,7 @@
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Dokumenty",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "Tento měsíc",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -104,6 +104,10 @@
     "deviceName": {
         "message": "Device name",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "address": {
+        "message": "address",
+        "description": "Generic label shown if contact address has custom type but no label"
     },
     "debugLog": {
         "message": "Ladící Log",
@@ -167,6 +171,10 @@
         "message": "Replying to You",
         "description": "Shown in iOS theme when someone else quotes a message from you"
     },
+    "you": {
+        "message": "Vy",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
     "offline": {
         "message": "Offline",
         "description": "Displayed when the desktop client has no network connection."
@@ -215,6 +223,10 @@
         "message": "Chyba při zpracování příchozí zprávy",
         "description": ""
     },
+    "poBox": {
+        "message": "PO Box",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
     "delete": {
         "message": "Vymazat",
         "description": ""
@@ -239,17 +251,9 @@
         "message": "Vámi vybraná lokalita",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "Mohli byste si chtít u tohoto kontaktu $tag_start$ ověřit $tag_end$ bezpečnostní číslo.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "phone",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "Bezpečnostní číslo s $name$ se změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name$ prostě znovu nainstaloval Signal.",
@@ -266,8 +270,12 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "Tento týden",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "Send Message",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "Loading contacts and messages",
@@ -288,7 +296,7 @@
         }
     },
     "timestamp_s": {
-        "message": "nyní",
+        "message": "teď",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "mainMenuSettings": {
@@ -298,6 +306,16 @@
     "changedRecentlyMultiple": {
         "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "emojiAlt": {
+        "message": "Emoji image of '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
     },
     "timerOption_1_day": {
         "message": "1 den",
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "Jen jméno odesílatele",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "Thumbnail of image from quoted message",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "You don’t have any media in this conversation",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Most recent from:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Později",
@@ -340,7 +370,7 @@
         "description": ""
     },
     "today": {
-        "message": "Today",
+        "message": "Dnes",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
@@ -356,8 +386,12 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "Zobrazit všechna média",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "Bezpečnostní číslo $name$ bylo změněno a nebylo ověřeno. Klikněte pro zobrazení.",
@@ -374,7 +408,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "searchForPeopleOrGroups": {
-        "message": "Enter name or number",
+        "message": "Zadejte jméno nebo číslo",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -411,10 +445,6 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Message caption",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
         "message": "Delete all data",
         "description": "Text of the button that deletes all data"
@@ -443,6 +473,10 @@
             }
         }
     },
+    "work": {
+        "message": "work",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
         "message": "Go to Forums",
         "description": "Item under the Help menu, takes you to the forums"
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1 min",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "home",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "Načítání zpráv. $count$ z více...",
@@ -499,6 +537,10 @@
         "message": "Aktualizovat",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "notificationMostRecent": {
+        "message": "Most recent:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
     "yourSafetyNumberWith": {
         "message": "Váš bezpečnostní kód s $name$:",
         "description": "Heading for safety number view",
@@ -516,6 +558,10 @@
     "theme": {
         "message": "Motiv",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Terms & Privacy Policy",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Nové bezpečnostní číslo",
@@ -550,6 +596,10 @@
     "syncing": {
         "message": "Importuje se…",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "Image sent in conversation",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "Bezpečnostní kódy s více uživateli této skupiny byly změněny, a nebyly dlouho ověřeny. Klikněte pro zobrazení.",
@@ -609,6 +659,14 @@
         "message": "Restart Signal",
         "description": ""
     },
+    "mobile": {
+        "message": "mobil",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "Od:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "Kontakty",
         "description": "Label for contact and group sync settings"
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1 týden",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Contact avatar",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "Přijata",
@@ -685,6 +747,10 @@
         "message": "Omlouváme se, vybraný soubor překročil limit velikosti zprávy.",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "You don’t have any documents in this conversation",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "Smazat tuto zprávu",
         "description": ""
@@ -697,13 +763,13 @@
         "message": "Press Restart Signal to apply the updates.",
         "description": ""
     },
+    "fileIconAlt": {
+        "message": "File icon",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
     "timerOption_0_seconds": {
         "message": "vyp.",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.<p>If these steps don't work for you, please <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>submit a debug log</a> so that we can help you get migrated!</p>",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "Neplatné číslo",
@@ -758,7 +824,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
-        "message": "Media",
+        "message": "Média",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "noContents": {
@@ -833,6 +899,10 @@
             }
         }
     },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
         "message": "Go to Support Page",
         "description": "Item under the Help menu, takes you to the support page"
@@ -862,6 +932,10 @@
     "newMessages": {
         "message": "Nové zprávy",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "importErrorSecond": {
+        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
         "message": "S tímto kontaktem jste si ještě nevyměnili žádné zprávy. Bezpečnostní číslo k němu bude dostupné po první zprávě.",

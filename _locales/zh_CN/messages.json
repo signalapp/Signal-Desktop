@@ -20,15 +20,15 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "昨天",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
-        "message": "Replying to Yourself",
+        "message": "回复您自己",
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "文档",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "本月",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -104,6 +104,10 @@
     "deviceName": {
         "message": "设备名称",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "address": {
+        "message": "地址",
+        "description": "Generic label shown if contact address has custom type but no label"
     },
     "debugLog": {
         "message": "调试日志",
@@ -164,8 +168,12 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "replyingToYou": {
-        "message": "Replying to You",
+        "message": "给您的回复",
         "description": "Shown in iOS theme when someone else quotes a message from you"
+    },
+    "you": {
+        "message": "您",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "offline": {
         "message": "离线",
@@ -196,7 +204,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "清空数据",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "syncExplanation": {
@@ -214,6 +222,10 @@
     "incomingError": {
         "message": "处理传入消息时出错。",
         "description": ""
+    },
+    "poBox": {
+        "message": "邮政信箱",
+        "description": "When rendering an address, used to provide context to a post office box"
     },
     "delete": {
         "message": "删除",
@@ -239,17 +251,9 @@
         "message": "您已选的位置",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "您可能希望$tag_start$ 验证 $tag_end$您与此联系人的安全代码。",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "电话",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "您与$name$的安全码最近被修改过。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是简单的重装了下Signal。",
@@ -266,8 +270,12 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "本周",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "发送消息",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "正在加载联系人和消息",
@@ -299,6 +307,16 @@
         "message": "您与多位群组成员的安全码已发生改变。这可能表示有人试图偷听您的对话，或者只是联系人他们重新安装了 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "emojiAlt": {
+        "message": "“$title$”的表情图片",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
     "timerOption_1_day": {
         "message": "1天",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "仅显示发送者",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "引用消息图片的缩略图",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "此对话中没有媒体",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "最近来自：",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "稍后",
@@ -340,7 +370,7 @@
         "description": ""
     },
     "today": {
-        "message": "Today",
+        "message": "今天",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
@@ -356,8 +386,12 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "查看所有媒体",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "请确认您选对了包含已保存 Signal 数据 的文件夹，其名字一般以“Signal Export”开头。您还可以在 Chrome App 上保存一份新的数据。",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "您与 $name$ 的安全号码已发生改变，而且不再被确认。点击展示。",
@@ -370,7 +404,7 @@
         }
     },
     "video": {
-        "message": "Video",
+        "message": "视频",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "searchForPeopleOrGroups": {
@@ -411,12 +445,8 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Message caption",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
-        "message": "Delete all data",
+        "message": "删除所有数据",
         "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
@@ -443,6 +473,10 @@
             }
         }
     },
+    "work": {
+        "message": "工作",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
         "message": "前往论坛",
         "description": "Item under the Help menu, takes you to the forums"
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1分钟",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "家",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "加载消息。目前数目 $count$...",
@@ -499,6 +537,10 @@
         "message": "升级",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "notificationMostRecent": {
+        "message": "最近：",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
     "yourSafetyNumberWith": {
         "message": "您与$name$的安全码：",
         "description": "Heading for safety number view",
@@ -516,6 +558,10 @@
     "theme": {
         "message": "主题",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "协议与隐私政策",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "新的安全代码",
@@ -550,6 +596,10 @@
     "syncing": {
         "message": "导入中...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "对话中的图片",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "您与此群组内多位成员的安全码已经改变，而且不再被确认。点击展示。",
@@ -596,7 +646,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "回复 $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -609,6 +659,14 @@
         "message": "重启 SIgnal",
         "description": ""
     },
+    "mobile": {
+        "message": "手机",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "来自：",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "联系人",
         "description": "Label for contact and group sync settings"
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1周",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "联系人头像",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "已接收",
@@ -646,11 +708,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "是否删除所有数据？",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "断开连接并删除所有数据",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "sendMessage": {
@@ -685,6 +747,10 @@
         "message": "对不起，所选文件超过最大限制。",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "此对话中没有文档",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "删除这条消息。",
         "description": ""
@@ -697,13 +763,13 @@
         "message": "点击“重启 Signal”来应用更新。",
         "description": ""
     },
+    "fileIconAlt": {
+        "message": "文件图标",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
     "timerOption_0_seconds": {
         "message": "关闭",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "请确认您选对了包含已保存 Signal 数据 的文件夹，其名字一般以“Signal Export”开头。您还可以在 Chrome App 上保存一份新的数据。<p>如果以上步骤对您没有帮助，请<a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>提交调试日志</a>，以供我们帮助您完成迁移！</p>",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "无效的号码",
@@ -746,7 +812,7 @@
         "description": ""
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "回复消息",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "disableNotifications": {
@@ -754,15 +820,15 @@
         "description": "Label for disabling notifications"
     },
     "photo": {
-        "message": "Photo",
+        "message": "照片",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
-        "message": "Media",
+        "message": "媒体",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "noContents": {
-        "message": "No message contents",
+        "message": "没有消息内容",
         "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
@@ -800,7 +866,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "您即将删除本应用所有账户信息，包括全部联系人和消息。您可以随时重新连接移动设备，但这不会恢复已删除的消息。",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "sessionEnded": {
@@ -833,6 +899,10 @@
             }
         }
     },
+    "email": {
+        "message": "邮箱",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
         "message": "前往支持页面",
         "description": "Item under the Help menu, takes you to the support page"
@@ -862,6 +932,10 @@
     "newMessages": {
         "message": "新消息",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "importErrorSecond": {
+        "message": "如果以上步骤没有成功，您可以将调试日志（视图 -> 调试日志）发给我们，以便我们帮您完成迁移！",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
         "message": "您还未与该联系人有任何通讯，您的安全代码将会在您对其发送第一条消息后显示。",
@@ -904,7 +978,7 @@
         }
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "这会清空程序中所有的数据，包括删除所有消息和账号信息。",
         "description": "Text describing what the clear data button will do."
     },
     "to": {
@@ -916,7 +990,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "正在优化程序...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
@@ -936,7 +1010,7 @@
         "description": ""
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "清空数据",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
@@ -1026,7 +1100,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "audio": {
-        "message": "Audio",
+        "message": "音频",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {

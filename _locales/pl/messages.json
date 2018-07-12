@@ -20,7 +20,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "Wczoraj",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
@@ -28,7 +28,7 @@
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Dokumenty",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "Ten miesiąc",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -104,6 +104,10 @@
     "deviceName": {
         "message": "Nazwa urządzenia",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "address": {
+        "message": "adres",
+        "description": "Generic label shown if contact address has custom type but no label"
     },
     "debugLog": {
         "message": "Dziennik Debugowania",
@@ -167,6 +171,10 @@
         "message": "Replying to You",
         "description": "Shown in iOS theme when someone else quotes a message from you"
     },
+    "you": {
+        "message": "Ty",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
     "offline": {
         "message": "Rozłączony",
         "description": "Displayed when the desktop client has no network connection."
@@ -215,6 +223,10 @@
         "message": "Błąd przy obsłudze przychodzącej wiadomości.",
         "description": ""
     },
+    "poBox": {
+        "message": "PO Box",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
     "delete": {
         "message": "Usuń",
         "description": ""
@@ -239,17 +251,9 @@
         "message": "wybrana lokalizacja",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "Możesz $tag_start$ zweryfikować $tag_end$ numer bezpieczeństwa z tym kontaktem.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "telefon",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "Numer bezpieczeństwa $name$ zmienił się. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub że po prostu $name$przeinstalował Signal. ",
@@ -266,8 +270,12 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "W tym tygodniu",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "Wyślij wiadomość",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "Ładowanie kontaktów i wiadomości",
@@ -299,6 +307,16 @@
         "message": "Twoje numbery bezpieczeństwa z wieloma członkami grupy ostatnio się zmieniły. To może znaczyć, że ktoś próbuje przechwycić Twoją komunikację, albo że członkowie grupy po prostu przeinstalowali aplikację Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "emojiAlt": {
+        "message": "Emoji image of '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
     "timerOption_1_day": {
         "message": "1 dzień",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "Tylko z nazwą nadawcy",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "Miniatura obrazu z cytowanej wiadomości",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "Nie masz żadnych mediów w tej rozmowie",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Najnowsze od:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Później",
@@ -340,7 +370,7 @@
         "description": ""
     },
     "today": {
-        "message": "Today",
+        "message": "Dziś",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
@@ -356,8 +386,12 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "Wyświetl wszystkie multimedia",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "Twój numer bezpieczeństwa z $name$zmienił się. Naciśnij, aby zobaczyć.",
@@ -370,7 +404,7 @@
         }
     },
     "video": {
-        "message": "Video",
+        "message": "Wideo",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "searchForPeopleOrGroups": {
@@ -411,10 +445,6 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Message caption",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
         "message": "Usuń wszystkie dane",
         "description": "Text of the button that deletes all data"
@@ -443,6 +473,10 @@
             }
         }
     },
+    "work": {
+        "message": "praca",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
         "message": "Przejdź do forum",
         "description": "Item under the Help menu, takes you to the forums"
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "dom",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "Ładowanie. Załadowanych wiadomości: $count$ ",
@@ -499,6 +537,10 @@
         "message": "Aktualizuj",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "notificationMostRecent": {
+        "message": "Najnowszy:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
     "yourSafetyNumberWith": {
         "message": "Twój numer bezpieczeństwa z $name$:",
         "description": "Heading for safety number view",
@@ -516,6 +558,10 @@
     "theme": {
         "message": "Motyw",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Terms & Privacy Policy",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Nowy numer bezpieczeństwa",
@@ -550,6 +596,10 @@
     "syncing": {
         "message": "Importowanie...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "Image sent in conversation",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "Twoje numery bezpieczeństwa z kilkoma członkami grupy zmieniły się i są niezweryfikowane . Naciśnij, aby zobaczyć.",
@@ -596,7 +646,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "Odpowiedz $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -609,6 +659,14 @@
         "message": "Uruchom ponownie",
         "description": ""
     },
+    "mobile": {
+        "message": "komórka",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "Od:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "Kontakty",
         "description": "Label for contact and group sync settings"
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1 tydzień",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Contact avatar",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "Odebrano",
@@ -685,6 +747,10 @@
         "message": "Wybrany plik przekracza ograniczenia rozmiaru wiadomości.",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "Nie masz żadnych dokumentów w tej rozmowie",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "Usuń wiadomość",
         "description": ""
@@ -697,13 +763,13 @@
         "message": "Naciśnij Uruchom ponownie, aby zastosować aktualizacje.",
         "description": ""
     },
+    "fileIconAlt": {
+        "message": "Ikona pliku",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
     "timerOption_0_seconds": {
         "message": "wyłącz",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "Upewnij się, że wybrałeś właściwy folder zawierający dane Signal. Jego nazwa powinna zaczynać się na \"Signal Export\". Następnie, spróbuj wykonać eksport jeszcze raz z aplikacji Chrome. <p>Jeżeli w dalszym ciągu to nie pomoże, prosimy <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>prześlij dziennik debugowania</a> abyśmy mogli pomóc Ci w migracji!</p>",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "Nieprawidłowy numer",
@@ -746,7 +812,7 @@
         "description": ""
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "Odpowiedz na wiadomość",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "disableNotifications": {
@@ -754,7 +820,7 @@
         "description": "Label for disabling notifications"
     },
     "photo": {
-        "message": "Photo",
+        "message": "Zdjęcie",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
@@ -762,7 +828,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "noContents": {
-        "message": "No message contents",
+        "message": "Brak treści wiadomości",
         "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
@@ -833,6 +899,10 @@
             }
         }
     },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
         "message": "Przejdź do strony wsparcia",
         "description": "Item under the Help menu, takes you to the support page"
@@ -862,6 +932,10 @@
     "newMessages": {
         "message": "Nowe wiadomości",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "importErrorSecond": {
+        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
         "message": "Jeszcze nie rozmawiałeś z tą osobą. Numer bezpieczeństwa będzie dostępny po pierwszej wiadomości.",
@@ -1026,7 +1100,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Dzwięk",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {

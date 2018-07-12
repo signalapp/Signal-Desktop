@@ -20,15 +20,15 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "Včera",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
-        "message": "Replying to Yourself",
+        "message": "Odpovedáte sebe",
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Dokumenty",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "Tento mesiac",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -98,12 +98,16 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
-        "message": "1 munúta",
+        "message": "minútou",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "deviceName": {
         "message": "Názov zariadenia",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "address": {
+        "message": "adresa",
+        "description": "Generic label shown if contact address has custom type but no label"
     },
     "debugLog": {
         "message": "Ladiaci Log",
@@ -164,8 +168,12 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "replyingToYou": {
-        "message": "Replying to You",
+        "message": "Odpoveď pre Vás",
         "description": "Shown in iOS theme when someone else quotes a message from you"
+    },
+    "you": {
+        "message": "Vy",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "offline": {
         "message": "Offline",
@@ -176,7 +184,7 @@
         "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
-        "message": "Vitajte v aplikácií Signal",
+        "message": "Vitajte v aplikácii Signal",
         "description": ""
     },
     "checkNetworkConnection": {
@@ -192,11 +200,11 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "vypnuté",
+        "message": "vypnutý",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "Vymazať dáta",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "syncExplanation": {
@@ -214,6 +222,10 @@
     "incomingError": {
         "message": "Chyba pri spracovaní prichádzajúcej správy.",
         "description": ""
+    },
+    "poBox": {
+        "message": "P.O.Box",
+        "description": "When rendering an address, used to provide context to a post office box"
     },
     "delete": {
         "message": "Vymazať",
@@ -239,17 +251,9 @@
         "message": "zvolené umiestnenie",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "Možno budete chcieť $tag_start$ overiť $tag_end$ svoj bezpečnostný kód s týmto kontaktom.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "telefón",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "Vaše bezpečnostné číslo s $name$ sa nedávno zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name$ znovu nainštaloval/a Signal. ",
@@ -266,8 +270,12 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "Tento týždeň",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "Poslať správu",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "Nahrávanie kontaktov a správ",
@@ -299,6 +307,16 @@
         "message": "Vaše bezpečnostné čísla sa s viacerými členmi skupiny nedávno zmenili. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len znovu nainštalovali Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "emojiAlt": {
+        "message": "Emoji image of '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
     "timerOption_1_day": {
         "message": "1 deň",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "Len meno",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "Thumbnail of image from quoted message",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "Táto konverzácia neobsahuje žiadne médiá",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Najnovšie od:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Neskôr",
@@ -340,7 +370,7 @@
         "description": ""
     },
     "today": {
-        "message": "Today",
+        "message": "Dnes",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
@@ -356,8 +386,12 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "Zobraziť médiá",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "Vaše bezpečnosné číslo s $name$ sa zmenilo, a už nie je overené. Kliknite pre zobrazenie. ",
@@ -382,7 +416,7 @@
         "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
-        "message": "Bez mena a správy",
+        "message": "Neukázať meno ani správu",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
@@ -411,12 +445,8 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Message caption",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
-        "message": "Delete all data",
+        "message": "Vymazať všetky dáta",
         "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
@@ -443,6 +473,10 @@
             }
         }
     },
+    "work": {
+        "message": "práca",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
         "message": "Navštíviť Fórum",
         "description": "Item under the Help menu, takes you to the forums"
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "domov",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "Nahrávanie správ. $count$ nahraných...",
@@ -499,6 +537,10 @@
         "message": "Aktualizovať",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "notificationMostRecent": {
+        "message": "Najnovšie:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
     "yourSafetyNumberWith": {
         "message": "Vaše bezpečnostné číslo s $name$:",
         "description": "Heading for safety number view",
@@ -516,6 +558,10 @@
     "theme": {
         "message": "Téma",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Terms & Privacy Policy",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Nové bezpečnostné číslo",
@@ -550,6 +596,10 @@
     "syncing": {
         "message": "Importuje sa...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "Image sent in conversation",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "Vaše bezpečnosné čísla sa s viacerými členmi skupiny zmenili, a už nie sú overené. Kliknite pre zobrazenie. ",
@@ -596,7 +646,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "Odpovedáte $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -609,6 +659,14 @@
         "message": "Reštartovať Signal",
         "description": ""
     },
+    "mobile": {
+        "message": "mobil",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "Od:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "Kontakty",
         "description": "Label for contact and group sync settings"
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1 týždeň",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Contact avatar",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "Prijatá",
@@ -646,11 +708,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "Vymazať všetky dáta?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "Odpojenie a mazanie dát",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "sendMessage": {
@@ -685,6 +747,10 @@
         "message": "Ospravedlňujeme sa, vybraný súbor prekročil limit veľkosti správy.",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "Táto konverzácia neobsahuje žiadne dokumenty",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "Vymazať túto správu",
         "description": ""
@@ -697,13 +763,13 @@
         "message": "Reštartujte Signal pre dokončenie aktualizácie.",
         "description": ""
     },
-    "timerOption_0_seconds": {
-        "message": "vypnuté",
-        "description": "Label for option to turn off message expiration in the timer menu"
+    "fileIconAlt": {
+        "message": "File icon",
+        "description": "Used in the media gallery documents tab to visually represent a file"
     },
-    "importError": {
-        "message": "Uistite sa, že ste zvolili správny priečinok, ktorý obsahuje vaše Signal dáta. Názov by mal začínať \"Signal Export\". Môžete sa tiež pokúsiť uložiť dáta znovu, pomocou aplikácie Chrome. <p>Keď vám tieto kroky nepomôžu, prosím <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>pošlite nám ladiaci log</a>, aby sme vám mohli pomôcť.",
-        "description": "Message shown if the import went wrong."
+    "timerOption_0_seconds": {
+        "message": "vypnutý",
+        "description": "Label for option to turn off message expiration in the timer menu"
     },
     "invalidNumberError": {
         "message": "Neplatné číslo",
@@ -746,7 +812,7 @@
         "description": ""
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "Odpovedať na správu",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "disableNotifications": {
@@ -754,15 +820,15 @@
         "description": "Label for disabling notifications"
     },
     "photo": {
-        "message": "Photo",
+        "message": "Fotka",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
-        "message": "Media",
+        "message": "Médiá",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "noContents": {
-        "message": "No message contents",
+        "message": "Prázdna správa",
         "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
@@ -800,7 +866,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "Chystáte sa vymazať všetky informácie o účte vrátane všetkých kontaktov a správ. Opätovné prepojenie aplikácie s mobilným zariadením bude stále možné, avšak bez možnosti obnovy zmazaných správ.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "sessionEnded": {
@@ -824,7 +890,7 @@
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Bezpečnostné číslo s $name$ ste označili z iného zariadenia ako neoverené. ",
+        "message": "Bezpečnostné číslo s $name$ ste označili ako neoverené z iného zariadenia. ",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -832,6 +898,10 @@
                 "example": "Bob"
             }
         }
+    },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
     },
     "goToSupportPage": {
         "message": "Navštíviť Stránku Podpory",
@@ -863,8 +933,12 @@
         "message": "Nové správy",
         "description": "Displayed in notifications for multiple messages"
     },
+    "importErrorSecond": {
+        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "description": "Message shown if the import went wrong; second paragraph"
+    },
     "theirIdentityUnknown": {
-        "message": "S týmto kontaktom ste ešte nevymenili žiadnu správu. Bezpečnostné číslo bude dostupné po doručení prvej správy.",
+        "message": "S týmto kontaktom ste si ešte nevymenili žiadne správy. Bezpečnostné číslo bude dostupné po doručení prvej správy.",
         "description": ""
     },
     "voiceMessage": {
@@ -904,7 +978,7 @@
         }
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "Týmto zmažete všetky dáta v aplikácii, odstránite všetky správy a informácie o účte.",
         "description": "Text describing what the clear data button will do."
     },
     "to": {
@@ -916,7 +990,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "Optimalizovanie aplikácie...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
@@ -936,7 +1010,7 @@
         "description": ""
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "Mazanie dát",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
@@ -956,7 +1030,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
-        "message": "Zlyhalo odoslanie niektorým príjemcom. Skontrolujte pripojenie k sieti.",
+        "message": "Správu sa nepodarilo odoslať niektorým príjemcom. Skontrolujte svoje sieťové pripojenie.",
         "description": ""
     },
     "ok": {
@@ -1026,7 +1100,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Zvuk",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {
@@ -1034,7 +1108,7 @@
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Znovu odoslať",
+        "message": "Poslať znovu",
         "description": ""
     },
     "youMarkedAsVerifiedOtherDevice": {
