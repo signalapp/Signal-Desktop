@@ -134,8 +134,6 @@
           break;
       }
 
-      console.log({ title, message, iconUrl });
-
       const shouldHideExpiringMessageBody =
         last.isExpiringMessage && Signal.OS.isMacOS();
       if (shouldHideExpiringMessageBody) {
