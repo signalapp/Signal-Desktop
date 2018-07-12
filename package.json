@@ -229,7 +229,7 @@
       "preload.js",
       "about_preload.js",
       "settings_preload.js",
-      "permissions_preload.js",
+      "permissions_popup_preload.js",
       "debug_log_preload.js",
       "main.js",
       "images/**",
