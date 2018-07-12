@@ -20,7 +20,7 @@ function _createPermissionHandler(userConfig) {
   return (webContents, permission, callback) => {
     // We default 'media' permission to false, but the user can override that
     if (permission === 'media' && userConfig.get('mediaPermissions')) {
-      return true;
+      return callback(true);
     }
 
     if (PERMISSIONS[permission]) {
