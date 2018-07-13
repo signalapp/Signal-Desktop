@@ -5,6 +5,7 @@ $(document).on('keyup', function(e) {
 });
 
 const $body = $(document.body);
+$body.addClass(window.theme);
 
 // got.js appears to need this to successfully submit debug logs to the cloud
 window.setImmediate = window.nodeSetImmediate;

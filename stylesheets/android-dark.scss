@@ -6,6 +6,10 @@ $button-dark: #ccc;
 $text-dark: #cccccc;
 $text-dark_l2: darken($text-dark, 30%);
 
+body.android-dark {
+  background-color: $grey-dark;
+}
+
 .android-dark {
   .app-loading-screen {
     background-color: $grey-dark;

@@ -115,7 +115,7 @@ const loadLocale = require('./app/locale').load;
 let logger;
 let locale;
 
-function prepareURL(pathSegments) {
+function prepareURL(pathSegments, moreKeys) {
   return url.format({
     pathname: path.join.apply(null, pathSegments),
     protocol: 'file:',
@@ -134,6 +134,7 @@ function prepareURL(pathSegments) {
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
       importMode: importMode ? true : undefined, // for stringify()
+      ...moreKeys,
     },
   });
 }
@@ -428,7 +429,7 @@ function showAbout() {
 }
 
 let settingsWindow;
-function showSettingsWindow() {
+async function showSettingsWindow() {
   if (settingsWindow) {
     settingsWindow.show();
     return;
@@ -437,6 +438,7 @@ function showSettingsWindow() {
     return;
   }
 
+  const theme = await pify(getDataFromMainWindow)('theme-setting');
   const size = mainWindow.getSize();
   const options = {
     width: Math.min(500, size[0]),
@@ -461,7 +463,7 @@ function showSettingsWindow() {
 
   captureClicks(settingsWindow);
 
-  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html']));
+  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html'], { theme }));
 
   settingsWindow.on('closed', () => {
     removeDarkOverlay();
@@ -475,12 +477,13 @@ function showSettingsWindow() {
 }
 
 let debugLogWindow;
-function showDebugLogWindow() {
+async function showDebugLogWindow() {
   if (debugLogWindow) {
     debugLogWindow.show();
     return;
   }
 
+  const theme = await pify(getDataFromMainWindow)('theme-setting');
   const size = mainWindow.getSize();
   const options = {
     width: Math.max(size[0] - 100, MIN_WIDTH),
@@ -505,7 +508,7 @@ function showDebugLogWindow() {
 
   captureClicks(debugLogWindow);
 
-  debugLogWindow.loadURL(prepareURL([__dirname, 'debug_log.html']));
+  debugLogWindow.loadURL(prepareURL([__dirname, 'debug_log.html'], { theme }));
 
   debugLogWindow.on('closed', () => {
     removeDarkOverlay();
@@ -519,7 +522,7 @@ function showDebugLogWindow() {
 }
 
 let permissionsPopupWindow;
-function showPermissionsPopupWindow() {
+async function showPermissionsPopupWindow() {
   if (permissionsPopupWindow) {
     permissionsPopupWindow.show();
     return;
@@ -528,6 +531,7 @@ function showPermissionsPopupWindow() {
     return;
   }
 
+  const theme = await pify(getDataFromMainWindow)('theme-setting');
   const size = mainWindow.getSize();
   const options = {
     width: Math.min(400, size[0]),
@@ -553,7 +557,7 @@ function showPermissionsPopupWindow() {
   captureClicks(permissionsPopupWindow);
 
   permissionsPopupWindow.loadURL(
-    prepareURL([__dirname, 'permissions_popup.html'])
+    prepareURL([__dirname, 'permissions_popup.html'], { theme })
   );
 
   permissionsPopupWindow.on('closed', () => {
@@ -832,13 +836,19 @@ ipc.on('delete-all-data', () => {
   }
 });
 
+function getDataFromMainWindow(name, callback) {
+  ipc.once(`get-success-${name}`, (_event, error, value) =>
+    callback(error, value)
+  );
+  mainWindow.webContents.send(`get-${name}`);
+}
+
 function installSettingsGetter(name) {
   ipc.on(`get-${name}`, event => {
     if (mainWindow && mainWindow.webContents) {
-      ipc.once(`get-success-${name}`, (_event, error, value) =>
+      getDataFromMainWindow(name, (error, value) =>
         event.sender.send(`get-success-${name}`, error, value)
       );
-      mainWindow.webContents.send(`get-${name}`);
     }
   });
 }

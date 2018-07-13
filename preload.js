@@ -70,10 +70,6 @@ window.closeAbout = () => ipc.send('close-about');
 window.updateTrayIcon = unreadCount =>
   ipc.send('update-tray-icon', unreadCount);
 
-ipc.on('debug-log', () => {
-  Whisper.events.trigger('showDebugLog');
-});
-
 ipc.on('set-up-with-import', () => {
   Whisper.events.trigger('setupWithImport');
 });

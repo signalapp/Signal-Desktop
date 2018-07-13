@@ -101,7 +101,9 @@
       let timerMessage;
 
       const timerUpdate = this.model.get('expirationTimerUpdate');
-      const prettySeconds = Whisper.ExpirationTimerOptions.getName(seconds);
+      const prettySeconds = Whisper.ExpirationTimerOptions.getName(
+        seconds || 0
+      );
 
       if (
         timerUpdate &&
