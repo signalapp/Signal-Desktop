@@ -5,6 +5,7 @@ $(document).on('keyup', function(e) {
 });
 
 const $body = $(document.body);
+$body.addClass(window.theme);
 
 const getInitialData = async () => ({
   deviceName: await window.getDeviceName(),

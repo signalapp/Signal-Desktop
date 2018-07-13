@@ -1,5 +1,6 @@
 /* global i18n: false */
 /* global Whisper: false */
+/* global $: false */
 
 /* eslint-disable no-new */
 
@@ -82,7 +83,14 @@
         el: this.$('.theme-settings'),
         name: 'theme-setting',
         value: window.initialData.themeSetting,
-        setFn: window.setThemeSetting,
+        setFn: theme => {
+          $(document.body)
+            .removeClass('android')
+            .removeClass('android-dark')
+            .removeClass('ios')
+            .addClass(theme);
+          window.setThemeSetting(theme);
+        },
       });
       if (Settings.isAudioNotificationSupported()) {
         new CheckboxView({
