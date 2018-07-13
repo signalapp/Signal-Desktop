@@ -1,37 +1,49 @@
+/* global _: false */
+/* global Backbone: false */
+/* global i18n: false */
+/* global moment: false */
+/* global Whisper: false */
+/* global wrapDeferred: false */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   function destroyExpiredMessages() {
     // Load messages that have expired and destroy them
-    var expired = new Whisper.MessageCollection();
-    expired.on('add', function(message) {
+    const expired = new Whisper.MessageCollection();
+    expired.on('add', async message => {
       console.log('Message expired', {
         sentAt: message.get('sent_at'),
       });
-      var conversation = message.getConversation();
+      const conversation = message.getConversation();
       if (conversation) {
         conversation.trigger('expired', message);
       }
 
       // We delete after the trigger to allow the conversation time to process
       //   the expiration before the message is removed from the database.
-      message.destroy();
+      await wrapDeferred(message.destroy());
+      if (conversation) {
+        conversation.updateLastMessage();
+      }
     });
     expired.on('reset', throttledCheckExpiringMessages);
 
     expired.fetchExpired();
   }
 
-  var timeout;
+  let timeout;
   function checkExpiringMessages() {
     // Look up the next expiring message and set a timer to destroy it
-    var expiring = new Whisper.MessageCollection();
-    expiring.once('add', function(next) {
-      var expires_at = next.get('expires_at');
-      console.log('next message expires', new Date(expires_at).toISOString());
+    const expiring = new Whisper.MessageCollection();
+    expiring.once('add', next => {
+      const expiresAt = next.get('expires_at');
+      console.log('next message expires', new Date(expiresAt).toISOString());
 
-      var wait = expires_at - Date.now();
+      let wait = expiresAt - Date.now();
 
       // In the past
       if (wait < 0) {
@@ -48,24 +60,27 @@
     });
     expiring.fetchNextExpiring();
   }
-  var throttledCheckExpiringMessages = _.throttle(checkExpiringMessages, 1000);
+  const throttledCheckExpiringMessages = _.throttle(
+    checkExpiringMessages,
+    1000
+  );
 
   Whisper.ExpiringMessagesListener = {
-    init: function(events) {
+    init(events) {
       checkExpiringMessages();
       events.on('timetravel', throttledCheckExpiringMessages);
     },
     update: throttledCheckExpiringMessages,
   };
 
-  var TimerOption = Backbone.Model.extend({
-    getName: function() {
+  const TimerOption = Backbone.Model.extend({
+    getName() {
       return (
         i18n(['timerOption', this.get('time'), this.get('unit')].join('_')) ||
         moment.duration(this.get('time'), this.get('unit')).humanize()
       );
     },
-    getAbbreviated: function() {
+    getAbbreviated() {
       return i18n(
         ['timerOption', this.get('time'), this.get('unit'), 'abbreviated'].join(
           '_'
@@ -75,27 +90,19 @@
   });
   Whisper.ExpirationTimerOptions = new (Backbone.Collection.extend({
     model: TimerOption,
-    getName: function(seconds) {
-      if (!seconds) {
-        seconds = 0;
-      }
-      var o = this.findWhere({ seconds: seconds });
+    getName(seconds = 0) {
+      const o = this.findWhere({ seconds });
       if (o) {
         return o.getName();
-      } else {
-        return [seconds, 'seconds'].join(' ');
       }
+      return [seconds, 'seconds'].join(' ');
     },
-    getAbbreviated: function(seconds) {
-      if (!seconds) {
-        seconds = 0;
-      }
-      var o = this.findWhere({ seconds: seconds });
+    getAbbreviated(seconds = 0) {
+      const o = this.findWhere({ seconds });
       if (o) {
         return o.getAbbreviated();
-      } else {
-        return [seconds, 's'].join('');
       }
+      return [seconds, 's'].join('');
     },
   }))(
     [
@@ -111,8 +118,8 @@
       [12, 'hours'],
       [1, 'day'],
       [1, 'week'],
-    ].map(function(o) {
-      var duration = moment.duration(o[0], o[1]); // 5, 'seconds'
+    ].map(o => {
+      const duration = moment.duration(o[0], o[1]); // 5, 'seconds'
       return {
         time: o[0],
         unit: o[1],

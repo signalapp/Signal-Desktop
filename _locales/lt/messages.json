@@ -105,6 +105,10 @@
         "message": "Įrenginio pavadinimas",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
+    "address": {
+        "message": "adresas",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
     "debugLog": {
         "message": "Derinimo žurnalas",
         "description": "View menu item to open the debug log (title case)"
@@ -167,6 +171,10 @@
         "message": "Atsako jums",
         "description": "Shown in iOS theme when someone else quotes a message from you"
     },
+    "you": {
+        "message": "Jūs",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
     "offline": {
         "message": "Atsijungta",
         "description": "Displayed when the desktop client has no network connection."
@@ -215,6 +223,10 @@
         "message": "Klaida, apdorojant gaunamą žinutę.",
         "description": ""
     },
+    "poBox": {
+        "message": "Pašto dėžutė",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
     "delete": {
         "message": "Ištrinti",
         "description": ""
@@ -239,17 +251,9 @@
         "message": "jūsų pasirinkta vieta",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "Jūs, tikriausiai, norėtumėte $tag_start$ patvirtinti $tag_end$ savo saugumo numerį su šiuo kontaktu.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "telefonas",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "Jūsų saugumo numeris su $name$ neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
@@ -268,6 +272,10 @@
     "thisWeek": {
         "message": "Šią savaitę",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "Siųsti žinutę",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "Įkeliami kontaktai ir žinutės",
@@ -299,6 +307,16 @@
         "message": "Jūsų saugumo numeriai su keliais grupės dalyviais neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal. ",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "emojiAlt": {
+        "message": "Šypsenėlė \"$title$\"",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
     "timerOption_1_day": {
         "message": "1 diena",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "Tik siuntėjo vardas",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "Paveikslo iš cituotos žinutės miniatiūra",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "Šiame pokalbyje nėra jokios medijos",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Paskiausi nuo:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Vėliau",
@@ -358,6 +388,10 @@
     "viewAllMedia": {
         "message": "Rodyti visą mediją",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Įsitikinkite, kad pasirinkote teisingą katalogą, kuriame yra jūsų įrašyti Signal duomenys. Jo pavadinimas turėtų prasidėti \"Signal Export.\" Taip pat galite įrašyti naują savo duomenų kopiją iš Chrome programėlės.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "Jūsų saugumo numeris su $name$ pasikeitė ir daugiau nebėra patvirtintas. Spustelėkite, norėdami rodyti.",
@@ -411,10 +445,6 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Žinutės paaiškinimas",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
         "message": "Ištrinti visus duomenis",
         "description": "Text of the button that deletes all data"
@@ -443,6 +473,10 @@
             }
         }
     },
+    "work": {
+        "message": "darbo",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
         "message": "Pereiti į forumus",
         "description": "Item under the Help menu, takes you to the forums"
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "namų",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "Įkeliamos žinutės. Jau $count$ įkelta...",
@@ -499,6 +537,10 @@
         "message": "Naujinti",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "notificationMostRecent": {
+        "message": "Paskiausi:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
     "yourSafetyNumberWith": {
         "message": "Jūsų saugumo numeris su $name$:",
         "description": "Heading for safety number view",
@@ -516,6 +558,10 @@
     "theme": {
         "message": "Tema",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Sąlygos ir Privatumo politika",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Naujas saugumo numeris",
@@ -550,6 +596,10 @@
     "syncing": {
         "message": "Importuojama...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "Pokalbyje išsiųstas paveikslas",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "Jūsų saugumo numeriai su keliais šios grupės dalyviais pasikeitė ir daugiau nebėra patvirtinti. Spustelėkite, norėdami rodyti.",
@@ -609,6 +659,14 @@
         "message": "Paleisti Signal iš naujo",
         "description": ""
     },
+    "mobile": {
+        "message": "mobilusis",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "Nuo:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "Kontaktai",
         "description": "Label for contact and group sync settings"
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1 savaitė",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Kontakto avataras",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "Gauta",
@@ -685,6 +747,10 @@
         "message": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus.",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "Šiame pokalbyje nėra jokių dokumentų",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "Ištrinti šią žinutę",
         "description": ""
@@ -697,13 +763,13 @@
         "message": "Norėdami pritaikyti atnaujinimus, paspauskite \"Paleisti Signal iš naujo\".",
         "description": ""
     },
+    "fileIconAlt": {
+        "message": "Failo piktograma",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
     "timerOption_0_seconds": {
         "message": "išjungta",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "Įsitikinkite, kad pasirinkote teisingą aplanką, kuriame yra jūsų įrašyti Signal duomenys. Jo pavadinimas turėtų prasidėti \"Signal Export.\" Taip pat galite įrašyti naują savo duomenų kopiją iš Chrome programėlės.<p>Jeigu šie žingsniai neveikia, prašome <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>pateikti derinimo žurnalą</a>, kad galėtume jums padėti su perkėlimu!</p>",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "Neteisingas numeris",
@@ -833,6 +899,10 @@
             }
         }
     },
+    "email": {
+        "message": "el. paštas",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
         "message": "Pereiti į palaikymo puslapį",
         "description": "Item under the Help menu, takes you to the support page"
@@ -862,6 +932,10 @@
     "newMessages": {
         "message": "Naujos žinutės",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "importErrorSecond": {
+        "message": "Jeigu šie žingsniai neveikia, pateikite derinimo žurnalą (Rodinys -> Derinimo žurnalas), kad galėtume jums padėti perkelti duomenis!",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
         "message": "Jūs su šiuo kontaktu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės.",

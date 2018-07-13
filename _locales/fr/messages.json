@@ -300,7 +300,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "mainMenuSettings": {
-        "message": "Paramètres…",
+        "message": "Préférences…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "changedRecentlyMultiple": {
@@ -558,6 +558,10 @@
     "theme": {
         "message": "Thème",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Conditions générales d’utilisation et politique de confidentialité",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Nouveau numéro de sécurité",

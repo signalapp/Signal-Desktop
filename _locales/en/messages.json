@@ -27,6 +27,98 @@
       "message": "Preferences…",
       "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
+    "appMenuHide": {
+      "message": "Hide",
+      "description": "Application menu command to hide the window"
+    },
+    "appMenuHideOthers": {
+      "message": "Hide Others",
+      "description": "Application menu command to hide all other windows"
+    },
+    "appMenuUnhide": {
+      "message": "Show All",
+      "description": "Application menu command to show all application windows"
+    },
+    "appMenuQuit": {
+      "message": "Quit Signal",
+      "description": "Application menu command to close the application"
+    },
+    "editMenuUndo": {
+      "message": "Undo",
+      "description": "Edit menu command to remove recently-typed text"
+    },
+    "editMenuRedo": {
+      "message": "Redo",
+      "description": "Edit menu command to restore previously undone typed text"
+    },
+    "editMenuCut": {
+      "message": "Cut",
+      "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
+    "editMenuCopy": {
+      "message": "Copy",
+      "description": "Edit menu command to add selected text to clipboard"
+    },
+    "editMenuPaste": {
+      "message": "Paste",
+      "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
+    "editMenuPasteAndMatchStyle": {
+      "message": "Paste and Match Style",
+      "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    },
+    "editMenuDelete": {
+      "message": "Delete",
+      "description": "Edit menu command to remove the selected text"
+    },
+    "editMenuSelectAll": {
+      "message": "Select All",
+      "description": "Edit menu comand to select all of the text in selected text box"
+    },
+    "editMenuStartSpeaking": {
+      "message": "Start speaking",
+      "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "editMenuStopSpeaking": {
+      "message": "Stop speaking",
+      "description": "Edit menu item under 'speech' to stop dictation"
+    },
+    "windowMenuClose": {
+      "message": "Close Window",
+      "description": "Window menu command to close the current window"
+    },
+    "windowMenuMinimize": {
+      "message": "Minimize",
+      "description": "Window menu command to minimize the current window"
+    },
+    "windowMenuZoom": {
+      "message": "Zoom",
+      "description": "Window menu command to make the current window the size of the whole screen"
+    },
+    "windowMenuBringAllToFront": {
+      "message": "Bring All to Front",
+      "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
+    "viewMenuResetZoom": {
+      "message": "Actual Size",
+      "description": "View menu command to go back to the default zoom"
+    },
+    "viewMenuZoomIn": {
+      "message": "Zoom In",
+      "description": "View menu command to make everything bigger"
+    },
+    "viewMenuZoomOut": {
+      "message": "Zoom Out",
+      "description": "View menu command to make everything smaller"
+    },
+    "viewMenuToggleFullScreen": {
+      "message": "Toggle Full Screen",
+      "description": "View menu command to enter or leave Full Screen mode"
+    },
+    "viewMenuToggleDevTools": {
+      "message": "Toggle Developer Tools",
+      "description": "View menu command to show or hide the developer tools"
+    },
     "menuSetupWithImport": {
       "message": "Set Up with Import",
       "description": "When the application is not yet set up, menu option to start up the import sequence"
@@ -422,6 +514,10 @@
       "message": "Report an Issue",
       "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
+    "signalDesktopPreferences": {
+      "message": "Signal Desktop Preferences",
+      "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "aboutSignalDesktop": {
       "message": "About Signal Desktop",
       "description": "Item under the Help menu, which opens a small about window"
@@ -517,6 +613,18 @@
           "example": "John"
         }
       }
+    },
+    "audioPermissionNeeded": {
+      "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+      "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "allowAccess": {
+      "message": "Allow Access",
+      "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
+    "showSettings": {
+      "message": "Show Settings",
+      "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
       "message": "Audio",
@@ -702,6 +810,14 @@
     "theme": {
         "message": "Theme",
         "description": "Header for theme settings"
+    },
+    "permissions": {
+      "message": "Permissions",
+      "description": "Header for permissions section of settings"
+    },
+    "mediaPermissionsDescription": {
+      "message": "Allow access to camera and microphone",
+      "description": "Description of the media permission description"
     },
     "clearDataHeader": {
         "message": "Clear Data",
@@ -909,6 +1025,30 @@
       "message": "30 seconds",
       "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "timerOption_1_minute": {
+      "message": "1 minute",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_5_minutes": {
+      "message": "5 minutes",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_30_minutes": {
+      "message": "30 minutes",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_hour": {
+      "message": "1 hour",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_6_hours": {
+      "message": "6 hours",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_12_hours": {
+      "message": "12 hours",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "timerOption_1_day": {
       "message": "1 day",
       "description": "Label for a selectable option in the message expiration timer menu"
@@ -971,7 +1111,7 @@
     },
     "timerSetTo": {
       "message": "Timer set to $time$",
-      "description": "Displayed in the conversation list when the timer is updated.",
+      "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
       "placeholders": {
         "time": {
           "content": "$1",

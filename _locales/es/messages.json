@@ -105,6 +105,10 @@
         "message": "Nombre de dispositivo",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
+    "address": {
+        "message": "dirección",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
     "debugLog": {
         "message": "Registro de depuración",
         "description": "View menu item to open the debug log (title case)"
@@ -167,6 +171,10 @@
         "message": "Respuesta a ti",
         "description": "Shown in iOS theme when someone else quotes a message from you"
     },
+    "you": {
+        "message": "Para ti",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
     "offline": {
         "message": "Desconectado",
         "description": "Displayed when the desktop client has no network connection."
@@ -215,6 +223,10 @@
         "message": "Fallo al procesar el mensaje recibido.",
         "description": ""
     },
+    "poBox": {
+        "message": "apdo. de correos",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
     "delete": {
         "message": "Eliminar",
         "description": ""
@@ -239,17 +251,9 @@
         "message": "Carpeta seleccionada",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "Tal vez desees $tag_start$ verificar $tag_end$ las cifras de seguridad con este contacto.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "teléfono",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "Las cifras de seguridad con $name$ han cambiado recientemente, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
@@ -268,6 +272,10 @@
     "thisWeek": {
         "message": "Esta semana",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "Enviar mensaje",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "Cargando contactos y mensajes",
@@ -299,6 +307,16 @@
         "message": "Las cifras de seguridad con varios miembros del grupo han cambiado recientemente, lo que significaría que alguien ha tratado de interceptar la comunicación o que simplemente han reinstalado Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "emojiAlt": {
+        "message": "Emoji representando '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
     "timerOption_1_day": {
         "message": "1 día ",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "Solo nombre de contacto",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "Miniatura de una foto como cita de un mensaje",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "No hay ingún adjunto en este chat",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Más reciente de:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Más tarde",
@@ -358,6 +388,10 @@
     "viewAllMedia": {
         "message": "Ver todos los adjuntos",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Asegúrate de haber seleccionado la carpeta correcta que contiene tus datos de Signal. El nombre suele comenzar por 'Signal Export'. También puedes guardar una copia nueva de tus datos desde la aplicación de Chrome.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "Las cifras de seguridad con $name$ han cambiado y ya no están verificadas. Haz clic para mostrar.",
@@ -411,10 +445,6 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Extracto del mensaje",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
         "message": "Borrar todos los datos",
         "description": "Text of the button that deletes all data"
@@ -443,6 +473,10 @@
             }
         }
     },
+    "work": {
+        "message": "trabajo",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
         "message": "Ir al forum",
         "description": "Item under the Help menu, takes you to the forums"
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1 m",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "casa",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "Cargando mensajes. $count$ hasta ahora…",
@@ -499,6 +537,10 @@
         "message": "Actualizar",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "notificationMostRecent": {
+        "message": "Más reciente:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
     "yourSafetyNumberWith": {
         "message": "Las cifras de seguridad con $name$:",
         "description": "Heading for safety number view",
@@ -516,6 +558,10 @@
     "theme": {
         "message": "Tema",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Términos y política de privacidad",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Nuevas cifras de seguridad",
@@ -550,6 +596,10 @@
     "syncing": {
         "message": "Importando…",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "Foto enviada en el chat",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "Las cifras de seguridad con varios miembros de este grupo han cambiado y ya no están verificadas. Haz clic para mostrar.",
@@ -609,6 +659,14 @@
         "message": "Reiniciar Signal",
         "description": ""
     },
+    "mobile": {
+        "message": "móvil",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "De:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "Contactos",
         "description": "Label for contact and group sync settings"
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1 semana",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Avatar del contacto",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "Recibido",
@@ -685,6 +747,10 @@
         "message": "Lo sentimos, el archivo seleccionado excede las restricciones de tamaño.",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "No hay documentos en este chat",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "Eliminar este mensaje",
         "description": ""
@@ -697,13 +763,13 @@
         "message": "Pulsa en 'Reiniciar Signal' para aplicar cambios.",
         "description": ""
     },
+    "fileIconAlt": {
+        "message": "Icono de archivo",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
     "timerOption_0_seconds": {
         "message": "inactivo",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "Asegúrate de haber seleccionado la carpeta correcta que contiene los datos de Signal. El nombre suele comenzar por 'Signal Export'. También puedes guardar una copia nueva de tus datos desde la aplicación de Chrome. <p>Si esto no funciona, <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>envíanos el registro de depuración</a> para que te podamos ayudar con la migración.</p>",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "Número incorrecto",
@@ -833,6 +899,10 @@
             }
         }
     },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
         "message": "Ir a la página de soporte",
         "description": "Item under the Help menu, takes you to the support page"
@@ -862,6 +932,10 @@
     "newMessages": {
         "message": "Mensajes nuevos",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "importErrorSecond": {
+        "message": "Si estos pasos no te funcionan, envía el registro de depuración (Ver > Registro de depuración) para que te podamos ayudar con la migración.",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
         "message": "No has intercambiado ningún mensaje con este contacto. Las cifras de seguridad estarán disponibles después de enviar el primer mensaje.",

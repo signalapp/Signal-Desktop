@@ -105,6 +105,10 @@
         "message": "Eszköz neve",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
+    "address": {
+        "message": "cím",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
     "debugLog": {
         "message": "Fejlesztői napló",
         "description": "View menu item to open the debug log (title case)"
@@ -167,6 +171,10 @@
         "message": "Válasz neked",
         "description": "Shown in iOS theme when someone else quotes a message from you"
     },
+    "you": {
+        "message": "Te",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
     "offline": {
         "message": "Nincs csatlakozva",
         "description": "Displayed when the desktop client has no network connection."
@@ -215,6 +223,10 @@
         "message": "Nem sikerült kezelni a bejövő üzenetet.",
         "description": ""
     },
+    "poBox": {
+        "message": "Postafiók",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
     "delete": {
         "message": "Törlés",
         "description": ""
@@ -239,17 +251,9 @@
         "message": "kiválasztott könyvtár",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "$tag_start$ Ide kattintva $tag_end$ ellenőrizheted partnered biztonsági számát.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "telefonszám",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "Biztonsági számod $name$ nevű partnereddel nemrég megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy $name$ egyszerűen csak újratelepítette a Signal-t.",
@@ -268,6 +272,10 @@
     "thisWeek": {
         "message": "Ezen a héten",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "Üzenet küldése",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "Kontaktok és üzenetek betöltése",
@@ -299,6 +307,16 @@
         "message": "Biztonsági számod a csoport több tagjával is megváltozott az utóbbi időben. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy valaki egyszerűen csak újratelepítette a Signal-t.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "emojiAlt": {
+        "message": "'$title$'-t ábrázoló emoji",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
     "timerOption_1_day": {
         "message": "1 nap",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "Csak a feladó neve",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "Az idézett üzenetben megjelenített fotó előnézeti képe",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "A beszélgetés nem tartalmaz médiafájlokat",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Legfrissebb tőle:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Később",
@@ -358,6 +388,10 @@
     "viewAllMedia": {
         "message": "Összes média megtekintése",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Bizonyosodj meg róla, hogy a megfelelő, Signal adataidat tartalmazó könyvtárat választottad ki! A nevének 'Signal Export'-tal kell kezdődnie. Emellett készíthetsz egy új másolatot a Chrome alkalmazás adataiból is.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "Biztonsági számod $name$ nevű partnereddel megváltozott, ezért már nincs hitelesítve. Kattints a megjelenítéshez!",
@@ -411,10 +445,6 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Felirat üzenetből",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
         "message": "Összes adat törlése",
         "description": "Text of the button that deletes all data"
@@ -443,6 +473,10 @@
             }
         }
     },
+    "work": {
+        "message": "munkahelyi",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
         "message": "Fórum megnyitása",
         "description": "Item under the Help menu, takes you to the forums"
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1p",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "otthoni",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "Üzenetek betöltése. Eddig $count$ db...",
@@ -499,6 +537,10 @@
         "message": "Frissítés",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "notificationMostRecent": {
+        "message": "Legfrissebb:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
     "yourSafetyNumberWith": {
         "message": "Biztonsági számod (partner: $name$):",
         "description": "Heading for safety number view",
@@ -516,6 +558,10 @@
     "theme": {
         "message": "Téma",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Adatvédelmi és Általános Szerződési Feltételek",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Új biztonsági szám",
@@ -550,6 +596,10 @@
     "syncing": {
         "message": "Importálás folyamatban...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "Beszélgetés során küldött fotó",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "A korábban egyeztetett biztonsági számod egy része a csoport több tagjával is megváltozott, így már nem hitelesítettek. Kattints a megjelenítéshez!",
@@ -609,6 +659,14 @@
         "message": "Signal újraindítása",
         "description": ""
     },
+    "mobile": {
+        "message": "mobil",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "Feladó:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "Kontaktok",
         "description": "Label for contact and group sync settings"
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1 hét",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Kontakt profilképe",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "Beérkezett",
@@ -685,6 +747,10 @@
         "message": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét.",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "A beszélgetés nem tartalmaz dokumentumokat",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "Üzenet törlése",
         "description": ""
@@ -697,13 +763,13 @@
         "message": "Kattints a Signal újraindítására a frissítések alkalmazásához! ",
         "description": ""
     },
+    "fileIconAlt": {
+        "message": "Fájl ikon",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
     "timerOption_0_seconds": {
         "message": "ki",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "Bizonyosodj meg róla, hogy valóban a Signal adataidat tartalmazó könyvtárat választottad ki. A nevének 'Signal Export'-tal kell kezdődnie. Lehetőséged van újra kimenteni adataidat a Chrome App-ból. <p>Ha a fentiek nem oldják meg a problémát, kérlek <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>küldd el a debug naplódat</a> annak érdekében, hogy segíthessünk a migrálásban! ",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "Érvénytelen telefonszám",
@@ -833,6 +899,10 @@
             }
         }
     },
+    "email": {
+        "message": "e-mail",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
         "message": "Támogatás megnyitása",
         "description": "Item under the Help menu, takes you to the support page"
@@ -862,6 +932,10 @@
     "newMessages": {
         "message": "Új üzenetek",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "importErrorSecond": {
+        "message": "Ha ezek a lépések nem segítenek, kérlek küldd el részünkre a fejlesztői naplófájlt (Nézet -> Fejlesztói napló), hogy segíthessünk az átállásban!",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
         "message": "Még nem váltottál üzenetet ezzel a partnerrel. Biztonsági számod az első üzenet elküldését követően lesz elérhető.",

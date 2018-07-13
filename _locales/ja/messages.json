@@ -20,15 +20,15 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "昨日",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
-        "message": "Replying to Yourself",
+        "message": "あなた自身に返信中",
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "文書",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "今月",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -104,6 +104,10 @@
     "deviceName": {
         "message": "デバイス名",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "address": {
+        "message": "address",
+        "description": "Generic label shown if contact address has custom type but no label"
     },
     "debugLog": {
         "message": "デバッグログ",
@@ -164,8 +168,12 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "replyingToYou": {
-        "message": "Replying to You",
+        "message": "あなたに返信中",
         "description": "Shown in iOS theme when someone else quotes a message from you"
+    },
+    "you": {
+        "message": "You",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "offline": {
         "message": "オフライン",
@@ -196,7 +204,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "データを消去",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "syncExplanation": {
@@ -214,6 +222,10 @@
     "incomingError": {
         "message": "受信中にエラー",
         "description": ""
+    },
+    "poBox": {
+        "message": "PO Box",
+        "description": "When rendering an address, used to provide context to a post office box"
     },
     "delete": {
         "message": "削除する",
@@ -239,17 +251,9 @@
         "message": "選択したフォルダ",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "このコンタクトとの $tag_start$ 安全番号 $tag_end$ を確認することができます。",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "phone",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "$name$との安全番号が最近変わりました。誰かが通信を傍受しているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
@@ -266,8 +270,12 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "今週",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "Send Message",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "連絡先とメッセージを読み込み中",
@@ -299,6 +307,16 @@
         "message": "安全番号の変更が複数のメンバーで最近ありました。誰かが通信を傍受しようとしているかも知れませんし，メンバーがSignalをインストールし直しただけかも知れません。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "emojiAlt": {
+        "message": "Emoji image of '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
     "timerOption_1_day": {
         "message": "1日",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "差出人名のみ",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "Thumbnail of image from quoted message",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "You don’t have any media in this conversation",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Most recent from:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "あとで",
@@ -340,7 +370,7 @@
         "description": ""
     },
     "today": {
-        "message": "Today",
+        "message": "今日",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
@@ -356,8 +386,12 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "すべてのメディアを表示",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "$name$との安全番号に変更があり，未検証です。クリックして表示してください。",
@@ -370,7 +404,7 @@
         }
     },
     "video": {
-        "message": "Video",
+        "message": "動画",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "searchForPeopleOrGroups": {
@@ -411,12 +445,8 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Message caption",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
-        "message": "Delete all data",
+        "message": "すべてのデータを削除",
         "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
@@ -443,6 +473,10 @@
             }
         }
     },
+    "work": {
+        "message": "work",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
         "message": "フォーラムに参加",
         "description": "Item under the Help menu, takes you to the forums"
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1分",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "home",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "メッセージを読み込んでいます。今のところ$count$通です。",
@@ -499,6 +537,10 @@
         "message": "アップデート",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "notificationMostRecent": {
+        "message": "Most recent:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
     "yourSafetyNumberWith": {
         "message": "$name$ との安全番号",
         "description": "Heading for safety number view",
@@ -516,6 +558,10 @@
     "theme": {
         "message": "テーマ",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Terms & Privacy Policy",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "新しい安全番号",
@@ -550,6 +596,10 @@
     "syncing": {
         "message": "取り込み中……",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "Image sent in conversation",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "複数のメンバーとの安全番号に変更があり，未検証です。クリックして表示してください。",
@@ -596,7 +646,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "$name$に返信中",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -609,6 +659,14 @@
         "message": "Signalを再起動",
         "description": ""
     },
+    "mobile": {
+        "message": "mobile",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "From:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "連絡先",
         "description": "Label for contact and group sync settings"
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1週間",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Contact avatar",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "受信",
@@ -646,7 +708,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "すべてのデータを削除しますか？",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataProgress": {
@@ -685,6 +747,10 @@
         "message": "選択したファイルが大きすぎます",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "You don’t have any documents in this conversation",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "このメッセージを削除する",
         "description": ""
@@ -697,13 +763,13 @@
         "message": "変更を適応するにはSignalを再起動してください。",
         "description": ""
     },
+    "fileIconAlt": {
+        "message": "File icon",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
     "timerOption_0_seconds": {
         "message": "オフ",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "正しいディレクトリを選択したか確認してください。ディレクトリ名はSignal Exportから始まります。なお、旧式のChromeアプリからもデータをコピーできます。<p>もしこれらの方法がうまく作用しない場合、<a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>デバッグログを提出</a>していただけると将来的な解決につながります!</p>",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "不正な番号です",
@@ -746,7 +812,7 @@
         "description": ""
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "メッセージに返信",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "disableNotifications": {
@@ -754,15 +820,15 @@
         "description": "Label for disabling notifications"
     },
     "photo": {
-        "message": "Photo",
+        "message": "写真",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
-        "message": "Media",
+        "message": "メディア",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "noContents": {
-        "message": "No message contents",
+        "message": "メッセージはありません",
         "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
@@ -833,6 +899,10 @@
             }
         }
     },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
         "message": "サポートページへ",
         "description": "Item under the Help menu, takes you to the support page"
@@ -862,6 +932,10 @@
     "newMessages": {
         "message": "新着メッセージ",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "importErrorSecond": {
+        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
         "message": "このコンタクトとまだメッセージを交換していません。最初のメッセージから安全番号は交換します。",
@@ -904,7 +978,7 @@
         }
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "アプリケーション中のすべてのメッセージと、保存されたアカウント情報を削除します。",
         "description": "Text describing what the clear data button will do."
     },
     "to": {
@@ -916,7 +990,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "アプリケーションを最適化しています...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
@@ -936,7 +1010,7 @@
         "description": ""
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "データ消去",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
@@ -1026,7 +1100,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "audio": {
-        "message": "Audio",
+        "message": "音声",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "notifications": {

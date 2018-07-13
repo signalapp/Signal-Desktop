@@ -110,13 +110,7 @@
       this.listenTo(this.model, 'delivered', this.updateMessage);
       this.listenTo(this.model, 'read', this.updateMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
-      this.listenTo(this.model, 'expired', this.onExpired);
       this.listenTo(this.model, 'prune', this.onPrune);
-      this.listenTo(
-        this.model.messageCollection,
-        'expired',
-        this.onExpiredCollection
-      );
       this.listenTo(
         this.model.messageCollection,
         'scroll-to-message',
@@ -510,6 +504,8 @@
       this.openStart = Date.now();
       this.lastActivity = Date.now();
 
+      this.model.updateLastMessage();
+
       const statusPromise = this.throttledGetProfiles();
       // eslint-disable-next-line more/no-then
       this.statusFetch = statusPromise.then(() =>
@@ -807,34 +803,9 @@
       return this.inProgressFetch;
     },
 
-    onExpired(message) {
-      const mine = this.model.messageCollection.get(message.id);
-      if (mine && mine.cid !== message.cid) {
-        mine.trigger('expired', mine);
-      }
-    },
-    async onExpiredCollection(message) {
-      const removeMessage = () => {
-        console.log('Remove expired message from message collection', {
-          sentAt: message.get('sent_at'),
-        });
-        this.model.messageCollection.remove(message.id);
-      };
-
-      // If a fetch is in progress, then we need to wait until that's complete to
-      //   do this removal. Otherwise we could remove from messageCollection, then
-      //   the async database fetch could include the removed message.
-
-      await this.inProgressFetch;
-      removeMessage();
-    },
-
     addMessage(message) {
       // This is debounced, so it won't hit the database too often.
       this.lazyUpdateVerified();
-
-      this.model.addSingleMessage(message);
-      message.setToExpire();
 
       if (message.isOutgoing()) {
         this.removeLastSeenIndicator();

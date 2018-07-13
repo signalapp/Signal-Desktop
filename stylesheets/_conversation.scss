@@ -1320,6 +1320,24 @@ span.status {
     }
   }
 }
+
+.permissions-popup,
+.debug-log-window {
+  .modal {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .confirmation-dialog .content {
+    box-shadow: 0px 0px 0px 0px;
+    max-width: 1000px;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+  }
+}
+
 .advisory .icon {
   height: 1.25em;
   width: 1.25em;

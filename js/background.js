@@ -78,6 +78,7 @@
   let isMigrationWithIndexComplete = false;
   let isMigrationWithoutIndexComplete = false;
   idleDetector.on('idle', async () => {
+    console.log('Idle processing started');
     const NUM_MESSAGES_PER_BATCH = 1;
 
     if (!isMigrationWithIndexComplete) {
@@ -108,6 +109,7 @@
     const areAllMigrationsComplete =
       isMigrationWithIndexComplete && isMigrationWithoutIndexComplete;
     if (areAllMigrationsComplete) {
+      console.log('All migrations are complete. Stopping idle detector.');
       idleDetector.stop();
     }
   });
@@ -120,6 +122,54 @@
       return;
     }
     first = false;
+
+    // These make key operations available to IPC handlers created in preload.js
+    window.Events = {
+      getDeviceName: () => textsecure.storage.user.getDeviceName(),
+
+      getThemeSetting: () => storage.get('theme-setting'),
+      setThemeSetting: value => {
+        storage.put('theme-setting', value);
+        onChangeTheme();
+      },
+      getHideMenuBar: () => storage.get('hide-menu-bar'),
+      setHideMenuBar: value => {
+        storage.get('hide-menu-bar', value);
+        window.setAutoHideMenuBar(value);
+        window.setMenuBarVisibility(!value);
+      },
+
+      getNotificationSetting: () =>
+        storage.get('notification-setting', 'message'),
+      setNotificationSetting: value =>
+        storage.get('notification-setting', value),
+      getAudioNotification: () => storage.get('audio-notification'),
+      setAudioNotification: value => storage.put('audio-notification', value),
+
+      // eslint-disable-next-line eqeqeq
+      isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
+      getSyncRequest: () =>
+        new Promise((resolve, reject) => {
+          const syncRequest = window.getSyncRequest();
+          syncRequest.addEventListener('success', resolve);
+          syncRequest.addEventListener('timeout', reject);
+        }),
+      getLastSyncTime: () => storage.get('synced_at'),
+      setLastSyncTime: value => storage.put('synced_at', value),
+
+      addDarkOverlay: () => {
+        if ($('.dark-overlay').length) {
+          return;
+        }
+        $(document.body).prepend('<div class="dark-overlay"></div>');
+        $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
+      },
+      removeDarkOverlay: () => $('.dark-overlay').remove(),
+      deleteAllData: () => {
+        const clearDataView = new window.Whisper.ClearDataView().render();
+        $('body').append(clearDataView.el);
+      },
+    };
 
     try {
       await ConversationController.load();
@@ -205,16 +255,6 @@
 
     Whisper.events.on('showDebugLog', () => {
       appView.openDebugLog();
-    });
-    Whisper.events.on('showSettings', () => {
-      if (!appView || !appView.inboxView) {
-        console.log(
-          "background: Event: 'showSettings':" +
-            ' Expected `appView.inboxView` to exist.'
-        );
-        return;
-      }
-      appView.inboxView.showSettings();
     });
     Whisper.events.on('unauthorized', () => {
       appView.inboxView.networkStatusView.update();
@@ -366,6 +406,7 @@
     messageReceiver.addEventListener('verified', onVerified);
     messageReceiver.addEventListener('error', onError);
     messageReceiver.addEventListener('empty', onEmpty);
+    messageReceiver.addEventListener('reconnect', onReconnect);
     messageReceiver.addEventListener('progress', onProgress);
     messageReceiver.addEventListener('configuration', onConfiguration);
 
@@ -457,6 +498,13 @@
     }, 500);
 
     Whisper.Notifications.enable();
+  }
+  function onReconnect() {
+    // We disable notifications on first connect, but the same applies to reconnect. In
+    //   scenarios where we're coming back from sleep, we can get offline/online events
+    //   very fast, and it looks like a network blip. But we need to suppress
+    //   notifications in these scenarios too. So we listen for 'reconnect' events.
+    Whisper.Notifications.disable();
   }
   function onProgress(ev) {
     const { count } = ev;

@@ -24,7 +24,7 @@
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
-        "message": "Replying to Yourself",
+        "message": "Ответ на свое",
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
@@ -105,6 +105,10 @@
         "message": "Имя устройства",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
+    "address": {
+        "message": "адрес",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
     "debugLog": {
         "message": "Журнал отладки",
         "description": "View menu item to open the debug log (title case)"
@@ -164,8 +168,12 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "replyingToYou": {
-        "message": "Replying to You",
+        "message": "Ответ на ваше",
         "description": "Shown in iOS theme when someone else quotes a message from you"
+    },
+    "you": {
+        "message": "Вы",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "offline": {
         "message": "Оффлайн",
@@ -215,6 +223,10 @@
         "message": "Ошибка обработки входящего сообщения.",
         "description": ""
     },
+    "poBox": {
+        "message": "почтовый ящик",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
     "delete": {
         "message": "Удалить",
         "description": ""
@@ -239,17 +251,9 @@
         "message": "выбранное расположение",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "Возможно, вы хотите $tag_start$ подтвердить $tag_end$ свой код безопасности для этого контакта.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "телефон",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
         "message": "Код безопасности с $name$ изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, или $name$ попросту переустановил Signal.",
@@ -268,6 +272,10 @@
     "thisWeek": {
         "message": "На этой неделе",
         "description": "Section header in the media gallery"
+    },
+    "sendMessageToContact": {
+        "message": "Отправчить сообщение",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "Загрузка контактов и сообщений",
@@ -299,6 +307,16 @@
         "message": "Коды безопасности с несколькими участниками группы изменились со времени последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников переустановил Signal. ",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "emojiAlt": {
+        "message": "Emoji image of '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
     "timerOption_1_day": {
         "message": "1 день",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -314,6 +332,18 @@
     "nameOnly": {
         "message": "Только имя отправителя",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "quoteThumbnailAlt": {
+        "message": "Миниатюра изображения из цитируемого сообщения",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "В этом разговоре нет медиафайлов",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Последние от:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Позже",
@@ -358,6 +388,10 @@
     "viewAllMedia": {
         "message": "Просмотреть все медиа",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Убедитесь, что выбран правильный каталог, содержащий сохраненные вами данные Signal. Его название должно начинаться с 'Signal Export'. Также вы можете сохранить новую копию своих данных из приложения Chrome.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "Код безопасности с $name$ изменился и более не является подтвержденным. Нажмите, чтобы показать.",
@@ -411,10 +445,6 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Заголовок сообщения",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
         "message": "Удалить все данные",
         "description": "Text of the button that deletes all data"
@@ -443,6 +473,10 @@
             }
         }
     },
+    "work": {
+        "message": "рабочий",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
         "message": "Перейти к форумам",
         "description": "Item under the Help menu, takes you to the forums"
@@ -462,6 +496,10 @@
     "timerOption_1_minute_abbreviated": {
         "message": "1м",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "home": {
+        "message": "домашний",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
         "message": "Загрузка сообщений. Осталось $count$...",
@@ -499,6 +537,10 @@
         "message": "Обновить",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "notificationMostRecent": {
+        "message": "Последние:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
     "yourSafetyNumberWith": {
         "message": "Ваш код безопасности с $name$:",
         "description": "Heading for safety number view",
@@ -516,6 +558,10 @@
     "theme": {
         "message": "Тема",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Условия и политика конфиденциальности",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Новый код безопасности",
@@ -550,6 +596,10 @@
     "syncing": {
         "message": "Импорт...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "Изображение, отправленное в разговоре",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "Коды безопасности с несколькими участниками данной группы изменились и больше не являются подтвержденными. Нажмите, чтобы показать.",
@@ -609,6 +659,14 @@
         "message": "Перезапустите Signal",
         "description": ""
     },
+    "mobile": {
+        "message": "мобильный",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "От:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
     "sync": {
         "message": "Контакты",
         "description": "Label for contact and group sync settings"
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1 неделя",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Аватар контакта",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "Получено",
@@ -685,6 +747,10 @@
         "message": "К сожалению, выбранный файл превышает ограничения на размер сообщений.",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "В этом разговоре нет документов",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "Удалить это сообщение",
         "description": ""
@@ -697,13 +763,13 @@
         "message": "Для применения обновлений перезапустите Signal.",
         "description": ""
     },
+    "fileIconAlt": {
+        "message": "Значок файла",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
     "timerOption_0_seconds": {
         "message": "выкл",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "Убедитесь, что выбран правильный каталог, содержащий ваши сохраненные данные Signal. Его название должно начинаться с 'Signal Export.' Можно также сохранить новую копию данных из приложения Chrome.<p>Если это не поможет, пожалуйста <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>отправьте нам журнал отладки</a> чтобы мы могли помочь вам с переносом данных!</p>",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "Неверный номер",
@@ -833,6 +899,10 @@
             }
         }
     },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
         "message": "Перейти на страницу поддержки",
         "description": "Item under the Help menu, takes you to the support page"
@@ -862,6 +932,10 @@
     "newMessages": {
         "message": "Новые сообщения",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "importErrorSecond": {
+        "message": "Если эти шаги вам не помогут, отправьте журнал отладки (Вид -> Журнал отладки), чтобы мы могли помочь вам перенастроить!",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
         "message": "Вы еще не обменивались сообщениями с данным собеседником. Код безопасности станет доступен после отправки первого сообщения.",

@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "Bu ay",
+        "message": "Bu Ay",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -156,7 +156,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "Kaydetmek için tıkla",
         "description": "Hover text for attachment filenames"
     },
     "messagesBelow": {
@@ -172,7 +172,7 @@
         "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "you": {
-        "message": "Sen",
+        "message": "Siz",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "offline": {
@@ -256,7 +256,7 @@
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
-        "message": "$name$ ile olan güvenlik numaranız yakın zamanda değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Sinyal'i yeniden yüklediği anlamına gelebilir.",
+        "message": "$name$ ile olan güvenlik numaranız yakın zamanda değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Signal'i yeniden yüklediği anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -270,7 +270,7 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "Bu hafta",
+        "message": "Bu Hafta",
         "description": "Section header in the media gallery"
     },
     "sendMessageToContact": {
@@ -304,7 +304,7 @@
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "changedRecentlyMultiple": {
-        "message": "Birden çok grup üyesi ile birlikte güvenlik numaralarınız yakın zamanda değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da basitçe Sinyal'i yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "Birden çok grup üyesi ile birlikte güvenlik numaralarınız yakın zamanda değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da sadece Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "emojiAlt": {
@@ -478,7 +478,7 @@
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "goToForums": {
-        "message": "Forumlara git",
+        "message": "Forumlara Git",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "menuSetupWithImport": {
@@ -520,7 +520,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "changedSinceVerified": {
-        "message": "$name$ ile güvenlik numaranız en son doğrulamanızdan sonra değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Sinyal'i yeniden yüklediği anlamına gelebilir.",
+        "message": "$name$ ile güvenlik numaranız en son doğrulamanızdan sonra değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin sadece Signal'i yeniden yüklediği anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -558,6 +558,10 @@
     "theme": {
         "message": "Tema",
         "description": "Header for theme settings"
+    },
+    "privacyPolicy": {
+        "message": "Kullanım Şartları ve Gizlilik Politikası",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Yeni güvenlik numarası",
@@ -626,7 +630,7 @@
         "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
-        "message": "&Düzen",
+        "message": "&Düzenle",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "timerOption_6_hours_abbreviated": {
@@ -660,7 +664,7 @@
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "notificationFrom": {
-        "message": "Kime:",
+        "message": "Kimden:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "sync": {
@@ -708,7 +712,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataProgress": {
-        "message": "Tüm verilerin bağlantısı kesiliyor ve siliniyor",
+        "message": "Bağlantı kesiliyor ve tüm veriler siliniyor",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "sendMessage": {
@@ -776,11 +780,11 @@
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
-        "message": "Aşağıda yeni mesaj",
+        "message": "Yeni mesaj aşağıda",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "menuSetupAsNewDevice": {
-        "message": "Yeni cihaz olarak ayarla",
+        "message": "Yeni Cihaz olarak Ayarla",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
@@ -844,7 +848,7 @@
         "description": "Hover text for attachment filenames"
     },
     "sendAnyway": {
-        "message": "Yine de gönder",
+        "message": "Yine de Gönder",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
@@ -900,7 +904,7 @@
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "goToSupportPage": {
-        "message": "Destek sayfasına git",
+        "message": "Destek Sayfasına Git",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "finishLinkingPhone": {
@@ -964,7 +968,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "identityKeyErrorOnSend": {
-        "message": "$name$ ile olan güvenlik numaranız değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Sinyal'i yeniden yüklediği anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz.",
+        "message": "$name$ ile olan güvenlik numaranız değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin sadece Signal'i yeniden yüklediği anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -990,7 +994,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Sürüm notlarına git",
+        "message": "Sürüm Notlarına Git",
         "description": ""
     },
     "messageDetail": {
@@ -1022,7 +1026,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "menuSetupAsStandalone": {
-        "message": "Bağımsız cihaz olarak ayarla",
+        "message": "Bağımsız Cihaz olarak Ayarla",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
@@ -1034,11 +1038,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Bu kişiyle olan güvenlik numaranız değişti. Bu durum, birisinin sizin iletişiminizi kesmeye çalıştığı veya bu kişinin Sinyal'i yeniden yüklemiş olabileceği anlamına gelir. Aşağıdaki yeni güvenlik numarasını doğrulamak isteyebilirsiniz.",
+        "message": "Bu kişiyle olan güvenlik numaranız değişti. Bu durum, birisinin sizin iletişiminizi kesmeye çalıştığı veya bu kişinin sadece Signal'i yeniden yüklemiş olabileceği anlamına gelir. Aşağıdaki yeni güvenlik numarasını doğrulamak isteyebilirsiniz.",
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Birden fazla grup üyesinin bulunduğu güvenlik numaralarınız, son doğrulamanızdan sonra değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da basitçe Sinyal'i yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "Birden fazla grup üyesinin bulunduğu güvenlik numaralarınız, son doğrulamanızdan sonra değişti. Bu, birisinin sizin iletişiminizi kesmeye çalıştığı ya da sadece Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "loadDataHeader": {
@@ -1050,7 +1054,7 @@
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "startConversation": {
-        "message": "Sohbeti başlat…",
+        "message": "Sohbet başlat…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
@@ -1068,7 +1072,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Doğrulamaya çalıştığınız güvenlik numarası değişti. Lütfen yeni güvenlik numaranızı $name$ ile gözden geçirin. Unutmayın, bu değişiklik birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin basitçe Sinyal'i yeniden yüklediği anlamına gelebilir.",
+        "message": "Doğrulamaya çalıştığınız güvenlik numarası değişti. Lütfen yeni güvenlik numaranızı $name$ ile gözden geçirin. Unutmayın, bu değişiklik birisinin sizin iletişiminizi kesmeye çalıştığı ya da $name$ kişisinin sadece Signal'i yeniden yüklediği anlamına gelebilir.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {

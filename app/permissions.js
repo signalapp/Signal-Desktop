@@ -4,8 +4,10 @@
 const PERMISSIONS = {
   // Allowed
   fullscreen: true, // required to show videos in full-screen
-  media: true, // required for access to microphone, used for voice notes
   notifications: true, // required to show OS notifications for new messages
+
+  // Off by default, can be enabled by user
+  media: false, // required for access to microphone, used for voice notes
 
   // Not allowed
   geolocation: false,
@@ -14,18 +16,32 @@ const PERMISSIONS = {
   pointerLock: false,
 };
 
-function _permissionHandler(webContents, permission, callback) {
-  if (PERMISSIONS[permission]) {
-    console.log(`Approving request for permission '${permission}'`);
-    return callback(true);
-  }
+function _createPermissionHandler(userConfig) {
+  return (webContents, permission, callback) => {
+    // We default 'media' permission to false, but the user can override that
+    if (permission === 'media' && userConfig.get('mediaPermissions')) {
+      return callback(true);
+    }
 
-  console.log(`Denying request for permission '${permission}'`);
-  return callback(false);
+    if (PERMISSIONS[permission]) {
+      console.log(`Approving request for permission '${permission}'`);
+      return callback(true);
+    }
+
+    console.log(`Denying request for permission '${permission}'`);
+    return callback(false);
+  };
 }
 
-function installPermissionsHandler({ session }) {
-  session.defaultSession.setPermissionRequestHandler(_permissionHandler);
+function installPermissionsHandler({ session, userConfig }) {
+  // Setting the permission request handler to null first forces any permissions to be
+  //   requested again. Without this, revoked permissions might still be available if
+  //   they've already been used successfully.
+  session.defaultSession.setPermissionRequestHandler(null);
+
+  session.defaultSession.setPermissionRequestHandler(
+    _createPermissionHandler(userConfig)
+  );
 }
 
 module.exports = {

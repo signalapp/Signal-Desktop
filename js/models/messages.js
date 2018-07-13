@@ -641,7 +641,7 @@
               });
             }
 
-            if (!message.isEndSession() && !message.isGroupUpdate()) {
+            if (!message.isEndSession()) {
               if (dataMessage.expireTimer) {
                 if (
                   dataMessage.expireTimer !== conversation.get('expireTimer')
@@ -649,10 +649,17 @@
                   conversation.updateExpirationTimer(
                     dataMessage.expireTimer,
                     source,
-                    message.get('received_at')
+                    message.get('received_at'),
+                    {
+                      fromGroupUpdate: message.isGroupUpdate(),
+                    }
                   );
                 }
-              } else if (conversation.get('expireTimer')) {
+              } else if (
+                conversation.get('expireTimer') &&
+                // We only turn off timers if it's not a group update
+                !message.isGroupUpdate()
+              ) {
                 conversation.updateExpirationTimer(
                   null,
                   source,

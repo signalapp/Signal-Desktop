@@ -1,10 +1,10 @@
 {
     "scrollDown": {
-        "message": "Gulir ke bawah pembicaraan",
+        "message": "Gulir ke bagian bawah pembicaraan",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "Pilih direktori dengan data telah diekspor",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
@@ -16,19 +16,19 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "linkedDevices": {
-        "message": "Linked Devices",
+        "message": "Perangkat Tersambung",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "Kemarin",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
-        "message": "Replying to Yourself",
+        "message": "Membalas Anda",
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Dokumen",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -50,7 +50,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "Bulan ini",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -66,7 +66,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ keluar dari grup.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -76,7 +76,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "Anda memasang pewaktu ke $time$",
+        "message": "Anda memasang pengatur waktu ke $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -94,7 +94,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "importCompleteHeader": {
-        "message": "Success!",
+        "message": "Berhasil!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "timestamp_m": {
@@ -102,11 +102,15 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "deviceName": {
-        "message": "Device name",
+        "message": "Nama Perangkat",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
+    "address": {
+        "message": "alamat",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
     "debugLog": {
-        "message": "Debug Log",
+        "message": "Catatan Awakutu",
         "description": "View menu item to open the debug log (title case)"
     },
     "gotIt": {
@@ -118,7 +122,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "Apakah kamu yakin? Mengklik 'hapus' akan menghapus pesan ini dari perangkat ini secara permanen.",
+        "message": "Apakah Anda yakin? Mengklik 'hapus' akan menghapus pesan ini dari perangkat ini secara permanen.",
         "description": ""
     },
     "showMore": {
@@ -126,7 +130,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "Jika Anda ingin memverifikasi keamanan enkripsi end-to-end dengan $name$, bandingkan angka di atas dengan nomor di perangkat mereka.",
+        "message": "Jika Anda ingin memverifikasi keamanan enkripsi antarpengguna dengan $name$, bandingkan angka di atas dengan nomor di perangkat mereka.",
         "description": "",
         "placeholders": {
             "name": {
@@ -148,7 +152,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "quit": {
-        "message": "Quit",
+        "message": "Berhenti",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
@@ -156,7 +160,7 @@
         "description": "Hover text for attachment filenames"
     },
     "messagesBelow": {
-        "message": "Pesan baru dibawah",
+        "message": "Pesan baru di bawah",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "resetSession": {
@@ -164,15 +168,19 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "replyingToYou": {
-        "message": "Replying to You",
+        "message": "Membalas ke Anda",
         "description": "Shown in iOS theme when someone else quotes a message from you"
+    },
+    "you": {
+        "message": "Anda",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "offline": {
         "message": "Luring",
         "description": "Displayed when the desktop client has no network connection."
     },
     "hideMenuBar": {
-        "message": "Hide menu bar",
+        "message": "Sembunyikan kolom menu",
         "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
@@ -184,7 +192,7 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
-        "message": "Saat pesan sampai, tampilkan pemberitahun yang menampilkan:",
+        "message": "Saat pesan sampai, tampilkan pemberitahuan yang menampilkan:",
         "description": "Explain the purpose of the notification settings"
     },
     "timestamp_h": {
@@ -196,11 +204,11 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "Bersihkan data",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "syncExplanation": {
-        "message": "Impor semua grup Signal dan kontak dari semua perangkat mobile anda.",
+        "message": "Impor semua grup Signal dan kontak dari semua perangkat mobil Anda.",
         "description": "Explanatory text for sync settings"
     },
     "youLeftTheGroup": {
@@ -212,8 +220,12 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Kesalahan dalam penanganan pesan baru.",
+        "message": "Kesalahan dalam menangani pesan baru.",
         "description": ""
+    },
+    "poBox": {
+        "message": "PO Box",
+        "description": "When rendering an address, used to provide context to a post office box"
     },
     "delete": {
         "message": "Hapus",
@@ -228,31 +240,23 @@
         "description": "Tooltip for the tray icon"
     },
     "selectAContact": {
-        "message": "Pilih kontak atau grup untuk mulai mengobrol",
+        "message": "Pilih kontak atau grup untuk mulai mengobrol.",
         "description": ""
     },
     "aboutSignalDesktop": {
-        "message": "About Signal Desktop",
+        "message": "Mengenai Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "lokasi pilihan Anda",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
-    "verifyContact": {
-        "message": "Anda mungkin ingin nomor keamanan anda untuk $tag_start$ memverifikasi $tag_end$ dengan kontak ini.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
-        "placeholders": {
-            "tag_start": {
-                "content": "<a class='verify' href='#'>"
-            },
-            "tag_end": {
-                "content": "</a>"
-            }
-        }
+    "phone": {
+        "message": "telepon",
+        "description": "Generic label shown if contact phone has custom type but no label"
     },
     "changedRecently": {
-        "message": "Nomor keamanan Anda dengan $name$ telah berubah baru-baru ini. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Sinyal.",
+        "message": "Nomor keamanan Anda dengan $name$ telah berubah baru-baru ini. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -266,15 +270,19 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "Minggu ini",
         "description": "Section header in the media gallery"
     },
+    "sendMessageToContact": {
+        "message": "Kirim Pesan",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
+    },
     "importingHeader": {
-        "message": "Loading contacts and messages",
+        "message": "Memuat kontak dan pesan",
         "description": "Header of screen shown as data is import"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ mengubah pewaktu ke $time$.",
+        "message": "$name$ mengubah pengatur waktu ke $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -292,19 +300,29 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "mainMenuSettings": {
-        "message": "Preferences…",
+        "message": "Preferensi...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "changedRecentlyMultiple": {
-        "message": "Nomor keamanan Anda dengan beberapa anggota grup telah berubah baru-baru ini. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa mereka hanya memasang ulang Sinyal.",
+        "message": "Nomor keamanan Anda dengan beberapa anggota grup telah berubah baru-baru ini. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa mereka hanya memasang ulang Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "emojiAlt": {
+        "message": "Gambar emoji dari '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
     },
     "timerOption_1_day": {
         "message": "1 hari",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
-        "message": "Laporkan isu",
+        "message": "Laporkan masalah",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
@@ -315,8 +333,20 @@
         "message": "Nama pengirim saja",
         "description": "Label for setting notifications to display sender name only"
     },
+    "quoteThumbnailAlt": {
+        "message": "Cuplikan gambar dari pesan yang dikutip",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "mediaEmptyState": {
+        "message": "Anda tak memiliki media di dalam percakapan ini",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Terkini dari:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+    },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "Selanjutnya",
         "description": ""
     },
     "from": {
@@ -328,27 +358,27 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "mainMenuWindow": {
-        "message": "&Window",
+        "message": "&Jendela",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "importCompleteLinkButton": {
-        "message": "Link this device to your phone",
+        "message": "Sambungkan perangkat ini dengan telpon Anda",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
-        "message": "Sambungkan kembali Signal Desktop ke perangkat mobile Anda untuk melanjutkan pesan.",
+        "message": "Sambungkan kembali Signal Desktop ke perangkat mobil Anda untuk melanjutkan pesan.",
         "description": ""
     },
     "today": {
-        "message": "Today",
+        "message": "Hari ini",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
-        "message": "Catatan ini akan diunggah secara publik agar kontributor dapat melihat. Anda dapat memeriksa kembali dan menyunting ini sebelum mengunggahnya.",
+        "message": "Catatan ini akan diunggah secara publik agar kontributor dapat melihat. Anda dapat memeriksa kembali dan menyunting sebelum mengunggahnya.",
         "description": ""
     },
     "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
+        "message": "Sambungkan telpon Anda dengan Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "newPhoneNumber": {
@@ -356,8 +386,12 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "Lihat seluruh media",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "importErrorFirst": {
+        "message": "Pastikan Anda memilih direktori tepat, yang berisi data Signal yang telah tersimpan. Nama direktori itu seharusnya 'Expor Signal'. Anda bisa juga membuat data salinan baru dari Chrome App.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
         "message": "Nomor keamanan Anda dengan $name$ telah berubah dan tidak lagi diverifikasi. Klik untuk menampilkan.",
@@ -374,7 +408,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "searchForPeopleOrGroups": {
-        "message": "Enter name or number",
+        "message": "Masukkan nama atau nomor ",
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
@@ -390,7 +424,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Impor gagal. Pastikan komputer dan perangkat anda tersambung ke jaringan internet.",
+        "message": "Impor gagal. Pastikan komputer dan perangkat Anda tersambung ke jaringan internet.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
@@ -402,7 +436,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "timerSetOnSync": {
-        "message": "Updating timer to $time$.",
+        "message": "Perbarui pengatur waktu ke $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -411,12 +445,8 @@
             }
         }
     },
-    "messageCaption": {
-        "message": "Message caption",
-        "description": "Prefix of attachment alt tags in the media gallery"
-    },
     "deleteAllDataButton": {
-        "message": "Delete all data",
+        "message": "Hapus seluruh data",
         "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
@@ -430,11 +460,11 @@
         }
     },
     "installTooManyDevices": {
-        "message": "Maaf, Anda menautkan perangkat terlalu banyak. Coba hapus beberapa.",
+        "message": "Maaf, Anda menautkan perangkat terlalu banyak. Coba hapus sebagian.",
         "description": ""
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ bergabung dengan grup.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -443,12 +473,16 @@
             }
         }
     },
+    "work": {
+        "message": "kerja",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "goToForums": {
-        "message": "Go to Forums",
+        "message": "Cek Forum",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "menuSetupWithImport": {
-        "message": "Set Up with Import",
+        "message": "Siapkan dengan Impor",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "timerOption_30_minutes_abbreviated": {
@@ -463,6 +497,10 @@
         "message": "1m",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "home": {
+        "message": "Beranda",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
     "loadingMessages": {
         "message": "Memuat pesan $count$ sejauh ini...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
@@ -474,15 +512,15 @@
         }
     },
     "speech": {
-        "message": "Speech",
+        "message": "Bicara",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "importErrorHeader": {
-        "message": "Something went wrong!",
+        "message": "Sesuatu berjalan keliru!",
         "description": "Header of the error screen after a failed import"
     },
     "changedSinceVerified": {
-        "message": "Nomor keamanan Anda dengan $name$ telah berubah sejak Anda terakhir diverifikasi. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Sinyal.",
+        "message": "Nomor keamanan Anda dengan $name$ telah berubah sejak Anda terakhir diverifikasi. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -492,12 +530,16 @@
         }
     },
     "importAgain": {
-        "message": "Choose folder and try again",
+        "message": "Pilih map dan coba lagi",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "upgrade": {
-        "message": "Pemutahiran",
+        "message": "Pemutakhiran",
         "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "notificationMostRecent": {
+        "message": "Terkini:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "yourSafetyNumberWith": {
         "message": "Nomor keamanan Anda dengan $name$:",
@@ -517,6 +559,10 @@
         "message": "Tema",
         "description": "Header for theme settings"
     },
+    "privacyPolicy": {
+        "message": "Syarat & Kebijakan Privasi",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
+    },
     "newIdentity": {
         "message": "Nomor keamanan baru",
         "description": "Header for a key change dialog"
@@ -526,11 +572,11 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "show": {
-        "message": "Show",
+        "message": "Tunjukkan",
         "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
-        "message": "Mainkan suara notifikasi",
+        "message": "Mainkan suara pemberitahuan",
         "description": "Description for audio notification setting"
     },
     "isNotVerified": {
@@ -544,12 +590,16 @@
         }
     },
     "disconnected": {
-        "message": "Luring",
+        "message": "Terputus",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Impor ...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "lightboxImageAlt": {
+        "message": "Gambar telah terkirim dalam percakapan",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
         "message": "Nomor keamanan Anda dengan beberapa anggota grup ini telah berubah dan tidak lagi diverifikasi. Klik untuk menampilkan.",
@@ -564,7 +614,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "signalSettings": {
-        "message": "Signal Settings",
+        "message": "Pengaturan Signal",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "timestampFormat_M": {
@@ -572,11 +622,11 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "plusButton": {
-        "message": "'+' Button",
+        "message": "'+' Tombol",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "chooseDirectory": {
-        "message": "Choose folder",
+        "message": "Pilih map",
         "description": "Button to allow the user to find a folder on disk"
     },
     "mainMenuEdit": {
@@ -588,7 +638,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
-        "message": "Nomor tidak terdaftarkan",
+        "message": "Nomor tidak terdaftar",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
@@ -596,7 +646,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "Membalas ke $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -606,8 +656,16 @@
         }
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
+        "message": "Mulai ulang Signal",
         "description": ""
+    },
+    "mobile": {
+        "message": "mobil",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "notificationFrom": {
+        "message": "Dari:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "sync": {
         "message": "Kontak",
@@ -616,6 +674,10 @@
     "timerOption_1_week": {
         "message": "1 minggu",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "contactAvatarAlt": {
+        "message": "Kontak avatar",
+        "description": "Used in the alt tag for the image avatar of a contact"
     },
     "received": {
         "message": "Menerima",
@@ -646,11 +708,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "Hapus semua data?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "Putuskan sambungan dan hapuskan semua data",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "sendMessage": {
@@ -658,11 +720,11 @@
         "description": "Placeholder text in the message entry field"
     },
     "menuReportIssue": {
-        "message": "Report an Issue",
+        "message": "Laporkan masalah ",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "message": "Anda telah melewati proses ekspor. Kontak dan pesan Anda sedang menanti dengan sabar di komputer. Pilih map berisikan data Signal Anda.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "me": {
@@ -678,32 +740,36 @@
         "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
-        "message": "Versi dari Signal Desktop ini telah kadaluarsa. Mohom memutahirkan ke versi terbaru untuk melanjutkan pengiriman pesan.",
+        "message": "Versi Signal Desktop ini telah kedaluwarsa. Mohom memutakhirkan ke versi terbaru untuk melanjutkan pengiriman pesan.",
         "description": "Warning notification that this version of the app has expired"
     },
     "fileSizeWarning": {
         "message": "Maaf, berkas tersebut melebihi batas ukuran pesan.",
         "description": ""
     },
+    "documentsEmptyState": {
+        "message": "Anda tidak memiliki dokumen dari percakapan ini",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
     "deleteMessage": {
         "message": "Hapus pesan ini",
         "description": ""
     },
     "chooseDeviceName": {
-        "message": "Choose this device's name",
+        "message": "Pilih nama perangkat Anda",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "Tekan memulai awal Signal untuk mendapatkan versi terbaru.",
         "description": ""
+    },
+    "fileIconAlt": {
+        "message": "Ikon Berkas",
+        "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "timerOption_0_seconds": {
         "message": "padam",
         "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "importError": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.<p>If these steps don't work for you, please <a target='_blank' href='https://support.signal.org/hc/en-us/articles/215188737'>submit a debug log</a> so that we can help you get migrated!</p>",
-        "description": "Message shown if the import went wrong."
     },
     "invalidNumberError": {
         "message": "Nomor salah",
@@ -714,15 +780,15 @@
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
-        "message": "Pesan baru dibawah",
+        "message": "Pesan baru di bawah",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
+        "message": "Siapkan sebagai Perangkat Baru",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "installConnectionFailed": {
-        "message": "Gagal menyambungkan ke server.",
+        "message": "Gagal menyambungkan ke peladen.",
         "description": "Displayed when we can't connect to the server."
     },
     "unverify": {
@@ -734,19 +800,19 @@
         "description": "Informational label, appears on messages that failed to send"
     },
     "initialSync": {
-        "message": "Syncing contacts and groups",
+        "message": "Sinkronisasi dengan kontak dan grup",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "mainMenuView": {
-        "message": "&View",
+        "message": "&Lihat",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Tersedia versi terbaru Signal.",
         "description": ""
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "Membalas Pesan",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "disableNotifications": {
@@ -754,7 +820,7 @@
         "description": "Label for disabling notifications"
     },
     "photo": {
-        "message": "Photo",
+        "message": "Foto",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
@@ -762,7 +828,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "noContents": {
-        "message": "No message contents",
+        "message": "Tak ada isi pesan",
         "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
     },
     "cancel": {
@@ -774,19 +840,19 @@
         "description": "Brief message shown when trying to message a blocked number"
     },
     "mainMenuHelp": {
-        "message": "&Help",
+        "message": "&Bantuan",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
-        "message": "File yang tidak memiliki nama",
+        "message": "File tanpa nama",
         "description": "Hover text for attachment filenames"
     },
     "sendAnyway": {
-        "message": "Kirim Apapun",
+        "message": "Kirimkan Saja",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "Anda menandai nomor keamanan Anda dengan $name$ sebagai yang telah diverifikasi.",
+        "message": "Anda menandai nomor keamanan Anda dengan $name$ sebagai yang telah terverifikasi.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -796,11 +862,11 @@
         }
     },
     "connecting": {
-        "message": "Menyambungi",
+        "message": "Menghubungi",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "Anda akan menghapus semua informasi dari akun Anda dalam aplikasi ini, termasuk semua kontak dan pesan. Anda selalu dapat menghubungkan dengan perangkat seluler Anda lagi, tetapi itu tidak akan memulihkan pesan yang dihapus.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "sessionEnded": {
@@ -833,16 +899,20 @@
             }
         }
     },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
     "goToSupportPage": {
-        "message": "Go to Support Page",
+        "message": "Cek halaman bantuan",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "finishLinkingPhone": {
-        "message": "Finish linking phone",
+        "message": "Selesaikan menghubungkan telepon",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ bergabung dengan grup.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -863,8 +933,12 @@
         "message": "Pesan Baru",
         "description": "Displayed in notifications for multiple messages"
     },
+    "importErrorSecond": {
+        "message": "Jika langkah ini tidak berhasil bagi Anda, silakan masukkan catatan awakutu (Tampilan -> Catatan Awakutu) sehingga kami dapat membantu Anda untuk bermigrasi!",
+        "description": "Message shown if the import went wrong; second paragraph"
+    },
     "theirIdentityUnknown": {
-        "message": "Anda belum mengirim pesan apapun dengan kontak ini. Nomor keamanan anda dengan kontak ini akan tersedia sesaat setelah pesan pertama.",
+        "message": "Anda belum mengirim pesan apapun dengan kontak ini. Nomor keamanan Anda dengan kontak ini akan tersedia sesaat setelah pesan pertama.",
         "description": ""
     },
     "voiceMessage": {
@@ -872,7 +946,7 @@
         "description": "Name for a voice message attachment"
     },
     "importCompleteStartButton": {
-        "message": "Start using Signal Desktop",
+        "message": "Mulai menggunakan Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "submit": {
@@ -890,11 +964,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Updated the group.",
+        "message": "Perbarui grup",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "identityKeyErrorOnSend": {
-        "message": "Nomor keamanan Anda dengan $name$ telah berubah. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya menginstal ulang Sinyal. Anda mungkin ingin memverifikasi nomor keamanan Anda dengan kontak ini.",
+        "message": "Nomor keamanan Anda dengan $name$ telah berubah. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Signal. Anda mungkin ingin memverifikasi nomor keamanan Anda dengan kontak ini.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -904,7 +978,7 @@
         }
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "Ini akan menghapus semua data dalam aplikasi, membuang seluruh pesan dan informasi akun terpisah.",
         "description": "Text describing what the clear data button will do."
     },
     "to": {
@@ -916,11 +990,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "Mengoptimalkan aplikasi...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Go to Release Notes",
+        "message": "Lihat Catatan Rilis",
         "description": ""
     },
     "messageDetail": {
@@ -928,7 +1002,7 @@
         "description": ""
     },
     "mainMenuFile": {
-        "message": "&File",
+        "message": "&Berkas",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
@@ -936,7 +1010,7 @@
         "description": ""
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "Bersihkan data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "timerOption_10_seconds_abbreviated": {
@@ -944,7 +1018,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "linkNewDevice": {
-        "message": "Link New Device",
+        "message": "Sambungkan Perangkat Baru",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "nameAndMessage": {
@@ -952,7 +1026,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "menuSetupAsStandalone": {
-        "message": "Set Up as Standalone Device",
+        "message": "Siapkan untuk Perangkat Berdiri Sendiri",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "failedToSend": {
@@ -964,23 +1038,23 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Nomor keamanan anda dengan kontak ini telah berubah. Ini bisa berarti ada seseorang mencoba menyadap komunikasi anda, atau kontak telah menghapus aplikasi Signal. Anda mungkin ingin memverifikasi nomor keamanan baru dibawah.",
+        "message": "Nomor keamanan Anda dengan kontak ini telah berubah. Ini bisa berarti ada seseorang mencoba mencegat komunikasi Anda, atau kontak telah menghapus aplikasi Signal. Anda mungkin ingin memverifikasi nomor keamanan baru di bawah.",
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Nomor keamanan Anda dengan beberapa anggota grup telah berubah sejak terakhir Anda diverifikasi. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa mereka hanya memasang ulang Sinyal.",
+        "message": "Nomor keamanan Anda dengan beberapa anggota grup telah berubah sejak terakhir Anda diverifikasi. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa mereka hanya memasang ulang Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "loadDataHeader": {
-        "message": "Load your data",
+        "message": "Memuat data Anda",
         "description": "Header shown on the first screen in the data import process"
     },
     "submitDebugLog": {
-        "message": "Debug log",
+        "message": "Catatan Awakutu",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "startConversation": {
-        "message": "Start conversation…",
+        "message": "Mulai percakapan...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "error": {
@@ -988,7 +1062,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'.",
+        "message": "Judulnya sekarang '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -998,7 +1072,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Nomor keamanan yang ingin Anda verifikasi telah berubah. Harap tinjau nomor keamanan baru Anda dengan $name$. Ingat, perubahan ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Sinyal.",
+        "message": "Nomor keamanan yang ingin Anda verifikasi telah berubah. Harap tinjau nomor keamanan baru Anda dengan $name$. Ingat, perubahan ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -1008,7 +1082,7 @@
         }
     },
     "timerSetTo": {
-        "message": "Pewaktu set ke $time$",
+        "message": "Setel pengatur waktu ke $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
@@ -1018,7 +1092,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Tersedia Signal versi terbaru",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -1048,7 +1122,7 @@
         }
     },
     "hide": {
-        "message": "Hide",
+        "message": "Sembunyikan",
         "description": "Command in the tray icon menu, to hide the window"
     }
 }

@@ -1,0 +1,38 @@
+<html>
+<head>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none';
+            child-src 'self';
+            connect-src 'self' https: wss:;
+            font-src 'self';
+            form-action 'self';
+            frame-src 'none';
+            img-src 'self' blob: data:;
+            media-src 'self' blob:;
+            object-src 'none';
+            script-src 'self';
+            style-src 'self' 'unsafe-inline';"
+  >
+  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+<style>
+</style>
+</head>
+<body class='permissions-popup'>
+</body>
+<script type='text/x-tmpl-mustache' id='confirmation-dialog'>
+  <div class="content">
+    <div class='message'>{{ message }}</div>
+    <div class='buttons'>
+      {{ #showCancel }}
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+      {{ /showCancel }}
+      <button class='ok' tabindex='1'>{{ ok }}</button>
+    </div>
+  </div>
+</script>
+</script>
+<script type='text/javascript' src='js/components.js'></script>
+<script type='text/javascript' src='js/views/whisper_view.js'></script>
+<script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
+<script type='text/javascript' src='js/permissions_popup_start.js'></script>
+</html>

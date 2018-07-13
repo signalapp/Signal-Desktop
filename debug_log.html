@@ -1,0 +1,53 @@
+<html>
+<head>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none';
+            child-src 'self';
+            connect-src 'self' https: wss:;
+            font-src 'self';
+            form-action 'self';
+            frame-src 'none';
+            img-src 'self' blob: data:;
+            media-src 'self' blob:;
+            object-src 'none';
+            script-src 'self';
+            style-src 'self' 'unsafe-inline';"
+  >
+  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+<style>
+</style>
+</head>
+<body class='debug-log-window'>
+</body>
+<script type='text/x-tmpl-mustache' id='debug-log'>
+  <div class='content'>
+    <div>
+      <a class='x close' alt='close debug log' href='#'></a>
+      <h1> {{ title }} </h1>
+      <p> {{ debugLogExplanation }}</p>
+    </div>
+    <textarea spellcheck='false' rows='5'></textarea>
+    <div class='buttons'>
+      <button class='grey submit'>{{ submit }}</button>
+    </div>
+    <div class='result'>
+    </div>
+  </div>
+</script>
+<script type='text/x-tmpl-mustache' id='debug-log-link'>
+  <div class='input-group clearfix'>
+    <input type='text' class='link' readonly value='{{ url }}' />
+    <a class='open' alt='open in a new browser tab' target='_blank' href='{{ url }}'></a>
+  </div>
+  <p>
+    <a class='report-link' target='_blank'
+        href='https://github.com/signalapp/Signal-Desktop/issues/new/'>
+        {{ reportIssue }}
+    </a>
+  </p>
+</script>
+<script type='text/javascript' src='js/components.js'></script>
+<script type='text/javascript' src='js/views/whisper_view.js'></script>
+<script type='text/javascript' src='js/views/debug_log_view.js'></script>
+<script type='text/javascript' src='js/debug_log_start.js'></script>
+</html>

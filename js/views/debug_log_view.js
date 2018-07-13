@@ -42,9 +42,8 @@
       close: i18n('gotIt'),
       debugLogExplanation: i18n('debugLogExplanation'),
     },
-    close(e) {
-      e.preventDefault();
-      this.remove();
+    close() {
+      window.closeDebugLog();
     },
     async submit(e) {
       e.preventDefault();
