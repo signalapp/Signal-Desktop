@@ -28,6 +28,7 @@
     background-color: $grey_l;
     flex-grow: 1;
     overflow-y: auto;
+    user-select: none;
   }
 }
 .network-status-container {
