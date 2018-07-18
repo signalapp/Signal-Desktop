@@ -904,12 +904,6 @@
           : null,
       });
 
-      console.log('Conversation: Update last message:', {
-        id: this.idForLogging() || null,
-        messageTimestamp: lastMessageUpdate.timestamp || null,
-        messageType: lastMessageJSON ? lastMessageJSON.type : null,
-        messageSentAt: lastMessageJSON ? lastMessageJSON.sent_at : null,
-      });
       this.set(lastMessageUpdate);
 
       if (this.hasChanged('lastMessage') || this.hasChanged('timestamp')) {

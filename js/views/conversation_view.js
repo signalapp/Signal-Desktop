@@ -658,7 +658,7 @@
               Component: Signal.Components.LightboxGallery,
               props: {
                 messages: media,
-                onSave: () => saveAttachment({ message }),
+                onSave: saveAttachment,
                 selectedIndex,
               },
               onClose: () => Signal.Backbone.Views.Lightbox.hide(),
