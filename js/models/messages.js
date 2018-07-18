@@ -583,7 +583,7 @@
         }
       };
 
-      const firstAttachment = quote.attachments && quote.attachments[1];
+      const firstAttachment = quote.attachments && quote.attachments[0];
 
       return {
         text: this.createNonBreakingLastSeparator(quote.text),
