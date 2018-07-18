@@ -7,7 +7,7 @@ import { formatRelativeTime } from '../../util/formatRelativeTime';
 import { Localizer } from '../../types/Util';
 
 interface Props {
-  timestamp: number;
+  timestamp: number | null;
   extended: boolean;
   module?: string;
   withImageNoCaption?: boolean;
@@ -51,6 +51,10 @@ export class Timestamp extends React.Component<Props> {
       extended,
     } = this.props;
     const moduleName = module || 'module-timestamp';
+
+    if (timestamp === null || timestamp === undefined) {
+      return null;
+    }
 
     return (
       <span

@@ -184,3 +184,28 @@ We only show one line.
   />
 </div>
 ```
+
+#### Missing data
+
+```jsx
+<div>
+  <ConversationListItem
+    name="John"
+    lastUpdated={null}
+    lastMessage={{
+      text: 'Missing last updated',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <ConversationListItem
+    name="Missing message"
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: null,
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+</div>
+```
