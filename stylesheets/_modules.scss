@@ -1931,8 +1931,8 @@
 .module-conversation-list-item__content {
   flex-grow: 1;
   margin-left: 12px;
-  // 300 - 32px (left/right margin) - 48px (for avatar) - 12px (our margin)
-  max-width: 208px;
+  // parent - 48px (for avatar) - 16px (our right margin)
+  max-width: calc(100% - 64px);
 
   display: flex;
   flex-direction: column;
