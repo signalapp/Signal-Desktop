@@ -3,11 +3,27 @@
 ```jsx
 const message = {
   id: '1',
-  objectURL: 'https://placekitten.com/76/67',
+  thumbnailObjectUrl: 'https://placekitten.com/76/67',
   attachments: [
     {
       fileName: 'foo.jpg',
-      contentType: 'application/json',
+      contentType: 'image/jpeg',
+    },
+  ],
+};
+<MediaGridItem i18n={util.i18n} message={message} />;
+```
+
+## With video
+
+```jsx
+const message = {
+  id: '1',
+  thumbnailObjectUrl: 'https://placekitten.com/76/67',
+  attachments: [
+    {
+      fileName: 'foo.jpg',
+      contentType: 'video/mp4',
     },
   ],
 };

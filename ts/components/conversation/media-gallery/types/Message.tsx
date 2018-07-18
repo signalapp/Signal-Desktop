@@ -10,7 +10,10 @@ export type Message = {
   id: string;
   attachments: Array<Attachment>;
   received_at: number;
-} & { objectURL?: string };
+} & {
+  thumbnailObjectUrl?: string;
+  objectURL?: string;
+};
 
 export const loadWithObjectURL = (loadMessage: MapAsync<Message>) => async (
   messages: Array<Message>
