@@ -226,13 +226,18 @@
     }
   });
 
-  function start() {
+  async function start() {
     const currentVersion = window.getVersion();
     const lastVersion = storage.get('version');
     const newVersion = !lastVersion || currentVersion !== lastVersion;
-    storage.put('version', currentVersion);
+    await storage.put('version', currentVersion);
 
     if (newVersion) {
+      if (currentVersion === '1.14.2' || currentVersion === '1.15.0-beta.2') {
+        await window.Signal.Logs.deleteAll();
+        window.restart();
+      }
+
       console.log(
         `New version detected: ${currentVersion}; previous: ${lastVersion}`
       );
