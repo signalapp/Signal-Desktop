@@ -151,15 +151,44 @@ const Icon = ({
 
 export class Lightbox extends React.Component<Props> {
   private containerRef: HTMLDivElement | null = null;
+  private videoRef: HTMLVideoElement | null = null;
+
+  private captureVideoBound: (element: HTMLVideoElement) => void;
+  private playVideoBound: () => void;
+
+  constructor(props: Props) {
+    super(props);
+
+    this.captureVideoBound = this.captureVideo.bind(this);
+    this.playVideoBound = this.playVideo.bind(this);
+  }
 
   public componentDidMount() {
     const useCapture = true;
     document.addEventListener('keyup', this.onKeyUp, useCapture);
+
+    this.playVideo();
   }
 
   public componentWillUnmount() {
     const useCapture = true;
     document.removeEventListener('keyup', this.onKeyUp, useCapture);
+  }
+
+  public captureVideo(element: HTMLVideoElement) {
+    this.videoRef = element;
+  }
+
+  public playVideo() {
+    if (!this.videoRef) {
+      return;
+    }
+
+    if (this.videoRef.paused) {
+      this.videoRef.play();
+    } else {
+      this.videoRef.pause();
+    }
   }
 
   public render() {
@@ -237,7 +266,13 @@ export class Lightbox extends React.Component<Props> {
     const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
     if (isVideoTypeSupported) {
       return (
-        <video controls={true} style={styles.object}>
+        <video
+          role="button"
+          ref={this.captureVideoBound}
+          onClick={this.playVideoBound}
+          controls={true}
+          style={styles.object}
+        >
           <source src={objectURL} />
         </video>
       );
