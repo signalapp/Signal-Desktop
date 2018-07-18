@@ -247,10 +247,9 @@
       }
     },
     openConversation(conversation) {
-      ConversationController.markAsSelected(conversation);
-
       this.searchView.hideHints();
       if (conversation) {
+        ConversationController.markAsSelected(conversation);
         this.conversation_stack.open(
           ConversationController.get(conversation.id)
         );

@@ -25,10 +25,13 @@
     Contact,
     Errors,
     Message,
-    VisualAttachment,
     PhoneNumber,
   } = window.Signal.Types;
-  const { upgradeMessageSchema, loadAttachmentData } = window.Signal.Migrations;
+  const {
+    upgradeMessageSchema,
+    loadAttachmentData,
+    getAbsoluteAttachmentPath,
+  } = window.Signal.Migrations;
 
   // TODO: Factor out private and group subclasses of Conversation
 
@@ -771,47 +774,6 @@
       return _.without(this.get('members'), me);
     },
 
-    blobToArrayBuffer(blob) {
-      return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-
-        fileReader.onload = e => resolve(e.target.result);
-        fileReader.onerror = reject;
-        fileReader.onabort = reject;
-
-        fileReader.readAsArrayBuffer(blob);
-      });
-    },
-
-    async makeThumbnailAttachment(attachment) {
-      const { arrayBufferToObjectURL } = Util;
-      const attachmentWithData = await loadAttachmentData(attachment);
-      const { data, contentType } = attachmentWithData;
-      const objectUrl = arrayBufferToObjectURL({
-        data,
-        type: contentType,
-      });
-
-      const thumbnail = GoogleChrome.isImageTypeSupported(contentType)
-        ? await VisualAttachment.makeImageThumbnail(128, objectUrl)
-        : await VisualAttachment.makeVideoThumbnail(128, objectUrl);
-
-      URL.revokeObjectURL(objectUrl);
-
-      const arrayBuffer = await this.blobToArrayBuffer(thumbnail);
-      const finalContentType = 'image/png';
-      const finalObjectUrl = arrayBufferToObjectURL({
-        data: arrayBuffer,
-        type: finalContentType,
-      });
-
-      return {
-        data: arrayBuffer,
-        objectUrl: finalObjectUrl,
-        contentType: finalContentType,
-      };
-    },
-
     async makeQuote(quotedMessage) {
       const { getName } = Contact;
       const contact = quotedMessage.getContact();
@@ -830,29 +792,17 @@
         text: body || embeddedContactName,
         attachments: await Promise.all(
           (attachments || []).map(async attachment => {
-            const { contentType } = attachment;
-            const willMakeThumbnail =
-              GoogleChrome.isImageTypeSupported(contentType) ||
-              GoogleChrome.isVideoTypeSupported(contentType);
-            const makeThumbnail = async () => {
-              try {
-                if (willMakeThumbnail) {
-                  return await this.makeThumbnailAttachment(attachment);
-                }
-              } catch (error) {
-                console.log(
-                  'Failed to create quote thumbnail',
-                  error && error.stack ? error.stack : error
-                );
-              }
-
-              return null;
-            };
+            const { contentType, fileName, thumbnail } = attachment;
 
             return {
               contentType,
-              fileName: attachment.fileName,
-              thumbnail: await makeThumbnail(),
+              fileName,
+              thumbnail: thumbnail
+                ? {
+                    ...(await loadAttachmentData(thumbnail)),
+                    path: getAbsoluteAttachmentPath(thumbnail.path),
+                  }
+                : null,
             };
           })
         ),
@@ -1409,25 +1359,41 @@
         return false;
       }
 
+      try {
+        if (
+          queryMessage.get('schemaVersion') < Message.CURRENT_SCHEMA_VERSION
+        ) {
+          const upgradedMessage = await upgradeMessageSchema(
+            queryMessage.attributes
+          );
+          queryMessage.set(upgradedMessage);
+          await wrapDeferred(message.save());
+        }
+      } catch (error) {
+        console.log(
+          'Problem upgrading message quoted message from database',
+          Errors.toLogFormat(error)
+        );
+        return false;
+      }
+
       const queryAttachments = queryMessage.attachments || [];
       if (queryAttachments.length === 0) {
         return false;
       }
 
       const queryFirst = queryAttachments[0];
-      try {
-        // eslint-disable-next-line no-param-reassign
-        message.quoteThumbnail = await this.makeThumbnailAttachment(queryFirst);
-        return true;
-      } catch (error) {
-        console.log(
-          'Problem loading attachment data for quoted message from database',
-          Errors.toLogFormat(error)
-        );
-        return false;
-      }
+      const { thumbnail } = queryFirst;
+
+      // eslint-disable-next-line no-param-reassign
+      message.quoteThumbnail = {
+        ...thumbnail,
+        objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+      };
+
+      return true;
     },
-    async loadQuotedMessage(message, quotedMessage) {
+    loadQuotedMessage(message, quotedMessage) {
       // eslint-disable-next-line no-param-reassign
       message.quotedMessage = quotedMessage;
 
@@ -1451,19 +1417,20 @@
         return;
       }
 
-      try {
-        const queryFirst = quotedAttachments[0];
+      const queryFirst = quotedAttachments[0];
+      const { thumbnail } = queryFirst;
 
-        // eslint-disable-next-line no-param-reassign
-        message.quoteThumbnail = await this.makeThumbnailAttachment(queryFirst);
-      } catch (error) {
-        console.log(
-          'Problem loading attachment data for quoted message',
-          error && error.stack ? error.stack : error
-        );
+      if (!thumbnail) {
+        return;
       }
+
+      // eslint-disable-next-line no-param-reassign
+      message.quoteThumbnail = {
+        ...thumbnail,
+        objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+      };
     },
-    async loadQuoteThumbnail(message) {
+    loadQuoteThumbnail(message) {
       const { quote } = message.attributes;
       const { attachments } = quote;
       const first = attachments[0];
@@ -1477,27 +1444,15 @@
       if (!thumbnail) {
         return false;
       }
-      try {
-        const thumbnailWithData = await loadAttachmentData(thumbnail);
-        const { data, contentType } = thumbnailWithData;
-        thumbnailWithData.objectUrl = Util.arrayBufferToObjectURL({
-          data,
-          type: contentType,
-        });
+      // If we update this data in place, there's the risk that this data could be
+      //   saved back to the database
+      // eslint-disable-next-line no-param-reassign
+      message.quoteThumbnail = {
+        ...thumbnail,
+        objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+      };
 
-        // If we update this data in place, there's the risk that this data could be
-        //   saved back to the database
-        // eslint-disable-next-line no-param-reassign
-        message.quoteThumbnail = thumbnailWithData;
-
-        return true;
-      } catch (error) {
-        console.log(
-          'loadQuoteThumbnail: had trouble loading thumbnail data from disk',
-          error && error.stack ? error.stack : error
-        );
-        return false;
-      }
+      return true;
     },
     async processQuotes(messages) {
       const lookup = this.makeMessagesLookup(messages);
@@ -1516,7 +1471,10 @@
         }
 
         // 1. Load provided thumbnail
-        const gotThumbnail = await this.loadQuoteThumbnail(message, quote);
+        if (this.loadQuoteThumbnail(message, quote)) {
+          this.forceRender(message);
+          return;
+        }
 
         // 2. Check to see if we've already loaded the target message into memory
         const { author, id } = quote;
@@ -1524,13 +1482,7 @@
         const quotedMessage = lookup[key];
 
         if (quotedMessage) {
-          await this.loadQuotedMessage(message, quotedMessage);
-          this.forceRender(message);
-          return;
-        }
-
-        // No need to go further if we already have a thumbnail
-        if (gotThumbnail) {
+          this.loadQuotedMessage(message, quotedMessage);
           this.forceRender(message);
           return;
         }
@@ -1566,9 +1518,10 @@
         const { schemaVersion } = attributes;
 
         if (schemaVersion < Message.CURRENT_SCHEMA_VERSION) {
-          const upgradedMessage = upgradeMessageSchema(attributes);
-          message.set(upgradedMessage);
           // Yep, we really do want to wait for each of these
+          // eslint-disable-next-line no-await-in-loop
+          const upgradedMessage = await upgradeMessageSchema(attributes);
+          message.set(upgradedMessage);
           // eslint-disable-next-line no-await-in-loop
           await wrapDeferred(message.save());
         }

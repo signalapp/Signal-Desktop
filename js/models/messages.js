@@ -283,12 +283,14 @@
     processAttachment(attachment, externalObjectUrl) {
       const { thumbnail } = attachment;
       const objectUrl = (thumbnail && thumbnail.objectUrl) || externalObjectUrl;
+      const path = thumbnail && thumbnail.path;
 
-      const thumbnailWithObjectUrl = !objectUrl
-        ? null
-        : Object.assign({}, attachment.thumbnail || {}, {
-            objectUrl,
-          });
+      const thumbnailWithObjectUrl =
+        !objectUrl && !path
+          ? null
+          : Object.assign({}, attachment.thumbnail || {}, {
+              objectUrl: objectUrl || path,
+            });
 
       return Object.assign({}, attachment, {
         isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),

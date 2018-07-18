@@ -167,7 +167,7 @@
     openConversation(conversation) {
       if (conversation) {
         this.openInbox().then(() => {
-          this.inboxView.openConversation(null, conversation);
+          this.inboxView.openConversation(conversation);
         });
       }
     },
