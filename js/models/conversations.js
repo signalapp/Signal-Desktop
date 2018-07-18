@@ -800,7 +800,7 @@
               thumbnail: thumbnail
                 ? {
                     ...(await loadAttachmentData(thumbnail)),
-                    path: getAbsoluteAttachmentPath(thumbnail.path),
+                    objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
                   }
                 : null,
             };

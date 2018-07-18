@@ -280,17 +280,15 @@
 
       return ConversationController.get(author);
     },
-    processAttachment(attachment, externalObjectUrl) {
+    processQuoteAttachment(attachment, externalObjectUrl) {
       const { thumbnail } = attachment;
       const objectUrl = (thumbnail && thumbnail.objectUrl) || externalObjectUrl;
-      const path = thumbnail && thumbnail.path;
 
-      const thumbnailWithObjectUrl =
-        !objectUrl && !path
-          ? null
-          : Object.assign({}, attachment.thumbnail || {}, {
-              objectUrl: objectUrl || path,
-            });
+      const thumbnailWithObjectUrl = !objectUrl
+        ? null
+        : Object.assign({}, attachment.thumbnail || {}, {
+            objectUrl,
+          });
 
       return Object.assign({}, attachment, {
         isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
@@ -590,7 +588,7 @@
       return {
         text: this.createNonBreakingLastSeparator(quote.text),
         attachment: firstAttachment
-          ? this.processAttachment(firstAttachment, objectUrl)
+          ? this.processQuoteAttachment(firstAttachment, objectUrl)
           : null,
         isFromMe,
         authorPhoneNumber,
