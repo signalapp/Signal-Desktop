@@ -1806,13 +1806,45 @@
   margin-right: 4px;
   margin-bottom: 4px;
 }
+
 .module-media-grid-item__image {
   height: 94px;
   width: 94px;
   object-fit: cover;
 }
 
-// Module: Empty State
+.module-media-grid-item__image-container {
+  height: 94px;
+  width: 94px;
+  object-fit: cover;
+  position: relative;
+}
+
+.module-media-grid-item__circle-overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 42px;
+  height: 42px;
+  background-color: $color-white;
+  border-radius: 21px;
+}
+
+.module-media-grid-item__play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height: 36px;
+  width: 36px;
+  @include color-svg('../images/play.svg', $color-signal-blue);
+}
+
+/* Module: Empty State*/
 
 .module-empty-state {
   display: flex;

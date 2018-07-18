@@ -33,13 +33,14 @@ const createRandomMessage = ({ startTime, timeWindow } = {}) => props => {
         data: null,
         fileName,
         size: _.random(1000, 1000 * 1000 * 50),
+        contentType: 'image/jpeg',
       },
     ],
 
-    objectURL: `https://placekitten.com/${_.random(50, 150)}/${_.random(
+    thumbnailObjectUrl: `https://placekitten.com/${_.random(
       50,
       150
-    )}`,
+    )}/${_.random(50, 150)}`,
     ...props,
   };
 };
@@ -83,11 +84,11 @@ const messages = _.sortBy(
 const messages = [
   {
     id: '1',
-    objectURL: 'https://placekitten.com/76/67',
+    thumbnailObjectUrl: 'https://placekitten.com/76/67',
     attachments: [
       {
         fileName: 'foo.jpg',
-        contentType: 'application/json',
+        contentType: 'image/jpeg',
       },
     ],
   },
