@@ -185,6 +185,7 @@ export class Lightbox extends React.Component<Props> {
     }
 
     if (this.videoRef.paused) {
+      // tslint:disable-next-line no-floating-promises
       this.videoRef.play();
     } else {
       this.videoRef.pause();
