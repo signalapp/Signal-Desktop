@@ -115,8 +115,11 @@ input.search {
   position: relative;
   border-radius: 4px;
 
-  &.active {
+  &:focus {
     outline: solid 1px $blue;
+  }
+
+  &.active {
     background-image: url('../images/x.svg');
     background-repeat: no-repeat;
     background-size: $search-x-size;

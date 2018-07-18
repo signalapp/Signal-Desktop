@@ -42,17 +42,22 @@
       this.$new_contact = this.$('.new-contact');
 
       this.typeahead = new Whisper.ConversationCollection();
+      this.collection = new Whisper.ConversationCollection([], {
+        comparator(m) {
+          return m.getTitle().toLowerCase();
+        },
+      });
+      this.listenTo(this.collection, 'select', conversation => {
+        this.resetTypeahead();
+        this.trigger('open', conversation);
+      });
+
       // View to display the matched contacts from typeahead
       this.typeahead_view = new Whisper.ConversationListView({
-        collection: new Whisper.ConversationCollection([], {
-          comparator(m) {
-            return m.getTitle().toLowerCase();
-          },
-        }),
+        collection: this.collection,
       });
       this.$el.append(this.typeahead_view.el);
       this.initNewContact();
-      // this.listenTo(this.collection, 'reset', this.filterContacts);
       this.pending = Promise.resolve();
     },
 

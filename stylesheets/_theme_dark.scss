@@ -460,7 +460,7 @@ body.dark-theme {
     color: $color-dark-05;
     background-color: $color-black;
 
-    &.active {
+    &:focus {
       outline: solid 1px $blue;
     }
   }
