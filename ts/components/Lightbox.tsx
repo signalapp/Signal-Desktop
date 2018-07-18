@@ -5,12 +5,23 @@ import React from 'react';
 import classNames from 'classnames';
 import is from '@sindresorhus/is';
 
-import * as Colors from './styles/Colors';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
-import { colorSVG } from '../styles/colorSVG';
 
 import { Localizer } from '../types/Util';
+
+const Colors = {
+  TEXT_SECONDARY: '#bbb',
+  ICON_SECONDARY: '#ccc',
+};
+
+const colorSVG = (url: string, color: string) => {
+  return {
+    WebkitMask: `url(${url}) no-repeat center`,
+    WebkitMaskSize: '100%',
+    backgroundColor: color,
+  };
+};
 
 interface Props {
   close: () => void;

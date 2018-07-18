@@ -1682,6 +1682,147 @@
   border-radius: 4px;
 }
 
+// Module: Media Gallery
+
+.module-media-gallery {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.module-media-gallery__tab-container {
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+.module-media-gallery__tab {
+  width: 100%;
+  background-color: $color-light-02;
+  padding: 20px;
+  text-align: center;
+}
+
+.module-media-gallery__tab--active {
+  border-bottom: 2px solid $color-signal-blue;
+}
+
+.module-media-gallery__content {
+  display: flex;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.module-media-gallery__sections {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+// Module: Attachment Section
+
+.module-attachment-section {
+  width: 100%;
+}
+
+.module-attachment-section__header {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 28px;
+}
+
+.module-attachment-section__items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+// Module: Document List Item
+
+.module-document-list-item {
+  width: 100%;
+  height: 72px;
+}
+
+.module-document-list-item--with-separator {
+  border-bottom: 1px solid $color-light-02;
+}
+
+.module-document-list-item__content {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  height: 100%;
+}
+
+.module-document-list-item__icon {
+  flex-shrink: 0;
+
+  width: 48px;
+  height: 48px;
+  @include color-svg('../images/file.svg', $color-light-35);
+}
+
+.module-document-list-item__metadata {
+  display: inline-flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.module-document-list-item__file-name {
+  font-weight: bold;
+}
+
+.module-document-list-item__file-size {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 80%;
+}
+
+.module-document-list-item__date {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+// Module: Media Grid Item
+
+.module-media-grid-item {
+  height: 94px;
+  width: 94px;
+  cursor: pointer;
+  background-color: $color-light-10;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+.module-media-grid-item__image {
+  height: 94px;
+  width: 94px;
+  object-fit: cover;
+}
+
+// Module: Empty State
+
+.module-empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  font-size: 28px;
+  color: $color-light-45;
+}
+
 // Third-party module: react-contextmenu
 
 .react-contextmenu {

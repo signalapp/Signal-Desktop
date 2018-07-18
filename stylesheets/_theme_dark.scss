@@ -1263,6 +1263,38 @@ body.dark-theme {
     background-color: $color-core-red;
   }
 
+  // Module: Media Gallery
+
+  .module-media-gallery__tab {
+    background-color: $color-dark-85;
+  }
+
+  .module-media-gallery__tab--active {
+    border-bottom: 2px solid $color-signal-blue;
+  }
+
+  // Module: Document List Item
+
+  .module-document-list-item--with-separator {
+    border-bottom: 1px solid $color-dark-70;
+  }
+
+  .module-document-list-item__icon {
+    @include color-svg('../images/file.svg', $color-dark-60);
+  }
+
+  // Module: Media Grid Item
+
+  .module-media-grid-item {
+    background-color: $color-dark-85;
+  }
+
+  // Module: Empty State
+
+  .module-empty-state {
+    color: $color-dark-55;
+  }
+
   // Third-party module: react-contextmenu
 
   .react-contextmenu {

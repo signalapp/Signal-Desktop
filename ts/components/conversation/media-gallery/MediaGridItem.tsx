@@ -1,52 +1,38 @@
 import React from 'react';
 
 import { Message } from './types/Message';
+import { Localizer } from '../../../types/Util';
 
 interface Props {
   message: Message;
   onClick?: () => void;
+  i18n: Localizer;
 }
-
-const size = {
-  width: 94,
-  height: 94,
-};
-const styles = {
-  container: {
-    ...size,
-    cursor: 'pointer',
-    backgroundColor: '#f3f3f3',
-    marginRight: 4,
-    marginBottom: 4,
-  },
-  image: {
-    ...size,
-    backgroundSize: 'cover',
-  },
-};
 
 export class MediaGridItem extends React.Component<Props> {
   public renderContent() {
-    const { message } = this.props;
+    const { message, i18n } = this.props;
 
     if (!message.objectURL) {
       return null;
     }
 
     return (
-      <div
-        style={{
-          ...styles.container,
-          ...styles.image,
-          backgroundImage: `url("${message.objectURL}")`,
-        }}
+      <img
+        alt={i18n('lightboxImageAlt')}
+        className="module-media-grid-item__image"
+        src={message.objectURL}
       />
     );
   }
 
   public render() {
     return (
-      <div style={styles.container} role="button" onClick={this.props.onClick}>
+      <div
+        className="module-media-grid-item"
+        role="button"
+        onClick={this.props.onClick}
+      >
         {this.renderContent()}
       </div>
     );
