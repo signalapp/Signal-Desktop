@@ -1823,6 +1823,183 @@
   color: $color-light-45;
 }
 
+// Module: Conversation List Item
+
+.module-conversation-list-item {
+  max-width: 300px;
+  display: flex;
+  flex-direction: row;
+  padding-right: 16px;
+  padding-left: 16px;
+  align-items: center;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-black-008;
+  }
+}
+
+.module-conversation-list-item--has-unread {
+  padding-left: 12px;
+  border-left: 4px solid $color-signal-blue;
+}
+
+.module-conversation-list-item--is-selected {
+  background-color: $color-black-008;
+}
+
+.module-conversation-list-item__avatar {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  height: 48px;
+  width: 48px;
+  border-radius: 24px;
+  min-width: 48px;
+
+  object-fit: cover;
+}
+.module-conversation-list-item__default-avatar {
+  color: white;
+  font-size: 26px;
+  line-height: 48px;
+  text-align: center;
+
+  background-color: $color-conversation-grey;
+}
+
+.module-conversation-list-item__default-avatar--blue {
+  background-color: $color-conversation-blue;
+}
+.module-conversation-list-item__default-avatar--cyan {
+  background-color: $color-conversation-cyan;
+}
+.module-conversation-list-item__default-avatar--deep_orange {
+  background-color: $color-conversation-deep_orange;
+}
+.module-conversation-list-item__default-avatar--green {
+  background-color: $color-conversation-green;
+}
+.module-conversation-list-item__default-avatar--indigo {
+  background-color: $color-conversation-indigo;
+}
+.module-conversation-list-item__default-avatar--pink {
+  background-color: $color-conversation-pink;
+}
+.module-conversation-list-item__default-avatar--purple {
+  background-color: $color-conversation-purple;
+}
+.module-conversation-list-item__default-avatar--red {
+  background-color: $color-conversation-red;
+}
+.module-conversation-list-item__default-avatar--teal {
+  background-color: $color-conversation-teal;
+}
+
+.module-conversation-list-item__content {
+  flex-grow: 1;
+  margin-left: 12px;
+  // 300 - 32px (left/right margin) - 48px (for avatar) - 12px (our margin)
+  max-width: 208px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.module-conversation-list-item__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-conversation-list-item__header__name {
+  flex-grow: 1;
+  flex-shrink: 1;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 300;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.module-conversation-list-item__header__timestamp {
+  flex-shrink: 0;
+  margin-left: 6px;
+
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  font-weight: 300;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  text-transform: uppercase;
+}
+
+.module-conversation-list-item__message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-conversation-list-item__message__text {
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  margin-top: 3px;
+  font-size: 13px;
+  line-height: 18px;
+
+  height: 1.2em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.module-conversation-list-item__message__text--has-unread {
+  font-weight: 300;
+}
+
+.module-conversation-list-item__message__status-icon {
+  flex-shrink: 0;
+
+  margin-top: 2px;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-left: 6px;
+}
+
+.module-conversation-list-item__message__status-icon--sending {
+  @include color-svg('../images/sending.svg', $color-light-60);
+  animation: module-conversation-list-item__message__status-icon--spinning 4s
+    linear infinite;
+}
+
+@keyframes module-conversation-list-item__message__status-icon--spinning {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.module-conversation-list-item__message__status-icon--sent {
+  @include color-svg('../images/check-circle-outline.svg', $color-light-35);
+}
+.module-conversation-list-item__message__status-icon--delivered {
+  @include color-svg('../images/double-check.svg', $color-light-35);
+  width: 18px;
+}
+.module-conversation-list-item__message__status-icon--read {
+  @include color-svg('../images/read.svg', $color-light-35);
+  width: 18px;
+}
+
 // Third-party module: react-contextmenu
 
 .react-contextmenu {

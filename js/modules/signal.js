@@ -20,6 +20,9 @@ const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
 const {
+  ConversationListItem,
+} = require('../../ts/components/ConversationListItem');
+const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
@@ -151,6 +154,7 @@ exports.setup = (options = {}) => {
     ContactListItem,
     ContactName,
     ConversationHeader,
+    ConversationListItem,
     EmbeddedContact,
     Emojify,
     GroupNotification,

@@ -207,53 +207,6 @@ $avatar-size: 44px;
 
 $unread-badge-size: 21px;
 
-.conversation-list-item {
-  cursor: pointer;
-  color: $color-light-90;
-
-  &:hover {
-    background: $color-black-008;
-  }
-
-  .number {
-    display: none;
-  }
-
-  .unread-count {
-    float: right;
-    margin: 3px 10px 0 20px;
-    display: inline-block;
-    padding: 0 3px;
-    min-width: $unread-badge-size;
-    height: $unread-badge-size;
-    line-height: $unread-badge-size;
-    font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: $border-radius;
-    background-color: $blue;
-    color: white;
-    border: solid 1px rgba(255, 255, 255, 0.6);
-  }
-}
-.inactive .contact.selected {
-  padding-left: 8px;
-  border-left: 4px solid $blue;
-}
-.contact {
-  padding: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child::after {
-    display: none;
-  }
-}
-
 .banner {
   // what's the right color?
   background-color: $blue_l;

@@ -291,6 +291,7 @@ export class Message extends React.Component<Props, State> {
           <Timestamp
             i18n={i18n}
             timestamp={timestamp}
+            extended={true}
             direction={direction}
             withImageNoCaption={withImageNoCaption}
             module="module-message__metadata__date"

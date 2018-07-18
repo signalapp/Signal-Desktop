@@ -236,20 +236,6 @@ body.dark-theme {
     }
   }
 
-  .conversation-list-item {
-    color: $color-dark-05;
-
-    &:hover {
-      background: $color-dark-70;
-    }
-
-    .unread-count {
-      background-color: $blue;
-      color: white;
-      border: solid 1px rgba(255, 255, 255, 0.6);
-    }
-  }
-
   .banner {
     // what's the right color?
     background-color: $blue_l;
@@ -739,7 +725,7 @@ body.dark-theme {
   }
 
   .module-message__metadata__status-icon--sending {
-    @include color-svg('../images/sending.svg', $color-dark-30);
+    @include color-svg('../images/sending.svg', $color-light-35);
   }
 
   .module-message__metadata__status-icon--sent {
@@ -1238,7 +1224,7 @@ body.dark-theme {
   }
 
   .module-message-detail__contact__status-icon--sending {
-    @include color-svg('../images/sending.svg', $color-dark-30);
+    @include color-svg('../images/sending.svg', $color-light-35);
   }
 
   .module-message-detail__contact__status-icon--sent {
@@ -1293,6 +1279,71 @@ body.dark-theme {
 
   .module-empty-state {
     color: $color-dark-55;
+  }
+
+  // Module: Conversation List Item
+
+  .module-conversation-list-item {
+    &:hover {
+      background-color: $color-dark-70;
+    }
+  }
+
+  .module-conversation-list-item--has-unread {
+    border-left: 4px solid $color-signal-blue;
+  }
+
+  .module-conversation-list-item--is-selected {
+    background-color: $color-dark-70;
+  }
+
+  .module-conversation-list-item__default-avatar {
+    color: white;
+    background-color: $color-conversation-grey;
+  }
+
+  .module-conversation-list-item__default-avatar--blue {
+    background-color: $color-conversation-blue;
+  }
+  .module-conversation-list-item__default-avatar--cyan {
+    background-color: $color-conversation-cyan;
+  }
+  .module-conversation-list-item__default-avatar--deep_orange {
+    background-color: $color-conversation-deep_orange;
+  }
+  .module-conversation-list-item__default-avatar--green {
+    background-color: $color-conversation-green;
+  }
+  .module-conversation-list-item__default-avatar--indigo {
+    background-color: $color-conversation-indigo;
+  }
+  .module-conversation-list-item__default-avatar--pink {
+    background-color: $color-conversation-pink;
+  }
+  .module-conversation-list-item__default-avatar--purple {
+    background-color: $color-conversation-purple;
+  }
+  .module-conversation-list-item__default-avatar--red {
+    background-color: $color-conversation-red;
+  }
+  .module-conversation-list-item__default-avatar--teal {
+    background-color: $color-conversation-teal;
+  }
+
+  .module-conversation-list-item__message__status-icon--sending {
+    @include color-svg('../images/sending.svg', $color-light-35);
+  }
+
+  .module-conversation-list-item__message__status-icon--sent {
+    @include color-svg('../images/check-circle-outline.svg', $color-light-35);
+  }
+  .module-conversation-list-item__message__status-icon--delivered {
+    @include color-svg('../images/double-check.svg', $color-light-35);
+    width: 18px;
+  }
+  .module-conversation-list-item__message__status-icon--read {
+    @include color-svg('../images/read.svg', $color-light-35);
+    width: 18px;
   }
 
   // Third-party module: react-contextmenu

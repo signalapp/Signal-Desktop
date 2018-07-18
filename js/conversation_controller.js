@@ -78,6 +78,18 @@
   window.getInboxCollection = () => inboxCollection;
 
   window.ConversationController = {
+    markAsSelected(toSelect) {
+      conversations.each(conversation => {
+        const current = conversation.isSelected || false;
+        const newValue = conversation.id === toSelect.id;
+
+        // eslint-disable-next-line no-param-reassign
+        conversation.isSelected = newValue;
+        if (current !== newValue) {
+          conversation.trigger('change');
+        }
+      });
+    },
     get(id) {
       if (!this._initialFetchComplete) {
         throw new Error(

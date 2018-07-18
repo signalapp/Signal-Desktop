@@ -8,9 +8,10 @@ import { Localizer } from '../../types/Util';
 
 interface Props {
   timestamp: number;
-  withImageNoCaption: boolean;
-  direction: 'incoming' | 'outgoing';
+  extended: boolean;
   module?: string;
+  withImageNoCaption?: boolean;
+  direction?: 'incoming' | 'outgoing';
   i18n: Localizer;
 }
 
@@ -47,6 +48,7 @@ export class Timestamp extends React.Component<Props> {
       module,
       timestamp,
       withImageNoCaption,
+      extended,
     } = this.props;
     const moduleName = module || 'module-timestamp';
 
@@ -54,12 +56,12 @@ export class Timestamp extends React.Component<Props> {
       <span
         className={classNames(
           moduleName,
-          `${moduleName}--${direction}`,
+          direction ? `${moduleName}--${direction}` : null,
           withImageNoCaption ? `${moduleName}--with-image-no-caption` : null
         )}
         title={moment(timestamp).format('llll')}
       >
-        {formatRelativeTime(timestamp, { i18n, extended: true })}
+        {formatRelativeTime(timestamp, { i18n, extended })}
       </span>
     );
   }

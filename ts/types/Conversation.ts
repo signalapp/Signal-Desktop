@@ -3,6 +3,7 @@ import { Message } from './Message';
 
 interface ConversationLastMessageUpdate {
   lastMessage: string | null;
+  lastMessageStatus: string | null;
   timestamp: number | null;
 }
 
@@ -10,16 +11,19 @@ export const createLastMessageUpdate = ({
   currentLastMessageText,
   currentTimestamp,
   lastMessage,
+  lastMessageStatus,
   lastMessageNotificationText,
 }: {
   currentLastMessageText: string | null;
   currentTimestamp: number | null;
   lastMessage: Message | null;
+  lastMessageStatus: string | null;
   lastMessageNotificationText: string | null;
 }): ConversationLastMessageUpdate => {
   if (lastMessage === null) {
     return {
       lastMessage: '',
+      lastMessageStatus: null,
       timestamp: null,
     };
   }
@@ -40,6 +44,7 @@ export const createLastMessageUpdate = ({
 
   return {
     lastMessage: newLastMessageText,
+    lastMessageStatus,
     timestamp: newTimestamp,
   };
 };

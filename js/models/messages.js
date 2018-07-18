@@ -422,6 +422,10 @@
       };
     },
     getMessagePropStatus() {
+      if (!this.isOutgoing()) {
+        return null;
+      }
+
       if (this.hasErrors()) {
         return 'error';
       }
@@ -763,6 +767,7 @@
             sent: true,
             expirationStartTimestamp: now,
           });
+          this.trigger('sent', this);
           this.sendSyncMessage();
         })
         .catch(result => {

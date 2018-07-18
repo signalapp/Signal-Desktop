@@ -98,8 +98,8 @@ export class GroupNotification extends React.Component<Props> {
 
     return (
       <div className="module-group-notification">
-        {(changes || []).map(change => (
-          <div className="module-group-notification__change">
+        {(changes || []).map((change, index) => (
+          <div key={index} className="module-group-notification__change">
             {this.renderChange(change)}
           </div>
         ))}

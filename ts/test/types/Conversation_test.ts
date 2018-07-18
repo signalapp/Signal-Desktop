@@ -14,10 +14,12 @@ describe('Conversation', () => {
         currentLastMessageText: null,
         currentTimestamp: null,
         lastMessage: null,
+        lastMessageStatus: null,
         lastMessageNotificationText: null,
       };
       const expected = {
         lastMessage: '',
+        lastMessageStatus: null,
         timestamp: null,
       };
 
@@ -30,6 +32,7 @@ describe('Conversation', () => {
         const input = {
           currentLastMessageText: 'Existing message',
           currentTimestamp: 555,
+          lastMessageStatus: 'read',
           lastMessage: {
             type: 'outgoing',
             conversationId: 'foo',
@@ -40,6 +43,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'New outgoing message',
+          lastMessageStatus: 'read',
           timestamp: 666,
         };
 
@@ -52,6 +56,7 @@ describe('Conversation', () => {
         const input = {
           currentLastMessageText: 'bingo',
           currentTimestamp: 555,
+          lastMessageStatus: null,
           lastMessage: {
             type: 'verified-change',
             conversationId: 'foo',
@@ -62,6 +67,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'bingo',
+          lastMessageStatus: null,
           timestamp: 555,
         };
 
@@ -75,6 +81,7 @@ describe('Conversation', () => {
         const input = {
           currentLastMessageText: 'I am expired',
           currentTimestamp: 555,
+          lastMessageStatus: null,
           lastMessage: {
             type: 'incoming',
             conversationId: 'foo',
@@ -90,6 +97,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'Last message before expired',
+          lastMessageStatus: null,
           timestamp: 555,
         };
 
