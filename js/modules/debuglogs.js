@@ -44,7 +44,6 @@ exports.upload = async content => {
 
   const contentBuffer = Buffer.from(content, 'utf8');
   const contentType = 'text/plain';
-  form.append('User-Agent', USER_AGENT);
   form.append('Content-Type', contentType);
   form.append('file', contentBuffer, {
     contentType,
