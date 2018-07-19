@@ -99,6 +99,11 @@
         });
       }
       new CheckboxView({
+        el: this.$('.spell-check-setting'),
+        value: window.initialData.spellCheck,
+        setFn: window.setSpellCheck,
+      });
+      new CheckboxView({
         el: this.$('.menu-bar-setting'),
         value: window.initialData.hideMenuBar,
         setFn: window.setHideMenuBar,
@@ -139,6 +144,8 @@
         clearDataExplanation: i18n('clearDataExplanation'),
         permissions: i18n('permissions'),
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
+        spellCheckHeader: i18n('spellCheck'),
+        spellCheckDescription: i18n('spellCheckDescription'),
       };
     },
     onClose() {

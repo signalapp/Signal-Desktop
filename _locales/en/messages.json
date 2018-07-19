@@ -969,6 +969,14 @@
     "message": "Allow access to camera and microphone",
     "description": "Description of the media permission description"
   },
+  "spellCheck": {
+    "message": "Spell Check",
+    "description": "Description of the media permission description"
+  },
+  "spellCheckDescription": {
+    "message": "Enable spell check of text entered in message composition box",
+    "description": "Description of the media permission description"
+  },
   "clearDataHeader": {
     "message": "Clear Data",
     "description":
