@@ -1,4 +1,3 @@
-import is from '@sindresorhus/is';
 import { Message } from './Message';
 
 interface ConversationLastMessageUpdate {
@@ -28,10 +27,12 @@ export const createLastMessageUpdate = ({
     };
   }
 
-  const { type } = lastMessage;
+  const { type, expirationTimerUpdate } = lastMessage;
   const isVerifiedChangeMessage = type === 'verified-change';
-  const isExpiringMessage = is.object(lastMessage.expirationTimerUpdate);
-  const shouldUpdateTimestamp = !isVerifiedChangeMessage && !isExpiringMessage;
+  const isExpireTimerUpdateFromSync =
+    expirationTimerUpdate && expirationTimerUpdate.fromSync;
+  const shouldUpdateTimestamp =
+    !isVerifiedChangeMessage && !isExpireTimerUpdateFromSync;
 
   const newTimestamp = shouldUpdateTimestamp
     ? lastMessage.sent_at

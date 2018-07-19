@@ -76,7 +76,7 @@ describe('Conversation', () => {
       });
     });
 
-    context('for expired message', () => {
+    context('for expire timer update from sync', () => {
       it('should update message but not timestamp (to prevent bump to top)', () => {
         const input = {
           currentLastMessageText: 'I am expired',
@@ -89,7 +89,7 @@ describe('Conversation', () => {
             timestamp: 666,
             expirationTimerUpdate: {
               expireTimer: 111,
-              fromSync: false,
+              fromSync: true,
               source: '+12223334455',
             },
           } as IncomingMessage,
