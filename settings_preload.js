@@ -33,6 +33,9 @@ window.setThemeSetting = makeSetter('theme-setting');
 window.getHideMenuBar = makeGetter('hide-menu-bar');
 window.setHideMenuBar = makeSetter('hide-menu-bar');
 
+window.getSpellCheck = makeGetter('spell-check');
+window.setSpellCheck = makeSetter('spell-check');
+
 window.getNotificationSetting = makeGetter('notification-setting');
 window.setNotificationSetting = makeSetter('notification-setting');
 window.getAudioNotification = makeGetter('audio-notification');

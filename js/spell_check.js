@@ -119,15 +119,39 @@
     },
   });
 
-  webFrame.setSpellCheckProvider(
-    'en-US',
-    // Not sure what this parameter (`autoCorrectWord`) does: https://github.com/atom/electron/issues/4371
-    // The documentation for `webFrame.setSpellCheckProvider` passes `true` so we do too.
-    true,
-    simpleChecker
-  );
+  const dummyChecker = {
+    spellCheck() {
+      return true;
+    },
+    isMisspelled() {
+      return false;
+    },
+    getSuggestions() {
+      return [];
+    },
+    add() {
+      // nothing
+    },
+  };
 
-  window.addEventListener('contextmenu', function(e) {
+  window.spellChecker = simpleChecker;
+  window.disableSpellCheck = () => {
+    window.removeEventListener('contextmenu', spellCheckHandler);
+    webFrame.setSpellCheckProvider('en-US', false, dummyChecker);
+  };
+
+  window.enableSpellCheck = () => {
+    webFrame.setSpellCheckProvider(
+      'en-US',
+      // Not sure what this parameter (`autoCorrectWord`) does: https://github.com/atom/electron/issues/4371
+      // The documentation for `webFrame.setSpellCheckProvider` passes `true` so we do too.
+      true,
+      simpleChecker
+    );
+    window.addEventListener('contextmenu', spellCheckHandler);
+  };
+
+  const spellCheckHandler = e => {
     // Only show the context menu in text editors.
     if (!e.target.closest('textarea, input, [contenteditable="true"]')) {
       return;
@@ -148,5 +172,5 @@
     setTimeout(function() {
       menu.popup(remote.getCurrentWindow());
     }, 30);
-  });
+  };
 })();

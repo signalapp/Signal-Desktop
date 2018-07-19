@@ -808,6 +808,9 @@ installSettingsSetter('notification-setting');
 installSettingsGetter('audio-notification');
 installSettingsSetter('audio-notification');
 
+installSettingsGetter('spell-check');
+installSettingsSetter('spell-check');
+
 // This one is different because its single source of truth is userConfig, not IndexedDB
 ipc.on('get-media-permissions', event => {
   event.sender.send(
