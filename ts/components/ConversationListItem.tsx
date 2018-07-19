@@ -71,7 +71,14 @@ export class ConversationListItem extends React.Component<Props> {
   }
 
   public renderHeader() {
-    const { i18n, lastUpdated, name, phoneNumber, profileName } = this.props;
+    const {
+      hasUnread,
+      i18n,
+      lastUpdated,
+      name,
+      phoneNumber,
+      profileName,
+    } = this.props;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -83,7 +90,14 @@ export class ConversationListItem extends React.Component<Props> {
             i18n={i18n}
           />
         </div>
-        <div className="module-conversation-list-item__header__date">
+        <div
+          className={classNames(
+            'module-conversation-list-item__header__date',
+            hasUnread
+              ? 'module-conversation-list-item__header__date--has-unread'
+              : null
+          )}
+        >
           <Timestamp
             timestamp={lastUpdated}
             extended={false}

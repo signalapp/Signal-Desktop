@@ -1964,13 +1964,16 @@
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
-  font-weight: 300;
 
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
   text-transform: uppercase;
+}
+
+.module-conversation-list-item__header__date--has-unread {
+  font-weight: 300;
 }
 
 .module-conversation-list-item__message {
