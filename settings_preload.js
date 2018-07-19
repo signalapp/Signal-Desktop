@@ -6,10 +6,9 @@ const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 
+window.getVersion = () => config.version;
 window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);
-
-require('./js/logging');
 
 // So far we're only using this for Signal.Types
 const Signal = require('./js/modules/signal');
@@ -78,3 +77,5 @@ function makeSetter(name) {
       ipcRenderer.send(`set-${name}`, value);
     });
 }
+
+require('./js/logging');
