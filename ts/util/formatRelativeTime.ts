@@ -44,9 +44,13 @@ export function formatRelativeTime(
   } else if (diff.days() >= 1 || !isToday(timestamp)) {
     return timestamp.format(formats.d);
   } else if (diff.hours() >= 1) {
-    return i18n('hoursAgo', [String(diff.hours())]);
+    const key = extended ? 'hoursAgo' : 'hoursAgoShort';
+
+    return i18n(key, [String(diff.hours())]);
   } else if (diff.minutes() >= 1) {
-    return i18n('minutesAgo', [String(diff.minutes())]);
+    const key = extended ? 'minutesAgo' : 'minutesAgoShort';
+
+    return i18n(key, [String(diff.minutes())]);
   }
 
   return i18n('justNow');

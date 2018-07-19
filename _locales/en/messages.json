@@ -1149,6 +1149,17 @@
     "description":
       "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
   },
+  "hoursAgoShort": {
+    "message": "$hours$ hr",
+    "description":
+      "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+    "placeholders": {
+      "hours": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
   "hoursAgo": {
     "message": "$hours$ hr ago",
     "description":
@@ -1157,6 +1168,17 @@
       "hours": {
         "content": "$1",
         "example": "2"
+      }
+    }
+  },
+  "minutesAgoShort": {
+    "message": "$minutes$ min",
+    "description":
+      "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+    "placeholders": {
+      "minutes": {
+        "content": "$1",
+        "example": "10"
       }
     }
   },
