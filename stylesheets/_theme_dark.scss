@@ -1279,6 +1279,18 @@ body.dark-theme {
     background-color: $color-dark-85;
   }
 
+  .module-media-grid-item__icon-image {
+    @include color-svg('../images/image.svg', $color-dark-60);
+  }
+
+  .module-media-grid-item__icon-video {
+    @include color-svg('../images/movie.svg', $color-dark-60);
+  }
+
+  .module-media-grid-item__icon-generic {
+    @include color-svg('../images/file.svg', $color-dark-60);
+  }
+
   // Module: Empty State
 
   .module-empty-state {
