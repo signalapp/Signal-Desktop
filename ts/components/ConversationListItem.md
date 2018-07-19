@@ -35,17 +35,38 @@
 #### With unread
 
 ```jsx
-<ConversationListItem
-  phoneNumber="(202) 555-0011"
-  hasUnread={true}
-  lastUpdated={Date.now() - 5 * 60 * 1000}
-  lastMessage={{
-    text: 'Hey there!',
-    status: 'sending',
-  }}
-  onClick={() => console.log('onClick')}
-  i18n={util.i18n}
-/>
+<div>
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    unreadCount={4}
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: 'Hey there!',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    unreadCount={10}
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: 'Hey there!',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    unreadCount={250}
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: 'Hey there!',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+</div>
 ```
 
 #### Selected
@@ -128,6 +149,17 @@ We only show one line.
     i18n={util.i18n}
   />
 
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    unreadCount={8}
+    lastMessage={{
+      text:
+        "Long line. This is a really really really long line. Really really long. Because that's just how it is",
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
   <ConversationListItem
     phoneNumber="(202) 555-0011"
     lastUpdated={Date.now() - 5 * 60 * 1000}

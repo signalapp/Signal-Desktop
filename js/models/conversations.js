@@ -207,7 +207,7 @@
         ...this.format(),
 
         lastUpdated: this.get('timestamp'),
-        hasUnread: Boolean(this.get('unreadCount')),
+        unreadCount: this.get('unreadCount') || 0,
         isSelected: this.isSelected,
 
         lastMessage: {
