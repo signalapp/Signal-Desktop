@@ -356,6 +356,10 @@
     "debugLogExplanation": {
       "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
     },
+    "debugLogError": {
+      "message":
+        "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
+    },
     "reportIssue": {
       "message": "Report an issue",
       "description": "Link to open the issue tracker"
