@@ -97,7 +97,7 @@ export class ConversationHeader extends React.Component<Props> {
         {phoneNumber ? phoneNumber : null}{' '}
         {profileName && !name ? (
           <span className="module-conversation-header__title__profile-name">
-            <Emojify text={profileName} i18n={i18n} />
+            ~<Emojify text={profileName} i18n={i18n} />
           </span>
         ) : null}
         {isVerified ? ' · ' : null}
