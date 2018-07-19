@@ -55,16 +55,25 @@
       this.$('.buttons, textarea').remove();
       this.$('.result').addClass('loading');
 
-      const publishedLogURL = await window.log.publish(text);
-      const view = new Whisper.DebugLogLinkView({
-        url: publishedLogURL,
-        el: this.$('.result'),
-      });
-      this.$('.loading').removeClass('loading');
-      view.render();
-      this.$('.link')
-        .focus()
-        .select();
+      try {
+        const publishedLogURL = await window.log.publish(text);
+        const view = new Whisper.DebugLogLinkView({
+          url: publishedLogURL,
+          el: this.$('.result'),
+        });
+        this.$('.loading').removeClass('loading');
+        view.render();
+        this.$('.link')
+          .focus()
+          .select();
+      } catch (error) {
+        console.log(
+          'DebugLogView error:',
+          error && error.stack ? error.stack : error
+        );
+        this.$('.loading').removeClass('loading');
+        this.$('.result').text(i18n('debugLogError'));
+      }
     },
   });
 })();
