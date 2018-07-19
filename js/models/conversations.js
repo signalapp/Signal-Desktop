@@ -128,7 +128,6 @@
       }
     },
     async onExpiredCollection(message) {
-      console.log('onExpiredCollection', message.attributes);
       const removeMessage = () => {
         console.log('Remove expired message from collection', {
           sentAt: message.get('sent_at'),
