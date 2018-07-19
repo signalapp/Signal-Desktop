@@ -927,6 +927,10 @@ body.dark-theme {
 
   .module-quote__primary__text {
     color: $color-dark-05;
+
+    a {
+      color: $color-dark-05;
+    }
   }
 
   .module-quote__primary__type-label {
