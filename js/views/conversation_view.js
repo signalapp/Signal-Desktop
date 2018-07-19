@@ -752,6 +752,10 @@
     },
 
     focusMessageField() {
+      if (this.panels && this.panels.length) {
+        return;
+      }
+
       this.$messageField.focus();
     },
 
