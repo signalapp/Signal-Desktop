@@ -234,7 +234,10 @@
     await storage.put('version', currentVersion);
 
     if (newVersion) {
-      if (currentVersion === '1.14.2' || currentVersion === '1.15.0-beta.2') {
+      if (
+        lastVersion &&
+        window.isBeforeVersion(lastVersion, 'v1.15.0-beta.4')
+      ) {
         await window.Signal.Logs.deleteAll();
         window.restart();
       }
