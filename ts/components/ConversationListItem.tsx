@@ -14,7 +14,7 @@ interface Props {
   avatarPath?: string;
 
   lastUpdated: number;
-  hasUnread: boolean;
+  unreadCount: number;
   isSelected: boolean;
 
   lastMessage?: {
@@ -71,7 +71,14 @@ export class ConversationListItem extends React.Component<Props> {
   }
 
   public renderHeader() {
-    const { i18n, lastUpdated, name, phoneNumber, profileName } = this.props;
+    const {
+      unreadCount,
+      i18n,
+      lastUpdated,
+      name,
+      phoneNumber,
+      profileName,
+    } = this.props;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -83,7 +90,14 @@ export class ConversationListItem extends React.Component<Props> {
             i18n={i18n}
           />
         </div>
-        <div className="module-conversation-list-item__header__date">
+        <div
+          className={classNames(
+            'module-conversation-list-item__header__date',
+            unreadCount > 0
+              ? 'module-conversation-list-item__header__date--has-unread'
+              : null
+          )}
+        >
           <Timestamp
             timestamp={lastUpdated}
             extended={false}
@@ -95,8 +109,22 @@ export class ConversationListItem extends React.Component<Props> {
     );
   }
 
+  public renderUnread() {
+    const { unreadCount } = this.props;
+
+    if (unreadCount > 0) {
+      return (
+        <div className="module-conversation-list-item__unread-count">
+          {unreadCount}
+        </div>
+      );
+    }
+
+    return null;
+  }
+
   public renderMessage() {
-    const { lastMessage, hasUnread, i18n } = this.props;
+    const { lastMessage, unreadCount, i18n } = this.props;
 
     if (!lastMessage) {
       return null;
@@ -108,7 +136,7 @@ export class ConversationListItem extends React.Component<Props> {
           <div
             className={classNames(
               'module-conversation-list-item__message__text',
-              hasUnread
+              unreadCount > 0
                 ? 'module-conversation-list-item__message__text--has-unread'
                 : null
             )}
@@ -131,12 +159,13 @@ export class ConversationListItem extends React.Component<Props> {
             )}
           />
         ) : null}
+        {this.renderUnread()}
       </div>
     );
   }
 
   public render() {
-    const { hasUnread, onClick, isSelected } = this.props;
+    const { unreadCount, onClick, isSelected } = this.props;
 
     return (
       <div
@@ -144,7 +173,7 @@ export class ConversationListItem extends React.Component<Props> {
         onClick={onClick}
         className={classNames(
           'module-conversation-list-item',
-          hasUnread ? 'module-conversation-list-item--has-unread' : null,
+          unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
           isSelected ? 'module-conversation-list-item--is-selected' : null
         )}
       >

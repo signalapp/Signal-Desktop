@@ -193,7 +193,7 @@
         const { expireTimer } = this.get('expirationTimerUpdate');
         return i18n(
           'timerSetTo',
-          Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer)
+          Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0)
         );
       }
       if (this.isKeyChange()) {

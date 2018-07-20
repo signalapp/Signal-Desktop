@@ -927,6 +927,10 @@ body.dark-theme {
 
   .module-quote__primary__text {
     color: $color-dark-05;
+
+    a {
+      color: $color-dark-05;
+    }
   }
 
   .module-quote__primary__type-label {
@@ -1273,6 +1277,18 @@ body.dark-theme {
 
   .module-media-grid-item {
     background-color: $color-dark-85;
+  }
+
+  .module-media-grid-item__icon-image {
+    @include color-svg('../images/image.svg', $color-dark-60);
+  }
+
+  .module-media-grid-item__icon-video {
+    @include color-svg('../images/movie.svg', $color-dark-60);
+  }
+
+  .module-media-grid-item__icon-generic {
+    @include color-svg('../images/file.svg', $color-dark-60);
   }
 
   // Module: Empty State

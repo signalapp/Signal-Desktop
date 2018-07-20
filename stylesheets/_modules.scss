@@ -810,6 +810,10 @@
   line-height: 18px;
   color: $color-light-90;
 
+  a {
+    color: $color-light-90;
+  }
+
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
@@ -1805,12 +1809,25 @@
   background-color: $color-light-10;
   margin-right: 4px;
   margin-bottom: 4px;
+  position: relative;
 }
 
 .module-media-grid-item__image {
   height: 94px;
   width: 94px;
   object-fit: cover;
+}
+
+.module-media-grid-item__icon {
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+}
+
+.module-media-grid-item__icon-image {
+  @include color-svg('../images/image.svg', $color-light-35);
 }
 
 .module-media-grid-item__image-container {
@@ -1842,6 +1859,14 @@
   height: 36px;
   width: 36px;
   @include color-svg('../images/play.svg', $color-signal-blue);
+}
+
+.module-media-grid-item__icon-video {
+  @include color-svg('../images/movie.svg', $color-light-35);
+}
+
+.module-media-grid-item__icon-generic {
+  @include color-svg('../images/file.svg', $color-light-35);
 }
 
 /* Module: Empty State*/
@@ -1964,7 +1989,6 @@
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
-  font-weight: 300;
 
   overflow-x: hidden;
   white-space: nowrap;
@@ -1973,17 +1997,22 @@
   text-transform: uppercase;
 }
 
+.module-conversation-list-item__header__date--has-unread {
+  font-weight: 300;
+}
+
 .module-conversation-list-item__message {
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  margin-top: 3px;
 }
 
 .module-conversation-list-item__message__text {
   flex-grow: 1;
   flex-shrink: 1;
 
-  margin-top: 3px;
   font-size: 13px;
   line-height: 18px;
 
@@ -1995,6 +2024,23 @@
 
 .module-conversation-list-item__message__text--has-unread {
   font-weight: 300;
+}
+
+.module-conversation-list-item__unread-count {
+  color: $color-white;
+  background-color: $color-signal-blue;
+  text-align: center;
+
+  // For alignment with the message text
+  margin-top: 1px;
+
+  font-size: 10px;
+  margin-left: 5px;
+  min-width: 20px;
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+  border-radius: 10px;
 }
 
 .module-conversation-list-item__message__status-icon {

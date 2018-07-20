@@ -752,6 +752,10 @@
     },
 
     focusMessageField() {
+      if (this.panels && this.panels.length) {
+        return;
+      }
+
       this.$messageField.focus();
     },
 
@@ -1286,6 +1290,7 @@
 
       if (message) {
         const quote = await this.model.makeQuote(this.quotedMessage);
+        console.log('DEBUG', { quote });
         this.quote = quote;
 
         this.focusMessageFieldAndClearDisabled();
