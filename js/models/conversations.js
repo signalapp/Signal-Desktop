@@ -795,7 +795,9 @@
 
             return {
               contentType,
-              fileName,
+              // Our protos library complains about this field being undefined, so we
+              //   force it to null
+              fileName: fileName || null,
               thumbnail: thumbnail
                 ? {
                     ...(await loadAttachmentData(thumbnail)),

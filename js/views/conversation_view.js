@@ -1290,6 +1290,7 @@
 
       if (message) {
         const quote = await this.model.makeQuote(this.quotedMessage);
+        console.log('DEBUG', { quote });
         this.quote = quote;
 
         this.focusMessageFieldAndClearDisabled();
