@@ -2031,6 +2031,9 @@
   background-color: $color-signal-blue;
   text-align: center;
 
+  // For alignment with the message text
+  margin-top: 1px;
+
   font-size: 10px;
   margin-left: 5px;
   min-width: 20px;
