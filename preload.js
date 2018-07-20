@@ -4,6 +4,7 @@
 console.log('preload');
 
 const electron = require('electron');
+const semver = require('semver');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
@@ -28,6 +29,18 @@ window.isImportMode = () => config.importMode;
 window.getExpiration = () => config.buildExpiration;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
+
+window.isBeforeVersion = (toCheck, baseVersion) => {
+  try {
+    return semver.lt(toCheck, baseVersion);
+  } catch (error) {
+    console.log(
+      `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
+      error && error.stack ? error.stack : error
+    );
+    return true;
+  }
+};
 
 window.wrapDeferred = deferredToPromise;
 
