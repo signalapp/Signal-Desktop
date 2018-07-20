@@ -317,6 +317,10 @@
         "message": "Nahrávanie kontaktov a správ",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Povoliť kontrolu pravopisu textu zadaného do textového poľa",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ nastavil/a časovač miznúcich správ na $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -658,6 +662,10 @@
     "showLess": {
         "message": "Skryť podrobnosti",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Kontrola pravopisu",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Motív",
@@ -1020,6 +1028,10 @@
     "timerOption_5_seconds": {
         "message": "5 sekúnd",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
     },
     "viewMenuToggleDevTools": {
         "message": "Nástroje pre vývojárov",

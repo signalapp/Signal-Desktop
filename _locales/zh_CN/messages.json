@@ -317,6 +317,10 @@
         "message": "正在加载联系人和消息",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Enable spell check of text entered in message composition box",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "$name$已将阅后即焚的倒计时长度设为$time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -658,6 +662,10 @@
     "showLess": {
         "message": "隐藏",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Spell Check",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "主题",
@@ -1020,6 +1028,10 @@
     "timerOption_5_seconds": {
         "message": "5秒",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
     },
     "viewMenuToggleDevTools": {
         "message": "开发者工具开关",

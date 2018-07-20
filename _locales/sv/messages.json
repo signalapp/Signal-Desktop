@@ -16,7 +16,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "appMenuHideOthers": {
-        "message": "Hide Others",
+        "message": "Dölj andra",
         "description": "Application menu command to hide all other windows"
     },
     "linkedDevices": {
@@ -70,7 +70,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ lämnade gruppen",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -122,7 +122,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "appMenuQuit": {
-        "message": "Quit Signal",
+        "message": "Stäng Signal",
         "description": "Application menu command to close the application"
     },
     "disappearingMessages": {
@@ -130,7 +130,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "editMenuCut": {
-        "message": "Cut",
+        "message": "Klistra",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "deleteWarning": {
@@ -138,7 +138,7 @@
         "description": ""
     },
     "verifyNewNumber": {
-        "message": "Verify New Number",
+        "message": "Verifiera nytt nummer",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
@@ -180,7 +180,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "editMenuSelectAll": {
-        "message": "Select All",
+        "message": "Markera alla",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "resetSession": {
@@ -252,7 +252,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "themeLight": {
-        "message": "Light",
+        "message": "Ljus",
         "description": "Label text for light theme (normal)"
     },
     "delete": {
@@ -317,6 +317,10 @@
         "message": "Laddar kontakter och meddelanden",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Enable spell check of text entered in message composition box",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ set the disappearing message timer to $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -362,7 +366,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "editMenuUndo": {
-        "message": "Undo",
+        "message": "Ångra",
         "description": "Edit menu command to remove recently-typed text"
     },
     "reportIssue": {
@@ -398,7 +402,7 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
+        "message": "Tillåt åtkomst till kameran och mikrofonen",
         "description": "Description of the media permission description"
     },
     "from": {
@@ -422,7 +426,7 @@
         "description": ""
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "Säkerhetsnumret har ändrats",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "today": {
@@ -438,7 +442,7 @@
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ lämnade gruppen",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -486,7 +490,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "Säkerhetsnumret med $name$ har ändrats",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -516,7 +520,7 @@
         "description": ""
     },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "Bild bifogat till meddelande",
         "description": "Used in alt tag of image attachment"
     },
     "learnMore": {
@@ -528,7 +532,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "Uppdaterade tidsgränsen för försvinnande meddelanden till $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -560,7 +564,7 @@
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ gick med i gruppen",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -652,19 +656,23 @@
         }
     },
     "windowMenuClose": {
-        "message": "Close Window",
+        "message": "Stäng fönster",
         "description": "Window menu command to close the current window"
     },
     "showLess": {
         "message": "Göm info",
         "description": "Hides the details of a key change"
     },
+    "spellCheck": {
+        "message": "Spell Check",
+        "description": "Description of the media permission description"
+    },
     "theme": {
         "message": "Tema",
         "description": "Header for theme settings"
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "Licens- och sekretessvillkor",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
@@ -842,7 +850,7 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "permissions": {
-        "message": "Permissions",
+        "message": "Behörigheter",
         "description": "Header for permissions section of settings"
     },
     "loadDataDescription": {
@@ -874,7 +882,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "Radera meddelande",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
@@ -910,7 +918,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "$hours$ t sen",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -980,7 +988,7 @@
         "description": "Hover text for attachment filenames"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutes",
+        "message": "5 minuter",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendAnyway": {
@@ -1021,6 +1029,10 @@
         "message": "5 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
+    },
     "viewMenuToggleDevTools": {
         "message": "Toggle Developer Tools",
         "description": "View menu command to show or hide the developer tools"
@@ -1044,7 +1056,7 @@
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "viewMenuResetZoom": {
-        "message": "Actual Size",
+        "message": "Aktuella storlek",
         "description": "View menu command to go back to the default zoom"
     },
     "goToSupportPage": {
@@ -1056,7 +1068,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ gick med i gruppen",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1102,11 +1114,11 @@
         "description": ""
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "Grupp uppdaterad",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "Mörk",
         "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
@@ -1128,7 +1140,7 @@
         "description": "Label for the receiver of a message"
     },
     "windowMenuMinimize": {
-        "message": "Minimize",
+        "message": "Minimera",
         "description": "Window menu command to minimize the current window"
     },
     "timerOption_1_hour_abbreviated": {
@@ -1136,7 +1148,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "editMenuStopSpeaking": {
-        "message": "Stop speaking",
+        "message": "Sluta prata",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "optimizingApplication": {
@@ -1180,7 +1192,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutes",
+        "message": "30 minuter",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
@@ -1220,7 +1232,7 @@
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "editMenuCopy": {
-        "message": "Copy",
+        "message": "Kopiera",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "loadDataHeader": {
@@ -1240,7 +1252,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Gruppnamnet är nu '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1264,7 +1276,7 @@
         }
     },
     "timerOption_6_hours": {
-        "message": "6 hours",
+        "message": "6 timmar",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "videoAttachmentAlt": {
@@ -1302,11 +1314,11 @@
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "editMenuStartSpeaking": {
-        "message": "Start speaking",
+        "message": "Börja prata",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "$minutes$ minuter sen",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
