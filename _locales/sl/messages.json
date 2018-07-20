@@ -317,6 +317,10 @@
         "message": "Nalagam stike in sporočila",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Vklop črkovalnika v okencu za vnašanje teksta sporočila",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "Uporabnik $name$ je nastavil odštevanje za izginjajoča števila na $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -658,6 +662,10 @@
     "showLess": {
         "message": "Skrij podrobnosti",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Črkovalnik",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Tema",
@@ -1020,6 +1028,10 @@
     "timerOption_5_seconds": {
         "message": "5 sekund",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
     },
     "viewMenuToggleDevTools": {
         "message": "Vklopi razvijalska orodja",

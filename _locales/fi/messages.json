@@ -80,7 +80,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "Sinä asetit viestien katoamisajaksi: $time$",
+        "message": "Sinä asetit viestien katoamisajan: $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -220,7 +220,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "poissa päältä",
+        "message": "pois päältä",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "imageFailedToLoad": {
@@ -317,8 +317,12 @@
         "message": "Ladataan yhteystietoja ja viestejä ",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Ota käyttöön viestilaatikkoon kirjoitetun tekstin oikeinkirjoituksen tarkistus",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
-        "message": "$name$ asetti viestien katoamisajaksi: $time$",
+        "message": "$name$ asetti viestien katoamisajan: $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -659,6 +663,10 @@
         "message": "Piilota lisätiedot",
         "description": "Hides the details of a key change"
     },
+    "spellCheck": {
+        "message": "Oikeinkirjoituksen tarkistus",
+        "description": "Description of the media permission description"
+    },
     "theme": {
         "message": "Teema",
         "description": "Header for theme settings"
@@ -890,7 +898,7 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "timerOption_0_seconds": {
-        "message": "poissa päältä",
+        "message": "pois päältä",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "editMenuRedo": {
@@ -1020,6 +1028,10 @@
     "timerOption_5_seconds": {
         "message": "5 sekuntia",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
     },
     "viewMenuToggleDevTools": {
         "message": "Näytä/piilota kehittäjätyökalut",

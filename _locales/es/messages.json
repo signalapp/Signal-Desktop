@@ -317,6 +317,10 @@
         "message": "Cargando contactos y mensajes",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Comprobar la ortografía al escribir el mensaje",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ ha fijado la caducidad de mensajes a $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -658,6 +662,10 @@
     "showLess": {
         "message": "Ocultar detalles",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Comprobar ortografía",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Tema",
@@ -1020,6 +1028,10 @@
     "timerOption_5_seconds": {
         "message": "5 segundos",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
     },
     "viewMenuToggleDevTools": {
         "message": "Activar herramientas de desarrolladores",

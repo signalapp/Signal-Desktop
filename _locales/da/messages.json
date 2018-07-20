@@ -317,6 +317,10 @@
         "message": "Indlæser kontakter og beskeder",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Enable spell check of text entered in message composition box",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ set the disappearing message timer to $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -658,6 +662,10 @@
     "showLess": {
         "message": "Skjul detaljer",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Spell Check",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Theme",
@@ -1020,6 +1028,10 @@
     "timerOption_5_seconds": {
         "message": "5 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
     },
     "viewMenuToggleDevTools": {
         "message": "Toggle Developer Tools",

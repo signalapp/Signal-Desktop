@@ -70,7 +70,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ a quitté le groupe",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -80,7 +80,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "Vous avez défini l’expiration des messages éphémères à $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -138,7 +138,7 @@
         "description": ""
     },
     "verifyNewNumber": {
-        "message": "Verify New Number",
+        "message": "Vérifier le nouveau numéro",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
@@ -224,7 +224,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "imageFailedToLoad": {
-        "message": "Image failed to load",
+        "message": "Échec de chargement de l’image",
         "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
@@ -244,7 +244,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "Erreur de traitement du message entrant",
         "description": ""
     },
     "poBox": {
@@ -252,7 +252,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "themeLight": {
-        "message": "Light",
+        "message": "Clair",
         "description": "Label text for light theme (normal)"
     },
     "delete": {
@@ -317,8 +317,12 @@
         "message": "Chargement des contacts et messages",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Activer la vérification de l’orthographe du texte saisi dans la fenêtre de rédaction des messages",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ a défini l’expiration des messages éphémères à $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -422,7 +426,7 @@
         "description": ""
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "Le numéro de sécurité a changé",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "today": {
@@ -438,7 +442,7 @@
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ ont quitté le groupe",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -486,7 +490,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "Le numéro de sécurité avec $name$ a changé",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -516,7 +520,7 @@
         "description": ""
     },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "Image jointe au message",
         "description": "Used in alt tag of image attachment"
     },
     "learnMore": {
@@ -528,7 +532,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "L’expiration des messages éphémères est maintenant à $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -560,7 +564,7 @@
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ s’est joint au groupe",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -582,7 +586,7 @@
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
+        "message": "Échec de chargement de la capture d’écran vidéo",
         "description": "When a attachment video screenshot is missing, this message is shown"
     },
     "timerOption_30_minutes_abbreviated": {
@@ -634,7 +638,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "Plus d’infos…",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "notificationMostRecent": {
@@ -658,6 +662,10 @@
     "showLess": {
         "message": "Cacher les détails",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Correcteur orthographique",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Thème",
@@ -784,7 +792,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "Avatar pour le contact $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -798,7 +806,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme non vérifié",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -874,7 +882,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "Supprimer le message",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
@@ -910,7 +918,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "Il y a $hours$ h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -988,7 +996,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme vérifié",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -1021,6 +1029,10 @@
         "message": "5 secondes",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
+    },
     "viewMenuToggleDevTools": {
         "message": "Afficher/cacher les outils pour développeurs",
         "description": "View menu command to show or hide the developer tools"
@@ -1030,7 +1042,7 @@
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme non vérifié à partir d’un autre appareil",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -1056,7 +1068,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ se sont joints au groupe",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1102,11 +1114,11 @@
         "description": ""
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "Le groupe a été mis à jour",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "Sombre",
         "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
@@ -1164,7 +1176,7 @@
         "description": ""
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "Échec d’envoi",
         "description": "Shown on outgoing message if it fails to send"
     },
     "clearDataHeader": {
@@ -1240,7 +1252,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Le titre est maintenant « $name$ »",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1250,7 +1262,7 @@
         }
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "Renvoyer",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
@@ -1268,7 +1280,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "Capture d.écran de la vidéo jointe au message",
         "description": "Used in alt tag of video attachment preview"
     },
     "timerSetTo": {
@@ -1306,7 +1318,7 @@
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "Il y a $minutes$ min",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1320,7 +1332,7 @@
         "description": "Header for notification settings"
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme vérifié à partir d’un autre appareil.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

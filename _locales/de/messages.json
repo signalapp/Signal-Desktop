@@ -317,6 +317,10 @@
         "message": "Kontakte und Nachrichten werden geladen …",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Rechtschreibprüfung für im Nachrichteneingabefeld eingegebenen Text aktivieren",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ hat die Zeitbegrenzung für verschwindende Nachrichten auf $time$ festgelegt",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -658,6 +662,10 @@
     "showLess": {
         "message": "Details ausblenden",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Rechtschreibprüfung",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Design",
@@ -1020,6 +1028,10 @@
     "timerOption_5_seconds": {
         "message": "5 Sekunden",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
     },
     "viewMenuToggleDevTools": {
         "message": "Entwicklerwerkzeuge an/aus",

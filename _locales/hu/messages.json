@@ -317,6 +317,10 @@
         "message": "Kontaktok és üzenetek betöltése",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Az üzenetíró dobozba gépelt szöveg helyesírás-ellenőrzésének engedélyezése",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ az időzítő értékét a következőre módosította: $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -658,6 +662,10 @@
     "showLess": {
         "message": "Részletek elrejtése",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Helyesírás-ellenőrzés",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Téma",
@@ -1020,6 +1028,10 @@
     "timerOption_5_seconds": {
         "message": "5 másodperc",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "debugLogError": {
+        "message": "Valamiért nem sikerült a feltöltés! Kérjük vedd fontolóra a naplófájl kézi feltöltését a hiba bejelentése során.",
+        "description": ""
     },
     "viewMenuToggleDevTools": {
         "message": "Fejlesztői eszközök megjelenítése/elrejtése",
