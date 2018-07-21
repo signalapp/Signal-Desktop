@@ -63,6 +63,7 @@ const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 const updater = require('./ts/updater/index');
 const createTrayIcon = require('./app/tray_icon');
+const dockIcon = require('./app/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
 const sql = require('./app/sql');
@@ -94,6 +95,9 @@ function showWindow() {
   if (tray) {
     tray.updateContextMenu();
   }
+
+  // show the app on the Dock in case it was hidden before
+  dockIcon.show();
 }
 
 if (!process.mas) {
@@ -364,6 +368,11 @@ function createWindow() {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
+      }
+
+      // hide the app from the Dock on macOS if the tray icon is enabled
+      if (usingTrayIcon) {
+        dockIcon.hide();
       }
 
       return;
