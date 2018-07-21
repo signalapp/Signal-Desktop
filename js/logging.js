@@ -1,9 +1,9 @@
 /* eslint-env node */
 
 /* eslint strict: ['error', 'never'] */
+/* eslint-disable no-console */
 
 const electron = require('electron');
-const bunyan = require('bunyan');
 const _ = require('lodash');
 
 const debuglogs = require('./modules/debuglogs');
@@ -29,11 +29,8 @@ function now() {
   return date.toJSON();
 }
 
-function log(...args) {
-  const consoleArgs = ['INFO ', now()].concat(args);
-  console._log(...consoleArgs);
-
-  // To avoid [Object object] in our log since console.log handles non-strings smoothly
+// To avoid [Object object] in our log since console.log handles non-strings smoothly
+function cleanArgsForIPC(args) {
   const str = args.map(item => {
     if (typeof item !== 'string') {
       try {
@@ -46,8 +43,11 @@ function log(...args) {
     return item;
   });
 
-  const logText = Privacy.redactAll(str.join(' '));
-  ipc.send('log-info', logText);
+  return str.join(' ');
+}
+
+function log(...args) {
+  logAtLevel('info', 'INFO ', ...args);
 }
 
 if (window.console) {
@@ -98,37 +98,22 @@ const publish = debuglogs.upload;
 
 // A modern logging interface for the browser
 
-// We create our own stream because we don't want to output JSON to the devtools console.
-//   Anyway, the default process.stdout stream goes to the command-line, not the devtools.
-const logger = bunyan.createLogger({
-  name: 'log',
-  streams: [
-    {
-      level: 'debug',
-      stream: {
-        write(entry) {
-          console._log(formatLine(JSON.parse(entry)));
-        },
-      },
-    },
-  ],
-});
-
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
-function logAtLevel(level, ...args) {
-  const ipcArgs = [`log-${level}`].concat(args);
-  ipc.send(...ipcArgs);
+function logAtLevel(level, prefix, ...args) {
+  console._log(prefix, now(), ...args);
 
-  logger[level](...args);
+  const str = cleanArgsForIPC(args);
+  const logText = Privacy.redactAll(str);
+  ipc.send(`log-${level}`, logText);
 }
 
 window.log = {
-  fatal: _.partial(logAtLevel, 'fatal'),
-  error: _.partial(logAtLevel, 'error'),
-  warn: _.partial(logAtLevel, 'warn'),
-  info: _.partial(logAtLevel, 'info'),
-  debug: _.partial(logAtLevel, 'debug'),
-  trace: _.partial(logAtLevel, 'trace'),
+  fatal: _.partial(logAtLevel, 'fatal', 'FATAL'),
+  error: _.partial(logAtLevel, 'error', 'ERROR'),
+  warn: _.partial(logAtLevel, 'warn', 'WARN '),
+  info: _.partial(logAtLevel, 'info', 'INFO '),
+  debug: _.partial(logAtLevel, 'debug', 'DEBUG'),
+  trace: _.partial(logAtLevel, 'trace', 'TRACE'),
   fetch,
   publish,
 };

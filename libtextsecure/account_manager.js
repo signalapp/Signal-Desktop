@@ -78,14 +78,14 @@
       return provisioningCipher.getPublicKey().then(function(pubKey) {
         return new Promise(function(resolve, reject) {
           var socket = getSocket();
-          socket.onclose = function(e) {
-            console.log('provisioning socket closed', e.code);
+          socket.onclose = function(event) {
+            window.log.info('provisioning socket closed. Code:', event.code);
             if (!gotProvisionEnvelope) {
               reject(new Error('websocket closed'));
             }
           };
           socket.onopen = function(e) {
-            console.log('provisioning socket open');
+            window.log.info('provisioning socket open');
           };
           var wsr = new WebSocketResource(socket, {
             keepalive: { path: '/v1/keepalive/provisioning' },
@@ -150,7 +150,7 @@
                     })
                 );
               } else {
-                console.log('Unknown websocket message', request.path);
+                window.log.error('Unknown websocket message', request.path);
               }
             },
           });
@@ -164,7 +164,7 @@
       return this.queueTask(
         function() {
           return this.server.getMyKeys().then(function(preKeyCount) {
-            console.log('prekey count ' + preKeyCount);
+            window.log.info('prekey count ' + preKeyCount);
             if (preKeyCount < 10) {
               return generateKeys().then(registerKeys);
             }
@@ -196,7 +196,7 @@
                 );
               },
               function(error) {
-                console.log(
+                window.log.error(
                   'Failed to get identity key. Canceling key rotation.'
                 );
               }
@@ -205,7 +205,7 @@
               if (!res) {
                 return;
               }
-              console.log('Saving new signed prekey', res.keyId);
+              window.log.info('Saving new signed prekey', res.keyId);
               return Promise.all([
                 textsecure.storage.put('signedKeyId', signedKeyId + 1),
                 store.storeSignedPreKey(res.keyId, res.keyPair),
@@ -217,7 +217,7 @@
               ])
                 .then(function() {
                   var confirmed = true;
-                  console.log('Confirming new signed prekey', res.keyId);
+                  window.log.info('Confirming new signed prekey', res.keyId);
                   return Promise.all([
                     textsecure.storage.remove('signedKeyRotationRejected'),
                     store.storeSignedPreKey(res.keyId, res.keyPair, confirmed),
@@ -228,7 +228,7 @@
                 });
             })
             .catch(function(e) {
-              console.log(
+              window.log.error(
                 'rotateSignedPrekey error:',
                 e && e.stack ? e.stack : e
               );
@@ -242,7 +242,10 @@
                 var rejections =
                   1 + textsecure.storage.get('signedKeyRotationRejected', 0);
                 textsecure.storage.put('signedKeyRotationRejected', rejections);
-                console.log('Signed key rotation rejected count:', rejections);
+                window.log.error(
+                  'Signed key rotation rejected count:',
+                  rejections
+                );
               } else {
                 throw e;
               }
@@ -274,9 +277,9 @@
 
         var recent = allKeys[0] ? allKeys[0].keyId : 'none';
         var recentConfirmed = confirmed[0] ? confirmed[0].keyId : 'none';
-        console.log('Most recent signed key: ' + recent);
-        console.log('Most recent confirmed signed key: ' + recentConfirmed);
-        console.log(
+        window.log.info('Most recent signed key: ' + recent);
+        window.log.info('Most recent confirmed signed key: ' + recentConfirmed);
+        window.log.info(
           'Total signed key count:',
           allKeys.length,
           '-',
@@ -294,7 +297,7 @@
           var created_at = key.created_at || 0;
           var age = Date.now() - created_at;
           if (age > ARCHIVE_AGE) {
-            console.log(
+            window.log.info(
               'Removing confirmed signed prekey:',
               key.keyId,
               'with timestamp:',
@@ -317,7 +320,7 @@
           var created_at = key.created_at || 0;
           var age = Date.now() - created_at;
           if (age > ARCHIVE_AGE) {
-            console.log(
+            window.log.info(
               'Removing unconfirmed signed prekey:',
               key.keyId,
               'with timestamp:',
@@ -355,17 +358,17 @@
         )
         .then(function(response) {
           if (previousNumber && previousNumber !== number) {
-            console.log(
+            window.log.warn(
               'New number is different from old number; deleting all previous data'
             );
 
             return textsecure.storage.protocol.removeAllData().then(
               function() {
-                console.log('Successfully deleted previous data');
+                window.log.info('Successfully deleted previous data');
                 return response;
               },
               function(error) {
-                console.log(
+                window.log.error(
                   'Something went wrong deleting data from previous number',
                   error && error.stack ? error.stack : error
                 );
@@ -432,7 +435,7 @@
     clearSessionsAndPreKeys: function() {
       var store = textsecure.storage.protocol;
 
-      console.log('clearing all sessions, prekeys, and signed prekeys');
+      window.log.info('clearing all sessions, prekeys, and signed prekeys');
       return Promise.all([
         store.clearPreKeyStore(),
         store.clearSignedPreKeysStore(),
@@ -445,7 +448,7 @@
       var key = keys.signedPreKey;
       var confirmed = true;
 
-      console.log('confirmKeys: confirming key', key.keyId);
+      window.log.info('confirmKeys: confirming key', key.keyId);
       return store.storeSignedPreKey(key.keyId, key.keyPair, confirmed);
     },
     generateKeys: function(count, progressCallback) {
@@ -513,7 +516,7 @@
       );
     },
     registrationDone: function() {
-      console.log('registration done');
+      window.log.info('registration done');
       this.dispatchEvent(new Event('registration'));
     },
   });

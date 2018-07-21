@@ -212,14 +212,14 @@
       return new Promise(resolve => {
         prekey.fetch().then(
           () => {
-            console.log('Successfully fetched prekey:', keyId);
+            window.log.info('Successfully fetched prekey:', keyId);
             resolve({
               pubKey: prekey.get('publicKey'),
               privKey: prekey.get('privateKey'),
             });
           },
           () => {
-            console.log('Failed to fetch prekey:', keyId);
+            window.log.error('Failed to fetch prekey:', keyId);
             resolve();
           }
         );
@@ -249,7 +249,7 @@
         }
 
         return deferred.then(resolve, error => {
-          console.log(
+          window.log.error(
             'removePreKey error:',
             error && error.stack ? error.stack : error
           );
@@ -271,7 +271,7 @@
         prekey
           .fetch()
           .then(() => {
-            console.log(
+            window.log.info(
               'Successfully fetched signed prekey:',
               prekey.get('id')
             );
@@ -284,7 +284,7 @@
             });
           })
           .fail(() => {
-            console.log('Failed to fetch signed prekey:', keyId);
+            window.log.error('Failed to fetch signed prekey:', keyId);
             resolve();
           });
       });
@@ -373,7 +373,7 @@
               number,
             })
             .fail(e => {
-              console.log('Failed to save session', encodedNumber, e);
+              window.log.error('Failed to save session', encodedNumber, e);
             })
             .always(() => {
               resolve();
@@ -393,7 +393,7 @@
       });
     },
     removeSession(encodedNumber) {
-      console.log('deleting session for ', encodedNumber);
+      window.log.info('deleting session for ', encodedNumber);
       return new Promise(resolve => {
         const session = new Session({ id: encodedNumber });
         session
@@ -436,7 +436,7 @@
               address.getName(),
               deviceId
             );
-            console.log('closing session for', sibling.toString());
+            window.log.info('closing session for', sibling.toString());
             const sessionCipher = new libsignal.SessionCipher(
               textsecure.storage.protocol,
               sibling
@@ -454,7 +454,7 @@
               number,
               deviceId
             );
-            console.log('closing session for', address.toString());
+            window.log.info('closing session for', address.toString());
             const sessionCipher = new libsignal.SessionCipher(
               textsecure.storage.protocol,
               address
@@ -500,19 +500,19 @@
       const existing = identityRecord.get('publicKey');
 
       if (!existing) {
-        console.log('isTrustedForSending: Nothing here, returning true...');
+        window.log.info('isTrustedForSending: Nothing here, returning true...');
         return true;
       }
       if (!equalArrayBuffers(existing, publicKey)) {
-        console.log("isTrustedForSending: Identity keys don't match...");
+        window.log.info("isTrustedForSending: Identity keys don't match...");
         return false;
       }
       if (identityRecord.get('verified') === VerifiedStatus.UNVERIFIED) {
-        console.log('Needs unverified approval!');
+        window.log.error('Needs unverified approval!');
         return false;
       }
       if (this.isNonBlockingApprovalRequired(identityRecord)) {
-        console.log('isTrustedForSending: Needs non-blocking approval!');
+        window.log.error('isTrustedForSending: Needs non-blocking approval!');
         return false;
       }
 
@@ -549,7 +549,7 @@
           const oldpublicKey = identityRecord.get('publicKey');
           if (!oldpublicKey) {
             // Lookup failed, or the current key was removed, so save this one.
-            console.log('Saving new identity...');
+            window.log.info('Saving new identity...');
             identityRecord
               .save({
                 publicKey,
@@ -562,7 +562,7 @@
                 resolve(false);
               }, reject);
           } else if (!equalArrayBuffers(oldpublicKey, publicKey)) {
-            console.log('Replacing existing identity...');
+            window.log.info('Replacing existing identity...');
             const previousStatus = identityRecord.get('verified');
             let verifiedStatus;
             if (
@@ -588,7 +588,7 @@
                 }, reject);
               }, reject);
           } else if (this.isNonBlockingApprovalRequired(identityRecord)) {
-            console.log('Setting approval status...');
+            window.log.info('Setting approval status...');
             identityRecord
               .save({
                 nonblockingApproval,
@@ -680,7 +680,7 @@
                 reject(identityRecord.validationError);
               }
             } else {
-              console.log('No identity record for specified publicKey');
+              window.log.info('No identity record for specified publicKey');
               resolve();
             }
           },
@@ -821,7 +821,7 @@
           })
           .always(() => {
             if (!isPresent && verifiedStatus === VerifiedStatus.DEFAULT) {
-              console.log('No existing record for default status');
+              window.log.info('No existing record for default status');
               return resolve();
             }
 

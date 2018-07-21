@@ -168,7 +168,7 @@
         return;
       }
 
-      console.log('WebSocketResource.close()');
+      window.log.info('WebSocketResource.close()');
       if (!code) {
         code = 3000;
       }
@@ -189,7 +189,7 @@
           }
           this.closed = true;
 
-          console.log('Dispatching our own socket close event');
+          window.log.warn('Dispatching our own socket close event');
           var ev = new Event('close');
           ev.code = code;
           ev.reason = reason;
@@ -241,7 +241,7 @@
           } else {
             this.reset();
           }
-          console.log('Sending a keepalive message');
+          window.log.info('Sending a keepalive message');
           this.wsr.sendRequest({
             verb: 'GET',
             path: this.path,

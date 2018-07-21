@@ -81,7 +81,7 @@
             // TODO: consider keeping a list of numbers we've
             // successfully delivered to?
           }
-          console.log(
+          window.log.info(
             'No message for delivery receipt',
             receipt.get('source'),
             receipt.get('timestamp')
@@ -90,7 +90,7 @@
           return null;
         })
         .catch(error => {
-          console.log(
+          window.log.error(
             'DeliveryReceipts.onReceipt error:',
             error && error.stack ? error.stack : error
           );

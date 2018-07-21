@@ -1,6 +1,6 @@
 const addUnhandledErrorHandler = require('electron-unhandled');
 
-const Errors = require('./types/errors');
+const Errors = require('../js/modules/types/errors');
 
 //      addHandler :: Unit -> Unit
 exports.addHandler = () => {

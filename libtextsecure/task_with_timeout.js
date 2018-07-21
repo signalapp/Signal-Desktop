@@ -17,7 +17,7 @@
                 ' task did not complete in time. Calling stack: ' +
                 errorForStack.stack;
 
-              console.log(message);
+              window.log.error(message);
               return reject(new Error(message));
             }
           }.bind(this),
@@ -31,7 +31,7 @@
               clearTimeout(localTimer);
             }
           } catch (error) {
-            console.log(
+            window.log.error(
               id || '',
               'task ran into problem canceling timer. Calling stack:',
               errorForStack.stack

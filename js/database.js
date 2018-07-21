@@ -15,7 +15,7 @@
   window.Whisper.Database.nolog = true;
 
   Whisper.Database.handleDOMException = (prefix, error, reject) => {
-    console.log(
+    window.log.error(
       `${prefix}:`,
       error && error.name,
       error && error.message,
@@ -27,12 +27,12 @@
   function clearStores(db, names) {
     return new Promise((resolve, reject) => {
       const storeNames = names || db.objectStoreNames;
-      console.log('Clearing these indexeddb stores:', storeNames);
+      window.log.info('Clearing these indexeddb stores:', storeNames);
       const transaction = db.transaction(storeNames, 'readwrite');
 
       let finished = false;
       const finish = via => {
-        console.log('clearing all stores done via', via);
+        window.log.info('clearing all stores done via', via);
         if (finished) {
           resolve();
         }
@@ -57,10 +57,10 @@
 
         request.onsuccess = () => {
           count += 1;
-          console.log('Done clearing store', storeName);
+          window.log.info('Done clearing store', storeName);
 
           if (count >= storeNames.length) {
-            console.log('Done clearing indexeddb stores');
+            window.log.info('Done clearing indexeddb stores');
             finish('clears complete');
           }
         };

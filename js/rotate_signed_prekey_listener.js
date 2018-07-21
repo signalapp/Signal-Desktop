@@ -16,11 +16,11 @@
   }
 
   function run() {
-    console.log('Rotating signed prekey...');
+    window.log.info('Rotating signed prekey...');
     getAccountManager()
       .rotateSignedPreKey()
       .catch(() => {
-        console.log(
+        window.log.error(
           'rotateSignedPrekey() failed. Trying again in five seconds'
         );
         setTimeout(runWhenOnline, 5000);
@@ -33,7 +33,7 @@
     if (navigator.onLine) {
       run();
     } else {
-      console.log(
+      window.log.info(
         'We are offline; keys will be rotated when we are next online'
       );
       const listener = () => {
@@ -49,7 +49,7 @@
     const time = storage.get('nextSignedKeyRotationTime', now);
 
     if (scheduledTime !== time || !timeout) {
-      console.log(
+      window.log.info(
         'Next signed key rotation scheduled for',
         new Date(time).toISOString()
       );
@@ -69,7 +69,7 @@
   Whisper.RotateSignedPreKeyListener = {
     init(events, newVersion) {
       if (initComplete) {
-        console.log('Rotate signed prekey listener: Already initialized');
+        window.log.warn('Rotate signed prekey listener: Already initialized');
         return;
       }
       initComplete = true;

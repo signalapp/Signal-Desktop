@@ -104,19 +104,22 @@
         )
         .catch(this.handleDisconnect.bind(this));
     },
-    handleDisconnect(e) {
-      console.log('provisioning failed', e.stack);
+    handleDisconnect(error) {
+      window.log.error(
+        'provisioning failed',
+        error && error.stack ? error.stack : error
+      );
 
-      this.error = e;
+      this.error = error;
       this.render();
 
-      if (e.message === 'websocket closed') {
+      if (error.message === 'websocket closed') {
         this.trigger('disconnected');
       } else if (
-        e.name !== 'HTTPError' ||
-        (e.code !== CONNECTION_ERROR && e.code !== TOO_MANY_DEVICES)
+        error.name !== 'HTTPError' ||
+        (error.code !== CONNECTION_ERROR && error.code !== TOO_MANY_DEVICES)
       ) {
-        throw e;
+        throw error;
       }
     },
     reconnect() {
@@ -134,7 +137,7 @@
     },
     setProvisioningUrl(url) {
       if ($('#qr').length === 0) {
-        console.log('Did not find #qr element in the DOM!');
+        window.log.error('Did not find #qr element in the DOM!');
         return;
       }
 
@@ -186,7 +189,7 @@
           }
 
           return tsp.removeAllData().then(finish, error => {
-            console.log(
+            window.log.error(
               'confirmNumber: error clearing database',
               error && error.stack ? error.stack : error
             );

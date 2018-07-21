@@ -21,7 +21,7 @@
                 localStorage.removeItem(e.data.key);
                 break;
             case 'done':
-                console.log(e.data.keys);
+                console.error(e.data.keys);
         }
     };
 */

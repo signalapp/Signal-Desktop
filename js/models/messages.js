@@ -59,7 +59,12 @@
     storeName: 'messages',
     initialize(attributes) {
       if (_.isObject(attributes)) {
-        this.set(TypedMessage.initializeSchemaVersion(attributes));
+        this.set(
+          TypedMessage.initializeSchemaVersion({
+            message: attributes,
+            logger: window.log,
+          })
+        );
       }
 
       this.OUR_NUMBER = textsecure.storage.user.getNumber();
@@ -86,7 +91,7 @@
       const required = ['conversationId', 'received_at', 'sent_at'];
       const missing = _.filter(required, attr => !attributes[attr]);
       if (missing.length) {
-        console.log(`Message missing attributes: ${missing}`);
+        window.log.warn(`Message missing attributes: ${missing}`);
       }
     },
     isEndSession() {
@@ -860,7 +865,7 @@
         errors = [errors];
       }
       errors.forEach(e => {
-        console.log(
+        window.log.error(
           'Message.saveErrors:',
           e && e.reason ? e.reason : null,
           e && e.stack ? e.stack : e
@@ -972,7 +977,7 @@
                   groupUpdate.joined = difference;
                 }
                 if (conversation.get('left')) {
-                  console.log('re-added to a left group');
+                  window.log.warn('re-added to a left group');
                   attributes.left = false;
                 }
               } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
@@ -1038,7 +1043,7 @@
             const shouldLogExpireTimerChange =
               message.isExpirationTimerUpdate() || expireTimer;
             if (shouldLogExpireTimerChange) {
-              console.log("Update conversation 'expireTimer'", {
+              window.log.info("Update conversation 'expireTimer'", {
                 id: conversation.idForLogging(),
                 expireTimer,
                 source: 'handleDataMessage',
@@ -1142,7 +1147,7 @@
 
             const handleError = error => {
               const errorForLog = error && error.stack ? error.stack : error;
-              console.log(
+              window.log.error(
                 'handleDataMessage',
                 message.idForLogging(),
                 'error:',
@@ -1167,7 +1172,7 @@
                   () => {
                     try {
                       if (previousUnread !== message.get('unread')) {
-                        console.log(
+                        window.log.warn(
                           'Caught race condition on new message read state! ' +
                             'Manually starting timers.'
                         );
@@ -1192,7 +1197,7 @@
                   },
                   () => {
                     try {
-                      console.log(
+                      window.log.warn(
                         'handleDataMessage: Message',
                         message.idForLogging(),
                         'was deleted'
@@ -1257,7 +1262,7 @@
         }
 
         Whisper.ExpiringMessagesListener.update();
-        console.log('Set message expiration', {
+        window.log.info('Set message expiration', {
           expiresAt,
           sentAt: this.get('sent_at'),
         });
@@ -1364,7 +1369,9 @@
           return Promise.resolve();
         }
 
-        console.log('fetchConversation: doing another fetch to get all unread');
+        window.log.info(
+          'fetchConversation: doing another fetch to get all unread'
+        );
         return this.fetchConversation(conversationId, limit, unreadCount);
       });
     },
@@ -1374,7 +1381,7 @@
     },
 
     fetchExpired() {
-      console.log('Load expired messages');
+      window.log.info('Load expired messages');
       this.fetch({
         conditions: { expires_at: { $lte: Date.now() } },
         addIndividually: true,

@@ -15,7 +15,7 @@
             window.PROTO_ROOT +
             ') ' +
             (error && error.stack ? error.stack : error);
-          console.log(text);
+          window.log.error(text);
           throw error;
         }
         var protos = result.build('signalservice');
@@ -26,7 +26,7 @@
             ' (root: ' +
             window.PROTO_ROOT +
             ')';
-          console.log(text);
+          window.log.error(text);
           throw new Error(text);
         }
         for (var protoName in protos) {

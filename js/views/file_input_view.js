@@ -161,10 +161,11 @@
         // we use the variable on this here to ensure cleanup if we're interrupted
         this.previewObjectUrl = URL.createObjectURL(file);
         const type = 'image/png';
-        const thumbnail = await VisualAttachment.makeVideoScreenshot(
-          this.previewObjectUrl,
-          type
-        );
+        const thumbnail = await VisualAttachment.makeVideoScreenshot({
+          objectUrl: this.previewObjectUrl,
+          contentType: type,
+          logger: window.log,
+        });
         URL.revokeObjectURL(this.previewObjectUrl);
 
         const data = await VisualAttachment.blobToArrayBuffer(thumbnail);
@@ -197,7 +198,7 @@
           this.addThumb('images/file.svg');
         }
       } catch (e) {
-        console.log(
+        window.log.error(
           `Was unable to generate thumbnail for file type ${contentType}`,
           e && e.stack ? e.stack : e
         );
@@ -297,10 +298,11 @@
 
       const objectUrl = URL.createObjectURL(file);
 
-      const arrayBuffer = await VisualAttachment.makeImageThumbnail(
+      const arrayBuffer = await VisualAttachment.makeImageThumbnail({
         size,
-        objectUrl
-      );
+        objectUrl,
+        logger: window.log,
+      });
       URL.revokeObjectURL(objectUrl);
 
       return this.readFile(arrayBuffer);

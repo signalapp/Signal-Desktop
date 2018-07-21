@@ -135,7 +135,7 @@
       conversation.initialPromise = new Promise((resolve, reject) => {
         if (!conversation.isValid()) {
           const validationError = conversation.validationError || {};
-          console.log(
+          window.log.error(
             'Contact is not valid. Not saving, but adding to collection:',
             conversation.idForLogging(),
             validationError.stack
@@ -146,7 +146,7 @@
 
         const deferred = conversation.save();
         if (!deferred) {
-          console.log('Conversation save failed! ', id, type);
+          window.log.error('Conversation save failed! ', id, type);
           return reject(new Error('getOrCreate: Conversation save failed'));
         }
 
@@ -184,17 +184,17 @@
       conversations.reset([]);
     },
     load() {
-      console.log('ConversationController: starting initial fetch');
+      window.log.info('ConversationController: starting initial fetch');
 
       this._initialPromise = new Promise((resolve, reject) => {
         conversations.fetch().then(
           () => {
-            console.log('ConversationController: done with initial fetch');
+            window.log.info('ConversationController: done with initial fetch');
             this._initialFetchComplete = true;
             resolve();
           },
           error => {
-            console.log(
+            window.log.error(
               'ConversationController: initial fetch failed',
               error && error.stack ? error.stack : error
             );

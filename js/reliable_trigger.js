@@ -63,7 +63,7 @@
       a2 = args[1],
       a3 = args[2];
     const logError = function(error) {
-      console.log(
+      window.log.error(
         'Model caught error triggering',
         name,
         'event:',

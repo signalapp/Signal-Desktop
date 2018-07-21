@@ -86,7 +86,7 @@ MessageReceiver.prototype.extend({
     }
   },
   close() {
-    console.log('MessageReceiver.close()');
+    window.log.info('MessageReceiver.close()');
     this.calledClose = true;
 
     // Our WebSocketResource instance will close the socket and emit a 'close' event
@@ -98,16 +98,16 @@ MessageReceiver.prototype.extend({
     return this.drain();
   },
   onopen() {
-    console.log('websocket open');
+    window.log.info('websocket open');
   },
   onerror() {
-    console.log('websocket error');
+    window.log.error('websocket error');
   },
   dispatchAndWait(event) {
     return Promise.all(this.dispatchEvent(event));
   },
   onclose(ev) {
-    console.log(
+    window.log.info(
       'websocket closed',
       ev.code,
       ev.reason || '',
@@ -143,7 +143,7 @@ MessageReceiver.prototype.extend({
 
     // TODO: handle different types of requests.
     if (request.path !== '/api/v1/message') {
-      console.log('got request', request.verb, request.path);
+      window.log.info('got request', request.verb, request.path);
       request.respond(200, 'OK');
 
       if (request.verb === 'PUT' && request.path === '/api/v1/queue/empty') {
@@ -170,7 +170,7 @@ MessageReceiver.prototype.extend({
             this.queueEnvelope(envelope);
           },
           error => {
-            console.log(
+            window.log.error(
               'handleRequest error trying to add message to cache:',
               error && error.stack ? error.stack : error
             );
@@ -179,7 +179,7 @@ MessageReceiver.prototype.extend({
       })
       .catch(e => {
         request.respond(500, 'Bad encrypted websocket message');
-        console.log(
+        window.log.error(
           'Error handling incoming message:',
           e && e.stack ? e.stack : e
         );
@@ -215,7 +215,7 @@ MessageReceiver.prototype.extend({
     this.incoming = [];
 
     const dispatchEmpty = () => {
-      console.log("MessageReceiver: emitting 'empty' event");
+      window.log.info("MessageReceiver: emitting 'empty' event");
       const ev = new Event('empty');
       return this.dispatchAndWait(ev);
     };
@@ -238,7 +238,7 @@ MessageReceiver.prototype.extend({
 
     const queueDispatch = () =>
       this.addToQueue(() => {
-        console.log('drained');
+        window.log.info('drained');
       });
 
     // This promise will resolve when there are no more messages to be processed.
@@ -282,7 +282,7 @@ MessageReceiver.prototype.extend({
         this.queueEnvelope(envelope);
       }
     } catch (error) {
-      console.log('queueCached error handling item', item.id);
+      window.log.error('queueCached error handling item', item.id);
     }
   },
   getEnvelopeId(envelope) {
@@ -295,15 +295,22 @@ MessageReceiver.prototype.extend({
     return new dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
   },
   getAllFromCache() {
-    console.log('getAllFromCache');
+    window.log.info('getAllFromCache');
     return textsecure.storage.unprocessed.getAll().then(items => {
-      console.log('getAllFromCache loaded', items.length, 'saved envelopes');
+      window.log.info(
+        'getAllFromCache loaded',
+        items.length,
+        'saved envelopes'
+      );
 
       return Promise.all(
         _.map(items, item => {
           const attempts = 1 + (item.attempts || 0);
           if (attempts >= 5) {
-            console.log('getAllFromCache final attempt for envelope', item.id);
+            window.log.warn(
+              'getAllFromCache final attempt for envelope',
+              item.id
+            );
             return textsecure.storage.unprocessed.remove(item.id);
           }
           return textsecure.storage.unprocessed.update(item.id, { attempts });
@@ -311,7 +318,7 @@ MessageReceiver.prototype.extend({
       ).then(
         () => items,
         error => {
-          console.log(
+          window.log.error(
             'getAllFromCache error updating items after load:',
             error && error.stack ? error.stack : error
           );
@@ -343,7 +350,7 @@ MessageReceiver.prototype.extend({
   },
   queueDecryptedEnvelope(envelope, plaintext) {
     const id = this.getEnvelopeId(envelope);
-    console.log('queueing decrypted envelope', id);
+    window.log.info('queueing decrypted envelope', id);
 
     const task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
     const taskWithTimeout = textsecure.createTaskWithTimeout(
@@ -353,7 +360,7 @@ MessageReceiver.prototype.extend({
     const promise = this.addToQueue(taskWithTimeout);
 
     return promise.catch(error => {
-      console.log(
+      window.log.error(
         'queueDecryptedEnvelope error handling envelope',
         id,
         ':',
@@ -363,7 +370,7 @@ MessageReceiver.prototype.extend({
   },
   queueEnvelope(envelope) {
     const id = this.getEnvelopeId(envelope);
-    console.log('queueing envelope', id);
+    window.log.info('queueing envelope', id);
 
     const task = this.handleEnvelope.bind(this, envelope);
     const taskWithTimeout = textsecure.createTaskWithTimeout(
@@ -373,7 +380,7 @@ MessageReceiver.prototype.extend({
     const promise = this.addToQueue(taskWithTimeout);
 
     return promise.catch(error => {
-      console.log(
+      window.log.error(
         'queueEnvelope error handling envelope',
         id,
         ':',
@@ -470,13 +477,13 @@ MessageReceiver.prototype.extend({
 
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
-        console.log('message from', this.getEnvelopeId(envelope));
+        window.log.info('message from', this.getEnvelopeId(envelope));
         promise = sessionCipher
           .decryptWhisperMessage(ciphertext)
           .then(this.unpad);
         break;
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
-        console.log('prekey message from', this.getEnvelopeId(envelope));
+        window.log.info('prekey message from', this.getEnvelopeId(envelope));
         promise = this.decryptPreKeyWhisperMessage(
           ciphertext,
           sessionCipher,
@@ -492,7 +499,7 @@ MessageReceiver.prototype.extend({
         this.updateCache(envelope, plaintext).then(
           () => plaintext,
           error => {
-            console.log(
+            window.log.error(
               'decrypt failed to save decrypted message contents to cache:',
               error && error.stack ? error.stack : error
             );
@@ -571,7 +578,7 @@ MessageReceiver.prototype.extend({
     );
   },
   handleDataMessage(envelope, msg) {
-    console.log('data message from', this.getEnvelopeId(envelope));
+    window.log.info('data message from', this.getEnvelopeId(envelope));
     let p = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     if (msg.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
@@ -623,7 +630,7 @@ MessageReceiver.prototype.extend({
     throw new Error('Unsupported content message');
   },
   handleCallMessage(envelope) {
-    console.log('call message from', this.getEnvelopeId(envelope));
+    window.log.info('call message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },
   handleReceiptMessage(envelope, receiptMessage) {
@@ -658,7 +665,7 @@ MessageReceiver.prototype.extend({
     return Promise.all(results);
   },
   handleNullMessage(envelope) {
-    console.log('null message from', this.getEnvelopeId(envelope));
+    window.log.info('null message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },
   handleSyncMessage(envelope, syncMessage) {
@@ -675,7 +682,7 @@ MessageReceiver.prototype.extend({
         ? `group(${sentMessage.message.group.id.toBinary()})`
         : sentMessage.destination;
 
-      console.log(
+      window.log.info(
         'sent message to',
         to,
         sentMessage.timestamp.toNumber(),
@@ -696,10 +703,10 @@ MessageReceiver.prototype.extend({
     } else if (syncMessage.blocked) {
       return this.handleBlocked(envelope, syncMessage.blocked);
     } else if (syncMessage.request) {
-      console.log('Got SyncMessage Request');
+      window.log.info('Got SyncMessage Request');
       return this.removeFromCache(envelope);
     } else if (syncMessage.read && syncMessage.read.length) {
-      console.log('read messages from', this.getEnvelopeId(envelope));
+      window.log.info('read messages from', this.getEnvelopeId(envelope));
       return this.handleRead(envelope, syncMessage.read);
     } else if (syncMessage.verified) {
       return this.handleVerified(envelope, syncMessage.verified);
@@ -741,7 +748,7 @@ MessageReceiver.prototype.extend({
     return Promise.all(results);
   },
   handleContacts(envelope, contacts) {
-    console.log('contact sync');
+    window.log.info('contact sync');
     const attachmentPointer = contacts.blob;
     return this.handleAttachment(attachmentPointer).then(() => {
       const results = [];
@@ -764,7 +771,7 @@ MessageReceiver.prototype.extend({
     });
   },
   handleGroups(envelope, groups) {
-    console.log('group sync');
+    window.log.info('group sync');
     const attachmentPointer = groups.blob;
     return this.handleAttachment(attachmentPointer).then(() => {
       const groupBuffer = new GroupBuffer(attachmentPointer.data);
@@ -802,7 +809,7 @@ MessageReceiver.prototype.extend({
             return this.dispatchAndWait(ev);
           })
           .catch(e => {
-            console.log('error processing group', e);
+            window.log.error('error processing group', e);
           });
         groupDetails = groupBuffer.next();
         promises.push(promise);
@@ -816,7 +823,7 @@ MessageReceiver.prototype.extend({
     });
   },
   handleBlocked(envelope, blocked) {
-    console.log('Setting these numbers as blocked:', blocked.numbers);
+    window.log.info('Setting these numbers as blocked:', blocked.numbers);
     textsecure.storage.put('blocked', blocked.numbers);
   },
   isBlocked(number) {
@@ -900,7 +907,7 @@ MessageReceiver.prototype.extend({
       address,
       options
     );
-    console.log('retrying prekey whisper message');
+    window.log.info('retrying prekey whisper message');
     return this.decryptPreKeyWhisperMessage(
       ciphertext,
       sessionCipher,
@@ -946,7 +953,7 @@ MessageReceiver.prototype.extend({
     });
   },
   async handleEndSession(number) {
-    console.log('got end session');
+    window.log.info('got end session');
     const deviceIds = await textsecure.storage.protocol.getDeviceIds(number);
 
     return Promise.all(
@@ -957,7 +964,7 @@ MessageReceiver.prototype.extend({
           address
         );
 
-        console.log('deleting sessions for', address.toString());
+        window.log.info('deleting sessions for', address.toString());
         return sessionCipher.deleteAllSessionsForDevice();
       })
     );
@@ -1016,7 +1023,7 @@ MessageReceiver.prototype.extend({
               textsecure.protobuf.GroupContext.Type.UPDATE
             ) {
               decrypted.group.members = [source];
-              console.log('Got message for unknown group');
+              window.log.warn('Got message for unknown group');
             }
             return textsecure.storage.groups.createNewGroup(
               decrypted.group.members,
@@ -1027,7 +1034,7 @@ MessageReceiver.prototype.extend({
 
           if (fromIndex < 0) {
             // TODO: This could be indication of a race...
-            console.log(
+            window.log.warn(
               'Sender was not a member of the group they were sending from'
             );
           }
@@ -1082,7 +1089,7 @@ MessageReceiver.prototype.extend({
           //   this message entirely, like we do for full attachments.
           promises.push(
             this.handleAttachment(avatar.avatar).catch(error => {
-              console.log(
+              window.log.error(
                 'Problem loading avatar for contact',
                 error && error.stack ? error.stack : error
               );
@@ -1108,7 +1115,7 @@ MessageReceiver.prototype.extend({
           //   this message entirely, like we do for full attachments.
           promises.push(
             this.handleAttachment(thumbnail).catch(error => {
-              console.log(
+              window.log.error(
                 'Problem loading thumbnail for quote',
                 error && error.stack ? error.stack : error
               );

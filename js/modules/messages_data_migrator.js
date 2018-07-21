@@ -82,6 +82,7 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
   minDatabaseVersion,
   numMessagesPerBatch,
   upgradeMessageSchema,
+  logger,
 } = {}) => {
   if (!isString(databaseName)) {
     throw new TypeError("'databaseName' must be a string");
@@ -102,7 +103,7 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
   const connection = await database.open(databaseName);
   const databaseVersion = connection.version;
   const isValidDatabaseVersion = databaseVersion >= minDatabaseVersion;
-  console.log('Database status', {
+  logger.info('Database status', {
     databaseVersion,
     isValidDatabaseVersion,
     minDatabaseVersion,
@@ -133,7 +134,7 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
       break;
     }
     numCumulativeMessagesProcessed += status.numMessagesProcessed;
-    console.log(
+    logger.info(
       'Upgrade message schema:',
       Object.assign({}, status, {
         numTotalMessages,
@@ -142,11 +143,11 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
     );
   }
 
-  console.log('Close database connection');
+  logger.info('Close database connection');
   connection.close();
 
   const totalDuration = Date.now() - migrationStartTime;
-  console.log('Attachment migration complete:', {
+  logger.info('Attachment migration complete:', {
     totalDuration,
     totalMessagesProcessed: numCumulativeMessagesProcessed,
   });

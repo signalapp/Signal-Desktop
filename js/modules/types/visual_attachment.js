@@ -10,7 +10,7 @@ const {
 
 exports.blobToArrayBuffer = blobToArrayBuffer;
 
-exports.getImageDimensions = objectUrl =>
+exports.getImageDimensions = ({ objectUrl, logger }) =>
   new Promise((resolve, reject) => {
     const image = document.createElement('img');
 
@@ -21,14 +21,19 @@ exports.getImageDimensions = objectUrl =>
       });
     });
     image.addEventListener('error', error => {
-      console.log('getImageDimensions error', toLogFormat(error));
+      logger.error('getImageDimensions error', toLogFormat(error));
       reject(error);
     });
 
     image.src = objectUrl;
   });
 
-exports.makeImageThumbnail = (size, objectUrl, contentType = 'image/png') =>
+exports.makeImageThumbnail = ({
+  size,
+  objectUrl,
+  contentType = 'image/png',
+  logger,
+}) =>
   new Promise((resolve, reject) => {
     const image = document.createElement('img');
 
@@ -61,14 +66,18 @@ exports.makeImageThumbnail = (size, objectUrl, contentType = 'image/png') =>
     });
 
     image.addEventListener('error', error => {
-      console.log('makeImageThumbnail error', toLogFormat(error));
+      logger.error('makeImageThumbnail error', toLogFormat(error));
       reject(error);
     });
 
     image.src = objectUrl;
   });
 
-exports.makeVideoScreenshot = (objectUrl, contentType = 'image/png') =>
+exports.makeVideoScreenshot = ({
+  objectUrl,
+  contentType = 'image/png',
+  logger,
+}) =>
   new Promise((resolve, reject) => {
     const video = document.createElement('video');
 
@@ -89,25 +98,33 @@ exports.makeVideoScreenshot = (objectUrl, contentType = 'image/png') =>
 
     video.addEventListener('canplay', capture);
     video.addEventListener('error', error => {
-      console.log('makeVideoThumbnail error', toLogFormat(error));
+      logger.error('makeVideoThumbnail error', toLogFormat(error));
       reject(error);
     });
 
     video.src = objectUrl;
   });
 
-exports.makeVideoThumbnail = async (size, videoObjectUrl) => {
+exports.makeVideoThumbnail = async ({ size, videoObjectUrl, logger }) => {
   let screenshotObjectUrl;
   try {
     const type = 'image/png';
-    const blob = await exports.makeVideoScreenshot(videoObjectUrl, type);
+    const blob = await exports.makeVideoScreenshot({
+      objectUrl: videoObjectUrl,
+      contentType: type,
+      logger,
+    });
     const data = await blobToArrayBuffer(blob);
     screenshotObjectUrl = arrayBufferToObjectURL({
       data,
       type,
     });
 
-    return exports.makeImageThumbnail(size, screenshotObjectUrl);
+    return exports.makeImageThumbnail({
+      size,
+      objectUrl: screenshotObjectUrl,
+      logger,
+    });
   } finally {
     exports.revokeObjectUrl(screenshotObjectUrl);
   }

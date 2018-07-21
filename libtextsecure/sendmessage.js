@@ -663,14 +663,14 @@ MessageSender.prototype = {
   },
 
   resetSession: function(number, timestamp) {
-    console.log('resetting secure session');
+    window.log.info('resetting secure session');
     var proto = new textsecure.protobuf.DataMessage();
     proto.body = 'TERMINATE';
     proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
 
     var logError = function(prefix) {
       return function(error) {
-        console.log(prefix, error && error.stack ? error.stack : error);
+        window.log.error(prefix, error && error.stack ? error.stack : error);
         throw error;
       };
     };
@@ -684,7 +684,7 @@ MessageSender.prototype = {
                 number,
                 deviceId
               );
-              console.log('deleting sessions for', address.toString());
+              window.log.info('deleting sessions for', address.toString());
               var sessionCipher = new libsignal.SessionCipher(
                 textsecure.storage.protocol,
                 address
@@ -699,7 +699,7 @@ MessageSender.prototype = {
       .catch(logError('resetSession/deleteAllSessions1 error:'))
       .then(
         function() {
-          console.log(
+          window.log.info(
             'finished closing local sessions, now sending to contact'
           );
           return this.sendIndividualProto(number, proto, timestamp).catch(

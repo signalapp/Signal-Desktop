@@ -6,7 +6,10 @@
   try {
     BUILD_EXPIRATION = parseInt(window.getExpiration(), 10);
     if (BUILD_EXPIRATION) {
-      console.log('Build expires: ', new Date(BUILD_EXPIRATION).toISOString());
+      window.log.info(
+        'Build expires: ',
+        new Date(BUILD_EXPIRATION).toISOString()
+      );
     }
   } catch (e) {
     // nothing

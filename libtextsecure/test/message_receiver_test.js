@@ -62,7 +62,6 @@ describe('MessageReceiver', function() {
                         mac,
                       ]);
                       websocketmessage.request.body = message.toArrayBuffer();
-                      console.log(new Uint8Array(message.toArrayBuffer()));
                       done();
                     });
                 });

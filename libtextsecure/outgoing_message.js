@@ -85,7 +85,7 @@ OutgoingMessage.prototype = {
                 address
               );
               if (device.registrationId === 0) {
-                console.log('device registrationId 0!');
+                window.log.info('device registrationId 0!');
               }
               return builder.processPreKey(device).catch(
                 function(error) {
@@ -267,7 +267,7 @@ OutgoingMessage.prototype = {
           } else if (error.message === 'Identity key changed') {
             error.timestamp = this.timestamp;
             error.originalMessage = this.message.toArrayBuffer();
-            console.log(
+            window.log.error(
               'Got "key changed" error from encrypt - no identityKey for application layer',
               number,
               deviceIds

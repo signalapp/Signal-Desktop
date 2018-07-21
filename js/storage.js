@@ -31,7 +31,10 @@
         throw new Error('Tried to store undefined');
       }
       if (!ready) {
-        console.log('Called storage.put before storage is ready. key:', key);
+        window.log.warn(
+          'Called storage.put before storage is ready. key:',
+          key
+        );
       }
       const item = items.add({ id: key, value }, { merge: true });
       return new Promise((resolve, reject) => {

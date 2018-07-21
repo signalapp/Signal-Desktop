@@ -67,7 +67,7 @@
         userSetting,
       });
 
-      console.log(
+      window.log.info(
         'Update notifications:',
         Object.assign({}, status, {
           isNotificationGroupingSupported,
@@ -128,7 +128,7 @@
           iconUrl = last.iconUrl;
           break;
         default:
-          console.log(
+          window.log.error(
             `Error: Unknown user notification setting: '${userSetting}'`
           );
           break;
@@ -161,11 +161,11 @@
       return storage.get('notification-setting') || SettingNames.MESSAGE;
     },
     onRemove() {
-      console.log('Remove notification');
+      window.log.info('Remove notification');
       this.update();
     },
     clear() {
-      console.log('Remove all notifications');
+      window.log.info('Remove all notifications');
       this.reset([]);
       this.update();
     },

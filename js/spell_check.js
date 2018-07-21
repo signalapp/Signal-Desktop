@@ -41,7 +41,7 @@ function setupLinux(locale) {
     //   to other dictionaries
     const location = process.env.HUNSPELL_DICTIONARIES || '/usr/share/hunspell';
 
-    console.log(
+    window.log.info(
       'Detected Linux. Setting up spell check with locale',
       locale,
       'and dictionary location',
@@ -49,7 +49,9 @@ function setupLinux(locale) {
     );
     spellchecker.setDictionary(locale, location);
   } else {
-    console.log('Detected Linux. Using default en_US spell check dictionary');
+    window.log.info(
+      'Detected Linux. Using default en_US spell check dictionary'
+    );
   }
 }
 
@@ -57,7 +59,7 @@ function setupWin7AndEarlier(locale) {
   if (process.env.HUNSPELL_DICTIONARIES || locale !== 'en_US') {
     const location = process.env.HUNSPELL_DICTIONARIES;
 
-    console.log(
+    window.log.info(
       'Detected Windows 7 or below. Setting up spell-check with locale',
       locale,
       'and dictionary location',
@@ -65,7 +67,7 @@ function setupWin7AndEarlier(locale) {
     );
     spellchecker.setDictionary(locale, location);
   } else {
-    console.log(
+    window.log.info(
       'Detected Windows 7 or below. Using default en_US spell check dictionary'
     );
   }
@@ -87,7 +89,10 @@ if (process.platform === 'linux') {
   setupWin7AndEarlier(locale);
 } else {
   // OSX and Windows 8+ have OS-level spellcheck APIs
-  console.log('Using OS-level spell check API with locale', process.env.LANG);
+  window.log.info(
+    'Using OS-level spell check API with locale',
+    process.env.LANG
+  );
 }
 
 const simpleChecker = {

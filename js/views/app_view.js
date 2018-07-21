@@ -129,7 +129,7 @@
       //     this.initialLoadComplete. An example of this: on a phone-pairing setup.
       _.defaults(options, { initialLoadComplete: this.initialLoadComplete });
 
-      console.log('open inbox');
+      window.log.info('open inbox');
       this.closeInstaller();
 
       if (!this.inboxView) {

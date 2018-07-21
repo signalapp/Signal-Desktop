@@ -81,7 +81,10 @@
             if (result.name === 'OutgoingIdentityKeyError') {
               this.onSafetyNumberChanged();
             } else {
-              console.log('failed to toggle verified:', result.stack);
+              window.log.error(
+                'failed to toggle verified:',
+                result && result.stack ? result.stack : result
+              );
             }
           } else {
             const keyError = _.some(
@@ -92,7 +95,10 @@
               this.onSafetyNumberChanged();
             } else {
               _.forEach(result.errors, error => {
-                console.log('failed to toggle verified:', error.stack);
+                window.log.error(
+                  'failed to toggle verified:',
+                  error && error.stack ? error.stack : error
+                );
               });
             }
           }

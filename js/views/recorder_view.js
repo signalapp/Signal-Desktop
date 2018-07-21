@@ -51,7 +51,7 @@
 
       if (this.context) {
         this.context.close().then(() => {
-          console.log('audio context closed');
+          window.log.info('audio context closed');
         });
       }
       this.context = null;
@@ -97,10 +97,12 @@
       this.close();
 
       if (error && error.name === 'PermissionDeniedError') {
-        console.log('RecorderView.onError: Microphone access is not allowed!');
+        window.log.warn(
+          'RecorderView.onError: Microphone access is not allowed!'
+        );
         window.showPermissionsPopup();
       } else {
-        console.log(
+        window.log.error(
           'RecorderView.onError:',
           error && error.stack ? error.stack : error
         );

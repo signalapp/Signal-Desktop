@@ -46,7 +46,7 @@
         .catch(this.log.bind(this));
     },
     log(s) {
-      console.log(s);
+      window.log.info(s);
       this.$('#status').text(s);
     },
     validateCode() {

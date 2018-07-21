@@ -15,7 +15,7 @@
       return;
     }
 
-    console.log('adding', number, 'to blocked list');
+    window.log.info('adding', number, 'to blocked list');
     storage.put('blocked', numbers.concat(number));
   };
   storage.removeBlockedNumber = number => {
@@ -24,7 +24,7 @@
       return;
     }
 
-    console.log('removing', number, 'from blocked list');
+    window.log.info('removing', number, 'from blocked list');
     storage.put('blocked', _.without(numbers, number));
   };
 })();

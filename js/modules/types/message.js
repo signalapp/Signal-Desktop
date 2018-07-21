@@ -1,4 +1,4 @@
-const { isFunction, isString, omit } = require('lodash');
+const { isFunction, isObject, isString, omit } = require('lodash');
 
 const Contact = require('./contact');
 const Attachment = require('./attachment');
@@ -55,7 +55,7 @@ exports.PRIVATE = PRIVATE;
 exports.isValid = () => true;
 
 // Schema
-exports.initializeSchemaVersion = message => {
+exports.initializeSchemaVersion = ({ message, logger }) => {
   const isInitialized =
     SchemaVersion.isValid(message.schemaVersion) && message.schemaVersion >= 1;
   if (isInitialized) {
@@ -82,7 +82,9 @@ exports.initializeSchemaVersion = message => {
     : INITIAL_SCHEMA_VERSION;
   const messageWithInitialSchema = Object.assign({}, message, {
     schemaVersion: inheritedSchemaVersion,
-    attachments: message.attachments.map(Attachment.removeSchemaVersion),
+    attachments: message.attachments.map(attachment =>
+      Attachment.removeSchemaVersion({ attachment, logger })
+    ),
   });
 
   return messageWithInitialSchema;
@@ -92,17 +94,24 @@ exports.initializeSchemaVersion = message => {
 // type UpgradeStep = (Message, Context) -> Promise Message
 
 // SchemaVersion -> UpgradeStep -> UpgradeStep
-exports._withSchemaVersion = (schemaVersion, upgrade) => {
+exports._withSchemaVersion = ({ schemaVersion, upgrade }) => {
   if (!SchemaVersion.isValid(schemaVersion)) {
-    throw new TypeError("'schemaVersion' is invalid");
+    throw new TypeError('_withSchemaVersion: schemaVersion is invalid');
   }
   if (!isFunction(upgrade)) {
-    throw new TypeError("'upgrade' must be a function");
+    throw new TypeError('_withSchemaVersion: upgrade must be a function');
   }
 
   return async (message, context) => {
+    if (!context || !isObject(context.logger)) {
+      throw new TypeError(
+        '_withSchemaVersion: context must have logger object'
+      );
+    }
+    const { logger } = context;
+
     if (!exports.isValid(message)) {
-      console.log(
+      logger.error(
         'Message._withSchemaVersion: Invalid input message:',
         message
       );
@@ -117,7 +126,7 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
     const expectedVersion = schemaVersion - 1;
     const hasExpectedVersion = message.schemaVersion === expectedVersion;
     if (!hasExpectedVersion) {
-      console.log(
+      logger.warn(
         'WARNING: Message._withSchemaVersion: Unexpected version:',
         `Expected message to have version ${expectedVersion},`,
         `but got ${message.schemaVersion}.`,
@@ -130,7 +139,7 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
     try {
       upgradedMessage = await upgrade(message, context);
     } catch (error) {
-      console.log(
+      logger.error(
         `Message._withSchemaVersion: error updating message ${message.id}:`,
         Errors.toLogFormat(error)
       );
@@ -138,7 +147,7 @@ exports._withSchemaVersion = (schemaVersion, upgrade) => {
     }
 
     if (!exports.isValid(upgradedMessage)) {
-      console.log(
+      logger.error(
         'Message._withSchemaVersion: Invalid upgraded message:',
         upgradedMessage
       );
@@ -186,6 +195,10 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
   if (!message.quote) {
     return message;
   }
+  if (!context || !isObject(context.logger)) {
+    throw new Error('_mapQuotedAttachments: context must have logger object');
+  }
+  const { logger } = context;
 
   const upgradeWithContext = async attachment => {
     const { thumbnail } = attachment;
@@ -194,7 +207,7 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
     }
 
     if (!thumbnail.data) {
-      console.log('Quoted attachment did not have thumbnail data; removing it');
+      logger.warn('Quoted attachment did not have thumbnail data; removing it');
       return omit(attachment, ['thumbnail']);
     }
 
@@ -216,39 +229,46 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
   });
 };
 
-const toVersion0 = async message => exports.initializeSchemaVersion(message);
-const toVersion1 = exports._withSchemaVersion(
-  1,
-  exports._mapAttachments(Attachment.autoOrientJPEG)
-);
-const toVersion2 = exports._withSchemaVersion(
-  2,
-  exports._mapAttachments(Attachment.replaceUnicodeOrderOverrides)
-);
-const toVersion3 = exports._withSchemaVersion(
-  3,
-  exports._mapAttachments(Attachment.migrateDataToFileSystem)
-);
-const toVersion4 = exports._withSchemaVersion(
-  4,
-  exports._mapQuotedAttachments(Attachment.migrateDataToFileSystem)
-);
-const toVersion5 = exports._withSchemaVersion(5, initializeAttachmentMetadata);
-const toVersion6 = exports._withSchemaVersion(
-  6,
-  exports._mapContact(
+const toVersion0 = async (message, context) =>
+  exports.initializeSchemaVersion({ message, logger: context.logger });
+const toVersion1 = exports._withSchemaVersion({
+  schemaVersion: 1,
+  upgrade: exports._mapAttachments(Attachment.autoOrientJPEG),
+});
+const toVersion2 = exports._withSchemaVersion({
+  schemaVersion: 2,
+  upgrade: exports._mapAttachments(Attachment.replaceUnicodeOrderOverrides),
+});
+const toVersion3 = exports._withSchemaVersion({
+  schemaVersion: 3,
+  upgrade: exports._mapAttachments(Attachment.migrateDataToFileSystem),
+});
+const toVersion4 = exports._withSchemaVersion({
+  schemaVersion: 4,
+  upgrade: exports._mapQuotedAttachments(Attachment.migrateDataToFileSystem),
+});
+const toVersion5 = exports._withSchemaVersion({
+  schemaVersion: 5,
+  upgrade: initializeAttachmentMetadata,
+});
+const toVersion6 = exports._withSchemaVersion({
+  schemaVersion: 6,
+  upgrade: exports._mapContact(
     Contact.parseAndWriteAvatar(Attachment.migrateDataToFileSystem)
-  )
-);
+  ),
+});
 // IMPORTANT: We’ve updated our definition of `initializeAttachmentMetadata`, so
 // we need to run it again on existing items that have previously been incorrectly
 // classified:
-const toVersion7 = exports._withSchemaVersion(7, initializeAttachmentMetadata);
+const toVersion7 = exports._withSchemaVersion({
+  schemaVersion: 7,
+  upgrade: initializeAttachmentMetadata,
+});
 
-const toVersion8 = exports._withSchemaVersion(
-  8,
-  exports._mapAttachments(Attachment.captureDimensionsAndScreenshot)
-);
+const toVersion8 = exports._withSchemaVersion({
+  schemaVersion: 8,
+  upgrade: exports._mapAttachments(Attachment.captureDimensionsAndScreenshot),
+});
 
 const VERSIONS = [
   toVersion0,
@@ -275,6 +295,7 @@ exports.upgradeSchema = async (
     getImageDimensions,
     makeImageThumbnail,
     makeVideoScreenshot,
+    logger,
   } = {}
 ) => {
   if (!isFunction(writeNewAttachmentData)) {
@@ -301,6 +322,9 @@ exports.upgradeSchema = async (
   if (!isFunction(makeVideoScreenshot)) {
     throw new TypeError('context.makeVideoScreenshot is required');
   }
+  if (!isObject(logger)) {
+    throw new TypeError('context.logger is required');
+  }
 
   let message = rawMessage;
   // eslint-disable-next-line no-restricted-syntax
@@ -317,6 +341,7 @@ exports.upgradeSchema = async (
       getImageDimensions,
       makeImageThumbnail,
       makeVideoScreenshot,
+      logger,
     });
   }
 
@@ -339,9 +364,17 @@ exports.createAttachmentLoader = loadAttachmentData => {
 //      createAttachmentDataWriter :: (RelativePath -> IO Unit)
 //                                    Message ->
 //                                    IO (Promise Message)
-exports.createAttachmentDataWriter = writeExistingAttachmentData => {
+exports.createAttachmentDataWriter = ({
+  writeExistingAttachmentData,
+  logger,
+}) => {
   if (!isFunction(writeExistingAttachmentData)) {
-    throw new TypeError("'writeExistingAttachmentData' must be a function");
+    throw new TypeError(
+      'createAttachmentDataWriter: writeExistingAttachmentData must be a function'
+    );
+  }
+  if (!isObject(logger)) {
+    throw new TypeError('createAttachmentDataWriter: logger must be an object');
   }
 
   return async rawMessage => {
@@ -349,7 +382,10 @@ exports.createAttachmentDataWriter = writeExistingAttachmentData => {
       throw new TypeError("'rawMessage' is not valid");
     }
 
-    const message = exports.initializeSchemaVersion(rawMessage);
+    const message = exports.initializeSchemaVersion({
+      message: rawMessage,
+      logger,
+    });
 
     const { attachments, quote, contact } = message;
     const hasFilesToWrite =
@@ -387,7 +423,7 @@ exports.createAttachmentDataWriter = writeExistingAttachmentData => {
 
       // we want to be bulletproof to thumbnails without data
       if (!data || !path) {
-        console.log(
+        logger.warn(
           'Thumbnail had neither data nor path.',
           'id:',
           message.id,
@@ -418,7 +454,7 @@ exports.createAttachmentDataWriter = writeExistingAttachmentData => {
 
     const messageWithoutAttachmentData = Object.assign(
       {},
-      await writeThumbnails(message),
+      await writeThumbnails(message, { logger }),
       {
         contact: await Promise.all((contact || []).map(writeContactAvatar)),
         attachments: await Promise.all(

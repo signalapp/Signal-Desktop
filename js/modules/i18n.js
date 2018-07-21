@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* global log */
 
 exports.setup = (locale, messages) => {
   if (!locale) {
@@ -11,7 +12,7 @@ exports.setup = (locale, messages) => {
   function getMessage(key, substitutions) {
     const entry = messages[key];
     if (!entry) {
-      console.error(
+      log.error(
         `i18n: Attempted to get translation for nonexistent key '${key}'`
       );
       return '';

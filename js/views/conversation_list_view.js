@@ -13,14 +13,14 @@
       const $el = this.$(`.${conversation.cid}`);
 
       if (!$el || !$el.length) {
-        console.log(
+        window.log.warn(
           'updateLocation: did not find element for conversation',
           conversation.idForLogging()
         );
         return;
       }
       if ($el.length > 1) {
-        console.log(
+        window.log.warn(
           'updateLocation: found more than one element for conversation',
           conversation.idForLogging()
         );
@@ -33,7 +33,7 @@
 
       const elIndex = $allConversations.index($el);
       if (elIndex < 0) {
-        console.log(
+        window.log.warn(
           'updateLocation: did not find index for conversation',
           conversation.idForLogging()
         );

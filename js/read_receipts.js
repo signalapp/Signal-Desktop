@@ -24,7 +24,7 @@
           _.contains(ids, receipt.get('reader'))
       );
       if (receipts.length) {
-        console.log('Found early read receipts for message');
+        window.log.info('Found early read receipts for message');
         this.remove(receipts);
       }
       return receipts;
@@ -75,7 +75,7 @@
               }, reject);
             });
           }
-          console.log(
+          window.log.info(
             'No message for read receipt',
             receipt.get('reader'),
             receipt.get('timestamp')
@@ -84,7 +84,7 @@
           return null;
         })
         .catch(error => {
-          console.log(
+          window.log.error(
             'ReadReceipts.onReceipt error:',
             error && error.stack ? error.stack : error
           );

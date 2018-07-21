@@ -86,6 +86,7 @@ function initializeMigrations({
   Attachments,
   Type,
   VisualType,
+  logger,
 }) {
   if (!Attachments) {
     return null;
@@ -131,15 +132,17 @@ function initializeMigrations({
         getImageDimensions,
         makeImageThumbnail,
         makeVideoScreenshot,
+        logger,
       }),
-    writeMessageAttachments: MessageType.createAttachmentDataWriter(
-      createWriterForExisting(attachmentsPath)
-    ),
+    writeMessageAttachments: MessageType.createAttachmentDataWriter({
+      writeExistingAttachmentData: createWriterForExisting(attachmentsPath),
+      logger,
+    }),
   };
 }
 
 exports.setup = (options = {}) => {
-  const { Attachments, userDataPath, getRegionCode } = options;
+  const { Attachments, userDataPath, getRegionCode, logger } = options;
 
   const Migrations = initializeMigrations({
     userDataPath,
@@ -147,6 +150,7 @@ exports.setup = (options = {}) => {
     Attachments,
     Type: AttachmentType,
     VisualType: VisualAttachment,
+    logger,
   });
 
   const Components = {

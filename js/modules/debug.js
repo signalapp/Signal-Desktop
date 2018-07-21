@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* global log */
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -56,7 +57,7 @@ exports.createConversation = async ({
   await Promise.all(
     range(0, numMessages).map(async index => {
       await sleep(index * 100);
-      console.log(`Create message ${index + 1}`);
+      log.info(`Create message ${index + 1}`);
       const messageAttributes = await createRandomMessage({ conversationId });
       const message = new WhisperMessage(messageAttributes);
       return deferredToPromise(message.save());
@@ -107,7 +108,7 @@ const createRandomMessage = async ({ conversationId } = {}) => {
   };
 
   const message = _createMessage({ commonProperties, conversationId, type });
-  return Message.initializeSchemaVersion(message);
+  return Message.initializeSchemaVersion({ message, logger: log });
 };
 
 const _createMessage = ({ commonProperties, conversationId, type } = {}) => {

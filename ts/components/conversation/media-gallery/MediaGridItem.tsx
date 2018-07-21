@@ -32,6 +32,10 @@ export class MediaGridItem extends React.Component<Props, State> {
   }
 
   public onImageError() {
+    // tslint:disable-next-line no-console
+    console.log(
+      'MediaGridItem: Image failed to load; failing over to placeholder'
+    );
     this.setState({
       imageBroken: true,
     });

@@ -67,7 +67,7 @@
           .focus()
           .select();
       } catch (error) {
-        console.log(
+        window.log.error(
           'DebugLogView error:',
           error && error.stack ? error.stack : error
         );

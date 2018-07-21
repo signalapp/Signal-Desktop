@@ -72,6 +72,7 @@ async function clearDatabase() {
   await Signal.Migrations.Migrations0DatabaseWithAttachmentData.run({
     Backbone,
     databaseName: Whisper.Database.id,
+    logger: window.log,
   });
 
   const convos = new Whisper.ConversationCollection();

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const path = require('path');
 const url = require('url');
 const os = require('os');
@@ -24,7 +26,7 @@ const packageJson = require('./package.json');
 const Attachments = require('./app/attachments');
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
-const GlobalErrors = require('./js/modules/global_errors');
+const GlobalErrors = require('./app/global_errors');
 const logging = require('./app/logging');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');

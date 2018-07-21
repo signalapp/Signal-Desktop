@@ -8,7 +8,7 @@ const asar = require('asar');
 const fs = require('fs');
 const assert = require('assert');
 
-/* eslint-disable more/no-then */
+/* eslint-disable more/no-then, no-console  */
 
 module.exports = grunt => {
   const bower = grunt.file.readJSON('bower.json');

@@ -8,6 +8,11 @@ const {
 } = require('../../../js/modules/string_to_array_buffer');
 
 describe('Message', () => {
+  const logger = {
+    warn: () => null,
+    error: () => null,
+  };
+
   describe('createAttachmentDataWriter', () => {
     it('should ignore messages that didn’t go through attachment migration', async () => {
       const input = {
@@ -20,9 +25,10 @@ describe('Message', () => {
       };
       const writeExistingAttachmentData = () => {};
 
-      const actual = await Message.createAttachmentDataWriter(
-        writeExistingAttachmentData
-      )(input);
+      const actual = await Message.createAttachmentDataWriter({
+        writeExistingAttachmentData,
+        logger,
+      })(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -39,9 +45,10 @@ describe('Message', () => {
       };
       const writeExistingAttachmentData = () => {};
 
-      const actual = await Message.createAttachmentDataWriter(
-        writeExistingAttachmentData
-      )(input);
+      const actual = await Message.createAttachmentDataWriter({
+        writeExistingAttachmentData,
+        logger,
+      })(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -75,9 +82,10 @@ describe('Message', () => {
         );
       };
 
-      const actual = await Message.createAttachmentDataWriter(
-        writeExistingAttachmentData
-      )(input);
+      const actual = await Message.createAttachmentDataWriter({
+        writeExistingAttachmentData,
+        logger,
+      })(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -121,9 +129,10 @@ describe('Message', () => {
         );
       };
 
-      const actual = await Message.createAttachmentDataWriter(
-        writeExistingAttachmentData
-      )(input);
+      const actual = await Message.createAttachmentDataWriter({
+        writeExistingAttachmentData,
+        logger,
+      })(input);
       assert.deepEqual(actual, expected);
     });
 
@@ -170,9 +179,10 @@ describe('Message', () => {
         );
       };
 
-      const actual = await Message.createAttachmentDataWriter(
-        writeExistingAttachmentData
-      )(input);
+      const actual = await Message.createAttachmentDataWriter({
+        writeExistingAttachmentData,
+        logger,
+      })(input);
       assert.deepEqual(actual, expected);
     });
   });
@@ -188,7 +198,10 @@ describe('Message', () => {
         schemaVersion: 2,
       };
 
-      const actual = Message.initializeSchemaVersion(input);
+      const actual = Message.initializeSchemaVersion({
+        message: input,
+        logger,
+      });
       assert.deepEqual(actual, expected);
     });
 
@@ -204,7 +217,10 @@ describe('Message', () => {
           schemaVersion: 0,
         };
 
-        const actual = Message.initializeSchemaVersion(input);
+        const actual = Message.initializeSchemaVersion({
+          message: input,
+          logger,
+        });
         assert.deepEqual(actual, expected);
       });
     });
@@ -232,7 +248,10 @@ describe('Message', () => {
           schemaVersion: 7,
         };
 
-        const actual = Message.initializeSchemaVersion(input);
+        const actual = Message.initializeSchemaVersion({
+          message: input,
+          logger,
+        });
         assert.deepEqual(actual, expected);
       });
     });
@@ -284,6 +303,10 @@ describe('Message', () => {
         getImageDimensions: () => ({ height: 10, width: 15 }),
         makeImageThumbnail: () => new Blob(),
         makeVideoScreenshot: () => new Blob(),
+        logger: {
+          warn: () => null,
+          error: () => null,
+        },
       };
       const actual = await Message.upgradeSchema(input, context);
       assert.deepEqual(actual, expected);
@@ -323,12 +346,25 @@ describe('Message', () => {
         const v3 = async message =>
           Object.assign({}, message, { hasUpgradedToVersion3: true });
 
-        const toVersion1 = Message._withSchemaVersion(1, v1);
-        const toVersion2 = Message._withSchemaVersion(2, v2);
-        const toVersion3 = Message._withSchemaVersion(3, v3);
+        const toVersion1 = Message._withSchemaVersion({
+          schemaVersion: 1,
+          upgrade: v1,
+        });
+        const toVersion2 = Message._withSchemaVersion({
+          schemaVersion: 2,
+          upgrade: v2,
+        });
+        const toVersion3 = Message._withSchemaVersion({
+          schemaVersion: 3,
+          upgrade: v3,
+        });
 
+        const context = { logger };
         const upgradeSchema = async message =>
-          toVersion3(await toVersion2(await toVersion1(message)));
+          toVersion3(
+            await toVersion2(await toVersion1(message, context), context),
+            context
+          );
 
         const actual = await upgradeSchema(input);
         assert.deepEqual(actual, expected);
@@ -367,13 +403,26 @@ describe('Message', () => {
         const v3 = async attachment =>
           Object.assign({}, attachment, { hasUpgradedToVersion3: true });
 
-        const toVersion1 = Message._withSchemaVersion(1, v1);
-        const toVersion2 = Message._withSchemaVersion(2, v2);
-        const toVersion3 = Message._withSchemaVersion(3, v3);
+        const toVersion1 = Message._withSchemaVersion({
+          schemaVersion: 1,
+          upgrade: v1,
+        });
+        const toVersion2 = Message._withSchemaVersion({
+          schemaVersion: 2,
+          upgrade: v2,
+        });
+        const toVersion3 = Message._withSchemaVersion({
+          schemaVersion: 3,
+          upgrade: v3,
+        });
 
+        const context = { logger };
         // NOTE: We upgrade to 3 before 2, i.e. the pipeline should abort:
         const upgradeSchema = async attachment =>
-          toVersion2(await toVersion3(await toVersion1(attachment)));
+          toVersion2(
+            await toVersion3(await toVersion1(attachment, context), context),
+            context
+          );
 
         const actual = await upgradeSchema(input);
         assert.deepEqual(actual, expected);
@@ -385,22 +434,26 @@ describe('Message', () => {
     it('should require a version number', () => {
       const toVersionX = () => {};
       assert.throws(
-        () => Message._withSchemaVersion(toVersionX, 2),
-        "'schemaVersion' is invalid"
+        () =>
+          Message._withSchemaVersion({ schemaVersion: toVersionX, upgrade: 2 }),
+        '_withSchemaVersion: schemaVersion is invalid'
       );
     });
 
     it('should require an upgrade function', () => {
       assert.throws(
-        () => Message._withSchemaVersion(2, 3),
-        "'upgrade' must be a function"
+        () => Message._withSchemaVersion({ schemaVersion: 2, upgrade: 3 }),
+        '_withSchemaVersion: upgrade must be a function'
       );
     });
 
     it('should skip upgrading if message has already been upgraded', async () => {
       const upgrade = async message =>
         Object.assign({}, message, { foo: true });
-      const upgradeWithVersion = Message._withSchemaVersion(3, upgrade);
+      const upgradeWithVersion = Message._withSchemaVersion({
+        schemaVersion: 3,
+        upgrade,
+      });
 
       const input = {
         id: 'guid-guid-guid-guid',
@@ -410,7 +463,7 @@ describe('Message', () => {
         id: 'guid-guid-guid-guid',
         schemaVersion: 4,
       };
-      const actual = await upgradeWithVersion(input);
+      const actual = await upgradeWithVersion(input, { logger });
       assert.deepEqual(actual, expected);
     });
 
@@ -418,7 +471,10 @@ describe('Message', () => {
       const upgrade = async () => {
         throw new Error('boom!');
       };
-      const upgradeWithVersion = Message._withSchemaVersion(3, upgrade);
+      const upgradeWithVersion = Message._withSchemaVersion({
+        schemaVersion: 3,
+        upgrade,
+      });
 
       const input = {
         id: 'guid-guid-guid-guid',
@@ -428,13 +484,16 @@ describe('Message', () => {
         id: 'guid-guid-guid-guid',
         schemaVersion: 0,
       };
-      const actual = await upgradeWithVersion(input);
+      const actual = await upgradeWithVersion(input, { logger });
       assert.deepEqual(actual, expected);
     });
 
     it('should return original message if upgrade function returns null', async () => {
       const upgrade = async () => null;
-      const upgradeWithVersion = Message._withSchemaVersion(3, upgrade);
+      const upgradeWithVersion = Message._withSchemaVersion({
+        schemaVersion: 3,
+        upgrade,
+      });
 
       const input = {
         id: 'guid-guid-guid-guid',
@@ -444,7 +503,7 @@ describe('Message', () => {
         id: 'guid-guid-guid-guid',
         schemaVersion: 0,
       };
-      const actual = await upgradeWithVersion(input);
+      const actual = await upgradeWithVersion(input, { logger });
       assert.deepEqual(actual, expected);
     });
   });
@@ -482,7 +541,7 @@ describe('Message', () => {
           attachments: [],
         },
       };
-      const result = await upgradeVersion(message);
+      const result = await upgradeVersion(message, { logger });
       assert.deepEqual(result, expected);
     });
 
@@ -499,7 +558,7 @@ describe('Message', () => {
           attachments: [],
         },
       };
-      const result = await upgradeVersion(message);
+      const result = await upgradeVersion(message, { logger });
       assert.deepEqual(result, message);
     });
 
@@ -516,7 +575,7 @@ describe('Message', () => {
           attachments: [],
         },
       };
-      const result = await upgradeVersion(message);
+      const result = await upgradeVersion(message, { logger });
       assert.deepEqual(result, message);
     });
 
@@ -553,7 +612,7 @@ describe('Message', () => {
           ],
         },
       };
-      const result = await upgradeVersion(message);
+      const result = await upgradeVersion(message, { logger });
       assert.deepEqual(result, expected);
     });
 
@@ -589,7 +648,7 @@ describe('Message', () => {
           ],
         },
       };
-      const result = await upgradeVersion(message);
+      const result = await upgradeVersion(message, { logger });
       assert.deepEqual(result, expected);
     });
   });

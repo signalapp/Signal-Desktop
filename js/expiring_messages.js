@@ -15,7 +15,7 @@
     // Load messages that have expired and destroy them
     const expired = new Whisper.MessageCollection();
     expired.on('add', async message => {
-      console.log('Message expired', {
+      window.log.info('Message expired', {
         sentAt: message.get('sent_at'),
       });
       const conversation = message.getConversation();
@@ -41,7 +41,10 @@
     const expiring = new Whisper.MessageCollection();
     expiring.once('add', next => {
       const expiresAt = next.get('expires_at');
-      console.log('next message expires', new Date(expiresAt).toISOString());
+      window.log.info(
+        'next message expires',
+        new Date(expiresAt).toISOString()
+      );
 
       let wait = expiresAt - Date.now();
 

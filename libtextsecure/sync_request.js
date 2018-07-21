@@ -19,15 +19,15 @@
     this.ongroup = this.onGroupSyncComplete.bind(this);
     receiver.addEventListener('groupsync', this.ongroup);
 
-    console.log('SyncRequest created. Sending contact sync message...');
+    window.log.info('SyncRequest created. Sending contact sync message...');
     sender
       .sendRequestContactSyncMessage()
       .then(function() {
-        console.log('SyncRequest now sending group sync messsage...');
+        window.log.info('SyncRequest now sending group sync messsage...');
         return sender.sendRequestGroupSyncMessage();
       })
       .catch(function(error) {
-        console.log(
+        window.log.error(
           'SyncRequest error:',
           error && error.stack ? error.stack : error
         );

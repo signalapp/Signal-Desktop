@@ -35,8 +35,11 @@ ProtoParser.prototype = {
       }
 
       return proto;
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      window.log.error(
+        'ProtoParser.next error:',
+        error && error.stack ? error.stack : error
+      );
     }
   },
 };
