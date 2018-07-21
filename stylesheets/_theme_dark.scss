@@ -747,8 +747,8 @@ body.dark-theme {
 
   .module-message__send-message-button {
     color: $color-signal-blue;
-    background-color: $color-light-02;
-    border: 1px solid $color-black-012;
+    background-color: $color-dark-70;
+    border: 1px solid $color-dark-60;
   }
 
   .module-message__author-default-avatar--grey {
@@ -1012,8 +1012,12 @@ body.dark-theme {
     @include color-svg('../images/chat-bubble.svg', white);
   }
 
+  .module-contact-detail__additional-contact {
+    border-top: 1px solid $color-dark-70;
+  }
+
   .module-contact-detail__additional-contact__type {
-    color: rgba(0, 0, 0, 0.5);
+    color: $color-light-45;
   }
 
   // Module: Group Notification

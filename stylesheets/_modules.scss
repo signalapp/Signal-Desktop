@@ -1114,13 +1114,13 @@
 
 .module-contact-detail__additional-contact {
   text-align: left;
-  border-top: 1px solid $grey_l1_5;
+  border-top: 1px solid $color-light-10;
   margin-top: 15px;
   padding-top: 8px;
 }
 
 .module-contact-detail__additional-contact__type {
-  color: rgba(0, 0, 0, 0.5);
+  color: $color-light-45;
   font-size: 12px;
   margin-bottom: 3px;
 }
