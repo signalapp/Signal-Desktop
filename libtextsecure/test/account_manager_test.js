@@ -1,30 +1,28 @@
-'use strict';
-
-describe('AccountManager', function() {
+describe('AccountManager', () => {
   let accountManager;
 
-  beforeEach(function() {
+  beforeEach(() => {
     accountManager = new window.textsecure.AccountManager();
   });
 
-  describe('#cleanSignedPreKeys', function() {
+  describe('#cleanSignedPreKeys', () => {
     let originalProtocolStorage;
     let signedPreKeys;
     const DAY = 1000 * 60 * 60 * 24;
 
-    beforeEach(function() {
+    beforeEach(() => {
       originalProtocolStorage = window.textsecure.storage.protocol;
       window.textsecure.storage.protocol = {
-        loadSignedPreKeys: function() {
+        loadSignedPreKeys() {
           return Promise.resolve(signedPreKeys);
         },
       };
     });
-    afterEach(function() {
+    afterEach(() => {
       window.textsecure.storage.protocol = originalProtocolStorage;
     });
 
-    it('keeps three confirmed keys even if over a week old', function() {
+    it('keeps three confirmed keys even if over a week old', () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -48,7 +46,7 @@ describe('AccountManager', function() {
       return accountManager.cleanSignedPreKeys();
     });
 
-    it('eliminates confirmed keys over a week old, if more than three', function() {
+    it('eliminates confirmed keys over a week old, if more than three', () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -81,18 +79,18 @@ describe('AccountManager', function() {
       let count = 0;
       window.textsecure.storage.protocol.removeSignedPreKey = function(keyId) {
         if (keyId !== 1 && keyId !== 4) {
-          throw new Error('Wrong keys were eliminated! ' + keyId);
+          throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
         count++;
       };
 
-      return accountManager.cleanSignedPreKeys().then(function() {
+      return accountManager.cleanSignedPreKeys().then(() => {
         assert.strictEqual(count, 2);
       });
     });
 
-    it('keeps at least three unconfirmed keys if no confirmed', function() {
+    it('keeps at least three unconfirmed keys if no confirmed', () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -116,18 +114,18 @@ describe('AccountManager', function() {
       let count = 0;
       window.textsecure.storage.protocol.removeSignedPreKey = function(keyId) {
         if (keyId !== 2) {
-          throw new Error('Wrong keys were eliminated! ' + keyId);
+          throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
         count++;
       };
 
-      return accountManager.cleanSignedPreKeys().then(function() {
+      return accountManager.cleanSignedPreKeys().then(() => {
         assert.strictEqual(count, 1);
       });
     });
 
-    it('if some confirmed keys, keeps unconfirmed to addd up to three total', function() {
+    it('if some confirmed keys, keeps unconfirmed to addd up to three total', () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -153,13 +151,13 @@ describe('AccountManager', function() {
       let count = 0;
       window.textsecure.storage.protocol.removeSignedPreKey = function(keyId) {
         if (keyId !== 3) {
-          throw new Error('Wrong keys were eliminated! ' + keyId);
+          throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
         count++;
       };
 
-      return accountManager.cleanSignedPreKeys().then(function() {
+      return accountManager.cleanSignedPreKeys().then(() => {
         assert.strictEqual(count, 1);
       });
     });

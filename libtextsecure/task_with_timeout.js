@@ -1,31 +1,34 @@
+/* global window */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   window.textsecure = window.textsecure || {};
 
-  window.textsecure.createTaskWithTimeout = function(task, id, options) {
-    options = options || {};
-    options.timeout = options.timeout || 1000 * 60 * 2; // two minutes
+  window.textsecure.createTaskWithTimeout = (task, id, options = {}) => {
+    const timeout = options.timeout || 1000 * 60 * 2; // two minutes
 
-    var errorForStack = new Error('for stack');
-    return function() {
-      return new Promise(function(resolve, reject) {
-        var complete = false;
-        var timer = setTimeout(
-          function() {
-            if (!complete) {
-              var message =
-                (id || '') +
-                ' task did not complete in time. Calling stack: ' +
-                errorForStack.stack;
+    const errorForStack = new Error('for stack');
+    return () =>
+      new Promise((resolve, reject) => {
+        let complete = false;
+        let timer = setTimeout(() => {
+          if (!complete) {
+            const message = `${id ||
+              ''} task did not complete in time. Calling stack: ${
+              errorForStack.stack
+            }`;
 
-              window.log.error(message);
-              return reject(new Error(message));
-            }
-          }.bind(this),
-          options.timeout
-        );
-        var clearTimer = function() {
+            window.log.error(message);
+            return reject(new Error(message));
+          }
+
+          return null;
+        }, timeout);
+        const clearTimer = () => {
           try {
-            var localTimer = timer;
+            const localTimer = timer;
             if (localTimer) {
               timer = null;
               clearTimeout(localTimer);
@@ -39,18 +42,18 @@
           }
         };
 
-        var success = function(result) {
+        const success = result => {
           clearTimer();
           complete = true;
           return resolve(result);
         };
-        var failure = function(error) {
+        const failure = error => {
           clearTimer();
           complete = true;
           return reject(error);
         };
 
-        var promise;
+        let promise;
         try {
           promise = task();
         } catch (error) {
@@ -65,6 +68,5 @@
 
         return promise.then(success, failure);
       });
-    };
   };
 })();

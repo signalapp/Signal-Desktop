@@ -1,8 +1,9 @@
-(function() {
-  'use strict';
+/* global window */
 
-  var registeredFunctions = {};
-  var Type = {
+// eslint-disable-next-line func-names
+(function() {
+  const registeredFunctions = {};
+  const Type = {
     ENCRYPT_MESSAGE: 1,
     INIT_SESSION: 2,
     TRANSMIT_MESSAGE: 3,
@@ -11,13 +12,14 @@
   };
   window.textsecure = window.textsecure || {};
   window.textsecure.replay = {
-    Type: Type,
-    registerFunction: function(func, functionCode) {
+    Type,
+    registerFunction(func, functionCode) {
       registeredFunctions[functionCode] = func;
     },
   };
 
   function inherit(Parent, Child) {
+    // eslint-disable-next-line no-param-reassign
     Child.prototype = Object.create(Parent.prototype, {
       constructor: {
         value: Child,
@@ -27,11 +29,11 @@
     });
   }
   function appendStack(newError, originalError) {
-    newError.stack += '\nOriginal stack:\n' + originalError.stack;
+    // eslint-disable-next-line no-param-reassign
+    newError.stack += `\nOriginal stack:\n${originalError.stack}`;
   }
 
-  function ReplayableError(options) {
-    options = options || {};
+  function ReplayableError(options = {}) {
     this.name = options.name || 'ReplayableError';
     this.message = options.message;
 
@@ -48,13 +50,13 @@
   }
   inherit(Error, ReplayableError);
 
-  ReplayableError.prototype.replay = function() {
-    var argumentsAsArray = Array.prototype.slice.call(arguments, 0);
-    var args = this.args.concat(argumentsAsArray);
+  ReplayableError.prototype.replay = function replay(...argumentsAsArray) {
+    const args = this.args.concat(argumentsAsArray);
     return registeredFunctions[this.functionCode].apply(window, args);
   };
 
   function IncomingIdentityKeyError(number, message, key) {
+    // eslint-disable-next-line prefer-destructuring
     this.number = number.split('.')[0];
     this.identityKey = key;
 
@@ -62,12 +64,13 @@
       functionCode: Type.INIT_SESSION,
       args: [number, message],
       name: 'IncomingIdentityKeyError',
-      message: 'The identity of ' + this.number + ' has changed.',
+      message: `The identity of ${this.number} has changed.`,
     });
   }
   inherit(ReplayableError, IncomingIdentityKeyError);
 
   function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
+    // eslint-disable-next-line prefer-destructuring
     this.number = number.split('.')[0];
     this.identityKey = identityKey;
 
@@ -75,7 +78,7 @@
       functionCode: Type.ENCRYPT_MESSAGE,
       args: [number, message, timestamp],
       name: 'OutgoingIdentityKeyError',
-      message: 'The identity of ' + this.number + ' has changed.',
+      message: `The identity of ${this.number} has changed.`,
     });
   }
   inherit(ReplayableError, OutgoingIdentityKeyError);

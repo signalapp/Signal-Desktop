@@ -1,5 +1,9 @@
+/* global Event, textsecure, window */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
-  'use strict';
   window.textsecure = window.textsecure || {};
 
   function SyncRequest(sender, receiver) {
@@ -22,11 +26,11 @@
     window.log.info('SyncRequest created. Sending contact sync message...');
     sender
       .sendRequestContactSyncMessage()
-      .then(function() {
+      .then(() => {
         window.log.info('SyncRequest now sending group sync messsage...');
         return sender.sendRequestGroupSyncMessage();
       })
-      .catch(function(error) {
+      .catch(error => {
         window.log.error(
           'SyncRequest error:',
           error && error.stack ? error.stack : error
@@ -38,21 +42,21 @@
   SyncRequest.prototype = new textsecure.EventTarget();
   SyncRequest.prototype.extend({
     constructor: SyncRequest,
-    onContactSyncComplete: function() {
+    onContactSyncComplete() {
       this.contactSync = true;
       this.update();
     },
-    onGroupSyncComplete: function() {
+    onGroupSyncComplete() {
       this.groupSync = true;
       this.update();
     },
-    update: function() {
+    update() {
       if (this.contactSync && this.groupSync) {
         this.dispatchEvent(new Event('success'));
         this.cleanup();
       }
     },
-    onTimeout: function() {
+    onTimeout() {
       if (this.contactSync || this.groupSync) {
         this.dispatchEvent(new Event('success'));
       } else {
@@ -60,7 +64,7 @@
       }
       this.cleanup();
     },
-    cleanup: function() {
+    cleanup() {
       clearTimeout(this.timeout);
       this.receiver.removeEventListener('contactsync', this.oncontact);
       this.receiver.removeEventListener('groupSync', this.ongroup);
@@ -68,8 +72,8 @@
     },
   });
 
-  textsecure.SyncRequest = function(sender, receiver) {
-    var syncRequest = new SyncRequest(sender, receiver);
+  textsecure.SyncRequest = function SyncRequestWrapper(sender, receiver) {
+    const syncRequest = new SyncRequest(sender, receiver);
     this.addEventListener = syncRequest.addEventListener.bind(syncRequest);
     this.removeEventListener = syncRequest.removeEventListener.bind(
       syncRequest

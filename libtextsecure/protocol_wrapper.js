@@ -1,5 +1,7 @@
+/* global window, textsecure, SignalProtocolStore, libsignal */
+
+// eslint-disable-next-line func-names
 (function() {
-  'use strict';
   window.textsecure = window.textsecure || {};
   window.textsecure.storage = window.textsecure.storage || {};
 

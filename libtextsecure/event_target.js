@@ -1,27 +1,29 @@
+/* global window, Event, textsecure */
+
 /*
  * Implements EventTarget
  * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
  */
+// eslint-disable-next-line func-names
 (function() {
-  'use strict';
   window.textsecure = window.textsecure || {};
 
   function EventTarget() {}
 
   EventTarget.prototype = {
     constructor: EventTarget,
-    dispatchEvent: function(ev) {
+    dispatchEvent(ev) {
       if (!(ev instanceof Event)) {
         throw new Error('Expects an event');
       }
       if (this.listeners === null || typeof this.listeners !== 'object') {
         this.listeners = {};
       }
-      var listeners = this.listeners[ev.type];
-      var results = [];
+      const listeners = this.listeners[ev.type];
+      const results = [];
       if (typeof listeners === 'object') {
-        for (var i = 0, max = listeners.length; i < max; i += 1) {
-          var listener = listeners[i];
+        for (let i = 0, max = listeners.length; i < max; i += 1) {
+          const listener = listeners[i];
           if (typeof listener === 'function') {
             results.push(listener.call(null, ev));
           }
@@ -29,7 +31,7 @@
       }
       return results;
     },
-    addEventListener: function(eventName, callback) {
+    addEventListener(eventName, callback) {
       if (typeof eventName !== 'string') {
         throw new Error('First argument expects a string');
       }
@@ -39,14 +41,14 @@
       if (this.listeners === null || typeof this.listeners !== 'object') {
         this.listeners = {};
       }
-      var listeners = this.listeners[eventName];
+      let listeners = this.listeners[eventName];
       if (typeof listeners !== 'object') {
         listeners = [];
       }
       listeners.push(callback);
       this.listeners[eventName] = listeners;
     },
-    removeEventListener: function(eventName, callback) {
+    removeEventListener(eventName, callback) {
       if (typeof eventName !== 'string') {
         throw new Error('First argument expects a string');
       }
@@ -56,9 +58,9 @@
       if (this.listeners === null || typeof this.listeners !== 'object') {
         this.listeners = {};
       }
-      var listeners = this.listeners[eventName];
+      const listeners = this.listeners[eventName];
       if (typeof listeners === 'object') {
-        for (var i = 0; i < listeners.length; ++i) {
+        for (let i = 0; i < listeners.length; i += 1) {
           if (listeners[i] === callback) {
             listeners.splice(i, 1);
             return;
@@ -67,8 +69,9 @@
       }
       this.listeners[eventName] = listeners;
     },
-    extend: function(obj) {
-      for (var prop in obj) {
+    extend(obj) {
+      // eslint-disable-next-line no-restricted-syntax, guard-for-in
+      for (const prop in obj) {
         this[prop] = obj[prop];
       }
       return this;

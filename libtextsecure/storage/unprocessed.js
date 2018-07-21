@@ -1,23 +1,24 @@
-(function() {
-  'use strict';
+/* global window, textsecure */
 
-  /*****************************************
+// eslint-disable-next-line func-names
+(function() {
+  /** ***************************************
    *** Not-yet-processed message storage ***
-   *****************************************/
+   **************************************** */
   window.textsecure = window.textsecure || {};
   window.textsecure.storage = window.textsecure.storage || {};
 
   window.textsecure.storage.unprocessed = {
-    getAll: function() {
+    getAll() {
       return textsecure.storage.protocol.getAllUnprocessed();
     },
-    add: function(data) {
+    add(data) {
       return textsecure.storage.protocol.addUnprocessed(data);
     },
-    update: function(id, updates) {
+    update(id, updates) {
       return textsecure.storage.protocol.updateUnprocessed(id, updates);
     },
-    remove: function(id) {
+    remove(id) {
       return textsecure.storage.protocol.removeUnprocessed(id);
     },
   };

@@ -4,7 +4,7 @@ coverage/**
 dist/**
 
 # these aren't ready yet, pulling files in one-by-one
-libtextsecure/**
+libtextsecure/test/*.js
 test/*.js
 test/models/*.js
 test/views/*.js

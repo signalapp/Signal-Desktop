@@ -1,35 +1,31 @@
+/* global window, dcodeIO, textsecure */
+
+// eslint-disable-next-line func-names
 (function() {
-  'use strict';
   window.textsecure = window.textsecure || {};
   window.textsecure.protobuf = {};
 
   function loadProtoBufs(filename) {
     return dcodeIO.ProtoBuf.loadProtoFile(
       { root: window.PROTO_ROOT, file: filename },
-      function(error, result) {
+      (error, result) => {
         if (error) {
-          var text =
-            'Error loading protos from ' +
-            filename +
-            ' (root: ' +
-            window.PROTO_ROOT +
-            ') ' +
-            (error && error.stack ? error.stack : error);
+          const text = `Error loading protos from ${filename} (root: ${
+            window.PROTO_ROOT
+          }) ${error && error.stack ? error.stack : error}`;
           window.log.error(text);
           throw error;
         }
-        var protos = result.build('signalservice');
+        const protos = result.build('signalservice');
         if (!protos) {
-          var text =
-            'Error loading protos from ' +
-            filename +
-            ' (root: ' +
-            window.PROTO_ROOT +
-            ')';
+          const text = `Error loading protos from ${filename} (root: ${
+            window.PROTO_ROOT
+          })`;
           window.log.error(text);
           throw new Error(text);
         }
-        for (var protoName in protos) {
+        // eslint-disable-next-line no-restricted-syntax, guard-for-in
+        for (const protoName in protos) {
           textsecure.protobuf[protoName] = protos[protoName];
         }
       }
