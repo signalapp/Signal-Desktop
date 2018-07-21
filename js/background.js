@@ -698,11 +698,6 @@
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
     if (!isValidExpireTimer) {
-      window.log.error(
-        'Ignore invalid expire timer.',
-        'Expected numeric `expireTimer`, got:',
-        expireTimer
-      );
       return;
     }
 
