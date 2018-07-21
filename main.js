@@ -24,6 +24,7 @@ const packageJson = require('./package.json');
 const Attachments = require('./app/attachments');
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
+const dockIcon = require('./app/dock_icon');
 const GlobalErrors = require('./js/modules/global_errors');
 const logging = require('./app/logging');
 const windowState = require('./app/window_state');
@@ -86,6 +87,9 @@ function showWindow() {
   if (tray) {
     tray.updateContextMenu();
   }
+
+  // show the app on the Dock in case it was hidden before
+  dockIcon.show();
 }
 
 if (!process.mas) {
@@ -333,6 +337,11 @@ function createWindow() {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
+      }
+
+      // hide the app from the Dock on macOS if the tray icon is enabled
+      if (usingTrayIcon) {
+        dockIcon.hide();
       }
     }
   });
