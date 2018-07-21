@@ -161,8 +161,9 @@
         // we use the variable on this here to ensure cleanup if we're interrupted
         this.previewObjectUrl = URL.createObjectURL(file);
         const type = 'image/png';
-        const thumbnail = await VisualAttachment.makeVideoScreenshot({
-          objectUrl: this.previewObjectUrl,
+        const thumbnail = await VisualAttachment.makeVideoThumbnail({
+          size: 100,
+          videoObjectUrl: this.previewObjectUrl,
           contentType: type,
           logger: window.log,
         });
@@ -171,7 +172,7 @@
         const data = await VisualAttachment.blobToArrayBuffer(thumbnail);
         this.previewObjectUrl = Signal.Util.arrayBufferToObjectURL({
           data,
-          type: 'image/png',
+          type,
         });
         this.addThumb(this.previewObjectUrl, { addPlayIcon: true });
       };

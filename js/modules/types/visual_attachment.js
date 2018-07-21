@@ -98,33 +98,41 @@ exports.makeVideoScreenshot = ({
 
     video.addEventListener('canplay', capture);
     video.addEventListener('error', error => {
-      logger.error('makeVideoThumbnail error', toLogFormat(error));
+      logger.error('makeVideoScreenshot error', toLogFormat(error));
       reject(error);
     });
 
     video.src = objectUrl;
   });
 
-exports.makeVideoThumbnail = async ({ size, videoObjectUrl, logger }) => {
+exports.makeVideoThumbnail = async ({
+  size,
+  videoObjectUrl,
+  logger,
+  contentType,
+}) => {
   let screenshotObjectUrl;
   try {
-    const type = 'image/png';
     const blob = await exports.makeVideoScreenshot({
       objectUrl: videoObjectUrl,
-      contentType: type,
+      contentType,
       logger,
     });
     const data = await blobToArrayBuffer(blob);
     screenshotObjectUrl = arrayBufferToObjectURL({
       data,
-      type,
+      type: contentType,
     });
 
-    return exports.makeImageThumbnail({
+    // We need to wait for this, otherwise the finally below will run first
+    const resultBlob = await exports.makeImageThumbnail({
       size,
       objectUrl: screenshotObjectUrl,
+      contentType,
       logger,
     });
+
+    return resultBlob;
   } finally {
     exports.revokeObjectUrl(screenshotObjectUrl);
   }
