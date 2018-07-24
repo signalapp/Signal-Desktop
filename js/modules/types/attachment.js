@@ -158,26 +158,28 @@ exports.loadData = readAttachmentData => {
 //      deleteData :: (RelativePath -> IO Unit)
 //                    Attachment ->
 //                    IO Unit
-exports.deleteData = deleteAttachmentData => {
-  if (!is.function(deleteAttachmentData)) {
-    throw new TypeError("'deleteAttachmentData' must be a function");
+exports.deleteData = deleteOnDisk => {
+  if (!is.function(deleteOnDisk)) {
+    throw new TypeError('deleteData: deleteOnDisk must be a function');
   }
 
   return async attachment => {
     if (!exports.isValid(attachment)) {
-      throw new TypeError("'attachment' is not valid");
+      throw new TypeError('deleteData: attachment is not valid');
     }
 
-    const hasDataInMemory = exports.hasData(attachment);
-    if (hasDataInMemory) {
-      return;
+    const { path, thumbnail, screenshot } = attachment;
+    if (is.string(path)) {
+      await deleteOnDisk(path);
     }
 
-    if (!is.string(attachment.path)) {
-      throw new TypeError("'attachment.path' is required");
+    if (thumbnail && is.string(thumbnail.path)) {
+      await deleteOnDisk(thumbnail.path);
     }
 
-    await deleteAttachmentData(attachment.path);
+    if (screenshot && is.string(screenshot.path)) {
+      await deleteOnDisk(screenshot.path);
+    }
   };
 };
 

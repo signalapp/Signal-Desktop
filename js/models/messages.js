@@ -20,8 +20,7 @@
 
   const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
   const {
-    // loadAttachmentData,
-    deleteAttachmentData,
+    deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
   } = Signal.Migrations;
 
@@ -69,7 +68,6 @@
 
       this.OUR_NUMBER = textsecure.storage.user.getNumber();
 
-      this.on('change:attachments', this.updateImageUrl);
       this.on('destroy', this.onDestroy);
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
@@ -223,54 +221,15 @@
 
       return '';
     },
-    async onDestroy() {
-      this.revokeImageUrl();
-      const attachments = this.get('attachments');
-      await Promise.all(attachments.map(deleteAttachmentData));
-    },
-    updateImageUrl() {
-      this.revokeImageUrl();
-      const attachment = this.get('attachments')[0];
-      if (attachment) {
-        const blob = new Blob([attachment.data], {
-          type: attachment.contentType,
-        });
-        this.imageUrl = URL.createObjectURL(blob);
-      } else {
-        this.imageUrl = null;
-      }
+    onDestroy() {
+      this.unload();
+
+      return deleteExternalMessageFiles(this.attributes);
     },
     unload() {
-      if (this.quoteThumbnail) {
-        URL.revokeObjectURL(this.quoteThumbnail.objectUrl);
-        this.quoteThumbnail = null;
-      }
       if (this.quotedMessage) {
         this.quotedMessage = null;
       }
-      const quote = this.get('quote');
-      const attachments = (quote && quote.attachments) || [];
-      attachments.forEach(attachment => {
-        if (attachment.thumbnail && attachment.thumbnail.objectUrl) {
-          URL.revokeObjectURL(attachment.thumbnail.objectUrl);
-          // eslint-disable-next-line no-param-reassign
-          attachment.thumbnail.objectUrl = null;
-        }
-      });
-
-      this.revokeImageUrl();
-    },
-    revokeImageUrl() {
-      if (this.imageUrl) {
-        URL.revokeObjectURL(this.imageUrl);
-        this.imageUrl = null;
-      }
-    },
-    getImageUrl() {
-      if (this.imageUrl === undefined) {
-        this.updateImageUrl();
-      }
-      return this.imageUrl;
     },
     getQuoteObjectUrl() {
       const thumbnail = this.quoteThumbnail;

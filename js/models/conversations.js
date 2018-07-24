@@ -1769,7 +1769,6 @@
           Whisper.Notifications.add({
             conversationId,
             iconUrl,
-            imageUrl: message.getImageUrl(),
             isExpiringMessage,
             message: message.getNotificationText(),
             messageId,

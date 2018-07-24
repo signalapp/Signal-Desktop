@@ -361,6 +361,52 @@ exports.createAttachmentLoader = loadAttachmentData => {
     });
 };
 
+exports.deleteAllExternalFiles = ({ deleteAttachmentData, deleteOnDisk }) => {
+  if (!isFunction(deleteAttachmentData)) {
+    throw new TypeError(
+      'deleteAllExternalFiles: deleteAttachmentData must be a function'
+    );
+  }
+
+  if (!isFunction(deleteOnDisk)) {
+    throw new TypeError(
+      'deleteAllExternalFiles: deleteOnDisk must be a function'
+    );
+  }
+
+  return async message => {
+    const { attachments, quote, contact } = message;
+
+    if (attachments && attachments.length) {
+      await Promise.all(attachments.map(deleteAttachmentData));
+    }
+
+    if (quote && quote.attachments && quote.attachments.length) {
+      await Promise.all(
+        quote.attachments.map(async attachment => {
+          const { thumbnail } = attachment;
+
+          if (thumbnail.path) {
+            await deleteOnDisk(thumbnail.path);
+          }
+        })
+      );
+    }
+
+    if (contact && contact.length) {
+      await Promise.all(
+        contact.map(async item => {
+          const { avatar } = item;
+
+          if (avatar && avatar.avatar && avatar.avatar.path) {
+            await deleteOnDisk(avatar.avatar.path);
+          }
+        })
+      );
+    }
+  };
+};
+
 //      createAttachmentDataWriter :: (RelativePath -> IO Unit)
 //                                    Message ->
 //                                    IO (Promise Message)

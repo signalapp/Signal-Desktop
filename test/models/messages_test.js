@@ -27,27 +27,13 @@
   var source = '+14155555555';
 
   describe('MessageCollection', function() {
-    before(function() {
-      return Promise.all([deleteAllMessages(), ConversationController.load()]);
+    before(async function() {
+      await deleteAllMessages();
+      ConversationController.reset();
+      await ConversationController.load();
     });
     after(function() {
       return deleteAllMessages();
-    });
-
-    it('has no image url', function() {
-      var messages = new Whisper.MessageCollection();
-      var message = messages.add(attributes);
-      assert.isNull(message.getImageUrl());
-    });
-
-    it('updates image url', function() {
-      var messages = new Whisper.MessageCollection();
-      var message = messages.add({ attachments: [attachment] });
-
-      var firstUrl = message.getImageUrl();
-      message.updateImageUrl();
-      var secondUrl = message.getImageUrl();
-      assert.notEqual(secondUrl, firstUrl);
     });
 
     it('gets outgoing contact', function() {
