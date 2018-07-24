@@ -1255,6 +1255,10 @@
   @include color-svg('../images/timer.svg', $color-light-60);
 }
 
+.module-timer-notification__icon--disabled {
+  @include color-svg('../images/timer-disabled.svg', $color-light-60);
+}
+
 .module-timer-notification__icon-label {
   font-size: 11px;
   line-height: 16px;
