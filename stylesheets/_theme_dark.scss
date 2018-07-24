@@ -1071,6 +1071,10 @@ body.dark-theme {
     @include color-svg('../images/timer.svg', $color-dark-30);
   }
 
+  .module-timer-notification__icon--disabled {
+    @include color-svg('../images/timer-disabled.svg', $color-dark-30);
+  }
+
   // Module: Contact List Item
 
   .module-contact-list-item {

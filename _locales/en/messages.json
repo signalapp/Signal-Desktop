@@ -1367,10 +1367,30 @@
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
+  "disappearingMessagesDisabled": {
+    "message": "Disappearing messages disabled",
+    "description": "Displayed in the left pane when the timer is turned off"
+  },
+  "disabledDisappearingMessages": {
+    "message": "$name$ disabled disappearing messages",
+    "description":
+      "Displayed in the conversation list when the timer is turned off",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
+  },
+  "youDisabledDisappearingMessages": {
+    "message": "You disabled disappearing messages",
+    "description":
+      "Displayed in the conversation list when the timer is turned off"
+  },
   "timerSetTo": {
     "message": "Timer set to $time$",
     "description":
-      "Displayed in the conversation list when the timer is updated by some automatic action.",
+      "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
     "placeholders": {
       "time": {
         "content": "$1",
