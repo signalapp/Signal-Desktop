@@ -155,6 +155,9 @@
         }
 
         const messages = [];
+        if (!groupUpdate.name && !groupUpdate.joined) {
+          messages.push(i18n('updatedTheGroup'));
+        }
         if (groupUpdate.name) {
           messages.push(i18n('titleIsNow', groupUpdate.name));
         }
