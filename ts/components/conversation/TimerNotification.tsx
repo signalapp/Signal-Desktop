@@ -1,5 +1,5 @@
 import React from 'react';
-// import classNames from 'classnames';
+import classNames from 'classnames';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
@@ -12,20 +12,31 @@ interface Props {
   phoneNumber: string;
   profileName?: string;
   name?: string;
+  disabled: boolean;
   timespan: string;
   i18n: Localizer;
 }
 
 export class TimerNotification extends React.Component<Props> {
   public renderContents() {
-    const { i18n, name, phoneNumber, profileName, timespan, type } = this.props;
+    const {
+      i18n,
+      name,
+      phoneNumber,
+      profileName,
+      timespan,
+      type,
+      disabled,
+    } = this.props;
 
     switch (type) {
       case 'fromOther':
         return (
           <Intl
             i18n={i18n}
-            id="theyChangedTheTimer"
+            id={
+              disabled ? 'disabledDisappearingMessages' : 'theyChangedTheTimer'
+            }
             components={[
               <ContactName
                 i18n={i18n}
@@ -39,24 +50,35 @@ export class TimerNotification extends React.Component<Props> {
           />
         );
       case 'fromMe':
-        return i18n('youChangedTheTimer', [timespan]);
+        return disabled
+          ? i18n('youDisabledDisappearingMessages')
+          : i18n('youChangedTheTimer', [timespan]);
       case 'fromSync':
-        return i18n('timerSetOnSync', [timespan]);
+        return disabled
+          ? i18n('disappearingMessagesDisabled')
+          : i18n('timerSetOnSync', [timespan]);
       default:
         throw missingCaseError(type);
     }
   }
 
   public render() {
-    const { timespan } = this.props;
+    const { timespan, disabled } = this.props;
 
     return (
       <div className="module-timer-notification">
         <div className="module-timer-notification__icon-container">
-          <div className="module-timer-notification__icon" />
-          <div className="module-timer-notification__icon-label">
-            {timespan}
-          </div>
+          <div
+            className={classNames(
+              'module-timer-notification__icon',
+              disabled ? 'module-timer-notification__icon--disabled' : null
+            )}
+          />
+          {disabled ? null : (
+            <div className="module-timer-notification__icon-label">
+              {timespan}
+            </div>
+          )}
         </div>
         <div className="module-timer-notification__message">
           {this.renderContents()}

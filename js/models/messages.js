@@ -155,6 +155,9 @@
         }
 
         const messages = [];
+        if (!groupUpdate.name && !groupUpdate.joined) {
+          messages.push(i18n('updatedTheGroup'));
+        }
         if (groupUpdate.name) {
           messages.push(i18n('titleIsNow', groupUpdate.name));
         }
@@ -196,6 +199,10 @@
       }
       if (this.isExpirationTimerUpdate()) {
         const { expireTimer } = this.get('expirationTimerUpdate');
+        if (!expireTimer) {
+          return i18n('disappearingMessagesDisabled');
+        }
+
         return i18n(
           'timerSetTo',
           Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0)
@@ -305,11 +312,13 @@
         'expirationTimerUpdate'
       );
       const timespan = Whisper.ExpirationTimerOptions.getName(expireTimer || 0);
+      const disabled = !expireTimer;
 
       const basicProps = {
         type: 'fromOther',
         ...this.findAndFormatContact(source),
         timespan,
+        disabled,
       };
 
       if (source === this.OUR_NUMBER) {
