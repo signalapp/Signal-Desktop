@@ -83,17 +83,19 @@
 
   describe('Conversation', function() {
     var attributes = { type: 'private', id: '+18085555555' };
-    before(function(done) {
+    before(async () => {
       var convo = new Whisper.ConversationCollection().add(attributes);
-      convo.save().then(function() {
-        var message = convo.messageCollection.add({
-          body: 'hello world',
-          conversationId: convo.id,
-          type: 'outgoing',
-          sent_at: Date.now(),
-          received_at: Date.now(),
-        });
-        message.save().then(done);
+      await wrapDeferred(convo.save());
+
+      var message = convo.messageCollection.add({
+        body: 'hello world',
+        conversationId: convo.id,
+        type: 'outgoing',
+        sent_at: Date.now(),
+        received_at: Date.now(),
+      });
+      await window.Signal.Data.saveMessage(message.attributes, {
+        Message: Whisper.Message,
       });
     });
     after(clearDatabase);

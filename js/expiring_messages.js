@@ -3,7 +3,6 @@
 /* global i18n: false */
 /* global moment: false */
 /* global Whisper: false */
-/* global wrapDeferred: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -11,57 +10,62 @@
 
   window.Whisper = window.Whisper || {};
 
-  function destroyExpiredMessages() {
-    // Load messages that have expired and destroy them
-    const expired = new Whisper.MessageCollection();
-    expired.on('add', async message => {
-      window.log.info('Message expired', {
-        sentAt: message.get('sent_at'),
-      });
-      const conversation = message.getConversation();
-      if (conversation) {
-        conversation.trigger('expired', message);
-      }
-
-      // We delete after the trigger to allow the conversation time to process
-      //   the expiration before the message is removed from the database.
-      await wrapDeferred(message.destroy());
-      if (conversation) {
-        conversation.updateLastMessage();
-      }
+  async function destroyExpiredMessages() {
+    const messages = await window.Signal.Data.getExpiredMessages({
+      MessageCollection: Whisper.MessageCollection,
     });
-    expired.on('reset', throttledCheckExpiringMessages);
 
-    expired.fetchExpired();
+    await Promise.all(
+      messages.map(async message => {
+        window.log.info('Message expired', {
+          sentAt: message.get('sent_at'),
+        });
+
+        // We delete after the trigger to allow the conversation time to process
+        //   the expiration before the message is removed from the database.
+        await window.Signal.Data.removeMessage(message.id, {
+          Message: Whisper.Message,
+        });
+
+        const conversation = message.getConversation();
+        if (conversation) {
+          conversation.trigger('expired', message);
+        }
+      })
+    );
+
+    checkExpiringMessages();
   }
 
   let timeout;
-  function checkExpiringMessages() {
+  async function checkExpiringMessages() {
     // Look up the next expiring message and set a timer to destroy it
-    const expiring = new Whisper.MessageCollection();
-    expiring.once('add', next => {
-      const expiresAt = next.get('expires_at');
-      window.log.info(
-        'next message expires',
-        new Date(expiresAt).toISOString()
-      );
-
-      let wait = expiresAt - Date.now();
-
-      // In the past
-      if (wait < 0) {
-        wait = 0;
-      }
-
-      // Too far in the future, since it's limited to a 32-bit value
-      if (wait > 2147483647) {
-        wait = 2147483647;
-      }
-
-      clearTimeout(timeout);
-      timeout = setTimeout(destroyExpiredMessages, wait);
+    const messages = await window.Signal.Data.getNextExpiringMessage({
+      MessageCollection: Whisper.MessageCollection,
     });
-    expiring.fetchNextExpiring();
+
+    const next = messages.at(0);
+    if (!next) {
+      return;
+    }
+
+    const expiresAt = next.get('expires_at');
+    window.log.info('next message expires', new Date(expiresAt).toISOString());
+
+    let wait = expiresAt - Date.now();
+
+    // In the past
+    if (wait < 0) {
+      wait = 0;
+    }
+
+    // Too far in the future, since it's limited to a 32-bit value
+    if (wait > 2147483647) {
+      wait = 2147483647;
+    }
+
+    clearTimeout(timeout);
+    timeout = setTimeout(destroyExpiredMessages, wait);
   }
   const throttledCheckExpiringMessages = _.throttle(
     checkExpiringMessages,

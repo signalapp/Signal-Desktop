@@ -946,53 +946,33 @@
 
     // Not yet processed messages - for resiliency
     getAllUnprocessed() {
-      let collection;
-      return new Promise((resolve, reject) => {
-        collection = new UnprocessedCollection();
-        return collection.fetch().then(resolve, reject);
-      }).then(() =>
-        // Return a plain array of plain objects
-        collection.map(model => model.attributes)
-      );
+      return window.Signal.Data.getAllUnprocessed({ UnprocessedCollection });
     },
     addUnprocessed(data) {
-      return new Promise((resolve, reject) => {
-        const unprocessed = new Unprocessed(data);
-        return unprocessed.save().then(resolve, reject);
-      });
+      return window.Signal.Data.saveUnprocessed(data, { Unprocessed });
     },
     updateUnprocessed(id, updates) {
-      return new Promise((resolve, reject) => {
-        const unprocessed = new Unprocessed({
-          id,
-        });
-        return unprocessed
-          .fetch()
-          .then(() => unprocessed.save(updates).then(resolve, reject), reject);
-      });
+      return window.Signal.Data.updateUnprocessed(id, updates, { Unprocessed });
     },
     removeUnprocessed(id) {
-      return new Promise((resolve, reject) => {
-        const unprocessed = new Unprocessed({
-          id,
-        });
-        return unprocessed.destroy().then(resolve, reject);
-      });
+      return window.Signal.Data.removeUnprocessed(id, { Unprocessed });
     },
-    removeAllData() {
+    async removeAllData() {
       // First the in-memory caches:
       window.storage.reset(); // items store
       ConversationController.reset(); // conversations store
 
       // Then, the entire database:
-      return Whisper.Database.clear();
+      await Whisper.Database.clear();
+
+      await window.Signal.Data.removeAll();
     },
-    removeAllConfiguration() {
+    async removeAllConfiguration() {
       // First the in-memory cache for the items store:
       window.storage.reset();
 
       // Then anything in the database that isn't a message/conversation/group:
-      return Whisper.Database.clearStores([
+      await Whisper.Database.clearStores([
         'items',
         'identityKeys',
         'sessions',
@@ -1000,6 +980,8 @@
         'preKeys',
         'unprocessed',
       ]);
+
+      await window.Signal.Data.removeAllUnprocessed();
     },
   };
   _.extend(SignalProtocolStore.prototype, Backbone.Events);

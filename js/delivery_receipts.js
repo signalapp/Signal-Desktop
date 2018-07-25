@@ -27,74 +27,79 @@
       this.remove(receipts);
       return receipts;
     },
-    onReceipt(receipt) {
-      const messages = new Whisper.MessageCollection();
-      return messages
-        .fetchSentAt(receipt.get('timestamp'))
-        .then(() => {
-          if (messages.length === 0) {
-            return null;
-          }
-          const message = messages.find(
-            item =>
-              !item.isIncoming() &&
-              receipt.get('source') === item.get('conversationId')
-          );
-          if (message) {
-            return message;
-          }
+    async getTargetMessage(source, messages) {
+      if (messages.length === 0) {
+        return null;
+      }
+      const message = messages.find(
+        item => !item.isIncoming() && source === item.get('conversationId')
+      );
+      if (message) {
+        return message;
+      }
 
-          const groups = new Whisper.GroupCollection();
-          return groups.fetchGroups(receipt.get('source')).then(() => {
-            const ids = groups.pluck('id');
-            ids.push(receipt.get('source'));
-            return messages.find(
-              item =>
-                !item.isIncoming() &&
-                _.contains(ids, item.get('conversationId'))
-            );
-          });
-        })
-        .then(message => {
-          if (message) {
-            const deliveries = message.get('delivered') || 0;
-            const deliveredTo = message.get('delivered_to') || [];
-            return new Promise((resolve, reject) => {
-              message
-                .save({
-                  delivered_to: _.union(deliveredTo, [receipt.get('source')]),
-                  delivered: deliveries + 1,
-                })
-                .then(() => {
-                  // notify frontend listeners
-                  const conversation = ConversationController.get(
-                    message.get('conversationId')
-                  );
-                  if (conversation) {
-                    conversation.trigger('delivered', message);
-                  }
+      const groups = new Whisper.GroupCollection();
+      await groups.fetchGroups(source);
 
-                  this.remove(receipt);
-                  resolve();
-                }, reject);
-            });
-            // TODO: consider keeping a list of numbers we've
-            // successfully delivered to?
+      const ids = groups.pluck('id');
+      ids.push(source);
+
+      return messages.find(
+        item =>
+          !item.isIncoming() && _.contains(ids, item.get('conversationId'))
+      );
+    },
+    async onReceipt(receipt) {
+      try {
+        const messages = await window.Signal.Data.getMessagesBySentAt(
+          receipt.get('timestamp'),
+          {
+            MessageCollection: Whisper.MessageCollection,
           }
+        );
+
+        const message = await this.getTargetMessage(
+          receipt.get('source'),
+          messages
+        );
+        if (!message) {
           window.log.info(
             'No message for delivery receipt',
             receipt.get('source'),
             receipt.get('timestamp')
           );
+          return;
+        }
 
-          return null;
-        })
-        .catch(error => {
-          window.log.error(
-            'DeliveryReceipts.onReceipt error:',
-            error && error.stack ? error.stack : error
-          );
+        const deliveries = message.get('delivered') || 0;
+        const deliveredTo = message.get('delivered_to') || [];
+
+        message.set({
+          delivered_to: _.union(deliveredTo, [receipt.get('source')]),
+          delivered: deliveries + 1,
         });
+
+        await window.Signal.Data.saveMessage(message.attributes, {
+          Message: Whisper.Message,
+        });
+        // notify frontend listeners
+        const conversation = ConversationController.get(
+          message.get('conversationId')
+        );
+        if (conversation) {
+          conversation.trigger('delivered', message);
+        }
+
+        this.remove(receipt);
+
+        // TODO: consider keeping a list of numbers we've
+        // successfully delivered to?
+      } catch (error) {
+        window.log.error(
+          'DeliveryReceipts.onReceipt error:',
+          error && error.stack ? error.stack : error
+        );
+      }
     },
   }))();
 })();

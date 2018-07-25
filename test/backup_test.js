@@ -553,7 +553,13 @@ describe('Backup', () => {
         const message = await upgradeMessageSchema(messageWithAttachments);
         console.log({ message });
         const messageModel = new Whisper.Message(message);
-        await window.wrapDeferred(messageModel.save());
+        const id = await window.Signal.Data.saveMessage(
+          messageModel.attributes,
+          {
+            Message: Whisper.Message,
+          }
+        );
+        messageModel.set({ id });
 
         const conversation = {
           active_at: 1524185933350,

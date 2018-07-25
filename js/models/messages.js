@@ -112,30 +112,19 @@
     isUnread() {
       return !!this.get('unread');
     },
-    // overriding this to allow for this.unset('unread'), save to db, then fetch()
-    // to propagate. We don't want the unset key in the db so our unread index stays
-    // small.
-    /* eslint-disable */
-    fetch(options) {
-      options = options ? _.clone(options) : {};
-      if (options.parse === void 0) options.parse = true;
-      const model = this;
-      const success = options.success;
-      options.success = function(resp) {
-        model.attributes = {}; // this is the only changed line
-        if (!model.set(model.parse(resp, options), options)) return false;
-        if (success) success(model, resp, options);
-        model.trigger('sync', model, resp, options);
-      };
-      const error = options.error;
-      options.error = function(resp) {
-        if (error) error(model, resp, options);
-        model.trigger('error', model, resp, options);
-      };
-      return this.sync('read', this, options);
+    // Important to allow for this.unset('unread'), save to db, then fetch()
+    // to propagate. We don't want the unset key in the db so our unread index
+    // stays small.
+    merge(model) {
+      const attributes = model.attributes || model;
+
+      const { unread } = attributes;
+      if (typeof unread === 'undefined') {
+        this.unset('unread');
+      }
+
+      this.set(attributes);
     },
-    /* eslint-enable */
-    /* eslint-disable more/no-then */
     getNameForNumber(number) {
       const conversation = ConversationController.get(number);
       if (!conversation) {
@@ -728,17 +717,21 @@
     send(promise) {
       this.trigger('pending');
       return promise
-        .then(result => {
+        .then(async result => {
           const now = Date.now();
           this.trigger('done');
           if (result.dataMessage) {
             this.set({ dataMessage: result.dataMessage });
           }
           const sentTo = this.get('sent_to') || [];
-          this.save({
+          this.set({
             sent_to: _.union(sentTo, result.successfulNumbers),
             sent: true,
             expirationStartTimestamp: now,
+          });
+
+          await window.Signal.Data.saveMessage(this.attributes, {
+            Message: Whisper.Message,
           });
           this.trigger('sent', this);
           this.sendSyncMessage();
@@ -821,12 +814,18 @@
             this.get('expirationStartTimestamp')
           )
           .then(() => {
-            this.save({ synced: true, dataMessage: null });
+            this.set({
+              synced: true,
+              dataMessage: null,
+            });
+            return window.Signal.Data.saveMessage(this.attributes, {
+              Message: Whisper.Message,
+            });
           });
       });
     },
 
-    saveErrors(providedErrors) {
+    async saveErrors(providedErrors) {
       let errors = providedErrors;
 
       if (!(errors instanceof Array)) {
@@ -851,7 +850,10 @@
       });
       errors = errors.concat(this.get('errors') || []);
 
-      return this.save({ errors });
+      this.set({ errors });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
     },
 
     hasNetworkError() {
@@ -911,290 +913,283 @@
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
-      return conversation.queueJob(
-        () =>
-          new Promise(resolve => {
-            const now = new Date().getTime();
-            let attributes = { type: 'private' };
-            if (dataMessage.group) {
-              let groupUpdate = null;
+      return conversation.queueJob(async () => {
+        try {
+          const now = new Date().getTime();
+          let attributes = { type: 'private' };
+          if (dataMessage.group) {
+            let groupUpdate = null;
+            attributes = {
+              type: 'group',
+              groupId: dataMessage.group.id,
+            };
+            if (dataMessage.group.type === GROUP_TYPES.UPDATE) {
               attributes = {
                 type: 'group',
                 groupId: dataMessage.group.id,
-              };
-              if (dataMessage.group.type === GROUP_TYPES.UPDATE) {
-                attributes = {
-                  type: 'group',
-                  groupId: dataMessage.group.id,
-                  name: dataMessage.group.name,
-                  avatar: dataMessage.group.avatar,
-                  members: _.union(
-                    dataMessage.group.members,
-                    conversation.get('members')
-                  ),
-                };
-                groupUpdate =
-                  conversation.changedAttributes(
-                    _.pick(dataMessage.group, 'name', 'avatar')
-                  ) || {};
-                const difference = _.difference(
-                  attributes.members,
+                name: dataMessage.group.name,
+                avatar: dataMessage.group.avatar,
+                members: _.union(
+                  dataMessage.group.members,
                   conversation.get('members')
-                );
-                if (difference.length > 0) {
-                  groupUpdate.joined = difference;
-                }
-                if (conversation.get('left')) {
-                  window.log.warn('re-added to a left group');
-                  attributes.left = false;
-                }
-              } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
-                if (source === textsecure.storage.user.getNumber()) {
-                  attributes.left = true;
-                  groupUpdate = { left: 'You' };
-                } else {
-                  groupUpdate = { left: source };
-                }
-                attributes.members = _.without(
-                  conversation.get('members'),
-                  source
-                );
-              }
-
-              if (groupUpdate !== null) {
-                message.set({ group_update: groupUpdate });
-              }
-            }
-            message.set({
-              attachments: dataMessage.attachments,
-              body: dataMessage.body,
-              contact: dataMessage.contact,
-              conversationId: conversation.id,
-              decrypted_at: now,
-              errors: [],
-              flags: dataMessage.flags,
-              hasAttachments: dataMessage.hasAttachments,
-              hasFileAttachments: dataMessage.hasFileAttachments,
-              hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
-              quote: dataMessage.quote,
-              schemaVersion: dataMessage.schemaVersion,
-            });
-            if (type === 'outgoing') {
-              const receipts = Whisper.DeliveryReceipts.forMessage(
-                conversation,
-                message
+                ),
+              };
+              groupUpdate =
+                conversation.changedAttributes(
+                  _.pick(dataMessage.group, 'name', 'avatar')
+                ) || {};
+              const difference = _.difference(
+                attributes.members,
+                conversation.get('members')
               );
-              receipts.forEach(() =>
-                message.set({
-                  delivered: (message.get('delivered') || 0) + 1,
-                })
-              );
-            }
-            attributes.active_at = now;
-            conversation.set(attributes);
-
-            if (message.isExpirationTimerUpdate()) {
-              message.set({
-                expirationTimerUpdate: {
-                  source,
-                  expireTimer: dataMessage.expireTimer,
-                },
-              });
-              conversation.set({ expireTimer: dataMessage.expireTimer });
-            } else if (dataMessage.expireTimer) {
-              message.set({ expireTimer: dataMessage.expireTimer });
-            }
-
-            // NOTE: Remove once the above uses
-            // `Conversation::updateExpirationTimer`:
-            const { expireTimer } = dataMessage;
-            const shouldLogExpireTimerChange =
-              message.isExpirationTimerUpdate() || expireTimer;
-            if (shouldLogExpireTimerChange) {
-              window.log.info("Update conversation 'expireTimer'", {
-                id: conversation.idForLogging(),
-                expireTimer,
-                source: 'handleDataMessage',
-              });
-            }
-
-            if (!message.isEndSession()) {
-              if (dataMessage.expireTimer) {
-                if (
-                  dataMessage.expireTimer !== conversation.get('expireTimer')
-                ) {
-                  conversation.updateExpirationTimer(
-                    dataMessage.expireTimer,
-                    source,
-                    message.get('received_at'),
-                    {
-                      fromGroupUpdate: message.isGroupUpdate(),
-                    }
-                  );
-                }
-              } else if (
-                conversation.get('expireTimer') &&
-                // We only turn off timers if it's not a group update
-                !message.isGroupUpdate()
-              ) {
-                conversation.updateExpirationTimer(
-                  null,
-                  source,
-                  message.get('received_at')
-                );
+              if (difference.length > 0) {
+                groupUpdate.joined = difference;
               }
-            }
-            if (type === 'incoming') {
-              const readSync = Whisper.ReadSyncs.forMessage(message);
-              if (readSync) {
-                if (
-                  message.get('expireTimer') &&
-                  !message.get('expirationStartTimestamp')
-                ) {
-                  message.set(
-                    'expirationStartTimestamp',
-                    Math.min(readSync.get('read_at'), Date.now())
-                  );
-                }
+              if (conversation.get('left')) {
+                window.log.warn('re-added to a left group');
+                attributes.left = false;
               }
-              if (readSync || message.isExpirationTimerUpdate()) {
-                message.unset('unread');
-                // This is primarily to allow the conversation to mark all older
-                // messages as read, as is done when we receive a read sync for
-                // a message we already know about.
-                Whisper.ReadSyncs.notifyConversation(message);
-              } else {
-                conversation.set(
-                  'unreadCount',
-                  conversation.get('unreadCount') + 1
-                );
-              }
-            }
-
-            if (type === 'outgoing') {
-              const reads = Whisper.ReadReceipts.forMessage(
-                conversation,
-                message
-              );
-              if (reads.length) {
-                const readBy = reads.map(receipt => receipt.get('reader'));
-                message.set({
-                  read_by: _.union(message.get('read_by'), readBy),
-                });
-              }
-
-              message.set({ recipients: conversation.getRecipients() });
-            }
-
-            const conversationTimestamp = conversation.get('timestamp');
-            if (
-              !conversationTimestamp ||
-              message.get('sent_at') > conversationTimestamp
-            ) {
-              conversation.set({
-                lastMessage: message.getNotificationText(),
-                timestamp: message.get('sent_at'),
-              });
-            }
-
-            if (dataMessage.profileKey) {
-              const profileKey = dataMessage.profileKey.toArrayBuffer();
+            } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
               if (source === textsecure.storage.user.getNumber()) {
-                conversation.set({ profileSharing: true });
-              } else if (conversation.isPrivate()) {
-                conversation.set({ profileKey });
+                attributes.left = true;
+                groupUpdate = { left: 'You' };
               } else {
-                ConversationController.getOrCreateAndWait(
-                  source,
-                  'private'
-                ).then(sender => {
-                  sender.setProfileKey(profileKey);
-                });
+                groupUpdate = { left: source };
               }
+              attributes.members = _.without(
+                conversation.get('members'),
+                source
+              );
             }
 
-            const handleError = error => {
-              const errorForLog = error && error.stack ? error.stack : error;
-              window.log.error(
-                'handleDataMessage',
-                message.idForLogging(),
-                'error:',
-                errorForLog
-              );
-              return resolve();
-            };
+            if (groupUpdate !== null) {
+              message.set({ group_update: groupUpdate });
+            }
+          }
+          message.set({
+            attachments: dataMessage.attachments,
+            body: dataMessage.body,
+            contact: dataMessage.contact,
+            conversationId: conversation.id,
+            decrypted_at: now,
+            errors: [],
+            flags: dataMessage.flags,
+            hasAttachments: dataMessage.hasAttachments,
+            hasFileAttachments: dataMessage.hasFileAttachments,
+            hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
+            quote: dataMessage.quote,
+            schemaVersion: dataMessage.schemaVersion,
+          });
+          if (type === 'outgoing') {
+            const receipts = Whisper.DeliveryReceipts.forMessage(
+              conversation,
+              message
+            );
+            receipts.forEach(() =>
+              message.set({
+                delivered: (message.get('delivered') || 0) + 1,
+              })
+            );
+          }
+          attributes.active_at = now;
+          conversation.set(attributes);
 
-            message.save().then(() => {
-              conversation.save().then(() => {
-                try {
-                  conversation.trigger('newmessage', message);
-                } catch (e) {
-                  return handleError(e);
-                }
-                // We fetch() here because, between the message.save() above and
-                // the previous line's trigger() call, we might have marked all
-                // messages unread in the database. This message might already
-                // be read!
-                const previousUnread = message.get('unread');
-                return message.fetch().then(
-                  () => {
-                    try {
-                      if (previousUnread !== message.get('unread')) {
-                        window.log.warn(
-                          'Caught race condition on new message read state! ' +
-                            'Manually starting timers.'
-                        );
-                        // We call markRead() even though the message is already
-                        // marked read because we need to start expiration
-                        // timers, etc.
-                        message.markRead();
-                      }
+          if (message.isExpirationTimerUpdate()) {
+            message.set({
+              expirationTimerUpdate: {
+                source,
+                expireTimer: dataMessage.expireTimer,
+              },
+            });
+            conversation.set({ expireTimer: dataMessage.expireTimer });
+          } else if (dataMessage.expireTimer) {
+            message.set({ expireTimer: dataMessage.expireTimer });
+          }
 
-                      if (message.get('unread')) {
-                        return conversation.notify(message).then(() => {
-                          confirm();
-                          return resolve();
-                        }, handleError);
-                      }
+          // NOTE: Remove once the above uses
+          // `Conversation::updateExpirationTimer`:
+          const { expireTimer } = dataMessage;
+          const shouldLogExpireTimerChange =
+            message.isExpirationTimerUpdate() || expireTimer;
+          if (shouldLogExpireTimerChange) {
+            window.log.info("Update conversation 'expireTimer'", {
+              id: conversation.idForLogging(),
+              expireTimer,
+              source: 'handleDataMessage',
+            });
+          }
 
-                      confirm();
-                      return resolve();
-                    } catch (e) {
-                      return handleError(e);
-                    }
-                  },
-                  () => {
-                    try {
-                      window.log.warn(
-                        'handleDataMessage: Message',
-                        message.idForLogging(),
-                        'was deleted'
-                      );
-
-                      confirm();
-                      return resolve();
-                    } catch (e) {
-                      return handleError(e);
-                    }
+          if (!message.isEndSession()) {
+            if (dataMessage.expireTimer) {
+              if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
+                conversation.updateExpirationTimer(
+                  dataMessage.expireTimer,
+                  source,
+                  message.get('received_at'),
+                  {
+                    fromGroupUpdate: message.isGroupUpdate(),
                   }
                 );
-              }, handleError);
-            }, handleError);
-          })
-      );
+              }
+            } else if (
+              conversation.get('expireTimer') &&
+              // We only turn off timers if it's not a group update
+              !message.isGroupUpdate()
+            ) {
+              conversation.updateExpirationTimer(
+                null,
+                source,
+                message.get('received_at')
+              );
+            }
+          }
+          if (type === 'incoming') {
+            const readSync = Whisper.ReadSyncs.forMessage(message);
+            if (readSync) {
+              if (
+                message.get('expireTimer') &&
+                !message.get('expirationStartTimestamp')
+              ) {
+                message.set(
+                  'expirationStartTimestamp',
+                  Math.min(readSync.get('read_at'), Date.now())
+                );
+              }
+            }
+            if (readSync || message.isExpirationTimerUpdate()) {
+              message.unset('unread');
+              // This is primarily to allow the conversation to mark all older
+              // messages as read, as is done when we receive a read sync for
+              // a message we already know about.
+              Whisper.ReadSyncs.notifyConversation(message);
+            } else {
+              conversation.set(
+                'unreadCount',
+                conversation.get('unreadCount') + 1
+              );
+            }
+          }
+
+          if (type === 'outgoing') {
+            const reads = Whisper.ReadReceipts.forMessage(
+              conversation,
+              message
+            );
+            if (reads.length) {
+              const readBy = reads.map(receipt => receipt.get('reader'));
+              message.set({
+                read_by: _.union(message.get('read_by'), readBy),
+              });
+            }
+
+            message.set({ recipients: conversation.getRecipients() });
+          }
+
+          const conversationTimestamp = conversation.get('timestamp');
+          if (
+            !conversationTimestamp ||
+            message.get('sent_at') > conversationTimestamp
+          ) {
+            conversation.set({
+              lastMessage: message.getNotificationText(),
+              timestamp: message.get('sent_at'),
+            });
+          }
+
+          if (dataMessage.profileKey) {
+            const profileKey = dataMessage.profileKey.toArrayBuffer();
+            if (source === textsecure.storage.user.getNumber()) {
+              conversation.set({ profileSharing: true });
+            } else if (conversation.isPrivate()) {
+              conversation.set({ profileKey });
+            } else {
+              ConversationController.getOrCreateAndWait(source, 'private').then(
+                sender => {
+                  sender.setProfileKey(profileKey);
+                }
+              );
+            }
+          }
+
+          const id = await window.Signal.Data.saveMessage(message.attributes, {
+            Message: Whisper.Message,
+          });
+          message.set({ id });
+
+          await wrapDeferred(conversation.save());
+
+          conversation.trigger('newmessage', message);
+
+          try {
+            // We fetch() here because, between the message.save() above and
+            // the previous line's trigger() call, we might have marked all
+            // messages unread in the database. This message might already
+            // be read!
+            const fetched = await window.Signal.Data.getMessageById(
+              message.get('id'),
+              {
+                Message: Whisper.Message,
+              }
+            );
+            const previousUnread = message.get('unread');
+
+            // Important to update message with latest read state from database
+            message.merge(fetched);
+
+            if (previousUnread !== message.get('unread')) {
+              window.log.warn(
+                'Caught race condition on new message read state! ' +
+                  'Manually starting timers.'
+              );
+              // We call markRead() even though the message is already
+              // marked read because we need to start expiration
+              // timers, etc.
+              message.markRead();
+            }
+          } catch (error) {
+            window.log.warn(
+              'handleDataMessage: Message',
+              message.idForLogging(),
+              'was deleted'
+            );
+          }
+
+          if (message.get('unread')) {
+            await conversation.notify(message);
+          }
+
+          confirm();
+        } catch (error) {
+          const errorForLog = error && error.stack ? error.stack : error;
+          window.log.error(
+            'handleDataMessage',
+            message.idForLogging(),
+            'error:',
+            errorForLog
+          );
+        }
+      });
     },
     async markRead(readAt) {
       this.unset('unread');
+
       if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
-        const expireTimerStart = Math.min(Date.now(), readAt || Date.now());
-        this.set('expirationStartTimestamp', expireTimerStart);
+        const expirationStartTimestamp = Math.min(
+          Date.now(),
+          readAt || Date.now()
+        );
+        this.set({ expirationStartTimestamp });
       }
+
       Whisper.Notifications.remove(
         Whisper.Notifications.where({
           messageId: this.id,
         })
       );
-      return wrapDeferred(this.save());
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
     },
     isExpiring() {
       return this.get('expireTimer') && this.get('expirationStartTimestamp');
@@ -1215,19 +1210,17 @@
       }
       return msFromNow;
     },
-    setToExpire() {
+    async setToExpire() {
       if (this.isExpiring() && !this.get('expires_at')) {
         const start = this.get('expirationStartTimestamp');
         const delta = this.get('expireTimer') * 1000;
         const expiresAt = start + delta;
 
-        // This method can be called due to the expiration-related .set() calls in
-        //   handleDataMessage(), but the .save() here would conflict with the
-        //   same call at the end of handleDataMessage(). So we only call .save()
-        //   here if we've previously saved this model.
-        if (!this.isNew()) {
-          this.save('expires_at', expiresAt);
-        }
+        this.set({ expires_at: expiresAt });
+        const id = await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+        this.set({ id });
 
         Whisper.ExpiringMessagesListener.update();
         window.log.info('Set message expiration', {
@@ -1254,30 +1247,15 @@
         this.conversation = options.conversation;
       }
     },
-    destroyAll() {
-      return Promise.all(
-        this.models.map(
-          m =>
-            new Promise((resolve, reject) => {
-              m
-                .destroy()
-                .then(resolve)
-                .fail(reject);
-            })
+    async destroyAll() {
+      await Promise.all(
+        this.models.map(message =>
+          window.Signal.Data.removeMessage(message.id, {
+            Message: Whisper.Message,
+          })
         )
       );
-    },
-
-    fetchSentAt(timestamp) {
-      return new Promise(resolve =>
-        this.fetch({
-          index: {
-            // 'receipt' index on sent_at
-            name: 'receipt',
-            only: timestamp,
-          },
-        }).always(resolve)
-      );
+      this.reset([]);
     },
 
     getLoadedUnreadCount() {
@@ -1287,73 +1265,41 @@
       }, 0);
     },
 
-    fetchConversation(conversationId, providedLimit, providedUnreadCount) {
-      let limit = providedLimit;
-      let unreadCount = providedUnreadCount;
+    async fetchConversation(conversationId, limit = 100, unreadCount = 0) {
+      const startingLoadedUnread =
+        unreadCount > 0 ? this.getLoadedUnreadCount() : 0;
 
-      if (typeof limit !== 'number') {
-        limit = 100;
+      // We look for older messages if we've fetched once already
+      const receivedAt =
+        this.length === 0 ? Number.MAX_VALUE : this.at(0).get('received_at');
+
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        conversationId,
+        {
+          limit,
+          receivedAt,
+          MessageCollection: Whisper.MessageCollection,
+        }
+      );
+
+      this.add(messages.models);
+
+      if (unreadCount <= 0) {
+        return;
       }
-      if (typeof unreadCount !== 'number') {
-        unreadCount = 0;
+      const loadedUnread = this.getLoadedUnreadCount();
+      if (loadedUnread >= unreadCount) {
+        return;
+      }
+      if (startingLoadedUnread === loadedUnread) {
+        // that fetch didn't get us any more unread. stop fetching more.
+        return;
       }
 
-      let startingLoadedUnread = 0;
-      if (unreadCount > 0) {
-        startingLoadedUnread = this.getLoadedUnreadCount();
-      }
-      return new Promise(resolve => {
-        let upper;
-        if (this.length === 0) {
-          // fetch the most recent messages first
-          upper = Number.MAX_VALUE;
-        } else {
-          // not our first rodeo, fetch older messages.
-          upper = this.at(0).get('received_at');
-        }
-        const options = { remove: false, limit };
-        options.index = {
-          // 'conversation' index on [conversationId, received_at]
-          name: 'conversation',
-          lower: [conversationId],
-          upper: [conversationId, upper],
-          order: 'desc',
-          // SELECT messages WHERE conversationId = this.id ORDER
-          // received_at DESC
-        };
-        this.fetch(options).always(resolve);
-      }).then(() => {
-        if (unreadCount <= 0) {
-          return Promise.resolve();
-        }
-
-        const loadedUnread = this.getLoadedUnreadCount();
-        if (loadedUnread >= unreadCount) {
-          return Promise.resolve();
-        }
-
-        if (startingLoadedUnread === loadedUnread) {
-          // that fetch didn't get us any more unread. stop fetching more.
-          return Promise.resolve();
-        }
-
-        window.log.info(
-          'fetchConversation: doing another fetch to get all unread'
-        );
-        return this.fetchConversation(conversationId, limit, unreadCount);
-      });
-    },
-
-    fetchNextExpiring() {
-      this.fetch({ index: { name: 'expires_at' }, limit: 1 });
-    },
-
-    fetchExpired() {
-      window.log.info('Load expired messages');
-      this.fetch({
-        conditions: { expires_at: { $lte: Date.now() } },
-        addIndividually: true,
-      });
+      window.log.info(
+        'fetchConversation: doing another fetch to get all unread'
+      );
+      await this.fetchConversation(conversationId, limit, unreadCount);
     },
   });
 })();

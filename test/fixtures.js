@@ -231,21 +231,20 @@ Whisper.Fixtures = function() {
 
   conversationCollection.saveAll = function() {
     return Promise.all(
-      this.map(function(convo) {
-        return new Promise(function(resolve) {
-          convo.save().then(resolve);
-        }).then(function() {
-          return Promise.all(
-            convo.messageCollection.map(function(message) {
-              return new Promise(function(resolve) {
-                message.save().then(resolve);
-              });
-            })
-          );
-        });
+      this.map(async (convo) => {
+        await wrapDeferred(convo.save());
+
+        await Promise.all(
+          convo.messageCollection.map(async (message) => {
+            const id = await window.Signal.Data.saveMessage(message.attributes, {
+              Message: Whisper.Message
+            });
+            message.set({ id });
+          })
+        );
       })
     );
-  };
+  }
 
   function getImage1() {
     return (

@@ -674,6 +674,7 @@ async function exportConversation(db, conversation, options) {
   const writer = await createFileAndWriter(dir, 'messages.json');
 
   return new Promise(async (resolve, reject) => {
+    // TODO: need to iterate through message ids, export using window.Signal.Data
     const transaction = db.transaction('messages', 'readwrite');
     transaction.onerror = () => {
       Whisper.Database.handleDOMException(
@@ -980,6 +981,8 @@ async function loadAttachments(dir, getName, options) {
     })
   );
 
+  // TODO: Handle video screenshots, and image/video thumbnails
+
   window.log.info('loadAttachments', { message });
 }
 
@@ -989,63 +992,37 @@ function saveMessage(db, message) {
 
 async function saveAllMessages(db, rawMessages) {
   if (rawMessages.length === 0) {
-    return Promise.resolve();
+    return;
   }
 
-  const { writeMessageAttachments, upgradeMessageSchema } = Signal.Migrations;
-  const importAndUpgrade = async message =>
-    upgradeMessageSchema(await writeMessageAttachments(message));
+  try {
+    const { writeMessageAttachments, upgradeMessageSchema } = Signal.Migrations;
+    const importAndUpgrade = async message =>
+      upgradeMessageSchema(await writeMessageAttachments(message));
 
-  const messages = await Promise.all(rawMessages.map(importAndUpgrade));
+    const messages = await Promise.all(rawMessages.map(importAndUpgrade));
 
-  return new Promise((resolve, reject) => {
-    let finished = false;
-    const finish = via => {
-      window.log.info('messages done saving via', via);
-      if (finished) {
-        resolve();
-      }
-      finished = true;
-    };
-
-    const transaction = db.transaction('messages', 'readwrite');
-    transaction.onerror = () => {
-      Whisper.Database.handleDOMException(
-        'saveAllMessages transaction error',
-        transaction.error,
-        reject
-      );
-    };
-    transaction.oncomplete = finish.bind(null, 'transaction complete');
-
-    const store = transaction.objectStore('messages');
     const { conversationId } = messages[0];
-    let count = 0;
 
-    _.forEach(messages, message => {
-      const request = store.put(message, message.id);
-      request.onsuccess = () => {
-        count += 1;
-        if (count === messages.length) {
-          window.log.info(
-            'Saved',
-            messages.length,
-            'messages for conversation',
-            // Don't know if group or private conversation, so we blindly redact
-            `[REDACTED]${conversationId.slice(-3)}`
-          );
-          finish('puts scheduled');
-        }
-      };
-      request.onerror = () => {
-        Whisper.Database.handleDOMException(
-          'saveAllMessages request error',
-          request.error,
-          reject
-        );
-      };
-    });
-  });
+    for (let index = 0, max = messages.length; index < max; index += 1) {
+      // Yes, we really want to do these in order
+      // eslint-disable-next-line no-await-in-loop
+      await window.Signal.Data.saveMessage(messages[index]);
+    }
+
+    window.log.info(
+      'Saved',
+      messages.length,
+      'messages for conversation',
+      // Don't know if group or private conversation, so we blindly redact
+      `[REDACTED]${conversationId.slice(-3)}`
+    );
+  } catch (error) {
+    window.log.error(
+      'saveAllMessages error',
+      error && error.message ? error.message : error
+    );
+  }
 }
 
 // To reduce the memory impact of attachments, we make individual saves to the
@@ -1095,8 +1072,9 @@ async function importConversation(db, dir, options) {
       message.quote &&
       message.quote.attachments &&
       message.quote.attachments.length > 0;
+    const hasContacts = message.contact && message.contact.length;
 
-    if (hasAttachments || hasQuotedAttachments) {
+    if (hasAttachments || hasQuotedAttachments || hasContacts) {
       const importMessage = async () => {
         const getName = attachmentsDir
           ? _getAnonymousAttachmentFileName
@@ -1163,7 +1141,11 @@ function getMessageKey(message) {
   return `${source}.${sourceDevice} ${message.timestamp}`;
 }
 function loadMessagesLookup(db) {
-  return assembleLookup(db, 'messages', getMessageKey);
+  return window.Signal.Data.getAllMessageIds({
+    db,
+    getMessageKey,
+    handleDOMException: Whisper.Database.handleDOMException,
+  });
 }
 
 function getConversationKey(conversation) {

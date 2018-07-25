@@ -131,31 +131,23 @@
       this.on('destroy', this.revokeAvatarUrl);
 
       // Listening for out-of-band data updates
-      this.on('newmessage', this.addSingleMessage);
-      this.on('delivered', this.updateMessage);
-      this.on('read', this.updateMessage);
+      this.on('delivered', this.updateLastMessage);
+      this.on('read', this.updateLastMessage);
       this.on('sent', this.updateLastMessage);
       this.on('expired', this.onExpired);
-      this.listenTo(
-        this.messageCollection,
-        'expired',
-        this.onExpiredCollection
-      );
     },
 
     isMe() {
       return this.id === this.ourNumber;
     },
 
-    onExpired(message) {
-      const mine = this.messageCollection.get(message.id);
-      if (mine && mine.cid !== message.cid) {
-        mine.trigger('expired', mine);
-      }
-    },
-
-    async onExpiredCollection(message) {
+    async onExpired(message) {
       const removeMessage = () => {
+        const existing = this.messageCollection.get(message.id);
+        if (!existing) {
+          return;
+        }
+
         window.log.info('Remove expired message from collection', {
           sentAt: message.get('sent_at'),
         });
@@ -168,13 +160,8 @@
 
       await this.inProgressFetch;
       removeMessage();
-    },
 
-    // Used to update existing messages when updated from out-of-band db access,
-    //   like read and delivery receipts.
-    updateMessage(message) {
       this.updateLastMessage();
-      this.messageCollection.add(message, { merge: true });
     },
 
     addSingleMessage(message) {
@@ -420,10 +407,15 @@
         messages.length,
         'messages to process'
       );
-      const safeDelete = message =>
-        new Promise(resolve => {
-          message.destroy().always(resolve);
-        });
+      const safeDelete = async message => {
+        try {
+          window.Signal.Data.removeMessage(message.id, {
+            Message: Whisper.Message,
+          });
+        } catch (error) {
+          // nothing
+        }
+      };
 
       const promise = this.getIdentityKeys();
       return promise
@@ -585,26 +577,37 @@
       return this.setVerified();
     },
 
-    addKeyChange(id) {
+    async addKeyChange(keyChangedId) {
       window.log.info(
         'adding key change advisory for',
         this.idForLogging(),
-        id,
+        keyChangedId,
         this.get('timestamp')
       );
 
       const timestamp = Date.now();
-      const message = new Whisper.Message({
+      const message = {
         conversationId: this.id,
         type: 'keychange',
         sent_at: this.get('timestamp'),
         received_at: timestamp,
-        key_changed: id,
+        key_changed: keyChangedId,
         unread: 1,
+      };
+
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
       });
-      message.save().then(this.trigger.bind(this, 'newmessage', message));
+
+      this.trigger(
+        'newmessage',
+        new Whisper.Message({
+          ...message,
+          id,
+        })
+      );
     },
-    addVerifiedChange(id, verified, providedOptions) {
+    async addVerifiedChange(verifiedChangeId, verified, providedOptions) {
       const options = providedOptions || {};
       _.defaults(options, { local: true });
 
@@ -620,22 +623,33 @@
       window.log.info(
         'adding verified change advisory for',
         this.idForLogging(),
-        id,
+        verifiedChangeId,
         lastMessage
       );
 
       const timestamp = Date.now();
-      const message = new Whisper.Message({
+      const message = {
         conversationId: this.id,
         type: 'verified-change',
         sent_at: lastMessage,
         received_at: timestamp,
-        verifiedChanged: id,
+        verifiedChanged: verifiedChangeId,
         verified,
         local: options.local,
         unread: 1,
+      };
+
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
       });
-      message.save().then(this.trigger.bind(this, 'newmessage', message));
+
+      this.trigger(
+        'newmessage',
+        new Whisper.Message({
+          ...message,
+          id,
+        })
+      );
 
       if (this.isPrivate()) {
         ConversationController.getAllGroupsInvolvingId(id).then(groups => {
@@ -646,9 +660,13 @@
       }
     },
 
-    onReadMessage(message, readAt) {
-      if (this.messageCollection.get(message.id)) {
-        this.messageCollection.get(message.id).fetch();
+    async onReadMessage(message, readAt) {
+      const existing = this.messageCollection.get(message.id);
+      if (existing) {
+        const fetched = await window.Signal.Data.getMessageById(existing.id, {
+          Message: Whisper.Message,
+        });
+        existing.merge(fetched);
       }
 
       // We mark as read everything older than this message - to clean up old stuff
@@ -671,22 +689,9 @@
     },
 
     getUnread() {
-      const conversationId = this.id;
-      const unreadMessages = new Whisper.MessageCollection();
-      return new Promise(resolve =>
-        unreadMessages
-          .fetch({
-            index: {
-              // 'unread' index
-              name: 'unread',
-              lower: [conversationId],
-              upper: [conversationId, Number.MAX_VALUE],
-            },
-          })
-          .always(() => {
-            resolve(unreadMessages);
-          })
-      );
+      return window.Signal.Data.getUnreadByConversation(this.id, {
+        MessageCollection: Whisper.MessageCollection,
+      });
     },
 
     validate(attributes) {
@@ -844,19 +849,23 @@
           expireTimer,
           recipients,
         });
+
         const message = this.addSingleMessage(messageWithSchema);
-
-        if (this.isPrivate()) {
-          message.set({ destination });
-        }
-        message.save();
-
         this.save({
           active_at: now,
           timestamp: now,
           lastMessage: message.getNotificationText(),
           lastMessageStatus: 'sending',
         });
+
+        if (this.isPrivate()) {
+          message.set({ destination });
+        }
+
+        const id = await window.Signal.Data.saveMessage(message.attributes, {
+          Message: Whisper.Message,
+        });
+        message.set({ id });
 
         const conversationType = this.get('type');
         const sendFunction = (() => {
@@ -890,9 +899,15 @@
     },
 
     async updateLastMessage() {
-      const collection = new Whisper.MessageCollection();
-      await collection.fetchConversation(this.id, 1);
-      const lastMessage = collection.at(0);
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { limit: 1, MessageCollection: Whisper.MessageCollection }
+      );
+      if (!messages.length) {
+        return;
+      }
+
+      const lastMessage = messages.at(0);
 
       const lastMessageJSON = lastMessage ? lastMessage.toJSON() : null;
       const lastMessageStatus = lastMessage
@@ -972,7 +987,9 @@
       }
 
       return Promise.all([
-        wrapDeferred(message.save()),
+        window.Signal.Data.saveMessage(message.attributes, {
+          Message: Whisper.Message,
+        }),
         wrapDeferred(this.save({ expireTimer })),
       ]).then(() => {
         // if change was made remotely, don't send it to the number/group
@@ -1347,8 +1364,9 @@
         return false;
       }
 
-      const collection = new Whisper.MessageCollection();
-      await collection.fetchSentAt(id);
+      const collection = await window.Signal.Data.getMessagesBySentAt(id, {
+        MessageCollection: Whisper.MessageCollection,
+      });
       const queryMessage = collection.find(m =>
         this.doesMessageMatch(id, author, m)
       );
@@ -1365,7 +1383,9 @@
             queryMessage.attributes
           );
           queryMessage.set(upgradedMessage);
-          await wrapDeferred(message.save());
+          await window.Signal.Data.saveMessage(upgradedMessage, {
+            Message: Whisper.Message,
+          });
         }
       } catch (error) {
         window.log.error(
@@ -1525,7 +1545,9 @@
           const upgradedMessage = await upgradeMessageSchema(attributes);
           message.set(upgradedMessage);
           // eslint-disable-next-line no-await-in-loop
-          await wrapDeferred(message.save());
+          await window.Signal.Data.saveMessage(upgradedMessage, {
+            Message: Whisper.Message,
+          });
         }
       }
     },
@@ -1541,7 +1563,7 @@
 
       this.inProgressFetch = this.messageCollection.fetchConversation(
         this.id,
-        null,
+        undefined,
         this.get('unreadCount')
       );
 
@@ -1593,29 +1615,11 @@
     },
 
     async destroyMessages() {
-      let loaded;
-      do {
-        // Yes, we really want the await in the loop. We're deleting 100 at a
-        //   time so we don't use too much memory.
-        // eslint-disable-next-line no-await-in-loop
-        await wrapDeferred(
-          this.messageCollection.fetch({
-            limit: 100,
-            index: {
-              // 'conversation' index on [conversationId, received_at]
-              name: 'conversation',
-              lower: [this.id],
-              upper: [this.id, Number.MAX_VALUE],
-            },
-          })
-        );
+      await window.Signal.Data.removeAllMessagesInConversation(this.id, {
+        MessageCollection: Whisper.MessageCollection,
+      });
 
-        loaded = this.messageCollection.models;
-        this.messageCollection.reset([]);
-        _.each(loaded, message => {
-          message.destroy();
-        });
-      } while (loaded.length > 0);
+      this.messageCollection.reset([]);
 
       this.save({
         lastMessage: null,
@@ -1809,15 +1813,7 @@
 
     destroyAll() {
       return Promise.all(
-        this.models.map(
-          m =>
-            new Promise((resolve, reject) => {
-              m
-                .destroy()
-                .then(resolve)
-                .fail(reject);
-            })
-        )
+        this.models.map(conversation => wrapDeferred(conversation.destroy()))
       );
     },
 

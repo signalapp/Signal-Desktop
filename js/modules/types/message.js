@@ -498,6 +498,8 @@ exports.createAttachmentDataWriter = ({
       });
     };
 
+    // TODO: need to handle attachment thumbnails and video screenshots
+
     const messageWithoutAttachmentData = Object.assign(
       {},
       await writeThumbnails(message, { logger }),

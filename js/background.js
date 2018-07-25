@@ -178,6 +178,8 @@
         BackboneMessageCollection: Whisper.MessageCollection,
         numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
         upgradeMessageSchema,
+        getMessagesNeedingUpgrade: window.Signal.Data.getMessagesNeedingUpgrade,
+        saveMessage: window.Signal.Data.saveMessage,
       });
       window.log.info('Upgrade message schema (with index):', batchWithIndex);
       isMigrationWithIndexComplete = batchWithIndex.done;
@@ -907,31 +909,18 @@
     createMessage: createSentMessage,
   });
 
-  function isMessageDuplicate(message) {
-    return new Promise(resolve => {
-      const fetcher = new Whisper.Message();
-      const options = {
-        index: {
-          name: 'unique',
-          value: [
-            message.get('source'),
-            message.get('sourceDevice'),
-            message.get('sent_at'),
-          ],
-        },
-      };
-
-      fetcher.fetch(options).always(() => {
-        if (fetcher.get('id')) {
-          return resolve(true);
-        }
-
-        return resolve(false);
+  async function isMessageDuplicate(message) {
+    try {
+      const { attributes } = message;
+      const result = await window.Signal.Data.getMessageBySender(attributes, {
+        Message: Whisper.Message,
       });
-    }).catch(error => {
+
+      return Boolean(result);
+    } catch (error) {
       window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
       return false;
-    });
+    }
   }
 
   function initIncomingMessage(data) {

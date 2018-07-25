@@ -11,7 +11,6 @@ const { isFunction, isNumber, isObject, isString, last } = require('lodash');
 const database = require('./database');
 const Message = require('./types/message');
 const settings = require('./settings');
-const { deferredToPromise } = require('./deferred_to_promise');
 
 const MESSAGES_STORE_NAME = 'messages';
 
@@ -20,6 +19,8 @@ exports.processNext = async ({
   BackboneMessageCollection,
   numMessagesPerBatch,
   upgradeMessageSchema,
+  getMessagesNeedingUpgrade,
+  saveMessage,
 } = {}) => {
   if (!isFunction(BackboneMessage)) {
     throw new TypeError(
@@ -45,10 +46,10 @@ exports.processNext = async ({
   const startTime = Date.now();
 
   const fetchStartTime = Date.now();
-  const messagesRequiringSchemaUpgrade = await _fetchMessagesRequiringSchemaUpgrade(
+  const messagesRequiringSchemaUpgrade = await getMessagesNeedingUpgrade(
+    numMessagesPerBatch,
     {
-      BackboneMessageCollection,
-      count: numMessagesPerBatch,
+      MessageCollection: BackboneMessageCollection,
     }
   );
   const fetchDuration = Date.now() - fetchStartTime;
@@ -60,8 +61,11 @@ exports.processNext = async ({
   const upgradeDuration = Date.now() - upgradeStartTime;
 
   const saveStartTime = Date.now();
-  const saveMessage = _saveMessageBackbone({ BackboneMessage });
-  await Promise.all(upgradedMessages.map(saveMessage));
+  await Promise.all(
+    upgradedMessages.map(message =>
+      saveMessage(message, { Message: BackboneMessage })
+    )
+  );
   const saveDuration = Date.now() - saveStartTime;
 
   const totalDuration = Date.now() - startTime;
@@ -277,11 +281,6 @@ const _processBatch = async ({
   };
 };
 
-const _saveMessageBackbone = ({ BackboneMessage } = {}) => message => {
-  const backboneMessage = new BackboneMessage(message);
-  return deferredToPromise(backboneMessage.save());
-};
-
 const _saveMessage = ({ transaction } = {}) => message => {
   if (!isObject(transaction)) {
     throw new TypeError("'transaction' is required");
@@ -293,41 +292,6 @@ const _saveMessage = ({ transaction } = {}) => message => {
     request.onsuccess = () => resolve();
     request.onerror = event => reject(event.target.error);
   });
-};
-
-const _fetchMessagesRequiringSchemaUpgrade = async ({
-  BackboneMessageCollection,
-  count,
-} = {}) => {
-  if (!isFunction(BackboneMessageCollection)) {
-    throw new TypeError(
-      "'BackboneMessageCollection' (Whisper.MessageCollection)" +
-        ' constructor is required'
-    );
-  }
-
-  if (!isNumber(count)) {
-    throw new TypeError("'count' is required");
-  }
-
-  const collection = new BackboneMessageCollection();
-  return new Promise(resolve =>
-    collection
-      .fetch({
-        limit: count,
-        index: {
-          name: 'schemaVersion',
-          upper: Message.CURRENT_SCHEMA_VERSION,
-          excludeUpper: true,
-          order: 'desc',
-        },
-      })
-      .always(() => {
-        const models = collection.models || [];
-        const messages = models.map(model => model.toJSON());
-        resolve(messages);
-      })
-  );
 };
 
 // NOTE: Named ‘dangerous’ because it is not as efficient as using our

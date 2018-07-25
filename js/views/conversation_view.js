@@ -7,7 +7,6 @@
 /* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
-/* global wrapDeferred: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -592,19 +591,18 @@
       const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
 
       const conversationId = this.model.get('id');
-      const WhisperMessageCollection = Whisper.MessageCollection;
-      const rawMedia = await Signal.Backbone.Conversation.fetchVisualMediaAttachments(
+      const rawMedia = await Signal.Data.getMessagesWithVisualMediaAttachments(
+        conversationId,
         {
-          conversationId,
-          count: DEFAULT_MEDIA_FETCH_COUNT,
-          WhisperMessageCollection,
+          limit: DEFAULT_MEDIA_FETCH_COUNT,
+          MessageCollection: Whisper.MessageCollection,
         }
       );
-      const documents = await Signal.Backbone.Conversation.fetchFileAttachments(
+      const documents = await Signal.Data.getMessagesWithFileAttachments(
+        conversationId,
         {
-          conversationId,
-          count: DEFAULT_DOCUMENTS_FETCH_COUNT,
-          WhisperMessageCollection,
+          limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
+          MessageCollection: Whisper.MessageCollection,
         }
       );
 
@@ -617,9 +615,10 @@
           // Yep, we really do want to wait for each of these
           // eslint-disable-next-line no-await-in-loop
           rawMedia[i] = await upgradeMessageSchema(message);
-          const model = new Whisper.Message(rawMedia[i]);
           // eslint-disable-next-line no-await-in-loop
-          await wrapDeferred(model.save());
+          await window.Signal.Data.saveMessage(rawMedia[i], {
+            Message: Whisper.Message,
+          });
         }
       }
 
@@ -784,7 +783,6 @@
         this.view.$el.scrollTop(newScrollPosition);
       }, 1);
     },
-
     fetchMessages() {
       window.log.info('fetchMessages');
       this.$('.bar-container').show();
@@ -819,6 +817,11 @@
     addMessage(message) {
       // This is debounced, so it won't hit the database too often.
       this.lazyUpdateVerified();
+
+      // We do this here because we don't want convo.messageCollection to have
+      //   anything in it unless it has an associated view. This is so, when we
+      //   fetch on open, it's clean.
+      this.model.addSingleMessage(message);
 
       if (message.isOutgoing()) {
         this.removeLastSeenIndicator();
@@ -992,7 +995,10 @@
         message: i18n('deleteWarning'),
         okText: i18n('delete'),
         resolve: () => {
-          message.destroy();
+          window.Signal.Data.removeMessage(message.id, {
+            Message: Whisper.Message,
+          });
+          message.trigger('unload');
           this.resetPanel();
           this.updateHeader();
         },
