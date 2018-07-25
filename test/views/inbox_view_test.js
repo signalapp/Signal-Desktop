@@ -1,11 +1,19 @@
 describe('InboxView', function() {
-  var inboxView = new Whisper.InboxView({
-    model: {},
-    window: window,
-    initialLoadComplete: function() {},
-  }).render();
+  let inboxView;
+  let conversation;
 
-  var conversation = new Whisper.Conversation({ id: '1234', type: 'private' });
+  before(() => {
+    inboxView = new Whisper.InboxView({
+      model: {},
+      window: window,
+      initialLoadComplete: function() {},
+    }).render();
+
+    conversation = new Whisper.Conversation({
+      id: '1234',
+      type: 'private',
+    });
+  });
 
   describe('the conversation stack', function() {
     it('should be rendered', function() {

@@ -9,6 +9,7 @@ describe('AttachmentView', () => {
 
   before(async () => {
     await clearDatabase();
+
     convo = new Whisper.Conversation({ id: 'foo' });
     message = convo.messageCollection.add({
       conversationId: convo.id,

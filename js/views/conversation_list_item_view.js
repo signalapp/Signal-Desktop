@@ -15,7 +15,6 @@
     templateName: 'conversation-preview',
     initialize() {
       this.listenTo(this.model, 'destroy', this.remove);
-      this.model.updateLastMessage();
     },
 
     remove() {

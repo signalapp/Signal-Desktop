@@ -135,6 +135,8 @@
       this.on('read', this.updateLastMessage);
       this.on('sent', this.updateLastMessage);
       this.on('expired', this.onExpired);
+
+      this.updateLastMessage();
     },
 
     isMe() {
@@ -198,8 +200,8 @@
         isSelected: this.isSelected,
 
         lastMessage: {
-          status: this.get('lastMessageStatus'),
-          text: this.get('lastMessage'),
+          status: this.lastMessageStatus,
+          text: this.lastMessage,
         },
 
         onClick: () => this.trigger('select', this),
@@ -899,6 +901,10 @@
     },
 
     async updateLastMessage() {
+      if (!this.id) {
+        return;
+      }
+
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
         { limit: 1, MessageCollection: Whisper.MessageCollection }
@@ -907,26 +913,41 @@
         return;
       }
 
-      const lastMessage = messages.at(0);
+      const lastMessageModel = messages.at(0);
 
-      const lastMessageJSON = lastMessage ? lastMessage.toJSON() : null;
-      const lastMessageStatus = lastMessage
-        ? lastMessage.getMessagePropStatus()
+      const lastMessageJSON = lastMessageModel
+        ? lastMessageModel.toJSON()
+        : null;
+      const lastMessageStatusModel = lastMessageModel
+        ? lastMessageModel.getMessagePropStatus()
         : null;
       const lastMessageUpdate = Conversation.createLastMessageUpdate({
         currentLastMessageText: this.get('lastMessage') || null,
         currentTimestamp: this.get('timestamp') || null,
         lastMessage: lastMessageJSON,
-        lastMessageStatus,
-        lastMessageNotificationText: lastMessage
-          ? lastMessage.getNotificationText()
+        lastMessageStatus: lastMessageStatusModel,
+        lastMessageNotificationText: lastMessageModel
+          ? lastMessageModel.getNotificationText()
           : null,
       });
 
+      let hasChanged = false;
+      const { lastMessage, lastMessageStatus } = lastMessageUpdate;
+      lastMessageUpdate.lastMessage = null;
+      lastMessageUpdate.lastMessageStatus = null;
+
+      hasChanged = hasChanged || lastMessage !== this.lastMessage;
+      this.lastMessage = lastMessage;
+
+      hasChanged = hasChanged || lastMessageStatus !== this.lastMessageStatus;
+      this.lastMessageStatus = lastMessageStatus;
+
       this.set(lastMessageUpdate);
 
-      if (this.hasChanged('lastMessage') || this.hasChanged('timestamp')) {
+      if (this.hasChanged()) {
         this.save();
+      } else if (hasChanged) {
+        this.trigger('change');
       }
     },
 

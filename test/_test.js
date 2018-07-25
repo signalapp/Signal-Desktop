@@ -60,25 +60,26 @@ function hexToArrayBuffer(str) {
   return ret;
 }
 
-/* Delete the database before running any tests */
-before(function(done) {
-  var idbReq = indexedDB.deleteDatabase('test');
-  idbReq.onsuccess = function() {
-    done();
-  };
-});
+function deleteDatabase() {
+  return new Promise((resolve, reject) => {
+    var idbReq = indexedDB.deleteDatabase('test');
+    idbReq.onsuccess = resolve;
+    idbReq.error = reject;
+  });
+}
 
-async function clearDatabase() {
+/* Delete the database before running any tests */
+before(async () => {
+  await deleteDatabase();
+
   await Signal.Migrations.Migrations0DatabaseWithAttachmentData.run({
     Backbone,
     databaseName: Whisper.Database.id,
     logger: window.log,
   });
+});
 
-  const convos = new Whisper.ConversationCollection();
-  await wrapDeferred(convos.fetch());
-  await wrapDeferred(convos.destroyAll());
-  const messages = new Whisper.MessageCollection();
-  await wrapDeferred(messages.fetch());
-  await wrapDeferred(messages.destroyAll());
+async function clearDatabase() {
+  const db = await Whisper.Database.open();
+  await Whisper.Database.clear();
 }
