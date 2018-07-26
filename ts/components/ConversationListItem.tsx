@@ -82,7 +82,14 @@ export class ConversationListItem extends React.Component<Props> {
 
     return (
       <div className="module-conversation-list-item__header">
-        <div className="module-conversation-list-item__header__name">
+        <div
+          className={classNames(
+            'module-conversation-list-item__header__name',
+            unreadCount > 0
+              ? 'module-conversation-list-item__header__name--with-unread'
+              : null
+          )}
+        >
           <ContactName
             phoneNumber={phoneNumber}
             name={name}
