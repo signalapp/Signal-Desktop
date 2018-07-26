@@ -15,15 +15,27 @@
 
 #### With name and profile
 
+Note the proper spacing between these two.
+
 ```jsx
-<ContactListItem
-  i18n={util.i18n}
-  name="Someone 🔥 Somewhere"
-  phoneNumber="(202) 555-0011"
-  profileName="🔥Flames🔥"
-  avatarPath={util.gifObjectUrl}
-  onClick={() => console.log('onClick')}
-/>
+<div>
+  <ContactListItem
+    i18n={util.i18n}
+    name="Someone 🔥 Somewhere"
+    phoneNumber="(202) 555-0011"
+    profileName="🔥Flames🔥"
+    avatarPath={util.gifObjectUrl}
+    onClick={() => console.log('onClick')}
+  />
+  <ContactListItem
+    i18n={util.i18n}
+    name="Another ❄️ Yes"
+    phoneNumber="(202) 555-0011"
+    profileName="❄️Ice❄️"
+    avatarPath={util.gifObjectUrl}
+    onClick={() => console.log('onClick')}
+  />
+</div>
 ```
 
 #### With name and profile, verified
