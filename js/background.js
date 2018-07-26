@@ -14,6 +14,93 @@
 (async function() {
   'use strict';
 
+  // Load these images now to ensure that they don't flicker on first use
+  const images = [];
+  function preload(list) {
+    for (let index = 0, max = list.length; index < max; index += 1) {
+      const image = new Image();
+      image.src = `./images/${list[index]}`;
+      images.push(image);
+    }
+  }
+  preload([
+    'alert-outline.svg',
+    'android.svg',
+    'apple.svg',
+    'appstore.svg',
+    'audio.svg',
+    'back.svg',
+    'chat-bubble-outline.svg',
+    'chat-bubble.svg',
+    'check-circle-outline.svg',
+    'check.svg',
+    'clock.svg',
+    'close-circle.svg',
+    'delete.svg',
+    'dots-horizontal.svg',
+    'double-check.svg',
+    'down.svg',
+    'download.svg',
+    'ellipsis.svg',
+    'error.svg',
+    'error_red.svg',
+    'file-gradient.svg',
+    'file.svg',
+    'folder-outline.svg',
+    'forward.svg',
+    'gear.svg',
+    'group_default.png',
+    'hourglass_empty.svg',
+    'hourglass_full.svg',
+    'icon_1024.png',
+    'icon_128.png',
+    'icon_16.png',
+    'icon_250.png',
+    'icon_256.png',
+    'icon_32.png',
+    'icon_48.png',
+    'image.svg',
+    'import.svg',
+    'lead-pencil.svg',
+    'menu.svg',
+    'microphone.svg',
+    'movie.svg',
+    'open_link.svg',
+    'paperclip.svg',
+    'play.svg',
+    'playstore.png',
+    'read.svg',
+    'reply.svg',
+    'save.svg',
+    'search.svg',
+    'sending.svg',
+    'shield.svg',
+    'signal-laptop.png',
+    'signal-phone.png',
+    'smile.svg',
+    'sync.svg',
+    'timer-00.svg',
+    'timer-05.svg',
+    'timer-10.svg',
+    'timer-15.svg',
+    'timer-20.svg',
+    'timer-25.svg',
+    'timer-30.svg',
+    'timer-35.svg',
+    'timer-40.svg',
+    'timer-45.svg',
+    'timer-50.svg',
+    'timer-55.svg',
+    'timer-60.svg',
+    'timer.svg',
+    'verified-check.svg',
+    'video.svg',
+    'voice.svg',
+    'warning.svg',
+    'x.svg',
+    'x_white.svg',
+  ]);
+
   // We add this to window here because the default Node context is erased at the end
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
