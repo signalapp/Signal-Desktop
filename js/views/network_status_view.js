@@ -89,7 +89,7 @@
         instructions = i18n('checkNetworkConnection');
       } else if (!Whisper.Registration.isDone()) {
         hasInterruption = true;
-        message = i18n('Unlinked');
+        message = i18n('unlinked');
         instructions = i18n('unlinkedWarning');
         action = i18n('relink');
         buttonClass = 'openInstaller';
