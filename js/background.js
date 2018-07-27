@@ -165,11 +165,64 @@
   window.log.info('Storage fetch');
   storage.fetch();
 
+  const MINIMUM_VERSION = 7;
+
+  async function upgradeMessages() {
+    const NUM_MESSAGES_PER_BATCH = 10;
+    window.log.info(
+      'upgradeMessages: Mandatory message schema upgrade started.',
+      `Target version: ${MINIMUM_VERSION}`
+    );
+
+    let isMigrationWithoutIndexComplete = false;
+    while (!isMigrationWithoutIndexComplete) {
+      const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+      // eslint-disable-next-line no-await-in-loop
+      const batchWithoutIndex = await MessageDataMigrator.processNextBatchWithoutIndex(
+        {
+          databaseName: database.name,
+          minDatabaseVersion: database.version,
+          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+          upgradeMessageSchema,
+          maxVersion: MINIMUM_VERSION,
+          BackboneMessage: Whisper.Message,
+          saveMessage: window.Signal.Data.saveMessage,
+        }
+      );
+      window.log.info(
+        'upgradeMessages: upgrade without index',
+        batchWithoutIndex
+      );
+      isMigrationWithoutIndexComplete = batchWithoutIndex.done;
+    }
+    window.log.info('upgradeMessages: upgrade without index complete!');
+
+    let isMigrationWithIndexComplete = false;
+    while (!isMigrationWithIndexComplete) {
+      // eslint-disable-next-line no-await-in-loop
+      const batchWithIndex = await MessageDataMigrator.processNext({
+        BackboneMessage: Whisper.Message,
+        BackboneMessageCollection: Whisper.MessageCollection,
+        numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+        upgradeMessageSchema,
+        getMessagesNeedingUpgrade: window.Signal.Data.getMessagesNeedingUpgrade,
+        saveMessage: window.Signal.Data.saveMessage,
+        maxVersion: MINIMUM_VERSION,
+      });
+      window.log.info('upgradeMessages: upgrade with index', batchWithIndex);
+      isMigrationWithIndexComplete = batchWithIndex.done;
+    }
+    window.log.info('upgradeMessages: upgrade with index complete!');
+
+    window.log.info('upgradeMessages: Message schema upgrade complete');
+  }
+
+  await upgradeMessages();
+
   const idleDetector = new IdleDetector();
   let isMigrationWithIndexComplete = false;
-  let isMigrationWithoutIndexComplete = false;
+  window.log.info('Starting background data migration. Target version: latest');
   idleDetector.on('idle', async () => {
-    window.log.info('Idle processing started');
     const NUM_MESSAGES_PER_BATCH = 1;
 
     if (!isMigrationWithIndexComplete) {
@@ -185,27 +238,8 @@
       isMigrationWithIndexComplete = batchWithIndex.done;
     }
 
-    if (!isMigrationWithoutIndexComplete) {
-      const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-      const batchWithoutIndex = await MessageDataMigrator.processNextBatchWithoutIndex(
-        {
-          databaseName: database.name,
-          minDatabaseVersion: database.version,
-          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-          upgradeMessageSchema,
-        }
-      );
-      window.log.info(
-        'Upgrade message schema (without index):',
-        batchWithoutIndex
-      );
-      isMigrationWithoutIndexComplete = batchWithoutIndex.done;
-    }
-
-    const areAllMigrationsComplete =
-      isMigrationWithIndexComplete && isMigrationWithoutIndexComplete;
-    if (areAllMigrationsComplete) {
-      window.log.info('All migrations are complete. Stopping idle detector.');
+    if (isMigrationWithIndexComplete) {
+      window.log.info('Background migration complete. Stopping idle detector.');
       idleDetector.stop();
     }
   });
