@@ -986,14 +986,32 @@
         'Client is no longer authorized; deleting local configuration'
       );
       Whisper.Registration.remove();
-      const previousNumberId = textsecure.storage.get('number_id');
+
+      const NUMBER_ID_KEY = 'number_id';
+      const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
+      const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
+
+      const previousNumberId = textsecure.storage.get(NUMBER_ID_KEY);
+      const lastProcessedIndex = textsecure.storage.get(
+        LAST_PROCESSED_INDEX_KEY
+      );
+      const isMigrationComplete = textsecure.storage.get(
+        IS_MIGRATION_COMPLETE_KEY
+      );
 
       try {
         await textsecure.storage.protocol.removeAllConfiguration();
+
         // These two bits of data are important to ensure that the app loads up
         //   the conversation list, instead of showing just the QR code screen.
         Whisper.Registration.markEverDone();
-        textsecure.storage.put('number_id', previousNumberId);
+        textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+
+        // These two are important to ensure we don't rip through every message
+        //   in the database attempting to upgrade it after starting up again.
+        textsecure.storage.put(LAST_PROCESSED_INDEX_KEY, lastProcessedIndex);
+        textsecure.storage.put(IS_MIGRATION_COMPLETE_KEY, isMigrationComplete);
+
         window.log.info('Successfully cleared local configuration');
       } catch (eraseError) {
         window.log.error(
