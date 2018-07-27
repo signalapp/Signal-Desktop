@@ -131,8 +131,8 @@
       this.on('destroy', this.revokeAvatarUrl);
 
       // Listening for out-of-band data updates
-      this.on('delivered', this.updateLastMessage);
-      this.on('read', this.updateLastMessage);
+      this.on('delivered', this.updateAndMerge);
+      this.on('read', this.updateAndMerge);
       this.on('sent', this.updateLastMessage);
       this.on('expired', this.onExpired);
 
@@ -143,7 +143,26 @@
       return this.id === this.ourNumber;
     },
 
+    async updateAndMerge(message) {
+      this.updateLastMessage();
+
+      const mergeMessage = () => {
+        const existing = this.messageCollection.get(message.id);
+        if (!existing) {
+          return;
+        }
+
+        window.log.info('Merging updated message into collection');
+        existing.merge(message.attributes);
+      };
+
+      await this.inProgressFetch;
+      mergeMessage();
+    },
+
     async onExpired(message) {
+      this.updateLastMessage();
+
       const removeMessage = () => {
         const existing = this.messageCollection.get(message.id);
         if (!existing) {
@@ -162,8 +181,6 @@
 
       await this.inProgressFetch;
       removeMessage();
-
-      this.updateLastMessage();
     },
 
     addSingleMessage(message) {
