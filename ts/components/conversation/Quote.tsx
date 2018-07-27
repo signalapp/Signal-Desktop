@@ -180,7 +180,7 @@ export class Quote extends React.Component<Props> {
 
     if (text) {
       return (
-        <div className="module-quote__primary__text">
+        <div dir="auto" className="module-quote__primary__text">
           <MessageBody text={text} i18n={i18n} />
         </div>
       );

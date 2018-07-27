@@ -667,6 +667,7 @@ export class Message extends React.Component<Props, State> {
 
     return (
       <div
+        dir="auto"
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,
