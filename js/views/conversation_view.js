@@ -747,6 +747,10 @@
             this.addScrollDownButtonWithCount(unreadCount);
           }
         }, 1);
+      } else if (this.view.atBottom()) {
+        // If we already thought we were at the bottom, then ensure that's the case.
+        //   Attempting to account for unpredictable completion of message rendering.
+        setTimeout(() => this.view.scrollToBottom(), 1);
       }
     },
 
