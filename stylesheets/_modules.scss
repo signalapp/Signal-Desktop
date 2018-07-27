@@ -2107,6 +2107,9 @@
   @include color-svg('../images/read.svg', $color-light-35);
   width: 18px;
 }
+.module-conversation-list-item__message__status-icon--error {
+  @include color-svg('../images/error.svg', $color-core-red);
+}
 
 // Third-party module: react-contextmenu
 

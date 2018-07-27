@@ -1,75 +1,233 @@
-/* global window */
+/* global window, setTimeout */
+
+const electron = require('electron');
+const { forEach, isFunction, isObject } = require('lodash');
 
 const { deferredToPromise } = require('./deferred_to_promise');
 const MessageType = require('./types/message');
 
-// calls to search for:
+const { ipcRenderer } = electron;
+
+// We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
+//   any warnings that might be sent to the console in that case.
+ipcRenderer.setMaxListeners(0);
+
+// calls to search for when finding functions to convert:
 //   .fetch(
 //   .save(
 //   .destroy(
 
-async function saveMessage(data, { Message }) {
-  const message = new Message(data);
-  await deferredToPromise(message.save());
-  return message.id;
+const SQL_CHANNEL_KEY = 'sql-channel';
+const ERASE_SQL_KEY = 'erase-sql-key';
+const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
+
+const _jobs = Object.create(null);
+const _DEBUG = false;
+let _jobCounter = 0;
+
+const channels = {};
+
+module.exports = {
+  _jobs,
+  _cleanData,
+
+  close,
+  removeDB,
+
+  saveMessage,
+  saveMessages,
+  removeMessage,
+  getUnreadByConversation,
+
+  removeAllMessagesInConversation,
+
+  getMessageBySender,
+  getMessageById,
+  getAllMessageIds,
+  getMessagesBySentAt,
+  getExpiredMessages,
+  getNextExpiringMessage,
+  getMessagesByConversation,
+
+  getAllUnprocessed,
+  getUnprocessedById,
+  saveUnprocessed,
+  saveUnprocesseds,
+  updateUnprocessed,
+  removeUnprocessed,
+  removeAllUnprocessed,
+
+  removeAll,
+  removeOtherData,
+
+  // Returning plain JSON
+  getMessagesNeedingUpgrade,
+  getLegacyMessagesNeedingUpgrade,
+  getMessagesWithVisualMediaAttachments,
+  getMessagesWithFileAttachments,
+};
+
+// When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
+// We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
+function _cleanData(data) {
+  const keys = Object.keys(data);
+  for (let index = 0, max = keys.length; index < max; index += 1) {
+    const key = keys[index];
+    const value = data[key];
+
+    if (value === null || value === undefined) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    if (isFunction(value.toNumber)) {
+      // eslint-disable-next-line no-param-reassign
+      data[key] = value.toNumber();
+    } else if (Array.isArray(value)) {
+      // eslint-disable-next-line no-param-reassign
+      data[key] = value.map(item => _cleanData(item));
+    } else if (isObject(value)) {
+      // eslint-disable-next-line no-param-reassign
+      data[key] = _cleanData(value);
+    } else if (
+      typeof value !== 'string' &&
+      typeof value !== 'number' &&
+      typeof value !== 'boolean'
+    ) {
+      window.log.info(`_cleanData: key ${key} had type ${typeof value}`);
+    }
+  }
+  return data;
+}
+
+function _makeJob(fnName) {
+  _jobCounter += 1;
+  const id = _jobCounter;
+
+  _jobs[id] = {
+    fnName,
+  };
+
+  return id;
+}
+
+function _updateJob(id, data) {
+  const { resolve, reject } = data;
+
+  _jobs[id] = {
+    ..._jobs[id],
+    ...data,
+    resolve: value => {
+      _removeJob(id);
+      return resolve(value);
+    },
+    reject: error => {
+      _removeJob(id);
+      return reject(error);
+    },
+  };
+}
+
+function _removeJob(id) {
+  if (_DEBUG) {
+    _jobs[id].complete = true;
+  } else {
+    delete _jobs[id];
+  }
+}
+
+function _getJob(id) {
+  return _jobs[id];
+}
+
+ipcRenderer.on(
+  `${SQL_CHANNEL_KEY}-done`,
+  (event, jobId, errorForDisplay, result) => {
+    const job = _getJob(jobId);
+    if (!job) {
+      throw new Error(
+        `Received job reply to job ${jobId}, but did not have it in our registry!`
+      );
+    }
+
+    const { resolve, reject, fnName } = job;
+
+    if (errorForDisplay) {
+      return reject(
+        new Error(`Error calling channel ${fnName}: ${errorForDisplay}`)
+      );
+    }
+
+    return resolve(result);
+  }
+);
+
+function makeChannel(fnName) {
+  channels[fnName] = (...args) => {
+    const jobId = _makeJob(fnName);
+
+    return new Promise((resolve, reject) => {
+      ipcRenderer.send(SQL_CHANNEL_KEY, jobId, fnName, ...args);
+
+      _updateJob(jobId, {
+        resolve,
+        reject,
+        args: _DEBUG ? args : null,
+      });
+
+      setTimeout(
+        () => resolve(new Error(`Request to ${fnName} timed out`)),
+        5000
+      );
+    });
+  };
+}
+
+forEach(module.exports, fn => {
+  if (isFunction(fn)) {
+    makeChannel(fn.name);
+  }
+});
+
+// Note: will need to restart the app after calling this, to set up afresh
+async function close() {
+  await channels.close();
+}
+
+// Note: will need to restart the app after calling this, to set up afresh
+async function removeDB() {
+  await channels.removeDB();
+}
+
+async function saveMessage(data, { forceSave } = {}) {
+  const id = await channels.saveMessage(_cleanData(data), { forceSave });
+  return id;
+}
+
+async function saveMessages(arrayOfMessages, { forceSave } = {}) {
+  await channels.saveMessages(_cleanData(arrayOfMessages), { forceSave });
 }
 
 async function removeMessage(id, { Message }) {
   const message = await getMessageById(id, { Message });
+
   // Note: It's important to have a fully database-hydrated model to delete here because
   //   it needs to delete all associated on-disk files along with the database delete.
   if (message) {
-    await deferredToPromise(message.destroy());
+    await channels.removeMessage(id);
+    const model = new Message(message);
+    await model.cleanup();
   }
 }
 
 async function getMessageById(id, { Message }) {
-  const message = new Message({ id });
-  try {
-    await deferredToPromise(message.fetch());
-    return message;
-  } catch (error) {
-    return null;
-  }
+  const message = await channels.getMessageById(id);
+  return new Message(message);
 }
 
-async function getAllMessageIds({ db, handleDOMException, getMessageKey }) {
-  const lookup = Object.create(null);
-  const storeName = 'messages';
-
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(storeName, 'readwrite');
-    transaction.onerror = () => {
-      handleDOMException(
-        `assembleLookup(${storeName}) transaction error`,
-        transaction.error,
-        reject
-      );
-    };
-    transaction.oncomplete = () => {
-      // not really very useful - fires at unexpected times
-    };
-
-    const store = transaction.objectStore(storeName);
-    const request = store.openCursor();
-    request.onerror = () => {
-      handleDOMException(
-        `assembleLookup(${storeName}) request error`,
-        request.error,
-        reject
-      );
-    };
-    request.onsuccess = event => {
-      const cursor = event.target.result;
-      if (cursor && cursor.value) {
-        lookup[getMessageKey(cursor.value)] = true;
-        cursor.continue();
-      } else {
-        window.log.info(`Done creating ${storeName} lookup`);
-        resolve(lookup);
-      }
-    };
-  });
+async function getAllMessageIds() {
+  const ids = await channels.getAllMessageIds();
+  return ids;
 }
 
 async function getMessageBySender(
@@ -77,186 +235,155 @@ async function getMessageBySender(
   { source, sourceDevice, sent_at },
   { Message }
 ) {
-  const fetcher = new Message();
-  const options = {
-    index: {
-      name: 'unique',
-      // eslint-disable-next-line camelcase
-      value: [source, sourceDevice, sent_at],
-    },
-  };
-
-  try {
-    await deferredToPromise(fetcher.fetch(options));
-    if (fetcher.get('id')) {
-      return fetcher;
-    }
-
-    return null;
-  } catch (error) {
+  const messages = await channels.getMessageBySender({
+    source,
+    sourceDevice,
+    sent_at,
+  });
+  if (!messages || !messages.length) {
     return null;
   }
+
+  return new Message(messages[0]);
 }
 
 async function getUnreadByConversation(conversationId, { MessageCollection }) {
-  const messages = new MessageCollection();
-
-  await deferredToPromise(
-    messages.fetch({
-      index: {
-        // 'unread' index
-        name: 'unread',
-        lower: [conversationId],
-        upper: [conversationId, Number.MAX_VALUE],
-      },
-    })
-  );
-
-  return messages;
+  const messages = await channels.getUnreadByConversation(conversationId);
+  return new MessageCollection(messages);
 }
 
 async function getMessagesByConversation(
   conversationId,
   { limit = 100, receivedAt = Number.MAX_VALUE, MessageCollection }
 ) {
-  const messages = new MessageCollection();
-
-  const options = {
+  const messages = await channels.getMessagesByConversation(conversationId, {
     limit,
-    index: {
-      // 'conversation' index on [conversationId, received_at]
-      name: 'conversation',
-      lower: [conversationId],
-      upper: [conversationId, receivedAt],
-      order: 'desc',
-      // SELECT messages WHERE conversationId = this.id ORDER
-      // received_at DESC
-    },
-  };
-  await deferredToPromise(messages.fetch(options));
+    receivedAt,
+  });
 
-  return messages;
+  return new MessageCollection(messages);
 }
 
 async function removeAllMessagesInConversation(
   conversationId,
   { MessageCollection }
 ) {
-  const messages = new MessageCollection();
-
-  let loaded;
+  let messages;
   do {
     // Yes, we really want the await in the loop. We're deleting 100 at a
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
-    await deferredToPromise(
-      messages.fetch({
-        limit: 100,
-        index: {
-          // 'conversation' index on [conversationId, received_at]
-          name: 'conversation',
-          lower: [conversationId],
-          upper: [conversationId, Number.MAX_VALUE],
-        },
-      })
-    );
+    messages = await getMessagesByConversation(conversationId, {
+      limit: 100,
+      MessageCollection,
+    });
 
-    loaded = messages.models;
-    messages.reset([]);
+    if (!messages.length) {
+      return;
+    }
+
+    const ids = messages.map(message => message.id);
 
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
-    loaded.map(message => message.destroy());
-  } while (loaded.length > 0);
+    // eslint-disable-next-line no-await-in-loop
+    await Promise.all(messages.map(message => message.cleanup()));
+
+    // eslint-disable-next-line no-await-in-loop
+    await channels.removeMessage(ids);
+  } while (messages.length > 0);
 }
 
 async function getMessagesBySentAt(sentAt, { MessageCollection }) {
-  const messages = new MessageCollection();
-
-  await deferredToPromise(
-    messages.fetch({
-      index: {
-        // 'receipt' index on sent_at
-        name: 'receipt',
-        only: sentAt,
-      },
-    })
-  );
-
-  return messages;
+  const messages = await channels.getMessagesBySentAt(sentAt);
+  return new MessageCollection(messages);
 }
 
 async function getExpiredMessages({ MessageCollection }) {
   window.log.info('Load expired messages');
-  const messages = new MessageCollection();
-
-  await deferredToPromise(
-    messages.fetch({
-      conditions: {
-        expires_at: {
-          $lte: Date.now(),
-        },
-      },
-    })
-  );
-
-  return messages;
+  const messages = await channels.getExpiredMessages();
+  return new MessageCollection(messages);
 }
 
 async function getNextExpiringMessage({ MessageCollection }) {
-  const messages = new MessageCollection();
-
-  await deferredToPromise(
-    messages.fetch({
-      limit: 1,
-      index: {
-        name: 'expires_at',
-      },
-    })
-  );
-
-  return messages;
+  const messages = await channels.getNextExpiringMessage();
+  return new MessageCollection(messages);
 }
 
-async function saveUnprocessed(data, { Unprocessed }) {
-  const unprocessed = new Unprocessed(data);
-  return deferredToPromise(unprocessed.save());
+async function getAllUnprocessed() {
+  return channels.getAllUnprocessed();
 }
 
-async function getAllUnprocessed({ UnprocessedCollection }) {
-  const collection = new UnprocessedCollection();
-  await deferredToPromise(collection.fetch());
-  return collection.map(model => model.attributes);
+async function getUnprocessedById(id, { Unprocessed }) {
+  const unprocessed = await channels.getUnprocessedById(id);
+  return new Unprocessed(unprocessed);
 }
 
-async function updateUnprocessed(id, updates, { Unprocessed }) {
-  const unprocessed = new Unprocessed({
-    id,
+async function saveUnprocessed(data, { forceSave } = {}) {
+  const id = await channels.saveUnprocessed(_cleanData(data), { forceSave });
+  return id;
+}
+
+async function saveUnprocesseds(arrayOfUnprocessed, { forceSave } = {}) {
+  await channels.saveUnprocesseds(_cleanData(arrayOfUnprocessed), {
+    forceSave,
   });
-
-  await deferredToPromise(unprocessed.fetch());
-
-  unprocessed.set(updates);
-  await saveUnprocessed(unprocessed.attributes, { Unprocessed });
 }
 
-async function removeUnprocessed(id, { Unprocessed }) {
-  const unprocessed = new Unprocessed({
-    id,
-  });
+async function updateUnprocessed(id, updates) {
+  const existing = await channels.getUnprocessedById(id);
+  if (!existing) {
+    throw new Error(`Unprocessed id ${id} does not exist in the database!`);
+  }
+  const toSave = {
+    ...existing,
+    ...updates,
+  };
 
-  await deferredToPromise(unprocessed.destroy());
+  await saveUnprocessed(toSave);
+}
+
+async function removeUnprocessed(id) {
+  await channels.removeUnprocessed(id);
 }
 
 async function removeAllUnprocessed() {
-  // erase everything in unprocessed table
+  await channels.removeAllUnprocessed();
 }
 
 async function removeAll() {
-  // erase everything in the database
+  await channels.removeAll();
 }
 
-async function getMessagesNeedingUpgrade(
+// Note: will need to restart the app after calling this, to set up afresh
+async function removeOtherData() {
+  await Promise.all([
+    callChannel(ERASE_SQL_KEY),
+    callChannel(ERASE_ATTACHMENTS_KEY),
+  ]);
+}
+
+async function callChannel(name) {
+  return new Promise((resolve, reject) => {
+    ipcRenderer.send(name);
+    ipcRenderer.once(`${name}-done`, (event, error) => {
+      if (error) {
+        return reject(error);
+      }
+
+      return resolve();
+    });
+
+    setTimeout(
+      () => reject(new Error(`callChannel call to ${name} timed out`)),
+      5000
+    );
+  });
+}
+
+// Functions below here return JSON
+
+async function getLegacyMessagesNeedingUpgrade(
   limit,
   { MessageCollection, maxVersion = MessageType.CURRENT_SCHEMA_VERSION }
 ) {
@@ -278,75 +405,28 @@ async function getMessagesNeedingUpgrade(
   return models.map(model => model.toJSON());
 }
 
+async function getMessagesNeedingUpgrade(
+  limit,
+  { maxVersion = MessageType.CURRENT_SCHEMA_VERSION }
+) {
+  const messages = await channels.getMessagesNeedingUpgrade(limit, {
+    maxVersion,
+  });
+
+  return messages;
+}
+
 async function getMessagesWithVisualMediaAttachments(
   conversationId,
-  { limit, MessageCollection }
+  { limit }
 ) {
-  const messages = new MessageCollection();
-  const lowerReceivedAt = 0;
-  const upperReceivedAt = Number.MAX_VALUE;
-
-  await deferredToPromise(
-    messages.fetch({
-      limit,
-      index: {
-        name: 'hasVisualMediaAttachments',
-        lower: [conversationId, lowerReceivedAt, 1],
-        upper: [conversationId, upperReceivedAt, 1],
-        order: 'desc',
-      },
-    })
-  );
-
-  return messages.models.map(model => model.toJSON());
+  return channels.getMessagesWithVisualMediaAttachments(conversationId, {
+    limit,
+  });
 }
 
-async function getMessagesWithFileAttachments(
-  conversationId,
-  { limit, MessageCollection }
-) {
-  const messages = new MessageCollection();
-  const lowerReceivedAt = 0;
-  const upperReceivedAt = Number.MAX_VALUE;
-
-  await deferredToPromise(
-    messages.fetch({
-      limit,
-      index: {
-        name: 'hasFileAttachments',
-        lower: [conversationId, lowerReceivedAt, 1],
-        upper: [conversationId, upperReceivedAt, 1],
-        order: 'desc',
-      },
-    })
-  );
-
-  return messages.models.map(model => model.toJSON());
+async function getMessagesWithFileAttachments(conversationId, { limit }) {
+  return channels.getMessagesWithFileAttachments(conversationId, {
+    limit,
+  });
 }
-
-module.exports = {
-  saveMessage,
-  removeMessage,
-  getUnreadByConversation,
-  removeAllMessagesInConversation,
-  getMessageBySender,
-  getMessageById,
-  getAllMessageIds,
-  getMessagesBySentAt,
-  getExpiredMessages,
-  getNextExpiringMessage,
-  getMessagesByConversation,
-
-  getAllUnprocessed,
-  saveUnprocessed,
-  updateUnprocessed,
-  removeUnprocessed,
-  removeAllUnprocessed,
-
-  removeAll,
-
-  // Returning plain JSON
-  getMessagesNeedingUpgrade,
-  getMessagesWithVisualMediaAttachments,
-  getMessagesWithFileAttachments,
-};

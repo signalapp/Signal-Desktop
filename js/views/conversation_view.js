@@ -515,9 +515,7 @@
       const messagesLoaded = this.inProgressFetch || Promise.resolve();
 
       // eslint-disable-next-line more/no-then
-      messagesLoaded
-        .then(this.model.decryptOldIncomingKeyErrors.bind(this))
-        .then(this.onLoaded.bind(this), this.onLoaded.bind(this));
+      messagesLoaded.then(this.onLoaded.bind(this), this.onLoaded.bind(this));
 
       this.view.resetScrollPosition();
       this.$el.trigger('force-resize');
@@ -799,11 +797,16 @@
       this.inProgressFetch = this.model
         .fetchContacts()
         .then(() => this.model.fetchMessages())
-        .then(() => {
+        .then(async () => {
           this.$('.bar-container').hide();
-          this.model.messageCollection.where({ unread: 1 }).forEach(m => {
-            m.fetch();
-          });
+          await Promise.all(
+            this.model.messageCollection.where({ unread: 1 }).map(async m => {
+              const latest = await window.Signal.Data.getMessageById(m.id, {
+                Message: Whisper.Message,
+              });
+              m.merge(latest);
+            })
+          );
           this.inProgressFetch = null;
         })
         .catch(error => {
@@ -1003,6 +1006,7 @@
             Message: Whisper.Message,
           });
           message.trigger('unload');
+          this.model.messageCollection.remove(message.id);
           this.resetPanel();
           this.updateHeader();
         },
@@ -1138,10 +1142,17 @@
     async destroyMessages() {
       try {
         await this.confirm(i18n('deleteConversationConfirmation'));
-        await this.model.destroyMessages();
-        this.remove();
+        try {
+          await this.model.destroyMessages();
+          this.remove();
+        } catch (error) {
+          window.log.error(
+            'destroyMessages: Failed to successfully delete conversation',
+            error && error.stack ? error.stack : error
+          );
+        }
       } catch (error) {
-        // nothing to see here
+        // nothing to see here, user canceled out of dialog
       }
     },
 

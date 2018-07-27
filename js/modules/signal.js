@@ -10,6 +10,7 @@ const OS = require('../../ts/OS');
 const Settings = require('./settings');
 const Startup = require('./startup');
 const Util = require('../../ts/util');
+const { migrateToSQL } = require('./migrate_to_sql');
 
 // Components
 const {
@@ -110,6 +111,7 @@ function initializeMigrations({
   const attachmentsPath = getPath(userDataPath);
   const readAttachmentData = createReader(attachmentsPath);
   const loadAttachmentData = Type.loadData(readAttachmentData);
+  const loadQuoteData = MessageType.loadQuoteData(readAttachmentData);
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
 
@@ -122,6 +124,7 @@ function initializeMigrations({
     getAbsoluteAttachmentPath,
     getPlaceholderMigrations,
     loadAttachmentData,
+    loadQuoteData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
     Migrations0DatabaseWithAttachmentData,
     Migrations1DatabaseWithoutAttachmentData,
@@ -222,5 +225,6 @@ exports.setup = (options = {}) => {
     Util,
     Views,
     Workflow,
+    migrateToSQL,
   };
 };

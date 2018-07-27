@@ -127,13 +127,7 @@
       return this.fetch({ range: [`${number}.1`, `${number}.:`] });
     },
   });
-  const Unprocessed = Model.extend({ storeName: 'unprocessed' });
-  const UnprocessedCollection = Backbone.Collection.extend({
-    storeName: 'unprocessed',
-    database: Whisper.Database,
-    model: Unprocessed,
-    comparator: 'timestamp',
-  });
+  const Unprocessed = Model.extend();
   const IdentityRecord = Model.extend({
     storeName: 'identityKeys',
     validAttributes: [
@@ -946,10 +940,15 @@
 
     // Not yet processed messages - for resiliency
     getAllUnprocessed() {
-      return window.Signal.Data.getAllUnprocessed({ UnprocessedCollection });
+      return window.Signal.Data.getAllUnprocessed();
     },
     addUnprocessed(data) {
-      return window.Signal.Data.saveUnprocessed(data, { Unprocessed });
+      // We need to pass forceSave because the data has an id already, which will cause
+      //   an update instead of an insert.
+      return window.Signal.Data.saveUnprocessed(data, {
+        forceSave: true,
+        Unprocessed,
+      });
     },
     updateUnprocessed(id, updates) {
       return window.Signal.Data.updateUnprocessed(id, updates, { Unprocessed });
@@ -961,6 +960,7 @@
       // First the in-memory caches:
       window.storage.reset(); // items store
       ConversationController.reset(); // conversations store
+      await ConversationController.load();
 
       // Then, the entire database:
       await Whisper.Database.clear();

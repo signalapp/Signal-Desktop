@@ -13,6 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const { map, fromPairs } = require('lodash');
 const tmp = require('tmp');
 const pify = require('pify');
 const archiver = require('archiver');
@@ -1140,12 +1141,13 @@ function getMessageKey(message) {
   const sourceDevice = message.sourceDevice || 1;
   return `${source}.${sourceDevice} ${message.timestamp}`;
 }
-function loadMessagesLookup(db) {
-  return window.Signal.Data.getAllMessageIds({
+async function loadMessagesLookup(db) {
+  const array = await window.Signal.Data.getAllMessageIds({
     db,
     getMessageKey,
     handleDOMException: Whisper.Database.handleDOMException,
   });
+  return fromPairs(map(array, item => [item, true]));
 }
 
 function getConversationKey(conversation) {

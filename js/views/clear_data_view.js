@@ -46,7 +46,15 @@
     },
     async clearAllData() {
       try {
-        await Promise.all([Logs.deleteAll(), Database.drop()]);
+        await Promise.all([
+          Logs.deleteAll(),
+          Database.drop(),
+          window.Signal.Data.removeAll(),
+          window.Signal.Data.removeOtherData(),
+        ]);
+
+        await window.Signal.Data.close();
+        await window.Signal.Data.removeDB();
       } catch (error) {
         window.log.error(
           'Something went wrong deleting all data:',

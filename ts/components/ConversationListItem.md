@@ -32,6 +32,73 @@
 />
 ```
 
+#### All types of status
+
+```jsx
+<div>
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    name="Mr. Fire🔥"
+    color="green"
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: 'Sending',
+      status: 'sending',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    name="Mr. Fire🔥"
+    color="green"
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: 'Sent',
+      status: 'sent',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    name="Mr. Fire🔥"
+    color="green"
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: 'Delivered',
+      status: 'delivered',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    name="Mr. Fire🔥"
+    color="green"
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: 'Read',
+      status: 'read',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    name="Mr. Fire🔥"
+    color="green"
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: 'Error',
+      status: 'error',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+</div>
+```
+
 #### With unread
 
 ```jsx
@@ -274,6 +341,16 @@ On platforms that show scrollbars all the time, this is true all the time.
     lastUpdated={Date.now() - 5 * 60 * 1000}
     lastMessage={{
       text: null,
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <ConversationListItem
+    phoneNumber="(202) 555-0011"
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: null,
+      status: 'sent',
     }}
     onClick={() => console.log('onClick')}
     i18n={util.i18n}

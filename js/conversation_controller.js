@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage */
+/* global _, Whisper, Backbone, storage, wrapDeferred */
 
 /* eslint-disable more/no-then */
 
@@ -181,27 +181,34 @@
     },
     reset() {
       this._initialPromise = Promise.resolve();
+      this._initialFetchComplete = false;
       conversations.reset([]);
     },
-    load() {
+    async load() {
       window.log.info('ConversationController: starting initial fetch');
 
-      this._initialPromise = new Promise((resolve, reject) => {
-        conversations.fetch().then(
-          () => {
-            window.log.info('ConversationController: done with initial fetch');
-            this._initialFetchComplete = true;
-            resolve();
-          },
-          error => {
-            window.log.error(
-              'ConversationController: initial fetch failed',
-              error && error.stack ? error.stack : error
-            );
-            reject(error);
-          }
-        );
-      });
+      if (conversations.length) {
+        throw new Error('ConversationController: Already loaded!');
+      }
+
+      const load = async () => {
+        try {
+          await wrapDeferred(conversations.fetch());
+          this._initialFetchComplete = true;
+          await Promise.all(
+            conversations.map(conversation => conversation.updateLastMessage())
+          );
+          window.log.info('ConversationController: done with initial fetch');
+        } catch (error) {
+          window.log.error(
+            'ConversationController: initial fetch failed',
+            error && error.stack ? error.stack : error
+          );
+          throw error;
+        }
+      };
+
+      this._initialPromise = load();
 
       return this._initialPromise;
     },

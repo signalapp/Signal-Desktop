@@ -292,7 +292,10 @@ MessageReceiver.prototype.extend({
   },
   stringToArrayBuffer(string) {
     // eslint-disable-next-line new-cap
-    return new dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
+    return dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
+  },
+  arrayBufferToString(arrayBuffer) {
+    return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary');
   },
   getAllFromCache() {
     window.log.info('getAllFromCache');
@@ -331,7 +334,7 @@ MessageReceiver.prototype.extend({
     const id = this.getEnvelopeId(envelope);
     const data = {
       id,
-      envelope: plaintext,
+      envelope: this.arrayBufferToString(plaintext),
       timestamp: Date.now(),
       attempts: 1,
     };
@@ -340,7 +343,7 @@ MessageReceiver.prototype.extend({
   updateCache(envelope, plaintext) {
     const id = this.getEnvelopeId(envelope);
     const data = {
-      decrypted: plaintext,
+      decrypted: this.arrayBufferToString(plaintext),
     };
     return textsecure.storage.unprocessed.update(id, data);
   },
@@ -1153,11 +1156,6 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
   this.close = messageReceiver.close.bind(messageReceiver);
   messageReceiver.connect();
-
-  textsecure.replay.registerFunction(
-    messageReceiver.tryMessageAgain.bind(messageReceiver),
-    textsecure.replay.Type.INIT_SESSION
-  );
 };
 
 textsecure.MessageReceiver.prototype = {

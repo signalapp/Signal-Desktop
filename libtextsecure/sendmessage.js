@@ -705,8 +705,9 @@ MessageSender.prototype = {
     profileKey
   ) {
     return textsecure.storage.groups.getNumbers(groupId).then(targetNumbers => {
-      if (targetNumbers === undefined)
+      if (targetNumbers === undefined) {
         return Promise.reject(new Error('Unknown Group'));
+      }
 
       const me = textsecure.storage.user.getNumber();
       const numbers = targetNumbers.filter(number => number !== me);
@@ -895,22 +896,6 @@ textsecure.MessageSender = function MessageSenderWrapper(
   cdnUrl
 ) {
   const sender = new MessageSender(url, username, password, cdnUrl);
-  textsecure.replay.registerFunction(
-    sender.tryMessageAgain.bind(sender),
-    textsecure.replay.Type.ENCRYPT_MESSAGE
-  );
-  textsecure.replay.registerFunction(
-    sender.retransmitMessage.bind(sender),
-    textsecure.replay.Type.TRANSMIT_MESSAGE
-  );
-  textsecure.replay.registerFunction(
-    sender.sendMessage.bind(sender),
-    textsecure.replay.Type.REBUILD_MESSAGE
-  );
-  textsecure.replay.registerFunction(
-    sender.retrySendMessageProto.bind(sender),
-    textsecure.replay.Type.RETRY_SEND_MESSAGE_PROTO
-  );
 
   this.sendExpirationTimerUpdateToNumber = sender.sendExpirationTimerUpdateToNumber.bind(
     sender

@@ -45,8 +45,10 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 ### Linux
 
 1.  Pick your favorite package manager.
-1.  Install Python 2.x.
-1.  Install GCC.
+1.  Install `python`
+1.  Install `gcc`
+1.  Install `g++`
+1.  Install `make`
 
 ### All platforms
 

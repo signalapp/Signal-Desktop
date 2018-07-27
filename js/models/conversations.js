@@ -116,15 +116,21 @@
 
       const debouncedUpdateLastMessage = _.debounce(
         this.updateLastMessage.bind(this),
-        1000
+        200
       );
       this.listenTo(
         this.messageCollection,
-        'add remove',
+        'add remove destroy',
         debouncedUpdateLastMessage
       );
-      this.listenTo(this.model, 'newmessage', debouncedUpdateLastMessage);
+      this.listenTo(this.messageCollection, 'sent', this.updateLastMessage);
+      this.listenTo(
+        this.messageCollection,
+        'send-error',
+        this.updateLastMessage
+      );
 
+      this.on('newmessage', this.updateLastMessage);
       this.on('change:avatar', this.updateAvatarUrl);
       this.on('change:profileAvatar', this.updateAvatarUrl);
       this.on('change:profileKey', this.onChangeProfileKey);
@@ -133,10 +139,7 @@
       // Listening for out-of-band data updates
       this.on('delivered', this.updateAndMerge);
       this.on('read', this.updateAndMerge);
-      this.on('sent', this.updateLastMessage);
       this.on('expired', this.onExpired);
-
-      this.updateLastMessage();
     },
 
     isMe() {
@@ -377,98 +380,6 @@
       );
 
       return Promise.all(promises).then(() => lookup);
-    },
-    replay(error, message) {
-      const replayable = new textsecure.ReplayableError(error);
-      return replayable.replay(message.attributes).catch(e => {
-        window.log.error('replay error:', e && e.stack ? e.stack : e);
-      });
-    },
-    decryptOldIncomingKeyErrors() {
-      // We want to run just once per conversation
-      if (this.get('decryptedOldIncomingKeyErrors')) {
-        return Promise.resolve();
-      }
-      window.log.info(
-        'decryptOldIncomingKeyErrors start for',
-        this.idForLogging()
-      );
-
-      const messages = this.messageCollection.filter(message => {
-        const errors = message.get('errors');
-        if (!errors || !errors[0]) {
-          return false;
-        }
-        const error = _.find(
-          errors,
-          e => e.name === 'IncomingIdentityKeyError'
-        );
-
-        return Boolean(error);
-      });
-
-      const markComplete = () => {
-        window.log.info(
-          'decryptOldIncomingKeyErrors complete for',
-          this.idForLogging()
-        );
-        return new Promise(resolve => {
-          this.save({ decryptedOldIncomingKeyErrors: true }).always(resolve);
-        });
-      };
-
-      if (!messages.length) {
-        return markComplete();
-      }
-
-      window.log.info(
-        'decryptOldIncomingKeyErrors found',
-        messages.length,
-        'messages to process'
-      );
-      const safeDelete = async message => {
-        try {
-          window.Signal.Data.removeMessage(message.id, {
-            Message: Whisper.Message,
-          });
-        } catch (error) {
-          // nothing
-        }
-      };
-
-      const promise = this.getIdentityKeys();
-      return promise
-        .then(lookup =>
-          Promise.all(
-            _.map(messages, message => {
-              const source = message.get('source');
-              const error = _.find(
-                message.get('errors'),
-                e => e.name === 'IncomingIdentityKeyError'
-              );
-
-              const key = lookup[source];
-              if (!key) {
-                return Promise.resolve();
-              }
-
-              if (constantTimeEqualArrayBuffers(key, error.identityKey)) {
-                return this.replay(error, message).then(() =>
-                  safeDelete(message)
-                );
-              }
-
-              return Promise.resolve();
-            })
-          )
-        )
-        .catch(error => {
-          window.log.error(
-            'decryptOldIncomingKeyErrors error:',
-            error && error.stack ? error.stack : error
-          );
-        })
-        .then(markComplete);
     },
     isVerified() {
       if (this.isPrivate()) {
@@ -926,12 +837,8 @@
         this.id,
         { limit: 1, MessageCollection: Whisper.MessageCollection }
       );
-      if (!messages.length) {
-        return;
-      }
 
       const lastMessageModel = messages.at(0);
-
       const lastMessageJSON = lastMessageModel
         ? lastMessageModel.toJSON()
         : null;
@@ -968,7 +875,7 @@
       }
     },
 
-    updateExpirationTimer(
+    async updateExpirationTimer(
       providedExpireTimer,
       providedSource,
       receivedAt,
@@ -1024,46 +931,48 @@
         message.set({ recipients: this.getRecipients() });
       }
 
-      return Promise.all([
-        window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        }),
-        wrapDeferred(this.save({ expireTimer })),
-      ]).then(() => {
-        // if change was made remotely, don't send it to the number/group
-        if (receivedAt) {
-          return message;
-        }
-
-        let sendFunc;
-        if (this.get('type') === 'private') {
-          sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
-        } else {
-          sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
-        }
-        let profileKey;
-        if (this.get('profileSharing')) {
-          profileKey = storage.get('profileKey');
-        }
-        const promise = sendFunc(
-          this.get('id'),
-          this.get('expireTimer'),
-          message.get('sent_at'),
-          profileKey
-        );
-
-        return message.send(promise).then(() => message);
+      const id = await window.Signal.Data.saveMessage(message.attributes, {
+        Message: Whisper.Message,
       });
+      message.set({ id });
+
+      await wrapDeferred(this.save({ expireTimer }));
+
+      // if change was made remotely, don't send it to the number/group
+      if (receivedAt) {
+        return message;
+      }
+
+      let sendFunc;
+      if (this.get('type') === 'private') {
+        sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
+      } else {
+        sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
+      }
+      let profileKey;
+      if (this.get('profileSharing')) {
+        profileKey = storage.get('profileKey');
+      }
+      const promise = sendFunc(
+        this.get('id'),
+        this.get('expireTimer'),
+        message.get('sent_at'),
+        profileKey
+      );
+
+      await message.send(promise);
+
+      return message;
     },
 
     isSearchable() {
       return !this.get('left') || !!this.get('lastMessage');
     },
 
-    endSession() {
+    async endSession() {
       if (this.isPrivate()) {
         const now = Date.now();
-        const message = this.messageCollection.create({
+        const message = this.messageCollection.add({
           conversationId: this.id,
           type: 'outgoing',
           sent_at: now,
@@ -1072,11 +981,17 @@
           recipients: this.getRecipients(),
           flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
         });
+
+        const id = await window.Signal.Data.saveMessage(message.attributes, {
+          Message: Whisper.Message,
+        });
+        message.set({ id });
+
         message.send(textsecure.messaging.resetSession(this.id, now));
       }
     },
 
-    updateGroup(providedGroupUpdate) {
+    async updateGroup(providedGroupUpdate) {
       let groupUpdate = providedGroupUpdate;
 
       if (this.isPrivate()) {
@@ -1086,13 +1001,19 @@
         groupUpdate = this.pick(['name', 'avatar', 'members']);
       }
       const now = Date.now();
-      const message = this.messageCollection.create({
+      const message = this.messageCollection.add({
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
         received_at: now,
         group_update: groupUpdate,
       });
+
+      const id = await window.Signal.Data.saveMessage(message.attributes, {
+        Message: Whisper.Message,
+      });
+      message.set({ id });
+
       message.send(
         textsecure.messaging.updateGroup(
           this.id,
@@ -1103,17 +1024,23 @@
       );
     },
 
-    leaveGroup() {
+    async leaveGroup() {
       const now = Date.now();
       if (this.get('type') === 'group') {
         this.save({ left: true });
-        const message = this.messageCollection.create({
+        const message = this.messageCollection.add({
           group_update: { left: 'You' },
           conversationId: this.id,
           type: 'outgoing',
           sent_at: now,
           received_at: now,
         });
+
+        const id = await window.Signal.Data.saveMessage(message.attributes, {
+          Message: Whisper.Message,
+        });
+        message.set({ id });
+
         message.send(textsecure.messaging.leaveGroup(this.id));
       }
     },

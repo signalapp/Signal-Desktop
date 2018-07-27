@@ -34,12 +34,11 @@ describe('KeyChangeListener', function() {
     });
 
     it('generates a key change notice in the private conversation with this contact', function(done) {
-      convo.on('newmessage', function() {
-        return convo.fetchMessages().then(function() {
-          var message = convo.messageCollection.at(0);
-          assert.strictEqual(message.get('type'), 'keychange');
-          done();
-        });
+      convo.on('newmessage', async function() {
+        await convo.fetchMessages();
+        var message = convo.messageCollection.at(0);
+        assert.strictEqual(message.get('type'), 'keychange');
+        done();
       });
       store.saveIdentity(address.toString(), newKey);
     });
@@ -61,12 +60,11 @@ describe('KeyChangeListener', function() {
     });
 
     it('generates a key change notice in the group conversation with this contact', function(done) {
-      convo.on('newmessage', function() {
-        return convo.fetchMessages().then(function() {
-          var message = convo.messageCollection.at(0);
-          assert.strictEqual(message.get('type'), 'keychange');
-          done();
-        });
+      convo.on('newmessage', async function() {
+        await convo.fetchMessages();
+        var message = convo.messageCollection.at(0);
+        assert.strictEqual(message.get('type'), 'keychange');
+        done();
       });
       store.saveIdentity(address.toString(), newKey);
     });

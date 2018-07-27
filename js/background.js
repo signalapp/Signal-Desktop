@@ -119,7 +119,10 @@
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
 
+  let idleDetector;
   let initialLoadComplete = false;
+  let newVersion = false;
+
   window.owsDesktopApp = {};
   window.document.title = window.getTitle();
 
@@ -165,85 +168,6 @@
   window.log.info('Storage fetch');
   storage.fetch();
 
-  const MINIMUM_VERSION = 7;
-
-  async function upgradeMessages() {
-    const NUM_MESSAGES_PER_BATCH = 10;
-    window.log.info(
-      'upgradeMessages: Mandatory message schema upgrade started.',
-      `Target version: ${MINIMUM_VERSION}`
-    );
-
-    let isMigrationWithoutIndexComplete = false;
-    while (!isMigrationWithoutIndexComplete) {
-      const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-      // eslint-disable-next-line no-await-in-loop
-      const batchWithoutIndex = await MessageDataMigrator.processNextBatchWithoutIndex(
-        {
-          databaseName: database.name,
-          minDatabaseVersion: database.version,
-          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-          upgradeMessageSchema,
-          maxVersion: MINIMUM_VERSION,
-          BackboneMessage: Whisper.Message,
-          saveMessage: window.Signal.Data.saveMessage,
-        }
-      );
-      window.log.info(
-        'upgradeMessages: upgrade without index',
-        batchWithoutIndex
-      );
-      isMigrationWithoutIndexComplete = batchWithoutIndex.done;
-    }
-    window.log.info('upgradeMessages: upgrade without index complete!');
-
-    let isMigrationWithIndexComplete = false;
-    while (!isMigrationWithIndexComplete) {
-      // eslint-disable-next-line no-await-in-loop
-      const batchWithIndex = await MessageDataMigrator.processNext({
-        BackboneMessage: Whisper.Message,
-        BackboneMessageCollection: Whisper.MessageCollection,
-        numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-        upgradeMessageSchema,
-        getMessagesNeedingUpgrade: window.Signal.Data.getMessagesNeedingUpgrade,
-        saveMessage: window.Signal.Data.saveMessage,
-        maxVersion: MINIMUM_VERSION,
-      });
-      window.log.info('upgradeMessages: upgrade with index', batchWithIndex);
-      isMigrationWithIndexComplete = batchWithIndex.done;
-    }
-    window.log.info('upgradeMessages: upgrade with index complete!');
-
-    window.log.info('upgradeMessages: Message schema upgrade complete');
-  }
-
-  await upgradeMessages();
-
-  const idleDetector = new IdleDetector();
-  let isMigrationWithIndexComplete = false;
-  window.log.info('Starting background data migration. Target version: latest');
-  idleDetector.on('idle', async () => {
-    const NUM_MESSAGES_PER_BATCH = 1;
-
-    if (!isMigrationWithIndexComplete) {
-      const batchWithIndex = await MessageDataMigrator.processNext({
-        BackboneMessage: Whisper.Message,
-        BackboneMessageCollection: Whisper.MessageCollection,
-        numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-        upgradeMessageSchema,
-        getMessagesNeedingUpgrade: window.Signal.Data.getMessagesNeedingUpgrade,
-        saveMessage: window.Signal.Data.saveMessage,
-      });
-      window.log.info('Upgrade message schema (with index):', batchWithIndex);
-      isMigrationWithIndexComplete = batchWithIndex.done;
-    }
-
-    if (isMigrationWithIndexComplete) {
-      window.log.info('Background migration complete. Stopping idle detector.');
-      idleDetector.stop();
-    }
-  });
-
   function mapOldThemeToNew(theme) {
     switch (theme) {
       case 'dark':
@@ -266,6 +190,121 @@
       return;
     }
     first = false;
+
+    const currentVersion = window.getVersion();
+    const lastVersion = storage.get('version');
+    newVersion = !lastVersion || currentVersion !== lastVersion;
+    await storage.put('version', currentVersion);
+
+    if (newVersion) {
+      if (
+        lastVersion &&
+        window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')
+      ) {
+        await window.Signal.Logs.deleteAll();
+        window.restart();
+      }
+
+      window.log.info(
+        `New version detected: ${currentVersion}; previous: ${lastVersion}`
+      );
+    }
+
+    const MINIMUM_VERSION = 7;
+    async function upgradeMessages() {
+      const NUM_MESSAGES_PER_BATCH = 10;
+      window.log.info(
+        'upgradeMessages: Mandatory message schema upgrade started.',
+        `Target version: ${MINIMUM_VERSION}`
+      );
+
+      let isMigrationWithoutIndexComplete = false;
+      while (!isMigrationWithoutIndexComplete) {
+        const database = Migrations0DatabaseWithAttachmentData.getDatabase();
+        // eslint-disable-next-line no-await-in-loop
+        const batchWithoutIndex = await MessageDataMigrator.processNextBatchWithoutIndex(
+          {
+            databaseName: database.name,
+            minDatabaseVersion: database.version,
+            numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+            upgradeMessageSchema,
+            maxVersion: MINIMUM_VERSION,
+            BackboneMessage: Whisper.Message,
+            saveMessage: window.Signal.Data.saveMessage,
+          }
+        );
+        window.log.info(
+          'upgradeMessages: upgrade without index',
+          batchWithoutIndex
+        );
+        isMigrationWithoutIndexComplete = batchWithoutIndex.done;
+      }
+      window.log.info('upgradeMessages: upgrade without index complete!');
+
+      let isMigrationWithIndexComplete = false;
+      while (!isMigrationWithIndexComplete) {
+        // eslint-disable-next-line no-await-in-loop
+        const batchWithIndex = await MessageDataMigrator.processNext({
+          BackboneMessage: Whisper.Message,
+          BackboneMessageCollection: Whisper.MessageCollection,
+          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+          upgradeMessageSchema,
+          getMessagesNeedingUpgrade:
+            window.Signal.Data.getLegacyMessagesNeedingUpgrade,
+          saveMessage: window.Signal.Data.saveMessage,
+          maxVersion: MINIMUM_VERSION,
+        });
+        window.log.info('upgradeMessages: upgrade with index', batchWithIndex);
+        isMigrationWithIndexComplete = batchWithIndex.done;
+      }
+      window.log.info('upgradeMessages: upgrade with index complete!');
+
+      window.log.info('upgradeMessages: Message schema upgrade complete');
+    }
+
+    await upgradeMessages();
+
+    idleDetector = new IdleDetector();
+    let isMigrationWithIndexComplete = false;
+    window.log.info(
+      `Starting background data migration. Target version: ${
+        Message.CURRENT_SCHEMA_VERSION
+      }`
+    );
+    idleDetector.on('idle', async () => {
+      const NUM_MESSAGES_PER_BATCH = 1;
+
+      if (!isMigrationWithIndexComplete) {
+        const batchWithIndex = await MessageDataMigrator.processNext({
+          BackboneMessage: Whisper.Message,
+          BackboneMessageCollection: Whisper.MessageCollection,
+          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+          upgradeMessageSchema,
+          getMessagesNeedingUpgrade:
+            window.Signal.Data.getMessagesNeedingUpgrade,
+          saveMessage: window.Signal.Data.saveMessage,
+        });
+        window.log.info('Upgrade message schema (with index):', batchWithIndex);
+        isMigrationWithIndexComplete = batchWithIndex.done;
+      }
+
+      if (isMigrationWithIndexComplete) {
+        window.log.info(
+          'Background migration complete. Stopping idle detector.'
+        );
+        idleDetector.stop();
+      }
+    });
+
+    const db = await Whisper.Database.open();
+    await window.Signal.migrateToSQL({
+      db,
+      clearStores: Whisper.Database.clearStores,
+      handleDOMException: Whisper.Database.handleDOMException,
+    });
+
+    // Note: We are not invoking the second set of IndexedDB migrations because it is
+    //   likely that any future migrations will simply extracting things from IndexedDB.
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
@@ -340,14 +379,20 @@
 
     try {
       await ConversationController.load();
+    } catch (error) {
+      window.log.error(
+        'background.js: ConversationController failed to load:',
+        error && error.stack ? error.stack : error
+      );
     } finally {
       start();
     }
   });
 
   Whisper.events.on('shutdown', async () => {
-    idleDetector.stop();
-
+    if (idleDetector) {
+      idleDetector.stop();
+    }
     if (messageReceiver) {
       await messageReceiver.close();
     }
@@ -376,25 +421,6 @@
   });
 
   async function start() {
-    const currentVersion = window.getVersion();
-    const lastVersion = storage.get('version');
-    const newVersion = !lastVersion || currentVersion !== lastVersion;
-    await storage.put('version', currentVersion);
-
-    if (newVersion) {
-      if (
-        lastVersion &&
-        window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')
-      ) {
-        await window.Signal.Logs.deleteAll();
-        window.restart();
-      }
-
-      window.log.info(
-        `New version detected: ${currentVersion}; previous: ${lastVersion}`
-      );
-    }
-
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('listening for registration events');
@@ -646,15 +672,6 @@
     }
 
     storage.onready(async () => {
-      const shouldSkipAttachmentMigrationForNewUsers = firstRun === true;
-      if (shouldSkipAttachmentMigrationForNewUsers) {
-        const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-        const connection = await Signal.Database.open(
-          database.name,
-          database.version
-        );
-        await Signal.Settings.markAttachmentMigrationComplete(connection);
-      }
       idleDetector.start();
     });
   }
@@ -1009,8 +1026,14 @@
 
         // These two are important to ensure we don't rip through every message
         //   in the database attempting to upgrade it after starting up again.
-        textsecure.storage.put(LAST_PROCESSED_INDEX_KEY, lastProcessedIndex);
-        textsecure.storage.put(IS_MIGRATION_COMPLETE_KEY, isMigrationComplete);
+        textsecure.storage.put(
+          IS_MIGRATION_COMPLETE_KEY,
+          isMigrationComplete || false
+        );
+        textsecure.storage.put(
+          LAST_PROCESSED_INDEX_KEY,
+          lastProcessedIndex || null
+        );
 
         window.log.info('Successfully cleared local configuration');
       } catch (eraseError) {

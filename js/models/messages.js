@@ -22,7 +22,9 @@
   const {
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
-  } = Signal.Migrations;
+    loadAttachmentData,
+    loadQuoteData,
+  } = window.Signal.Migrations;
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
@@ -54,8 +56,6 @@
   window.hasSignalAccount = number => window.AccountCache[number];
 
   window.Whisper.Message = Backbone.Model.extend({
-    database: Whisper.Database,
-    storeName: 'messages',
     initialize(attributes) {
       if (_.isObject(attributes)) {
         this.set(
@@ -211,9 +211,11 @@
       return '';
     },
     onDestroy() {
+      this.cleanup();
+    },
+    async cleanup() {
       this.unload();
-
-      return deleteExternalMessageFiles(this.attributes);
+      await deleteExternalMessageFiles(this.attributes);
     },
     unload() {
       if (this.quotedMessage) {
@@ -269,15 +271,15 @@
         disabled,
       };
 
-      if (source === this.OUR_NUMBER) {
-        return {
-          ...basicProps,
-          type: 'fromMe',
-        };
-      } else if (fromSync) {
+      if (fromSync) {
         return {
           ...basicProps,
           type: 'fromSync',
+        };
+      } else if (source === this.OUR_NUMBER) {
+        return {
+          ...basicProps,
+          type: 'fromMe',
         };
       }
 
@@ -416,7 +418,7 @@
 
       const authorColor = contactModel ? contactModel.getColor() : null;
       const authorAvatar = contactModel ? contactModel.getAvatar() : null;
-      const authorAvatarPath = authorAvatar.url;
+      const authorAvatarPath = authorAvatar ? authorAvatar.url : null;
 
       const expirationLength = this.get('expireTimer') * 1000;
       const expireTimerStart = this.get('expirationStartTimestamp');
@@ -654,15 +656,117 @@
         contacts: sortedContacts,
       };
     },
-    retrySend() {
-      const retries = _.filter(
+
+    // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
+    async retrySend() {
+      const [retries, errors] = _.partition(
         this.get('errors'),
         this.isReplayableError.bind(this)
       );
-      _.map(retries, 'number').forEach(number => {
-        this.resend(number);
-      });
+
+      // Remove the errors that aren't replayable
+      this.set({ errors });
+
+      const profileKey = null;
+      const numbers = retries.map(retry => retry.number);
+
+      if (!numbers.length) {
+        window.log.error(
+          'retrySend: Attempted to retry, but no numbers to send to!'
+        );
+        return null;
+      }
+
+      const attachmentsWithData = await Promise.all(
+        (this.get('attachments') || []).map(loadAttachmentData)
+      );
+      const quoteWithData = await loadQuoteData(this.get('quote'));
+
+      const conversation = this.getConversation();
+      let promise;
+
+      if (conversation.isPrivate()) {
+        const [number] = numbers;
+
+        promise = textsecure.messaging.sendMessageToNumber(
+          number,
+          this.get('body'),
+          attachmentsWithData,
+          quoteWithData,
+          this.get('sent_at'),
+          this.get('expireTimer'),
+          profileKey
+        );
+      } else {
+        // Because this is a partial group send, we manually construct the request like
+        //   sendMessageToGroup does.
+        promise = textsecure.messaging.sendMessage({
+          recipients: numbers,
+          body: this.get('body'),
+          timestamp: this.get('sent_at'),
+          attachments: attachmentsWithData,
+          quote: quoteWithData,
+          needsSync: !this.get('synced'),
+          expireTimer: this.get('expireTimer'),
+          profileKey,
+          group: {
+            id: this.get('conversationId'),
+            type: textsecure.protobuf.GroupContext.Type.DELIVER,
+          },
+        });
+      }
+
+      return this.send(promise);
     },
+    isReplayableError(e) {
+      return (
+        e.name === 'MessageError' ||
+        e.name === 'OutgoingMessageError' ||
+        e.name === 'SendMessageNetworkError' ||
+        e.name === 'SignedPreKeyRotationError' ||
+        e.name === 'OutgoingIdentityKeyError'
+      );
+    },
+
+    // Called when the user ran into an error with a specific user, wants to send to them
+    //   One caller today: ConversationView.forceSend()
+    async resend(number) {
+      const error = this.removeOutgoingErrors(number);
+      if (error) {
+        const profileKey = null;
+        const attachmentsWithData = await Promise.all(
+          (this.get('attachments') || []).map(loadAttachmentData)
+        );
+        const quoteWithData = await loadQuoteData(this.get('quote'));
+
+        const promise = textsecure.messaging.sendMessageToNumber(
+          number,
+          this.get('body'),
+          attachmentsWithData,
+          quoteWithData,
+          this.get('sent_at'),
+          this.get('expireTimer'),
+          profileKey
+        );
+
+        this.send(promise);
+      }
+    },
+    removeOutgoingErrors(number) {
+      const errors = _.partition(
+        this.get('errors'),
+        e =>
+          e.number === number &&
+          (e.name === 'MessageError' ||
+            e.name === 'OutgoingMessageError' ||
+            e.name === 'SendMessageNetworkError' ||
+            e.name === 'SignedPreKeyRotationError' ||
+            e.name === 'OutgoingIdentityKeyError')
+      );
+      this.set({ errors: errors[1] });
+      return errors[0][0];
+    },
+
     getConversation() {
       // This needs to be an unsafe call, because this method is called during
       //   initial module setup. We may be in the middle of the initial fetch to
@@ -720,9 +824,12 @@
         .then(async result => {
           const now = Date.now();
           this.trigger('done');
+
+          // This is used by sendSyncMessage, then set to null
           if (result.dataMessage) {
             this.set({ dataMessage: result.dataMessage });
           }
+
           const sentTo = this.get('sent_to') || [];
           this.set({
             sent_to: _.union(sentTo, result.successfulNumbers),
@@ -739,6 +846,7 @@
         .catch(result => {
           const now = Date.now();
           this.trigger('done');
+
           if (result.dataMessage) {
             this.set({ dataMessage: result.dataMessage });
           }
@@ -774,9 +882,9 @@
             );
           }
 
-          return Promise.all(promises).then(() => {
-            this.trigger('send-error', this.get('errors'));
-          });
+          this.trigger('send-error', this.get('errors'));
+
+          return Promise.all(promises);
         });
     },
 
@@ -855,7 +963,6 @@
         Message: Whisper.Message,
       });
     },
-
     hasNetworkError() {
       const error = _.find(
         this.get('errors'),
@@ -866,36 +973,6 @@
           e.name === 'SignedPreKeyRotationError'
       );
       return !!error;
-    },
-    removeOutgoingErrors(number) {
-      const errors = _.partition(
-        this.get('errors'),
-        e =>
-          e.number === number &&
-          (e.name === 'MessageError' ||
-            e.name === 'OutgoingMessageError' ||
-            e.name === 'SendMessageNetworkError' ||
-            e.name === 'SignedPreKeyRotationError' ||
-            e.name === 'OutgoingIdentityKeyError')
-      );
-      this.set({ errors: errors[1] });
-      return errors[0][0];
-    },
-    isReplayableError(e) {
-      return (
-        e.name === 'MessageError' ||
-        e.name === 'OutgoingMessageError' ||
-        e.name === 'SendMessageNetworkError' ||
-        e.name === 'SignedPreKeyRotationError' ||
-        e.name === 'OutgoingIdentityKeyError'
-      );
-    },
-    resend(number) {
-      const error = this.removeOutgoingErrors(number);
-      if (error) {
-        const promise = new textsecure.ReplayableError(error).replay();
-        this.send(promise);
-      }
     },
     handleDataMessage(dataMessage, confirm) {
       // This function is called from the background script in a few scenarios:
@@ -1217,10 +1294,12 @@
         const expiresAt = start + delta;
 
         this.set({ expires_at: expiresAt });
-        const id = await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-        this.set({ id });
+        const id = this.get('id');
+        if (id) {
+          await window.Signal.Data.saveMessage(this.attributes, {
+            Message: Whisper.Message,
+          });
+        }
 
         Whisper.ExpiringMessagesListener.update();
         window.log.info('Set message expiration', {
@@ -1233,6 +1312,7 @@
 
   Whisper.MessageCollection = Backbone.Collection.extend({
     model: Whisper.Message,
+    // Keeping this for legacy upgrade pre-migrate to SQLCipher
     database: Whisper.Database,
     storeName: 'messages',
     comparator(left, right) {
@@ -1282,7 +1362,15 @@
         }
       );
 
-      this.add(messages.models);
+      const models = messages.filter(message => Boolean(message.id));
+      const eliminated = messages.length - models.length;
+      if (eliminated > 0) {
+        window.log.warn(
+          `fetchConversation: Eliminated ${eliminated} messages without an id`
+        );
+      }
+
+      this.add(models);
 
       if (unreadCount <= 0) {
         return;

@@ -71,6 +71,7 @@ function deleteDatabase() {
 /* Delete the database before running any tests */
 before(async () => {
   await deleteDatabase();
+  await window.Signal.Data.removeAll();
 
   await Signal.Migrations.Migrations0DatabaseWithAttachmentData.run({
     Backbone,
@@ -82,4 +83,5 @@ before(async () => {
 async function clearDatabase() {
   const db = await Whisper.Database.open();
   await Whisper.Database.clear();
+  await window.Signal.Data.removeAll();
 }
