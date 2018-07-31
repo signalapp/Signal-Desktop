@@ -16,7 +16,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "appMenuHideOthers": {
-        "message": "Hide Others",
+        "message": "Skjul andre",
         "description": "Application menu command to hide all other windows"
     },
     "linkedDevices": {
@@ -24,7 +24,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "I går",
         "description": "Section header in the media gallery"
     },
     "replyingToYourself": {
@@ -32,7 +32,7 @@
         "description": "Shown in iOS theme when you quote yourself"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Dokumenter",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
@@ -40,7 +40,7 @@
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Sidste import:",
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
@@ -54,7 +54,7 @@
         }
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "Denne måned",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -66,11 +66,11 @@
         "description": ""
     },
     "androidMessageLengthWarning": {
-        "message": "Android clients will only receive the first 2000 characters of this message.",
+        "message": "Android-enheder vil kun modtage de første 2000 tegn af denne besked.",
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ forlod gruppen",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -98,8 +98,18 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "importCompleteHeader": {
-        "message": "Success!",
+        "message": "Succes!",
         "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "timestamp_m": {
         "message": "1 minut",
@@ -110,7 +120,7 @@
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "address": {
-        "message": "address",
+        "message": "adresse",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "debugLog": {
@@ -122,7 +132,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "appMenuQuit": {
-        "message": "Quit Signal",
+        "message": "Luk Signal",
         "description": "Application menu command to close the application"
     },
     "disappearingMessages": {
@@ -130,7 +140,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "editMenuCut": {
-        "message": "Cut",
+        "message": "Klip",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "deleteWarning": {
@@ -138,7 +148,7 @@
         "description": ""
     },
     "verifyNewNumber": {
-        "message": "Verify New Number",
+        "message": "Verificer nyt nummer",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
@@ -146,7 +156,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "Hvis du ønsker at verificere sikkerheden af din end-to-end kryptering med $name$ kan du sammenligne numrene ovenfor med numrene på deres enhed.",
         "description": "",
         "placeholders": {
             "name": {
@@ -176,11 +186,11 @@
         "description": "Hover text for attachment filenames"
     },
     "messagesBelow": {
-        "message": "New messages below",
+        "message": "Nye beskeder nedenfor",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "editMenuSelectAll": {
-        "message": "Select All",
+        "message": "Vælg alle",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "resetSession": {
@@ -188,11 +198,11 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "replyingToYou": {
-        "message": "Replying to You",
+        "message": "Svarer dig",
         "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "you": {
-        "message": "You",
+        "message": "Dig",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "offline": {
@@ -210,6 +220,10 @@
     "checkNetworkConnection": {
         "message": "Kontroller din netværksforbindelse.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
+    "youDisabledDisappearingMessages": {
+        "message": "Du slog forsvindende beskeder fra",
+        "description": "Displayed in the conversation list when the timer is turned off"
     },
     "notificationSettingsDialog": {
         "message": "Når beskeder ankommer, vis notifikationer med:",
@@ -244,7 +258,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "Fejl i forbindelse med indgående besked",
         "description": ""
     },
     "poBox": {
@@ -252,7 +266,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "themeLight": {
-        "message": "Light",
+        "message": "Lys",
         "description": "Label text for light theme (normal)"
     },
     "delete": {
@@ -260,7 +274,7 @@
         "description": ""
     },
     "verified": {
-        "message": "Verified",
+        "message": "Verificeret",
         "description": ""
     },
     "trayTooltip": {
@@ -280,19 +294,29 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "phone": {
-        "message": "phone",
+        "message": "telefon",
         "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ hr",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "deleteThisMessage": {
         "message": "Slet besked",
         "description": ""
     },
     "editMenuPaste": {
-        "message": "Paste",
+        "message": "Indsæt",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Dit sikkerhedsnummer med $name$ har ændret sig for nylig. Dette kan betyde at nogen forsøger at opsnappe jeres kommunikation eller at $name$ bare har geninstalleret Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -306,11 +330,11 @@
         "description": "Label for the time a message was sent"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "Denne uge",
         "description": "Section header in the media gallery"
     },
     "sendMessageToContact": {
-        "message": "Send Message",
+        "message": "Send besked",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
@@ -318,7 +342,7 @@
         "description": "Header of screen shown as data is import"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "Aktiver stavekontrol af beskeder",
         "description": "Description of the media permission description"
     },
     "theyChangedTheTimer": {
@@ -340,7 +364,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "viewMenuZoomOut": {
-        "message": "Zoom Out",
+        "message": "Zoom ud",
         "description": "View menu command to make everything smaller"
     },
     "mainMenuSettings": {
@@ -348,7 +372,7 @@
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Dine sikkerhedsnumre med flere gruppemedlemmer har ændret sig for nylig. Dette kan betyde at nogen forsøger at opsnappe jeres kommunikation eller bare at de har geninstalleret Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "emojiAlt": {
@@ -366,7 +390,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "editMenuUndo": {
-        "message": "Undo",
+        "message": "Fortryd",
         "description": "Edit menu command to remove recently-typed text"
     },
     "reportIssue": {
@@ -386,11 +410,11 @@
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "mediaEmptyState": {
-        "message": "You don’t have any media in this conversation",
+        "message": "Du har ingen mediefiler i denne samtale",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "notificationMostRecentFrom": {
-        "message": "Most recent from:",
+        "message": "Seneste fra:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
@@ -402,7 +426,7 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
+        "message": "Tillad adgang til kamera og mikrofon",
         "description": "Description of the media permission description"
     },
     "from": {
@@ -426,11 +450,11 @@
         "description": ""
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "Sikkerhedsnummer har ændret sig",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "today": {
-        "message": "Today",
+        "message": "I dag",
         "description": "Section header in the media gallery"
     },
     "debugLogExplanation": {
@@ -442,7 +466,7 @@
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ forlod gruppen",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -456,11 +480,11 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewMenuZoomIn": {
-        "message": "Zoom In",
+        "message": "Zoom ind",
         "description": "View menu command to make everything bigger"
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "Se all mediefiler",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "windowMenuBringAllToFront": {
@@ -490,7 +514,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "Sikkerhedsnummer med $name$ har ændret sig",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -524,11 +548,11 @@
         "description": "Used in alt tag of image attachment"
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "Lær mere om at verificere sikkerhedsnumre",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
+        "message": "Signal Desktop indstillinger",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "timerSetOnSync": {
@@ -546,7 +570,7 @@
         "description": "Text of the button that deletes all data"
     },
     "unreadMessages": {
-        "message": "$count$ Unread Messages",
+        "message": "$count$ ulæste beskeder",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -560,7 +584,7 @@
         "description": ""
     },
     "allowAccess": {
-        "message": "Allow Access",
+        "message": "Tillad adgang",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "joinedTheGroup": {
@@ -574,7 +598,7 @@
         }
     },
     "work": {
-        "message": "work",
+        "message": "arbejde",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "goToForums": {
@@ -584,6 +608,10 @@
     "menuSetupWithImport": {
         "message": "Set Up with Import",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "disappearingMessagesDisabled": {
+        "message": "Forsvindende beskeder slået fra",
+        "description": "Displayed in the left pane when the timer is turned off"
     },
     "videoScreenshotFailedToLoad": {
         "message": "Video screenshot failed to load",
@@ -598,7 +626,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "home": {
-        "message": "home",
+        "message": "hjem",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
@@ -620,7 +648,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Dit sikkerhedsnummer med $name$ har ændret sig siden du sidst verificerede. Dette kan betyde at nogen forsøger at opsnappe jeres kommunikation eller at $name$ bare har geninstalleret Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -638,15 +666,15 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "Mere info...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "notificationMostRecent": {
-        "message": "Most recent:",
+        "message": "Seneste:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$:",
+        "message": "Dit sikkerhedsnummer med $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -656,7 +684,7 @@
         }
     },
     "windowMenuClose": {
-        "message": "Close Window",
+        "message": "Luk vindue",
         "description": "Window menu command to close the current window"
     },
     "showLess": {
@@ -664,20 +692,30 @@
         "description": "Hides the details of a key change"
     },
     "spellCheck": {
-        "message": "Spell Check",
+        "message": "Stavekontrol",
         "description": "Description of the media permission description"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Tema",
         "description": "Header for theme settings"
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "Betingelser og privatlivspolitik",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Nyt sikkerhedsnummer",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ slog forsvindende beskeder fra",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Privatliv er muligt. Signal gør det nemt.",
@@ -688,11 +726,11 @@
         "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Afspil lydnotifikation",
         "description": "Description for audio notification setting"
     },
     "isNotVerified": {
-        "message": "You have not verified your safety number with $name$.",
+        "message": "Du har ikke verificeret dit sikkerhedsnummer med $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -710,7 +748,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "lightboxImageAlt": {
-        "message": "Image sent in conversation",
+        "message": "Billede sendt i samtale",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
@@ -726,11 +764,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
+        "message": "Indsæt og tilpas format",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "signalSettings": {
-        "message": "Signal Settings",
+        "message": "Signal indstillinger",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "timestampFormat_M": {
@@ -754,7 +792,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "Nummer er ikke registreret",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
@@ -776,11 +814,11 @@
         "description": ""
     },
     "mobile": {
-        "message": "mobile",
+        "message": "mobil",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "notificationFrom": {
-        "message": "From:",
+        "message": "Fra:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "sync": {
@@ -806,7 +844,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "Du markerede dit sikkerhedsnummer med $name$ som ikke verificeret",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -820,7 +858,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "isVerified": {
-        "message": "You have verified your safety number with $name$.",
+        "message": "Du har verificeret dit sikkerhedsnummer med $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -850,7 +888,7 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "permissions": {
-        "message": "Permissions",
+        "message": "Tilladelser",
         "description": "Header for permissions section of settings"
     },
     "loadDataDescription": {
@@ -878,11 +916,11 @@
         "description": ""
     },
     "documentsEmptyState": {
-        "message": "You don’t have any documents in this conversation",
+        "message": "Du har ingen dokumenter i denne samtale",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "Slet besked",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
@@ -894,7 +932,7 @@
         "description": ""
     },
     "fileIconAlt": {
-        "message": "File icon",
+        "message": "Filikon",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "timerOption_0_seconds": {
@@ -902,7 +940,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "editMenuRedo": {
-        "message": "Redo",
+        "message": "Gentag",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "invalidNumberError": {
@@ -914,7 +952,7 @@
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
-        "message": "New message below",
+        "message": "Ny besked nedenfor",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "hoursAgo": {
@@ -936,11 +974,11 @@
         "description": "Displayed when we can't connect to the server."
     },
     "unverify": {
-        "message": "Mark as not verified",
+        "message": "Marker som ikke verificeret",
         "description": ""
     },
     "initialSync": {
-        "message": "Syncing contacts and groups",
+        "message": "Synkroniserer kontakter og grupper",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "mainMenuView": {
@@ -956,7 +994,7 @@
         "description": ""
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "Svar på besked",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "disableNotifications": {
@@ -968,7 +1006,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "media": {
-        "message": "Media",
+        "message": "Mediefiler",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "cancel": {
@@ -984,11 +1022,11 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "Unavngiven fil",
         "description": "Hover text for attachment filenames"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutes",
+        "message": "5 minutter",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendAnyway": {
@@ -996,7 +1034,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "Du markerede dit sikkerhedsnummer med $name$ som verificeret",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -1014,7 +1052,7 @@
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "sessionEnded": {
-        "message": "Reset sikker session",
+        "message": "Nulstilling af sikker session",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "relink": {
@@ -1038,11 +1076,11 @@
         "description": "View menu command to show or hide the developer tools"
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "Vis medlemmer",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "Du markerede dit sikkerhedsnummer med $name$ som ikke verificeret fra en anden enhed.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -1052,7 +1090,7 @@
         }
     },
     "email": {
-        "message": "email",
+        "message": "e-mail",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "viewMenuResetZoom": {
@@ -1078,7 +1116,7 @@
         }
     },
     "groupMembers": {
-        "message": "Group members",
+        "message": "Gruppemedlemmer",
         "description": ""
     },
     "loading": {
@@ -1102,7 +1140,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Talebesked",
         "description": "Name for a voice message attachment"
     },
     "importCompleteStartButton": {
@@ -1114,11 +1152,11 @@
         "description": ""
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "Gruppe opdateret",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "Mørk",
         "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
@@ -1140,7 +1178,7 @@
         "description": "Label for the receiver of a message"
     },
     "windowMenuMinimize": {
-        "message": "Minimize",
+        "message": "Minimér",
         "description": "Window menu command to minimize the current window"
     },
     "timerOption_1_hour_abbreviated": {
@@ -1164,7 +1202,7 @@
         "description": ""
     },
     "timerOption_12_hours": {
-        "message": "12 hours",
+        "message": "12 timer",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "mainMenuFile": {
@@ -1172,11 +1210,11 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "verify": {
-        "message": "Mark as verified",
+        "message": "Marker som verificeret",
         "description": ""
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "Afsendelse fejlede",
         "description": "Shown on outgoing message if it fails to send"
     },
     "clearDataHeader": {
@@ -1192,7 +1230,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutes",
+        "message": "30 minutter",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
@@ -1220,19 +1258,19 @@
         "description": ""
     },
     "appMenuUnhide": {
-        "message": "Show All",
+        "message": "Vis alle",
         "description": "Application menu command to show all application windows"
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Dine sikkerhedsnumre med flere gruppemedlemmer har ændret sig siden du sidst verificerede. Dette kan betyde at nogen forsøger at opsnappe jeres kommunikation eller bare at de har geninstalleret Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "showSettings": {
-        "message": "Show Settings",
+        "message": "Vis indstillinger",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "editMenuCopy": {
-        "message": "Copy",
+        "message": "Kopier",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "loadDataHeader": {
@@ -1276,7 +1314,7 @@
         }
     },
     "timerOption_6_hours": {
-        "message": "6 hours",
+        "message": "6 timer",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "videoAttachmentAlt": {
@@ -1285,7 +1323,7 @@
     },
     "timerSetTo": {
         "message": "Timer set to $time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
@@ -1332,7 +1370,7 @@
         "description": "Header for notification settings"
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "Du markerede dit sikkerhedsnummer med $name$ som verificeret fra en anden enhed.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

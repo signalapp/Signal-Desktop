@@ -101,6 +101,16 @@
         "message": "Uspjeh!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "timestamp_m": {
         "message": "1 minuta",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -211,6 +221,10 @@
         "message": "Provjerite jeste li spojeni na internet.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "You disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "Kad poruka dođe, prikaži obavijesti koje otkrivaju:",
         "description": "Explain the purpose of the notification settings"
@@ -282,6 +296,16 @@
     "phone": {
         "message": "phone",
         "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ hr",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "deleteThisMessage": {
         "message": "Obriši ovu poruku",
@@ -585,6 +609,10 @@
         "message": "Set Up with Import",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Disappearing messages disabled",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
     "videoScreenshotFailedToLoad": {
         "message": "Video screenshot failed to load",
         "description": "When a attachment video screenshot is missing, this message is shown"
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "Novi sigurnosni broj",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Privatnost je moguća. Signal je čini lakom.",
@@ -1285,7 +1323,7 @@
     },
     "timerSetTo": {
         "message": "Brojač postavljen na $time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",

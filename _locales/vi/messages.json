@@ -36,7 +36,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "upgradingDatabase": {
-        "message": "Upgrading database. This may take some time...",
+        "message": "Đang cập nhật dữ liệu. Cần một chút thời gian...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
@@ -100,6 +100,16 @@
     "importCompleteHeader": {
         "message": "Success!",
         "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "timestamp_m": {
         "message": "1 phút",
@@ -211,6 +221,10 @@
         "message": "Kiểm tra kết nối mạng của bạn",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "You disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "Khi tin nhắn đến, hiện thị các thông báo thể hiện:",
         "description": "Explain the purpose of the notification settings"
@@ -283,8 +297,18 @@
         "message": "phone",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$ hr",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
     "deleteThisMessage": {
-        "message": "Delete this message",
+        "message": "xóa tin nhắn này",
         "description": ""
     },
     "editMenuPaste": {
@@ -585,6 +609,10 @@
         "message": "Set Up with Import",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Disappearing messages disabled",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
     "videoScreenshotFailedToLoad": {
         "message": "Video screenshot failed to load",
         "description": "When a attachment video screenshot is missing, this message is shown"
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "Số-an-toàn mới",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Sự riêng tư là có thể. Signal khiến điều đó trở nên dễ dàng.",
@@ -1078,7 +1116,7 @@
         }
     },
     "groupMembers": {
-        "message": "Group members",
+        "message": "Thành viên",
         "description": ""
     },
     "loading": {
@@ -1285,7 +1323,7 @@
     },
     "timerSetTo": {
         "message": "Thời gian thiết lập đến $time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",

@@ -80,7 +80,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "Du satte tiden för försvinnande meddelanden till $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -100,6 +100,16 @@
     "importCompleteHeader": {
         "message": "Det funkade!",
         "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "timestamp_m": {
         "message": "1 minut",
@@ -211,6 +221,10 @@
         "message": "Kontrollera din nätverksanslutning.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "You disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "När du får meddelanden, visa aviseringar som visar:",
         "description": "Explain the purpose of the notification settings"
@@ -224,7 +238,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "imageFailedToLoad": {
-        "message": "Image failed to load",
+        "message": "Bild kunde inte laddas",
         "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
@@ -244,7 +258,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "Fel med att hantera inkommande meddelande",
         "description": ""
     },
     "poBox": {
@@ -283,12 +297,22 @@
         "message": "telefon",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$ t",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
     "deleteThisMessage": {
         "message": "Radera detta meddelande",
         "description": ""
     },
     "editMenuPaste": {
-        "message": "Paste",
+        "message": "Klistra in",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "changedRecently": {
@@ -318,11 +342,11 @@
         "description": "Header of screen shown as data is import"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "Slå på stavningskontroll för text skrivet i meddelandefältet",
         "description": "Description of the media permission description"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ satte tiden för försvinnande meddelanden till $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -340,7 +364,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "viewMenuZoomOut": {
-        "message": "Zoom Out",
+        "message": "Zooma ut",
         "description": "View menu command to make everything smaller"
     },
     "mainMenuSettings": {
@@ -456,7 +480,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "viewMenuZoomIn": {
-        "message": "Zoom In",
+        "message": "Zooma in",
         "description": "View menu command to make everything bigger"
     },
     "viewAllMedia": {
@@ -464,11 +488,11 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
+        "message": "Ta fram alla",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "Kontrollera att du valt rätt mapp som innehåller dina sparade Signal-data. Dess namn borde börja med 'Signal Export.' Du kan också spara en ny kopia av din data från Chrome-appen.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
@@ -528,7 +552,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
+        "message": "Signal Desktops preferenser",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "timerSetOnSync": {
@@ -560,7 +584,7 @@
         "description": ""
     },
     "allowAccess": {
-        "message": "Allow Access",
+        "message": "Tillåt åtkomst",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "joinedTheGroup": {
@@ -585,8 +609,12 @@
         "message": "Ställ in med import",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Disappearing messages disabled",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
     "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
+        "message": "Videoskärmbild kunde inte laddas",
         "description": "When a attachment video screenshot is missing, this message is shown"
     },
     "timerOption_30_minutes_abbreviated": {
@@ -638,7 +666,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "Mer info...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "notificationMostRecent": {
@@ -664,7 +692,7 @@
         "description": "Hides the details of a key change"
     },
     "spellCheck": {
-        "message": "Spell Check",
+        "message": "Stavningskontroll",
         "description": "Description of the media permission description"
     },
     "theme": {
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "Nytt säkerhetsnummer",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Integritet är möjligt. Signal gör det lätt.",
@@ -726,7 +764,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
+        "message": "Klistra in och matcha stil",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "signalSettings": {
@@ -792,7 +830,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "Avatar för kontakten $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -806,7 +844,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "Du markerade ditt Säkerhetsnummer med $name$ som inte verifierat",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -902,7 +940,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "editMenuRedo": {
-        "message": "Redo",
+        "message": "Gör om",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "invalidNumberError": {
@@ -996,7 +1034,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "Du markerade ditt Säkerhetsnummer med $name$ som verifierat",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -1030,11 +1068,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "Något gick fel med uppladdningen! Vänligen överväg att manuellt lägga till loggen till rapporten du skriver.",
         "description": ""
     },
     "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
+        "message": "Slå på utvecklingsverktyg",
         "description": "View menu command to show or hide the developer tools"
     },
     "showMembers": {
@@ -1042,7 +1080,7 @@
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "Du markerade ditt Säkerhetsnummer med $name$ som inte verifierat från en annan enhet",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -1086,7 +1124,7 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "Om du vill skicka röstmeddelanden måste Signal Desktop ha tillgång till din mikrofon.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "newMessages": {
@@ -1094,7 +1132,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "message": "Om dessa steg inte funkar för dig, vänligen skicka in en felsökningslogg (Visa -> Felsökningslogg) så att vi kan hjälpa dig migrera!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
@@ -1164,7 +1202,7 @@
         "description": ""
     },
     "timerOption_12_hours": {
-        "message": "12 hours",
+        "message": "12 timmar",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "mainMenuFile": {
@@ -1176,7 +1214,7 @@
         "description": ""
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "Att skicka meddelandet misslyckades",
         "description": "Shown on outgoing message if it fails to send"
     },
     "clearDataHeader": {
@@ -1184,7 +1222,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
+        "message": "Slå av/på fullskärm",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "timerOption_10_seconds_abbreviated": {
@@ -1220,7 +1258,7 @@
         "description": ""
     },
     "appMenuUnhide": {
-        "message": "Show All",
+        "message": "Visa alla",
         "description": "Application menu command to show all application windows"
     },
     "changedSinceVerifiedMultiple": {
@@ -1228,7 +1266,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "showSettings": {
-        "message": "Show Settings",
+        "message": "Visa inställningar",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "editMenuCopy": {
@@ -1262,7 +1300,7 @@
         }
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "Skicka igen",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
@@ -1280,12 +1318,12 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "Skärmbild av video bifogat till meddelande",
         "description": "Used in alt tag of video attachment preview"
     },
     "timerSetTo": {
         "message": "Tidsgräns inställt till $time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
@@ -1298,7 +1336,7 @@
         "description": "Edit menu command to remove the selected text"
     },
     "windowMenuZoom": {
-        "message": "Zoom",
+        "message": "Zooma",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "autoUpdateNewVersionTitle": {
@@ -1332,7 +1370,7 @@
         "description": "Header for notification settings"
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "Du markerade ditt Säkerhetsnummer med $name$ som verifierat från en annan enhet",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

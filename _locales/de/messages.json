@@ -20,7 +20,7 @@
         "description": "Application menu command to hide all other windows"
     },
     "linkedDevices": {
-        "message": "Verknüpfte Geräte",
+        "message": "Gekoppelte Geräte",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "yesterday": {
@@ -100,6 +100,16 @@
     "importCompleteHeader": {
         "message": "Erfolgreich!",
         "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "timestamp_m": {
         "message": "1 Minute",
@@ -211,6 +221,10 @@
         "message": "Überprüfe deine Netzverbindung.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "Du hast verschwindende Nachrichten deaktiviert",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "Beim Eingang von Nachrichten Benachrichtigungen mit folgendem Inhalt anzeigen:",
         "description": "Explain the purpose of the notification settings"
@@ -282,6 +296,16 @@
     "phone": {
         "message": "Telefon",
         "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ h",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "deleteThisMessage": {
         "message": "Diese Nachricht löschen",
@@ -418,11 +442,11 @@
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "importCompleteLinkButton": {
-        "message": "Dieses Gerät mit deinem Telefon verknüpfen",
+        "message": "Dieses Gerät mit deinem Telefon koppeln",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "unlinkedWarning": {
-        "message": "Verknüpfe Signal Desktop erneut mit deinem Mobilgerät, um weiterhin Nachrichten austauschen zu können.",
+        "message": "Kopple Signal Desktop erneut mit deinem Mobilgerät, um weiterhin Nachrichten austauschen zu können.",
         "description": ""
     },
     "safetyNumberChanged": {
@@ -438,7 +462,7 @@
         "description": ""
     },
     "linkYourPhone": {
-        "message": "Verknüpfe dein Telefon mit Signal Desktop",
+        "message": "Kopple dein Telefon mit Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "multipleLeftTheGroup": {
@@ -516,7 +540,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Verknüpfung aufgehoben",
+        "message": "Entkoppelt",
         "description": ""
     },
     "imageAttachmentAlt": {
@@ -556,7 +580,7 @@
         }
     },
     "installTooManyDevices": {
-        "message": "Es sind bereits zu viele Geräte verknüpft. Versuche einige zu entfernen.",
+        "message": "Es sind bereits zu viele Geräte gekoppelt. Versuche einige zu entfernen.",
         "description": ""
     },
     "allowAccess": {
@@ -578,12 +602,16 @@
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "goToForums": {
-        "message": "Forum öffnen",
+        "message": "Forum",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "menuSetupWithImport": {
         "message": "Einrichten mit Importieren",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "disappearingMessagesDisabled": {
+        "message": "Verschwindende Nachrichten deaktiviert",
+        "description": "Displayed in the left pane when the timer is turned off"
     },
     "videoScreenshotFailedToLoad": {
         "message": "Vorschaubild des Videos konnte nicht geladen werden",
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "Neue Sicherheitsnummer",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ hat verschwindende Nachrichten deaktiviert",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Privatsphäre ist möglich. Signal macht sie einfach.",
@@ -1010,7 +1048,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "deleteAllDataBody": {
-        "message": "Du bist dabei, alle gespeicherten Benutzerkontoinformationen dieser Anwendung zu löschen, einschließlich aller Kontakte und Nachrichten. Du kannst jederzeit wieder eine Verknüpfung mit deinem Mobilgerät herstellen, dies wird aber gelöschte Nachrichten nicht wiederherstellen.",
+        "message": "Du bist dabei, alle gespeicherten Benutzerkontoinformationen dieser Anwendung zu löschen, einschließlich aller Kontakte und Nachrichten. Du kannst Signal Desktop jederzeit wieder mit deinem Mobilgerät koppeln, dies wird aber gelöschte Nachrichten nicht wiederherstellen.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "sessionEnded": {
@@ -1018,7 +1056,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "relink": {
-        "message": "Erneut verknüpfen",
+        "message": "Erneut koppeln",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -1030,7 +1068,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "Beim Hochladen gab es ein Problem. Falls möglich, füge bitte das Protokoll manuell deiner eingereichten Problembeschreibung hinzu.",
         "description": ""
     },
     "viewMenuToggleDevTools": {
@@ -1060,11 +1098,11 @@
         "description": "View menu command to go back to the default zoom"
     },
     "goToSupportPage": {
-        "message": "Supportseite öffnen",
+        "message": "Support",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "finishLinkingPhone": {
-        "message": "Verknüpfen mit Telefon abschließen",
+        "message": "Koppeln mit Telefon abschließen",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
@@ -1156,7 +1194,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "goToReleaseNotes": {
-        "message": "Versionshinweise öffnen",
+        "message": "Versionshinweise",
         "description": ""
     },
     "messageDetail": {
@@ -1176,7 +1214,7 @@
         "description": ""
     },
     "sendFailed": {
-        "message": "Senden gescheitert",
+        "message": "Versand gescheitert",
         "description": "Shown on outgoing message if it fails to send"
     },
     "clearDataHeader": {
@@ -1196,7 +1234,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
-        "message": "Neues Gerät verknüpfen",
+        "message": "Neues Gerät koppeln",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "nameAndMessage": {
@@ -1285,7 +1323,7 @@
     },
     "timerSetTo": {
         "message": "Zeitbegrenzung auf $time$ festgelegt",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",

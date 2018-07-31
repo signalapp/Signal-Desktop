@@ -101,6 +101,16 @@
         "message": "Sukces!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "timestamp_m": {
         "message": "1 minuta",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -138,7 +148,7 @@
         "description": ""
     },
     "verifyNewNumber": {
-        "message": "Verify New Number",
+        "message": "Zweryfikuj nowy numer",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
@@ -211,6 +221,10 @@
         "message": "Sprawdź połączenie z internetem.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "You disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "Po otrzymaniu wiadomości, pokaż powiadomienie:",
         "description": "Explain the purpose of the notification settings"
@@ -224,7 +238,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "imageFailedToLoad": {
-        "message": "Image failed to load",
+        "message": "Nie udało się wczytać obrazu",
         "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
@@ -283,6 +297,16 @@
         "message": "Telefon",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$ godz",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
     "deleteThisMessage": {
         "message": "Usuń wiadomość",
         "description": ""
@@ -318,7 +342,7 @@
         "description": "Header of screen shown as data is import"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "Włącz sprawdzanie pisowni podczas pisania wiadomości",
         "description": "Description of the media permission description"
     },
     "theyChangedTheTimer": {
@@ -426,7 +450,7 @@
         "description": ""
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "Numer bezpieczeństwa się zmienił",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "today": {
@@ -464,7 +488,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
+        "message": "Przenieś wszystko na wierzch",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "importErrorFirst": {
@@ -490,7 +514,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "Numer bezpieczeństwa z $name$ został zmieniony",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -520,7 +544,7 @@
         "description": ""
     },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "Zdjęcie załączone do wiadomości",
         "description": "Used in alt tag of image attachment"
     },
     "learnMore": {
@@ -585,6 +609,10 @@
         "message": "Skonfiguruj za pomocą importowania",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Disappearing messages disabled",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
     "videoScreenshotFailedToLoad": {
         "message": "Video screenshot failed to load",
         "description": "When a attachment video screenshot is missing, this message is shown"
@@ -638,7 +666,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "Więcej informacji...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "notificationMostRecent": {
@@ -664,7 +692,7 @@
         "description": "Hides the details of a key change"
     },
     "spellCheck": {
-        "message": "Spell Check",
+        "message": "Sprawdzanie pisowni",
         "description": "Description of the media permission description"
     },
     "theme": {
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "Nowy numer bezpieczeństwa",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Prywatność jest możliwa i łatwa dzięki Signal.",
@@ -710,7 +748,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "lightboxImageAlt": {
-        "message": "Image sent in conversation",
+        "message": "Obraz wysłany w rozmowie",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
@@ -792,7 +830,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "Zdjęcie profilowe $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -918,7 +956,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "$hours$ godz temu",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1030,7 +1068,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "Coś poszło nie tak podczas przesyłania! Rozważ ręczne dodanie swojego logu do zgłoszonego błędu.",
         "description": ""
     },
     "viewMenuToggleDevTools": {
@@ -1176,7 +1214,7 @@
         "description": ""
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "Wysyłanie nie powiodło się",
         "description": "Shown on outgoing message if it fails to send"
     },
     "clearDataHeader": {
@@ -1262,7 +1300,7 @@
         }
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "Spróbuj ponownie wysłać",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
@@ -1280,12 +1318,12 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "Zrzut ekranu z filmu dołączonego do wiadomości",
         "description": "Used in alt tag of video attachment preview"
     },
     "timerSetTo": {
         "message": "Czas ustawiony na $time$.",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
@@ -1318,7 +1356,7 @@
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "$minutes$ min temu",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {

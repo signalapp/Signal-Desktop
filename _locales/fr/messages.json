@@ -101,6 +101,16 @@
         "message": "L’importation est réussie !",
         "description": "Header shown on the screen at the end of a successful import process"
     },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "timestamp_m": {
         "message": "1 minute",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -211,6 +221,10 @@
         "message": "Vérifiez votre connexion au réseau.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "Vous avez désactivé les messages éphémères",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "Lors de la réception de messages, afficher des notifications qui indiquent :",
         "description": "Explain the purpose of the notification settings"
@@ -282,6 +296,16 @@
     "phone": {
         "message": "téléphone",
         "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ h",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "deleteThisMessage": {
         "message": "Supprimer ce message",
@@ -585,6 +609,10 @@
         "message": "Configurer avec importation",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Messages éphémères désactivés",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
     "videoScreenshotFailedToLoad": {
         "message": "Échec de chargement de la capture d’écran vidéo",
         "description": "When a attachment video screenshot is missing, this message is shown"
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "Nouveau numéro de sécurité",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$a désactivé les messages éphémères",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "La confidentialité est possible. Signal la facilite.",
@@ -1030,7 +1068,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "Un problème est survenu lors du téléversement ! Veuillez envisager d’ajouter manuellement votre journal à votre rapport de bogue.",
         "description": ""
     },
     "viewMenuToggleDevTools": {
@@ -1285,7 +1323,7 @@
     },
     "timerSetTo": {
         "message": "L’expiration des messages a été définie à $time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",

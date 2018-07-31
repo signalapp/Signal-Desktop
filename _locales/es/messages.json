@@ -101,6 +101,16 @@
         "message": "¡Conseguido!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
+    "minutesAgoShort": {
+        "message": "$minutes$ m",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "timestamp_m": {
         "message": "1 minuto",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -172,7 +182,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
-        "message": "Toca para guardar",
+        "message": "Haz clic para guardar",
         "description": "Hover text for attachment filenames"
     },
     "messagesBelow": {
@@ -204,12 +214,16 @@
         "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
-        "message": "Bienvenido a Signal",
+        "message": "Bienvenida a Signal",
         "description": ""
     },
     "checkNetworkConnection": {
         "message": "Comprueba la conexión de red.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
+    "youDisabledDisappearingMessages": {
+        "message": "Has desactivado los mensajes con caducidad",
+        "description": "Displayed in the conversation list when the timer is turned off"
     },
     "notificationSettingsDialog": {
         "message": "Al recibir mensajes, las notificaciones muestran:",
@@ -282,6 +296,16 @@
     "phone": {
         "message": "teléfono",
         "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ h",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "deleteThisMessage": {
         "message": "Eliminar este mensaje",
@@ -585,6 +609,10 @@
         "message": "Configurar con datos a importar",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Mensajes con caducidad desactivados",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
     "videoScreenshotFailedToLoad": {
         "message": "Fallo al cargar la captura de vídeo",
         "description": "When a attachment video screenshot is missing, this message is shown"
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "Nuevas cifras de seguridad",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ ha desactivado los mensajes con caducidad",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "La privacidad es posible. Signal lo hace fácil.",
@@ -910,7 +948,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
-        "message": "Bienvenido a Signal Desktop",
+        "message": "Bienvenida a Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
@@ -1030,7 +1068,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "Ha habido un fallo al adjuntar el archivo con el registro de depuración. Considera añadir el archivo manualmente al enviar el informe del fallo. ",
         "description": ""
     },
     "viewMenuToggleDevTools": {
@@ -1285,7 +1323,7 @@
     },
     "timerSetTo": {
         "message": "Caducidad de mensajes fijada a $time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",

@@ -101,6 +101,16 @@
         "message": "成功しました!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "timestamp_m": {
         "message": "1分",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -138,7 +148,7 @@
         "description": ""
     },
     "verifyNewNumber": {
-        "message": "Verify New Number",
+        "message": "新しい番号を認証する",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
@@ -211,6 +221,10 @@
         "message": "ネットワーク接続をご確認ください。",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "You disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "新着メッセージの通知で表示する項目：",
         "description": "Explain the purpose of the notification settings"
@@ -224,7 +238,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "imageFailedToLoad": {
-        "message": "Image failed to load",
+        "message": "イメージのロードに失敗しました",
         "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
@@ -282,6 +296,16 @@
     "phone": {
         "message": "電話",
         "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ hr",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "deleteThisMessage": {
         "message": "このメッセージを削除する",
@@ -426,7 +450,7 @@
         "description": ""
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "セイフティナンバーが変更されました",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "today": {
@@ -520,7 +544,7 @@
         "description": ""
     },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "メッセージにイメージを添付する",
         "description": "Used in alt tag of image attachment"
     },
     "learnMore": {
@@ -584,6 +608,10 @@
     "menuSetupWithImport": {
         "message": "インポートデータを使ってセットアップ",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "disappearingMessagesDisabled": {
+        "message": "Disappearing messages disabled",
+        "description": "Displayed in the left pane when the timer is turned off"
     },
     "videoScreenshotFailedToLoad": {
         "message": "Video screenshot failed to load",
@@ -664,7 +692,7 @@
         "description": "Hides the details of a key change"
     },
     "spellCheck": {
-        "message": "Spell Check",
+        "message": "スペルチェック",
         "description": "Description of the media permission description"
     },
     "theme": {
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "新しい安全番号",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "プライバシーは守れます。Signalを使えば簡単に。",
@@ -1176,7 +1214,7 @@
         "description": ""
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "送信できませんでした",
         "description": "Shown on outgoing message if it fails to send"
     },
     "clearDataHeader": {
@@ -1262,7 +1300,7 @@
         }
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "再送信する",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
@@ -1285,7 +1323,7 @@
     },
     "timerSetTo": {
         "message": "タイマーが$time$に設定されました",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",

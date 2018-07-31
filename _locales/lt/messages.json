@@ -70,7 +70,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ išėjo iš grupės",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -80,7 +80,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "Jūs nustatėte išnykstančių žinučių laikmatį į $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -100,6 +100,16 @@
     "importCompleteHeader": {
         "message": "Pavyko!",
         "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min.",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "timestamp_m": {
         "message": "1 minutė",
@@ -138,7 +148,7 @@
         "description": ""
     },
     "verifyNewNumber": {
-        "message": "Verify New Number",
+        "message": "Patvirtinti naują numerį",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
@@ -211,6 +221,10 @@
         "message": "Patikrinkite savo tinklo ryšį.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "Jūs išjungėte išnykstančias žinutes",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "Kai gaunamos žinutės, rodyti pranešimus, kuriuose atskleidžiama:",
         "description": "Explain the purpose of the notification settings"
@@ -224,7 +238,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "imageFailedToLoad": {
-        "message": "Image failed to load",
+        "message": "Nepavyko įkelti paveikslo",
         "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
@@ -244,7 +258,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "Klaida, apdorojant gaunamą žinutę",
         "description": ""
     },
     "poBox": {
@@ -252,7 +266,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "themeLight": {
-        "message": "Light",
+        "message": "Šviesi",
         "description": "Label text for light theme (normal)"
     },
     "delete": {
@@ -282,6 +296,16 @@
     "phone": {
         "message": "telefonas",
         "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ val.",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "deleteThisMessage": {
         "message": "Ištrinti šią žinutę",
@@ -318,11 +342,11 @@
         "description": "Header of screen shown as data is import"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "Įjungti rašybos tikrinimą tekstui, kuris įvedamas į žinutės rašymo langelį",
         "description": "Description of the media permission description"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ nustatė išnykstančių žinučių laikmatį į $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -426,7 +450,7 @@
         "description": ""
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "Pasikeitė saugumo numeris",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "today": {
@@ -442,7 +466,7 @@
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ išėjo iš grupės",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -490,7 +514,7 @@
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "Pasikeitė saugumo numeris su $name$",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -520,7 +544,7 @@
         "description": ""
     },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "Prie žinutės pridėtas paveikslas",
         "description": "Used in alt tag of image attachment"
     },
     "learnMore": {
@@ -532,7 +556,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "Išnykstančių žinučių laikmatis atnaujintas į $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -564,7 +588,7 @@
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ prisijungė prie grupės",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -585,8 +609,12 @@
         "message": "Nusistatyti importavimą",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Išnykstančios žinutės išjungtos",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
     "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
+        "message": "Nepavyko įkelti vaizdo įrašo ekrano kopijos",
         "description": "When a attachment video screenshot is missing, this message is shown"
     },
     "timerOption_30_minutes_abbreviated": {
@@ -638,7 +666,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "Daugiau informacijos...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "notificationMostRecent": {
@@ -664,7 +692,7 @@
         "description": "Hides the details of a key change"
     },
     "spellCheck": {
-        "message": "Spell Check",
+        "message": "Rašybos tikrinimas",
         "description": "Description of the media permission description"
     },
     "theme": {
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "Naujas saugumo numeris",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ išjungė išnykstančias žinutes",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Privatumas yra įmanomas. Signal jį padaro lengvą.",
@@ -792,7 +830,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "Avataras, skirtas $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -806,7 +844,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "Jūs pažymėjote savo saugumo numerį su $name$ kaip nepatvirtintą",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -882,7 +920,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "Ištrinti žinutę",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
@@ -918,7 +956,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "prieš $hours$ val.",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -996,7 +1034,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "Jūs pažymėjote savo saugumo numerį su $name$ kaip patvirtintą",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -1030,7 +1068,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "Kažkas nutiko su įkėlimu! Apsvarstykite galimybę rankiniu būdu pridėti savo žurnalą į klaidos pranešimą, kurį pateiksite.",
         "description": ""
     },
     "viewMenuToggleDevTools": {
@@ -1042,7 +1080,7 @@
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "Jūs iš kito įrenginio pažymėjote savo saugumo numerį su $name$ kaip nepatvirtintą",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -1068,7 +1106,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ prisijungė prie grupės",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1114,11 +1152,11 @@
         "description": ""
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "Grupė atnaujinta",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "Tamsi",
         "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
@@ -1176,7 +1214,7 @@
         "description": ""
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "Išsiuntimas nepavyko",
         "description": "Shown on outgoing message if it fails to send"
     },
     "clearDataHeader": {
@@ -1252,7 +1290,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Dabar pavadinimas yra \"$name$\"",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1262,7 +1300,7 @@
         }
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "Bandyti siųsti dar kartą",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
@@ -1280,12 +1318,12 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "Prie žinutės pridėto vaizdo įrašo ekrano kopija",
         "description": "Used in alt tag of video attachment preview"
     },
     "timerSetTo": {
         "message": "Laikmatis nustatytas į $time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
@@ -1318,7 +1356,7 @@
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "prieš $minutes$ min.",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1332,7 +1370,7 @@
         "description": "Header for notification settings"
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "Jūs iš kito įrenginio pažymėjote savo saugumo numerį su $name$ kaip patvirtintą",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

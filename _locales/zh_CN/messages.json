@@ -101,6 +101,16 @@
         "message": "成功！",
         "description": "Header shown on the screen at the end of a successful import process"
     },
+    "minutesAgoShort": {
+        "message": "$minutes$分钟",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "timestamp_m": {
         "message": "1分钟",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -211,6 +221,10 @@
         "message": "检查网络连接状态",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "您停用了阅后即焚",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "收到消息时，显示通知：",
         "description": "Explain the purpose of the notification settings"
@@ -283,6 +297,16 @@
         "message": "电话",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$小时",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
     "deleteThisMessage": {
         "message": "删除这条消息。",
         "description": ""
@@ -318,7 +342,7 @@
         "description": "Header of screen shown as data is import"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "启用输入框拼写检查",
         "description": "Description of the media permission description"
     },
     "theyChangedTheTimer": {
@@ -585,6 +609,10 @@
         "message": "使用导入的数据进行配置",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "阅后即焚已停用",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
     "videoScreenshotFailedToLoad": {
         "message": "视频截图加载失败",
         "description": "When a attachment video screenshot is missing, this message is shown"
@@ -664,7 +692,7 @@
         "description": "Hides the details of a key change"
     },
     "spellCheck": {
-        "message": "Spell Check",
+        "message": "拼写检查",
         "description": "Description of the media permission description"
     },
     "theme": {
@@ -678,6 +706,16 @@
     "newIdentity": {
         "message": "新的安全代码",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$停用了阅后即焚",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Signal让隐私保护触手可及。",
@@ -1030,7 +1068,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "上传出错！您可以手动将日志添加到要反馈的bug中。",
         "description": ""
     },
     "viewMenuToggleDevTools": {
@@ -1285,7 +1323,7 @@
     },
     "timerSetTo": {
         "message": "计时器设置为$time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
