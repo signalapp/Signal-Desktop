@@ -56,6 +56,9 @@
   window.hasSignalAccount = number => window.AccountCache[number];
 
   window.Whisper.Message = Backbone.Model.extend({
+    // Keeping this for legacy upgrade pre-migrate to SQLCipher
+    database: Whisper.Database,
+    storeName: 'messages',
     initialize(attributes) {
       if (_.isObject(attributes)) {
         this.set(

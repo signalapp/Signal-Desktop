@@ -35,6 +35,7 @@ module.exports = {
   removeDB,
 
   saveMessage,
+  saveLegacyMessage,
   saveMessages,
   removeMessage,
   _removeMessages,
@@ -203,6 +204,12 @@ async function removeDB() {
 async function saveMessage(data, { forceSave } = {}) {
   const id = await channels.saveMessage(_cleanData(data), { forceSave });
   return id;
+}
+
+async function saveLegacyMessage(data, { Message }) {
+  const message = new Message(data);
+  await deferredToPromise(message.save());
+  return message.id;
 }
 
 async function saveMessages(arrayOfMessages, { forceSave } = {}) {

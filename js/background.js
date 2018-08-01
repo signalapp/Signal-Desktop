@@ -230,7 +230,7 @@
             upgradeMessageSchema,
             maxVersion: MINIMUM_VERSION,
             BackboneMessage: Whisper.Message,
-            saveMessage: window.Signal.Data.saveMessage,
+            saveMessage: window.Signal.Data.saveLegacyMessage,
           }
         );
         window.log.info(
@@ -251,7 +251,7 @@
           upgradeMessageSchema,
           getMessagesNeedingUpgrade:
             window.Signal.Data.getLegacyMessagesNeedingUpgrade,
-          saveMessage: window.Signal.Data.saveMessage,
+          saveMessage: window.Signal.Data.saveLegacyMessage,
           maxVersion: MINIMUM_VERSION,
         });
         window.log.info('upgradeMessages: upgrade with index', batchWithIndex);
@@ -263,6 +263,16 @@
     }
 
     await upgradeMessages();
+
+    const db = await Whisper.Database.open();
+    await window.Signal.migrateToSQL({
+      db,
+      clearStores: Whisper.Database.clearStores,
+      handleDOMException: Whisper.Database.handleDOMException,
+    });
+
+    // Note: We are not invoking the second set of IndexedDB migrations because it is
+    //   likely that any future migrations will simply extracting things from IndexedDB.
 
     idleDetector = new IdleDetector();
     let isMigrationWithIndexComplete = false;
@@ -295,16 +305,6 @@
         idleDetector.stop();
       }
     });
-
-    const db = await Whisper.Database.open();
-    await window.Signal.migrateToSQL({
-      db,
-      clearStores: Whisper.Database.clearStores,
-      handleDOMException: Whisper.Database.handleDOMException,
-    });
-
-    // Note: We are not invoking the second set of IndexedDB migrations because it is
-    //   likely that any future migrations will simply extracting things from IndexedDB.
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
