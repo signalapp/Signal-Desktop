@@ -626,9 +626,12 @@ body.dark-theme {
     background-color: $color-conversation-teal;
   }
 
-  .module-message__img-attachment {
-    border: 1px solid $color-white-02;
+  .module-message__attachment-container {
     background-color: $color-black;
+  }
+
+  .module-message__img-border-overlay {
+    box-shadow: inset 0px 0px 0px 1px rgba($color-dark-30, 0.25);
   }
 
   .module-message__img-overlay {

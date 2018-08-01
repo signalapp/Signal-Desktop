@@ -395,22 +395,33 @@ export class Message extends React.Component<Props, State> {
         <div
           onClick={onClickAttachment}
           role="button"
-          className="module-message__attachment-container"
+          className={classNames(
+            'module-message__attachment-container',
+            withCaption
+              ? 'module-message__attachment-container--with-content-below'
+              : null,
+            withContentAbove
+              ? 'module-message__attachment-container--with-content-above'
+              : null
+          )}
         >
           <img
             onError={this.handleImageErrorBound}
-            className={classNames(
-              'module-message__img-attachment',
-              withCaption
-                ? 'module-message__img-attachment--with-content-below'
-                : null,
-              withContentAbove
-                ? 'module-message__img-attachment--with-content-above'
-                : null
-            )}
+            className="module-message__img-attachment"
             height={Math.min(MAXIMUM_IMG_HEIGHT, height)}
             src={attachment.url}
             alt={i18n('imageAttachmentAlt')}
+          />
+          <div
+            className={classNames(
+              'module-message__img-border-overlay',
+              withCaption
+                ? 'module-message__img-border-overlay--with-content-below'
+                : null,
+              withContentAbove
+                ? 'module-message__img-border-overlay--with-content-above'
+                : null
+            )}
           />
           {!withCaption && !collapseMetadata ? (
             <div className="module-message__img-overlay" />
@@ -441,22 +452,33 @@ export class Message extends React.Component<Props, State> {
         <div
           onClick={onClickAttachment}
           role="button"
-          className="module-message__attachment-container"
+          className={classNames(
+            'module-message__attachment-container',
+            withCaption
+              ? 'module-message__attachment-container--with-content-below'
+              : null,
+            withContentAbove
+              ? 'module-message__attachment-container--with-content-above'
+              : null
+          )}
         >
           <img
             onError={this.handleImageErrorBound}
-            className={classNames(
-              'module-message__img-attachment',
-              withCaption
-                ? 'module-message__img-attachment--with-content-below'
-                : null,
-              withContentAbove
-                ? 'module-message__img-attachment--with-content-above'
-                : null
-            )}
+            className="module-message__img-attachment"
             alt={i18n('videoAttachmentAlt')}
             height={Math.min(MAXIMUM_IMG_HEIGHT, height)}
             src={screenshot.url}
+          />
+          <div
+            className={classNames(
+              'module-message__img-border-overlay',
+              withCaption
+                ? 'module-message__img-border-overlay--with-content-below'
+                : null,
+              withContentAbove
+                ? 'module-message__img-border-overlay--with-content-above'
+                : null
+            )}
           />
           {!withCaption && !collapseMetadata ? (
             <div className="module-message__img-overlay" />

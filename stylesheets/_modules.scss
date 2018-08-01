@@ -184,25 +184,63 @@
   text-align: center;
   position: relative;
   cursor: pointer;
+
+  margin-left: -12px;
+  margin-right: -12px;
+  margin-top: -10px;
+  margin-bottom: -10px;
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  background-color: $color-white;
+}
+
+.module-message__attachment-container--with-content-below {
+  margin-bottom: 7px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.module-message__attachment-container--with-content-above {
+  margin-top: 4px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.module-message__img-border-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  border-radius: 16px;
+  box-shadow: inset 0px 0px 0px 1px $color-black-02;
+}
+
+.module-message__img-border-overlay--with-content-below {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.module-message__img-border-overlay--with-content-above {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 
 .module-message__img-attachment {
   max-width: 386px;
-  margin-left: -12px;
-  margin-right: -12px;
-  margin-top: -10px;
-  // The padding on the bottom of the bubble produces three extra pixels of space at the
-  //   bottom, so this doesn't match up with the padding numbers above.
-  margin-bottom: -13px;
-  border-radius: 16px;
-  border: 1px solid $color-black-02;
-  background-color: $color-white;
 
   object-fit: cover;
-  width: calc(100% + 24px);
+  width: 100%;
   min-width: 200px;
   min-height: 150px;
   max-height: 300px;
+
+  // The padding on the bottom of the bubble produces three extra pixels of space at the
+  //   bottom, so this doesn't match up with the padding numbers above.
+  margin-bottom: -3px;
 
   // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
@@ -230,7 +268,7 @@
   );
   position: absolute;
   bottom: 0;
-  z-index: 1;
+  z-index: 2;
   left: 0;
   right: 0;
   margin-left: -12px;
@@ -238,18 +276,6 @@
   margin-bottom: -10px;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
-}
-
-.module-message__img-attachment--with-content-below {
-  margin-bottom: 5px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
-.module-message__img-attachment--with-content-above {
-  margin-top: 4px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
 }
 
 .module-message__broken-image {
