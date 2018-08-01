@@ -766,7 +766,7 @@
   },
   "deleteWarning": {
     "message":
-      "Are you sure? Clicking 'delete' will permanently remove this message from this device."
+      "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
   },
   "deleteThisMessage": {
     "message": "Delete this message"
@@ -803,7 +803,7 @@
       "This is a menu item for resetting the session, using the imperative case, as in a command."
   },
   "showSafetyNumber": {
-    "message": "Show safety number"
+    "message": "View safety number"
   },
   "viewAllMedia": {
     "message": "View all media",
@@ -1419,7 +1419,7 @@
     }
   },
   "verifyNewNumber": {
-    "message": "Verify New Number",
+    "message": "Verify Safety Number",
     "description":
       "Label on button included with safety number change notification in the conversation"
   },
