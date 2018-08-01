@@ -22,9 +22,9 @@
     "7zip-bin-mac" "~1.0.1"
     "7zip-bin-win" "~2.2.0"
 
-"@journeyapps/sqlcipher@https://github.com/scottnonnenberg-signal/node-sqlcipher.git#8b4d6046ca3f47aa31c0c26414a0981d6c83a423":
+"@journeyapps/sqlcipher@https://github.com/scottnonnenberg-signal/node-sqlcipher.git#9682a5c75b1a52c847cfb4b431eb2163d0eeec93":
   version "3.2.1"
-  resolved "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#8b4d6046ca3f47aa31c0c26414a0981d6c83a423"
+  resolved "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#9682a5c75b1a52c847cfb4b431eb2163d0eeec93"
   dependencies:
     nan "^2.10.0"
     node-pre-gyp "^0.10.0"
