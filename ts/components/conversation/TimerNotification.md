@@ -14,7 +14,7 @@
     phoneNumber="(202) 555-1000"
     profileName="Mr. Fire"
     disabled={true}
-    timespan="1 hour"
+    timespan="Off"
     i18n={util.i18n}
   />
 </util.ConversationContext>
@@ -34,7 +34,7 @@
     type="fromMe"
     phoneNumber="(202) 555-1000"
     disabled={true}
-    timespan="1 hour"
+    timespan="Off"
     i18n={util.i18n}
   />
 </util.ConversationContext>
@@ -54,7 +54,7 @@
     type="fromSync"
     phoneNumber="(202) 555-1000"
     disabled={true}
-    timespan="1 hour"
+    timespan="Off"
     i18n={util.i18n}
   />
 </util.ConversationContext>

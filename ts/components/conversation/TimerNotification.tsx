@@ -74,11 +74,9 @@ export class TimerNotification extends React.Component<Props> {
               disabled ? 'module-timer-notification__icon--disabled' : null
             )}
           />
-          {disabled ? null : (
-            <div className="module-timer-notification__icon-label">
-              {timespan}
-            </div>
-          )}
+          <div className="module-timer-notification__icon-label">
+            {timespan}
+          </div>
         </div>
         <div className="module-timer-notification__message">
           {this.renderContents()}
