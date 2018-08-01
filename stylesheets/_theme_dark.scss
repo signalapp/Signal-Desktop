@@ -435,7 +435,12 @@ body.dark-theme {
   .network-status-container {
     .network-status {
       background: url('../images/error_red.svg') no-repeat left 10px center;
+      background-size: 25px 25px;
       background-color: #fcd156;
+
+      .network-status-message {
+        color: $color-dark-85;
+      }
 
       .action {
         button {
