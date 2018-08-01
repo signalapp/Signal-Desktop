@@ -37,6 +37,7 @@ module.exports = {
   saveMessage,
   saveMessages,
   removeMessage,
+  _removeMessages,
   getUnreadByConversation,
 
   removeAllMessagesInConversation,
@@ -218,6 +219,11 @@ async function removeMessage(id, { Message }) {
     const model = new Message(message);
     await model.cleanup();
   }
+}
+
+// Note: this method will not clean up external files, just delete from SQL
+async function _removeMessages(ids) {
+  await channels.removeMessage(ids);
 }
 
 async function getMessageById(id, { Message }) {

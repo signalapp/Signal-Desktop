@@ -1,7 +1,12 @@
 /* global window, IDBKeyRange */
 
 const { includes, isFunction, isString, last } = require('lodash');
-const { saveMessages, saveUnprocesseds } = require('./data');
+const {
+  saveMessages,
+  _removeMessages,
+  saveUnprocesseds,
+  removeUnprocessed,
+} = require('./data');
 const {
   getMessageExportLastIndex,
   setMessageExportLastIndex,
@@ -34,6 +39,7 @@ async function migrateToSQL({ db, clearStores, handleDOMException }) {
     const status = await migrateStoreToSQLite({
       db,
       save: saveMessages,
+      remove: _removeMessages,
       storeName: 'messages',
       handleDOMException,
       lastIndex,
@@ -54,6 +60,7 @@ async function migrateToSQL({ db, clearStores, handleDOMException }) {
     const status = await migrateStoreToSQLite({
       db,
       save: saveUnprocesseds,
+      remove: removeUnprocessed,
       storeName: 'unprocessed',
       handleDOMException,
       lastIndex,
@@ -74,6 +81,7 @@ async function migrateToSQL({ db, clearStores, handleDOMException }) {
 async function migrateStoreToSQLite({
   db,
   save,
+  remove,
   storeName,
   handleDOMException,
   lastIndex = null,
@@ -84,6 +92,9 @@ async function migrateStoreToSQLite({
   }
   if (!isFunction(save)) {
     throw new Error('Need save function!');
+  }
+  if (!isFunction(remove)) {
+    throw new Error('Need remove function!');
   }
   if (!isString(storeName)) {
     throw new Error('Need storeName!');
@@ -151,6 +162,11 @@ async function migrateStoreToSQLite({
   const { items, complete } = await queryPromise;
 
   if (items.length) {
+    // Because of the force save and some failed imports, we're going to delete before
+    //   we attempt to insert.
+    const ids = items.map(item => item.id);
+    await remove(ids);
+
     // We need to pass forceSave parameter, because these items already have an
     //   id key. Normally, this call would be interpreted as an update request.
     await save(items, { forceSave: true });
