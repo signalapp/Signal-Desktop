@@ -52,7 +52,7 @@
     "electron-config": "^1.0.0",
     "electron-editor-context-menu": "^1.1.1",
     "electron-is-dev": "^0.3.0",
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#ba2e16aef2a0b513135fc9857ca7be28052c4f88",
+    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#782b5bb1e9468df811287a4a4c8a97803e4fcefe",
     "electron-unhandled": "https://github.com/scottnonnenberg-signal/electron-unhandled.git#7496187472aa561d39fcd4c843a54ffbef0a388c",
     "electron-updater": "^2.21.10",
     "emoji-datasource": "4.0.0",
@@ -255,7 +255,8 @@
       "!**/._*",
       "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
       "node_modules/spellchecker/build/Release/*.node",
-      "node_modules/websocket/build/Release/*.node"
+      "node_modules/websocket/build/Release/*.node",
+      "!node_modules/@journeyapps/sqlcipher/deps/*"
     ]
   }
 }
