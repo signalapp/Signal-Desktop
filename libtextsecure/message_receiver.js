@@ -138,6 +138,8 @@ MessageReceiver.prototype.extend({
   },
   handleRequest(request) {
     this.incoming = this.incoming || [];
+    const lastPromise = _.last(this.incoming);
+
     // We do the message decryption here, instead of in the ordered pending queue,
     // to avoid exposing the time it took us to process messages through the time-to-ack.
 
@@ -165,8 +167,11 @@ MessageReceiver.prototype.extend({
         }
 
         return this.addToCache(envelope, plaintext).then(
-          () => {
+          async () => {
             request.respond(200, 'OK');
+
+            // To ensure that we queue in the same order we receive messages
+            await lastPromise;
             this.queueEnvelope(envelope);
           },
           error => {
