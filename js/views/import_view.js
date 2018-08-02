@@ -38,7 +38,10 @@
       return storage.put(IMPORT_LOCATION, location);
     },
     reset() {
-      return Whisper.Database.clear();
+      return Promise.all([
+        Whisper.Database.clear(),
+        Window.Signal.Data.removeAll(),
+      ]);
     },
   };
 

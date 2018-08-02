@@ -983,8 +983,6 @@ async function loadAttachments(dir, getName, options) {
   );
 
   // TODO: Handle video screenshots, and image/video thumbnails
-
-  window.log.info('loadAttachments', { message });
 }
 
 function saveMessage(db, message) {
@@ -1008,7 +1006,9 @@ async function saveAllMessages(db, rawMessages) {
     for (let index = 0, max = messages.length; index < max; index += 1) {
       // Yes, we really want to do these in order
       // eslint-disable-next-line no-await-in-loop
-      await window.Signal.Data.saveMessage(messages[index]);
+      await window.Signal.Data.saveMessage(messages[index], {
+        forceSave: true,
+      });
     }
 
     window.log.info(
