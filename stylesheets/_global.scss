@@ -136,7 +136,7 @@ a {
   outline: solid 1px $blue;
 }
 
-$avatar-size: 44px;
+$avatar-size: 48px;
 
 .avatar {
   display: inline-block;
@@ -244,13 +244,23 @@ $unread-badge-size: 21px;
   }
 }
 
+$new-contact-left-margin: 16px;
+.new-contact .avatar {
+  margin-left: $new-contact-left-margin;
+}
+
+// Still used for the contact search view
 .contact-details {
-  $left-margin: 8px;
+  $left-margin: 12px;
 
   vertical-align: middle;
   display: inline-block;
   margin: 0 0 0 $left-margin;
-  width: calc(100% - #{$avatar-size} - #{$left-margin} - #{(4/14) + em});
+  width: calc(
+    100% - #{$avatar-size} - #{$new-contact-left-margin} - #{$left-margin} - #{(
+        4/14
+      ) + em}
+  );
   text-align: left;
 
   p {
@@ -270,7 +280,7 @@ $unread-badge-size: 21px;
   }
 
   .number {
-    color: $grey;
+    color: $color-light-60;
     font-size: $font-size-small;
   }
 
