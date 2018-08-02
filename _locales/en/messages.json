@@ -157,6 +157,17 @@
     "description":
       "Message shown on the loading screen while we are doing application optimizations"
   },
+  "migratingToSQLCipher": {
+    "message": "Optimizing messages... $status$ complete.",
+    "description":
+      "Message shown on the loading screen while we are doing application optimizations",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "45/200"
+      }
+    }
+  },
   "chooseDirectory": {
     "message": "Choose folder",
     "description": "Button to allow the user to find a folder on disk"

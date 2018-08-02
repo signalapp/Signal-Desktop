@@ -2,26 +2,44 @@
 
 /* global i18n: false */
 
-const OPTIMIZATION_MESSAGE_DISPLAY_THRESHOLD = 1000; // milliseconds
+const DISPLAY_THRESHOLD = 3000; // milliseconds
+const SELECTOR = '.app-loading-screen .message';
 
-const setMessage = () => {
-  const message = document.querySelector('.app-loading-screen .message');
-  if (!message) {
-    return () => {};
+let timeout;
+let targetString;
+let didTimeout = false;
+
+const clear = () => {
+  if (timeout) {
+    clearTimeout(timeout);
+    timeout = null;
   }
-  message.innerText = i18n('loading');
+};
 
-  const optimizingMessageTimeoutId = setTimeout(() => {
-    const innerMessage = document.querySelector('.app-loading-screen .message');
+const setMessage = loadingText => {
+  const message = document.querySelector(SELECTOR);
+  if (!message) {
+    return clear;
+  }
+
+  targetString = loadingText || i18n('optimizingApplication');
+
+  message.innerText = didTimeout ? targetString : i18n('loading');
+
+  if (timeout) {
+    return clear;
+  }
+
+  timeout = setTimeout(() => {
+    didTimeout = true;
+    const innerMessage = document.querySelector(SELECTOR);
     if (!innerMessage) {
       return;
     }
-    innerMessage.innerText = i18n('optimizingApplication');
-  }, OPTIMIZATION_MESSAGE_DISPLAY_THRESHOLD);
+    innerMessage.innerText = targetString;
+  }, DISPLAY_THRESHOLD);
 
-  return () => {
-    clearTimeout(optimizingMessageTimeoutId);
-  };
+  return clear;
 };
 
 module.exports = {

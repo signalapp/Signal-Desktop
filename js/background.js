@@ -319,11 +319,33 @@
     await upgradeMessages();
 
     const db = await Whisper.Database.open();
-    await window.Signal.migrateToSQL({
-      db,
-      clearStores: Whisper.Database.clearStores,
-      handleDOMException: Whisper.Database.handleDOMException,
+    const totalMessages = await MessageDataMigrator.getNumMessages({
+      connection: db,
     });
+
+    function showMigrationStatus(current) {
+      const status = `${current}/${totalMessages}`;
+      Views.Initialization.setMessage(
+        window.i18n('migratingToSQLCipher', [status])
+      );
+    }
+
+    if (totalMessages) {
+      window.log.info(`About to migrate ${totalMessages} messages`);
+
+      showMigrationStatus(0);
+      await window.Signal.migrateToSQL({
+        db,
+        clearStores: Whisper.Database.clearStores,
+        handleDOMException: Whisper.Database.handleDOMException,
+        countCallback: count => {
+          window.log.info(`Migration: ${count} messages complete`);
+          showMigrationStatus(count);
+        },
+      });
+    }
+
+    Views.Initialization.setMessage(window.i18n('loading'));
 
     // Note: We are not invoking the second set of IndexedDB migrations because it is
     //   likely that any future migrations will simply extracting things from IndexedDB.

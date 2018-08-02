@@ -134,7 +134,7 @@ exports.dangerouslyProcessAllWithoutIndex = async ({
   // NOTE: Even if we make this async using `then`, requesting `count` on an
   // IndexedDB store blocks all subsequent transactions, so we might as well
   // explicitly wait for it here:
-  const numTotalMessages = await _getNumMessages({ connection });
+  const numTotalMessages = await exports.getNumMessages({ connection });
 
   const migrationStartTime = Date.now();
   let numCumulativeMessagesProcessed = 0;
@@ -366,7 +366,7 @@ const _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex = ({
   });
 };
 
-const _getNumMessages = async ({ connection } = {}) => {
+exports.getNumMessages = async ({ connection } = {}) => {
   if (!isObject(connection)) {
     throw new TypeError("'connection' is required");
   }

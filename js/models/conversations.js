@@ -155,7 +155,6 @@
           return;
         }
 
-        window.log.info('Merging updated message into collection');
         existing.merge(message.attributes);
       };
 

@@ -10,6 +10,8 @@ const {
 const {
   getMessageExportLastIndex,
   setMessageExportLastIndex,
+  getMessageExportCount,
+  setMessageExportCount,
   getUnprocessedExportLastIndex,
   setUnprocessedExportLastIndex,
 } = require('./settings');
@@ -18,7 +20,12 @@ module.exports = {
   migrateToSQL,
 };
 
-async function migrateToSQL({ db, clearStores, handleDOMException }) {
+async function migrateToSQL({
+  db,
+  clearStores,
+  handleDOMException,
+  countCallback,
+}) {
   if (!db) {
     throw new Error('Need db for IndexedDB connection!');
   }
@@ -31,7 +38,10 @@ async function migrateToSQL({ db, clearStores, handleDOMException }) {
 
   window.log.info('migrateToSQL: start');
 
-  let lastIndex = await getMessageExportLastIndex(db);
+  let [lastIndex, doneSoFar] = await Promise.all([
+    getMessageExportLastIndex(db),
+    getMessageExportCount(db),
+  ]);
   let complete = false;
 
   while (!complete) {
@@ -48,7 +58,16 @@ async function migrateToSQL({ db, clearStores, handleDOMException }) {
     ({ complete, lastIndex } = status);
 
     // eslint-disable-next-line no-await-in-loop
-    await setMessageExportLastIndex(db, lastIndex);
+    await Promise.all([
+      setMessageExportCount(db, doneSoFar),
+      setMessageExportLastIndex(db, lastIndex),
+    ]);
+
+    const { count } = status;
+    doneSoFar += count;
+    if (countCallback) {
+      countCallback(doneSoFar);
+    }
   }
   window.log.info('migrateToSQL: migrate of messages complete');
 
@@ -85,7 +104,7 @@ async function migrateStoreToSQLite({
   storeName,
   handleDOMException,
   lastIndex = null,
-  batchSize = 20,
+  batchSize = 50,
 }) {
   if (!db) {
     throw new Error('Need db for IndexedDB connection!');
