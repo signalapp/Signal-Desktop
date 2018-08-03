@@ -191,6 +191,60 @@
     }
     first = false;
 
+    // These make key operations available to IPC handlers created in preload.js
+    window.Events = {
+      getDeviceName: () => textsecure.storage.user.getDeviceName(),
+
+      getThemeSetting: () => storage.get('theme-setting', 'light'),
+      setThemeSetting: value => {
+        storage.put('theme-setting', value);
+        onChangeTheme();
+      },
+      getHideMenuBar: () => storage.get('hide-menu-bar'),
+      setHideMenuBar: value => {
+        storage.put('hide-menu-bar', value);
+        window.setAutoHideMenuBar(value);
+        window.setMenuBarVisibility(!value);
+      },
+
+      getNotificationSetting: () =>
+        storage.get('notification-setting', 'message'),
+      setNotificationSetting: value =>
+        storage.put('notification-setting', value),
+      getAudioNotification: () => storage.get('audio-notification'),
+      setAudioNotification: value => storage.put('audio-notification', value),
+
+      getSpellCheck: () => storage.get('spell-check', true),
+      setSpellCheck: value => {
+        storage.put('spell-check', value);
+        startSpellCheck();
+      },
+
+      // eslint-disable-next-line eqeqeq
+      isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
+      getSyncRequest: () =>
+        new Promise((resolve, reject) => {
+          const syncRequest = window.getSyncRequest();
+          syncRequest.addEventListener('success', resolve);
+          syncRequest.addEventListener('timeout', reject);
+        }),
+      getLastSyncTime: () => storage.get('synced_at'),
+      setLastSyncTime: value => storage.put('synced_at', value),
+
+      addDarkOverlay: () => {
+        if ($('.dark-overlay').length) {
+          return;
+        }
+        $(document.body).prepend('<div class="dark-overlay"></div>');
+        $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
+      },
+      removeDarkOverlay: () => $('.dark-overlay').remove(),
+      deleteAllData: () => {
+        const clearDataView = new window.Whisper.ClearDataView().render();
+        $('body').append(clearDataView.el);
+      },
+    };
+
     const currentVersion = window.getVersion();
     const lastVersion = storage.get('version');
     newVersion = !lastVersion || currentVersion !== lastVersion;
@@ -305,60 +359,6 @@
         idleDetector.stop();
       }
     });
-
-    // These make key operations available to IPC handlers created in preload.js
-    window.Events = {
-      getDeviceName: () => textsecure.storage.user.getDeviceName(),
-
-      getThemeSetting: () => storage.get('theme-setting', 'light'),
-      setThemeSetting: value => {
-        storage.put('theme-setting', value);
-        onChangeTheme();
-      },
-      getHideMenuBar: () => storage.get('hide-menu-bar'),
-      setHideMenuBar: value => {
-        storage.put('hide-menu-bar', value);
-        window.setAutoHideMenuBar(value);
-        window.setMenuBarVisibility(!value);
-      },
-
-      getNotificationSetting: () =>
-        storage.get('notification-setting', 'message'),
-      setNotificationSetting: value =>
-        storage.put('notification-setting', value),
-      getAudioNotification: () => storage.get('audio-notification'),
-      setAudioNotification: value => storage.put('audio-notification', value),
-
-      getSpellCheck: () => storage.get('spell-check', true),
-      setSpellCheck: value => {
-        storage.put('spell-check', value);
-        startSpellCheck();
-      },
-
-      // eslint-disable-next-line eqeqeq
-      isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
-      getSyncRequest: () =>
-        new Promise((resolve, reject) => {
-          const syncRequest = window.getSyncRequest();
-          syncRequest.addEventListener('success', resolve);
-          syncRequest.addEventListener('timeout', reject);
-        }),
-      getLastSyncTime: () => storage.get('synced_at'),
-      setLastSyncTime: value => storage.put('synced_at', value),
-
-      addDarkOverlay: () => {
-        if ($('.dark-overlay').length) {
-          return;
-        }
-        $(document.body).prepend('<div class="dark-overlay"></div>');
-        $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
-      },
-      removeDarkOverlay: () => $('.dark-overlay').remove(),
-      deleteAllData: () => {
-        const clearDataView = new window.Whisper.ClearDataView().render();
-        $('body').append(clearDataView.el);
-      },
-    };
 
     const startSpellCheck = () => {
       if (!window.enableSpellCheck || !window.disableSpellCheck) {
