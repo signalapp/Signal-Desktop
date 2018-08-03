@@ -1003,13 +1003,9 @@ async function saveAllMessages(db, rawMessages) {
 
     const { conversationId } = messages[0];
 
-    for (let index = 0, max = messages.length; index < max; index += 1) {
-      // Yes, we really want to do these in order
-      // eslint-disable-next-line no-await-in-loop
-      await window.Signal.Data.saveMessage(messages[index], {
-        forceSave: true,
-      });
-    }
+    await window.Signal.Data.saveMessages(messages, {
+      forceSave: true,
+    });
 
     window.log.info(
       'Saved',

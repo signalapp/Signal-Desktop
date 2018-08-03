@@ -1,5 +1,5 @@
 /* eslint-env node */
-/* global log, Signal */
+/* global log, Signal, Whisper */
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -59,7 +59,7 @@ exports.createConversation = async ({
       await sleep(index * 100);
       log.info(`Create message ${index + 1}`);
       const message = await createRandomMessage({ conversationId });
-      return Signal.Data.saveMessage(message);
+      return Signal.Data.saveMessage(message, { Message: Whisper.Message });
     })
   );
 };

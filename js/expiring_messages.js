@@ -11,28 +11,35 @@
   window.Whisper = window.Whisper || {};
 
   async function destroyExpiredMessages() {
-    const messages = await window.Signal.Data.getExpiredMessages({
-      MessageCollection: Whisper.MessageCollection,
-    });
+    try {
+      const messages = await window.Signal.Data.getExpiredMessages({
+        MessageCollection: Whisper.MessageCollection,
+      });
 
-    await Promise.all(
-      messages.map(async message => {
-        window.log.info('Message expired', {
-          sentAt: message.get('sent_at'),
-        });
+      await Promise.all(
+        messages.map(async message => {
+          window.log.info('Message expired', {
+            sentAt: message.get('sent_at'),
+          });
 
-        // We delete after the trigger to allow the conversation time to process
-        //   the expiration before the message is removed from the database.
-        await window.Signal.Data.removeMessage(message.id, {
-          Message: Whisper.Message,
-        });
+          // We delete after the trigger to allow the conversation time to process
+          //   the expiration before the message is removed from the database.
+          await window.Signal.Data.removeMessage(message.id, {
+            Message: Whisper.Message,
+          });
 
-        const conversation = message.getConversation();
-        if (conversation) {
-          conversation.trigger('expired', message);
-        }
-      })
-    );
+          const conversation = message.getConversation();
+          if (conversation) {
+            conversation.trigger('expired', message);
+          }
+        })
+      );
+    } catch (error) {
+      window.log.error(
+        'destroyExpiredMessages: Error deleting expired messages',
+        error && error.stack ? error.stack : error
+      );
+    }
 
     checkExpiringMessages();
   }
@@ -50,6 +57,7 @@
     }
 
     const expiresAt = next.get('expires_at');
+    Whisper.ExpiringMessagesListener.nextExpiration = expiresAt;
     window.log.info('next message expires', new Date(expiresAt).toISOString());
 
     let wait = expiresAt - Date.now();
@@ -73,6 +81,7 @@
   );
 
   Whisper.ExpiringMessagesListener = {
+    nextExpiration: null,
     init(events) {
       checkExpiringMessages();
       events.on('timetravel', throttledCheckExpiringMessages);

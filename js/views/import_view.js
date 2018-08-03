@@ -40,7 +40,7 @@
     reset() {
       return Promise.all([
         Whisper.Database.clear(),
-        Window.Signal.Data.removeAll(),
+        window.Signal.Data.removeAll(),
       ]);
     },
   };

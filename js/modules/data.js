@@ -201,8 +201,9 @@ async function removeDB() {
   await channels.removeDB();
 }
 
-async function saveMessage(data, { forceSave } = {}) {
+async function saveMessage(data, { forceSave, Message } = {}) {
   const id = await channels.saveMessage(_cleanData(data), { forceSave });
+  Message.refreshExpirationTimer();
   return id;
 }
 
