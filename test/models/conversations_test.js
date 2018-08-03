@@ -36,15 +36,15 @@
         .then(done);
     });
 
-    it('fetches persistent convos', function(done) {
+    it('fetches persistent convos', async () => {
       var convos = new Whisper.ConversationCollection();
       assert.strictEqual(convos.length, 0);
-      convos.fetch().then(function() {
-        var m = convos.at(0).attributes;
-        _.each(conversation_attributes, function(val, key) {
-          assert.deepEqual(m[key], val);
-        });
-        done();
+
+      await wrapDeferred(convos.fetch());
+
+      var m = convos.at(0).attributes;
+      _.each(conversation_attributes, function(val, key) {
+        assert.deepEqual(m[key], val);
       });
     });
 
@@ -83,17 +83,19 @@
 
   describe('Conversation', function() {
     var attributes = { type: 'private', id: '+18085555555' };
-    before(function(done) {
+    before(async () => {
       var convo = new Whisper.ConversationCollection().add(attributes);
-      convo.save().then(function() {
-        var message = convo.messageCollection.add({
-          body: 'hello world',
-          conversationId: convo.id,
-          type: 'outgoing',
-          sent_at: Date.now(),
-          received_at: Date.now(),
-        });
-        message.save().then(done);
+      await wrapDeferred(convo.save());
+
+      var message = convo.messageCollection.add({
+        body: 'hello world',
+        conversationId: convo.id,
+        type: 'outgoing',
+        sent_at: Date.now(),
+        received_at: Date.now(),
+      });
+      await window.Signal.Data.saveMessage(message.attributes, {
+        Message: Whisper.Message,
       });
     });
     after(clearDatabase);
@@ -224,14 +226,18 @@
   });
 
   describe('Conversation search', function() {
-    var convo = new Whisper.ConversationCollection().add({
-      id: '+14155555555',
-      type: 'private',
-      name: 'John Doe',
-    });
-    before(function(done) {
+    let convo;
+
+    beforeEach(function(done) {
+      convo = new Whisper.ConversationCollection().add({
+        id: '+14155555555',
+        type: 'private',
+        name: 'John Doe',
+      });
       convo.save().then(done);
     });
+    afterEach(clearDatabase);
+
     function testSearch(queries, done) {
       return Promise.all(
         queries.map(function(query) {

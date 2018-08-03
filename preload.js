@@ -1,8 +1,6 @@
 /* global Whisper: false */
 /* global window: false */
 
-console.log('preload');
-
 const electron = require('electron');
 const semver = require('semver');
 
@@ -34,7 +32,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
     return semver.lt(toCheck, baseVersion);
   } catch (error) {
-    console.log(
+    window.log.error(
       `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
       error && error.stack ? error.stack : error
     );
@@ -55,11 +53,11 @@ window.open = () => null;
 window.eval = global.eval = () => null;
 
 window.drawAttention = () => {
-  console.log('draw attention');
+  window.log.info('draw attention');
   ipc.send('draw-attention');
 };
 window.showWindow = () => {
-  console.log('show window');
+  window.log.info('show window');
   ipc.send('show-window');
 };
 
@@ -70,7 +68,7 @@ window.setMenuBarVisibility = visibility =>
   ipc.send('set-menu-bar-visibility', visibility);
 
 window.restart = () => {
-  console.log('restart');
+  window.log.info('restart');
   ipc.send('restart');
 };
 
@@ -188,7 +186,7 @@ window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');
 require('./js/logging');
 
 if (config.proxyUrl) {
-  console.log('using proxy url', config.proxyUrl);
+  window.log.info('Using provided proxy url');
 }
 
 window.nodeSetImmediate = setImmediate;
@@ -218,13 +216,6 @@ window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInst
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
 
-// Note: when modifying this file, consider whether our React Components or Backbone Views
-//   will need these things to render in the Style Guide. If so, go update one of these
-//   two locations:
-//
-//   1) test/styleguide/legacy_bridge.js
-//   2) ts/styleguide/StyleGuideUtil.js
-
 window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');
@@ -248,6 +239,7 @@ window.Signal = Signal.setup({
   Attachments,
   userDataPath: app.getPath('userData'),
   getRegionCode: () => window.storage.get('regionCode'),
+  logger: window.log,
 });
 
 // Pulling these in separately since they access filesystem, electron

@@ -8,6 +8,9 @@ const {
 
 describe('Contact', () => {
   const NUMBER = '+12025550099';
+  const logger = {
+    error: () => null,
+  };
 
   describe('parseAndWriteAvatar', () => {
     it('handles message with no avatar in contact', async () => {
@@ -32,7 +35,10 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], { message });
+      const result = await upgradeVersion(message.contact[0], {
+        message,
+        logger,
+      });
       assert.deepEqual(result, message.contact[0]);
     });
 
@@ -72,6 +78,7 @@ describe('Contact', () => {
       const result = await upgradeVersion(message.contact[0], {
         message,
         regionCode: 'US',
+        logger,
       });
       assert.deepEqual(result, expected);
     });
@@ -112,7 +119,10 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], { message });
+      const result = await upgradeVersion(message.contact[0], {
+        message,
+        logger,
+      });
       assert.deepEqual(result, expected);
     });
 
@@ -190,7 +200,10 @@ describe('Contact', () => {
         },
       };
 
-      const result = await upgradeVersion(message.contact[0], { message });
+      const result = await upgradeVersion(message.contact[0], {
+        message,
+        logger,
+      });
       assert.deepEqual(result, expected);
     });
 
@@ -231,7 +244,10 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], { message });
+      const result = await upgradeVersion(message.contact[0], {
+        message,
+        logger,
+      });
       assert.deepEqual(result, expected);
     });
 
@@ -272,7 +288,10 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], { message });
+      const result = await upgradeVersion(message.contact[0], {
+        message,
+        logger,
+      });
       assert.deepEqual(result, expected);
     });
 
@@ -310,7 +329,10 @@ describe('Contact', () => {
           displayName: 'Someone Somewhere',
         },
       };
-      const result = await upgradeVersion(message.contact[0], { message });
+      const result = await upgradeVersion(message.contact[0], {
+        message,
+        logger,
+      });
       assert.deepEqual(result, expected);
     });
 
@@ -333,7 +355,10 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(message.contact[0], { message });
+      const result = await upgradeVersion(message.contact[0], {
+        message,
+        logger,
+      });
       assert.deepEqual(result, message.contact[0]);
     });
   });

@@ -6,24 +6,26 @@ import classNames from 'classnames';
 import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
-import { Emojify } from './Emojify';
 import { MessageBody } from './MessageBody';
-import { Localizer } from '../../types/Util';
+import { Color, Localizer } from '../../types/Util';
+import { ContactName } from './ContactName';
 
 interface Props {
-  attachments: Array<QuotedAttachment>;
-  authorColor: string;
+  attachment?: QuotedAttachment;
+  authorPhoneNumber: string;
   authorProfileName?: string;
-  authorTitle: string;
+  authorName?: string;
+  authorColor: Color;
   i18n: Localizer;
-  isFromMe: string;
+  isFromMe: boolean;
   isIncoming: boolean;
+  withContentAbove: boolean;
   onClick?: () => void;
   onClose?: () => void;
   text: string;
 }
 
-interface QuotedAttachment {
+export interface QuotedAttachment {
   contentType: MIME.MIMEType;
   fileName: string;
   /** Not included in protobuf */
@@ -42,7 +44,7 @@ function validateQuote(quote: Props): boolean {
     return true;
   }
 
-  if (quote.attachments && quote.attachments.length > 0) {
+  if (quote.attachment) {
     return true;
   }
 
@@ -57,44 +59,103 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | null {
   return null;
 }
 
+function getTypeLabel({
+  i18n,
+  contentType,
+  isVoiceMessage,
+}: {
+  i18n: Localizer;
+  contentType: MIME.MIMEType;
+  isVoiceMessage: boolean;
+}): string | null {
+  if (GoogleChrome.isVideoTypeSupported(contentType)) {
+    return i18n('video');
+  }
+  if (GoogleChrome.isImageTypeSupported(contentType)) {
+    return i18n('photo');
+  }
+  if (MIME.isAudio(contentType) && isVoiceMessage) {
+    return i18n('voiceMessage');
+  }
+  if (MIME.isAudio(contentType)) {
+    return i18n('audio');
+  }
+
+  return null;
+}
+
 export class Quote extends React.Component<Props> {
   public renderImage(url: string, i18n: Localizer, icon?: string) {
     const iconElement = icon ? (
-      <div className={classNames('icon', 'with-image', icon)} />
+      <div className="module-quote__icon-container__inner">
+        <div className="module-quote__icon-container__circle-background">
+          <div
+            className={classNames(
+              'module-quote__icon-container__icon',
+              `module-quote__icon-container__icon--${icon}`
+            )}
+          />
+        </div>
+      </div>
     ) : null;
 
     return (
-      <div className="icon-container">
-        <div className="inner">
-          <img src={url} alt={i18n('quoteThumbnailAlt')} />
-          {iconElement}
-        </div>
+      <div className="module-quote__icon-container">
+        <img src={url} alt={i18n('quoteThumbnailAlt')} />
+        {iconElement}
       </div>
     );
   }
 
   public renderIcon(icon: string) {
-    const { authorColor, isIncoming } = this.props;
+    return (
+      <div className="module-quote__icon-container">
+        <div className="module-quote__icon-container__inner">
+          <div className="module-quote__icon-container__circle-background">
+            <div
+              className={classNames(
+                'module-quote__icon-container__icon',
+                `module-quote__icon-container__icon--${icon}`
+              )}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-    const backgroundColor = isIncoming ? 'white' : authorColor;
-    const iconColor = isIncoming ? authorColor : 'white';
+  public renderGenericFile() {
+    const { attachment } = this.props;
+
+    if (!attachment) {
+      return;
+    }
+
+    const { fileName, contentType } = attachment;
+    const isGenericFile =
+      !GoogleChrome.isVideoTypeSupported(contentType) &&
+      !GoogleChrome.isImageTypeSupported(contentType) &&
+      !MIME.isAudio(contentType);
+
+    if (!isGenericFile) {
+      return null;
+    }
 
     return (
-      <div className="icon-container">
-        <div className={classNames('circle-background', backgroundColor)} />
-        <div className={classNames('icon', icon, iconColor)} />
+      <div className="module-quote__generic-file">
+        <div className="module-quote__generic-file__icon" />
+        <div className="module-quote__generic-file__text">{fileName}</div>
       </div>
     );
   }
 
   public renderIconContainer() {
-    const { attachments, i18n } = this.props;
-    if (!attachments || attachments.length === 0) {
+    const { attachment, i18n } = this.props;
+    if (!attachment) {
       return null;
     }
 
-    const first = attachments[0];
-    const { contentType, thumbnail } = first;
+    const { contentType, thumbnail } = attachment;
     const objectUrl = getObjectUrl(thumbnail);
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
@@ -111,62 +172,34 @@ export class Quote extends React.Component<Props> {
       return this.renderIcon('microphone');
     }
 
-    return this.renderIcon('file');
+    return null;
   }
 
   public renderText() {
-    const { i18n, text, attachments } = this.props;
+    const { i18n, text, attachment } = this.props;
 
     if (text) {
       return (
-        <div className="text">
+        <div dir="auto" className="module-quote__primary__text">
           <MessageBody text={text} i18n={i18n} />
         </div>
       );
     }
 
-    if (!attachments || attachments.length === 0) {
+    if (!attachment) {
       return null;
     }
 
-    const first = attachments[0];
-    const { contentType, fileName, isVoiceMessage } = first;
+    const { contentType, isVoiceMessage } = attachment;
 
-    if (GoogleChrome.isVideoTypeSupported(contentType)) {
-      return <div className="type-label">{i18n('video')}</div>;
-    }
-    if (GoogleChrome.isImageTypeSupported(contentType)) {
-      return <div className="type-label">{i18n('photo')}</div>;
-    }
-    if (MIME.isAudio(contentType) && isVoiceMessage) {
-      return <div className="type-label">{i18n('voiceMessage')}</div>;
-    }
-    if (MIME.isAudio(contentType)) {
-      return <div className="type-label">{i18n('audio')}</div>;
+    const typeLabel = getTypeLabel({ i18n, contentType, isVoiceMessage });
+    if (typeLabel) {
+      return (
+        <div className="module-quote__primary__type-label">{typeLabel}</div>
+      );
     }
 
-    return <div className="filename-label">{fileName}</div>;
-  }
-
-  public renderIOSLabel() {
-    const {
-      i18n,
-      isIncoming,
-      isFromMe,
-      authorTitle,
-      authorProfileName,
-    } = this.props;
-
-    const profileString = authorProfileName ? ` ~${authorProfileName}` : '';
-    const authorName = `${authorTitle}${profileString}`;
-
-    const label = isFromMe
-      ? isIncoming
-        ? i18n('replyingToYou')
-        : i18n('replyingToYourself')
-      : i18n('replyingTo', [authorName]);
-
-    return <div className="ios-label">{label}</div>;
+    return null;
   }
 
   public renderClose() {
@@ -185,59 +218,78 @@ export class Quote extends React.Component<Props> {
 
     // We need the container to give us the flexibility to implement the iOS design.
     return (
-      <div className="close-container">
-        <div className="close-button" role="button" onClick={onClick} />
+      <div className="module-quote__close-container">
+        <div
+          className="module-quote__close-button"
+          role="button"
+          onClick={onClick}
+        />
       </div>
     );
   }
 
   public renderAuthor() {
     const {
-      authorColor,
       authorProfileName,
-      authorTitle,
+      authorPhoneNumber,
+      authorName,
+      authorColor,
       i18n,
       isFromMe,
     } = this.props;
 
-    const authorProfileElement = authorProfileName ? (
-      <span className="profile-name">
-        ~<Emojify text={authorProfileName} i18n={i18n} />
-      </span>
-    ) : null;
-
     return (
-      <div className={classNames(authorColor, 'author')}>
+      <div
+        className={classNames(
+          'module-quote__primary__author',
+          !isFromMe ? `module-quote__primary__author--${authorColor}` : null
+        )}
+      >
         {isFromMe ? (
           i18n('you')
         ) : (
-          <span>
-            <Emojify text={authorTitle} i18n={i18n} /> {authorProfileElement}
-          </span>
+          <ContactName
+            phoneNumber={authorPhoneNumber}
+            name={authorName}
+            profileName={authorProfileName}
+            i18n={i18n}
+          />
         )}
       </div>
     );
   }
 
   public render() {
-    const { authorColor, onClick, isFromMe } = this.props;
+    const {
+      authorColor,
+      isFromMe,
+      isIncoming,
+      onClick,
+      withContentAbove,
+    } = this.props;
 
     if (!validateQuote(this.props)) {
       return null;
     }
 
-    const classes = classNames(
-      authorColor,
-      'quoted-message',
-      isFromMe ? 'from-me' : null,
-      !onClick ? 'no-click' : null
-    );
-
     return (
-      <div onClick={onClick} role="button" className={classes}>
-        <div className="primary">
-          {this.renderIOSLabel()}
+      <div
+        onClick={onClick}
+        role="button"
+        className={classNames(
+          'module-quote',
+          isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
+          !isIncoming && !isFromMe
+            ? `module-quote--outgoing-${authorColor}`
+            : null,
+          !isIncoming && isFromMe ? 'module-quote--outgoing-you' : null,
+          !onClick ? 'module-quote--no-click' : null,
+          withContentAbove ? 'module-quote--with-content-above' : null
+        )}
+      >
+        <div className="module-quote__primary">
           {this.renderAuthor()}
+          {this.renderGenericFile()}
           {this.renderText()}
         </div>
         {this.renderIconContainer()}

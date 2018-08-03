@@ -6,7 +6,6 @@ config/local-*.json
 config/local.json
 dist/**
 js/components.js
-js/libsignal-protocol-worker.js
 js/libtextsecure.js
 libtextsecure/components.js
 libtextsecure/test/test.js
@@ -21,6 +20,7 @@ stylesheets/manifest.css
 components/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
+js/libsignal-protocol-worker.js
 libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js
@@ -29,7 +29,10 @@ test/blanket_mocha.js
 test/fixtures.js
 
 # Managed by Transifex:
-_locales/**
+# Note: the negate pattern only works because it's targeting the same depth as the
+#   glob on the previous line.
+_locales/**/*.json
+!_locales/en/messages.json
 
 # Managed by package manager (`bower` and `yarn`/`npm`):
 /bower.json

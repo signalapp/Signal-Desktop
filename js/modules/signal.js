@@ -2,34 +2,58 @@
 
 const Backbone = require('../../ts/backbone');
 const Crypto = require('./crypto');
+const Data = require('./data');
 const Database = require('./database');
 const Emoji = require('../../ts/util/emoji');
-const Message = require('./types/message');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Settings = require('./settings');
 const Startup = require('./startup');
 const Util = require('../../ts/util');
+const { migrateToSQL } = require('./migrate_to_sql');
 
 // Components
 const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
+const { ContactListItem } = require('../../ts/components/ContactListItem');
 const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
-  ConversationTitle,
-} = require('../../ts/components/conversation/ConversationTitle');
+  ConversationHeader,
+} = require('../../ts/components/conversation/ConversationHeader');
+const {
+  ConversationListItem,
+} = require('../../ts/components/ConversationListItem');
 const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
+const {
+  GroupNotification,
+} = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
+const { Message } = require('../../ts/components/conversation/Message');
 const { MessageBody } = require('../../ts/components/conversation/MessageBody');
+const {
+  MessageDetail,
+} = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
+const {
+  ResetSessionNotification,
+} = require('../../ts/components/conversation/ResetSessionNotification');
+const {
+  SafetyNumberNotification,
+} = require('../../ts/components/conversation/SafetyNumberNotification');
+const {
+  TimerNotification,
+} = require('../../ts/components/conversation/TimerNotification');
+const {
+  VerificationNotification,
+} = require('../../ts/components/conversation/VerificationNotification');
 
 // Migrations
 const {
@@ -41,11 +65,14 @@ const Migrations1DatabaseWithoutAttachmentData = require('./migrations/migration
 
 // Types
 const AttachmentType = require('./types/attachment');
+const VisualAttachment = require('./types/visual_attachment');
 const Contact = require('../../ts/types/Contact');
 const Conversation = require('../../ts/types/Conversation');
 const Errors = require('./types/errors');
 const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
+const MessageType = require('./types/message');
 const MIME = require('../../ts/types/MIME');
+const PhoneNumber = require('../../ts/types/PhoneNumber');
 const SettingsType = require('../../ts/types/Settings');
 
 // Views
@@ -56,67 +83,109 @@ const { IdleDetector } = require('./idle_detector');
 const MessageDataMigrator = require('./messages_data_migrator');
 
 function initializeMigrations({
-  Attachments,
   userDataPath,
-  Type,
   getRegionCode,
+  Attachments,
+  Type,
+  VisualType,
+  logger,
 }) {
   if (!Attachments) {
     return null;
   }
+  const {
+    getPath,
+    createReader,
+    createAbsolutePathGetter,
+    createWriterForNew,
+    createWriterForExisting,
+  } = Attachments;
+  const {
+    makeObjectUrl,
+    revokeObjectUrl,
+    getImageDimensions,
+    makeImageThumbnail,
+    makeVideoScreenshot,
+  } = VisualType;
 
-  const attachmentsPath = Attachments.getPath(userDataPath);
-  const readAttachmentData = Attachments.createReader(attachmentsPath);
+  const attachmentsPath = getPath(userDataPath);
+  const readAttachmentData = createReader(attachmentsPath);
   const loadAttachmentData = Type.loadData(readAttachmentData);
+  const loadQuoteData = MessageType.loadQuoteData(readAttachmentData);
+  const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
+  const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
 
   return {
     attachmentsPath,
-    deleteAttachmentData: Type.deleteData(
-      Attachments.createDeleter(attachmentsPath)
-    ),
-    getAbsoluteAttachmentPath: Attachments.createAbsolutePathGetter(
-      attachmentsPath
-    ),
+    deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
+      deleteAttachmentData: Type.deleteData(deleteOnDisk),
+      deleteOnDisk,
+    }),
+    getAbsoluteAttachmentPath,
     getPlaceholderMigrations,
     loadAttachmentData,
-    loadMessage: Message.createAttachmentLoader(loadAttachmentData),
+    loadQuoteData,
+    loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
     Migrations0DatabaseWithAttachmentData,
     Migrations1DatabaseWithoutAttachmentData,
-    upgradeMessageSchema: message =>
-      Message.upgradeSchema(message, {
-        writeNewAttachmentData: Attachments.createWriterForNew(attachmentsPath),
+    upgradeMessageSchema: (message, options = {}) => {
+      const { maxVersion } = options;
+
+      return MessageType.upgradeSchema(message, {
+        writeNewAttachmentData: createWriterForNew(attachmentsPath),
         getRegionCode,
-      }),
-    writeMessageAttachments: Message.createAttachmentDataWriter(
-      Attachments.createWriterForExisting(attachmentsPath)
-    ),
+        getAbsoluteAttachmentPath,
+        makeObjectUrl,
+        revokeObjectUrl,
+        getImageDimensions,
+        makeImageThumbnail,
+        makeVideoScreenshot,
+        logger,
+        maxVersion,
+      });
+    },
+    writeMessageAttachments: MessageType.createAttachmentDataWriter({
+      writeExistingAttachmentData: createWriterForExisting(attachmentsPath),
+      logger,
+    }),
   };
 }
 
 exports.setup = (options = {}) => {
-  const { Attachments, userDataPath, getRegionCode } = options;
+  const { Attachments, userDataPath, getRegionCode, logger } = options;
 
   const Migrations = initializeMigrations({
-    Attachments,
     userDataPath,
-    Type: AttachmentType,
     getRegionCode,
+    Attachments,
+    Type: AttachmentType,
+    VisualType: VisualAttachment,
+    logger,
   });
 
   const Components = {
     ContactDetail,
+    ContactListItem,
     ContactName,
-    ConversationTitle,
+    ConversationHeader,
+    ConversationListItem,
     EmbeddedContact,
     Emojify,
+    GroupNotification,
     Lightbox,
     LightboxGallery,
     MediaGallery,
+    Message,
     MessageBody,
+    MessageDetail,
+    Quote,
+    ResetSessionNotification,
+    SafetyNumberNotification,
+    TimerNotification,
     Types: {
       Message: MediaGalleryMessage,
     },
-    Quote,
+    VerificationNotification,
   };
 
   const Types = {
@@ -124,9 +193,11 @@ exports.setup = (options = {}) => {
     Contact,
     Conversation,
     Errors,
-    Message,
+    Message: MessageType,
     MIME,
+    PhoneNumber,
     Settings: SettingsType,
+    VisualAttachment,
   };
 
   const Views = {
@@ -142,6 +213,7 @@ exports.setup = (options = {}) => {
     Backbone,
     Components,
     Crypto,
+    Data,
     Database,
     Emoji,
     Migrations,
@@ -153,5 +225,6 @@ exports.setup = (options = {}) => {
     Util,
     Views,
     Workflow,
+    migrateToSQL,
   };
 };

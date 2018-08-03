@@ -12,7 +12,10 @@ describe('i18n', function() {
     });
     it('returns message with multiple substitutions', function() {
       const actual = i18n('theyChangedTheTimer', ['Someone', '5 minutes']);
-      assert.equal(actual, 'Someone set the timer to 5 minutes.');
+      assert.equal(
+        actual,
+        'Someone set the disappearing message timer to 5 minutes'
+      );
     });
   });
 

@@ -15,6 +15,10 @@
         "message": "Детальніше",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "appMenuHideOthers": {
+        "message": "Hide Others",
+        "description": "Application menu command to hide all other windows"
+    },
     "linkedDevices": {
         "message": "Linked Devices",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
@@ -66,7 +70,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ залишив групу.",
+        "message": "$name$ left the group",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -76,7 +80,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "Ви встановили таймер на $time$.",
+        "message": "You set the disappearing message timer to $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -96,6 +100,16 @@
     "importCompleteHeader": {
         "message": "Success!",
         "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "timestamp_m": {
         "message": "1 хвилина",
@@ -117,13 +131,25 @@
         "message": "Зрозуміло!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "appMenuQuit": {
+        "message": "Quit Signal",
+        "description": "Application menu command to close the application"
+    },
     "disappearingMessages": {
         "message": "Зникаючі повідомлення ",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "editMenuCut": {
+        "message": "Cut",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
     "deleteWarning": {
         "message": "Впевнені? Коли натиснете «видалити», повідомлення назавжди зітреться з цього пристрою.",
         "description": ""
+    },
+    "verifyNewNumber": {
+        "message": "Verify New Number",
+        "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
         "message": "Деталі",
@@ -163,6 +189,10 @@
         "message": "Нові повідомлення нижче",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
+    "editMenuSelectAll": {
+        "message": "Select All",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
     "resetSession": {
         "message": "Скинути сесію",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -191,6 +221,10 @@
         "message": "Перевірте з'єднання",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "You disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "При отриманні повідомлення показувати нотифікації які відображають:",
         "description": "Explain the purpose of the notification settings"
@@ -202,6 +236,10 @@
     "timerOption_0_seconds_abbreviated": {
         "message": "вимкн",
         "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "imageFailedToLoad": {
+        "message": "Image failed to load",
+        "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
         "message": "Clear data",
@@ -220,12 +258,16 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Помилка прийому вхідного повідомлення.",
+        "message": "Error handling incoming message",
         "description": ""
     },
     "poBox": {
         "message": "PO Box",
         "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "themeLight": {
+        "message": "Light",
+        "description": "Label text for light theme (normal)"
     },
     "delete": {
         "message": "Видалити",
@@ -255,6 +297,24 @@
         "message": "phone",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$ hr",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "deleteThisMessage": {
+        "message": "Видалити це повідомлення",
+        "description": ""
+    },
+    "editMenuPaste": {
+        "message": "Paste",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
     "changedRecently": {
         "message": "Віднедавна $name$ та ви використовуєте новий код безпеки. Це значить, що хтось намагався перехопити ваші повідомлення або $name$ тепер просто має перевстановлений Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -281,8 +341,12 @@
         "message": "Loading contacts and messages",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Enable spell check of text entered in message composition box",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
-        "message": "$name$ встановив(ла) таймер на $time$.",
+        "message": "$name$ set the disappearing message timer to $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -298,6 +362,10 @@
     "timestamp_s": {
         "message": "зараз",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "viewMenuZoomOut": {
+        "message": "Zoom Out",
+        "description": "View menu command to make everything smaller"
     },
     "mainMenuSettings": {
         "message": "Preferences…",
@@ -320,6 +388,10 @@
     "timerOption_1_day": {
         "message": "1 день",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "editMenuUndo": {
+        "message": "Undo",
+        "description": "Edit menu command to remove recently-typed text"
     },
     "reportIssue": {
         "message": "Повідомити про ваду",
@@ -349,6 +421,14 @@
         "message": "Пізніше",
         "description": ""
     },
+    "justNow": {
+        "message": "зараз",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "mediaPermissionsDescription": {
+        "message": "Allow access to camera and microphone",
+        "description": "Description of the media permission description"
+    },
     "from": {
         "message": "Від",
         "description": "Label for the sender of a message"
@@ -369,6 +449,10 @@
         "message": "Прив'яжіть Signal Desktop до вашого мобільного пристрою для продовження спілкування.",
         "description": ""
     },
+    "safetyNumberChanged": {
+        "message": "Safety Number has changed",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
     "today": {
         "message": "Today",
         "description": "Section header in the media gallery"
@@ -381,13 +465,31 @@
         "message": "Link your phone to Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
+    "multipleLeftTheGroup": {
+        "message": "$name$ left the group",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "newPhoneNumber": {
         "message": "Введіть номер телефону щоб додати контакт.",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "viewMenuZoomIn": {
+        "message": "Zoom In",
+        "description": "View menu command to make everything bigger"
+    },
     "viewAllMedia": {
         "message": "View all media",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "windowMenuBringAllToFront": {
+        "message": "Bring All to Front",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "importErrorFirst": {
         "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
@@ -403,17 +505,27 @@
             }
         }
     },
+    "timerOption_1_hour": {
+        "message": "1 година",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "video": {
         "message": "Video",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
+    "safetyNumberChangedGroup": {
+        "message": "Safety Number with $name$ has changed",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Enter name or number",
         "description": "Placeholder text in the search input"
-    },
-    "someRecipientsFailed": {
-        "message": "Деяким користувачам повідомлення не надіслалося.",
-        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Нічого",
@@ -431,12 +543,20 @@
         "message": "Відв'язан",
         "description": ""
     },
+    "imageAttachmentAlt": {
+        "message": "Image attached to message",
+        "description": "Used in alt tag of image attachment"
+    },
     "learnMore": {
         "message": "Дізнатися більше про підтвердження кодів безпеки",
         "description": "Text that links to a support article on verifying safety numbers"
     },
+    "signalDesktopPreferences": {
+        "message": "Signal Desktop Preferences",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "timerSetOnSync": {
-        "message": "Updating timer to $time$.",
+        "message": "Updated disappearing message timer to $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -463,8 +583,12 @@
         "message": "Вибачте, у вас забагато пов'язаних пристроїв. Видаліть які-небудь.",
         "description": ""
     },
+    "allowAccess": {
+        "message": "Allow Access",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
     "joinedTheGroup": {
-        "message": "$name$ приєднався до групи.",
+        "message": "$name$ joined the group",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -485,13 +609,17 @@
         "message": "Set Up with Import",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Disappearing messages disabled",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "Video screenshot failed to load",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
     "timerOption_30_minutes_abbreviated": {
         "message": "30хв",
         "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "themeAndroidDark": {
-        "message": "Android (темна)",
-        "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1хв",
@@ -537,6 +665,10 @@
         "message": "Оновити",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "moreInfo": {
+        "message": "More Info...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
     "notificationMostRecent": {
         "message": "Most recent:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
@@ -551,9 +683,17 @@
             }
         }
     },
+    "windowMenuClose": {
+        "message": "Close Window",
+        "description": "Window menu command to close the current window"
+    },
     "showLess": {
         "message": "Сховати деталі",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Spell Check",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Тема",
@@ -566,6 +706,16 @@
     "newIdentity": {
         "message": "Новий код безпеки",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Приватність - це можливо. Signal робить її досягнення простим.",
@@ -612,6 +762,10 @@
     "timerOption_12_hours_abbreviated": {
         "message": "12г",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "Paste and Match Style",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "signalSettings": {
         "message": "Signal Settings",
@@ -676,22 +830,32 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Contact avatar",
-        "description": "Used in the alt tag for the image avatar of a contact"
+        "message": "Avatar for contact $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "received": {
         "message": "Отримано",
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "Ви відмітили код безпеки, який $name$ використовує для зв’язку з вами, непідтвердженим.",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "message": "You marked your Safety Number with $name$ as not verified",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
                 "example": "Bob"
             }
         }
+    },
+    "timerOption_1_minute": {
+        "message": "1 хвилина",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "isVerified": {
         "message": "Ви підтвердили код безпеки, який $name$ використовує для зв’язку з вами. ",
@@ -723,6 +887,10 @@
         "message": "Report an Issue",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
+    "permissions": {
+        "message": "Permissions",
+        "description": "Header for permissions section of settings"
+    },
     "loadDataDescription": {
         "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
         "description": "Introduction to the process of importing messages and contacts from disk"
@@ -752,8 +920,8 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "deleteMessage": {
-        "message": "Видалити це повідомлення",
-        "description": ""
+        "message": "Delete Message",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
         "message": "Choose this device's name",
@@ -771,6 +939,10 @@
         "message": "вимкн",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
+    "editMenuRedo": {
+        "message": "Redo",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
     "invalidNumberError": {
         "message": "Невірний номер",
         "description": "When a person inputs a number that is invalid"
@@ -782,6 +954,16 @@
     "messageBelow": {
         "message": "Нове повідомлення нижче",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "hoursAgo": {
+        "message": "$hours$ hr ago",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "menuSetupAsNewDevice": {
         "message": "Set Up as New Device",
@@ -795,10 +977,6 @@
         "message": "Відмітити непідтвердженим",
         "description": ""
     },
-    "messageNotSent": {
-        "message": "Повідомлення не надіслане.",
-        "description": "Informational label, appears on messages that failed to send"
-    },
     "initialSync": {
         "message": "Syncing contacts and groups",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
@@ -806,6 +984,10 @@
     "mainMenuView": {
         "message": "&Вигляд",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "appMenuHide": {
+        "message": "Сховати",
+        "description": "Application menu command to hide the window"
     },
     "autoUpdateNewVersionMessage": {
         "message": "Нова версія Signal доступна.",
@@ -827,10 +1009,6 @@
         "message": "Media",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
-    "noContents": {
-        "message": "No message contents",
-        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
-    },
     "cancel": {
         "message": "Відмінити",
         "description": ""
@@ -847,12 +1025,16 @@
         "message": "Безіменний файл",
         "description": "Hover text for attachment filenames"
     },
+    "timerOption_5_minutes": {
+        "message": "5 minutes",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "sendAnyway": {
         "message": "Усе одно надіслати",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "Ви підтвердили код безпеки, який $name$ використовує для зв’язку з вами.",
+        "message": "You marked your Safety Number with $name$ as verified",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -885,12 +1067,20 @@
         "message": "5 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Toggle Developer Tools",
+        "description": "View menu command to show or hide the developer tools"
+    },
     "showMembers": {
         "message": "Показати членів групи",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Ви відмітили непідтвердженим код безпеки, що використовуєте ви та $name$, з іншого пристрою.",
+        "message": "You marked your Safety Number with $name$ as not verified from another device",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -903,6 +1093,10 @@
         "message": "email",
         "description": "Generic label shown if contact email has custom type but no label"
     },
+    "viewMenuResetZoom": {
+        "message": "Actual Size",
+        "description": "View menu command to go back to the default zoom"
+    },
     "goToSupportPage": {
         "message": "Go to Support Page",
         "description": "Item under the Help menu, takes you to the support page"
@@ -912,7 +1106,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ приєдналися до групи.",
+        "message": "$names$ joined the group",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -928,6 +1122,10 @@
     "loading": {
         "message": "Оновлення…",
         "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "audioPermissionNeeded": {
+        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "newMessages": {
         "message": "Нові Повідомлення",
@@ -953,19 +1151,13 @@
         "message": "Надіслати",
         "description": ""
     },
-    "keychanged": {
-        "message": "$name$ та ви тепер використовуєте новий код безпеки. Натисніть, щоб подивитися.",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "updatedTheGroup": {
-        "message": "Групу оновлено.",
+        "message": "Group updated",
         "description": "Shown in the conversation history when someone updates the group"
+    },
+    "themeDark": {
+        "message": "Dark",
+        "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
         "message": "Змінився код безпеки, який $name$ використовує для зв’язку з вами. Це означає, що хтось намався перехопити ваші повідомлення, або додаток чи програма Signal, яку використовує $name$, була перевстановлена. Можливо, ви забажаєте підтвердити новий код безпеки.",
@@ -985,9 +1177,17 @@
         "message": "Кому",
         "description": "Label for the receiver of a message"
     },
+    "windowMenuMinimize": {
+        "message": "Minimize",
+        "description": "Window menu command to minimize the current window"
+    },
     "timerOption_1_hour_abbreviated": {
         "message": "1г",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Stop speaking",
+        "description": "Edit menu item under 'speech' to stop dictation"
     },
     "optimizingApplication": {
         "message": "Optimizing application...",
@@ -1001,6 +1201,10 @@
         "message": "Деталі повідомлення",
         "description": ""
     },
+    "timerOption_12_hours": {
+        "message": "12 hours",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "mainMenuFile": {
         "message": "&Файл",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -1009,13 +1213,25 @@
         "message": "Відмітити перевіреним",
         "description": ""
     },
+    "sendFailed": {
+        "message": "Send failed",
+        "description": "Shown on outgoing message if it fails to send"
+    },
     "clearDataHeader": {
         "message": "Clear Data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
+    "viewMenuToggleFullScreen": {
+        "message": "Toggle Full Screen",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
     "timerOption_10_seconds_abbreviated": {
         "message": "10с",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes": {
+        "message": "30 minutes",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
         "message": "Link New Device",
@@ -1041,9 +1257,21 @@
         "message": "Ваш код безпеки з контактом змінився. Це може означати, що хтось намагається перехопити ваші повідомлення, або співрозмовник просто перевстановив Signal. Ви можете підтвердити новий код безпеки вказаний нижче.",
         "description": ""
     },
+    "appMenuUnhide": {
+        "message": "Show All",
+        "description": "Application menu command to show all application windows"
+    },
     "changedSinceVerifiedMultiple": {
         "message": "З того часу, як ви востаннє підтверджували коди безпеки, у декількох учасників групи вони змінилися. Це означає, що хтось намагався перехопити ваші повідомлення, або ваші співрозмовники просто перевстановили Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "showSettings": {
+        "message": "Show Settings",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "editMenuCopy": {
+        "message": "Copy",
+        "description": "Edit menu command to add selected text to clipboard"
     },
     "loadDataHeader": {
         "message": "Load your data",
@@ -1062,7 +1290,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "Назву змінено на '$name$'.",
+        "message": "Title is now '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1070,6 +1298,10 @@
                 "example": "Book Club"
             }
         }
+    },
+    "retrySend": {
+        "message": "Retry Send",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
         "message": "Код безпеки, який ви намагаєтеся підтвердити, змінився. Перевірте новий код безпеки, який $name$ використовує для зв’язку з вами. Пам’ятайте: зміна коду означає, що хтось намагався перехопити ваші повідомлення або додаток чи програма Signal, яку використовує $name$, просто була перевстановлена.",
@@ -1081,15 +1313,31 @@
             }
         }
     },
+    "timerOption_6_hours": {
+        "message": "6 hours",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "videoAttachmentAlt": {
+        "message": "Screenshot of video attached to message",
+        "description": "Used in alt tag of video attachment preview"
+    },
     "timerSetTo": {
         "message": "Таймер встановленно на $time$",
-        "description": "Displayed in the conversation list when the timer is updated.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
                 "example": "1w"
             }
         }
+    },
+    "editMenuDelete": {
+        "message": "Видалити",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "windowMenuZoom": {
+        "message": "Zoom",
+        "description": "Window menu command to make the current window the size of the whole screen"
     },
     "autoUpdateNewVersionTitle": {
         "message": "Доступне оновлення Signal",
@@ -1103,16 +1351,26 @@
         "message": "Audio",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
+    "editMenuStartSpeaking": {
+        "message": "Start speaking",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "minutesAgo": {
+        "message": "$minutes$ min ago",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "notifications": {
         "message": "Нотифікації",
         "description": "Header for notification settings"
     },
-    "resend": {
-        "message": "Надіслати знову",
-        "description": ""
-    },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Ви підтвердили код безпеки, що $name$ використовує для зв’язку з вами, з іншого пристрою.",
+        "message": "You marked your Safety Number with $name$ as verified from another device",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

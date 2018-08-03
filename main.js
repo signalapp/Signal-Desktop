@@ -1,7 +1,10 @@
+/* eslint-disable no-console */
+
 const path = require('path');
 const url = require('url');
 const os = require('os');
 const fs = require('fs');
+const crypto = require('crypto');
 
 const _ = require('lodash');
 const pify = require('pify');
@@ -21,10 +24,12 @@ const {
 
 const packageJson = require('./package.json');
 
-const Attachments = require('./app/attachments');
+const sql = require('./app/sql');
+const sqlChannels = require('./app/sql_channel');
+const attachmentChannel = require('./app/attachment_channel');
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
-const GlobalErrors = require('./js/modules/global_errors');
+const GlobalErrors = require('./app/global_errors');
 const logging = require('./app/logging');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');
@@ -594,44 +599,48 @@ app.on('ready', async () => {
 
   installPermissionsHandler({ session, userConfig });
 
-  // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
-  /* eslint-disable more/no-then */
   let loggingSetupError;
-  logging
-    .initialize()
-    .catch(error => {
-      loggingSetupError = error;
-    })
-    .then(async () => {
-      /* eslint-enable more/no-then */
-      logger = logging.getLogger();
-      logger.info('app ready');
+  try {
+    await logging.initialize();
+  } catch (error) {
+    loggingSetupError = error;
+  }
 
-      if (loggingSetupError) {
-        logger.error('Problem setting up logging', loggingSetupError.stack);
-      }
+  logger = logging.getLogger();
+  logger.info('app ready');
 
-      if (!locale) {
-        const appLocale =
-          process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
-        locale = loadLocale({ appLocale, logger });
-      }
+  if (loggingSetupError) {
+    logger.error('Problem setting up logging', loggingSetupError.stack);
+  }
 
-      console.log('Ensure attachments directory exists');
-      await Attachments.ensureDirectory(userDataPath);
+  if (!locale) {
+    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+    locale = loadLocale({ appLocale, logger });
+  }
 
-      ready = true;
+  await attachmentChannel.initialize({ configDir: userDataPath });
 
-      autoUpdate.initialize(getMainWindow, locale.messages);
+  let key = userConfig.get('key');
+  if (!key) {
+    // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
+    key = crypto.randomBytes(32).toString('hex');
+    userConfig.set('key', key);
+  }
 
-      createWindow();
+  await sql.initialize({ configDir: userDataPath, key });
+  await sqlChannels.initialize({ userConfig });
 
-      if (usingTrayIcon) {
-        tray = createTrayIcon(getMainWindow, locale.messages);
-      }
+  ready = true;
 
-      setupMenu();
-    });
+  autoUpdate.initialize(getMainWindow, locale.messages);
+
+  createWindow();
+
+  if (usingTrayIcon) {
+    tray = createTrayIcon(getMainWindow, locale.messages);
+  }
+
+  setupMenu();
 });
 
 function setupMenu(options) {

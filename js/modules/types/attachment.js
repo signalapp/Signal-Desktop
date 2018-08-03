@@ -1,7 +1,9 @@
 const is = require('@sindresorhus/is');
 
 const AttachmentTS = require('../../../ts/types/Attachment');
+const GoogleChrome = require('../../../ts/util/GoogleChrome');
 const MIME = require('../../../ts/types/MIME');
+const { toLogFormat } = require('./errors');
 const {
   arrayBufferToBlob,
   blobToArrayBuffer,
@@ -106,9 +108,9 @@ exports._replaceUnicodeOrderOverridesSync = attachment => {
 exports.replaceUnicodeOrderOverrides = async attachment =>
   exports._replaceUnicodeOrderOverridesSync(attachment);
 
-exports.removeSchemaVersion = attachment => {
+exports.removeSchemaVersion = ({ attachment, logger }) => {
   if (!exports.isValid(attachment)) {
-    console.log(
+    logger.error(
       'Attachment.removeSchemaVersion: Invalid input attachment:',
       attachment
     );
@@ -156,28 +158,152 @@ exports.loadData = readAttachmentData => {
 //      deleteData :: (RelativePath -> IO Unit)
 //                    Attachment ->
 //                    IO Unit
-exports.deleteData = deleteAttachmentData => {
-  if (!is.function(deleteAttachmentData)) {
-    throw new TypeError("'deleteAttachmentData' must be a function");
+exports.deleteData = deleteOnDisk => {
+  if (!is.function(deleteOnDisk)) {
+    throw new TypeError('deleteData: deleteOnDisk must be a function');
   }
 
   return async attachment => {
     if (!exports.isValid(attachment)) {
-      throw new TypeError("'attachment' is not valid");
+      throw new TypeError('deleteData: attachment is not valid');
     }
 
-    const hasDataInMemory = exports.hasData(attachment);
-    if (hasDataInMemory) {
-      return;
+    const { path, thumbnail, screenshot } = attachment;
+    if (is.string(path)) {
+      await deleteOnDisk(path);
     }
 
-    if (!is.string(attachment.path)) {
-      throw new TypeError("'attachment.path' is required");
+    if (thumbnail && is.string(thumbnail.path)) {
+      await deleteOnDisk(thumbnail.path);
     }
 
-    await deleteAttachmentData(attachment.path);
+    if (screenshot && is.string(screenshot.path)) {
+      await deleteOnDisk(screenshot.path);
+    }
   };
 };
 
 exports.isVoiceMessage = AttachmentTS.isVoiceMessage;
 exports.save = AttachmentTS.save;
+
+const THUMBNAIL_SIZE = 150;
+const THUMBNAIL_CONTENT_TYPE = 'image/png';
+
+exports.captureDimensionsAndScreenshot = async (
+  attachment,
+  {
+    writeNewAttachmentData,
+    getAbsoluteAttachmentPath,
+    makeObjectUrl,
+    revokeObjectUrl,
+    getImageDimensions,
+    makeImageThumbnail,
+    makeVideoScreenshot,
+    logger,
+  }
+) => {
+  const { contentType } = attachment;
+
+  if (
+    !GoogleChrome.isImageTypeSupported(contentType) &&
+    !GoogleChrome.isVideoTypeSupported(contentType)
+  ) {
+    return attachment;
+  }
+
+  const absolutePath = await getAbsoluteAttachmentPath(attachment.path);
+
+  if (GoogleChrome.isImageTypeSupported(contentType)) {
+    try {
+      const { width, height } = await getImageDimensions({
+        objectUrl: absolutePath,
+        logger,
+      });
+      const thumbnailBuffer = await blobToArrayBuffer(
+        await makeImageThumbnail({
+          size: THUMBNAIL_SIZE,
+          objectUrl: absolutePath,
+          contentType: THUMBNAIL_CONTENT_TYPE,
+          logger,
+        })
+      );
+
+      const thumbnailPath = await writeNewAttachmentData(thumbnailBuffer);
+      return {
+        ...attachment,
+        width,
+        height,
+        thumbnail: {
+          path: thumbnailPath,
+          contentType: THUMBNAIL_CONTENT_TYPE,
+          width: THUMBNAIL_SIZE,
+          height: THUMBNAIL_SIZE,
+        },
+      };
+    } catch (error) {
+      logger.error(
+        'captureDimensionsAndScreenshot:',
+        'error processing image; skipping screenshot generation',
+        toLogFormat(error)
+      );
+      return attachment;
+    }
+  }
+
+  let screenshotObjectUrl;
+  try {
+    const screenshotBuffer = await blobToArrayBuffer(
+      await makeVideoScreenshot({
+        objectUrl: absolutePath,
+        contentType: THUMBNAIL_CONTENT_TYPE,
+        logger,
+      })
+    );
+    screenshotObjectUrl = makeObjectUrl(
+      screenshotBuffer,
+      THUMBNAIL_CONTENT_TYPE
+    );
+    const { width, height } = await getImageDimensions({
+      objectUrl: screenshotObjectUrl,
+      logger,
+    });
+    const screenshotPath = await writeNewAttachmentData(screenshotBuffer);
+
+    const thumbnailBuffer = await blobToArrayBuffer(
+      await makeImageThumbnail({
+        size: THUMBNAIL_SIZE,
+        objectUrl: screenshotObjectUrl,
+        contentType: THUMBNAIL_CONTENT_TYPE,
+        logger,
+      })
+    );
+
+    const thumbnailPath = await writeNewAttachmentData(thumbnailBuffer);
+
+    return {
+      ...attachment,
+      screenshot: {
+        contentType: THUMBNAIL_CONTENT_TYPE,
+        path: screenshotPath,
+        width,
+        height,
+      },
+      thumbnail: {
+        path: thumbnailPath,
+        contentType: THUMBNAIL_CONTENT_TYPE,
+        width: THUMBNAIL_SIZE,
+        height: THUMBNAIL_SIZE,
+      },
+      width,
+      height,
+    };
+  } catch (error) {
+    logger.error(
+      'captureDimensionsAndScreenshot: error processing video; skipping screenshot generation',
+      toLogFormat(error)
+    );
+    return attachment;
+  } finally {
+    revokeObjectUrl(screenshotObjectUrl);
+  }
+};

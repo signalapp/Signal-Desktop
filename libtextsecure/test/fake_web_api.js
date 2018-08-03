@@ -22,17 +22,18 @@ const fakeAPI = {
   // sendMessages: fakeCall,
   setSignedPreKey: fakeCall,
 
-  getKeysForNumber: function(number, deviceId) {
-    var res = getKeysForNumberMap[number];
+  getKeysForNumber(number, deviceId) {
+    const res = getKeysForNumberMap[number];
     if (res !== undefined) {
       delete getKeysForNumberMap[number];
       return Promise.resolve(res);
-    } else throw new Error('getKeysForNumber of unknown/used number');
+    }
+    throw new Error('getKeysForNumber of unknown/used number');
   },
 
-  sendMessages: function(destination, messageArray) {
+  sendMessages(destination, messageArray) {
     for (i in messageArray) {
-      var msg = messageArray[i];
+      const msg = messageArray[i];
       if (
         (msg.type != 1 && msg.type != 3) ||
         msg.destinationDeviceId === undefined ||
@@ -45,7 +46,7 @@ const fakeAPI = {
         throw new Error('Invalid message');
 
       messagesSentMap[
-        destination + '.' + messageArray[i].destinationDeviceId
+        `${destination}.${messageArray[i].destinationDeviceId}`
       ] = msg;
     }
   },

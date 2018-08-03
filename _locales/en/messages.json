@@ -1,1246 +1,1557 @@
 {
-    "privacyPolicy": {
-      "message": "Terms & Privacy Policy",
-      "description": "Shown in the about box for the link to https://signal.org/legal"
-    },
-    "mainMenuFile": {
-      "message": "&File",
-      "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuEdit": {
-      "message": "&Edit",
-      "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuView": {
-      "message": "&View",
-      "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuWindow": {
-      "message": "&Window",
-      "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuHelp": {
-      "message": "&Help",
-      "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuSettings": {
-      "message": "Preferences…",
-      "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
-    },
-    "appMenuHide": {
-      "message": "Hide",
-      "description": "Application menu command to hide the window"
-    },
-    "appMenuHideOthers": {
-      "message": "Hide Others",
-      "description": "Application menu command to hide all other windows"
-    },
-    "appMenuUnhide": {
-      "message": "Show All",
-      "description": "Application menu command to show all application windows"
-    },
-    "appMenuQuit": {
-      "message": "Quit Signal",
-      "description": "Application menu command to close the application"
-    },
-    "editMenuUndo": {
-      "message": "Undo",
-      "description": "Edit menu command to remove recently-typed text"
-    },
-    "editMenuRedo": {
-      "message": "Redo",
-      "description": "Edit menu command to restore previously undone typed text"
-    },
-    "editMenuCut": {
-      "message": "Cut",
-      "description": "Edit menu command to remove selected text and add it to clipboard"
-    },
-    "editMenuCopy": {
-      "message": "Copy",
-      "description": "Edit menu command to add selected text to clipboard"
-    },
-    "editMenuPaste": {
-      "message": "Paste",
-      "description": "Edit menu command to insert text from clipboard at cursor location"
-    },
-    "editMenuPasteAndMatchStyle": {
-      "message": "Paste and Match Style",
-      "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
-    },
-    "editMenuDelete": {
-      "message": "Delete",
-      "description": "Edit menu command to remove the selected text"
-    },
-    "editMenuSelectAll": {
-      "message": "Select All",
-      "description": "Edit menu comand to select all of the text in selected text box"
-    },
-    "editMenuStartSpeaking": {
-      "message": "Start speaking",
-      "description": "Edit menu item under 'speech' to start dictation"
-    },
-    "editMenuStopSpeaking": {
-      "message": "Stop speaking",
-      "description": "Edit menu item under 'speech' to stop dictation"
-    },
-    "windowMenuClose": {
-      "message": "Close Window",
-      "description": "Window menu command to close the current window"
-    },
-    "windowMenuMinimize": {
-      "message": "Minimize",
-      "description": "Window menu command to minimize the current window"
-    },
-    "windowMenuZoom": {
-      "message": "Zoom",
-      "description": "Window menu command to make the current window the size of the whole screen"
-    },
-    "windowMenuBringAllToFront": {
-      "message": "Bring All to Front",
-      "description": "Window menu command to bring all windows of current applicatinon to front"
-    },
-    "viewMenuResetZoom": {
-      "message": "Actual Size",
-      "description": "View menu command to go back to the default zoom"
-    },
-    "viewMenuZoomIn": {
-      "message": "Zoom In",
-      "description": "View menu command to make everything bigger"
-    },
-    "viewMenuZoomOut": {
-      "message": "Zoom Out",
-      "description": "View menu command to make everything smaller"
-    },
-    "viewMenuToggleFullScreen": {
-      "message": "Toggle Full Screen",
-      "description": "View menu command to enter or leave Full Screen mode"
-    },
-    "viewMenuToggleDevTools": {
-      "message": "Toggle Developer Tools",
-      "description": "View menu command to show or hide the developer tools"
-    },
-    "menuSetupWithImport": {
-      "message": "Set Up with Import",
-      "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
-    "menuSetupAsNewDevice": {
-      "message": "Set Up as New Device",
-      "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
-    "menuSetupAsStandalone": {
-      "message": "Set Up as Standalone Device",
-      "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
-    },
-    "loading": {
-      "message": "Loading...",
-      "description": "Message shown on the loading screen before we've loaded any messages"
-    },
-    "optimizingApplication": {
-      "message": "Optimizing application...",
-      "description": "Message shown on the loading screen while we are doing application optimizations"
-    },
-    "chooseDirectory": {
-      "message": "Choose folder",
-      "description": "Button to allow the user to find a folder on disk"
-    },
-    "loadDataHeader": {
-      "message": "Load your data",
-      "description": "Header shown on the first screen in the data import process"
-    },
-    "loadDataDescription": {
-      "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
-      "description": "Introduction to the process of importing messages and contacts from disk"
-    },
-    "importChooserTitle": {
-      "message": "Choose directory with exported data",
-      "description": "Title of the popup window used to select data previously exported"
-    },
-    "importErrorHeader": {
-      "message": "Something went wrong!",
-      "description": "Header of the error screen after a failed import"
-    },
-    "importingHeader": {
-      "message": "Loading contacts and messages",
-      "description": "Header of screen shown as data is import"
-    },
-    "importErrorFirst": {
-      "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
-      "description": "Message shown if the import went wrong; first paragraph"
-    },
-    "importErrorSecond": {
-      "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
-      "description": "Message shown if the import went wrong; second paragraph"
-    },
-    "importAgain": {
-      "message": "Choose folder and try again",
-      "description": "Button shown if the user runs into an error during import, allowing them to start over"
-    },
-    "importCompleteHeader": {
-      "message": "Success!",
-      "description": "Header shown on the screen at the end of a successful import process"
-    },
-    "importCompleteStartButton": {
-      "message": "Start using Signal Desktop",
-      "description": "Button shown at end of successful import process, nothing left but a restart"
-    },
-    "importCompleteLinkButton": {
-      "message": "Link this device to your phone",
-      "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "selectedLocation": {
-      "message": "your selected location",
-      "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "upgradingDatabase": {
-      "message": "Upgrading database. This may take some time...",
-      "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-    },
-    "loadingMessages": {
-      "message": "Loading messages. $count$ so far...",
-      "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-      "placeholders": {
-        "count": {
-          "content": "$1",
-          "example": "5"
-        }
-      }
-    },
-    "me": {
-      "message": "Me",
-      "description": "The label for yourself when shown in a group member list"
-    },
-    "view": {
-      "message": "View",
-      "description": "Used as a label on a button allowing user to see more information"
-    },
-    "youLeftTheGroup": {
-      "message": "You left the group",
-      "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "scrollDown": {
-      "message": "Scroll to bottom of conversation",
-      "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-      "message": "New message below",
-      "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "messagesBelow": {
-      "message": "New messages below",
-      "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
-    },
-    "unreadMessage": {
-      "message": "1 Unread Message",
-      "description": "Text for unread message separator, just one message"
-    },
-    "unreadMessages": {
-      "message": "$count$ Unread Messages",
-      "description": "Text for unread message separator, with count",
-      "placeholders": {
-        "count": {
-          "content": "$1",
-          "example": "5"
-        }
-      }
-    },
-    "youMarkedAsVerified": {
-      "message": "You marked your safety number with $name$ as verified.",
-      "description": "Shown in the conversation history when the user marks a contact as verified.",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "youMarkedAsNotVerified": {
-      "message": "You marked your safety number with $name$ as unverified.",
-      "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "youMarkedAsVerifiedOtherDevice": {
-      "message": "You marked your safety number with $name$ as verified from another device.",
-      "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "youMarkedAsNotVerifiedOtherDevice": {
-      "message": "You marked your safety number with $name$ as not verified from another device.",
-      "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "membersNeedingVerification": {
-      "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
-      "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
-    },
-    "changedSinceVerifiedMultiple": {
-      "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
-      "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedSinceVerified": {
-      "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
-      "description": "Shown on confirmation dialog when user attempts to send a message",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "changedRightAfterVerify": {
-      "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
-      "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "changedRecentlyMultiple": {
-      "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
-      "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedRecently": {
-      "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
-      "description": "Shown on confirmation dialog when user attempts to send a message",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "identityKeyErrorOnSend": {
-      "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
-      "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "sendAnyway": {
-      "message": "Send Anyway",
-      "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
-    "noLongerVerified": {
-      "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
-      "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "multipleNoLongerVerified": {
-      "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
-      "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
-    },
-    "debugLogExplanation": {
-      "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
-    },
-    "debugLogError": {
-      "message":
-        "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
-    },
-    "reportIssue": {
-      "message": "Report an issue",
-      "description": "Link to open the issue tracker"
-    },
-    "gotIt": {
-      "message": "Got it!",
-      "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
-    },
-    "submit": {
-      "message": "Submit"
-    },
-    "acceptNewKey": {
-      "message": "Accept",
-      "description": "Label for a button to accept a new safety number"
-    },
-    "verify": {
-      "message": "Mark as verified"
-    },
-    "unverify": {
-      "message": "Mark as not verified"
-    },
-    "isVerified": {
-      "message": "You have verified your safety number with $name$.",
-      "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "isNotVerified": {
-      "message": "You have not verified your safety number with $name$.",
-      "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "verified": {
-      "message": "Verified"
-    },
-    "newIdentity": {
-      "message": "New safety number",
-      "description": "Header for a key change dialog"
-    },
-    "identityChanged": {
-      "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
-    },
-    "incomingError": {
-      "message": "Error handling incoming message."
-    },
-    "media": {
-      "message": "Media",
-      "description": "Header of the default pane in the media gallery, showing images and videos"
-    },
-    "mediaEmptyState": {
-      "message": "You don’t have any media in this conversation",
-      "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
-    },
-    "documents": {
-      "message": "Documents",
-      "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
-    },
-    "documentsEmptyState": {
-      "message": "You don’t have any documents in this conversation",
-      "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
-    },
-    "today": {
-      "message": "Today",
-      "description": "Section header in the media gallery"
-    },
-    "yesterday": {
-      "message": "Yesterday",
-      "description": "Section header in the media gallery"
-    },
-    "thisWeek": {
-      "message": "This Week",
-      "description": "Section header in the media gallery"
-    },
-    "thisMonth": {
-      "message": "This Month",
-      "description": "Section header in the media gallery"
-    },
-    "unsupportedAttachment": {
-      "message": "Unsupported attachment type. Click to save.",
-      "description": "Displayed for incoming unsupported attachment"
-    },
-    "clickToSave": {
-      "message": "Click to save",
-      "description": "Hover text for attachment filenames"
-    },
-    "unnamedFile": {
-      "message": "Unnamed File",
-      "description": "Hover text for attachment filenames"
-    },
-    "voiceMessage": {
-      "message": "Voice Message",
-      "description": "Name for a voice message attachment"
-    },
-    "unsupportedFileType": {
-      "message": "Unsupported file type",
-      "description": "Displayed for outgoing unsupported attachment"
-    },
-    "fileSizeWarning": {
-      "message": "Sorry, the selected file exceeds message size restrictions."
-    },
-    "disconnected": {
-      "message": "Disconnected",
-      "description": "Displayed when the desktop client cannot connect to the server."
-    },
-    "connecting": {
-      "message": "Connecting",
-      "description": "Displayed when the desktop client is currently connecting to the server."
-    },
-    "offline": {
-      "message": "Offline",
-      "description": "Displayed when the desktop client has no network connection."
-    },
-    "checkNetworkConnection": {
-      "message": "Check your network connection.",
-      "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-      "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
-      "placeholders": {
-        "reconnect_duration_in_seconds": {
-          "content": "$1",
-          "example": "10"
-        }
-      }
-    },
-    "submitDebugLog": {
-      "message": "Debug log",
-      "description": "Menu item and header text for debug log modal (sentence case)"
-    },
-    "debugLog": {
-      "message": "Debug Log",
-      "description": "View menu item to open the debug log (title case)"
-    },
-    "goToReleaseNotes": {
-      "message": "Go to Release Notes",
-      "description": ""
-    },
-    "goToForums": {
-      "message": "Go to Forums",
-      "description": "Item under the Help menu, takes you to the forums"
-    },
-    "goToSupportPage": {
-      "message": "Go to Support Page",
-      "description": "Item under the Help menu, takes you to the support page"
-    },
-    "menuReportIssue": {
-      "message": "Report an Issue",
-      "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
-    },
-    "signalDesktopPreferences": {
-      "message": "Signal Desktop Preferences",
-      "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "aboutSignalDesktop": {
-      "message": "About Signal Desktop",
-      "description": "Item under the Help menu, which opens a small about window"
-    },
-    "speech": {
-      "message": "Speech",
-      "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
-    },
-    "show": {
-      "message": "Show",
-      "description": "Command under Window menu, to show the window"
-    },
-    "hide": {
-      "message": "Hide",
-      "description": "Command in the tray icon menu, to hide the window"
-    },
-    "quit": {
-      "message": "Quit",
-      "description": "Command in the tray icon menu, to quit the application"
-    },
-    "trayTooltip": {
-      "message": "Signal Desktop",
-      "description": "Tooltip for the tray icon"
-    },
-    "searchForPeopleOrGroups": {
-      "message": "Enter name or number",
-      "description": "Placeholder text in the search input"
-    },
-    "welcomeToSignal": {
-      "message": "Welcome to Signal"
-    },
-    "selectAContact": {
-      "message": "Select a contact or group to start chatting."
-    },
-    "contactAvatarAlt": {
-      "message": "Contact avatar",
-      "description": "Used in the alt tag for the image avatar of a contact"
-    },
-    "sendMessageToContact": {
-      "message": "Send Message",
-      "description": "Shown when you are sent a contact and that contact has a signal account"
-    },
-    "home": {
-      "message": "home",
-      "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "work": {
-      "message": "work",
-      "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "mobile": {
-      "message": "mobile",
-      "description": "Shown on contact detail screen as a label for aa phone or email"
-    },
-    "email": {
-      "message": "email",
-      "description": "Generic label shown if contact email has custom type but no label"
-    },
-    "phone": {
-      "message": "phone",
-      "description": "Generic label shown if contact phone has custom type but no label"
-    },
-    "address": {
-      "message": "address",
-      "description": "Generic label shown if contact address has custom type but no label"
-    },
-    "poBox": {
-      "message": "PO Box",
-      "description": "When rendering an address, used to provide context to a post office box"
-    },
-    "replyToMessage": {
-      "message": "Reply to Message",
-      "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
-    },
-    "replyingToYourself": {
-      "message": "Replying to Yourself",
-      "description": "Shown in iOS theme when you quote yourself"
-    },
-    "replyingToYou": {
-      "message": "Replying to You",
-      "description": "Shown in iOS theme when someone else quotes a message from you"
-    },
-    "you": {
-      "message": "You",
-      "description": "In Android theme, shown in quote if you or someone else replies to you"
-    },
-    "replyingTo": {
-      "message": "Replying to $name$",
-      "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "John"
-        }
-      }
-    },
-    "audioPermissionNeeded": {
-      "message": "To send audio messages, allow Signal Desktop to access your microphone.",
-      "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
-    },
-    "allowAccess": {
-      "message": "Allow Access",
-      "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "showSettings": {
-      "message": "Show Settings",
-      "description": "A button shown in dialog requesting the user to turn on audio permissions"
-    },
-    "audio": {
-      "message": "Audio",
-      "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
-    },
-    "video": {
-      "message": "Video",
-      "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
-    },
-    "photo": {
-      "message": "Photo",
-      "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
-    },
-    "ok": {
-      "message": "OK"
-    },
-    "cancel": {
-      "message": "Cancel"
-    },
-    "failedToSend": {
-      "message": "Failed to send to some recipients. Check your network connection."
-    },
-    "error": {
-      "message": "Error"
-    },
-    "resend": {
-      "message": "Resend"
-    },
-    "messageDetail": {
-        "message": "Message Detail"
-    },
-    "delete": {
-      "message": "Delete"
-    },
-    "deleteWarning": {
-      "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device."
-    },
-    "deleteMessage": {
-      "message": "Delete this message"
-    },
-    "from": {
-        "message": "From",
-        "description": "Label for the sender of a message"
-    },
-    "to": {
-        "message": "To",
-        "description": "Label for the receiver of a message"
-    },
-    "sent": {
-        "message": "Sent",
-        "description": "Label for the time a message was sent"
-    },
-    "received": {
-        "message": "Received",
-        "description": "Label for the time a message was received"
-    },
-    "sendMessage": {
-        "message": "Send a message",
-        "description": "Placeholder text in the message entry field"
-    },
-    "groupMembers": {
-      "message": "Group members"
-    },
-    "showMembers": {
-      "message": "Show members"
-    },
-    "resetSession": {
-        "message": "Reset session",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
-    },
-    "showSafetyNumber": {
-      "message": "Show safety number"
-    },
-    "viewAllMedia": {
-      "message": "View all media",
-      "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
-    },
-    "verifyHelp": {
-      "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "John"
-        }
-      }
-    },
-    "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
-    },
-    "deleteMessages": {
-        "message": "Delete messages",
-        "description": "Menu item for deleting messages, title case."
-    },
-    "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
-        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "sessionEnded": {
-        "message": "Secure session reset",
-        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "quoteThumbnailAlt": {
-      "message": "Thumbnail of image from quoted message",
-      "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "lightboxImageAlt": {
-      "message": "Image sent in conversation",
-      "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
-    },
-    "fileIconAlt": {
-      "message": "File icon",
-      "description": "Used in the media gallery documents tab to visually represent a file"
-    },
-    "emojiAlt": {
-      "message": "Emoji image of '$title$'",
-      "description": "Used in the alt tag of all emoji images",
-      "placeholders": {
-        "title": {
-          "content": "$1",
-          "example": "grinning"
-        }
-      }
-    },
-    "noContents": {
-        "message": "No message contents",
-        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
-    },
-    "installWelcome": {
-        "message": "Welcome to Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal Settings",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "linkedDevices": {
-        "message": "Linked Devices",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "'+' Button",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
-    "linkNewDevice": {
-        "message": "Link New Device",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "deviceName": {
-        "message": "Device name",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "chooseDeviceName": {
-        "message": "Choose this device's name",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "finishLinkingPhone": {
-        "message": "Finish linking phone",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "initialSync": {
-        "message": "Syncing contacts and groups",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "installConnectionFailed": {
-        "message": "Failed to connect to server.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some."
-    },
-    "settings": {
-        "message": "Settings",
-        "description": "Menu item and header for global settings"
-    },
-    "theme": {
-        "message": "Theme",
-        "description": "Header for theme settings"
-    },
-    "permissions": {
-      "message": "Permissions",
-      "description": "Header for permissions section of settings"
-    },
-    "mediaPermissionsDescription": {
-      "message": "Allow access to camera and microphone",
-      "description": "Description of the media permission description"
-    },
-    "spellCheck": {
-      "message": "Spell Check",
-      "description": "Description of the media permission description"
-    },
-    "spellCheckDescription": {
-      "message": "Enable spell check of text entered in message composition box",
-      "description": "Description of the media permission description"
-    },
-    "clearDataHeader": {
-        "message": "Clear Data",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "clearDataButton": {
-        "message": "Clear data",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "deleteAllDataHeader": {
-        "message": "Delete all data?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "deleteAllDataButton": {
-        "message": "Delete all data",
-        "description": "Text of the button that deletes all data"
-    },
-    "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
-        "description": "Message shown to user when app is disconnected and data deleted"
-    },
-    "notifications": {
-        "message": "Notifications",
-        "description": "Header for notification settings"
-    },
-    "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
-        "description": "Explain the purpose of the notification settings"
-    },
-    "disableNotifications": {
-        "message": "Disable notifications",
-        "description": "Label for disabling notifications"
-    },
-    "nameAndMessage": {
-        "message": "Both sender name and message",
-        "description": "Label for setting notifications to display name and message text"
-    },
-    "noNameOrMessage": {
-        "message": "Neither name nor message",
-        "description": "Label for setting notifications to display no name and no message text"
-    },
-    "nameOnly": {
-        "message": "Only sender name",
-        "description": "Label for setting notifications to display sender name only"
-    },
-    "newMessage": {
-        "message": "New Message",
-        "description": "Displayed in notifications for only 1 message"
-    },
-    "newMessages": {
-        "message": "New Messages",
-        "description": "Displayed in notifications for multiple messages"
-    },
-    "notificationMostRecentFrom": {
-        "message": "Most recent from:",
-        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-    },
-    "notificationFrom": {
-        "message": "From:",
-        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-    },
-    "notificationMostRecent": {
-        "message": "Most recent:",
-        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
-    },
-    "messageNotSent": {
-        "message": "Message not sent.",
-        "description": "Informational label, appears on messages that failed to send"
-    },
-    "someRecipientsFailed": {
-        "message": "Some recipients failed.",
-        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
-    },
-    "showMore": {
-        "message": "Details",
-        "description": "Displays the details of a key change"
-    },
-    "showLess": {
-        "message": "Hide details",
-        "description": "Hides the details of a key change"
-    },
-    "learnMore": {
-        "message": "Learn more about verifying safety numbers",
-        "description": "Text that links to a support article on verifying safety numbers"
-    },
-    "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
-        "description": "Warning notification that this version of the app has expired"
-    },
-    "androidMessageLengthWarning": {
-        "message": "Android clients will only receive the first 2000 characters of this message.",
-        "description": "Warning that long messages could not get received completely by Android clients."
-    },
-    "upgrade": {
-        "message": "Upgrade",
-        "description": "Label text for button to upgrade the app to the latest version"
-    },
-    "mediaMessage": {
-        "message": "Media message",
-        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
-    },
-    "unregisteredUser": {
-        "message": "Number is not registered",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "sync": {
-        "message": "Contacts",
-        "description": "Label for contact and group sync settings"
-    },
-    "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
-        "description": "Explanatory text for sync settings"
-    },
-    "lastSynced": {
-        "message": "Last import at",
-        "description": "Label for date and time of last sync operation"
-    },
-    "syncNow": {
-        "message": "Import now",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncing": {
-        "message": "Importing...",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
-        "description": "Informational text displayed if a sync operation times out."
-    },
-    "timestamp_s": {
-       "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble.",
-       "message": "now"
-    },
-    "timestamp_m": {
-       "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble.",
-       "message": "1 minute"
-    },
-    "timestamp_h": {
-       "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble.",
-       "message": "1 hour"
-    },
-    "timestampFormat_M": {
-       "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'.",
-       "message": "MMM D"
-    },
-    "unblockToSend": {
-      "message": "Unblock this contact to send a message.",
-      "description": "Brief message shown when trying to message a blocked number"
-    },
-    "youChangedTheTimer": {
-      "message": "You set the timer to $time$.",
-      "description": "Message displayed when you change the message expiration timer in a conversation.",
-      "placeholders": {
-        "time": {
-          "content": "$1",
-          "example": "10m"
-        }
-      }
-    },
-    "timerSetOnSync": {
-      "message": "Updating timer to $time$.",
-      "description": "Message displayed when timer is set on initial link of desktop device.",
-      "placeholders": {
-        "time": {
-          "content": "$1",
-          "example": "10m"
-        }
-      }
-    },
-    "theyChangedTheTimer": {
-      "message": "$name$ set the timer to $time$.",
-      "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        },
-        "time": {
-          "content": "$2",
-          "example": "10m"
-        }
-      }
-    },
-    "timerOption_0_seconds": {
-      "message": "off",
-      "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "timerOption_5_seconds": {
-      "message": "5 seconds",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_10_seconds": {
-      "message": "10 seconds",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_seconds": {
-      "message": "30 seconds",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_minute": {
-      "message": "1 minute",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_5_minutes": {
-      "message": "5 minutes",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_30_minutes": {
-      "message": "30 minutes",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_hour": {
-      "message": "1 hour",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_6_hours": {
-      "message": "6 hours",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_12_hours": {
-      "message": "12 hours",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_day": {
-      "message": "1 day",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "timerOption_1_week": {
-      "message": "1 week",
-      "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "disappearingMessages": {
-      "message": "Disappearing messages",
-      "description": "Conversation menu option to enable disappearing messages"
-    },
-    "timerOption_0_seconds_abbreviated": {
-      "message": "off",
-      "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "timerOption_5_seconds_abbreviated": {
-      "message": "5s",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_10_seconds_abbreviated": {
-      "message": "10s",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_seconds_abbreviated": {
-      "message": "30s",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-      "message": "1m",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_minutes_abbreviated": {
-      "message": "5m",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes_abbreviated": {
-      "message": "30m",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_hour_abbreviated": {
-      "message": "1h",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_6_hours_abbreviated": {
-      "message": "6h",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_12_hours_abbreviated": {
-      "message": "12h",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_day_abbreviated": {
-      "message": "1d",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_week_abbreviated": {
-      "message": "1w",
-      "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerSetTo": {
-      "message": "Timer set to $time$",
-      "description": "Displayed in the conversation list when the timer is updated by some automatic action.",
-      "placeholders": {
-        "time": {
-          "content": "$1",
-          "example": "1w"
-        }
-      }
-    },
-    "audioNotificationDescription": {
-      "message": "Play audio notification",
-      "description": "Description for audio notification setting"
-    },
-    "keychanged": {
-      "message": "Your safety number with $name$ has changed. Click to show.",
-      "description": "",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "John"
-        }
-      }
-    },
-    "yourSafetyNumberWith": {
-      "message": "Your safety number with $name$:",
-      "description": "Heading for safety number view",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "John"
-        }
-      }
-    },
-    "themeAndroidDark": {
-      "message": "Android (dark)",
-      "description": "Label text for dark Android theme"
-    },
-    "hideMenuBar": {
-      "message": "Hide menu bar",
-      "description": "Label text for menu bar visibility setting"
-    },
-    "startConversation": {
-      "message": "Start conversation…",
-      "description": "Label underneath number a user enters that is not an existing contact"
-    },
-    "newPhoneNumber": {
-      "message": "Enter a phone number to add a contact.",
-      "description": "Placeholder for adding a new number to a contact"
-    },
-    "invalidNumberError": {
-      "message": "Invalid number",
-      "description": "When a person inputs a number that is invalid"
-    },
-    "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging."
-    },
-    "unlinked": {
-        "message": "Unlinked"
-    },
-    "relink": {
-        "message": "Relink"
-    },
-    "autoUpdateNewVersionTitle": {
-      "message": "Signal update available"
-    },
-    "autoUpdateNewVersionMessage": {
-      "message": "There is a new version of Signal available."
-    },
-    "autoUpdateNewVersionInstructions": {
-      "message": "Press Restart Signal to apply the updates."
-    },
-    "autoUpdateRestartButtonLabel": {
-      "message": "Restart Signal"
-    },
-    "autoUpdateLaterButtonLabel": {
-      "message": "Later"
-    },
-    "leftTheGroup": {
-      "message": "$name$ left the group.",
-      "description": "Shown in the conversation history when a single person leaves the group",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Bob"
-        }
-      }
-    },
-    "updatedTheGroup": {
-      "message": "Updated the group.",
-      "description": "Shown in the conversation history when someone updates the group"
-    },
-    "titleIsNow": {
-      "message": "Title is now '$name$'.",
-      "description": "Shown in the conversation history when someone changes the title of the group",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Book Club"
-        }
-      }
-    },
-    "joinedTheGroup": {
-      "message": "$name$ joined the group.",
-      "description": "Shown in the conversation history when a single person joins the group",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "Alice"
-        }
-      }
-    },
-    "multipleJoinedTheGroup": {
-      "message": "$names$ joined the group.",
-      "description": "Shown in the conversation history when more than one person joins the group",
-      "placeholders": {
-        "names": {
-          "content": "$1",
-          "example": "Alice, Bob"
-        }
+  "privacyPolicy": {
+    "message": "Terms & Privacy Policy",
+    "description":
+      "Shown in the about box for the link to https://signal.org/legal"
+  },
+  "mainMenuFile": {
+    "message": "&File",
+    "description":
+      "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+  },
+  "mainMenuEdit": {
+    "message": "&Edit",
+    "description":
+      "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+  },
+  "mainMenuView": {
+    "message": "&View",
+    "description":
+      "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+  },
+  "mainMenuWindow": {
+    "message": "&Window",
+    "description":
+      "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+  },
+  "mainMenuHelp": {
+    "message": "&Help",
+    "description":
+      "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+  },
+  "mainMenuSettings": {
+    "message": "Preferences…",
+    "description":
+      "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+  },
+  "appMenuHide": {
+    "message": "Hide",
+    "description": "Application menu command to hide the window"
+  },
+  "appMenuHideOthers": {
+    "message": "Hide Others",
+    "description": "Application menu command to hide all other windows"
+  },
+  "appMenuUnhide": {
+    "message": "Show All",
+    "description": "Application menu command to show all application windows"
+  },
+  "appMenuQuit": {
+    "message": "Quit Signal",
+    "description": "Application menu command to close the application"
+  },
+  "editMenuUndo": {
+    "message": "Undo",
+    "description": "Edit menu command to remove recently-typed text"
+  },
+  "editMenuRedo": {
+    "message": "Redo",
+    "description": "Edit menu command to restore previously undone typed text"
+  },
+  "editMenuCut": {
+    "message": "Cut",
+    "description":
+      "Edit menu command to remove selected text and add it to clipboard"
+  },
+  "editMenuCopy": {
+    "message": "Copy",
+    "description": "Edit menu command to add selected text to clipboard"
+  },
+  "editMenuPaste": {
+    "message": "Paste",
+    "description":
+      "Edit menu command to insert text from clipboard at cursor location"
+  },
+  "editMenuPasteAndMatchStyle": {
+    "message": "Paste and Match Style",
+    "description":
+      "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+  },
+  "editMenuDelete": {
+    "message": "Delete",
+    "description": "Edit menu command to remove the selected text"
+  },
+  "editMenuSelectAll": {
+    "message": "Select All",
+    "description":
+      "Edit menu comand to select all of the text in selected text box"
+  },
+  "editMenuStartSpeaking": {
+    "message": "Start speaking",
+    "description": "Edit menu item under 'speech' to start dictation"
+  },
+  "editMenuStopSpeaking": {
+    "message": "Stop speaking",
+    "description": "Edit menu item under 'speech' to stop dictation"
+  },
+  "windowMenuClose": {
+    "message": "Close Window",
+    "description": "Window menu command to close the current window"
+  },
+  "windowMenuMinimize": {
+    "message": "Minimize",
+    "description": "Window menu command to minimize the current window"
+  },
+  "windowMenuZoom": {
+    "message": "Zoom",
+    "description":
+      "Window menu command to make the current window the size of the whole screen"
+  },
+  "windowMenuBringAllToFront": {
+    "message": "Bring All to Front",
+    "description":
+      "Window menu command to bring all windows of current applicatinon to front"
+  },
+  "viewMenuResetZoom": {
+    "message": "Actual Size",
+    "description": "View menu command to go back to the default zoom"
+  },
+  "viewMenuZoomIn": {
+    "message": "Zoom In",
+    "description": "View menu command to make everything bigger"
+  },
+  "viewMenuZoomOut": {
+    "message": "Zoom Out",
+    "description": "View menu command to make everything smaller"
+  },
+  "viewMenuToggleFullScreen": {
+    "message": "Toggle Full Screen",
+    "description": "View menu command to enter or leave Full Screen mode"
+  },
+  "viewMenuToggleDevTools": {
+    "message": "Toggle Developer Tools",
+    "description": "View menu command to show or hide the developer tools"
+  },
+  "menuSetupWithImport": {
+    "message": "Set Up with Import",
+    "description":
+      "When the application is not yet set up, menu option to start up the import sequence"
+  },
+  "menuSetupAsNewDevice": {
+    "message": "Set Up as New Device",
+    "description":
+      "When the application is not yet set up, menu option to start up the set up as fresh device"
+  },
+  "menuSetupAsStandalone": {
+    "message": "Set Up as Standalone Device",
+    "description":
+      "Only available on development modes, menu option to open up the standalone device setup sequence"
+  },
+  "loading": {
+    "message": "Loading...",
+    "description":
+      "Message shown on the loading screen before we've loaded any messages"
+  },
+  "optimizingApplication": {
+    "message": "Optimizing application...",
+    "description":
+      "Message shown on the loading screen while we are doing application optimizations"
+  },
+  "migratingToSQLCipher": {
+    "message": "Optimizing messages... $status$ complete.",
+    "description":
+      "Message shown on the loading screen while we are doing application optimizations",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "45/200"
       }
     }
+  },
+  "chooseDirectory": {
+    "message": "Choose folder",
+    "description": "Button to allow the user to find a folder on disk"
+  },
+  "loadDataHeader": {
+    "message": "Load your data",
+    "description": "Header shown on the first screen in the data import process"
+  },
+  "loadDataDescription": {
+    "message":
+      "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+    "description":
+      "Introduction to the process of importing messages and contacts from disk"
+  },
+  "importChooserTitle": {
+    "message": "Choose directory with exported data",
+    "description":
+      "Title of the popup window used to select data previously exported"
+  },
+  "importErrorHeader": {
+    "message": "Something went wrong!",
+    "description": "Header of the error screen after a failed import"
+  },
+  "importingHeader": {
+    "message": "Loading contacts and messages",
+    "description": "Header of screen shown as data is import"
+  },
+  "importErrorFirst": {
+    "message":
+      "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+    "description": "Message shown if the import went wrong; first paragraph"
+  },
+  "importErrorSecond": {
+    "message":
+      "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+    "description": "Message shown if the import went wrong; second paragraph"
+  },
+  "importAgain": {
+    "message": "Choose folder and try again",
+    "description":
+      "Button shown if the user runs into an error during import, allowing them to start over"
+  },
+  "importCompleteHeader": {
+    "message": "Success!",
+    "description":
+      "Header shown on the screen at the end of a successful import process"
+  },
+  "importCompleteStartButton": {
+    "message": "Start using Signal Desktop",
+    "description":
+      "Button shown at end of successful import process, nothing left but a restart"
+  },
+  "importCompleteLinkButton": {
+    "message": "Link this device to your phone",
+    "description":
+      "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+  },
+  "selectedLocation": {
+    "message": "your selected location",
+    "description":
+      "Message shown as the export location if we didn't capture the target directory"
+  },
+  "upgradingDatabase": {
+    "message": "Upgrading database. This may take some time...",
+    "description":
+      "Message shown on the loading screen when we're changing database structure on first run of a new version"
+  },
+  "loadingMessages": {
+    "message": "Loading messages. $count$ so far...",
+    "description":
+      "Message shown on the loading screen when we're catching up on the backlog of messages",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "me": {
+    "message": "Me",
+    "description": "The label for yourself when shown in a group member list"
+  },
+  "view": {
+    "message": "View",
+    "description":
+      "Used as a label on a button allowing user to see more information"
+  },
+  "youLeftTheGroup": {
+    "message": "You left the group",
+    "description":
+      "Displayed when a user can't send a message because they have left the group"
+  },
+  "scrollDown": {
+    "message": "Scroll to bottom of conversation",
+    "description":
+      "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+  },
+  "messageBelow": {
+    "message": "New message below",
+    "description":
+      "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+  },
+  "messagesBelow": {
+    "message": "New messages below",
+    "description":
+      "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+  },
+  "unreadMessage": {
+    "message": "1 Unread Message",
+    "description": "Text for unread message separator, just one message"
+  },
+  "unreadMessages": {
+    "message": "$count$ Unread Messages",
+    "description": "Text for unread message separator, with count",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "youMarkedAsVerified": {
+    "message": "You marked your Safety Number with $name$ as verified",
+    "description":
+      "Shown in the conversation history when the user marks a contact as verified.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "youMarkedAsNotVerified": {
+    "message": "You marked your Safety Number with $name$ as not verified",
+    "description":
+      "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "youMarkedAsVerifiedOtherDevice": {
+    "message":
+      "You marked your Safety Number with $name$ as verified from another device",
+    "description":
+      "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "youMarkedAsNotVerifiedOtherDevice": {
+    "message":
+      "You marked your Safety Number with $name$ as not verified from another device",
+    "description":
+      "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "membersNeedingVerification": {
+    "message":
+      "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+    "description":
+      "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+  },
+  "changedSinceVerifiedMultiple": {
+    "message":
+      "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+    "description":
+      "Shown on confirmation dialog when user attempts to send a message"
+  },
+  "changedSinceVerified": {
+    "message":
+      "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+    "description":
+      "Shown on confirmation dialog when user attempts to send a message",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "changedRightAfterVerify": {
+    "message":
+      "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+    "description":
+      "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "changedRecentlyMultiple": {
+    "message":
+      "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+    "description":
+      "Shown on confirmation dialog when user attempts to send a message"
+  },
+  "changedRecently": {
+    "message":
+      "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+    "description":
+      "Shown on confirmation dialog when user attempts to send a message",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "identityKeyErrorOnSend": {
+    "message":
+      "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+    "description":
+      "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "sendAnyway": {
+    "message": "Send Anyway",
+    "description":
+      "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "noLongerVerified": {
+    "message":
+      "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+    "description":
+      "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "multipleNoLongerVerified": {
+    "message":
+      "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+    "description":
+      "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+  },
+  "debugLogExplanation": {
+    "message":
+      "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
+  },
+  "debugLogError": {
+    "message":
+      "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
+  },
+  "reportIssue": {
+    "message": "Report an issue",
+    "description": "Link to open the issue tracker"
+  },
+  "gotIt": {
+    "message": "Got it!",
+    "description":
+      "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+  },
+  "submit": {
+    "message": "Submit"
+  },
+  "acceptNewKey": {
+    "message": "Accept",
+    "description": "Label for a button to accept a new safety number"
+  },
+  "verify": {
+    "message": "Mark as verified"
+  },
+  "unverify": {
+    "message": "Mark as not verified"
+  },
+  "isVerified": {
+    "message": "You have verified your safety number with $name$.",
+    "description":
+      "Summary state shown at top of the safety number screen if user has verified contact.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "isNotVerified": {
+    "message": "You have not verified your safety number with $name$.",
+    "description":
+      "Summary state shown at top of the safety number screen if user has not verified contact.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "verified": {
+    "message": "Verified"
+  },
+  "newIdentity": {
+    "message": "New safety number",
+    "description": "Header for a key change dialog"
+  },
+  "identityChanged": {
+    "message":
+      "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
+  },
+  "incomingError": {
+    "message": "Error handling incoming message"
+  },
+  "media": {
+    "message": "Media",
+    "description":
+      "Header of the default pane in the media gallery, showing images and videos"
+  },
+  "mediaEmptyState": {
+    "message": "You don’t have any media in this conversation",
+    "description":
+      "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+  },
+  "documents": {
+    "message": "Documents",
+    "description":
+      "Header of the secondary pane in the media gallery, showing every non-media attachment"
+  },
+  "documentsEmptyState": {
+    "message": "You don’t have any documents in this conversation",
+    "description":
+      "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+  },
+  "today": {
+    "message": "Today",
+    "description": "Section header in the media gallery"
+  },
+  "yesterday": {
+    "message": "Yesterday",
+    "description": "Section header in the media gallery"
+  },
+  "thisWeek": {
+    "message": "This Week",
+    "description": "Section header in the media gallery"
+  },
+  "thisMonth": {
+    "message": "This Month",
+    "description": "Section header in the media gallery"
+  },
+  "unsupportedAttachment": {
+    "message": "Unsupported attachment type. Click to save.",
+    "description": "Displayed for incoming unsupported attachment"
+  },
+  "clickToSave": {
+    "message": "Click to save",
+    "description": "Hover text for attachment filenames"
+  },
+  "unnamedFile": {
+    "message": "Unnamed File",
+    "description": "Hover text for attachment filenames"
+  },
+  "voiceMessage": {
+    "message": "Voice Message",
+    "description": "Name for a voice message attachment"
+  },
+  "unsupportedFileType": {
+    "message": "Unsupported file type",
+    "description": "Displayed for outgoing unsupported attachment"
+  },
+  "fileSizeWarning": {
+    "message": "Sorry, the selected file exceeds message size restrictions."
+  },
+  "disconnected": {
+    "message": "Disconnected",
+    "description":
+      "Displayed when the desktop client cannot connect to the server."
+  },
+  "connecting": {
+    "message": "Connecting",
+    "description":
+      "Displayed when the desktop client is currently connecting to the server."
+  },
+  "offline": {
+    "message": "Offline",
+    "description":
+      "Displayed when the desktop client has no network connection."
+  },
+  "checkNetworkConnection": {
+    "message": "Check your network connection.",
+    "description":
+      "Obvious instructions for when a user's computer loses its network connection"
+  },
+  "attemptingReconnection": {
+    "message":
+      "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+    "placeholders": {
+      "reconnect_duration_in_seconds": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "submitDebugLog": {
+    "message": "Debug log",
+    "description":
+      "Menu item and header text for debug log modal (sentence case)"
+  },
+  "debugLog": {
+    "message": "Debug Log",
+    "description": "View menu item to open the debug log (title case)"
+  },
+  "goToReleaseNotes": {
+    "message": "Go to Release Notes",
+    "description": ""
+  },
+  "goToForums": {
+    "message": "Go to Forums",
+    "description": "Item under the Help menu, takes you to the forums"
+  },
+  "goToSupportPage": {
+    "message": "Go to Support Page",
+    "description": "Item under the Help menu, takes you to the support page"
+  },
+  "menuReportIssue": {
+    "message": "Report an Issue",
+    "description":
+      "Item under the Help menu, takes you to GitHub new issue form (title case)"
+  },
+  "signalDesktopPreferences": {
+    "message": "Signal Desktop Preferences",
+    "description":
+      "Title of the window that pops up with Signal Desktop preferences in it"
+  },
+  "aboutSignalDesktop": {
+    "message": "About Signal Desktop",
+    "description": "Item under the Help menu, which opens a small about window"
+  },
+  "speech": {
+    "message": "Speech",
+    "description":
+      "Item under the Edit menu, with 'start/stop speaking' items below it"
+  },
+  "show": {
+    "message": "Show",
+    "description": "Command under Window menu, to show the window"
+  },
+  "hide": {
+    "message": "Hide",
+    "description": "Command in the tray icon menu, to hide the window"
+  },
+  "quit": {
+    "message": "Quit",
+    "description": "Command in the tray icon menu, to quit the application"
+  },
+  "trayTooltip": {
+    "message": "Signal Desktop",
+    "description": "Tooltip for the tray icon"
+  },
+  "searchForPeopleOrGroups": {
+    "message": "Enter name or number",
+    "description": "Placeholder text in the search input"
+  },
+  "welcomeToSignal": {
+    "message": "Welcome to Signal"
+  },
+  "selectAContact": {
+    "message": "Select a contact or group to start chatting."
+  },
+  "contactAvatarAlt": {
+    "message": "Avatar for contact $name$",
+    "description": "Used in the alt tag for the image avatar of a contact",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
+  },
+  "sendMessageToContact": {
+    "message": "Send Message",
+    "description":
+      "Shown when you are sent a contact and that contact has a signal account"
+  },
+  "home": {
+    "message": "home",
+    "description":
+      "Shown on contact detail screen as a label for an address/phone/email"
+  },
+  "work": {
+    "message": "work",
+    "description":
+      "Shown on contact detail screen as a label for an address/phone/email"
+  },
+  "mobile": {
+    "message": "mobile",
+    "description":
+      "Shown on contact detail screen as a label for aa phone or email"
+  },
+  "email": {
+    "message": "email",
+    "description":
+      "Generic label shown if contact email has custom type but no label"
+  },
+  "phone": {
+    "message": "phone",
+    "description":
+      "Generic label shown if contact phone has custom type but no label"
+  },
+  "address": {
+    "message": "address",
+    "description":
+      "Generic label shown if contact address has custom type but no label"
+  },
+  "poBox": {
+    "message": "PO Box",
+    "description":
+      "When rendering an address, used to provide context to a post office box"
+  },
+  "replyToMessage": {
+    "message": "Reply to Message",
+    "description":
+      "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+  },
+  "replyingToYourself": {
+    "message": "Replying to Yourself",
+    "description": "Shown in iOS theme when you quote yourself"
+  },
+  "replyingToYou": {
+    "message": "Replying to You",
+    "description":
+      "Shown in iOS theme when someone else quotes a message from you"
+  },
+  "you": {
+    "message": "You",
+    "description":
+      "In Android theme, shown in quote if you or someone else replies to you"
+  },
+  "replyingTo": {
+    "message": "Replying to $name$",
+    "description":
+      "Shown in iOS theme when you or someone quotes to a message which is not from you",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
+  },
+  "audioPermissionNeeded": {
+    "message":
+      "To send audio messages, allow Signal Desktop to access your microphone.",
+    "description":
+      "Shown if the user attempts to send an audio message without audio permssions turned on"
+  },
+  "allowAccess": {
+    "message": "Allow Access",
+    "description":
+      "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+  },
+  "showSettings": {
+    "message": "Show Settings",
+    "description":
+      "A button shown in dialog requesting the user to turn on audio permissions"
+  },
+  "audio": {
+    "message": "Audio",
+    "description":
+      "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+  },
+  "video": {
+    "message": "Video",
+    "description":
+      "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+  },
+  "photo": {
+    "message": "Photo",
+    "description":
+      "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "failedToSend": {
+    "message":
+      "Failed to send to some recipients. Check your network connection."
+  },
+  "error": {
+    "message": "Error"
+  },
+  "messageDetail": {
+    "message": "Message Detail"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "deleteWarning": {
+    "message":
+      "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
+  },
+  "deleteThisMessage": {
+    "message": "Delete this message"
+  },
+  "from": {
+    "message": "From",
+    "description": "Label for the sender of a message"
+  },
+  "to": {
+    "message": "To",
+    "description": "Label for the receiver of a message"
+  },
+  "sent": {
+    "message": "Sent",
+    "description": "Label for the time a message was sent"
+  },
+  "received": {
+    "message": "Received",
+    "description": "Label for the time a message was received"
+  },
+  "sendMessage": {
+    "message": "Send a message",
+    "description": "Placeholder text in the message entry field"
+  },
+  "groupMembers": {
+    "message": "Group members"
+  },
+  "showMembers": {
+    "message": "Show members"
+  },
+  "resetSession": {
+    "message": "Reset session",
+    "description":
+      "This is a menu item for resetting the session, using the imperative case, as in a command."
+  },
+  "showSafetyNumber": {
+    "message": "View safety number"
+  },
+  "viewAllMedia": {
+    "message": "View all media",
+    "description":
+      "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+  },
+  "verifyHelp": {
+    "message":
+      "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
+  },
+  "theirIdentityUnknown": {
+    "message":
+      "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
+  },
+  "moreInfo": {
+    "message": "More Info...",
+    "description":
+      "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  },
+  "retrySend": {
+    "message": "Retry Send",
+    "description":
+      "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+  },
+  "deleteMessage": {
+    "message": "Delete Message",
+    "description":
+      "Shown on the drop-down menu for an individual message, deletes single message"
+  },
+  "deleteMessages": {
+    "message": "Delete messages",
+    "description": "Menu item for deleting messages, title case."
+  },
+  "deleteConversationConfirmation": {
+    "message": "Permanently delete this conversation?",
+    "description":
+      "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "sessionEnded": {
+    "message": "Secure session reset",
+    "description":
+      "This is a past tense, informational message. In other words, your secure session has been reset."
+  },
+  "quoteThumbnailAlt": {
+    "message": "Thumbnail of image from quoted message",
+    "description":
+      "Used in alt tag of thumbnail images inside of an embedded message quote"
+  },
+  "imageFailedToLoad": {
+    "message": "Image failed to load",
+    "description": "When an image attachment is missing, this message is shown"
+  },
+  "videoScreenshotFailedToLoad": {
+    "message": "Video screenshot failed to load",
+    "description":
+      "When a attachment video screenshot is missing, this message is shown"
+  },
+  "imageAttachmentAlt": {
+    "message": "Image attached to message",
+    "description": "Used in alt tag of image attachment"
+  },
+  "videoAttachmentAlt": {
+    "message": "Screenshot of video attached to message",
+    "description": "Used in alt tag of video attachment preview"
+  },
+  "lightboxImageAlt": {
+    "message": "Image sent in conversation",
+    "description":
+      "Used in the alt tag for the image shown in a full-screen lightbox view"
+  },
+  "fileIconAlt": {
+    "message": "File icon",
+    "description":
+      "Used in the media gallery documents tab to visually represent a file"
+  },
+  "emojiAlt": {
+    "message": "Emoji image of '$title$'",
+    "description": "Used in the alt tag of all emoji images",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "grinning"
+      }
+    }
+  },
+  "installWelcome": {
+    "message": "Welcome to Signal Desktop",
+    "description": "Welcome title on the install page"
+  },
+  "installTagline": {
+    "message": "Privacy is possible. Signal makes it easy.",
+    "description":
+      "Tagline displayed under 'installWelcome' string on the install page"
+  },
+  "linkYourPhone": {
+    "message": "Link your phone to Signal Desktop",
+    "description":
+      "Shown on the front page when the application first starst, above the QR code"
+  },
+  "signalSettings": {
+    "message": "Signal Settings",
+    "description":
+      "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+  },
+  "linkedDevices": {
+    "message": "Linked Devices",
+    "description":
+      "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+  },
+  "plusButton": {
+    "message": "'+' Button",
+    "description":
+      "The button used in Signal Android to add a new linked device"
+  },
+  "linkNewDevice": {
+    "message": "Link New Device",
+    "description":
+      "The menu option shown in Signal iOS to add a new linked device"
+  },
+  "deviceName": {
+    "message": "Device name",
+    "description":
+      "The label in settings panel shown for the user-provided name for this desktop instance"
+  },
+  "chooseDeviceName": {
+    "message": "Choose this device's name",
+    "description":
+      "The header shown on the 'choose device name' screen in the device linking process"
+  },
+  "finishLinkingPhone": {
+    "message": "Finish linking phone",
+    "description":
+      "The text on the button to finish the linking process, after choosing the device name"
+  },
+  "initialSync": {
+    "message": "Syncing contacts and groups",
+    "description":
+      "Shown during initial link while contacts and groups are being pulled from mobile device"
+  },
+  "installConnectionFailed": {
+    "message": "Failed to connect to server.",
+    "description": "Displayed when we can't connect to the server."
+  },
+  "installTooManyDevices": {
+    "message":
+      "Sorry, you have too many devices linked already. Try removing some."
+  },
+  "settings": {
+    "message": "Settings",
+    "description": "Menu item and header for global settings"
+  },
+  "theme": {
+    "message": "Theme",
+    "description": "Header for theme settings"
+  },
+  "permissions": {
+    "message": "Permissions",
+    "description": "Header for permissions section of settings"
+  },
+  "mediaPermissionsDescription": {
+    "message": "Allow access to camera and microphone",
+    "description": "Description of the media permission description"
+  },
+  "spellCheck": {
+    "message": "Spell Check",
+    "description": "Description of the media permission description"
+  },
+  "spellCheckDescription": {
+    "message": "Enable spell check of text entered in message composition box",
+    "description": "Description of the media permission description"
+  },
+  "clearDataHeader": {
+    "message": "Clear Data",
+    "description":
+      "Header in the settings dialog for the section dealing with data deletion"
+  },
+  "clearDataExplanation": {
+    "message":
+      "This will clear all data in the application, removing all messages and saved account information.",
+    "description": "Text describing what the clear data button will do."
+  },
+  "clearDataButton": {
+    "message": "Clear data",
+    "description":
+      "Button in the settings dialog starting process to delete all data"
+  },
+  "deleteAllDataHeader": {
+    "message": "Delete all data?",
+    "description": "Header of the full-screen delete data confirmation screen"
+  },
+  "deleteAllDataBody": {
+    "message":
+      "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+    "description":
+      "Text describing what exactly will happen if the user clicks the button to delete all data"
+  },
+  "deleteAllDataButton": {
+    "message": "Delete all data",
+    "description": "Text of the button that deletes all data"
+  },
+  "deleteAllDataProgress": {
+    "message": "Disconnecting and deleting all data",
+    "description":
+      "Message shown to user when app is disconnected and data deleted"
+  },
+  "notifications": {
+    "message": "Notifications",
+    "description": "Header for notification settings"
+  },
+  "notificationSettingsDialog": {
+    "message": "When messages arrive, display notifications that reveal:",
+    "description": "Explain the purpose of the notification settings"
+  },
+  "disableNotifications": {
+    "message": "Disable notifications",
+    "description": "Label for disabling notifications"
+  },
+  "nameAndMessage": {
+    "message": "Both sender name and message",
+    "description":
+      "Label for setting notifications to display name and message text"
+  },
+  "noNameOrMessage": {
+    "message": "Neither name nor message",
+    "description":
+      "Label for setting notifications to display no name and no message text"
+  },
+  "nameOnly": {
+    "message": "Only sender name",
+    "description": "Label for setting notifications to display sender name only"
+  },
+  "newMessage": {
+    "message": "New Message",
+    "description": "Displayed in notifications for only 1 message"
+  },
+  "newMessages": {
+    "message": "New Messages",
+    "description": "Displayed in notifications for multiple messages"
+  },
+  "notificationMostRecentFrom": {
+    "message": "Most recent from:",
+    "description":
+      "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+  },
+  "notificationFrom": {
+    "message": "From:",
+    "description":
+      "Displayed in notifications when setting is 'name only' and one message is waiting"
+  },
+  "notificationMostRecent": {
+    "message": "Most recent:",
+    "description":
+      "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+  },
+  "sendFailed": {
+    "message": "Send failed",
+    "description": "Shown on outgoing message if it fails to send"
+  },
+  "showMore": {
+    "message": "Details",
+    "description": "Displays the details of a key change"
+  },
+  "showLess": {
+    "message": "Hide details",
+    "description": "Hides the details of a key change"
+  },
+  "learnMore": {
+    "message": "Learn more about verifying safety numbers",
+    "description":
+      "Text that links to a support article on verifying safety numbers"
+  },
+  "expiredWarning": {
+    "message":
+      "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+    "description":
+      "Warning notification that this version of the app has expired"
+  },
+  "androidMessageLengthWarning": {
+    "message":
+      "Android clients will only receive the first 2000 characters of this message.",
+    "description":
+      "Warning that long messages could not get received completely by Android clients."
+  },
+  "upgrade": {
+    "message": "Upgrade",
+    "description":
+      "Label text for button to upgrade the app to the latest version"
+  },
+  "mediaMessage": {
+    "message": "Media message",
+    "description":
+      "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+  },
+  "unregisteredUser": {
+    "message": "Number is not registered",
+    "description":
+      "Error message displayed when sending to an unregistered user."
+  },
+  "sync": {
+    "message": "Contacts",
+    "description": "Label for contact and group sync settings"
+  },
+  "syncExplanation": {
+    "message": "Import all Signal groups and contacts from your mobile device.",
+    "description": "Explanatory text for sync settings"
+  },
+  "lastSynced": {
+    "message": "Last import at",
+    "description": "Label for date and time of last sync operation"
+  },
+  "syncNow": {
+    "message": "Import now",
+    "description":
+      "Label for a button that syncs contacts and groups from your phone"
+  },
+  "syncing": {
+    "message": "Importing...",
+    "description": "Label for a disabled sync button while sync is in progress."
+  },
+  "syncFailed": {
+    "message":
+      "Import failed. Make sure your computer and your phone are connected to the internet.",
+    "description": "Informational text displayed if a sync operation times out."
+  },
+  "timestamp_s": {
+    "message": "now",
+    "description":
+      "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+  },
+  "timestamp_m": {
+    "message": "1 minute",
+    "description":
+      "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+  },
+  "timestamp_h": {
+    "message": "1 hour",
+    "description":
+      "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
+  },
+  "hoursAgoShort": {
+    "message": "$hours$ hr",
+    "description":
+      "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+    "placeholders": {
+      "hours": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "hoursAgo": {
+    "message": "$hours$ hr ago",
+    "description":
+      "Contracted form of 'X hours ago' which works both for singular and plural",
+    "placeholders": {
+      "hours": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "minutesAgoShort": {
+    "message": "$minutes$ min",
+    "description":
+      "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+    "placeholders": {
+      "minutes": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "minutesAgo": {
+    "message": "$minutes$ min ago",
+    "description":
+      "Contracted form of 'X minutes ago' which works both for singular and plural",
+    "placeholders": {
+      "minutes": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "justNow": {
+    "message": "now",
+    "description": "Shown if a message is very recent, less than 60 seconds old"
+  },
+  "timestampFormat_M": {
+    "message": "MMM D",
+    "description":
+      "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+  },
+  "unblockToSend": {
+    "message": "Unblock this contact to send a message.",
+    "description": "Brief message shown when trying to message a blocked number"
+  },
+  "youChangedTheTimer": {
+    "message": "You set the disappearing message timer to $time$",
+    "description":
+      "Message displayed when you change the message expiration timer in a conversation.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "10m"
+      }
+    }
+  },
+  "timerSetOnSync": {
+    "message": "Updated disappearing message timer to $time$",
+    "description":
+      "Message displayed when timer is set on initial link of desktop device.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "10m"
+      }
+    }
+  },
+  "theyChangedTheTimer": {
+    "message": "$name$ set the disappearing message timer to $time$",
+    "description":
+      "Message displayed when someone else changes the message expiration timer in a conversation.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "time": {
+        "content": "$2",
+        "example": "10m"
+      }
+    }
+  },
+  "timerOption_0_seconds": {
+    "message": "off",
+    "description":
+      "Label for option to turn off message expiration in the timer menu"
+  },
+  "timerOption_5_seconds": {
+    "message": "5 seconds",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_10_seconds": {
+    "message": "10 seconds",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_30_seconds": {
+    "message": "30 seconds",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_1_minute": {
+    "message": "1 minute",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_5_minutes": {
+    "message": "5 minutes",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_30_minutes": {
+    "message": "30 minutes",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_1_hour": {
+    "message": "1 hour",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_6_hours": {
+    "message": "6 hours",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_12_hours": {
+    "message": "12 hours",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_1_day": {
+    "message": "1 day",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "timerOption_1_week": {
+    "message": "1 week",
+    "description":
+      "Label for a selectable option in the message expiration timer menu"
+  },
+  "disappearingMessages": {
+    "message": "Disappearing messages",
+    "description": "Conversation menu option to enable disappearing messages"
+  },
+  "timerOption_0_seconds_abbreviated": {
+    "message": "off",
+    "description":
+      "Short format indicating current timer setting in the conversation list snippet"
+  },
+  "timerOption_5_seconds_abbreviated": {
+    "message": "5s",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_10_seconds_abbreviated": {
+    "message": "10s",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_30_seconds_abbreviated": {
+    "message": "30s",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_1_minute_abbreviated": {
+    "message": "1m",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_5_minutes_abbreviated": {
+    "message": "5m",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_30_minutes_abbreviated": {
+    "message": "30m",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_1_hour_abbreviated": {
+    "message": "1h",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_6_hours_abbreviated": {
+    "message": "6h",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_12_hours_abbreviated": {
+    "message": "12h",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_1_day_abbreviated": {
+    "message": "1d",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "timerOption_1_week_abbreviated": {
+    "message": "1w",
+    "description":
+      "Very short format indicating current timer setting in the conversation header"
+  },
+  "disappearingMessagesDisabled": {
+    "message": "Disappearing messages disabled",
+    "description": "Displayed in the left pane when the timer is turned off"
+  },
+  "disabledDisappearingMessages": {
+    "message": "$name$ disabled disappearing messages",
+    "description":
+      "Displayed in the conversation list when the timer is turned off",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
+  },
+  "youDisabledDisappearingMessages": {
+    "message": "You disabled disappearing messages",
+    "description":
+      "Displayed in the conversation list when the timer is turned off"
+  },
+  "timerSetTo": {
+    "message": "Timer set to $time$",
+    "description":
+      "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "1w"
+      }
+    }
+  },
+  "audioNotificationDescription": {
+    "message": "Play audio notification",
+    "description": "Description for audio notification setting"
+  },
+  "safetyNumberChanged": {
+    "message": "Safety Number has changed",
+    "description":
+      "A notification shown in the conversation when a contact reinstalls"
+  },
+  "safetyNumberChangedGroup": {
+    "message": "Safety Number with $name$ has changed",
+    "description":
+      "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
+  },
+  "verifyNewNumber": {
+    "message": "Verify Safety Number",
+    "description":
+      "Label on button included with safety number change notification in the conversation"
+  },
+  "yourSafetyNumberWith": {
+    "message": "Your safety number with $name$:",
+    "description": "Heading for safety number view",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
+  },
+  "themeLight": {
+    "message": "Light",
+    "description": "Label text for light theme (normal)"
+  },
+  "themeDark": {
+    "message": "Dark",
+    "description": "Label text for dark theme"
+  },
+  "hideMenuBar": {
+    "message": "Hide menu bar",
+    "description": "Label text for menu bar visibility setting"
+  },
+  "startConversation": {
+    "message": "Start conversation…",
+    "description":
+      "Label underneath number a user enters that is not an existing contact"
+  },
+  "newPhoneNumber": {
+    "message": "Enter a phone number to add a contact.",
+    "description": "Placeholder for adding a new number to a contact"
+  },
+  "invalidNumberError": {
+    "message": "Invalid number",
+    "description": "When a person inputs a number that is invalid"
+  },
+  "unlinkedWarning": {
+    "message":
+      "Relink Signal Desktop to your mobile device to continue messaging."
+  },
+  "unlinked": {
+    "message": "Unlinked"
+  },
+  "relink": {
+    "message": "Relink"
+  },
+  "autoUpdateNewVersionTitle": {
+    "message": "Signal update available"
+  },
+  "autoUpdateNewVersionMessage": {
+    "message": "There is a new version of Signal available."
+  },
+  "autoUpdateNewVersionInstructions": {
+    "message": "Press Restart Signal to apply the updates."
+  },
+  "autoUpdateRestartButtonLabel": {
+    "message": "Restart Signal"
+  },
+  "autoUpdateLaterButtonLabel": {
+    "message": "Later"
+  },
+  "leftTheGroup": {
+    "message": "$name$ left the group",
+    "description":
+      "Shown in the conversation history when a single person leaves the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "multipleLeftTheGroup": {
+    "message": "$name$ left the group",
+    "description":
+      "Shown in the conversation history when multiple people leave the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice, Bob"
+      }
+    }
+  },
+  "updatedTheGroup": {
+    "message": "Group updated",
+    "description":
+      "Shown in the conversation history when someone updates the group"
+  },
+  "titleIsNow": {
+    "message": "Title is now '$name$'",
+    "description":
+      "Shown in the conversation history when someone changes the title of the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Book Club"
+      }
+    }
+  },
+  "joinedTheGroup": {
+    "message": "$name$ joined the group",
+    "description":
+      "Shown in the conversation history when a single person joins the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "multipleJoinedTheGroup": {
+    "message": "$names$ joined the group",
+    "description":
+      "Shown in the conversation history when more than one person joins the group",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "Alice, Bob"
+      }
+    }
+  }
 }

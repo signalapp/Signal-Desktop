@@ -1,23 +1,11 @@
-(function() {
-  'use strict';
+/* global window */
 
-  var registeredFunctions = {};
-  var Type = {
-    ENCRYPT_MESSAGE: 1,
-    INIT_SESSION: 2,
-    TRANSMIT_MESSAGE: 3,
-    REBUILD_MESSAGE: 4,
-    RETRY_SEND_MESSAGE_PROTO: 5,
-  };
+// eslint-disable-next-line func-names
+(function() {
   window.textsecure = window.textsecure || {};
-  window.textsecure.replay = {
-    Type: Type,
-    registerFunction: function(func, functionCode) {
-      registeredFunctions[functionCode] = func;
-    },
-  };
 
   function inherit(Parent, Child) {
+    // eslint-disable-next-line no-param-reassign
     Child.prototype = Object.create(Parent.prototype, {
       constructor: {
         value: Child,
@@ -27,11 +15,11 @@
     });
   }
   function appendStack(newError, originalError) {
-    newError.stack += '\nOriginal stack:\n' + originalError.stack;
+    // eslint-disable-next-line no-param-reassign
+    newError.stack += `\nOriginal stack:\n${originalError.stack}`;
   }
 
-  function ReplayableError(options) {
-    options = options || {};
+  function ReplayableError(options = {}) {
     this.name = options.name || 'ReplayableError';
     this.message = options.message;
 
@@ -44,46 +32,38 @@
     }
 
     this.functionCode = options.functionCode;
-    this.args = options.args;
   }
   inherit(Error, ReplayableError);
 
-  ReplayableError.prototype.replay = function() {
-    var argumentsAsArray = Array.prototype.slice.call(arguments, 0);
-    var args = this.args.concat(argumentsAsArray);
-    return registeredFunctions[this.functionCode].apply(window, args);
-  };
-
   function IncomingIdentityKeyError(number, message, key) {
+    // eslint-disable-next-line prefer-destructuring
     this.number = number.split('.')[0];
     this.identityKey = key;
 
     ReplayableError.call(this, {
-      functionCode: Type.INIT_SESSION,
-      args: [number, message],
       name: 'IncomingIdentityKeyError',
-      message: 'The identity of ' + this.number + ' has changed.',
+      message: `The identity of ${this.number} has changed.`,
     });
   }
   inherit(ReplayableError, IncomingIdentityKeyError);
 
   function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
+    // eslint-disable-next-line prefer-destructuring
     this.number = number.split('.')[0];
     this.identityKey = identityKey;
 
     ReplayableError.call(this, {
-      functionCode: Type.ENCRYPT_MESSAGE,
-      args: [number, message, timestamp],
       name: 'OutgoingIdentityKeyError',
-      message: 'The identity of ' + this.number + ' has changed.',
+      message: `The identity of ${this.number} has changed.`,
     });
   }
   inherit(ReplayableError, OutgoingIdentityKeyError);
 
   function OutgoingMessageError(number, message, timestamp, httpError) {
+    // eslint-disable-next-line prefer-destructuring
+    this.number = number.split('.')[0];
+
     ReplayableError.call(this, {
-      functionCode: Type.ENCRYPT_MESSAGE,
-      args: [number, message, timestamp],
       name: 'OutgoingMessageError',
       message: httpError ? httpError.message : 'no http error',
     });
@@ -95,13 +75,11 @@
   }
   inherit(ReplayableError, OutgoingMessageError);
 
-  function SendMessageNetworkError(number, jsonData, httpError, timestamp) {
+  function SendMessageNetworkError(number, jsonData, httpError) {
     this.number = number;
     this.code = httpError.code;
 
     ReplayableError.call(this, {
-      functionCode: Type.TRANSMIT_MESSAGE,
-      args: [number, jsonData, timestamp],
       name: 'SendMessageNetworkError',
       message: httpError.message,
     });
@@ -110,10 +88,8 @@
   }
   inherit(ReplayableError, SendMessageNetworkError);
 
-  function SignedPreKeyRotationError(numbers, message, timestamp) {
+  function SignedPreKeyRotationError() {
     ReplayableError.call(this, {
-      functionCode: Type.RETRY_SEND_MESSAGE_PROTO,
-      args: [numbers, message, timestamp],
       name: 'SignedPreKeyRotationError',
       message: 'Too many signed prekey rotation failures',
     });
@@ -124,8 +100,6 @@
     this.code = httpError.code;
 
     ReplayableError.call(this, {
-      functionCode: Type.REBUILD_MESSAGE,
-      args: [message],
       name: 'MessageError',
       message: httpError.message,
     });

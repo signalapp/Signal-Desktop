@@ -15,6 +15,10 @@
         "message": "Megtekintés",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "appMenuHideOthers": {
+        "message": "Többi elrejtése",
+        "description": "Application menu command to hide all other windows"
+    },
     "linkedDevices": {
         "message": "Párosított eszközök",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
@@ -97,6 +101,16 @@
         "message": "Siker!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
+    "minutesAgoShort": {
+        "message": "$minutes$ perce",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "timestamp_m": {
         "message": "1 perce",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -117,13 +131,25 @@
         "message": "Rendben!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "appMenuQuit": {
+        "message": "Kilépés a Signalból",
+        "description": "Application menu command to close the application"
+    },
     "disappearingMessages": {
         "message": "Eltűnő üzenetek",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "editMenuCut": {
+        "message": "Kivágás",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
     "deleteWarning": {
         "message": "Biztos vagy benne? A 'Törlés'-re kattintva végleg eltávolítod az üzenetet erről az eszközről.",
         "description": ""
+    },
+    "verifyNewNumber": {
+        "message": "Új szám ellenőrzése",
+        "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
         "message": "Részletek",
@@ -163,6 +189,10 @@
         "message": "Újabb üzenetek érkeztek",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
+    "editMenuSelectAll": {
+        "message": "Összes kijelölése",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
     "resetSession": {
         "message": "Biztonságos munkamenet újraindítása",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -191,6 +221,10 @@
         "message": "Ellenőrizd hálózati kapcsolatodat!",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "Letiltottad az eltűnő üzeneteket",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "Amikor üzenet érkezik, jelenítse meg a következőket:",
         "description": "Explain the purpose of the notification settings"
@@ -202,6 +236,10 @@
     "timerOption_0_seconds_abbreviated": {
         "message": "ki",
         "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "imageFailedToLoad": {
+        "message": "A képet nem sikerült betölteni",
+        "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
         "message": "Adatok törlése",
@@ -226,6 +264,10 @@
     "poBox": {
         "message": "Postafiók",
         "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "themeLight": {
+        "message": "Világos",
+        "description": "Label text for light theme (normal)"
     },
     "delete": {
         "message": "Törlés",
@@ -255,6 +297,24 @@
         "message": "telefonszám",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$ órája",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "deleteThisMessage": {
+        "message": "Üzenet törlése",
+        "description": ""
+    },
+    "editMenuPaste": {
+        "message": "Beillesztés",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
     "changedRecently": {
         "message": "Biztonsági számod $name$ nevű partnereddel nemrég megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy $name$ egyszerűen csak újratelepítette a Signal-t.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -281,6 +341,10 @@
         "message": "Kontaktok és üzenetek betöltése",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Az üzenetíró dobozba gépelt szöveg helyesírás-ellenőrzésének engedélyezése",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ az időzítő értékét a következőre módosította: $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -298,6 +362,10 @@
     "timestamp_s": {
         "message": "mostanában",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "viewMenuZoomOut": {
+        "message": "Nagyítás csökkentése",
+        "description": "View menu command to make everything smaller"
     },
     "mainMenuSettings": {
         "message": "Beállítások...",
@@ -320,6 +388,10 @@
     "timerOption_1_day": {
         "message": "1 nap",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "editMenuUndo": {
+        "message": "Visszavonás",
+        "description": "Edit menu command to remove recently-typed text"
     },
     "reportIssue": {
         "message": "Hiba bejelentése",
@@ -349,6 +421,14 @@
         "message": "Később",
         "description": ""
     },
+    "justNow": {
+        "message": "mostanában",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "mediaPermissionsDescription": {
+        "message": "Hozzáférés a kamerához és a mikrofonhoz",
+        "description": "Description of the media permission description"
+    },
     "from": {
         "message": "Feladó",
         "description": "Label for the sender of a message"
@@ -369,6 +449,10 @@
         "message": "Párosítsd újra a Signal Desktopot mobilkészülékeiddel az beszélgetés folytatásához!",
         "description": ""
     },
+    "safetyNumberChanged": {
+        "message": "Biztonsági szám megváltozott",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
     "today": {
         "message": "Ma",
         "description": "Section header in the media gallery"
@@ -381,13 +465,31 @@
         "message": "Telefonod összepárosítása Signal Desktop-pal",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
+    "multipleLeftTheGroup": {
+        "message": "$name$ kilépett a csoportból.",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "newPhoneNumber": {
         "message": "Telefonszám",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "viewMenuZoomIn": {
+        "message": "Nagyítás növelése",
+        "description": "View menu command to make everything bigger"
+    },
     "viewAllMedia": {
         "message": "Összes média megtekintése",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "windowMenuBringAllToFront": {
+        "message": "Összes előrehozása",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "importErrorFirst": {
         "message": "Bizonyosodj meg róla, hogy a megfelelő, Signal adataidat tartalmazó könyvtárat választottad ki! A nevének 'Signal Export'-tal kell kezdődnie. Emellett készíthetsz egy új másolatot a Chrome alkalmazás adataiból is.",
@@ -403,17 +505,27 @@
             }
         }
     },
+    "timerOption_1_hour": {
+        "message": "1 órája",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "video": {
         "message": "Videó",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
+    "safetyNumberChangedGroup": {
+        "message": "Biztonsági számod megváltozott a következő partnereddel: $name$",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Név vagy telefonszám",
         "description": "Placeholder text in the search input"
-    },
-    "someRecipientsFailed": {
-        "message": "Néhány címzettnek nem sikerült elküldeni.",
-        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Se név, se üzenet",
@@ -431,12 +543,20 @@
         "message": "Nincs párosítva",
         "description": ""
     },
+    "imageAttachmentAlt": {
+        "message": "Üzenethez csatolt kép",
+        "description": "Used in alt tag of image attachment"
+    },
     "learnMore": {
         "message": "Tudj meg többet a bizonsági számok ellenőrzéséről!",
         "description": "Text that links to a support article on verifying safety numbers"
     },
+    "signalDesktopPreferences": {
+        "message": "A Signal Desktop beállításai",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "timerSetOnSync": {
-        "message": "Időzítő beállítása erre: $time$.",
+        "message": "Időzítő beállítva erre: $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -463,6 +583,10 @@
         "message": "Sajnáljuk, de már túl sok párosított eszközöd van. Próbálj kitörölni néhányat!",
         "description": ""
     },
+    "allowAccess": {
+        "message": "Hozzáférés engedélyezése",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
     "joinedTheGroup": {
         "message": "$name$ belépett a csoportba.",
         "description": "Shown in the conversation history when a single person joins the group",
@@ -485,13 +609,17 @@
         "message": "Beállítás importálással",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Eltűnő üzenetek letiltva",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "A videó előnézeti képét nem sikerült betölteni",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
     "timerOption_30_minutes_abbreviated": {
         "message": "30p",
         "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "themeAndroidDark": {
-        "message": "Android (sötét)",
-        "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1p",
@@ -537,6 +665,10 @@
         "message": "Frissítés",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "moreInfo": {
+        "message": "További információ...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
     "notificationMostRecent": {
         "message": "Legfrissebb:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
@@ -551,9 +683,17 @@
             }
         }
     },
+    "windowMenuClose": {
+        "message": "Ablak bezárása",
+        "description": "Window menu command to close the current window"
+    },
     "showLess": {
         "message": "Részletek elrejtése",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Helyesírás-ellenőrzés",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Téma",
@@ -566,6 +706,16 @@
     "newIdentity": {
         "message": "Új biztonsági szám",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ letiltotta az eltűnő üzeneteket",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "A magánélet védelme nem lehetetlen. A Signal ezt egyszerűvé teszi.",
@@ -612,6 +762,10 @@
     "timerOption_12_hours_abbreviated": {
         "message": "12ó",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "Beillesztés és formázás egyesítése",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "signalSettings": {
         "message": "Signal beállítások",
@@ -676,22 +830,32 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Kontakt profilképe",
-        "description": "Used in the alt tag for the image avatar of a contact"
+        "message": "$name$ profilképe",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "received": {
         "message": "Beérkezett",
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "Biztonsági számodat nem hitelesítetted $name$ nevű partnereddel.",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "message": "Biztonsági számodat nem hitelesítettnek jelölted $name$ nevű partnereddel.",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
                 "example": "Bob"
             }
         }
+    },
+    "timerOption_1_minute": {
+        "message": "1 perce",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "isVerified": {
         "message": "Biztonsági számodat $name$ nevű partnereddel már hitelesítetted.",
@@ -723,6 +887,10 @@
         "message": "Hiba bejelentése",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
+    "permissions": {
+        "message": "Jogosultságok",
+        "description": "Header for permissions section of settings"
+    },
     "loadDataDescription": {
         "message": "Sikeresen befejezted az exportálást, és most kontaktjaid, valamint üzeneteid türelmesen várnak számítógépeden. Válaszd ki a lementett Signal adataidat tartalmazó könyvtárat!",
         "description": "Introduction to the process of importing messages and contacts from disk"
@@ -753,7 +921,7 @@
     },
     "deleteMessage": {
         "message": "Üzenet törlése",
-        "description": ""
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
         "message": "Jelenlegi eszköz nevének megadása",
@@ -771,6 +939,10 @@
         "message": "ki",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
+    "editMenuRedo": {
+        "message": "Újra",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
     "invalidNumberError": {
         "message": "Érvénytelen telefonszám",
         "description": "When a person inputs a number that is invalid"
@@ -782,6 +954,16 @@
     "messageBelow": {
         "message": "Újabb üzenet érkezett",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "hoursAgo": {
+        "message": "$hours$ órája",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "menuSetupAsNewDevice": {
         "message": "Beállítás új eszközként",
@@ -795,10 +977,6 @@
         "message": "Megjelölés nem ellenőrzöttként",
         "description": ""
     },
-    "messageNotSent": {
-        "message": "Az üzenet nem lett elküldve.",
-        "description": "Informational label, appears on messages that failed to send"
-    },
     "initialSync": {
         "message": "Kontaktok és csoportok szinkronizálása",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
@@ -806,6 +984,10 @@
     "mainMenuView": {
         "message": "&Nézet",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "appMenuHide": {
+        "message": "Elrejtés",
+        "description": "Application menu command to hide the window"
     },
     "autoUpdateNewVersionMessage": {
         "message": "A Signal új verziója érhető el.",
@@ -827,10 +1009,6 @@
         "message": "Média",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
-    "noContents": {
-        "message": "Üres üzenet",
-        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
-    },
     "cancel": {
         "message": "Mégsem",
         "description": ""
@@ -847,12 +1025,16 @@
         "message": "Névtelen fájl",
         "description": "Hover text for attachment filenames"
     },
+    "timerOption_5_minutes": {
+        "message": "5 perc",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "sendAnyway": {
         "message": "Küldés ennek ellenére",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "Biztonsági számod $name$ nevű partnereddel hitelesítve van.",
+        "message": "Biztonsági számodat $name$ nevű partnereddel hitelesítettnek jelölted",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -885,6 +1067,14 @@
         "message": "5 másodperc",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "debugLogError": {
+        "message": "Valamiért nem sikerült a feltöltés! Kérjük vedd fontolóra a naplófájl kézi feltöltését a hiba bejelentése során.",
+        "description": ""
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Fejlesztői eszközök megjelenítése/elrejtése",
+        "description": "View menu command to show or hide the developer tools"
+    },
     "showMembers": {
         "message": "Csoporttagok megjelenítése",
         "description": ""
@@ -902,6 +1092,10 @@
     "email": {
         "message": "e-mail",
         "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "viewMenuResetZoom": {
+        "message": "Eredeti méret",
+        "description": "View menu command to go back to the default zoom"
     },
     "goToSupportPage": {
         "message": "Támogatás megnyitása",
@@ -929,6 +1123,10 @@
         "message": "Betöltés...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
+    "audioPermissionNeeded": {
+        "message": "Hangüzenetek küldéséhez engedélyezd, hogy a Signal Desktop hozzáférjen mikrofonodhoz",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
     "newMessages": {
         "message": "Új üzenetek",
         "description": "Displayed in notifications for multiple messages"
@@ -953,19 +1151,13 @@
         "message": "Küldés",
         "description": ""
     },
-    "keychanged": {
-        "message": "Biztonsági számod megváltozott a következő partnereddel: $name$ Kattints a megjelenítéshez!",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "updatedTheGroup": {
         "message": "A csoport adatai frissítve lettek.",
         "description": "Shown in the conversation history when someone updates the group"
+    },
+    "themeDark": {
+        "message": "Sötét",
+        "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
         "message": "Biztonsági számod $name$ nevű partnereddel megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signal-t. Javasolt újraellenőrizni a partnereddel közös biztonsági számotokat.",
@@ -985,9 +1177,17 @@
         "message": "Címzett",
         "description": "Label for the receiver of a message"
     },
+    "windowMenuMinimize": {
+        "message": "Minimalizálás",
+        "description": "Window menu command to minimize the current window"
+    },
     "timerOption_1_hour_abbreviated": {
         "message": "1ó",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Beszéd befejezése",
+        "description": "Edit menu item under 'speech' to stop dictation"
     },
     "optimizingApplication": {
         "message": "Alkalmazás optimalizálása...",
@@ -1001,6 +1201,10 @@
         "message": "Üzenet részletei",
         "description": ""
     },
+    "timerOption_12_hours": {
+        "message": "12 óra",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "mainMenuFile": {
         "message": "&Fájl",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -1009,13 +1213,25 @@
         "message": "Megjelölés ellenőrzöttként",
         "description": ""
     },
+    "sendFailed": {
+        "message": "Küldés sikertelen",
+        "description": "Shown on outgoing message if it fails to send"
+    },
     "clearDataHeader": {
         "message": "Adatok törlése",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
+    "viewMenuToggleFullScreen": {
+        "message": "Teljes képernyő bekapcsolása/kikapcsolása",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
     "timerOption_10_seconds_abbreviated": {
         "message": "10mp",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes": {
+        "message": "30 perc",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
         "message": "Új eszköz párosítása",
@@ -1041,9 +1257,21 @@
         "message": "A partnerhez kapcsolódó biztonsági számod megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetést. De az is előfordulhat, hogy partnered egyszerűen újratelepítette a Signal-t. Lentebb lehetőséged van az új biztonsági szám hitelesítésére.",
         "description": ""
     },
+    "appMenuUnhide": {
+        "message": "Összes megjelenítése",
+        "description": "Application menu command to show all application windows"
+    },
     "changedSinceVerifiedMultiple": {
         "message": "Biztonsági számod a csoport több tagjával is megváltozott az utolsó hitelesítés óta. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy valaki egyszerűen csak újratelepítette a Signal-t.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "showSettings": {
+        "message": "Beállítások megjelenítése",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "editMenuCopy": {
+        "message": "Másolás",
+        "description": "Edit menu command to add selected text to clipboard"
     },
     "loadDataHeader": {
         "message": "Adataid betöltése",
@@ -1071,6 +1299,10 @@
             }
         }
     },
+    "retrySend": {
+        "message": "Újraküldés",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+    },
     "changedRightAfterVerify": {
         "message": "A hitelesítés alatt álló biztonsági szám megváltozott. Kérlek ellenőrizd új biztonsági számodat $name$ nevű partnereddel. Ne felejtsd, ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signal-t.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
@@ -1081,15 +1313,31 @@
             }
         }
     },
+    "timerOption_6_hours": {
+        "message": "6 óra",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "videoAttachmentAlt": {
+        "message": "Az üzenethez csatolt videó előnézeti képe",
+        "description": "Used in alt tag of video attachment preview"
+    },
     "timerSetTo": {
         "message": "Időzítő állapota: $time$",
-        "description": "Displayed in the conversation list when the timer is updated.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
                 "example": "1w"
             }
         }
+    },
+    "editMenuDelete": {
+        "message": "Törlés",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "windowMenuZoom": {
+        "message": "Nagyítás",
+        "description": "Window menu command to make the current window the size of the whole screen"
     },
     "autoUpdateNewVersionTitle": {
         "message": "Signal frissítés elérhető",
@@ -1103,13 +1351,23 @@
         "message": "Hang",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
+    "editMenuStartSpeaking": {
+        "message": "Beszéd megkezdése",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "minutesAgo": {
+        "message": "$minutes$ perce",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "notifications": {
         "message": "Értesítések",
         "description": "Header for notification settings"
-    },
-    "resend": {
-        "message": "Újraküldés",
-        "description": ""
     },
     "youMarkedAsVerifiedOtherDevice": {
         "message": "Biztonsági számodat már hitelesítetted $name$ nevű partnereddel egy másik eszközön.",

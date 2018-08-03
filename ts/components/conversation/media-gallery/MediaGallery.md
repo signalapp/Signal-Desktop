@@ -14,6 +14,7 @@
 ### Media gallery with media and documents
 
 ```jsx
+const _ = util._;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MONTH_MS = 30 * DAY_MS;
 const YEAR_MS = 12 * MONTH_MS;
@@ -32,13 +33,14 @@ const createRandomMessage = ({ startTime, timeWindow } = {}) => props => {
         data: null,
         fileName,
         size: _.random(1000, 1000 * 1000 * 50),
+        contentType: 'image/jpeg',
       },
     ],
 
-    objectURL: `https://placekitten.com/${_.random(50, 150)}/${_.random(
+    thumbnailObjectUrl: `https://placekitten.com/${_.random(
       50,
       150
-    )}`,
+    )}/${_.random(50, 150)}`,
     ...props,
   };
 };
@@ -81,7 +83,14 @@ const messages = _.sortBy(
 ```jsx
 const messages = [
   {
-    attachments: [{ fileName: 'foo.jpg', contentType: 'application/json' }],
+    id: '1',
+    thumbnailObjectUrl: 'https://placekitten.com/76/67',
+    attachments: [
+      {
+        fileName: 'foo.jpg',
+        contentType: 'image/jpeg',
+      },
+    ],
   },
 ];
 <MediaGallery i18n={util.i18n} media={messages} documents={messages} />;

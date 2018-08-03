@@ -1,3 +1,5 @@
+/* global dcodeIO, window, textsecure */
+
 function ProtoParser(arrayBuffer, protobuf) {
   this.protobuf = protobuf;
   this.buffer = new dcodeIO.ByteBuffer();
@@ -7,23 +9,23 @@ function ProtoParser(arrayBuffer, protobuf) {
 }
 ProtoParser.prototype = {
   constructor: ProtoParser,
-  next: function() {
+  next() {
     try {
       if (this.buffer.limit === this.buffer.offset) {
         return undefined; // eof
       }
-      var len = this.buffer.readVarint32();
-      var nextBuffer = this.buffer
+      const len = this.buffer.readVarint32();
+      const nextBuffer = this.buffer
         .slice(this.buffer.offset, this.buffer.offset + len)
         .toArrayBuffer();
       // TODO: de-dupe ByteBuffer.js includes in libaxo/libts
       // then remove this toArrayBuffer call.
 
-      var proto = this.protobuf.decode(nextBuffer);
+      const proto = this.protobuf.decode(nextBuffer);
       this.buffer.skip(len);
 
       if (proto.avatar) {
-        var attachmentLen = proto.avatar.length;
+        const attachmentLen = proto.avatar.length;
         proto.avatar.data = this.buffer
           .slice(this.buffer.offset, this.buffer.offset + attachmentLen)
           .toArrayBuffer();
@@ -35,17 +37,22 @@ ProtoParser.prototype = {
       }
 
       return proto;
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      window.log.error(
+        'ProtoParser.next error:',
+        error && error.stack ? error.stack : error
+      );
     }
+
+    return null;
   },
 };
-var GroupBuffer = function(arrayBuffer) {
+const GroupBuffer = function Constructor(arrayBuffer) {
   ProtoParser.call(this, arrayBuffer, textsecure.protobuf.GroupDetails);
 };
 GroupBuffer.prototype = Object.create(ProtoParser.prototype);
 GroupBuffer.prototype.constructor = GroupBuffer;
-var ContactBuffer = function(arrayBuffer) {
+const ContactBuffer = function Constructor(arrayBuffer) {
   ProtoParser.call(this, arrayBuffer, textsecure.protobuf.ContactDetails);
 };
 ContactBuffer.prototype = Object.create(ProtoParser.prototype);

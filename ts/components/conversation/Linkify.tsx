@@ -16,7 +16,7 @@ const SUPPORTED_PROTOCOLS = /^(http|https):/i;
 
 export class Linkify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
-    renderNonLink: ({ text, key }) => <span key={key}>{text}</span>,
+    renderNonLink: ({ text }) => text,
   };
 
   public render() {

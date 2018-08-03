@@ -23,7 +23,7 @@
     change(e) {
       const value = e.target.checked;
       this.setFn(value);
-      console.log(this.name, 'changed to', value);
+      window.log.info(this.name, 'changed to', value);
     },
     populate() {
       this.$('input').prop('checked', !!this.value);
@@ -42,7 +42,7 @@
     change(e) {
       this.value = e.target.checked;
       this.setFn(this.value);
-      console.log('media-permissions changed to', this.value);
+      window.log.info('media-permissions changed to', this.value);
     },
     populate() {
       this.$('input').prop('checked', Boolean(this.value));
@@ -62,7 +62,7 @@
     change(e) {
       const value = this.$(e.target).val();
       this.setFn(value);
-      console.log(this.name, 'changed to', value);
+      window.log.info(this.name, 'changed to', value);
     },
     populate() {
       this.$(`#${this.name}-${this.value}`).attr('checked', 'checked');
@@ -85,10 +85,9 @@
         value: window.initialData.themeSetting,
         setFn: theme => {
           $(document.body)
-            .removeClass('android')
-            .removeClass('android-dark')
-            .removeClass('ios')
-            .addClass(theme);
+            .removeClass('dark-theme')
+            .removeClass('light-theme')
+            .addClass(`${theme}-theme`);
           window.setThemeSetting(theme);
         },
       });
@@ -137,7 +136,8 @@
         nameOnly: i18n('nameOnly'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
-        themeAndroidDark: i18n('themeAndroidDark'),
+        themeLight: i18n('themeLight'),
+        themeDark: i18n('themeDark'),
         hideMenuBar: i18n('hideMenuBar'),
         clearDataHeader: i18n('clearDataHeader'),
         clearDataButton: i18n('clearDataButton'),
@@ -177,12 +177,12 @@
     onsuccess() {
       window.setLastSyncTime(Date.now());
       this.lastSyncTime = Date.now();
-      console.log('sync successful');
+      window.log.info('sync successful');
       this.enable();
       this.render();
     },
     ontimeout() {
-      console.log('sync timed out');
+      window.log.error('sync timed out');
       this.$('.synced_at').hide();
       this.$('.sync_failed').show();
       this.enable();
@@ -190,7 +190,7 @@
     async sync() {
       this.$('.sync_failed').hide();
       if (window.initialData.isPrimary) {
-        console.log('Tried to sync from device 1');
+        window.log.warn('Tried to sync from device 1');
         return;
       }
 

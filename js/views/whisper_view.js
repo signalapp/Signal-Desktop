@@ -1,3 +1,5 @@
+/* global Whisper, Backbone, Mustache, _, $ */
+
 /*
  * Whisper.View
  *
@@ -17,64 +19,57 @@
  * 4. Provides some common functionality, e.g. confirmation dialog
  *
  */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.View = Backbone.View.extend(
     {
-      constructor: function() {
-        Backbone.View.apply(this, arguments);
+      constructor(...params) {
+        Backbone.View.call(this, ...params);
         Mustache.parse(_.result(this, 'template'));
       },
-      render_attributes: function() {
+      render_attributes() {
         return _.result(this.model, 'attributes', {});
       },
-      render_partials: function() {
+      render_partials() {
         return Whisper.View.Templates;
       },
-      template: function() {
+      template() {
         if (this.templateName) {
           return Whisper.View.Templates[this.templateName];
         }
         return '';
       },
-      render: function() {
-        var attrs = _.result(this, 'render_attributes', {});
-        var template = _.result(this, 'template', '');
-        var partials = _.result(this, 'render_partials', '');
+      render() {
+        const attrs = _.result(this, 'render_attributes', {});
+        const template = _.result(this, 'template', '');
+        const partials = _.result(this, 'render_partials', '');
         this.$el.html(Mustache.render(template, attrs, partials));
         return this;
       },
-      confirm: function(message, okText) {
-        return new Promise(
-          function(resolve, reject) {
-            var dialog = new Whisper.ConfirmationDialogView({
-              message: message,
-              okText: okText,
-              resolve: resolve,
-              reject: reject,
-            });
-            this.$el.append(dialog.el);
-          }.bind(this)
-        );
-      },
-      i18n_with_links: function() {
-        var args = Array.prototype.slice.call(arguments);
-        for (var i = 1; i < args.length; ++i) {
-          args[i] =
-            'class="link" href="' + encodeURI(args[i]) + '" target="_blank"';
-        }
-        return i18n(args[0], args.slice(1));
+      confirm(message, okText) {
+        return new Promise((resolve, reject) => {
+          const dialog = new Whisper.ConfirmationDialogView({
+            message,
+            okText,
+            resolve,
+            reject,
+          });
+          this.$el.append(dialog.el);
+        });
       },
     },
     {
       // Class attributes
-      Templates: (function() {
-        var templates = {};
-        $('script[type="text/x-tmpl-mustache"]').each(function(i, el) {
-          var $el = $(el);
-          var id = $el.attr('id');
+      Templates: (() => {
+        const templates = {};
+        $('script[type="text/x-tmpl-mustache"]').each((i, el) => {
+          const $el = $(el);
+          const id = $el.attr('id');
           templates[id] = $el.html();
         });
         return templates;

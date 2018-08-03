@@ -29,24 +29,34 @@
       this.remove();
     },
     async onDeleteAllData() {
-      console.log('Deleting everything!');
+      window.log.info('Deleting everything!');
       this.step = CLEAR_DATA_STEPS.DELETING;
       this.render();
 
       try {
         await Database.close();
-        console.log('All database connections closed. Starting delete.');
+        window.log.info('All database connections closed. Starting delete.');
       } catch (error) {
-        console.log('Something went wrong closing all database connections.');
+        window.log.error(
+          'Something went wrong closing all database connections.'
+        );
       }
 
       this.clearAllData();
     },
     async clearAllData() {
       try {
-        await Promise.all([Logs.deleteAll(), Database.drop()]);
+        await Promise.all([
+          Logs.deleteAll(),
+          Database.drop(),
+          window.Signal.Data.removeAll(),
+          window.Signal.Data.removeOtherData(),
+        ]);
+
+        await window.Signal.Data.close();
+        await window.Signal.Data.removeDB();
       } catch (error) {
-        console.log(
+        window.log.error(
           'Something went wrong deleting all data:',
           error && error.stack ? error.stack : error
         );

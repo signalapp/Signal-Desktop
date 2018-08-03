@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import moment from 'moment';
 
@@ -9,10 +10,11 @@ import { groupMessagesByDate } from './groupMessagesByDate';
 import { ItemClickEvent } from './types/ItemClickEvent';
 import { Message } from './types/Message';
 import { missingCaseError } from '../../../util/missingCaseError';
+import { Localizer } from '../../../types/Util';
 
 interface Props {
   documents: Array<Message>;
-  i18n: (key: string, values?: Array<string>) => string;
+  i18n: Localizer;
   media: Array<Message>;
   onItemClick?: (event: ItemClickEvent) => void;
 }
@@ -22,49 +24,6 @@ interface State {
 }
 
 const MONTH_FORMAT = 'MMMM YYYY';
-const COLOR_GRAY = '#f3f3f3';
-
-const tabStyle = {
-  width: '100%',
-  backgroundColor: COLOR_GRAY,
-  padding: 20,
-  textAlign: 'center',
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    width: '100%',
-    height: '100%',
-  } as React.CSSProperties,
-  tabContainer: {
-    display: 'flex',
-    flexGrow: 0,
-    flexShrink: 0,
-    cursor: 'pointer',
-    width: '100%',
-  },
-  tab: {
-    default: tabStyle,
-    active: {
-      ...tabStyle,
-      borderBottom: '2px solid #08f',
-    },
-  },
-  contentContainer: {
-    display: 'flex',
-    flexGrow: 1,
-    overflowY: 'auto',
-    padding: 20,
-  } as React.CSSProperties,
-  sectionContainer: {
-    display: 'flex',
-    flexGrow: 1,
-    flexDirection: 'column',
-  } as React.CSSProperties,
-};
 
 interface TabSelectEvent {
   type: AttachmentType;
@@ -89,7 +48,10 @@ const Tab = ({
 
   return (
     <div
-      style={isSelected ? styles.tab.active : styles.tab.default}
+      className={classNames(
+        'module-media-gallery__tab',
+        isSelected ? 'module-media-gallery__tab--active' : null
+      )}
       onClick={handleClick}
       role="tab"
     >
@@ -107,8 +69,8 @@ export class MediaGallery extends React.Component<Props, State> {
     const { selectedTab } = this.state;
 
     return (
-      <div style={styles.container}>
-        <div style={styles.tabContainer}>
+      <div className="module-media-gallery">
+        <div className="module-media-gallery__tab-container">
           <Tab
             label="Media"
             type="media"
@@ -122,7 +84,9 @@ export class MediaGallery extends React.Component<Props, State> {
             onSelect={this.handleTabSelect}
           />
         </div>
-        <div style={styles.contentContainer}>{this.renderSections()}</div>
+        <div className="module-media-gallery__content">
+          {this.renderSections()}
+        </div>
       </div>
     );
   }
@@ -176,6 +140,6 @@ export class MediaGallery extends React.Component<Props, State> {
       );
     });
 
-    return <div style={styles.sectionContainer}>{sections}</div>;
+    return <div className="module-media-gallery__sections">{sections}</div>;
   }
 }

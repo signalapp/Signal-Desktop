@@ -15,6 +15,10 @@
         "message": "查看",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "appMenuHideOthers": {
+        "message": "隐藏其它",
+        "description": "Application menu command to hide all other windows"
+    },
     "linkedDevices": {
         "message": "已关联的设备",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
@@ -66,7 +70,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$离开了群组。",
+        "message": "$name$离开了群聊",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -76,7 +80,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "您将计时器设置为 $time$ 。",
+        "message": "您已将阅后即焚的倒计时时长度设为$time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -96,6 +100,16 @@
     "importCompleteHeader": {
         "message": "成功！",
         "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$分钟",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "timestamp_m": {
         "message": "1分钟",
@@ -117,13 +131,25 @@
         "message": "了解",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "appMenuQuit": {
+        "message": "退出 Signal",
+        "description": "Application menu command to close the application"
+    },
     "disappearingMessages": {
         "message": "阅后即焚",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "editMenuCut": {
+        "message": "剪切",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
     "deleteWarning": {
         "message": "您确定吗？点击“删除”会从此设备上永久删除这条消息。",
         "description": ""
+    },
+    "verifyNewNumber": {
+        "message": "验证新安全码",
+        "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
         "message": "更多",
@@ -163,6 +189,10 @@
         "message": "下面的新消息",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
+    "editMenuSelectAll": {
+        "message": "全选",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
     "resetSession": {
         "message": "重置会话",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -191,6 +221,10 @@
         "message": "检查网络连接状态",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "您停用了阅后即焚",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "收到消息时，显示通知：",
         "description": "Explain the purpose of the notification settings"
@@ -202,6 +236,10 @@
     "timerOption_0_seconds_abbreviated": {
         "message": "关闭",
         "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "imageFailedToLoad": {
+        "message": "图片加载失败",
+        "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
         "message": "清空数据",
@@ -220,12 +258,16 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "处理传入消息时出错。",
+        "message": "处理传入消息时出错",
         "description": ""
     },
     "poBox": {
         "message": "邮政信箱",
         "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "themeLight": {
+        "message": "亮色",
+        "description": "Label text for light theme (normal)"
     },
     "delete": {
         "message": "删除",
@@ -255,6 +297,24 @@
         "message": "电话",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$小时",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "deleteThisMessage": {
+        "message": "删除这条消息。",
+        "description": ""
+    },
+    "editMenuPaste": {
+        "message": "粘帖",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
     "changedRecently": {
         "message": "您与$name$的安全码最近被修改过。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是简单的重装了下Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -281,8 +341,12 @@
         "message": "正在加载联系人和消息",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "启用输入框拼写检查",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
-        "message": "$name$ 将计时器设置为 $time$ 。",
+        "message": "$name$已将阅后即焚的倒计时长度设为$time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -298,6 +362,10 @@
     "timestamp_s": {
         "message": "现在",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "viewMenuZoomOut": {
+        "message": "缩小",
+        "description": "View menu command to make everything smaller"
     },
     "mainMenuSettings": {
         "message": "偏好设置...",
@@ -320,6 +388,10 @@
     "timerOption_1_day": {
         "message": "1天",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "editMenuUndo": {
+        "message": "撤销",
+        "description": "Edit menu command to remove recently-typed text"
     },
     "reportIssue": {
         "message": "反馈错误信息",
@@ -349,6 +421,14 @@
         "message": "稍后",
         "description": ""
     },
+    "justNow": {
+        "message": "现在",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "mediaPermissionsDescription": {
+        "message": "允许访问摄像头和麦克风",
+        "description": "Description of the media permission description"
+    },
     "from": {
         "message": "来自",
         "description": "Label for the sender of a message"
@@ -369,6 +449,10 @@
         "message": "重新链接桌面版Signal到您的移动设备来继续。",
         "description": ""
     },
+    "safetyNumberChanged": {
+        "message": "安全码已改变",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
     "today": {
         "message": "今天",
         "description": "Section header in the media gallery"
@@ -381,13 +465,31 @@
         "message": "关联您的手机到 Signal 桌面版",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
+    "multipleLeftTheGroup": {
+        "message": "$name$离开了群聊",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "newPhoneNumber": {
         "message": "键入电话号码来添加联系人",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "viewMenuZoomIn": {
+        "message": "放大",
+        "description": "View menu command to make everything bigger"
+    },
     "viewAllMedia": {
         "message": "查看所有媒体",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "windowMenuBringAllToFront": {
+        "message": "全部打开到前台",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "importErrorFirst": {
         "message": "请确认您选对了包含已保存 Signal 数据 的文件夹，其名字一般以“Signal Export”开头。您还可以在 Chrome App 上保存一份新的数据。",
@@ -403,17 +505,27 @@
             }
         }
     },
+    "timerOption_1_hour": {
+        "message": "1小时",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "video": {
         "message": "视频",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
+    "safetyNumberChangedGroup": {
+        "message": "$name$的安全码已改变",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "请输入名称或号码",
         "description": "Placeholder text in the search input"
-    },
-    "someRecipientsFailed": {
-        "message": "部分接收失败。",
-        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "发件人和信息均不提醒",
@@ -431,12 +543,20 @@
         "message": "未连接",
         "description": ""
     },
+    "imageAttachmentAlt": {
+        "message": "消息图片",
+        "description": "Used in alt tag of image attachment"
+    },
     "learnMore": {
         "message": "了解更多有关安全代码的信息",
         "description": "Text that links to a support article on verifying safety numbers"
     },
+    "signalDesktopPreferences": {
+        "message": "Signal 桌面版偏好",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "timerSetOnSync": {
-        "message": "更新计时器为 $time$。",
+        "message": "阅后即焚的倒计时长度已更新为$time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -463,8 +583,12 @@
         "message": "很抱歉，您已连接过多的设备，请删除一些然后重试。",
         "description": ""
     },
+    "allowAccess": {
+        "message": "允许访问",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
     "joinedTheGroup": {
-        "message": "$name$加入了群组。",
+        "message": "$name$加入了群聊",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -485,13 +609,17 @@
         "message": "使用导入的数据进行配置",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "阅后即焚已停用",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "视频截图加载失败",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
     "timerOption_30_minutes_abbreviated": {
         "message": "30分钟",
         "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "themeAndroidDark": {
-        "message": "暗色主题",
-        "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1分钟",
@@ -537,6 +665,10 @@
         "message": "升级",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "moreInfo": {
+        "message": "更多信息...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
     "notificationMostRecent": {
         "message": "最近：",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
@@ -551,9 +683,17 @@
             }
         }
     },
+    "windowMenuClose": {
+        "message": "关闭窗口",
+        "description": "Window menu command to close the current window"
+    },
     "showLess": {
         "message": "隐藏",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "拼写检查",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "主题",
@@ -566,6 +706,16 @@
     "newIdentity": {
         "message": "新的安全代码",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$停用了阅后即焚",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Signal让隐私保护触手可及。",
@@ -613,6 +763,10 @@
         "message": "12小时",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "editMenuPasteAndMatchStyle": {
+        "message": "粘帖并调整格式",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    },
     "signalSettings": {
         "message": "Signal 设置",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
@@ -656,7 +810,7 @@
         }
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "重启 SIgnal",
+        "message": "重启 Signal",
         "description": ""
     },
     "mobile": {
@@ -676,22 +830,32 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "联系人头像",
-        "description": "Used in the alt tag for the image avatar of a contact"
+        "message": "$name$的头像",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "received": {
         "message": "已接收",
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "您已将与$name$的安全码标记为未验证。",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "message": "您已将$name$的安全码标记为未验证",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
                 "example": "Bob"
             }
         }
+    },
+    "timerOption_1_minute": {
+        "message": "1分钟",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "isVerified": {
         "message": "您已验证与$name$的安全码。",
@@ -723,6 +887,10 @@
         "message": "反馈问题",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
+    "permissions": {
+        "message": "权限",
+        "description": "Header for permissions section of settings"
+    },
     "loadDataDescription": {
         "message": "您已完成了导出步骤，被导出的联系人和消息在等着您给它们一个新家。请选择包含您 Signal 数据的文件夹。",
         "description": "Introduction to the process of importing messages and contacts from disk"
@@ -752,8 +920,8 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "deleteMessage": {
-        "message": "删除这条消息。",
-        "description": ""
+        "message": "删除消息",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
         "message": "选择这个设备的名称",
@@ -771,6 +939,10 @@
         "message": "关闭",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
+    "editMenuRedo": {
+        "message": "重做",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
     "invalidNumberError": {
         "message": "无效的号码",
         "description": "When a person inputs a number that is invalid"
@@ -782,6 +954,16 @@
     "messageBelow": {
         "message": "下面的新消息",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "hoursAgo": {
+        "message": "$hours$小时前",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "menuSetupAsNewDevice": {
         "message": "配置为新设备",
@@ -795,10 +977,6 @@
         "message": "标记为未确认",
         "description": ""
     },
-    "messageNotSent": {
-        "message": "信息未发送",
-        "description": "Informational label, appears on messages that failed to send"
-    },
     "initialSync": {
         "message": "正在同步联系人和群组",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
@@ -806,6 +984,10 @@
     "mainMenuView": {
         "message": "视图(&V)",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "appMenuHide": {
+        "message": "隐藏",
+        "description": "Application menu command to hide the window"
     },
     "autoUpdateNewVersionMessage": {
         "message": "有新版的 Signal 可用。",
@@ -827,10 +1009,6 @@
         "message": "媒体",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
-    "noContents": {
-        "message": "没有消息内容",
-        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
-    },
     "cancel": {
         "message": "取消",
         "description": ""
@@ -847,12 +1025,16 @@
         "message": "未命名的文件",
         "description": "Hover text for attachment filenames"
     },
+    "timerOption_5_minutes": {
+        "message": "5分钟",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "sendAnyway": {
         "message": "仍要发送",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "您已将与$name$的安全码标记为已验证。",
+        "message": "您已将$name$的安全码标记为已验证",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -885,12 +1067,20 @@
         "message": "5秒",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "debugLogError": {
+        "message": "上传出错！您可以手动将日志添加到要反馈的bug中。",
+        "description": ""
+    },
+    "viewMenuToggleDevTools": {
+        "message": "开发者工具开关",
+        "description": "View menu command to show or hide the developer tools"
+    },
     "showMembers": {
         "message": "显示成员",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "您标记了您与$name$的从其他设备连接的安全码为未确认状态。",
+        "message": "您已在另一设备将$name$的安全码标记为未验证",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -903,6 +1093,10 @@
         "message": "邮箱",
         "description": "Generic label shown if contact email has custom type but no label"
     },
+    "viewMenuResetZoom": {
+        "message": "原来大小",
+        "description": "View menu command to go back to the default zoom"
+    },
     "goToSupportPage": {
         "message": "前往支持页面",
         "description": "Item under the Help menu, takes you to the support page"
@@ -912,7 +1106,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$加入了群组。",
+        "message": "$names$加入了群聊",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -928,6 +1122,10 @@
     "loading": {
         "message": "加载中...",
         "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "audioPermissionNeeded": {
+        "message": "发送音频消息前，请先允许 Signal 桌面版访问您的麦克风。",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "newMessages": {
         "message": "新消息",
@@ -953,19 +1151,13 @@
         "message": "提交",
         "description": ""
     },
-    "keychanged": {
-        "message": "您与$name$的安全码已经改变。点击展示",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "updatedTheGroup": {
-        "message": "更新群组。",
+        "message": "群组已更新",
         "description": "Shown in the conversation history when someone updates the group"
+    },
+    "themeDark": {
+        "message": "暗色",
+        "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
         "message": "您与$name$的安全码已改变。这表示可能有人试图偷听您的对话，也可能只是$name$重新安装了 Signal。您可能要重新验证与联系人的安全码。",
@@ -985,9 +1177,17 @@
         "message": "至",
         "description": "Label for the receiver of a message"
     },
+    "windowMenuMinimize": {
+        "message": "最小化",
+        "description": "Window menu command to minimize the current window"
+    },
     "timerOption_1_hour_abbreviated": {
         "message": "1小时",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuStopSpeaking": {
+        "message": "停止说话",
+        "description": "Edit menu item under 'speech' to stop dictation"
     },
     "optimizingApplication": {
         "message": "正在优化程序...",
@@ -1001,6 +1201,10 @@
         "message": "信息属性",
         "description": ""
     },
+    "timerOption_12_hours": {
+        "message": "12小时",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "mainMenuFile": {
         "message": "文件(&F)",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -1009,13 +1213,25 @@
         "message": "标记为已确认",
         "description": ""
     },
+    "sendFailed": {
+        "message": "发送失败",
+        "description": "Shown on outgoing message if it fails to send"
+    },
     "clearDataHeader": {
         "message": "清空数据",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
+    "viewMenuToggleFullScreen": {
+        "message": "全屏开关",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
     "timerOption_10_seconds_abbreviated": {
         "message": "10秒",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes": {
+        "message": "30分钟",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
         "message": "关联新设备",
@@ -1041,9 +1257,21 @@
         "message": "您的此联系人的安全代码已更改。这可能意味着有人试图拦截你的通信，或者这个联系人重新安装了Signal。您可能想验证以下新安全代码。",
         "description": ""
     },
+    "appMenuUnhide": {
+        "message": "全部显示",
+        "description": "Application menu command to show all application windows"
+    },
     "changedSinceVerifiedMultiple": {
         "message": "自上次验证以来，您与多为群组成员的安全码已发生改变。这可能表示有人试图偷听您的对话，或者只是联系人他们重新安装了 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "showSettings": {
+        "message": "打开设置",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "editMenuCopy": {
+        "message": "复制",
+        "description": "Edit menu command to add selected text to clipboard"
     },
     "loadDataHeader": {
         "message": "加载您的数据",
@@ -1062,7 +1290,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "现在标题是“$name$”。",
+        "message": "已设置标题$name$",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1070,6 +1298,10 @@
                 "example": "Book Club"
             }
         }
+    },
+    "retrySend": {
+        "message": "重试发送",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
         "message": "您想验证的安全码已改变。请检查您与$name$的新安全码。切记，验证码改变意味着可能有人试图截取您的通讯，也可能只是$name$重新安装了 Signal。",
@@ -1081,15 +1313,31 @@
             }
         }
     },
+    "timerOption_6_hours": {
+        "message": "6小时",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "videoAttachmentAlt": {
+        "message": "消息视频的截图",
+        "description": "Used in alt tag of video attachment preview"
+    },
     "timerSetTo": {
         "message": "计时器设置为$time$",
-        "description": "Displayed in the conversation list when the timer is updated.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
                 "example": "1w"
             }
         }
+    },
+    "editMenuDelete": {
+        "message": "删除",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "windowMenuZoom": {
+        "message": "缩放",
+        "description": "Window menu command to make the current window the size of the whole screen"
     },
     "autoUpdateNewVersionTitle": {
         "message": "Signal 有可用更新",
@@ -1103,16 +1351,26 @@
         "message": "音频",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
+    "editMenuStartSpeaking": {
+        "message": "开始说话",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "minutesAgo": {
+        "message": "$minutes$分钟前",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "notifications": {
         "message": "提醒",
         "description": "Header for notification settings"
     },
-    "resend": {
-        "message": "重新发送",
-        "description": ""
-    },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "您已在另一个设备将与$name$的安全码标记为已验证。",
+        "message": "您已在另一设备将$name$的安全码标记为已验证。",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

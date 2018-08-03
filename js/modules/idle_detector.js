@@ -13,7 +13,7 @@ class IdleDetector extends EventEmitter {
   }
 
   start() {
-    console.log('Start idle detector');
+    window.log.info('Start idle detector');
     this._scheduleNextCallback();
   }
 
@@ -22,7 +22,7 @@ class IdleDetector extends EventEmitter {
       return;
     }
 
-    console.log('Stop idle detector');
+    window.log.info('Stop idle detector');
     this._clearScheduledCallbacks();
   }
 

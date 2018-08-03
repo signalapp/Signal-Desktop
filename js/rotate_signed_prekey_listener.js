@@ -1,22 +1,26 @@
+/* global Whisper, storage, getAccountManager */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
-  var ROTATION_INTERVAL = 48 * 60 * 60 * 1000;
-  var timeout;
-  var scheduledTime;
+  const ROTATION_INTERVAL = 48 * 60 * 60 * 1000;
+  let timeout;
+  let scheduledTime;
 
   function scheduleNextRotation() {
-    var now = Date.now();
-    var nextTime = now + ROTATION_INTERVAL;
+    const now = Date.now();
+    const nextTime = now + ROTATION_INTERVAL;
     storage.put('nextSignedKeyRotationTime', nextTime);
   }
 
   function run() {
-    console.log('Rotating signed prekey...');
+    window.log.info('Rotating signed prekey...');
     getAccountManager()
       .rotateSignedPreKey()
-      .catch(function() {
-        console.log(
+      .catch(() => {
+        window.log.error(
           'rotateSignedPrekey() failed. Trying again in five seconds'
         );
         setTimeout(runWhenOnline, 5000);
@@ -29,10 +33,10 @@
     if (navigator.onLine) {
       run();
     } else {
-      console.log(
+      window.log.info(
         'We are offline; keys will be rotated when we are next online'
       );
-      var listener = function() {
+      const listener = () => {
         window.removeEventListener('online', listener);
         run();
       };
@@ -41,18 +45,18 @@
   }
 
   function setTimeoutForNextRun() {
-    var now = Date.now();
-    var time = storage.get('nextSignedKeyRotationTime', now);
+    const now = Date.now();
+    const time = storage.get('nextSignedKeyRotationTime', now);
 
     if (scheduledTime !== time || !timeout) {
-      console.log(
+      window.log.info(
         'Next signed key rotation scheduled for',
         new Date(time).toISOString()
       );
     }
 
     scheduledTime = time;
-    var waitTime = time - now;
+    let waitTime = time - now;
     if (waitTime < 0) {
       waitTime = 0;
     }
@@ -61,11 +65,11 @@
     timeout = setTimeout(runWhenOnline, waitTime);
   }
 
-  var initComplete;
+  let initComplete;
   Whisper.RotateSignedPreKeyListener = {
-    init: function(events, newVersion) {
+    init(events, newVersion) {
       if (initComplete) {
-        console.log('Rotate signed prekey listener: Already initialized');
+        window.log.warn('Rotate signed prekey listener: Already initialized');
         return;
       }
       initComplete = true;
@@ -76,7 +80,7 @@
         setTimeoutForNextRun();
       }
 
-      events.on('timetravel', function() {
+      events.on('timetravel', () => {
         if (Whisper.Registration.isDone()) {
           setTimeoutForNextRun();
         }

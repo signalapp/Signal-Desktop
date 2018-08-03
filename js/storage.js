@@ -1,58 +1,67 @@
+/* global Backbone, Whisper */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
-  var Item = Backbone.Model.extend({
+  const Item = Backbone.Model.extend({
     database: Whisper.Database,
     storeName: 'items',
   });
-  var ItemCollection = Backbone.Collection.extend({
+  const ItemCollection = Backbone.Collection.extend({
     model: Item,
     storeName: 'items',
     database: Whisper.Database,
   });
 
-  var ready = false;
-  var items = new ItemCollection();
-  items.on('reset', function() {
+  let ready = false;
+  const items = new ItemCollection();
+  items.on('reset', () => {
     ready = true;
   });
   window.storage = {
-    /*****************************
+    /** ***************************
      *** Base Storage Routines ***
-     *****************************/
-    put: function(key, value) {
+     **************************** */
+    put(key, value) {
       if (value === undefined) {
         throw new Error('Tried to store undefined');
       }
       if (!ready) {
-        console.log('Called storage.put before storage is ready. key:', key);
+        window.log.warn(
+          'Called storage.put before storage is ready. key:',
+          key
+        );
       }
-      var item = items.add({ id: key, value: value }, { merge: true });
-      return new Promise(function(resolve, reject) {
+      const item = items.add({ id: key, value }, { merge: true });
+      return new Promise((resolve, reject) => {
         item.save().then(resolve, reject);
       });
     },
 
-    get: function(key, defaultValue) {
-      var item = items.get('' + key);
+    get(key, defaultValue) {
+      const item = items.get(`${key}`);
       if (!item) {
         return defaultValue;
       }
       return item.get('value');
     },
 
-    remove: function(key) {
-      var item = items.get('' + key);
+    remove(key) {
+      const item = items.get(`${key}`);
       if (item) {
         items.remove(item);
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
           item.destroy().then(resolve, reject);
         });
       }
       return Promise.resolve();
     },
 
-    onready: function(callback) {
+    onready(callback) {
       if (ready) {
         callback();
       } else {
@@ -60,7 +69,7 @@
       }
     },
 
-    fetch: function() {
+    fetch() {
       return new Promise((resolve, reject) => {
         items
           .fetch({ reset: true })
@@ -76,7 +85,7 @@
       });
     },
 
-    reset: function() {
+    reset() {
       items.reset();
     },
   };

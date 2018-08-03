@@ -1,21 +1,29 @@
-var path = require('path');
-var packageJson = require('./package.json');
+const path = require('path');
+const packageJson = require('./package.json');
+const importOnce = require('node-sass-import-once');
+const rimraf = require('rimraf');
+const mkdirp = require('mkdirp');
+const spectron = require('spectron');
+const asar = require('asar');
+const fs = require('fs');
+const assert = require('assert');
 
-module.exports = function(grunt) {
-  'use strict';
+/* eslint-disable more/no-then, no-console  */
 
-  var bower = grunt.file.readJSON('bower.json');
-  var components = [];
-  for (var i in bower.concat.app) {
+module.exports = grunt => {
+  const bower = grunt.file.readJSON('bower.json');
+  const components = [];
+  // eslint-disable-next-line guard-for-in, no-restricted-syntax
+  for (const i in bower.concat.app) {
     components.push(bower.concat.app[i]);
   }
 
-  var libtextsecurecomponents = [];
-  for (i in bower.concat.libtextsecure) {
+  const libtextsecurecomponents = [];
+  // eslint-disable-next-line guard-for-in, no-restricted-syntax
+  for (const i in bower.concat.libtextsecure) {
     libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
   }
 
-  var importOnce = require('node-sass-import-once');
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.initConfig({
@@ -37,7 +45,7 @@ module.exports = function(grunt) {
         ],
         dest: 'test/test.js',
       },
-      //TODO: Move errors back down?
+      // TODO: Move errors back down?
       libtextsecure: {
         options: {
           banner: ';(function() {\n',
@@ -91,37 +99,6 @@ module.exports = function(grunt) {
         },
       },
     },
-    jshint: {
-      files: [
-        'Gruntfile.js',
-        'js/**/*.js',
-        '!js/background.js',
-        '!js/backup.js',
-        '!js/components.js',
-        '!js/database.js',
-        '!js/libsignal-protocol-worker.js',
-        '!js/libtextsecure.js',
-        '!js/logging.js',
-        '!js/expiring_messages.js',
-        '!js/modules/**/*.js',
-        '!js/Mp3LameEncoder.min.js',
-        '!js/settings_start.js',
-        '!js/signal_protocol_store.js',
-        '!js/views/clear_data_view.js',
-        '!js/views/conversation_search_view.js',
-        '!js/views/conversation_view.js',
-        '!js/views/debug_log_view.js',
-        '!js/views/file_input_view.js',
-        '!js/views/message_view.js',
-        '!js/views/settings_view.js',
-        '!js/models/conversations.js',
-        '!js/models/messages.js',
-        '!js/WebAudioRecorderMp3.js',
-        '!libtextsecure/message_receiver.js',
-        '_locales/**/*',
-      ],
-      options: { jshintrc: '.jshintrc' },
-    },
     copy: {
       deps: {
         files: [
@@ -149,10 +126,6 @@ module.exports = function(grunt) {
         files: ['./stylesheets/*.scss'],
         tasks: ['sass'],
       },
-      scripts: {
-        files: ['<%= jshint.files %>'],
-        tasks: ['jshint'],
-      },
       transpile: {
         files: ['./ts/**/*.ts'],
         tasks: ['exec:transpile'],
@@ -171,41 +144,37 @@ module.exports = function(grunt) {
     },
     'test-release': {
       osx: {
-        archive:
-          'mac/' + packageJson.productName + '.app/Contents/Resources/app.asar',
-        appUpdateYML:
-          'mac/' +
-          packageJson.productName +
-          '.app/Contents/Resources/app-update.yml',
-        exe:
-          'mac/' +
-          packageJson.productName +
-          '.app/Contents/MacOS/' +
-          packageJson.productName,
+        archive: `mac/${
+          packageJson.productName
+        }.app/Contents/Resources/app.asar`,
+        appUpdateYML: `mac/${
+          packageJson.productName
+        }.app/Contents/Resources/app-update.yml`,
+        exe: `mac/${packageJson.productName}.app/Contents/MacOS/${
+          packageJson.productName
+        }`,
       },
       mas: {
         archive: 'mas/Signal.app/Contents/Resources/app.asar',
         appUpdateYML: 'mac/Signal.app/Contents/Resources/app-update.yml',
-        exe:
-          'mas/' +
-          packageJson.productName +
-          '.app/Contents/MacOS/' +
-          packageJson.productName,
+        exe: `mas/${packageJson.productName}.app/Contents/MacOS/${
+          packageJson.productName
+        }`,
       },
       linux: {
         archive: 'linux-unpacked/resources/app.asar',
-        exe: 'linux-unpacked/' + packageJson.name,
+        exe: `linux-unpacked/${packageJson.name}`,
       },
       win: {
         archive: 'win-unpacked/resources/app.asar',
         appUpdateYML: 'win-unpacked/resources/app-update.yml',
-        exe: 'win-unpacked/' + packageJson.productName + '.exe',
+        exe: `win-unpacked/${packageJson.productName}.exe`,
       },
     },
     gitinfo: {}, // to be populated by grunt gitinfo
   });
 
-  Object.keys(grunt.config.get('pkg').devDependencies).forEach(function(key) {
+  Object.keys(grunt.config.get('pkg').devDependencies).forEach(key => {
     if (/^grunt(?!(-cli)?$)/.test(key)) {
       // ignore grunt and grunt-cli
       grunt.loadNpmTasks(key);
@@ -214,20 +183,16 @@ module.exports = function(grunt) {
 
   // Transifex does not understand placeholders, so this task patches all non-en
   // locales with missing placeholders
-  grunt.registerTask('locale-patch', function() {
-    var en = grunt.file.readJSON('_locales/en/messages.json');
-    grunt.file.recurse('_locales', function(
-      abspath,
-      rootdir,
-      subdir,
-      filename
-    ) {
+  grunt.registerTask('locale-patch', () => {
+    const en = grunt.file.readJSON('_locales/en/messages.json');
+    grunt.file.recurse('_locales', (abspath, rootdir, subdir, filename) => {
       if (subdir === 'en' || filename !== 'messages.json') {
         return;
       }
-      var messages = grunt.file.readJSON(abspath);
+      const messages = grunt.file.readJSON(abspath);
 
-      for (var key in messages) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key in messages) {
         if (en[key] !== undefined && messages[key] !== undefined) {
           if (
             en[key].placeholders !== undefined &&
@@ -238,32 +203,32 @@ module.exports = function(grunt) {
         }
       }
 
-      grunt.file.write(abspath, JSON.stringify(messages, null, 4) + '\n');
+      grunt.file.write(abspath, `${JSON.stringify(messages, null, 4)}\n`);
     });
   });
 
-  grunt.registerTask('getExpireTime', function() {
+  grunt.registerTask('getExpireTime', () => {
     grunt.task.requires('gitinfo');
-    var gitinfo = grunt.config.get('gitinfo');
-    var commited = gitinfo.local.branch.current.lastCommitTime;
-    var time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
+    const gitinfo = grunt.config.get('gitinfo');
+    const commited = gitinfo.local.branch.current.lastCommitTime;
+    const time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
     grunt.file.write(
       'config/local-production.json',
-      JSON.stringify({ buildExpiration: time }) + '\n'
+      `${JSON.stringify({ buildExpiration: time })}\n`
     );
   });
 
-  grunt.registerTask('clean-release', function() {
-    require('rimraf').sync('release');
-    require('mkdirp').sync('release');
+  grunt.registerTask('clean-release', () => {
+    rimraf.sync('release');
+    mkdirp.sync('release');
   });
 
   function runTests(environment, cb) {
-    var failure;
-    var Application = require('spectron').Application;
-    var electronBinary =
+    let failure;
+    const { Application } = spectron;
+    const electronBinary =
       process.platform === 'win32' ? 'electron.cmd' : 'electron';
-    var app = new Application({
+    const app = new Application({
       path: path.join(__dirname, 'node_modules', '.bin', electronBinary),
       args: [path.join(__dirname, 'main.js')],
       env: {
@@ -273,78 +238,71 @@ module.exports = function(grunt) {
     });
 
     function getMochaResults() {
+      // eslint-disable-next-line no-undef
       return window.mochaResults;
     }
 
     app
       .start()
-      .then(function() {
-        return app.client.waitUntil(
-          function() {
-            return app.client.execute(getMochaResults).then(function(data) {
-              return Boolean(data.value);
-            });
-          },
+      .then(() =>
+        app.client.waitUntil(
+          () =>
+            app.client
+              .execute(getMochaResults)
+              .then(data => Boolean(data.value)),
           10000,
           'Expected to find window.mochaResults set!'
-        );
-      })
-      .then(function() {
-        return app.client.execute(getMochaResults);
-      })
-      .then(function(data) {
-        var results = data.value;
+        )
+      )
+      .then(() => app.client.execute(getMochaResults))
+      .then(data => {
+        const results = data.value;
         if (results.failures > 0) {
           console.error(results.reports);
-          failure = function() {
-            grunt.fail.fatal(
-              'Found ' + results.failures + ' failing unit tests.'
-            );
-          };
+          failure = () =>
+            grunt.fail.fatal(`Found ${results.failures} failing unit tests.`);
           return app.client.log('browser');
-        } else {
-          grunt.log.ok(results.passes + ' tests passed.');
         }
+        grunt.log.ok(`${results.passes} tests passed.`);
+        return null;
       })
-      .then(function(logs) {
+      .then(logs => {
         if (logs) {
           console.error();
           console.error('Because tests failed, printing browser logs:');
           console.error(logs);
         }
       })
-      .catch(function(error) {
-        failure = function() {
+      .catch(error => {
+        failure = () =>
           grunt.fail.fatal(
-            'Something went wrong: ' + error.message + ' ' + error.stack
+            `Something went wrong: ${error.message} ${error.stack}`
           );
-        };
       })
-      .then(function() {
+      .then(() => {
         // We need to use the failure variable and this early stop to clean up before
         // shutting down. Grunt's fail methods are the only way to set the return value,
         // but they shut the process down immediately!
         if (failure) {
           console.log();
           console.log('Main process logs:');
-          return app.client.getMainProcessLogs().then(function(logs) {
-            logs.forEach(function(log) {
+          return app.client.getMainProcessLogs().then(logs => {
+            logs.forEach(log => {
               console.log(log);
             });
 
             return app.stop();
           });
-        } else {
-          return app.stop();
         }
+        return app.stop();
       })
-      .then(function() {
+      .then(() => {
         if (failure) {
           failure();
         }
         cb();
       })
-      .catch(function(error) {
+      .catch(error => {
         console.error('Second-level error:', error.message, error.stack);
         if (failure) {
           failure();
@@ -353,112 +311,111 @@ module.exports = function(grunt) {
       });
   }
 
-  grunt.registerTask('unit-tests', 'Run unit tests w/Electron', function() {
-    var environment = grunt.option('env') || 'test';
-    var done = this.async();
-
-    runTests(environment, done);
-  });
-
   grunt.registerTask(
-    'lib-unit-tests',
-    'Run libtextsecure unit tests w/Electron',
-    function() {
-      var environment = grunt.option('env') || 'test-lib';
-      var done = this.async();
+    'unit-tests',
+    'Run unit tests w/Electron',
+    function thisNeeded() {
+      const environment = grunt.option('env') || 'test';
+      const done = this.async();
 
       runTests(environment, done);
     }
   );
 
-  grunt.registerMultiTask('test-release', 'Test packaged releases', function() {
-    var dir = grunt.option('dir') || 'dist';
-    var environment = grunt.option('env') || 'production';
-    var asar = require('asar');
-    var config = this.data;
-    var archive = [dir, config.archive].join('/');
-    var files = [
-      'config/default.json',
-      'config/' + environment + '.json',
-      'config/local-' + environment + '.json',
-    ];
+  grunt.registerTask(
+    'lib-unit-tests',
+    'Run libtextsecure unit tests w/Electron',
+    function thisNeeded() {
+      const environment = grunt.option('env') || 'test-lib';
+      const done = this.async();
 
-    console.log(this.target, archive);
-    var releaseFiles = files.concat(config.files || []);
-    releaseFiles.forEach(function(fileName) {
-      console.log(fileName);
-      try {
-        asar.statFile(archive, fileName);
-        return true;
-      } catch (e) {
-        console.log(e);
-        throw new Error('Missing file ' + fileName);
-      }
-    });
-
-    if (config.appUpdateYML) {
-      var appUpdateYML = [dir, config.appUpdateYML].join('/');
-      if (require('fs').existsSync(appUpdateYML)) {
-        console.log('auto update ok');
-      } else {
-        throw new Error('Missing auto update config ' + appUpdateYML);
-      }
+      runTests(environment, done);
     }
+  );
 
-    var done = this.async();
-    // A simple test to verify a visible window is opened with a title
-    var Application = require('spectron').Application;
-    var assert = require('assert');
+  grunt.registerMultiTask(
+    'test-release',
+    'Test packaged releases',
+    function thisNeeded() {
+      const dir = grunt.option('dir') || 'dist';
+      const environment = grunt.option('env') || 'production';
+      const config = this.data;
+      const archive = [dir, config.archive].join('/');
+      const files = [
+        'config/default.json',
+        `config/${environment}.json`,
+        `config/local-${environment}.json`,
+      ];
 
-    var app = new Application({
-      path: [dir, config.exe].join('/'),
-      requireName: 'unused',
-    });
-
-    app
-      .start()
-      .then(function() {
-        return app.client.getWindowCount();
-      })
-      .then(function(count) {
-        assert.equal(count, 1);
-        console.log('window opened');
-      })
-      .then(function() {
-        // Get the window's title
-        return app.client.getTitle();
-      })
-      .then(function(title) {
-        // Verify the window's title
-        assert.equal(title, packageJson.productName);
-        console.log('title ok');
-      })
-      .then(function() {
-        assert(
-          app.chromeDriver.logLines.indexOf('NODE_ENV ' + environment) > -1
-        );
-        console.log('environment ok');
-      })
-      .then(
-        function() {
-          // Successfully completed test
-          return app.stop();
-        },
-        function(error) {
-          // Test failed!
-          return app.stop().then(function() {
-            grunt.fail.fatal(
-              'Test failed: ' + error.message + ' ' + error.stack
-            );
-          });
+      console.log(this.target, archive);
+      const releaseFiles = files.concat(config.files || []);
+      releaseFiles.forEach(fileName => {
+        console.log(fileName);
+        try {
+          asar.statFile(archive, fileName);
+          return true;
+        } catch (e) {
+          console.log(e);
+          throw new Error(`Missing file ${fileName}`);
         }
-      )
-      .then(done);
-  });
+      });
+
+      if (config.appUpdateYML) {
+        const appUpdateYML = [dir, config.appUpdateYML].join('/');
+        if (fs.existsSync(appUpdateYML)) {
+          console.log('auto update ok');
+        } else {
+          throw new Error(`Missing auto update config ${appUpdateYML}`);
+        }
+      }
+
+      const done = this.async();
+      // A simple test to verify a visible window is opened with a title
+      const { Application } = spectron;
+
+      const app = new Application({
+        path: [dir, config.exe].join('/'),
+        requireName: 'unused',
+      });
+
+      app
+        .start()
+        .then(() => app.client.getWindowCount())
+        .then(count => {
+          assert.equal(count, 1);
+          console.log('window opened');
+        })
+        .then(() =>
+          // Get the window's title
+          app.client.getTitle()
+        )
+        .then(title => {
+          // Verify the window's title
+          assert.equal(title, packageJson.productName);
+          console.log('title ok');
+        })
+        .then(() => {
+          assert(
+            app.chromeDriver.logLines.indexOf(`NODE_ENV ${environment}`) > -1
+          );
+          console.log('environment ok');
+        })
+        .then(
+          () =>
+            // Successfully completed test
+            app.stop(),
+          error =>
+            // Test failed!
+            app.stop().then(() => {
+              grunt.fail.fatal(`Test failed: ${error.message} ${error.stack}`);
+            })
+        )
+        .then(done);
+    }
+  );
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', [

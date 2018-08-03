@@ -1,85 +1,10 @@
-.conversation-title {
-  display: block;
-  line-height: 36px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 46px;
-  -webkit-user-select: text;
-}
-.conversation-name + .conversation-number {
-  &:before {
-    content: '\00b7'; // &middot
-    font-weight: bold;
-    padding: 0 5px 0 4px;
-  }
-}
-.conversation-title .verified {
-  &:before {
-    content: '\00b7'; // &middot
-    font-weight: bold;
-    padding: 0 5px 0 4px;
-  }
-}
-.conversation-title .verified-icon {
-  @include color-svg('../images/verified-check.svg', white);
-  display: inline-block;
-  width: 1.25em;
-  height: 1.25em;
-  vertical-align: text-bottom;
-}
-
 .conversation {
-  background-color: white;
+  background-color: $color-white;
   height: 100%;
   position: relative;
 
-  .conversation-loading-screen {
-    z-index: 99;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: #eee;
-    display: flex;
-    align-items: center;
-
-    .content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .container {
-      position: absolute;
-      left: 50%;
-      width: 78px;
-      transform: translate(-50%, 0);
-    }
-
-    .dot {
-      width: 14px;
-      height: 14px;
-      border: 3px solid $blue;
-      border-radius: 50%;
-      float: left;
-      margin: 0 6px;
-      transform: scale(0);
-
-      animation: loading 1500ms ease infinite 0ms;
-      &:nth-child(2) {
-        animation: loading 1500ms ease infinite 333ms;
-      }
-      &:nth-child(3) {
-        animation: loading 1500ms ease infinite 666ms;
-      }
-    }
-  }
-
   .panel,
-  .react-wrapper {
+  .panel-wrapper {
     height: calc(100% - #{$header-height});
     overflow-y: scroll;
   }
@@ -94,7 +19,7 @@
   }
 
   .main.panel,
-  .react-wrapper {
+  .panel-wrapper {
     display: flex;
     flex-direction: column;
     overflow: initial;
@@ -124,8 +49,14 @@
   }
 }
 
+.message-detail-wrapper {
+  height: calc(100% - 48px);
+  width: 100%;
+  overflow-y: auto;
+}
+
 .discussion-container {
-  background-color: #eee;
+  background-color: $color-white;
 }
 
 .key-verification {
@@ -142,10 +73,10 @@
     display: inline-block;
 
     &.verified {
-      @include color-svg('../images/verified-check.svg', $grey_d);
+      @include color-svg('../images/verified-check.svg', $color-light-90);
     }
     &.shield {
-      @include color-svg('../images/shield.svg', $grey_d);
+      @include color-svg('../images/shield.svg', $color-light-90);
     }
   }
 
@@ -199,291 +130,20 @@
   }
 }
 
-.identity-key-send-error {
-  button {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-  .explanation {
-    margin-top: 20px;
-  }
-  .safety-number {
-    margin-top: 30px;
-    text-align: center;
-  }
-  .actions {
-    margin-top: 30px;
-    text-align: center;
-  }
-}
-
-.message-detail {
-  background-color: #eee;
-
-  .message-container {
-    padding: 20px 0;
-
-    .sender {
-      display: none;
-    }
-  }
-
-  .info {
-    padding: 1em;
-
-    .label {
-      font-weight: bold;
-      padding-right: 1em;
-      vertical-align: top;
-    }
-
-    button {
-      border: none;
-      border-radius: $border-radius;
-      color: white;
-      padding: 0.5em;
-      font-weight: bold;
-
-      span {
-        vertical-align: middle;
-      }
-    }
-  }
-
-  .retries {
-    padding: 1em;
-  }
-  button.retry {
-    margin: 0.5em;
-  }
-
-  .contacts .contact-detail {
-    padding: 0 36px;
-    margin-bottom: 5px;
-
-    .status-icon-container,
-    .error-icon-container {
-      float: right;
-    }
-
-    button.error {
-      background-color: red;
-      color: white;
-
-      span.icon.error {
-        display: inline-block;
-        width: 1.25em;
-        height: 1.25em;
-        position: relative;
-        vertical-align: middle;
-        @include color-svg('../images/warning.svg', white);
-      }
-    }
-
-    .error-message {
-      margin: 6px 0 0;
-      font-size: $font-size-small;
-      font-weight: bold;
-      color: red;
-    }
-  }
-
-  h3 {
-    font-size: 1em;
-    padding: 5px;
-  }
-
-  button.cancel {
-    float: right;
-    color: $grey_d;
-    border: solid 1px #ccc;
-  }
-
-  .delete-container {
-    text-align: center;
-
-    button.delete {
-      background-color: red;
-      color: white;
-    }
-  }
-}
-.message-list {
-  .error-icon {
-    cursor: pointer;
-  }
-
-  .advisory {
-    text-align: center;
-    .content {
-      display: inline-block;
-      padding: 5px 10px;
-      background: #fff5c4;
-      border-radius: $border-radius;
-    }
-  }
-}
-li.entry .error-icon-container {
-  position: absolute;
-  top: 0;
-  left: calc(100% + 5px);
-  height: 100%;
-
-  .error-icon {
-    display: block;
-    height: 100%;
-  }
-
-  .error-message {
-    display: none;
-    position: absolute;
-    background: black;
-    color: white;
-    border-radius: $border-radius;
-    padding: 0.5em;
-    font-weight: normal;
-    bottom: calc(50% + 18px);
-    left: -84px;
-    width: 180px;
-    z-index: 10;
-
-    &:before {
-      display: block;
-      content: '';
-      position: absolute;
-      bottom: -16px;
-      left: 50%;
-      border: 6px solid transparent;
-      border-top: 10px solid #000000;
-    }
-  }
-
-  &:hover .error-message {
-    display: inline-block;
-  }
-}
-li.entry .menu-container {
-  position: absolute;
-  top: 0;
-  left: calc(100% + 5px);
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .menu-anchor {
-    position: relative;
-  }
-
-  li {
-    margin: 0px;
-  }
-
-  cursor: pointer;
-}
-
-.dots-horizontal-icon {
-  visibility: hidden;
-}
-
-li.entry:hover .dots-horizontal-icon {
-  visibility: visible;
-}
-
-li.entry.outgoing .menu-container {
-  left: auto;
-  right: calc(100% + 5px);
-}
-
-.incoming .menu-list {
-  left: 0;
-  right: auto;
-}
-
-.error-icon {
-  display: inline-block;
-  width: $error-icon-size;
-  height: $error-icon-size;
-  position: relative;
-  @include color-svg('../images/warning.svg', red);
-}
-
-.dots-horizontal-icon {
-  display: inline-block;
-  width: $error-icon-size;
-  height: $error-icon-size;
-  position: relative;
-  @include color-svg('../images/dots-horizontal.svg', gray);
-
-  &:hover {
-    @include color-svg('../images/dots-horizontal.svg', black);
-  }
-}
-
-.group {
-  li.entry .unregistered-user-error {
-    display: none;
-  }
-}
-
-.group-update {
-  font-size: smaller;
-}
-
-.private .entry .avatar,
-.private .sender,
-.outgoing .sender {
-  display: none;
-}
-
-.sender {
-  font-size: smaller;
-  opacity: 0.8;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.timestamp {
-  margin-right: 3px;
-  white-space: nowrap;
-}
-
-// There's a p.status used in the onboarding screen, so this needs to be more specific
-span.status {
-  width: 18px;
-  height: 18px;
-}
-.sent span.status {
-  display: inline-block;
-  @include color-svg('../images/check.svg', black);
-}
-.delivered span.status {
-  display: inline-block;
-  @include color-svg('../images/double-check.svg', black);
-}
-.read span.status {
-  display: inline-block;
-  @include color-svg('../images/double-check.svg', $blue);
-}
-.pending span.status {
-  display: inline-block;
-  background: none;
-  &:before {
-    content: '...';
-  }
-}
-
 .message-container,
 .message-list {
   list-style: none;
 
   li {
-    max-width: 800px;
-    margin: 0 auto 10px;
-    padding-left: 1em;
-    // we need more padding on right side because scroll bar overlaps
-    padding-right: 1.5em;
+    max-width: 736px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+
+    .message-wrapper {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
 
     &::after {
       visibility: hidden;
@@ -494,643 +154,24 @@ span.status {
       height: 0;
     }
   }
-
-  .bubble {
-    position: relative;
-    left: -2px;
-    display: inline-block;
-    vertical-align: top;
-    word-wrap: break-word;
-    margin-left: 8px;
-    max-width: 30em;
-    text-align: -webkit-auto;
-    -webkit-user-select: text;
-
-    @media (max-width: 825px) {
-      max-width: calc(
-        100% - 45px - #{$error-icon-size}
-      ); // avatar size + padding + error-icon size
-    }
-
-    .body {
-      white-space: pre-wrap;
-
-      a {
-        word-break: break-all;
-      }
-    }
-
-    .attachments + .content {
-      margin-top: 0.5em;
-    }
-    .quote-wrapper + .content {
-      margin-top: 0.5em;
-    }
-    .contact-wrapper + .content {
-      margin-top: 0.5em;
-    }
-
-    p {
-      margin: 0;
-    }
-  }
-
-  .meta {
-    font-size: smaller;
-    margin-top: 3px;
-    text-align: right;
-    line-height: 18px;
-
-    .hasRetry + .timestamp {
-      &:before {
-        content: '\00b7'; // &middot
-        font-weight: bold;
-        padding: 0 5px 0 4px;
-        text-decoration: none;
-        opacity: 0.5;
-      }
-    }
-
-    .retry {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    .some-failed {
-      float: left;
-      margin-left: 6px;
-      margin-right: 6px;
-      cursor: pointer;
-    }
-
-    .hasRetry,
-    .timestamp,
-    .status,
-    .timer {
-      float: left;
-    }
-
-    .timestamp,
-    .status {
-      cursor: pointer;
-      opacity: 0.5;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-
-  .incoming {
-    .avatar,
-    .bubble {
-      float: left;
-    }
-  }
-
-  .outgoing {
-    .meta {
-      float: right;
-    }
-    .error-icon-container {
-      left: auto;
-      right: calc(100% + 5px);
-    }
-
-    .avatar,
-    .bubble {
-      float: right;
-    }
-
-    .bubble {
-      clear: left;
-    }
-  }
-
-  @keyframes shake {
-    0% {
-      transform: translateX(0px);
-    }
-    25% {
-      transform: translateX(-5px);
-    }
-    50% {
-      transform: translateX(0px);
-    }
-    75% {
-      transform: translateX(5px);
-    }
-    100% {
-      transform: translateX(0px);
-    }
-  }
-
-  .expired .bubble {
-    animation: shake 0.2s linear 3;
-  }
-
-  .timer {
-    display: none;
-    .hourglass {
-      vertical-align: middle;
-    }
-  }
-
-  .control {
-    .bubble {
-      .content {
-        font-style: italic;
-      }
-
-      &::before,
-      &::after {
-        display: none;
-      }
-    }
-  }
-
-  .attachments {
-    a {
-      font-style: italic;
-      display: block;
-      padding: 1em;
-      background-color: #ccc;
-    }
-
-    img,
-    audio,
-    video {
-      display: block;
-      max-width: 100%;
-      max-height: 300px;
-    }
-
-    video {
-      background: black;
-      min-height: 300px;
-      min-width: 280px;
-    }
-
-    img {
-      cursor: pointer;
-    }
-
-    .fileView {
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-
-      position: relative;
-      padding: 5px;
-      padding-right: 10px;
-      padding-bottom: 0px;
-
-      cursor: pointer;
-
-      .fileName {
-        font-weight: bold;
-        margin-bottom: 0.25em;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-
-      .text {
-        overflow: hidden;
-      }
-
-      .icon,
-      .text {
-        opacity: 0.75;
-      }
-
-      &:hover {
-        .icon,
-        .text {
-          opacity: 1;
-        }
-      }
-
-      .icon {
-        margin-left: -0.5em;
-        margin-right: 0.5em;
-        display: inline-block;
-        vertical-align: middle;
-        width: $button-height * 2;
-        height: $button-height * 2;
-        @include color-svg('../images/file.svg', $grey_d);
-
-        &.audio {
-          @include color-svg('../images/audio.svg', $grey_d);
-        }
-        &.video {
-          @include color-svg('../images/video.svg', $grey_d);
-        }
-        &.voice {
-          @include color-svg('../images/voice.svg', $grey_d);
-        }
-      }
-    }
-  }
-
-  .outgoing .avatar {
-    display: none;
-  }
-
-  .bubble .content.error-message {
-    cursor: pointer;
-    font-style: italic;
-  }
 }
 
-.embedded-contact {
-  margin-top: -9px;
-  margin-left: -12px;
-  margin-right: -12px;
-
-  cursor: pointer;
-
-  button {
-    @include button-reset;
-  }
-
-  .first-line {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    margin: 8px;
-
-    .image-container {
-      flex: initial;
-      min-width: 50px;
-      width: 50px;
-      height: 50px;
-
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      object-fit: cover;
-
-      img {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .default-avatar {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        background-color: gray;
-        color: white;
-        font-size: 25px;
-        line-height: 52px;
-      }
-    }
-
-    .text-container {
-      flex-grow: 1;
-      margin-left: 8px;
-
-      .contact-name {
-        font-size: 16px;
-        font-weight: 300;
-        margin-top: 3px;
-        color: $blue;
-      }
-
-      .contact-method {
-        font-size: 14px;
-        margin-top: 6px;
-      }
+.group {
+  .message-container,
+  .message-list {
+    li .message-wrapper {
+      margin-left: 44px;
     }
   }
-
-  .send-message {
-    margin-top: 8px;
-    margin-bottom: 3px;
-    padding: 11px;
-    border-top: 1px solid $grey_l1_5;
-    border-bottom: 1px solid $grey_l1_5;
-
-    color: $blue;
-    font-weight: 300;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .inner {
-      display: flex;
-      align-items: center;
-    }
-
-    .bubble-icon {
-      height: 17px;
-      width: 18px;
-      display: inline-block;
-      margin-right: 5px;
-      @include color-svg('../images/chat-bubble.svg', $blue);
-    }
-  }
-}
-
-.incoming .embedded-contact {
-  color: white;
-
-  .text-container .contact-name {
-    color: white;
-  }
-
-  .send-message {
-    color: white;
-    // We would like to use these border colors for incoming messages, but the version
-    //   of Chromium in our Electron version doesn't render these appropriately. Both
-    //   borders disappear for some reason, and it seems to have to do with transparency.
-    // border-top: 1px solid rgba(255, 255, 255, 0.5);
-    // border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-
-    .bubble-icon {
-      background-color: white;
-    }
-  }
-}
-
-.group .incoming .embedded-contact {
-  margin-top: -2px;
 }
 
 .contact-detail-pane {
   overflow-y: scroll;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
-.contact-detail-component {
-  text-align: center;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-
-  button {
-    @include button-reset;
-  }
-
-  .image-container {
-    height: 80px;
-    width: 80px;
-    margin-bottom: 4px;
-
-    text-align: center;
-    display: inline-block;
-    object-fit: cover;
-
-    img {
-      border-radius: 50%;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .default-avatar {
-      border-radius: 50%;
-      width: 100%;
-      height: 100%;
-      background-color: gray;
-      color: white;
-      font-size: 50px;
-      line-height: 82px;
-    }
-  }
-
-  .contact-name {
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  .contact-method {
-    font-size: 14px;
-    margin-top: 10px;
-  }
-
-  .send-message {
-    cursor: pointer;
-
-    border-radius: 4px;
-    background-color: $blue;
-    display: inline-block;
-    padding: 6px;
-    margin-top: 20px;
-
-    // TODO: border
-    // TODO: gradient
-
-    color: white;
-
-    flex-direction: column;
-    align-items: center;
-
-    .inner {
-      display: flex;
-      align-items: center;
-    }
-
-    .bubble-icon {
-      height: 17px;
-      width: 18px;
-      display: inline-block;
-      margin-right: 5px;
-      @include color-svg('../images/chat-bubble.svg', white);
-    }
-  }
-
-  .additional-contact {
-    text-align: left;
-    border-top: 1px solid $grey_l1_5;
-    margin-top: 15px;
-    padding-top: 8px;
-
-    .type {
-      color: rgba(0, 0, 0, 0.5);
-      font-size: 12px;
-      margin-bottom: 3px;
-    }
-  }
-}
-
-.conversation .contact-detail-component {
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-
-.quoted-message {
-  @include message-replies-colors;
-  @include twenty-percent-colors;
-
-  &.no-click {
-    cursor: auto;
-  }
-
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  overflow: hidden;
-
-  border-radius: 2px;
-  background-color: #eee;
-  position: relative;
-
-  margin-right: $android-bubble-quote-padding -
-    $android-bubble-padding-horizontal;
-  margin-left: $android-bubble-quote-padding -
-    $android-bubble-padding-horizontal;
-  margin-bottom: 0.5em;
-
-  // Accent color border:
-  border-left-width: 3px;
-  border-left-style: solid;
-
-  .primary {
-    flex-grow: 1;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-
-    // Will turn on in the iOS theme. This extra element is necessary because the iOS
-    //   theme requires text that isn't used at all in the Android Theme
-    .ios-label {
-      display: none;
-    }
-
-    .author {
-      font-weight: bold;
-      margin-bottom: 0.3em;
-      @include text-colors;
-
-      .profile-name {
-        font-size: smaller;
-      }
-    }
-
-    .text {
-      white-space: pre-wrap;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-
-      // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-      //   ... as the truncation indicator. That's not a solution that works well for
-      //   all languages. More resources:
-      //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-      //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
-    }
-
-    .type-label {
-      font-style: italic;
-      font-size: 12px;
-    }
-
-    .filename-label {
-      font-size: 12px;
-    }
-  }
-
-  .close-container {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    height: 16px;
-    width: 16px;
-
-    background-color: rgba(255, 255, 255, 0.75);
-    border-radius: 50%;
-
-    .close-button {
-      width: 100%;
-      height: 100%;
-      @include color-svg('../images/x.svg', $grey);
-    }
-  }
-
-  .icon-container {
-    flex: initial;
-    min-width: 50px;
-    width: 50px;
-    height: 50px;
-    position: relative;
-
-    .circle-background {
-      position: absolute;
-      left: 6px;
-      right: 6px;
-      top: 6px;
-      bottom: 6px;
-
-      border-radius: 50%;
-      @include avatar-colors;
-      &.white {
-        background-color: white;
-      }
-    }
-
-    .icon {
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      top: 12px;
-      bottom: 12px;
-
-      &.file {
-        @include color-svg('../images/file.svg', white);
-      }
-      &.image {
-        @include color-svg('../images/image.svg', white);
-      }
-      &.microphone {
-        @include color-svg('../images/microphone.svg', white);
-      }
-      &.play {
-        @include color-svg('../images/play.svg', white);
-      }
-      &.movie {
-        @include color-svg('../images/movie.svg', white);
-      }
-
-      @include avatar-colors;
-    }
-
-    .inner {
-      position: relative;
-
-      height: 50px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      object-fit: cover;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-  }
-}
-
-// We only add margin if there's no 'sender' element beforehand, which is only possible
-//   on incoming messages, and only in groups (when we're not in a .private conversation).
-.outgoing .quoted-message,
-.private .incoming .quoted-message {
-  margin-top: $android-bubble-quote-padding - $android-bubble-padding-vertical;
-}
-
-.bottom-bar .quoted-message {
+.bottom-bar .module-quote {
   margin: 0;
 }
 
@@ -1139,49 +180,28 @@ span.status {
 //   height calculation.
 .bottom-bar .quote-wrapper {
   margin-right: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  margin-top: 3px;
 }
 
 .send .quote-wrapper {
-  margin-left: 46px;
-  margin-top: 5px;
-  margin-right: 75px;
-  margin-bottom: 0px;
-}
-
-.incoming .quoted-message {
-  background-color: rgba(white, 0.6);
-  border-top: none;
-  border-bottom: none;
-  border-right: none;
-  border-left-color: white;
-}
-
-.message-list,
-.message-container {
-  .avatar {
-    height: 36px;
-    width: 36px;
-    line-height: 36px;
-  }
+  margin-left: 37px;
+  margin-right: 73px;
+  margin-bottom: 5px;
 }
 
 .bottom-bar {
   box-sizing: content-box;
   $button-width: 36px;
-  padding: 5px 0px 5px 0;
-  background: $grey_l;
-
-  .compose {
-    padding-right: 5px;
-  }
 
   form.active {
-    outline: solid 1px $blue;
+    textarea {
+      border: solid 1px $blue;
+    }
   }
 
   form.send {
-    background: #ffffff;
+    background: $color-white;
 
     &.video-attachment {
       .image-container {
@@ -1210,13 +230,9 @@ span.status {
     }
   }
 
-  input,
-  textarea {
-    color: $grey_d;
-  }
-
   .attachment-previews {
     padding: 0 36px;
+    margin-bottom: 3px;
 
     .attachment-preview {
       padding: 13px 10px 0;
@@ -1256,8 +272,11 @@ span.status {
     display: block;
     max-height: 100px;
     padding: 10px;
-    margin: 0 5px;
-    border: 0;
+    margin-bottom: 6px;
+    border-radius: 20px;
+    background-color: $color-light-02;
+    color: $color-light-90;
+    border: 1px solid rgba(0, 0, 0, 0.2);
     outline: 0;
     z-index: 5;
     resize: none;
@@ -1284,7 +303,7 @@ span.status {
   margin: 0 2em 3em;
   padding: 0.5em 1.5em;
   background: rgba(0, 0, 0, 0.75);
-  color: white;
+  color: $color-white;
   box-shadow: 0 0 5px 0 black;
   border-radius: $border-radius;
   font-size: $font-size-small;
@@ -1338,109 +357,105 @@ span.status {
   }
 }
 
-.advisory .icon {
-  height: 1.25em;
-  width: 1.25em;
-  vertical-align: text-bottom;
-  display: inline-block;
-
-  &.verified {
-    @include color-svg('../images/verified-check.svg', $grey_d);
-  }
-  &.shield {
-    @include color-svg('../images/shield.svg', $grey_d);
-  }
-  &.clock {
-    @include color-svg('../images/clock.svg', $grey_d);
-  }
-}
-
-.keychange {
-  text-align: center;
-  .content {
-    cursor: pointer;
-    display: inline-block;
-    padding: 5px 10px;
-    background: #fff5c4;
-    border-radius: $border-radius;
-  }
-}
-
-.verified-change {
-  text-align: center;
+.conversation-loading-screen {
+  z-index: 99;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  background-color: $color-white;
 
   .content {
-    cursor: pointer;
-    display: inline-block;
-    padding: 5px 10px;
-    background: #fff5c4;
-    border-radius: $border-radius;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .container {
+    position: absolute;
+    left: 50%;
+    width: 120px;
+    transform: translate(-50%, 0);
+  }
+
+  .dot {
+    width: 14px;
+    height: 14px;
+    border: 3px solid $blue;
+    border-radius: 50%;
+    float: left;
+    margin: 0 6px;
+    transform: scale(0);
+
+    animation: loading 1500ms ease infinite 0ms;
+    &:nth-child(2) {
+      animation: loading 1500ms ease infinite 333ms;
+    }
+    &:nth-child(3) {
+      animation: loading 1500ms ease infinite 666ms;
+    }
   }
 }
 
-.message-list .last-seen-indicator-view {
-  // This padding is large so we clear the avatar circle extending into the conversation
-  // window.scrollIntoView() doesn't honor margins, so we're using padding
-  // padding-top is less to account for the 10px margin at the bottom of messages
+.module-last-seen-indicator {
   padding-top: 25px;
   padding-bottom: 35px;
-
-  .bar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    padding: 5px;
-
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.055);
-
-    background-color: rgba(0, 0, 0, 0.05);
-  }
-
-  .text {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    background-color: white;
-    border-radius: 1.5em;
-    padding: 10px 21px 9px 21px;
-  }
+  margin-left: 28px;
+  margin-right: 28px;
 }
 
-.discussion-container .scroll-down-button-view {
+.module-last-seen-indicator__bar {
+  background-color: $color-light-60;
+  width: 100%;
+  height: 4px;
+}
+
+.module-last-seen-indicator__text {
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+
+  text-align: center;
+  color: $color-light-90;
+}
+
+.module-scroll-down {
   position: absolute;
   right: 20px;
   bottom: 10px;
+}
 
-  button {
-    height: 44px;
-    width: 44px;
-    border-radius: 22px;
-    text-align: center;
-    background-color: white;
-    border: none;
-    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-    outline: none;
+.module-scroll-down__button {
+  height: 44px;
+  width: 44px;
+  border-radius: 22px;
+  text-align: center;
+  background-color: $color-light-35;
+  border: none;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+  outline: none;
 
-    .icon {
-      @include color-svg('../images/down.svg', $grey_l3);
-      height: 100%;
-      width: 100%;
-    }
-    .icon:hover {
-      background-color: #616161;
-    }
-
-    &.new-messages {
-      background-color: $blue;
-      .icon {
-        @include color-svg('../images/down.svg', white);
-      }
-
-      &:hover {
-        background-color: #1472bd;
-      }
-    }
+  &:hover {
+    background-color: $color-light-45;
   }
+}
+
+.module-scroll-down__button--new-messages {
+  background-color: $color-signal-blue;
+
+  &:hover {
+    background-color: #1472bd;
+  }
+}
+
+.module-scroll-down__icon {
+  @include color-svg('../images/down.svg', $color-white);
+  height: 100%;
+  width: 100%;
 }

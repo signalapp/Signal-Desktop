@@ -5,6 +5,23 @@
 'use strict';
 
 describe('AttachmentView', () => {
+  var convo, message;
+
+  before(async () => {
+    await clearDatabase();
+
+    convo = new Whisper.Conversation({ id: 'foo' });
+    message = convo.messageCollection.add({
+      conversationId: convo.id,
+      body: 'hello world',
+      type: 'outgoing',
+      source: '+14158675309',
+      received_at: Date.now(),
+    });
+
+    await storage.put('number_id', '+18088888888.1');
+  });
+
   describe('with arbitrary files', () => {
     it('should render a file view', () => {
       const attachment = {

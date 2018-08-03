@@ -1,3 +1,5 @@
+/* global window */
+
 const { isString, last } = require('lodash');
 
 const { runMigrations } = require('./run_migrations');
@@ -12,8 +14,8 @@ const migrations = [
   {
     version: '12.0',
     migrate(transaction, next) {
-      console.log('Migration 12');
-      console.log('creating object stores');
+      window.log.info('Migration 12');
+      window.log.info('creating object stores');
       const messages = transaction.db.createObjectStore('messages');
       messages.createIndex('conversation', ['conversationId', 'received_at'], {
         unique: false,
@@ -46,7 +48,7 @@ const migrations = [
       transaction.db.createObjectStore('signedPreKeys');
       transaction.db.createObjectStore('items');
 
-      console.log('creating debug log');
+      window.log.info('creating debug log');
       transaction.db.createObjectStore('debug');
 
       next();
@@ -55,8 +57,8 @@ const migrations = [
   {
     version: '13.0',
     migrate(transaction, next) {
-      console.log('Migration 13');
-      console.log('Adding fields to identity keys');
+      window.log.info('Migration 13');
+      window.log.info('Adding fields to identity keys');
       const identityKeys = transaction.objectStore('identityKeys');
       const request = identityKeys.openCursor();
       const promises = [];
@@ -72,9 +74,9 @@ const migrations = [
             new Promise((resolve, reject) => {
               const putRequest = identityKeys.put(attributes, attributes.id);
               putRequest.onsuccess = resolve;
-              putRequest.onerror = e => {
-                console.log(e);
-                reject(e);
+              putRequest.onerror = error => {
+                window.log.error(error && error.stack ? error.stack : error);
+                reject(error);
               };
             })
           );
@@ -88,15 +90,15 @@ const migrations = [
         }
       };
       request.onerror = event => {
-        console.log(event);
+        window.log.error(event);
       };
     },
   },
   {
     version: '14.0',
     migrate(transaction, next) {
-      console.log('Migration 14');
-      console.log('Adding unprocessed message store');
+      window.log.info('Migration 14');
+      window.log.info('Adding unprocessed message store');
       const unprocessed = transaction.db.createObjectStore('unprocessed');
       unprocessed.createIndex('received', 'timestamp', { unique: false });
       next();
@@ -105,8 +107,8 @@ const migrations = [
   {
     version: '15.0',
     migrate(transaction, next) {
-      console.log('Migration 15');
-      console.log('Adding messages index for de-duplication');
+      window.log.info('Migration 15');
+      window.log.info('Adding messages index for de-duplication');
       const messages = transaction.objectStore('messages');
       messages.createIndex('unique', ['source', 'sourceDevice', 'sent_at'], {
         unique: true,
@@ -117,8 +119,8 @@ const migrations = [
   {
     version: '16.0',
     migrate(transaction, next) {
-      console.log('Migration 16');
-      console.log('Dropping log table, since we now log to disk');
+      window.log.info('Migration 16');
+      window.log.info('Dropping log table, since we now log to disk');
       transaction.db.deleteObjectStore('debug');
       next();
     },
@@ -126,19 +128,21 @@ const migrations = [
   {
     version: 17,
     async migrate(transaction, next) {
-      console.log('Migration 17');
+      window.log.info('Migration 17');
 
       const start = Date.now();
 
       const messagesStore = transaction.objectStore('messages');
-      console.log('Create index from attachment schema version to attachment');
+      window.log.info(
+        'Create index from attachment schema version to attachment'
+      );
       messagesStore.createIndex('schemaVersion', 'schemaVersion', {
         unique: false,
       });
 
       const duration = Date.now() - start;
 
-      console.log(
+      window.log.info(
         'Complete migration to database version 17',
         `Duration: ${duration}ms`
       );
@@ -148,13 +152,13 @@ const migrations = [
   {
     version: 18,
     migrate(transaction, next) {
-      console.log('Migration 18');
+      window.log.info('Migration 18');
 
       const start = Date.now();
-      Migration18.run(transaction);
+      Migration18.run({ transaction, logger: window.log });
       const duration = Date.now() - start;
 
-      console.log(
+      window.log.info(
         'Complete migration to database version 18',
         `Duration: ${duration}ms`
       );
@@ -169,9 +173,10 @@ const database = {
   migrations,
 };
 
-exports.run = ({ Backbone, databaseName } = {}) =>
+exports.run = ({ Backbone, databaseName, logger } = {}) =>
   runMigrations({
     Backbone,
+    logger,
     database: Object.assign(
       {},
       database,

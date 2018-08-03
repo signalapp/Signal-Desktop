@@ -34,7 +34,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
 
     // though we have a logger, we still remap console to log to disk
-    'no-console': 'off',
+    'no-console': 'error',
 
     // consistently place operators at end of line except ternaries
     'operator-linebreak': 'error',

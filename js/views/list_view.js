@@ -1,5 +1,9 @@
+/* global Backbone, Whisper, _ */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   /*
@@ -9,27 +13,28 @@
   Whisper.ListView = Backbone.View.extend({
     tagName: 'ul',
     itemView: Backbone.View,
-    initialize: function(options) {
+    initialize(options) {
       this.options = options || {};
       this.listenTo(this.collection, 'add', this.addOne);
       this.listenTo(this.collection, 'reset', this.addAll);
     },
 
-    addOne: function(model) {
+    addOne(model) {
       if (this.itemView) {
-        var options = _.extend({}, this.options.toInclude, { model: model });
-        var view = new this.itemView(options);
+        const options = _.extend({}, this.options.toInclude, { model });
+        // eslint-disable-next-line new-cap
+        const view = new this.itemView(options);
         this.$el.append(view.render().el);
         this.$el.trigger('add');
       }
     },
 
-    addAll: function() {
+    addAll() {
       this.$el.html('');
       this.collection.each(this.addOne, this);
     },
 
-    render: function() {
+    render() {
       this.addAll();
       return this;
     },

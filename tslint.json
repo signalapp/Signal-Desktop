@@ -3,14 +3,8 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-microsoft-contrib"],
   "jsRules": {},
   "rules": {
-    "align": [
-      true,
-      "arguments",
-      "elements",
-      "members",
-      "parameters",
-      "statements"
-    ],
+    // prettier is handling this
+    "align": [false],
     "array-type": [true, "generic"],
 
     // Preferred by Prettier:

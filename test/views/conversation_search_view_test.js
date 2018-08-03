@@ -24,20 +24,26 @@ describe('ConversationSearchView', function() {
     });
   });
   describe('Searching for left groups', function() {
-    var convo = new Whisper.ConversationCollection().add({
-      id: 'a-left-group',
-      name: 'i left this group',
-      members: [],
-      type: 'group',
-      left: true,
-    });
+    let convo;
+
     before(() => {
+      convo = new Whisper.ConversationCollection().add({
+        id: 'a-left-group',
+        name: 'i left this group',
+        members: [],
+        type: 'group',
+        left: true,
+      });
+
       return wrapDeferred(convo.save());
     });
     describe('with no messages', function() {
-      var input = $('<input>');
-      var view = new Whisper.ConversationSearchView({ input: input }).render();
+      var input;
+      var view;
+
       before(function(done) {
+        input = $('<input>');
+        view = new Whisper.ConversationSearchView({ input: input }).render();
         view.$input.val('left');
         view.filterContacts();
         view.typeahead_view.collection.on('reset', function() {
@@ -52,9 +58,11 @@ describe('ConversationSearchView', function() {
       });
     });
     describe('with messages', function() {
-      var input = $('<input>');
-      var view = new Whisper.ConversationSearchView({ input: input }).render();
+      var input;
+      var view;
       before(function(done) {
+        input = $('<input>');
+        view = new Whisper.ConversationSearchView({ input: input }).render();
         convo.save({ lastMessage: 'asdf' }).then(function() {
           view.$input.val('left');
           view.filterContacts();
@@ -72,17 +80,22 @@ describe('ConversationSearchView', function() {
     });
   });
   describe('Showing all contacts', function() {
-    var input = $('<input>');
-    var view = new Whisper.ConversationSearchView({ input: input }).render();
-    view.showAllContacts = true;
-    var convo = new Whisper.ConversationCollection().add({
-      id: 'a-left-group',
-      name: 'i left this group',
-      members: [],
-      type: 'group',
-      left: true,
-    });
+    let input;
+    let view;
+    let convo;
+
     before(() => {
+      input = $('<input>');
+      view = new Whisper.ConversationSearchView({ input: input }).render();
+      view.showAllContacts = true;
+      convo = new Whisper.ConversationCollection().add({
+        id: 'a-left-group',
+        name: 'i left this group',
+        members: [],
+        type: 'group',
+        left: true,
+      });
+
       return wrapDeferred(convo.save());
     });
     describe('with no messages', function() {

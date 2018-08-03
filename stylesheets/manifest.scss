@@ -5,7 +5,6 @@
 
 // Components
 @import 'progress';
-@import 'hourglass';
 @import 'modal';
 @import 'debugLog';
 @import 'lightbox';
@@ -16,9 +15,10 @@
 // Build the main view
 @import 'index';
 @import 'conversation';
-@import 'ios';
-@import 'android';
-@import 'android-dark';
+@import 'theme_dark';
+
+// New CSS
+@import 'modules';
 
 // Installer
 @import 'options';

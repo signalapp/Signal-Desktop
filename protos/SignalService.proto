@@ -302,4 +302,5 @@ message GroupDetails {
   optional Avatar avatar      = 4;
   optional bool   active      = 5 [default = true];
   optional uint32 expireTimer = 6;
+  optional string color       = 7;
 }

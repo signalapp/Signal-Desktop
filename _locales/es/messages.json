@@ -15,6 +15,10 @@
         "message": "Ver más",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "appMenuHideOthers": {
+        "message": "Ocultar otras",
+        "description": "Application menu command to hide all other windows"
+    },
     "linkedDevices": {
         "message": "Dispositivos enlazados",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
@@ -97,6 +101,16 @@
         "message": "¡Conseguido!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
+    "minutesAgoShort": {
+        "message": "$minutes$ m",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "timestamp_m": {
         "message": "1 minuto",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -117,13 +131,25 @@
         "message": "¡Entendido!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "appMenuQuit": {
+        "message": "Cerrar Signal",
+        "description": "Application menu command to close the application"
+    },
     "disappearingMessages": {
         "message": "Mensajes con caducidad",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "editMenuCut": {
+        "message": "Cortar",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
     "deleteWarning": {
         "message": "¿Estás seguro? Al hacer clic en «eliminar» se eliminará permanentemente este mensaje de este dispositivo.",
         "description": ""
+    },
+    "verifyNewNumber": {
+        "message": "Verificar cifras de seguridad",
+        "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
         "message": "Detalles",
@@ -156,12 +182,16 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "clickToSave": {
-        "message": "Toca para guardar",
+        "message": "Haz clic para guardar",
         "description": "Hover text for attachment filenames"
     },
     "messagesBelow": {
         "message": "Mensajes nuevos abajo",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
+    "editMenuSelectAll": {
+        "message": "Seleccionar todo",
+        "description": "Edit menu comand to select all of the text in selected text box"
     },
     "resetSession": {
         "message": "Reiniciar sesión",
@@ -184,12 +214,16 @@
         "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
-        "message": "Bienvenido a Signal",
+        "message": "Bienvenida a Signal",
         "description": ""
     },
     "checkNetworkConnection": {
         "message": "Comprueba la conexión de red.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
+    "youDisabledDisappearingMessages": {
+        "message": "Has desactivado los mensajes con caducidad",
+        "description": "Displayed in the conversation list when the timer is turned off"
     },
     "notificationSettingsDialog": {
         "message": "Al recibir mensajes, las notificaciones muestran:",
@@ -202,6 +236,10 @@
     "timerOption_0_seconds_abbreviated": {
         "message": "inactivo",
         "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "imageFailedToLoad": {
+        "message": "Fallo al cargar la imagen",
+        "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
         "message": "Borrar datos",
@@ -226,6 +264,10 @@
     "poBox": {
         "message": "apdo. de correos",
         "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "themeLight": {
+        "message": "Claro",
+        "description": "Label text for light theme (normal)"
     },
     "delete": {
         "message": "Eliminar",
@@ -255,6 +297,24 @@
         "message": "teléfono",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$ h",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "deleteThisMessage": {
+        "message": "Eliminar este mensaje",
+        "description": ""
+    },
+    "editMenuPaste": {
+        "message": "Pegar",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
     "changedRecently": {
         "message": "Las cifras de seguridad con $name$ han cambiado recientemente, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -281,6 +341,10 @@
         "message": "Cargando contactos y mensajes",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Comprobar la ortografía al escribir el mensaje",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
         "message": "$name$ ha fijado la caducidad de mensajes a $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -298,6 +362,10 @@
     "timestamp_s": {
         "message": "ahora",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "viewMenuZoomOut": {
+        "message": "Reducir",
+        "description": "View menu command to make everything smaller"
     },
     "mainMenuSettings": {
         "message": "Ajustes...",
@@ -320,6 +388,10 @@
     "timerOption_1_day": {
         "message": "1 día ",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "editMenuUndo": {
+        "message": "Deshacer",
+        "description": "Edit menu command to remove recently-typed text"
     },
     "reportIssue": {
         "message": "Informar de un problema",
@@ -349,6 +421,14 @@
         "message": "Más tarde",
         "description": ""
     },
+    "justNow": {
+        "message": "ahora",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "mediaPermissionsDescription": {
+        "message": "Permitir acesso a cámara y micrófono",
+        "description": "Description of the media permission description"
+    },
     "from": {
         "message": "De",
         "description": "Label for the sender of a message"
@@ -369,6 +449,10 @@
         "message": "Vuelve a vincular Signal Desktop con tu teléfono móvil para continuar intercambiando mensajes.",
         "description": ""
     },
+    "safetyNumberChanged": {
+        "message": "Las cifras de seguridad han cambiado",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
     "today": {
         "message": "Hoy",
         "description": "Section header in the media gallery"
@@ -381,13 +465,31 @@
         "message": "Enlaza tu teléfono con Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
+    "multipleLeftTheGroup": {
+        "message": "$name$ abandonó el grupo.",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "newPhoneNumber": {
         "message": "Introduce un número de teléfono para añadir un contacto.",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "viewMenuZoomIn": {
+        "message": "Aumentar",
+        "description": "View menu command to make everything bigger"
+    },
     "viewAllMedia": {
         "message": "Ver todos los adjuntos",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "windowMenuBringAllToFront": {
+        "message": "Todas al frente",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "importErrorFirst": {
         "message": "Asegúrate de haber seleccionado la carpeta correcta que contiene tus datos de Signal. El nombre suele comenzar por 'Signal Export'. También puedes guardar una copia nueva de tus datos desde la aplicación de Chrome.",
@@ -403,17 +505,27 @@
             }
         }
     },
+    "timerOption_1_hour": {
+        "message": "1 hora",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "video": {
         "message": "Vídeo",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
+    "safetyNumberChangedGroup": {
+        "message": "Las cifras de seguridad con $name$ han cambiado",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Introducir nombre o número",
         "description": "Placeholder text in the search input"
-    },
-    "someRecipientsFailed": {
-        "message": "Fallo al enviar a algunos contactos.",
-        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Ni nombre ni mensaje",
@@ -431,12 +543,20 @@
         "message": "Desvinculado",
         "description": ""
     },
+    "imageAttachmentAlt": {
+        "message": "Imagen adjunta al mensaje",
+        "description": "Used in alt tag of image attachment"
+    },
     "learnMore": {
         "message": "Más información sobre verificación de cifras de seguridad",
         "description": "Text that links to a support article on verifying safety numbers"
     },
+    "signalDesktopPreferences": {
+        "message": "Ajustes de Signal",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "timerSetOnSync": {
-        "message": "Actualizando temporizador a $time$.",
+        "message": "Actualizando temporizador de caducidad a $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -463,6 +583,10 @@
         "message": "Lo sentimos, ya tienes demasiados dispositivos vinculados. Prueba a eliminar algunos.",
         "description": ""
     },
+    "allowAccess": {
+        "message": "Permitir acceso",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
     "joinedTheGroup": {
         "message": "$name$ se unió al grupo. ",
         "description": "Shown in the conversation history when a single person joins the group",
@@ -485,13 +609,17 @@
         "message": "Configurar con datos a importar",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Mensajes con caducidad desactivados",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "Fallo al cargar la captura de vídeo",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
     "timerOption_30_minutes_abbreviated": {
         "message": "30 m",
         "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "themeAndroidDark": {
-        "message": "Android (oscuro)",
-        "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1 m",
@@ -537,6 +665,10 @@
         "message": "Actualizar",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "moreInfo": {
+        "message": "Más detalles ...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
     "notificationMostRecent": {
         "message": "Más reciente:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
@@ -551,9 +683,17 @@
             }
         }
     },
+    "windowMenuClose": {
+        "message": "Cerrar ventana",
+        "description": "Window menu command to close the current window"
+    },
     "showLess": {
         "message": "Ocultar detalles",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Comprobar ortografía",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Tema",
@@ -566,6 +706,16 @@
     "newIdentity": {
         "message": "Nuevas cifras de seguridad",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ ha desactivado los mensajes con caducidad",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "La privacidad es posible. Signal lo hace fácil.",
@@ -612,6 +762,10 @@
     "timerOption_12_hours_abbreviated": {
         "message": "12 h",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "Pegar texto sin formato",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "signalSettings": {
         "message": "Ajustes de Signal",
@@ -676,8 +830,14 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Avatar del contacto",
-        "description": "Used in the alt tag for the image avatar of a contact"
+        "message": "Avatar del contacto $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "received": {
         "message": "Recibido",
@@ -685,13 +845,17 @@
     },
     "youMarkedAsNotVerified": {
         "message": "Has marcado las cifras de seguridad con $name$ como no verificadas.",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
                 "example": "Bob"
             }
         }
+    },
+    "timerOption_1_minute": {
+        "message": "1 minuto",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "isVerified": {
         "message": "Has verificado las cifras de seguridad con $name$.",
@@ -723,6 +887,10 @@
         "message": "Informar de un problema",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
+    "permissions": {
+        "message": "Permisos",
+        "description": "Header for permissions section of settings"
+    },
     "loadDataDescription": {
         "message": "Si ya has exportado tus datos desde la antigua aplicación de Signal, tus contactos y mensajes están a salvo en tu ordenador. Selecciona la carpeta donde has guardado los datos de Signal.",
         "description": "Introduction to the process of importing messages and contacts from disk"
@@ -753,7 +921,7 @@
     },
     "deleteMessage": {
         "message": "Eliminar este mensaje",
-        "description": ""
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
         "message": "Elige un nombre para este dispositivo",
@@ -771,17 +939,31 @@
         "message": "inactivo",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
+    "editMenuRedo": {
+        "message": "Rehacer",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
     "invalidNumberError": {
         "message": "Número incorrecto",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
-        "message": "Bienvenido a Signal Desktop",
+        "message": "Bienvenida a Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
         "message": "Mensaje nuevo abajo ",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "hoursAgo": {
+        "message": "Hace $hours$ hora(s)",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "menuSetupAsNewDevice": {
         "message": "Configurar como nuevo dispositivo",
@@ -795,10 +977,6 @@
         "message": "Retirar marca de verificación",
         "description": ""
     },
-    "messageNotSent": {
-        "message": "Mensaje no enviado.",
-        "description": "Informational label, appears on messages that failed to send"
-    },
     "initialSync": {
         "message": "Sincronizando contactos y grupos",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
@@ -806,6 +984,10 @@
     "mainMenuView": {
         "message": "&Ver",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "appMenuHide": {
+        "message": "Ocultar",
+        "description": "Application menu command to hide the window"
     },
     "autoUpdateNewVersionMessage": {
         "message": "Hay una nueva versión de Signal disponible.",
@@ -827,10 +1009,6 @@
         "message": "Adjuntos",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
-    "noContents": {
-        "message": "Mensaje sin contenido",
-        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
-    },
     "cancel": {
         "message": "Cancelar",
         "description": ""
@@ -846,6 +1024,10 @@
     "unnamedFile": {
         "message": "Fichero sin nombre",
         "description": "Hover text for attachment filenames"
+    },
+    "timerOption_5_minutes": {
+        "message": "5 minutos",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendAnyway": {
         "message": "Enviar de todos modos",
@@ -885,6 +1067,14 @@
         "message": "5 segundos",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "debugLogError": {
+        "message": "Ha habido un fallo al adjuntar el archivo con el registro de depuración. Considera añadir el archivo manualmente al enviar el informe del fallo. ",
+        "description": ""
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Activar herramientas de desarrolladores",
+        "description": "View menu command to show or hide the developer tools"
+    },
     "showMembers": {
         "message": "Mostrar miembros",
         "description": ""
@@ -902,6 +1092,10 @@
     "email": {
         "message": "email",
         "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "viewMenuResetZoom": {
+        "message": "Tamaño original",
+        "description": "View menu command to go back to the default zoom"
     },
     "goToSupportPage": {
         "message": "Ir a la página de soporte",
@@ -929,6 +1123,10 @@
         "message": "Cargando…",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
+    "audioPermissionNeeded": {
+        "message": "Para enviar notas de voz, permite a Signal acceder al micrófono.",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
     "newMessages": {
         "message": "Mensajes nuevos",
         "description": "Displayed in notifications for multiple messages"
@@ -953,19 +1151,13 @@
         "message": "Enviar",
         "description": ""
     },
-    "keychanged": {
-        "message": "Las cifras de seguridad con $name$ han cambiado. Haz clic para mostrar.",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "updatedTheGroup": {
         "message": "Grupo actualizado.",
         "description": "Shown in the conversation history when someone updates the group"
+    },
+    "themeDark": {
+        "message": "Oscuro",
+        "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
         "message": "Las cifras de seguridad con $name$ han cambiado, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.  Tal vez desees verificar las cifras de seguridad con este contacto.",
@@ -985,9 +1177,17 @@
         "message": "A",
         "description": "Label for the receiver of a message"
     },
+    "windowMenuMinimize": {
+        "message": "Minimizar",
+        "description": "Window menu command to minimize the current window"
+    },
     "timerOption_1_hour_abbreviated": {
         "message": "1 h",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Terminar de hablar",
+        "description": "Edit menu item under 'speech' to stop dictation"
     },
     "optimizingApplication": {
         "message": "Optimizando la aplicación...",
@@ -1001,6 +1201,10 @@
         "message": "Detalles de mensaje",
         "description": ""
     },
+    "timerOption_12_hours": {
+        "message": "12 horas",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "mainMenuFile": {
         "message": "&Archivo",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -1009,13 +1213,25 @@
         "message": "Marcar como verificado",
         "description": ""
     },
+    "sendFailed": {
+        "message": "Fallo al enviar",
+        "description": "Shown on outgoing message if it fails to send"
+    },
     "clearDataHeader": {
         "message": "Limpiar datos",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
+    "viewMenuToggleFullScreen": {
+        "message": "Activar pantalla completa",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
     "timerOption_10_seconds_abbreviated": {
         "message": "10 s",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes": {
+        "message": "30 minutos",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
         "message": "Enlazar nuevo dispositivo",
@@ -1041,9 +1257,21 @@
         "message": "Las cifras de seguridad con este contacto han cambiado, lo que significaría que, o bien alguien has tratado de interceptar la comunicación, o que este contacto simplemente ha reinstalado Signal. Tal vez desees verificar las nuevas cifras de seguridad.",
         "description": ""
     },
+    "appMenuUnhide": {
+        "message": "Mostrar todas",
+        "description": "Application menu command to show all application windows"
+    },
     "changedSinceVerifiedMultiple": {
         "message": "Las cifras de seguridad con varios miembros de este grupo han cambiado desde la última vez que las verificaste, lo que significaría que alguien ha tratado de interceptar la comunicación o que simplemente han reinstalado Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "showSettings": {
+        "message": "Mostrar ajustes",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "editMenuCopy": {
+        "message": "Copiar",
+        "description": "Edit menu command to add selected text to clipboard"
     },
     "loadDataHeader": {
         "message": "Carga tus datos",
@@ -1062,7 +1290,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "Nuevo nombre del grupo: $name$.",
+        "message": "El grupo ha pasado a llamarse «$name$».",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1070,6 +1298,10 @@
                 "example": "Book Club"
             }
         }
+    },
+    "retrySend": {
+        "message": "Volver a enviar",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
         "message": "Las cifras de seguridad que estás intentando verificar han cambiado. Revisa las nuevas cifras de seguridad con $name$. Recuerda que este cambio podría significar que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
@@ -1081,15 +1313,31 @@
             }
         }
     },
+    "timerOption_6_hours": {
+        "message": "6 horas",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "videoAttachmentAlt": {
+        "message": "Captura de vídeo adjunta al mensaje",
+        "description": "Used in alt tag of video attachment preview"
+    },
     "timerSetTo": {
         "message": "Caducidad de mensajes fijada a $time$",
-        "description": "Displayed in the conversation list when the timer is updated.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
                 "example": "1w"
             }
         }
+    },
+    "editMenuDelete": {
+        "message": "Eliminar",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "windowMenuZoom": {
+        "message": "Zoom",
+        "description": "Window menu command to make the current window the size of the whole screen"
     },
     "autoUpdateNewVersionTitle": {
         "message": "Actualización de Signal disponible",
@@ -1103,16 +1351,26 @@
         "message": "Audio",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
+    "editMenuStartSpeaking": {
+        "message": "Comenzar a hablar",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "minutesAgo": {
+        "message": "Hace $minutes$ minuto(s)",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "notifications": {
         "message": "Notificaciones",
         "description": "Header for notification settings"
     },
-    "resend": {
-        "message": "Reenviar",
-        "description": ""
-    },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Has marcado las cifras de seguridad con $name$ como verificadas en otro dispositivo.",
+        "message": "Has marcado las cifras de seguridad con $name$ como verificadas en otro dispositivo",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

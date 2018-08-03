@@ -1,10 +1,15 @@
+/* global Backbone, Whisper, storage, _, ConversationController, $ */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};
 
   Whisper.AppView = Backbone.View.extend({
-    initialize: function(options) {
+    initialize() {
       this.inboxView = null;
       this.installView = null;
 
@@ -15,39 +20,41 @@
       'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
       openInbox: 'openInbox',
     },
-    applyTheme: function() {
-      var theme = storage.get('theme-setting') || 'android';
+    applyTheme() {
+      const theme = storage.get('theme-setting') || 'light';
       this.$el
-        .removeClass('ios')
-        .removeClass('android-dark')
-        .removeClass('android')
-        .addClass(theme);
+        .removeClass('light-theme')
+        .removeClass('dark-theme')
+        .addClass(`${theme}-theme`);
     },
-    applyHideMenu: function() {
-      var hideMenuBar = storage.get('hide-menu-bar', false);
+    applyHideMenu() {
+      const hideMenuBar = storage.get('hide-menu-bar', false);
       window.setAutoHideMenuBar(hideMenuBar);
       window.setMenuBarVisibility(!hideMenuBar);
     },
-    openView: function(view) {
+    openView(view) {
       this.el.innerHTML = '';
       this.el.append(view.el);
       this.delegateEvents();
     },
-    openDebugLog: function() {
+    openDebugLog() {
       this.closeDebugLog();
       this.debugLogView = new Whisper.DebugLogView();
       this.debugLogView.$el.appendTo(this.el);
     },
-    closeDebugLog: function() {
+    closeDebugLog() {
       if (this.debugLogView) {
         this.debugLogView.remove();
         this.debugLogView = null;
       }
     },
-    openImporter: function() {
+    openImporter() {
       window.addSetupMenuItems();
       this.resetViews();
-      var importView = (this.importView = new Whisper.ImportView());
+
+      const importView = new Whisper.ImportView();
+      this.importView = importView;
+
       this.listenTo(
         importView,
         'light-import',
@@ -55,21 +62,19 @@
       );
       this.openView(this.importView);
     },
-    finishLightImport: function() {
-      var options = {
+    finishLightImport() {
+      const options = {
         hasExistingData: true,
       };
       this.openInstaller(options);
     },
-    closeImporter: function() {
+    closeImporter() {
       if (this.importView) {
         this.importView.remove();
         this.importView = null;
       }
     },
-    openInstaller: function(options) {
-      options = options || {};
-
+    openInstaller(options = {}) {
       // If we're in the middle of import, we don't want to show the menu options
       //   allowing the user to switch to other ways to set up the app. If they
       //   switched back and forth in the middle of a light import, they'd lose all
@@ -79,16 +84,18 @@
       }
 
       this.resetViews();
-      var installView = (this.installView = new Whisper.InstallView(options));
+      const installView = new Whisper.InstallView(options);
+      this.installView = installView;
+
       this.openView(this.installView);
     },
-    closeInstaller: function() {
+    closeInstaller() {
       if (this.installView) {
         this.installView.remove();
         this.installView = null;
       }
     },
-    openStandalone: function() {
+    openStandalone() {
       if (window.getEnvironment() !== 'production') {
         window.addSetupMenuItems();
         this.resetViews();
@@ -96,19 +103,18 @@
         this.openView(this.standaloneView);
       }
     },
-    closeStandalone: function() {
+    closeStandalone() {
       if (this.standaloneView) {
         this.standaloneView.remove();
         this.standaloneView = null;
       }
     },
-    resetViews: function() {
+    resetViews() {
       this.closeInstaller();
       this.closeImporter();
       this.closeStandalone();
     },
-    openInbox: function(options) {
-      options = options || {};
+    openInbox(options = {}) {
       // The inbox can be created before the 'empty' event fires or afterwards. If
       //   before, it's straightforward: the onEmpty() handler below updates the
       //   view directly, and we're in good shape. If we create the inbox late, we
@@ -123,7 +129,7 @@
       //     this.initialLoadComplete. An example of this: on a phone-pairing setup.
       _.defaults(options, { initialLoadComplete: this.initialLoadComplete });
 
-      console.log('open inbox');
+      window.log.info('open inbox');
       this.closeInstaller();
 
       if (!this.inboxView) {
@@ -131,44 +137,38 @@
         //   this.initialLoadComplete between the start of this method and the
         //   creation of inboxView.
         this.inboxView = new Whisper.InboxView({
-          model: self,
-          window: window,
+          window,
           initialLoadComplete: options.initialLoadComplete,
         });
-        return ConversationController.loadPromise().then(
-          function() {
-            this.openView(this.inboxView);
-          }.bind(this)
-        );
-      } else {
-        if (!$.contains(this.el, this.inboxView.el)) {
+        return ConversationController.loadPromise().then(() => {
           this.openView(this.inboxView);
-        }
-        window.focus(); // FIXME
-        return Promise.resolve();
+        });
       }
+      if (!$.contains(this.el, this.inboxView.el)) {
+        this.openView(this.inboxView);
+      }
+      window.focus(); // FIXME
+      return Promise.resolve();
     },
-    onEmpty: function() {
-      var view = this.inboxView;
+    onEmpty() {
+      const view = this.inboxView;
 
       this.initialLoadComplete = true;
       if (view) {
         view.onEmpty();
       }
     },
-    onProgress: function(count) {
-      var view = this.inboxView;
+    onProgress(count) {
+      const view = this.inboxView;
       if (view) {
         view.onProgress(count);
       }
     },
-    openConversation: function(conversation) {
+    openConversation(conversation) {
       if (conversation) {
-        this.openInbox().then(
-          function() {
-            this.inboxView.openConversation(null, conversation);
-          }.bind(this)
-        );
+        this.openInbox().then(() => {
+          this.inboxView.openConversation(conversation);
+        });
       }
     },
   });

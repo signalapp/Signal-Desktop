@@ -1,3 +1,6 @@
+/* global Whisper, extension, Backbone, moment, i18n */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
 
@@ -6,15 +9,13 @@
   Whisper.NetworkStatusView = Whisper.View.extend({
     className: 'network-status',
     templateName: 'networkStatus',
-    initialize: function() {
+    initialize() {
       this.$el.hide();
 
       this.renderIntervalHandle = setInterval(this.update.bind(this), 5000);
-      extension.windows.onClosed(
-        function() {
-          clearInterval(this.renderIntervalHandle);
-        }.bind(this)
-      );
+      extension.windows.onClosed(() => {
+        clearInterval(this.renderIntervalHandle);
+      });
 
       setTimeout(this.finishConnectingGracePeriod.bind(this), 5000);
 
@@ -27,29 +28,29 @@
       this.model = new Backbone.Model();
       this.listenTo(this.model, 'change', this.onChange);
     },
-    onReconnectTimer: function() {
+    onReconnectTimer() {
       this.setSocketReconnectInterval(60000);
     },
-    finishConnectingGracePeriod: function() {
+    finishConnectingGracePeriod() {
       this.withinConnectingGracePeriod = false;
     },
-    setSocketReconnectInterval: function(millis) {
+    setSocketReconnectInterval(millis) {
       this.socketReconnectWaitDuration = moment.duration(millis);
     },
-    navigatorOnLine: function() {
+    navigatorOnLine() {
       return navigator.onLine;
     },
-    getSocketStatus: function() {
+    getSocketStatus() {
       return window.getSocketStatus();
     },
-    getNetworkStatus: function() {
-      var message = '';
-      var instructions = '';
-      var hasInterruption = false;
-      var action = null;
-      var buttonClass = null;
+    getNetworkStatus() {
+      let message = '';
+      let instructions = '';
+      let hasInterruption = false;
+      let action = null;
+      let buttonClass = null;
 
-      var socketStatus = this.getSocketStatus();
+      const socketStatus = this.getSocketStatus();
       switch (socketStatus) {
         case WebSocket.CONNECTING:
           message = i18n('connecting');
@@ -58,12 +59,13 @@
         case WebSocket.OPEN:
           this.setSocketReconnectInterval(null);
           break;
-        case WebSocket.CLOSING:
+        case WebSocket.CLOSED:
           message = i18n('disconnected');
           instructions = i18n('checkNetworkConnection');
           hasInterruption = true;
           break;
-        case WebSocket.CLOSED:
+        case WebSocket.CLOSING:
+        default:
           message = i18n('disconnected');
           instructions = i18n('checkNetworkConnection');
           hasInterruption = true;
@@ -71,7 +73,7 @@
       }
 
       if (
-        socketStatus == WebSocket.CONNECTING &&
+        socketStatus === WebSocket.CONNECTING &&
         !this.withinConnectingGracePeriod
       ) {
         hasInterruption = true;
@@ -87,28 +89,28 @@
         instructions = i18n('checkNetworkConnection');
       } else if (!Whisper.Registration.isDone()) {
         hasInterruption = true;
-        message = i18n('Unlinked');
+        message = i18n('unlinked');
         instructions = i18n('unlinkedWarning');
         action = i18n('relink');
         buttonClass = 'openInstaller';
       }
 
       return {
-        message: message,
-        instructions: instructions,
-        hasInterruption: hasInterruption,
-        action: action,
-        buttonClass: buttonClass,
+        message,
+        instructions,
+        hasInterruption,
+        action,
+        buttonClass,
       };
     },
-    update: function() {
-      var status = this.getNetworkStatus();
+    update() {
+      const status = this.getNetworkStatus();
       this.model.set(status);
     },
-    render_attributes: function() {
+    render_attributes() {
       return this.model.attributes;
     },
-    onChange: function() {
+    onChange() {
       this.render();
       if (this.model.attributes.hasInterruption) {
         this.$el.slideDown();

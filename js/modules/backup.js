@@ -13,6 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const { map, fromPairs } = require('lodash');
 const tmp = require('tmp');
 const pify = require('pify');
 const archiver = require('archiver');
@@ -134,7 +135,7 @@ function exportContactsAndGroups(db, fileWriter) {
     if (storeNames.length === 0) {
       throw new Error('No stores to export');
     }
-    console.log('Exporting from these stores:', storeNames.join(', '));
+    window.log.info('Exporting from these stores:', storeNames.join(', '));
 
     const stream = createOutputStream(fileWriter);
 
@@ -153,7 +154,7 @@ function exportContactsAndGroups(db, fileWriter) {
         );
       };
       transaction.oncomplete = () => {
-        console.log('transaction complete');
+        window.log.info('transaction complete');
       };
 
       const store = transaction.objectStore(storeName);
@@ -168,7 +169,7 @@ function exportContactsAndGroups(db, fileWriter) {
       };
       request.onsuccess = async event => {
         if (count === 0) {
-          console.log('cursor opened');
+          window.log.info('cursor opened');
           stream.write(`"${storeName}": [`);
         }
 
@@ -188,17 +189,17 @@ function exportContactsAndGroups(db, fileWriter) {
         } else {
           // no more
           stream.write(']');
-          console.log('Exported', count, 'items from store', storeName);
+          window.log.info('Exported', count, 'items from store', storeName);
 
           exportedStoreNames.push(storeName);
           if (exportedStoreNames.length < storeNames.length) {
             stream.write(',');
           } else {
-            console.log('Exported all stores');
+            window.log.info('Exported all stores');
             stream.write('}');
 
             await stream.close();
-            console.log('Finished writing all stores to disk');
+            window.log.info('Finished writing all stores to disk');
             resolve();
           }
         }
@@ -215,11 +216,11 @@ async function importNonMessages(db, parent, options) {
 
 function eliminateClientConfigInBackup(data, targetPath) {
   const cleaned = _.pick(data, 'conversations', 'groups');
-  console.log('Writing configuration-free backup file back to disk');
+  window.log.info('Writing configuration-free backup file back to disk');
   try {
     fs.writeFileSync(targetPath, JSON.stringify(cleaned));
   } catch (error) {
-    console.log('Error writing cleaned-up backup to disk: ', error.stack);
+    window.log.error('Error writing cleaned-up backup to disk: ', error.stack);
   }
 }
 
@@ -250,7 +251,9 @@ function importFromJsonString(db, jsonString, targetPath, options) {
       delete importObject.sessions;
       delete importObject.unprocessed;
 
-      console.log('This is a light import; contacts, groups and messages only');
+      window.log.info(
+        'This is a light import; contacts, groups and messages only'
+      );
     }
 
     // We mutate the on-disk backup to prevent the user from importing client
@@ -259,11 +262,11 @@ function importFromJsonString(db, jsonString, targetPath, options) {
     eliminateClientConfigInBackup(importObject, targetPath);
 
     const storeNames = _.keys(importObject);
-    console.log('Importing to these stores:', storeNames.join(', '));
+    window.log.info('Importing to these stores:', storeNames.join(', '));
 
     let finished = false;
     const finish = via => {
-      console.log('non-messages import done via', via);
+      window.log.info('non-messages import done via', via);
       if (finished) {
         resolve(result);
       }
@@ -281,7 +284,7 @@ function importFromJsonString(db, jsonString, targetPath, options) {
     transaction.oncomplete = finish.bind(null, 'transaction complete');
 
     _.each(storeNames, storeName => {
-      console.log('Importing items for store', storeName);
+      window.log.info('Importing items for store', storeName);
 
       if (!importObject[storeName].length) {
         delete importObject[storeName];
@@ -294,7 +297,7 @@ function importFromJsonString(db, jsonString, targetPath, options) {
       const finishStore = () => {
         // added all objects for this store
         delete importObject[storeName];
-        console.log(
+        window.log.info(
           'Done importing to store',
           storeName,
           'Total count:',
@@ -304,7 +307,7 @@ function importFromJsonString(db, jsonString, targetPath, options) {
         );
         if (_.keys(importObject).length === 0) {
           // added all object stores
-          console.log('DB import complete');
+          window.log.info('DB import complete');
           finish('puts scheduled');
         }
       };
@@ -455,7 +458,7 @@ async function readAttachment(dir, attachment, name, options) {
   const targetPath = path.join(dir, sanitizedName);
 
   if (!fs.existsSync(targetPath)) {
-    console.log(`Warning: attachment ${sanitizedName} not found`);
+    window.log.warn(`Warning: attachment ${sanitizedName} not found`);
     return;
   }
 
@@ -518,7 +521,7 @@ async function writeThumbnails(rawQuotedAttachments, options) {
       )
     );
   } catch (error) {
-    console.log(
+    window.log.error(
       'writeThumbnails: error exporting conversation',
       name,
       ':',
@@ -560,7 +563,7 @@ async function writeAttachments(rawAttachments, options) {
   try {
     await Promise.all(promises);
   } catch (error) {
-    console.log(
+    window.log.error(
       'writeAttachments: error exporting conversation',
       name,
       ':',
@@ -571,7 +574,6 @@ async function writeAttachments(rawAttachments, options) {
 }
 
 async function writeAvatar(avatar, options) {
-  console.log('writeAvatar', { avatar, options });
   const { dir, message, index, key, newKey } = options;
   const name = _getAnonymousAttachmentFileName(message, index);
   const filename = `${name}-contact-avatar`;
@@ -618,7 +620,7 @@ async function writeContactAvatars(contact, options) {
       )
     );
   } catch (error) {
-    console.log(
+    window.log.error(
       'writeContactAvatars: error exporting conversation',
       name,
       ':',
@@ -633,10 +635,10 @@ async function writeEncryptedAttachment(target, data, options = {}) {
 
   if (fs.existsSync(target)) {
     if (newKey) {
-      console.log(`Deleting attachment ${filename}; key has changed`);
+      window.log.info(`Deleting attachment ${filename}; key has changed`);
       fs.unlinkSync(target);
     } else {
-      console.log(`Skipping attachment ${filename}; already exists`);
+      window.log.info(`Skipping attachment ${filename}; already exists`);
       return;
     }
   }
@@ -669,10 +671,11 @@ async function exportConversation(db, conversation, options) {
     throw new Error('Need a key to encrypt with!');
   }
 
-  console.log('exporting conversation', name);
+  window.log.info('exporting conversation', name);
   const writer = await createFileAndWriter(dir, 'messages.json');
 
   return new Promise(async (resolve, reject) => {
+    // TODO: need to iterate through message ids, export using window.Signal.Data
     const transaction = db.transaction('messages', 'readwrite');
     transaction.onerror = () => {
       Whisper.Database.handleDOMException(
@@ -792,7 +795,7 @@ async function exportConversation(db, conversation, options) {
         try {
           await Promise.all([stream.write(']}'), promiseChain, stream.close()]);
         } catch (error) {
-          console.log(
+          window.log.error(
             'exportConversation: error exporting conversation',
             name,
             ':',
@@ -802,7 +805,7 @@ async function exportConversation(db, conversation, options) {
           return;
         }
 
-        console.log('done exporting conversation', name);
+        window.log.info('done exporting conversation', name);
         resolve();
       }
     };
@@ -888,12 +891,12 @@ function exportConversations(db, options) {
           });
         };
 
-        console.log('scheduling export for conversation', name);
+        window.log.info('scheduling export for conversation', name);
         // eslint-disable-next-line more/no-then
         promiseChain = promiseChain.then(process);
         cursor.continue();
       } else {
-        console.log('Done scheduling conversation exports');
+        window.log.info('Done scheduling conversation exports');
         try {
           await promiseChain;
         } catch (error) {
@@ -979,7 +982,7 @@ async function loadAttachments(dir, getName, options) {
     })
   );
 
-  console.log('loadAttachments', { message });
+  // TODO: Handle video screenshots, and image/video thumbnails
 }
 
 function saveMessage(db, message) {
@@ -988,63 +991,35 @@ function saveMessage(db, message) {
 
 async function saveAllMessages(db, rawMessages) {
   if (rawMessages.length === 0) {
-    return Promise.resolve();
+    return;
   }
 
-  const { writeMessageAttachments, upgradeMessageSchema } = Signal.Migrations;
-  const importAndUpgrade = async message =>
-    upgradeMessageSchema(await writeMessageAttachments(message));
+  try {
+    const { writeMessageAttachments, upgradeMessageSchema } = Signal.Migrations;
+    const importAndUpgrade = async message =>
+      upgradeMessageSchema(await writeMessageAttachments(message));
 
-  const messages = await Promise.all(rawMessages.map(importAndUpgrade));
+    const messages = await Promise.all(rawMessages.map(importAndUpgrade));
 
-  return new Promise((resolve, reject) => {
-    let finished = false;
-    const finish = via => {
-      console.log('messages done saving via', via);
-      if (finished) {
-        resolve();
-      }
-      finished = true;
-    };
-
-    const transaction = db.transaction('messages', 'readwrite');
-    transaction.onerror = () => {
-      Whisper.Database.handleDOMException(
-        'saveAllMessages transaction error',
-        transaction.error,
-        reject
-      );
-    };
-    transaction.oncomplete = finish.bind(null, 'transaction complete');
-
-    const store = transaction.objectStore('messages');
     const { conversationId } = messages[0];
-    let count = 0;
 
-    _.forEach(messages, message => {
-      const request = store.put(message, message.id);
-      request.onsuccess = () => {
-        count += 1;
-        if (count === messages.length) {
-          console.log(
-            'Saved',
-            messages.length,
-            'messages for conversation',
-            // Don't know if group or private conversation, so we blindly redact
-            `[REDACTED]${conversationId.slice(-3)}`
-          );
-          finish('puts scheduled');
-        }
-      };
-      request.onerror = () => {
-        Whisper.Database.handleDOMException(
-          'saveAllMessages request error',
-          request.error,
-          reject
-        );
-      };
+    await window.Signal.Data.saveMessages(messages, {
+      forceSave: true,
     });
-  });
+
+    window.log.info(
+      'Saved',
+      messages.length,
+      'messages for conversation',
+      // Don't know if group or private conversation, so we blindly redact
+      `[REDACTED]${conversationId.slice(-3)}`
+    );
+  } catch (error) {
+    window.log.error(
+      'saveAllMessages error',
+      error && error.message ? error.message : error
+    );
+  }
 }
 
 // To reduce the memory impact of attachments, we make individual saves to the
@@ -1066,7 +1041,9 @@ async function importConversation(db, dir, options) {
   try {
     contents = await readFileAsText(dir, 'messages.json');
   } catch (error) {
-    console.log(`Warning: could not access messages.json in directory: ${dir}`);
+    window.log.error(
+      `Warning: could not access messages.json in directory: ${dir}`
+    );
   }
 
   let promiseChain = Promise.resolve();
@@ -1092,8 +1069,9 @@ async function importConversation(db, dir, options) {
       message.quote &&
       message.quote.attachments &&
       message.quote.attachments.length > 0;
+    const hasContacts = message.contact && message.contact.length;
 
-    if (hasAttachments || hasQuotedAttachments) {
+    if (hasAttachments || hasQuotedAttachments || hasContacts) {
       const importMessage = async () => {
         const getName = attachmentsDir
           ? _getAnonymousAttachmentFileName
@@ -1120,7 +1098,7 @@ async function importConversation(db, dir, options) {
   await saveAllMessages(db, messages);
 
   await promiseChain;
-  console.log(
+  window.log.info(
     'Finished importing conversation',
     conversationId,
     'Total:',
@@ -1159,8 +1137,13 @@ function getMessageKey(message) {
   const sourceDevice = message.sourceDevice || 1;
   return `${source}.${sourceDevice} ${message.timestamp}`;
 }
-function loadMessagesLookup(db) {
-  return assembleLookup(db, 'messages', getMessageKey);
+async function loadMessagesLookup(db) {
+  const array = await window.Signal.Data.getAllMessageIds({
+    db,
+    getMessageKey,
+    handleDOMException: Whisper.Database.handleDOMException,
+  });
+  return fromPairs(map(array, item => [item, true]));
 }
 
 function getConversationKey(conversation) {
@@ -1208,7 +1191,7 @@ function assembleLookup(db, storeName, keyFunction) {
         lookup[keyFunction(cursor.value)] = true;
         cursor.continue();
       } else {
-        console.log(`Done creating ${storeName} lookup`);
+        window.log.info(`Done creating ${storeName} lookup`);
         resolve(lookup);
       }
     };
@@ -1236,7 +1219,7 @@ function createZip(zipDir, targetDir) {
     });
 
     archive.on('warning', error => {
-      console.log(`Archive generation warning: ${error.stack}`);
+      window.log.warn(`Archive generation warning: ${error.stack}`);
     });
     archive.on('error', reject);
 
@@ -1286,7 +1269,7 @@ function createTempDir() {
 }
 
 function deleteAll(pattern) {
-  console.log(`Deleting ${pattern}`);
+  window.log.info(`Deleting ${pattern}`);
   return pify(rimraf)(pattern);
 }
 
@@ -1320,10 +1303,10 @@ async function exportToDirectory(directory, options) {
     const zip = await createZip(encryptionDir, stagingDir);
     await encryptFile(zip, path.join(directory, 'messages.zip'), options);
 
-    console.log('done backing up!');
+    window.log.info('done backing up!');
     return directory;
   } catch (error) {
-    console.log(
+    window.log.error(
       'The backup went wrong!',
       error && error.stack ? error.stack : error
     );
@@ -1392,7 +1375,7 @@ async function importFromDirectory(directory, options) {
         const result = await importNonMessages(db, stagingDir, options);
         await importConversations(db, stagingDir, Object.assign({}, options));
 
-        console.log('Done importing from backup!');
+        window.log.info('Done importing from backup!');
         return result;
       } finally {
         if (stagingDir) {
@@ -1407,10 +1390,10 @@ async function importFromDirectory(directory, options) {
     const result = await importNonMessages(db, directory, options);
     await importConversations(db, directory, options);
 
-    console.log('Done importing!');
+    window.log.info('Done importing!');
     return result;
   } catch (error) {
-    console.log(
+    window.log.error(
       'The import went wrong!',
       error && error.stack ? error.stack : error
     );

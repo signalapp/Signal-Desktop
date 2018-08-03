@@ -15,6 +15,10 @@
         "message": "Rodyti",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "appMenuHideOthers": {
+        "message": "Slėpti kitus",
+        "description": "Application menu command to hide all other windows"
+    },
     "linkedDevices": {
         "message": "Susieti įrenginiai",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
@@ -66,7 +70,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ išėjo iš grupės.",
+        "message": "$name$ išėjo iš grupės",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -76,7 +80,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "Jūs nustatėte laikmatį į $time$.",
+        "message": "Jūs nustatėte išnykstančių žinučių laikmatį į $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -96,6 +100,16 @@
     "importCompleteHeader": {
         "message": "Pavyko!",
         "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min.",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "timestamp_m": {
         "message": "1 minutė",
@@ -117,13 +131,25 @@
         "message": "Supratau!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "appMenuQuit": {
+        "message": "Išeiti iš Signal",
+        "description": "Application menu command to close the application"
+    },
     "disappearingMessages": {
         "message": "Išnykstančios žinutės",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "editMenuCut": {
+        "message": "Iškirpti",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
     "deleteWarning": {
         "message": "Ar tikrai? Spustelėjus \"Ištrinti\", ši žinutė visiems laikams bus pašalinta iš šio įrenginio.",
         "description": ""
+    },
+    "verifyNewNumber": {
+        "message": "Patvirtinti naują numerį",
+        "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
         "message": "Išsamesnė informacija",
@@ -163,6 +189,10 @@
         "message": "Naujos žinutės žemiau",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
+    "editMenuSelectAll": {
+        "message": "Žymėti viską",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
     "resetSession": {
         "message": "Atstatyti seansą",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -191,6 +221,10 @@
         "message": "Patikrinkite savo tinklo ryšį.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "Jūs išjungėte išnykstančias žinutes",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "Kai gaunamos žinutės, rodyti pranešimus, kuriuose atskleidžiama:",
         "description": "Explain the purpose of the notification settings"
@@ -202,6 +236,10 @@
     "timerOption_0_seconds_abbreviated": {
         "message": "išjungta",
         "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "imageFailedToLoad": {
+        "message": "Nepavyko įkelti paveikslo",
+        "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
         "message": "Išvalyti duomenis",
@@ -220,12 +258,16 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Klaida, apdorojant gaunamą žinutę.",
+        "message": "Klaida, apdorojant gaunamą žinutę",
         "description": ""
     },
     "poBox": {
         "message": "Pašto dėžutė",
         "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "themeLight": {
+        "message": "Šviesi",
+        "description": "Label text for light theme (normal)"
     },
     "delete": {
         "message": "Ištrinti",
@@ -255,6 +297,24 @@
         "message": "telefonas",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$ val.",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "deleteThisMessage": {
+        "message": "Ištrinti šią žinutę",
+        "description": ""
+    },
+    "editMenuPaste": {
+        "message": "Įdėti",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
     "changedRecently": {
         "message": "Jūsų saugumo numeris su $name$ neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -281,8 +341,12 @@
         "message": "Įkeliami kontaktai ir žinutės",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Įjungti rašybos tikrinimą tekstui, kuris įvedamas į žinutės rašymo langelį",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
-        "message": "$name$ nustatė laikmatį į $time$.",
+        "message": "$name$ nustatė išnykstančių žinučių laikmatį į $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -298,6 +362,10 @@
     "timestamp_s": {
         "message": "dabar",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "viewMenuZoomOut": {
+        "message": "Mažinti",
+        "description": "View menu command to make everything smaller"
     },
     "mainMenuSettings": {
         "message": "Nuostatos…",
@@ -320,6 +388,10 @@
     "timerOption_1_day": {
         "message": "1 diena",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "editMenuUndo": {
+        "message": "Atšaukti",
+        "description": "Edit menu command to remove recently-typed text"
     },
     "reportIssue": {
         "message": "Pranešti apie klaidą",
@@ -349,6 +421,14 @@
         "message": "Vėliau",
         "description": ""
     },
+    "justNow": {
+        "message": "dabar",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "mediaPermissionsDescription": {
+        "message": "Leisti prieigą prie kameros ir mikrofono",
+        "description": "Description of the media permission description"
+    },
     "from": {
         "message": "Nuo",
         "description": "Label for the sender of a message"
@@ -369,6 +449,10 @@
         "message": "Norėdami tęsti susirašinėjimą, iš naujo susiekite Signal darbalaukiui su savo mobiliuoju įrenginiu.",
         "description": ""
     },
+    "safetyNumberChanged": {
+        "message": "Pasikeitė saugumo numeris",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
     "today": {
         "message": "Šiandien",
         "description": "Section header in the media gallery"
@@ -381,13 +465,31 @@
         "message": "Susiekite savo telefoną su Signal darbalaukiui",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
+    "multipleLeftTheGroup": {
+        "message": "$name$ išėjo iš grupės",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "newPhoneNumber": {
         "message": "Įveskite kontakto, kurį norite pridėti, numerį.",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "viewMenuZoomIn": {
+        "message": "Didinti",
+        "description": "View menu command to make everything bigger"
+    },
     "viewAllMedia": {
         "message": "Rodyti visą mediją",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "windowMenuBringAllToFront": {
+        "message": "Perkelti visus į priekį",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "importErrorFirst": {
         "message": "Įsitikinkite, kad pasirinkote teisingą katalogą, kuriame yra jūsų įrašyti Signal duomenys. Jo pavadinimas turėtų prasidėti \"Signal Export.\" Taip pat galite įrašyti naują savo duomenų kopiją iš Chrome programėlės.",
@@ -403,17 +505,27 @@
             }
         }
     },
+    "timerOption_1_hour": {
+        "message": "1 valanda",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "video": {
         "message": "Vaizdo įrašas",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
+    "safetyNumberChangedGroup": {
+        "message": "Pasikeitė saugumo numeris su $name$",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Įveskite vardą ar numerį",
         "description": "Placeholder text in the search input"
-    },
-    "someRecipientsFailed": {
-        "message": "Kai kurie gavėjai patyrė nesėkmę.",
-        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Nei vardas, nei žinutė",
@@ -431,12 +543,20 @@
         "message": "Atsietas",
         "description": ""
     },
+    "imageAttachmentAlt": {
+        "message": "Prie žinutės pridėtas paveikslas",
+        "description": "Used in alt tag of image attachment"
+    },
     "learnMore": {
         "message": "Sužinoti daugiau apie saugumo numerių patvirtinimą",
         "description": "Text that links to a support article on verifying safety numbers"
     },
+    "signalDesktopPreferences": {
+        "message": "Signal darbalaukiui nuostatos",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "timerSetOnSync": {
-        "message": "Atnaujinamas laikmatis į $time$.",
+        "message": "Išnykstančių žinučių laikmatis atnaujintas į $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -463,8 +583,12 @@
         "message": "Atleiskite, jūs jau turite per daug susietų įrenginių. Pabandykite kai kuriuos pašalinti.",
         "description": ""
     },
+    "allowAccess": {
+        "message": "Leisti prieigą",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
     "joinedTheGroup": {
-        "message": "$name$ prisijungė prie grupės.",
+        "message": "$name$ prisijungė prie grupės",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -485,13 +609,17 @@
         "message": "Nusistatyti importavimą",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Išnykstančios žinutės išjungtos",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "Nepavyko įkelti vaizdo įrašo ekrano kopijos",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
     "timerOption_30_minutes_abbreviated": {
         "message": "30 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "themeAndroidDark": {
-        "message": "Android (tamsi)",
-        "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1 min.",
@@ -537,6 +665,10 @@
         "message": "Naujinti",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "moreInfo": {
+        "message": "Daugiau informacijos...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
     "notificationMostRecent": {
         "message": "Paskiausi:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
@@ -551,9 +683,17 @@
             }
         }
     },
+    "windowMenuClose": {
+        "message": "Užverti langą",
+        "description": "Window menu command to close the current window"
+    },
     "showLess": {
         "message": "Slėpti išsamesnę informaciją",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Rašybos tikrinimas",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Tema",
@@ -566,6 +706,16 @@
     "newIdentity": {
         "message": "Naujas saugumo numeris",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ išjungė išnykstančias žinutes",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Privatumas yra įmanomas. Signal jį padaro lengvą.",
@@ -612,6 +762,10 @@
     "timerOption_12_hours_abbreviated": {
         "message": "12 val.",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "Įdėti ir atitikti stilių",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "signalSettings": {
         "message": "Signal nustatymai",
@@ -676,22 +830,32 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Kontakto avataras",
-        "description": "Used in the alt tag for the image avatar of a contact"
+        "message": "Avataras, skirtas $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "received": {
         "message": "Gauta",
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "Jūs pažymėjote savo saugumo numerį su $name$ kaip nepatvirtintą.",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "message": "Jūs pažymėjote savo saugumo numerį su $name$ kaip nepatvirtintą",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
                 "example": "Bob"
             }
         }
+    },
+    "timerOption_1_minute": {
+        "message": "1 minutė",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "isVerified": {
         "message": "Jūs patvirtinote savo saugumo numerį su $name$.",
@@ -723,6 +887,10 @@
         "message": "Pranešti apie klaidą",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
+    "permissions": {
+        "message": "Leidimai",
+        "description": "Header for permissions section of settings"
+    },
     "loadDataDescription": {
         "message": "Jūs ką tik perėjote per eksportavimo procesą ir jūsų kontaktai bei žinutės kantriai laukia jūsų kompiuteryje. Pasirinkite aplanką, kuriame yra jūsų įrašyti Signal duomenys.",
         "description": "Introduction to the process of importing messages and contacts from disk"
@@ -752,8 +920,8 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "deleteMessage": {
-        "message": "Ištrinti šią žinutę",
-        "description": ""
+        "message": "Ištrinti žinutę",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
         "message": "Pasirinkite šio įrenginio pavadinimą",
@@ -771,6 +939,10 @@
         "message": "išjungta",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
+    "editMenuRedo": {
+        "message": "Grąžinti",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
     "invalidNumberError": {
         "message": "Neteisingas numeris",
         "description": "When a person inputs a number that is invalid"
@@ -782,6 +954,16 @@
     "messageBelow": {
         "message": "Nauja žinutė žemiau",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "hoursAgo": {
+        "message": "prieš $hours$ val.",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "menuSetupAsNewDevice": {
         "message": "Nusistatyti kaip naują įrenginį",
@@ -795,10 +977,6 @@
         "message": "Žymėti kaip nepatvirtintą",
         "description": ""
     },
-    "messageNotSent": {
-        "message": "Žinutė neišsiųsta.",
-        "description": "Informational label, appears on messages that failed to send"
-    },
     "initialSync": {
         "message": "Sinchronizuojami kontaktai ir grupės",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
@@ -806,6 +984,10 @@
     "mainMenuView": {
         "message": "&Rodinys",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "appMenuHide": {
+        "message": "Slėpti",
+        "description": "Application menu command to hide the window"
     },
     "autoUpdateNewVersionMessage": {
         "message": "Yra prieinama nauja Signal versija.",
@@ -827,10 +1009,6 @@
         "message": "Medija",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
-    "noContents": {
-        "message": "Nėra žinutės turinio",
-        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
-    },
     "cancel": {
         "message": "Atsisakyti",
         "description": ""
@@ -847,12 +1025,16 @@
         "message": "Bevardis failas",
         "description": "Hover text for attachment filenames"
     },
+    "timerOption_5_minutes": {
+        "message": "5 minutės",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "sendAnyway": {
         "message": "Vis tiek siųsti",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "Jūs pažymėjote savo saugumo numerį su $name$ kaip patvirtintą.",
+        "message": "Jūs pažymėjote savo saugumo numerį su $name$ kaip patvirtintą",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -885,12 +1067,20 @@
         "message": "5 sekundės",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "debugLogError": {
+        "message": "Kažkas nutiko su įkėlimu! Apsvarstykite galimybę rankiniu būdu pridėti savo žurnalą į klaidos pranešimą, kurį pateiksite.",
+        "description": ""
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Perjungti kūrėjo įrankius",
+        "description": "View menu command to show or hide the developer tools"
+    },
     "showMembers": {
         "message": "Rodyti dalyvius",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Jūs iš kito įrenginio pažymėjote savo saugumo numerį su $name$ kaip nepatvirtintą.",
+        "message": "Jūs iš kito įrenginio pažymėjote savo saugumo numerį su $name$ kaip nepatvirtintą",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -903,6 +1093,10 @@
         "message": "el. paštas",
         "description": "Generic label shown if contact email has custom type but no label"
     },
+    "viewMenuResetZoom": {
+        "message": "Įprastas dydis",
+        "description": "View menu command to go back to the default zoom"
+    },
     "goToSupportPage": {
         "message": "Pereiti į palaikymo puslapį",
         "description": "Item under the Help menu, takes you to the support page"
@@ -912,7 +1106,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ prisijungė prie grupės.",
+        "message": "$names$ prisijungė prie grupės",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -928,6 +1122,10 @@
     "loading": {
         "message": "Įkeliama...",
         "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "audioPermissionNeeded": {
+        "message": "Norėdami siųsti garso žinutes, suteikite Signal darbalaukiui prieigą prie savo mikrofono.",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "newMessages": {
         "message": "Naujos žinutės",
@@ -953,19 +1151,13 @@
         "message": "Pateikti",
         "description": ""
     },
-    "keychanged": {
-        "message": "Jūsų saugumo numeris su $name$ pasikeitė. Spustelėkite, norėdami rodyti.",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "updatedTheGroup": {
-        "message": "Atnaujino grupę.",
+        "message": "Grupė atnaujinta",
         "description": "Shown in the conversation history when someone updates the group"
+    },
+    "themeDark": {
+        "message": "Tamsi",
+        "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
         "message": "Jūsų saugumo numeris su $name$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, norėtumėte patvirtinti saugumo numerį su šiuo kontaktu.",
@@ -985,9 +1177,17 @@
         "message": "Kam",
         "description": "Label for the receiver of a message"
     },
+    "windowMenuMinimize": {
+        "message": "Suskleisti",
+        "description": "Window menu command to minimize the current window"
+    },
     "timerOption_1_hour_abbreviated": {
         "message": "1 val.",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Stabdyti kalbėjimą",
+        "description": "Edit menu item under 'speech' to stop dictation"
     },
     "optimizingApplication": {
         "message": "Optimizuojama programa...",
@@ -1001,6 +1201,10 @@
         "message": "Žinutės informacija",
         "description": ""
     },
+    "timerOption_12_hours": {
+        "message": "12 valandų",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "mainMenuFile": {
         "message": "&Failas",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -1009,13 +1213,25 @@
         "message": "Žymėti kaip patvirtintą",
         "description": ""
     },
+    "sendFailed": {
+        "message": "Išsiuntimas nepavyko",
+        "description": "Shown on outgoing message if it fails to send"
+    },
     "clearDataHeader": {
         "message": "Išvalyti duomenis",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
+    "viewMenuToggleFullScreen": {
+        "message": "Perjungti visą ekraną",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
     "timerOption_10_seconds_abbreviated": {
         "message": "10 sek.",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes": {
+        "message": "30 minučių",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
         "message": "Susieti naują įrenginį",
@@ -1041,9 +1257,21 @@
         "message": "Jūsų saugumo numeris su šiuo kontaktu pasikeitė. Tai gali reikšti, kad arba kažkas bando perimti jūsų susirašinėjimą, arba šis kontaktas, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, žemiau norėtumėte patvirtinti naują saugumo numerį.",
         "description": ""
     },
+    "appMenuUnhide": {
+        "message": "Rodyti visus",
+        "description": "Application menu command to show all application windows"
+    },
     "changedSinceVerifiedMultiple": {
         "message": "Jūsų saugumo numeriai su keliais grupės dalyviais nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "showSettings": {
+        "message": "Rodyti nustatymus",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "editMenuCopy": {
+        "message": "Kopijuoti",
+        "description": "Edit menu command to add selected text to clipboard"
     },
     "loadDataHeader": {
         "message": "Įkelkite savo duomenis",
@@ -1062,7 +1290,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "Pavadinimas dabar yra \"$name$\".",
+        "message": "Dabar pavadinimas yra \"$name$\"",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1070,6 +1298,10 @@
                 "example": "Book Club"
             }
         }
+    },
+    "retrySend": {
+        "message": "Bandyti siųsti dar kartą",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
         "message": "Saugumo numeris, kurį bandote patvirtinti, pasikeitė. Prašome peržiūrėti savo saugumo numerį su $name$. Atminkite, šis pokytis gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
@@ -1081,15 +1313,31 @@
             }
         }
     },
+    "timerOption_6_hours": {
+        "message": "6 valandos",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "videoAttachmentAlt": {
+        "message": "Prie žinutės pridėto vaizdo įrašo ekrano kopija",
+        "description": "Used in alt tag of video attachment preview"
+    },
     "timerSetTo": {
         "message": "Laikmatis nustatytas į $time$",
-        "description": "Displayed in the conversation list when the timer is updated.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
                 "example": "1w"
             }
         }
+    },
+    "editMenuDelete": {
+        "message": "Ištrinti",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "windowMenuZoom": {
+        "message": "Mastelis",
+        "description": "Window menu command to make the current window the size of the whole screen"
     },
     "autoUpdateNewVersionTitle": {
         "message": "Yra prieinamas Signal atnaujinimas",
@@ -1103,16 +1351,26 @@
         "message": "Garso įrašas",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
+    "editMenuStartSpeaking": {
+        "message": "Pradėti kalbėjimą",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "minutesAgo": {
+        "message": "prieš $minutes$ min.",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "notifications": {
         "message": "Pranešimai",
         "description": "Header for notification settings"
     },
-    "resend": {
-        "message": "Siųsti iš naujo",
-        "description": ""
-    },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Jūs iš kito įrenginio pažymėjote savo saugumo numerį su $name$ kaip patvirtintą.",
+        "message": "Jūs iš kito įrenginio pažymėjote savo saugumo numerį su $name$ kaip patvirtintą",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

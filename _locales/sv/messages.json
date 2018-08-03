@@ -15,6 +15,10 @@
         "message": "Visa",
         "description": "Used as a label on a button allowing user to see more information"
     },
+    "appMenuHideOthers": {
+        "message": "Dölj andra",
+        "description": "Application menu command to hide all other windows"
+    },
     "linkedDevices": {
         "message": "Länkade enheter",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
@@ -66,7 +70,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$ har lämnat gruppen.",
+        "message": "$name$ lämnade gruppen",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -76,7 +80,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "Du satte timern på $time$.",
+        "message": "Du satte tiden för försvinnande meddelanden till $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -96,6 +100,16 @@
     "importCompleteHeader": {
         "message": "Det funkade!",
         "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "timestamp_m": {
         "message": "1 minut",
@@ -117,13 +131,25 @@
         "message": "Uppfattat!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "appMenuQuit": {
+        "message": "Stäng Signal",
+        "description": "Application menu command to close the application"
+    },
     "disappearingMessages": {
         "message": "Försvinnande meddelanden",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "editMenuCut": {
+        "message": "Klistra",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
     "deleteWarning": {
         "message": "Är du säker? Om du klickar 'Radera' så tas detta meddelande borts permanent från denna enhet",
         "description": ""
+    },
+    "verifyNewNumber": {
+        "message": "Verifiera nytt nummer",
+        "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
         "message": "Info",
@@ -163,6 +189,10 @@
         "message": "Nya meddelanden nedanför",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
+    "editMenuSelectAll": {
+        "message": "Markera alla",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
     "resetSession": {
         "message": "Återställ session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -191,6 +221,10 @@
         "message": "Kontrollera din nätverksanslutning.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "You disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "När du får meddelanden, visa aviseringar som visar:",
         "description": "Explain the purpose of the notification settings"
@@ -202,6 +236,10 @@
     "timerOption_0_seconds_abbreviated": {
         "message": "av",
         "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "imageFailedToLoad": {
+        "message": "Bild kunde inte laddas",
+        "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
         "message": "Radera data",
@@ -220,12 +258,16 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Kunde inte ta emot meddelande.",
+        "message": "Fel med att hantera inkommande meddelande",
         "description": ""
     },
     "poBox": {
         "message": "PO-låda",
         "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "themeLight": {
+        "message": "Ljus",
+        "description": "Label text for light theme (normal)"
     },
     "delete": {
         "message": "Radera",
@@ -255,6 +297,24 @@
         "message": "telefon",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
+    "hoursAgoShort": {
+        "message": "$hours$ t",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "deleteThisMessage": {
+        "message": "Radera detta meddelande",
+        "description": ""
+    },
+    "editMenuPaste": {
+        "message": "Klistra in",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
     "changedRecently": {
         "message": "Ditt säkerhetsnummer med $name$ har nyligen ändrats. Detta kan betyda att någon försöker avlyssna konversationen eller att $name$ har ominstallerat Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
@@ -281,8 +341,12 @@
         "message": "Laddar kontakter och meddelanden",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Slå på stavningskontroll för text skrivet i meddelandefältet",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
-        "message": "$name$ satte timern på $time$.",
+        "message": "$name$ satte tiden för försvinnande meddelanden till $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -298,6 +362,10 @@
     "timestamp_s": {
         "message": "nyss",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "viewMenuZoomOut": {
+        "message": "Zooma ut",
+        "description": "View menu command to make everything smaller"
     },
     "mainMenuSettings": {
         "message": "Inställningar",
@@ -321,6 +389,10 @@
         "message": "1 dag",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "editMenuUndo": {
+        "message": "Ångra",
+        "description": "Edit menu command to remove recently-typed text"
+    },
     "reportIssue": {
         "message": "Anmäl ett programfel",
         "description": "Link to open the issue tracker"
@@ -334,7 +406,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "quoteThumbnailAlt": {
-        "message": "Tumnabel av bild för citerat meddelande",
+        "message": "Tumnagel av bild för citerat meddelande",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "mediaEmptyState": {
@@ -348,6 +420,14 @@
     "autoUpdateLaterButtonLabel": {
         "message": "Senare",
         "description": ""
+    },
+    "justNow": {
+        "message": "nyss",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "mediaPermissionsDescription": {
+        "message": "Tillåt åtkomst till kameran och mikrofonen",
+        "description": "Description of the media permission description"
     },
     "from": {
         "message": "Från",
@@ -369,6 +449,10 @@
         "message": "Länka om Signal Desktop till din mobila enhet för att fortsätta skicka meddelanden.",
         "description": ""
     },
+    "safetyNumberChanged": {
+        "message": "Säkerhetsnumret har ändrats",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
     "today": {
         "message": "Idag",
         "description": "Section header in the media gallery"
@@ -381,16 +465,34 @@
         "message": "Länka din mobil till Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
+    "multipleLeftTheGroup": {
+        "message": "$name$ lämnade gruppen",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "newPhoneNumber": {
         "message": "Skriv in ett telefonnummer för att lägga till en kontakt.",
         "description": "Placeholder for adding a new number to a contact"
+    },
+    "viewMenuZoomIn": {
+        "message": "Zooma in",
+        "description": "View menu command to make everything bigger"
     },
     "viewAllMedia": {
         "message": "Visa alla media",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
+    "windowMenuBringAllToFront": {
+        "message": "Ta fram alla",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "Kontrollera att du valt rätt mapp som innehåller dina sparade Signal-data. Dess namn borde börja med 'Signal Export.' Du kan också spara en ny kopia av din data från Chrome-appen.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
@@ -403,17 +505,27 @@
             }
         }
     },
+    "timerOption_1_hour": {
+        "message": "1 timme",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "video": {
         "message": "Video",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
+    "safetyNumberChangedGroup": {
+        "message": "Säkerhetsnumret med $name$ har ändrats",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Skriv in namn eller nummer",
         "description": "Placeholder text in the search input"
-    },
-    "someRecipientsFailed": {
-        "message": "Some recipients failed.",
-        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Varken namn eller meddelande",
@@ -431,12 +543,20 @@
         "message": "Olänkad",
         "description": ""
     },
+    "imageAttachmentAlt": {
+        "message": "Bild bifogat till meddelande",
+        "description": "Used in alt tag of image attachment"
+    },
     "learnMore": {
         "message": "Lär dig mer om att verifiera säkerhetsnummer",
         "description": "Text that links to a support article on verifying safety numbers"
     },
+    "signalDesktopPreferences": {
+        "message": "Signal Desktops preferenser",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "timerSetOnSync": {
-        "message": "Uppdaterar tidsgränsen till $time$.",
+        "message": "Uppdaterade tidsgränsen för försvinnande meddelanden till $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -463,8 +583,12 @@
         "message": "Tyvärr har du för många enheter redan länkade. Försök att ta bort några.",
         "description": ""
     },
+    "allowAccess": {
+        "message": "Tillåt åtkomst",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
     "joinedTheGroup": {
-        "message": "$name$ gick med i gruppen.",
+        "message": "$name$ gick med i gruppen",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -485,13 +609,17 @@
         "message": "Ställ in med import",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Disappearing messages disabled",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "Videoskärmbild kunde inte laddas",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
         "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "themeAndroidDark": {
-        "message": "Android (mörk)",
-        "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
@@ -537,6 +665,10 @@
         "message": "Uppgradera",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "moreInfo": {
+        "message": "Mer info...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
     "notificationMostRecent": {
         "message": "Nyligen:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
@@ -551,21 +683,39 @@
             }
         }
     },
+    "windowMenuClose": {
+        "message": "Stäng fönster",
+        "description": "Window menu command to close the current window"
+    },
     "showLess": {
         "message": "Göm info",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "Stavningskontroll",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "Tema",
         "description": "Header for theme settings"
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "Licens- och sekretessvillkor",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "Nytt säkerhetsnummer",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "Integritet är möjligt. Signal gör det lätt.",
@@ -612,6 +762,10 @@
     "timerOption_12_hours_abbreviated": {
         "message": "12t",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "Klistra in och matcha stil",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "signalSettings": {
         "message": "Signal-inställningar",
@@ -676,22 +830,32 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Kontaktavatar",
-        "description": "Used in the alt tag for the image avatar of a contact"
+        "message": "Avatar för kontakten $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "received": {
         "message": "Mottagit",
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "Du har markerat ditt säkerhetsnummer med $name$ som icke verifierad.",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "message": "Du markerade ditt Säkerhetsnummer med $name$ som inte verifierat",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
                 "example": "Bob"
             }
         }
+    },
+    "timerOption_1_minute": {
+        "message": "1 minut",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "isVerified": {
         "message": "Du har verifierat ditt säkerhetsnummer med $name$.",
@@ -723,6 +887,10 @@
         "message": "Rapportera ett fel",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
+    "permissions": {
+        "message": "Behörigheter",
+        "description": "Header for permissions section of settings"
+    },
     "loadDataDescription": {
         "message": "Du har just gått igenom exporteringsprocessen och dina kontakter och meddelanden ligger nu på din dator. Vänligen välj mappen som innehåller din sparade data för Signal.",
         "description": "Introduction to the process of importing messages and contacts from disk"
@@ -752,8 +920,8 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "deleteMessage": {
-        "message": "Radera detta meddelande",
-        "description": ""
+        "message": "Radera meddelande",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
         "message": "Välj enhetsnamn",
@@ -771,6 +939,10 @@
         "message": "av",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
+    "editMenuRedo": {
+        "message": "Gör om",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
     "invalidNumberError": {
         "message": "Felaktigt nummer",
         "description": "When a person inputs a number that is invalid"
@@ -782,6 +954,16 @@
     "messageBelow": {
         "message": "Nytt meddelande nedanför",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "hoursAgo": {
+        "message": "$hours$ t sen",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "menuSetupAsNewDevice": {
         "message": "Ställ in som ny enhet",
@@ -795,10 +977,6 @@
         "message": "Markera som inte verifierad",
         "description": ""
     },
-    "messageNotSent": {
-        "message": "Meddelandet kunde ej skickas.",
-        "description": "Informational label, appears on messages that failed to send"
-    },
     "initialSync": {
         "message": "Synkroniserar kontakter och grupper",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
@@ -806,6 +984,10 @@
     "mainMenuView": {
         "message": "&Visa",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "appMenuHide": {
+        "message": "Göm",
+        "description": "Application menu command to hide the window"
     },
     "autoUpdateNewVersionMessage": {
         "message": "Det finns en ny version av Signal tillgänglig.",
@@ -827,10 +1009,6 @@
         "message": "Media",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
-    "noContents": {
-        "message": "Inget meddelandeinnehåll",
-        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
-    },
     "cancel": {
         "message": "Avbryt",
         "description": ""
@@ -847,12 +1025,16 @@
         "message": "Namnlös fil",
         "description": "Hover text for attachment filenames"
     },
+    "timerOption_5_minutes": {
+        "message": "5 minuter",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "sendAnyway": {
         "message": "Skicka ändå",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "Du har markerat ditt säkerhetsnummer med $name$ som verifierad.",
+        "message": "Du markerade ditt Säkerhetsnummer med $name$ som verifierat",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -885,12 +1067,20 @@
         "message": "5 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "debugLogError": {
+        "message": "Något gick fel med uppladdningen! Vänligen överväg att manuellt lägga till loggen till rapporten du skriver.",
+        "description": ""
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Slå på utvecklingsverktyg",
+        "description": "View menu command to show or hide the developer tools"
+    },
     "showMembers": {
         "message": "Visa medlemmar",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Du har markerat ditt säkerhetsnummer med $name$ som inte verifierad från en annan enhet.",
+        "message": "Du markerade ditt Säkerhetsnummer med $name$ som inte verifierat från en annan enhet",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -903,6 +1093,10 @@
         "message": "email",
         "description": "Generic label shown if contact email has custom type but no label"
     },
+    "viewMenuResetZoom": {
+        "message": "Aktuella storlek",
+        "description": "View menu command to go back to the default zoom"
+    },
     "goToSupportPage": {
         "message": "Gå till supportsidan",
         "description": "Item under the Help menu, takes you to the support page"
@@ -912,7 +1106,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ gick med i gruppen.",
+        "message": "$names$ gick med i gruppen",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -929,12 +1123,16 @@
         "message": "Laddar...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
+    "audioPermissionNeeded": {
+        "message": "Om du vill skicka röstmeddelanden måste Signal Desktop ha tillgång till din mikrofon.",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
     "newMessages": {
         "message": "Nya meddelanden",
         "description": "Displayed in notifications for multiple messages"
     },
     "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "message": "Om dessa steg inte funkar för dig, vänligen skicka in en felsökningslogg (Visa -> Felsökningslogg) så att vi kan hjälpa dig migrera!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
@@ -953,19 +1151,13 @@
         "message": "Skicka",
         "description": ""
     },
-    "keychanged": {
-        "message": "Ditt säkerhetsnummer med $name$ har ändrats. Klicka för att visa.",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "updatedTheGroup": {
-        "message": "Uppdaterade gruppen.",
+        "message": "Grupp uppdaterad",
         "description": "Shown in the conversation history when someone updates the group"
+    },
+    "themeDark": {
+        "message": "Mörk",
+        "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
         "message": "Ditt säkerhetsnummer med $name$ har ändrats. Detta kan antingen betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Signal. Du kanske vill verifiera det nya säkerhetsnumret med denna kontakt.",
@@ -985,9 +1177,17 @@
         "message": "Till",
         "description": "Label for the receiver of a message"
     },
+    "windowMenuMinimize": {
+        "message": "Minimera",
+        "description": "Window menu command to minimize the current window"
+    },
     "timerOption_1_hour_abbreviated": {
         "message": "1t",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Sluta prata",
+        "description": "Edit menu item under 'speech' to stop dictation"
     },
     "optimizingApplication": {
         "message": "Optimerar applikationen...",
@@ -1001,6 +1201,10 @@
         "message": "Meddelandedetaljer",
         "description": ""
     },
+    "timerOption_12_hours": {
+        "message": "12 timmar",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "mainMenuFile": {
         "message": "&Arkiv",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -1009,13 +1213,25 @@
         "message": "Markera som verifierad",
         "description": ""
     },
+    "sendFailed": {
+        "message": "Att skicka meddelandet misslyckades",
+        "description": "Shown on outgoing message if it fails to send"
+    },
     "clearDataHeader": {
         "message": "Rensa data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
+    "viewMenuToggleFullScreen": {
+        "message": "Slå av/på fullskärm",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes": {
+        "message": "30 minuter",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
         "message": "Länka ny enhet",
@@ -1041,9 +1257,21 @@
         "message": "Ditt säkerhetsnummer med den här kontakten har ändrats. Detta kan antingen innebära att någon försöker avlyssna din kommunikation, eller att kontakten har ominstallerat Signal. Du kan verifiera det nya säkerhetsnumret nedan.",
         "description": ""
     },
+    "appMenuUnhide": {
+        "message": "Visa alla",
+        "description": "Application menu command to show all application windows"
+    },
     "changedSinceVerifiedMultiple": {
         "message": "Dina säkerhetsnummer med flera gruppmedlemmar har ändrats sen du sist verifierade dem. Detta kan betyda att någon försöker lyssna av din kommunikation eller att de bara installerat om Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "showSettings": {
+        "message": "Visa inställningar",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "editMenuCopy": {
+        "message": "Kopiera",
+        "description": "Edit menu command to add selected text to clipboard"
     },
     "loadDataHeader": {
         "message": "Ladda din data",
@@ -1062,7 +1290,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "Rubriken är nu '$name$'.",
+        "message": "Gruppnamnet är nu '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1070,6 +1298,10 @@
                 "example": "Book Club"
             }
         }
+    },
+    "retrySend": {
+        "message": "Skicka igen",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
         "message": "Säkerhetsnyckeln som du försöker verifiera har ändrats. Dubbelkolla ditt nya säkerhetsnummer med $name$. Kom ihåg, detta kan betyda att någon försöker komma åt din konversation eller att $name$ har ominstallerat Signal.",
@@ -1081,15 +1313,31 @@
             }
         }
     },
+    "timerOption_6_hours": {
+        "message": "6 timmar",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "videoAttachmentAlt": {
+        "message": "Skärmbild av video bifogat till meddelande",
+        "description": "Used in alt tag of video attachment preview"
+    },
     "timerSetTo": {
         "message": "Tidsgräns inställt till $time$",
-        "description": "Displayed in the conversation list when the timer is updated.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
                 "example": "1w"
             }
         }
+    },
+    "editMenuDelete": {
+        "message": "Radera",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "windowMenuZoom": {
+        "message": "Zooma",
+        "description": "Window menu command to make the current window the size of the whole screen"
     },
     "autoUpdateNewVersionTitle": {
         "message": "Uppdatering för Signal tillgänglig",
@@ -1103,16 +1351,26 @@
         "message": "Ljud",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
+    "editMenuStartSpeaking": {
+        "message": "Börja prata",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "minutesAgo": {
+        "message": "$minutes$ minuter sen",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "notifications": {
         "message": "Aviseringar",
         "description": "Header for notification settings"
     },
-    "resend": {
-        "message": "Skicka om",
-        "description": ""
-    },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Du har verifierat ditt säkerhetsnummer med $name$ från en annan enhet",
+        "message": "Du markerade ditt Säkerhetsnummer med $name$ som verifierat från en annan enhet",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

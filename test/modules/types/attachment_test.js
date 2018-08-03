@@ -100,7 +100,12 @@ describe('Attachment', () => {
         size: 1111,
       };
 
-      const actual = Attachment.removeSchemaVersion(input);
+      const actual = Attachment.removeSchemaVersion({
+        attachment: input,
+        logger: {
+          error: () => null,
+        },
+      });
       assert.deepEqual(actual, expected);
     });
   });
@@ -129,6 +134,9 @@ describe('Attachment', () => {
 
       const actual = await Attachment.migrateDataToFileSystem(input, {
         writeNewAttachmentData,
+        logger: {
+          warn: () => null,
+        },
       });
       assert.deepEqual(actual, expected);
     });
@@ -150,6 +158,9 @@ describe('Attachment', () => {
 
       const actual = await Attachment.migrateDataToFileSystem(input, {
         writeNewAttachmentData,
+        logger: {
+          warn: () => null,
+        },
       });
       assert.deepEqual(actual, expected);
     });
@@ -167,6 +178,9 @@ describe('Attachment', () => {
       try {
         await Attachment.migrateDataToFileSystem(input, {
           writeNewAttachmentData,
+          logger: {
+            warn: () => null,
+          },
         });
       } catch (error) {
         assert.strictEqual(

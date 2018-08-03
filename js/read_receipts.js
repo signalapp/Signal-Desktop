@@ -1,98 +1,102 @@
+/* global Whisper, Backbone, _, ConversationController, window */
+
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
   Whisper.ReadReceipts = new (Backbone.Collection.extend({
-    forMessage: function(conversation, message) {
+    forMessage(conversation, message) {
       if (!message.isOutgoing()) {
         return [];
       }
-      var ids = [];
+      let ids = [];
       if (conversation.isPrivate()) {
         ids = [conversation.id];
       } else {
         ids = conversation.get('members');
       }
-      var receipts = this.filter(function(receipt) {
-        return (
+      const receipts = this.filter(
+        receipt =>
           receipt.get('timestamp') === message.get('sent_at') &&
           _.contains(ids, receipt.get('reader'))
-        );
-      });
+      );
       if (receipts.length) {
-        console.log('Found early read receipts for message');
+        window.log.info('Found early read receipts for message');
         this.remove(receipts);
       }
       return receipts;
     },
-    onReceipt: function(receipt) {
-      var messages = new Whisper.MessageCollection();
-      return messages
-        .fetchSentAt(receipt.get('timestamp'))
-        .then(function() {
-          if (messages.length === 0) {
-            return;
-          }
-          var message = messages.find(function(message) {
-            return (
-              message.isOutgoing() &&
-              receipt.get('reader') === message.get('conversationId')
-            );
-          });
-          if (message) {
-            return message;
-          }
+    async getTargetMessage(reader, messages) {
+      if (messages.length === 0) {
+        return null;
+      }
+      const message = messages.find(
+        item => item.isOutgoing() && reader === item.get('conversationId')
+      );
+      if (message) {
+        return message;
+      }
 
-          var groups = new Whisper.GroupCollection();
-          return groups.fetchGroups(receipt.get('reader')).then(function() {
-            var ids = groups.pluck('id');
-            ids.push(receipt.get('reader'));
-            return messages.find(function(message) {
-              return (
-                message.isOutgoing() &&
-                _.contains(ids, message.get('conversationId'))
-              );
-            });
-          });
-        })
-        .then(
-          function(message) {
-            if (message) {
-              var read_by = message.get('read_by') || [];
-              read_by.push(receipt.get('reader'));
-              return new Promise(
-                function(resolve, reject) {
-                  message.save({ read_by: read_by }).then(
-                    function() {
-                      // notify frontend listeners
-                      var conversation = ConversationController.get(
-                        message.get('conversationId')
-                      );
-                      if (conversation) {
-                        conversation.trigger('read', message);
-                      }
+      const groups = new Whisper.GroupCollection();
+      return groups.fetchGroups(reader).then(() => {
+        const ids = groups.pluck('id');
+        ids.push(reader);
+        return messages.find(
+          item =>
+            item.isOutgoing() && _.contains(ids, item.get('conversationId'))
+        );
+      });
+    },
+    async onReceipt(receipt) {
+      try {
+        const messages = await window.Signal.Data.getMessagesBySentAt(
+          receipt.get('timestamp'),
+          {
+            MessageCollection: Whisper.MessageCollection,
+          }
+        );
 
-                      this.remove(receipt);
-                      resolve();
-                    }.bind(this),
-                    reject
-                  );
-                }.bind(this)
-              );
-            } else {
-              console.log(
-                'No message for read receipt',
-                receipt.get('reader'),
-                receipt.get('timestamp')
-              );
-            }
-          }.bind(this)
-        )
-        .catch(function(error) {
-          console.log(
-            'ReadReceipts.onReceipt error:',
-            error && error.stack ? error.stack : error
+        const message = await this.getTargetMessage(
+          receipt.get('reader'),
+          messages
+        );
+
+        if (!message) {
+          window.log.info(
+            'No message for read receipt',
+            receipt.get('reader'),
+            receipt.get('timestamp')
           );
+          return;
+        }
+
+        const readBy = message.get('read_by') || [];
+        readBy.push(receipt.get('reader'));
+
+        message.set({ read_by: readBy });
+
+        await window.Signal.Data.saveMessage(message.attributes, {
+          Message: Whisper.Message,
         });
+
+        // notify frontend listeners
+        const conversation = ConversationController.get(
+          message.get('conversationId')
+        );
+        if (conversation) {
+          conversation.trigger('read', message);
+        }
+
+        this.remove(receipt);
+      } catch (error) {
+        window.log.error(
+          'ReadReceipts.onReceipt error:',
+          error && error.stack ? error.stack : error
+        );
+      }
     },
   }))();
 })();

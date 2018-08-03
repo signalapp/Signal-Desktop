@@ -1,34 +1,35 @@
+/* global Whisper, i18n */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
-  var FIVE_SECONDS = 5 * 1000;
-
   Whisper.LastSeenIndicatorView = Whisper.View.extend({
-    className: 'last-seen-indicator-view',
+    className: 'module-last-seen-indicator',
     templateName: 'last-seen-indicator-view',
-    initialize: function(options) {
-      options = options || {};
+    initialize(options = {}) {
       this.count = options.count || 0;
     },
 
-    increment: function(count) {
+    increment(count) {
       this.count += count;
       this.render();
     },
 
-    getCount: function() {
+    getCount() {
       return this.count;
     },
 
-    render_attributes: function() {
-      var unreadMessages =
+    render_attributes() {
+      const unreadMessages =
         this.count === 1
           ? i18n('unreadMessage')
           : i18n('unreadMessages', [this.count]);
 
       return {
-        unreadMessages: unreadMessages,
+        unreadMessages,
       };
     },
   });

@@ -13,7 +13,7 @@ body {
   margin: 0;
   font-family: $roboto;
   font-size: 14px;
-  color: $grey_d;
+  color: $color-light-90;
 }
 
 .dark-overlay {
@@ -22,7 +22,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: black;
+  background-color: $color-black;
   opacity: 0.25;
   z-index: 200;
 }
@@ -40,23 +40,21 @@ body {
   display: none;
 }
 
-#header {
-  h1 {
-    margin: 0;
-    line-height: $header-height;
-    padding-left: 20px;
-    font-size: 22px;
-    font-weight: normal;
-  }
+.title-bar {
+  color: $color-light-90;
+
+  height: $header-height;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.conversation-header button,
-.title-bar button {
-  width: $button-height;
-  height: $button-height;
-  line-height: $button-height;
-  padding: 0;
-  border: 0;
+.logo {
+  margin-left: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 300;
+  color: $color-light-90;
 }
 
 button {
@@ -90,103 +88,6 @@ button.grey {
 
 a {
   color: $blue;
-}
-
-button.back {
-  @include header-icon-black('../images/back.svg');
-}
-button.clock {
-  @include header-icon-black('../images/clock.svg');
-}
-button.hamburger {
-  @include header-icon-black('../images/menu.svg');
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: $border-radius;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.25);
-  }
-}
-
-.header-buttons {
-  &.left {
-    float: left;
-    padding-left: 10px;
-  }
-  &.right {
-    float: right;
-    padding-right: 10px;
-  }
-  height: 0;
-
-  .vertical-align {
-    height: $header-height;
-    vertical-align: middle;
-    display: table-cell;
-  }
-}
-
-.conversation-header .timer-menu {
-  margin-right: 10px;
-
-  &:before {
-    content: attr(data-time);
-    display: inline-block;
-    position: absolute;
-    bottom: -10px;
-    height: 10px;
-    width: 100%;
-    text-align: center;
-    font-size: 8px;
-    font-weight: bold;
-  }
-}
-
-.menu {
-  position: relative;
-  float: right;
-
-  .hamburger {
-    width: $button-height;
-    height: $button-height;
-    vertical-align: middle;
-  }
-  .menu-list {
-    display: none;
-    position: absolute;
-    color: $grey_d;
-    z-index: 50;
-    text-align: initial;
-
-    top: 100%;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    background-color: white;
-    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
-
-    li {
-      display: block;
-      white-space: nowrap;
-      cursor: pointer;
-      padding: 5px 15px 5px 10px;
-
-      &:hover {
-        background-color: $grey_l;
-      }
-    }
-  }
 }
 
 .file-input {
@@ -235,7 +136,7 @@ button.hamburger {
   outline: solid 1px $blue;
 }
 
-$avatar-size: 44px;
+$avatar-size: 48px;
 
 .avatar {
   display: inline-block;
@@ -248,13 +149,13 @@ $avatar-size: 44px;
   line-height: $avatar-size;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  color: white;
+  color: $color-white;
   font-size: 18px;
-  @include avatar-colors;
+  background-color: $grey;
 }
 
 .group-info-input {
-  background: white;
+  background: $color-white;
 
   .group-avatar {
     display: inline-block;
@@ -303,69 +204,8 @@ $avatar-size: 44px;
     }
   }
 }
-// the old way
-.profileName {
-  font-size: smaller;
 
-  &:before {
-    content: '~';
-  }
-}
-// the new way
-.profile-name {
-  font-size: smaller;
-}
-
-.conversation-list-item {
-  cursor: pointer;
-  &:hover {
-    background: #f8f8f8;
-  }
-
-  .number {
-    display: none;
-  }
-
-  .unread-count {
-    float: right;
-    margin: 3px 10px 0 20px;
-    display: inline-block;
-    padding: 0 3px;
-    min-width: $unread-badge-size;
-    height: $unread-badge-size;
-    line-height: $unread-badge-size;
-    font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: $border-radius;
-    background-color: $blue;
-    color: white;
-    border: solid 1px rgba(255, 255, 255, 0.6);
-  }
-}
-.inactive .contact.selected {
-  padding-left: 8px;
-  border-left: 4px solid $blue;
-}
-.contact {
-  padding: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.6);
-  margin: 1px;
-
-  &.selected {
-    background: rgb(236, 243, 252);
-  }
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child::after {
-    display: none;
-  }
-}
+$unread-badge-size: 21px;
 
 .banner {
   // what's the right color?
@@ -404,13 +244,23 @@ $avatar-size: 44px;
   }
 }
 
+$new-contact-left-margin: 16px;
+.new-contact .avatar {
+  margin-left: $new-contact-left-margin;
+}
+
+// Still used for the contact search view
 .contact-details {
-  $left-margin: 8px;
+  $left-margin: 12px;
 
   vertical-align: middle;
   display: inline-block;
   margin: 0 0 0 $left-margin;
-  width: calc(100% - #{$avatar-size} - #{$left-margin} - #{(4/14) + em});
+  width: calc(
+    100% - #{$avatar-size} - #{$new-contact-left-margin} - #{$left-margin} - #{(
+        4/14
+      ) + em}
+  );
   text-align: left;
 
   p {
@@ -430,7 +280,7 @@ $avatar-size: 44px;
   }
 
   .number {
-    color: $grey;
+    color: $color-light-60;
     font-size: $font-size-small;
   }
 
@@ -444,6 +294,12 @@ $avatar-size: 44px;
     width: 1.25em;
     height: 1.25em;
     vertical-align: text-bottom;
+  }
+
+  .body-wrapper {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -504,6 +360,8 @@ $avatar-size: 44px;
 .new-group-update .recipients-input .recipients::before {
   content: 'Add: ';
 }
+
+$loading-height: 16px;
 
 .loading {
   position: relative;

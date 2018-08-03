@@ -34,10 +34,13 @@ function getImageTag({
   const title = getTitle(result.value);
 
   return (
+    // tslint:disable-next-line react-a11y-img-has-alt
     <img
       key={key}
       src={img.path}
-      alt={i18n('emojiAlt', [title || ''])}
+      // We can't use alt or it will be what is captured when a user copies message
+      //   contents ("Emoji of ':1'"). Instead, we want the title to be copied (':+1:').
+      aria-label={i18n('emojiAlt', [title || ''])}
       className={classNames('emoji', sizeClass)}
       data-codepoints={img.full_idx}
       title={`:${title}:`}
@@ -56,7 +59,7 @@ interface Props {
 
 export class Emojify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
-    renderNonEmoji: ({ text, key }) => <span key={key}>{text}</span>,
+    renderNonEmoji: ({ text }) => text,
   };
 
   public render() {

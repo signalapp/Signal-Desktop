@@ -1,20 +1,20 @@
-/*global $, Whisper, Backbone, textsecure, extension*/
+/* global _, Whisper, Backbone, storage, wrapDeferred */
 
-// This script should only be included in background.html
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};
 
-  var conversations = new Whisper.ConversationCollection();
-  var inboxCollection = new (Backbone.Collection.extend({
-    initialize: function() {
+  const conversations = new Whisper.ConversationCollection();
+  const inboxCollection = new (Backbone.Collection.extend({
+    initialize() {
       this.on('change:timestamp change:name change:number', this.sort);
 
       this.listenTo(conversations, 'add change:active_at', this.addActive);
-      this.listenTo(conversations, 'reset', function() {
-        this.reset([]);
-      });
+      this.listenTo(conversations, 'reset', () => this.reset([]));
 
       this.on(
         'add remove change:unreadCount',
@@ -24,9 +24,9 @@
 
       this.collator = new Intl.Collator();
     },
-    comparator: function(m1, m2) {
-      var timestamp1 = m1.get('timestamp');
-      var timestamp2 = m2.get('timestamp');
+    comparator(m1, m2) {
+      const timestamp1 = m1.get('timestamp');
+      const timestamp2 = m2.get('timestamp');
       if (timestamp1 && !timestamp2) {
         return -1;
       }
@@ -37,57 +37,60 @@
         return timestamp2 - timestamp1;
       }
 
-      var title1 = m1.getTitle().toLowerCase();
-      var title2 = m2.getTitle().toLowerCase();
+      const title1 = m1.getTitle().toLowerCase();
+      const title2 = m2.getTitle().toLowerCase();
       return this.collator.compare(title1, title2);
     },
-    addActive: function(model) {
+    addActive(model) {
       if (model.get('active_at')) {
         this.add(model);
       } else {
         this.remove(model);
       }
     },
-    updateUnreadCount: function() {
-      var newUnreadCount = _.reduce(
-        this.map(function(m) {
-          return m.get('unreadCount');
-        }),
-        function(item, memo) {
-          return item + memo;
-        },
+    updateUnreadCount() {
+      const newUnreadCount = _.reduce(
+        this.map(m => m.get('unreadCount')),
+        (item, memo) => item + memo,
         0
       );
       storage.put('unreadCount', newUnreadCount);
 
       if (newUnreadCount > 0) {
         window.setBadgeCount(newUnreadCount);
-        window.document.title = window.getTitle() + ' (' + newUnreadCount + ')';
+        window.document.title = `${window.getTitle()} (${newUnreadCount})`;
       } else {
         window.setBadgeCount(0);
         window.document.title = window.getTitle();
       }
       window.updateTrayIcon(newUnreadCount);
     },
-    startPruning: function() {
-      var halfHour = 30 * 60 * 1000;
-      this.interval = setInterval(
-        function() {
-          this.forEach(function(conversation) {
-            conversation.trigger('prune');
-          });
-        }.bind(this),
-        halfHour
-      );
+    startPruning() {
+      const halfHour = 30 * 60 * 1000;
+      this.interval = setInterval(() => {
+        this.forEach(conversation => {
+          conversation.trigger('prune');
+        });
+      }, halfHour);
     },
   }))();
 
-  window.getInboxCollection = function() {
-    return inboxCollection;
-  };
+  window.getInboxCollection = () => inboxCollection;
 
   window.ConversationController = {
-    get: function(id) {
+    markAsSelected(toSelect) {
+      conversations.each(conversation => {
+        const current = conversation.isSelected || false;
+        const newValue = conversation.id === toSelect.id;
+
+        // eslint-disable-next-line no-param-reassign
+        conversation.isSelected = newValue;
+        if (current !== newValue) {
+          conversation.trigger('change');
+        }
+      });
+    },
+    get(id) {
       if (!this._initialFetchComplete) {
         throw new Error(
           'ConversationController.get() needs complete initial fetch'
@@ -97,13 +100,13 @@
       return conversations.get(id);
     },
     // Needed for some model setup which happens during the initial fetch() call below
-    getUnsafe: function(id) {
+    getUnsafe(id) {
       return conversations.get(id);
     },
-    dangerouslyCreateAndAdd: function(attributes) {
+    dangerouslyCreateAndAdd(attributes) {
       return conversations.add(attributes);
     },
-    getOrCreate: function(id, type) {
+    getOrCreate(id, type) {
       if (typeof id !== 'string') {
         throw new TypeError("'id' must be a string");
       }
@@ -120,19 +123,19 @@
         );
       }
 
-      var conversation = conversations.get(id);
+      let conversation = conversations.get(id);
       if (conversation) {
         return conversation;
       }
 
       conversation = conversations.add({
-        id: id,
-        type: type,
+        id,
+        type,
       });
-      conversation.initialPromise = new Promise(function(resolve, reject) {
+      conversation.initialPromise = new Promise((resolve, reject) => {
         if (!conversation.isValid()) {
-          var validationError = conversation.validationError || {};
-          console.log(
+          const validationError = conversation.validationError || {};
+          window.log.error(
             'Contact is not valid. Not saving, but adding to collection:',
             conversation.idForLogging(),
             validationError.stack
@@ -141,72 +144,71 @@
           return resolve(conversation);
         }
 
-        var deferred = conversation.save();
+        const deferred = conversation.save();
         if (!deferred) {
-          console.log('Conversation save failed! ', id, type);
+          window.log.error('Conversation save failed! ', id, type);
           return reject(new Error('getOrCreate: Conversation save failed'));
         }
 
-        deferred.then(function() {
+        return deferred.then(() => {
           resolve(conversation);
         }, reject);
       });
 
       return conversation;
     },
-    getOrCreateAndWait: function(id, type) {
-      return this._initialPromise.then(
-        function() {
-          var conversation = this.getOrCreate(id, type);
+    getOrCreateAndWait(id, type) {
+      return this._initialPromise.then(() => {
+        const conversation = this.getOrCreate(id, type);
 
-          if (conversation) {
-            return conversation.initialPromise.then(function() {
-              return conversation;
-            });
-          }
+        if (conversation) {
+          return conversation.initialPromise.then(() => conversation);
+        }
 
-          return Promise.reject(
-            new Error('getOrCreateAndWait: did not get conversation')
-          );
-        }.bind(this)
-      );
-    },
-    getAllGroupsInvolvingId: function(id) {
-      var groups = new Whisper.GroupCollection();
-      return groups.fetchGroups(id).then(function() {
-        return groups.map(function(group) {
-          return conversations.add(group);
-        });
+        return Promise.reject(
+          new Error('getOrCreateAndWait: did not get conversation')
+        );
       });
     },
-    loadPromise: function() {
+    getAllGroupsInvolvingId(id) {
+      const groups = new Whisper.GroupCollection();
+      return groups
+        .fetchGroups(id)
+        .then(() => groups.map(group => conversations.add(group)));
+    },
+    loadPromise() {
       return this._initialPromise;
     },
-    reset: function() {
+    reset() {
       this._initialPromise = Promise.resolve();
+      this._initialFetchComplete = false;
       conversations.reset([]);
     },
-    load: function() {
-      console.log('ConversationController: starting initial fetch');
+    async load() {
+      window.log.info('ConversationController: starting initial fetch');
 
-      this._initialPromise = new Promise(
-        function(resolve, reject) {
-          conversations.fetch().then(
-            function() {
-              console.log('ConversationController: done with initial fetch');
-              this._initialFetchComplete = true;
-              resolve();
-            }.bind(this),
-            function(error) {
-              console.log(
-                'ConversationController: initial fetch failed',
-                error && error.stack ? error.stack : error
-              );
-              reject(error);
-            }
+      if (conversations.length) {
+        throw new Error('ConversationController: Already loaded!');
+      }
+
+      const load = async () => {
+        try {
+          await wrapDeferred(conversations.fetch());
+          this._initialFetchComplete = true;
+          await Promise.all(
+            conversations.map(conversation => conversation.updateLastMessage())
           );
-        }.bind(this)
-      );
+          window.log.info('ConversationController: done with initial fetch');
+        } catch (error) {
+          window.log.error(
+            'ConversationController: initial fetch failed',
+            error && error.stack ? error.stack : error
+          );
+          throw error;
+        }
+      };
+
+      this._initialPromise = load();
 
       return this._initialPromise;
     },

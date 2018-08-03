@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons/Error/error-20</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons/Error/error-20" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M10,0 C15.52,0 20,4.48 20,10 C20,15.52 15.52,20 10,20 C4.48,20 0,15.52 0,10 C0,4.48 4.48,0 10,0 Z M10,1.5 C5.308,1.5 1.5,5.308 1.5,10 C1.5,14.692 5.308,18.5 10,18.5 C14.692,18.5 18.5,14.692 18.5,10 C18.5,5.308 14.692,1.5 10,1.5 Z M9.25,5 L10.75,5 L10.75,12 L9.25,12 L9.25,5 Z M9.25,13.5 L10.75,13.5 L10.75,15 L9.25,15 L9.25,13.5 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero"></path>
+    </g>
+</svg>

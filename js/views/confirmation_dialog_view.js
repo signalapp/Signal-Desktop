@@ -1,11 +1,15 @@
+/* global Whisper, i18n */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.ConfirmationDialogView = Whisper.View.extend({
     className: 'confirmation-dialog modal',
     templateName: 'confirmation-dialog',
-    initialize: function(options) {
+    initialize(options) {
       this.message = options.message;
       this.hideCancel = options.hideCancel;
 
@@ -22,7 +26,7 @@
       'click .ok': 'ok',
       'click .cancel': 'cancel',
     },
-    render_attributes: function() {
+    render_attributes() {
       return {
         message: this.message,
         showCancel: !this.hideCancel,
@@ -30,24 +34,24 @@
         ok: this.okText,
       };
     },
-    ok: function() {
+    ok() {
       this.remove();
       if (this.resolve) {
         this.resolve();
       }
     },
-    cancel: function() {
+    cancel() {
       this.remove();
       if (this.reject) {
         this.reject();
       }
     },
-    onKeyup: function(event) {
+    onKeyup(event) {
       if (event.key === 'Escape' || event.key === 'Esc') {
         this.cancel();
       }
     },
-    focusCancel: function() {
+    focusCancel() {
       this.$('.cancel').focus();
     },
   });

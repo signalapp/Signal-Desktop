@@ -1,5 +1,9 @@
+/* global Whisper, _ */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.MessageListView = Whisper.ListView.extend({
@@ -9,17 +13,14 @@
     events: {
       scroll: 'onScroll',
     },
-    initialize: function() {
+    initialize() {
       Whisper.ListView.prototype.initialize.call(this);
 
-      this.triggerLazyScroll = _.debounce(
-        function() {
-          this.$el.trigger('lazyScroll');
-        }.bind(this),
-        500
-      );
+      this.triggerLazyScroll = _.debounce(() => {
+        this.$el.trigger('lazyScroll');
+      }, 500);
     },
-    onScroll: function() {
+    onScroll() {
       this.measureScrollPosition();
       if (this.$el.scrollTop() === 0) {
         this.$el.trigger('loadMore');
@@ -32,10 +33,10 @@
 
       this.triggerLazyScroll();
     },
-    atBottom: function() {
+    atBottom() {
       return this.bottomOffset < 30;
     },
-    measureScrollPosition: function() {
+    measureScrollPosition() {
       if (this.el.scrollHeight === 0) {
         // hidden
         return;
@@ -45,10 +46,10 @@
       this.scrollHeight = this.el.scrollHeight;
       this.bottomOffset = this.scrollHeight - this.scrollPosition;
     },
-    resetScrollPosition: function() {
+    resetScrollPosition() {
       this.$el.scrollTop(this.scrollPosition - this.$el.outerHeight());
     },
-    scrollToBottomIfNeeded: function() {
+    scrollToBottomIfNeeded() {
       // This is counter-intuitive. Our current bottomOffset is reflective of what
       //   we last measured, not necessarily the current state. And this is called
       //   after we just made a change to the DOM: inserting a message, or an image
@@ -58,25 +59,17 @@
         this.scrollToBottom();
       }
     },
-    scrollToBottom: function() {
+    scrollToBottom() {
       this.$el.scrollTop(this.el.scrollHeight);
       this.measureScrollPosition();
     },
-    addOne: function(model) {
-      var view;
-      if (model.isExpirationTimerUpdate()) {
-        view = new Whisper.ExpirationTimerUpdateView({ model: model }).render();
-      } else if (model.get('type') === 'keychange') {
-        view = new Whisper.KeyChangeView({ model: model }).render();
-      } else if (model.get('type') === 'verified-change') {
-        view = new Whisper.VerifiedChangeView({ model: model }).render();
-      } else {
-        view = new this.itemView({ model: model }).render();
-        this.listenTo(view, 'beforeChangeHeight', this.measureScrollPosition);
-        this.listenTo(view, 'afterChangeHeight', this.scrollToBottomIfNeeded);
-      }
+    addOne(model) {
+      // eslint-disable-next-line new-cap
+      const view = new this.itemView({ model }).render();
+      this.listenTo(view, 'beforeChangeHeight', this.measureScrollPosition);
+      this.listenTo(view, 'afterChangeHeight', this.scrollToBottomIfNeeded);
 
-      var index = this.collection.indexOf(model);
+      const index = this.collection.indexOf(model);
       this.measureScrollPosition();
 
       if (model.get('unread') && !this.atBottom()) {
@@ -91,20 +84,20 @@
         this.$el.prepend(view.el);
       } else {
         // insert
-        var next = this.$('#' + this.collection.at(index + 1).id);
-        var prev = this.$('#' + this.collection.at(index - 1).id);
+        const next = this.$(`#${this.collection.at(index + 1).id}`);
+        const prev = this.$(`#${this.collection.at(index - 1).id}`);
         if (next.length > 0) {
           view.$el.insertBefore(next);
         } else if (prev.length > 0) {
           view.$el.insertAfter(prev);
         } else {
           // scan for the right spot
-          var elements = this.$el.children();
+          const elements = this.$el.children();
           if (elements.length > 0) {
-            for (var i = 0; i < elements.length; ++i) {
-              var m = this.collection.get(elements[i].id);
-              var m_index = this.collection.indexOf(m);
-              if (m_index > index) {
+            for (let i = 0; i < elements.length; i += 1) {
+              const m = this.collection.get(elements[i].id);
+              const mIndex = this.collection.indexOf(m);
+              if (mIndex > index) {
                 view.$el.insertBefore(elements[i]);
                 break;
               }

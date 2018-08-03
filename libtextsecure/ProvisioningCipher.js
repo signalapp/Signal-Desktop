@@ -1,83 +1,76 @@
-(function() {
-  'use strict';
+/* global libsignal, textsecure */
 
+/* eslint-disable more/no-then */
+
+// eslint-disable-next-line func-names
+(function() {
   function ProvisioningCipher() {}
 
   ProvisioningCipher.prototype = {
-    decrypt: function(provisionEnvelope) {
-      var masterEphemeral = provisionEnvelope.publicKey.toArrayBuffer();
-      var message = provisionEnvelope.body.toArrayBuffer();
-      if (new Uint8Array(message)[0] != 1) {
+    decrypt(provisionEnvelope) {
+      const masterEphemeral = provisionEnvelope.publicKey.toArrayBuffer();
+      const message = provisionEnvelope.body.toArrayBuffer();
+      if (new Uint8Array(message)[0] !== 1) {
         throw new Error('Bad version number on ProvisioningMessage');
       }
 
-      var iv = message.slice(1, 16 + 1);
-      var mac = message.slice(message.byteLength - 32, message.byteLength);
-      var ivAndCiphertext = message.slice(0, message.byteLength - 32);
-      var ciphertext = message.slice(16 + 1, message.byteLength - 32);
+      const iv = message.slice(1, 16 + 1);
+      const mac = message.slice(message.byteLength - 32, message.byteLength);
+      const ivAndCiphertext = message.slice(0, message.byteLength - 32);
+      const ciphertext = message.slice(16 + 1, message.byteLength - 32);
 
       return libsignal.Curve.async
         .calculateAgreement(masterEphemeral, this.keyPair.privKey)
-        .then(function(ecRes) {
-          return libsignal.HKDF.deriveSecrets(
+        .then(ecRes =>
+          libsignal.HKDF.deriveSecrets(
             ecRes,
             new ArrayBuffer(32),
             'TextSecure Provisioning Message'
-          );
-        })
-        .then(function(keys) {
-          return libsignal.crypto
+          )
+        )
+        .then(keys =>
+          libsignal.crypto
             .verifyMAC(ivAndCiphertext, keys[1], mac, 32)
-            .then(function() {
-              return libsignal.crypto.decrypt(keys[0], ciphertext, iv);
-            });
-        })
-        .then(function(plaintext) {
-          var provisionMessage = textsecure.protobuf.ProvisionMessage.decode(
+            .then(() => libsignal.crypto.decrypt(keys[0], ciphertext, iv))
+        )
+        .then(plaintext => {
+          const provisionMessage = textsecure.protobuf.ProvisionMessage.decode(
             plaintext
           );
-          var privKey = provisionMessage.identityKeyPrivate.toArrayBuffer();
+          const privKey = provisionMessage.identityKeyPrivate.toArrayBuffer();
 
-          return libsignal.Curve.async
-            .createKeyPair(privKey)
-            .then(function(keyPair) {
-              var ret = {
-                identityKeyPair: keyPair,
-                number: provisionMessage.number,
-                provisioningCode: provisionMessage.provisioningCode,
-                userAgent: provisionMessage.userAgent,
-                readReceipts: provisionMessage.readReceipts,
-              };
-              if (provisionMessage.profileKey) {
-                ret.profileKey = provisionMessage.profileKey.toArrayBuffer();
-              }
-              return ret;
-            });
+          return libsignal.Curve.async.createKeyPair(privKey).then(keyPair => {
+            const ret = {
+              identityKeyPair: keyPair,
+              number: provisionMessage.number,
+              provisioningCode: provisionMessage.provisioningCode,
+              userAgent: provisionMessage.userAgent,
+              readReceipts: provisionMessage.readReceipts,
+            };
+            if (provisionMessage.profileKey) {
+              ret.profileKey = provisionMessage.profileKey.toArrayBuffer();
+            }
+            return ret;
+          });
         });
     },
-    getPublicKey: function() {
+    getPublicKey() {
       return Promise.resolve()
-        .then(
-          function() {
-            if (!this.keyPair) {
-              return libsignal.Curve.async.generateKeyPair().then(
-                function(keyPair) {
-                  this.keyPair = keyPair;
-                }.bind(this)
-              );
-            }
-          }.bind(this)
-        )
-        .then(
-          function() {
-            return this.keyPair.pubKey;
-          }.bind(this)
-        );
+        .then(() => {
+          if (!this.keyPair) {
+            return libsignal.Curve.async.generateKeyPair().then(keyPair => {
+              this.keyPair = keyPair;
+            });
+          }
+
+          return null;
+        })
+        .then(() => this.keyPair.pubKey);
     },
   };
 
-  libsignal.ProvisioningCipher = function() {
-    var cipher = new ProvisioningCipher();
+  libsignal.ProvisioningCipher = function ProvisioningCipherWrapper() {
+    const cipher = new ProvisioningCipher();
 
     this.decrypt = cipher.decrypt.bind(cipher);
     this.getPublicKey = cipher.getPublicKey.bind(cipher);

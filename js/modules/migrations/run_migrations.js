@@ -8,13 +8,13 @@ const { deferredToPromise } = require('../deferred_to_promise');
 const closeDatabaseConnection = ({ Backbone } = {}) =>
   deferredToPromise(Backbone.sync('closeall'));
 
-exports.runMigrations = async ({ Backbone, database } = {}) => {
+exports.runMigrations = async ({ Backbone, database, logger } = {}) => {
   if (
     !isObject(Backbone) ||
     !isObject(Backbone.Collection) ||
     !isFunction(Backbone.Collection.extend)
   ) {
-    throw new TypeError("'Backbone' is required");
+    throw new TypeError('runMigrations: Backbone is required');
   }
 
   if (
@@ -22,7 +22,10 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
     !isString(database.id) ||
     !Array.isArray(database.migrations)
   ) {
-    throw new TypeError("'database' is required");
+    throw new TypeError('runMigrations: database is required');
+  }
+  if (!isObject(logger)) {
+    throw new TypeError('runMigrations: logger is required');
   }
 
   const {
@@ -33,7 +36,7 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
   const databaseVersion = await db.getVersion(database.id);
   const isAlreadyUpgraded = databaseVersion >= lastMigrationVersion;
 
-  console.log('Database status', {
+  logger.info('Database status', {
     firstMigrationVersion,
     lastMigrationVersion,
     databaseVersion,
@@ -50,7 +53,7 @@ exports.runMigrations = async ({ Backbone, database } = {}) => {
   }))();
 
   await deferredToPromise(migrationCollection.fetch({ limit: 1 }));
-  console.log('Close database connection');
+  logger.info('Close database connection');
   await closeDatabaseConnection({ Backbone });
 };
 

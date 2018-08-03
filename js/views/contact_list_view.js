@@ -1,5 +1,10 @@
+/* global Whisper: false */
+/* global textsecure: false */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.ContactListView = Whisper.ListView.extend({
@@ -8,39 +13,45 @@
       tagName: 'div',
       className: 'contact',
       templateName: 'contact',
-      events: {
-        click: 'showIdentity',
-      },
-      initialize: function(options) {
+      initialize(options) {
         this.ourNumber = textsecure.storage.user.getNumber();
         this.listenBack = options.listenBack;
 
         this.listenTo(this.model, 'change', this.render);
       },
-      render_attributes: function() {
-        if (this.model.id === this.ourNumber) {
-          return {
-            title: i18n('me'),
-            number: this.model.getNumber(),
-            avatar: this.model.getAvatar(),
-          };
+      render() {
+        if (this.contactView) {
+          this.contactView.remove();
+          this.contactView = null;
         }
 
-        return {
-          class: 'clickable',
-          title: this.model.getTitle(),
-          number: this.model.getNumber(),
-          avatar: this.model.getAvatar(),
-          profileName: this.model.getProfileName(),
-          isVerified: this.model.isVerified(),
-          verified: i18n('verified'),
-        };
+        const avatar = this.model.getAvatar();
+        const avatarPath = avatar && avatar.url;
+        const color = avatar && avatar.color;
+        const isMe = this.ourNumber === this.model.id;
+
+        this.contactView = new Whisper.ReactWrapperView({
+          className: 'contact-wrapper',
+          Component: window.Signal.Components.ContactListItem,
+          props: {
+            isMe,
+            color,
+            avatarPath,
+            phoneNumber: this.model.getNumber(),
+            name: this.model.getName(),
+            profileName: this.model.getProfileName(),
+            verified: this.model.isVerified(),
+            onClick: this.showIdentity.bind(this),
+          },
+        });
+        this.$el.append(this.contactView.el);
+        return this;
       },
-      showIdentity: function() {
+      showIdentity() {
         if (this.model.id === this.ourNumber) {
           return;
         }
-        var view = new Whisper.KeyVerificationPanelView({
+        const view = new Whisper.KeyVerificationPanelView({
           model: this.model,
         });
         this.listenBack(view);

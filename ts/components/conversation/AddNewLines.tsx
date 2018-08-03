@@ -10,7 +10,7 @@ interface Props {
 
 export class AddNewLines extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
-    renderNonNewLine: ({ text, key }) => <span key={key}>{text}</span>,
+    renderNonNewLine: ({ text }) => text,
   };
 
   public render() {

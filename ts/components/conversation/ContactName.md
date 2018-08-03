@@ -1,32 +1,26 @@
-#### With name and profile
+#### Number, name and profile
 
 ```jsx
-<div style={{ backgroundColor: 'gray', color: 'white' }}>
-  <ContactName
-    i18n={util.i18n}
-    name="Someone 🔥 Somewhere"
-    phoneNumber="+12025550011"
-    profileName="🔥Flames🔥"
-  />
-</div>
+<ContactName
+  i18n={util.i18n}
+  name="Someone 🔥 Somewhere"
+  phoneNumber="(202) 555-0011"
+  profileName="🔥Flames🔥"
+/>
 ```
 
-#### Profile, no name
+#### Number and profile, no name
 
 ```jsx
-<div style={{ backgroundColor: 'gray', color: 'white' }}>
-  <ContactName
-    i18n={util.i18n}
-    phoneNumber="+12025550011"
-    profileName="🔥Flames🔥"
-  />
-</div>
+<ContactName
+  i18n={util.i18n}
+  phoneNumber="(202) 555-0011"
+  profileName="🔥Flames🔥"
+/>
 ```
 
 #### No name, no profile
 
 ```jsx
-<div style={{ backgroundColor: 'gray', color: 'white' }}>
-  <ContactName i18n={util.i18n} phoneNumber="+12025550011" />
-</div>
+<ContactName i18n={util.i18n} phoneNumber="(202) 555-0011" />
 ```

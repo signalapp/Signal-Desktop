@@ -1,7 +1,5 @@
-'use strict';
-
 describe('Key generation', function() {
-  var count = 10;
+  const count = 10;
   this.timeout(count * 2000);
 
   function validateStoredKeyPair(keyPair) {
@@ -14,49 +12,41 @@ describe('Key generation', function() {
     assert.strictEqual(keyPair.privKey.byteLength, 32);
   }
   function itStoresPreKey(keyId) {
-    it('prekey ' + keyId + ' is valid', function() {
-      return textsecure.storage.protocol
-        .loadPreKey(keyId)
-        .then(function(keyPair) {
-          validateStoredKeyPair(keyPair);
-        });
-    });
+    it(`prekey ${keyId} is valid`, () =>
+      textsecure.storage.protocol.loadPreKey(keyId).then(keyPair => {
+        validateStoredKeyPair(keyPair);
+      }));
   }
   function itStoresSignedPreKey(keyId) {
-    it('signed prekey ' + keyId + ' is valid', function() {
-      return textsecure.storage.protocol
-        .loadSignedPreKey(keyId)
-        .then(function(keyPair) {
-          validateStoredKeyPair(keyPair);
-        });
-    });
+    it(`signed prekey ${keyId} is valid`, () =>
+      textsecure.storage.protocol.loadSignedPreKey(keyId).then(keyPair => {
+        validateStoredKeyPair(keyPair);
+      }));
   }
   function validateResultKey(resultKey) {
     return textsecure.storage.protocol
       .loadPreKey(resultKey.keyId)
-      .then(function(keyPair) {
+      .then(keyPair => {
         assertEqualArrayBuffers(resultKey.publicKey, keyPair.pubKey);
       });
   }
   function validateResultSignedKey(resultSignedKey) {
     return textsecure.storage.protocol
       .loadSignedPreKey(resultSignedKey.keyId)
-      .then(function(keyPair) {
+      .then(keyPair => {
         assertEqualArrayBuffers(resultSignedKey.publicKey, keyPair.pubKey);
       });
   }
 
-  before(function() {
+  before(() => {
     localStorage.clear();
-    return libsignal.KeyHelper.generateIdentityKeyPair().then(function(
-      keyPair
-    ) {
-      return textsecure.storage.protocol.put('identityKey', keyPair);
-    });
+    return libsignal.KeyHelper.generateIdentityKeyPair().then(keyPair =>
+      textsecure.storage.protocol.put('identityKey', keyPair)
+    );
   });
 
-  describe('the first time', function() {
-    var result;
+  describe('the first time', () => {
+    let result;
     /* result should have this format
          * {
          *   preKeys: [ { keyId, publicKey }, ... ],
@@ -64,101 +54,98 @@ describe('Key generation', function() {
          *   identityKey: <ArrayBuffer>
          * }
          */
-    before(function() {
-      var accountManager = new textsecure.AccountManager('');
-      return accountManager.generateKeys(count).then(function(res) {
+    before(() => {
+      const accountManager = new textsecure.AccountManager('');
+      return accountManager.generateKeys(count).then(res => {
         result = res;
       });
     });
-    for (var i = 1; i <= count; i++) {
+    for (let i = 1; i <= count; i++) {
       itStoresPreKey(i);
     }
     itStoresSignedPreKey(1);
 
-    it('result contains ' + count + ' preKeys', function() {
+    it(`result contains ${count} preKeys`, () => {
       assert.isArray(result.preKeys);
       assert.lengthOf(result.preKeys, count);
-      for (var i = 0; i < count; i++) {
+      for (let i = 0; i < count; i++) {
         assert.isObject(result.preKeys[i]);
       }
     });
-    it('result contains the correct keyIds', function() {
-      for (var i = 0; i < count; i++) {
+    it('result contains the correct keyIds', () => {
+      for (let i = 0; i < count; i++) {
         assert.strictEqual(result.preKeys[i].keyId, i + 1);
       }
     });
-    it('result contains the correct public keys', function() {
-      return Promise.all(result.preKeys.map(validateResultKey));
-    });
-    it('returns a signed prekey', function() {
+    it('result contains the correct public keys', () =>
+      Promise.all(result.preKeys.map(validateResultKey)));
+    it('returns a signed prekey', () => {
       assert.strictEqual(result.signedPreKey.keyId, 1);
       assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
       return validateResultSignedKey(result.signedPreKey);
     });
   });
-  describe('the second time', function() {
-    var result;
-    before(function() {
-      var accountManager = new textsecure.AccountManager('');
-      return accountManager.generateKeys(count).then(function(res) {
+  describe('the second time', () => {
+    let result;
+    before(() => {
+      const accountManager = new textsecure.AccountManager('');
+      return accountManager.generateKeys(count).then(res => {
         result = res;
       });
     });
-    for (var i = 1; i <= 2 * count; i++) {
+    for (let i = 1; i <= 2 * count; i++) {
       itStoresPreKey(i);
     }
     itStoresSignedPreKey(1);
     itStoresSignedPreKey(2);
-    it('result contains ' + count + ' preKeys', function() {
+    it(`result contains ${count} preKeys`, () => {
       assert.isArray(result.preKeys);
       assert.lengthOf(result.preKeys, count);
-      for (var i = 0; i < count; i++) {
+      for (let i = 0; i < count; i++) {
         assert.isObject(result.preKeys[i]);
       }
     });
-    it('result contains the correct keyIds', function() {
-      for (var i = 1; i <= count; i++) {
+    it('result contains the correct keyIds', () => {
+      for (let i = 1; i <= count; i++) {
         assert.strictEqual(result.preKeys[i - 1].keyId, i + count);
       }
     });
-    it('result contains the correct public keys', function() {
-      return Promise.all(result.preKeys.map(validateResultKey));
-    });
-    it('returns a signed prekey', function() {
+    it('result contains the correct public keys', () =>
+      Promise.all(result.preKeys.map(validateResultKey)));
+    it('returns a signed prekey', () => {
       assert.strictEqual(result.signedPreKey.keyId, 2);
       assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
       return validateResultSignedKey(result.signedPreKey);
     });
   });
-  describe('the third time', function() {
-    var result;
-    before(function() {
-      var accountManager = new textsecure.AccountManager('');
-      return accountManager.generateKeys(count).then(function(res) {
+  describe('the third time', () => {
+    let result;
+    before(() => {
+      const accountManager = new textsecure.AccountManager('');
+      return accountManager.generateKeys(count).then(res => {
         result = res;
       });
     });
-    for (var i = 1; i <= 3 * count; i++) {
+    for (let i = 1; i <= 3 * count; i++) {
       itStoresPreKey(i);
     }
     itStoresSignedPreKey(2);
     itStoresSignedPreKey(3);
-    it('result contains ' + count + ' preKeys', function() {
+    it(`result contains ${count} preKeys`, () => {
       assert.isArray(result.preKeys);
       assert.lengthOf(result.preKeys, count);
-      for (var i = 0; i < count; i++) {
+      for (let i = 0; i < count; i++) {
         assert.isObject(result.preKeys[i]);
       }
     });
-    it('result contains the correct keyIds', function() {
-      for (var i = 1; i <= count; i++) {
+    it('result contains the correct keyIds', () => {
+      for (let i = 1; i <= count; i++) {
         assert.strictEqual(result.preKeys[i - 1].keyId, i + 2 * count);
       }
     });
-    it('result contains the correct public keys', function() {
-      return Promise.all(result.preKeys.map(validateResultKey));
-    });
-    it('result contains a signed prekey', function() {
+    it('result contains the correct public keys', () =>
+      Promise.all(result.preKeys.map(validateResultKey)));
+    it('result contains a signed prekey', () => {
       assert.strictEqual(result.signedPreKey.keyId, 3);
       assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
       return validateResultSignedKey(result.signedPreKey);

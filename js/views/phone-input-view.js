@@ -1,26 +1,30 @@
+/* global libphonenumber, Whisper */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   Whisper.PhoneInputView = Whisper.View.extend({
     tagName: 'div',
     className: 'phone-input',
     templateName: 'phone-number',
-    initialize: function() {
+    initialize() {
       this.$('input.number').intlTelInput();
     },
     events: {
       change: 'validateNumber',
       keyup: 'validateNumber',
     },
-    validateNumber: function() {
-      var input = this.$('input.number');
-      var regionCode = this.$('li.active')
+    validateNumber() {
+      const input = this.$('input.number');
+      const regionCode = this.$('li.active')
         .attr('data-country-code')
         .toUpperCase();
-      var number = input.val();
+      const number = input.val();
 
-      var parsedNumber = libphonenumber.util.parseNumber(number, regionCode);
+      const parsedNumber = libphonenumber.util.parseNumber(number, regionCode);
       if (parsedNumber.isValidNumber) {
         this.$('.number-container').removeClass('invalid');
         this.$('.number-container').addClass('valid');

@@ -1,13 +1,12 @@
-'use strict';
-describe('Protocol', function() {
-  describe('Unencrypted PushMessageProto "decrypt"', function() {
-    //exclusive
-    it('works', function(done) {
+describe('Protocol', () => {
+  describe('Unencrypted PushMessageProto "decrypt"', () => {
+    // exclusive
+    it('works', done => {
       localStorage.clear();
 
-      var text_message = new textsecure.protobuf.DataMessage();
+      const text_message = new textsecure.protobuf.DataMessage();
       text_message.body = 'Hi Mom';
-      var server_message = {
+      const server_message = {
         type: 4, // unencrypted
         source: '+19999999999',
         timestamp: 42,
@@ -21,7 +20,7 @@ describe('Protocol', function() {
           server_message.type,
           server_message.message
         )
-        .then(function(message) {
+        .then(message => {
           assert.equal(message.body, text_message.body);
           assert.equal(
             message.attachments.length,

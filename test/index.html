@@ -11,11 +11,10 @@
   </div>
   <div id="tests">
   </div>
-  <div id="render-android" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
+  <div id="render-light-theme" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
-  <div id="render-android-dark" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
+  <div id="render-dark-theme" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
-  <div id="render-ios" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
@@ -97,37 +96,7 @@
     <p> {{ content }}</p>
   </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
-    <div class='conversation-header {{ avatar.color }}'>
-        <div class='header-buttons left'>
-          <div class='vertical-align'>
-            <button class='back hide'></button>
-          </div>
-        </div>
-        <div class='header-buttons right'>
-          <div class='vertical-align'>
-            <div class='conversation-menu menu'>
-              <button class='hamburger' alt='conversation menu'></button>
-              <ul class='menu-list'>
-                  <li class='disappearing-messages'>{{ disappearing-messages }}</li>
-                  {{#group}}
-                      <li class='show-members'>{{ show-members }}</li>
-                      <!-- <li class='update-group'>Update group</li> -->
-                      <!-- <li class='leave-group'>Leave group</li> -->
-                  {{/group}}
-                  {{^group}}
-                      {{ ^isMe }}
-                        <li class='show-identity'>{{ show-identity }}</li>
-                      {{ /isMe }}
-                      <li class='end-session'>{{ end-session }}</li>
-                  {{/group}}
-                  <li class='destroy'>{{ destroy }}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <span class='conversation-title'></span>
-        {{> avatar }}
-    </div>
+    <div class='conversation-header'></div>
     <div class='main panel'>
       <div class='discussion-container'>
           <div class='bar-container hide'>
@@ -172,62 +141,6 @@
   <script type='text/x-tmpl-mustache' id='attachment-preview'>
         <img src='{{ source }}' class='preview' />
         <a class='x close' alt='remove attachment' href='#'></a>
-  </script>
-  <script type='text/x-tmpl-mustache' id='hasRetry'>
-    {{ messageNotSent }}
-    <span href='#' class='retry'>{{ resend }}</span>
-  </script>
-  <script type='text/x-tmpl-mustache' id='keychange'>
-      <span class='content' dir='auto'><span class='shield icon'></span> {{ content }}</span>
-  </script>
-  <script type='text/x-tmpl-mustache' id='verified-change'>
-      <span class='content' dir='auto'><span class='{{ icon }} icon'></span> {{ content }}</span>
-  </script>
-  <script type='text/x-tmpl-mustache' id='message'>
-      {{> avatar }}
-      <div class='bubble {{ avatar.color }}'>
-          <div class='sender' dir='auto'>
-            {{ sender }}
-            {{ #profileName }}
-              <span class='profileName'>{{ profileName }} </span>
-            {{ /profileName }}
-          </div>
-          <div class='tail-wrapper {{ innerBubbleClasses }}'>
-            <div class='inner-bubble'>
-              {{ #hasAttachments }}
-                <div class='attachments'></div>
-              {{ /hasAttachments }}
-              {{ #hasBody }}
-                <div class='content' dir='auto'>
-                  {{ #message }}
-                    <div class='body'></div>
-                  {{ /message }}
-                </div>
-                {{ /hasBody }}
-            </div>
-          </div>
-          <div class='meta'>
-            <span class='timestamp' data-timestamp={{ timestamp }}></span>
-            <span class='status hide'></span>
-            <span class='timer'></span>
-          </div>
-          {{ #hoverIcon }}
-            <div class='menu-container menu'>
-              <div class='menu-anchor'>
-                <span class='dots-horizontal-icon'></span>
-                <ul class='menu-list'>
-                  <li class='reply'>{{ reply }}</li>
-                </ul>
-              </div>
-            </div>
-          {{ /hoverIcon }}
-      </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='hourglass'>
-      <span class='hourglass'><span class='sand'></span></span>
-  </script>
-  <script type='text/x-tmpl-mustache' id='expirationTimerUpdate'>
-    <span class='content'><span class='icon clock'></span> {{ content }}</span>
   </script>
   <script type='text/x-tmpl-mustache' id='new-group-update'>
       <div class='conversation-header'>
@@ -304,48 +217,6 @@
   </script>
   <script type='text/x-tmpl-mustache' id='attachment-type-modal'>
       Sorry, your attachment has a type, {{type}}, that is not currently supported.
-  </script>
-  <script type='text/x-tmpl-mustache' id='message-detail'>
-    <div class='container'>
-      <div class='message-container'></div>
-      <div class='info'>
-        <table>
-          {{ #errors }}
-            <tr>
-              <td class='label'>{{ errorLabel }}</td>
-              <td> <span class='error-message'>{{message}}</span> </td>
-            </tr>
-          {{ /errors }}
-          <tr>
-            <td class='label'>{{ sent }}</td>
-            <td> {{ sent_at }}</td>
-          </tr>
-          {{ #received_at }}
-            <tr>
-              <td class='label'>{{ received }}</td>
-              <td> {{ received_at }}</td>
-            </tr>
-          {{ /received_at }}
-            <tr> <td class='tofrom label'>{{tofrom}}</td> </tr>
-        </table>
-        <div class='contacts'>
-        </div>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='identity-key-send-error'>
-    <div class='container'>
-      <div class='explanation'>
-        {{ errorExplanation }}
-      </div>
-      <div class='safety-number'>
-        <button class='show-safety-number grey'>{{ showSafetyNumber }}</button>
-      </div>
-      <div class='actions'>
-        <button class='send-anyway grey'>{{ sendAnyway }}</button>
-        <button class='cancel grey'>{{ cancel }}</button>
-      </div>
-    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='group-member-list'>
     <div class='container'>
@@ -426,120 +297,11 @@
       <span class='error-message'>{{message}}</span>
     {{ /message }}
   </script>
-  <script type='text/x-tmpl-mustache' id='contact-detail'>
-      <div class='clearfix'>
-        {{> avatar }}
-        <div class='contact-details'>
-          {{ #errors }}
-              <div class='error-icon-container'>
-                <span class='error-icon'></span>
-              </div>
-          {{ /errors }}
-          <span class='name' dir='auto'>{{ name }}</span>
-          {{ #errors }}
-            {{ #message }}
-              <p class='error-message'>{{message}}</p>
-            {{ /message }}
-          {{ /errors }}
-        </div>
-      </div>
-  </script>
   <script type='text/x-tmpl-mustache' id='link_to_support'>
     <a href='http://support.signal.org/hc/articles/213134107' target='_blank'>
       {{ learnMore }}
     </a>
   </script>
-  <script type='text/x-tmpl-mustache' id='debug-log'>
-    <div class='content'>
-      <div>
-        <a class='x close' alt='close debug log' href='#'></a>
-        <h1> {{ title }} </h1>
-        <p> {{ debugLogExplanation }}</p>
-      </div>
-      <textarea spellcheck='false' rows='5'></textarea>
-      <div class='buttons'>
-        <button class='grey submit'>{{ submit }}</button>
-      </div>
-      <div class='result'>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='debug-log-link'>
-    <div class='input-group clearfix'>
-      <input type='text' class='link' readonly value='{{ url }}' />
-      <a class='open' alt='open in a new browser tab' target='_blank' href='{{ url }}'></a>
-    </div>
-    <p>
-      <a class='report-link' target='_blank'
-          href='https://github.com/signalapp/Signal-Desktop/issues/new/'>
-          {{ reportIssue }}
-      </a>
-    </p>
-  </script>
-  <script type='text/x-tmpl-mustache' id='settings'>
-    <div class='content'>
-      <a class='x close' alt='close settings' href='#'></a>
-      <h2>{{ settings }}</h2>
-      <hr>
-      <div class='theme-settings'>
-        <h3>{{ theme }}</h3>
-        <div>
-          <input type='radio' name='theme' id='theme-setting-android' value='android'>
-          <label for='theme-setting-android'>Android</label>
-        </div>
-        <div>
-          <input type='radio' name='theme' id='theme-setting-android-dark' value='android-dark'>
-          <label for='theme-setting-android-dark'>{{ themeAndroidDark }}</label>
-        </div>
-        <div>
-          <input type='radio' name='theme' id='theme-setting-ios'  value='ios'/>
-          <label for='theme-setting-ios'>iOS</label>
-        </div>
-      </div>
-      <hr>
-      <div class='notification-settings'>
-        <h3>{{ notifications }}</h3>
-        <p>{{ notificationSettingsDialog }}</p>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-message' value='message'>
-          <label for='notification-setting-message'>{{ nameAndMessage }} </label>
-        </div>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-name'  value='name'/>
-          <label for='notification-setting-name'>{{ nameOnly }} </label>
-        </div>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-count' value='count'/>
-          <label for='notification-setting-count'>{{ noNameOrMessage }} </label>
-        </div>
-        <div>
-          <input type='radio' name='notifications' id='notification-setting-off' value='off'/>
-          <label for='notification-setting-off'>{{ disableNotifications }} </label>
-        </div>
-      </div>
-      <br />
-      <div class='audio-notification-setting'>
-        <input type='checkbox' name='audio-notification' id='audio-notification'/>
-        <label for='audio-notification'>{{ audioNotificationDescription }}</label>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='syncSettings'>
-      <hr>
-      <h3>{{ sync }}</h3>
-      <div>
-        <button class='grey sync'>{{ syncNow }}</button>
-        <p>
-          {{ syncExplanation }}
-          <div class='synced_at'>
-              {{ lastSynced }} {{ syncDate }} {{ syncTime }}
-          </div>
-          <div class='sync_failed'>{{ syncFailed }}</div>
-        </p>
-      </div>
-  </script>
-
-
   <script type='text/x-tmpl-mustache' id='networkStatus'>
     <div class='network-status-message'>
       <h3>{{ message }}</h3>
@@ -603,11 +365,9 @@
   <script type='text/javascript' src='../js/views/new_group_update_view.js' data-cover></script>
   <script type="text/javascript" src="../js/views/group_update_view.js"></script>
   <script type='text/javascript' src='../js/views/attachment_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/error_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/timestamp_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/message_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/key_verification_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/message_detail_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/message_list_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/group_member_list_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/recorder_view.js' data-cover></script>
@@ -621,12 +381,10 @@
   <script type='text/javascript' src='../js/views/last_seen_indicator_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/scroll_down_button_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/banner_view.js' data-cover></script>
-  <script type="text/javascript" src='../js/views/identity_key_send_error_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/clear_data_view.js'></script>
 
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
   <script type="text/javascript" src="views/group_update_view_test.js"></script>
-  <script type="text/javascript" src="views/message_view_test.js"></script>
   <script type="text/javascript" src="views/attachment_view_test.js"></script>
   <script type="text/javascript" src="views/timestamp_view_test.js"></script>
   <script type="text/javascript" src="views/list_view_test.js"></script>

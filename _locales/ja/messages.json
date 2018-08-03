@@ -12,8 +12,12 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
-        "message": "見る",
+        "message": "表示",
         "description": "Used as a label on a button allowing user to see more information"
+    },
+    "appMenuHideOthers": {
+        "message": "他のウィンドウを隠す",
+        "description": "Application menu command to hide all other windows"
     },
     "linkedDevices": {
         "message": "リンクされた端末",
@@ -66,7 +70,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "leftTheGroup": {
-        "message": "$name$がグループを退出しました。",
+        "message": "$name$ left the group",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -76,7 +80,7 @@
         }
     },
     "youChangedTheTimer": {
-        "message": "タイマーを$time$に設定しました",
+        "message": "You set the disappearing message timer to $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -97,6 +101,16 @@
         "message": "成功しました!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "timestamp_m": {
         "message": "1分",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -106,7 +120,7 @@
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "address": {
-        "message": "address",
+        "message": "住所",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "debugLog": {
@@ -117,13 +131,25 @@
         "message": "了解",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "appMenuQuit": {
+        "message": "Signalを終了する",
+        "description": "Application menu command to close the application"
+    },
     "disappearingMessages": {
         "message": "消えるメッセージ",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "editMenuCut": {
+        "message": "切り取り",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
     "deleteWarning": {
         "message": "本当ですか？「削除する」をクリックすると，このメッセージが端末から完全に消去されます。",
         "description": ""
+    },
+    "verifyNewNumber": {
+        "message": "新しい番号を認証する",
+        "description": "Label on button included with safety number change notification in the conversation"
     },
     "showMore": {
         "message": "詳細",
@@ -163,6 +189,10 @@
         "message": "新着メッセージ",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
+    "editMenuSelectAll": {
+        "message": "すべて選択",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
     "resetSession": {
         "message": "接触を再設定",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -172,7 +202,7 @@
         "description": "Shown in iOS theme when someone else quotes a message from you"
     },
     "you": {
-        "message": "You",
+        "message": "自分",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "offline": {
@@ -191,6 +221,10 @@
         "message": "ネットワーク接続をご確認ください。",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
+    "youDisabledDisappearingMessages": {
+        "message": "You disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
     "notificationSettingsDialog": {
         "message": "新着メッセージの通知で表示する項目：",
         "description": "Explain the purpose of the notification settings"
@@ -202,6 +236,10 @@
     "timerOption_0_seconds_abbreviated": {
         "message": "オフ",
         "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "imageFailedToLoad": {
+        "message": "イメージのロードに失敗しました",
+        "description": "When an image attachment is missing, this message is shown"
     },
     "clearDataButton": {
         "message": "データを消去",
@@ -220,12 +258,16 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "受信中にエラー",
+        "message": "Error handling incoming message",
         "description": ""
     },
     "poBox": {
-        "message": "PO Box",
+        "message": "私書箱",
         "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "themeLight": {
+        "message": "Light",
+        "description": "Label text for light theme (normal)"
     },
     "delete": {
         "message": "削除する",
@@ -252,8 +294,26 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "phone": {
-        "message": "phone",
+        "message": "電話",
         "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ hr",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "deleteThisMessage": {
+        "message": "このメッセージを削除する",
+        "description": ""
+    },
+    "editMenuPaste": {
+        "message": "貼り付く",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "changedRecently": {
         "message": "$name$との安全番号が最近変わりました。誰かが通信を傍受しているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
@@ -274,15 +334,19 @@
         "description": "Section header in the media gallery"
     },
     "sendMessageToContact": {
-        "message": "Send Message",
+        "message": "メッセージ送信",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "importingHeader": {
         "message": "連絡先とメッセージを読み込み中",
         "description": "Header of screen shown as data is import"
     },
+    "spellCheckDescription": {
+        "message": "Enable spell check of text entered in message composition box",
+        "description": "Description of the media permission description"
+    },
     "theyChangedTheTimer": {
-        "message": "$name$がタイマーを$time$に設定しました",
+        "message": "$name$ set the disappearing message timer to $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -299,6 +363,10 @@
         "message": "１分以内",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "viewMenuZoomOut": {
+        "message": "ズームアウトする",
+        "description": "View menu command to make everything smaller"
+    },
     "mainMenuSettings": {
         "message": "設定...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
@@ -308,7 +376,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "emojiAlt": {
-        "message": "Emoji image of '$title$'",
+        "message": "「$title$」の絵文字画像",
         "description": "Used in the alt tag of all emoji images",
         "placeholders": {
             "title": {
@@ -320,6 +388,10 @@
     "timerOption_1_day": {
         "message": "1日",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "editMenuUndo": {
+        "message": "取り消す",
+        "description": "Edit menu command to remove recently-typed text"
     },
     "reportIssue": {
         "message": "問題を報告",
@@ -334,20 +406,28 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
+        "message": "引用されたメッセージから画像のサムネール",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "mediaEmptyState": {
-        "message": "You don’t have any media in this conversation",
+        "message": "この会話にはメディアがありません",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "notificationMostRecentFrom": {
-        "message": "Most recent from:",
+        "message": "最近の連絡先から：",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "autoUpdateLaterButtonLabel": {
         "message": "あとで",
         "description": ""
+    },
+    "justNow": {
+        "message": "１分以内",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "mediaPermissionsDescription": {
+        "message": "カメラとマイクへのアクセスを許可する",
+        "description": "Description of the media permission description"
     },
     "from": {
         "message": "差出人",
@@ -369,6 +449,10 @@
         "message": "メッセージを継続するために携帯端末と再接続する。",
         "description": ""
     },
+    "safetyNumberChanged": {
+        "message": "セイフティナンバーが変更されました",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
     "today": {
         "message": "今日",
         "description": "Section header in the media gallery"
@@ -381,16 +465,34 @@
         "message": "モバイル端末をSignal Desktopにリンクする",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
+    "multipleLeftTheGroup": {
+        "message": "$name$ left the group",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
     "newPhoneNumber": {
         "message": "電話番号を入力して連絡先を追加する",
         "description": "Placeholder for adding a new number to a contact"
+    },
+    "viewMenuZoomIn": {
+        "message": "ズームインする",
+        "description": "View menu command to make everything bigger"
     },
     "viewAllMedia": {
         "message": "すべてのメディアを表示",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
+    "windowMenuBringAllToFront": {
+        "message": "すべてを前面に表示する",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "正しいディレクトリを選択したか確認してください。ディレクトリ名はSignal Exportから始まります。なお、旧式のChromeアプリからもデータをコピーできます。",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "noLongerVerified": {
@@ -403,17 +505,27 @@
             }
         }
     },
+    "timerOption_1_hour": {
+        "message": "1時間",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "video": {
         "message": "動画",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
+    "safetyNumberChangedGroup": {
+        "message": "Safety Number with $name$ has changed",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "名前か番号を入力",
         "description": "Placeholder text in the search input"
-    },
-    "someRecipientsFailed": {
-        "message": "何人かの受取人には届きませんでした",
-        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "なし",
@@ -431,12 +543,20 @@
         "message": "未接続",
         "description": ""
     },
+    "imageAttachmentAlt": {
+        "message": "メッセージにイメージを添付する",
+        "description": "Used in alt tag of image attachment"
+    },
     "learnMore": {
         "message": "安全番号を確認することについて",
         "description": "Text that links to a support article on verifying safety numbers"
     },
+    "signalDesktopPreferences": {
+        "message": "Signal Desktop設定",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "timerSetOnSync": {
-        "message": "タイマーを$time$に更新",
+        "message": "Updated disappearing message timer to $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -463,8 +583,12 @@
         "message": "結び付けているデバイスが多すぎます。どれかを切り離してください。",
         "description": ""
     },
+    "allowAccess": {
+        "message": "アクセスを許可する",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
     "joinedTheGroup": {
-        "message": "$name$がグループに参加しました。",
+        "message": "$name$ joined the group",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -474,7 +598,7 @@
         }
     },
     "work": {
-        "message": "work",
+        "message": "職場",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "goToForums": {
@@ -485,20 +609,24 @@
         "message": "インポートデータを使ってセットアップ",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
+    "disappearingMessagesDisabled": {
+        "message": "Disappearing messages disabled",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "Video screenshot failed to load",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
     "timerOption_30_minutes_abbreviated": {
         "message": "30分",
         "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "themeAndroidDark": {
-        "message": "アンドロイド（ダーク）",
-        "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1分",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "home": {
-        "message": "home",
+        "message": "自宅",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "loadingMessages": {
@@ -537,8 +665,12 @@
         "message": "アップデート",
         "description": "Label text for button to upgrade the app to the latest version"
     },
+    "moreInfo": {
+        "message": "More Info...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
     "notificationMostRecent": {
-        "message": "Most recent:",
+        "message": "最近の受信：",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "yourSafetyNumberWith": {
@@ -551,21 +683,39 @@
             }
         }
     },
+    "windowMenuClose": {
+        "message": "ウィンドウを閉じる",
+        "description": "Window menu command to close the current window"
+    },
     "showLess": {
         "message": "詳細を隠す",
         "description": "Hides the details of a key change"
+    },
+    "spellCheck": {
+        "message": "スペルチェック",
+        "description": "Description of the media permission description"
     },
     "theme": {
         "message": "テーマ",
         "description": "Header for theme settings"
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "使用条件とプライバシーポリシー",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "newIdentity": {
         "message": "新しい安全番号",
         "description": "Header for a key change dialog"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "installTagline": {
         "message": "プライバシーは守れます。Signalを使えば簡単に。",
@@ -598,7 +748,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "lightboxImageAlt": {
-        "message": "Image sent in conversation",
+        "message": "会話に送られた画像",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "multipleNoLongerVerified": {
@@ -612,6 +762,10 @@
     "timerOption_12_hours_abbreviated": {
         "message": "12時間",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "貼り付けてスタイルをマッチさせる",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "signalSettings": {
         "message": "Signalの設定",
@@ -660,11 +814,11 @@
         "description": ""
     },
     "mobile": {
-        "message": "mobile",
+        "message": "携帯",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "notificationFrom": {
-        "message": "From:",
+        "message": "差出人:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "sync": {
@@ -676,22 +830,32 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "contactAvatarAlt": {
-        "message": "Contact avatar",
-        "description": "Used in the alt tag for the image avatar of a contact"
+        "message": "Avatar for contact $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "received": {
         "message": "受信",
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "$name$との安全番号を未検証にしました",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "message": "You marked your Safety Number with $name$ as not verified",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
                 "example": "Bob"
             }
         }
+    },
+    "timerOption_1_minute": {
+        "message": "1分",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "isVerified": {
         "message": "$name$との安全番号を検証しました",
@@ -712,7 +876,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "接続を切って全データを削除しています",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "sendMessage": {
@@ -722,6 +886,10 @@
     "menuReportIssue": {
         "message": "バグを報告",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "permissions": {
+        "message": "アクセス許可",
+        "description": "Header for permissions section of settings"
     },
     "loadDataDescription": {
         "message": "Signalの保存データが含まれたフォルダーを選択してください。",
@@ -748,12 +916,12 @@
         "description": ""
     },
     "documentsEmptyState": {
-        "message": "You don’t have any documents in this conversation",
+        "message": "この会話にはドキュメントがありません",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "deleteMessage": {
-        "message": "このメッセージを削除する",
-        "description": ""
+        "message": "Delete Message",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "chooseDeviceName": {
         "message": "この端末の名前を選択",
@@ -764,12 +932,16 @@
         "description": ""
     },
     "fileIconAlt": {
-        "message": "File icon",
+        "message": "ファイルのアイコン",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "timerOption_0_seconds": {
         "message": "オフ",
         "description": "Label for option to turn off message expiration in the timer menu"
+    },
+    "editMenuRedo": {
+        "message": "リドゥーする",
+        "description": "Edit menu command to restore previously undone typed text"
     },
     "invalidNumberError": {
         "message": "不正な番号です",
@@ -783,6 +955,16 @@
         "message": "新着メッセージ",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
+    "hoursAgo": {
+        "message": "$hours$ hr ago",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
     "menuSetupAsNewDevice": {
         "message": "新しいデバイスとしてセットアップ",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -795,10 +977,6 @@
         "message": "未検証にする",
         "description": ""
     },
-    "messageNotSent": {
-        "message": "送信失敗",
-        "description": "Informational label, appears on messages that failed to send"
-    },
     "initialSync": {
         "message": "連絡先とグループを同期中",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
@@ -806,6 +984,10 @@
     "mainMenuView": {
         "message": "&表示",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "appMenuHide": {
+        "message": "最小化",
+        "description": "Application menu command to hide the window"
     },
     "autoUpdateNewVersionMessage": {
         "message": "新しく生まれ変わったSignalがあります",
@@ -827,10 +1009,6 @@
         "message": "メディア",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
-    "noContents": {
-        "message": "メッセージはありません",
-        "description": "Shown in a message bubble if we have nothing in the message to display, or a quote and nothing else"
-    },
     "cancel": {
         "message": "キャンセル",
         "description": ""
@@ -847,12 +1025,16 @@
         "message": "無名のファイル",
         "description": "Hover text for attachment filenames"
     },
+    "timerOption_5_minutes": {
+        "message": "5分",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "sendAnyway": {
         "message": "とにかく送信する",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "$name$との安全番号を検証済みにしました",
+        "message": "You marked your Safety Number with $name$ as verified",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -866,7 +1048,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "このアプリからすべてのアカウント情報を（連絡先とメッセージも含めて）削除します。また後で再びモバイルデバイスを追加できますが、削除されるメッセージを元に戻すことができません。",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "sessionEnded": {
@@ -885,12 +1067,20 @@
         "message": "5秒",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
+    },
+    "viewMenuToggleDevTools": {
+        "message": "開発者ツールを切り替える",
+        "description": "View menu command to show or hide the developer tools"
+    },
     "showMembers": {
         "message": "メンバーを表示する",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "$name$との安全番号を他の端末で未検証にしました",
+        "message": "You marked your Safety Number with $name$ as not verified from another device",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -900,8 +1090,12 @@
         }
     },
     "email": {
-        "message": "email",
+        "message": "メール",
         "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "viewMenuResetZoom": {
+        "message": "実サイズ",
+        "description": "View menu command to go back to the default zoom"
     },
     "goToSupportPage": {
         "message": "サポートページへ",
@@ -912,7 +1106,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$がグループに参加しました。",
+        "message": "$names$ joined the group",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -929,12 +1123,16 @@
         "message": "読み込んでいます",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
+    "audioPermissionNeeded": {
+        "message": "音声メッセージを送るには、Signalのマイクへのアクセスを許可してください。",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
     "newMessages": {
         "message": "新着メッセージ",
         "description": "Displayed in notifications for multiple messages"
     },
     "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "message": "もしこれらの方法がうまく作用しない場合、デバッグログを提出していただけると将来的な解決につながります!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "theirIdentityUnknown": {
@@ -953,19 +1151,13 @@
         "message": "提出",
         "description": ""
     },
-    "keychanged": {
-        "message": "$name$との安全番号が変わりました。クリックすると表示されます。",
-        "description": "",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "updatedTheGroup": {
-        "message": "グループを更新",
+        "message": "Group updated",
         "description": "Shown in the conversation history when someone updates the group"
+    },
+    "themeDark": {
+        "message": "Dark",
+        "description": "Label text for dark theme"
     },
     "identityKeyErrorOnSend": {
         "message": "$name$との安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。この相手との安全番号を検証することをお勧めします。",
@@ -985,9 +1177,17 @@
         "message": "宛先",
         "description": "Label for the receiver of a message"
     },
+    "windowMenuMinimize": {
+        "message": "最小化する",
+        "description": "Window menu command to minimize the current window"
+    },
     "timerOption_1_hour_abbreviated": {
         "message": "1時間",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "editMenuStopSpeaking": {
+        "message": "話し終わる",
+        "description": "Edit menu item under 'speech' to stop dictation"
     },
     "optimizingApplication": {
         "message": "アプリケーションを最適化しています...",
@@ -1001,6 +1201,10 @@
         "message": "メッセージ詳細",
         "description": ""
     },
+    "timerOption_12_hours": {
+        "message": "12時間",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "mainMenuFile": {
         "message": "&ファイル",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -1009,13 +1213,25 @@
         "message": "検証済みにする",
         "description": ""
     },
+    "sendFailed": {
+        "message": "送信できませんでした",
+        "description": "Shown on outgoing message if it fails to send"
+    },
     "clearDataHeader": {
         "message": "データ消去",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
+    "viewMenuToggleFullScreen": {
+        "message": "フルスクリーンを切り替える",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
     "timerOption_10_seconds_abbreviated": {
         "message": "10秒",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes": {
+        "message": "30分",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "linkNewDevice": {
         "message": "新規の端末をリンクする",
@@ -1041,9 +1257,21 @@
         "message": "このコンタクトとの安全番号が変わりました。誰かがこの会話を盗聴しようとしていることか、コンタクトはただ、Signalをまたインストールしたの２つの理由となります。以下の安全番号を確認してください。",
         "description": ""
     },
+    "appMenuUnhide": {
+        "message": "すべて表示",
+        "description": "Application menu command to show all application windows"
+    },
     "changedSinceVerifiedMultiple": {
         "message": "複数のメンバーで安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，メンバーがSignalをインストールし直しただけかも知れません。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "showSettings": {
+        "message": "設定を表示",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "editMenuCopy": {
+        "message": "コピー",
+        "description": "Edit menu command to add selected text to clipboard"
     },
     "loadDataHeader": {
         "message": "データを読み込む",
@@ -1062,7 +1290,7 @@
         "description": ""
     },
     "titleIsNow": {
-        "message": "タイトルは$name$です。",
+        "message": "Title is now '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1070,6 +1298,10 @@
                 "example": "Book Club"
             }
         }
+    },
+    "retrySend": {
+        "message": "再送信する",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "changedRightAfterVerify": {
         "message": "検証しようとしている安全番号に変更がありました。$name$との安全番号を再確認してください。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
@@ -1081,15 +1313,31 @@
             }
         }
     },
+    "timerOption_6_hours": {
+        "message": "6時間",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "videoAttachmentAlt": {
+        "message": "Screenshot of video attached to message",
+        "description": "Used in alt tag of video attachment preview"
+    },
     "timerSetTo": {
         "message": "タイマーが$time$に設定されました",
-        "description": "Displayed in the conversation list when the timer is updated.",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
                 "content": "$1",
                 "example": "1w"
             }
         }
+    },
+    "editMenuDelete": {
+        "message": "削除する",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "windowMenuZoom": {
+        "message": "ズーム",
+        "description": "Window menu command to make the current window the size of the whole screen"
     },
     "autoUpdateNewVersionTitle": {
         "message": "Signalのアップデートがあります",
@@ -1103,16 +1351,26 @@
         "message": "音声",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
+    "editMenuStartSpeaking": {
+        "message": "話し始める",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "minutesAgo": {
+        "message": "$minutes$ min ago",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "notifications": {
         "message": "通知",
         "description": "Header for notification settings"
     },
-    "resend": {
-        "message": "再送",
-        "description": ""
-    },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "$name$との安全番号を他の端末で検証済みにしました",
+        "message": "You marked your Safety Number with $name$ as verified from another device",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

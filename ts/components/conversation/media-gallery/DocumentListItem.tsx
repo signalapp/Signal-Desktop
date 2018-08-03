@@ -1,14 +1,12 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import moment from 'moment';
 // tslint:disable-next-line:match-default-export-name
 import formatFileSize from 'filesize';
 
-import { Localizer } from '../../../types/Util';
-
 interface Props {
   // Required
-  i18n: Localizer;
   timestamp: number;
 
   // Optional
@@ -17,49 +15,6 @@ interface Props {
   onClick?: () => void;
   shouldShowSeparator?: boolean;
 }
-
-const styles = {
-  container: {
-    width: '100%',
-    height: 72,
-  },
-  containerSeparator: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    borderBottomStyle: 'solid',
-  },
-  itemContainer: {
-    cursor: 'pointer',
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    height: '100%',
-  } as React.CSSProperties,
-  itemMetadata: {
-    display: 'inline-flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    flexShrink: 0,
-    marginLeft: 8,
-    marginRight: 8,
-  } as React.CSSProperties,
-  itemDate: {
-    display: 'inline-block',
-    flexShrink: 0,
-  },
-  itemIcon: {
-    flexShrink: 0,
-  },
-  itemFileName: {
-    fontWeight: 'bold',
-  } as React.CSSProperties,
-  itemFileSize: {
-    display: 'inline-block',
-    marginTop: 8,
-    fontSize: '80%',
-  },
-};
 
 export class DocumentListItem extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
@@ -71,10 +26,12 @@ export class DocumentListItem extends React.Component<Props> {
 
     return (
       <div
-        style={{
-          ...styles.container,
-          ...(shouldShowSeparator ? styles.containerSeparator : {}),
-        }}
+        className={classNames(
+          'module-document-list-item',
+          shouldShowSeparator
+            ? 'module-document-list-item--with-separator'
+            : null
+        )}
       >
         {this.renderContent()}
       </div>
@@ -82,28 +39,24 @@ export class DocumentListItem extends React.Component<Props> {
   }
 
   private renderContent() {
-    const { fileName, fileSize, timestamp, i18n } = this.props;
+    const { fileName, fileSize, timestamp } = this.props;
 
     return (
       <div
-        style={styles.itemContainer}
+        className="module-document-list-item__content"
         role="button"
         onClick={this.props.onClick}
       >
-        <img
-          alt={i18n('fileIconAlt')}
-          src="images/file.svg"
-          width="48"
-          height="48"
-          style={styles.itemIcon}
-        />
-        <div style={styles.itemMetadata}>
-          <span style={styles.itemFileName}>{fileName}</span>
-          <span style={styles.itemFileSize}>
+        <div className="module-document-list-item__icon" />
+        <div className="module-document-list-item__metadata">
+          <span className="module-document-list-item__file-name">
+            {fileName}
+          </span>
+          <span className="module-document-list-item__file-size">
             {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
           </span>
         </div>
-        <div style={styles.itemDate}>
+        <div className="module-document-list-item__date">
           {moment(timestamp).format('ddd, MMM D, Y')}
         </div>
       </div>

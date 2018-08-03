@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="12px" viewBox="0 0 18 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons/Read/read-18x12</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M7.91731278,0.313257194 C6.15053376,1.58392424 5,3.65760134 5,6 C5,6.343797 5.0247846,6.68180525 5.07266453,7.01233547 L5,7.085 L3.205,5.295 L2.5,6 L5,8.5 L5.33970233,8.16029767 C5.80439817,9.59399486 6.71914823,10.8250231 7.91731278,11.6867428 C7.31518343,11.8898758 6.67037399,12 6,12 C2.688,12 0,9.312 0,6 C0,2.688 2.688,0 6,0 C6.67037399,0 7.31518343,0.110124239 7.91731278,0.313257194 Z M12,0 C15.312,0 18,2.688 18,6 C18,9.312 15.312,12 12,12 C8.688,12 6,9.312 6,6 C6,2.688 8.688,0 12,0 Z M11,8.5 L15.5,4 L14.795,3.29 L11,7.085 L9.205,5.295 L8.5,6 L11,8.5 Z" id="path-1"></path>
+        <rect id="path-3" x="0" y="0" width="18" height="12"></rect>
+    </defs>
+    <g id="Icons/Read/read-18x12" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="double-check" fill-rule="nonzero"></g>
+        <g id="Color/Dark/Black" mask="url(#mask-2)">
+            <mask id="mask-4" fill="white">
+                <use xlink:href="#path-3"></use>
+            </mask>
+            <use id="fill" fill="#000000" fill-rule="evenodd" xlink:href="#path-3"></use>
+        </g>
+    </g>
+</svg>

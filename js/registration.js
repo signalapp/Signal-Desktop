@@ -1,23 +1,27 @@
+/* global storage, Whisper */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   Whisper.Registration = {
-    markEverDone: function() {
+    markEverDone() {
       storage.put('chromiumRegistrationDoneEver', '');
     },
-    markDone: function() {
+    markDone() {
       this.markEverDone();
       storage.put('chromiumRegistrationDone', '');
     },
-    isDone: function() {
+    isDone() {
       return storage.get('chromiumRegistrationDone') === '';
     },
-    everDone: function() {
+    everDone() {
       return (
         storage.get('chromiumRegistrationDoneEver') === '' ||
         storage.get('chromiumRegistrationDone') === ''
       );
     },
-    remove: function() {
+    remove() {
       storage.remove('chromiumRegistrationDone');
     },
   };

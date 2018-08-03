@@ -70,10 +70,19 @@ export function contactSelector(
   contact: Contact,
   options: {
     regionCode: string;
+    hasSignalAccount: boolean;
     getAbsoluteAttachmentPath: (path: string) => string;
+    onSendMessage: () => void;
+    onClick: () => void;
   }
 ) {
-  const { regionCode, getAbsoluteAttachmentPath } = options;
+  const {
+    getAbsoluteAttachmentPath,
+    hasSignalAccount,
+    onClick,
+    onSendMessage,
+    regionCode,
+  } = options;
 
   let { avatar } = contact;
   if (avatar && avatar.avatar && avatar.avatar.path) {
@@ -88,6 +97,9 @@ export function contactSelector(
 
   return {
     ...contact,
+    hasSignalAccount,
+    onSendMessage,
+    onClick,
     avatar,
     number:
       contact.number &&

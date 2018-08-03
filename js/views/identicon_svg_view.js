@@ -1,5 +1,9 @@
+/* global Whisper, loadImage */
+
+// eslint-disable-next-line func-names
 (function() {
   'use strict';
+
   window.Whisper = window.Whisper || {};
 
   /*
@@ -7,26 +11,26 @@
     */
   Whisper.IdenticonSVGView = Whisper.View.extend({
     templateName: 'identicon-svg',
-    initialize: function(options) {
+    initialize(options) {
       this.render_attributes = options;
       this.render_attributes.color = COLORS[this.render_attributes.color];
     },
-    getSVGUrl: function() {
-      var html = this.render().$el.html();
-      var svg = new Blob([html], { type: 'image/svg+xml;charset=utf-8' });
+    getSVGUrl() {
+      const html = this.render().$el.html();
+      const svg = new Blob([html], { type: 'image/svg+xml;charset=utf-8' });
       return URL.createObjectURL(svg);
     },
-    getDataUrl: function() {
-      var svgurl = this.getSVGUrl();
-      return new Promise(function(resolve) {
-        var img = document.createElement('img');
-        img.onload = function() {
-          var canvas = loadImage.scale(img, {
+    getDataUrl() {
+      const svgurl = this.getSVGUrl();
+      return new Promise(resolve => {
+        const img = document.createElement('img');
+        img.onload = () => {
+          const canvas = loadImage.scale(img, {
             canvas: true,
             maxWidth: 100,
             maxHeight: 100,
           });
-          var ctx = canvas.getContext('2d');
+          const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0);
           URL.revokeObjectURL(svgurl);
           resolve(canvas.toDataURL('image/png'));
@@ -37,7 +41,7 @@
     },
   });
 
-  var COLORS = {
+  const COLORS = {
     red: '#EF5350',
     pink: '#EC407A',
     purple: '#AB47BC',

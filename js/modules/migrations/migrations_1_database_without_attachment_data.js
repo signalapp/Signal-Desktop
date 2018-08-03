@@ -16,7 +16,7 @@ const migrations = [
   // },
 ];
 
-exports.run = async ({ Backbone, database } = {}) => {
+exports.run = async ({ Backbone, database, logger } = {}) => {
   const { canRun } = await exports.getStatus({ database });
   if (!canRun) {
     throw new Error(
@@ -24,7 +24,7 @@ exports.run = async ({ Backbone, database } = {}) => {
     );
   }
 
-  await runMigrations({ Backbone, database });
+  await runMigrations({ Backbone, database, logger });
 };
 
 exports.getStatus = async ({ database } = {}) => {

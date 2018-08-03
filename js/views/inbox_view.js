@@ -107,9 +107,12 @@
 
       const inboxCollection = getInboxCollection();
 
-      inboxCollection.on('messageError', () => {
-        this.networkStatusView.render();
+      this.listenTo(inboxCollection, 'messageError', () => {
+        if (this.networkStatusView) {
+          this.networkStatusView.render();
+        }
       });
+      this.listenTo(inboxCollection, 'select', this.openConversation);
 
       this.inboxListView = new Whisper.ConversationListView({
         el: this.$('.inbox'),
@@ -142,11 +145,7 @@
         this.searchView.$el.show();
         this.inboxListView.$el.hide();
       });
-      this.listenTo(
-        this.searchView,
-        'open',
-        this.openConversation.bind(this, null)
-      );
+      this.listenTo(this.searchView, 'open', this.openConversation);
 
       this.networkStatusView = new Whisper.NetworkStatusView();
       this.$el
@@ -173,7 +172,6 @@
       click: 'onClick',
       'click #header': 'focusHeader',
       'click .conversation': 'focusConversation',
-      'select .gutter .conversation-list-item': 'openConversation',
       'input input.search': 'filterContacts',
     },
     startConnectionListener() {
@@ -195,7 +193,7 @@
             this.onEmpty();
             break;
           default:
-            console.log(
+            window.log.error(
               'Whisper.InboxView::startConnectionListener:',
               'Unknown web socket status:',
               status
@@ -248,9 +246,10 @@
         input.removeClass('active');
       }
     },
-    openConversation(e, conversation) {
+    openConversation(conversation) {
       this.searchView.hideHints();
       if (conversation) {
+        ConversationController.markAsSelected(conversation);
         this.conversation_stack.open(
           ConversationController.get(conversation.id)
         );

@@ -1,6 +1,7 @@
 ```jsx
 const messages = [
   {
+    id: '1',
     attachments: [
       {
         fileName: 'foo.json',
@@ -10,6 +11,7 @@ const messages = [
     ],
   },
   {
+    id: '2',
     attachments: [
       {
         fileName: 'bar.txt',

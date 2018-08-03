@@ -3,19 +3,19 @@ window.assert = chai.assert;
 window.PROTO_ROOT = '../../protos';
 
 (function() {
-  var OriginalReporter = mocha._reporter;
+  const OriginalReporter = mocha._reporter;
 
-  var SauceReporter = function(runner) {
-    var failedTests = [];
+  const SauceReporter = function(runner) {
+    const failedTests = [];
 
-    runner.on('end', function() {
+    runner.on('end', () => {
       window.mochaResults = runner.stats;
       window.mochaResults.reports = failedTests;
     });
 
-    runner.on('fail', function(test, err) {
-      var flattenTitles = function(test) {
-        var titles = [];
+    runner.on('fail', (test, err) => {
+      const flattenTitles = function(test) {
+        const titles = [];
         while (test.parent.title) {
           titles.push(test.parent.title);
           test = test.parent;
@@ -47,9 +47,9 @@ function assertEqualArrayBuffers(ab1, ab2) {
 }
 
 function hexToArrayBuffer(str) {
-  var ret = new ArrayBuffer(str.length / 2);
-  var array = new Uint8Array(ret);
-  for (var i = 0; i < str.length / 2; i++)
+  const ret = new ArrayBuffer(str.length / 2);
+  const array = new Uint8Array(ret);
+  for (let i = 0; i < str.length / 2; i++)
     array[i] = parseInt(str.substr(i * 2, 2), 16);
   return ret;
 }
