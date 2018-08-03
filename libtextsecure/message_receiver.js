@@ -265,7 +265,7 @@ MessageReceiver.prototype.extend({
       }
     });
   },
-  queueCached(item) {
+  async queueCached(item) {
     try {
       let envelopePlaintext = item.envelope;
 
@@ -287,7 +287,24 @@ MessageReceiver.prototype.extend({
         this.queueEnvelope(envelope);
       }
     } catch (error) {
-      window.log.error('queueCached error handling item', item.id);
+      window.log.error(
+        'queueCached error handling item',
+        item.id,
+        'removing it. Error:',
+        error && error.stack ? error.stack : error
+      );
+
+      try {
+        const { id } = item;
+        await textsecure.storage.unprocessed.remove(id);
+      } catch (deleteError) {
+        window.log.error(
+          'queueCached error deleting item',
+          item.id,
+          'Error:',
+          deleteError && deleteError.stack ? deleteError.stack : deleteError
+        );
+      }
     }
   },
   getEnvelopeId(envelope) {
