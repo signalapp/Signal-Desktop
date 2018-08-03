@@ -1947,7 +1947,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: $color-black-008;
+    background-color: $color-black-016-no-tranparency;
   }
 }
 
@@ -1957,7 +1957,7 @@
 }
 
 .module-conversation-list-item--is-selected {
-  background-color: $color-black-008;
+  background-color: $color-black-016-no-tranparency;
 }
 
 .module-conversation-list-item__avatar {
