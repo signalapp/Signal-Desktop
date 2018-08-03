@@ -907,6 +907,8 @@
       //   to be above the message that initiated that change, hence the subtraction.
       const timestamp = (receivedAt || Date.now()) - 1;
 
+      await wrapDeferred(this.save({ expireTimer }));
+
       const message = this.messageCollection.add({
         // Even though this isn't reflected to the user, we want to place the last seen
         //   indicator above it. We set it to 'unread' to trigger that placement.
@@ -934,8 +936,6 @@
         Message: Whisper.Message,
       });
       message.set({ id });
-
-      await wrapDeferred(this.save({ expireTimer }));
 
       // if change was made remotely, don't send it to the number/group
       if (receivedAt) {
