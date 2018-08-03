@@ -52,7 +52,7 @@
     "electron-config": "^1.0.0",
     "electron-editor-context-menu": "^1.1.1",
     "electron-is-dev": "^0.3.0",
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#782b5bb1e9468df811287a4a4c8a97803e4fcefe",
+    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#ed4f4d179ac010c6347b291cbd4c2ebe5c773741",
     "electron-unhandled": "https://github.com/scottnonnenberg-signal/electron-unhandled.git#7496187472aa561d39fcd4c843a54ffbef0a388c",
     "electron-updater": "^2.21.10",
     "emoji-datasource": "4.0.0",
