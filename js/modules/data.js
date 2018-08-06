@@ -34,6 +34,7 @@ module.exports = {
   close,
   removeDB,
 
+  getMessageCount,
   saveMessage,
   saveLegacyMessage,
   saveMessages,
@@ -199,6 +200,10 @@ async function close() {
 // Note: will need to restart the app after calling this, to set up afresh
 async function removeDB() {
   await channels.removeDB();
+}
+
+async function getMessageCount() {
+  return channels.getMessageCount();
 }
 
 async function saveMessage(data, { forceSave, Message } = {}) {

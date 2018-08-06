@@ -26,6 +26,7 @@ const packageJson = require('./package.json');
 
 const sql = require('./app/sql');
 const sqlChannels = require('./app/sql_channel');
+const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
@@ -629,6 +630,13 @@ app.on('ready', async () => {
 
   await sql.initialize({ configDir: userDataPath, key });
   await sqlChannels.initialize({ userConfig });
+
+  const allAttachments = await attachments.getAllAttachments(userDataPath);
+  const orphanedAttachments = await sql.removeKnownAttachments(allAttachments);
+  await attachments.deleteAll({
+    userDataPath,
+    attachments: orphanedAttachments,
+  });
 
   ready = true;
 
