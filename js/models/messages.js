@@ -1289,8 +1289,8 @@
       }
       return msFromNow;
     },
-    async setToExpire() {
-      if (this.isExpiring() && !this.get('expires_at')) {
+    async setToExpire(force = false) {
+      if (this.isExpiring() && (force || !this.get('expires_at'))) {
         const start = this.get('expirationStartTimestamp');
         const delta = this.get('expireTimer') * 1000;
         const expiresAt = start + delta;

@@ -139,6 +139,7 @@
       // Listening for out-of-band data updates
       this.on('delivered', this.updateAndMerge);
       this.on('read', this.updateAndMerge);
+      this.on('expiration-change', this.updateAndMerge);
       this.on('expired', this.onExpired);
     },
 
