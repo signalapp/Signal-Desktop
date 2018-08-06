@@ -1,6 +1,6 @@
 /* global window, IDBKeyRange */
 
-const { includes, isFunction, isString, last } = require('lodash');
+const { includes, isFunction, isString, last, forEach } = require('lodash');
 const {
   saveMessages,
   _removeMessages,
@@ -25,12 +25,16 @@ async function migrateToSQL({
   clearStores,
   handleDOMException,
   countCallback,
+  arrayBufferToString,
 }) {
   if (!db) {
     throw new Error('Need db for IndexedDB connection!');
   }
   if (!isFunction(clearStores)) {
     throw new Error('Need clearStores function!');
+  }
+  if (!isFunction(arrayBufferToString)) {
+    throw new Error('Need arrayBufferToString function!');
   }
   if (!isFunction(handleDOMException)) {
     throw new Error('Need handleDOMException function!');
@@ -78,7 +82,21 @@ async function migrateToSQL({
     // eslint-disable-next-line no-await-in-loop
     const status = await migrateStoreToSQLite({
       db,
-      save: saveUnprocesseds,
+      save: async array => {
+        forEach(array, item => {
+          // In the new database, we can't store ArrayBuffers, so we turn these two fields
+          //   into strings like MessageReceiver now does before save.
+          if (item.envelope) {
+            // eslint-disable-next-line no-param-reassign
+            item.envelope = arrayBufferToString(item.envelope);
+          }
+          if (item.decrypted) {
+            // eslint-disable-next-line no-param-reassign
+            item.decrypted = arrayBufferToString(item.decrypted);
+          }
+        });
+        await saveUnprocesseds(array);
+      },
       remove: removeUnprocessed,
       storeName: 'unprocessed',
       handleDOMException,

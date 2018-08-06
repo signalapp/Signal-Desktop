@@ -31,6 +31,11 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   }
 }
 
+MessageReceiver.stringToArrayBuffer = string =>
+  dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
+MessageReceiver.arrayBufferToString = arrayBuffer =>
+  dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary');
+
 MessageReceiver.prototype = new textsecure.EventTarget();
 MessageReceiver.prototype.extend({
   constructor: MessageReceiver,
@@ -269,10 +274,10 @@ MessageReceiver.prototype.extend({
     try {
       let envelopePlaintext = item.envelope;
 
-      // Up until 0.42.6 we stored envelope and decrypted as strings in IndexedDB,
-      //   so we need to be ready for them.
       if (typeof envelopePlaintext === 'string') {
-        envelopePlaintext = this.stringToArrayBuffer(envelopePlaintext);
+        envelopePlaintext = MessageReceiver.stringToArrayBuffer(
+          envelopePlaintext
+        );
       }
       const envelope = textsecure.protobuf.Envelope.decode(envelopePlaintext);
 
@@ -280,7 +285,9 @@ MessageReceiver.prototype.extend({
       if (decrypted) {
         let payloadPlaintext = decrypted;
         if (typeof payloadPlaintext === 'string') {
-          payloadPlaintext = this.stringToArrayBuffer(payloadPlaintext);
+          payloadPlaintext = MessageReceiver.stringToArrayBuffer(
+            payloadPlaintext
+          );
         }
         this.queueDecryptedEnvelope(envelope, payloadPlaintext);
       } else {
@@ -311,13 +318,6 @@ MessageReceiver.prototype.extend({
     return `${envelope.source}.${
       envelope.sourceDevice
     } ${envelope.timestamp.toNumber()}`;
-  },
-  stringToArrayBuffer(string) {
-    // eslint-disable-next-line new-cap
-    return dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
-  },
-  arrayBufferToString(arrayBuffer) {
-    return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary');
   },
   getAllFromCache() {
     window.log.info('getAllFromCache');
@@ -356,7 +356,7 @@ MessageReceiver.prototype.extend({
     const id = this.getEnvelopeId(envelope);
     const data = {
       id,
-      envelope: this.arrayBufferToString(plaintext),
+      envelope: MessageReceiver.arrayBufferToString(plaintext),
       timestamp: Date.now(),
       attempts: 1,
     };
@@ -365,7 +365,7 @@ MessageReceiver.prototype.extend({
   updateCache(envelope, plaintext) {
     const id = this.getEnvelopeId(envelope);
     const data = {
-      decrypted: this.arrayBufferToString(plaintext),
+      decrypted: MessageReceiver.arrayBufferToString(plaintext),
     };
     return textsecure.storage.unprocessed.update(id, data);
   },
