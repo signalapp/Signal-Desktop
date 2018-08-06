@@ -389,12 +389,11 @@
       };
     },
     getMessagePropStatus() {
-      if (!this.isOutgoing()) {
-        return null;
-      }
-
       if (this.hasErrors()) {
         return 'error';
+      }
+      if (!this.isOutgoing()) {
+        return null;
       }
 
       const readBy = this.get('read_by') || [];
