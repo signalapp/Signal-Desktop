@@ -824,7 +824,6 @@
       this.trigger('pending');
       return promise
         .then(async result => {
-          const now = Date.now();
           this.trigger('done');
 
           // This is used by sendSyncMessage, then set to null
@@ -836,7 +835,7 @@
           this.set({
             sent_to: _.union(sentTo, result.successfulNumbers),
             sent: true,
-            expirationStartTimestamp: now,
+            expirationStartTimestamp: Date.now(),
           });
 
           await window.Signal.Data.saveMessage(this.attributes, {
@@ -846,7 +845,6 @@
           this.sendSyncMessage();
         })
         .catch(result => {
-          const now = Date.now();
           this.trigger('done');
 
           if (result.dataMessage) {
@@ -867,10 +865,12 @@
             this.saveErrors(result.errors);
             if (result.successfulNumbers.length > 0) {
               const sentTo = this.get('sent_to') || [];
+
+              // Note: In a partially-successful group send, we do not start
+              //   the expiration timer.
               this.set({
                 sent_to: _.union(sentTo, result.successfulNumbers),
                 sent: true,
-                expirationStartTimestamp: now,
               });
               promises.push(this.sendSyncMessage());
             }
