@@ -1183,3 +1183,8 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
 textsecure.MessageReceiver.prototype = {
   constructor: textsecure.MessageReceiver,
 };
+
+textsecure.MessageReceiver.stringToArrayBuffer =
+  MessageReceiver.stringToArrayBuffer;
+textsecure.MessageReceiver.arrayBufferToString =
+  MessageReceiver.arrayBufferToString;
