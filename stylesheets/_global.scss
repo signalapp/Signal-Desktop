@@ -208,6 +208,8 @@ $avatar-size: 48px;
 $unread-badge-size: 21px;
 
 .banner {
+  z-index: 100;
+
   // what's the right color?
   background-color: $blue_l;
   color: black;
