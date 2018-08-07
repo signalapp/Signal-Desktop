@@ -797,6 +797,18 @@
         });
         message.set({ id });
 
+        // We're offline!
+        if (!textsecure.messaging) {
+          const errors = this.contactCollection.map(contact => {
+            const error = new Error('Network is not available');
+            error.name = 'SendMessageNetworkError';
+            error.number = contact.id;
+            return error;
+          });
+          await message.saveErrors(errors);
+          return;
+        }
+
         const conversationType = this.get('type');
         const sendFunction = (() => {
           switch (conversationType) {

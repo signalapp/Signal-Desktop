@@ -74,13 +74,25 @@
         }
 
         const readBy = message.get('read_by') || [];
+        const expirationStartTimestamp = message.get(
+          'expirationStartTimestamp'
+        );
+
         readBy.push(receipt.get('reader'));
-
-        message.set({ read_by: readBy });
-
-        await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
+        message.set({
+          read_by: readBy,
+          expirationStartTimestamp: expirationStartTimestamp || Date.now(),
+          sent: true,
         });
+
+        if (message.isExpiring() && !expirationStartTimestamp) {
+          // This will save the message for us while starting the timer
+          await message.setToExpire();
+        } else {
+          await window.Signal.Data.saveMessage(message.attributes, {
+            Message: Whisper.Message,
+          });
+        }
 
         // notify frontend listeners
         const conversation = ConversationController.get(
