@@ -446,6 +446,7 @@
   color: $color-light-90;
   font-size: 14px;
   line-height: 18px;
+  text-align: start;
 
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -1946,7 +1947,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: $color-black-008;
+    background-color: $color-black-016-no-tranparency;
   }
 }
 
@@ -1956,7 +1957,7 @@
 }
 
 .module-conversation-list-item--is-selected {
-  background-color: $color-black-008;
+  background-color: $color-black-016-no-tranparency;
 }
 
 .module-conversation-list-item__avatar {
