@@ -17,6 +17,8 @@ ipcRenderer.setMaxListeners(0);
 //   .save(
 //   .destroy(
 
+const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
+
 const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
@@ -181,7 +183,7 @@ function makeChannel(fnName) {
 
       setTimeout(
         () => reject(new Error(`Request to ${fnName} timed out`)),
-        10000
+        DATABASE_UPDATE_TIMEOUT
       );
     });
   };
