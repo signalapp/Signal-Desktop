@@ -36,15 +36,23 @@
       return window.AccountJobs[number];
     }
 
-    // eslint-disable-next-line more/no-then
-    const job = textsecure.messaging
-      .getProfile(number)
-      .then(() => {
-        window.AccountCache[number] = true;
-      })
-      .catch(() => {
+    let job;
+    if (textsecure.messaging) {
+      // eslint-disable-next-line more/no-then
+      job = textsecure.messaging
+        .getProfile(number)
+        .then(() => {
+          window.AccountCache[number] = true;
+        })
+        .catch(() => {
+          window.AccountCache[number] = false;
+        });
+    } else {
+      // We're offline!
+      job = Promise.resolve().then(() => {
         window.AccountCache[number] = false;
       });
+    }
 
     window.AccountJobs[number] = job;
 
@@ -661,6 +669,11 @@
 
     // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
     async retrySend() {
+      if (!textsecure.messaging) {
+        window.log.error('retrySend: Cannot retry since we are offline!');
+        return null;
+      }
+
       const [retries, errors] = _.partition(
         this.get('errors'),
         this.isReplayableError.bind(this)
@@ -1140,7 +1153,10 @@
               // This is primarily to allow the conversation to mark all older
               // messages as read, as is done when we receive a read sync for
               // a message we already know about.
-              Whisper.ReadSyncs.notifyConversation(message);
+              const c = message.getConversation();
+              if (c) {
+                c.onReadMessage(message);
+              }
             } else {
               conversation.set(
                 'unreadCount',

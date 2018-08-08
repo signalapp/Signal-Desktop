@@ -913,6 +913,7 @@ textsecure.MessageSender = function MessageSenderWrapper(
     sender
   );
   this.sendMessageToNumber = sender.sendMessageToNumber.bind(sender);
+  this.sendMessage = sender.sendMessage.bind(sender);
   this.resetSession = sender.resetSession.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
   this.createGroup = sender.createGroup.bind(sender);

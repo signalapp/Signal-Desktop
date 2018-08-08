@@ -161,8 +161,8 @@ export class MessageDetail extends React.Component<Props> {
         </div>
         <table className="module-message-detail__info">
           <tbody>
-            {(errors || []).map(error => (
-              <tr>
+            {(errors || []).map((error, index) => (
+              <tr key={index}>
                 <td className="module-message-detail__label">
                   {i18n('error')}
                 </td>

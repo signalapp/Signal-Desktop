@@ -49,6 +49,7 @@ module.exports = {
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
+  getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
 
@@ -319,8 +320,12 @@ async function getMessagesBySentAt(sentAt, { MessageCollection }) {
 }
 
 async function getExpiredMessages({ MessageCollection }) {
-  window.log.info('Load expired messages');
   const messages = await channels.getExpiredMessages();
+  return new MessageCollection(messages);
+}
+
+async function getOutgoingWithoutExpiresAt({ MessageCollection }) {
+  const messages = await channels.getOutgoingWithoutExpiresAt();
   return new MessageCollection(messages);
 }
 

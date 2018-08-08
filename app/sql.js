@@ -25,6 +25,7 @@ module.exports = {
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
+  getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
 
@@ -122,21 +123,21 @@ async function updateToSchemaVersion1(currentVersion, instance) {
 
   await instance.run(
     `CREATE TABLE messages(
-        id STRING PRIMARY KEY ASC,
-        json TEXT,
+      id STRING PRIMARY KEY ASC,
+      json TEXT,
 
-        unread INTEGER,
-        expires_at INTEGER,
-        sent_at INTEGER,
-        schemaVersion INTEGER,
-        conversationId STRING,
-        received_at INTEGER,
-        source STRING,
-        sourceDevice STRING,
-        hasAttachments INTEGER,
-        hasFileAttachments INTEGER,
-        hasVisualMediaAttachments INTEGER
-      );`
+      unread INTEGER,
+      expires_at INTEGER,
+      sent_at INTEGER,
+      schemaVersion INTEGER,
+      conversationId STRING,
+      received_at INTEGER,
+      source STRING,
+      sourceDevice STRING,
+      hasAttachments INTEGER,
+      hasFileAttachments INTEGER,
+      hasVisualMediaAttachments INTEGER
+    );`
   );
 
   await instance.run(`CREATE INDEX messages_unread ON messages (
@@ -196,7 +197,51 @@ async function updateToSchemaVersion1(currentVersion, instance) {
   console.log('updateToSchemaVersion1: success!');
 }
 
-const SCHEMA_VERSIONS = [updateToSchemaVersion1];
+async function updateToSchemaVersion2(currentVersion, instance) {
+  if (currentVersion >= 2) {
+    return;
+  }
+
+  console.log('updateToSchemaVersion2: starting...');
+
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `ALTER TABLE messages
+     ADD COLUMN expireTimer INTEGER;`
+  );
+
+  await instance.run(
+    `ALTER TABLE messages
+     ADD COLUMN expirationStartTimestamp INTEGER;`
+  );
+
+  await instance.run(
+    `ALTER TABLE messages
+     ADD COLUMN type STRING;`
+  );
+
+  await instance.run(`CREATE INDEX messages_expiring ON messages (
+      expireTimer,
+      expirationStartTimestamp,
+      expires_at
+    );`);
+
+  await instance.run(
+    `UPDATE messages SET
+      expirationStartTimestamp = json_extract(json, '$.expirationStartTimestamp'),
+      expireTimer = json_extract(json, '$.expireTimer'),
+      type = json_extract(json, '$.type');`
+  );
+
+  await instance.run('PRAGMA schema_version = 2;');
+  await instance.run('COMMIT TRANSACTION;');
+
+  console.log('updateToSchemaVersion2: success!');
+}
+
+// const SCHEMA_VERSIONS = [updateToSchemaVersion1];
+const SCHEMA_VERSIONS = [updateToSchemaVersion1, updateToSchemaVersion2];
 
 async function updateSchema(instance) {
   const sqliteVersion = await getSQLiteVersion(instance);
@@ -289,15 +334,40 @@ async function saveMessage(data, { forceSave } = {}) {
     sent_at,
     source,
     sourceDevice,
+    type,
     unread,
+    expireTimer,
+    expirationStartTimestamp,
   } = data;
+
+  const payload = {
+    $id: id,
+    $json: objectToJSON(data),
+
+    $conversationId: conversationId,
+    $expirationStartTimestamp: expirationStartTimestamp,
+    $expires_at: expires_at,
+    $expireTimer: expireTimer,
+    $hasAttachments: hasAttachments,
+    $hasFileAttachments: hasFileAttachments,
+    $hasVisualMediaAttachments: hasVisualMediaAttachments,
+    $received_at: received_at,
+    $schemaVersion: schemaVersion,
+    $sent_at: sent_at,
+    $source: source,
+    $sourceDevice: sourceDevice,
+    $type: type,
+    $unread: unread,
+  };
 
   if (id && !forceSave) {
     await db.run(
       `UPDATE messages SET
         json = $json,
         conversationId = $conversationId,
+        expirationStartTimestamp = $expirationStartTimestamp,
         expires_at = $expires_at,
+        expireTimer = $expireTimer,
         hasAttachments = $hasAttachments,
         hasFileAttachments = $hasFileAttachments,
         hasVisualMediaAttachments = $hasVisualMediaAttachments,
@@ -307,24 +377,10 @@ async function saveMessage(data, { forceSave } = {}) {
         sent_at = $sent_at,
         source = $source,
         sourceDevice = $sourceDevice,
+        type = $type,
         unread = $unread
       WHERE id = $id;`,
-      {
-        $id: id,
-        $json: objectToJSON(data),
-
-        $conversationId: conversationId,
-        $expires_at: expires_at,
-        $hasAttachments: hasAttachments,
-        $hasFileAttachments: hasFileAttachments,
-        $hasVisualMediaAttachments: hasVisualMediaAttachments,
-        $received_at: received_at,
-        $schemaVersion: schemaVersion,
-        $sent_at: sent_at,
-        $source: source,
-        $sourceDevice: sourceDevice,
-        $unread: unread,
-      }
+      payload
     );
 
     return id;
@@ -341,7 +397,9 @@ async function saveMessage(data, { forceSave } = {}) {
     json,
 
     conversationId,
+    expirationStartTimestamp,
     expires_at,
+    expireTimer,
     hasAttachments,
     hasFileAttachments,
     hasVisualMediaAttachments,
@@ -350,13 +408,16 @@ async function saveMessage(data, { forceSave } = {}) {
     sent_at,
     source,
     sourceDevice,
+    type,
     unread
   ) values (
     $id,
     $json,
 
     $conversationId,
+    $expirationStartTimestamp,
     $expires_at,
+    $expireTimer,
     $hasAttachments,
     $hasFileAttachments,
     $hasVisualMediaAttachments,
@@ -365,23 +426,13 @@ async function saveMessage(data, { forceSave } = {}) {
     $sent_at,
     $source,
     $sourceDevice,
+    $type,
     $unread
   );`,
     {
+      ...payload,
       $id: toCreate.id,
       $json: objectToJSON(toCreate),
-
-      $conversationId: conversationId,
-      $expires_at: expires_at,
-      $hasAttachments: hasAttachments,
-      $hasFileAttachments: hasFileAttachments,
-      $hasVisualMediaAttachments: hasVisualMediaAttachments,
-      $received_at: received_at,
-      $schemaVersion: schemaVersion,
-      $sent_at: sent_at,
-      $source: source,
-      $sourceDevice: sourceDevice,
-      $unread: unread,
     }
   );
 
@@ -525,6 +576,23 @@ async function getExpiredMessages() {
       $expires_at: now,
     }
   );
+
+  if (!rows) {
+    return null;
+  }
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getOutgoingWithoutExpiresAt() {
+  const rows = await db.all(`
+    SELECT json FROM messages
+    WHERE
+      (expireTimer IS NOT NULL AND expireTimer IS NOT 0) AND
+      type IS 'outgoing' AND
+      (expirationStartTimestamp IS NULL OR expires_at IS NULL)
+    ORDER BY expires_at ASC;
+  `);
 
   if (!rows) {
     return null;

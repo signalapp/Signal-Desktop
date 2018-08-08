@@ -73,15 +73,25 @@
 
         const deliveries = message.get('delivered') || 0;
         const deliveredTo = message.get('delivered_to') || [];
-
+        const expirationStartTimestamp = message.get(
+          'expirationStartTimestamp'
+        );
         message.set({
           delivered_to: _.union(deliveredTo, [receipt.get('source')]),
           delivered: deliveries + 1,
+          expirationStartTimestamp: expirationStartTimestamp || Date.now(),
+          sent: true,
         });
 
-        await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        });
+        if (message.isExpiring() && !expirationStartTimestamp) {
+          // This will save the message for us while starting the timer
+          await message.setToExpire();
+        } else {
+          await window.Signal.Data.saveMessage(message.attributes, {
+            Message: Whisper.Message,
+          });
+        }
+
         // notify frontend listeners
         const conversation = ConversationController.get(
           message.get('conversationId')
@@ -91,9 +101,6 @@
         }
 
         this.remove(receipt);
-
-        // TODO: consider keeping a list of numbers we've
-        // successfully delivered to?
       } catch (error) {
         window.log.error(
           'DeliveryReceipts.onReceipt error:',

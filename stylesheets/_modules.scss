@@ -479,11 +479,11 @@
   margin-bottom: -3px;
 }
 
-// With an image and no caption, this section needs to be on top of the image
+// With an image and no caption, this section needs to be on top of the image overlay
 .module-message__metadata--with-image-no-caption {
   position: absolute;
   bottom: 9px;
-  z-index: 1;
+  z-index: 2;
 
   width: 100%;
   // Because this is absolutely positioned, we 100% is too big, take it down by parent

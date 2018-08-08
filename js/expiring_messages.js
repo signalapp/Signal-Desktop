@@ -12,6 +12,7 @@
 
   async function destroyExpiredMessages() {
     try {
+      window.log.info('destroyExpiredMessages: Loading messages...');
       const messages = await window.Signal.Data.getExpiredMessages({
         MessageCollection: Whisper.MessageCollection,
       });
@@ -41,6 +42,7 @@
       );
     }
 
+    window.log.info('destroyExpiredMessages: complete');
     checkExpiringMessages();
   }
 
