@@ -180,6 +180,7 @@ MessageReceiver.prototype.extend({
             this.queueEnvelope(envelope);
           },
           error => {
+            request.respond(500, 'Failed to cache message');
             window.log.error(
               'handleRequest error trying to add message to cache:',
               error && error.stack ? error.stack : error
