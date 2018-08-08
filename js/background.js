@@ -408,6 +408,10 @@
     );
     window.log.info('Cleanup: complete');
 
+    if (newVersion) {
+      await window.Signal.Data.cleanupOrphanedAttachments();
+    }
+
     Views.Initialization.setMessage(window.i18n('loading'));
 
     // Note: We are not invoking the second set of IndexedDB migrations because it is
