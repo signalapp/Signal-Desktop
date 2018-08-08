@@ -20,6 +20,15 @@
 
 .gutter {
   background-color: $color-black-008-no-tranparency;
+
+  ::-webkit-scrollbar-track {
+    background: $color-black-008-no-tranparency;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid $color-black-008-no-tranparency;
+  }
+
   float: left;
   width: 300px;
   .content {
