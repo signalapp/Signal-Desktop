@@ -240,8 +240,41 @@ async function updateToSchemaVersion2(currentVersion, instance) {
   console.log('updateToSchemaVersion2: success!');
 }
 
-// const SCHEMA_VERSIONS = [updateToSchemaVersion1];
-const SCHEMA_VERSIONS = [updateToSchemaVersion1, updateToSchemaVersion2];
+async function updateToSchemaVersion3(currentVersion, instance) {
+  if (currentVersion >= 3) {
+    return;
+  }
+
+  console.log('updateToSchemaVersion3: starting...');
+
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run('DROP INDEX messages_expiring;');
+  await instance.run('DROP INDEX messages_unread;');
+
+  await instance.run(`CREATE INDEX messages_without_timer ON messages (
+      expireTimer,
+      expires_at,
+      type
+    ) WHERE expires_at IS NULL AND expireTimer IS NOT NULL;`);
+
+  await instance.run(`CREATE INDEX messages_unread ON messages (
+      conversationId,
+      unread
+    ) WHERE unread IS NOT NULL;`);
+
+  await instance.run('ANALYZE;');
+  await instance.run('PRAGMA schema_version = 3;');
+  await instance.run('COMMIT TRANSACTION;');
+
+  console.log('updateToSchemaVersion3: success!');
+}
+
+const SCHEMA_VERSIONS = [
+  updateToSchemaVersion1,
+  updateToSchemaVersion2,
+  updateToSchemaVersion3,
+];
 
 async function updateSchema(instance) {
   const sqliteVersion = await getSQLiteVersion(instance);
@@ -286,7 +319,14 @@ async function initialize({ configDir, key }) {
   const sqlInstance = await openDatabase(filePath);
   const promisified = promisify(sqlInstance);
 
-  // promisified.on('trace', statement => console._log(statement));
+  // promisified.on('trace', async statement => {
+  //   if (!db) {
+  //     console._log(statement);
+  //     return;
+  //   }
+  //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
+  //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
+  // });
 
   await setupSQLCipher(promisified, { key });
   await updateSchema(promisified);
@@ -507,12 +547,12 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
 async function getUnreadByConversation(conversationId) {
   const rows = await db.all(
     `SELECT json FROM messages WHERE
-      conversationId = $conversationId AND
-      unread = $unread
+      unread = $unread AND
+      conversationId = $conversationId
      ORDER BY received_at DESC;`,
     {
-      $conversationId: conversationId,
       $unread: 1,
+      $conversationId: conversationId,
     }
   );
 
@@ -588,9 +628,9 @@ async function getOutgoingWithoutExpiresAt() {
   const rows = await db.all(`
     SELECT json FROM messages
     WHERE
-      (expireTimer IS NOT NULL AND expireTimer IS NOT 0) AND
-      type IS 'outgoing' AND
-      (expirationStartTimestamp IS NULL OR expires_at IS NULL)
+      expireTimer > 0 AND
+      expires_at IS NULL AND
+      type IS 'outgoing'
     ORDER BY expires_at ASC;
   `);
 
@@ -604,7 +644,7 @@ async function getOutgoingWithoutExpiresAt() {
 async function getNextExpiringMessage() {
   const rows = await db.all(`
     SELECT json FROM messages
-    WHERE expires_at IS NOT NULL
+    WHERE expires_at > 0
     ORDER BY expires_at ASC
     LIMIT 1;
   `);
@@ -734,7 +774,7 @@ async function removeAll() {
 async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
   const rows = await db.all(
     `SELECT json FROM messages
-     WHERE schemaVersion IS NOT $maxVersion
+     WHERE schemaVersion IS NULL OR schemaVersion < $maxVersion
      LIMIT $limit;`,
     {
       $maxVersion: maxVersion,

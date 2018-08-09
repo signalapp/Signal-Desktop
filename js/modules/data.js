@@ -112,6 +112,7 @@ function _makeJob(fnName) {
 
   _jobs[id] = {
     fnName,
+    start: Date.now(),
   };
 
   return id;
@@ -119,16 +120,25 @@ function _makeJob(fnName) {
 
 function _updateJob(id, data) {
   const { resolve, reject } = data;
+  const { fnName, start } = _jobs[id];
 
   _jobs[id] = {
     ..._jobs[id],
     ...data,
     resolve: value => {
       _removeJob(id);
+      const end = Date.now();
+      window.log.info(
+        `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
+      );
       return resolve(value);
     },
     reject: error => {
       _removeJob(id);
+      const end = Date.now();
+      window.log.info(
+        `SQL channel job ${id} (${fnName}) failed in ${end - start}ms`
+      );
       return reject(error);
     },
   };
