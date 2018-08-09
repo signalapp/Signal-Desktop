@@ -83,6 +83,7 @@
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
       this.on('unload', this.unload);
+      this.on('expired', this.onExpired);
       this.setToExpire();
     },
     idForLogging() {
@@ -233,7 +234,9 @@
         this.quotedMessage = null;
       }
     },
-
+    onExpired() {
+      this.hasExpired = true;
+    },
     getPropsForTimerNotification() {
       const { expireTimer, fromSync, source } = this.get(
         'expirationTimerUpdate'
@@ -424,6 +427,7 @@
         attachment: this.getPropsForAttachment(firstAttachment),
         quote: this.getPropsForQuote(),
         authorAvatarPath,
+        isExpired: this.hasExpired,
         expirationLength,
         expirationTimestamp,
         onReply: () => this.trigger('reply', this),
