@@ -109,6 +109,9 @@ function _makeJob(fnName) {
   _jobCounter += 1;
   const id = _jobCounter;
 
+  if (_DEBUG) {
+    window.log.info(`SQL channel job ${id} (${fnName}) started`);
+  }
   _jobs[id] = {
     fnName,
     start: Date.now(),
