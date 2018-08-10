@@ -12,11 +12,14 @@
     getAll() {
       return textsecure.storage.protocol.getAllUnprocessed();
     },
+    get(id) {
+      return textsecure.storage.protocol.getUnprocessedById(id);
+    },
     add(data) {
       return textsecure.storage.protocol.addUnprocessed(data);
     },
-    update(id, updates) {
-      return textsecure.storage.protocol.updateUnprocessed(id, updates);
+    save(data) {
+      return textsecure.storage.protocol.saveUnprocessed(data);
     },
     remove(id) {
       return textsecure.storage.protocol.removeUnprocessed(id);

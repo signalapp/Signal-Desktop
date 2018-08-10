@@ -59,7 +59,6 @@ module.exports = {
   getUnprocessedById,
   saveUnprocessed,
   saveUnprocesseds,
-  updateUnprocessed,
   removeUnprocessed,
   removeAllUnprocessed,
 
@@ -372,19 +371,6 @@ async function saveUnprocesseds(arrayOfUnprocessed, { forceSave } = {}) {
   await channels.saveUnprocesseds(_cleanData(arrayOfUnprocessed), {
     forceSave,
   });
-}
-
-async function updateUnprocessed(id, updates) {
-  const existing = await channels.getUnprocessedById(id);
-  if (!existing) {
-    throw new Error(`Unprocessed id ${id} does not exist in the database!`);
-  }
-  const toSave = {
-    ...existing,
-    ...updates,
-  };
-
-  await saveUnprocessed(toSave);
 }
 
 async function removeUnprocessed(id) {

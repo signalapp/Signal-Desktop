@@ -1241,12 +1241,12 @@ describe('SignalProtocolStore', function() {
         });
     });
 
-    it('updateUnprocessed successfully updates only part of itme', function() {
+    it('saveUnprocessed successfully updates item', function() {
       var id = 1;
       return store
         .addUnprocessed({ id: id, name: 'first', timestamp: 1 })
         .then(function() {
-          return store.updateUnprocessed(id, { name: 'updated' });
+          return store.saveUnprocessed({ id, name: 'updated', timestamp: 1 });
         })
         .then(function() {
           return store.getAllUnprocessed();

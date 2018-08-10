@@ -35,6 +35,10 @@ MessageReceiver.stringToArrayBuffer = string =>
   dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
 MessageReceiver.arrayBufferToString = arrayBuffer =>
   dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary');
+MessageReceiver.stringToArrayBufferBase64 = string =>
+  dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
+MessageReceiver.arrayBufferToStringBase64 = arrayBuffer =>
+  dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
 
 MessageReceiver.prototype = new textsecure.EventTarget();
 MessageReceiver.prototype.extend({
@@ -275,6 +279,12 @@ MessageReceiver.prototype.extend({
     try {
       let envelopePlaintext = item.envelope;
 
+      if (item.version === 2) {
+        envelopePlaintext = MessageReceiver.stringToArrayBufferBase64(
+          envelopePlaintext
+        );
+      }
+
       if (typeof envelopePlaintext === 'string') {
         envelopePlaintext = MessageReceiver.stringToArrayBuffer(
           envelopePlaintext
@@ -285,6 +295,13 @@ MessageReceiver.prototype.extend({
       const { decrypted } = item;
       if (decrypted) {
         let payloadPlaintext = decrypted;
+
+        if (item.version === 2) {
+          payloadPlaintext = MessageReceiver.stringToArrayBufferBase64(
+            payloadPlaintext
+          );
+        }
+
         if (typeof payloadPlaintext === 'string') {
           payloadPlaintext = MessageReceiver.stringToArrayBuffer(
             payloadPlaintext
@@ -339,7 +356,7 @@ MessageReceiver.prototype.extend({
             );
             return textsecure.storage.unprocessed.remove(item.id);
           }
-          return textsecure.storage.unprocessed.update(item.id, { attempts });
+          return textsecure.storage.unprocessed.save({ ...item, attempts });
         })
       ).then(
         () => items,
@@ -357,18 +374,33 @@ MessageReceiver.prototype.extend({
     const id = this.getEnvelopeId(envelope);
     const data = {
       id,
-      envelope: MessageReceiver.arrayBufferToString(plaintext),
+      version: 2,
+      envelope: MessageReceiver.arrayBufferToStringBase64(plaintext),
       timestamp: Date.now(),
       attempts: 1,
     };
     return textsecure.storage.unprocessed.add(data);
   },
-  updateCache(envelope, plaintext) {
+  async updateCache(envelope, plaintext) {
     const id = this.getEnvelopeId(envelope);
-    const data = {
-      decrypted: MessageReceiver.arrayBufferToString(plaintext),
-    };
-    return textsecure.storage.unprocessed.update(id, data);
+    const item = await textsecure.storage.unprocessed.get(id);
+    if (!item) {
+      window.log.error(
+        `updateCache: Didn't find item ${id} in cache to update`
+      );
+      return null;
+    }
+
+    if (item.get('version') === 2) {
+      item.set(
+        'decrypted',
+        MessageReceiver.arrayBufferToStringBase64(plaintext)
+      );
+    } else {
+      item.set('decrypted', MessageReceiver.arrayBufferToString(plaintext));
+    }
+
+    return textsecure.storage.unprocessed.save(item.attributes);
   },
   removeFromCache(envelope) {
     const id = this.getEnvelopeId(envelope);
@@ -1189,3 +1221,7 @@ textsecure.MessageReceiver.stringToArrayBuffer =
   MessageReceiver.stringToArrayBuffer;
 textsecure.MessageReceiver.arrayBufferToString =
   MessageReceiver.arrayBufferToString;
+textsecure.MessageReceiver.stringToArrayBufferBase64 =
+  MessageReceiver.stringToArrayBufferBase64;
+textsecure.MessageReceiver.arrayBufferToStringBase64 =
+  MessageReceiver.arrayBufferToStringBase64;

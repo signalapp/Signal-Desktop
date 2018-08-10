@@ -942,6 +942,9 @@
     getAllUnprocessed() {
       return window.Signal.Data.getAllUnprocessed();
     },
+    getUnprocessedById(id) {
+      return window.Signal.Data.getUnprocessedById(id, { Unprocessed });
+    },
     addUnprocessed(data) {
       // We need to pass forceSave because the data has an id already, which will cause
       //   an update instead of an insert.
@@ -950,8 +953,8 @@
         Unprocessed,
       });
     },
-    updateUnprocessed(id, updates) {
-      return window.Signal.Data.updateUnprocessed(id, updates, { Unprocessed });
+    saveUnprocessed(data) {
+      return window.Signal.Data.saveUnprocessed(data, { Unprocessed });
     },
     removeUnprocessed(id) {
       return window.Signal.Data.removeUnprocessed(id, { Unprocessed });
