@@ -338,7 +338,8 @@
         db,
         clearStores: Whisper.Database.clearStores,
         handleDOMException: Whisper.Database.handleDOMException,
-        arrayBufferToString: textsecure.MessageReceiver.arrayBufferToString,
+        arrayBufferToString:
+          textsecure.MessageReceiver.arrayBufferToStringBase64,
         countCallback: count => {
           window.log.info(`Migration: ${count} messages complete`);
           showMigrationStatus(count);

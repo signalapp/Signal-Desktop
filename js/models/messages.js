@@ -1262,6 +1262,7 @@
             'error:',
             errorForLog
           );
+          throw error;
         }
       });
     },

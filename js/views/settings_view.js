@@ -13,6 +13,7 @@
 
   const CheckboxView = Whisper.View.extend({
     initialize(options) {
+      this.name = options.name;
       this.setFn = options.setFn;
       this.value = options.value;
       this.populate();
@@ -94,17 +95,20 @@
       if (Settings.isAudioNotificationSupported()) {
         new CheckboxView({
           el: this.$('.audio-notification-setting'),
+          name: 'audio-notification-setting',
           value: window.initialData.audioNotification,
           setFn: window.setAudioNotification,
         });
       }
       new CheckboxView({
         el: this.$('.spell-check-setting'),
+        name: 'spell-check-setting',
         value: window.initialData.spellCheck,
         setFn: window.setSpellCheck,
       });
       new CheckboxView({
         el: this.$('.menu-bar-setting'),
+        name: 'menu-bar-setting',
         value: window.initialData.hideMenuBar,
         setFn: window.setHideMenuBar,
       });

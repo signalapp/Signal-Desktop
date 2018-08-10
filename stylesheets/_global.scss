@@ -16,6 +16,28 @@ body {
   color: $color-light-90;
 }
 
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: $color-white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-light-35;
+  border: 2px solid $color-white;
+
+  &:hover {
+    background: $color-light-45;
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background: $color-white;
+}
+
 .dark-overlay {
   position: absolute;
   top: 0;

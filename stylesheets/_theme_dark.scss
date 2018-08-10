@@ -155,7 +155,6 @@ body.dark-theme {
   }
 
   // _emoji
-
   .ep-emojies {
     background-color: $color-black;
   }
@@ -170,7 +169,34 @@ body.dark-theme {
     }
   }
 
+  .emoji-panel-container {
+    .ep ::-webkit-scrollbar-thumb {
+      background: $color-dark-55;
+
+      &:hover {
+        background: $color-dark-30;
+      }
+    }
+  }
+
   // _global
+
+  ::-webkit-scrollbar-track {
+    background: $color-black;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $color-dark-55;
+    border: 2px solid $color-black;
+
+    &:hover {
+      background: $color-dark-30;
+    }
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: $color-black;
+  }
 
   .dark-overlay {
     background-color: $color-black;
@@ -431,6 +457,14 @@ body.dark-theme {
 
   .gutter {
     background-color: $color-dark-85;
+
+    ::-webkit-scrollbar-track {
+      background: $color-dark-85;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid $color-dark-85;
+    }
   }
   .network-status-container {
     .network-status {

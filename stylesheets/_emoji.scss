@@ -134,6 +134,13 @@ button.emoji {
   }
   .ep ::-webkit-scrollbar {
     // matches what is set in _global.scss; needs !important to override emoji panel CSS
-    width: 10px !important;
+    width: 9px !important;
+  }
+  .ep ::-webkit-scrollbar-thumb {
+    background: $color-light-35;
+
+    &:hover {
+      background: $color-light-45;
+    }
   }
 }
