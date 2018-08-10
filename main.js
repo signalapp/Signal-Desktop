@@ -290,7 +290,6 @@ function createWindow() {
   const debouncedCaptureStats = _.debounce(captureAndSaveWindowStats, 500);
   mainWindow.on('resize', debouncedCaptureStats);
   mainWindow.on('move', debouncedCaptureStats);
-  mainWindow.on('close', captureAndSaveWindowStats);
 
   mainWindow.on('focus', () => {
     mainWindow.flashFrame(false);
@@ -736,14 +735,6 @@ ipc.on('draw-attention', () => {
   } else if (process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }
-});
-
-ipc.on('set-media-permissions', (event, enabled) => {
-  userConfig.set('mediaPermissions', enabled);
-});
-ipc.on('get-media-permissions', event => {
-  // eslint-disable-next-line no-param-reassign
-  event.returnValue = userConfig.get('mediaPermissions') || false;
 });
 
 ipc.on('restart', () => {
