@@ -14,6 +14,24 @@
 (async function() {
   'use strict';
 
+  // Globally disable drag and drop
+  document.body.addEventListener(
+    'dragover',
+    e => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    false
+  );
+  document.body.addEventListener(
+    'drop',
+    e => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    false
+  );
+
   // Load these images now to ensure that they don't flicker on first use
   const images = [];
   function preload(list) {
