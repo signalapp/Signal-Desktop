@@ -785,7 +785,12 @@ export class Message extends React.Component<Props, State> {
     const last = direction === 'incoming' ? menuButton : downloadButton;
 
     return (
-      <div className="module-message__buttons">
+      <div
+        className={classNames(
+          'module-message__buttons',
+          `module-message__buttons--${direction}`
+        )}
+      >
         {first}
         {replyButton}
         {last}
@@ -795,9 +800,12 @@ export class Message extends React.Component<Props, State> {
 
   public renderContextMenu(triggerId: string) {
     const {
+      attachment,
       direction,
       status,
       onDelete,
+      onDownload,
+      onReply,
       onRetrySend,
       onShowDetail,
       i18n,
@@ -807,11 +815,50 @@ export class Message extends React.Component<Props, State> {
 
     return (
       <ContextMenu id={triggerId}>
-        <MenuItem onClick={onShowDetail}>{i18n('moreInfo')}</MenuItem>
-        {showRetry ? (
-          <MenuItem onClick={onRetrySend}>{i18n('retrySend')}</MenuItem>
+        {attachment ? (
+          <MenuItem
+            attributes={{
+              className: 'module-message__context__download',
+            }}
+            onClick={onDownload}
+          >
+            {i18n('downloadAttachment')}
+          </MenuItem>
         ) : null}
-        <MenuItem onClick={onDelete}>{i18n('deleteMessage')}</MenuItem>
+        <MenuItem
+          attributes={{
+            className: 'module-message__context__reply',
+          }}
+          onClick={onReply}
+        >
+          {i18n('replyToMessage')}
+        </MenuItem>
+        <MenuItem
+          attributes={{
+            className: 'module-message__context__more-info',
+          }}
+          onClick={onShowDetail}
+        >
+          {i18n('moreInfo')}
+        </MenuItem>
+        {showRetry ? (
+          <MenuItem
+            attributes={{
+              className: 'module-message__context__retry-send',
+            }}
+            onClick={onRetrySend}
+          >
+            {i18n('retrySend')}
+          </MenuItem>
+        ) : null}
+        <MenuItem
+          attributes={{
+            className: 'module-message__context__delete-message',
+          }}
+          onClick={onDelete}
+        >
+          {i18n('deleteMessage')}
+        </MenuItem>
       </ContextMenu>
     );
   }

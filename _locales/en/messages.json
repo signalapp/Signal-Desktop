@@ -695,6 +695,16 @@
     "description":
       "When rendering an address, used to provide context to a post office box"
   },
+  "downloadAttachment": {
+    "message": "Download Attachment",
+    "description":
+      "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
+  },
+  "replyToMessage": {
+    "message": "Reply to Message",
+    "description":
+      "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+  },
   "originalMessageNotFound": {
     "message": "Original message not found",
     "description":

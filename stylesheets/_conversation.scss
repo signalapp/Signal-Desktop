@@ -37,6 +37,7 @@
       }
 
       .message-list {
+        -webkit-padding-start: 0px;
         position: absolute;
         top: 0;
         height: 100%;
@@ -44,6 +45,7 @@
         margin: 0;
         padding: 10px 0 0 0;
         overflow-y: auto;
+        overflow-x: hidden;
       }
     }
   }
@@ -135,9 +137,6 @@
   list-style: none;
 
   li {
-    max-width: 736px;
-    margin-left: auto;
-    margin-right: auto;
     margin-bottom: 10px;
 
     .message-wrapper {
