@@ -31,7 +31,9 @@ function _createFileHandler({ userDataPath, installPath, isWindows }) {
     }
 
     if (!target.startsWith(userDataPath) && !target.startsWith(installPath)) {
-      console.log(`Warning: denying request to path '${target}'`);
+      console.log(
+        `Warning: denying request to path '${target}' (userDataPath: '${userDataPath}', installPath: '${installPath}')`
+      );
       return callback();
     }
 
