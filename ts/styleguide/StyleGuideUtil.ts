@@ -1,4 +1,5 @@
 import QueryString from 'qs';
+import classNames from 'classnames';
 
 // This file provides helpers for the Style Guide, exposed at 'util' in the global scope
 //   via the 'context' option in react-styleguidist.
@@ -6,7 +7,7 @@ import QueryString from 'qs';
 import { default as _ } from 'lodash';
 export { ConversationContext } from './ConversationContext';
 
-export { _ };
+export { _, classNames };
 
 // TypeScript wants two things when you import:
 //   1) a normal typescript file
@@ -81,6 +82,7 @@ export {
 const query = window.location.search.replace(/^\?/, '');
 const urlOptions = QueryString.parse(query);
 const theme = urlOptions.theme || 'light-theme';
+const ios = urlOptions.ios || false;
 const locale = urlOptions.locale || 'en';
 
 // @ts-ignore
@@ -90,7 +92,7 @@ import localeMessages from '../../_locales/en/messages.json';
 import { setup } from '../../js/modules/i18n';
 const i18n = setup(locale, localeMessages);
 
-export { theme, locale, i18n };
+export { theme, ios, locale, i18n };
 
 // Telling Lodash to relinquish _ for use by underscore
 // @ts-ignore

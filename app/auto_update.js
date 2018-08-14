@@ -24,7 +24,7 @@ function checkForUpdates() {
 
 let showingDialog = false;
 function showUpdateDialog(mainWindow, messages) {
-  if (showingDialog) {
+  if (showingDialog || !mainWindow) {
     return;
   }
   showingDialog = true;

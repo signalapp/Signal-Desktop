@@ -22,7 +22,7 @@ const contact = {
   onSendMessage: () => console.log('onSendMessage'),
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -80,7 +80,7 @@ const contact = {
   },
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li><Message
     authorColor="green"
     direction="incoming"
@@ -114,7 +114,7 @@ const contact = {
   },
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme} type="group">
+<util.ConversationContext theme={util.theme} ios={util.ios} type="group">
   <li>
     <Message
       authorColor="green"
@@ -170,7 +170,7 @@ const contact = {
   },
   hasSignalAccount: false,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -226,7 +226,7 @@ const contact = {
   },
   hasSignalAccount: false,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -284,7 +284,7 @@ const contact = {
   },
   hasSignalAccount: false,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -337,7 +337,7 @@ const contact = {
   ],
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -379,7 +379,7 @@ const contact = {
 
 ```jsx
 const contact = {};
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -454,7 +454,7 @@ const contactWithoutAccount = {
   },
   hasSignalAccount: false,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       text="I want to introduce you to Someone..."
