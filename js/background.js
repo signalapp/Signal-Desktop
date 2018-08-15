@@ -487,6 +487,13 @@
     }
   });
 
+  Whisper.events.on('updateNeeded', () => {
+    const { appView } = window.owsDesktopApp;
+    if (appView) {
+      appView.showUpdateNeededBanner();
+    }
+  });
+
   async function start() {
     window.dispatchEvent(new Event('storage_ready'));
 

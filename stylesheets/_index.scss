@@ -6,6 +6,13 @@
   overflow: hidden;
 }
 
+.banner-up {
+  .conversation-stack,
+  .gutter {
+    height: calc(100% - 61px);
+  }
+}
+
 .expired {
   .conversation-stack,
   .gutter {

@@ -81,6 +81,8 @@ window.closeAbout = () => ipc.send('close-about');
 window.updateTrayIcon = unreadCount =>
   ipc.send('update-tray-icon', unreadCount);
 
+window.upgradeApp = () => ipc.send('upgrade-app');
+
 ipc.on('set-up-with-import', () => {
   Whisper.events.trigger('setupWithImport');
 });
@@ -91,6 +93,10 @@ ipc.on('set-up-as-new-device', () => {
 
 ipc.on('set-up-as-standalone', () => {
   Whisper.events.trigger('setupAsStandalone');
+});
+
+ipc.on('updateNeeded', () => {
+  Whisper.events.trigger('updateNeeded');
 });
 
 // Settings-related events
