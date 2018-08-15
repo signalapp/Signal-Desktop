@@ -206,7 +206,7 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
       return attachment;
     }
 
-    if (!thumbnail.data) {
+    if (!thumbnail.data && !thumbnail.path) {
       logger.warn('Quoted attachment did not have thumbnail data; removing it');
       return omit(attachment, ['thumbnail']);
     }

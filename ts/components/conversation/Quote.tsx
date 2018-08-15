@@ -23,6 +23,7 @@ interface Props {
   onClick?: () => void;
   onClose?: () => void;
   text: string;
+  referencedMessageNotFound: boolean;
 }
 
 export interface QuotedAttachment {
@@ -281,12 +282,49 @@ export class Quote extends React.Component<Props> {
     );
   }
 
+  public renderReferenceWarning() {
+    const { i18n, isIncoming, referencedMessageNotFound } = this.props;
+
+    if (!referencedMessageNotFound) {
+      return null;
+    }
+
+    return (
+      <div
+        className={classNames(
+          'module-quote__reference-warning',
+          isIncoming ? 'module-quote__reference-warning--incoming' : null
+        )}
+      >
+        <div
+          className={classNames(
+            'module-quote__reference-warning__icon',
+            isIncoming
+              ? 'module-quote__reference-warning__icon--incoming'
+              : null
+          )}
+        />
+        <div
+          className={classNames(
+            'module-quote__reference-warning__text',
+            isIncoming
+              ? 'module-quote__reference-warning__text--incoming'
+              : null
+          )}
+        >
+          {i18n('originalMessageNotFound')}
+        </div>
+      </div>
+    );
+  }
+
   public render() {
     const {
       authorColor,
       isFromMe,
       isIncoming,
       onClick,
+      referencedMessageNotFound,
       withContentAbove,
     } = this.props;
 
@@ -296,26 +334,37 @@ export class Quote extends React.Component<Props> {
 
     return (
       <div
-        onClick={onClick}
-        role="button"
         className={classNames(
-          'module-quote',
-          isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
-          !isIncoming && !isFromMe
-            ? `module-quote--outgoing-${authorColor}`
-            : null,
-          !isIncoming && isFromMe ? 'module-quote--outgoing-you' : null,
-          !onClick ? 'module-quote--no-click' : null,
-          withContentAbove ? 'module-quote--with-content-above' : null
+          'module-quote-container',
+          withContentAbove ? 'module-quote-container--with-content-above' : null
         )}
       >
-        <div className="module-quote__primary">
-          {this.renderAuthor()}
-          {this.renderGenericFile()}
-          {this.renderText()}
+        <div
+          onClick={onClick}
+          role="button"
+          className={classNames(
+            'module-quote',
+            isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
+            !isIncoming && !isFromMe
+              ? `module-quote--outgoing-${authorColor}`
+              : null,
+            !isIncoming && isFromMe ? 'module-quote--outgoing-you' : null,
+            !onClick ? 'module-quote--no-click' : null,
+            withContentAbove ? 'module-quote--with-content-above' : null,
+            referencedMessageNotFound
+              ? 'module-quote--with-reference-warning'
+              : null
+          )}
+        >
+          <div className="module-quote__primary">
+            {this.renderAuthor()}
+            {this.renderGenericFile()}
+            {this.renderText()}
+          </div>
+          {this.renderIconContainer()}
+          {this.renderClose()}
         </div>
-        {this.renderIconContainer()}
-        {this.renderClose()}
+        {this.renderReferenceWarning()}
       </div>
     );
   }

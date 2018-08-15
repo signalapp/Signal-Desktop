@@ -19,7 +19,6 @@
   window.Whisper = window.Whisper || {};
 
   const { Util } = window.Signal;
-  const { GoogleChrome } = Util;
   const {
     Conversation,
     Contact,
@@ -189,7 +188,6 @@
     addSingleMessage(message) {
       const model = this.messageCollection.add(message, { merge: true });
       model.setToExpire();
-      this.processQuotes(this.messageCollection);
       return model;
     },
 
@@ -1272,244 +1270,6 @@
       });
     },
 
-    makeKey(author, id) {
-      return `${author}-${id}`;
-    },
-    doesMessageMatch(id, author, message) {
-      const messageAuthor = message.getContact().id;
-
-      if (author !== messageAuthor) {
-        return false;
-      }
-      if (id !== message.get('sent_at')) {
-        return false;
-      }
-      return true;
-    },
-    needData(attachments) {
-      if (!attachments || attachments.length === 0) {
-        return false;
-      }
-
-      const first = attachments[0];
-      const { thumbnail, contentType } = first;
-
-      return (
-        thumbnail ||
-        GoogleChrome.isImageTypeSupported(contentType) ||
-        GoogleChrome.isVideoTypeSupported(contentType)
-      );
-    },
-    forceRender(message) {
-      message.trigger('change', message);
-    },
-    makeMessagesLookup(messages) {
-      return messages.reduce((acc, message) => {
-        const { source, sent_at: sentAt } = message.attributes;
-
-        // Checking for notification messages (safety number change, timer change)
-        if (!source && message.isIncoming()) {
-          return acc;
-        }
-
-        const contact = message.getContact();
-        if (!contact) {
-          return acc;
-        }
-
-        const author = contact.id;
-        const key = this.makeKey(author, sentAt);
-
-        acc[key] = message;
-
-        return acc;
-      }, {});
-    },
-    async loadQuotedMessageFromDatabase(message) {
-      const { quote } = message.attributes;
-      const { attachments, id, author } = quote;
-      const first = attachments[0];
-
-      if (!first || message.quoteThumbnail) {
-        return false;
-      }
-
-      if (
-        !GoogleChrome.isImageTypeSupported(first.contentType) &&
-        !GoogleChrome.isVideoTypeSupported(first.contentType)
-      ) {
-        return false;
-      }
-
-      const collection = await window.Signal.Data.getMessagesBySentAt(id, {
-        MessageCollection: Whisper.MessageCollection,
-      });
-      const queryMessage = collection.find(m =>
-        this.doesMessageMatch(id, author, m)
-      );
-
-      if (!queryMessage) {
-        return false;
-      }
-
-      try {
-        if (
-          queryMessage.get('schemaVersion') < Message.CURRENT_SCHEMA_VERSION
-        ) {
-          const upgradedMessage = await upgradeMessageSchema(
-            queryMessage.attributes
-          );
-          queryMessage.set(upgradedMessage);
-          await window.Signal.Data.saveMessage(upgradedMessage, {
-            Message: Whisper.Message,
-          });
-        }
-      } catch (error) {
-        window.log.error(
-          'Problem upgrading message quoted message from database',
-          Errors.toLogFormat(error)
-        );
-        return false;
-      }
-
-      const queryAttachments = queryMessage.attachments || [];
-      if (queryAttachments.length === 0) {
-        return false;
-      }
-
-      const queryFirst = queryAttachments[0];
-      const { thumbnail } = queryFirst;
-
-      // eslint-disable-next-line no-param-reassign
-      message.quoteThumbnail = {
-        ...thumbnail,
-        objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-      };
-
-      return true;
-    },
-    loadQuotedMessage(message, quotedMessage) {
-      // eslint-disable-next-line no-param-reassign
-      message.quotedMessage = quotedMessage;
-
-      const { quote } = message.attributes;
-      const { attachments } = quote;
-      const first = attachments[0];
-
-      if (!first || message.quoteThumbnail) {
-        return;
-      }
-
-      if (
-        !GoogleChrome.isImageTypeSupported(first.contentType) &&
-        !GoogleChrome.isVideoTypeSupported(first.contentType)
-      ) {
-        return;
-      }
-
-      const quotedAttachments = quotedMessage.get('attachments') || [];
-      if (quotedAttachments.length === 0) {
-        return;
-      }
-
-      const queryFirst = quotedAttachments[0];
-      const { thumbnail } = queryFirst;
-
-      if (!thumbnail) {
-        return;
-      }
-
-      // eslint-disable-next-line no-param-reassign
-      message.quoteThumbnail = {
-        ...thumbnail,
-        objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-      };
-    },
-    loadQuoteThumbnail(message) {
-      const { quote } = message.attributes;
-      const { attachments } = quote;
-      const first = attachments[0];
-
-      if (!first || message.quoteThumbnail) {
-        return false;
-      }
-
-      const { thumbnail } = first;
-
-      if (!thumbnail) {
-        return false;
-      }
-      // If we update this data in place, there's the risk that this data could be
-      //   saved back to the database
-      // eslint-disable-next-line no-param-reassign
-      message.quoteThumbnail = {
-        ...thumbnail,
-        objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-      };
-
-      return true;
-    },
-    async processQuotes(messages) {
-      const lookup = this.makeMessagesLookup(messages);
-
-      const promises = messages.map(async message => {
-        const { quote } = message.attributes;
-        if (!quote) {
-          return;
-        }
-
-        // If we already have a quoted message, then we exit early. If we don't have it,
-        //   then we'll continue to look again for an in-memory message to use. Why? This
-        //   will enable us to scroll to it when the user clicks.
-        if (message.quotedMessage) {
-          return;
-        }
-
-        // 1. Load provided thumbnail
-        const gotThumbnail = this.loadQuoteThumbnail(message, quote);
-
-        // 2. Check to see if we've already loaded the target message into memory
-        const { author, id } = quote;
-        const key = this.makeKey(author, id);
-        const quotedMessage = lookup[key];
-
-        if (quotedMessage) {
-          this.loadQuotedMessage(message, quotedMessage);
-          this.forceRender(message);
-          return;
-        }
-
-        // Even if we got the thumbnail locall, we wanted to populate the referenced
-        //   message so a click can navigate to it.
-        if (gotThumbnail) {
-          this.forceRender(message);
-          return;
-        }
-
-        // We only go further if we need more data for this message. It's always important
-        //   to grab the quoted message to allow for navigating to it by clicking.
-        const { attachments } = quote;
-        if (!this.needData(attachments)) {
-          return;
-        }
-
-        // We've don't want to go to the database or load thumbnails a second time.
-        if (message.quoteIsProcessed) {
-          return;
-        }
-        // eslint-disable-next-line no-param-reassign
-        message.quoteIsProcessed = true;
-
-        // 3. As a last resort, go to the database to generate a thumbnail on-demand
-        const loaded = await this.loadQuotedMessageFromDatabase(message, id);
-        if (loaded) {
-          this.forceRender(message);
-        }
-      });
-
-      return Promise.all(promises);
-    },
-
     async upgradeMessages(messages) {
       for (let max = messages.length, i = 0; i < max; i += 1) {
         const message = messages.at(i);
@@ -1557,10 +1317,6 @@
           Errors.toLogFormat(error)
         );
       }
-
-      // We kick this process off, but don't wait for it. If async updates happen on a
-      //   given Message, 'change' will be triggered
-      this.processQuotes(this.messageCollection);
 
       this.inProgressFetch = null;
     },

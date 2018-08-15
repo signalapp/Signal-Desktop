@@ -78,6 +78,7 @@ export interface Props {
     authorName?: string;
     authorColor: Color;
     onClick?: () => void;
+    referencedMessageNotFound: boolean;
   };
   authorAvatarPath?: string;
   expirationLength?: number;
@@ -572,6 +573,7 @@ export class Message extends React.Component<Props, State> {
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
         authorColor={quote.authorColor}
+        referencedMessageNotFound={quote.referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
       />

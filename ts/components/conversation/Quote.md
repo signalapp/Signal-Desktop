@@ -225,6 +225,83 @@
 </util.ConversationContext>
 ```
 
+#### Referenced message not found
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'red',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        isFromMe: true,
+        referencedMessageNotFound: true,
+      }}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'red',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        isFromMe: true,
+        referencedMessageNotFound: true,
+      }}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorName="Mr. 🔥Fire🔥"
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'red',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        referencedMessageNotFound: true,
+      }}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorName="Mr. 🔥Fire🔥"
+      status="sending"
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'red',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        referencedMessageNotFound: true,
+      }}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+</util.ConversationContext>
+```
+
 #### Long names and context
 
 ```jsx

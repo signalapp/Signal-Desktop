@@ -62,9 +62,10 @@ body.dark-theme {
   }
 
   .toast {
-    background: rgba(0, 0, 0, 0.75);
+    background-color: $color-light-60;
     color: $color-white;
-    box-shadow: 0 0 5px 0 black;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0 0 0 0.5px rgba(0, 0, 0, 0.08);
   }
 
   .confirmation-dialog {
@@ -1012,6 +1013,18 @@ body.dark-theme {
     // background: url('../images/file-gradient.svg');
   }
   .module-quote__generic-file__text {
+    color: $color-dark-05;
+  }
+
+  .module-quote__reference-warning {
+    background-color: $color-black-06;
+  }
+
+  .module-quote__reference-warning__icon {
+    @include color-svg('../images/broken-link.svg', $color-dark-30);
+  }
+
+  .module-quote__reference-warning__text {
     color: $color-dark-05;
   }
 

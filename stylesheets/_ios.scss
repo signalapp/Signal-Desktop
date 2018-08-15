@@ -206,6 +206,10 @@
     color: $color-light-90;
   }
 
+  .module-quote__reference-warning--incoming {
+    background-color: $color-signal-blue-mix;
+  }
+
   // When you're composing a new quote
   .bottom-bar {
     .module-quote {
@@ -349,6 +353,30 @@
 
     .module-quote__generic-file__text--incoming {
       color: $color-white;
+    }
+
+    .module-quote__reference-warning {
+      background-color: $color-white-04;
+    }
+
+    .module-quote__reference-warning--incoming {
+      background-color: $color-signal-blue-050;
+    }
+
+    .module-quote__reference-warning__text {
+      color: $color-light-90;
+    }
+
+    .module-quote__reference-warning__text--incoming {
+      color: $color-white;
+    }
+
+    .module-quote__reference-warning__icon {
+      @include color-svg('../images/broken-link.svg', $color-light-60);
+    }
+
+    .module-quote__reference-warning__icon--incoming {
+      @include color-svg('../images/broken-link.svg', $color-white-085);
     }
 
     // When you're composing a new quote
