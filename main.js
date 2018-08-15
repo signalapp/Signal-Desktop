@@ -786,6 +786,11 @@ ipc.on('close-permissions-popup', () => {
   }
 });
 
+ipc.on('upgrade-app', () => {
+  logger.info('upgrading app');
+  autoUpdate.updateApp();
+});
+
 // Settings-related IPC calls
 
 function addDarkOverlay() {

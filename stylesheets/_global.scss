@@ -457,6 +457,31 @@ textarea {
   }
 }
 
+.newVersionAlert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffff31;
+  padding: 10px;
+
+  button {
+    border: none;
+    border-radius: $border-radius;
+    color: white;
+    font-weight: bold;
+    line-height: 36px;
+    padding: 0 20px;
+    background: $blue;
+    margin-right: 20px;
+  }
+
+  .message {
+    font-size: 18px;
+    padding: 10px 0;
+  }
+}
+
 .inbox {
   position: relative;
 }
