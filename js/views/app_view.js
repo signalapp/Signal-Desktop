@@ -1,5 +1,5 @@
 /* global Backbone, Whisper, storage, _, ConversationController, $ */
-
+/* global i18n: false */
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
@@ -12,12 +12,14 @@
     initialize() {
       this.inboxView = null;
       this.installView = null;
+      this.updateNeededBanner = false;
 
       this.applyTheme();
       this.applyHideMenu();
     },
     events: {
       'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
+      'click button.upgrade-app': 'upgradeApp',
       openInbox: 'openInbox',
     },
     applyTheme() {
@@ -178,5 +180,29 @@
         });
       }
     },
+    upgradeApp(e) {
+      e.preventDefault();
+      window.upgradeApp();
+    },
+    showUpdateNeededBanner() {
+      if (!this.updateNeededBanner) {
+        const banner = new Whisper.NewVersionBanner().render();
+        banner.$el.prependTo(this.inboxView.$el);
+        this.$el.addClass('banner-up');
+        this.updateNeededBanner = true;
+      }
+    },
   });
+
+  Whisper.NewVersionBanner = Whisper.View.extend({
+    templateName: 'new_version_alert',
+    className: 'newVersionAlert clearfix',
+    render_attributes() {
+      return {
+        expiredWarning: i18n('autoUpdateNewVersionMessage'),
+        upgrade: i18n('upgrade'),
+      };
+    },
+  });
+
 })();
