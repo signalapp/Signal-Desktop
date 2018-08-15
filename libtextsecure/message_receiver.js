@@ -814,7 +814,6 @@ MessageReceiver.prototype.extend({
       let contactDetails = contactBuffer.next();
       while (contactDetails !== undefined) {
         const ev = new Event('contact');
-        ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.contactDetails = contactDetails;
         results.push(this.dispatchAndWait(ev));
 
@@ -822,10 +821,12 @@ MessageReceiver.prototype.extend({
       }
 
       const ev = new Event('contactsync');
-      ev.confirm = this.removeFromCache.bind(this, envelope);
       results.push(this.dispatchAndWait(ev));
 
-      return Promise.all(results);
+      return Promise.all(results).then(() => {
+        window.log.info('handleContacts: finished');
+        return this.removeFromCache(envelope);
+      });
     });
   },
   handleGroups(envelope, groups) {
