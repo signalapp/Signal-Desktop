@@ -268,12 +268,17 @@ MessageReceiver.prototype.extend({
     ev.count = count;
     this.dispatchEvent(ev);
   },
-  queueAllCached() {
-    return this.getAllFromCache().then(items => {
-      for (let i = 0, max = items.length; i < max; i += 1) {
-        this.queueCached(items[i]);
+  async queueAllCached() {
+    const items = await this.getAllFromCache();
+    for (let i = 0, max = items.length; i < max; i += 1) {
+      if (i > 0 && i % 20 === 0) {
+        window.log.info('queueAllCached: Giving event loop a rest');
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise(resolve => setTimeout(resolve, 2000));
       }
-    });
+
+      this.queueCached(items[i]);
+    }
   },
   async queueCached(item) {
     try {
