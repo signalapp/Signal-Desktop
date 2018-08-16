@@ -125,6 +125,14 @@
     color: $color-light-90;
   }
 
+  .module-expire-timer {
+    background-color: $color-white-07;
+  }
+
+  .module-expire-timer--incoming {
+    background-color: $color-light-45;
+  }
+
   .module-quote--incoming {
     background-color: $color-signal-blue-025;
     border-left-color: $color-signal-blue;
@@ -284,6 +292,10 @@
     }
     .module-message__generic-attachment__file-size--incoming {
       color: $color-white;
+    }
+
+    .module-expire-timer--incoming {
+      background-color: $color-white-07;
     }
 
     .module-quote__primary__author {
