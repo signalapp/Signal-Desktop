@@ -1,5 +1,3 @@
-/* global Whisper: false */
-
 const { autoUpdater } = require('electron-updater');
 
 const config = require('./config');
