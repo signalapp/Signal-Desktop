@@ -90,6 +90,13 @@
       {{ unreadMessages }}
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='new_version_alert'>
+    <button class='upgrade-app'>{{ upgrade }}</button>
+    <span class="message">
+    {{ newVersionAvailable }}
+    </span>
+  </script>
+
   <script type='text/x-tmpl-mustache' id='expired_alert'>
     <a target='_blank' href='https://signal.org/download/'>
       <button class='upgrade'>{{ upgrade }}</button>
