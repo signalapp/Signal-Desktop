@@ -31,10 +31,16 @@ $color-signal-blue: #2090ea;
 $color-core-green: #4caf50;
 $color-core-red: #f44336;
 
+$color-signal-blue-025: rgba($color-signal-blue, 0.25);
+$color-signal-blue-050: rgba($color-signal-blue, 0.5);
+
 $color-white: #ffffff;
 $color-white-02: rgba($color-white, 0.2);
+$color-white-04: rgba($color-white, 0.4);
+$color-white-06: rgba($color-white, 0.6);
 $color-white-07: rgba($color-white, 0.7);
 $color-white-075: rgba($color-white, 0.75);
+$color-white-085: rgba($color-white, 0.85);
 $color-light-02: #f9fafa;
 $color-light-10: #eeefef;
 $color-light-35: #a4a6a9;
@@ -55,6 +61,9 @@ $color-black-016-no-tranparency: #d9d9d9;
 $color-black-012: rgba($color-black, 0.12);
 $color-black-02: rgba($color-black, 0.2);
 $color-black-04: rgba($color-black, 0.4);
+$color-black-06: rgba($color-black, 0.6);
+
+$color-signal-blue-mix: mix($color-signal-blue-025, $color-white-04);
 
 $color-conversation-grey: #757575;
 $color-conversation-blue: #1976d2;

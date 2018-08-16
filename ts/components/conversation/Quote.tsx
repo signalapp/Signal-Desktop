@@ -23,6 +23,7 @@ interface Props {
   onClick?: () => void;
   onClose?: () => void;
   text: string;
+  referencedMessageNotFound: boolean;
 }
 
 export interface QuotedAttachment {
@@ -125,7 +126,7 @@ export class Quote extends React.Component<Props> {
   }
 
   public renderGenericFile() {
-    const { attachment } = this.props;
+    const { attachment, isIncoming } = this.props;
 
     if (!attachment) {
       return;
@@ -144,7 +145,14 @@ export class Quote extends React.Component<Props> {
     return (
       <div className="module-quote__generic-file">
         <div className="module-quote__generic-file__icon" />
-        <div className="module-quote__generic-file__text">{fileName}</div>
+        <div
+          className={classNames(
+            'module-quote__generic-file__text',
+            isIncoming ? 'module-quote__generic-file__text--incoming' : null
+          )}
+        >
+          {fileName}
+        </div>
       </div>
     );
   }
@@ -176,11 +184,17 @@ export class Quote extends React.Component<Props> {
   }
 
   public renderText() {
-    const { i18n, text, attachment } = this.props;
+    const { i18n, text, attachment, isIncoming } = this.props;
 
     if (text) {
       return (
-        <div dir="auto" className="module-quote__primary__text">
+        <div
+          dir="auto"
+          className={classNames(
+            'module-quote__primary__text',
+            isIncoming ? 'module-quote__primary__text--incoming' : null
+          )}
+        >
           <MessageBody text={text} i18n={i18n} />
         </div>
       );
@@ -195,7 +209,14 @@ export class Quote extends React.Component<Props> {
     const typeLabel = getTypeLabel({ i18n, contentType, isVoiceMessage });
     if (typeLabel) {
       return (
-        <div className="module-quote__primary__type-label">{typeLabel}</div>
+        <div
+          className={classNames(
+            'module-quote__primary__type-label',
+            isIncoming ? 'module-quote__primary__type-label--incoming' : null
+          )}
+        >
+          {typeLabel}
+        </div>
       );
     }
 
@@ -236,13 +257,15 @@ export class Quote extends React.Component<Props> {
       authorColor,
       i18n,
       isFromMe,
+      isIncoming,
     } = this.props;
 
     return (
       <div
         className={classNames(
           'module-quote__primary__author',
-          !isFromMe ? `module-quote__primary__author--${authorColor}` : null
+          !isFromMe ? `module-quote__primary__author--${authorColor}` : null,
+          isIncoming ? 'module-quote__primary__author--incoming' : null
         )}
       >
         {isFromMe ? (
@@ -259,12 +282,49 @@ export class Quote extends React.Component<Props> {
     );
   }
 
+  public renderReferenceWarning() {
+    const { i18n, isIncoming, referencedMessageNotFound } = this.props;
+
+    if (!referencedMessageNotFound) {
+      return null;
+    }
+
+    return (
+      <div
+        className={classNames(
+          'module-quote__reference-warning',
+          isIncoming ? 'module-quote__reference-warning--incoming' : null
+        )}
+      >
+        <div
+          className={classNames(
+            'module-quote__reference-warning__icon',
+            isIncoming
+              ? 'module-quote__reference-warning__icon--incoming'
+              : null
+          )}
+        />
+        <div
+          className={classNames(
+            'module-quote__reference-warning__text',
+            isIncoming
+              ? 'module-quote__reference-warning__text--incoming'
+              : null
+          )}
+        >
+          {i18n('originalMessageNotFound')}
+        </div>
+      </div>
+    );
+  }
+
   public render() {
     const {
       authorColor,
       isFromMe,
       isIncoming,
       onClick,
+      referencedMessageNotFound,
       withContentAbove,
     } = this.props;
 
@@ -274,26 +334,37 @@ export class Quote extends React.Component<Props> {
 
     return (
       <div
-        onClick={onClick}
-        role="button"
         className={classNames(
-          'module-quote',
-          isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
-          !isIncoming && !isFromMe
-            ? `module-quote--outgoing-${authorColor}`
-            : null,
-          !isIncoming && isFromMe ? 'module-quote--outgoing-you' : null,
-          !onClick ? 'module-quote--no-click' : null,
-          withContentAbove ? 'module-quote--with-content-above' : null
+          'module-quote-container',
+          withContentAbove ? 'module-quote-container--with-content-above' : null
         )}
       >
-        <div className="module-quote__primary">
-          {this.renderAuthor()}
-          {this.renderGenericFile()}
-          {this.renderText()}
+        <div
+          onClick={onClick}
+          role="button"
+          className={classNames(
+            'module-quote',
+            isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
+            !isIncoming && !isFromMe
+              ? `module-quote--outgoing-${authorColor}`
+              : null,
+            !isIncoming && isFromMe ? 'module-quote--outgoing-you' : null,
+            !onClick ? 'module-quote--no-click' : null,
+            withContentAbove ? 'module-quote--with-content-above' : null,
+            referencedMessageNotFound
+              ? 'module-quote--with-reference-warning'
+              : null
+          )}
+        >
+          <div className="module-quote__primary">
+            {this.renderAuthor()}
+            {this.renderGenericFile()}
+            {this.renderText()}
+          </div>
+          {this.renderIconContainer()}
+          {this.renderClose()}
         </div>
-        {this.renderIconContainer()}
-        {this.renderClose()}
+        {this.renderReferenceWarning()}
       </div>
     );
   }

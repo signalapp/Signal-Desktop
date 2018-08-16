@@ -3,7 +3,7 @@
 #### Plain text
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -41,7 +41,7 @@
 #### Name variations
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -112,7 +112,7 @@
 #### With emoji
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -148,7 +148,7 @@
 #### Replies to you or yourself
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -186,7 +186,7 @@
 #### In a group conversation
 
 ```jsx
-<util.ConversationContext theme={util.theme} type="group">
+<util.ConversationContext theme={util.theme} ios={util.ios} type="group">
   <li>
     <Message
       direction="incoming"
@@ -225,10 +225,87 @@
 </util.ConversationContext>
 ```
 
+#### Referenced message not found
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'red',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        isFromMe: true,
+        referencedMessageNotFound: true,
+      }}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'red',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        isFromMe: true,
+        referencedMessageNotFound: true,
+      }}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorName="Mr. 🔥Fire🔥"
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'red',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        referencedMessageNotFound: true,
+      }}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorName="Mr. 🔥Fire🔥"
+      status="sending"
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'red',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        referencedMessageNotFound: true,
+      }}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+</util.ConversationContext>
+```
+
 #### Long names and context
 
 ```jsx
-<util.ConversationContext theme={util.theme} type="group">
+<util.ConversationContext theme={util.theme} ios={util.ios} type="group">
   <li>
     <Message
       direction="incoming"
@@ -270,7 +347,7 @@
 #### A lot of text in quotation
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -314,7 +391,7 @@
 #### A lot of text in quotation, with icon
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -366,7 +443,7 @@
 #### A lot of text in quotation, with image
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -426,7 +503,7 @@
 #### Image with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -478,7 +555,7 @@
 #### Image
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -528,7 +605,7 @@
 #### Image with no thumbnail
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -570,7 +647,7 @@
 #### Video with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -622,7 +699,7 @@
 #### Video
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -672,7 +749,7 @@
 #### Video with no thumbnail
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -720,7 +797,7 @@
 #### Audio with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -764,7 +841,7 @@
 #### Audio
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -806,7 +883,7 @@
 #### Voice message
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -852,7 +929,7 @@
 #### Other file type with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -935,7 +1012,7 @@
 #### Other file type
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -979,7 +1056,7 @@
 #### Quote, image attachment, and caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -1025,7 +1102,7 @@
 #### Quote, image attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -1069,7 +1146,7 @@
 #### Quote, portrait image attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -1113,14 +1190,17 @@
 #### Quote, video attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
       timestamp={Date.now()}
       authorColor="green"
       attachment={{
-        url: util.mp4ObjectUrl,
+        screenshot: {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+        },
         fileName: 'freezing_bubble.mp4',
         contentType: 'video/mp4',
       }}
@@ -1138,7 +1218,10 @@
       timestamp={Date.now()}
       status="sending"
       attachment={{
-        url: util.mp4ObjectUrl,
+        screenshot: {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+        },
         fileName: 'freezing_bubble.mp4',
         contentType: 'video/mp4',
       }}
@@ -1157,7 +1240,7 @@
 #### Quote, audio attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -1201,7 +1284,7 @@
 #### Quote, file attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -1249,7 +1332,7 @@
 #### Plain text
 
 ```jsx
-<div className={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1257,17 +1340,17 @@
       authorPhoneNumber="(202) 555-1000"
       authorProfileName="Mr. Blue"
       id={Date.now() - 1000}
-      i18n={window.i18n}
+      i18n={util.i18n}
       onClick={() => console.log('onClick')}
     />
   </div>
-</div>
+</util.ConversationContext>
 ```
 
 #### With an icon
 
 ```jsx
-<div className={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1283,13 +1366,13 @@
       onClick={() => console.log('onClick')}
     />
   </div>
-</div>
+</util.ConversationContext>
 ```
 
 #### With an image
 
 ```jsx
-<div className={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1308,13 +1391,59 @@
       onClick={() => console.log('onClick')}
     />
   </div>
-</div>
+</util.ConversationContext>
+```
+
+#### With attachment and no text
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <div className="bottom-bar">
+    <Quote
+      authorColor="blue"
+      authorPhoneNumber="(202) 555-1000"
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      i18n={util.i18n}
+      attachment={{
+        contentType: 'image/gif',
+        fileName: 'llama.gif',
+        thumbnail: {
+          objectUrl: util.gifObjectUrl,
+        },
+      }}
+      onClick={() => console.log('onClick')}
+    />
+  </div>
+</util.ConversationContext>
+```
+
+#### With generic attachment
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <div className="bottom-bar">
+    <Quote
+      text="How many ferrets do you have?"
+      authorColor="blue"
+      authorPhoneNumber="(202) 555-1000"
+      authorProfileName="Mr. Blue"
+      id={Date.now() - 1000}
+      i18n={util.i18n}
+      attachment={{
+        contentType: 'text/plain',
+        fileName: 'manifesto.text',
+      }}
+      onClick={() => console.log('onClick')}
+    />
+  </div>
+</util.ConversationContext>
 ```
 
 #### With a close button
 
 ```jsx
-<div className={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1324,16 +1453,16 @@
       id={Date.now() - 1000}
       onClose={() => console.log('onClose')}
       onClick={() => console.log('onClick')}
-      i18n={window.i18n}
+      i18n={util.i18n}
     />
   </div>
-</div>
+</util.ConversationContext>
 ```
 
 #### With a close button and icon
 
 ```jsx
-<div className={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1343,20 +1472,20 @@
       id={Date.now() - 1000}
       onClose={() => console.log('onClose')}
       onClick={() => console.log('onClick')}
-      i18n={window.i18n}
+      i18n={util.i18n}
       attachment={{
         contentType: 'image/jpeg',
         fileName: 'llama.jpg',
       }}
     />
   </div>
-</div>
+</util.ConversationContext>
 ```
 
 #### With a close button and image
 
 ```jsx
-<div className={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1376,5 +1505,5 @@
       }}
     />
   </div>
-</div>
+</util.ConversationContext>
 ```

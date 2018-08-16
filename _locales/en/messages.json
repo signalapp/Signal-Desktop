@@ -695,19 +695,30 @@
     "description":
       "When rendering an address, used to provide context to a post office box"
   },
+  "downloadAttachment": {
+    "message": "Download Attachment",
+    "description":
+      "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
+  },
   "replyToMessage": {
     "message": "Reply to Message",
     "description":
       "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
   },
-  "replyingToYourself": {
-    "message": "Replying to Yourself",
-    "description": "Shown in iOS theme when you quote yourself"
-  },
-  "replyingToYou": {
-    "message": "Replying to You",
+  "originalMessageNotFound": {
+    "message": "Original message not found",
     "description":
-      "Shown in iOS theme when someone else quotes a message from you"
+      "Shown in quote if reference message was not found as message was initially downloaded and processed"
+  },
+  "originalMessageNotAvailable": {
+    "message": "Original message no longer available",
+    "description":
+      "Shown in toast if user clicks on quote that references message no longer in database"
+  },
+  "messageFoundButNotLoaded": {
+    "message": "Original message found, but not loaded. Scroll up to load it.",
+    "description":
+      "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
   },
   "you": {
     "message": "You",

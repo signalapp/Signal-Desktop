@@ -34,6 +34,21 @@
       return { toastMessage: i18n('youLeftTheGroup') };
     },
   });
+  Whisper.OriginalNotFoundToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('originalMessageNotFound') };
+    },
+  });
+  Whisper.OriginalNoLongerAvailableToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('originalMessageNotAvailable') };
+    },
+  });
+  Whisper.FoundButNotLoadedToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('messageFoundButNotLoaded') };
+    },
+  });
 
   Whisper.ConversationLoadingScreen = Whisper.View.extend({
     templateName: 'conversation-loading-screen',
@@ -566,15 +581,66 @@
       }
     },
 
-    scrollToMessage(options = {}) {
-      const { id } = options;
+    async scrollToMessage(options = {}) {
+      const { author, id, referencedMessageNotFound } = options;
 
-      if (!id) {
+      // For simplicity's sake, we show the 'not found' toast no matter what if we were
+      //   not able to find the referenced message when the quote was received.
+      if (referencedMessageNotFound) {
+        const toast = new Whisper.OriginalNotFoundToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
         return;
       }
 
-      const el = this.$(`#${id}`);
+      // Look for message in memory first, which would tell us if we could scroll to it
+      const targetMessage = this.model.messageCollection.find(item => {
+        const messageAuthor = item.getContact().id;
+
+        if (author !== messageAuthor) {
+          return false;
+        }
+        if (id !== item.get('sent_at')) {
+          return false;
+        }
+
+        return true;
+      });
+
+      // If there's no message already in memory, we won't be scrolling. So we'll gather
+      //   some more information then show an informative toast to the user.
+      if (!targetMessage) {
+        const collection = await window.Signal.Data.getMessagesBySentAt(id, {
+          MessageCollection: Whisper.MessageCollection,
+        });
+        const messageFromDatabase = collection.find(item => {
+          const messageAuthor = item.getContact();
+
+          return messageAuthor && author === messageAuthor.id;
+        });
+
+        if (messageFromDatabase) {
+          const toast = new Whisper.FoundButNotLoadedToast();
+          toast.$el.appendTo(this.$el);
+          toast.render();
+        } else {
+          const toast = new Whisper.OriginalNoLongerAvailableToast();
+          toast.$el.appendTo(this.$el);
+          toast.render();
+        }
+        return;
+      }
+
+      const databaseId = targetMessage.id;
+      const el = this.$(`#${databaseId}`);
       if (!el || el.length === 0) {
+        const toast = new Whisper.OriginalNoLongerAvailableToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
+
+        window.log.info(
+          `Error: had target message ${id} in messageCollection, but it was not in DOM`
+        );
         return;
       }
 
@@ -1375,7 +1441,7 @@
       }
 
       if (toast) {
-        toast.$el.insertAfter(this.$el);
+        toast.$el.appendTo(this.$el);
         toast.render();
         this.focusMessageFieldAndClearDisabled();
         return;

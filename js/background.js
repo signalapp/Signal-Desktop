@@ -14,6 +14,24 @@
 (async function() {
   'use strict';
 
+  // Globally disable drag and drop
+  document.body.addEventListener(
+    'dragover',
+    e => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    false
+  );
+  document.body.addEventListener(
+    'drop',
+    e => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    false
+  );
+
   // Load these images now to ensure that they don't flicker on first use
   const images = [];
   function preload(list) {
@@ -842,19 +860,17 @@
       );
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
-      if (!isValidExpireTimer) {
-        return;
+      if (isValidExpireTimer) {
+        const source = textsecure.storage.user.getNumber();
+        const receivedAt = Date.now();
+
+        await conversation.updateExpirationTimer(
+          expireTimer,
+          source,
+          receivedAt,
+          { fromSync: true }
+        );
       }
-
-      const source = textsecure.storage.user.getNumber();
-      const receivedAt = Date.now();
-
-      await conversation.updateExpirationTimer(
-        expireTimer,
-        source,
-        receivedAt,
-        { fromSync: true }
-      );
 
       if (details.verified) {
         const { verified } = details;
@@ -867,8 +883,6 @@
         verifiedEvent.viaContactSync = true;
         await onVerified(verifiedEvent);
       }
-
-      ev.confirm();
     } catch (error) {
       window.log.error('onContactReceived error:', Errors.toLogFormat(error));
     }
@@ -959,7 +973,9 @@
         return event.confirm();
       }
 
-      const upgradedMessage = await upgradeMessageSchema(data.message);
+      const withQuoteReference = await copyFromQuotedMessage(data.message);
+      const upgradedMessage = await upgradeMessageSchema(withQuoteReference);
+
       await ConversationController.getOrCreateAndWait(
         messageDescriptor.id,
         messageDescriptor.type
@@ -968,6 +984,80 @@
         initialLoadComplete,
       });
     };
+  }
+
+  async function copyFromQuotedMessage(message) {
+    const { quote } = message;
+    if (!quote) {
+      return message;
+    }
+
+    const { attachments, id, author } = quote;
+    const firstAttachment = attachments[0];
+
+    const collection = await window.Signal.Data.getMessagesBySentAt(id, {
+      MessageCollection: Whisper.MessageCollection,
+    });
+    const queryMessage = collection.find(item => {
+      const messageAuthor = item.getContact();
+
+      return messageAuthor && author === messageAuthor.id;
+    });
+
+    if (!queryMessage) {
+      quote.referencedMessageNotFound = true;
+      return message;
+    }
+
+    quote.text = queryMessage.get('body');
+    if (firstAttachment) {
+      firstAttachment.thumbnail = null;
+    }
+
+    if (
+      !firstAttachment ||
+      (!window.Signal.Util.GoogleChrome.isImageTypeSupported(
+        firstAttachment.contentType
+      ) &&
+        !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
+          firstAttachment.contentType
+        ))
+    ) {
+      return message;
+    }
+
+    try {
+      if (queryMessage.get('schemaVersion') < Message.CURRENT_SCHEMA_VERSION) {
+        const upgradedMessage = await upgradeMessageSchema(
+          queryMessage.attributes
+        );
+        queryMessage.set(upgradedMessage);
+        await window.Signal.Data.saveMessage(upgradedMessage, {
+          Message: Whisper.Message,
+        });
+      }
+    } catch (error) {
+      window.log.error(
+        'Problem upgrading message quoted message from database',
+        Errors.toLogFormat(error)
+      );
+      return message;
+    }
+
+    const queryAttachments = queryMessage.get('attachments') || [];
+
+    if (queryAttachments.length === 0) {
+      return message;
+    }
+
+    const queryFirst = queryAttachments[0];
+    const { thumbnail } = queryFirst;
+
+    if (thumbnail && thumbnail.path) {
+      firstAttachment.thumbnail = thumbnail;
+    }
+
+    return message;
   }
 
   // Received:

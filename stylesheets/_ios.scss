@@ -1,0 +1,408 @@
+// When paired with an iOS device, this stylesheet will apply
+
+.ios-theme {
+  // _modules
+
+  .module-message__container--outgoing {
+    background-color: $color-signal-blue;
+    color: $color-white;
+  }
+
+  .module-message__container--incoming {
+    background-color: $color-light-10;
+    color: $color-light-90;
+  }
+
+  .module-message__container--incoming-grey {
+    background-color: $color-light-10;
+  }
+  .module-message__container--incoming-blue {
+    background-color: $color-light-10;
+  }
+  .module-message__container--incoming-cyan {
+    background-color: $color-light-10;
+  }
+  .module-message__container--incoming-deep_orange {
+    background-color: $color-light-10;
+  }
+  .module-message__container--incoming-green {
+    background-color: $color-light-10;
+  }
+  .module-message__container--incoming-indigo {
+    background-color: $color-light-10;
+  }
+  .module-message__container--incoming-pink {
+    background-color: $color-light-10;
+  }
+  .module-message__container--incoming-purple {
+    background-color: $color-light-10;
+  }
+  .module-message__container--incoming-red {
+    background-color: $color-light-10;
+  }
+  .module-message__container--incoming-teal {
+    background-color: $color-light-10;
+  }
+
+  .module-message__author {
+    color: $color-light-90;
+  }
+
+  .module-message__text {
+    color: $color-white;
+    font-size: 14px;
+    a {
+      text-decoration: underline;
+      color: $color-white;
+    }
+  }
+
+  .module-message__text--incoming {
+    color: $color-light-90;
+    a {
+      text-decoration: underline;
+      color: $color-light-90;
+    }
+  }
+
+  .module-message__metadata__date {
+    color: $color-white-07;
+  }
+  .module-message__metadata__date--incoming {
+    color: $color-light-45;
+  }
+  .module-message__metadata__date--with-image-no-caption {
+    color: $color-white;
+  }
+
+  .module-message__metadata__status-icon--sending {
+    @include color-svg('../images/sending.svg', $color-white);
+  }
+
+  .module-message__metadata__status-icon--sent {
+    @include color-svg('../images/check-circle-outline.svg', $color-white-07);
+  }
+  .module-message__metadata__status-icon--delivered {
+    @include color-svg('../images/double-check.svg', $color-white-07);
+  }
+  .module-message__metadata__status-icon--read {
+    @include color-svg('../images/read.svg', $color-white-07);
+  }
+
+  .module-message__metadata__status-icon--with-image-no-caption {
+    background-color: $color-white;
+  }
+
+  .module-message__broken-image {
+    color: $color-white;
+  }
+
+  .module-message__broken-image--incoming {
+    color: $color-light-90;
+  }
+
+  .module-message__broken-video-screenshot {
+    color: $color-white;
+  }
+
+  .module-message__broken-video-screenshot--incoming {
+    color: $color-light-90;
+  }
+
+  .module-message__generic-attachment__file-name {
+    color: $color-white;
+  }
+
+  .module-message__generic-attachment__file-name--incoming {
+    color: $color-light-90;
+  }
+
+  .module-message__generic-attachment__file-size {
+    color: $color-white;
+  }
+
+  .module-message__generic-attachment__file-size--incoming {
+    color: $color-light-90;
+  }
+
+  .module-quote--incoming {
+    background-color: $color-signal-blue-025;
+    border-left-color: $color-signal-blue;
+  }
+
+  .module-quote--outgoing-you {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-grey {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-blue {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-cyan {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-deep_orange {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-green {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-indigo {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-pink {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-purple {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-red {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+  .module-quote--outgoing-teal {
+    border-left-color: $color-white;
+    background-color: $color-white-06;
+  }
+
+  .module-quote__primary__author--grey {
+    color: $color-light-90;
+  }
+  .module-quote__primary__author--blue {
+    color: $color-light-90;
+  }
+  .module-quote__primary__author--cyan {
+    color: $color-light-90;
+  }
+  .module-quote__primary__author--deep_orange {
+    color: $color-light-90;
+  }
+  .module-quote__primary__author--green {
+    color: $color-light-90;
+  }
+  .module-quote__primary__author--indigo {
+    color: $color-light-90;
+  }
+  .module-quote__primary__author--pink {
+    color: $color-light-90;
+  }
+  .module-quote__primary__author--purple {
+    color: $color-light-90;
+  }
+  .module-quote__primary__author--red {
+    color: $color-light-90;
+  }
+  .module-quote__primary__author--teal {
+    color: $color-light-90;
+  }
+
+  .module-quote__reference-warning--incoming {
+    background-color: $color-signal-blue-mix;
+  }
+
+  // When you're composing a new quote
+  .bottom-bar {
+    .module-quote {
+      background-color: $color-signal-blue-025;
+      border-left-color: $color-signal-blue;
+    }
+  }
+
+  &.dark-theme {
+    // _modules
+
+    .module-message__container--incoming {
+      background-color: $color-dark-70;
+      color: $color-white;
+    }
+
+    .module-message__container--incoming-grey {
+      background-color: $color-dark-70;
+    }
+    .module-message__container--incoming-blue {
+      background-color: $color-dark-70;
+    }
+    .module-message__container--incoming-cyan {
+      background-color: $color-dark-70;
+    }
+    .module-message__container--incoming-deep_orange {
+      background-color: $color-dark-70;
+    }
+    .module-message__container--incoming-green {
+      background-color: $color-dark-70;
+    }
+    .module-message__container--incoming-indigo {
+      background-color: $color-dark-70;
+    }
+    .module-message__container--incoming-pink {
+      background-color: $color-dark-70;
+    }
+    .module-message__container--incoming-purple {
+      background-color: $color-dark-70;
+    }
+    .module-message__container--incoming-red {
+      background-color: $color-dark-70;
+    }
+    .module-message__container--incoming-teal {
+      background-color: $color-dark-70;
+    }
+
+    .module-message__author {
+      color: $color-white;
+    }
+
+    .module-message__text--incoming {
+      color: $color-white;
+      a {
+        text-decoration: underline;
+        color: $color-white;
+      }
+    }
+
+    .module-message__metadata__date--incoming {
+      color: $color-white;
+    }
+
+    .module-message__broken-image--incoming {
+      color: $color-white;
+    }
+    .module-message__broken-video-screenshot--incoming {
+      color: $color-white;
+    }
+    .module-message__generic-attachment__file-name--incoming {
+      color: $color-white;
+    }
+    .module-message__generic-attachment__file-size--incoming {
+      color: $color-white;
+    }
+
+    .module-quote__primary__author {
+      color: $color-light-90;
+    }
+
+    .module-quote__primary__author--grey {
+      color: $color-light-90;
+    }
+    .module-quote__primary__author--blue {
+      color: $color-light-90;
+    }
+    .module-quote__primary__author--cyan {
+      color: $color-light-90;
+    }
+    .module-quote__primary__author--deep_orange {
+      color: $color-light-90;
+    }
+    .module-quote__primary__author--green {
+      color: $color-light-90;
+    }
+    .module-quote__primary__author--indigo {
+      color: $color-light-90;
+    }
+    .module-quote__primary__author--pink {
+      color: $color-light-90;
+    }
+    .module-quote__primary__author--purple {
+      color: $color-light-90;
+    }
+    .module-quote__primary__author--red {
+      color: $color-light-90;
+    }
+    .module-quote__primary__author--teal {
+      color: $color-light-90;
+    }
+
+    .module-quote__primary__text {
+      color: $color-light-90;
+      a {
+        color: $color-light-90;
+      }
+    }
+
+    .module-quote__primary__type-label {
+      color: $color-light-90;
+    }
+
+    .module-quote__primary__type-label--incoming {
+      color: $color-white;
+    }
+
+    .module-quote__primary__author--incoming {
+      color: $color-white;
+    }
+
+    .module-quote__primary__text--incoming {
+      color: $color-white;
+      a {
+        color: $color-white;
+      }
+    }
+
+    .module-quote__generic-file__text {
+      color: $color-light-90;
+    }
+
+    .module-quote__generic-file__text--incoming {
+      color: $color-white;
+    }
+
+    .module-quote__reference-warning {
+      background-color: $color-white-04;
+    }
+
+    .module-quote__reference-warning--incoming {
+      background-color: $color-signal-blue-050;
+    }
+
+    .module-quote__reference-warning__text {
+      color: $color-light-90;
+    }
+
+    .module-quote__reference-warning__text--incoming {
+      color: $color-white;
+    }
+
+    .module-quote__reference-warning__icon {
+      @include color-svg('../images/broken-link.svg', $color-light-60);
+    }
+
+    .module-quote__reference-warning__icon--incoming {
+      @include color-svg('../images/broken-link.svg', $color-white-085);
+    }
+
+    // When you're composing a new quote
+    .bottom-bar {
+      .module-quote__primary__author {
+        color: $color-white;
+      }
+
+      .module-quote__primary__type-label {
+        color: $color-white;
+      }
+
+      .module-quote__generic-file__text {
+        color: $color-white;
+      }
+
+      .module-quote__primary__text {
+        color: $color-white;
+        a {
+          color: $color-white;
+        }
+      }
+    }
+
+    .module-embedded-contact__contact-method {
+      color: $color-white-07;
+    }
+  }
+}

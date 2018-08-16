@@ -233,41 +233,7 @@
         this.quotedMessage = null;
       }
     },
-    getQuoteObjectUrl() {
-      const thumbnail = this.quoteThumbnail;
-      if (!thumbnail || !thumbnail.objectUrl) {
-        return null;
-      }
 
-      return thumbnail.objectUrl;
-    },
-    getQuoteContact() {
-      const quote = this.get('quote');
-      if (!quote) {
-        return null;
-      }
-      const { author } = quote;
-      if (!author) {
-        return null;
-      }
-
-      return ConversationController.get(author);
-    },
-    processQuoteAttachment(attachment, externalObjectUrl) {
-      const { thumbnail } = attachment;
-      const objectUrl = (thumbnail && thumbnail.objectUrl) || externalObjectUrl;
-
-      const thumbnailWithObjectUrl = !objectUrl
-        ? null
-        : Object.assign({}, attachment.thumbnail || {}, {
-            objectUrl,
-          });
-
-      return Object.assign({}, attachment, {
-        isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
-        thumbnail: thumbnailWithObjectUrl,
-      });
-    },
     getPropsForTimerNotification() {
       const { expireTimer, fromSync, source } = this.get(
         'expirationTimerUpdate'
@@ -535,15 +501,34 @@
         hasSignalAccount: window.hasSignalAccount(firstNumber),
       });
     },
+    processQuoteAttachment(attachment) {
+      const { thumbnail } = attachment;
+      const path =
+        thumbnail &&
+        thumbnail.path &&
+        getAbsoluteAttachmentPath(thumbnail.path);
+      const objectUrl = thumbnail && thumbnail.objectUrl;
+
+      const thumbnailWithObjectUrl =
+        !path && !objectUrl
+          ? null
+          : Object.assign({}, attachment.thumbnail || {}, {
+              objectUrl: path || objectUrl,
+            });
+
+      return Object.assign({}, attachment, {
+        isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
+        thumbnail: thumbnailWithObjectUrl,
+      });
+    },
     getPropsForQuote() {
       const quote = this.get('quote');
       if (!quote) {
         return null;
       }
 
-      const objectUrl = this.getQuoteObjectUrl();
-      const { author } = quote;
-      const contact = this.getQuoteContact();
+      const { author, id, referencedMessageNotFound } = quote;
+      const contact = author && ConversationController.get(author);
 
       const authorPhoneNumber = author;
       const authorProfileName = contact ? contact.getProfileName() : null;
@@ -551,10 +536,11 @@
       const authorColor = contact ? contact.getColor() : 'grey';
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
       const onClick = () => {
-        const { quotedMessage } = this;
-        if (quotedMessage) {
-          this.trigger('scroll-to-message', { id: quotedMessage.id });
-        }
+        this.trigger('scroll-to-message', {
+          author,
+          id,
+          referencedMessageNotFound,
+        });
       };
 
       const firstAttachment = quote.attachments && quote.attachments[0];
@@ -562,14 +548,15 @@
       return {
         text: this.createNonBreakingLastSeparator(quote.text),
         attachment: firstAttachment
-          ? this.processQuoteAttachment(firstAttachment, objectUrl)
+          ? this.processQuoteAttachment(firstAttachment)
           : null,
         isFromMe,
         authorPhoneNumber,
         authorProfileName,
         authorName,
         authorColor,
-        onClick: this.quotedMessage ? onClick : null,
+        onClick,
+        referencedMessageNotFound,
       };
     },
     getPropsForAttachment(attachment) {
@@ -799,6 +786,19 @@
 
       return ConversationController.getOrCreate(source, 'private');
     },
+    getQuoteContact() {
+      const quote = this.get('quote');
+      if (!quote) {
+        return null;
+      }
+      const { author } = quote;
+      if (!author) {
+        return null;
+      }
+
+      return ConversationController.get(author);
+    },
+
     getSource() {
       if (this.isIncoming()) {
         return this.get('source');

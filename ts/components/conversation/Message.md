@@ -3,7 +3,7 @@
 Note that timestamp and status can be hidden with the `collapseMetadata` boolean property.
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
@@ -148,7 +148,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 ### Status
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="outgoing"
@@ -277,7 +277,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 ### Long data
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="cyan"
@@ -330,7 +330,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 #### Image with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="cyan"
@@ -388,7 +388,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 First, showing the metadata overlay on dark and light images, then a message with `collapseMetadata` set.
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -457,7 +457,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
 Note that the delivered indicator is always Signal Blue, not the conversation color.
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="outgoing"
@@ -508,7 +508,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with portrait aspect ratio
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -564,7 +564,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with portrait aspect ratio and caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -624,7 +624,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with landscape aspect ratio
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -680,7 +680,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with landscape aspect ratio and caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -740,7 +740,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Video with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -808,7 +808,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Video
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -873,7 +873,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Missing images and videos
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -992,7 +992,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Broken source URL images and videos
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -1111,7 +1111,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Audio with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -1171,7 +1171,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Audio
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -1231,7 +1231,7 @@ Voice notes are not shown any differently from audio attachments.
 #### Other file type with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -1345,7 +1345,7 @@ Voice notes are not shown any differently from audio attachments.
 #### Other file type
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -1411,7 +1411,7 @@ Voice notes are not shown any differently from audio attachments.
 Note that the author avatar goes away if `collapseMetadata` is set.
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"

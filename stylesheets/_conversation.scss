@@ -37,6 +37,7 @@
       }
 
       .message-list {
+        -webkit-padding-start: 0px;
         position: absolute;
         top: 0;
         height: 100%;
@@ -44,6 +45,7 @@
         margin: 0;
         padding: 10px 0 0 0;
         overflow-y: auto;
+        overflow-x: hidden;
       }
     }
   }
@@ -135,9 +137,6 @@
   list-style: none;
 
   li {
-    max-width: 736px;
-    margin-left: auto;
-    margin-right: auto;
     margin-bottom: 10px;
 
     .message-wrapper {
@@ -299,15 +298,25 @@
 
 .toast {
   position: absolute;
-  bottom: 0;
-  margin: 0 2em 3em;
-  padding: 0.5em 1.5em;
-  background: rgba(0, 0, 0, 0.75);
-  color: $color-white;
-  box-shadow: 0 0 5px 0 black;
-  border-radius: $border-radius;
-  font-size: $font-size-small;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 62px;
+
+  text-align: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 4px;
   z-index: 100;
+
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0;
+
+  background-color: $color-light-60;
+  color: $color-white;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
 }
 
 .confirmation-dialog {

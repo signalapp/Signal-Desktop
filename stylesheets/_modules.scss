@@ -9,6 +9,7 @@
 // Module: Message
 
 .module-message {
+  position: relative;
   display: inline-flex;
   flex-direction: row;
   align-items: stretch;
@@ -36,11 +37,21 @@
   }
 }
 
+// Spec: container < 438px
+.module-message--incoming {
+  margin-left: 0;
+  margin-right: 32px;
+}
 .module-message--outgoing {
   float: right;
+  margin-right: 0;
+  margin-left: 32px;
 }
 
 .module-message__buttons {
+  position: absolute;
+  top: 0;
+  bottom: 0;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -49,6 +60,13 @@
 
 .module-message:hover .module-message__buttons {
   opacity: 1;
+}
+
+.module-message__buttons--incoming {
+  left: 100%;
+}
+.module-message__buttons--outgoing {
+  right: 100%;
 }
 
 .module-message__buttons__download {
@@ -136,7 +154,6 @@
   padding-left: 12px;
   padding-top: 10px;
   padding-bottom: 10px;
-  max-width: 386px;
 }
 
 .module-message__container--outgoing {
@@ -230,8 +247,6 @@
 }
 
 .module-message__img-attachment {
-  max-width: 386px;
-
   object-fit: cover;
   width: 100%;
   min-width: 200px;
@@ -388,6 +403,8 @@
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: clip;
+
+  color: $color-light-90;
 }
 
 .module-message__generic-attachment__text {
@@ -695,16 +712,22 @@
 
 // Module: Quoted Reply
 
+.module-quote-container {
+  margin-left: -6px;
+  margin-right: -6px;
+  margin-top: -4px;
+  margin-bottom: 5px;
+}
+
+.module-quote-container--with-content-above {
+  margin-top: 3px;
+}
+
 .module-quote {
   position: relative;
   border-radius: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-
-  margin-left: -6px;
-  margin-right: -6px;
-  margin-top: -4px;
-  margin-bottom: 5px;
 
   cursor: pointer;
   display: flex;
@@ -721,9 +744,13 @@
 }
 
 .module-quote--with-content-above {
-  margin-top: 3px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+}
+
+.module-quote--with-reference-warning {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .module-quote--incoming {
@@ -969,6 +996,32 @@
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.module-quote__reference-warning {
+  height: 26px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  background-color: $color-white-085;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.module-quote__reference-warning__icon {
+  height: 16px;
+  width: 16px;
+  @include color-svg('../images/broken-link.svg', $color-light-60);
+}
+
+.module-quote__reference-warning__text {
+  margin-left: 6px;
+  color: $color-light-90;
+  font-size: 13px;
+  line-height: 18px;
 }
 
 // Module: Embedded Contact
@@ -2211,4 +2264,80 @@
 .react-contextmenu-item.react-contextmenu-submenu
   > .react-contextmenu-item.react-contextmenu-item--selected:after {
   color: $color-white;
+}
+
+// All media query widths have 300px added to account for the left pane
+// And have been tweaked for smoother transitions
+
+// To hide in small breakpoints
+.module-message__buttons__download {
+  display: none;
+}
+.module-message__buttons__reply {
+  display: none;
+}
+
+/* Spec: container > 438px and container < 593px*/
+@media (min-width: 800px) and (max-width: 925px) {
+  .module-message {
+    max-width: 374px;
+  }
+
+  // Spec: container < 438px
+  .module-message--incoming {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .module-message--outgoing {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  // To hide in small breakpoints
+  .module-message__buttons__download {
+    display: inline-block;
+  }
+  .module-message__buttons__reply {
+    display: inline-block;
+  }
+
+  // To hide in larger breakpoints
+  .module-message__context__download {
+    display: none;
+  }
+  .module-message__context__reply {
+    display: none;
+  }
+}
+
+// Spec: container > 593px
+@media (min-width: 926px) {
+  .module-message {
+    max-width: 66%;
+  }
+
+  .module-message--incoming {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .module-message--outgoing {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  // To hide in small breakpoints
+  .module-message__buttons__download {
+    display: inline-block;
+  }
+  .module-message__buttons__reply {
+    display: inline-block;
+  }
+
+  // To hide in larger breakpoints
+  .module-message__context__download {
+    display: none;
+  }
+  .module-message__context__reply {
+    display: none;
+  }
 }
