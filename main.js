@@ -723,7 +723,7 @@ ipc.on('remove-setup-menu-items', () => {
 
 ipc.on('add-setup-menu-items', () => {
   setupMenu({
-    includeSetup: true,
+    includeSetup: false,
   });
 });
 

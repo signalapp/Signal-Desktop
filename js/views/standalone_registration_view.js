@@ -30,16 +30,11 @@
       'click #request-voice': 'requestVoice',
       'click #request-sms': 'requestSMSVerification',
       'change #code': 'onChangeCode',
-      'click #verifyCode': 'verifyCode',
+      'click #register': 'register',
     },
-    verifyCode() {
-      const number = this.phoneView.validateNumber();
-      const verificationCode = $('#code')
-        .val()
-        .replace(/\D+/g, '');
-
+    register() {
       this.accountManager
-        .registerSingleDevice(number, verificationCode)
+        .registerSingleDevice()
         .then(() => {
           this.$el.trigger('openInbox');
         })
@@ -48,17 +43,6 @@
     log(s) {
       window.log.info(s);
       this.$('#status').text(s);
-    },
-    validateCode() {
-      const verificationCode = $('#code')
-        .val()
-        .replace(/\D/g, '');
-
-      if (verificationCode.length === 6) {
-        return verificationCode;
-      }
-
-      return null;
     },
     displayError(error) {
       this.$('#error')
