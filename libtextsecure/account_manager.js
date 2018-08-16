@@ -44,8 +44,7 @@
     requestSMSVerification(number) {
       return this.server.requestVerificationSMS(number);
     },
-    registerSingleDevice(number, verificationCode) {
-      const registerKeys = this.server.registerKeys.bind(this.server);
+    registerSingleDevice() {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
       const generateKeys = this.generateKeys.bind(this, 100);
@@ -53,16 +52,12 @@
       const registrationDone = this.registrationDone.bind(this);
       return this.queueTask(() =>
         libsignal.KeyHelper.generateIdentityKeyPair().then(identityKeyPair => {
-          const profileKey = textsecure.crypto.getRandomBytes(32);
           return createAccount(
-            number,
-            verificationCode,
             identityKeyPair,
-            profileKey
           )
             .then(clearSessionsAndPreKeys)
             .then(generateKeys)
-            .then(keys => registerKeys(keys).then(() => confirmKeys(keys)))
+            .then(keys => confirmKeys(keys))
             .then(registrationDone);
         })
       );
@@ -209,11 +204,6 @@
             return Promise.all([
               textsecure.storage.put('signedKeyId', signedKeyId + 1),
               store.storeSignedPreKey(res.keyId, res.keyPair),
-              server.setSignedPreKey({
-                keyId: res.keyId,
-                publicKey: res.keyPair.pubKey,
-                signature: res.signature,
-              }),
             ])
               .then(() => {
                 const confirmed = true;
@@ -323,70 +313,24 @@
       });
     },
     createAccount(
-      number,
-      verificationCode,
       identityKeyPair,
-      profileKey,
-      deviceName,
       userAgent,
       readReceipts
     ) {
-      const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
-      let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
-      password = password.substring(0, password.length - 2);
-      const registrationId = libsignal.KeyHelper.generateRegistrationId();
-
-      const previousNumber = getNumber(textsecure.storage.get('number_id'));
-
-      return this.server
-        .confirmCode(
-          number,
-          verificationCode,
-          password,
-          signalingKey,
-          registrationId,
-          deviceName
-        )
-        .then(response => {
-          if (previousNumber && previousNumber !== number) {
-            window.log.warn(
-              'New number is different from old number; deleting all previous data'
-            );
-
-            return textsecure.storage.protocol.removeAllData().then(
-              () => {
-                window.log.info('Successfully deleted previous data');
-                return response;
-              },
-              error => {
-                window.log.error(
-                  'Something went wrong deleting data from previous number',
-                  error && error.stack ? error.stack : error
-                );
-
-                return response;
-              }
-            );
-          }
-
-          return response;
-        })
+      return Promise.resolve()
         .then(response => {
           textsecure.storage.remove('identityKey');
-          textsecure.storage.remove('signaling_key');
-          textsecure.storage.remove('password');
-          textsecure.storage.remove('registrationId');
           textsecure.storage.remove('number_id');
           textsecure.storage.remove('device_name');
-          textsecure.storage.remove('regionCode');
           textsecure.storage.remove('userAgent');
-          textsecure.storage.remove('profileKey');
           textsecure.storage.remove('read-receipts-setting');
 
           // update our own identity key, which may have changed
           // if we're relinking after a reinstall on the master device
-          textsecure.storage.protocol.saveIdentityWithAttributes(number, {
-            id: number,
+          const pubKeyString = textsecure.MessageReceiver.arrayBufferToStringBase64(identityKeyPair.pubKey);
+
+          textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
+            id: pubKeyString,
             publicKey: identityKeyPair.pubKey,
             firstUse: true,
             timestamp: Date.now(),
@@ -395,12 +339,6 @@
           });
 
           textsecure.storage.put('identityKey', identityKeyPair);
-          textsecure.storage.put('signaling_key', signalingKey);
-          textsecure.storage.put('password', password);
-          textsecure.storage.put('registrationId', registrationId);
-          if (profileKey) {
-            textsecure.storage.put('profileKey', profileKey);
-          }
           if (userAgent) {
             textsecure.storage.put('userAgent', userAgent);
           }
@@ -411,13 +349,8 @@
           }
 
           textsecure.storage.user.setNumberAndDeviceId(
-            number,
-            response.deviceId || 1,
-            deviceName
-          );
-          textsecure.storage.put(
-            'regionCode',
-            libphonenumber.util.getRegionCodeForNumber(number)
+           pubKeyString,
+           1,
           );
         });
     },
