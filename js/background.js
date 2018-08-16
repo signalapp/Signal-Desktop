@@ -536,7 +536,7 @@
     } else if (window.isImportMode()) {
       appView.openImporter();
     } else {
-      appView.openInstaller();
+      appView.openStandalone();
     }
 
     Whisper.events.on('showDebugLog', () => {
