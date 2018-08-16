@@ -110,8 +110,6 @@ async function setupSQLCipher(instance, { key }) {
 
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
   await instance.run(`PRAGMA key = "x'${key}'";`);
-  await instance.run('PRAGMA synchronous = OFF;');
-  await instance.run('PRAGMA read_uncommitted = TRUE;');
   await instance.run('PRAGMA automatic_index = FALSE;');    
 }
 
