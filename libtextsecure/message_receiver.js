@@ -163,8 +163,8 @@ MessageReceiver.prototype.extend({
       return;
     }
 
-    const promise = textsecure.crypto
-      .decryptWebsocketMessage(request.body, this.signalingKey)
+    const promise = Promise.resolve(request.body) //textsecure.crypto
+      //.decryptWebsocketMessage(request.body, this.signalingKey)
       .then(plaintext => {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
         // After this point, decoding errors are not the server's
