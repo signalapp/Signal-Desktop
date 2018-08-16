@@ -199,10 +199,9 @@
     className: 'newVersionAlert clearfix',
     render_attributes() {
       return {
-        expiredWarning: i18n('autoUpdateNewVersionMessage'),
+        newVersionAvailable: i18n('autoUpdateNewVersionMessage'),
         upgrade: i18n('upgrade'),
       };
     },
   });
-
 })();

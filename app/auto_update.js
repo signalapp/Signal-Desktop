@@ -38,7 +38,10 @@ function initialize(getMainWindow, messages) {
 
   // Uncomment for testing
   // setInterval(() => {
-  //  getMainWindow().webContents.send('updateNeeded');
+  //   const win = getMainWindow();
+  //   if (win !== null) {
+  //     win.webContents.send('updateNeeded');
+  //   }
   // }, 5000);
 
   if (autoUpdateDisabled()) {
@@ -46,7 +49,10 @@ function initialize(getMainWindow, messages) {
   }
 
   autoUpdater.addListener('update-downloaded', () => {
-    getMainWindow().webContents.send('updateNeeded');
+    const win = getMainWindow();
+    if (win !== null) {
+      win.webContents.send('updateNeeded');
+    }
   });
   autoUpdater.addListener('error', onError);
 
