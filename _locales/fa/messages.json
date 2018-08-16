@@ -1,77 +1,257 @@
 {
-    "scrollDown": {
-        "message": "رفتن به پایین گفتگو",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    "mainMenuFile": {
+        "message": "&فایل",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuEdit": {
+        "message": "&ویرایش",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuView": {
+        "message": "&نمایش",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuWindow": {
+        "message": "&پنجره",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuHelp": {
+        "message": "&کمک",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuSettings": {
+        "message": "Preferences…",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuHide": {
+        "message": "مخفی سازی",
+        "description": "Application menu command to hide the window"
+    },
+    "appMenuHideOthers": {
+        "message": "مخفی سازی سایرین",
+        "description": "Application menu command to hide all other windows"
+    },
+    "appMenuUnhide": {
+        "message": "نمایش همه",
+        "description": "Application menu command to show all application windows"
+    },
+    "appMenuQuit": {
+        "message": "خروج از سیگنال",
+        "description": "Application menu command to close the application"
+    },
+    "editMenuUndo": {
+        "message": "لغو",
+        "description": "Edit menu command to remove recently-typed text"
+    },
+    "editMenuRedo": {
+        "message": "انجام دوباره",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
+    "editMenuCut": {
+        "message": "برش",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
+    "editMenuCopy": {
+        "message": "کپی",
+        "description": "Edit menu command to add selected text to clipboard"
+    },
+    "editMenuPaste": {
+        "message": "پیست",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "پیست و تطابق استایل",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    },
+    "editMenuDelete": {
+        "message": "حذف",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "editMenuSelectAll": {
+        "message": "انتخاب همه",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
+    "editMenuStartSpeaking": {
+        "message": "Start speaking",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Stop speaking",
+        "description": "Edit menu item under 'speech' to stop dictation"
+    },
+    "windowMenuClose": {
+        "message": "بستن پنجره",
+        "description": "Window menu command to close the current window"
+    },
+    "windowMenuMinimize": {
+        "message": "Minimize",
+        "description": "Window menu command to minimize the current window"
+    },
+    "windowMenuZoom": {
+        "message": "Zoom",
+        "description": "Window menu command to make the current window the size of the whole screen"
+    },
+    "windowMenuBringAllToFront": {
+        "message": "Bring All to Front",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
+    "viewMenuResetZoom": {
+        "message": "سایز واقعی",
+        "description": "View menu command to go back to the default zoom"
+    },
+    "viewMenuZoomIn": {
+        "message": "Zoom In",
+        "description": "View menu command to make everything bigger"
+    },
+    "viewMenuZoomOut": {
+        "message": "Zoom Out",
+        "description": "View menu command to make everything smaller"
+    },
+    "viewMenuToggleFullScreen": {
+        "message": "Toggle Full Screen",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Toggle Developer Tools",
+        "description": "View menu command to show or hide the developer tools"
+    },
+    "menuSetupWithImport": {
+        "message": "Set Up with Import",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "menuSetupAsNewDevice": {
+        "message": "برپایی به عنوان یک دستگاه جدید",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
+    },
+    "menuSetupAsStandalone": {
+        "message": "برپایی به عنوان یک دستگاه مستقل",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "loading": {
+        "message": "در حال بارگذاری...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "optimizingApplication": {
+        "message": "بهینه سازی برنامه...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
+    },
+    "migratingToSQLCipher": {
+        "message": "بهینه سازی برنامه ها... $status$ کامل شد.",
+        "description": "Message shown on the loading screen while we are doing application optimizations",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "45/200"
+            }
+        }
+    },
+    "chooseDirectory": {
+        "message": "انتخاب پوشه",
+        "description": "Button to allow the user to find a folder on disk"
+    },
+    "loadDataHeader": {
+        "message": "بارگذاری داده هایتان",
+        "description": "Header shown on the first screen in the data import process"
+    },
+    "loadDataDescription": {
+        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
         "message": "انتخاب پوشه اطلاعات پشتیبان‌گیری",
         "description": "Title of the popup window used to select data previously exported"
     },
-    "timerOption_10_seconds": {
-        "message": "10 ثانیه",
-        "description": "Label for a selectable option in the message expiration timer menu"
+    "importErrorHeader": {
+        "message": "خطایی رخ داد!",
+        "description": "Header of the error screen after a failed import"
     },
-    "view": {
-        "message": "نمایش",
-        "description": "Used as a label on a button allowing user to see more information"
+    "importingHeader": {
+        "message": "در حال بارگذاری مخاطب ها و پیام ها",
+        "description": "Header of screen shown as data is import"
     },
-    "appMenuHideOthers": {
-        "message": "Hide Others",
-        "description": "Application menu command to hide all other windows"
+    "importErrorFirst": {
+        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
-    "linkedDevices": {
-        "message": "Linked Devices",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    "importErrorSecond": {
+        "message": "اگر این مراحل برای شما کار نمیکنند، لطفا یک گزارش خطاء (نمایش -> گزارش خطاء)  ثبت کنید تا بتوانیم برای جابجایی به شما کمک کنیم.",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
-    "yesterday": {
-        "message": "دیروز",
-        "description": "Section header in the media gallery"
+    "importAgain": {
+        "message": "پوشه را انتخاب کنید و دوباره امتحان کنید",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
-    "replyingToYourself": {
-        "message": "Replying to Yourself",
-        "description": "Shown in iOS theme when you quote yourself"
+    "importCompleteHeader": {
+        "message": "موفقیت!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
-    "documents": {
-        "message": "Documents",
-        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    "importCompleteStartButton": {
+        "message": "شروع به استفاده از سیگنال دسکتاپ",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
+    },
+    "importCompleteLinkButton": {
+        "message": "لینک کردن این دستگاه به موبایل",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+    },
+    "selectedLocation": {
+        "message": "مکان انتخابی شما",
+        "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
         "message": "در حال به‌روزرسانی پابگاه داده. ممکن است کمی طول بکشد...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
-    "lastSynced": {
-        "message": "آخرین واردسازی ",
-        "description": "Label for date and time of last sync operation"
-    },
-    "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
-        "description": "",
+    "loadingMessages": {
+        "message": "در حال بارگذاری پیام‌ها. تاکنون $count$ ...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
-            "reconnect_duration_in_seconds": {
+            "count": {
                 "content": "$1",
-                "example": "10"
+                "example": "5"
             }
         }
     },
-    "thisMonth": {
-        "message": "این ماه",
-        "description": "Section header in the media gallery"
+    "me": {
+        "message": "من",
+        "description": "The label for yourself when shown in a group member list"
     },
-    "unsupportedAttachment": {
-        "message": "این نوع ضمیمه پشتیبانی نمی‌شود. برای ذخیره کلیک کنید.",
-        "description": "Displayed for incoming unsupported attachment"
+    "view": {
+        "message": "نمایش",
+        "description": "Used as a label on a button allowing user to see more information"
     },
-    "showSafetyNumber": {
-        "message": "نمایش شماره امنیتی",
-        "description": ""
+    "youLeftTheGroup": {
+        "message": "شما گروه را ترک کرده اید",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
-    "androidMessageLengthWarning": {
-        "message": "سیستم‌های اندرویدی فقط 2000 کاراکتر اول این پیام را دریافت خواهند کرد.",
-        "description": "Warning that long messages could not get received completely by Android clients."
+    "scrollDown": {
+        "message": "رفتن به پایین گفتگو",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
-    "leftTheGroup": {
-        "message": "$name$ left the group",
-        "description": "Shown in the conversation history when a single person leaves the group",
+    "messageBelow": {
+        "message": "پیام جدید پایین",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "messagesBelow": {
+        "message": "پیام‌های جدید پایین",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
+    "unreadMessage": {
+        "message": "1 پیام خوانده نشده",
+        "description": "Text for unread message separator, just one message"
+    },
+    "unreadMessages": {
+        "message": "$count$ پیام خوانده نشده",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "youMarkedAsVerified": {
+        "message": "شما کد امنیتی خود را با $name$ به عنوان تایید شده علامت زدید",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -79,89 +259,33 @@
             }
         }
     },
-    "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
-        "description": "Message displayed when you change the message expiration timer in a conversation.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "settings": {
-        "message": "تنظیمات",
-        "description": "Menu item and header for global settings"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5 ثانیه",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "importCompleteHeader": {
-        "message": "Success!",
-        "description": "Header shown on the screen at the end of a successful import process"
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "timestamp_m": {
-        "message": "1 دقیقه",
-        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
-    },
-    "deviceName": {
-        "message": "Device name",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "address": {
-        "message": "آدرس",
-        "description": "Generic label shown if contact address has custom type but no label"
-    },
-    "debugLog": {
-        "message": "گزارش خطا",
-        "description": "View menu item to open the debug log (title case)"
-    },
-    "gotIt": {
-        "message": "فهمیدم!",
-        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
-    },
-    "appMenuQuit": {
-        "message": "Quit Signal",
-        "description": "Application menu command to close the application"
-    },
-    "disappearingMessages": {
-        "message": "پیام‌های نابود شونده",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "editMenuCut": {
-        "message": "Cut",
-        "description": "Edit menu command to remove selected text and add it to clipboard"
-    },
-    "deleteWarning": {
-        "message": "آیا مطمئن هستید؟ کلیک روی عبارت 'پاک کردن' باعث حذف دائمی این پیام از دستگاه‌تان خواهد شد.",
-        "description": ""
-    },
-    "verifyNewNumber": {
-        "message": "Verify New Number",
-        "description": "Label on button included with safety number change notification in the conversation"
-    },
-    "showMore": {
-        "message": "جزئیات",
-        "description": "Displays the details of a key change"
-    },
-    "verifyHelp": {
-        "message": "اگر تمایل به تائید امنیت رمزنگاری نقطه-به-نقطه با $name$ هستید، شماره‌ بالا را با شماره نمایش‌یافته در دستگاه مخاطب مقایسه کنید.",
-        "description": "",
+    "youMarkedAsNotVerified": {
+        "message": "شما کد امنیتی خود را با $name$ به عنوان تایید نشده علامت زدید",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "John"
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "شما کد امنیتی خود را با $name$ به عنوان تایید شده از یک دستگاه دیگر علامت زدید",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
             }
         }
     },
@@ -169,151 +293,33 @@
         "message": "کد امنیتی این اعضای گروه از آخرین باری که تأییدش کردید تغییر کرده‌است. یکی از اعضای گروه را انتخاب کنید تا کد امنیتی جدیدش را ببینید.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5 دقیقه",
-        "description": "Very short format indicating current timer setting in the conversation header"
+    "changedSinceVerifiedMultiple": {
+        "message": "کد امنیتی چند نفر از اعضای گروه از زمان آخریت تائید، تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً سیگنال را دوباره نصب کرده‌اند.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "unsupportedFileType": {
-        "message": "این نوع فایل پشتیبانی نمی‌شود",
-        "description": "Displayed for outgoing unsupported attachment"
-    },
-    "quit": {
-        "message": "خروج",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "clickToSave": {
-        "message": "ذخیره",
-        "description": "Hover text for attachment filenames"
-    },
-    "messagesBelow": {
-        "message": "پیام‌های جدید پایین",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
-    },
-    "editMenuSelectAll": {
-        "message": "Select All",
-        "description": "Edit menu comand to select all of the text in selected text box"
-    },
-    "resetSession": {
-        "message": "ایجاد جلسه‌ی امن جدید",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
-    },
-    "replyingToYou": {
-        "message": "Replying to You",
-        "description": "Shown in iOS theme when someone else quotes a message from you"
-    },
-    "you": {
-        "message": "شما",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
-    },
-    "offline": {
-        "message": "آفلاین",
-        "description": "Displayed when the desktop client has no network connection."
-    },
-    "hideMenuBar": {
-        "message": "پنهان کردن نوار منو",
-        "description": "Label text for menu bar visibility setting"
-    },
-    "welcomeToSignal": {
-        "message": "به سیگنال خوش‌آمدید",
-        "description": ""
-    },
-    "checkNetworkConnection": {
-        "message": "ارتباط شبکه خود را چک کنید.",
-        "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
-        "description": "Displayed in the conversation list when the timer is turned off"
-    },
-    "notificationSettingsDialog": {
-        "message": "هنگام دریافت پیام, این جزئیات را نمایش بده:",
-        "description": "Explain the purpose of the notification settings"
-    },
-    "timestamp_h": {
-        "message": "1 ساعت",
-        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "خاموش",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "imageFailedToLoad": {
-        "message": "Image failed to load",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "clearDataButton": {
-        "message": "پاک کردن داده",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "syncExplanation": {
-        "message": "واردسازی لیست تمام گروه‌ها و مخاطب‌های سیگنال از گوشی موبایل شما.",
-        "description": "Explanatory text for sync settings"
-    },
-    "youLeftTheGroup": {
-        "message": "شما گروه را ترک کرده اید",
-        "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "deleteMessages": {
-        "message": "حذف پیام‌ها",
-        "description": "Menu item for deleting messages, title case."
-    },
-    "incomingError": {
-        "message": "خطا در کنترل پیام دریافتی",
-        "description": ""
-    },
-    "poBox": {
-        "message": "PO Box",
-        "description": "When rendering an address, used to provide context to a post office box"
-    },
-    "themeLight": {
-        "message": "روشن",
-        "description": "Label text for light theme (normal)"
-    },
-    "delete": {
-        "message": "پاک کن",
-        "description": ""
-    },
-    "verified": {
-        "message": "تایید شده",
-        "description": ""
-    },
-    "trayTooltip": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
-    },
-    "selectAContact": {
-        "message": "برای شروع چت یک مخاطب یا گروه را انتخاب کنید.",
-        "description": ""
-    },
-    "aboutSignalDesktop": {
-        "message": "درباره سیگنال دسکتاپ",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
-    "selectedLocation": {
-        "message": "مکان انتخابی شما",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "phone": {
-        "message": "تلفن",
-        "description": "Generic label shown if contact phone has custom type but no label"
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ hr",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+    "changedSinceVerified": {
+        "message": "شماره امن شما با $name$ بعد از آخرین تایید شما تغییر یافته است. این بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا اینکه $name$به تازگی سیگنال را مجددا نصب کرده است.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
-            "hours": {
+            "name": {
                 "content": "$1",
-                "example": "2"
+                "example": "Bob"
             }
         }
     },
-    "deleteThisMessage": {
-        "message": "پاک کردن این پیام",
-        "description": ""
+    "changedRightAfterVerify": {
+        "message": "شماره امنی که شما در تلاش برای تایید آن هستید تغییر کرده است. لطفا شماره امن جدید خود را با$name$بازبینی کنید. به یاد داشته باشید، این تغییر بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا $name$مجددا سیگنال را نصب کرده است.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
-    "editMenuPaste": {
-        "message": "Paste",
-        "description": "Edit menu command to insert text from clipboard at cursor location"
+    "changedRecentlyMultiple": {
+        "message": "کد امنیتی چند نفر از اعضای گروه اخیرآً تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً سیگنال را دوباره نصب کرده‌اند.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
         "message": "شماره امن شما با $name$به تازگی تغییر یافته است.این امر بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست یا اینکه $name$بار دیگر سیگنال را نصب کرده است.",
@@ -325,28 +331,782 @@
             }
         }
     },
-    "sent": {
-        "message": "ارسال شد",
-        "description": "Label for the time a message was sent"
+    "identityKeyErrorOnSend": {
+        "message": "شماره امن شما با $name$ تغییر کرده است. این به این معناست که شخصی در تلاش برای رهگیری ارتباط شماست یا اینکه $name$مجددا سیگنال را نصب کرده است. بهتر است شماره امن خود با این مخاطب را تایید کنید.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "sendAnyway": {
+        "message": "به هر حال بفرست",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "noLongerVerified": {
+        "message": "کد امنیتی $name$ تغییر کرده  و دیگر تأییدشده نیست. برای نمایشش کلیک کنید.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "multipleNoLongerVerified": {
+        "message": "شماره امن شما با اعضای این گروه تغییر کرده است و دیگر تایید شده نیست. برای نمایش لمس کنید.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    },
+    "debugLogExplanation": {
+        "message": "این گزارش برای بازنگری آنلاین ذخیره می‌شود. شما می‌توانید قبل از ارسال لینک، گزارش را بررسی و ویرایش کنید.",
+        "description": ""
+    },
+    "debugLogError": {
+        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "description": ""
+    },
+    "reportIssue": {
+        "message": "گزارش مشکل",
+        "description": "Link to open the issue tracker"
+    },
+    "gotIt": {
+        "message": "فهمیدم!",
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    },
+    "submit": {
+        "message": "ارسال",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "تایید",
+        "description": "Label for a button to accept a new safety number"
+    },
+    "verify": {
+        "message": "علامت گذاری به عنوان تایید شده",
+        "description": ""
+    },
+    "unverify": {
+        "message": "علامت گذاری به عنوان تایید نشده",
+        "description": ""
+    },
+    "isVerified": {
+        "message": "کدِ امنیتیِ $name$ تأیید شد.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isNotVerified": {
+        "message": "شما شماره امن خود با $name$را تایید نکرده اید.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "verified": {
+        "message": "تایید شده",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "شماره‌ی امنیتی جدید",
+        "description": "Header for a key change dialog"
+    },
+    "identityChanged": {
+        "message": "شماره‌ی امنیتی این مخاطب تغییر کرده‌ است. این می‌تواند به این معنی باشد که کسی در حال نفوذ به ارتباط شما است و یا اینکه مخاطب شما سیگنال را از نو نصب کرده و حالا شماره‌ی امنیتی جدیدی دارد.",
+        "description": ""
+    },
+    "incomingError": {
+        "message": "خطا در کنترل پیام دریافتی",
+        "description": ""
+    },
+    "media": {
+        "message": "مدیا",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "mediaEmptyState": {
+        "message": "شما در این مکالمه هیچ نوع مدیا ندارید",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "documents": {
+        "message": "سند ها",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
+    "documentsEmptyState": {
+        "message": "شما در این مکالمه هیچ سندی ندارید",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
+    "today": {
+        "message": "امروز",
+        "description": "Section header in the media gallery"
+    },
+    "yesterday": {
+        "message": "دیروز",
+        "description": "Section header in the media gallery"
     },
     "thisWeek": {
         "message": "این هفته",
         "description": "Section header in the media gallery"
     },
+    "thisMonth": {
+        "message": "این ماه",
+        "description": "Section header in the media gallery"
+    },
+    "unsupportedAttachment": {
+        "message": "این نوع ضمیمه پشتیبانی نمی‌شود. برای ذخیره کلیک کنید.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "clickToSave": {
+        "message": "ذخیره",
+        "description": "Hover text for attachment filenames"
+    },
+    "unnamedFile": {
+        "message": "فایل بی‌نام",
+        "description": "Hover text for attachment filenames"
+    },
+    "voiceMessage": {
+        "message": "پیام صوتی",
+        "description": "Name for a voice message attachment"
+    },
+    "unsupportedFileType": {
+        "message": "این نوع فایل پشتیبانی نمی‌شود",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "fileSizeWarning": {
+        "message": "متاسفانه حجم فایل انتخاب شده از حداکثر طول پیام بیشتر است.",
+        "description": ""
+    },
+    "disconnected": {
+        "message": "ارتباط قطع شد",
+        "description": "Displayed when the desktop client cannot connect to the server."
+    },
+    "connecting": {
+        "message": "در حال اتصال",
+        "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "offline": {
+        "message": "آفلاین",
+        "description": "Displayed when the desktop client has no network connection."
+    },
+    "checkNetworkConnection": {
+        "message": "ارتباط شبکه خود را چک کنید.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
+    "attemptingReconnection": {
+        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "submitDebugLog": {
+        "message": "گزارش خطاء",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "debugLog": {
+        "message": "گزارش خطا",
+        "description": "View menu item to open the debug log (title case)"
+    },
+    "goToReleaseNotes": {
+        "message": "Go to Release Notes",
+        "description": ""
+    },
+    "goToForums": {
+        "message": "رفتن به انجمن ها",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
+    "goToSupportPage": {
+        "message": "رفتن به صفحه پشتیبانی",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "menuReportIssue": {
+        "message": "گزارش مشکل",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "signalDesktopPreferences": {
+        "message": "Signal Desktop Preferences",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "aboutSignalDesktop": {
+        "message": "درباره سیگنال دسکتاپ",
+        "description": "Item under the Help menu, which opens a small about window"
+    },
+    "speech": {
+        "message": "صحبت",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
+    "show": {
+        "message": "نمایش",
+        "description": "Command under Window menu, to show the window"
+    },
+    "hide": {
+        "message": "مخفی سازی",
+        "description": "Command in the tray icon menu, to hide the window"
+    },
+    "quit": {
+        "message": "خروج",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
+    "trayTooltip": {
+        "message": "سیگنال دسکتاپ",
+        "description": "Tooltip for the tray icon"
+    },
+    "searchForPeopleOrGroups": {
+        "message": "نام یا شماره وارد کنید",
+        "description": "Placeholder text in the search input"
+    },
+    "welcomeToSignal": {
+        "message": "به سیگنال خوش‌آمدید",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "برای شروع چت یک مخاطب یا گروه را انتخاب کنید.",
+        "description": ""
+    },
+    "contactAvatarAlt": {
+        "message": "آواتار متعلق به مخاطب $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "sendMessageToContact": {
         "message": "فرستادن پیام",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
-    "importingHeader": {
-        "message": "در حال بارگذاری مخاطب ها و پیام ها",
-        "description": "Header of screen shown as data is import"
+    "home": {
+        "message": "خانه",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "work": {
+        "message": "کار",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "mobile": {
+        "message": "موبایل",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "email": {
+        "message": "ایمیل",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "phone": {
+        "message": "تلفن",
+        "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "address": {
+        "message": "آدرس",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
+    "poBox": {
+        "message": "صندوق پست",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "replyToMessage": {
+        "message": "پاسخ به پیام",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
+    "replyingToYourself": {
+        "message": "Replying to Yourself",
+        "description": "Shown in iOS theme when you quote yourself"
+    },
+    "replyingToYou": {
+        "message": "Replying to You",
+        "description": "Shown in iOS theme when someone else quotes a message from you"
+    },
+    "you": {
+        "message": "شما",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
+    "replyingTo": {
+        "message": "Replying to $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "audioPermissionNeeded": {
+        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "allowAccess": {
+        "message": "Allow Access",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
+    "showSettings": {
+        "message": "نمایش تنظیمات",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "audio": {
+        "message": "Audio",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    },
+    "video": {
+        "message": "ویدیو",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
+    "photo": {
+        "message": "تصویر",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "ok": {
+        "message": "باشه",
+        "description": ""
+    },
+    "cancel": {
+        "message": "انصراف",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "ارسال به برخی مخاطبین ناموفق بود. اتصال شبکه‌ی خود را بررسی کنید.",
+        "description": ""
+    },
+    "error": {
+        "message": "خطا",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "جزئیات پیام",
+        "description": ""
+    },
+    "delete": {
+        "message": "پاک کن",
+        "description": ""
+    },
+    "deleteWarning": {
+        "message": "آیا مطمئن هستید؟ کلیک روی 'حذف' این پیام را برای همیشه از روی این دستگاه حذف خواهد کرد.",
+        "description": ""
+    },
+    "deleteThisMessage": {
+        "message": "این پیام را حذف کن",
+        "description": ""
+    },
+    "from": {
+        "message": "از",
+        "description": "Label for the sender of a message"
+    },
+    "to": {
+        "message": "به",
+        "description": "Label for the receiver of a message"
+    },
+    "sent": {
+        "message": "ارسال شد",
+        "description": "Label for the time a message was sent"
+    },
+    "received": {
+        "message": "دریافت شد",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "ارسال پیام",
+        "description": "Placeholder text in the message entry field"
+    },
+    "groupMembers": {
+        "message": "اعضای گروه",
+        "description": ""
+    },
+    "showMembers": {
+        "message": "نمایش اعضا",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "ایجاد جلسه‌ی امن جدید",
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "showSafetyNumber": {
+        "message": "دیدن شماره امنیتی",
+        "description": ""
+    },
+    "viewAllMedia": {
+        "message": "دیدن تمام مدیا",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "verifyHelp": {
+        "message": "اگر تمایل به تائید امنیت رمزنگاری نقطه-به-نقطه با $name$ هستید، شماره‌ بالا را با شماره نمایش‌یافته در دستگاه مخاطب مقایسه کنید.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "theirIdentityUnknown": {
+        "message": "شما هنوز هیچ پیامی با این مخاطب تبادل نکرده‌اید. شماره‌ی امنیتی پس از ارسال و یا دریافت اولین پیام در دسترس خواهد بود.",
+        "description": ""
+    },
+    "moreInfo": {
+        "message": "اطلاعات بیشتر...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
+    "retrySend": {
+        "message": "Retry Send",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+    },
+    "deleteMessage": {
+        "message": "حذف پیام",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    },
+    "deleteMessages": {
+        "message": "حذف پیام‌ها",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteConversationConfirmation": {
+        "message": "آیا می‌خواهید این گفتگو را برای همیشه حذف کنید؟",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "sessionEnded": {
+        "message": "جلسه‌ی امن از نو ایجاد شد",
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "quoteThumbnailAlt": {
+        "message": "Thumbnail of image from quoted message",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "imageFailedToLoad": {
+        "message": "تصویر بارگذاری نشد",
+        "description": "When an image attachment is missing, this message is shown"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "اسکرین شات ویدیو بارگذاری نشد",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
+    "imageAttachmentAlt": {
+        "message": "تصویر پیوست شده به پیام",
+        "description": "Used in alt tag of image attachment"
+    },
+    "videoAttachmentAlt": {
+        "message": "اسکرین شات ویدیو پیوست شده به پیام",
+        "description": "Used in alt tag of video attachment preview"
+    },
+    "lightboxImageAlt": {
+        "message": "تصویر در مکالمه فرستاده شد",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
+    "fileIconAlt": {
+        "message": "آیکون فایل",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
+    "emojiAlt": {
+        "message": "تصویر ایموجی '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
+    "installWelcome": {
+        "message": "به سیگنال دسکتاپ خوش‌آمدید",
+        "description": "Welcome title on the install page"
+    },
+    "installTagline": {
+        "message": "حفظ حریم خصوصی ممکن است. سیگنال این کار را راحت‌تر میکند.",
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "linkYourPhone": {
+        "message": "موبایل خود را به سیگنال دسکتاپ لینک کنید",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
+    "signalSettings": {
+        "message": "تنظیمات سیگنال",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "linkedDevices": {
+        "message": "دستگاه های متصل شده",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "plusButton": {
+        "message": "دکمه '+'",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
+    "linkNewDevice": {
+        "message": "لینک کردن دستگاه جدید",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "deviceName": {
+        "message": "نام دستگاه",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "chooseDeviceName": {
+        "message": "نام این دستگاه را انتخاب کنید",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
+    "finishLinkingPhone": {
+        "message": "Finish linking phone",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
+    },
+    "initialSync": {
+        "message": "هماهنگ سازی مخاطبین و گروه ها",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
+    "installConnectionFailed": {
+        "message": "برقراری ارتباط با سرور ناموفق بود.",
+        "description": "Displayed when we can't connect to the server."
+    },
+    "installTooManyDevices": {
+        "message": "متاسفانه دستگاه‌های زیادی را به حسابتان متصل کرده‌اید. تعدادی را حذف کنید.",
+        "description": ""
+    },
+    "settings": {
+        "message": "تنظیمات",
+        "description": "Menu item and header for global settings"
+    },
+    "theme": {
+        "message": "تم",
+        "description": "Header for theme settings"
+    },
+    "permissions": {
+        "message": "دسترسی ها",
+        "description": "Header for permissions section of settings"
+    },
+    "mediaPermissionsDescription": {
+        "message": "اجازه دسترسی به دوربین و میکروفون",
+        "description": "Description of the media permission description"
+    },
+    "spellCheck": {
+        "message": "بررسی املاء",
+        "description": "Description of the media permission description"
     },
     "spellCheckDescription": {
         "message": "Enable spell check of text entered in message composition box",
         "description": "Description of the media permission description"
     },
+    "clearDataHeader": {
+        "message": "پاک سازی داده",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
+    },
+    "clearDataExplanation": {
+        "message": "این باعث می شود تمام داده های در برنامه پاک شوند، تمام پیام ها و اطلاعات ذخیره شده حساب کاربری از بین خواهند رفت.",
+        "description": "Text describing what the clear data button will do."
+    },
+    "clearDataButton": {
+        "message": "پاک کردن داده",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
+    "deleteAllDataHeader": {
+        "message": "پاک کردن تمام داده ها؟",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataBody": {
+        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
+    "deleteAllDataButton": {
+        "message": "پاک کردن تمام داده ها",
+        "description": "Text of the button that deletes all data"
+    },
+    "deleteAllDataProgress": {
+        "message": "Disconnecting and deleting all data",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "notifications": {
+        "message": "آگاه‌سازی‌ها",
+        "description": "Header for notification settings"
+    },
+    "notificationSettingsDialog": {
+        "message": "هنگام دریافت پیام, این جزئیات را نمایش بده:",
+        "description": "Explain the purpose of the notification settings"
+    },
+    "disableNotifications": {
+        "message": "آگاه‌سازی‌ها غیرفعال باشند",
+        "description": "Label for disabling notifications"
+    },
+    "nameAndMessage": {
+        "message": "هم نام و هم متن پیام",
+        "description": "Label for setting notifications to display name and message text"
+    },
+    "noNameOrMessage": {
+        "message": "نه نام و نه متن پیام",
+        "description": "Label for setting notifications to display no name and no message text"
+    },
+    "nameOnly": {
+        "message": "فقط نام فرستنده",
+        "description": "Label for setting notifications to display sender name only"
+    },
+    "newMessage": {
+        "message": "پیام جدید",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "newMessages": {
+        "message": "پیام‌های جدید",
+        "description": "Displayed in notifications for multiple messages"
+    },
+    "notificationMostRecentFrom": {
+        "message": "جدید ترین از:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+    },
+    "notificationFrom": {
+        "message": "از:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
+    "notificationMostRecent": {
+        "message": "جدید ترین:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "sendFailed": {
+        "message": "ارسال ناموفق بود",
+        "description": "Shown on outgoing message if it fails to send"
+    },
+    "showMore": {
+        "message": "جزئیات",
+        "description": "Displays the details of a key change"
+    },
+    "showLess": {
+        "message": "جزئیات را پنهان کن",
+        "description": "Hides the details of a key change"
+    },
+    "learnMore": {
+        "message": "درباره‌ی شماره‌ی امنیتی بیشتر بدانید",
+        "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "expiredWarning": {
+        "message": "این نسخه‌ی سیگنال قدیمی است. برای ارسال پیام لطفا آن را به آخرین نسخه ارتقاء دهید.",
+        "description": "Warning notification that this version of the app has expired"
+    },
+    "androidMessageLengthWarning": {
+        "message": "سیستم‌های اندرویدی فقط 2000 کاراکتر اول این پیام را دریافت خواهند کرد.",
+        "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "upgrade": {
+        "message": "ارتقاء",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "mediaMessage": {
+        "message": "پیام رسانه‌ای",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unregisteredUser": {
+        "message": "این شماره ثبت نشده است!",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "مخاطب‌ها",
+        "description": "Label for contact and group sync settings"
+    },
+    "syncExplanation": {
+        "message": "واردسازی لیست تمام گروه‌ها و مخاطب‌های سیگنال از گوشی موبایل شما.",
+        "description": "Explanatory text for sync settings"
+    },
+    "lastSynced": {
+        "message": "آخرین واردسازی ",
+        "description": "Label for date and time of last sync operation"
+    },
+    "syncNow": {
+        "message": "انجام واردسازی",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncing": {
+        "message": "در حال واردسازی...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "syncFailed": {
+        "message": "واردسازی با خطا مواجه شد! لطفا مطمئن شوید که کامپیوتر و موبایل شما به اینترنت متصل هستند.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
+    "timestamp_s": {
+        "message": "همین حالا",
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_m": {
+        "message": "1 دقیقه",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_h": {
+        "message": "1 ساعت",
+        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ساعت",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "hoursAgo": {
+        "message": "$hours$ ساعت پیش",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ دقیقه",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "minutesAgo": {
+        "message": "$minutes$دقیقه پیش",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "justNow": {
+        "message": "اکنون",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "timestampFormat_M": {
+        "message": "D MMM",
+        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "unblockToSend": {
+        "message": "برای ارسال پیام،‌ ابتدا این مخاطب را از مسدود بودن درآورید!",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
+    "youChangedTheTimer": {
+        "message": "شما پیام تایمر پیام نابود شونده را روی $time$ تنظیم کردید",
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
+    "timerSetOnSync": {
+        "message": "تایمر پیام نابود شونده به $time$ آپدیت شد",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ تایمر پیام نابود شونده را روی $time$ تنظیم کرد",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -359,356 +1119,112 @@
             }
         }
     },
-    "timestamp_s": {
-        "message": "همین حالا",
-        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    "timerOption_0_seconds": {
+        "message": "خاموش",
+        "description": "Label for option to turn off message expiration in the timer menu"
     },
-    "viewMenuZoomOut": {
-        "message": "Zoom Out",
-        "description": "View menu command to make everything smaller"
-    },
-    "mainMenuSettings": {
-        "message": "Preferences…",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
-    },
-    "changedRecentlyMultiple": {
-        "message": "کد امنیتی چند نفر از اعضای گروه اخیرآً تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً سیگنال را دوباره نصب کرده‌اند.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "emojiAlt": {
-        "message": "Emoji image of '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
-    "timerOption_1_day": {
-        "message": "1 روز",
+    "timerOption_5_seconds": {
+        "message": "5 ثانیه",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "editMenuUndo": {
-        "message": "Undo",
-        "description": "Edit menu command to remove recently-typed text"
+    "timerOption_10_seconds": {
+        "message": "10 ثانیه",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "reportIssue": {
-        "message": "گزارش مشکل",
-        "description": "Link to open the issue tracker"
+    "timerOption_30_seconds": {
+        "message": "30 ثانیه",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "newMessage": {
-        "message": "پیام جدید",
-        "description": "Displayed in notifications for only 1 message"
+    "timerOption_1_minute": {
+        "message": "1 دقیقه",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "nameOnly": {
-        "message": "فقط نام فرستنده",
-        "description": "Label for setting notifications to display sender name only"
+    "timerOption_5_minutes": {
+        "message": "5 دقیقه",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
-        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "mediaEmptyState": {
-        "message": "You don’t have any media in this conversation",
-        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
-    },
-    "notificationMostRecentFrom": {
-        "message": "جدید ترین از:",
-        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-    },
-    "autoUpdateLaterButtonLabel": {
-        "message": "بعدا",
-        "description": ""
-    },
-    "justNow": {
-        "message": "همین حالا",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
-    },
-    "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
-        "description": "Description of the media permission description"
-    },
-    "from": {
-        "message": "از",
-        "description": "Label for the sender of a message"
-    },
-    "deleteConversationConfirmation": {
-        "message": "آیا می‌خواهید این گفتگو را برای همیشه حذف کنید؟",
-        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "mainMenuWindow": {
-        "message": "&پنجره",
-        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "importCompleteLinkButton": {
-        "message": "Link this device to your phone",
-        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "unlinkedWarning": {
-        "message": "برای ادامه‌ی استفاده از ‌سیگنال دسکتاپ، دوباره این برنامه را به سیگنال موبایل خود متصل نمایید.",
-        "description": ""
-    },
-    "safetyNumberChanged": {
-        "message": "Safety Number has changed",
-        "description": "A notification shown in the conversation when a contact reinstalls"
-    },
-    "today": {
-        "message": "امروز",
-        "description": "Section header in the media gallery"
-    },
-    "debugLogExplanation": {
-        "message": "این گزارش برای بازنگری آنلاین ذخیره می‌شود. شما می‌توانید قبل از ارسال لینک، گزارش را بررسی و ویرایش کنید.",
-        "description": ""
-    },
-    "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
-        "description": "Shown in the conversation history when multiple people leave the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    },
-    "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
-        "description": "Placeholder for adding a new number to a contact"
-    },
-    "viewMenuZoomIn": {
-        "message": "Zoom In",
-        "description": "View menu command to make everything bigger"
-    },
-    "viewAllMedia": {
-        "message": "View all media",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
-    },
-    "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
-        "description": "Window menu command to bring all windows of current applicatinon to front"
-    },
-    "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
-        "description": "Message shown if the import went wrong; first paragraph"
-    },
-    "noLongerVerified": {
-        "message": "کد امنیتی $name$ تغییر کرده  و دیگر تأییدشده نیست. برای نمایشش کلیک کنید.",
-        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+    "timerOption_30_minutes": {
+        "message": "30 دقیقه",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
         "message": "1 ساعت",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "video": {
-        "message": "ویدیو",
-        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    "timerOption_6_hours": {
+        "message": "6 ساعت",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
-        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
+    "timerOption_12_hours": {
+        "message": "12 ساعت",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "searchForPeopleOrGroups": {
-        "message": "نام یا شماره وارد کنید",
-        "description": "Placeholder text in the search input"
+    "timerOption_1_day": {
+        "message": "1 روز",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "noNameOrMessage": {
-        "message": "نه نام و نه متن پیام",
-        "description": "Label for setting notifications to display no name and no message text"
+    "timerOption_1_week": {
+        "message": "1 هفته",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "syncNow": {
-        "message": "انجام واردسازی",
-        "description": "Label for a button that syncs contacts and groups from your phone"
+    "disappearingMessages": {
+        "message": "پیام‌های نابود شونده",
+        "description": "Conversation menu option to enable disappearing messages"
     },
-    "syncFailed": {
-        "message": "واردسازی با خطا مواجه شد! لطفا مطمئن شوید که کامپیوتر و موبایل شما به اینترنت متصل هستند.",
-        "description": "Informational text displayed if a sync operation times out."
+    "timerOption_0_seconds_abbreviated": {
+        "message": "خاموش",
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
-    "unlinked": {
-        "message": "Unlinked",
-        "description": ""
+    "timerOption_5_seconds_abbreviated": {
+        "message": "5 ثانیه",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "imageAttachmentAlt": {
-        "message": "Image attached to message",
-        "description": "Used in alt tag of image attachment"
+    "timerOption_10_seconds_abbreviated": {
+        "message": "10 ثانیه",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "learnMore": {
-        "message": "درباره‌ی شماره‌ی امنیتی بیشتر بدانید",
-        "description": "Text that links to a support article on verifying safety numbers"
-    },
-    "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
-        "description": "Message displayed when timer is set on initial link of desktop device.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "deleteAllDataButton": {
-        "message": "پاک کردن تمام داده ها",
-        "description": "Text of the button that deletes all data"
-    },
-    "unreadMessages": {
-        "message": "$count$ پیام خوانده نشده",
-        "description": "Text for unread message separator, with count",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
-    "installTooManyDevices": {
-        "message": "متاسفانه دستگاه‌های زیادی را به حسابتان متصل کرده‌اید. تعدادی را حذف کنید.",
-        "description": ""
-    },
-    "allowAccess": {
-        "message": "Allow Access",
-        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "joinedTheGroup": {
-        "message": "$name$ joined the group",
-        "description": "Shown in the conversation history when a single person joins the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice"
-            }
-        }
-    },
-    "work": {
-        "message": "کار",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "goToForums": {
-        "message": "Go to Forums",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
-    "menuSetupWithImport": {
-        "message": "Set Up with Import",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
-    "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
-        "description": "Displayed in the left pane when the timer is turned off"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30 دقیقه",
+    "timerOption_30_seconds_abbreviated": {
+        "message": "30 ثانیه",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1 دقیقه",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "home": {
-        "message": "خانه",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    "timerOption_5_minutes_abbreviated": {
+        "message": "5 دقیقه",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "loadingMessages": {
-        "message": "در حال بارگذاری پیام‌ها. تاکنون $count$ ...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
+    "timerOption_30_minutes_abbreviated": {
+        "message": "30 دقیقه",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "speech": {
-        "message": "صحبت",
-        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    "timerOption_1_hour_abbreviated": {
+        "message": "1 ساعت",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "importErrorHeader": {
-        "message": "Something went wrong!",
-        "description": "Header of the error screen after a failed import"
+    "timerOption_6_hours_abbreviated": {
+        "message": "6 ساعت",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "changedSinceVerified": {
-        "message": "شماره امن شما با $name$ بعد از آخرین تایید شما تغییر یافته است. این بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا اینکه $name$به تازگی سیگنال را مجددا نصب کرده است.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+    "timerOption_12_hours_abbreviated": {
+        "message": "12 ساعت",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "importAgain": {
-        "message": "پوشه را انتخاب کنید و دوباره امتحان کنید",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
+    "timerOption_1_day_abbreviated": {
+        "message": "1 روز",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "upgrade": {
-        "message": "ارتقاء",
-        "description": "Label text for button to upgrade the app to the latest version"
+    "timerOption_1_week_abbreviated": {
+        "message": "1 هفته",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "moreInfo": {
-        "message": "More Info...",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "notificationMostRecent": {
-        "message": "جدید ترین:",
-        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
-    },
-    "yourSafetyNumberWith": {
-        "message": "شماره امنیتی شما با $name$:",
-        "description": "Heading for safety number view",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "windowMenuClose": {
-        "message": "بستن پنجره",
-        "description": "Window menu command to close the current window"
-    },
-    "showLess": {
-        "message": "جزئیات را پنهان کن",
-        "description": "Hides the details of a key change"
-    },
-    "spellCheck": {
-        "message": "Spell Check",
-        "description": "Description of the media permission description"
-    },
-    "theme": {
-        "message": "تم",
-        "description": "Header for theme settings"
-    },
-    "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
-    },
-    "newIdentity": {
-        "message": "شماره‌ی امنیتی جدید",
-        "description": "Header for a key change dialog"
+    "disappearingMessagesDisabled": {
+        "message": "پیام های نابود شونده غیر فعال شدند",
+        "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$ پیام های نابود شونده را غیر فعال کرد",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -717,609 +1233,9 @@
             }
         }
     },
-    "installTagline": {
-        "message": "حفظ حریم خصوصی ممکن است. سیگنال این کار را راحت‌تر میکند.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "show": {
-        "message": "نمایش",
-        "description": "Command under Window menu, to show the window"
-    },
-    "audioNotificationDescription": {
-        "message": "Play audio notification",
-        "description": "Description for audio notification setting"
-    },
-    "isNotVerified": {
-        "message": "شما شماره امن خود با $name$را تایید نکرده اید.",
-        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "disconnected": {
-        "message": "ارتباط قطع شد",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
-    "syncing": {
-        "message": "در حال واردسازی...",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "lightboxImageAlt": {
-        "message": "تصویر در مکالمه فرستاده شد",
-        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
-    },
-    "multipleNoLongerVerified": {
-        "message": "شماره امن شما با اعضای این گروه تغییر کرده است و دیگر تایید شده نیست. برای نمایش لمس کنید.",
-        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
-    },
-    "acceptNewKey": {
-        "message": "تایید",
-        "description": "Label for a button to accept a new safety number"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12 ساعت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
-        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
-    },
-    "signalSettings": {
-        "message": "تنظیمات سیگنال",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "timestampFormat_M": {
-        "message": "D MMM",
-        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
-    },
-    "plusButton": {
-        "message": "'+' Button",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
-    "chooseDirectory": {
-        "message": "انتخاب پوشه",
-        "description": "Button to allow the user to find a folder on disk"
-    },
-    "mainMenuEdit": {
-        "message": "&ویرایش",
-        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6 ساعت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "unregisteredUser": {
-        "message": "این شماره ثبت نشده است!",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1 روز",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "replyingTo": {
-        "message": "Replying to $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
-        "description": ""
-    },
-    "mobile": {
-        "message": "موبایل",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
-    },
-    "notificationFrom": {
-        "message": "From:",
-        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-    },
-    "sync": {
-        "message": "مخاطب‌ها",
-        "description": "Label for contact and group sync settings"
-    },
-    "timerOption_1_week": {
-        "message": "1 هفته",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
-        "description": "Used in the alt tag for the image avatar of a contact",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "received": {
-        "message": "دریافت شد",
-        "description": "Label for the time a message was received"
-    },
-    "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_1_minute": {
-        "message": "1 دقیقه",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "isVerified": {
-        "message": "کدِ امنیتیِ $name$ تأیید شد.",
-        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_30_seconds": {
-        "message": "30 ثانیه",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "deleteAllDataHeader": {
-        "message": "Delete all data?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
-        "description": "Message shown to user when app is disconnected and data deleted"
-    },
-    "sendMessage": {
-        "message": "ارسال پیام",
-        "description": "Placeholder text in the message entry field"
-    },
-    "menuReportIssue": {
-        "message": "Report an Issue",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
-    },
-    "permissions": {
-        "message": "Permissions",
-        "description": "Header for permissions section of settings"
-    },
-    "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
-        "description": "Introduction to the process of importing messages and contacts from disk"
-    },
-    "me": {
-        "message": "من",
-        "description": "The label for yourself when shown in a group member list"
-    },
-    "mediaMessage": {
-        "message": "پیام رسانه‌ای",
-        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
-    },
-    "unreadMessage": {
-        "message": "1 پیام خوانده نشده",
-        "description": "Text for unread message separator, just one message"
-    },
-    "expiredWarning": {
-        "message": "این نسخه‌ی سیگنال قدیمی است. برای ارسال پیام لطفا آن را به آخرین نسخه ارتقاء دهید.",
-        "description": "Warning notification that this version of the app has expired"
-    },
-    "fileSizeWarning": {
-        "message": "متاسفانه حجم فایل انتخاب شده از حداکثر طول پیام بیشتر است.",
-        "description": ""
-    },
-    "documentsEmptyState": {
-        "message": "You don’t have any documents in this conversation",
-        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
-    },
-    "deleteMessage": {
-        "message": "حذف پیام",
-        "description": "Shown on the drop-down menu for an individual message, deletes single message"
-    },
-    "chooseDeviceName": {
-        "message": "Choose this device's name",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "autoUpdateNewVersionInstructions": {
-        "message": "برای اعمال آپدیت ها سیگنال را ری استارت کنید.",
-        "description": ""
-    },
-    "fileIconAlt": {
-        "message": "File icon",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
-    "timerOption_0_seconds": {
-        "message": "خاموش",
-        "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "editMenuRedo": {
-        "message": "انجام دوباره",
-        "description": "Edit menu command to restore previously undone typed text"
-    },
-    "invalidNumberError": {
-        "message": "شماره نامعتبر",
-        "description": "When a person inputs a number that is invalid"
-    },
-    "installWelcome": {
-        "message": "به سیگنال دسکتاپ خوش‌آمدید",
-        "description": "Welcome title on the install page"
-    },
-    "messageBelow": {
-        "message": "پیام جدید پایین",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "hoursAgo": {
-        "message": "$hours$ hr ago",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
-    "installConnectionFailed": {
-        "message": "برقراری ارتباط با سرور ناموفق بود.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "unverify": {
-        "message": "علامت گذاری به عنوان تایید نشده",
-        "description": ""
-    },
-    "initialSync": {
-        "message": "Syncing contacts and groups",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "mainMenuView": {
-        "message": "&نمایش",
-        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "appMenuHide": {
-        "message": "Hide",
-        "description": "Application menu command to hide the window"
-    },
-    "autoUpdateNewVersionMessage": {
-        "message": "نسخه جدیدی از سیگنال در دسترس است.",
-        "description": ""
-    },
-    "replyToMessage": {
-        "message": "Reply to Message",
-        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
-    },
-    "disableNotifications": {
-        "message": "آگاه‌سازی‌ها غیرفعال باشند",
-        "description": "Label for disabling notifications"
-    },
-    "photo": {
-        "message": "تصویر",
-        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
-    },
-    "media": {
-        "message": "مدیا",
-        "description": "Header of the default pane in the media gallery, showing images and videos"
-    },
-    "cancel": {
-        "message": "انصراف",
-        "description": ""
-    },
-    "unblockToSend": {
-        "message": "برای ارسال پیام،‌ ابتدا این مخاطب را از مسدود بودن درآورید!",
-        "description": "Brief message shown when trying to message a blocked number"
-    },
-    "mainMenuHelp": {
-        "message": "&کمک",
-        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "unnamedFile": {
-        "message": "فایل بی‌نام",
-        "description": "Hover text for attachment filenames"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 minutes",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "sendAnyway": {
-        "message": "به هر حال بفرست",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
-    "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
-        "description": "Shown in the conversation history when the user marks a contact as verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "connecting": {
-        "message": "در حال اتصال",
-        "description": "Displayed when the desktop client is currently connecting to the server."
-    },
-    "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "sessionEnded": {
-        "message": "جلسه‌ی امن از نو ایجاد شد",
-        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "relink": {
-        "message": "Relink",
-        "description": ""
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1 هفته",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 ثانیه",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
-        "description": ""
-    },
-    "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
-        "description": "View menu command to show or hide the developer tools"
-    },
-    "showMembers": {
-        "message": "نمایش اعضا",
-        "description": ""
-    },
-    "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "email": {
-        "message": "ایمیل",
-        "description": "Generic label shown if contact email has custom type but no label"
-    },
-    "viewMenuResetZoom": {
-        "message": "سایز واقعی",
-        "description": "View menu command to go back to the default zoom"
-    },
-    "goToSupportPage": {
-        "message": "Go to Support Page",
-        "description": "Item under the Help menu, takes you to the support page"
-    },
-    "finishLinkingPhone": {
-        "message": "Finish linking phone",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
-        "description": "Shown in the conversation history when more than one person joins the group",
-        "placeholders": {
-            "names": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    },
-    "groupMembers": {
-        "message": "اعضای گروه",
-        "description": ""
-    },
-    "loading": {
-        "message": "در حال بارگذاری...",
-        "description": "Message shown on the loading screen before we've loaded any messages"
-    },
-    "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
-        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
-    },
-    "newMessages": {
-        "message": "پیام‌های جدید",
-        "description": "Displayed in notifications for multiple messages"
-    },
-    "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
-        "description": "Message shown if the import went wrong; second paragraph"
-    },
-    "theirIdentityUnknown": {
-        "message": "شما هنوز هیچ پیامی با این مخاطب تبادل نکرده‌اید. شماره‌ی امنیتی پس از ارسال و یا دریافت اولین پیام در دسترس خواهد بود.",
-        "description": ""
-    },
-    "voiceMessage": {
-        "message": "پیام صوتی",
-        "description": "Name for a voice message attachment"
-    },
-    "importCompleteStartButton": {
-        "message": "Start using Signal Desktop",
-        "description": "Button shown at end of successful import process, nothing left but a restart"
-    },
-    "submit": {
-        "message": "ارسال",
-        "description": ""
-    },
-    "updatedTheGroup": {
-        "message": "Group updated",
-        "description": "Shown in the conversation history when someone updates the group"
-    },
-    "themeDark": {
-        "message": "تاریک",
-        "description": "Label text for dark theme"
-    },
-    "identityKeyErrorOnSend": {
-        "message": "شماره امن شما با $name$ تغییر کرده است. این به این معناست که شخصی در تلاش برای رهگیری ارتباط شماست یا اینکه $name$مجددا سیگنال را نصب کرده است. بهتر است شماره امن خود با این مخاطب را تایید کنید.",
-        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "to": {
-        "message": "به",
-        "description": "Label for the receiver of a message"
-    },
-    "windowMenuMinimize": {
-        "message": "Minimize",
-        "description": "Window menu command to minimize the current window"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1 ساعت",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "editMenuStopSpeaking": {
-        "message": "Stop speaking",
-        "description": "Edit menu item under 'speech' to stop dictation"
-    },
-    "optimizingApplication": {
-        "message": "Optimizing application...",
-        "description": "Message shown on the loading screen while we are doing application optimizations"
-    },
-    "goToReleaseNotes": {
-        "message": "Go to Release Notes",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "جزئیات پیام",
-        "description": ""
-    },
-    "timerOption_12_hours": {
-        "message": "12 hours",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "mainMenuFile": {
-        "message": "&فایل",
-        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "verify": {
-        "message": "علامت گذاری به عنوان تایید شده",
-        "description": ""
-    },
-    "sendFailed": {
-        "message": "Send failed",
-        "description": "Shown on outgoing message if it fails to send"
-    },
-    "clearDataHeader": {
-        "message": "Clear Data",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
-        "description": "View menu command to enter or leave Full Screen mode"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10 ثانیه",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 minutes",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "linkNewDevice": {
-        "message": "Link New Device",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "nameAndMessage": {
-        "message": "هم نام و هم متن پیام",
-        "description": "Label for setting notifications to display name and message text"
-    },
-    "menuSetupAsStandalone": {
-        "message": "Set Up as Standalone Device",
-        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
-    },
-    "failedToSend": {
-        "message": "ارسال به برخی مخاطبین ناموفق بود. اتصال شبکه‌ی خود را بررسی کنید.",
-        "description": ""
-    },
-    "ok": {
-        "message": "باشه",
-        "description": ""
-    },
-    "identityChanged": {
-        "message": "شماره‌ی امنیتی این مخاطب تغییر کرده‌ است. این می‌تواند به این معنی باشد که کسی در حال نفوذ به ارتباط شما است و یا اینکه مخاطب شما سیگنال را از نو نصب کرده و حالا شماره‌ی امنیتی جدیدی دارد.",
-        "description": ""
-    },
-    "appMenuUnhide": {
-        "message": "نمایش همه",
-        "description": "Application menu command to show all application windows"
-    },
-    "changedSinceVerifiedMultiple": {
-        "message": "کد امنیتی چند نفر از اعضای گروه از زمان آخریت تائید، تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً سیگنال را دوباره نصب کرده‌اند.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "showSettings": {
-        "message": "Show Settings",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
-    },
-    "editMenuCopy": {
-        "message": "Copy",
-        "description": "Edit menu command to add selected text to clipboard"
-    },
-    "loadDataHeader": {
-        "message": "Load your data",
-        "description": "Header shown on the first screen in the data import process"
-    },
-    "submitDebugLog": {
-        "message": "Debug log",
-        "description": "Menu item and header text for debug log modal (sentence case)"
-    },
-    "startConversation": {
-        "message": "Start conversation…",
-        "description": "Label underneath number a user enters that is not an existing contact"
-    },
-    "error": {
-        "message": "خطا",
-        "description": ""
-    },
-    "titleIsNow": {
-        "message": "Title is now '$name$'",
-        "description": "Shown in the conversation history when someone changes the title of the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Book Club"
-            }
-        }
-    },
-    "retrySend": {
-        "message": "Retry Send",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
-    },
-    "changedRightAfterVerify": {
-        "message": "شماره امنی که شما در تلاش برای تایید آن هستید تغییر کرده است. لطفا شماره امن جدید خود را با$name$بازبینی کنید. به یاد داشته باشید، این تغییر بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا $name$مجددا سیگنال را نصب کرده است.",
-        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_6_hours": {
-        "message": "6 hours",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
-        "description": "Used in alt tag of video attachment preview"
+    "youDisabledDisappearingMessages": {
+        "message": "شما پیام های نابود شونده را غیر فعال کردید",
+        "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
         "message": "تایمر روی $time$ تنظیم شد",
@@ -1331,47 +1247,97 @@
             }
         }
     },
-    "editMenuDelete": {
-        "message": "پاک کن",
-        "description": "Edit menu command to remove the selected text"
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
     },
-    "windowMenuZoom": {
-        "message": "Zoom",
-        "description": "Window menu command to make the current window the size of the whole screen"
+    "safetyNumberChanged": {
+        "message": "شماره امنیتی تغییر یافته است",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
+    "safetyNumberChangedGroup": {
+        "message": "شماره امنیتی $name$ تغییر کرده است",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "verifyNewNumber": {
+        "message": "تایید شماره امنیتی",
+        "description": "Label on button included with safety number change notification in the conversation"
+    },
+    "yourSafetyNumberWith": {
+        "message": "شماره امنیتی شما با $name$:",
+        "description": "Heading for safety number view",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "themeLight": {
+        "message": "روشن",
+        "description": "Label text for light theme (normal)"
+    },
+    "themeDark": {
+        "message": "تاریک",
+        "description": "Label text for dark theme"
+    },
+    "hideMenuBar": {
+        "message": "پنهان کردن نوار منو",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "startConversation": {
+        "message": "شروع مکالمه...",
+        "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
+    "invalidNumberError": {
+        "message": "شماره نامعتبر",
+        "description": "When a person inputs a number that is invalid"
+    },
+    "unlinkedWarning": {
+        "message": "برای ادامه‌ی استفاده از ‌سیگنال دسکتاپ، دوباره این برنامه را به سیگنال موبایل خود متصل نمایید.",
+        "description": ""
+    },
+    "unlinked": {
+        "message": "Unlinked",
+        "description": ""
+    },
+    "relink": {
+        "message": "Relink",
+        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "به‌روزرسانی سیگنال در دسترس است",
         "description": ""
     },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30 ثانیه",
-        "description": "Very short format indicating current timer setting in the conversation header"
+    "autoUpdateNewVersionMessage": {
+        "message": "نسخه جدیدی از سیگنال در دسترس است.",
+        "description": ""
     },
-    "audio": {
-        "message": "Audio",
-        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    "autoUpdateNewVersionInstructions": {
+        "message": "برای اعمال آپدیت ها سیگنال را ری استارت کنید.",
+        "description": ""
     },
-    "editMenuStartSpeaking": {
-        "message": "Start speaking",
-        "description": "Edit menu item under 'speech' to start dictation"
+    "autoUpdateRestartButtonLabel": {
+        "message": "راه اندازی مجدد سیگنال",
+        "description": ""
     },
-    "minutesAgo": {
-        "message": "$minutes$ min ago",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
+    "autoUpdateLaterButtonLabel": {
+        "message": "بعدا",
+        "description": ""
     },
-    "notifications": {
-        "message": "آگاه‌سازی‌ها",
-        "description": "Header for notification settings"
-    },
-    "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+    "leftTheGroup": {
+        "message": "$name$ گروه را ترک کرد",
+        "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -1379,8 +1345,52 @@
             }
         }
     },
-    "hide": {
-        "message": "Hide",
-        "description": "Command in the tray icon menu, to hide the window"
+    "multipleLeftTheGroup": {
+        "message": "$name$ گروه را ترک کرد",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "updatedTheGroup": {
+        "message": "گروه آپدیت شد",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
+    "titleIsNow": {
+        "message": "در حال حاضر عنوان '$name$' می باشد",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
+    "joinedTheGroup": {
+        "message": "$name$ عضو گروه شد",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ عضو گروه شد",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "privacyPolicy": {
+        "message": "شرایط و سیاست های حفظ حریم خصوصی",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }
