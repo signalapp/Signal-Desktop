@@ -645,14 +645,13 @@
 
     validateNumber() {
       if (this.isPrivate()) {
-        const regionCode = storage.get('regionCode');
-        const number = libphonenumber.util.parseNumber(this.id, regionCode);
-        if (number.isValidNumber) {
-          this.set({ id: number.e164 });
+        if (StringView.base64ToBytes(this.id).byteLength == 33)
+        {
+          this.set({ id: this.id });
           return null;
         }
 
-        return number.error || 'Invalid phone number';
+        return 'Invalid ID';
       }
 
       return null;
