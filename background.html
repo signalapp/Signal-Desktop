@@ -27,6 +27,12 @@
     When making changes to these templates, be sure to update test/index.html as well
   -->
 
+  <script type='text/x-tmpl-mustache' id='app-canvas'>
+    <div class='network-status-banner'></div>
+    <div class='other-banner'></div>
+    <div class='app-canvas'>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
       <img src='images/icon_128.png'>
@@ -50,7 +56,6 @@
   </script>
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
-      <div class='network-status-container'></div>
       <div class='title-bar active'>
         <div class='logo'>Signal</div>
       </div>
@@ -375,8 +380,7 @@
 
   <script type='text/x-tmpl-mustache' id='networkStatus'>
     <div class='network-status-message'>
-      <h3>{{ message }}</h3>
-      <span>{{ instructions }}</span>
+      {{ message }} {{ instructions }}
     </div>
     {{ #reconnectDurationAsSeconds }}
     <div class="network-status-message">

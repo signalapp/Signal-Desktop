@@ -107,11 +107,6 @@
 
       const inboxCollection = getInboxCollection();
 
-      this.listenTo(inboxCollection, 'messageError', () => {
-        if (this.networkStatusView) {
-          this.networkStatusView.render();
-        }
-      });
       this.listenTo(inboxCollection, 'select', this.openConversation);
 
       this.inboxListView = new Whisper.ConversationListView({
@@ -146,11 +141,6 @@
         this.inboxListView.$el.hide();
       });
       this.listenTo(this.searchView, 'open', this.openConversation);
-
-      this.networkStatusView = new Whisper.NetworkStatusView();
-      this.$el
-        .find('.network-status-container')
-        .append(this.networkStatusView.render().el);
 
       extension.windows.onClosed(() => {
         this.inboxListView.stopListening();

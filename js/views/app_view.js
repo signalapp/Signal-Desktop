@@ -1,4 +1,4 @@
-/* global Backbone, Whisper, storage, _, ConversationController, $ */
+/* global Whisper, storage, _, ConversationController, $ */
 
 /* eslint-disable more/no-then */
 
@@ -8,10 +8,14 @@
 
   window.Whisper = window.Whisper || {};
 
-  Whisper.AppView = Backbone.View.extend({
+  Whisper.AppView = Whisper.View.extend({
+    className: 'app-view',
+    templateName: 'app-canvas',
     initialize() {
       this.inboxView = null;
       this.installView = null;
+      this.networkStatusView = null;
+      this.updateNeededBanner = null;
 
       this.applyTheme();
       this.applyHideMenu();
@@ -23,15 +27,15 @@
     applyTheme() {
       const iOS = storage.get('userAgent') === 'OWI';
       const theme = storage.get('theme-setting') || 'light';
-      this.$el
+      $('body')
         .removeClass('light-theme')
         .removeClass('dark-theme')
         .addClass(`${theme}-theme`);
 
       if (iOS) {
-        this.$el.addClass('ios-theme');
+        $('body').addClass('ios-theme');
       } else {
-        this.$el.removeClass('ios-theme');
+        $('body').removeClass('ios-theme');
       }
     },
     applyHideMenu() {
@@ -40,8 +44,10 @@
       window.setMenuBarVisibility(!hideMenuBar);
     },
     openView(view) {
-      this.el.innerHTML = '';
-      this.el.append(view.el);
+      this.$el
+        .find('.app-canvas')
+        .empty()
+        .append(view.$el);
       this.delegateEvents();
     },
     openDebugLog() {
@@ -177,6 +183,43 @@
           this.inboxView.openConversation(conversation);
         });
       }
+    },
+    upgradeApp(e) {
+      e.preventDefault();
+      window.upgradeApp();
+    },
+    showUpdateNeededBanner() {
+      if (this.updateNeededBanner === null) {
+        this.updateNeededBanner = new Whisper.NewVersionBanner();
+
+        this.$el
+          .find('.other-banner')
+          .append(this.updateNeededBanner.render().el);
+
+        this.$el.addClass('banner-up');
+      }
+    },
+    showNetworkStatusView() {
+      if (this.networkStatusView === null) {
+        this.networkStatusView = new Whisper.NetworkStatusView();
+
+        this.$el
+          .find('.network-status-banner')
+          .append(this.networkStatusView.render().el);
+
+        this.networkStatusView.update();
+      }
+    },
+  });
+
+  Whisper.NewVersionBanner = Whisper.View.extend({
+    templateName: 'new_version_alert',
+    className: 'newVersionAlert clearfix',
+    render_attributes() {
+      return {
+        newVersionAvailable: i18n('autoUpdateNewVersionMessage'),
+        upgrade: i18n('upgrade'),
+      };
     },
   });
 })();

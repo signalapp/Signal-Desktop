@@ -520,9 +520,13 @@
     });
 
     cancelInitializationMessage();
-    const appView = new Whisper.AppView({
-      el: $('body'),
-    });
+
+    const appView = new Whisper.AppView().render();
+    $('body')
+      .empty()
+      .append(appView.$el);
+    appView.showNetworkStatusView();
+
     window.owsDesktopApp.appView = appView;
 
     Whisper.WallClockListener.init(Whisper.events);
@@ -547,10 +551,10 @@
       appView.openDebugLog();
     });
     Whisper.events.on('unauthorized', () => {
-      appView.inboxView.networkStatusView.update();
+      appView.networkStatusView.update();
     });
     Whisper.events.on('reconnectTimer', () => {
-      appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
+      appView.networkStatusView.setSocketReconnectInterval(60000);
     });
     Whisper.events.on('contactsync', () => {
       if (appView.installView) {

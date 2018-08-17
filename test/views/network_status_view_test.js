@@ -28,7 +28,7 @@ describe('NetworkStatusView', function() {
 
     beforeEach(function() {
       networkStatusView = new Whisper.NetworkStatusView();
-      $('.network-status-container').append(networkStatusView.el);
+      $('.network-status-banner').append(networkStatusView.el);
     });
     afterEach(function() {
       // prevents huge number of errors on console after running tests

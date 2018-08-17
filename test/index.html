@@ -38,7 +38,6 @@
   </script>
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
-        <div class='network-status-container'></div>
         <div class='title-bar active' id='header'>
           <h1>Signal</h1>
           <div class='tool-bar clearfix'>
@@ -304,8 +303,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='networkStatus'>
     <div class='network-status-message'>
-      <h3>{{ message }}</h3>
-      <span>{{ instructions }}</span>
+        {{ message }} {{ instructions }}
     </div>
     {{ #reconnectDurationAsSeconds }}
     <div class="network-status-message">

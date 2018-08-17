@@ -1,4 +1,5 @@
 /* global Whisper, extension, Backbone, moment, i18n */
+/* global $: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -114,8 +115,10 @@
       this.render();
       if (this.model.attributes.hasInterruption) {
         this.$el.slideDown();
+        $('body').addClass('banner-up');
       } else {
         this.$el.hide();
+        $('body').removeClass('banner-up');
       }
     },
   });
