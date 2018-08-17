@@ -173,7 +173,7 @@ function _promiseAjax(providedUrl, options) {
     const fetchOptions = {
       method: options.type,
       body: options.data || null,
-      headers: { 'X-Signal-Agent': 'OWD' },
+      headers: { 'X-Loki-Messenger-Agent': 'OWD' },
       agent,
       ca: options.certificateAuthority,
       timeout,
