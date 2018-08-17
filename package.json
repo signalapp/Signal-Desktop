@@ -1,8 +1,8 @@
 {
-  "name": "signal-desktop",
-  "productName": "Signal",
+  "name": "loki-messenger-desktop",
+  "productName": "Loki Messenger",
   "description": "Private messaging from your desktop",
-  "repository": "https://github.com/signalapp/Signal-Desktop.git",
+  "repository": "https://github.com/sloki-project/loki-messenger.git",
   "version": "1.15.4-beta.1",
   "license": "GPL-3.0",
   "author": {
