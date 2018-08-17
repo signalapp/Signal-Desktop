@@ -123,6 +123,8 @@ MessageReceiver.prototype.extend({
       'calledClose:',
       this.calledClose
     );
+    // TODO: handle properly
+    return;
 
     this.shutdown();
 
