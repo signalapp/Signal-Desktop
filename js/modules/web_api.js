@@ -140,7 +140,7 @@ function _validateResponse(response, schema) {
   return true;
 }
 
-function _createSocket(url, { certificateAuthority, proxyUrl }) {
+function _createSocket(url, { certificateAuthority, proxyUrl, signature }) {
   let requestOptions;
   if (proxyUrl) {
     requestOptions = {
@@ -152,9 +152,16 @@ function _createSocket(url, { certificateAuthority, proxyUrl }) {
       ca: certificateAuthority,
     };
   }
+  // TODO: sign a timestamp
+  let headers;
+  if (signature) {
+    headers = {
+      signature
+    };
+  }
 
   // eslint-disable-next-line new-cap
-  return new WebSocket(url, null, null, null, requestOptions);
+  return new WebSocket(url, null, null, headers, requestOptions);
 }
 
 function _promiseAjax(providedUrl, options) {
