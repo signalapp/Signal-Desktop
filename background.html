@@ -65,19 +65,24 @@
         </div>
       </div>
     </div>
-    <div class='conversation-stack'>
-      <div class='conversation placeholder'>
-        <div class='conversation-header'></div>
-        <div class='container'>
-          <div class='content'>
-            <img src='images/icon_128.png' />
-            <h3>{{ welcomeToSignal }}</h3>
-            <p>{{ selectAContact }}</p>
+    <div class='identityKeyWrapper'>
+      Your identity key: <span class='identityKey'>{{ identityKey }}</span>
+    </div>
+    <div class='underneathIdentityWrapper'>
+      <div class='conversation-stack'>
+        <div class='conversation placeholder'>
+          <div class='conversation-header'></div>
+          <div class='container'>
+            <div class='content'>
+              <img src='images/icon_128.png' />
+              <h3>{{ welcomeToSignal }}</h3>
+              <p>{{ selectAContact }}</p>
+            </div>
           </div>
         </div>
       </div>
+      <div class='lightbox-container'></div>
     </div>
-    <div class='lightbox-container'></div>
   </script>
   <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
     <button class='text module-scroll-down__button {{ buttonClass }}' alt='{{ moreBelow }}'>

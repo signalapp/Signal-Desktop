@@ -71,6 +71,26 @@
   }
 }
 
+.identityKeyWrapper {
+  background-color: $color-black-008-no-tranparency;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  white-space: nowrap;
+}
+
+.identityKey {
+  font-weight: bold;
+}
+
+.underneathIdentityWrapper {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 300px;
+  right: 0;
+}
+
 .conversation-stack {
   .conversation {
     display: none;
