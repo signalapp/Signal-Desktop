@@ -1,56 +1,29 @@
-[![Build Status](https://travis-ci.org/signalapp/Signal-Desktop.svg?branch=master)](https://travis-ci.org/signalapp/Signal-Desktop)
-Signal Desktop
+Loki Messenger
 ==========================
+Loki Messenger allows for truly decentralized and end to end and private encrypted chats, Loki Messenger is built to handle both online and fully Asynchronous offline messages , Loki messenger implements the Signal protocol for message encryption, Our Client interface is a fork of [Signal Messenger](https://signal.org/). All communication that passes through Loki messenger is routed through [Lokinet](https://github.com/loki-project/loki-network).
 
-Signal Desktop is an Electron application that links with Signal
-on [Android](https://github.com/signalapp/Signal-Android)
-or [iOS](https://github.com/signalapp/Signal-iOS).
+## Summary
 
-## Install the production version: https://signal.org/download/
+Loki messenger integrates directly with Loki Service Nodes, which are a set of distributed, decentralized and Sybil resistant nodes. Service Nodes act as both federated servers which store messages offline, and a set of nodes which allow for mixnet functionality obfuscating users IP Addresses. For a full understanding of how Loki messenger works, read the [Loki whitepaper](https://loki.network/wp-content/uploads/2018/08/LokiWhitepaperV3_1.pdf)
 
-## Install the beta
+**Online Messages** 
 
-You can install the beta version of Signal Desktop alongside the production version. The beta uses different data and install locations.
+If Alice and Bob are both online they can simply resolve each others public keys, to introduction sets, this functionality is handled by interfacing with Lokinet. With the appropriate introduction sets Alice and Bob can create a path and using onion routing pass messages through the Loki network without giving away personally identifiable information like their IP address.
 
-* _Windows:_ First, download [this file](https://updates.signal.org/desktop/beta.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<installer location>`. Then run the installer.
-* _macOS:_ First, download [this file](https://updates.signal.org/desktop/beta-mac.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<package location>`. Then unzip that package and copy the `.app` file into the `/Applications` folder using Finder.
-* _Linux:_ Follow the production instructions to set up the APT repository and run `apt install signal-desktop-beta`.
+**Offline messages**
 
-## Got a question?
+Offline messaging uses Swarms, given any users public key the user can resolve a public key to a specific grouping of Service Nodes (AKA Swarm) each user in Loki Messenger belongs to a Swarm. When routing a message offline the user selects a Service node in the destination users Swarm, when the user comes online they query any node in their Swarm, if the Swarm is holding any messages for the user they disseminate those messages to the user.
 
-You can find answers to a number of frequently asked questions on our [support site](https://support.signal.org/).
-The [community forum](https://community.signalusers.org/) is another good place for questions.
+![Swarm Messaging](https://i.imgur.com/o13Knds.png)
 
-## Found a Bug? Have a feature request?
+Spam protections for Loki Messenger are based on a Proof of Work which is attached to any message that exceeds a default size or Time To Live, this process is discussed further in the [Loki whitepaper](https://loki.network/wp-content/uploads/2018/08/LokiWhitepaperV3_1.pdf).
 
-Please search for any [existing issues](https://github.com/signalapp/Signal-Desktop/issues) that describe your bug in order to avoid duplicate submissions.
+## Want to Contribute? Found a Bug or Have a feature request? 
 
-## Contributing Translations
-
-Interested in helping to translate Signal? Contribute here:
-
-https://www.transifex.com/projects/p/signal-desktop
-
-## Contributing Code
-
-Please see [CONTRIBUTING.md](https://github.com/signalapp/Signal-Desktop/blob/master/CONTRIBUTING.md)
-for setup instructions and guidelines for new contributors. Don't forget to sign the [CLA](https://signal.org/cla/).
-
-## Contributing Funds
-
-You can donate to Signal development through the [Freedom of the Press Foundation](https://freedom.press/crowdfunding/signal/).
-
-## Cryptography Notice
-
-This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software.
-BEFORE using any encryption software, please check your country's laws, regulations and policies concerning the import, possession, or use, and re-export of encryption software, to see if this is permitted.
-See <http://www.wassenaar.org/> for more information.
-
-The U.S. Government Department of Commerce, Bureau of Industry and Security (BIS), has classified this software as Export Commodity Control Number (ECCN) 5D002.C.1, which includes information security software using or performing cryptographic functions with asymmetric algorithms.
-The form and manner of this distribution makes it eligible for export under the License Exception ENC Technology Software Unrestricted (TSU) exception (see the BIS Export Administration Regulations, Section 740.13) for both object code and source code.
+Please search for any [existing issues](https://github.com/loki-project/loki-messenger/issues) that describe your bugs in order to avoid duplicate submissions. Submissions can be made by making a pull request to our development branch, if you don't know where to start contributing , try reading the Github issues page for ideas.
 
 ## License
 
-Copyright 2014-2018 Open Whisper Systems
-
+Copyright 2018- Current, Loki Foundation
+Copyright 2014-2018, Open Whisper Systems
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
