@@ -134,7 +134,6 @@ function prepareURL(pathSegments, moreKeys) {
       serverUrl: config.get('serverUrl'),
       cdnUrl: config.get('cdnUrl'),
       certificateAuthority: config.get('certificateAuthority'),
-      skipEncryption: config.get('skipEncryption'),
       environment: config.environment,
       node_version: process.versions.node,
       hostname: os.hostname(),

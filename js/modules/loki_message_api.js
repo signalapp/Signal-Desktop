@@ -29,7 +29,7 @@ function initialize({ url }) {
         
         body = JSON.stringify({
           pub_key: options.pub_key,
-          message: String.fromCharCode.apply(null, options.data),
+          message: options.data,
           ttl: options.ttl,
         })
 

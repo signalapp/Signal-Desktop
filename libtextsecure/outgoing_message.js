@@ -308,40 +308,45 @@ OutgoingMessage.prototype = {
   },
 
   sendToNumber(number) {
-    const options = {
-      pub_key: number,
-      data: this.getPlaintext(),
-      ttl: 2 * 24 * 60 * 60
-    };
-    return this.lokiserver.sendMessage(options).then(
-      (result, status) => {
-        this.successfulNumbers[this.successfulNumbers.length] = number;
-        this.numberCompleted();
-      },
-      (error) => console.log('Loki sendMessage failed')
-    );
-    /*
-    return this.getStaleDeviceIdsForNumber(number).then(updateDevices =>
-      this.getKeysForNumber(number, updateDevices)
-        .then(this.reloadDevicesAndSend(number, true))
-        .catch(error => {
-          if (error.message === 'Identity key changed') {
-            // eslint-disable-next-line no-param-reassign
-            error = new textsecure.OutgoingIdentityKeyError(
-              number,
-              error.originalMessage,
-              error.timestamp,
-              error.identityKey
-            );
-            this.registerError(number, 'Identity key changed', error);
-          } else {
-            this.registerError(
-              number,
-              `Failed to retrieve new device keys for number ${number}`,
-              error
-            );
-          }
-        })
-    );*/
+    if (true /* skipEncryption */)
+    {
+      const options = {
+        pub_key: number,
+        data: StringView.bytesToBase64(this.getPlaintext()),
+        ttl: 2 * 24 * 60 * 60
+      };
+      return this.lokiserver.sendMessage(options).then(
+        (result, status) => {
+          this.successfulNumbers[this.successfulNumbers.length] = number;
+          this.numberCompleted();
+        },
+        (error) => console.log('Loki sendMessage failed')
+      );
+    }
+    else
+    {
+      return this.getStaleDeviceIdsForNumber(number).then(updateDevices =>
+        this.getKeysForNumber(number, updateDevices)
+          .then(this.reloadDevicesAndSend(number, true))
+          .catch(error => {
+            if (error.message === 'Identity key changed') {
+              // eslint-disable-next-line no-param-reassign
+              error = new textsecure.OutgoingIdentityKeyError(
+                number,
+                error.originalMessage,
+                error.timestamp,
+                error.identityKey
+              );
+              this.registerError(number, 'Identity key changed', error);
+            } else {
+              this.registerError(
+                number,
+                `Failed to retrieve new device keys for number ${number}`,
+                error
+              );
+            }
+          })
+      );
+    }
   },
 };
