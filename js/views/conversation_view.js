@@ -513,16 +513,16 @@
 
       this.model.updateLastMessage();
 
-      const statusPromise = this.throttledGetProfiles();
-      // eslint-disable-next-line more/no-then
-      this.statusFetch = statusPromise.then(() =>
-        // eslint-disable-next-line more/no-then
-        this.model.updateVerified().then(() => {
-          this.onVerifiedChange();
-          this.statusFetch = null;
-          window.log.info('done with status fetch');
-        })
-      );
+      // const statusPromise = this.throttledGetProfiles();
+      // // eslint-disable-next-line more/no-then
+      // this.statusFetch = statusPromise.then(() =>
+      //   // eslint-disable-next-line more/no-then
+      //   this.model.updateVerified().then(() => {
+      //     this.onVerifiedChange();
+      //     this.statusFetch = null;
+      //     window.log.info('done with status fetch');
+      //   })
+      // );
 
       // We schedule our catch-up decrypt right after any in-progress fetch of
       //   messages from the database, then ensure that the loading screen is only
