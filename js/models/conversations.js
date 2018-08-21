@@ -645,7 +645,7 @@
 
     validateNumber() {
       if (this.isPrivate()) {
-        if (StringView.base64ToBytes(this.id).byteLength == 33)
+        if (this.id.length == (33 * 2)) // 33 bytes in hex
         {
           this.set({ id: this.id });
           return null;

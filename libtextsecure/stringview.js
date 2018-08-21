@@ -98,5 +98,9 @@
       }
       return sB64Enc.replace(/A(?=A$|$)/g, '=');
     },
+
+    arrayBufferToHex(aArrayBuffer) {
+      return Array.prototype.map.call(new Uint8Array(aArrayBuffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+    },
   };
 })();

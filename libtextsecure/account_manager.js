@@ -327,7 +327,7 @@
 
           // update our own identity key, which may have changed
           // if we're relinking after a reinstall on the master device
-          const pubKeyString = textsecure.MessageReceiver.arrayBufferToStringBase64(identityKeyPair.pubKey);
+          const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
 
           textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
             id: pubKeyString,

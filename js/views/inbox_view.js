@@ -169,7 +169,7 @@
         selectAContact: i18n('selectAContact'),
         searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
         settings: i18n('settings'),
-        identityKey: StringView.bytesToBase64(new Uint8Array(identityKey))
+        identityKey: StringView.arrayBufferToHex(identityKey)
       };
     },
     events: {

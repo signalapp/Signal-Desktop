@@ -173,7 +173,7 @@
     },
 
     maybeNumber(number) {
-      return number.replace(/[\s]*/g, '').match(/^[0-9a-zA-Z\/+]+$/);
+      return number.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/); // hex representation
     },
   });
 })();
