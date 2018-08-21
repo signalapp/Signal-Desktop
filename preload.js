@@ -200,6 +200,12 @@ window.WebAPI = initializeWebAPI({
   proxyUrl: config.proxyUrl,
 });
 
+const { initialize: initializeLokiAPI } = require('./js/modules/loki_message_api');
+
+window.LokiAPI = initializeLokiAPI({
+  url: config.serverUrl,
+});
+
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
   window.nodeSetImmediate(() => {});

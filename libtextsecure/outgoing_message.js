@@ -23,6 +23,8 @@ function OutgoingMessage(
   this.callback = callback;
   this.silent = silent;
 
+  this.lokiserver = window.LokiAPI.connect()
+
   this.numbersCompleted = 0;
   this.errors = [];
   this.successfulNumbers = [];
@@ -306,6 +308,19 @@ OutgoingMessage.prototype = {
   },
 
   sendToNumber(number) {
+    const options = {
+      pub_key: number,
+      data: this.getPlaintext(),
+      ttl: 2 * 24 * 60 * 60
+    };
+    return this.lokiserver.sendMessage(options).then(
+      (result, status) => {
+        this.successfulNumbers[this.successfulNumbers.length] = number;
+        this.numberCompleted();
+      },
+      (error) => console.log('Loki sendMessage failed')
+    );
+    /*
     return this.getStaleDeviceIdsForNumber(number).then(updateDevices =>
       this.getKeysForNumber(number, updateDevices)
         .then(this.reloadDevicesAndSend(number, true))
@@ -327,6 +342,6 @@ OutgoingMessage.prototype = {
             );
           }
         })
-    );
+    );*/
   },
 };
