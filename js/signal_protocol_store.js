@@ -231,7 +231,8 @@
             window.log.info('Successfully fetched contact prekey:', pubKey);
             resolve({
               keyId: prekey.get('keyId'),
-              publicKey: prekey.get('publicKey')
+              publicKey: prekey.get('publicKey'),
+              identityKey: prekey.get('identityKey'),
             });
           },
           () => {
@@ -243,7 +244,8 @@
     },
     storeContactPreKey(pubKey, preKey) {
       const prekey = new ContactPreKey({
-        id: pubKey,
+        // id: (autoincrement)
+        publicKeyString: pubKey,
         publicKey: preKey.publicKey,
         keyId: preKey.keyId,
       });
@@ -328,6 +330,8 @@
               prekey.get('id')
             );
             resolve({
+              id: preKey.get('id'),
+              publicKeyString: preKey.get('publicKeyString'),
               publicKey: prekey.get('publicKey'),
               signature: prekey.get('signature'),
               created_at: prekey.get('created_at'),
@@ -378,7 +382,8 @@
     },
     storeContactSignedPreKey(pubKey, signedPreKey) {
       const prekey = new ContactSignedPreKey({
-        id: pubKey,
+        // id: (autoincrement)
+        publicKeyString: pubKey,
         keyId: signedPreKey.keyId,
         publicKey: signedPreKey.publicKey,
         signature: signedPreKey.signature,

@@ -65,17 +65,30 @@
     addMockContact() {
       libsignal.KeyHelper.generateIdentityKeyPair().then(keyPair => {
         const pubKey = StringView.arrayBufferToHex(keyPair.pubKey);
-        const keyId = Math.floor((Math.random() * 1000) + 1);
         const signedKeyId = Math.floor((Math.random() * 1000) + 1);
-        Promise.all([
-          libsignal.KeyHelper.generatePreKey(keyId),
+        const promises = [
           libsignal.KeyHelper.generateSignedPreKey(keyPair, signedKeyId)
-        ]).then((keys) => {
-          const [preKey, signedPreKey] = keys;
-          textsecure.storage.protocol.storeContactPreKey(pubKey, { publicKey: preKey.keyPair.pubKey, keyId: keyId });
-          textsecure.storage.protocol.storeContactSignedPreKey(pubKey, { publicKey: signedPreKey.keyPair.pubKey, signature: signedPreKey.signature, keyId: signedPreKey.keyId });
+            .then((signedPreKey) => {
+              const contactSignedPreKey = {
+                publicKey: signedPreKey.keyPair.pubKey,
+                signature: signedPreKey.signature,
+                keyId: signedPreKey.keyId
+              };
+              return textsecure.storage.protocol.storeContactSignedPreKey(pubKey, contactSignedPreKey);
+            }),
+        ];
+
+        for (let keyId = 0; keyId < 100; keyId += 1) {
+          promises.push(
+            libsignal.KeyHelper.generatePreKey(keyId)
+              .then((preKey) => {
+                return textsecure.storage.protocol.storeContactPreKey(pubKey, { publicKey: preKey.keyPair.pubKey, keyId: keyId });
+            }),
+          )
+        }
+        Promise.all(promises).then(
           log.info("Added mock contact with pubkey " + pubKey)
-        });
+        );
       });
     },
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
