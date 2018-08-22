@@ -178,6 +178,8 @@
   });
   const Group = Model.extend({ storeName: 'groups' });
   const Item = Model.extend({ storeName: 'items' });
+  const ContactPreKey = Model.extend({ storeName: 'contactPreKeys' });
+  const ContactSignedPreKey = Model.extend({ storeName: 'contactSignedPreKeys' });
 
   function SignalProtocolStore() {}
 
@@ -217,6 +219,36 @@
             resolve();
           }
         );
+      });
+    },
+    loadContactPreKey(pubKey) {
+      const prekey = new ContactPreKey({ id: pubKey });
+      return new Promise(resolve => {
+        prekey.fetch().then(
+          () => {
+            window.log.info('Successfully fetched contact prekey:', pubKey);
+            resolve({
+              pubKey: prekey.get('publicKey'),
+              privKey: prekey.get('privateKey'),
+            });
+          },
+          () => {
+            window.log.error('Failed to fetch contact prekey:', pubKey);
+            resolve();
+          }
+        );
+      });
+    },
+    storeContactPreKey(pubKey, keyPair) {
+      const prekey = new ContactPreKey({
+        id: pubKey,
+        publicKey: keyPair.pubKey,
+        privateKey: keyPair.privKey,
+      });
+      return new Promise(resolve => {
+        prekey.save().always(() => {
+          resolve();
+        });
       });
     },
     storePreKey(keyId, keyPair) {
@@ -283,6 +315,30 @@
           });
       });
     },
+    loadSignedPreKey(pubKey) {
+      const prekey = new ContactSignedPreKey({ id: pubKey });
+      return new Promise(resolve => {
+        prekey
+          .fetch()
+          .then(() => {
+            window.log.info(
+              'Successfully fetched signed prekey:',
+              prekey.get('id')
+            );
+            resolve({
+              pubKey: prekey.get('publicKey'),
+              privKey: prekey.get('privateKey'),
+              created_at: prekey.get('created_at'),
+              keyId: prekey.get('id'),
+              confirmed: prekey.get('confirmed'),
+            });
+          })
+          .fail(() => {
+            window.log.error('Failed to fetch signed prekey:', pubKey);
+            resolve();
+          });
+      });
+    },
     loadSignedPreKeys() {
       if (arguments.length > 0) {
         return Promise.reject(
@@ -307,6 +363,20 @@
     storeSignedPreKey(keyId, keyPair, confirmed) {
       const prekey = new SignedPreKey({
         id: keyId,
+        publicKey: keyPair.pubKey,
+        privateKey: keyPair.privKey,
+        created_at: Date.now(),
+        confirmed: Boolean(confirmed),
+      });
+      return new Promise(resolve => {
+        prekey.save().always(() => {
+          resolve();
+        });
+      });
+    },
+    storeContactSignedPreKey(pubKey, keyPair, confirmed) {
+      const prekey = new ContactSignedPreKey({
+        id: pubKey,
         publicKey: keyPair.pubKey,
         privateKey: keyPair.privKey,
         created_at: Date.now(),

@@ -47,6 +47,8 @@ const migrations = [
       transaction.db.createObjectStore('preKeys');
       transaction.db.createObjectStore('signedPreKeys');
       transaction.db.createObjectStore('items');
+      transaction.db.createObjectStore('contactPreKeys');
+      transaction.db.createObjectStore('contactSignedPreKeys');
 
       window.log.info('creating debug log');
       transaction.db.createObjectStore('debug');
