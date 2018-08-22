@@ -524,7 +524,7 @@
         }
     },
     "searchForPeopleOrGroups": {
-        "message": "Enter name or number",
+        "message": "Enter name or public key",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {

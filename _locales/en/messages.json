@@ -636,11 +636,11 @@
     "description": "Tooltip for the tray icon"
   },
   "searchForPeopleOrGroups": {
-    "message": "Enter name or number",
+    "message": "Enter name or public key",
     "description": "Placeholder text in the search input"
   },
   "welcomeToSignal": {
-    "message": "Welcome to Signal"
+    "message": "Welcome to Loki Messenger"
   },
   "selectAContact": {
     "message": "Select a contact or group to start chatting."
@@ -1477,8 +1477,8 @@
     "description": "Placeholder for adding a new number to a contact"
   },
   "invalidNumberError": {
-    "message": "Invalid number",
-    "description": "When a person inputs a number that is invalid"
+    "message": "Invalid public key",
+    "description": "When a person inputs a public key that is invalid"
   },
   "unlinkedWarning": {
     "message":
