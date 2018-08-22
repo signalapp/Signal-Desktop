@@ -11,7 +11,7 @@
 
   window.Whisper = window.Whisper || {};
   window.Whisper.Database = window.Whisper.Database || {};
-  window.Whisper.Database.id = window.Whisper.Database.id || 'signal';
+  window.Whisper.Database.id = window.Whisper.Database.id || 'loki-messenger';
   window.Whisper.Database.nolog = true;
 
   Whisper.Database.handleDOMException = (prefix, error, reject) => {

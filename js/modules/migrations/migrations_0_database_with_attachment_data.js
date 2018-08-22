@@ -168,7 +168,7 @@ const migrations = [
 ];
 
 const database = {
-  id: 'signal',
+  id: 'loki-messenger',
   nolog: true,
   migrations,
 };
