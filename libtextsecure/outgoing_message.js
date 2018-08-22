@@ -310,17 +310,23 @@ OutgoingMessage.prototype = {
   sendToNumber(number) {
     if (true /* skipEncryption */)
     {
-      const options = {
-        pub_key: number,
-        data: StringView.bytesToBase64(this.getPlaintext()),
-        ttl: 2 * 24 * 60 * 60
-      };
-      return this.lokiserver.sendMessage(options).then(
+      const pubKey = number;
+      const data = StringView.bytesToBase64(this.getPlaintext());
+      const ttl = 2 * 24 * 60 * 60;
+
+      return this.lokiserver.sendMessage(pubKey, data, ttl).then(
         (result, status) => {
           this.successfulNumbers[this.successfulNumbers.length] = number;
           this.numberCompleted();
         },
-        (error) => console.log('Loki sendMessage failed')
+        (error) => {
+          console.log('Loki sendMessage failed');
+          this.registerError(
+            number,
+            'Failed to send message',
+            error
+          );
+        }
       );
     }
     else

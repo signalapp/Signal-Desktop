@@ -19,38 +19,35 @@ function initialize({ url }) {
       sendMessage
     };
 
-    function sendMessage(options)
+    function sendMessage(pub_key, data, ttl)
     {
+      const options = {
+        url: `${url}/send_message`,
+        type: 'PUT',
+        responseType: undefined,
+        timeout: undefined
+      };
+
       return new Promise((resolve, reject) => {
-        // const url = providedUrl || `${options.host}/${options.path}`;
-        log.info(options.type, url);
-        const timeout =
-          typeof options.timeout !== 'undefined' ? options.timeout : 10000;
         
-        body = JSON.stringify({
-          pub_key: options.pub_key,
-          message: options.data,
-          ttl: options.ttl,
-        })
+        log.info(options.type, options.url);
+        
+        const body = JSON.stringify({
+          pub_key,
+          message: data,
+          ttl,
+        });
 
         const fetchOptions = {
-          method: 'PUT',
+          method: options.type,
           body,
           headers: { 'X-Loki-Messenger-Agent': 'OWD' },
-          timeout,
+          timeout: options.timeout,
         };
-    
-        if (fetchOptions.body instanceof ArrayBuffer) {
-          // node-fetch doesn't support ArrayBuffer, only node Buffer
-          const contentLength = fetchOptions.body.byteLength;
-          fetchOptions.body = Buffer.from(fetchOptions.body);
-    
-          // node-fetch doesn't set content-length like S3 requires
-          fetchOptions.headers['Content-Length'] = contentLength;
-        }
+
         fetchOptions.headers['Content-Type'] = 'application/json; charset=utf-8';
 
-        fetch(url, fetchOptions)
+        fetch(options.url, fetchOptions)
           .then(response => {
             let resultPromise;
             if (
@@ -64,50 +61,39 @@ function initialize({ url }) {
               resultPromise = response.text();
             }
             return resultPromise.then(result => {
-              if (options.responseType === 'arraybuffer') {
-                // eslint-disable-next-line no-param-reassign
-                result = result.buffer.slice(
-                  result.byteOffset,
-                  result.byteOffset + result.byteLength
-                );
-              }
-              if (options.responseType === 'json') {
-                if (options.validateResponse) {
-                  if (!_validateResponse(result, options.validateResponse)) {
-                    log.error(options.type, url, response.status, 'Error');
-                    reject(
-                      HTTPError(
-                        'promiseAjax: invalid response',
-                        response.status,
-                        result,
-                        options.stack
-                      )
-                    );
-                  }
-                }
-              }
               if (response.status >= 0 && response.status < 400) {
-                log.info(options.type, url, response.status, 'Success');
+                log.info(options.type, options.url, response.status, 'Success');
                 resolve(result, response.status);
               } else {
-                log.error(options.type, url, response.status, 'Error');
+                log.error(options.type, options.url, response.status, 'Error');
                 reject(
                   HTTPError(
                     'promiseAjax: error response',
                     response.status,
-                    result,
-                    options.stack
+                    result
                   )
                 );
               }
             });
           })
           .catch(e => {
-            log.error(options.type, url, 0, 'Error');
-            const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
-            reject(HTTPError('promiseAjax catch', 0, e.toString(), stack));
+            log.error(options.type, options.url, 0, 'Error');
+            reject(HTTPError('promiseAjax catch', 0, e.toString()));
           });
       });
     }
   }
+}
+
+function HTTPError(message, providedCode, response, stack) {
+  const code = providedCode > 999 || providedCode < 100 ? -1 : providedCode;
+  const e = new Error(`${message}; code: ${code}`);
+  e.name = 'HTTPError';
+  e.code = code;
+  if (stack)
+    e.stack += `\nOriginal stack:\n${stack}`;
+  if (response) {
+    e.response = response;
+  }
+  return e;
 }
