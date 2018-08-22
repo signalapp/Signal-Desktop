@@ -194,12 +194,14 @@
       });
     },
     getLocalRegistrationId() {
+      return Promise.resolve(1);
+      /*
       const item = new Item({ id: 'registrationId' });
       return new Promise((resolve, reject) => {
         item.fetch().then(() => {
           resolve(item.get('value'));
         }, reject);
-      });
+      });*/
     },
 
     /* Returns a prekeypair object or undefined */
