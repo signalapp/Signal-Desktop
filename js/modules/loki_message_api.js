@@ -90,8 +90,9 @@ function HTTPError(message, providedCode, response, stack) {
   const e = new Error(`${message}; code: ${code}`);
   e.name = 'HTTPError';
   e.code = code;
-  if (stack)
+  if (stack) {
     e.stack += `\nOriginal stack:\n${stack}`;
+  }
   if (response) {
     e.response = response;
   }

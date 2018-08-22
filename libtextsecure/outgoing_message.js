@@ -117,9 +117,19 @@ OutgoingMessage.prototype = {
     let promise = Promise.resolve();
     updateDevices.forEach(device => {
       promise = promise.then(() =>
-        this.server
-          .getKeysForNumber(number, device)
-          .then(handleResult)
+        Promise.all([
+          textsecure.storage.protocol.loadContactPreKey(number),
+          textsecure.storage.protocol.loadContactSignedPreKey(number)
+        ]).then((keys) => {
+            const [preKey, signedPreKey] = keys;
+            if (preKey == undefined || signedPreKey == undefined) {
+              log.error("Will need to request keys!")
+            }
+            else {
+              const identityKey = StringView.hexToArrayBuffer(number);
+              return handleResult({ identityKey, devices: [{ deviceId: device, preKey, signedPreKey, registrationId: 0}] })
+            }
+          })
           .catch(e => {
             if (e.name === 'HTTPError' && e.code === 404) {
               if (device !== 1) {
@@ -308,7 +318,7 @@ OutgoingMessage.prototype = {
   },
 
   sendToNumber(number) {
-    if (true /* skipEncryption */)
+    if (false /* skipEncryption */)
     {
       const pubKey = number;
       const data = StringView.bytesToBase64(this.getPlaintext());

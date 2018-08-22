@@ -62,6 +62,22 @@
         })
       );
     },
+    addMockContact() {
+      libsignal.KeyHelper.generateIdentityKeyPair().then(keyPair => {
+        const pubKey = StringView.arrayBufferToHex(keyPair.pubKey);
+        const keyId = Math.floor((Math.random() * 1000) + 1);
+        const signedKeyId = Math.floor((Math.random() * 1000) + 1);
+        Promise.all([
+          libsignal.KeyHelper.generatePreKey(keyId),
+          libsignal.KeyHelper.generateSignedPreKey(keyPair, signedKeyId)
+        ]).then((keys) => {
+          const [preKey, signedPreKey] = keys;
+          textsecure.storage.protocol.storeContactPreKey(pubKey, { publicKey: preKey.keyPair.pubKey, keyId: keyId });
+          textsecure.storage.protocol.storeContactSignedPreKey(pubKey, { publicKey: signedPreKey.keyPair.pubKey, signature: signedPreKey.signature, keyId: signedPreKey.keyId });
+          log.info("Added mock contact with pubkey " + pubKey)
+        });
+      });
+    },
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);

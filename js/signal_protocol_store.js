@@ -228,8 +228,8 @@
           () => {
             window.log.info('Successfully fetched contact prekey:', pubKey);
             resolve({
-              pubKey: prekey.get('publicKey'),
-              privKey: prekey.get('privateKey'),
+              keyId: prekey.get('keyId'),
+              publicKey: prekey.get('publicKey')
             });
           },
           () => {
@@ -239,11 +239,11 @@
         );
       });
     },
-    storeContactPreKey(pubKey, keyPair) {
+    storeContactPreKey(pubKey, preKey) {
       const prekey = new ContactPreKey({
         id: pubKey,
-        publicKey: keyPair.pubKey,
-        privateKey: keyPair.privKey,
+        publicKey: preKey.publicKey,
+        keyId: preKey.keyId,
       });
       return new Promise(resolve => {
         prekey.save().always(() => {
@@ -315,7 +315,7 @@
           });
       });
     },
-    loadSignedPreKey(pubKey) {
+    loadContactSignedPreKey(pubKey) {
       const prekey = new ContactSignedPreKey({ id: pubKey });
       return new Promise(resolve => {
         prekey
@@ -326,10 +326,10 @@
               prekey.get('id')
             );
             resolve({
-              pubKey: prekey.get('publicKey'),
-              privKey: prekey.get('privateKey'),
+              publicKey: prekey.get('publicKey'),
+              signature: prekey.get('signature'),
               created_at: prekey.get('created_at'),
-              keyId: prekey.get('id'),
+              keyId: prekey.get('keyId'),
               confirmed: prekey.get('confirmed'),
             });
           })
@@ -374,13 +374,14 @@
         });
       });
     },
-    storeContactSignedPreKey(pubKey, keyPair, confirmed) {
+    storeContactSignedPreKey(pubKey, signedPreKey) {
       const prekey = new ContactSignedPreKey({
         id: pubKey,
-        publicKey: keyPair.pubKey,
-        privateKey: keyPair.privKey,
+        keyId: signedPreKey.keyId,
+        publicKey: signedPreKey.publicKey,
+        signature: signedPreKey.signature,
         created_at: Date.now(),
-        confirmed: Boolean(confirmed),
+        confirmed: false,
       });
       return new Promise(resolve => {
         prekey.save().always(() => {
