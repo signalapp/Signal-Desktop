@@ -78,7 +78,7 @@
             }),
         ];
 
-        for (let keyId = 0; keyId < 100; keyId += 1) {
+        for (let keyId = 0; keyId < 10; keyId += 1) {
           promises.push(
             libsignal.KeyHelper.generatePreKey(keyId)
               .then((preKey) => {
@@ -86,7 +86,7 @@
             }),
           )
         }
-        Promise.all(promises).then(
+        return Promise.all(promises).then(
           log.info("Added mock contact with pubkey " + pubKey)
         );
       });

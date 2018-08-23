@@ -48,11 +48,11 @@ const migrations = [
       transaction.db.createObjectStore('signedPreKeys');
       transaction.db.createObjectStore('items');
       
-      const contactPreKeys = transaction.db.createObjectStore('contactPreKeys', { autoIncrement : true });
-      contactPreKeys.createIndex('publicKeyString', 'publicKeyString', { unique: false });
+      const contactPreKeys = transaction.db.createObjectStore('contactPreKeys', { keyPath: 'id', autoIncrement : true });
+      contactPreKeys.createIndex('identityKeyString', 'identityKeyString', { unique: false });
       
-      const contactSignedPreKeys = transaction.db.createObjectStore('contactSignedPreKeys', { autoIncrement : true });
-      contactSignedPreKeys.createIndex('publicKeyString', 'publicKeyString', { unique: false });
+      const contactSignedPreKeys = transaction.db.createObjectStore('contactSignedPreKeys', { keyPath: 'id', autoIncrement : true });
+      contactSignedPreKeys.createIndex('identityKeyString', 'identityKeyString', { unique: false });
 
       window.log.info('creating debug log');
       transaction.db.createObjectStore('debug');

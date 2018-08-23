@@ -224,15 +224,16 @@
       });
     },
     loadContactPreKey(pubKey) {
-      const prekey = new ContactPreKey({ id: pubKey });
+      const prekey = new ContactPreKey({ identityKeyString: pubKey });
       return new Promise(resolve => {
         prekey.fetch().then(
           () => {
             window.log.info('Successfully fetched contact prekey:', pubKey);
             resolve({
+              id: prekey.get('id'),
               keyId: prekey.get('keyId'),
               publicKey: prekey.get('publicKey'),
-              identityKey: prekey.get('identityKey'),
+              identityKeyString: prekey.get('identityKeyString'),
             });
           },
           () => {
@@ -245,7 +246,7 @@
     storeContactPreKey(pubKey, preKey) {
       const prekey = new ContactPreKey({
         // id: (autoincrement)
-        publicKeyString: pubKey,
+        identityKeyString: pubKey,
         publicKey: preKey.publicKey,
         keyId: preKey.keyId,
       });
@@ -320,7 +321,7 @@
       });
     },
     loadContactSignedPreKey(pubKey) {
-      const prekey = new ContactSignedPreKey({ id: pubKey });
+      const prekey = new ContactSignedPreKey({ identityKeyString: pubKey });
       return new Promise(resolve => {
         prekey
           .fetch()
@@ -330,8 +331,8 @@
               prekey.get('id')
             );
             resolve({
-              id: preKey.get('id'),
-              publicKeyString: preKey.get('publicKeyString'),
+              id: prekey.get('id'),
+              identityKeyString: prekey.get('identityKeyString'),
               publicKey: prekey.get('publicKey'),
               signature: prekey.get('signature'),
               created_at: prekey.get('created_at'),
@@ -383,7 +384,7 @@
     storeContactSignedPreKey(pubKey, signedPreKey) {
       const prekey = new ContactSignedPreKey({
         // id: (autoincrement)
-        publicKeyString: pubKey,
+        identityKeyString: pubKey,
         keyId: signedPreKey.keyId,
         publicKey: signedPreKey.publicKey,
         signature: signedPreKey.signature,
