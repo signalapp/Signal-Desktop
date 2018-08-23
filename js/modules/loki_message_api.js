@@ -19,7 +19,7 @@ function initialize({ url }) {
       sendMessage
     };
 
-    function sendMessage(pub_key, data, ttl)
+    async function sendMessage(pub_key, data, ttl)
     {
       const options = {
         url: `${url}/send_message`,
@@ -27,60 +27,56 @@ function initialize({ url }) {
         responseType: undefined,
         timeout: undefined
       };
-
-      return new Promise((resolve, reject) => {
         
-        log.info(options.type, options.url);
-        
-        const body = JSON.stringify({
-          pub_key,
-          message: data,
-          ttl,
-        });
-
-        const fetchOptions = {
-          method: options.type,
-          body,
-          headers: { 'X-Loki-Messenger-Agent': 'OWD' },
-          timeout: options.timeout,
-        };
-
-        fetchOptions.headers['Content-Type'] = 'application/json; charset=utf-8';
-
-        fetch(options.url, fetchOptions)
-          .then(response => {
-            let resultPromise;
-            if (
-              options.responseType === 'json' &&
-              response.headers.get('Content-Type') === 'application/json'
-            ) {
-              resultPromise = response.json();
-            } else if (options.responseType === 'arraybuffer') {
-              resultPromise = response.buffer();
-            } else {
-              resultPromise = response.text();
-            }
-            return resultPromise.then(result => {
-              if (response.status >= 0 && response.status < 400) {
-                log.info(options.type, options.url, response.status, 'Success');
-                resolve(result, response.status);
-              } else {
-                log.error(options.type, options.url, response.status, 'Error');
-                reject(
-                  HTTPError(
-                    'promiseAjax: error response',
-                    response.status,
-                    result
-                  )
-                );
-              }
-            });
-          })
-          .catch(e => {
-            log.error(options.type, options.url, 0, 'Error');
-            reject(HTTPError('promiseAjax catch', 0, e.toString()));
-          });
+      log.info(options.type, options.url);
+      
+      const body = JSON.stringify({
+        pub_key,
+        message: data,
+        ttl,
       });
+
+      const fetchOptions = {
+        method: options.type,
+        body,
+        headers: { 'X-Loki-Messenger-Agent': 'OWD' },
+        timeout: options.timeout,
+      };
+
+      fetchOptions.headers['Content-Type'] = 'application/json; charset=utf-8';
+
+      let response;
+      try {
+        response = await fetch(options.url, fetchOptions);
+      }
+      catch(e) {
+        log.error(options.type, options.url, 0, 'Error');
+        throw HTTPError('fetch error', 0, e.toString());
+      }
+
+      let result;
+      if (
+        options.responseType === 'json' &&
+        response.headers.get('Content-Type') === 'application/json'
+      ) {
+        result = await response.json();
+      } else if (options.responseType === 'arraybuffer') {
+        result = await response.buffer();
+      } else {
+        result = await response.text();
+      }
+
+      if (response.status >= 0 && response.status < 400) {
+        log.info(options.type, options.url, response.status, 'Success');
+        return [result, response.status];
+      } else {
+        log.error(options.type, options.url, response.status, 'Error');
+        throw HTTPError(
+          'sendMessage: error response',
+          response.status,
+          result
+        );
+      }
     }
   }
 }
