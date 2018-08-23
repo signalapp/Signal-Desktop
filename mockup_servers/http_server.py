@@ -4,8 +4,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
  
 # HTTPRequestHandler class
 class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
-  def do_PUT(self):
-    print('got PUT request to ' + self.path)
+  def do_POST(self):
+    print('got POST request to ' + self.path)
     # add some latency
     time.sleep(2)
     # Send response status code

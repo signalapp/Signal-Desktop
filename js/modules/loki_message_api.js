@@ -23,7 +23,7 @@ function initialize({ url }) {
     {
       const options = {
         url: `${url}/send_message`,
-        type: 'PUT',
+        type: 'POST',
         responseType: undefined,
         timeout: undefined
       };
