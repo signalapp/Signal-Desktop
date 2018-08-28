@@ -1647,15 +1647,6 @@ concat-stream@^1.5.0:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
-conf@^1.0.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/conf/-/conf-1.1.1.tgz#238d0a3090ac4916ed2d40c7e81d7a11667bc7ba"
-  dependencies:
-    dot-prop "^4.1.0"
-    env-paths "^1.0.0"
-    make-dir "^1.0.0"
-    pkg-up "^2.0.0"
-
 config@^1.28.1:
   version "1.28.1"
   resolved "https://registry.yarnpkg.com/config/-/config-1.28.1.tgz#7625d2a1e4c90f131d8a73347982d93c3873282d"
@@ -2422,12 +2413,6 @@ electron-chromedriver@~1.8.0:
   dependencies:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
-
-electron-config@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/electron-config/-/electron-config-1.0.0.tgz#069d044cc794f04784ae72f12916725d3c8c39af"
-  dependencies:
-    conf "^1.0.0"
 
 electron-download-tf@4.3.4:
   version "4.3.4"
@@ -6425,12 +6410,6 @@ pkg-dir@^1.0.0:
 pkg-dir@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-2.0.0.tgz#f6d5d1109e19d63edf428e0bd57e12777615334b"
-  dependencies:
-    find-up "^2.1.0"
-
-pkg-up@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-2.0.0.tgz#c819ac728059a461cab1c3889a2be3c49a004d7f"
   dependencies:
     find-up "^2.1.0"
 

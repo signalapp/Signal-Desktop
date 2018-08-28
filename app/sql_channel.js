@@ -1,6 +1,7 @@
 const electron = require('electron');
 const sql = require('./sql');
-const { remove } = require('./key_management');
+const { remove: removeUserConfig } = require('./user_config');
+const { remove: removeEphemeralConfig } = require('./ephemeral_config');
 
 const { ipcMain } = electron;
 
@@ -41,7 +42,8 @@ function initialize() {
 
   ipcMain.on(ERASE_SQL_KEY, async event => {
     try {
-      remove();
+      removeUserConfig();
+      removeEphemeralConfig();
       event.sender.send(`${ERASE_SQL_KEY}-done`);
     } catch (error) {
       const errorForDisplay = error && error.stack ? error.stack : error;

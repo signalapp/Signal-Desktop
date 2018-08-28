@@ -4,6 +4,7 @@ const path = require('path');
 const url = require('url');
 const os = require('os');
 const fs = require('fs');
+const crypto = require('crypto');
 
 const _ = require('lodash');
 const pify = require('pify');
@@ -62,7 +63,7 @@ const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
-const keyManagement = require('./app/key_management');
+const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
 const sql = require('./app/sql');
 const sqlChannels = require('./app/sql_channel');
@@ -115,7 +116,14 @@ if (!process.mas) {
   }
 }
 
-let windowConfig = userConfig.get('window');
+const windowFromUserConfig = userConfig.get('window');
+const windowFromEphemeral = ephemeralConfig.get('window');
+let windowConfig = windowFromEphemeral || windowFromUserConfig;
+if (windowFromUserConfig) {
+  userConfig.set('window', null);
+  ephemeralConfig.set('window', windowConfig);
+}
+
 const loadLocale = require('./app/locale').load;
 
 // Both of these will be set after app fires the 'ready' event
@@ -285,7 +293,7 @@ function createWindow() {
       'Updating BrowserWindow config: %s',
       JSON.stringify(windowConfig)
     );
-    userConfig.set('window', windowConfig);
+    ephemeralConfig.set('window', windowConfig);
   }
 
   const debouncedCaptureStats = _.debounce(captureAndSaveWindowStats, 500);
@@ -619,7 +627,15 @@ app.on('ready', async () => {
     locale = loadLocale({ appLocale, logger });
   }
 
-  const key = keyManagement.initialize({ userConfig });
+  let key = userConfig.get('key');
+  if (!key) {
+    console.log(
+      'key/initialize: Generating new encryption key, since we did not find it on disk'
+    );
+    // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
+    key = crypto.randomBytes(32).toString('hex');
+    userConfig.set('key', key);
+  }
   await sql.initialize({ configDir: userDataPath, key });
   await sqlChannels.initialize();
 
