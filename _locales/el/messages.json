@@ -1,47 +1,503 @@
 {
-    "scrollDown": {
-        "message": "Κύλιση στο τέρμα της συζήτησης",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    "mainMenuFile": {
+        "message": "&Φάκελος",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuEdit": {
+        "message": "&Επεξεργασία",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuView": {
+        "message": "&Προβολή",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuWindow": {
+        "message": "&Παράθυρο",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuHelp": {
+        "message": "&Βοήθεια",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuSettings": {
+        "message": "Προτιμήσεις...",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuHide": {
+        "message": "Απόκρυψη",
+        "description": "Application menu command to hide the window"
+    },
+    "appMenuHideOthers": {
+        "message": "Απόκρυψη Άλλων",
+        "description": "Application menu command to hide all other windows"
+    },
+    "appMenuUnhide": {
+        "message": "Εμφάνιση Όλων",
+        "description": "Application menu command to show all application windows"
+    },
+    "appMenuQuit": {
+        "message": "Αποσύνδεση από το Signal",
+        "description": "Application menu command to close the application"
+    },
+    "editMenuUndo": {
+        "message": "Αναίρεση",
+        "description": "Edit menu command to remove recently-typed text"
+    },
+    "editMenuRedo": {
+        "message": "Επαναφορά",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
+    "editMenuCut": {
+        "message": "Αποκοπή",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
+    "editMenuCopy": {
+        "message": "Αντιγραφή",
+        "description": "Edit menu command to add selected text to clipboard"
+    },
+    "editMenuPaste": {
+        "message": "Επικόλληση",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "Επικόλληση και Αντιστοίχιση Στυλ",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    },
+    "editMenuDelete": {
+        "message": "Διαγραφή",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "editMenuSelectAll": {
+        "message": "Επιλογή Όλων",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
+    "editMenuStartSpeaking": {
+        "message": "Έναρξη ομιλίας",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Διακοπή ομιλίας",
+        "description": "Edit menu item under 'speech' to stop dictation"
+    },
+    "windowMenuClose": {
+        "message": "Κλείσιμο Παραθύρου",
+        "description": "Window menu command to close the current window"
+    },
+    "windowMenuMinimize": {
+        "message": "Ελαχιστοποίηση",
+        "description": "Window menu command to minimize the current window"
+    },
+    "windowMenuZoom": {
+        "message": "Μεγέθυνση",
+        "description": "Window menu command to make the current window the size of the whole screen"
+    },
+    "windowMenuBringAllToFront": {
+        "message": "Μεταφορά Όλων στο Προσκήνιο",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
+    "viewMenuResetZoom": {
+        "message": "Πραγματικό Μέγεθος",
+        "description": "View menu command to go back to the default zoom"
+    },
+    "viewMenuZoomIn": {
+        "message": "Μεγέθυνση",
+        "description": "View menu command to make everything bigger"
+    },
+    "viewMenuZoomOut": {
+        "message": "Σμίκρυνση",
+        "description": "View menu command to make everything smaller"
+    },
+    "viewMenuToggleFullScreen": {
+        "message": "Εναλλαγή Πλήρους Οθόνης",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Εναλλαγή Εργαλείων Προγραμματιστή",
+        "description": "View menu command to show or hide the developer tools"
+    },
+    "menuSetupWithImport": {
+        "message": "Εγκατάσταση με Εισαγωγή",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "menuSetupAsNewDevice": {
+        "message": "Διαμόρφωση ως Νέα Συσκευή",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Διαμόρφωση ως Αυτόνομη Συσκευή",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "loading": {
+        "message": "Λήψη...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "optimizingApplication": {
+        "message": "Βελτιστοποίηση εφαρμογής",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
+    },
+    "migratingToSQLCipher": {
+        "message": "Βελτιστοποίηση μηνυμάτων... $status$ ολοκληρώθηκε.",
+        "description": "Message shown on the loading screen while we are doing application optimizations",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "45/200"
+            }
+        }
+    },
+    "chooseDirectory": {
+        "message": "Επιλογή φακέλου",
+        "description": "Button to allow the user to find a folder on disk"
+    },
+    "loadDataHeader": {
+        "message": "Φόρτωση δεδομένων",
+        "description": "Header shown on the first screen in the data import process"
+    },
+    "loadDataDescription": {
+        "message": "Μόλις περάσατε τη διαδικασία εξαγωγής και οι επαφές και τα μηνύματά σας περιμένουν υπομονετικά τον υπολογιστή σας. Επιλέξτε τον φάκελο που περιέχει τα αποθηκευμένα δεδομένα του Signal σας.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
         "message": "Επέλεξε τον φάκελο με τα δεδομένα που εξήχθησαν",
         "description": "Title of the popup window used to select data previously exported"
     },
-    "timerOption_10_seconds": {
-        "message": "10 δευτερόλεπτα",
-        "description": "Label for a selectable option in the message expiration timer menu"
+    "importErrorHeader": {
+        "message": "Κάτι πήγε στραβά!",
+        "description": "Header of the error screen after a failed import"
     },
-    "view": {
-        "message": "Προβολή",
-        "description": "Used as a label on a button allowing user to see more information"
+    "importingHeader": {
+        "message": "Φόρτωση επαφών και μυνημάτων",
+        "description": "Header of screen shown as data is import"
     },
-    "appMenuHideOthers": {
-        "message": "Hide Others",
-        "description": "Application menu command to hide all other windows"
+    "importErrorFirst": {
+        "message": "Βεβαιωθείτε ότι έχετε επιλέξει τον σωστό φάκελο που περιέχει τα αποθηκευμένα δεδομένα του Signal. Το όνομά του θα πρέπει να ξεκινά με το 'Signal Export.' Μπορείτε επίσης να αποθηκεύσετε ένα νέο αντίγραφο των δεδομένων σας από την εφαρμογή Chrome.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
-    "linkedDevices": {
-        "message": "Συνδεδεμένες συσκευές ",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    "importErrorSecond": {
+        "message": "Αν αυτά τα βήματα δεν λειτουργούν για εσάς, υποβάλετε ένα αρχείο καταγραφής αποσφαλμάτωσης (Προβολή -> Αρχείο Αποσφαλμάτωσης) για να μπορέσουμε να σας βοηθήσουμε να μεταφερθείτε!",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
-    "yesterday": {
-        "message": "Εχθές",
-        "description": "Section header in the media gallery"
+    "importAgain": {
+        "message": "Επιλέξτε το φάκελο και προσπαθήστε ξανά",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
-    "replyingToYourself": {
-        "message": "Απάντηση στον εαυτό σου",
-        "description": "Shown in iOS theme when you quote yourself"
+    "importCompleteHeader": {
+        "message": "Επιτυχία!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
-    "documents": {
-        "message": "Αρχεία",
-        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    "importCompleteStartButton": {
+        "message": "Ξεκινήστε τη χρήση του Signal Desktop",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
+    },
+    "importCompleteLinkButton": {
+        "message": "Σύνδεση αυτής της συσκευής με το τηλέφωνό σας",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+    },
+    "selectedLocation": {
+        "message": "επιλεγμένη τοποθεσία σας",
+        "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
         "message": "Αναβάθμιση βάσης δεδομένων. Αυτό μπορεί να πάρει κάποια ώρα...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
-    "lastSynced": {
-        "message": "Τελευταία εισαγωγή στις",
-        "description": "Label for date and time of last sync operation"
+    "loadingMessages": {
+        "message": "Φόρτωση μηνυμάτων. $count$ μέχρι στιγμής...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "me": {
+        "message": "Εγώ",
+        "description": "The label for yourself when shown in a group member list"
+    },
+    "view": {
+        "message": "Εμφάνιση",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "youLeftTheGroup": {
+        "message": "Αποχωρήσατε από την ομάδα",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
+    "scrollDown": {
+        "message": "Μετάβαση στο τέλος της συνομιλίας",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
+    "messageBelow": {
+        "message": "Νέο μήνυμα παρακάτω",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "messagesBelow": {
+        "message": "Νέα μηνύματα παρακάτω",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
+    "unreadMessage": {
+        "message": "1 μη αναγνωσμένο μήνυμα",
+        "description": "Text for unread message separator, just one message"
+    },
+    "unreadMessages": {
+        "message": "$count$ μη αναγνωσμένα μηνύματα",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "youMarkedAsVerified": {
+        "message": "Σημειώσατε τον αριθμό ασφαλείας σας με τον/την $name$ ως επιβεβαιωμένο.",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsNotVerified": {
+        "message": "Σημειώσατε τον αριθμό ασφαλείας σας με τον/την $name$ ως μη επιβεβαιωμένο.",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "Σημειώσατε τον αριθμό ασφαλείας σας τον/την $name$ ως επιβεβαιωμένο από άλλη συσκευή.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "Σημειώσατε τον αριθμό ασφαλείας σας με τον/την $name$ ως μη επιβεβαιωμένο από άλλη συσκευή.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "Οι αριθμοί ασφαλείας σας με αυτά τα μέλη της ομάδας άλλαξαν από την τελευταία φορά που επιβεβαιώθηκαν. Κάντε κλικ σε ένα μέλος της ομάδας για να δείτε τον νέο αριθμό ασφαλείας μαζί τους.",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+    },
+    "changedSinceVerifiedMultiple": {
+        "message": "Οι αριθμοί ασφαλείας σας με πολλαπλά μέλη αυτής της ομάδας άλλαξαν από την τελευταία φορά που επιβεβαιώθηκαν. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς επανεγκατέστησαν το Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "changedSinceVerified": {
+        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ άλλαξε από την τελευταία φορά που επιβεβαιώθηκε. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς ο/η $name$ επανεγκατέστησε το Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "changedRightAfterVerify": {
+        "message": "Ο αριθμός ασφαλείας που προσπαθείτε να επιβεβαιώσετε έχει αλλάξει. Παρακαλώ επιβεβαιώστε τον νέο αριθμό ασφαλείας με τον/την $name$. Θυμηθείτε, αυτή η αλλαγή μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς ο/η $name$ επανεγκατέστησε το Signal.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "changedRecentlyMultiple": {
+        "message": "Οι αριθμοί ασφαλείας σας με πολλαπλά μέλη της ομάδας άλλαξαν πρόσφατα. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς επανεγκατέστησαν το Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "changedRecently": {
+        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ άλλαξε πρόσφατα. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς ο/η $name$ επανεγκατέστησε το Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "identityKeyErrorOnSend": {
+        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ έχει αλλάξει. Αυτό θα μπορούσε είτε να σημαίνει ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας είτε ότι απλώς ο/η $name$ επανεγκατέστησε το Signal. Ίσως επιθυμείτε να επαληθεύσετε τον αριθμό ασφαλείας σας με αυτή την επαφή.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "sendAnyway": {
+        "message": "Αποστολή παρ'όλα αυτά",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "noLongerVerified": {
+        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ έχει αλλάξει και δεν είναι πλέον επιβεβαιωμένος. Κάντε κλικ για εμφάνιση.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "multipleNoLongerVerified": {
+        "message": "Οι αριθμοί ασφαλείας σας με πολλαπλά μέλη αυτής της ομάδας άλλαξαν και δεν είναι πλέον επιβεβαιωμένοι. Κάντε κλικ για εμφάνιση.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    },
+    "debugLogExplanation": {
+        "message": "Αυτό το αρχείο καταγραφής συμβάντων θα αναρτηθεί δημόσια στο διαδίκτυο για προβολή από τους συνεισφέροντες. Μπορείτε να το εξετάσετε και να το επεξεργαστείτε πριν το υποβάλετε.",
+        "description": ""
+    },
+    "debugLogError": {
+        "message": "Κάτι πήγε στραβά με τη μεταφόρτωση! Παρακαλώ σκεφτείτε μήπως να καταχωρίσετε χειροκίνητα στο αρχείο το σφάλμα που υποβάλετε.",
+        "description": ""
+    },
+    "reportIssue": {
+        "message": "Υποβολή παραπόνου",
+        "description": "Link to open the issue tracker"
+    },
+    "gotIt": {
+        "message": "Κατάλαβα!",
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    },
+    "submit": {
+        "message": "Υποβολή",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Αποδοχή",
+        "description": "Label for a button to accept a new safety number"
+    },
+    "verify": {
+        "message": "Σημείωση ως επιβεβαιωμένο",
+        "description": ""
+    },
+    "unverify": {
+        "message": "Σημείωση ως μη επιβεβαιωμένο",
+        "description": ""
+    },
+    "isVerified": {
+        "message": "Επιβεβαιώσατε τον αριθμό ασφαλείας με τον/την $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isNotVerified": {
+        "message": "Δεν έχετε επιβεβαιώσει τον αριθμό ασφαλείας με τον/την $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "verified": {
+        "message": "Επιβεβαιωμένο",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Νέος αριθμός ασφαλείας",
+        "description": "Header for a key change dialog"
+    },
+    "identityChanged": {
+        "message": "Ο αριθμός ασφαλείας σας με αυτήν την επαφή έχει αλλάξει. Αυτό θα μπορούσε είτε να σημαίνει ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας, είτε αυτή η επαφή απλώς επανεγκαταστήσει το Signal. Ίσως επιθυμείτε να επαληθεύσετε τον νέο αριθμό ασφαλείας παρακάτω.",
+        "description": ""
+    },
+    "incomingError": {
+        "message": "Σφάλμα κατά την διαχείριση εισερχόμενου μηνύματος.",
+        "description": ""
+    },
+    "media": {
+        "message": "Μέσα ",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "mediaEmptyState": {
+        "message": "Δεν έχετε μέσα σε αυτή τη συνομιλία",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "documents": {
+        "message": "Έγγραφα",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
+    "documentsEmptyState": {
+        "message": "Δεν έχετε έγγραφα σε αυτή τη συνομιλία",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
+    "today": {
+        "message": "Σήμερα",
+        "description": "Section header in the media gallery"
+    },
+    "yesterday": {
+        "message": "Εχθές",
+        "description": "Section header in the media gallery"
+    },
+    "thisWeek": {
+        "message": "Αυτή την εβδομάδα",
+        "description": "Section header in the media gallery"
+    },
+    "thisMonth": {
+        "message": "Αυτό τον μήνα",
+        "description": "Section header in the media gallery"
+    },
+    "unsupportedAttachment": {
+        "message": "Μη υποστηριζόμενος τύπος συνημμένου. Κάντε κλικ για αποθήκευση.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "clickToSave": {
+        "message": "Κάντε κλικ για αποθήκευση.",
+        "description": "Hover text for attachment filenames"
+    },
+    "unnamedFile": {
+        "message": "Ανώνυμο αρχείο",
+        "description": "Hover text for attachment filenames"
+    },
+    "voiceMessage": {
+        "message": "Φωνητικό Μήνυμα",
+        "description": "Name for a voice message attachment"
+    },
+    "unsupportedFileType": {
+        "message": "Μη υποστηριζόμενος τύπος αρχείου",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "fileSizeWarning": {
+        "message": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων.",
+        "description": ""
+    },
+    "disconnected": {
+        "message": "Αποσυνδεδεμένος/η",
+        "description": "Displayed when the desktop client cannot connect to the server."
+    },
+    "connecting": {
+        "message": "Συνδέεται",
+        "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "offline": {
+        "message": "Εκτός σύνδεσης",
+        "description": "Displayed when the desktop client has no network connection."
+    },
+    "checkNetworkConnection": {
+        "message": "Ελέγξτε τη σύνδεση στο δικτύου.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
         "message": "Απόπειρα επανασύνδεσης σε $reconnect_duration_in_seconds$ δευτερόλεπτα",
@@ -53,110 +509,244 @@
             }
         }
     },
-    "thisMonth": {
-        "message": "Αυτόν τον μήνα",
-        "description": "Section header in the media gallery"
-    },
-    "unsupportedAttachment": {
-        "message": "Μη υποστηριζόμενος τύπος συνημμένου. Κλικ για αποθήκευση.",
-        "description": "Displayed for incoming unsupported attachment"
-    },
-    "showSafetyNumber": {
-        "message": "Προβολή αριθμού ασφαλείας",
-        "description": ""
-    },
-    "androidMessageLengthWarning": {
-        "message": "Οι παραλήπτες σε Android θα παραλάβουν μόνο τους πρώτους 2000 χαρακτήρες αυτού του μηνύματος.",
-        "description": "Warning that long messages could not get received completely by Android clients."
-    },
-    "leftTheGroup": {
-        "message": "$name$ left the group",
-        "description": "Shown in the conversation history when a single person leaves the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
-        "description": "Message displayed when you change the message expiration timer in a conversation.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "settings": {
-        "message": "Ρυθμίσεις",
-        "description": "Menu item and header for global settings"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5δ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "importCompleteHeader": {
-        "message": "Επιτυχία!",
-        "description": "Header shown on the screen at the end of a successful import process"
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "timestamp_m": {
-        "message": "1 λεπτό",
-        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
-    },
-    "deviceName": {
-        "message": "Όνομα συσκεύης",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "address": {
-        "message": "διεύθυνση",
-        "description": "Generic label shown if contact address has custom type but no label"
+    "submitDebugLog": {
+        "message": "Αρχείο καταγραφής αποσφαλμάτωσης",
+        "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
         "message": "Αρχείο καταγραφής αποσφαλμάτωσης",
         "description": "View menu item to open the debug log (title case)"
     },
-    "gotIt": {
-        "message": "Κατάλαβα!",
-        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
-    },
-    "appMenuQuit": {
-        "message": "Quit Signal",
-        "description": "Application menu command to close the application"
-    },
-    "disappearingMessages": {
-        "message": "Εξαφανιζόμενα μηνύματα",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "editMenuCut": {
-        "message": "Cut",
-        "description": "Edit menu command to remove selected text and add it to clipboard"
-    },
-    "deleteWarning": {
-        "message": "Είσαι σίγουρος/η; Πατώντας \"διαγραφή\", αυτό το μήνυμα θα αφαιρεθεί μόνιμα από αυτή την συσκευή.",
+    "goToReleaseNotes": {
+        "message": "Μετάβαση στις Σημειώσεις Έκδοσης",
         "description": ""
     },
-    "verifyNewNumber": {
-        "message": "Verify New Number",
-        "description": "Label on button included with safety number change notification in the conversation"
+    "goToForums": {
+        "message": "Μετάβαση στα Forum",
+        "description": "Item under the Help menu, takes you to the forums"
     },
-    "showMore": {
-        "message": "Λεπτομέρειες",
-        "description": "Displays the details of a key change"
+    "goToSupportPage": {
+        "message": "Μετάβαση στη Σελίδα Υποστήριξης",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "menuReportIssue": {
+        "message": "Αναφορά Σφάλματος",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "signalDesktopPreferences": {
+        "message": "Προτιμήσεις Signal Desktop",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "aboutSignalDesktop": {
+        "message": "Σχετικά με το Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
+    },
+    "speech": {
+        "message": "Ομιλία",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
+    "show": {
+        "message": "Εμφάνιση",
+        "description": "Command under Window menu, to show the window"
+    },
+    "hide": {
+        "message": "Σμίκρυνση",
+        "description": "Command in the tray icon menu, to hide the window"
+    },
+    "quit": {
+        "message": "Έξοδος",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Εισάγετε όνομα ή αριθμό",
+        "description": "Placeholder text in the search input"
+    },
+    "welcomeToSignal": {
+        "message": "Καλώς ορίσατε στο Signal",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Επιλέξτε μια επαφή ή μια ομάδα για να ξεκινήσετε την συζήτηση.",
+        "description": ""
+    },
+    "contactAvatarAlt": {
+        "message": "Εικόνα προφίλ της επαφής $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "sendMessageToContact": {
+        "message": "Αποστολή Μηνύματος",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
+    },
+    "home": {
+        "message": "σπίτι",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "work": {
+        "message": "εργασία",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "mobile": {
+        "message": "κινητό",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "phone": {
+        "message": "τηλέφωνο",
+        "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "address": {
+        "message": "διεύθυνση",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
+    "poBox": {
+        "message": "Τ.Θ.",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "downloadAttachment": {
+        "message": "Λήψη Συνημμένου",
+        "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
+    },
+    "replyToMessage": {
+        "message": "Απαντήστε στο μήνυμα ",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
+    "originalMessageNotFound": {
+        "message": "Δεν βρέθηκε το αρχικό μήνυμα",
+        "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
+    },
+    "originalMessageNotAvailable": {
+        "message": "Το αρχικό μήνυμα δεν είναι πλέον διαθέσιμο",
+        "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    },
+    "messageFoundButNotLoaded": {
+        "message": "Το αρχικό μήνυμα βρέθηκε, αλλά δεν φορτώθηκε. Μετακινηθείτε προς τα επάνω για να το φορτώσετε.",
+        "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "you": {
+        "message": "Εσείς",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
+    "replyingTo": {
+        "message": "Απάντηση σε $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "audioPermissionNeeded": {
+        "message": "Για να στείλετε μηνύματα ήχου, επιτρέψτε στο Signal Desktop να έχει πρόσβαση στο μικρόφωνό σας.",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "allowAccess": {
+        "message": "Επιτρέψτε την Πρόσβαση",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
+    "showSettings": {
+        "message": "Εμφάνιση Ρυθμίσεων",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "audio": {
+        "message": "Ήχος",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    },
+    "video": {
+        "message": "Βίντεο",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
+    "photo": {
+        "message": "Φωτογραφία ",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Άκυρο",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Αποτυχία αποστολής σε μερικούς παραλήπτες. Ελέγξτε τη σύνδεση δικτύου.",
+        "description": ""
+    },
+    "error": {
+        "message": "Σφάλμα",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Λεπτομέρειες Μηνύματος",
+        "description": ""
+    },
+    "delete": {
+        "message": "Διαγραφή",
+        "description": ""
+    },
+    "deleteWarning": {
+        "message": "Είστε σίγουρος/η; Πατώντας \"διαγραφή\", αυτό το μήνυμα θα καταργηθεί οριστικά από αυτή την συσκευή.",
+        "description": ""
+    },
+    "deleteThisMessage": {
+        "message": "Διαγραφή αυτού του μηνύματος",
+        "description": ""
+    },
+    "from": {
+        "message": "Από",
+        "description": "Label for the sender of a message"
+    },
+    "to": {
+        "message": "Προς",
+        "description": "Label for the receiver of a message"
+    },
+    "sent": {
+        "message": "Στάλθηκε",
+        "description": "Label for the time a message was sent"
+    },
+    "received": {
+        "message": "Παρελήφθη",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Αποστολή μηνύματος",
+        "description": "Placeholder text in the message entry field"
+    },
+    "groupMembers": {
+        "message": "Μέλη ομάδας",
+        "description": ""
+    },
+    "showMembers": {
+        "message": "Εμφάνιση μελών",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Επανεκκίνηση συνεδρίας",
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "showSafetyNumber": {
+        "message": "Εμφάνιση αριθμού ασφαλείας",
+        "description": ""
+    },
+    "viewAllMedia": {
+        "message": "Προβολή όλων των μέσων",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Αν επιθυμείς να επιβεβαιώσεις την ασφάλεια της κρυπτογράφηση από άκρο σε άκρο με τον/την $name$, σύγκρινε τους παραπάνω αριθμούς με τους αριθμούς στην συσκευή του/της.",
+        "message": "Αν επιθυμείτε να επιβεβαιώσετε την ασφάλεια της κρυπτογράφησης από άκρο σε άκρο με τον/την $name$, συγκρίνετε τους παραπάνω αριθμούς με τους αριθμούς στη συσκευή τους.",
         "description": "",
         "placeholders": {
             "name": {
@@ -165,140 +755,294 @@
             }
         }
     },
-    "membersNeedingVerification": {
-        "message": "Οι αριθμοί ασφαλείας με αυτά τα μέλη της ομάδας άλλαξαν από την τελευταία φορά που επιβεβαιώθηκαν. Κάνε κλικ σε ένα μέλος της ομάδας για να δεις τον νέο αριθμό ασφαλείας με αυτόν/ήν.",
-        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
-    },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5λ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "unsupportedFileType": {
-        "message": "Μη υποστηριζόμενος τύπος αρχείου",
-        "description": "Displayed for outgoing unsupported attachment"
-    },
-    "quit": {
-        "message": "Έξοδος",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "clickToSave": {
-        "message": "Κλικ για αποθήκευση",
-        "description": "Hover text for attachment filenames"
-    },
-    "messagesBelow": {
-        "message": "Νέα μηνύματα παρακάτω",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
-    },
-    "editMenuSelectAll": {
-        "message": "Select All",
-        "description": "Edit menu comand to select all of the text in selected text box"
-    },
-    "resetSession": {
-        "message": "Επανεκκίνηση συνεδρίας",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
-    },
-    "replyingToYou": {
-        "message": "Απάντηση προς εσάς ",
-        "description": "Shown in iOS theme when someone else quotes a message from you"
-    },
-    "you": {
-        "message": "Εσύ",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
-    },
-    "offline": {
-        "message": "Εκτός σύνδεσης",
-        "description": "Displayed when the desktop client has no network connection."
-    },
-    "hideMenuBar": {
-        "message": "Απόκρυψη μπάρας μενού",
-        "description": "Label text for menu bar visibility setting"
-    },
-    "welcomeToSignal": {
-        "message": "Καλωσόρισες στο Signal",
+    "theirIdentityUnknown": {
+        "message": "Δεν έχετε ανταλλάξει ακόμα μηνύματα με αυτήν την επαφή. Ο αριθμός ασφαλείας σας μαζί τους θα είναι διαθέσιμος μετά το πρώτο μήνυμα.",
         "description": ""
     },
-    "checkNetworkConnection": {
-        "message": "Έλεγξε την σύνδεση στο δίκτυο.",
-        "description": "Obvious instructions for when a user's computer loses its network connection"
+    "moreInfo": {
+        "message": "Περισσότερες Πληροφορίες...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
-    "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
-        "description": "Displayed in the conversation list when the timer is turned off"
+    "retrySend": {
+        "message": "Επανάληψη Αποστολής",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
-    "notificationSettingsDialog": {
-        "message": "Κατά την λήψη μηνυμάτων, εμφάνιση ειδοποιήσεων που αποκαλύπτουν:",
-        "description": "Explain the purpose of the notification settings"
+    "deleteMessage": {
+        "message": "Διαγραφή Μηνύματος",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
-    "timestamp_h": {
-        "message": "1 ώρα",
-        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
+    "deleteMessages": {
+        "message": "Διαγραφή Μηνυμάτων",
+        "description": "Menu item for deleting messages, title case."
     },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "κλειστό",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
+    "deleteConversationConfirmation": {
+        "message": "Οριστική διαγραφή αυτής της συνομιλίας;",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "sessionEnded": {
+        "message": "Η ασφαλής σύνδεση επανεκκινήθηκε",
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "quoteThumbnailAlt": {
+        "message": "Μικρογραφία της εικόνας από το αναφερόμενο μήνυμα",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageFailedToLoad": {
-        "message": "Image failed to load",
+        "message": "Αποτυχία λήψης της εικόνας",
         "description": "When an image attachment is missing, this message is shown"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "Αποτυχία φόρτωσης του στιγμιότυπου οθόνης του βίντεο",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
+    "imageAttachmentAlt": {
+        "message": "Εικόνα επισυνημμένη στο μήνυμα",
+        "description": "Used in alt tag of image attachment"
+    },
+    "videoAttachmentAlt": {
+        "message": "Στιγμιότυπο οθόνης του βίντεο που έχει επισυναφθεί στο μήνυμα",
+        "description": "Used in alt tag of video attachment preview"
+    },
+    "lightboxImageAlt": {
+        "message": "Στάλθηκε μια εικόνα στη συνομιλία",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
+    "fileIconAlt": {
+        "message": "Εικονίδιο αρχείου",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
+    "emojiAlt": {
+        "message": "Εικόνα emoji '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
+    "installWelcome": {
+        "message": "Καλώς ορίσατε στο Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "installTagline": {
+        "message": "Η ιδιωτικότητα είναι εφικτή. Το Signal την κάνει εύκολη.",
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "linkYourPhone": {
+        "message": "Σύνδεση τού τηλεφώνου σας με το Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
+    "signalSettings": {
+        "message": "Ρυθμίσεις τού Signal",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "linkedDevices": {
+        "message": "Συσχετισμένες Συσκευές ",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "plusButton": {
+        "message": "Πλήκτρο '+'",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
+    "linkNewDevice": {
+        "message": "Σύνδεση νέας συσκεύης",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "deviceName": {
+        "message": "Όνομα συσκεύης",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "chooseDeviceName": {
+        "message": "Επιλέξτε το όνομα αυτής της συσκευής ",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
+    "finishLinkingPhone": {
+        "message": "Τέλος σύνδεσης του τηλεφώνου",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
+    },
+    "initialSync": {
+        "message": "Συγχρονισμός ομάδων και επαφών",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
+    "installConnectionFailed": {
+        "message": "Αποτυχία σύνδεσης με τον διακομιστή.",
+        "description": "Displayed when we can't connect to the server."
+    },
+    "installTooManyDevices": {
+        "message": "Δυστυχώς, έχετε ήδη πολλές συσκευές συνδεδεμένες. Προσπαθήστε να αφαιρέσετε μερικές.",
+        "description": ""
+    },
+    "settings": {
+        "message": "Ρυθμίσεις",
+        "description": "Menu item and header for global settings"
+    },
+    "theme": {
+        "message": "Θέμα",
+        "description": "Header for theme settings"
+    },
+    "permissions": {
+        "message": "Άδειες",
+        "description": "Header for permissions section of settings"
+    },
+    "mediaPermissionsDescription": {
+        "message": "Να επιτρέπεται η πρόσβαση στην κάμερα και μικρόφωνο",
+        "description": "Description of the media permission description"
+    },
+    "spellCheck": {
+        "message": "Ορθογραφικός Έλεγχος",
+        "description": "Description of the media permission description"
+    },
+    "spellCheckDescription": {
+        "message": "Ενεργοποίηση ορθογραφικού ελέγχου του κειμένου που εισάγεται στο παράθυρο σύνθεσης μηνύματος",
+        "description": "Description of the media permission description"
+    },
+    "clearDataHeader": {
+        "message": "Εκκαθάριση Δεδομένων",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
+    },
+    "clearDataExplanation": {
+        "message": "Αυτό θα διαγράψει όλα τα δεδομένα της εφαρμογή, αφαιρώντας όλα τα μηνύματα και τις αποθηκευμένες πληροφορίες λογαριασμού",
+        "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
         "message": "Εκκαθάριση δεδομένων",
         "description": "Button in the settings dialog starting process to delete all data"
     },
+    "deleteAllDataHeader": {
+        "message": "Διαγραφή όλων των δεδομένων;",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataBody": {
+        "message": "Πρόκειται να διαγράψετε όλες τις αποθηκευμένες πληροφορίες λογαριασμού αυτής της εφαρμογής, συμπεριλαμβανομένων όλων των επαφών και όλων των μηνυμάτων. Μπορείτε πάντα να ξανά συνδέσετε την εφαρμογή με το κινητό σας, αλλά αυτό δεν θα επαναφέρει τα διαγραμμένα μηνύματα.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
+    "deleteAllDataButton": {
+        "message": "Διαγραφή όλων των δεδομένων",
+        "description": "Text of the button that deletes all data"
+    },
+    "deleteAllDataProgress": {
+        "message": "Αποσύνδεση και διαγραφή όλων των δεδομένων",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "notifications": {
+        "message": "Ειδοποιήσεις",
+        "description": "Header for notification settings"
+    },
+    "notificationSettingsDialog": {
+        "message": "Κατά την λήψη μηνυμάτων, εμφάνιση ειδοποιήσεων που αποκαλύπτουν:",
+        "description": "Explain the purpose of the notification settings"
+    },
+    "disableNotifications": {
+        "message": "Απενεργοποίηση ειδοποιήσεων",
+        "description": "Label for disabling notifications"
+    },
+    "nameAndMessage": {
+        "message": "Όνομα αποστολέα και μήνυμα",
+        "description": "Label for setting notifications to display name and message text"
+    },
+    "noNameOrMessage": {
+        "message": "Ούτε όνομα αποστολέα, ούτε μήνυμα",
+        "description": "Label for setting notifications to display no name and no message text"
+    },
+    "nameOnly": {
+        "message": "Μόνο όνομα αποστολέα",
+        "description": "Label for setting notifications to display sender name only"
+    },
+    "newMessage": {
+        "message": "Νέο Μήνυμα",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "newMessages": {
+        "message": "Νέα Μηνύματα",
+        "description": "Displayed in notifications for multiple messages"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Πιο πρόσφατα από:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+    },
+    "notificationFrom": {
+        "message": "Από:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
+    "notificationMostRecent": {
+        "message": "Πιο πρόσφατα:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "sendFailed": {
+        "message": "Αποτυχία αποστολής",
+        "description": "Shown on outgoing message if it fails to send"
+    },
+    "showMore": {
+        "message": "Λεπτομέρειες",
+        "description": "Displays the details of a key change"
+    },
+    "showLess": {
+        "message": "Απόκρυψη λεπτομερειών",
+        "description": "Hides the details of a key change"
+    },
+    "learnMore": {
+        "message": "Μάθετε περισσότερα σχετικά με την επιβεβαίωση των αριθμών ασφαλείας",
+        "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "expiredWarning": {
+        "message": "Αυτή η έκδοση του Signal Desktop έχει λήξει. Κάντε αναβάθμιση στην πιο πρόσφατη έκδοση για να συνεχίσετε την ανταλλαγή μηνυμάτων.",
+        "description": "Warning notification that this version of the app has expired"
+    },
+    "androidMessageLengthWarning": {
+        "message": "Οι παραλήπτες σε Android θα λάβουν μόνο τους πρώτους 2000 χαρακτήρες αυτού του μηνύματος.",
+        "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "upgrade": {
+        "message": "Αναβάθμιση",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "mediaMessage": {
+        "message": "Μήνυμα μέσου",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unregisteredUser": {
+        "message": "Ο αριθμός δεν είναι καταχωρημένος",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Επαφές",
+        "description": "Label for contact and group sync settings"
+    },
     "syncExplanation": {
-        "message": "Εισαγωγή όλων των Signal ομάδων και επαφών από την φορητή συσκευή σου.",
+        "message": "Εισαγωγή όλων των ομάδων και επαφών Signal από το κινητό σας.",
         "description": "Explanatory text for sync settings"
     },
-    "youLeftTheGroup": {
-        "message": "Αποχώρησες από την ομάδα",
-        "description": "Displayed when a user can't send a message because they have left the group"
+    "lastSynced": {
+        "message": "Τελευταία εισαγωγή στις",
+        "description": "Label for date and time of last sync operation"
     },
-    "deleteMessages": {
-        "message": "Διαγραφή μηνυμάτων",
-        "description": "Menu item for deleting messages, title case."
+    "syncNow": {
+        "message": "Εισαγωγή τώρα",
+        "description": "Label for a button that syncs contacts and groups from your phone"
     },
-    "incomingError": {
-        "message": "Error handling incoming message",
-        "description": ""
+    "syncing": {
+        "message": "Εισαγωγή...",
+        "description": "Label for a disabled sync button while sync is in progress."
     },
-    "poBox": {
-        "message": "Τ.Θ.",
-        "description": "When rendering an address, used to provide context to a post office box"
+    "syncFailed": {
+        "message": "Η εισαγωγή απέτυχε. Βεβαιωθείτε ότι ο υπολογιστής και το τηλέφωνό σας είναι συνδεδεμένα στο διαδίκτυο.",
+        "description": "Informational text displayed if a sync operation times out."
     },
-    "themeLight": {
-        "message": "Light",
-        "description": "Label text for light theme (normal)"
+    "timestamp_s": {
+        "message": "τώρα",
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
-    "delete": {
-        "message": "Διαγραφή",
-        "description": ""
+    "timestamp_m": {
+        "message": "1 λεπτό",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
-    "verified": {
-        "message": "Επιβεβαιωμένο",
-        "description": ""
-    },
-    "trayTooltip": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
-    },
-    "selectAContact": {
-        "message": "Επέλεξε μία επαφή ή ομάδα για να ξεκινήσεις να συζητάς.",
-        "description": ""
-    },
-    "aboutSignalDesktop": {
-        "message": "Σχετικά με το Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
-    "selectedLocation": {
-        "message": "επιλεγμένη τοποθεσία σου",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "phone": {
-        "message": "τηλέφωνο",
-        "description": "Generic label shown if contact phone has custom type but no label"
+    "timestamp_h": {
+        "message": "1 ώρα",
+        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgoShort": {
-        "message": "$hours$ hr",
+        "message": "$hours$ώρα/ες ",
         "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "hours": {
@@ -307,46 +1051,70 @@
             }
         }
     },
-    "deleteThisMessage": {
-        "message": "Διαγραφή αυτού του μηνύματος",
-        "description": ""
-    },
-    "editMenuPaste": {
-        "message": "Paste",
-        "description": "Edit menu command to insert text from clipboard at cursor location"
-    },
-    "changedRecently": {
-        "message": "Ο αριθμός ασφαλείας με τον/την $name$ άλλαξε πρόσφατα. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου ή ότι απλά ο/η $name$ επανεγκατέστησε το Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
+    "hoursAgo": {
+        "message": "$hours$ώρα/ες πριν",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
-            "name": {
+            "hours": {
                 "content": "$1",
-                "example": "Bob"
+                "example": "2"
             }
         }
     },
-    "sent": {
-        "message": "Στάλθηκε",
-        "description": "Label for the time a message was sent"
+    "minutesAgoShort": {
+        "message": "$minutes$λεπτό/ά",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
-    "thisWeek": {
-        "message": "Αυτήν την εβδομάδα",
-        "description": "Section header in the media gallery"
+    "minutesAgo": {
+        "message": "$minutes$ λεπτό/ά πριν",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
-    "sendMessageToContact": {
-        "message": "Αποστολή Μηνύματος",
-        "description": "Shown when you are sent a contact and that contact has a signal account"
+    "justNow": {
+        "message": "τώρα",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
     },
-    "importingHeader": {
-        "message": "Φόρτωση επαφών και μυνημάτων",
-        "description": "Header of screen shown as data is import"
+    "timestampFormat_M": {
+        "message": "MMM D",
+        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
-    "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
-        "description": "Description of the media permission description"
+    "unblockToSend": {
+        "message": "Καταργήστε τον αποκλεισμό αυτής την επαφής για να στείλετε ένα μήνυμα.",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
+    "youChangedTheTimer": {
+        "message": "Ορίσατε το χρονοδιακόπτη μηνυμάτων που εξαφανίζονται σε  $time$",
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
+    "timerSetOnSync": {
+        "message": "Ενημέρωση χρονοδιακόπτη μηνυμάτων που εξαφανίζονται σε $time$",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "Ο/Η $name$ όρισε το χρονοδιακόπτη σε $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -359,162 +1127,144 @@
             }
         }
     },
-    "timestamp_s": {
-        "message": "τώρα",
-        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    "timerOption_0_seconds": {
+        "message": "απενεργοποιημένο",
+        "description": "Label for option to turn off message expiration in the timer menu"
     },
-    "viewMenuZoomOut": {
-        "message": "Zoom Out",
-        "description": "View menu command to make everything smaller"
-    },
-    "mainMenuSettings": {
-        "message": "Προτιμήσεις...",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
-    },
-    "changedRecentlyMultiple": {
-        "message": "Οι αριθμοί ασφαλείας με πολλαπλά μέλη της ομάδας άλλαξαν πρόσφατα. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου ή ότι απλά επανεγκατέστησαν το Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "emojiAlt": {
-        "message": "Εικόνα emoji '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
-    "timerOption_1_day": {
-        "message": "1 ημέρα",
+    "timerOption_5_seconds": {
+        "message": "5 δευτερόλεπτα",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "editMenuUndo": {
-        "message": "Undo",
-        "description": "Edit menu command to remove recently-typed text"
+    "timerOption_10_seconds": {
+        "message": "10 δευτερόλεπτα",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "reportIssue": {
-        "message": "Υποβολή παραπόνου",
-        "description": "Link to open the issue tracker"
+    "timerOption_30_seconds": {
+        "message": "30 δευτερόλεπτα",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "newMessage": {
-        "message": "Νέο Μήνυμα",
-        "description": "Displayed in notifications for only 1 message"
+    "timerOption_1_minute": {
+        "message": "1 λεπτό",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "nameOnly": {
-        "message": "Μόνο το όνομα του αποστολέα",
-        "description": "Label for setting notifications to display sender name only"
+    "timerOption_5_minutes": {
+        "message": "5 λεπτά",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "quoteThumbnailAlt": {
-        "message": "Μικρογραφία της εικόνας από το αναφερόμενο μήνυμα",
-        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "mediaEmptyState": {
-        "message": "Δεν έχεις κανένα πολυμέσο σε αυτή τη συνομιλία",
-        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
-    },
-    "notificationMostRecentFrom": {
-        "message": "Πιο πρόσφατα από:",
-        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-    },
-    "autoUpdateLaterButtonLabel": {
-        "message": "Αργότερα",
-        "description": ""
-    },
-    "justNow": {
-        "message": "τώρα",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
-    },
-    "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
-        "description": "Description of the media permission description"
-    },
-    "from": {
-        "message": "Από",
-        "description": "Label for the sender of a message"
-    },
-    "deleteConversationConfirmation": {
-        "message": "Οριστική διαγραφή αυτής της συζήτησης;",
-        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "mainMenuWindow": {
-        "message": "&Παράθυρο",
-        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "importCompleteLinkButton": {
-        "message": "Σύνδεση αυτής της συσκευής στο τηλέφωνό σας",
-        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "unlinkedWarning": {
-        "message": "Επανασύνδεσε το Signal Desktop με την φορητή συσκευή σου για να συνεχίσεις να συνομιλείς.",
-        "description": ""
-    },
-    "safetyNumberChanged": {
-        "message": "Safety Number has changed",
-        "description": "A notification shown in the conversation when a contact reinstalls"
-    },
-    "today": {
-        "message": "Σήμερα",
-        "description": "Section header in the media gallery"
-    },
-    "debugLogExplanation": {
-        "message": "Αυτό το αρχείο καταγραφής συμβάντων θα δημοσιευτεί στο internet ώστε να το εξετάσουν εθελοντές. Μπορείς να το μελετήσεις και να το αλλάξεις πριν το υποβάλλεις.",
-        "description": ""
-    },
-    "linkYourPhone": {
-        "message": "Σύνδεση τού τηλεφώνου σας με το Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
-        "description": "Shown in the conversation history when multiple people leave the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    },
-    "newPhoneNumber": {
-        "message": "Βάλε αριθμό τηλεφώνου για να προσθέσεις μια επαφή",
-        "description": "Placeholder for adding a new number to a contact"
-    },
-    "viewMenuZoomIn": {
-        "message": "Zoom In",
-        "description": "View menu command to make everything bigger"
-    },
-    "viewAllMedia": {
-        "message": "Προβολή όλων των πολυμέσων",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
-    },
-    "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
-        "description": "Window menu command to bring all windows of current applicatinon to front"
-    },
-    "importErrorFirst": {
-        "message": "Παρακαλώ επιβεβαίωσε ότι έχεις επιλέξει το σωστό φάκελο που περιέχει τα αποθηκευμένα δεδομένα Signal. Το όνομά του θα πρέπει να ξεκινά με 'Signal Export'. Μπορείς επίσης να αποθηκεύσεις ένα νέο αντίγραφο των δεδομένων σου από την εφαρμογή Chrome.",
-        "description": "Message shown if the import went wrong; first paragraph"
-    },
-    "noLongerVerified": {
-        "message": "Ο αριθμός ασφαλείας με τον/την $name$ άλλαξε και δεν είναι πια επιβεβαιωμένος. Κλικ για εμφάνιση.",
-        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+    "timerOption_30_minutes": {
+        "message": "30 λεπτά",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
         "message": "1 ώρα",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "video": {
-        "message": "Βίντεο",
-        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    "timerOption_6_hours": {
+        "message": "6 ώρες",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_12_hours": {
+        "message": "12 ώρες",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_day": {
+        "message": "1 ημέρα",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_week": {
+        "message": "1 εβδομάδα",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "disappearingMessages": {
+        "message": "Μηνύματα που εξαφανίζονται",
+        "description": "Conversation menu option to enable disappearing messages"
+    },
+    "timerOption_0_seconds_abbreviated": {
+        "message": "απενεργοποιημένο",
+        "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "timerOption_5_seconds_abbreviated": {
+        "message": "5δ",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_10_seconds_abbreviated": {
+        "message": "10δ",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_seconds_abbreviated": {
+        "message": "30δ",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_minute_abbreviated": {
+        "message": "1λ",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_5_minutes_abbreviated": {
+        "message": "5λ",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes_abbreviated": {
+        "message": "30λ",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_hour_abbreviated": {
+        "message": "1ω",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_6_hours_abbreviated": {
+        "message": "6ω",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_12_hours_abbreviated": {
+        "message": "12ω",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_day_abbreviated": {
+        "message": "1η",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_week_abbreviated": {
+        "message": "1ε",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "disappearingMessagesDisabled": {
+        "message": "Απενεργοποιήθηκαν τα μηνύματα που εξαφανίζονται",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "disabledDisappearingMessages": {
+        "message": "Ο/Η $name$ απενεργοποίησε τα μηνύματα που εξαφανίζονται",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "youDisabledDisappearingMessages": {
+        "message": " Απενεργοποιήσατε τα μηνύματα που εξαφανίζονται",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
+    "timerSetTo": {
+        "message": "Ο χρονοδιακόπτης έχει οριστεί σε $time$",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "1w"
+            }
+        }
+    },
+    "audioNotificationDescription": {
+        "message": "Αναπαραγωγή ήχου ειδοποίησης",
+        "description": "Description for audio notification setting"
+    },
+    "safetyNumberChanged": {
+        "message": "Ο Αριθμός Ασφαλείας άλλαξε",
+        "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "Ο Αριθμός Ασφαλείας με τον/την $name$ άλλαξε.",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -523,155 +1273,9 @@
             }
         }
     },
-    "searchForPeopleOrGroups": {
-        "message": "Γράψε όνομα ή αριθμό",
-        "description": "Placeholder text in the search input"
-    },
-    "noNameOrMessage": {
-        "message": "Ούτε όνομα αποστολέα, ούτε μήνυμα",
-        "description": "Label for setting notifications to display no name and no message text"
-    },
-    "syncNow": {
-        "message": "Εισαγωγή τώρα",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncFailed": {
-        "message": "Η εισαγωγή απέτυχε. Βεβαιώσου ότι ο υπολογιστής και το κινητό σου είναι συνδεδεμένα στο διαδίκτυο.",
-        "description": "Informational text displayed if a sync operation times out."
-    },
-    "unlinked": {
-        "message": "Αποσυνδεδεμένο",
-        "description": ""
-    },
-    "imageAttachmentAlt": {
-        "message": "Image attached to message",
-        "description": "Used in alt tag of image attachment"
-    },
-    "learnMore": {
-        "message": "Μάθε περισσότερα για την επαλήθευση αριθμών ασφαλείας",
-        "description": "Text that links to a support article on verifying safety numbers"
-    },
-    "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
-        "description": "Message displayed when timer is set on initial link of desktop device.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "deleteAllDataButton": {
-        "message": "Διαγραφή όλων των δεδομένων",
-        "description": "Text of the button that deletes all data"
-    },
-    "unreadMessages": {
-        "message": "$count$ μη αναγνωσμένα μηνύματα",
-        "description": "Text for unread message separator, with count",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
-    "installTooManyDevices": {
-        "message": "Δυστυχώς έχεις ήδη πάρα πολλές συνδεδεμένες συσκευές. Προσπάθησε να αφαιρέσεις μερικές.",
-        "description": ""
-    },
-    "allowAccess": {
-        "message": "Allow Access",
-        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "joinedTheGroup": {
-        "message": "$name$ joined the group",
-        "description": "Shown in the conversation history when a single person joins the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice"
-            }
-        }
-    },
-    "work": {
-        "message": "εργασία",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "goToForums": {
-        "message": "Πήγαινε στα Forum",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
-    "menuSetupWithImport": {
-        "message": "Εγκατάσταση με Εισαγωγή",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
-    "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
-        "description": "Displayed in the left pane when the timer is turned off"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30λ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_1_minute_abbreviated": {
-        "message": "1λ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "home": {
-        "message": "σπίτι",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "loadingMessages": {
-        "message": "Φόρτωση μηνυμάτων. $count$ μέχρι στιγμής...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
-    "speech": {
-        "message": "Ομιλία",
-        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
-    },
-    "importErrorHeader": {
-        "message": "Κάτι πήγε στραβά!",
-        "description": "Header of the error screen after a failed import"
-    },
-    "changedSinceVerified": {
-        "message": "Ο αριθμός ασφαλείας με τον/την $name$ άλλαξε από την τελευταία φορά που επιβεβαιώθηκε. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου ή ότι απλά ο/η $name$ επανεγκατέστησε το Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "importAgain": {
-        "message": "Επιλέξτε το φάκελο και προσπαθήστε ξανά",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
-    },
-    "upgrade": {
-        "message": "Αναβάθμιση",
-        "description": "Label text for button to upgrade the app to the latest version"
-    },
-    "moreInfo": {
-        "message": "More Info...",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "notificationMostRecent": {
-        "message": "Πιο πρόσφατα:",
-        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    "verifyNewNumber": {
+        "message": "Επιβεβαίωση Αριθμού Ασφαλείας",
+        "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
         "message": "Ο αριθμός ασφαλείας με τον/την $name$:",
@@ -683,405 +1287,65 @@
             }
         }
     },
-    "windowMenuClose": {
-        "message": "Close Window",
-        "description": "Window menu command to close the current window"
+    "themeLight": {
+        "message": "Φωτεινό",
+        "description": "Label text for light theme (normal)"
     },
-    "showLess": {
-        "message": "Απόκρυψη λεπτομερειών",
-        "description": "Hides the details of a key change"
+    "themeDark": {
+        "message": "Σκοτεινό",
+        "description": "Label text for dark theme"
     },
-    "spellCheck": {
-        "message": "Spell Check",
-        "description": "Description of the media permission description"
+    "hideMenuBar": {
+        "message": "Απόκρυψη γραμμής μενού",
+        "description": "Label text for menu bar visibility setting"
     },
-    "theme": {
-        "message": "Θέμα",
-        "description": "Header for theme settings"
+    "startConversation": {
+        "message": "Έναρξη συνομιλίας...",
+        "description": "Label underneath number a user enters that is not an existing contact"
     },
-    "privacyPolicy": {
-        "message": "Όροι & Πολιτική Απορρήτου",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
-    },
-    "newIdentity": {
-        "message": "Νέος αριθμός ασφαλείας",
-        "description": "Header for a key change dialog"
-    },
-    "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
-        "description": "Displayed in the conversation list when the timer is turned off",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "installTagline": {
-        "message": "Η ιδιωτικότητα είναι εφικτή. Το Signal την κάνει εύκολη.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "show": {
-        "message": "Εμφάνιση",
-        "description": "Command under Window menu, to show the window"
-    },
-    "audioNotificationDescription": {
-        "message": "Ενεργοποίηση ήχου ειδοποίησης",
-        "description": "Description for audio notification setting"
-    },
-    "isNotVerified": {
-        "message": "Δεν έχεις επιβεβαιώσει τον αριθμό ασφαλείας με τον/την $name$.",
-        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "disconnected": {
-        "message": "Αποσυνδεδεμένος/η",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
-    "syncing": {
-        "message": "Εισαγωγή...",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "lightboxImageAlt": {
-        "message": "Στάλθηκε μια εικόνα στη συνομιλία",
-        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
-    },
-    "multipleNoLongerVerified": {
-        "message": "Οι αριθμοί ασφαλείας με πολλαπλά μέλη αυτής της ομάδας άλλαξε και δεν είναι πια επιβεβαιωμένοι. Κλικ για εμφάνιση.",
-        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
-    },
-    "acceptNewKey": {
-        "message": "Αποδοχή",
-        "description": "Label for a button to accept a new safety number"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12ω",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
-        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
-    },
-    "signalSettings": {
-        "message": "Ρυθμίσεις τού Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "timestampFormat_M": {
-        "message": "MMM D",
-        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
-    },
-    "plusButton": {
-        "message": "Πλήκτρο '+'",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
-    "chooseDirectory": {
-        "message": "Επιλογή φακέλου",
-        "description": "Button to allow the user to find a folder on disk"
-    },
-    "mainMenuEdit": {
-        "message": "&Αλλαγές",
-        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6ω",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "unregisteredUser": {
-        "message": "Ο αριθμός δεν είναι καταχωρημένος",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1η",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "replyingTo": {
-        "message": "Απάντηση προς $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Επανεκκίνηση του Signal",
-        "description": ""
-    },
-    "mobile": {
-        "message": "κινητό",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
-    },
-    "notificationFrom": {
-        "message": "Από:",
-        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-    },
-    "sync": {
-        "message": "Επαφές",
-        "description": "Label for contact and group sync settings"
-    },
-    "timerOption_1_week": {
-        "message": "1 εβδομάδα",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
-        "description": "Used in the alt tag for the image avatar of a contact",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "received": {
-        "message": "Λήφθηκε",
-        "description": "Label for the time a message was received"
-    },
-    "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_1_minute": {
-        "message": "1 λεπτό",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "isVerified": {
-        "message": "Επιβεβαίωσες τον αριθμό ασφαλείας με τον/την $name$.",
-        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_30_seconds": {
-        "message": "30 δευτερόλεπτα",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "deleteAllDataHeader": {
-        "message": "Διαγραφή όλων των δεδομένων;",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataProgress": {
-        "message": "Αποσύνδεση και διαγραφή όλων των δεδομένων",
-        "description": "Message shown to user when app is disconnected and data deleted"
-    },
-    "sendMessage": {
-        "message": "Αποστολή μηνύματος",
-        "description": "Placeholder text in the message entry field"
-    },
-    "menuReportIssue": {
-        "message": "Αναφορά Σφάλματος",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
-    },
-    "permissions": {
-        "message": "Permissions",
-        "description": "Header for permissions section of settings"
-    },
-    "loadDataDescription": {
-        "message": "Μόλις έχετε περάσει από τη διαδικασία εξαγωγής, καθώς και οι επαφές και τα μηνύματα σας περιμένουν υπομονετικά στον υπολογιστή σας. Επιλέξτε τον φάκελο που περιέχει την αποθηκευμένα Signal δεδομένα.",
-        "description": "Introduction to the process of importing messages and contacts from disk"
-    },
-    "me": {
-        "message": "Εγώ",
-        "description": "The label for yourself when shown in a group member list"
-    },
-    "mediaMessage": {
-        "message": "Μήνυμα πολυμέσων",
-        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
-    },
-    "unreadMessage": {
-        "message": "1 μη αναγνωσμένο μήνυμα",
-        "description": "Text for unread message separator, just one message"
-    },
-    "expiredWarning": {
-        "message": "Η τρέχουσα έκδοση του Signal Desktop έχει λήξει. Παρακαλούμε αναβάθμισε στην τελευταία έκδοση για να συνεχίσεις την επικοινωνία σου.",
-        "description": "Warning notification that this version of the app has expired"
-    },
-    "fileSizeWarning": {
-        "message": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει τα όρια μεγέθους μηνυμάτων.",
-        "description": ""
-    },
-    "documentsEmptyState": {
-        "message": "Δεν έχεις κανένα έγγραφο σε αυτή τη συνομιλία",
-        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
-    },
-    "deleteMessage": {
-        "message": "Delete Message",
-        "description": "Shown on the drop-down menu for an individual message, deletes single message"
-    },
-    "chooseDeviceName": {
-        "message": "Επιλέξτε το όνομα αυτής της συσκευής ",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "autoUpdateNewVersionInstructions": {
-        "message": "Πατήστε Επανεκκίνηση για την εφαρμογή των αναβαθμίσεων.",
-        "description": ""
-    },
-    "fileIconAlt": {
-        "message": "Εικονίδιο αρχείου",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
-    "timerOption_0_seconds": {
-        "message": "Σβησμένο",
-        "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "editMenuRedo": {
-        "message": "Redo",
-        "description": "Edit menu command to restore previously undone typed text"
+    "newPhoneNumber": {
+        "message": "Εισαγάγετε έναν αριθμό τηλεφώνου για να προσθέσετε μια επαφή.",
+        "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
         "message": "Μη έγκυρος αριθμός",
         "description": "When a person inputs a number that is invalid"
     },
-    "installWelcome": {
-        "message": "Καλωσόρισες στο Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "messageBelow": {
-        "message": "Νέο μήνυμα παρακάτω",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "hoursAgo": {
-        "message": "$hours$ hr ago",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "menuSetupAsNewDevice": {
-        "message": "Εγκατάσταση ως νέα συσκευή",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
-    "installConnectionFailed": {
-        "message": "Αδυναμία σύνδεσης με τον διακομιστή.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "unverify": {
-        "message": "Σημείωση ως μη επιβεβαιωμένο",
+    "unlinkedWarning": {
+        "message": "Επανασυνδέστε το Signal Desktop με το κινητό σας για να συνεχίσετε την ανταλλαγή μηνυμάτων.",
         "description": ""
     },
-    "initialSync": {
-        "message": "Συγχρονισμός ομάδων και επαφών",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "mainMenuView": {
-        "message": "&Προβολή",
-        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "appMenuHide": {
-        "message": "Σμίκρυνση",
-        "description": "Application menu command to hide the window"
-    },
-    "autoUpdateNewVersionMessage": {
-        "message": "Μια νέα έκδοση του Signal είναι διαθέσιμη.",
+    "unlinked": {
+        "message": "Αποσυνδεδεμένο",
         "description": ""
-    },
-    "replyToMessage": {
-        "message": "Απαντήστε στο μήνυμα ",
-        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
-    },
-    "disableNotifications": {
-        "message": "Απενεργοποίηση ειδοποιήσεων",
-        "description": "Label for disabling notifications"
-    },
-    "photo": {
-        "message": "Φωτογραφία ",
-        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
-    },
-    "media": {
-        "message": "Πολυμέσα ",
-        "description": "Header of the default pane in the media gallery, showing images and videos"
-    },
-    "cancel": {
-        "message": "Άκυρο",
-        "description": ""
-    },
-    "unblockToSend": {
-        "message": "Ξεμπλόκαρε αυτή την επαφή για να στείλεις ένα μήνυμα",
-        "description": "Brief message shown when trying to message a blocked number"
-    },
-    "mainMenuHelp": {
-        "message": "&Βοήθεια",
-        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "unnamedFile": {
-        "message": "Ανώνυμο αρχείο",
-        "description": "Hover text for attachment filenames"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 minutes",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "sendAnyway": {
-        "message": "Αποστολή όπως και να 'χει",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
-    "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
-        "description": "Shown in the conversation history when the user marks a contact as verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "connecting": {
-        "message": "Συνδέεται",
-        "description": "Displayed when the desktop client is currently connecting to the server."
-    },
-    "deleteAllDataBody": {
-        "message": "Πρόκειται να διαγράψεις όλες τις αποθηκευμένες πληροφορίες του λογαριασμού σου σε αυτή την εφαρμογή, περιλαμβανομένων όλων των επαφών και όλων των μηνυμάτων. Μπορείς πάντα να συνδέσεις την εφαρμογή με το κινητό σου τηλέφωνο και πάλι, αλλά αυτό δεν θα επαναφέρει τα διαγεγραμμένα μηνύματα.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "sessionEnded": {
-        "message": "Η ασφαλής σύνδεση επανεκκινήθηκε",
-        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "relink": {
         "message": "Επανασύνδεση",
         "description": ""
     },
-    "timerOption_1_week_abbreviated": {
-        "message": "1ε",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 δευτερόλεπτα",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+    "autoUpdateNewVersionTitle": {
+        "message": "Διαθέσιμη ενημέρωση του Signal",
         "description": ""
     },
-    "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
-        "description": "View menu command to show or hide the developer tools"
-    },
-    "showMembers": {
-        "message": "Εμφάνιση μελών",
+    "autoUpdateNewVersionMessage": {
+        "message": "Μια νέα έκδοση του Signal είναι διαθέσιμη.",
         "description": ""
     },
-    "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+    "autoUpdateNewVersionInstructions": {
+        "message": "Πατήστε Επανεκκίνηση για να γίνει εφαρμογή των αναβαθμίσεων.",
+        "description": ""
+    },
+    "autoUpdateRestartButtonLabel": {
+        "message": "Επανεκκίνηση του Signal",
+        "description": ""
+    },
+    "autoUpdateLaterButtonLabel": {
+        "message": "Αργότερα",
+        "description": ""
+    },
+    "leftTheGroup": {
+        "message": "Ο/Η $name$ αποχώρησε από την ομάδα",
+        "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -1089,208 +1353,22 @@
             }
         }
     },
-    "email": {
-        "message": "email",
-        "description": "Generic label shown if contact email has custom type but no label"
-    },
-    "viewMenuResetZoom": {
-        "message": "Actual Size",
-        "description": "View menu command to go back to the default zoom"
-    },
-    "goToSupportPage": {
-        "message": "Πήγαινε στη σελίδα υποστήριξης",
-        "description": "Item under the Help menu, takes you to the support page"
-    },
-    "finishLinkingPhone": {
-        "message": "Τέλος σύνδεσης του τηλεφώνου",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
-        "description": "Shown in the conversation history when more than one person joins the group",
+    "multipleLeftTheGroup": {
+        "message": "Ο/Η $name$ αποχώρησε από την ομάδα",
+        "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
-            "names": {
+            "name": {
                 "content": "$1",
                 "example": "Alice, Bob"
             }
         }
     },
-    "groupMembers": {
-        "message": "Μέλη ομάδας",
-        "description": ""
-    },
-    "loading": {
-        "message": "Φορτώνει...",
-        "description": "Message shown on the loading screen before we've loaded any messages"
-    },
-    "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
-        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
-    },
-    "newMessages": {
-        "message": "Νέα Μηνύματα",
-        "description": "Displayed in notifications for multiple messages"
-    },
-    "importErrorSecond": {
-        "message": "Αν αυτά τα βήματα δεν δουλέψουν για σένα, παρακαλώ να μας στείλεις το αρχείο αποσφαλμάτωσης (Προβολή -> Αρχείο Αποσφαλμάτωσης) για να μπορέσουμε να σε βοηθήσουμε να μεταφερθείς.",
-        "description": "Message shown if the import went wrong; second paragraph"
-    },
-    "theirIdentityUnknown": {
-        "message": "Δεν έχεις ανταλλάξει μηνύματα με αυτή την επαφή ακόμα. Ο αριθμός ασφαλείας με αυτή την επαφή θα είναι διαθέσιμος μετά το πρώτο μήνυμα.",
-        "description": ""
-    },
-    "voiceMessage": {
-        "message": "Μήνυμα φωνής",
-        "description": "Name for a voice message attachment"
-    },
-    "importCompleteStartButton": {
-        "message": "Εκκίνηση με το Signal Desktop",
-        "description": "Button shown at end of successful import process, nothing left but a restart"
-    },
-    "submit": {
-        "message": "Υποβολή",
-        "description": ""
-    },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "Η ομάδα ανανεώθηκε.",
         "description": "Shown in the conversation history when someone updates the group"
     },
-    "themeDark": {
-        "message": "Dark",
-        "description": "Label text for dark theme"
-    },
-    "identityKeyErrorOnSend": {
-        "message": "Ο αριθμός ασφαλείας με τον/την $name$ έχει αλλάξει. Αυτό σημαίνει ότι είτε κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου είτε απλά ο/η $name$ επανεγκατέστησε το Signal. Ίσως επιθυμείς να επαληθεύσεις τον αριθμό ασφαλείας με αυτή την επαφή.",
-        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "clearDataExplanation": {
-        "message": "Αυτό θα διαγράψει όλα τα δεδομένα σε αυτή την εφαρμογή, αφαιρώντας όλα τα μηνύματα και τις αποθηκευμένες πληροφορίες λογαριασμού",
-        "description": "Text describing what the clear data button will do."
-    },
-    "to": {
-        "message": "Προς",
-        "description": "Label for the receiver of a message"
-    },
-    "windowMenuMinimize": {
-        "message": "Minimize",
-        "description": "Window menu command to minimize the current window"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1ω",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "editMenuStopSpeaking": {
-        "message": "Stop speaking",
-        "description": "Edit menu item under 'speech' to stop dictation"
-    },
-    "optimizingApplication": {
-        "message": "Βελτιστοποίηση εφαρμογής",
-        "description": "Message shown on the loading screen while we are doing application optimizations"
-    },
-    "goToReleaseNotes": {
-        "message": "Πήγαινε στις σημειώσεις έκδοσης",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "Λεπτομέρειες μηνύματος",
-        "description": ""
-    },
-    "timerOption_12_hours": {
-        "message": "12 hours",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "mainMenuFile": {
-        "message": "&Φάκελος",
-        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "verify": {
-        "message": "Σημείωση ως επιβεβαιωμένο",
-        "description": ""
-    },
-    "sendFailed": {
-        "message": "Send failed",
-        "description": "Shown on outgoing message if it fails to send"
-    },
-    "clearDataHeader": {
-        "message": "Εκκαθάριση δεδομένων",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
-        "description": "View menu command to enter or leave Full Screen mode"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10δ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 minutes",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "linkNewDevice": {
-        "message": "Σύνδεση νέας συσκεύης",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "nameAndMessage": {
-        "message": "Όνομα αποστολέα και μήνυμα",
-        "description": "Label for setting notifications to display name and message text"
-    },
-    "menuSetupAsStandalone": {
-        "message": "Εγκατάσταση ως αυτόνομη συσκευή",
-        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
-    },
-    "failedToSend": {
-        "message": "Αποτυχία αποστολής σε κάποιους παραλήπτες. Έλεγξε την σύνδεση του δικτύου.",
-        "description": ""
-    },
-    "ok": {
-        "message": "Εντάξει",
-        "description": ""
-    },
-    "identityChanged": {
-        "message": "Ο αριθμός ασφαλείας με αυτή την επαφή έχει αλλάξει. Αυτό σημαίνει είτε ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου είτε ότι αυτή απλά επανεγκατέστησε  το Signal. Ίσως επιθυμείς να επαληθεύσεις το νέο αριθμό ασφαλείας παρακάτω.",
-        "description": ""
-    },
-    "appMenuUnhide": {
-        "message": "Show All",
-        "description": "Application menu command to show all application windows"
-    },
-    "changedSinceVerifiedMultiple": {
-        "message": "Οι αριθμοί ασφαλείας με πολλαπλά μέλη αυτής της ομάδας άλλαξαν από την τελευταία φορά που επιβεβαιώθηκαν. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου ή ότι απλά επανεγκατέστησαν το Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "showSettings": {
-        "message": "Show Settings",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
-    },
-    "editMenuCopy": {
-        "message": "Copy",
-        "description": "Edit menu command to add selected text to clipboard"
-    },
-    "loadDataHeader": {
-        "message": "Φόρτωση δεδομένων",
-        "description": "Header shown on the first screen in the data import process"
-    },
-    "submitDebugLog": {
-        "message": "Αρχείο αποσφαλμάτωσης",
-        "description": "Menu item and header text for debug log modal (sentence case)"
-    },
-    "startConversation": {
-        "message": "Εκκίνηση συνομιλίας...",
-        "description": "Label underneath number a user enters that is not an existing contact"
-    },
-    "error": {
-        "message": "Σφάλμα",
-        "description": ""
-    },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Ο τίτλος είναι πλέον \"$name$\".",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1299,88 +1377,28 @@
             }
         }
     },
-    "retrySend": {
-        "message": "Retry Send",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
-    },
-    "changedRightAfterVerify": {
-        "message": "Ο αριθμός ασφαλείας που προσπαθείς να επιβεβαιώσεις έχει αλλάξει. Παρακαλώ επιβεβαίωσε τον νέο αριθμό ασφαλείας με τον/την $name$. Θυμήσου, αυτή η αλλαγή μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σου ή ότι απλά ο/η $name$ επανεγκατέστησε το Signal.",
-        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+    "joinedTheGroup": {
+        "message": "Ο/Η $name$ συμμετέχει στην ομάδα.",
+        "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "Bob"
+                "example": "Alice"
             }
         }
     },
-    "timerOption_6_hours": {
-        "message": "6 hours",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
-        "description": "Used in alt tag of video attachment preview"
-    },
-    "timerSetTo": {
-        "message": "Η ρύθμιση της αντίστροφης μέτρησης είναι ίση με $time$",
-        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
+    "multipleJoinedTheGroup": {
+        "message": "Ο/Η $names$ συμμετέχει στην ομάδα.",
+        "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
-            "time": {
+            "names": {
                 "content": "$1",
-                "example": "1w"
+                "example": "Alice, Bob"
             }
         }
     },
-    "editMenuDelete": {
-        "message": "Διαγραφή",
-        "description": "Edit menu command to remove the selected text"
-    },
-    "windowMenuZoom": {
-        "message": "Zoom",
-        "description": "Window menu command to make the current window the size of the whole screen"
-    },
-    "autoUpdateNewVersionTitle": {
-        "message": "Είναι διαθέσιμη μια αναβάθμιση του Signal",
-        "description": ""
-    },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30δ",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "audio": {
-        "message": "Ήχος",
-        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
-    },
-    "editMenuStartSpeaking": {
-        "message": "Start speaking",
-        "description": "Edit menu item under 'speech' to start dictation"
-    },
-    "minutesAgo": {
-        "message": "$minutes$ min ago",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "notifications": {
-        "message": "Ειδοποιήσεις",
-        "description": "Header for notification settings"
-    },
-    "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "hide": {
-        "message": "Σμίκρυνση",
-        "description": "Command in the tray icon menu, to hide the window"
+    "privacyPolicy": {
+        "message": "Όροι & Πολιτική Απορρήτου",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }
