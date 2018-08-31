@@ -141,6 +141,7 @@ const dummyChecker = {
 window.spellChecker = simpleChecker;
 window.disableSpellCheck = () => {
   window.removeEventListener('contextmenu', spellCheckHandler);
+  window.addEventListener('contextmenu', defaultContextMenuHandler);
   webFrame.setSpellCheckProvider('en-US', false, dummyChecker);
 };
 
@@ -153,6 +154,15 @@ window.enableSpellCheck = () => {
     simpleChecker
   );
   window.addEventListener('contextmenu', spellCheckHandler);
+};
+
+const defaultContextMenuHandler = () => {
+    const menu = buildEditorContextMenu({});
+
+    // @see js/spell_check.js:183
+    setTimeout(() => {
+        menu.popup(remote.getCurrentWindow());
+    }, 30);
 };
 
 const spellCheckHandler = e => {
