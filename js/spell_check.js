@@ -154,6 +154,7 @@ window.enableSpellCheck = () => {
     simpleChecker
   );
   window.addEventListener('contextmenu', spellCheckHandler);
+  window.removeEventListener('contextmenu', defaultContextMenuHandler);
 };
 
 const defaultContextMenuHandler = () => {
