@@ -1109,9 +1109,10 @@
       conversationId: data.destination,
       type: 'outgoing',
       sent: true,
-      expirationStartTimestamp: data.expirationStartTimestamp
-        ? Math.min(data.expirationStartTimestamp, Date.now())
-        : null,
+      expirationStartTimestamp: Math.min(
+        data.expirationStartTimestamp || data.timestamp || Date.now(),
+        Date.now()
+      ),
     });
   }
 
