@@ -880,15 +880,6 @@
     "description":
       "Used in alt tag of thumbnail images inside of an embedded message quote"
   },
-  "imageFailedToLoad": {
-    "message": "Image failed to load",
-    "description": "When an image attachment is missing, this message is shown"
-  },
-  "videoScreenshotFailedToLoad": {
-    "message": "Video screenshot failed to load",
-    "description":
-      "When a attachment video screenshot is missing, this message is shown"
-  },
   "imageAttachmentAlt": {
     "message": "Image attached to message",
     "description": "Used in alt tag of image attachment"
