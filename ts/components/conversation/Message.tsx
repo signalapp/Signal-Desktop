@@ -81,6 +81,7 @@ export interface Props {
     referencedMessageNotFound: boolean;
   };
   authorAvatarPath?: string;
+  isExpired: boolean;
   expirationLength?: number;
   expirationTimestamp?: number;
   onClickAttachment?: () => void;
@@ -211,15 +212,22 @@ export class Message extends React.Component<Props, State> {
     }
   }
 
+  public componentDidUpdate() {
+    this.checkExpired();
+  }
+
   public checkExpired() {
     const now = Date.now();
-    const { expirationTimestamp, expirationLength } = this.props;
+    const { isExpired, expirationTimestamp, expirationLength } = this.props;
 
     if (!expirationTimestamp || !expirationLength) {
       return;
     }
+    if (this.expiredTimeout) {
+      return;
+    }
 
-    if (now >= expirationTimestamp) {
+    if (isExpired || now >= expirationTimestamp) {
       this.setState({
         expiring: true,
       });

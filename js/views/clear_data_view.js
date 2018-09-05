@@ -34,11 +34,15 @@
       this.render();
 
       try {
+        await Database.clear();
         await Database.close();
-        window.log.info('All database connections closed. Starting delete.');
+        window.log.info(
+          'All database connections closed. Starting database drop.'
+        );
+        await Database.drop();
       } catch (error) {
         window.log.error(
-          'Something went wrong closing all database connections.'
+          'Something went wrong deleting IndexedDB data then dropping database.'
         );
       }
 
@@ -46,15 +50,14 @@
     },
     async clearAllData() {
       try {
-        await Promise.all([
-          Logs.deleteAll(),
-          Database.drop(),
-          window.Signal.Data.removeAll(),
-          window.Signal.Data.removeOtherData(),
-        ]);
+        await Logs.deleteAll();
 
+        // SQLCipher
+        await window.Signal.Data.removeAll();
         await window.Signal.Data.close();
         await window.Signal.Data.removeDB();
+
+        await window.Signal.Data.removeOtherData();
       } catch (error) {
         window.log.error(
           'Something went wrong deleting all data:',

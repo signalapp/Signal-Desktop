@@ -15,6 +15,7 @@
       this.listenTo(this.model, 'change', this.onChange);
       this.listenTo(this.model, 'destroy', this.onDestroy);
       this.listenTo(this.model, 'unload', this.onUnload);
+      this.listenTo(this.model, 'expired', this.onExpired);
     },
     onChange() {
       this.addId();
@@ -26,6 +27,9 @@
       //   necessary.
       const { id } = this.model;
       this.$el.attr('id', id);
+    },
+    onExpired() {
+      setTimeout(() => this.onUnload(), 1000);
     },
     onUnload() {
       if (this.childView) {
@@ -93,6 +97,7 @@
       };
 
       this.listenTo(this.model, 'change', update);
+      this.listenTo(this.model, 'expired', update);
 
       this.conversation = this.model.getConversation();
       this.listenTo(this.conversation, 'change', update);

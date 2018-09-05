@@ -166,15 +166,18 @@
       this.updateLastMessage();
 
       const removeMessage = () => {
-        const existing = this.messageCollection.get(message.id);
+        const { id } = message;
+        const existing = this.messageCollection.get(id);
         if (!existing) {
           return;
         }
 
         window.log.info('Remove expired message from collection', {
-          sentAt: message.get('sent_at'),
+          sentAt: existing.get('sent_at'),
         });
-        this.messageCollection.remove(message.id);
+
+        this.messageCollection.remove(id);
+        existing.trigger('expired');
       };
 
       // If a fetch is in progress, then we need to wait until that's complete to

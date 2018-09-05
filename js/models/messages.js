@@ -83,6 +83,7 @@
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
       this.on('unload', this.unload);
+      this.on('expired', this.onExpired);
       this.setToExpire();
     },
     idForLogging() {
@@ -233,7 +234,9 @@
         this.quotedMessage = null;
       }
     },
-
+    onExpired() {
+      this.hasExpired = true;
+    },
     getPropsForTimerNotification() {
       const { expireTimer, fromSync, source } = this.get(
         'expirationTimerUpdate'
@@ -424,6 +427,7 @@
         attachment: this.getPropsForAttachment(firstAttachment),
         quote: this.getPropsForQuote(),
         authorAvatarPath,
+        isExpired: this.hasExpired,
         expirationLength,
         expirationTimestamp,
         onReply: () => this.trigger('reply', this),
@@ -875,17 +879,33 @@
               promises.push(c.getProfiles());
             }
           } else {
-            this.saveErrors(result.errors);
             if (result.successfulNumbers.length > 0) {
               const sentTo = this.get('sent_to') || [];
 
-              // Note: In a partially-successful group send, we do not start
-              //   the expiration timer.
+              // In groups, we don't treat unregistered users as a user-visible
+              //   error. The message will look successful, but the details
+              //   screen will show that we didn't send to these unregistered users.
+              const filteredErrors = _.reject(
+                result.errors,
+                error => error.name === 'UnregisteredUserError'
+              );
+
+              // We don't start the expiration timer if there are real errors
+              //   left after filtering out all of the unregistered user errors.
+              const expirationStartTimestamp = filteredErrors.length
+                ? null
+                : Date.now();
+
+              this.saveErrors(filteredErrors);
+
               this.set({
                 sent_to: _.union(sentTo, result.successfulNumbers),
                 sent: true,
+                expirationStartTimestamp,
               });
               promises.push(this.sendSyncMessage());
+            } else {
+              this.saveErrors(result.errors);
             }
             promises = promises.concat(
               _.map(result.errors, error => {
