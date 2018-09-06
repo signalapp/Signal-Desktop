@@ -549,6 +549,9 @@
   "fileSizeWarning": {
     "message": "Sorry, the selected file exceeds message size restrictions."
   },
+  "unableToLoadAttachment": {
+    "message": "Unable to load selected attachment."
+  },
   "disconnected": {
     "message": "Disconnected",
     "description":
