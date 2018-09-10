@@ -32,6 +32,7 @@
     "eslint": "eslint .",
     "lint": "yarn format --list-different && yarn lint-windows",
     "lint-windows": "yarn eslint && yarn tslint",
+    "lint-deps": "node ts/util/lint/linter.js",
     "tslint": "tslint --format stylish --project .",
     "format": "prettier --write \"*.{css,js,json,md,scss,ts,tsx}\" \"./**/*.{css,js,json,md,scss,ts,tsx}\"",
     "transpile": "tsc",
