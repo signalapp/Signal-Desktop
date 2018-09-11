@@ -376,7 +376,7 @@ function openNewBugForm() {
 
 function openSupportPage() {
   shell.openExternal(
-    'https://support.signal.org/hc/en-us/categories/202319038-Desktop'
+    'https://support.signal.org/hc/en-us'
   );
 }
 
