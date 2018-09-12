@@ -65,7 +65,7 @@
     template: $('#conversation').html(),
     render_attributes() {
       return {
-        'send-message': i18n('sendMessage'),
+        'send-message': i18n('sendMessage', this.model.getDisplayName()),
         'android-length-warning': i18n('androidMessageLengthWarning'),
       };
     },

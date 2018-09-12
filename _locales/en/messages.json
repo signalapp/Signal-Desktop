@@ -813,8 +813,14 @@
     "description": "Label for the time a message was received"
   },
   "sendMessage": {
-    "message": "Send a message",
-    "description": "Placeholder text in the message entry field"
+    "message": "Send a message to $name$",
+    "description": "Placeholder text in the message entry field",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      }
+    }
   },
   "groupMembers": {
     "message": "Group members"
