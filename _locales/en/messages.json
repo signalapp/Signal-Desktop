@@ -1222,6 +1222,10 @@
     "message": "Unblock this contact to send a message.",
     "description": "Brief message shown when trying to message a blocked number"
   },
+  "unblockGroupToSend": {
+    "message": "Unblock this group to send a message.",
+    "description": "Brief message shown when trying to message a blocked group"
+  },
   "youChangedTheTimer": {
     "message": "You set the disappearing message timer to $time$",
     "description":
