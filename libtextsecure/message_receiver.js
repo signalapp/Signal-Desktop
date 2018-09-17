@@ -728,7 +728,11 @@ MessageReceiver.prototype.extend({
     return p.then(() =>
       this.processDecrypted(envelope, msg, this.number).then(message => {
         const groupId = message.group && message.group.id;
-        if (groupId && this.isGroupBlocked(groupId)) {
+        const isBlocked = this.isGroupBlocked(groupId);
+        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const hasGroupMetadata = Boolean(message.group);
+
+        if (groupId && isBlocked && !(isMe && hasGroupMetadata)) {
           window.log.warn(
             `Message ${this.getEnvelopeId(
               envelope
@@ -762,7 +766,11 @@ MessageReceiver.prototype.extend({
     return p.then(() =>
       this.processDecrypted(envelope, msg, envelope.source).then(message => {
         const groupId = message.group && message.group.id;
-        if (groupId && this.isGroupBlocked(groupId)) {
+        const isBlocked = this.isGroupBlocked(groupId);
+        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const hasGroupMetadata = Boolean(message.group);
+
+        if (groupId && isBlocked && !(isMe && hasGroupMetadata)) {
           window.log.warn(
             `Message ${this.getEnvelopeId(
               envelope
