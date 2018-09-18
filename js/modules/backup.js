@@ -909,7 +909,7 @@ function exportConversations(db, options) {
   });
 }
 
-function getDirectory(options) {
+function getDirectory(options = {}) {
   return new Promise((resolve, reject) => {
     const browserWindow = BrowserWindow.getFocusedWindow();
     const dialogOptions = {
@@ -1199,11 +1199,7 @@ function assembleLookup(db, storeName, keyFunction) {
 }
 
 function getDirectoryForExport() {
-  const options = {
-    title: i18n('exportChooserTitle'),
-    buttonLabel: i18n('exportButton'),
-  };
-  return getDirectory(options);
+  return getDirectory();
 }
 
 function createZip(zipDir, targetDir) {
@@ -1324,7 +1320,6 @@ async function exportToDirectory(directory, options) {
 function getDirectoryForImport() {
   const options = {
     title: i18n('importChooserTitle'),
-    buttonLabel: i18n('importButton'),
   };
   return getDirectory(options);
 }

@@ -226,6 +226,22 @@
     }
   }
 
+  .module-embedded-contact__contact-name {
+    color: $color-white;
+  }
+
+  .module-embedded-contact__contact-method {
+    color: $color-white-07;
+  }
+
+  .module-embedded-contact__contact-name--incoming {
+    color: $color-light-90;
+  }
+
+  .module-embedded-contact__contact-method--incoming {
+    color: $color-light-60;
+  }
+
   &.dark-theme {
     // _modules
 
@@ -278,7 +294,7 @@
     }
 
     .module-message__metadata__date--incoming {
-      color: $color-white;
+      color: $color-white-07;
     }
 
     .module-message__broken-image--incoming {
@@ -413,7 +429,11 @@
       }
     }
 
-    .module-embedded-contact__contact-method {
+    .module-embedded-contact__contact-name--incoming {
+      color: $color-white;
+    }
+
+    .module-embedded-contact__contact-method--incoming {
       color: $color-white-07;
     }
   }

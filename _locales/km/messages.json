@@ -1,138 +1,138 @@
 {
     "mainMenuFile": {
-        "message": "&Soubor",
+        "message": "&ឯកសារ",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Upravit",
+        "message": "&កែប្រែ",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&Zobrazit",
+        "message": "&បង្ហាញ",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "&Okno",
+        "message": "&ផ្ទាំងបង្អួច",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "&Nápověda",
+        "message": "&ជំនួយ",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Preferences…",
+        "message": "ចំណង់ចំណូលចិត្ត...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Hide",
+        "message": "លាក់",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Hide Others",
+        "message": "លាក់ផ្សេងទៀត",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Show All",
+        "message": "បង្ហាញទាំងអស់",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Quit Signal",
+        "message": "ចាកចេញពីស៊ីហ្គណល",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Undo",
+        "message": "មិនធ្វើវិញ",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Redo",
+        "message": "ធ្វើឡើងវិញ",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Cut",
+        "message": "កាត់",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Copy",
+        "message": "ចម្លង",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Paste",
+        "message": "បិទភ្ជាប់",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
+        "message": "គំរូបិទភ្ជាប់ និងត្រូវគ្នា",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Vymazat",
+        "message": "លុប",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Select All",
+        "message": "ជ្រើសរើសទាំងអស់",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Start speaking",
+        "message": "ចាប់ផ្តើមការនិយាយ",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Stop speaking",
+        "message": "បញ្ឈប់ការនិយាយ",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Close Window",
+        "message": "បិទផ្ទាំង",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimize",
+        "message": "បង្រួមតូច",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Zoom",
+        "message": "ពង្រីក",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
+        "message": "នាំទាំងអស់ទៅកាន់ពុម្ពអក្សរ",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Actual Size",
+        "message": "ទំហំជាក់ស្តែង",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Zoom In",
+        "message": "ពង្រីក",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Zoom Out",
+        "message": "បង្រួម",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
+        "message": "បិទបើកការបង្ហាញពេញអេក្រង់",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
+        "message": "បិទបើកមុខងារអ្នកអភិវឌ្ឍន៍",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Set Up with Import",
+        "message": "ដំឡើង ជាមួយការនាំចូល",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
+        "message": "ដំឡើង ជាឧបករណ៍ថ្មី",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Set Up as Standalone Device",
+        "message": "ដំឡើង ជាឧបករណ៍ដាច់ដោយឡែក",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
-        "message": "Nahrávání...",
+        "message": "កំពុងផ្ទុក...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "ធ្វើឱ្យកម្មវិធីប្រសើរឡើង ...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
@@ -146,63 +146,63 @@
         }
     },
     "chooseDirectory": {
-        "message": "Vybrat složku",
+        "message": "ជ្រើសរើសទីតាំងផ្ទុក",
         "description": "Button to allow the user to find a folder on disk"
     },
     "loadDataHeader": {
-        "message": "Load your data",
+        "message": "ផ្ទុកទិន្នន័យរបស់អ្នក",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "message": "អ្នកទើបឆ្លងកាត់ដំណើការនាំចេញ បញ្ជីទំនាក់ទំនង និងសាររបស់អ្នកគឺកំពុងរង់ចាំនៅលើម៉ាស៊ីនកុំព្យូទ័ររបស់អ្នក។ ជ្រើសរើស ថតផ្ទុកទិន្នន័យស៊ីហ្គណលរបស់អ្នក ដែលបានរក្សាទុក។",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "ជ្រើសរើស ថតឯកសារ ជាមួយទិន្នន័យបាននាំចេញ",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Něco se pokazilo!",
+        "message": "មានបញ្ហាខុសប្រក្រតី!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Loading contacts and messages",
+        "message": "កំពុងផ្ទុកបញ្ជីទំនាក់ទំនង និងសារ",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "សូមប្រាកដថា អ្នកបានជ្រើសរើស កន្លែងត្រឹមត្រូវដែលផ្ទុកទិន្នន័យស៊ីហ្គណលរបស់អ្នក ដែលបានរក្សាទុក។ ឈ្មោះវា គួរតែចាប់ផ្តើមដោយ 'នាំចេញ ស៊ីហ្គណល។' អ្នកអាចរក្សាទុកការចម្លងថ្មីមួយនៃទិន្នន័យរបស់អ្នក ពីកម្មវិធី Chrome ។",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "message": "បើសិនជំហានទាំងនេះ មិនកើតទេ សូមបញ្ជូន កំណត់ត្រាបញ្ហា (បង្ហាញ -> កំណត់ត្រាបញ្ហា) ដូចនេះ យើងអាចជួយអ្នកបាន!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Vyberte složku a zkuste znovu",
+        "message": "ជ្រើសរើស កន្លែងផ្ទុក និងសាកល្បងម្តងទៀត",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Provedeno!",
+        "message": "ជោគជ័យ!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Start using Signal Desktop",
+        "message": "ចាប់ផ្តើមប្រើប្រាស់ ស៊ីហ្គណល Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Link this device to your phone",
+        "message": "តភ្ជាប់ឧបករណ៍នេះ ទៅកាន់ទូរស័ព្ទរបស់អ្នក",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "Vámi vybraná lokalita",
+        "message": "ទីតាំងអ្នកបានជ្រើសរើស",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Aktualizace databáze. To může nějakou chvíli trvat...",
+        "message": "កំពុងដំឡើងទិន្នន័យ។ វាអាចចំណាយពេលខ្លះ...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Načítání zpráv. $count$ z více...",
+        "message": "កំពុងផ្ទុកសារ។ $count$ ឥឡូវនេះ...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -212,35 +212,35 @@
         }
     },
     "me": {
-        "message": "Já",
+        "message": "ខ្ញុំ",
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "Zobrazit",
+        "message": "បង្ហាញ",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Opustil jste skupinu",
+        "message": "អ្នកបានចាកចេញពីក្រុម",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Přesunout se na konec konverzace",
+        "message": "រំកិលចុះក្រោមនៃការសន្ទនា",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messageBelow": {
-        "message": "Nové zprávy níže",
+        "message": "សារថ្មីខាងក្រោម",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
-        "message": "Nové zprávy níže",
+        "message": "សារថ្មីខាងក្រោម",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 Nepřečtená zpráva",
+        "message": "សារមិនទាន់អាន 1 ",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ Nepřečtených Zpráv",
+        "message": "$count$ សារមិនទាន់អាន",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -250,7 +250,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "អ្នកបានដាក់លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$ថាបានផ្ទៀងផ្ទាត់",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -260,7 +260,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "អ្នកបានដាក់លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$ថាមិនបានផ្ទៀងផ្ទាត់",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -270,7 +270,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "អ្នកបានដាក់លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$ថាបានផ្ទៀងផ្ទាត់ពីឧបករណ៍ផ្សេង",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -280,7 +280,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "អ្នកបានដាក់លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$ថាមិនបានផ្ទៀងផ្ទាត់ពីឧបករណ៍ផ្សេង",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -290,15 +290,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយសមាជិកក្រុមច្រើន បានផ្លាស់ប្តូរ តាំងពីអ្នកបានផ្ទៀងផ្ទាត់លើកចុងក្រោយ។ ចុច លើសមាជិកក្រុមមួយ ដើម្បីមើលលេខសុវត្ថិភាពថ្មីជាមួយពួកគេ។",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយសមាជិកក្រុមច្រើន បានផ្លាស់ប្តូរ តាំងពីអ្នកបានផ្ទៀងផ្ទាត់លើកចុងក្រោយ។ នេះអាចមានន័យថា មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬគេបានតំឡើង Signal ឡើងវិញ។",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Bezpečnostní číslo s $name$ se změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name$ prostě znovu nainstaloval Signal.",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ តាំងពីអ្នកបានផ្ទៀងផ្ទាត់លើកចុងក្រោយ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រៀតចូលការទំនាក់ទំនង ឬ $name$ បានដំឡើង ស៊ីហ្គណល ឡើងវិញ។",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -308,7 +308,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "លេខសុវត្ថិភាព ដែលអ្នកកំពុងព្យាយាមផ្ទៀងផ្ទាត់បានផ្លាស់ប្តូរ។ សូមពិនិត្យមើលលេខសុវត្ថិភាពថ្មីជាមួយ $name$។ ចងចាំថា ការផ្លាស់ប្តូរនេះអាចមានន័យថា​ មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬ $name$បានតំឡើង Signal ឡើងវិញ។  ",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -318,11 +318,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយសមាជិកក្រុមច្រើន បានផ្លាស់ប្តូរ ថ្មីៗនេះ។ នេះអាចមានន័យថា មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬគេបានតំឡើង Signal ឡើងវិញ។ ",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Bezpečnostní číslo s $name$ se změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name$ prostě znovu nainstaloval Signal.",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ ថ្មីៗនេះ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬ $name$ បានដំឡើង Signal ឡើងវិញ។",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -332,7 +332,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Bezpečnostní číslo s $name$ se vám změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si $name$ prostě znovu nainstaloval Signal. Možná si budete chtít bezpečnostní číslo níže ověřit.",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ។ នេះអាចមានន័យថា មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬ $name$ បានតំឡើង Signal ឡើងវិញ។ អ្នកអាចត្រូវផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នក ជាមួយលេខទំនាក់ទំនងនេះ។",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -342,11 +342,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Přesto poslat",
+        "message": "ផ្ញើ ទោះយ៉ាងណាក៏ដោយ",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Bezpečnostní číslo $name$ bylo změněno a nebylo ověřeno. Klikněte pro zobrazení.",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$ បានផ្លាស់ប្តូរ និងមិនត្រូវបានផ្ទៀងផ្ទាត់ឡើយ។ ចុច ដើម្បីបង្ហាញ។",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -356,43 +356,43 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Bezpečnostní kódy s více uživateli této skupiny byly změněny, a nebyly dlouho ověřeny. Klikněte pro zobrazení.",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយសមាជិកច្រើន នៅក្រុមនេះ បានផ្លាស់ប្តូរ ​និងមិនមានការផ្ទៀងផ្ទាត់ឡើយ។ ចុច  ដើម្បីបង្ហាញ។",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Tento záznam bude přispěvatelům veřejně zpřístupněn k prohlížení. Můžete si jej před odesláním zkontrolovat a upravit.",
+        "message": "កំណត់ត្រានេះ នឹងត្រូវបង្ហោះជាសាធារណៈតាមរយៈបណ្តាញ សម្រាប់អ្នកចូលរួមដើម្បីពិនិត្យមើល។ អ្នកអាចពិនិត្យ និងកែប្រែវាមុនពេលបញ្ជូន។",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "មានបញ្ហាក្នុងការផ្ទុក! សូមបន្ថែមក្នុងកំណត់ត្រា ដើម្បីកត់ត្រាបញ្ហាក្នុងឯកសារអ្នក។",
         "description": ""
     },
     "reportIssue": {
-        "message": "Nahlásit problém",
+        "message": "រាយការណ៍បញ្ហាមួយ",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Rozumím!",
+        "message": "យល់ព្រម!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Odeslat",
+        "message": "បញ្ជូន",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Přijmout",
+        "message": "យល់ព្រម",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Označit jako ověřené",
+        "message": "ដាក់ថាបានផ្ទៀងផ្ទាត់",
         "description": ""
     },
     "unverify": {
-        "message": "Označit jako neověřené",
+        "message": "ដាក់ថាមិនបានផ្ទៀងផ្ទាត់",
         "description": ""
     },
     "isVerified": {
-        "message": "Ověřili jste bezpečnostní kód s $name$.",
+        "message": "អ្នកបានផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -402,7 +402,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Bezpečnostní kód s $name$ nebyl ověřen.",
+        "message": "អ្នកមិនបានផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -412,95 +412,95 @@
         }
     },
     "verified": {
-        "message": "Ověřeno",
+        "message": "បានផ្ទៀងផ្ទាត់",
         "description": ""
     },
     "newIdentity": {
-        "message": "Nové bezpečnostní číslo",
+        "message": "លេខសុវត្ថិភាពថ្មី",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Bezpečnostní číslo k tomuto kontaktu se vám změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si kontakt prostě znovu nainstaloval Signal. Možná si budete chtít bezpečnostní číslo níže ověřit.",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយលេខទំនាក់ទំនងនេះបានផ្លាស់ប្តូរ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក, ឬ លេខទំនាក់ទំនងនេះបានដំឡើង Signal ឡើងវិញ។ អ្នកអាចត្រូវផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពខាងក្រោម។",
         "description": ""
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "បញ្ហាទទួលសារផ្ញើចូល",
         "description": ""
     },
     "media": {
-        "message": "Média",
+        "message": "ឯកសារមេឌា",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "You don’t have any media in this conversation",
+        "message": "អ្នកមិនមានឯកសារមេឌា ក្នុងការសន្ទនានេះទេ",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Dokumenty",
+        "message": "ឯកសារ",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "You don’t have any documents in this conversation",
+        "message": "អ្នកមិនមានឯកសារ ក្នុងការសន្ទនានេះទេ",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Dnes",
+        "message": "ថ្ងៃនេះ",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Včera",
+        "message": "ម្សិលមិញ",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Tento týden",
+        "message": "សប្តាហ៍នេះ",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Tento měsíc",
+        "message": "ខែនេះ",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Nepodporovaný typ přílohy. Klikněte pro uložení.",
+        "message": "មិនគាំទ្រប្រភេទឯកសារភ្ជាប់។ ចុច ដើម្បីរក្សាទុក។",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Klikněte pro uložení",
+        "message": "ចុច ដើម្បីរក្សាទុក",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Nepojmenovaný Soubor",
+        "message": "ឯកសារគ្មានឈ្មោះ",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Hlasová Zpráva",
+        "message": "សារសំឡេង",
         "description": "Name for a voice message attachment"
     },
     "unsupportedFileType": {
-        "message": "Nepodporovaný typ souboru",
+        "message": "មិនគាំទ្រប្រភេទឯកសារ",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "fileSizeWarning": {
-        "message": "Omlouváme se, vybraný soubor překročil limit velikosti zprávy.",
+        "message": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។",
         "description": ""
     },
     "disconnected": {
-        "message": "Odpojen",
+        "message": "បានផ្តាច់",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Připojování",
+        "message": "កំពុងតភ្ជាប់",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-        "message": "Offline",
+        "message": "អហ្វឡាញ",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Zkontrolujte své síťové připojení.",
+        "message": "ត្រួតពិនិត្យការតភ្ជាប់បណ្តាញរបស់អ្នក។",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
-        "message": "Pokus o znovupřipojení za $reconnect_duration_in_seconds$ sekund",
+        "message": "កំពុងព្យាយាមតភ្ជាប់ឡើងវិញក្នុងពេល $reconnect_duration_in_seconds$ វិនាទី",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -510,71 +510,71 @@
         }
     },
     "submitDebugLog": {
-        "message": "Debug log",
+        "message": "កំណត់ត្រាបញ្ហា",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Ladící Log",
+        "message": "កំណត់ត្រាបញ្ហា",
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Go to Release Notes",
+        "message": "ចូលទៅកាន់កំណត់ចេញថ្មី",
         "description": ""
     },
     "goToForums": {
-        "message": "Go to Forums",
+        "message": "ចូលទៅកាន់ វេទិកា",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Go to Support Page",
+        "message": "ចូលទៅកាន់ទំព័រគាំទ្រ",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Report an Issue",
+        "message": "រាយការណ៍បញ្ហាមួយ",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
+        "message": "ចំណង់ចំណូលចិត្តស៊ីហ្គណល Desktop ",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "O Aplikaci Signal Desktop",
+        "message": "អំពី ស៊ីហ្គណល Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
-        "message": "Řeč",
+        "message": "សម្តី",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Zobrazit",
+        "message": "បង្ហាញ",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Hide",
+        "message": "លាក់",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Quit",
+        "message": "ចាកចេញ",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "trayTooltip": {
-        "message": "Signal Desktop",
+        "message": "ស៊ីហ្គណល Desktop",
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
-        "message": "Zadejte jméno nebo číslo",
+        "message": "បញ្ចូល ឈ្មោះ ឬ លេខ",
         "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
-        "message": "Vítejte v Signalu",
+        "message": "ស្វាគមន៍មកកាន់ ស៊ីហ្គណល",
         "description": ""
     },
     "selectAContact": {
-        "message": "Vyberte si kontakt nebo skupinu a začněte si povídat.",
+        "message": "ជ្រើសរើសលេខទំនាក់ទំនងមួយ ឬក្រុម ដើម្បីចាប់ផ្តើមការសន្ទនា។",
         "description": ""
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "រូបតំណាងសម្រាប់លេខទំនាក់ទំនង $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -584,35 +584,35 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Send Message",
+        "message": "ផ្ញើសារ",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "home",
+        "message": "ផ្ទះ",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "work",
+        "message": "ការងារ",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "mobil",
+        "message": "ចល័ត",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "email",
+        "message": "អ៊ីមែល",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "phone",
+        "message": "ទូរស័ព្ទ",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "address",
+        "message": "អាសយដ្ឋាន",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "PO Box",
+        "message": "ប្រអប់សំបុត្រ",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloadAttachment": {
@@ -620,7 +620,7 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "ឆ្លើយតបសារ",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
@@ -636,11 +636,11 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "you": {
-        "message": "Vy",
+        "message": "អ្នក",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "កំពុងឆ្លើយតបទៅកាន់ $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -650,51 +650,51 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "ដើម្បីបញ្ជូនសារសំឡេង អនុញ្ញាតឲ្យស៊ីហ្គណល Desktop ចូលប្រើប្រាស់ម៉ៃក្រូហ្វូនរបស់អ្នក។",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Allow Access",
+        "message": "អនុញ្ញាតចូលប្រើប្រាស់",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Show Settings",
+        "message": "បង្ហាញការកំណត់",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "សំឡេង",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "វីដេអូ",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Photo",
+        "message": "រូបភាព",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "ok": {
-        "message": "OK",
+        "message": "យល់ព្រម",
         "description": ""
     },
     "cancel": {
-        "message": "Zrušit",
+        "message": "លះបង់",
         "description": ""
     },
     "failedToSend": {
-        "message": "Selhalo odeslání některým příjemcům. Zkontrolujte si síťové připojení.",
+        "message": "បរាជ័យក្នុងការផ្ញើទៅកាន់អ្នកទទួល។ ពិនិត្យការតភ្ជាប់បណ្តាញរបស់អ្នក។",
         "description": ""
     },
     "error": {
-        "message": "Chyba",
+        "message": "បញ្ហា",
         "description": ""
     },
     "messageDetail": {
-        "message": "Podrobnosti zprávy",
+        "message": "សារលម្អិត",
         "description": ""
     },
     "delete": {
-        "message": "Vymazat",
+        "message": "លុប",
         "description": ""
     },
     "deleteWarning": {
@@ -702,39 +702,39 @@
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Smazat tuto zprávu",
+        "message": "លុបសារនេះ",
         "description": ""
     },
     "from": {
-        "message": "Od",
+        "message": "ពី",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Komu",
+        "message": "ទៅ",
         "description": "Label for the receiver of a message"
     },
     "sent": {
-        "message": "Odeslána",
+        "message": "បានផ្ញើ",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Přijata",
+        "message": "បានទទួល",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Poslat zprávu",
+        "message": "ផ្ញើសារមួយ",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Group members",
+        "message": "សមាជិកក្រុម",
         "description": ""
     },
     "showMembers": {
-        "message": "Zobrazit členy",
+        "message": "បង្ហាញសមាជិក",
         "description": ""
     },
     "resetSession": {
-        "message": "Resetovat sezení",
+        "message": "កំណត់ការប្រើប្រាស់ឡើងវិញ",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
@@ -742,11 +742,11 @@
         "description": ""
     },
     "viewAllMedia": {
-        "message": "Zobrazit všechna média",
+        "message": "បង្ហាញឯកសារមេឌាទាំងអស់",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Pokud chcete zkontrolovat bezpečnost šifrované komunikace s $name$, porovnejte čísla nahoře s čísly na zařízení vašeho kontaktu.",
+        "message": "បើសិនអ្នកចង់ផ្ទៀងផ្ទាត់សុវត្ថិភាព នៃកូដបនីយកម្មរបស់អ្នកជាមួយ $name$ សូមប្រៀបធៀបលេខខាងលើជាមួយលេខនៅលើឧបករណ៍របស់ពួកគេ។",
         "description": "",
         "placeholders": {
             "name": {
@@ -756,63 +756,63 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "S tímto kontaktem jste si ještě nevyměnili žádné zprávy. Bezpečnostní číslo k němu bude dostupné po první zprávě.",
+        "message": "អ្នកមិនទាន់បានផ្តោះប្តូរសារណាមួយជាមួយលេខទំនាក់ទំនងនេះទេ។ លេខសុវត្ថិភាពរបស់អ្នកជាមួយគេ នឹងមានបន្ទាប់ពីផ្ញើសារដំបូង។",
         "description": ""
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "ព័ត៌មានបន្ថែម...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "ផ្ញើម្តងទៀត",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "លុបសារ",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Smazat zprávy",
+        "message": "លុបសារ",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Trvale smazat tuto konverzaci?",
+        "message": "លុបការសន្ទនានេះចោលរហូត?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Bezpečné sezení resetováno",
+        "message": "កំណត់ការប្រើប្រាស់សុវត្ថិភាពឡើងវិញ",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
+        "message": "រូបភាពតូចៗនៃរូបភាពពីសារដែលបានដកស្រង់",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageFailedToLoad": {
-        "message": "Image failed to load",
+        "message": "រូបភាពបរាជ័យក្នុងការផ្ទុក",
         "description": "When an image attachment is missing, this message is shown"
     },
     "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
+        "message": "បរាជ័យក្នុងការផ្ទុករូបថតអេក្រង់វីដេអូ",
         "description": "When a attachment video screenshot is missing, this message is shown"
     },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "រូបភាពបានភ្ជាប់ទៅសារ",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "រូបថតអេក្រង់នៃវីដេអូភ្ជាប់ទៅកាន់សារ",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Image sent in conversation",
+        "message": "រូបភាពបានផ្ញើ ក្នុងការសន្ទនា",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "fileIconAlt": {
-        "message": "File icon",
+        "message": "រូបតំណាងឯកសារ",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "emojiAlt": {
-        "message": "Emoji image of '$title$'",
+        "message": "រូបEmoji របស់ '$title$'",
         "description": "Used in the alt tag of all emoji images",
         "placeholders": {
             "title": {
@@ -822,227 +822,227 @@
         }
     },
     "installWelcome": {
-        "message": "Vítejte v aplikaci Signal Desktop",
+        "message": "ស្វាគមន៍មកកាន់ ស៊ីហ្គណល Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Soukromí je možné. Signal jej usnadňuje.",
+        "message": "ភាពឯកជនគឺអាចធ្វើទៅបាន។ ស៊ីហ្គណលធ្វើបានដោយងាយស្រួល។",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
+        "message": "តភ្ជាប់ទូរស័ព្ទរបស់អ្នក ទៅកាន់ ស៊ីហ្គណល Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Signal Settings",
+        "message": "ការកំណត់ ស៊ីហ្គណល",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Linked Devices",
+        "message": "ឧបករណ៍បានតភ្ជាប់",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+' Button",
+        "message": "'+' ប៊ូតុង",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Link New Device",
+        "message": "តភ្ជាប់ឧបករណ៍ថ្មី",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Device name",
+        "message": "ឈ្មោះឧបករណ៍",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Choose this device's name",
+        "message": "ជ្រើសរើសឈ្មោះឧបករណ៍នេះ",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Finish linking phone",
+        "message": "បញ្ចប់ការតភ្ជាប់ទូរស័ព្ទ",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Syncing contacts and groups",
+        "message": "កំពុងចម្លងបញ្ជីទំនាក់ទំនង និងក្រុម",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Připojení k serveru selhalo.",
+        "message": "បរាជ័យក្នុងការតភ្ជាប់ទៅកាន់ម៉ាស៊ីនមេ។",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Promiňte, ale máte už příliš mnoho propojených zařízení. Zkuste některá odstranit.",
+        "message": "សុំទោស, អ្នកបានភ្ជាប់ឧបករណ៍ច្រើនរួចហើយ។ ព្យាយាមលុបចោលខ្លះ។",
         "description": ""
     },
     "settings": {
-        "message": "Nastavení",
+        "message": "ការកំណត់",
         "description": "Menu item and header for global settings"
     },
     "theme": {
-        "message": "Motiv",
+        "message": "រូបរាង",
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Permissions",
+        "message": "ការអនុញ្ញាត",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
+        "message": "បើកសិទ្ធិប្រើប្រាស់កាមេរ៉ា និងម៉ៃក្រូហ្វូន",
         "description": "Description of the media permission description"
     },
     "spellCheck": {
-        "message": "Spell Check",
+        "message": "ត្រួតពិនិត្យអក្ខរាវិរុទ្ធ",
         "description": "Description of the media permission description"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "បើកការត្រួតពិនិត្យអក្ខរាវិរុទ្ធនៃពាក្យដែលបានបញ្ចូលក្នុងប្រអប់ផ្ញើសារ",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "សំអាតទិន្នន័យ",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "វានឹងសំអាតទិន្នន័យទាំងអស់ក្នុងកម្មវិធី, នឹងលុបចោលសារទាំងអស់ និងព័ត៌មានគណនីដែលបានរក្សាទុក។",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "សំអាតទិន្នន័យ",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "លុបចោលទិន្នន័យទាំងអស់?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "អ្នករៀបនឹងលុបព័ត៌មានគណនី ដែលបានរក្សាទុកទាំងអស់​របស់កម្មវិធីនេះ រួមទាំង បញ្ជីទំនាក់ទំនងនិងសារទាំងអស់។ អ្នកតែងតែអាចភ្ជាប់ជាមួយឧបករណ៍ចល័តរបស់អ្នកម្ដងទៀត ប៉ុន្តែវានឹងមិនអាចស្តារសារដែលបានលុបនោះទេ។",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Delete all data",
+        "message": "លុបចោលទិន្នន័យទាំងអស់",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "កំពុងផ្តាច់ និងលុបចោលទិន្នន័យទាំងអស់",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
-        "message": "Oznámení",
+        "message": "ការជូនដំណឹង",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "V oznámeních o nově přijatých zprávách ukázat:",
+        "message": "ពេលទទួលសារ បង្ហាញការជូនដំណឹងដែលមាន៖",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Vypnout oznámení",
+        "message": "បិទការជូនដំណឹង",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Jméno odesílatele i zprávu",
+        "message": "ទាំងឈ្មោះអ្នកផ្ញើ និងសារ",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Ani jméno ani zprávu",
+        "message": "គ្មានឈ្មោះ ឬ សារ",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Jen jméno odesílatele",
+        "message": "មានតែឈ្មោះអ្នកផ្ញើ",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Nová zpráva",
+        "message": "សារថ្មី",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "Nové zprávy",
+        "message": "សារថ្មី",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Most recent from:",
+        "message": "ថ្មីៗបំផុតពី៖",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "Od:",
+        "message": "ពី៖",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Most recent:",
+        "message": "ថ្មីៗបំផុត៖",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "ផ្ញើបរាជ័យ",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
-        "message": "Podrobnosti",
+        "message": "លម្អិត",
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Skrýt podrobnosti",
+        "message": "លាក់ ខ្លឹមសារលម្អិត",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Dozvědět se více o ověřování bezpečnostních čísel",
+        "message": "ស្វែងយល់បន្ថែមពីការផ្ទៀងផ្ទាត់លេខសុវត្ថិភាព",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Tato verze aplikace Signal Desktop je zastaralá. Abyste mohli dále komunikovat, aktualizujte ji prosím na nejnovější verzi.",
+        "message": "ជំនាន់ ស៊ីហ្គណល Desktop នេះ បានហួសសុពលភាព។ សូមដំឡើងទីកាន់ជំនាន់ចុងក្រោយ ដើម្បីបន្តការផ្ញើសារ។",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
-        "message": "Uživatelé Androidu dostanou pouze prvních 2000 znaků této zprávy.",
+        "message": "អ្នកប្រើប្រាស់ Android នឹងទទួលបានអក្សរ 2000 តួ ដំបូងនៃសារនេះតែប៉ុណ្ណោះ។",
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "upgrade": {
-        "message": "Aktualizovat",
+        "message": "ដំឡើង",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Multimediální zpráva",
+        "message": "សារមេឌា",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Číslo není registrováno",
+        "message": "លេខ មិនបានចុះឈ្មោះ",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kontakty",
+        "message": "បញ្ជីទំនាក់ទំនង",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importovat všechny skupiny a kontakty Signalu z mobilního zařízení.",
+        "message": "នាំចូលក្រុម និងបញ្ជីទំនាក់ទំនង ស៊ីហ្គណលទាំងអស់ ពីទូរស័ព្ទរបស់អ្នក។",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Poslední import",
+        "message": "នាំចូលចុងក្រោយនៅ",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Importovat nyní",
+        "message": "នាំចូលឥឡូវ",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importuje se…",
+        "message": "កំពុងនាំចូល...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Import selhal. Zkontrolujte, zda jsou počítač i telefon připojeny k internetu.",
+        "message": "ការនាំចូលបរាជ័យ។ ត្រូវប្រាកដថាកុំព្យូទ័រ និងទូរស័ព្ទរបស់អ្នកបានតភ្ជាប់ទៅកាន់អ៊ិនធឺណិត។",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "teď",
+        "message": "ឥឡូវ",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 minuta",
+        "message": "1 នាទី",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 hodina",
+        "message": "1 ម៉ោង",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgoShort": {
-        "message": "$hours$ hr",
+        "message": "$hours$ ម៉ោង",
         "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "hours": {
@@ -1052,7 +1052,7 @@
         }
     },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "$hours$ ម៉ោង មុន",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1062,7 +1062,7 @@
         }
     },
     "minutesAgoShort": {
-        "message": "$minutes$ min",
+        "message": "$minutes$ នាទី",
         "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "minutes": {
@@ -1072,7 +1072,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "$minutes$ នាទី មុន",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1082,19 +1082,19 @@
         }
     },
     "justNow": {
-        "message": "teď",
+        "message": "ឥឡូវ",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "D MMM",
+        "message": "ខែ ថ្ងៃ",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "unblockToSend": {
-        "message": "Pro odeslání zprávy tento kontakt odblokujte.",
+        "message": "ដោះការហាមឃាត់លេខទំនាក់ទំនងនេះ ដើម្បីផ្ញើសារ។",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "អ្នកបានកំណត់រយៈពេលសារបាត់ទៅវិញជា $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1104,7 +1104,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "រយៈពេលសារបាត់ទៅវិញបានកែប្រែទៅកាន់ $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1114,7 +1114,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ បានកំណត់រយៈពេលសារបាត់ទៅវិញជា $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1128,111 +1128,111 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "vyp.",
+        "message": "បិទ",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 sekund",
+        "message": "5 វិនាទី",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 sekund",
+        "message": "10 វិនាទី",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 sekund",
+        "message": "30 វិនាទី",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minuta",
+        "message": "1 នាទី",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutes",
+        "message": "5 នាទី",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutes",
+        "message": "30 នាទី",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 hodina",
+        "message": "1 ម៉ោង",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 hours",
+        "message": "6 ម៉ោង",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 hours",
+        "message": "12 ម៉ោង",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 den",
+        "message": "1 ថ្ងៃ",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 týden",
+        "message": "1 សប្តាហ៍",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Mizející zprávy",
+        "message": "សារបាត់ទៅវិញ",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "vyp.",
+        "message": "បិទ",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5 s",
+        "message": "5វិ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10 s",
+        "message": "10វិ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30 s",
+        "message": "30វិ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1 min",
+        "message": "1ន",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5 min",
+        "message": "5ន",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30 min",
+        "message": "30ន",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1 h",
+        "message": "1ម",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6 h",
+        "message": "6ម",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12 h",
+        "message": "12ម",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1 d",
+        "message": "1ថ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1 týd.",
+        "message": "1ស",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
+        "message": "សារបាត់ទៅវិញបានបិទ",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$ បានបិទសារបាត់ទៅវិញ",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1242,11 +1242,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
+        "message": "អ្នកបានបិទសារបាត់ទៅវិញ",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Časovač nastaven na $time$",
+        "message": "រយៈពេលបានកំណត់$time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1256,15 +1256,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Přehrát zvukové upozornění",
+        "message": "លេងសំឡេងជូនដំណឹង",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "លេខសុវត្ថិភាពបានផ្លាស់ប្តូរ",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "លេខសុវត្ថិភាពជាមួយ$name$ បានផ្លាស់ប្តូរ",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1278,7 +1278,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Váš bezpečnostní kód s $name$:",
+        "message": "លេខសុវត្ថិភាពជាមួយ $name$៖",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1288,63 +1288,63 @@
         }
     },
     "themeLight": {
-        "message": "Light",
+        "message": "ភ្លឺ",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "ងងឹត",
         "description": "Label text for dark theme"
     },
     "hideMenuBar": {
-        "message": "Hide menu bar",
+        "message": "លាក់របារម៉ឺនុយ",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Start conversation…",
+        "message": "ចាប់ផ្តើមការសន្ទនា...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
-        "message": "Zadejte telefonní číslo přidat kontakt.",
+        "message": "បញ្ចូលលេខទូរស័ព្ទ ដើម្បីបន្ថែមលេខទំនាក់ទំនង។",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Neplatné číslo",
+        "message": "លេខមិនត្រឹមត្រូវ",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Znovu propojte Signel Desktop s mobilním telefonem pro pokračování.",
+        "message": "តភ្ជាប់ Signal Desktop ទៅកាន់ទូរស័ព្ទរបស់អ្នកឡើងវិញ ដើម្បីបន្តការផ្ញើសារ។",
         "description": ""
     },
     "unlinked": {
-        "message": "Odpárováno",
+        "message": "បានផ្តាច់",
         "description": ""
     },
     "relink": {
-        "message": "Přepárovat",
+        "message": "តភ្ជាប់ឡើងវិញ",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "មានបច្ចុប្បន្នភាព ស៊ីហ្គណល",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Je k dispozici nová verze aplikace Signal.",
+        "message": "មានស៊ីហ្គណលជំនាន់ថ្មី",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "ចុច បើក ស៊ីហ្គណលឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
+        "message": "បើកស៊ីហ្គណល ឡើងវិញ",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Později",
+        "message": "លើកក្រោយ",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ បានចេញពីក្រុម",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1354,7 +1354,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ បានចេញពីក្រុម",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1364,11 +1364,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "ក្រុមបានធ្វើបច្ចុប្បន្នភាព",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "ចំណងជើងឥឡូវគឺ '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1378,7 +1378,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ បានចូលក្រុម",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1388,7 +1388,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ បានចូលក្រុម",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1398,7 +1398,7 @@
         }
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "លក្ខខណ្ឌ និងគោលនយោបាយឯកជនភាព",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

@@ -128,6 +128,12 @@ function isAudio(attachment?: Attachment) {
   );
 }
 
+function canDisplayImage(attachment?: Attachment) {
+  const { height, width } = attachment || { height: 0, width: 0 };
+
+  return height > 0 && height <= 4096 && width > 0 && width <= 4096;
+}
+
 function getInitial(name: string): string {
   return name.trim()[0] || '#';
 }
@@ -267,8 +273,10 @@ export class Message extends React.Component<Props, State> {
       return null;
     }
 
+    const canDisplayAttachment = canDisplayImage(attachment);
     const withImageNoCaption = Boolean(
       !text &&
+        canDisplayAttachment &&
         !imageBroken &&
         ((isImage(attachment) && hasImage(attachment)) ||
           (isVideo(attachment) && hasVideoScreenshot(attachment)))
@@ -382,23 +390,11 @@ export class Message extends React.Component<Props, State> {
     const withContentBelow = withCaption || !collapseMetadata;
     const withContentAbove =
       quote || (conversationType === 'group' && direction === 'incoming');
+    const displayImage = canDisplayImage(attachment);
 
-    if (isImage(attachment)) {
-      if (imageBroken || !attachment.url) {
-        return (
-          <div
-            className={classNames(
-              'module-message__broken-image',
-              `module-message__broken-image--${direction}`
-            )}
-          >
-            {i18n('imageFailedToLoad')}
-          </div>
-        );
-      }
-
+    if (isImage(attachment) && displayImage && !imageBroken && attachment.url) {
       // Calculating height to prevent reflow when image loads
-      const height = Math.max(MINIMUM_IMG_HEIGHT, attachment.height || 0);
+      const imageHeight = Math.max(MINIMUM_IMG_HEIGHT, attachment.height || 0);
 
       return (
         <div
@@ -417,7 +413,7 @@ export class Message extends React.Component<Props, State> {
           <img
             onError={this.handleImageErrorBound}
             className="module-message__img-attachment"
-            height={Math.min(MAXIMUM_IMG_HEIGHT, height)}
+            height={Math.min(MAXIMUM_IMG_HEIGHT, imageHeight)}
             src={attachment.url}
             alt={i18n('imageAttachmentAlt')}
           />
@@ -437,25 +433,19 @@ export class Message extends React.Component<Props, State> {
           ) : null}
         </div>
       );
-    } else if (isVideo(attachment)) {
+    } else if (
+      isVideo(attachment) &&
+      displayImage &&
+      !imageBroken &&
+      attachment.screenshot &&
+      attachment.screenshot.url
+    ) {
       const { screenshot } = attachment;
-      if (imageBroken || !screenshot || !screenshot.url) {
-        return (
-          <div
-            role="button"
-            onClick={onClickAttachment}
-            className={classNames(
-              'module-message__broken-video-screenshot',
-              `module-message__broken-video-screenshot--${direction}`
-            )}
-          >
-            {i18n('videoScreenshotFailedToLoad')}
-          </div>
-        );
-      }
-
       // Calculating height to prevent reflow when image loads
-      const height = Math.max(MINIMUM_IMG_HEIGHT, screenshot.height || 0);
+      const imageHeight = Math.max(
+        MINIMUM_IMG_HEIGHT,
+        attachment.screenshot.height || 0
+      );
 
       return (
         <div
@@ -475,7 +465,7 @@ export class Message extends React.Component<Props, State> {
             onError={this.handleImageErrorBound}
             className="module-message__img-attachment"
             alt={i18n('videoAttachmentAlt')}
-            height={Math.min(MAXIMUM_IMG_HEIGHT, height)}
+            height={Math.min(MAXIMUM_IMG_HEIGHT, imageHeight)}
             src={screenshot.url}
           />
           <div

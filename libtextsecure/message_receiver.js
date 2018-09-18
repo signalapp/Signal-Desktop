@@ -727,6 +727,23 @@ MessageReceiver.prototype.extend({
     }
     return p.then(() =>
       this.processDecrypted(envelope, msg, this.number).then(message => {
+        const groupId = message.group && message.group.id;
+        const isBlocked = this.isGroupBlocked(groupId);
+        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const isLeavingGroup = Boolean(
+          message.group &&
+            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+        );
+
+        if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+          window.log.warn(
+            `Message ${this.getEnvelopeId(
+              envelope
+            )} ignored; destined for blocked group`
+          );
+          return this.removeFromCache(envelope);
+        }
+
         const ev = new Event('sent');
         ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.data = {
@@ -751,6 +768,23 @@ MessageReceiver.prototype.extend({
     }
     return p.then(() =>
       this.processDecrypted(envelope, msg, envelope.source).then(message => {
+        const groupId = message.group && message.group.id;
+        const isBlocked = this.isGroupBlocked(groupId);
+        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const isLeavingGroup = Boolean(
+          message.group &&
+            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+        );
+
+        if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+          window.log.warn(
+            `Message ${this.getEnvelopeId(
+              envelope
+            )} ignored; destined for blocked group`
+          );
+          return this.removeFromCache(envelope);
+        }
+
         const ev = new Event('message');
         ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.data = {
@@ -991,9 +1025,21 @@ MessageReceiver.prototype.extend({
   handleBlocked(envelope, blocked) {
     window.log.info('Setting these numbers as blocked:', blocked.numbers);
     textsecure.storage.put('blocked', blocked.numbers);
+
+    const groupIds = _.map(blocked.groupIds, groupId => groupId.toBinary());
+    window.log.info(
+      'Setting these groups as blocked:',
+      groupIds.map(groupId => `group(${groupId})`)
+    );
+    textsecure.storage.put('blocked-groups', groupIds);
+
+    return this.removeFromCache(envelope);
   },
   isBlocked(number) {
     return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
+  },
+  isGroupBlocked(groupId) {
+    return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
   },
   handleAttachment(attachment) {
     // eslint-disable-next-line no-param-reassign

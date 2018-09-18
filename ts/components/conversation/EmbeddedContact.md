@@ -28,6 +28,7 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -36,6 +37,7 @@ const contact = {
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -45,6 +47,7 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -54,6 +57,7 @@ const contact = {
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -85,11 +89,13 @@ const contact = {
     authorColor="green"
     direction="incoming"
     i18n={util.i18n}
+    timestamp={Date.now()}
     contact={contact}/></li>
   <li><Message
     direction="outgoing"
     status="delivered"
     i18n={util.i18n}
+    timestamp={Date.now()}
     contact={contact}/></li>
 </util.ConversationContext>;
 ```
@@ -123,6 +129,7 @@ const contact = {
       authorAvatarPath={util.gifObjectUrl}
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -134,6 +141,7 @@ const contact = {
       conversationType="group"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -144,6 +152,7 @@ const contact = {
       authorName="Mr. Fire"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -176,6 +185,7 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -184,6 +194,7 @@ const contact = {
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -193,6 +204,7 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -202,6 +214,7 @@ const contact = {
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -232,6 +245,7 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -240,6 +254,7 @@ const contact = {
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -249,6 +264,7 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -258,6 +274,7 @@ const contact = {
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -290,6 +307,7 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -298,6 +316,7 @@ const contact = {
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -307,6 +326,7 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -316,6 +336,7 @@ const contact = {
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -343,6 +364,7 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -351,6 +373,7 @@ const contact = {
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -360,6 +383,7 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -369,6 +393,7 @@ const contact = {
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -385,6 +410,7 @@ const contact = {};
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -393,6 +419,7 @@ const contact = {};
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -402,6 +429,7 @@ const contact = {};
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -411,6 +439,7 @@ const contact = {};
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -461,6 +490,7 @@ const contactWithoutAccount = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithAccount}
     />
   </li>
@@ -470,6 +500,7 @@ const contactWithoutAccount = {
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithAccount}
     />
   </li>
@@ -479,6 +510,7 @@ const contactWithoutAccount = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithAccount}
     />
   </li>
@@ -488,6 +520,7 @@ const contactWithoutAccount = {
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithAccount}
     />
   </li>
@@ -498,6 +531,7 @@ const contactWithoutAccount = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
   </li>
@@ -508,6 +542,7 @@ const contactWithoutAccount = {
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
   </li>
@@ -518,6 +553,7 @@ const contactWithoutAccount = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
   </li>
@@ -528,6 +564,7 @@ const contactWithoutAccount = {
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
   </li>

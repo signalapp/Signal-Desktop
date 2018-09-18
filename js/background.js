@@ -802,6 +802,7 @@
   }
   function onConfiguration(ev) {
     storage.put('read-receipt-setting', ev.configuration.readReceipts);
+    ev.confirm();
   }
 
   async function onContactReceived(ev) {
@@ -917,6 +918,12 @@
       updates.left = false;
     } else {
       updates.left = true;
+    }
+
+    if (details.blocked) {
+      storage.addBlockedGroup(id);
+    } else {
+      storage.removeBlockedGroup(id);
     }
 
     await wrapDeferred(conversation.save(updates));

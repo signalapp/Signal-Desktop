@@ -1,77 +1,257 @@
 {
-    "scrollDown": {
-        "message": "Scroll naar de onderkant van het gesprek",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    "mainMenuFile": {
+        "message": "&Bestand",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuEdit": {
+        "message": "B&ewerken",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuView": {
+        "message": "Be&kijken",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuWindow": {
+        "message": "&Venster",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuHelp": {
+        "message": "&Hulp",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuSettings": {
+        "message": "Voorkeuren…",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuHide": {
+        "message": "Verbergen",
+        "description": "Application menu command to hide the window"
+    },
+    "appMenuHideOthers": {
+        "message": "Anderen verbergen",
+        "description": "Application menu command to hide all other windows"
+    },
+    "appMenuUnhide": {
+        "message": "Toon alles",
+        "description": "Application menu command to show all application windows"
+    },
+    "appMenuQuit": {
+        "message": "Signal afsluiten",
+        "description": "Application menu command to close the application"
+    },
+    "editMenuUndo": {
+        "message": "Ongedaan maken",
+        "description": "Edit menu command to remove recently-typed text"
+    },
+    "editMenuRedo": {
+        "message": "Opnieuw doen",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
+    "editMenuCut": {
+        "message": "Knippen",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
+    "editMenuCopy": {
+        "message": "Copiëren",
+        "description": "Edit menu command to add selected text to clipboard"
+    },
+    "editMenuPaste": {
+        "message": "Plakken",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "Plakken en stijl overnemen",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    },
+    "editMenuDelete": {
+        "message": "Verwijderen",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "editMenuSelectAll": {
+        "message": "Alles selecteren",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
+    "editMenuStartSpeaking": {
+        "message": "Begin te spreken",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Stop met spreken",
+        "description": "Edit menu item under 'speech' to stop dictation"
+    },
+    "windowMenuClose": {
+        "message": "Scherm sluiten",
+        "description": "Window menu command to close the current window"
+    },
+    "windowMenuMinimize": {
+        "message": "Minimaliseren",
+        "description": "Window menu command to minimize the current window"
+    },
+    "windowMenuZoom": {
+        "message": "Zoomen",
+        "description": "Window menu command to make the current window the size of the whole screen"
+    },
+    "windowMenuBringAllToFront": {
+        "message": "Naar voren brengen",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
+    "viewMenuResetZoom": {
+        "message": "Werkelijke grootte",
+        "description": "View menu command to go back to the default zoom"
+    },
+    "viewMenuZoomIn": {
+        "message": "Inzoomen",
+        "description": "View menu command to make everything bigger"
+    },
+    "viewMenuZoomOut": {
+        "message": "Uitzoomen",
+        "description": "View menu command to make everything smaller"
+    },
+    "viewMenuToggleFullScreen": {
+        "message": "Toon volledig scherm",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Toon ontwikkelopties",
+        "description": "View menu command to show or hide the developer tools"
+    },
+    "menuSetupWithImport": {
+        "message": "Instellen met importeren",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "menuSetupAsNewDevice": {
+        "message": "Instellen als nieuw apparaat",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Instellen als apart apparaat",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "loading": {
+        "message": "Laden…",
+        "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "optimizingApplication": {
+        "message": "Applicatie optimaliseren...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
+    },
+    "migratingToSQLCipher": {
+        "message": "Optimaliseren van berichten... $status$ klaar.",
+        "description": "Message shown on the loading screen while we are doing application optimizations",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "45/200"
+            }
+        }
+    },
+    "chooseDirectory": {
+        "message": "Map kiezen",
+        "description": "Button to allow the user to find a folder on disk"
+    },
+    "loadDataHeader": {
+        "message": "Laad je gegevens",
+        "description": "Header shown on the first screen in the data import process"
+    },
+    "loadDataDescription": {
+        "message": "Je bent net de exportprodedure doorlopen, en je contacten en berichten wachten geduldig op je computer. Kies de map die je opgeslagen Signal-gegevens bevat.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
         "message": "Kies map met geëxporteerde gegevens",
         "description": "Title of the popup window used to select data previously exported"
     },
-    "timerOption_10_seconds": {
-        "message": "10 seconden",
-        "description": "Label for a selectable option in the message expiration timer menu"
+    "importErrorHeader": {
+        "message": "Er ging iets mis!",
+        "description": "Header of the error screen after a failed import"
     },
-    "view": {
-        "message": "Bekijken",
-        "description": "Used as a label on a button allowing user to see more information"
+    "importingHeader": {
+        "message": "Contacten en berichten aan het laden",
+        "description": "Header of screen shown as data is import"
     },
-    "appMenuHideOthers": {
-        "message": "Hide Others",
-        "description": "Application menu command to hide all other windows"
+    "importErrorFirst": {
+        "message": "Verzeker jezelf ervan dat je de juiste map gekozen hebt die de opgeslagen Signal gegevens bevat. De naam moet beginnen met \"Signal Export\". Je kunt ook een nieuwe copie van je gegevens maken vanuit het programma.",
+        "description": "Message shown if the import went wrong; first paragraph"
     },
-    "linkedDevices": {
-        "message": "Gekoppelde apparaten",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    "importErrorSecond": {
+        "message": "Dien een debug log in als deze methode niet werkt (Bekijken - Debuglog) zodat we kunnen helpen bij de migratie!",
+        "description": "Message shown if the import went wrong; second paragraph"
     },
-    "yesterday": {
-        "message": "Gisteren",
-        "description": "Section header in the media gallery"
+    "importAgain": {
+        "message": "Kies een map en probeer het opnieuw",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
-    "replyingToYourself": {
-        "message": "Antwoorden tegen jezelf",
-        "description": "Shown in iOS theme when you quote yourself"
+    "importCompleteHeader": {
+        "message": "Klaar!",
+        "description": "Header shown on the screen at the end of a successful import process"
     },
-    "documents": {
-        "message": "Documenten",
-        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    "importCompleteStartButton": {
+        "message": "Begin Signal Desktop te gebruiken",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
+    },
+    "importCompleteLinkButton": {
+        "message": "Koppel dit apparaat aan je telefoon",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+    },
+    "selectedLocation": {
+        "message": "je geselecteerde locatie",
+        "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
         "message": "De database wordt opgewaardeerd. Dit kan even duren…",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
-    "lastSynced": {
-        "message": "Laatst geïmporteerd op",
-        "description": "Label for date and time of last sync operation"
-    },
-    "attemptingReconnection": {
-        "message": "Poging tot opnieuw verbinden binnen $reconnect_duration_in_seconds$ seconden",
-        "description": "",
+    "loadingMessages": {
+        "message": "Berichten worden geladen, $count$ tot nu toe...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
-            "reconnect_duration_in_seconds": {
+            "count": {
                 "content": "$1",
-                "example": "10"
+                "example": "5"
             }
         }
     },
-    "thisMonth": {
-        "message": "Deze maand",
-        "description": "Section header in the media gallery"
+    "me": {
+        "message": "Ik",
+        "description": "The label for yourself when shown in a group member list"
     },
-    "unsupportedAttachment": {
-        "message": "Niet-ondersteund bestandstype. Klik om op te slaan.",
-        "description": "Displayed for incoming unsupported attachment"
+    "view": {
+        "message": "Bekijken",
+        "description": "Used as a label on a button allowing user to see more information"
     },
-    "showSafetyNumber": {
-        "message": "Veiligheidsnummer tonen",
-        "description": ""
+    "youLeftTheGroup": {
+        "message": "Je hebt de groep verlaten",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
-    "androidMessageLengthWarning": {
-        "message": "Contacten die Signal op een Android-telefoon gebruiken zullen enkel de eerste 2000 tekens van dit bericht kunnen lezen.",
-        "description": "Warning that long messages could not get received completely by Android clients."
+    "scrollDown": {
+        "message": "Scroll naar de onderkant van het gesprek",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
-    "leftTheGroup": {
-        "message": "$name$ left the group",
-        "description": "Shown in the conversation history when a single person leaves the group",
+    "messageBelow": {
+        "message": "Nieuw bericht hieronder",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "messagesBelow": {
+        "message": "Nieuwe berichten hieronder",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
+    "unreadMessage": {
+        "message": "1 ongelezen bericht",
+        "description": "Text for unread message separator, just one message"
+    },
+    "unreadMessages": {
+        "message": "$count$ ongelezen berichten",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "youMarkedAsVerified": {
+        "message": "Je hebt aangegeven dat je veiligheidsnummer met $name$is geverifieerd ",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -79,89 +259,33 @@
             }
         }
     },
-    "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
-        "description": "Message displayed when you change the message expiration timer in a conversation.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "settings": {
-        "message": "Instellingen",
-        "description": "Menu item and header for global settings"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "importCompleteHeader": {
-        "message": "Klaar!",
-        "description": "Header shown on the screen at the end of a successful import process"
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "timestamp_m": {
-        "message": "1 minuut",
-        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
-    },
-    "deviceName": {
-        "message": "Apparaatnaam",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "address": {
-        "message": "adres",
-        "description": "Generic label shown if contact address has custom type but no label"
-    },
-    "debugLog": {
-        "message": "Debuglog",
-        "description": "View menu item to open the debug log (title case)"
-    },
-    "gotIt": {
-        "message": "Begrepen!",
-        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
-    },
-    "appMenuQuit": {
-        "message": "Quit Signal",
-        "description": "Application menu command to close the application"
-    },
-    "disappearingMessages": {
-        "message": "Verdwijnende berichten",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "editMenuCut": {
-        "message": "Cut",
-        "description": "Edit menu command to remove selected text and add it to clipboard"
-    },
-    "deleteWarning": {
-        "message": "Weet je het zeker? Door op ‘verwijderen’ te klikken, wordt dit bericht voorgoed van dit apparaat verwijderd.",
-        "description": ""
-    },
-    "verifyNewNumber": {
-        "message": "Verify New Number",
-        "description": "Label on button included with safety number change notification in the conversation"
-    },
-    "showMore": {
-        "message": "Details",
-        "description": "Displays the details of a key change"
-    },
-    "verifyHelp": {
-        "message": "Als je de beveiliging van je end-to-end-versleuteling met $name$ wil verifiëren, vergelijk je de nummers hierboven met de nummers op hun apparaat.",
-        "description": "",
+    "youMarkedAsNotVerified": {
+        "message": "Je hebt het veiligheidsnummer met $name$ als niet geverifiëerd aangegeven",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "John"
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "Je hebt het veiligheidsnummer met $name$ geverifiëerd vanaf een ander apparaat",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "Je hebt het veiligheidsnummer met $name$ als niet geverifiëerd aangegeven vanaf een ander apparaat",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
             }
         }
     },
@@ -169,151 +293,33 @@
         "message": "Je veiligheidsnummers met deze groepsleden zijn veranderd sinds de laatste verificatie. Klik op een groepslid om je nieuwe veiligheidsnummer met hen te bekijken.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
-        "description": "Very short format indicating current timer setting in the conversation header"
+    "changedSinceVerifiedMultiple": {
+        "message": "Je veiligheidsnummers met meerdere groepsleden zijn veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat ze Signal opnieuw hebben geïnstalleerd.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "unsupportedFileType": {
-        "message": "Niet-ondersteund bestandstype",
-        "description": "Displayed for outgoing unsupported attachment"
-    },
-    "quit": {
-        "message": "Afsluiten",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "clickToSave": {
-        "message": "Klik om op te slaan",
-        "description": "Hover text for attachment filenames"
-    },
-    "messagesBelow": {
-        "message": "Nieuwe berichten hieronder",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
-    },
-    "editMenuSelectAll": {
-        "message": "Select All",
-        "description": "Edit menu comand to select all of the text in selected text box"
-    },
-    "resetSession": {
-        "message": "Sessie opnieuw instellen",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
-    },
-    "replyingToYou": {
-        "message": "Antwoorden op Jou",
-        "description": "Shown in iOS theme when someone else quotes a message from you"
-    },
-    "you": {
-        "message": "Jij",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
-    },
-    "offline": {
-        "message": "Offline",
-        "description": "Displayed when the desktop client has no network connection."
-    },
-    "hideMenuBar": {
-        "message": "Menubalk verbergen",
-        "description": "Label text for menu bar visibility setting"
-    },
-    "welcomeToSignal": {
-        "message": "Welkom bij Signal",
-        "description": ""
-    },
-    "checkNetworkConnection": {
-        "message": "Controleer je netwerkverbinding.",
-        "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
-        "description": "Displayed in the conversation list when the timer is turned off"
-    },
-    "notificationSettingsDialog": {
-        "message": "Toon wanneer een bericht ontvangen wordt meldingen die het volgende weergeven:",
-        "description": "Explain the purpose of the notification settings"
-    },
-    "timestamp_h": {
-        "message": "1 uur",
-        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "uit",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "imageFailedToLoad": {
-        "message": "Image failed to load",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "clearDataButton": {
-        "message": "Verwijder gegevens",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "syncExplanation": {
-        "message": "Importeer alle Signal-groepen en -contacten van je mobiele apparaat.",
-        "description": "Explanatory text for sync settings"
-    },
-    "youLeftTheGroup": {
-        "message": "Je hebt de groep verlaten",
-        "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "deleteMessages": {
-        "message": "Berichten verwijderen",
-        "description": "Menu item for deleting messages, title case."
-    },
-    "incomingError": {
-        "message": "Error handling incoming message",
-        "description": ""
-    },
-    "poBox": {
-        "message": "Postbus",
-        "description": "When rendering an address, used to provide context to a post office box"
-    },
-    "themeLight": {
-        "message": "Light",
-        "description": "Label text for light theme (normal)"
-    },
-    "delete": {
-        "message": "Verwijderen",
-        "description": ""
-    },
-    "verified": {
-        "message": "Geverifieerd",
-        "description": ""
-    },
-    "trayTooltip": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
-    },
-    "selectAContact": {
-        "message": "Kies een contact of groep om te starten met chatten.",
-        "description": ""
-    },
-    "aboutSignalDesktop": {
-        "message": "Over Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
-    "selectedLocation": {
-        "message": "je geselecteerde locatie",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "phone": {
-        "message": "telefoon",
-        "description": "Generic label shown if contact phone has custom type but no label"
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ hr",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+    "changedSinceVerified": {
+        "message": "Je veiligheidsnummer met $name$ is veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ opnieuw heeft geïnstalleerd.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
-            "hours": {
+            "name": {
                 "content": "$1",
-                "example": "2"
+                "example": "Bob"
             }
         }
     },
-    "deleteThisMessage": {
-        "message": "Dit bericht verwijderen",
-        "description": ""
+    "changedRightAfterVerify": {
+        "message": "Het veiligheidsnummer dat je wil verifiëren is veranderd. Controleer je nieuwe veiligheidsnummer met $name$. Let op: dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
-    "editMenuPaste": {
-        "message": "Paste",
-        "description": "Edit menu command to insert text from clipboard at cursor location"
+    "changedRecentlyMultiple": {
+        "message": "Je veiligheidsnummers met meerdere groepsleden zijn onlangs veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat ze Signal opnieuw hebben geïnstalleerd.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
         "message": "Je veiligheidsnummer met $name$ is onlangs veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd.",
@@ -325,28 +331,790 @@
             }
         }
     },
-    "sent": {
-        "message": "Verzonden",
-        "description": "Label for the time a message was sent"
+    "identityKeyErrorOnSend": {
+        "message": "Je veiligheidsnummer met $name$ is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd. Je verifieert best je nieuwe veiligheidsnummer met dit contact.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "sendAnyway": {
+        "message": "Toch verzenden",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "noLongerVerified": {
+        "message": "Je veiligheidsnummer met $name$ is veranderd en niet meer geverifieerd. Klik om het te tonen.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "multipleNoLongerVerified": {
+        "message": "Je veiligheidsnummers met meerdere leden van deze groep zijn veranderd en bijgevolg niet meer geverifieerd. Klik om deze te tonen.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    },
+    "debugLogExplanation": {
+        "message": "Deze log zal online publiek beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
+        "description": ""
+    },
+    "debugLogError": {
+        "message": "Er is iets mis gegaan bij het uploaden. Voeg het logbestand a.u.b. handmatig toe aan het foutrapport.",
+        "description": ""
+    },
+    "reportIssue": {
+        "message": "Meld een probleem",
+        "description": "Link to open the issue tracker"
+    },
+    "gotIt": {
+        "message": "Begrepen!",
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    },
+    "submit": {
+        "message": "Verzenden",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Aanvaarden",
+        "description": "Label for a button to accept a new safety number"
+    },
+    "verify": {
+        "message": "Markeren als geverifieerd",
+        "description": ""
+    },
+    "unverify": {
+        "message": "Markeren als niet-geverifieerd.",
+        "description": ""
+    },
+    "isVerified": {
+        "message": "Je hebt je veiligheidsnummer met $name$ geverifieerd.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isNotVerified": {
+        "message": "Je hebt je veiligheidsnummer met $name$ niet geverifieerd.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "verified": {
+        "message": "Geverifieerd",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Nieuw veiligheidsnummer",
+        "description": "Header for a key change dialog"
+    },
+    "identityChanged": {
+        "message": "Je veiligheidsnummer met dit contact is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat je contact Signal opnieuw heeft geïnstalleerd. Je verifieert best het nieuwe veiligheidsnummer hieronder.",
+        "description": ""
+    },
+    "incomingError": {
+        "message": "Fout bij het verwerken van een inkomend bericht",
+        "description": ""
+    },
+    "media": {
+        "message": "Media",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "mediaEmptyState": {
+        "message": "Je hebt geen media in deze conversatie",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "documents": {
+        "message": "Documenten",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
+    "documentsEmptyState": {
+        "message": "Je hebt geen documenten in deze conversatie",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
+    "today": {
+        "message": "Vandaag",
+        "description": "Section header in the media gallery"
+    },
+    "yesterday": {
+        "message": "Gisteren",
+        "description": "Section header in the media gallery"
     },
     "thisWeek": {
         "message": "Deze week",
         "description": "Section header in the media gallery"
     },
+    "thisMonth": {
+        "message": "Deze maand",
+        "description": "Section header in the media gallery"
+    },
+    "unsupportedAttachment": {
+        "message": "Niet-ondersteund bestandstype. Klik om op te slaan.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "clickToSave": {
+        "message": "Klik om op te slaan",
+        "description": "Hover text for attachment filenames"
+    },
+    "unnamedFile": {
+        "message": "Naamloos bestand",
+        "description": "Hover text for attachment filenames"
+    },
+    "voiceMessage": {
+        "message": "Audiobericht",
+        "description": "Name for a voice message attachment"
+    },
+    "unsupportedFileType": {
+        "message": "Niet-ondersteund bestandstype",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "fileSizeWarning": {
+        "message": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte.",
+        "description": ""
+    },
+    "disconnected": {
+        "message": "Verbinding verbroken",
+        "description": "Displayed when the desktop client cannot connect to the server."
+    },
+    "connecting": {
+        "message": "Aan het verbinden",
+        "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "offline": {
+        "message": "Offline",
+        "description": "Displayed when the desktop client has no network connection."
+    },
+    "checkNetworkConnection": {
+        "message": "Controleer je netwerkverbinding.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
+    "attemptingReconnection": {
+        "message": "Poging tot opnieuw verbinden binnen $reconnect_duration_in_seconds$ seconden",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "submitDebugLog": {
+        "message": "Debuglog",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "debugLog": {
+        "message": "Debuglog",
+        "description": "View menu item to open the debug log (title case)"
+    },
+    "goToReleaseNotes": {
+        "message": "Ga naar uitgaveopmerkingen",
+        "description": ""
+    },
+    "goToForums": {
+        "message": "Ga naar forums",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
+    "goToSupportPage": {
+        "message": "Ga naar ondersteuningspagina",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "menuReportIssue": {
+        "message": "Meld een probleem",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "signalDesktopPreferences": {
+        "message": "Signal Desktop instellingen",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "aboutSignalDesktop": {
+        "message": "Over Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
+    },
+    "speech": {
+        "message": "Spraak",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
+    "show": {
+        "message": "Tonen",
+        "description": "Command under Window menu, to show the window"
+    },
+    "hide": {
+        "message": "Verbergen",
+        "description": "Command in the tray icon menu, to hide the window"
+    },
+    "quit": {
+        "message": "Afsluiten",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Voer naam of nummer in",
+        "description": "Placeholder text in the search input"
+    },
+    "welcomeToSignal": {
+        "message": "Welkom bij Signal",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Kies een contact of groep om te starten met chatten.",
+        "description": ""
+    },
+    "contactAvatarAlt": {
+        "message": "Afbeelding voor contact $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "sendMessageToContact": {
         "message": "Stuur Bericht",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
-    "importingHeader": {
-        "message": "Contacten en berichten aan het laden",
-        "description": "Header of screen shown as data is import"
+    "home": {
+        "message": "thuis",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
-    "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+    "work": {
+        "message": "werk",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "mobile": {
+        "message": "mobiel",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "phone": {
+        "message": "telefoon",
+        "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "address": {
+        "message": "adres",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
+    "poBox": {
+        "message": "Postbus",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "downloadAttachment": {
+        "message": "Bijgevoegd bestand downloaden",
+        "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
+    },
+    "replyToMessage": {
+        "message": "Antwoord op Bericht",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
+    "originalMessageNotFound": {
+        "message": "Oorspronkelijk bericht niet gevonden.",
+        "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
+    },
+    "originalMessageNotAvailable": {
+        "message": "Oorspronkelijke bericht niet langer beschikbaar",
+        "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    },
+    "messageFoundButNotLoaded": {
+        "message": "Oorspronkelijke bericht gevonden, maar niet opgehaald. Scroll naar boven om het op te halen.",
+        "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "you": {
+        "message": "Jij",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
+    "replyingTo": {
+        "message": "Antwoorden op $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "audioPermissionNeeded": {
+        "message": "Om een geluidsbericht te versturen moet je Signalk Desktop toegang tot de microfoon geven",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "allowAccess": {
+        "message": "Geef toegang",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
+    "showSettings": {
+        "message": "Toon instellingen",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "audio": {
+        "message": "Audio",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    },
+    "video": {
+        "message": "Video",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
+    "photo": {
+        "message": "Foto",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "ok": {
+        "message": "Oké",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Annuleren",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Verzenden naar bepaalde ontvangers mislukt. Controleer je netwerkverbinding.",
+        "description": ""
+    },
+    "error": {
+        "message": "Fout",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Berichtdetails",
+        "description": ""
+    },
+    "delete": {
+        "message": "Verwijderen",
+        "description": ""
+    },
+    "deleteWarning": {
+        "message": "Weet je het zeker? Op verwijderen drukken zal dit bericht  permanent van alleen dit apparaat verwijderen.",
+        "description": ""
+    },
+    "deleteThisMessage": {
+        "message": "Dit bericht verwijderen",
+        "description": ""
+    },
+    "from": {
+        "message": "Van",
+        "description": "Label for the sender of a message"
+    },
+    "to": {
+        "message": "Naar",
+        "description": "Label for the receiver of a message"
+    },
+    "sent": {
+        "message": "Verzonden",
+        "description": "Label for the time a message was sent"
+    },
+    "received": {
+        "message": "Ontvangen",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Verzend een bericht",
+        "description": "Placeholder text in the message entry field"
+    },
+    "groupMembers": {
+        "message": "Groepsleden",
+        "description": ""
+    },
+    "showMembers": {
+        "message": "Leden tonen",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Sessie opnieuw instellen",
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "showSafetyNumber": {
+        "message": "Veiligheidsnummer bekijken",
+        "description": ""
+    },
+    "viewAllMedia": {
+        "message": "Bekijk alle media",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "verifyHelp": {
+        "message": "Als je de beveiliging van je end-to-end-versleuteling met $name$ wil verifiëren, vergelijk je de nummers hierboven met de nummers op hun apparaat.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "theirIdentityUnknown": {
+        "message": "Je hebt nog geen berichten uitgewisseld met dit contact. Je veiligheidsnummer met hen zal beschikbaar zijn na het eerste bericht.",
+        "description": ""
+    },
+    "moreInfo": {
+        "message": "Meer informatie...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
+    "retrySend": {
+        "message": "Zenden opnieuw proberen",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+    },
+    "deleteMessage": {
+        "message": "Verwijder bericht",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    },
+    "deleteMessages": {
+        "message": "Berichten verwijderen",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteConversationConfirmation": {
+        "message": "Dit gesprek voorgoed verwijderen?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "sessionEnded": {
+        "message": "Beveiligde sessie opnieuw ingesteld",
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "quoteThumbnailAlt": {
+        "message": "Bijlagenminiatuur van de afbeelding uit het aangehaalde bericht",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "imageFailedToLoad": {
+        "message": "Afbeelding kon niet geladen worden",
+        "description": "When an image attachment is missing, this message is shown"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "Video schermafdruk kon niet geladen worden",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
+    "imageAttachmentAlt": {
+        "message": "Afbeelding toegevoegd aan bericht",
+        "description": "Used in alt tag of image attachment"
+    },
+    "videoAttachmentAlt": {
+        "message": "Video schermafdruk toegevoegd aan bericht",
+        "description": "Used in alt tag of video attachment preview"
+    },
+    "lightboxImageAlt": {
+        "message": "Afbeelding verstuurd in gesprek",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
+    "fileIconAlt": {
+        "message": "Bestandsicoon",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
+    "emojiAlt": {
+        "message": "Emoji afbeelding van '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
+    "installWelcome": {
+        "message": "Welkom bij Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "installTagline": {
+        "message": "Privacy is mogelijk. Signal maakt het gemakkelijk.",
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "linkYourPhone": {
+        "message": "Koppel je telefoon aan Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
+    "signalSettings": {
+        "message": "Signal-instellingen",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "linkedDevices": {
+        "message": "Gekoppelde apparaten",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "plusButton": {
+        "message": "‘+’-knop",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
+    "linkNewDevice": {
+        "message": "Nieuw apparaat koppelen",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "deviceName": {
+        "message": "Apparaatnaam",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "chooseDeviceName": {
+        "message": "Kies de naam van dit apparaat",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
+    "finishLinkingPhone": {
+        "message": "Koppelen van telefoon voltooien",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
+    },
+    "initialSync": {
+        "message": "Contacten en groepen aan het synchroniseren",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
+    "installConnectionFailed": {
+        "message": "Verbinden met server mislukt.",
+        "description": "Displayed when we can't connect to the server."
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
+        "description": ""
+    },
+    "settings": {
+        "message": "Instellingen",
+        "description": "Menu item and header for global settings"
+    },
+    "theme": {
+        "message": "Thema",
+        "description": "Header for theme settings"
+    },
+    "permissions": {
+        "message": "Toestemmingen",
+        "description": "Header for permissions section of settings"
+    },
+    "mediaPermissionsDescription": {
+        "message": "Geef toestemming om de camera en microfoon te gebruiken",
         "description": "Description of the media permission description"
     },
+    "spellCheck": {
+        "message": "Controleer spelling",
+        "description": "Description of the media permission description"
+    },
+    "spellCheckDescription": {
+        "message": "Gebruik een spellingchecker voor de tekst in in het berichten invoerveld",
+        "description": "Description of the media permission description"
+    },
+    "clearDataHeader": {
+        "message": "Verwijder Gegevens",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
+    },
+    "clearDataExplanation": {
+        "message": "Dit verwijderd alle gegevens in de applicatie, verwijderd alle berichten en opgeslagen account informatie.",
+        "description": "Text describing what the clear data button will do."
+    },
+    "clearDataButton": {
+        "message": "Verwijder gegevens",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
+    "deleteAllDataHeader": {
+        "message": "Verwijder alle data?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataBody": {
+        "message": "Hierdoor verwijder je alle opgeslagen account gegevens van deze applicatie, waaronder alle contacten en berichten. Je kunt altijd nogmaals linken met je mobiele apparaat, maar je verwijderde berichten kunnen niet hersteld worden.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
+    "deleteAllDataButton": {
+        "message": "Verwijder alle data",
+        "description": "Text of the button that deletes all data"
+    },
+    "deleteAllDataProgress": {
+        "message": "Verbinding wordt verbroken en alle data wordt verwijderd",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "notifications": {
+        "message": "Meldingen",
+        "description": "Header for notification settings"
+    },
+    "notificationSettingsDialog": {
+        "message": "Toon wanneer een bericht ontvangen wordt meldingen die het volgende weergeven:",
+        "description": "Explain the purpose of the notification settings"
+    },
+    "disableNotifications": {
+        "message": "Meldingen uitschakelen",
+        "description": "Label for disabling notifications"
+    },
+    "nameAndMessage": {
+        "message": "Naam van afzender en berichtinhoud",
+        "description": "Label for setting notifications to display name and message text"
+    },
+    "noNameOrMessage": {
+        "message": "Naam van afzender noch berichtinhoud",
+        "description": "Label for setting notifications to display no name and no message text"
+    },
+    "nameOnly": {
+        "message": "Enkel naam van afzender",
+        "description": "Label for setting notifications to display sender name only"
+    },
+    "newMessage": {
+        "message": "nieuw bericht",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "newMessages": {
+        "message": "nieuwe berichten",
+        "description": "Displayed in notifications for multiple messages"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Meest recent van:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+    },
+    "notificationFrom": {
+        "message": "Van:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
+    "notificationMostRecent": {
+        "message": "Meest recent:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "sendFailed": {
+        "message": "Zenden mislukt",
+        "description": "Shown on outgoing message if it fails to send"
+    },
+    "showMore": {
+        "message": "Details",
+        "description": "Displays the details of a key change"
+    },
+    "showLess": {
+        "message": "Details verbergen",
+        "description": "Hides the details of a key change"
+    },
+    "learnMore": {
+        "message": "Lees meer over het verifiëren van veiligheidsnummers",
+        "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "expiredWarning": {
+        "message": "Deze versie van Signal Desktop is verouderd. Opwaardeer naar de laatste versie om verder te chatten.",
+        "description": "Warning notification that this version of the app has expired"
+    },
+    "androidMessageLengthWarning": {
+        "message": "Contacten die Signal op een Android-telefoon gebruiken zullen enkel de eerste 2000 tekens van dit bericht kunnen lezen.",
+        "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "upgrade": {
+        "message": "Opwaarderen",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "mediaMessage": {
+        "message": "Mediabericht",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unregisteredUser": {
+        "message": "Nummer is niet geregistreerd",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Contacten",
+        "description": "Label for contact and group sync settings"
+    },
+    "syncExplanation": {
+        "message": "Importeer alle Signal-groepen en -contacten van je mobiele apparaat.",
+        "description": "Explanatory text for sync settings"
+    },
+    "lastSynced": {
+        "message": "Laatst geïmporteerd op",
+        "description": "Label for date and time of last sync operation"
+    },
+    "syncNow": {
+        "message": "Nu importeren",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncing": {
+        "message": "Importeren…",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "syncFailed": {
+        "message": "Importeren mislukt. Zorg ervoor dat je computer en je telefoon met het internet verbonden zijn.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
+    "timestamp_s": {
+        "message": "nu",
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_m": {
+        "message": "1 minuut",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_h": {
+        "message": "1 uur",
+        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
+    },
+    "hoursAgoShort": {
+        "message": "1 $hours$uur",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "hoursAgo": {
+        "message": "1 $hours$uur geleden",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "minutesAgoShort": {
+        "message": "1 $minutes$minuten",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "minutesAgo": {
+        "message": "1 $minutes$minuten geleden",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "justNow": {
+        "message": "nu",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "timestampFormat_M": {
+        "message": "D MMM",
+        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "unblockToSend": {
+        "message": "Deblokkeer dit contact om een bericht te verzenden.",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
+    "youChangedTheTimer": {
+        "message": "Je hebt de timer voor verdwijnende berichten op $time$gezet",
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
+    "timerSetOnSync": {
+        "message": "De timer voor zelfverwijderende berichten is bijgewerkt naar $time$",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$heeft de timer voor verdwijnende berichten op $time$gezet",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -359,356 +1127,112 @@
             }
         }
     },
-    "timestamp_s": {
-        "message": "nu",
-        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    "timerOption_0_seconds": {
+        "message": "uit",
+        "description": "Label for option to turn off message expiration in the timer menu"
     },
-    "viewMenuZoomOut": {
-        "message": "Zoom Out",
-        "description": "View menu command to make everything smaller"
-    },
-    "mainMenuSettings": {
-        "message": "Voorkeuren…",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
-    },
-    "changedRecentlyMultiple": {
-        "message": "Je veiligheidsnummers met meerdere groepsleden zijn onlangs veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat ze Signal opnieuw hebben geïnstalleerd.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "emojiAlt": {
-        "message": "Emoji image of '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
-    "timerOption_1_day": {
-        "message": "1 dag",
+    "timerOption_5_seconds": {
+        "message": "5 seconden",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "editMenuUndo": {
-        "message": "Undo",
-        "description": "Edit menu command to remove recently-typed text"
+    "timerOption_10_seconds": {
+        "message": "10 seconden",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "reportIssue": {
-        "message": "Meld een probleem",
-        "description": "Link to open the issue tracker"
+    "timerOption_30_seconds": {
+        "message": "30 seconden",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "newMessage": {
-        "message": "nieuw bericht",
-        "description": "Displayed in notifications for only 1 message"
+    "timerOption_1_minute": {
+        "message": "1 minuut",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "nameOnly": {
-        "message": "Enkel naam van afzender",
-        "description": "Label for setting notifications to display sender name only"
+    "timerOption_5_minutes": {
+        "message": "5 minuten",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
-        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "mediaEmptyState": {
-        "message": "Je hebt geen media in deze conversatie",
-        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
-    },
-    "notificationMostRecentFrom": {
-        "message": "Meest recent van:",
-        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-    },
-    "autoUpdateLaterButtonLabel": {
-        "message": "Later",
-        "description": ""
-    },
-    "justNow": {
-        "message": "nu",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
-    },
-    "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
-        "description": "Description of the media permission description"
-    },
-    "from": {
-        "message": "Van",
-        "description": "Label for the sender of a message"
-    },
-    "deleteConversationConfirmation": {
-        "message": "Dit gesprek voorgoed verwijderen?",
-        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "mainMenuWindow": {
-        "message": "&Venster",
-        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "importCompleteLinkButton": {
-        "message": "Koppel dit apparaat aan je telefoon",
-        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "unlinkedWarning": {
-        "message": "Herkoppel Signal Desktop met je mobiel apparaat om verder te kunnen chatten.",
-        "description": ""
-    },
-    "safetyNumberChanged": {
-        "message": "Safety Number has changed",
-        "description": "A notification shown in the conversation when a contact reinstalls"
-    },
-    "today": {
-        "message": "Vandaag",
-        "description": "Section header in the media gallery"
-    },
-    "debugLogExplanation": {
-        "message": "Deze log zal online publiek beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
-        "description": ""
-    },
-    "linkYourPhone": {
-        "message": "Koppel je telefoon aan Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
-        "description": "Shown in the conversation history when multiple people leave the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    },
-    "newPhoneNumber": {
-        "message": "Voer een telefoonnummer in om een contact toe te voegen.",
-        "description": "Placeholder for adding a new number to a contact"
-    },
-    "viewMenuZoomIn": {
-        "message": "Zoom In",
-        "description": "View menu command to make everything bigger"
-    },
-    "viewAllMedia": {
-        "message": "Bekijk alle media",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
-    },
-    "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
-        "description": "Window menu command to bring all windows of current applicatinon to front"
-    },
-    "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
-        "description": "Message shown if the import went wrong; first paragraph"
-    },
-    "noLongerVerified": {
-        "message": "Je veiligheidsnummer met $name$ is veranderd en niet meer geverifieerd. Klik om het te tonen.",
-        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+    "timerOption_30_minutes": {
+        "message": "30 minuten",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
         "message": "1 uur",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "video": {
-        "message": "Video",
-        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    "timerOption_6_hours": {
+        "message": "6 uur",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
-        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
+    "timerOption_12_hours": {
+        "message": "12 uur",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "searchForPeopleOrGroups": {
-        "message": "Voer naam of nummer in",
-        "description": "Placeholder text in the search input"
+    "timerOption_1_day": {
+        "message": "1 dag",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "noNameOrMessage": {
-        "message": "Naam van afzender noch berichtinhoud",
-        "description": "Label for setting notifications to display no name and no message text"
+    "timerOption_1_week": {
+        "message": "1 week",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "syncNow": {
-        "message": "Nu importeren",
-        "description": "Label for a button that syncs contacts and groups from your phone"
+    "disappearingMessages": {
+        "message": "Verdwijnende berichten",
+        "description": "Conversation menu option to enable disappearing messages"
     },
-    "syncFailed": {
-        "message": "Importeren mislukt. Zorg ervoor dat je computer en je telefoon met het internet verbonden zijn.",
-        "description": "Informational text displayed if a sync operation times out."
+    "timerOption_0_seconds_abbreviated": {
+        "message": "uit",
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
-    "unlinked": {
-        "message": "Ontkoppeld",
-        "description": ""
+    "timerOption_5_seconds_abbreviated": {
+        "message": "5s",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "imageAttachmentAlt": {
-        "message": "Image attached to message",
-        "description": "Used in alt tag of image attachment"
+    "timerOption_10_seconds_abbreviated": {
+        "message": "10s",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "learnMore": {
-        "message": "Lees meer over het verifiëren van veiligheidsnummers",
-        "description": "Text that links to a support article on verifying safety numbers"
-    },
-    "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
-        "description": "Message displayed when timer is set on initial link of desktop device.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "deleteAllDataButton": {
-        "message": "Verwijder alle data",
-        "description": "Text of the button that deletes all data"
-    },
-    "unreadMessages": {
-        "message": "$count$ ongelezen berichten",
-        "description": "Text for unread message separator, with count",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
-    "installTooManyDevices": {
-        "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
-        "description": ""
-    },
-    "allowAccess": {
-        "message": "Allow Access",
-        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "joinedTheGroup": {
-        "message": "$name$ joined the group",
-        "description": "Shown in the conversation history when a single person joins the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice"
-            }
-        }
-    },
-    "work": {
-        "message": "werk",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "goToForums": {
-        "message": "Ga naar forums",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
-    "menuSetupWithImport": {
-        "message": "Instellen met importeren",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
-    "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
-        "description": "Displayed in the left pane when the timer is turned off"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+    "timerOption_30_seconds_abbreviated": {
+        "message": "30s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "home": {
-        "message": "thuis",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    "timerOption_5_minutes_abbreviated": {
+        "message": "5m",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "loadingMessages": {
-        "message": "Berichten worden geladen, $count$ tot nu toe...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
+    "timerOption_30_minutes_abbreviated": {
+        "message": "30m",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "speech": {
-        "message": "Spraak",
-        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    "timerOption_1_hour_abbreviated": {
+        "message": "1u",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "importErrorHeader": {
-        "message": "Er ging iets mis!",
-        "description": "Header of the error screen after a failed import"
+    "timerOption_6_hours_abbreviated": {
+        "message": "6u",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "changedSinceVerified": {
-        "message": "Je veiligheidsnummer met $name$ is veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ opnieuw heeft geïnstalleerd.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+    "timerOption_12_hours_abbreviated": {
+        "message": "12u",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "importAgain": {
-        "message": "Kies een map en probeer het opnieuw",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
+    "timerOption_1_day_abbreviated": {
+        "message": "1d",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "upgrade": {
-        "message": "Opwaarderen",
-        "description": "Label text for button to upgrade the app to the latest version"
+    "timerOption_1_week_abbreviated": {
+        "message": "1w",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "moreInfo": {
-        "message": "More Info...",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "notificationMostRecent": {
-        "message": "Meest recent:",
-        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
-    },
-    "yourSafetyNumberWith": {
-        "message": "Je veiligheidsnummer met $name$:",
-        "description": "Heading for safety number view",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "windowMenuClose": {
-        "message": "Close Window",
-        "description": "Window menu command to close the current window"
-    },
-    "showLess": {
-        "message": "Details verbergen",
-        "description": "Hides the details of a key change"
-    },
-    "spellCheck": {
-        "message": "Spell Check",
-        "description": "Description of the media permission description"
-    },
-    "theme": {
-        "message": "Thema",
-        "description": "Header for theme settings"
-    },
-    "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
-    },
-    "newIdentity": {
-        "message": "Nieuw veiligheidsnummer",
-        "description": "Header for a key change dialog"
+    "disappearingMessagesDisabled": {
+        "message": "Verdwijnende berichten is uitgeschakeld",
+        "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$ heeft verdwijnende berichten uitgezet",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -717,609 +1241,9 @@
             }
         }
     },
-    "installTagline": {
-        "message": "Privacy is mogelijk. Signal maakt het gemakkelijk.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "show": {
-        "message": "Tonen",
-        "description": "Command under Window menu, to show the window"
-    },
-    "audioNotificationDescription": {
-        "message": "Audiomelding afspelen",
-        "description": "Description for audio notification setting"
-    },
-    "isNotVerified": {
-        "message": "Je hebt je veiligheidsnummer met $name$ niet geverifieerd.",
-        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "disconnected": {
-        "message": "Verbinding verbroken",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
-    "syncing": {
-        "message": "Importeren…",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "lightboxImageAlt": {
-        "message": "Image sent in conversation",
-        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
-    },
-    "multipleNoLongerVerified": {
-        "message": "Je veiligheidsnummers met meerdere leden van deze groep zijn veranderd en bijgevolg niet meer geverifieerd. Klik om deze te tonen.",
-        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
-    },
-    "acceptNewKey": {
-        "message": "Aanvaarden",
-        "description": "Label for a button to accept a new safety number"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12u",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
-        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
-    },
-    "signalSettings": {
-        "message": "Signal-instellingen",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "timestampFormat_M": {
-        "message": "D MMM",
-        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
-    },
-    "plusButton": {
-        "message": "‘+’-knop",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
-    "chooseDirectory": {
-        "message": "Map kiezen",
-        "description": "Button to allow the user to find a folder on disk"
-    },
-    "mainMenuEdit": {
-        "message": "B&ewerken",
-        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6u",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "unregisteredUser": {
-        "message": "Nummer is niet geregistreerd",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1d",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "replyingTo": {
-        "message": "Antwoorden op $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Signal herstarten",
-        "description": ""
-    },
-    "mobile": {
-        "message": "mobiel",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
-    },
-    "notificationFrom": {
-        "message": "Van:",
-        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-    },
-    "sync": {
-        "message": "Contacten",
-        "description": "Label for contact and group sync settings"
-    },
-    "timerOption_1_week": {
-        "message": "1 week",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
-        "description": "Used in the alt tag for the image avatar of a contact",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "received": {
-        "message": "Ontvangen",
-        "description": "Label for the time a message was received"
-    },
-    "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_1_minute": {
-        "message": "1 minuut",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "isVerified": {
-        "message": "Je hebt je veiligheidsnummer met $name$ geverifieerd.",
-        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_30_seconds": {
-        "message": "30 seconden",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "deleteAllDataHeader": {
-        "message": "Verwijder alle data?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataProgress": {
-        "message": "Verbinding wordt verbroken en alle data wordt verwijderd",
-        "description": "Message shown to user when app is disconnected and data deleted"
-    },
-    "sendMessage": {
-        "message": "Verzend een bericht",
-        "description": "Placeholder text in the message entry field"
-    },
-    "menuReportIssue": {
-        "message": "Meld een probleem",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
-    },
-    "permissions": {
-        "message": "Permissions",
-        "description": "Header for permissions section of settings"
-    },
-    "loadDataDescription": {
-        "message": "Je bent net de exportprodedure doorlopen, en je contacten en berichten wachten geduldig op je computer. Kies de map die je opgeslagen Signal-gegevens bevat.",
-        "description": "Introduction to the process of importing messages and contacts from disk"
-    },
-    "me": {
-        "message": "Ik",
-        "description": "The label for yourself when shown in a group member list"
-    },
-    "mediaMessage": {
-        "message": "Mediabericht",
-        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
-    },
-    "unreadMessage": {
-        "message": "1 ongelezen bericht",
-        "description": "Text for unread message separator, just one message"
-    },
-    "expiredWarning": {
-        "message": "Deze versie van Signal Desktop is verouderd. Opwaardeer naar de laatste versie om verder te chatten.",
-        "description": "Warning notification that this version of the app has expired"
-    },
-    "fileSizeWarning": {
-        "message": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte.",
-        "description": ""
-    },
-    "documentsEmptyState": {
-        "message": "Je hebt geen documenten in deze conversatie",
-        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
-    },
-    "deleteMessage": {
-        "message": "Delete Message",
-        "description": "Shown on the drop-down menu for an individual message, deletes single message"
-    },
-    "chooseDeviceName": {
-        "message": "Kies de naam van dit apparaat",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "autoUpdateNewVersionInstructions": {
-        "message": "Klik op ‘Signal herstarten’ om de updates toe te passen.",
-        "description": ""
-    },
-    "fileIconAlt": {
-        "message": "File icon",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
-    "timerOption_0_seconds": {
-        "message": "uit",
-        "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "editMenuRedo": {
-        "message": "Redo",
-        "description": "Edit menu command to restore previously undone typed text"
-    },
-    "invalidNumberError": {
-        "message": "Ongeldig nummer",
-        "description": "When a person inputs a number that is invalid"
-    },
-    "installWelcome": {
-        "message": "Welkom bij Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "messageBelow": {
-        "message": "Nieuw bericht hieronder",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "hoursAgo": {
-        "message": "$hours$ hr ago",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "menuSetupAsNewDevice": {
-        "message": "Instellen als nieuw apparaat",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
-    "installConnectionFailed": {
-        "message": "Verbinden met server mislukt.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "unverify": {
-        "message": "Markeren als niet-geverifieerd.",
-        "description": ""
-    },
-    "initialSync": {
-        "message": "Contacten en groepen aan het synchroniseren",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "mainMenuView": {
-        "message": "Be&kijken",
-        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "appMenuHide": {
-        "message": "Verbergen",
-        "description": "Application menu command to hide the window"
-    },
-    "autoUpdateNewVersionMessage": {
-        "message": "Er is een nieuwe versie van Signal beschikbaar.",
-        "description": ""
-    },
-    "replyToMessage": {
-        "message": "Antwoord op Bericht",
-        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
-    },
-    "disableNotifications": {
-        "message": "Meldingen uitschakelen",
-        "description": "Label for disabling notifications"
-    },
-    "photo": {
-        "message": "Foto",
-        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
-    },
-    "media": {
-        "message": "Media",
-        "description": "Header of the default pane in the media gallery, showing images and videos"
-    },
-    "cancel": {
-        "message": "Annuleren",
-        "description": ""
-    },
-    "unblockToSend": {
-        "message": "Deblokkeer dit contact om een bericht te verzenden.",
-        "description": "Brief message shown when trying to message a blocked number"
-    },
-    "mainMenuHelp": {
-        "message": "&Hulp",
-        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "unnamedFile": {
-        "message": "Naamloos bestand",
-        "description": "Hover text for attachment filenames"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 minutes",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "sendAnyway": {
-        "message": "Toch verzenden",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
-    "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
-        "description": "Shown in the conversation history when the user marks a contact as verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "connecting": {
-        "message": "Aan het verbinden",
-        "description": "Displayed when the desktop client is currently connecting to the server."
-    },
-    "deleteAllDataBody": {
-        "message": "Hierdoor verwijder je alle opgeslagen account gegevens van deze applicatie, waaronder alle contacten en berichten. Je kunt altijd nogmaals linken met je mobiele apparaat, maar je verwijderde berichten kunnen niet hersteld worden.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "sessionEnded": {
-        "message": "Beveiligde sessie opnieuw ingesteld",
-        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "relink": {
-        "message": "Herkoppelen",
-        "description": ""
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1w",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 seconden",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
-        "description": ""
-    },
-    "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
-        "description": "View menu command to show or hide the developer tools"
-    },
-    "showMembers": {
-        "message": "Leden tonen",
-        "description": ""
-    },
-    "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "email": {
-        "message": "email",
-        "description": "Generic label shown if contact email has custom type but no label"
-    },
-    "viewMenuResetZoom": {
-        "message": "Actual Size",
-        "description": "View menu command to go back to the default zoom"
-    },
-    "goToSupportPage": {
-        "message": "Ga naar ondersteuningspagina",
-        "description": "Item under the Help menu, takes you to the support page"
-    },
-    "finishLinkingPhone": {
-        "message": "Koppelen van telefoon voltooien",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
-        "description": "Shown in the conversation history when more than one person joins the group",
-        "placeholders": {
-            "names": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    },
-    "groupMembers": {
-        "message": "Groepsleden",
-        "description": ""
-    },
-    "loading": {
-        "message": "Laden…",
-        "description": "Message shown on the loading screen before we've loaded any messages"
-    },
-    "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
-        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
-    },
-    "newMessages": {
-        "message": "nieuwe berichten",
-        "description": "Displayed in notifications for multiple messages"
-    },
-    "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
-        "description": "Message shown if the import went wrong; second paragraph"
-    },
-    "theirIdentityUnknown": {
-        "message": "Je hebt nog geen berichten uitgewisseld met dit contact. Je veiligheidsnummer met hen zal beschikbaar zijn na het eerste bericht.",
-        "description": ""
-    },
-    "voiceMessage": {
-        "message": "Audiobericht",
-        "description": "Name for a voice message attachment"
-    },
-    "importCompleteStartButton": {
-        "message": "Begin Signal Desktop te gebruiken",
-        "description": "Button shown at end of successful import process, nothing left but a restart"
-    },
-    "submit": {
-        "message": "Verzenden",
-        "description": ""
-    },
-    "updatedTheGroup": {
-        "message": "Group updated",
-        "description": "Shown in the conversation history when someone updates the group"
-    },
-    "themeDark": {
-        "message": "Dark",
-        "description": "Label text for dark theme"
-    },
-    "identityKeyErrorOnSend": {
-        "message": "Je veiligheidsnummer met $name$ is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd. Je verifieert best je nieuwe veiligheidsnummer met dit contact.",
-        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "clearDataExplanation": {
-        "message": "Dit verwijderd alle gegevens in de applicatie, verwijderd alle berichten en opgeslagen account informatie.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "to": {
-        "message": "Naar",
-        "description": "Label for the receiver of a message"
-    },
-    "windowMenuMinimize": {
-        "message": "Minimize",
-        "description": "Window menu command to minimize the current window"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1u",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "editMenuStopSpeaking": {
-        "message": "Stop speaking",
-        "description": "Edit menu item under 'speech' to stop dictation"
-    },
-    "optimizingApplication": {
-        "message": "Applicatie optimaliseren...",
-        "description": "Message shown on the loading screen while we are doing application optimizations"
-    },
-    "goToReleaseNotes": {
-        "message": "Ga naar uitgaveopmerkingen",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "Berichtdetails",
-        "description": ""
-    },
-    "timerOption_12_hours": {
-        "message": "12 hours",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "mainMenuFile": {
-        "message": "&Bestand",
-        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "verify": {
-        "message": "Markeren als geverifieerd",
-        "description": ""
-    },
-    "sendFailed": {
-        "message": "Send failed",
-        "description": "Shown on outgoing message if it fails to send"
-    },
-    "clearDataHeader": {
-        "message": "Verwijder Gegevens",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
-        "description": "View menu command to enter or leave Full Screen mode"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 minutes",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "linkNewDevice": {
-        "message": "Nieuw apparaat koppelen",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "nameAndMessage": {
-        "message": "Naam van afzender en berichtinhoud",
-        "description": "Label for setting notifications to display name and message text"
-    },
-    "menuSetupAsStandalone": {
-        "message": "Instellen als apart apparaat",
-        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
-    },
-    "failedToSend": {
-        "message": "Verzenden naar bepaalde ontvangers mislukt. Controleer je netwerkverbinding.",
-        "description": ""
-    },
-    "ok": {
-        "message": "Oké",
-        "description": ""
-    },
-    "identityChanged": {
-        "message": "Je veiligheidsnummer met dit contact is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat je contact Signal opnieuw heeft geïnstalleerd. Je verifieert best het nieuwe veiligheidsnummer hieronder.",
-        "description": ""
-    },
-    "appMenuUnhide": {
-        "message": "Show All",
-        "description": "Application menu command to show all application windows"
-    },
-    "changedSinceVerifiedMultiple": {
-        "message": "Je veiligheidsnummers met meerdere groepsleden zijn veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat ze Signal opnieuw hebben geïnstalleerd.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "showSettings": {
-        "message": "Show Settings",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
-    },
-    "editMenuCopy": {
-        "message": "Copy",
-        "description": "Edit menu command to add selected text to clipboard"
-    },
-    "loadDataHeader": {
-        "message": "Laad je gegevens",
-        "description": "Header shown on the first screen in the data import process"
-    },
-    "submitDebugLog": {
-        "message": "Debuglog",
-        "description": "Menu item and header text for debug log modal (sentence case)"
-    },
-    "startConversation": {
-        "message": "Begin een gesprek…",
-        "description": "Label underneath number a user enters that is not an existing contact"
-    },
-    "error": {
-        "message": "Fout",
-        "description": ""
-    },
-    "titleIsNow": {
-        "message": "Title is now '$name$'",
-        "description": "Shown in the conversation history when someone changes the title of the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Book Club"
-            }
-        }
-    },
-    "retrySend": {
-        "message": "Retry Send",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
-    },
-    "changedRightAfterVerify": {
-        "message": "Het veiligheidsnummer dat je wil verifiëren is veranderd. Controleer je nieuwe veiligheidsnummer met $name$. Let op: dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd.",
-        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_6_hours": {
-        "message": "6 hours",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
-        "description": "Used in alt tag of video attachment preview"
+    "youDisabledDisappearingMessages": {
+        "message": "Je hebt verdwijnende berichten uitgeschakeld",
+        "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
         "message": "Timer ingesteld op $time$",
@@ -1331,47 +1255,97 @@
             }
         }
     },
-    "editMenuDelete": {
-        "message": "Verwijderen",
-        "description": "Edit menu command to remove the selected text"
+    "audioNotificationDescription": {
+        "message": "Audiomelding afspelen",
+        "description": "Description for audio notification setting"
     },
-    "windowMenuZoom": {
-        "message": "Zoom",
-        "description": "Window menu command to make the current window the size of the whole screen"
+    "safetyNumberChanged": {
+        "message": "Het veiligheidsnummer is veranderd",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
+    "safetyNumberChangedGroup": {
+        "message": "Veiligheidsnummer met $name$is veranderd",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "verifyNewNumber": {
+        "message": "Toon veiligheidsnummer",
+        "description": "Label on button included with safety number change notification in the conversation"
+    },
+    "yourSafetyNumberWith": {
+        "message": "Je veiligheidsnummer met $name$:",
+        "description": "Heading for safety number view",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "themeLight": {
+        "message": "Licht",
+        "description": "Label text for light theme (normal)"
+    },
+    "themeDark": {
+        "message": "Donker",
+        "description": "Label text for dark theme"
+    },
+    "hideMenuBar": {
+        "message": "Menubalk verbergen",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "startConversation": {
+        "message": "Begin een gesprek…",
+        "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newPhoneNumber": {
+        "message": "Voer een telefoonnummer in om een contact toe te voegen.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
+    "invalidNumberError": {
+        "message": "Ongeldig nummer",
+        "description": "When a person inputs a number that is invalid"
+    },
+    "unlinkedWarning": {
+        "message": "Herkoppel Signal Desktop met je mobiel apparaat om verder te kunnen chatten.",
+        "description": ""
+    },
+    "unlinked": {
+        "message": "Ontkoppeld",
+        "description": ""
+    },
+    "relink": {
+        "message": "Herkoppelen",
+        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "Update voor Signal beschikbaar",
         "description": ""
     },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
-        "description": "Very short format indicating current timer setting in the conversation header"
+    "autoUpdateNewVersionMessage": {
+        "message": "Er is een nieuwe versie van Signal beschikbaar.",
+        "description": ""
     },
-    "audio": {
-        "message": "Audio",
-        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    "autoUpdateNewVersionInstructions": {
+        "message": "Klik op ‘Signal herstarten’ om de updates toe te passen.",
+        "description": ""
     },
-    "editMenuStartSpeaking": {
-        "message": "Start speaking",
-        "description": "Edit menu item under 'speech' to start dictation"
+    "autoUpdateRestartButtonLabel": {
+        "message": "Signal herstarten",
+        "description": ""
     },
-    "minutesAgo": {
-        "message": "$minutes$ min ago",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
+    "autoUpdateLaterButtonLabel": {
+        "message": "Later",
+        "description": ""
     },
-    "notifications": {
-        "message": "Meldingen",
-        "description": "Header for notification settings"
-    },
-    "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+    "leftTheGroup": {
+        "message": "$name$heeft de groep verlaten",
+        "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -1379,8 +1353,52 @@
             }
         }
     },
-    "hide": {
-        "message": "Verbergen",
-        "description": "Command in the tray icon menu, to hide the window"
+    "multipleLeftTheGroup": {
+        "message": "$name$heeft de groep verlaten",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "updatedTheGroup": {
+        "message": "De groep is bijgewerkt",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
+    "titleIsNow": {
+        "message": "De tilel is nu $name$",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
+    "joinedTheGroup": {
+        "message": "$name$is lid geworden van de groep",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$is lid geworden van de groep",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "privacyPolicy": {
+        "message": "Gebruiksvoorwaarden & privacy policy",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

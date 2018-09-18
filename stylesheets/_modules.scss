@@ -293,21 +293,6 @@
   border-bottom-right-radius: 16px;
 }
 
-.module-message__broken-image {
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-
-  padding: 10px;
-  text-align: center;
-  text-transform: uppercase;
-  color: $color-light-90;
-}
-
-.module-message__broken-image--incoming {
-  color: $color-white;
-}
-
 .module-message__video-overlay__circle {
   position: absolute;
   top: 50%;
@@ -329,23 +314,6 @@
   height: 36px;
   width: 36px;
   @include color-svg('../images/play.svg', $color-signal-blue);
-}
-
-.module-message__broken-video-screenshot {
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-
-  padding: 10px;
-  text-align: center;
-  text-transform: uppercase;
-  color: $color-light-90;
-
-  cursor: pointer;
-}
-
-.module-message__broken-video-screenshot--incoming {
-  color: $color-white;
 }
 
 .module-message__audio-attachment {

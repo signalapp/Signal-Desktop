@@ -140,6 +140,9 @@ module.exports = grunt => {
       },
     },
     exec: {
+      'tx-pull-new': {
+        cmd: 'tx pull -a --minimum-perc=80',
+      },
       'tx-pull': {
         cmd: 'tx pull',
       },
@@ -422,7 +425,11 @@ module.exports = grunt => {
     }
   );
 
-  grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
+  grunt.registerTask('tx', [
+    'exec:tx-pull-new',
+    'exec:tx-pull',
+    'locale-patch',
+  ]);
   grunt.registerTask('dev', ['default', 'watch']);
   grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
