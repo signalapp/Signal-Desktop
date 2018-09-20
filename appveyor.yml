@@ -14,6 +14,7 @@ install:
 build_script:
   - yarn generate
   - yarn lint-windows
+  - yarn lint-deps
   - yarn test-node
   - yarn nsp check
   - node build\grunt.js

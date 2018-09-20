@@ -1,0 +1,173 @@
+[
+  {
+    "name": "eval",
+    "expression": "\\beval\\(",
+    "reason": "Arbitrary code execution"
+  },
+  {
+    "name": "DOM-innerHTML",
+    "expression": "\\binnerHTML\\b",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "DOM-outerHTML",
+    "expression": "\\bouterHTML\\b",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "DOM-document.write(",
+    "expression": "\\bdocument.write(ln)?\\(",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "jQuery-$(",
+    "expression": "\\$\\(",
+    "reason": "Potential XSS",
+    "excludedModules": ["node_modules/prelude-ls"]
+  },
+  {
+    "name": "jQuery-html(",
+    "expression": "\\bhtml\\(",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "jQuery-append(",
+    "expression": "\\bappend\\(",
+    "reason": "Potential XSS",
+    "excludedModules": [
+      "components/bytebuffer",
+      "components/protobuf",
+      "node_modules/google-libphonenumber",
+      "node_modules/handlebars"
+    ]
+  },
+  {
+    "name": "jQuery-appendTo(",
+    "expression": "\\bappendTo\\(",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "jQuery-insertAfter(",
+    "expression": "\\binsertAfter\\(",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "jQuery-insertBefore(",
+    "expression": "\\binsertBefore\\(",
+    "reason": "Potential XSS",
+    "excludedModules": ["node_modules/react-dom"]
+  },
+  {
+    "name": "jQuery-prepend(",
+    "expression": "\\bprepend\\(",
+    "reason": "Potential XSS",
+    "excludedModules": ["components/bytebuffer", "node_modules/handlebars"]
+  },
+  {
+    "name": "jQuery-prependTo(",
+    "expression": "\\bprependTo\\(",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "jQuery-wrap(",
+    "expression": "\\bwrap\\(",
+    "reason": "Potential XSS",
+    "excludedModules": [
+      "components/bytebuffer",
+      "components/protobuf",
+      "node_modules/handlebars",
+      "node_modules/lodash"
+    ]
+  },
+  {
+    "name": "jQuery-wrapInner(",
+    "expression": "\\bwrapInner\\(",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "jQuery-wrapAll(",
+    "expression": "\\bwrapAll\\(",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "jQuery-before(",
+    "expression": "\\bbefore\\(",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "jQuery-after(",
+    "expression": "\\bafter\\(",
+    "reason": "Potential XSS"
+  },
+  {
+    "name": "jQuery-globalEval(",
+    "expression": "\\bglobalEval\\(",
+    "reason": "Arbitrary code execution"
+  },
+  {
+    "name": "jQuery-getScript(",
+    "expression": "\\bgetScript\\(",
+    "reason": "Arbitrary code execution"
+  },
+  {
+    "name": "jQuery-load(",
+    "expression": "\\bload\\(",
+    "reason": "Arbitrary code execution"
+  },
+  {
+    "name": "React-ref",
+    "expression": "\\bref(\\s)*=\\b",
+    "reason": "Potential XSS",
+    "excludedModules": [
+      "node_modules/react-dom",
+      "node_modules/tslint-microsoft-contrib",
+      "node_modules/react-error-overlay",
+      "node_modules/react-styleguidist"
+    ]
+  },
+  {
+    "name": "React-createRef",
+    "expression": "\\bcreateRef\\(",
+    "reason": "Potential XSS",
+    "excludedModules": [
+      "node_modules/react-dom",
+      "node_modules/tslint-microsoft-contrib",
+      "node_modules/react-error-overlay",
+      "node_modules/react-styleguidist"
+    ]
+  },
+  {
+    "name": "React-findDOMNode",
+    "expression": "\\bfindDOMNode\\(",
+    "reason": "Potential XSS",
+    "excludedModules": [
+      "node_modules/react-dom",
+      "node_modules/tslint-microsoft-contrib",
+      "node_modules/react-error-overlay",
+      "node_modules/react-styleguidist"
+    ]
+  },
+  {
+    "name": "React-dangerouslySetInnerHTML",
+    "expression": "\\bdangerouslySetInnerHTML\\b",
+    "reason": "Potential XSS",
+    "excludedModules": [
+      "node_modules/react-dom",
+      "node_modules/tslint-microsoft-contrib",
+      "node_modules/react-error-overlay",
+      "node_modules/react-styleguidist"
+    ]
+  },
+  {
+    "name": "fbjs-createNodesFromMarkup",
+    "expression": "\\bcreateNodesFromMarkup\\b",
+    "reason": "Potential XSS, pipes input to innerHTML",
+    "excludedModules": ["node_modules/react-dom", "node_modules/fbjs"]
+  },
+  {
+    "name": "thenify-multiArgs",
+    "expression": "\\bmultiArgs\\b",
+    "reason": "Potential arbitrary code execution, piped to eval",
+    "excludedModules": ["node_modules/thenify"]
+  }
+]
