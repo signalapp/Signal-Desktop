@@ -3058,7 +3058,7 @@
     "line": "        wrap(oldStream: ReadableStream): this;",
     "lineNumber": 437,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2018-09-20T21:02:15.849Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3066,7 +3066,7 @@
     "line": "        static wrap(code: string): string;",
     "lineNumber": 792,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2018-09-20T20:45:24.002Z"
   },
   {
     "rule": "jQuery-append(",
@@ -3074,7 +3074,7 @@
     "line": "        append(name: string, value: string): void;",
     "lineNumber": 2355,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2018-09-20T21:02:15.849Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3082,7 +3082,7 @@
     "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
     "lineNumber": 5277,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2018-09-20T20:45:24.002Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5264,7 +5264,7 @@
     "rule": "eval",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
-    "lineNumber": 878,
+    "lineNumber": 880,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Hard-coded value"
@@ -5273,7 +5273,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "function load(filename, root, callback) {",
-    "lineNumber": 2185,
+    "lineNumber": 2194,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5281,7 +5281,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "    return root.load(filename, callback);",
-    "lineNumber": 2191,
+    "lineNumber": 2200,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5289,7 +5289,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "// function load(filename:string, callback:LoadCallback):undefined",
-    "lineNumber": 2204,
+    "lineNumber": 2213,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5297,7 +5297,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "// function load(filename:string, [root:Root]):Promise<Root>",
-    "lineNumber": 2216,
+    "lineNumber": 2225,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5305,7 +5305,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "Root.prototype.load = function load(filename, options, callback) {",
-    "lineNumber": 4096,
+    "lineNumber": 4106,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5313,14 +5313,6 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "// function load(filename:string, options:IParseOptions, callback:LoadCallback):undefined",
-    "lineNumber": 4223,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/dist/light/protobuf.js",
-    "line": "// function load(filename:string, callback:LoadCallback):undefined",
     "lineNumber": 4233,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
@@ -5328,7 +5320,7 @@
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
-    "line": "// function load(filename:string, [options:IParseOptions]):Promise<Root>",
+    "line": "// function load(filename:string, callback:LoadCallback):undefined",
     "lineNumber": 4243,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
@@ -5336,8 +5328,16 @@
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
+    "line": "// function load(filename:string, [options:IParseOptions]):Promise<Root>",
+    "lineNumber": 4253,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "    return this.load(filename, options, SYNC);",
-    "lineNumber": 4256,
+    "lineNumber": 4266,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5360,7 +5360,7 @@
     "rule": "eval",
     "path": "node_modules/protobufjs/dist/minimal/protobuf.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
-    "lineNumber": 660,
+    "lineNumber": 662,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Hard-coded value"
@@ -5377,7 +5377,7 @@
     "rule": "eval",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
-    "lineNumber": 878,
+    "lineNumber": 880,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Hard-coded value"
@@ -5386,7 +5386,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "function load(filename, root, callback) {",
-    "lineNumber": 2586,
+    "lineNumber": 2595,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5394,7 +5394,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "    return root.load(filename, callback);",
-    "lineNumber": 2592,
+    "lineNumber": 2601,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5402,7 +5402,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, callback:LoadCallback):undefined",
-    "lineNumber": 2605,
+    "lineNumber": 2614,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5410,7 +5410,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, [root:Root]):Promise<Root>",
-    "lineNumber": 2617,
+    "lineNumber": 2626,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5418,7 +5418,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "Root.prototype.load = function load(filename, options, callback) {",
-    "lineNumber": 5270,
+    "lineNumber": 5281,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5426,7 +5426,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, options:IParseOptions, callback:LoadCallback):undefined",
-    "lineNumber": 5397,
+    "lineNumber": 5408,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5434,7 +5434,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, callback:LoadCallback):undefined",
-    "lineNumber": 5407,
+    "lineNumber": 5418,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5442,7 +5442,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, [options:IParseOptions]):Promise<Root>",
-    "lineNumber": 5417,
+    "lineNumber": 5428,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5450,7 +5450,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "    return this.load(filename, options, SYNC);",
-    "lineNumber": 5430,
+    "lineNumber": 5441,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5480,7 +5480,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "export function load(filename: (string|string[]), root: Root, callback: LoadCallback): void;",
-    "lineNumber": 414,
+    "lineNumber": 416,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5488,7 +5488,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "export function load(filename: (string|string[]), callback: LoadCallback): void;",
-    "lineNumber": 422,
+    "lineNumber": 424,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5496,7 +5496,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "export function load(filename: (string|string[]), root?: Root): Promise<Root>;",
-    "lineNumber": 431,
+    "lineNumber": 433,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5504,7 +5504,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "    public load(filename: (string|string[]), options: IParseOptions, callback: LoadCallback): void;",
-    "lineNumber": 1250,
+    "lineNumber": 1252,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5512,7 +5512,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "    public load(filename: (string|string[]), callback: LoadCallback): void;",
-    "lineNumber": 1257,
+    "lineNumber": 1259,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5520,7 +5520,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "    public load(filename: (string|string[]), options?: IParseOptions): Promise<Root>;",
-    "lineNumber": 1265,
+    "lineNumber": 1267,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -5528,7 +5528,7 @@
     "rule": "jQuery-wrap(",
     "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
     "line": "        wrap(oldStream: ReadableStream): this;",
-    "lineNumber": 439,
+    "lineNumber": 606,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -5536,15 +5536,15 @@
     "rule": "jQuery-wrap(",
     "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
     "line": "        static wrap(code: string): string;",
-    "lineNumber": 796,
+    "lineNumber": 978,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2018-09-20T20:45:24.002Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
     "line": "        append(name: string, value: string): void;",
-    "lineNumber": 2372,
+    "lineNumber": 2592,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -5552,9 +5552,9 @@
     "rule": "jQuery-wrap(",
     "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
     "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
-    "lineNumber": 5303,
+    "lineNumber": 6205,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2018-09-20T20:45:24.002Z"
   },
   {
     "rule": "jQuery-load(",
