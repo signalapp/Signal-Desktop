@@ -20,7 +20,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Preferences…",
+        "message": "ترجیحات",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
@@ -72,11 +72,11 @@
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Start speaking",
+        "message": "شروع صحبت",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Stop speaking",
+        "message": "توقف صحبت",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
@@ -84,15 +84,15 @@
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimize",
+        "message": "مینیمایز",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Zoom",
+        "message": "زوم",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
+        "message": "همه را به جلو بیاور",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
@@ -100,23 +100,23 @@
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Zoom In",
+        "message": "بزرگ نمایی",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Zoom Out",
+        "message": "کوچک نمایی",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
+        "message": "تاگل فول اسکرین",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
+        "message": "تاگل ابزار های توسعه دهنده",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Set Up with Import",
+        "message": "نصب با استفاده از ایمپورت",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "message": "شما پروسه اکسپورت را انجام دادید، مخاطبین ، پیام های شما روی کامپیوتر شما آماده هستند. پوشه ای که شامل داده های  ذخیره شده سیگنال شما می باشد را انتخاب کنید.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "مطمئن شوید که دایرکتوری صحیح را که شامل داده های ذخیره شده سیگنال شما می باشد را انتخاب کرده اید. نام آن باید با 'Signal Export' آغاز شده باشد. شما همچنین میتوانید یک کپی جدید از داده های خود را از برنامه کروم ذخیره کنید.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -280,7 +280,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "شما کد امنیتی خود با $name$ را از یک دستگاه دیگر به عنوان تایید نشده علامت زدید",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -364,7 +364,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "خطایی با آپلود رخ داد! لطفا به صورت دستی لاگ را به باگی که میخواهید ثبت کنید بیافزایید.",
         "description": ""
     },
     "reportIssue": {
@@ -483,6 +483,10 @@
         "message": "متاسفانه حجم فایل انتخاب شده از حداکثر طول پیام بیشتر است.",
         "description": ""
     },
+    "unableToLoadAttachment": {
+        "message": "Unable to load selected attachment.",
+        "description": ""
+    },
     "disconnected": {
         "message": "ارتباط قطع شد",
         "description": "Displayed when the desktop client cannot connect to the server."
@@ -518,7 +522,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Go to Release Notes",
+        "message": "رفتن به یادداشت های ریلیز",
         "description": ""
     },
     "goToForums": {
@@ -534,7 +538,7 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
+        "message": "ترجیحات سیگنال دسکتاپ",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -615,24 +619,32 @@
         "message": "صندوق پست",
         "description": "When rendering an address, used to provide context to a post office box"
     },
+    "downloadAttachment": {
+        "message": "دانلود ضمیمه",
+        "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
+    },
     "replyToMessage": {
         "message": "پاسخ به پیام",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
-    "replyingToYourself": {
-        "message": "Replying to Yourself",
-        "description": "Shown in iOS theme when you quote yourself"
+    "originalMessageNotFound": {
+        "message": "پیام اصلی پیدا نشد",
+        "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
-    "replyingToYou": {
-        "message": "Replying to You",
-        "description": "Shown in iOS theme when someone else quotes a message from you"
+    "originalMessageNotAvailable": {
+        "message": "پیام اصلی دیگر در دسترس نیست",
+        "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    },
+    "messageFoundButNotLoaded": {
+        "message": "پیام اصلی پیدا شد، اما بارگذاری نشد. برای بارگذاری به سمت بالا حرکت کنید",
+        "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "you": {
         "message": "شما",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "پاسخ به $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -642,11 +654,11 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "برای فرستادن پیام های صوتی، به سیگنال دسکتاپ اجازه دسترسی به میکروفون خود را بدهید.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Allow Access",
+        "message": "اجازه دسترسی بدهید",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
@@ -654,7 +666,7 @@
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "صوت",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
@@ -756,7 +768,7 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "ارسال دوباره",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
@@ -776,16 +788,8 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
+        "message": "تامبنیل تصویر از پیام نقل قول شده",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "imageFailedToLoad": {
-        "message": "تصویر بارگذاری نشد",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "اسکرین شات ویدیو بارگذاری نشد",
-        "description": "When a attachment video screenshot is missing, this message is shown"
     },
     "imageAttachmentAlt": {
         "message": "تصویر پیوست شده به پیام",
@@ -850,7 +854,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Finish linking phone",
+        "message": "پایان لینک کردن گوشی",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -886,7 +890,7 @@
         "description": "Description of the media permission description"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "فعال سازی کنترل املاء متن وارد شده در باکس پیام نویسی",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
@@ -906,7 +910,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "شما در حال پاک کردن تمام اطلاعات ذخیره شده این حساب کاربری میباشید، این اطلاعات شامل تمام مخاطبین و پیام ها می باشد. شما همیشه میتوانید با موبایل خود آن را لینک کنید، اما این پیام های پاک شده را برنمی گرداند.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -914,7 +918,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "قطع اتصال و پاک کردن تمام داده ها",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
@@ -1084,6 +1088,10 @@
     "unblockToSend": {
         "message": "برای ارسال پیام،‌ ابتدا این مخاطب را از مسدود بودن درآورید!",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Unblock this group to send a message.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "شما پیام تایمر پیام نابود شونده را روی $time$ تنظیم کردید",

@@ -483,6 +483,10 @@
         "message": "Kahjuks ületab valitud fail sõnumi suuruse piirangu.",
         "description": ""
     },
+    "unableToLoadAttachment": {
+        "message": "Valitud manuse laadimine ei õnnestunud.",
+        "description": ""
+    },
     "disconnected": {
         "message": "Ühendus katkestatud",
         "description": "Displayed when the desktop client cannot connect to the server."
@@ -787,14 +791,6 @@
         "message": "Tsiteeritud sõnumist pärit pildi pisipilt",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Pildi laadimine ei õnnestunud",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video ekraanipildi laadimine ei õnnestunud",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Pilt lisatud sõnumile",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1088,10 @@
     "unblockToSend": {
         "message": "Sõnumi saatmiseks eemalda selle kontakti blokeering.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Sõnumi saatmiseks eemalda selle grupi blokeering.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Sina määrasid kaduvate sõnumite taimeriks $time$",
