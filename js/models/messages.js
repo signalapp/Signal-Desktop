@@ -1205,8 +1205,8 @@
             !conversationTimestamp ||
             message.get('sent_at') > conversationTimestamp
           ) {
+            conversation.lastMessage = message.getNotificationText();
             conversation.set({
-              lastMessage: message.getNotificationText(),
               timestamp: message.get('sent_at'),
             });
           }
