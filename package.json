@@ -78,7 +78,7 @@
     "node-sass": "^4.9.3",
     "os-locale": "^2.1.0",
     "pify": "^3.0.0",
-    "protobufjs": "^6.8.6",
+    "protobufjs": "~6.8.6",
     "proxy-agent": "^2.1.0",
     "react": "^16.2.0",
     "react-contextmenu": "^2.9.2",
