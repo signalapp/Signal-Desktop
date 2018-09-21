@@ -8,7 +8,6 @@
 /* global Signal: false */
 /* global textsecure: false */
 /* global Whisper: false */
-/* global wrapDeferred: false */
 
 /* eslint-disable more/no-then */
 
@@ -1212,7 +1211,7 @@
           }
 
           if (dataMessage.profileKey) {
-            const profileKey = dataMessage.profileKey.toArrayBuffer();
+            const profileKey = dataMessage.profileKey.toString('base64');
             if (source === textsecure.storage.user.getNumber()) {
               conversation.set({ profileSharing: true });
             } else if (conversation.isPrivate()) {
@@ -1231,15 +1230,18 @@
           });
           message.set({ id });
 
-          await wrapDeferred(conversation.save());
+          await window.Signal.Data.updateConversation(
+            conversationId,
+            conversation.attributes,
+            { Conversation: Whisper.Conversation }
+          );
 
           conversation.trigger('newmessage', message);
 
           try {
-            // We fetch() here because, between the message.save() above and
-            // the previous line's trigger() call, we might have marked all
-            // messages unread in the database. This message might already
-            // be read!
+            // We go to the database here because, between the message save above and
+            // the previous line's trigger() call, we might have marked all messages
+            // unread in the database. This message might already be read!
             const fetched = await window.Signal.Data.getMessageById(
               message.get('id'),
               {

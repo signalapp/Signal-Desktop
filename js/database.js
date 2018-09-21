@@ -97,12 +97,14 @@
 
   Whisper.Database.clear = async () => {
     const db = await Whisper.Database.open();
-    return clearStores(db);
+    await clearStores(db);
+    db.close();
   };
 
   Whisper.Database.clearStores = async storeNames => {
     const db = await Whisper.Database.open();
-    return clearStores(db, storeNames);
+    await clearStores(db, storeNames);
+    db.close();
   };
 
   Whisper.Database.close = () => window.wrapDeferred(Backbone.sync('closeall'));

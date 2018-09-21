@@ -1,22 +1,38 @@
+/* global window */
+
 const { last } = require('lodash');
 
 const db = require('../database');
 const settings = require('../settings');
 const { runMigrations } = require('./run_migrations');
 
-// IMPORTANT: Add new migrations that need to traverse entire database, e.g.
-// messages store, below. Whenever we need this, we need to force attachment
-// migration on startup:
-const migrations = [
-  // {
-  //   version: 0,
-  //   migrate(transaction, next) {
-  //     next();
-  //   },
-  // },
+// These are cleanup migrations, to be run after migration to SQLCipher
+exports.migrations = [
+  {
+    version: 19,
+    migrate(transaction, next) {
+      window.log.info('Migration 19');
+      window.log.info(
+        'Removing messages, unprocessed, and conversations object stores'
+      );
+
+      // This should be run after things are migrated to SQLCipher
+      transaction.db.deleteObjectStore('messages');
+      transaction.db.deleteObjectStore('unprocessed');
+      transaction.db.deleteObjectStore('conversations');
+
+      next();
+    },
+  },
 ];
 
-exports.run = async ({ Backbone, database, logger } = {}) => {
+exports.run = async ({ Backbone, logger } = {}) => {
+  const database = {
+    id: 'signal',
+    nolog: true,
+    migrations: exports.migrations,
+  };
+
   const { canRun } = await exports.getStatus({ database });
   if (!canRun) {
     throw new Error(
@@ -24,7 +40,11 @@ exports.run = async ({ Backbone, database, logger } = {}) => {
     );
   }
 
-  await runMigrations({ Backbone, database, logger });
+  await runMigrations({
+    Backbone,
+    logger,
+    database,
+  });
 };
 
 exports.getStatus = async ({ database } = {}) => {
@@ -32,7 +52,7 @@ exports.getStatus = async ({ database } = {}) => {
   const isAttachmentMigrationComplete = await settings.isAttachmentMigrationComplete(
     connection
   );
-  const hasMigrations = migrations.length > 0;
+  const hasMigrations = exports.migrations.length > 0;
 
   const canRun = isAttachmentMigrationComplete && hasMigrations;
   return {
@@ -43,7 +63,7 @@ exports.getStatus = async ({ database } = {}) => {
 };
 
 exports.getLatestVersion = () => {
-  const lastMigration = last(migrations);
+  const lastMigration = last(exports.migrations);
   if (!lastMigration) {
     return null;
   }

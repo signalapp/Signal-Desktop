@@ -4,7 +4,7 @@
 // IndexedDB access. This includes avoiding usage of `storage` module which uses
 // Backbone under the hood.
 
-/* global IDBKeyRange */
+/* global IDBKeyRange, window */
 
 const { isFunction, isNumber, isObject, isString, last } = require('lodash');
 
@@ -47,13 +47,25 @@ exports.processNext = async ({
   const startTime = Date.now();
 
   const fetchStartTime = Date.now();
-  const messagesRequiringSchemaUpgrade = await getMessagesNeedingUpgrade(
-    numMessagesPerBatch,
-    {
-      maxVersion,
-      MessageCollection: BackboneMessageCollection,
-    }
-  );
+  let messagesRequiringSchemaUpgrade;
+  try {
+    messagesRequiringSchemaUpgrade = await getMessagesNeedingUpgrade(
+      numMessagesPerBatch,
+      {
+        maxVersion,
+        MessageCollection: BackboneMessageCollection,
+      }
+    );
+  } catch (error) {
+    window.log.error(
+      'processNext error:',
+      error && error.stack ? error.stack : error
+    );
+    return {
+      done: true,
+      numProcessed: 0,
+    };
+  }
   const fetchDuration = Date.now() - fetchStartTime;
 
   const upgradeStartTime = Date.now();
@@ -263,13 +275,26 @@ const _processBatch = async ({
   );
 
   const fetchUnprocessedMessagesStartTime = Date.now();
-  const unprocessedMessages = await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex(
-    {
-      connection,
-      count: numMessagesPerBatch,
-      lastIndex: lastProcessedIndex,
-    }
-  );
+  let unprocessedMessages;
+  try {
+    unprocessedMessages = await _dangerouslyFetchMessagesRequiringSchemaUpgradeWithoutIndex(
+      {
+        connection,
+        count: numMessagesPerBatch,
+        lastIndex: lastProcessedIndex,
+      }
+    );
+  } catch (error) {
+    window.log.error(
+      '_processBatch error:',
+      error && error.stack ? error.stack : error
+    );
+    await settings.markAttachmentMigrationComplete(connection);
+    await settings.deleteAttachmentMigrationLastProcessedIndex(connection);
+    return {
+      done: true,
+    };
+  }
   const fetchDuration = Date.now() - fetchUnprocessedMessagesStartTime;
 
   const upgradeStartTime = Date.now();

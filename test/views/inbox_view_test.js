@@ -2,7 +2,19 @@ describe('InboxView', function() {
   let inboxView;
   let conversation;
 
-  before(() => {
+  before(async () => {
+    try {
+      await ConversationController.load();
+    } catch (error) {
+      console.log(
+        'InboxView before:',
+        error && error.stack ? error.stack : error
+      );
+    }
+    await ConversationController.getOrCreateAndWait(
+      textsecure.storage.user.getNumber(),
+      'private'
+    );
     inboxView = new Whisper.InboxView({
       model: {},
       window: window,

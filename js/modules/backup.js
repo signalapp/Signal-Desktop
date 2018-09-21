@@ -224,7 +224,49 @@ function eliminateClientConfigInBackup(data, targetPath) {
   }
 }
 
-function importFromJsonString(db, jsonString, targetPath, options) {
+async function importConversationsFromJSON(conversations, options) {
+  const { writeNewAttachmentData } = window.Signal.Migrations;
+  const { conversationLookup } = options;
+
+  let count = 0;
+  let skipCount = 0;
+
+  for (let i = 0, max = conversations.length; i < max; i += 1) {
+    const toAdd = unstringify(conversations[i]);
+    const haveConversationAlready =
+      conversationLookup[getConversationKey(toAdd)];
+
+    if (haveConversationAlready) {
+      skipCount += 1;
+      count += 1;
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    count += 1;
+    // eslint-disable-next-line no-await-in-loop
+    const migrated = await window.Signal.Types.Conversation.migrateConversation(
+      toAdd,
+      {
+        writeNewAttachmentData,
+      }
+    );
+    // eslint-disable-next-line no-await-in-loop
+    await window.Signal.Data.saveConversation(migrated, {
+      Conversation: Whisper.Conversation,
+    });
+  }
+
+  window.log.info(
+    'Done importing conversations:',
+    'Total count:',
+    count,
+    'Skipped:',
+    skipCount
+  );
+}
+
+async function importFromJsonString(db, jsonString, targetPath, options) {
   options = options || {};
   _.defaults(options, {
     forceLightImport: false,
@@ -232,12 +274,12 @@ function importFromJsonString(db, jsonString, targetPath, options) {
     groupLookup: {},
   });
 
-  const { conversationLookup, groupLookup } = options;
+  const { groupLookup } = options;
   const result = {
     fullImport: true,
   };
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const importObject = JSON.parse(jsonString);
     delete importObject.debug;
 
@@ -273,7 +315,25 @@ function importFromJsonString(db, jsonString, targetPath, options) {
       finished = true;
     };
 
-    const transaction = db.transaction(storeNames, 'readwrite');
+    // Special-case conversations key here, going to SQLCipher
+    const { conversations } = importObject;
+    const remainingStoreNames = _.without(
+      storeNames,
+      'conversations',
+      'unprocessed'
+    );
+    try {
+      await importConversationsFromJSON(conversations, options);
+    } catch (error) {
+      reject(error);
+    }
+
+    // Because the 'are we done?' check below looks at the keys remaining in importObject
+    delete importObject.conversations;
+    delete importObject.unprocessed;
+
+    // The rest go to IndexedDB
+    const transaction = db.transaction(remainingStoreNames, 'readwrite');
     transaction.onerror = () => {
       Whisper.Database.handleDOMException(
         'importFromJsonString transaction error',
@@ -283,7 +343,7 @@ function importFromJsonString(db, jsonString, targetPath, options) {
     };
     transaction.oncomplete = finish.bind(null, 'transaction complete');
 
-    _.each(storeNames, storeName => {
+    _.each(remainingStoreNames, storeName => {
       window.log.info('Importing items for store', storeName);
 
       if (!importObject[storeName].length) {
@@ -315,13 +375,10 @@ function importFromJsonString(db, jsonString, targetPath, options) {
       _.each(importObject[storeName], toAdd => {
         toAdd = unstringify(toAdd);
 
-        const haveConversationAlready =
-          storeName === 'conversations' &&
-          conversationLookup[getConversationKey(toAdd)];
         const haveGroupAlready =
           storeName === 'groups' && groupLookup[getGroupKey(toAdd)];
 
-        if (haveConversationAlready || haveGroupAlready) {
+        if (haveGroupAlready) {
           skipCount += 1;
           count += 1;
           return;
@@ -1137,20 +1194,17 @@ function getMessageKey(message) {
   const sourceDevice = message.sourceDevice || 1;
   return `${source}.${sourceDevice} ${message.timestamp}`;
 }
-async function loadMessagesLookup(db) {
-  const array = await window.Signal.Data.getAllMessageIds({
-    db,
-    getMessageKey,
-    handleDOMException: Whisper.Database.handleDOMException,
-  });
-  return fromPairs(map(array, item => [item, true]));
+async function loadMessagesLookup() {
+  const array = await window.Signal.Data.getAllMessageIds();
+  return fromPairs(map(array, item => [getMessageKey(item), true]));
 }
 
 function getConversationKey(conversation) {
   return conversation.id;
 }
-function loadConversationLookup(db) {
-  return assembleLookup(db, 'conversations', getConversationKey);
+async function loadConversationLookup() {
+  const array = await window.Signal.Data.getAllConversationIds();
+  return fromPairs(map(array, item => [getConversationKey(item), true]));
 }
 
 function getGroupKey(group) {

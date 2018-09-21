@@ -28,14 +28,16 @@ describe('ConversationSearchView', function() {
 
     before(() => {
       convo = new Whisper.ConversationCollection().add({
-        id: 'a-left-group',
+        id: '1-search-view',
         name: 'i left this group',
         members: [],
         type: 'group',
         left: true,
       });
 
-      return wrapDeferred(convo.save());
+      return window.Signal.Data.saveConversation(convo.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     });
     describe('with no messages', function() {
       var input;
@@ -60,65 +62,20 @@ describe('ConversationSearchView', function() {
     describe('with messages', function() {
       var input;
       var view;
-      before(function(done) {
+      before(async function() {
         input = $('<input>');
         view = new Whisper.ConversationSearchView({ input: input }).render();
-        convo.save({ lastMessage: 'asdf' }).then(function() {
-          view.$input.val('left');
-          view.filterContacts();
-          view.typeahead_view.collection.on('reset', function() {
-            done();
-          });
-        });
-      });
-      it('should surface left groups with messages', function() {
-        assert.isDefined(
-          view.typeahead_view.collection.get(convo.id),
-          'got left group'
-        );
-      });
-    });
-  });
-  describe('Showing all contacts', function() {
-    let input;
-    let view;
-    let convo;
+        convo.set({ id: '2-search-view', lastMessage: 'asdf' });
 
-    before(() => {
-      input = $('<input>');
-      view = new Whisper.ConversationSearchView({ input: input }).render();
-      view.showAllContacts = true;
-      convo = new Whisper.ConversationCollection().add({
-        id: 'a-left-group',
-        name: 'i left this group',
-        members: [],
-        type: 'group',
-        left: true,
-      });
-
-      return wrapDeferred(convo.save());
-    });
-    describe('with no messages', function() {
-      before(function(done) {
-        view.resetTypeahead();
-        view.typeahead_view.collection.once('reset', function() {
-          done();
+        await window.Signal.Data.saveConversation(convo.attributes, {
+          Conversation: Whisper.Conversation,
         });
-      });
-      it('should not surface left groups with no messages', function() {
-        assert.isUndefined(
-          view.typeahead_view.collection.get(convo.id),
-          'got left group'
-        );
-      });
-    });
-    describe('with messages', function() {
-      before(done => {
-        wrapDeferred(convo.save({ lastMessage: 'asdf' })).then(function() {
-          view.resetTypeahead();
-          view.typeahead_view.collection.once('reset', function() {
-            done();
-          });
+
+        view.$input.val('left');
+        view.filterContacts();
+
+        return new Promise(resolve => {
+          view.typeahead_view.collection.on('reset', resolve);
         });
       });
       it('should surface left groups with messages', function() {

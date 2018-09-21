@@ -17,50 +17,6 @@
     before(clearDatabase);
     after(clearDatabase);
 
-    it('adds without saving', function(done) {
-      var convos = new Whisper.ConversationCollection();
-      convos.add(conversation_attributes);
-      assert.notEqual(convos.length, 0);
-
-      var convos = new Whisper.ConversationCollection();
-      convos.fetch().then(function() {
-        assert.strictEqual(convos.length, 0);
-        done();
-      });
-    });
-
-    it('saves asynchronously', function(done) {
-      new Whisper.ConversationCollection()
-        .add(conversation_attributes)
-        .save()
-        .then(done);
-    });
-
-    it('fetches persistent convos', async () => {
-      var convos = new Whisper.ConversationCollection();
-      assert.strictEqual(convos.length, 0);
-
-      await wrapDeferred(convos.fetch());
-
-      var m = convos.at(0).attributes;
-      _.each(conversation_attributes, function(val, key) {
-        assert.deepEqual(m[key], val);
-      });
-    });
-
-    it('destroys persistent convos', function(done) {
-      var convos = new Whisper.ConversationCollection();
-      convos.fetch().then(function() {
-        convos.destroyAll().then(function() {
-          var convos = new Whisper.ConversationCollection();
-          convos.fetch().then(function() {
-            assert.strictEqual(convos.length, 0);
-            done();
-          });
-        });
-      });
-    });
-
     it('should be ordered newest to oldest', function() {
       var conversations = new Whisper.ConversationCollection();
       // Timestamps
@@ -85,7 +41,9 @@
     var attributes = { type: 'private', id: '+18085555555' };
     before(async () => {
       var convo = new Whisper.ConversationCollection().add(attributes);
-      await wrapDeferred(convo.save());
+      await window.Signal.Data.saveConversation(convo.attributes, {
+        Conversation: Whisper.Conversation,
+      });
 
       var message = convo.messageCollection.add({
         body: 'hello world',
@@ -123,32 +81,28 @@
       assert.strictEqual(convo.contactCollection.at('2').get('name'), 'C');
     });
 
-    it('contains its own messages', function(done) {
+    it('contains its own messages', async function() {
       var convo = new Whisper.ConversationCollection().add({
         id: '+18085555555',
       });
-      convo.fetchMessages().then(function() {
-        assert.notEqual(convo.messageCollection.length, 0);
-        done();
-      });
+      await convo.fetchMessages();
+      assert.notEqual(convo.messageCollection.length, 0);
     });
 
-    it('contains only its own messages', function(done) {
+    it('contains only its own messages', async function() {
       var convo = new Whisper.ConversationCollection().add({
         id: '+18085556666',
       });
-      convo.fetchMessages().then(function() {
-        assert.strictEqual(convo.messageCollection.length, 0);
-        done();
-      });
+      await convo.fetchMessages();
+      assert.strictEqual(convo.messageCollection.length, 0);
     });
 
-    it('adds conversation to message collection upon leaving group', function() {
+    it('adds conversation to message collection upon leaving group', async function() {
       var convo = new Whisper.ConversationCollection().add({
         type: 'group',
         id: 'a random string',
       });
-      convo.leaveGroup();
+      await convo.leaveGroup();
       assert.notEqual(convo.messageCollection.length, 0);
     });
 
@@ -178,12 +132,6 @@
       var avatar = convo.getAvatar();
       assert.property(avatar, 'content');
       assert.property(avatar, 'color');
-    });
-
-    it('revokes the avatar URL', function() {
-      var convo = new Whisper.ConversationCollection().add(attributes);
-      convo.revokeAvatarUrl();
-      assert.notOk(convo.avatarUrl);
     });
 
     describe('phone number parsing', function() {
@@ -228,57 +176,51 @@
   describe('Conversation search', function() {
     let convo;
 
-    beforeEach(function(done) {
+    beforeEach(async function() {
       convo = new Whisper.ConversationCollection().add({
         id: '+14155555555',
         type: 'private',
         name: 'John Doe',
       });
-      convo.save().then(done);
+      await window.Signal.Data.saveConversation(convo.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     });
+
     afterEach(clearDatabase);
 
-    function testSearch(queries, done) {
-      return Promise.all(
-        queries.map(function(query) {
+    async function testSearch(queries) {
+      await Promise.all(
+        queries.map(async function(query) {
           var collection = new Whisper.ConversationCollection();
-          return collection
-            .search(query)
-            .then(function() {
-              assert.isDefined(
-                collection.get(convo.id),
-                'no result for "' + query + '"'
-              );
-            })
-            .catch(done);
+          await collection.search(query);
+
+          assert.isDefined(
+            collection.get(convo.id),
+            'no result for "' + query + '"'
+          );
         })
-      ).then(function() {
-        done();
-      });
-    }
-    it('matches by partial phone number', function(done) {
-      testSearch(
-        [
-          '1',
-          '4',
-          '+1',
-          '415',
-          '4155',
-          '4155555555',
-          '14155555555',
-          '+14155555555',
-        ],
-        done
       );
+    }
+    it('matches by partial phone number', function() {
+      return testSearch([
+        '1',
+        '4',
+        '+1',
+        '415',
+        '4155',
+        '4155555555',
+        '14155555555',
+        '+14155555555',
+      ]);
     });
-    it('matches by name', function(done) {
-      testSearch(['John', 'Doe', 'john', 'doe', 'John Doe', 'john doe'], done);
+    it('matches by name', function() {
+      return testSearch(['John', 'Doe', 'john', 'doe', 'John Doe', 'john doe']);
     });
-    it('does not match +', function() {
+    it('does not match +', async function() {
       var collection = new Whisper.ConversationCollection();
-      return collection.search('+').then(function() {
-        assert.isUndefined(collection.get(convo.id), 'got result for "+"');
-      });
+      await collection.search('+');
+      assert.isUndefined(collection.get(convo.id), 'got result for "+"');
     });
   });
 })();

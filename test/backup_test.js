@@ -655,8 +655,9 @@ describe('Backup', () => {
           verified: 0,
         };
         console.log({ conversation });
-        const conversationModel = new Whisper.Conversation(conversation);
-        await window.wrapDeferred(conversationModel.save());
+        await window.Signal.Data.saveConversation(conversation, {
+          Conversation: Whisper.Conversation,
+        });
 
         console.log(
           'Backup test: Ensure that all attachments were saved to disk'
@@ -698,8 +699,9 @@ describe('Backup', () => {
         assert.deepEqual(attachmentFiles, recreatedAttachmentFiles);
 
         console.log('Backup test: Check messages');
-        const messageCollection = new Whisper.MessageCollection();
-        await window.wrapDeferred(messageCollection.fetch());
+        const messageCollection = await window.Signal.Data.getAllMessages({
+          MessageCollection: Whisper.MessageCollection,
+        });
         assert.strictEqual(messageCollection.length, MESSAGE_COUNT);
         const messageFromDB = removeId(messageCollection.at(0).attributes);
         const expectedMessage = omitUndefinedKeys(message);
@@ -725,8 +727,11 @@ describe('Backup', () => {
         );
 
         console.log('Backup test: Check conversations');
-        const conversationCollection = new Whisper.ConversationCollection();
-        await window.wrapDeferred(conversationCollection.fetch());
+        const conversationCollection = await window.Signal.Data.getAllConversations(
+          {
+            ConversationCollection: Whisper.ConversationCollection,
+          }
+        );
         assert.strictEqual(conversationCollection.length, CONVERSATION_COUNT);
 
         const conversationFromDB = conversationCollection.at(0).attributes;
