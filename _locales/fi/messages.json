@@ -483,6 +483,10 @@
         "message": "Valitettavasti kyseinen tiedosto ylittää viesteille asetetun kokorajoituksen.",
         "description": ""
     },
+    "unableToLoadAttachment": {
+        "message": "Valittua liitettä ei voitu ladata.",
+        "description": ""
+    },
     "disconnected": {
         "message": "Ei yhteyttä",
         "description": "Displayed when the desktop client cannot connect to the server."
@@ -787,14 +791,6 @@
         "message": "Lainatun kuvaviestin pikkukuva",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Kuvan lataaminen epäonnistui",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Videon pikkukuvan lataaminen epäonnistui",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Viestiin liitetty kuva",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1088,10 @@
     "unblockToSend": {
         "message": "Lähettääksesi viestin tälle yhteystiedolle sinun tulee ensin poistaa asettamasi esto.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Lähettääksesi viestin tälle ryhmälle sinun tulee ensin poistaa asettamasi esto.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Sinä asetit viestien katoamisajan: $time$",

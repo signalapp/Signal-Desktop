@@ -483,6 +483,10 @@
         "message": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio.",
         "description": ""
     },
+    "unableToLoadAttachment": {
+        "message": "Non è stato possibile caricare l'allegato selezionato.",
+        "description": ""
+    },
     "disconnected": {
         "message": "Sconnesso",
         "description": "Displayed when the desktop client cannot connect to the server."
@@ -787,14 +791,6 @@
         "message": "Anteprima dell'immagine dal messaggio citato",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Errore caricamento dell'immagine",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Caricamento non riuscito per lo screenshot del video",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Immagine allegata a un messaggio",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1088,10 @@
     "unblockToSend": {
         "message": "Per inviare un messaggio sblocca questo contatto.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Sblocca questo gruppo per inviare un messaggio.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Hai impostato il timer dei messaggi a scomparsa a $time$",

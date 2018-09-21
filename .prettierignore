@@ -16,8 +16,10 @@ ts/**/*.js
 ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
+ts/util/lint/exceptions.json
 
 # Third-party files
+node_modules/**
 components/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js

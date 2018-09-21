@@ -782,11 +782,12 @@
         });
 
         const message = this.addSingleMessage(messageWithSchema);
+        this.lastMessage = message.getNotificationText();
+        this.lastMessageStatus = 'sending';
+
         this.save({
           active_at: now,
           timestamp: now,
-          lastMessage: message.getNotificationText(),
-          lastMessageStatus: 'sending',
         });
 
         if (this.isPrivate()) {

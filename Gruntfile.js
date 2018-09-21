@@ -7,6 +7,7 @@ const spectron = require('spectron');
 const asar = require('asar');
 const fs = require('fs');
 const assert = require('assert');
+const sass = require('node-sass');
 
 /* eslint-disable more/no-then, no-console  */
 
@@ -98,6 +99,7 @@ module.exports = grunt => {
     },
     sass: {
       options: {
+        implementation: sass,
         sourceMap: true,
         importer: importOnce,
       },
