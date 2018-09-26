@@ -768,7 +768,6 @@
     if (firstRun === true && deviceId !== '1') {
       const hasThemeSetting = Boolean(storage.get('theme-setting'));
       if (!hasThemeSetting && textsecure.storage.get('userAgent') === 'OWI') {
-        storage.put('theme-setting', 'ios');
         onChangeTheme();
       }
       const syncRequest = new textsecure.SyncRequest(
@@ -961,6 +960,7 @@
     const updates = {
       name: details.name,
       members: details.members,
+      color: details.color,
       type: 'group',
     };
 

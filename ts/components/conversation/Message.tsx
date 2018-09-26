@@ -66,7 +66,7 @@ export interface Props {
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
-  authorColor: Color;
+  conversationColor: Color;
   conversationType: 'group' | 'direct';
   attachment?: Attachment;
   quote?: {
@@ -76,7 +76,6 @@ export interface Props {
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
-    authorColor: Color;
     onClick?: () => void;
     referencedMessageNotFound: boolean;
   };
@@ -551,7 +550,13 @@ export class Message extends React.Component<Props, State> {
   }
 
   public renderQuote() {
-    const { conversationType, direction, i18n, quote } = this.props;
+    const {
+      conversationType,
+      conversationColor,
+      direction,
+      i18n,
+      quote,
+    } = this.props;
 
     if (!quote) {
       return null;
@@ -570,7 +575,7 @@ export class Message extends React.Component<Props, State> {
         authorPhoneNumber={quote.authorPhoneNumber}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
-        authorColor={quote.authorColor}
+        conversationColor={conversationColor}
         referencedMessageNotFound={quote.referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
@@ -632,7 +637,7 @@ export class Message extends React.Component<Props, State> {
       authorPhoneNumber,
       authorProfileName,
       authorAvatarPath,
-      authorColor,
+      conversationColor,
       collapseMetadata,
       conversationType,
       direction,
@@ -658,7 +663,7 @@ export class Message extends React.Component<Props, State> {
         <div
           className={classNames(
             'module-message__author-default-avatar',
-            `module-message__author-default-avatar--${authorColor}`
+            `module-message__author-default-avatar--${conversationColor}`
           )}
         >
           <div className="module-message__author-default-avatar__label">
@@ -864,7 +869,7 @@ export class Message extends React.Component<Props, State> {
   public render() {
     const {
       authorPhoneNumber,
-      authorColor,
+      conversationColor,
       direction,
       id,
       timestamp,
@@ -893,8 +898,8 @@ export class Message extends React.Component<Props, State> {
           className={classNames(
             'module-message__container',
             `module-message__container--${direction}`,
-            direction === 'incoming'
-              ? `module-message__container--incoming-${authorColor}`
+            direction === 'outgoing'
+              ? `module-message__container--outgoing-${conversationColor}`
               : null
           )}
         >

@@ -15,7 +15,7 @@ interface Props {
   authorPhoneNumber: string;
   authorProfileName?: string;
   authorName?: string;
-  authorColor: Color;
+  conversationColor: Color;
   i18n: Localizer;
   isFromMe: boolean;
   isIncoming: boolean;
@@ -254,7 +254,6 @@ export class Quote extends React.Component<Props> {
       authorProfileName,
       authorPhoneNumber,
       authorName,
-      authorColor,
       i18n,
       isFromMe,
       isIncoming,
@@ -264,7 +263,6 @@ export class Quote extends React.Component<Props> {
       <div
         className={classNames(
           'module-quote__primary__author',
-          !isFromMe ? `module-quote__primary__author--${authorColor}` : null,
           isIncoming ? 'module-quote__primary__author--incoming' : null
         )}
       >
@@ -320,8 +318,7 @@ export class Quote extends React.Component<Props> {
 
   public render() {
     const {
-      authorColor,
-      isFromMe,
+      conversationColor,
       isIncoming,
       onClick,
       referencedMessageNotFound,
@@ -345,10 +342,9 @@ export class Quote extends React.Component<Props> {
           className={classNames(
             'module-quote',
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
-            !isIncoming && !isFromMe
-              ? `module-quote--outgoing-${authorColor}`
-              : null,
-            !isIncoming && isFromMe ? 'module-quote--outgoing-you' : null,
+            isIncoming
+              ? `module-quote--incoming-${conversationColor}`
+              : `module-quote--outgoing-${conversationColor}`,
             !onClick ? 'module-quote--no-click' : null,
             withContentAbove ? 'module-quote--with-content-above' : null,
             referencedMessageNotFound

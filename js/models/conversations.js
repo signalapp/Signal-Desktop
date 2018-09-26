@@ -37,19 +37,15 @@
 
   const COLORS = [
     'red',
+    'deep_orange',
+    'brown',
     'pink',
     'purple',
-    'deep_purple',
     'indigo',
     'blue',
-    'light_blue',
-    'cyan',
     'teal',
     'green',
     'light_green',
-    'orange',
-    'deep_orange',
-    'amber',
     'blue_grey',
   ];
 
