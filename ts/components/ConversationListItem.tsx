@@ -45,14 +45,17 @@ export class ConversationListItem extends React.Component<Props> {
       const initial = getInitial(name || '');
 
       return (
-        <div
-          className={classNames(
-            'module-conversation-list-item__avatar',
-            'module-conversation-list-item__default-avatar',
-            `module-conversation-list-item__default-avatar--${color}`
-          )}
-        >
-          {initial}
+        <div className="module-conversation-list-item__avatar-container">
+          <div
+            className={classNames(
+              'module-conversation-list-item__avatar',
+              'module-conversation-list-item__default-avatar',
+              `module-conversation-list-item__default-avatar--${color}`
+            )}
+          >
+            {initial}
+          </div>
+          {this.renderUnread()}
         </div>
       );
     }
@@ -62,12 +65,29 @@ export class ConversationListItem extends React.Component<Props> {
     }`;
 
     return (
-      <img
-        className="module-conversation-list-item__avatar"
-        alt={i18n('contactAvatarAlt', [title])}
-        src={avatarPath}
-      />
+      <div className="module-conversation-list-item__avatar-container">
+        <img
+          className="module-conversation-list-item__avatar"
+          alt={i18n('contactAvatarAlt', [title])}
+          src={avatarPath}
+        />
+        {this.renderUnread()}
+      </div>
     );
+  }
+
+  public renderUnread() {
+    const { unreadCount } = this.props;
+
+    if (unreadCount > 0) {
+      return (
+        <div className="module-conversation-list-item__unread-count">
+          {unreadCount}
+        </div>
+      );
+    }
+
+    return null;
   }
 
   public renderHeader() {
@@ -116,20 +136,6 @@ export class ConversationListItem extends React.Component<Props> {
     );
   }
 
-  public renderUnread() {
-    const { unreadCount } = this.props;
-
-    if (unreadCount > 0) {
-      return (
-        <div className="module-conversation-list-item__unread-count">
-          {unreadCount}
-        </div>
-      );
-    }
-
-    return null;
-  }
-
   public renderMessage() {
     const { lastMessage, unreadCount, i18n } = this.props;
 
@@ -164,7 +170,6 @@ export class ConversationListItem extends React.Component<Props> {
             )}
           />
         ) : null}
-        {this.renderUnread()}
       </div>
     );
   }
