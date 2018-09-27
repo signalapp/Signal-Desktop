@@ -207,7 +207,9 @@ export class ContactDetail extends React.Component<Props> {
 
     return (
       <div className="module-contact-detail">
-        {renderAvatar({ contact, i18n, module })}
+        <div className="module-contact-detail__avatar">
+          {renderAvatar({ contact, i18n, size: 80 })}
+        </div>
         {renderName({ contact, isIncoming, module })}
         {renderContactShorthand({ contact, isIncoming, module })}
         {this.renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}

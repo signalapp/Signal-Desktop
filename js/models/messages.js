@@ -300,7 +300,6 @@
       const regionCode = storage.get('regionCode');
 
       const contactModel = this.findContact(phoneNumber);
-      const avatar = contactModel ? contactModel.getAvatar() : null;
       const color = contactModel ? contactModel.getColor() : null;
 
       return {
@@ -308,7 +307,7 @@
           ourRegionCode: regionCode,
         }),
         color,
-        avatarPath: avatar ? avatar.url : null,
+        avatarPath: contactModel ? contactModel.getAvatarPath() : null,
         name: contactModel ? contactModel.getName() : null,
         profileName: contactModel ? contactModel.getProfileName() : null,
         title: contactModel ? contactModel.getTitle() : null,
@@ -394,8 +393,9 @@
       const contact = this.findAndFormatContact(phoneNumber);
       const contactModel = this.findContact(phoneNumber);
 
-      const authorAvatar = contactModel ? contactModel.getAvatar() : null;
-      const authorAvatarPath = authorAvatar ? authorAvatar.url : null;
+      const authorAvatarPath = contactModel
+        ? contactModel.getAvatarPath()
+        : null;
 
       const expirationLength = this.get('expireTimer') * 1000;
       const expireTimerStart = this.get('expirationStartTimestamp');
@@ -530,10 +530,16 @@
         return null;
       }
 
+      const { format } = PhoneNumber;
+      const regionCode = storage.get('regionCode');
+
+      const conversation = this.getConversation();
       const { author, id, referencedMessageNotFound } = quote;
       const contact = author && ConversationController.get(author);
 
-      const authorPhoneNumber = author;
+      const authorPhoneNumber = format(author, {
+        ourRegionCode: regionCode,
+      });
       const authorProfileName = contact ? contact.getProfileName() : null;
       const authorName = contact ? contact.getName() : null;
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
@@ -556,6 +562,7 @@
         authorPhoneNumber,
         authorProfileName,
         authorName,
+        conversationColor: conversation && conversation.getColor(),
         onClick,
         referencedMessageNotFound,
       };

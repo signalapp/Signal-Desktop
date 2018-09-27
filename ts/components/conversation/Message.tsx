@@ -6,6 +6,7 @@ import {
   isVideoTypeSupported,
 } from '../../util/GoogleChrome';
 
+import { Avatar } from '../Avatar';
 import { MessageBody } from './MessageBody';
 import { ExpireTimer, getIncrement } from './ExpireTimer';
 import { Timestamp } from './Timestamp';
@@ -131,10 +132,6 @@ function canDisplayImage(attachment?: Attachment) {
   const { height, width } = attachment || { height: 0, width: 0 };
 
   return height > 0 && height <= 4096 && width > 0 && width <= 4096;
-}
-
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
 }
 
 function getExtension({
@@ -633,20 +630,16 @@ export class Message extends React.Component<Props, State> {
 
   public renderAvatar() {
     const {
+      authorAvatarPath,
       authorName,
       authorPhoneNumber,
       authorProfileName,
-      authorAvatarPath,
-      conversationColor,
       collapseMetadata,
+      conversationColor,
       conversationType,
       direction,
       i18n,
     } = this.props;
-
-    const title = `${authorName || authorPhoneNumber}${
-      !authorName && authorProfileName ? ` ~${authorProfileName}` : ''
-    }`;
 
     if (
       collapseMetadata ||
@@ -656,26 +649,18 @@ export class Message extends React.Component<Props, State> {
       return;
     }
 
-    if (!authorAvatarPath) {
-      const label = authorName ? getInitial(authorName) : '#';
-
-      return (
-        <div
-          className={classNames(
-            'module-message__author-default-avatar',
-            `module-message__author-default-avatar--${conversationColor}`
-          )}
-        >
-          <div className="module-message__author-default-avatar__label">
-            {label}
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="module-message__author-avatar">
-        <img alt={i18n('contactAvatarAlt', [title])} src={authorAvatarPath} />
+        <Avatar
+          avatarPath={authorAvatarPath}
+          color={conversationColor}
+          conversationType="direct"
+          i18n={i18n}
+          name={authorName}
+          phoneNumber={authorPhoneNumber}
+          profileName={authorProfileName}
+          size={36}
+        />
       </div>
     );
   }

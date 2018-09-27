@@ -1,7 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { Emojify } from './Emojify';
+import { Avatar } from '../Avatar';
 import { Localizer } from '../../types/Util';
 import {
   ContextMenu,
@@ -43,10 +43,6 @@ interface Props {
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
   onGoBack: () => void;
-}
-
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
 }
 
 export class ConversationHeader extends React.Component<Props> {
@@ -116,37 +112,25 @@ export class ConversationHeader extends React.Component<Props> {
       avatarPath,
       color,
       i18n,
+      isGroup,
       name,
       phoneNumber,
       profileName,
     } = this.props;
 
-    if (!avatarPath) {
-      const initial = getInitial(name || '');
-
-      return (
-        <div
-          className={classNames(
-            'module-conversation-header___avatar',
-            'module-conversation-header___default-avatar',
-            `module-conversation-header___default-avatar--${color}`
-          )}
-        >
-          {initial}
-        </div>
-      );
-    }
-
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
-
     return (
-      <img
-        className="module-conversation-header___avatar"
-        alt={i18n('contactAvatarAlt', [title])}
-        src={avatarPath}
-      />
+      <span className="module-conversation-header__avatar">
+        <Avatar
+          avatarPath={avatarPath}
+          color={color}
+          conversationType={isGroup ? 'group' : 'direct'}
+          i18n={i18n}
+          name={name}
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          size={28}
+        />
+      </span>
     );
   }
 
