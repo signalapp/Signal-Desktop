@@ -441,38 +441,45 @@ MessageReceiver.prototype.extend({
       envelope.sourceDevice
     } ${envelope.timestamp.toNumber()}`;
   },
-  getAllFromCache() {
+  async getAllFromCache() {
     window.log.info('getAllFromCache');
-    return textsecure.storage.unprocessed.getAll().then(items => {
-      window.log.info(
-        'getAllFromCache loaded',
-        items.length,
-        'saved envelopes'
-      );
+    const count = await textsecure.storage.unprocessed.getCount();
 
-      return Promise.all(
-        _.map(items, item => {
-          const attempts = 1 + (item.attempts || 0);
-          if (attempts >= 5) {
+    if (count > 250) {
+      await textsecure.storage.unprocessed.removeAll();
+      window.log.warn(
+        `There were ${count} messages in cache. Deleted all instead of reprocessing`
+      );
+      return [];
+    }
+
+    const items = await textsecure.storage.unprocessed.getAll();
+    window.log.info('getAllFromCache loaded', items.length, 'saved envelopes');
+
+    return Promise.all(
+      _.map(items, async item => {
+        const attempts = 1 + (item.attempts || 0);
+
+        try {
+          if (attempts >= 3) {
             window.log.warn(
               'getAllFromCache final attempt for envelope',
               item.id
             );
-            return textsecure.storage.unprocessed.remove(item.id);
+            await textsecure.storage.unprocessed.remove(item.id);
+          } else {
+            await textsecure.storage.unprocessed.save({ ...item, attempts });
           }
-          return textsecure.storage.unprocessed.save({ ...item, attempts });
-        })
-      ).then(
-        () => items,
-        error => {
+        } catch (error) {
           window.log.error(
-            'getAllFromCache error updating items after load:',
+            'getAllFromCache error updating item after load:',
             error && error.stack ? error.stack : error
           );
-          return items;
         }
-      );
-    });
+
+        return item;
+      })
+    );
   },
   async addToCache(envelope, plaintext) {
     const id = this.getEnvelopeId(envelope);
