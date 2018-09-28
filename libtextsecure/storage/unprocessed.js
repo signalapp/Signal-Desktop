@@ -9,6 +9,9 @@
   window.textsecure.storage = window.textsecure.storage || {};
 
   window.textsecure.storage.unprocessed = {
+    getCount() {
+      return textsecure.storage.protocol.getUnprocessedCount();
+    },
     getAll() {
       return textsecure.storage.protocol.getAllUnprocessed();
     },
@@ -23,6 +26,9 @@
     },
     remove(id) {
       return textsecure.storage.protocol.removeUnprocessed(id);
+    },
+    removeAll() {
+      return textsecure.storage.protocol.removeAllUnprocessed();
     },
   };
 })();
