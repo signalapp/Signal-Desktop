@@ -207,10 +207,6 @@ body.dark-theme {
     color: $color-dark-05;
   }
 
-  .logo {
-    color: $color-dark-05;
-  }
-
   button.grey {
     border: solid 1px #ccc;
     color: $grey;
@@ -1361,6 +1357,12 @@ body.dark-theme {
   }
   .module-avatar--blue_grey {
     background-color: $color-conversation-blue_grey-shade;
+  }
+
+  // Module: Main Header
+
+  .module-main-header__app-name {
+    color: $color-dark-05;
   }
 
   // Third-party module: react-contextmenu

@@ -62,23 +62,6 @@ body {
   display: none;
 }
 
-.title-bar {
-  color: $color-light-90;
-
-  height: $header-height;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.logo {
-  margin-left: 16px;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 300;
-  color: $color-light-90;
-}
-
 button {
   cursor: pointer;
   font-size: inherit;
