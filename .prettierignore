@@ -6,6 +6,7 @@ config/local-*.json
 config/local.json
 dist/**
 js/components.js
+js/util_worker.js
 js/libtextsecure.js
 libtextsecure/components.js
 libtextsecure/test/test.js
@@ -15,8 +16,10 @@ ts/**/*.js
 ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
+ts/util/lint/exceptions.json
 
 # Third-party files
+node_modules/**
 components/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js

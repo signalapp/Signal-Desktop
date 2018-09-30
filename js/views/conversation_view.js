@@ -29,6 +29,11 @@
       return { toastMessage: i18n('unblockToSend') };
     },
   });
+  Whisper.BlockedGroupToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('unblockGroupToSend') };
+    },
+  });
   Whisper.LeftGroupToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('youLeftTheGroup') };
@@ -1435,6 +1440,9 @@
       }
       if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
         toast = new Whisper.BlockedToast();
+      }
+      if (!this.model.isPrivate() && storage.isGroupBlocked(this.model.id)) {
+        toast = new Whisper.BlockedGroupToast();
       }
       if (!this.model.isPrivate() && this.model.get('left')) {
         toast = new Whisper.LeftGroupToast();

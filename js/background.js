@@ -408,6 +408,10 @@
     );
     window.log.info('Cleanup: complete');
 
+    if (newVersion) {
+      await window.Signal.Data.cleanupOrphanedAttachments();
+    }
+
     Views.Initialization.setMessage(window.i18n('loading'));
 
     // Note: We are not invoking the second set of IndexedDB migrations because it is
@@ -798,6 +802,7 @@
   }
   function onConfiguration(ev) {
     storage.put('read-receipt-setting', ev.configuration.readReceipts);
+    ev.confirm();
   }
 
   async function onContactReceived(ev) {
@@ -913,6 +918,12 @@
       updates.left = false;
     } else {
       updates.left = true;
+    }
+
+    if (details.blocked) {
+      storage.addBlockedGroup(id);
+    } else {
+      storage.removeBlockedGroup(id);
     }
 
     await wrapDeferred(conversation.save(updates));
@@ -1105,9 +1116,10 @@
       conversationId: data.destination,
       type: 'outgoing',
       sent: true,
-      expirationStartTimestamp: data.expirationStartTimestamp
-        ? Math.min(data.expirationStartTimestamp, Date.now())
-        : null,
+      expirationStartTimestamp: Math.min(
+        data.expirationStartTimestamp || data.timestamp || Date.now(),
+        Date.now()
+      ),
     });
   }
 

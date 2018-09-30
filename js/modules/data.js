@@ -22,6 +22,7 @@ const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
+const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
 const _jobs = Object.create(null);
 const _DEBUG = false;
@@ -64,6 +65,7 @@ module.exports = {
 
   removeAll,
   removeOtherData,
+  cleanupOrphanedAttachments,
 
   // Returning plain JSON
   getMessagesNeedingUpgrade,
@@ -164,7 +166,7 @@ ipcRenderer.on(
     const job = _getJob(jobId);
     if (!job) {
       throw new Error(
-        `Received job reply to job ${jobId}, but did not have it in our registry!`
+        `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
       );
     }
 
@@ -172,7 +174,9 @@ ipcRenderer.on(
 
     if (errorForDisplay) {
       return reject(
-        new Error(`Error calling channel ${fnName}: ${errorForDisplay}`)
+        new Error(
+          `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
+        )
       );
     }
 
@@ -194,7 +198,8 @@ function makeChannel(fnName) {
       });
 
       setTimeout(
-        () => reject(new Error(`Request to ${fnName} timed out`)),
+        () =>
+          reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
         DATABASE_UPDATE_TIMEOUT
       );
     });
@@ -244,8 +249,7 @@ async function removeMessage(id, { Message }) {
   //   it needs to delete all associated on-disk files along with the database delete.
   if (message) {
     await channels.removeMessage(id);
-    const model = new Message(message);
-    await model.cleanup();
+    await message.cleanup();
   }
 }
 
@@ -386,6 +390,10 @@ async function removeAllUnprocessed() {
 
 async function removeAll() {
   await channels.removeAll();
+}
+
+async function cleanupOrphanedAttachments() {
+  await callChannel(CLEANUP_ORPHANED_ATTACHMENTS_KEY);
 }
 
 // Note: will need to restart the app after calling this, to set up afresh

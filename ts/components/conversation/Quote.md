@@ -1066,6 +1066,8 @@
         url: util.gifObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 320,
+        height: 240,
       }}
       text="About six"
       i18n={util.i18n}
@@ -1085,6 +1087,8 @@
         url: util.gifObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 320,
+        height: 240,
       }}
       authorColor="green"
       text="About six"
@@ -1112,6 +1116,8 @@
         url: util.gifObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 320,
+        height: 240,
       }}
       i18n={util.i18n}
       quote={{
@@ -1130,6 +1136,8 @@
         url: util.gifObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 320,
+        height: 240,
       }}
       authorColor="green"
       i18n={util.i18n}
@@ -1156,6 +1164,8 @@
         url: util.portraitYellowObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 20,
+        height: 200,
       }}
       i18n={util.i18n}
       quote={{
@@ -1174,6 +1184,8 @@
         url: util.portraitYellowObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 20,
+        height: 200,
       }}
       authorColor="green"
       i18n={util.i18n}
@@ -1200,9 +1212,13 @@
         screenshot: {
           url: util.pngObjectUrl,
           contentType: 'image/png',
+          width: 800,
+          height: 1200,
         },
         fileName: 'freezing_bubble.mp4',
         contentType: 'video/mp4',
+        width: 800,
+        height: 1200,
       }}
       i18n={util.i18n}
       quote={{
@@ -1221,9 +1237,13 @@
         screenshot: {
           url: util.pngObjectUrl,
           contentType: 'image/png',
+          width: 800,
+          height: 1200,
         },
         fileName: 'freezing_bubble.mp4',
         contentType: 'video/mp4',
+        width: 800,
+        height: 1200,
       }}
       authorColor="green"
       i18n={util.i18n}

@@ -125,6 +125,14 @@
     color: $color-light-90;
   }
 
+  .module-expire-timer {
+    background-color: $color-white-07;
+  }
+
+  .module-expire-timer--incoming {
+    background-color: $color-light-45;
+  }
+
   .module-quote--incoming {
     background-color: $color-signal-blue-025;
     border-left-color: $color-signal-blue;
@@ -218,6 +226,22 @@
     }
   }
 
+  .module-embedded-contact__contact-name {
+    color: $color-white;
+  }
+
+  .module-embedded-contact__contact-method {
+    color: $color-white-07;
+  }
+
+  .module-embedded-contact__contact-name--incoming {
+    color: $color-light-90;
+  }
+
+  .module-embedded-contact__contact-method--incoming {
+    color: $color-light-60;
+  }
+
   &.dark-theme {
     // _modules
 
@@ -270,7 +294,7 @@
     }
 
     .module-message__metadata__date--incoming {
-      color: $color-white;
+      color: $color-white-07;
     }
 
     .module-message__broken-image--incoming {
@@ -284,6 +308,10 @@
     }
     .module-message__generic-attachment__file-size--incoming {
       color: $color-white;
+    }
+
+    .module-expire-timer--incoming {
+      background-color: $color-white-07;
     }
 
     .module-quote__primary__author {
@@ -401,7 +429,11 @@
       }
     }
 
-    .module-embedded-contact__contact-method {
+    .module-embedded-contact__contact-name--incoming {
+      color: $color-white;
+    }
+
+    .module-embedded-contact__contact-method--incoming {
       color: $color-white-07;
     }
   }

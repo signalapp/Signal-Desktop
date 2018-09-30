@@ -1,77 +1,257 @@
 {
-    "scrollDown": {
-        "message": "Pomaknite se na dno pogovora",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    "mainMenuFile": {
+        "message": "&Datoteka",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "importChooserTitle": {
-        "message": "Izberite mapo z izvoženimi podatki",
-        "description": "Title of the popup window used to select data previously exported"
+    "mainMenuEdit": {
+        "message": "&Urejanje",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "timerOption_10_seconds": {
-        "message": "10 sekund",
-        "description": "Label for a selectable option in the message expiration timer menu"
+    "mainMenuView": {
+        "message": "&Pogled",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "view": {
-        "message": "Preglej",
-        "description": "Used as a label on a button allowing user to see more information"
+    "mainMenuWindow": {
+        "message": "&Okno",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuHelp": {
+        "message": "&Pomoč",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuSettings": {
+        "message": "Nastavitve ...",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuHide": {
+        "message": "Skrij",
+        "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
         "message": "Skrij ostale",
         "description": "Application menu command to hide all other windows"
     },
-    "linkedDevices": {
-        "message": "Povezane naprave",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    "appMenuUnhide": {
+        "message": "Prikaži vse",
+        "description": "Application menu command to show all application windows"
     },
-    "yesterday": {
-        "message": "Včeraj",
-        "description": "Section header in the media gallery"
+    "appMenuQuit": {
+        "message": "Zapusti Signal",
+        "description": "Application menu command to close the application"
     },
-    "replyingToYourself": {
-        "message": "Odgovor sebi",
-        "description": "Shown in iOS theme when you quote yourself"
+    "editMenuUndo": {
+        "message": "Razveljavi",
+        "description": "Edit menu command to remove recently-typed text"
     },
-    "documents": {
-        "message": "Dokumenti",
-        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    "editMenuRedo": {
+        "message": "Ponovno uveljavi",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
+    "editMenuCut": {
+        "message": "Odreži",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
+    "editMenuCopy": {
+        "message": "Kopiraj",
+        "description": "Edit menu command to add selected text to clipboard"
+    },
+    "editMenuPaste": {
+        "message": "Prilepi",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "Prilepi in spoji oblikovanje",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    },
+    "editMenuDelete": {
+        "message": "Izbriši",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "editMenuSelectAll": {
+        "message": "Izberi vse",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
+    "editMenuStartSpeaking": {
+        "message": "Začnite govoriti",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Prenehajte govoriti",
+        "description": "Edit menu item under 'speech' to stop dictation"
+    },
+    "windowMenuClose": {
+        "message": "Zapri okno",
+        "description": "Window menu command to close the current window"
+    },
+    "windowMenuMinimize": {
+        "message": "Pomanjšaj",
+        "description": "Window menu command to minimize the current window"
+    },
+    "windowMenuZoom": {
+        "message": "Povečava",
+        "description": "Window menu command to make the current window the size of the whole screen"
+    },
+    "windowMenuBringAllToFront": {
+        "message": "Prikaži vse na površju",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
+    "viewMenuResetZoom": {
+        "message": "Privzeta velikost",
+        "description": "View menu command to go back to the default zoom"
+    },
+    "viewMenuZoomIn": {
+        "message": "Približaj",
+        "description": "View menu command to make everything bigger"
+    },
+    "viewMenuZoomOut": {
+        "message": "Oddalji",
+        "description": "View menu command to make everything smaller"
+    },
+    "viewMenuToggleFullScreen": {
+        "message": "Celozaslonski način",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Vklopi razvijalska orodja",
+        "description": "View menu command to show or hide the developer tools"
+    },
+    "menuSetupWithImport": {
+        "message": "Nastavi z uvozom podatkov",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "menuSetupAsNewDevice": {
+        "message": "Nastavi kot novo napravo",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Nastavi kot samostojno napravo",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "loading": {
+        "message": "Nalagam ...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "optimizingApplication": {
+        "message": "Optimiziranje nastavitev ...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
+    },
+    "migratingToSQLCipher": {
+        "message": "Optimiziranje sporočil ... $status$",
+        "description": "Message shown on the loading screen while we are doing application optimizations",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "45/200"
+            }
+        }
+    },
+    "chooseDirectory": {
+        "message": "Izberite mapo",
+        "description": "Button to allow the user to find a folder on disk"
+    },
+    "loadDataHeader": {
+        "message": "Naložite svoje podatke",
+        "description": "Header shown on the first screen in the data import process"
+    },
+    "loadDataDescription": {
+        "message": "Pravkar ste šli skozi fazo izvoza podatkov. Izvoženi stiki in sporočila čakajo na vašem računalniku. Izberite mapo, kamor ste shranili te podatke.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
+    },
+    "importChooserTitle": {
+        "message": "Izberite mapo z izvoženimi podatki",
+        "description": "Title of the popup window used to select data previously exported"
+    },
+    "importErrorHeader": {
+        "message": "Nekaj je šlo narobe!",
+        "description": "Header of the error screen after a failed import"
+    },
+    "importingHeader": {
+        "message": "Nalagam stike in sporočila",
+        "description": "Header of screen shown as data is import"
+    },
+    "importErrorFirst": {
+        "message": "Preverite, če ste izbrali pravo mapo s shranjenimi podatki. Ime mape bi moralo biti \"Signal Export\". Lahko tudi ponovno izvozite podatke iz aplikacije v brskalniku Chrome.",
+        "description": "Message shown if the import went wrong; first paragraph"
+    },
+    "importErrorSecond": {
+        "message": "Če ti koraki ne bodo uspešni, nam prosim posredujte sistemsko zabeležbo (Pogled -> Sistemska zabeležba), da vam lahko pomagamo pri prehodu!",
+        "description": "Message shown if the import went wrong; second paragraph"
+    },
+    "importAgain": {
+        "message": "Izberite mapo in poskusite znova",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
+    },
+    "importCompleteHeader": {
+        "message": "Uspeh!",
+        "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "importCompleteStartButton": {
+        "message": "Začni z uporabo aplikacije Signal Desktop",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
+    },
+    "importCompleteLinkButton": {
+        "message": "Povežite napravo s svojim telefonom",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+    },
+    "selectedLocation": {
+        "message": "izbrana lokacija",
+        "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
         "message": "Posodabljam zbirko podatkov. To lahko traja nekaj časa ...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
-    "lastSynced": {
-        "message": "Nazadnje uvoženo: ",
-        "description": "Label for date and time of last sync operation"
-    },
-    "attemptingReconnection": {
-        "message": "Naslednji poskus povezave: $reconnect_duration_in_seconds$ s",
-        "description": "",
+    "loadingMessages": {
+        "message": "Nalagam sporočila. $count$ doslej ...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
-            "reconnect_duration_in_seconds": {
+            "count": {
                 "content": "$1",
-                "example": "10"
+                "example": "5"
             }
         }
     },
-    "thisMonth": {
-        "message": "Ta mesec",
-        "description": "Section header in the media gallery"
+    "me": {
+        "message": "Jaz",
+        "description": "The label for yourself when shown in a group member list"
     },
-    "unsupportedAttachment": {
-        "message": "Nepodprta vrsta priponke. Kliknite, če jo želite shraniti.",
-        "description": "Displayed for incoming unsupported attachment"
+    "view": {
+        "message": "Preglej",
+        "description": "Used as a label on a button allowing user to see more information"
     },
-    "showSafetyNumber": {
-        "message": "Prikaži varnostno število",
-        "description": ""
+    "youLeftTheGroup": {
+        "message": "Zapustili ste skupino",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
-    "androidMessageLengthWarning": {
-        "message": "Odjemalec za Android bo prejel le prvih 2000 znakov tega sporočila.",
-        "description": "Warning that long messages could not get received completely by Android clients."
+    "scrollDown": {
+        "message": "Pomaknite se na dno pogovora",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
-    "leftTheGroup": {
-        "message": "Uporabnik $name$ je zapustil skupino",
-        "description": "Shown in the conversation history when a single person leaves the group",
+    "messageBelow": {
+        "message": "Novo sporočilo spodaj",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "messagesBelow": {
+        "message": "Nova sporočila spodaj",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
+    "unreadMessage": {
+        "message": "1 novo sporočilo",
+        "description": "Text for unread message separator, just one message"
+    },
+    "unreadMessages": {
+        "message": "$count$ Neprebrana sporočila",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "youMarkedAsVerified": {
+        "message": "Varnostno število z osebo $name$ ste označili kot potrjeno",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -79,89 +259,33 @@
             }
         }
     },
-    "youChangedTheTimer": {
-        "message": "Odštevanje za izginjajoča sporočila ste nastavili na $time$",
-        "description": "Message displayed when you change the message expiration timer in a conversation.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "settings": {
-        "message": "Nastavitve",
-        "description": "Menu item and header for global settings"
-    },
-    "timerOption_5_seconds_abbreviated": {
-        "message": "5 s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "importCompleteHeader": {
-        "message": "Uspeh!",
-        "description": "Header shown on the screen at the end of a successful import process"
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "timestamp_m": {
-        "message": "1 minuto",
-        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
-    },
-    "deviceName": {
-        "message": "Ime naprave",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "address": {
-        "message": "naslov",
-        "description": "Generic label shown if contact address has custom type but no label"
-    },
-    "debugLog": {
-        "message": "Sistemska zabeležba",
-        "description": "View menu item to open the debug log (title case)"
-    },
-    "gotIt": {
-        "message": "Razumem!",
-        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
-    },
-    "appMenuQuit": {
-        "message": "Zapusti Signal",
-        "description": "Application menu command to close the application"
-    },
-    "disappearingMessages": {
-        "message": "Izginjajoča sporočila",
-        "description": "Conversation menu option to enable disappearing messages"
-    },
-    "editMenuCut": {
-        "message": "Odreži",
-        "description": "Edit menu command to remove selected text and add it to clipboard"
-    },
-    "deleteWarning": {
-        "message": "Ste prepričani? S klikom na 'izbriši' boste nepovratno izbrisali sporočilo s te naprave.",
-        "description": ""
-    },
-    "verifyNewNumber": {
-        "message": "Preveri istovetnost",
-        "description": "Label on button included with safety number change notification in the conversation"
-    },
-    "showMore": {
-        "message": "Podrobnosti",
-        "description": "Displays the details of a key change"
-    },
-    "verifyHelp": {
-        "message": "Če želite preveriti varnost od konca do konca šifrirane komunikacije z uporabnikom $name$, primerjajte gornje število s številom na njegovi napravi.",
-        "description": "",
+    "youMarkedAsNotVerified": {
+        "message": "Varnostno število z uporabnikom $name$ ste označili kot nepotrjeno",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
                 "content": "$1",
-                "example": "John"
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "Varnostno število z uporabnikom $name$ ste na drugi napravi označili kot potrjeno",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "Varnostno število z uporabnikom $name$ ste na drugi napravi označili kot nepotrjeno",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
             }
         }
     },
@@ -169,151 +293,33 @@
         "message": "Vaša varnostna števila s temi člani skupine so bila spremenjena, odkar ste nazadnje preverjali. Za ogled novega varnostnega števila z določenim članom skupine kliknite nanj.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
-    "timerOption_5_minutes_abbreviated": {
-        "message": "5 min",
-        "description": "Very short format indicating current timer setting in the conversation header"
+    "changedSinceVerifiedMultiple": {
+        "message": "Varnostna števila z večimi člani skupine so bila nedavno spremenjena. To lahko pomeni, da skuša nekdo prestrezati vašo komunikacijo ali pa, da so te osebe zgolj ponovno namestile aplikacijo Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "unsupportedFileType": {
-        "message": "Nepodprta vrsta datoteke",
-        "description": "Displayed for outgoing unsupported attachment"
-    },
-    "quit": {
-        "message": "Končaj",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "clickToSave": {
-        "message": "Shrani",
-        "description": "Hover text for attachment filenames"
-    },
-    "messagesBelow": {
-        "message": "Nova sporočila spodaj",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
-    },
-    "editMenuSelectAll": {
-        "message": "Izberi vse",
-        "description": "Edit menu comand to select all of the text in selected text box"
-    },
-    "resetSession": {
-        "message": "Ponastavi sejo",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
-    },
-    "replyingToYou": {
-        "message": "Odgovor vam",
-        "description": "Shown in iOS theme when someone else quotes a message from you"
-    },
-    "you": {
-        "message": "Vi",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
-    },
-    "offline": {
-        "message": "Ni povezave z internetom",
-        "description": "Displayed when the desktop client has no network connection."
-    },
-    "hideMenuBar": {
-        "message": "Skrij menijsko vrstico",
-        "description": "Label text for menu bar visibility setting"
-    },
-    "welcomeToSignal": {
-        "message": "Dobrodošli v aplikaciji Signal",
-        "description": ""
-    },
-    "checkNetworkConnection": {
-        "message": "Preverite svojo internetno povezavo",
-        "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "youDisabledDisappearingMessages": {
-        "message": "Izključili ste izginjajoča sporočila",
-        "description": "Displayed in the conversation list when the timer is turned off"
-    },
-    "notificationSettingsDialog": {
-        "message": "Vsebina obvestila o prejemu sporočila:",
-        "description": "Explain the purpose of the notification settings"
-    },
-    "timestamp_h": {
-        "message": "1 uro",
-        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "timerOption_0_seconds_abbreviated": {
-        "message": "Izključeno",
-        "description": "Short format indicating current timer setting in the conversation list snippet"
-    },
-    "imageFailedToLoad": {
-        "message": "Slika se ni uspela naložiti",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "clearDataButton": {
-        "message": "Izbris podatkov",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "syncExplanation": {
-        "message": "Uvoz stikov in skupin Signal iz mobilne naprave.",
-        "description": "Explanatory text for sync settings"
-    },
-    "youLeftTheGroup": {
-        "message": "Zapustili ste skupino",
-        "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "deleteMessages": {
-        "message": "Izbriši sporočila",
-        "description": "Menu item for deleting messages, title case."
-    },
-    "incomingError": {
-        "message": "Napaka pri obdelavi dohodnega sporočila",
-        "description": ""
-    },
-    "poBox": {
-        "message": "p. p.",
-        "description": "When rendering an address, used to provide context to a post office box"
-    },
-    "themeLight": {
-        "message": "Svetla",
-        "description": "Label text for light theme (normal)"
-    },
-    "delete": {
-        "message": "Izbriši",
-        "description": ""
-    },
-    "verified": {
-        "message": "Potrjeno",
-        "description": ""
-    },
-    "trayTooltip": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
-    },
-    "selectAContact": {
-        "message": "Izberite osebo ali skupino in začnite s pogovorom.",
-        "description": ""
-    },
-    "aboutSignalDesktop": {
-        "message": "O aplikaciji Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
-    "selectedLocation": {
-        "message": "izbrana lokacija",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "phone": {
-        "message": "telefon",
-        "description": "Generic label shown if contact phone has custom type but no label"
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ ur",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+    "changedSinceVerified": {
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo od zadnjega preverjanja spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
-            "hours": {
+            "name": {
                 "content": "$1",
-                "example": "2"
+                "example": "Bob"
             }
         }
     },
-    "deleteThisMessage": {
-        "message": "Izbriši to sporočilo",
-        "description": ""
+    "changedRightAfterVerify": {
+        "message": "Varnostno število, ki ga potrjujete, je bilo spremenjeno. Prosimo, še enkrat preverite svoje novo varnostno število z uporabnikom $name$. Pozor, ta sprememba lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
-    "editMenuPaste": {
-        "message": "Odloži",
-        "description": "Edit menu command to insert text from clipboard at cursor location"
+    "changedRecentlyMultiple": {
+        "message": "Varnostna števila z večimi člani skupine so bila nedavno spremenjena. To lahko pomeni, da skuša nekdo prestrezati vašo komunikacijo ali pa, da so te osebe zgolj ponovno namestile aplikacijo Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
         "message": "Vaše varnostno število z uporabnikom $name$ je bilo nedavno spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
@@ -325,25 +331,787 @@
             }
         }
     },
-    "sent": {
-        "message": "Poslano",
-        "description": "Label for the time a message was sent"
+    "identityKeyErrorOnSend": {
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal. Morebiti bi želeli preveriti svoje varnostno število z njim.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "sendAnyway": {
+        "message": "Vseeno pošlji",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "noLongerVerified": {
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo spremenjeno in ni več označeno kot potrjeno. Kliknite za prikaz.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "multipleNoLongerVerified": {
+        "message": "Vaša varnostna števila z večimi člani skupine so bila spremenjena in niso več označena kot potrjena. Kliknite za prikaz.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    },
+    "debugLogExplanation": {
+        "message": "Ta sistemska zabeležba bo javno objavljena na spletu za razvijalce aplikacije. Pred objavo jo lahko pregledate.",
+        "description": ""
+    },
+    "debugLogError": {
+        "message": "Prišlo je do težav pri prenosu! Morda bi želeli priložiti sistemsko zabeležbo prijavi hrošča razvijalcem.",
+        "description": ""
+    },
+    "reportIssue": {
+        "message": "Prijava napake",
+        "description": "Link to open the issue tracker"
+    },
+    "gotIt": {
+        "message": "Razumem!",
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    },
+    "submit": {
+        "message": "Objavi",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Sprejmi",
+        "description": "Label for a button to accept a new safety number"
+    },
+    "verify": {
+        "message": "Označi kot potrjeno.",
+        "description": ""
+    },
+    "unverify": {
+        "message": "Označi kot nepotrjeno",
+        "description": ""
+    },
+    "isVerified": {
+        "message": "Potrdili ste varnostno število z uporabnikom $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isNotVerified": {
+        "message": "Varnostnega števila z uporabnikom $name$ niste potrdili.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "verified": {
+        "message": "Potrjeno",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Novo varnostno število",
+        "description": "Header for a key change dialog"
+    },
+    "identityChanged": {
+        "message": "Vaše varnostno število s to osebo je bilo spremenjeno. To lahko pomeni, da poskuša nekdo prestrezati vajino komunikacijo ali pa je vaš partner zgolj na novo namestil aplikacijo Signal. Novo varnostno število lahko preverite spodaj.",
+        "description": ""
+    },
+    "incomingError": {
+        "message": "Napaka pri obdelavi dohodnega sporočila",
+        "description": ""
+    },
+    "media": {
+        "message": "Medijske datoteke",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "mediaEmptyState": {
+        "message": "V tem pogovoru ni nobene medijske datoteke",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "documents": {
+        "message": "Dokumenti",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
+    "documentsEmptyState": {
+        "message": "V tem pogovoru ni nobenega dokumenta",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
+    "today": {
+        "message": "Danes",
+        "description": "Section header in the media gallery"
+    },
+    "yesterday": {
+        "message": "Včeraj",
+        "description": "Section header in the media gallery"
     },
     "thisWeek": {
         "message": "Ta teden",
         "description": "Section header in the media gallery"
     },
+    "thisMonth": {
+        "message": "Ta mesec",
+        "description": "Section header in the media gallery"
+    },
+    "unsupportedAttachment": {
+        "message": "Nepodprta vrsta priponke. Kliknite, če jo želite shraniti.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "clickToSave": {
+        "message": "Shrani",
+        "description": "Hover text for attachment filenames"
+    },
+    "unnamedFile": {
+        "message": "Neimenovana datoteka",
+        "description": "Hover text for attachment filenames"
+    },
+    "voiceMessage": {
+        "message": "Glasovno sporočilo",
+        "description": "Name for a voice message attachment"
+    },
+    "unsupportedFileType": {
+        "message": "Nepodprta vrsta datoteke",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "fileSizeWarning": {
+        "message": "Izbrana datoteka presega največjo dovoljeno velikost.",
+        "description": ""
+    },
+    "disconnected": {
+        "message": "Povezava je prekinjena",
+        "description": "Displayed when the desktop client cannot connect to the server."
+    },
+    "connecting": {
+        "message": "Povezujem",
+        "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "offline": {
+        "message": "Ni povezave z internetom",
+        "description": "Displayed when the desktop client has no network connection."
+    },
+    "checkNetworkConnection": {
+        "message": "Preverite svojo internetno povezavo",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
+    "attemptingReconnection": {
+        "message": "Naslednji poskus povezave: $reconnect_duration_in_seconds$ s",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "submitDebugLog": {
+        "message": "Sistemska zabeležba",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "debugLog": {
+        "message": "Sistemska zabeležba",
+        "description": "View menu item to open the debug log (title case)"
+    },
+    "goToReleaseNotes": {
+        "message": "Opombe k izdaji",
+        "description": ""
+    },
+    "goToForums": {
+        "message": "Forumi",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
+    "goToSupportPage": {
+        "message": "Podporna stran",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "menuReportIssue": {
+        "message": "Prijava napake",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "signalDesktopPreferences": {
+        "message": "Nastavitve Signal Desktop",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "aboutSignalDesktop": {
+        "message": "O aplikaciji Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
+    },
+    "speech": {
+        "message": "Nagovor",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
+    "show": {
+        "message": "Prikaži",
+        "description": "Command under Window menu, to show the window"
+    },
+    "hide": {
+        "message": "Skrij",
+        "description": "Command in the tray icon menu, to hide the window"
+    },
+    "quit": {
+        "message": "Končaj",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
+    "trayTooltip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Vnesite ime ali številko",
+        "description": "Placeholder text in the search input"
+    },
+    "welcomeToSignal": {
+        "message": "Dobrodošli v aplikaciji Signal",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Izberite osebo ali skupino in začnite s pogovorom.",
+        "description": ""
+    },
+    "contactAvatarAlt": {
+        "message": "Avatar uporabnika $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
     "sendMessageToContact": {
         "message": "Pošlji sporočilo",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
-    "importingHeader": {
-        "message": "Nalagam stike in sporočila",
-        "description": "Header of screen shown as data is import"
+    "home": {
+        "message": "doma",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "work": {
+        "message": "služba",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "mobile": {
+        "message": "mobilni telefon",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "email": {
+        "message": "e-pošta",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "phone": {
+        "message": "telefon",
+        "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "address": {
+        "message": "naslov",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
+    "poBox": {
+        "message": "p. p.",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "downloadAttachment": {
+        "message": "Prenesi priponko",
+        "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
+    },
+    "replyToMessage": {
+        "message": "Odgovor na sporočilo",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
+    "originalMessageNotFound": {
+        "message": "Izvorno sporočilo ni bilo najdeno",
+        "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
+    },
+    "originalMessageNotAvailable": {
+        "message": "Izvorno sporočilo ni več na voljo",
+        "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    },
+    "messageFoundButNotLoaded": {
+        "message": "Izvorno sporočilo je bilo najdeno, vendar še ni naloženo. Če ga želite naložiti, se pomaknite navzgor.",
+        "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "you": {
+        "message": "Vi",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
+    "replyingTo": {
+        "message": "Odgovor uporabniku $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "audioPermissionNeeded": {
+        "message": "Za pošiljanje glasovnih sporočil potrebuje aplikacija Signal Desktop dostop do vašega mikrofona.",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "allowAccess": {
+        "message": "Dovoli dostop",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
+    "showSettings": {
+        "message": "Prikaži nastavitve",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "audio": {
+        "message": "Zvok",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    },
+    "video": {
+        "message": "Video",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
+    "photo": {
+        "message": "Slika",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Prekliči",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Pošiljanje nekaterim prejemnikom ni uspelo. Preverite povezavo z omrežjem.",
+        "description": ""
+    },
+    "error": {
+        "message": "Napaka",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Podrobnosti sporočila",
+        "description": ""
+    },
+    "delete": {
+        "message": "Izbriši",
+        "description": ""
+    },
+    "deleteWarning": {
+        "message": "Ste prepričani? S klikom na 'izbriši' boste nepovratno izbrisali sporočilo s te naprave.",
+        "description": ""
+    },
+    "deleteThisMessage": {
+        "message": "Izbriši to sporočilo",
+        "description": ""
+    },
+    "from": {
+        "message": "Pošiljatelj",
+        "description": "Label for the sender of a message"
+    },
+    "to": {
+        "message": "Naslovnik",
+        "description": "Label for the receiver of a message"
+    },
+    "sent": {
+        "message": "Poslano",
+        "description": "Label for the time a message was sent"
+    },
+    "received": {
+        "message": "Prejeto",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Pošlji sporočilo",
+        "description": "Placeholder text in the message entry field"
+    },
+    "groupMembers": {
+        "message": "Člani skupine",
+        "description": ""
+    },
+    "showMembers": {
+        "message": "Prikaži člane",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Ponastavi sejo",
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "showSafetyNumber": {
+        "message": "Preglej varnostno število",
+        "description": ""
+    },
+    "viewAllMedia": {
+        "message": "Vse medijske datoteke",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "verifyHelp": {
+        "message": "Če želite preveriti varnost od konca do konca šifrirane komunikacije z uporabnikom $name$, primerjajte gornje število s številom na njegovi napravi.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "theirIdentityUnknown": {
+        "message": "S to osebo še niste izmenjali sporočil. Vajino varnostno število bo na voljo po prvem poslanem sporočilu.",
+        "description": ""
+    },
+    "moreInfo": {
+        "message": "Več informacij ...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
+    "retrySend": {
+        "message": "Ponovno pošlji",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+    },
+    "deleteMessage": {
+        "message": "Izbriši sporočilo",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    },
+    "deleteMessages": {
+        "message": "Izbriši sporočila",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteConversationConfirmation": {
+        "message": "Ali res želite nepovratno izbrisati ta pogovor?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "sessionEnded": {
+        "message": "Varna ponastavitev seje",
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "quoteThumbnailAlt": {
+        "message": "Predogled slike citiranega sporočila",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "imageFailedToLoad": {
+        "message": "Slika se ni uspela naložiti",
+        "description": "When an image attachment is missing, this message is shown"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "Zajem slike videa se ni uspel naložiti",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
+    "imageAttachmentAlt": {
+        "message": "Slika je priložena sporočilu",
+        "description": "Used in alt tag of image attachment"
+    },
+    "videoAttachmentAlt": {
+        "message": "Zajem slike videa je priložen k sporočilu",
+        "description": "Used in alt tag of video attachment preview"
+    },
+    "lightboxImageAlt": {
+        "message": "Slika je bila poslana tekom pogovora",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
+    "fileIconAlt": {
+        "message": "Ikona datoteke",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
+    "emojiAlt": {
+        "message": "Emoji znak za '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
+    "installWelcome": {
+        "message": "Dobrodošli v aplikaciji Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "installTagline": {
+        "message": "Zasebnost obstaja. Signal jo naredi preprosto.",
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "linkYourPhone": {
+        "message": "Povežite svoj telefon z aplikacijo Signal Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
+    "signalSettings": {
+        "message": "Nastavitve Signal",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "linkedDevices": {
+        "message": "Povezane naprave",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "plusButton": {
+        "message": "Gumb '+'",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
+    "linkNewDevice": {
+        "message": "Poveži novo napravo",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "deviceName": {
+        "message": "Ime naprave",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "chooseDeviceName": {
+        "message": "Izberite ime te naprave",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
+    "finishLinkingPhone": {
+        "message": "Zaključujem povezavo s telefonom",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
+    },
+    "initialSync": {
+        "message": "Usklajujem stike in skupine",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
+    "installConnectionFailed": {
+        "message": "Ne morem se povezati s strežnikom.",
+        "description": "Displayed when we can't connect to the server."
+    },
+    "installTooManyDevices": {
+        "message": "Na žalost imate dodanih preveč naprav. Poskusite odstraniti kakšno izmed njih.",
+        "description": ""
+    },
+    "settings": {
+        "message": "Nastavitve",
+        "description": "Menu item and header for global settings"
+    },
+    "theme": {
+        "message": "Tema",
+        "description": "Header for theme settings"
+    },
+    "permissions": {
+        "message": "Dovoljenja",
+        "description": "Header for permissions section of settings"
+    },
+    "mediaPermissionsDescription": {
+        "message": "Dovoli dostop do kamere in mikrofona",
+        "description": "Description of the media permission description"
+    },
+    "spellCheck": {
+        "message": "Črkovalnik",
+        "description": "Description of the media permission description"
     },
     "spellCheckDescription": {
-        "message": "Vklop črkovalnika v okencu za vnašanje teksta sporočila",
+        "message": "Vklop črkovalnika v okencu za vnašanje sporočila",
         "description": "Description of the media permission description"
+    },
+    "clearDataHeader": {
+        "message": "Izbris podatkov",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
+    },
+    "clearDataExplanation": {
+        "message": "S tem boste izbrisali vse podatke v aplikaciji, odstranili vsa sporočila in podatke o računu.",
+        "description": "Text describing what the clear data button will do."
+    },
+    "clearDataButton": {
+        "message": "Izbris podatkov",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
+    "deleteAllDataHeader": {
+        "message": "Želite izbrisati vse podatke?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataBody": {
+        "message": "Ste pred korakom, s katerim boste izbrisali vse podatke v aplikaciji Signal, vključno s stiki in sporočili. Naknadno se boste lahko zopet povezali s svojo mobilno napravo, a to ne bo povrnilo izbrisanih sporočil.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
+    "deleteAllDataButton": {
+        "message": "Izbris vseh podatkov",
+        "description": "Text of the button that deletes all data"
+    },
+    "deleteAllDataProgress": {
+        "message": "Odjava in brisanje vseh podatkov",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "notifications": {
+        "message": "Obvestila",
+        "description": "Header for notification settings"
+    },
+    "notificationSettingsDialog": {
+        "message": "Vsebina obvestila o prejemu sporočila:",
+        "description": "Explain the purpose of the notification settings"
+    },
+    "disableNotifications": {
+        "message": "obvestila so izklopljena",
+        "description": "Label for disabling notifications"
+    },
+    "nameAndMessage": {
+        "message": "ime pošiljatelja in sporočilo",
+        "description": "Label for setting notifications to display name and message text"
+    },
+    "noNameOrMessage": {
+        "message": "brez imena pošiljatelja in sporočila",
+        "description": "Label for setting notifications to display no name and no message text"
+    },
+    "nameOnly": {
+        "message": "samo ime pošiljatelja",
+        "description": "Label for setting notifications to display sender name only"
+    },
+    "newMessage": {
+        "message": "Novo sporočilo",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "newMessages": {
+        "message": "Novo sporočilo",
+        "description": "Displayed in notifications for multiple messages"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Najnovejše od:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+    },
+    "notificationFrom": {
+        "message": "Od:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
+    "notificationMostRecent": {
+        "message": "Najnovejše:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "sendFailed": {
+        "message": "Pošiljanje ni uspelo",
+        "description": "Shown on outgoing message if it fails to send"
+    },
+    "showMore": {
+        "message": "Podrobnosti",
+        "description": "Displays the details of a key change"
+    },
+    "showLess": {
+        "message": "Skrij podrobnosti",
+        "description": "Hides the details of a key change"
+    },
+    "learnMore": {
+        "message": "Več o verifikaciji varnostnih števil",
+        "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "expiredWarning": {
+        "message": "Pričujoča različica programa Signal Desktop je potekla. Za ponovno delovanje morate program posodobiti na zadnjo različico.",
+        "description": "Warning notification that this version of the app has expired"
+    },
+    "androidMessageLengthWarning": {
+        "message": "Odjemalec za Android bo prejel le prvih 2000 znakov tega sporočila.",
+        "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "upgrade": {
+        "message": "Posodobi",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "mediaMessage": {
+        "message": "Multimedijsko sporočilo",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unregisteredUser": {
+        "message": "Številka ni registrirana",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Stiki",
+        "description": "Label for contact and group sync settings"
+    },
+    "syncExplanation": {
+        "message": "Uvoz stikov in skupin Signal iz mobilne naprave.",
+        "description": "Explanatory text for sync settings"
+    },
+    "lastSynced": {
+        "message": "Nazadnje uvoženo: ",
+        "description": "Label for date and time of last sync operation"
+    },
+    "syncNow": {
+        "message": "Uvozi zdaj",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncing": {
+        "message": "Uvažam ...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "syncFailed": {
+        "message": "Uvoz ni bil uspešen. Preverite, da sta vaša mobilna naprava in računalnik povezana z internetom.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
+    "timestamp_s": {
+        "message": "ravnokar",
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_m": {
+        "message": "1 minuto",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_h": {
+        "message": "1 uro",
+        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ h",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "hoursAgo": {
+        "message": "Pred $hours$ h",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "minutesAgo": {
+        "message": "Pred $minutes$ min",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "justNow": {
+        "message": "ravnokar",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "timestampFormat_M": {
+        "message": "D. MMM",
+        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "unblockToSend": {
+        "message": "Za pošiljanje sporočila morate najprej odblokirati ta stik",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
+    "youChangedTheTimer": {
+        "message": "Odštevanje za izginjajoča sporočila ste nastavili na $time$",
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
+    "timerSetOnSync": {
+        "message": "Odštevanje za izginjajoča števila je bilo posodobljeno na $time$",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
     "theyChangedTheTimer": {
         "message": "Uporabnik $name$ je nastavil odštevanje za izginjajoča števila na $time$",
@@ -359,353 +1127,109 @@
             }
         }
     },
-    "timestamp_s": {
-        "message": "ravnokar",
-        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    "timerOption_0_seconds": {
+        "message": "Izključeno",
+        "description": "Label for option to turn off message expiration in the timer menu"
     },
-    "viewMenuZoomOut": {
-        "message": "Oddalji",
-        "description": "View menu command to make everything smaller"
+    "timerOption_5_seconds": {
+        "message": "5 sekund",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "mainMenuSettings": {
-        "message": "Nastavitve ...",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    "timerOption_10_seconds": {
+        "message": "10 sekund",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "changedRecentlyMultiple": {
-        "message": "Varnostna števila z večimi člani skupine so bila nedavno spremenjena. To lahko pomeni, da skuša nekdo prestrezati vašo komunikacijo ali pa, da so te osebe zgolj ponovno namestile aplikacijo Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
+    "timerOption_30_seconds": {
+        "message": "30 sekund",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "emojiAlt": {
-        "message": "Emoji znak za '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
+    "timerOption_1_minute": {
+        "message": "1 minuta",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_5_minutes": {
+        "message": "5 minut",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_30_minutes": {
+        "message": "30 minut",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_hour": {
+        "message": "1 ura",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_6_hours": {
+        "message": "6 ur",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_12_hours": {
+        "message": "12 ur",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
         "message": "1 dan",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "editMenuUndo": {
-        "message": "Razveljavi",
-        "description": "Edit menu command to remove recently-typed text"
-    },
-    "reportIssue": {
-        "message": "Prijava napake",
-        "description": "Link to open the issue tracker"
-    },
-    "newMessage": {
-        "message": "Novo sporočilo",
-        "description": "Displayed in notifications for only 1 message"
-    },
-    "nameOnly": {
-        "message": "samo ime pošiljatelja",
-        "description": "Label for setting notifications to display sender name only"
-    },
-    "quoteThumbnailAlt": {
-        "message": "Predogled slike citiranega sporočila",
-        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "mediaEmptyState": {
-        "message": "V tem pogovoru ni nobene medijske datoteke",
-        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
-    },
-    "notificationMostRecentFrom": {
-        "message": "Najnovejše od:",
-        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-    },
-    "autoUpdateLaterButtonLabel": {
-        "message": "Kasneje",
-        "description": ""
-    },
-    "justNow": {
-        "message": "ravnokar",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
-    },
-    "mediaPermissionsDescription": {
-        "message": "Dovoli dostop do kamere in mikrofona",
-        "description": "Description of the media permission description"
-    },
-    "from": {
-        "message": "Pošiljatelj",
-        "description": "Label for the sender of a message"
-    },
-    "deleteConversationConfirmation": {
-        "message": "Ali res želite nepovratno izbrisati ta pogovor?",
-        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-    },
-    "mainMenuWindow": {
-        "message": "&Okno",
-        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "importCompleteLinkButton": {
-        "message": "Povežite napravo s svojim telefonom",
-        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "unlinkedWarning": {
-        "message": "Za nadaljevanje komunikacije ponovno povežite aplikacijo Signal Desktop s svojo mobilno napravo.",
-        "description": ""
-    },
-    "safetyNumberChanged": {
-        "message": "Varnostno število je bilo spremenjeno",
-        "description": "A notification shown in the conversation when a contact reinstalls"
-    },
-    "today": {
-        "message": "Danes",
-        "description": "Section header in the media gallery"
-    },
-    "debugLogExplanation": {
-        "message": "Ta sistemska zabeležba bo javno objavljena na spletu za razvijalce aplikacije. Pred objavo jo lahko pregledate.",
-        "description": ""
-    },
-    "linkYourPhone": {
-        "message": "Povežite svoj telefon z aplikacijo Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "multipleLeftTheGroup": {
-        "message": "Uporabnik $name$ je zapustil skupino",
-        "description": "Shown in the conversation history when multiple people leave the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    },
-    "newPhoneNumber": {
-        "message": "Z vnosom telefonske številke boste ustvarili nov stik",
-        "description": "Placeholder for adding a new number to a contact"
-    },
-    "viewMenuZoomIn": {
-        "message": "Približaj",
-        "description": "View menu command to make everything bigger"
-    },
-    "viewAllMedia": {
-        "message": "Vse medijske datoteke",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
-    },
-    "windowMenuBringAllToFront": {
-        "message": "Prikaži vse na površju",
-        "description": "Window menu command to bring all windows of current applicatinon to front"
-    },
-    "importErrorFirst": {
-        "message": "Preverite, če ste izbrali pravo mapo s shranjenimi podatki. Ime mape bi moralo biti \"Signal Export\". Lahko tudi ponovno izvozite podatke iz aplikacije v brskalniku Chrome.",
-        "description": "Message shown if the import went wrong; first paragraph"
-    },
-    "noLongerVerified": {
-        "message": "Vaše varnostno število z uporabnikom $name$ je bilo spremenjeno in ni več označeno kot potrjeno. Kliknite za prikaz.",
-        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_1_hour": {
-        "message": "1 uro",
+    "timerOption_1_week": {
+        "message": "1 teden",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
-    "video": {
-        "message": "Video",
-        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    "disappearingMessages": {
+        "message": "Izginjajoča sporočila",
+        "description": "Conversation menu option to enable disappearing messages"
     },
-    "safetyNumberChangedGroup": {
-        "message": "Varnostno število z uporabnikom $name$ je bilo spremenjeno",
-        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
+    "timerOption_0_seconds_abbreviated": {
+        "message": "Izključeno",
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
-    "searchForPeopleOrGroups": {
-        "message": "Vnesite ime ali številko",
-        "description": "Placeholder text in the search input"
+    "timerOption_5_seconds_abbreviated": {
+        "message": "5 s",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "noNameOrMessage": {
-        "message": "brez imena pošiljatelja in sporočila",
-        "description": "Label for setting notifications to display no name and no message text"
+    "timerOption_10_seconds_abbreviated": {
+        "message": "10 s",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "syncNow": {
-        "message": "Uvozi zdaj",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncFailed": {
-        "message": "Uvoz ni bil uspešen. Preverite, da sta vaša mobilna naprava in računalnik povezana z internetom.",
-        "description": "Informational text displayed if a sync operation times out."
-    },
-    "unlinked": {
-        "message": "Nepovezan",
-        "description": ""
-    },
-    "imageAttachmentAlt": {
-        "message": "Slika je priložena sporočilu",
-        "description": "Used in alt tag of image attachment"
-    },
-    "learnMore": {
-        "message": "Več o verifikaciji varnostnih števil",
-        "description": "Text that links to a support article on verifying safety numbers"
-    },
-    "signalDesktopPreferences": {
-        "message": "Nastavitve Signal Desktop",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "timerSetOnSync": {
-        "message": "Odštevanje za izginjajoča števila je bilo posodobljeno na $time$",
-        "description": "Message displayed when timer is set on initial link of desktop device.",
-        "placeholders": {
-            "time": {
-                "content": "$1",
-                "example": "10m"
-            }
-        }
-    },
-    "deleteAllDataButton": {
-        "message": "Izbris vseh podatkov",
-        "description": "Text of the button that deletes all data"
-    },
-    "unreadMessages": {
-        "message": "$count$ Neprebrana sporočila",
-        "description": "Text for unread message separator, with count",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
-    "installTooManyDevices": {
-        "message": "Na žalost imate dodanih preveč naprav. Poskusite odstraniti kakšno izmed njih.",
-        "description": ""
-    },
-    "allowAccess": {
-        "message": "Dovoli dostop",
-        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "joinedTheGroup": {
-        "message": "Uporabnik $name$ se je pridružil skupini",
-        "description": "Shown in the conversation history when a single person joins the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Alice"
-            }
-        }
-    },
-    "work": {
-        "message": "služba",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
-    },
-    "goToForums": {
-        "message": "Forumi",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
-    "menuSetupWithImport": {
-        "message": "Nastavi z uvozom podatkov",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
-    "disappearingMessagesDisabled": {
-        "message": "Izginjajoča sporočila so izključena",
-        "description": "Displayed in the left pane when the timer is turned off"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Zajem slike videa se ni uspel naložiti",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
-    "timerOption_30_minutes_abbreviated": {
-        "message": "30 min",
+    "timerOption_30_seconds_abbreviated": {
+        "message": "30 s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1 min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "home": {
-        "message": "doma",
-        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    "timerOption_5_minutes_abbreviated": {
+        "message": "5 min",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "loadingMessages": {
-        "message": "Nalagam sporočila. $count$ doslej ...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
+    "timerOption_30_minutes_abbreviated": {
+        "message": "30 min",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "speech": {
-        "message": "Nagovor",
-        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    "timerOption_1_hour_abbreviated": {
+        "message": "1 h",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "importErrorHeader": {
-        "message": "Nekaj je šlo narobe!",
-        "description": "Header of the error screen after a failed import"
+    "timerOption_6_hours_abbreviated": {
+        "message": "6 h",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "changedSinceVerified": {
-        "message": "Vaše varnostno število z uporabnikom $name$ je bilo od zadnjega preverjanja spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
+    "timerOption_12_hours_abbreviated": {
+        "message": "12 h",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "importAgain": {
-        "message": "Izberite mapo in poskusite znova",
-        "description": "Button shown if the user runs into an error during import, allowing them to start over"
+    "timerOption_1_day_abbreviated": {
+        "message": "1 d",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "upgrade": {
-        "message": "Posodobi",
-        "description": "Label text for button to upgrade the app to the latest version"
+    "timerOption_1_week_abbreviated": {
+        "message": "1 t",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
-    "moreInfo": {
-        "message": "Več informacij...",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "notificationMostRecent": {
-        "message": "Najnovejše:",
-        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
-    },
-    "yourSafetyNumberWith": {
-        "message": "Vaše varnostno število z osebo $name$:",
-        "description": "Heading for safety number view",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "windowMenuClose": {
-        "message": "Zapri okno",
-        "description": "Window menu command to close the current window"
-    },
-    "showLess": {
-        "message": "Skrij podrobnosti",
-        "description": "Hides the details of a key change"
-    },
-    "spellCheck": {
-        "message": "Črkovalnik",
-        "description": "Description of the media permission description"
-    },
-    "theme": {
-        "message": "Tema",
-        "description": "Header for theme settings"
-    },
-    "privacyPolicy": {
-        "message": "Pogoji uporabe in Pravilnik o zasebnosti",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
-    },
-    "newIdentity": {
-        "message": "Novo varnostno število",
-        "description": "Header for a key change dialog"
+    "disappearingMessagesDisabled": {
+        "message": "Izginjajoča sporočila so izključena",
+        "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
         "message": "Uporabnik $name$ je izključil izginjajoča sporočila",
@@ -717,609 +1241,9 @@
             }
         }
     },
-    "installTagline": {
-        "message": "Zasebnost obstaja. Signal jo naredi preprosto.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "show": {
-        "message": "Prikaži",
-        "description": "Command under Window menu, to show the window"
-    },
-    "audioNotificationDescription": {
-        "message": "Predvajaj zvočna obvestila",
-        "description": "Description for audio notification setting"
-    },
-    "isNotVerified": {
-        "message": "Varnostnega števila z uporabnikom $name$ niste potrdili.",
-        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "disconnected": {
-        "message": "Povezava je prekinjena",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
-    "syncing": {
-        "message": "Uvažam ...",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "lightboxImageAlt": {
-        "message": "Slika je bila poslana tekom pogovora",
-        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
-    },
-    "multipleNoLongerVerified": {
-        "message": "Vaša varnostna števila z večimi člani skupine so bila spremenjena in niso več označena kot potrjena. Kliknite za prikaz.",
-        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
-    },
-    "acceptNewKey": {
-        "message": "Sprejmi",
-        "description": "Label for a button to accept a new safety number"
-    },
-    "timerOption_12_hours_abbreviated": {
-        "message": "12 h",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "editMenuPasteAndMatchStyle": {
-        "message": "Odloži in ujemi slog",
-        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
-    },
-    "signalSettings": {
-        "message": "Nastavitve Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "timestampFormat_M": {
-        "message": "D. MMM",
-        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
-    },
-    "plusButton": {
-        "message": "Gumb '+'",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
-    "chooseDirectory": {
-        "message": "Izberite mapo",
-        "description": "Button to allow the user to find a folder on disk"
-    },
-    "mainMenuEdit": {
-        "message": "&Urejanje",
-        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "timerOption_6_hours_abbreviated": {
-        "message": "6 h",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "unregisteredUser": {
-        "message": "Številka ni registrirana",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "timerOption_1_day_abbreviated": {
-        "message": "1 d",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "replyingTo": {
-        "message": "Odgovor uporabniku $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "autoUpdateRestartButtonLabel": {
-        "message": "Ponovno zaženi Signal",
-        "description": ""
-    },
-    "mobile": {
-        "message": "mobilni telefon",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
-    },
-    "notificationFrom": {
-        "message": "Od:",
-        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-    },
-    "sync": {
-        "message": "Stiki",
-        "description": "Label for contact and group sync settings"
-    },
-    "timerOption_1_week": {
-        "message": "1 teden",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "contactAvatarAlt": {
-        "message": "Avatar uporabnika $name$",
-        "description": "Used in the alt tag for the image avatar of a contact",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
-    "received": {
-        "message": "Prejeto",
-        "description": "Label for the time a message was received"
-    },
-    "youMarkedAsNotVerified": {
-        "message": "Varnostno število z uporabnikom $name$ ste označili kot nepotrjeno",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_1_minute": {
-        "message": "1 minuto",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "isVerified": {
-        "message": "Potrdili ste varnostno število z uporabnikom $name$.",
-        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_30_seconds": {
-        "message": "30 sekund",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "deleteAllDataHeader": {
-        "message": "Želite izbrisati vse podatke?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataProgress": {
-        "message": "Odjava in brisanje vseh podatkov",
-        "description": "Message shown to user when app is disconnected and data deleted"
-    },
-    "sendMessage": {
-        "message": "Pošlji sporočilo",
-        "description": "Placeholder text in the message entry field"
-    },
-    "menuReportIssue": {
-        "message": "Prijava napake",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
-    },
-    "permissions": {
-        "message": "Dovoljenja",
-        "description": "Header for permissions section of settings"
-    },
-    "loadDataDescription": {
-        "message": "Pravkar ste šli skozi fazo izvoza podatkov. Izvoženi stiki in sporočila čakajo na vašem računalniku. Izberite mapo, kamor ste shranili te podatke.",
-        "description": "Introduction to the process of importing messages and contacts from disk"
-    },
-    "me": {
-        "message": "Jaz",
-        "description": "The label for yourself when shown in a group member list"
-    },
-    "mediaMessage": {
-        "message": "Multimedijsko sporočilo",
-        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
-    },
-    "unreadMessage": {
-        "message": "1 novo sporočilo",
-        "description": "Text for unread message separator, just one message"
-    },
-    "expiredWarning": {
-        "message": "Pričujoča različica programa Signal Desktop je potekla. Za ponovno delovanje morate program posodobiti na zadnjo različico.",
-        "description": "Warning notification that this version of the app has expired"
-    },
-    "fileSizeWarning": {
-        "message": "Izbrana datoteka presega največjo dovoljeno velikost.",
-        "description": ""
-    },
-    "documentsEmptyState": {
-        "message": "V tem pogovoru ni nobenega dokumenta",
-        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
-    },
-    "deleteMessage": {
-        "message": "Izbriši sporočilo",
-        "description": "Shown on the drop-down menu for an individual message, deletes single message"
-    },
-    "chooseDeviceName": {
-        "message": "Izberite ime te naprave",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "autoUpdateNewVersionInstructions": {
-        "message": "Za uveljavitev nadgradenj pritisnite tipko Ponovno zaženi Signal",
-        "description": ""
-    },
-    "fileIconAlt": {
-        "message": "Ikona datoteke",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
-    "timerOption_0_seconds": {
-        "message": "Izključeno",
-        "description": "Label for option to turn off message expiration in the timer menu"
-    },
-    "editMenuRedo": {
-        "message": "Ponovno uveljavi",
-        "description": "Edit menu command to restore previously undone typed text"
-    },
-    "invalidNumberError": {
-        "message": "Neveljavna številka",
-        "description": "When a person inputs a number that is invalid"
-    },
-    "installWelcome": {
-        "message": "Dobrodošli v aplikaciji Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "messageBelow": {
-        "message": "Novo sporočilo spodaj",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "hoursAgo": {
-        "message": "Pred $hours$ urami",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "menuSetupAsNewDevice": {
-        "message": "Nastavi kot novo napravo",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
-    "installConnectionFailed": {
-        "message": "Ne morem se povezati s strežnikom.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "unverify": {
-        "message": "Označi kot nepotrjeno",
-        "description": ""
-    },
-    "initialSync": {
-        "message": "Usklajujem stike in skupine",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "mainMenuView": {
-        "message": "&Pogled",
-        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "appMenuHide": {
-        "message": "Skrij",
-        "description": "Application menu command to hide the window"
-    },
-    "autoUpdateNewVersionMessage": {
-        "message": "Na voljo je nova različica aplikacije Signal.",
-        "description": ""
-    },
-    "replyToMessage": {
-        "message": "Odgovor na sporočilo",
-        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
-    },
-    "disableNotifications": {
-        "message": "obvestila so izklopljena",
-        "description": "Label for disabling notifications"
-    },
-    "photo": {
-        "message": "Slika",
-        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
-    },
-    "media": {
-        "message": "Medijske datoteke",
-        "description": "Header of the default pane in the media gallery, showing images and videos"
-    },
-    "cancel": {
-        "message": "Prekliči",
-        "description": ""
-    },
-    "unblockToSend": {
-        "message": "Za pošiljanje sporočila morate najprej odblokirati ta stik",
-        "description": "Brief message shown when trying to message a blocked number"
-    },
-    "mainMenuHelp": {
-        "message": "&Pomoč",
-        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "unnamedFile": {
-        "message": "Neimenovana datoteka",
-        "description": "Hover text for attachment filenames"
-    },
-    "timerOption_5_minutes": {
-        "message": "5 minut",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "sendAnyway": {
-        "message": "Vseeno pošlji",
-        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
-    },
-    "youMarkedAsVerified": {
-        "message": "Varnostno število z osebo $name$ ste označili kot potrjeno",
-        "description": "Shown in the conversation history when the user marks a contact as verified.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "connecting": {
-        "message": "Povezujem",
-        "description": "Displayed when the desktop client is currently connecting to the server."
-    },
-    "deleteAllDataBody": {
-        "message": "Ste pred korakom, s katerim boste izbrisali vse podatke v aplikaciji Signal, vključno s stiki in sporočili. Naknadno se boste lahko zopet povezali s svojo mobilno napravo, a to ne bo povrnilo izbrisanih sporočil.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "sessionEnded": {
-        "message": "Varna ponastavitev seje",
-        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
-    },
-    "relink": {
-        "message": "Poveži",
-        "description": ""
-    },
-    "timerOption_1_week_abbreviated": {
-        "message": "1 t",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_5_seconds": {
-        "message": "5 sekund",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "debugLogError": {
-        "message": "Prišlo je do težav pri prenosu! Morda bi želeli priložiti sistemsko zabeležbo prijavi hrošča razvijalcem.",
-        "description": ""
-    },
-    "viewMenuToggleDevTools": {
-        "message": "Vklopi razvijalska orodja",
-        "description": "View menu command to show or hide the developer tools"
-    },
-    "showMembers": {
-        "message": "Prikaži člane",
-        "description": ""
-    },
-    "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Varnostno število z uporabnikom $name$ ste na drugi napravi označili kot nepotrjeno",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "email": {
-        "message": "e-pošta",
-        "description": "Generic label shown if contact email has custom type but no label"
-    },
-    "viewMenuResetZoom": {
-        "message": "Privzeta velikost",
-        "description": "View menu command to go back to the default zoom"
-    },
-    "goToSupportPage": {
-        "message": "Podporna stran",
-        "description": "Item under the Help menu, takes you to the support page"
-    },
-    "finishLinkingPhone": {
-        "message": "Zaključujem povezavo s telefonom",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "multipleJoinedTheGroup": {
-        "message": "Uporabnik $names$ se je pridružil skupini",
-        "description": "Shown in the conversation history when more than one person joins the group",
-        "placeholders": {
-            "names": {
-                "content": "$1",
-                "example": "Alice, Bob"
-            }
-        }
-    },
-    "groupMembers": {
-        "message": "Člani skupine",
-        "description": ""
-    },
-    "loading": {
-        "message": "Nalagam ...",
-        "description": "Message shown on the loading screen before we've loaded any messages"
-    },
-    "audioPermissionNeeded": {
-        "message": "Za pošiljanje glasovnih sporočil potrebuje aplikacija Signal Desktop dostop do vašega mikrofona.",
-        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
-    },
-    "newMessages": {
-        "message": "Novo sporočilo",
-        "description": "Displayed in notifications for multiple messages"
-    },
-    "importErrorSecond": {
-        "message": "Če ti koraki ne bodo uspešni, nam prosim posredujte sistemsko zabeležbo (Pogled -> Sistemska zabeležba), da vam lahko pomagamo pri prehodu!",
-        "description": "Message shown if the import went wrong; second paragraph"
-    },
-    "theirIdentityUnknown": {
-        "message": "S to osebo še niste izmenjali sporočil. Vajino varnostno število bo na voljo po prvem poslanem sporočilu.",
-        "description": ""
-    },
-    "voiceMessage": {
-        "message": "Glasovno sporočilo",
-        "description": "Name for a voice message attachment"
-    },
-    "importCompleteStartButton": {
-        "message": "Začni z uporabo aplikacije Signal Desktop",
-        "description": "Button shown at end of successful import process, nothing left but a restart"
-    },
-    "submit": {
-        "message": "Objavi",
-        "description": ""
-    },
-    "updatedTheGroup": {
-        "message": "Skpina je bila posodobljena",
-        "description": "Shown in the conversation history when someone updates the group"
-    },
-    "themeDark": {
-        "message": "Temna",
-        "description": "Label text for dark theme"
-    },
-    "identityKeyErrorOnSend": {
-        "message": "Vaše varnostno število z uporabnikom $name$ je bilo spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal. Morebiti bi želeli preveriti svoje varnostno število z njim.",
-        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "clearDataExplanation": {
-        "message": "S tem boste izbrisali vse podatke v aplikaciji, odstranili vsa sporočila in podatke o računu.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "to": {
-        "message": "Naslovnik",
-        "description": "Label for the receiver of a message"
-    },
-    "windowMenuMinimize": {
-        "message": "Pomanjšaj",
-        "description": "Window menu command to minimize the current window"
-    },
-    "timerOption_1_hour_abbreviated": {
-        "message": "1 h",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "editMenuStopSpeaking": {
-        "message": "Prenehajte govoriti",
-        "description": "Edit menu item under 'speech' to stop dictation"
-    },
-    "optimizingApplication": {
-        "message": "Optimiziranje nastavitev ...",
-        "description": "Message shown on the loading screen while we are doing application optimizations"
-    },
-    "goToReleaseNotes": {
-        "message": "Opombe k izdaji",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "Podrobnosti sporočila",
-        "description": ""
-    },
-    "timerOption_12_hours": {
-        "message": "12 ur",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "mainMenuFile": {
-        "message": "&Datoteka",
-        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "verify": {
-        "message": "Označi kot potrjeno.",
-        "description": ""
-    },
-    "sendFailed": {
-        "message": "Pošiljanje ni uspelo",
-        "description": "Shown on outgoing message if it fails to send"
-    },
-    "clearDataHeader": {
-        "message": "Izbris podatkov",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "viewMenuToggleFullScreen": {
-        "message": "Celostranski način",
-        "description": "View menu command to enter or leave Full Screen mode"
-    },
-    "timerOption_10_seconds_abbreviated": {
-        "message": "10 s",
-        "description": "Very short format indicating current timer setting in the conversation header"
-    },
-    "timerOption_30_minutes": {
-        "message": "30 minut",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "linkNewDevice": {
-        "message": "Poveži novo napravo",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "nameAndMessage": {
-        "message": "ime pošiljatelja in sporočilo",
-        "description": "Label for setting notifications to display name and message text"
-    },
-    "menuSetupAsStandalone": {
-        "message": "Nastavi kot samostojno napravo",
-        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
-    },
-    "failedToSend": {
-        "message": "Pošiljanje nekaterim prejemnikom ni uspelo. Preverite povezavo z omrežjem.",
-        "description": ""
-    },
-    "ok": {
-        "message": "OK",
-        "description": ""
-    },
-    "identityChanged": {
-        "message": "Vaše varnostno število s to osebo je bilo spremenjeno. To lahko pomeni, da poskuša nekdo prestrezati vajino komunikacijo ali pa je vaš partner zgolj na novo namestil aplikacijo Signal. Novo varnostno število lahko preverite spodaj.",
-        "description": ""
-    },
-    "appMenuUnhide": {
-        "message": "Prikaži vse",
-        "description": "Application menu command to show all application windows"
-    },
-    "changedSinceVerifiedMultiple": {
-        "message": "Varnostna števila z večimi člani skupine so bila nedavno spremenjena. To lahko pomeni, da skuša nekdo prestrezati vašo komunikacijo ali pa, da so te osebe zgolj ponovno namestile aplikacijo Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "showSettings": {
-        "message": "Prikaži nastavitve",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
-    },
-    "editMenuCopy": {
-        "message": "Kopiraj",
-        "description": "Edit menu command to add selected text to clipboard"
-    },
-    "loadDataHeader": {
-        "message": "Naložite svoje podatke",
-        "description": "Header shown on the first screen in the data import process"
-    },
-    "submitDebugLog": {
-        "message": "Sistemska zabeležba",
-        "description": "Menu item and header text for debug log modal (sentence case)"
-    },
-    "startConversation": {
-        "message": "Začetek pogovora ...",
-        "description": "Label underneath number a user enters that is not an existing contact"
-    },
-    "error": {
-        "message": "Napaka",
-        "description": ""
-    },
-    "titleIsNow": {
-        "message": "Novo ime je '$name$'",
-        "description": "Shown in the conversation history when someone changes the title of the group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Book Club"
-            }
-        }
-    },
-    "retrySend": {
-        "message": "Ponovno pošiljanje",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
-    },
-    "changedRightAfterVerify": {
-        "message": "Varnostno število, ki ga potrjujete, je bilo spremenjeno. Prosimo, še enkrat preverite svoje novo varnostno število z uporabnikom $name$. Pozor, ta sprememba lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
-        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
-    "timerOption_6_hours": {
-        "message": "6 ur",
-        "description": "Label for a selectable option in the message expiration timer menu"
-    },
-    "videoAttachmentAlt": {
-        "message": "Zajem slike videa je priložen k sporočilu",
-        "description": "Used in alt tag of video attachment preview"
+    "youDisabledDisappearingMessages": {
+        "message": "Izključili ste izginjajoča sporočila",
+        "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
         "message": "Čas izginjanja je nastavljen na $time$",
@@ -1331,47 +1255,97 @@
             }
         }
     },
-    "editMenuDelete": {
-        "message": "Izbriši",
-        "description": "Edit menu command to remove the selected text"
+    "audioNotificationDescription": {
+        "message": "Predvajaj zvočna obvestila",
+        "description": "Description for audio notification setting"
     },
-    "windowMenuZoom": {
-        "message": "Povečava",
-        "description": "Window menu command to make the current window the size of the whole screen"
+    "safetyNumberChanged": {
+        "message": "Varnostno število je bilo spremenjeno",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
+    "safetyNumberChangedGroup": {
+        "message": "Varnostno število z uporabnikom $name$ je bilo spremenjeno",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "verifyNewNumber": {
+        "message": "Preglej varnostno število",
+        "description": "Label on button included with safety number change notification in the conversation"
+    },
+    "yourSafetyNumberWith": {
+        "message": "Vaše varnostno število z osebo $name$:",
+        "description": "Heading for safety number view",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "themeLight": {
+        "message": "Svetla",
+        "description": "Label text for light theme (normal)"
+    },
+    "themeDark": {
+        "message": "Temna",
+        "description": "Label text for dark theme"
+    },
+    "hideMenuBar": {
+        "message": "Skrij menijsko vrstico",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "startConversation": {
+        "message": "Začetek pogovora ...",
+        "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newPhoneNumber": {
+        "message": "Z vnosom telefonske številke boste ustvarili nov stik",
+        "description": "Placeholder for adding a new number to a contact"
+    },
+    "invalidNumberError": {
+        "message": "Neveljavna številka",
+        "description": "When a person inputs a number that is invalid"
+    },
+    "unlinkedWarning": {
+        "message": "Za nadaljevanje komunikacije ponovno povežite aplikacijo Signal Desktop s svojo mobilno napravo.",
+        "description": ""
+    },
+    "unlinked": {
+        "message": "Nepovezan",
+        "description": ""
+    },
+    "relink": {
+        "message": "Poveži",
+        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "Na voljo je posodobitev aplikacije Signal",
         "description": ""
     },
-    "timerOption_30_seconds_abbreviated": {
-        "message": "30 s",
-        "description": "Very short format indicating current timer setting in the conversation header"
+    "autoUpdateNewVersionMessage": {
+        "message": "Na voljo je nova različica aplikacije Signal.",
+        "description": ""
     },
-    "audio": {
-        "message": "Zvok",
-        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    "autoUpdateNewVersionInstructions": {
+        "message": "Za uveljavitev nadgradenj pritisnite tipko Ponovno zaženi Signal",
+        "description": ""
     },
-    "editMenuStartSpeaking": {
-        "message": "Začnite govoriti",
-        "description": "Edit menu item under 'speech' to start dictation"
+    "autoUpdateRestartButtonLabel": {
+        "message": "Ponovno zaženi Signal",
+        "description": ""
     },
-    "minutesAgo": {
-        "message": "Pred $minutes$ min",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
+    "autoUpdateLaterButtonLabel": {
+        "message": "Kasneje",
+        "description": ""
     },
-    "notifications": {
-        "message": "Obvestila",
-        "description": "Header for notification settings"
-    },
-    "youMarkedAsVerifiedOtherDevice": {
-        "message": "Varnostno število z uporabnikom $name$ ste na drugi napravi označili kot potrjeno",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+    "leftTheGroup": {
+        "message": "Uporabnik $name$ je zapustil skupino",
+        "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -1379,8 +1353,52 @@
             }
         }
     },
-    "hide": {
-        "message": "Skrij",
-        "description": "Command in the tray icon menu, to hide the window"
+    "multipleLeftTheGroup": {
+        "message": "Uporabnik $name$ je zapustil skupino",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "updatedTheGroup": {
+        "message": "Skpina je bila posodobljena",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
+    "titleIsNow": {
+        "message": "Novo ime je '$name$'",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
+    "joinedTheGroup": {
+        "message": "Uporabnik $name$ se je pridružil skupini",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "multipleJoinedTheGroup": {
+        "message": "Uporabnik $names$ se je pridružil skupini",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "privacyPolicy": {
+        "message": "Pogoji uporabe in Pravilnik o zasebnosti",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

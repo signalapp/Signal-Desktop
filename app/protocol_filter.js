@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 
 function _eliminateAllAfterCharacter(string, character) {
   const index = string.indexOf(character);
@@ -24,21 +25,27 @@ function _createFileHandler({ userDataPath, installPath, isWindows }) {
   return (request, callback) => {
     // normalize() is primarily useful here for switching / to \ on windows
     const target = path.normalize(_urlToPath(request.url, { isWindows }));
+    const realPath = fs.existsSync(target) ? fs.realpathSync(target) : target;
 
-    if (!path.isAbsolute(target)) {
-      console.log(`Warning: denying request to non-absolute path '${target}'`);
+    if (!path.isAbsolute(realPath)) {
+      console.log(
+        `Warning: denying request to non-absolute path '${realPath}'`
+      );
       return callback();
     }
 
-    if (!target.startsWith(userDataPath) && !target.startsWith(installPath)) {
+    if (
+      !realPath.startsWith(userDataPath) &&
+      !realPath.startsWith(installPath)
+    ) {
       console.log(
-        `Warning: denying request to path '${target}' (userDataPath: '${userDataPath}', installPath: '${installPath}')`
+        `Warning: denying request to path '${realPath}' (userDataPath: '${userDataPath}', installPath: '${installPath}')`
       );
       return callback();
     }
 
     return callback({
-      path: target,
+      path: realPath,
     });
   };
 }

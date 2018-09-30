@@ -9,6 +9,7 @@ install:
 script:
   - yarn generate
   - yarn lint
+  - yarn lint-deps
   - yarn test-node
   - yarn nsp check
   - yarn prepare-beta-build

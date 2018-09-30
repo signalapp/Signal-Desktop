@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import { AttachmentType } from './AttachmentType';
 import { Message } from './Message';
 

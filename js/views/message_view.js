@@ -15,6 +15,7 @@
       this.listenTo(this.model, 'change', this.onChange);
       this.listenTo(this.model, 'destroy', this.onDestroy);
       this.listenTo(this.model, 'unload', this.onUnload);
+      this.listenTo(this.model, 'expired', this.onExpired);
     },
     onChange() {
       this.addId();
@@ -26,6 +27,9 @@
       //   necessary.
       const { id } = this.model;
       this.$el.attr('id', id);
+    },
+    onExpired() {
+      setTimeout(() => this.onUnload(), 1000);
     },
     onUnload() {
       if (this.childView) {
@@ -93,18 +97,26 @@
       };
 
       this.listenTo(this.model, 'change', update);
+      this.listenTo(this.model, 'expired', update);
+
+      const applicableConversationChanges =
+        'change:color change:name change:number change:profileName change:profileAvatar';
 
       this.conversation = this.model.getConversation();
-      this.listenTo(this.conversation, 'change', update);
+      this.listenTo(this.conversation, applicableConversationChanges, update);
 
       this.fromContact = this.model.getIncomingContact();
       if (this.fromContact) {
-        this.listenTo(this.fromContact, 'change', update);
+        this.listenTo(this.fromContact, applicableConversationChanges, update);
       }
 
       this.quotedContact = this.model.getQuoteContact();
       if (this.quotedContact) {
-        this.listenTo(this.quotedContact, 'change', update);
+        this.listenTo(
+          this.quotedContact,
+          applicableConversationChanges,
+          update
+        );
       }
 
       this.$el.append(this.childView.el);

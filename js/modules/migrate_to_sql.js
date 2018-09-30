@@ -1,6 +1,6 @@
 /* global window, IDBKeyRange */
 
-const { includes, isFunction, isString, last, forEach } = require('lodash');
+const { includes, isFunction, isString, last, map } = require('lodash');
 const {
   saveMessages,
   _removeMessages,
@@ -83,23 +83,25 @@ async function migrateToSQL({
     const status = await migrateStoreToSQLite({
       db,
       save: async array => {
-        forEach(array, item => {
-          // In the new database, we can't store ArrayBuffers, so we turn these two fields
-          //   into strings like MessageReceiver now does before save.
+        await Promise.all(
+          map(array, async item => {
+            // In the new database, we can't store ArrayBuffers, so we turn these two
+            //   fields into strings like MessageReceiver now does before save.
 
-          // Need to set it to version two, since we're using Base64 strings now
-          // eslint-disable-next-line no-param-reassign
-          item.version = 2;
+            // Need to set it to version two, since we're using Base64 strings now
+            // eslint-disable-next-line no-param-reassign
+            item.version = 2;
 
-          if (item.envelope) {
-            // eslint-disable-next-line no-param-reassign
-            item.envelope = arrayBufferToString(item.envelope);
-          }
-          if (item.decrypted) {
-            // eslint-disable-next-line no-param-reassign
-            item.decrypted = arrayBufferToString(item.decrypted);
-          }
-        });
+            if (item.envelope) {
+              // eslint-disable-next-line no-param-reassign
+              item.envelope = await arrayBufferToString(item.envelope);
+            }
+            if (item.decrypted) {
+              // eslint-disable-next-line no-param-reassign
+              item.decrypted = await arrayBufferToString(item.decrypted);
+            }
+          })
+        );
         await saveUnprocesseds(array);
       },
       remove: removeUnprocessed,

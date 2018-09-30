@@ -208,6 +208,7 @@ message SyncMessage {
 
   message Blocked {
     repeated string numbers = 1;
+    repeated bytes groupIds = 2;
   }
 
   message Request {
@@ -303,4 +304,5 @@ message GroupDetails {
   optional bool   active      = 5 [default = true];
   optional uint32 expireTimer = 6;
   optional string color       = 7;
+  optional bool   blocked     = 8;
 }

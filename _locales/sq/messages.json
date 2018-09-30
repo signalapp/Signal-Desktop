@@ -1,0 +1,1404 @@
+{
+    "mainMenuFile": {
+        "message": "&Kartelë",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuEdit": {
+        "message": "&Përpunoni",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuView": {
+        "message": "&Shihni",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuWindow": {
+        "message": "&Dritare",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuHelp": {
+        "message": "&Ndihmë",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuSettings": {
+        "message": "Parapëlqime…",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuHide": {
+        "message": "Fshihe",
+        "description": "Application menu command to hide the window"
+    },
+    "appMenuHideOthers": {
+        "message": "Fshihi të Tjerat",
+        "description": "Application menu command to hide all other windows"
+    },
+    "appMenuUnhide": {
+        "message": "Shfaqi Krejt",
+        "description": "Application menu command to show all application windows"
+    },
+    "appMenuQuit": {
+        "message": "Mbylle Signal-in",
+        "description": "Application menu command to close the application"
+    },
+    "editMenuUndo": {
+        "message": "Zhbëje",
+        "description": "Edit menu command to remove recently-typed text"
+    },
+    "editMenuRedo": {
+        "message": "Ribëje",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
+    "editMenuCut": {
+        "message": "Prije",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
+    "editMenuCopy": {
+        "message": "Kopjoje",
+        "description": "Edit menu command to add selected text to clipboard"
+    },
+    "editMenuPaste": {
+        "message": "Ngjite",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "Ngjite dhe Përputhi Stilin",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    },
+    "editMenuDelete": {
+        "message": "Fshije",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "editMenuSelectAll": {
+        "message": "Përzgjidhi Krejt",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
+    "editMenuStartSpeaking": {
+        "message": "Filloni të flisni",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "editMenuStopSpeaking": {
+        "message": "Ndalni së foluri",
+        "description": "Edit menu item under 'speech' to stop dictation"
+    },
+    "windowMenuClose": {
+        "message": "Mbylle Dritaren",
+        "description": "Window menu command to close the current window"
+    },
+    "windowMenuMinimize": {
+        "message": "Minimizoje",
+        "description": "Window menu command to minimize the current window"
+    },
+    "windowMenuZoom": {
+        "message": "Zoom",
+        "description": "Window menu command to make the current window the size of the whole screen"
+    },
+    "windowMenuBringAllToFront": {
+        "message": "Silli Krejt Përpara",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
+    "viewMenuResetZoom": {
+        "message": "Madhësi Faktike",
+        "description": "View menu command to go back to the default zoom"
+    },
+    "viewMenuZoomIn": {
+        "message": "Zmadhoje",
+        "description": "View menu command to make everything bigger"
+    },
+    "viewMenuZoomOut": {
+        "message": "Zvogëloje",
+        "description": "View menu command to make everything smaller"
+    },
+    "viewMenuToggleFullScreen": {
+        "message": "Kalo në/Dil nga Sa Krejt Ekrani",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
+    "viewMenuToggleDevTools": {
+        "message": "Shfaq/Fshih Mjete Zhvilluesi",
+        "description": "View menu command to show or hide the developer tools"
+    },
+    "menuSetupWithImport": {
+        "message": "Rregulloje me Importim",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "menuSetupAsNewDevice": {
+        "message": "Rregulloje si Pajisje të Re",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
+    },
+    "menuSetupAsStandalone": {
+        "message": "Rregulloje si Pajisje Më Vete",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "loading": {
+        "message": "Po ngarkohet…",
+        "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "optimizingApplication": {
+        "message": "Po optimizohet aplikacioni…",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
+    },
+    "migratingToSQLCipher": {
+        "message": "Po optimizohen mesazhet…. $status$ i plotësuar.",
+        "description": "Message shown on the loading screen while we are doing application optimizations",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "45/200"
+            }
+        }
+    },
+    "chooseDirectory": {
+        "message": "Zgjidhni dosje",
+        "description": "Button to allow the user to find a folder on disk"
+    },
+    "loadDataHeader": {
+        "message": "Ngarkoni të dhënat tuaja",
+        "description": "Header shown on the first screen in the data import process"
+    },
+    "loadDataDescription": {
+        "message": "Sapo kaluat nëpër procesin e eksportimit, dhe kontaktet dhe mesazhet tuaj po presin me qetësi në kompjuterin tuaj. Përzgjidhni dosjen që përmban të dhëna tuaja Signal të ruajtura.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
+    },
+    "importChooserTitle": {
+        "message": "Zgjidhni drejtorinë me të dhënat e eksportuara",
+        "description": "Title of the popup window used to select data previously exported"
+    },
+    "importErrorHeader": {
+        "message": "Diç shkoi ters!",
+        "description": "Header of the error screen after a failed import"
+    },
+    "importingHeader": {
+        "message": "Po ngarkohen kontakte dhe mesazhe",
+        "description": "Header of screen shown as data is import"
+    },
+    "importErrorFirst": {
+        "message": "Sigurohuni se keni zgjedhur drejtorinë e duhur që përmban të dhënat tuaja Signal të ruajtura. Emri i saj duhet të fillojë me 'Signal Export.' Mundeni edhe të ruani një kopje të re të të dhënave tuaja që nga Aplikacioni Chrome.",
+        "description": "Message shown if the import went wrong; first paragraph"
+    },
+    "importErrorSecond": {
+        "message": "Nëse këto hapa nuk bëjnë punë për ju, ju lutemi, parashtroni një regjistrim diagnostikimi (Shihni -> Regjistër Diagnostikimesh) që t’ju ndihmojmë të migroni!",
+        "description": "Message shown if the import went wrong; second paragraph"
+    },
+    "importAgain": {
+        "message": "Zgjidhni dosje dhe riprovoni",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
+    },
+    "importCompleteHeader": {
+        "message": "Sukses!",
+        "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "importCompleteStartButton": {
+        "message": "Filloni të përdorni Signal-in për Desktop",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
+    },
+    "importCompleteLinkButton": {
+        "message": "Lidheni këtë pajisje me telefonin tuaj",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+    },
+    "selectedLocation": {
+        "message": "te vendi juaj parazgjedhje",
+        "description": "Message shown as the export location if we didn't capture the target directory"
+    },
+    "upgradingDatabase": {
+        "message": "Po përmirësohet baza e të dhënave. Kjo mund të hajë ca kohë…",
+        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
+    },
+    "loadingMessages": {
+        "message": "Po ngarkohen mesazhe. $count$ deri tani…",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "me": {
+        "message": "Unë",
+        "description": "The label for yourself when shown in a group member list"
+    },
+    "view": {
+        "message": "Shihni",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "youLeftTheGroup": {
+        "message": "E keni braktisur grupin",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
+    "scrollDown": {
+        "message": "Rrëshqitni drejt fundit të bisedës",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
+    "messageBelow": {
+        "message": "Mesazh i ri më poshtë",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "messagesBelow": {
+        "message": "Mesazhe të rinj më poshtë",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
+    "unreadMessage": {
+        "message": "1 Mesazh i Palexuar",
+        "description": "Text for unread message separator, just one message"
+    },
+    "unreadMessages": {
+        "message": "$count$ Mesazhe të Palexuar",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "youMarkedAsVerified": {
+        "message": "I vutë shenjë si i verifikuar Numrit tuaj të Sigurisë për $name$",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsNotVerified": {
+        "message": "I vutë shenjë si i paverifikuar Numrit tuaj të Sigurisë për $name$",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "I vutë shenjë si i verifikuar nga një pajisje tjetër Numrit tuaj të Sigurisë për $name$",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "I vutë shenjë si i paverifikuar nga një pajisje tjetër Numrit tuaj të Sigurisë për $name$",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "Numrat tuaj të sigurisë me këta anëtarë grupi kanë ndryshuar që nga hera e fundit që i verifikuat. Klikoni një anëtarë grupi që të shihni numrin tuaj të ri të sigurisë për me ta.",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+    },
+    "changedSinceVerifiedMultiple": {
+        "message": "Numrat tuaj të sigurisë me një numër anëtarësh të grupit kanë ndryshuar që nga hera e fundit që i verifikuat. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se ata thjesht kanë ri-instaluar Signal-in.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "changedSinceVerified": {
+        "message": "Numri juaj i sigurisë me $name$ ka ndryshuar që nga hera e fundit që e verifikuat. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka ri-instaluar Signal-in.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "changedRightAfterVerify": {
+        "message": "Numri i sigurisë që po provoni të verifikoni ka ndryshuar. Ju lutemi, shqyrtoni numrin tuaj të ri të sigurisë me $name$. Mos harroni, ky ndryshim mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka ri-instaluar Signal-in.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "changedRecentlyMultiple": {
+        "message": "Numrat tuaj të sigurisë me shumë anëtarë të grupit kanë ndryshuar tani së fundi. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se thjesht ata kanë ri-instaluar Signal-in.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "changedRecently": {
+        "message": "Numri juaj i sigurisë me $name$ ka ndryshuar tani së fundi. Kjo mund të jetë shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka ri-instaluar Signal-in.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "identityKeyErrorOnSend": {
+        "message": "Numri juaj i sigurisë për me $name$ ka ndryshuar. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka ri-instaluar Signal-in. Mund të donit të verifikonit numrin tuaj të sigurisë me këtë kontakt.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "sendAnyway": {
+        "message": "Dërgoje Sido Qoftë",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "noLongerVerified": {
+        "message": "Numri juaj i sigurisë për me $name$ ka ndryshuar dhe s’është më i verifikuar. Klikoni që të shfaqet.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "multipleNoLongerVerified": {
+        "message": "Numrat tuaj të sigurisë me një numër anëtarësh të këtij grupi kanë ndryshuar dhe nuk janë më të verifikuar. Klikoni që të shfaqet.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    },
+    "debugLogExplanation": {
+        "message": "Ky regjistër do të postohet publikisht në internet që ta shohin kontribuesit. Para se ta parashtroni, mund ta shqyrtoni dhe përpunoni.",
+        "description": ""
+    },
+    "debugLogError": {
+        "message": "Diç shkoi ters me ngarkimin! Ju lutemi, shihni mundësinë e shtimit dorazi të regjistrit tuaj te e meta që po parashtroni.",
+        "description": ""
+    },
+    "reportIssue": {
+        "message": "Raportoni një problem",
+        "description": "Link to open the issue tracker"
+    },
+    "gotIt": {
+        "message": "E mora vesh!",
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    },
+    "submit": {
+        "message": "Parashtrojeni",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Pranoje",
+        "description": "Label for a button to accept a new safety number"
+    },
+    "verify": {
+        "message": "Vëri shenjë si i verifikuar",
+        "description": ""
+    },
+    "unverify": {
+        "message": "Vëri shenjë si i paverifikuar",
+        "description": ""
+    },
+    "isVerified": {
+        "message": "E verifikuat numrin tuaj të sigurisë me $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isNotVerified": {
+        "message": "S’e keni verifikuar numrin tuaj të sigurisë me $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "verified": {
+        "message": "I verifikuar",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Numër i ri sigurie",
+        "description": "Header for a key change dialog"
+    },
+    "identityChanged": {
+        "message": "Numri juaj i sigurisë me këtë kontakt ka ndryshuar. Kjo mund të dojë të thotë se ose dikush po rreket të përgjojë komunikimin tuaj, ose se ky kontakt thjesht ri-instaloi Signal-in. Mund të donit të verifikoni numrin e ri të sigurisë më poshtë.",
+        "description": ""
+    },
+    "incomingError": {
+        "message": "Gabim në trajtimin e mesazhit ardhës",
+        "description": ""
+    },
+    "media": {
+        "message": "Media",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "mediaEmptyState": {
+        "message": "S’keni ndonjë media në këtë bisedë",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "documents": {
+        "message": "Dokumente",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
+    "documentsEmptyState": {
+        "message": "S’keni ndonjë dokument në këtë bisedë",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
+    "today": {
+        "message": "Sot",
+        "description": "Section header in the media gallery"
+    },
+    "yesterday": {
+        "message": "Dje",
+        "description": "Section header in the media gallery"
+    },
+    "thisWeek": {
+        "message": "Këtë Javë",
+        "description": "Section header in the media gallery"
+    },
+    "thisMonth": {
+        "message": "Këtë Muaj",
+        "description": "Section header in the media gallery"
+    },
+    "unsupportedAttachment": {
+        "message": "Lloj bashkëngjitjeje i pambuluar. Klikoni që të ruhet.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "clickToSave": {
+        "message": "Klikoni që të ruhet",
+        "description": "Hover text for attachment filenames"
+    },
+    "unnamedFile": {
+        "message": "Kartelë Pa Emër",
+        "description": "Hover text for attachment filenames"
+    },
+    "voiceMessage": {
+        "message": "Mesazh Zanor",
+        "description": "Name for a voice message attachment"
+    },
+    "unsupportedFileType": {
+        "message": "Lloj i Pambuluar Kartele",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "fileSizeWarning": {
+        "message": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh.",
+        "description": ""
+    },
+    "disconnected": {
+        "message": "I shkëputur",
+        "description": "Displayed when the desktop client cannot connect to the server."
+    },
+    "connecting": {
+        "message": "Po lidhet",
+        "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "offline": {
+        "message": "I palidhur",
+        "description": "Displayed when the desktop client has no network connection."
+    },
+    "checkNetworkConnection": {
+        "message": "Kontrolloni lidhjen tuaj në rrjet.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
+    "attemptingReconnection": {
+        "message": "Përpjekje për rilidhje pas $reconnect_duration_in_seconds$ sekondash",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "submitDebugLog": {
+        "message": "Regjistër diagnostikimesh",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "debugLog": {
+        "message": "Regjistër Diagnostikimesh",
+        "description": "View menu item to open the debug log (title case)"
+    },
+    "goToReleaseNotes": {
+        "message": "Kalo te Shënime Versioni",
+        "description": ""
+    },
+    "goToForums": {
+        "message": "Kalo te Forumet",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
+    "goToSupportPage": {
+        "message": "Kalo te Faqja e Asistencës",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "menuReportIssue": {
+        "message": "Njoftoni një Problem",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "signalDesktopPreferences": {
+        "message": "Parapëlqime për Signal-in në Desktop",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "aboutSignalDesktop": {
+        "message": "Mbi Signal-in për Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
+    },
+    "speech": {
+        "message": "E folur",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
+    "show": {
+        "message": "Shfaqe",
+        "description": "Command under Window menu, to show the window"
+    },
+    "hide": {
+        "message": "Fshihe",
+        "description": "Command in the tray icon menu, to hide the window"
+    },
+    "quit": {
+        "message": "Dil",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
+    "trayTooltip": {
+        "message": "Signal për Desktop",
+        "description": "Tooltip for the tray icon"
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Jepni emër ose numër",
+        "description": "Placeholder text in the search input"
+    },
+    "welcomeToSignal": {
+        "message": "Mirë se vini te Signal-i",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Përzgjidhni një kontakt ose grup që të filloni të fjaloseni.",
+        "description": ""
+    },
+    "contactAvatarAlt": {
+        "message": "Avatar për kontaktin $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "sendMessageToContact": {
+        "message": "Dërgo Mesazh",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
+    },
+    "home": {
+        "message": "shtëpie",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "work": {
+        "message": "pune",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "mobile": {
+        "message": "celular",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "email": {
+        "message": "email",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "phone": {
+        "message": "telefon",
+        "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "address": {
+        "message": "adresë",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
+    "poBox": {
+        "message": "Kuti Postare",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "downloadAttachment": {
+        "message": "Shkarko Bashkëngjitjen",
+        "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
+    },
+    "replyToMessage": {
+        "message": "Përgjigjuni Mesazhit",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
+    "originalMessageNotFound": {
+        "message": "S’u gjet mesazhi origjinal",
+        "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
+    },
+    "originalMessageNotAvailable": {
+        "message": "Mesazhi origjinal s’është më i përdorshëm",
+        "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    },
+    "messageFoundButNotLoaded": {
+        "message": "Mesazhi origjinal u gjet, por s’u ngarkua dot. Rrëshqitni më poshtë që të ngarkohet.",
+        "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "you": {
+        "message": "Ju",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
+    "replyingTo": {
+        "message": "Përgjigje për $name$",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "audioPermissionNeeded": {
+        "message": "Për të dërguar mesazhe audio, lejojeni Signal-in për Desktop të përdorë mikrofonin tuaj.",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "allowAccess": {
+        "message": "Lejoje Përdorimin",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
+    "showSettings": {
+        "message": "Shfaq Rregullime",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "audio": {
+        "message": "Audio",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    },
+    "video": {
+        "message": "Video",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
+    "photo": {
+        "message": "Foto",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Anuloje",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Dështoi dërgimi te disa marrës. Kontrolloni lidhjen tuaj në rrjet.",
+        "description": ""
+    },
+    "error": {
+        "message": "Gabim",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Hollësi Mesazhi",
+        "description": ""
+    },
+    "delete": {
+        "message": "Fshije",
+        "description": ""
+    },
+    "deleteWarning": {
+        "message": "Jeni i sigurt? Klikimi mbi 'fshije' do të fshijë përgjithmonë këtë mesazh vetëm nga kjo pajisje.",
+        "description": ""
+    },
+    "deleteThisMessage": {
+        "message": "Fshije këtë mesazh",
+        "description": ""
+    },
+    "from": {
+        "message": "Nga",
+        "description": "Label for the sender of a message"
+    },
+    "to": {
+        "message": "Për",
+        "description": "Label for the receiver of a message"
+    },
+    "sent": {
+        "message": "Dërguar më",
+        "description": "Label for the time a message was sent"
+    },
+    "received": {
+        "message": "Marrë më",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Dërgoni një mesazh",
+        "description": "Placeholder text in the message entry field"
+    },
+    "groupMembers": {
+        "message": "Anëtarë grupi",
+        "description": ""
+    },
+    "showMembers": {
+        "message": "Shfaq anëtarët",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Rinis sesionin",
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "showSafetyNumber": {
+        "message": "Shihni numër sigurie",
+        "description": ""
+    },
+    "viewAllMedia": {
+        "message": "Shihni krejt mediat",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "verifyHelp": {
+        "message": "Nëse doni të verifikoni sigurinë e fshehtëzimit tuaj skaj-më-skaj me $name$, krahasoni numrat më sipër me numrat në pajisjen e tij.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "theirIdentityUnknown": {
+        "message": "S’keni shkëmbyer ende ndonjë mesazh me këtë grup. Numri juaj i sigurisë me të do të jetë i passhëm pas mesazhit të parë.",
+        "description": ""
+    },
+    "moreInfo": {
+        "message": "Më Tepër të Dhëna…",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
+    "retrySend": {
+        "message": "Riprovo Dërgimin",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+    },
+    "deleteMessage": {
+        "message": "Fshije Mesazhin",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    },
+    "deleteMessages": {
+        "message": "Fshini mesazhe",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteConversationConfirmation": {
+        "message": "Të fshihet përgjithmonë kjo bisedë?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "sessionEnded": {
+        "message": "U rinis sesion i siguruar",
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "quoteThumbnailAlt": {
+        "message": "Miniaturë e figurës nga mesazhi i cituar",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "imageFailedToLoad": {
+        "message": "Dështoi ngarkimi i figurës",
+        "description": "When an image attachment is missing, this message is shown"
+    },
+    "videoScreenshotFailedToLoad": {
+        "message": "Dështoi ngarkimi i fotos së ekranit të videos",
+        "description": "When a attachment video screenshot is missing, this message is shown"
+    },
+    "imageAttachmentAlt": {
+        "message": "Figurë bashkëngjitur mesazhit",
+        "description": "Used in alt tag of image attachment"
+    },
+    "videoAttachmentAlt": {
+        "message": "Foto ekrani e videos bashkëngjitur mesazhit",
+        "description": "Used in alt tag of video attachment preview"
+    },
+    "lightboxImageAlt": {
+        "message": "Figurë e dërguar në bisedë",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
+    "fileIconAlt": {
+        "message": "Ikonë kartele",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
+    "emojiAlt": {
+        "message": "Figurë emoji e '$title$'",
+        "description": "Used in the alt tag of all emoji images",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "grinning"
+            }
+        }
+    },
+    "installWelcome": {
+        "message": "Mirë se vini te Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "installTagline": {
+        "message": "Privatësia është e mundur. Signal-i e bën të lehtë.",
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "linkYourPhone": {
+        "message": "Lidheni telefonin tuaj me Signal-in për Desktop",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
+    "signalSettings": {
+        "message": "Rregullime Signal-i",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "linkedDevices": {
+        "message": "Pajisje të Lidhura",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "plusButton": {
+        "message": "Butoni '+'",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
+    "linkNewDevice": {
+        "message": "Lidhini Pajisje të Re",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "deviceName": {
+        "message": "Emër pajisjeje",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "chooseDeviceName": {
+        "message": "Zgjidhni emër të kësaj pajisje",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
+    "finishLinkingPhone": {
+        "message": "Përfundoje lidhjen e telefonit",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
+    },
+    "initialSync": {
+        "message": "Po njëkohësohen kontakte dhe grupe",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
+    "installConnectionFailed": {
+        "message": "Dështoi lidhja me shërbyesin.",
+        "description": "Displayed when we can't connect to the server."
+    },
+    "installTooManyDevices": {
+        "message": "Na ndjeni, keni shumë pajisje të lidhura tashmë. Provoni të hiqni ndoca.",
+        "description": ""
+    },
+    "settings": {
+        "message": "Rregullime",
+        "description": "Menu item and header for global settings"
+    },
+    "theme": {
+        "message": "Temë",
+        "description": "Header for theme settings"
+    },
+    "permissions": {
+        "message": "Leje",
+        "description": "Header for permissions section of settings"
+    },
+    "mediaPermissionsDescription": {
+        "message": "Lejo përdorim të kamerës dhe mikrofonit",
+        "description": "Description of the media permission description"
+    },
+    "spellCheck": {
+        "message": "Kontroll Drejtshkrimi",
+        "description": "Description of the media permission description"
+    },
+    "spellCheckDescription": {
+        "message": "Aktivizo kontroll drejtshkrimi të tekstit të dhënë te kutia e hartimit të mesazheve",
+        "description": "Description of the media permission description"
+    },
+    "clearDataHeader": {
+        "message": "Pastroji të Dhënat",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
+    },
+    "clearDataExplanation": {
+        "message": "Kjo do të pastrojë krejt të dhënat te aplikacioni, duke hequr krejt mesazhet dhe të dhëna llogarie të ruajtura.",
+        "description": "Text describing what the clear data button will do."
+    },
+    "clearDataButton": {
+        "message": "Pastroji të dhënat",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
+    "deleteAllDataHeader": {
+        "message": "Të fshihen krejt të dhënat?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataBody": {
+        "message": "Ju ndan një hap nga fshirja e krejt të dhënave të llogarisë të ruajtura për këtë aplikacion, përfshi krejt kontaktet dhe krejt mesazhet. Mundeni përherë ta rilidhni pajisjen tuaj celulare, por kjo nuk do të sjellë rikthim të mesazheve të fshirë.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
+    "deleteAllDataButton": {
+        "message": "Fshiji krejt të dhënat",
+        "description": "Text of the button that deletes all data"
+    },
+    "deleteAllDataProgress": {
+        "message": "Po bëhet shkëputja dhe fshirja e krejt të dhënave",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "notifications": {
+        "message": "Njoftime",
+        "description": "Header for notification settings"
+    },
+    "notificationSettingsDialog": {
+        "message": "Kur mbërrijnë mesazhe, shfaq njoftime që lënë të duket:",
+        "description": "Explain the purpose of the notification settings"
+    },
+    "disableNotifications": {
+        "message": "Çaktivizoji njoftimet",
+        "description": "Label for disabling notifications"
+    },
+    "nameAndMessage": {
+        "message": "Emrin e dërguesit dhe mesazhin",
+        "description": "Label for setting notifications to display name and message text"
+    },
+    "noNameOrMessage": {
+        "message": "As emrin, as mesazhin",
+        "description": "Label for setting notifications to display no name and no message text"
+    },
+    "nameOnly": {
+        "message": "Vetëm emër dërguesi",
+        "description": "Label for setting notifications to display sender name only"
+    },
+    "newMessage": {
+        "message": "Mesazh i Ri",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "newMessages": {
+        "message": "Mesazhi të Rinj",
+        "description": "Displayed in notifications for multiple messages"
+    },
+    "notificationMostRecentFrom": {
+        "message": "Më të rejat nga:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+    },
+    "notificationFrom": {
+        "message": "Nga:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
+    "notificationMostRecent": {
+        "message": "Më të rejat:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "sendFailed": {
+        "message": "Dërgimi dështoi",
+        "description": "Shown on outgoing message if it fails to send"
+    },
+    "showMore": {
+        "message": "Hollësi",
+        "description": "Displays the details of a key change"
+    },
+    "showLess": {
+        "message": "Fshihi hollësitë",
+        "description": "Hides the details of a key change"
+    },
+    "learnMore": {
+        "message": "Mësoni më tepër rreth verifikimit të numrave të sigurisë",
+        "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "expiredWarning": {
+        "message": "Ky version i Signal-it për Desktop ka skaduar. Ju lutemi, që të vazhdoni të shkëmbeni mesazhe, përmirësojeni me versionin më të ri.",
+        "description": "Warning notification that this version of the app has expired"
+    },
+    "androidMessageLengthWarning": {
+        "message": "Klientët me Android do të marrin vetëm 2000 shenjat e para të këtij mesazhi.",
+        "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "upgrade": {
+        "message": "Përmirësojeni",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "mediaMessage": {
+        "message": "Mesazh media",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unregisteredUser": {
+        "message": "Numri s’është i regjistruar",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Kontakte",
+        "description": "Label for contact and group sync settings"
+    },
+    "syncExplanation": {
+        "message": "Importoni krejt grupet dhe kontaktet Signal nga pajisja juaj celulare.",
+        "description": "Explanatory text for sync settings"
+    },
+    "lastSynced": {
+        "message": "Importimi i fundit më",
+        "description": "Label for date and time of last sync operation"
+    },
+    "syncNow": {
+        "message": "Importoji tani",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncing": {
+        "message": "Po importohen…",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "syncFailed": {
+        "message": "Importimi dështoi. Sigurohuni që kompjuteri dhe telefoni juaj janë të lidhur në internet.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
+    "timestamp_s": {
+        "message": "tani",
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_m": {
+        "message": "1 minutë",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_h": {
+        "message": "1 orë",
+        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
+    },
+    "hoursAgoShort": {
+        "message": "$hours$ hr",
+        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "hoursAgo": {
+        "message": "$hours$ hr më parë",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "minutesAgoShort": {
+        "message": "$minutes$ min",
+        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "minutesAgo": {
+        "message": "$minutes$ min më parë",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "justNow": {
+        "message": "tani",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "timestampFormat_M": {
+        "message": "D MMM",
+        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "unblockToSend": {
+        "message": "Që t’i dërgohet një mesazh, zhbllokojeni këtë kontakt.",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
+    "youChangedTheTimer": {
+        "message": "You set the disappearing message timer to $time$",
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
+    "timerSetOnSync": {
+        "message": "Updated disappearing message timer to $time$",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
+    "theyChangedTheTimer": {
+        "message": "$name$ set the disappearing message timer to $time$",
+        "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "time": {
+                "content": "$2",
+                "example": "10m"
+            }
+        }
+    },
+    "timerOption_0_seconds": {
+        "message": "off",
+        "description": "Label for option to turn off message expiration in the timer menu"
+    },
+    "timerOption_5_seconds": {
+        "message": "5 sekonda",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_10_seconds": {
+        "message": "10 sekonda",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_30_seconds": {
+        "message": "30 sekonda",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_minute": {
+        "message": "1 minutë",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_5_minutes": {
+        "message": "5 minuta",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_30_minutes": {
+        "message": "30 minuta",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_hour": {
+        "message": "1 orë",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_6_hours": {
+        "message": "6 orë",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_12_hours": {
+        "message": "12 orë",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_day": {
+        "message": "1 ditë",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_week": {
+        "message": "1 javë",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "disappearingMessages": {
+        "message": "Zhdukje mesazhesh",
+        "description": "Conversation menu option to enable disappearing messages"
+    },
+    "timerOption_0_seconds_abbreviated": {
+        "message": "off",
+        "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "timerOption_5_seconds_abbreviated": {
+        "message": "5s",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_10_seconds_abbreviated": {
+        "message": "10s",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_seconds_abbreviated": {
+        "message": "30s",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_minute_abbreviated": {
+        "message": "1m",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_5_minutes_abbreviated": {
+        "message": "5m",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes_abbreviated": {
+        "message": "30m",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_hour_abbreviated": {
+        "message": "1h",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_6_hours_abbreviated": {
+        "message": "6h",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_12_hours_abbreviated": {
+        "message": "12h",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_day_abbreviated": {
+        "message": "1d",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_week_abbreviated": {
+        "message": "1j",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "disappearingMessagesDisabled": {
+        "message": "Disappearing messages disabled",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "youDisabledDisappearingMessages": {
+        "message": "You disabled disappearing messages",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
+    "timerSetTo": {
+        "message": "Afatmatësi është caktuar për $time$",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "1w"
+            }
+        }
+    },
+    "audioNotificationDescription": {
+        "message": "Luaj një tingull njoftimi ",
+        "description": "Description for audio notification setting"
+    },
+    "safetyNumberChanged": {
+        "message": "Ka ndryshuar Numër Sigurie",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
+    "safetyNumberChangedGroup": {
+        "message": "Ka ndryshuar Numri i Sigurisë me $name$",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "verifyNewNumber": {
+        "message": "Verifikoni Numër Sigurie",
+        "description": "Label on button included with safety number change notification in the conversation"
+    },
+    "yourSafetyNumberWith": {
+        "message": "Numri juaj i sigurisë me $name$:",
+        "description": "Heading for safety number view",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "themeLight": {
+        "message": "E çelët",
+        "description": "Label text for light theme (normal)"
+    },
+    "themeDark": {
+        "message": "E errët",
+        "description": "Label text for dark theme"
+    },
+    "hideMenuBar": {
+        "message": "Fshihe shtyllën e menusë",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "startConversation": {
+        "message": "Nisni bisedë …",
+        "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newPhoneNumber": {
+        "message": "Jepni një numër telefoni që të shtohet një kontakt.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
+    "invalidNumberError": {
+        "message": "Numër i pavlefshëm",
+        "description": "When a person inputs a number that is invalid"
+    },
+    "unlinkedWarning": {
+        "message": "Që të vazhdoni shkëmbim mesazhesh, rilidheni Signal-in për Desktop me pajisjen tuaj celulare.",
+        "description": ""
+    },
+    "unlinked": {
+        "message": "Jo e lidhur",
+        "description": ""
+    },
+    "relink": {
+        "message": "Rilidhe",
+        "description": ""
+    },
+    "autoUpdateNewVersionTitle": {
+        "message": "Ka gati përditësim të Signal-it",
+        "description": ""
+    },
+    "autoUpdateNewVersionMessage": {
+        "message": "Ka të gatshëm një version të ri të Signal-it",
+        "description": ""
+    },
+    "autoUpdateNewVersionInstructions": {
+        "message": "Shtypni Rinise Signal-in që të zbatohen përditësimet.",
+        "description": ""
+    },
+    "autoUpdateRestartButtonLabel": {
+        "message": "Riniseni Signal-in",
+        "description": ""
+    },
+    "autoUpdateLaterButtonLabel": {
+        "message": "Më vonë",
+        "description": ""
+    },
+    "leftTheGroup": {
+        "message": "$name$ braktisi grupin",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "multipleLeftTheGroup": {
+        "message": "$name$ braktisën grupin",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "updatedTheGroup": {
+        "message": "Grupi u përditësua",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
+    "titleIsNow": {
+        "message": "Titulli tani është '$name$'",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
+    "joinedTheGroup": {
+        "message": "$name$ u bë pjesë e grupit",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ u bënë pjesë e grupit",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "privacyPolicy": {
+        "message": "Kushte & Rregulla Privatësie",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
+    }
+}

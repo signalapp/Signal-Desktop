@@ -7,6 +7,7 @@ const spectron = require('spectron');
 const asar = require('asar');
 const fs = require('fs');
 const assert = require('assert');
+const sass = require('node-sass');
 
 /* eslint-disable more/no-then, no-console  */
 
@@ -32,6 +33,14 @@ module.exports = grunt => {
       components: {
         src: components,
         dest: 'js/components.js',
+      },
+      util_worker: {
+        src: [
+          'components/bytebuffer/dist/ByteBufferAB.js',
+          'components/long/dist/Long.js',
+          'js/util_worker_tasks.js',
+        ],
+        dest: 'js/util_worker.js',
       },
       libtextsecurecomponents: {
         src: libtextsecurecomponents,
@@ -90,6 +99,7 @@ module.exports = grunt => {
     },
     sass: {
       options: {
+        implementation: sass,
         sourceMap: true,
         importer: importOnce,
       },
@@ -132,6 +142,9 @@ module.exports = grunt => {
       },
     },
     exec: {
+      'tx-pull-new': {
+        cmd: 'tx pull -a --minimum-perc=80',
+      },
       'tx-pull': {
         cmd: 'tx pull',
       },
@@ -414,7 +427,11 @@ module.exports = grunt => {
     }
   );
 
-  grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
+  grunt.registerTask('tx', [
+    'exec:tx-pull-new',
+    'exec:tx-pull',
+    'locale-patch',
+  ]);
   grunt.registerTask('dev', ['default', 'watch']);
   grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
