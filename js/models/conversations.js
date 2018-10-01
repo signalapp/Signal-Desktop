@@ -403,12 +403,24 @@
         if (this.isMe()) {
           return false;
         }
-        return this.get('keysPending') || true;
+        const keysPending = this.get('keysPending');
+        if (keysPending === undefined) {
+          keysPending = true;
+        }
+        return keysPending;
       }
 
       throw new Error(
         'isKeysPending not implemented for groups'
       );
+    },
+    setKeysPending(keysPending) {
+      if (typeof keysPending !== 'boolean') {
+        throw new Error(
+          'setKeysPending expects a boolean'
+        );
+      }
+      this.set({ keysPending });
     },
     isUnverified() {
       if (this.isPrivate()) {
