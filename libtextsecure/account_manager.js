@@ -62,9 +62,13 @@
         })
       );
     },
-    addMockContact() {
+    addMockContact(doSave) {
+      if (doSave === undefined) {
+        doSave = true;
+      }
       libsignal.KeyHelper.generateIdentityKeyPair().then(keyPair => {
         const pubKey = StringView.arrayBufferToHex(keyPair.pubKey);
+        log.info('contact pubkey ' + pubKey);
         const signedKeyId = Math.floor((Math.random() * 1000) + 1);
         const promises = [
           libsignal.KeyHelper.generateSignedPreKey(keyPair, signedKeyId)
@@ -74,7 +78,14 @@
                 signature: signedPreKey.signature,
                 keyId: signedPreKey.keyId
               };
-              return textsecure.storage.protocol.storeContactSignedPreKey(pubKey, contactSignedPreKey);
+              if (doSave) {
+                return textsecure.storage.protocol.storeContactSignedPreKey(pubKey, contactSignedPreKey);
+              }
+              else {
+                log.info('signed prekey: ' + StringView.arrayBufferToHex(contactSignedPreKey.publicKey));
+                log.info('signature: ' + StringView.arrayBufferToHex(contactSignedPreKey.signature));
+                return Promise.resolve();
+              }
             }),
         ];
 
@@ -82,12 +93,18 @@
           promises.push(
             libsignal.KeyHelper.generatePreKey(keyId)
               .then((preKey) => {
-                return textsecure.storage.protocol.storeContactPreKey(pubKey, { publicKey: preKey.keyPair.pubKey, keyId: keyId });
+                if (doSave) {
+                  return textsecure.storage.protocol.storeContactPreKey(pubKey, { publicKey: preKey.keyPair.pubKey, keyId: keyId });
+                }
+                else {
+                  log.info('signed prekey: ' + StringView.arrayBufferToHex(preKey.keyPair.pubKey));
+                  return Promise.resolve();
+                }
             }),
           )
         }
         return Promise.all(promises).then(
-          log.info("Added mock contact with pubkey " + pubKey)
+          log.info("Added mock contact")
         );
       });
     },
