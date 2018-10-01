@@ -22,6 +22,7 @@ interface Trigger {
 interface Props {
   i18n: Localizer;
   isVerified: boolean;
+  isKeysPending: boolean;
   name?: string;
   id: string;
   phoneNumber: string;
@@ -88,7 +89,7 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderTitle() {
-    const { name, phoneNumber, i18n, profileName, isVerified } = this.props;
+    const { name, phoneNumber, i18n, profileName, isVerified, isKeysPending } = this.props;
 
     return (
       <div className="module-conversation-header__title">
@@ -107,6 +108,7 @@ export class ConversationHeader extends React.Component<Props> {
             {i18n('verified')}
           </span>
         ) : null}
+        {isKeysPending ? '(pending)' : null}
       </div>
     );
   }

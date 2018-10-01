@@ -76,6 +76,7 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        keysPending: true
       };
     },
 
@@ -396,6 +397,18 @@
         }
         return contact.isVerified();
       });
+    },
+    isKeysPending() {
+      if (this.isPrivate()) {
+        if (this.isMe()) {
+          return false;
+        }
+        return this.get('keysPending') || true;
+      }
+
+      throw new Error(
+        'isKeysPending not implemented for groups'
+      );
     },
     isUnverified() {
       if (this.isPrivate()) {

@@ -126,7 +126,7 @@
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
         1000 // one second
-      );
+      );  
       this.throttledGetProfiles = _.throttle(
         this.model.getProfiles.bind(this.model),
         1000 * 60 * 5 // five minutes
@@ -160,6 +160,7 @@
           color: this.model.getColor(),
           avatarPath,
           isVerified: this.model.isVerified(),
+          isKeysPending: this.model.isKeysPending(),
           isMe: this.model.isMe(),
           isGroup: !this.model.isPrivate(),
           expirationSettingName,
