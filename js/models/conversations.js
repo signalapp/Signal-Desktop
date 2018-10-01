@@ -123,6 +123,15 @@
       return this.id === this.ourNumber;
     },
 
+    async cleanup() {
+      await window.Signal.Types.Conversation.deleteExternalFiles(
+        this.attributes,
+        {
+          deleteAttachmentData,
+        }
+      );
+    },
+
     async updateAndMerge(message) {
       this.updateLastMessage();
 

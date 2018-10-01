@@ -123,7 +123,31 @@ async function migrateConversation(conversation, options = {}) {
   return upgradeToVersion2(conversation, options);
 }
 
+async function deleteExternalFiles(conversation, options = {}) {
+  if (!conversation) {
+    return;
+  }
+
+  const { deleteAttachmentData } = options;
+  if (!isFunction(deleteAttachmentData)) {
+    throw new Error(
+      'Conversation.buildAvatarUpdater: deleteAttachmentData must be a function'
+    );
+  }
+
+  const { avatar, profileAvatar } = conversation;
+
+  if (avatar && avatar.path) {
+    await deleteAttachmentData(avatar.path);
+  }
+
+  if (profileAvatar && profileAvatar.path) {
+    await deleteAttachmentData(profileAvatar.path);
+  }
+}
+
 module.exports = {
+  deleteExternalFiles,
   migrateConversation,
   maybeUpdateAvatar,
   maybeUpdateProfileAvatar,
