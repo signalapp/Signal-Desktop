@@ -8,7 +8,7 @@ import glob from 'glob';
 import { forEach, some, values } from 'lodash';
 
 import { ExceptionType, REASONS, RuleType } from './types';
-import { ENCODING, loadJSON } from './util';
+import { ENCODING, loadJSON, sortExceptions } from './util';
 
 const ALL_REASONS = REASONS.join('|');
 const now = new Date();
@@ -254,12 +254,12 @@ if (results.length === 0 && unusedExceptions.length === 0) {
 
 console.log();
 console.log('Questionable lines:');
-console.log(JSON.stringify(results, null, '  '));
+console.log(JSON.stringify(sortExceptions(results), null, '  '));
 
 if (unusedExceptions.length) {
   console.log();
   console.log('Unused exceptions!');
-  console.log(JSON.stringify(unusedExceptions, null, '  '));
+  console.log(JSON.stringify(sortExceptions(unusedExceptions), null, '  '));
 }
 
 process.exit(1);
