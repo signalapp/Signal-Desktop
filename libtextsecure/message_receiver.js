@@ -269,7 +269,7 @@ MessageReceiver.prototype.extend({
       return;
     }
 
-    const promise = Promise.resolve(request.body) //textsecure.crypto
+    const promise = Promise.resolve(request.body.toArrayBuffer()) //textsecure.crypto
       //.decryptWebsocketMessage(request.body, this.signalingKey)
       .then(plaintext => {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
