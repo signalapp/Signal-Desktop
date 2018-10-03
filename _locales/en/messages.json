@@ -813,7 +813,7 @@
     "description": "Label for the time a message was received"
   },
   "sendMessage": {
-    "message": "Send a message to $name$",
+    "message": "New message to $name$",
     "description": "Placeholder text in the message entry field",
     "placeholders": {
       "name": {
