@@ -645,9 +645,9 @@ MessageReceiver.prototype.extend({
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
-        promise = sessionCipher
-          .decryptWhisperMessage(ciphertext)
-          .then(this.unpad);
+        promise = Promise.resolve(ciphertext.toArrayBuffer())//;sessionCipher
+          //.decryptWhisperMessage(ciphertext)
+          //.then(this.unpad);
         break;
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
         window.log.info('prekey message from', this.getEnvelopeId(envelope));
