@@ -439,10 +439,11 @@
             message: this,
           }),
 
-        onDownload: () =>
+        onDownload: isDangerous =>
           this.trigger('download', {
             attachment: firstAttachment,
             message: this,
+            isDangerous,
           }),
       };
     },

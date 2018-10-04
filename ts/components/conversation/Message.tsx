@@ -14,6 +14,7 @@ import { ContactName } from './ContactName';
 import { Quote, QuotedAttachment } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
 
+import { isFileDangerous } from '../../util/isFileDangerous';
 import { Contact } from '../../types/Contact';
 import { Color, Localizer } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
@@ -87,7 +88,7 @@ export interface Props {
   onClickAttachment?: () => void;
   onReply?: () => void;
   onRetrySend?: () => void;
-  onDownload?: () => void;
+  onDownload?: (isDangerous: boolean) => void;
   onDelete?: () => void;
   onShowDetail: () => void;
 }
@@ -363,7 +364,7 @@ export class Message extends React.Component<Props, State> {
     );
   }
 
-  // tslint:disable-next-line max-func-body-length cyclomatic-complexity
+  // tslint:disable-next-line max-func-body-length cyclomatic-complexity jsx-no-lambda react-this-binding-issue
   public renderAttachment() {
     const {
       i18n,
@@ -503,6 +504,7 @@ export class Message extends React.Component<Props, State> {
     } else {
       const { fileName, fileSize, contentType } = attachment;
       const extension = getExtension({ contentType, fileName });
+      const isDangerous = isFileDangerous(fileName);
 
       return (
         <div
@@ -516,10 +518,17 @@ export class Message extends React.Component<Props, State> {
               : null
           )}
         >
-          <div className="module-message__generic-attachment__icon">
-            {extension ? (
-              <div className="module-message__generic-attachment__icon__extension">
-                {extension}
+          <div className="module-message__generic-attachment__icon-container">
+            <div className="module-message__generic-attachment__icon">
+              {extension ? (
+                <div className="module-message__generic-attachment__icon__extension">
+                  {extension}
+                </div>
+              ) : null}
+            </div>
+            {isDangerous ? (
+              <div className="module-message__generic-attachment__icon-dangerous-container">
+                <div className="module-message__generic-attachment__icon-dangerous" />
               </div>
             ) : null}
           </div>
@@ -734,9 +743,16 @@ export class Message extends React.Component<Props, State> {
       return null;
     }
 
+    const fileName = attachment && attachment.fileName;
+    const isDangerous = isFileDangerous(fileName || '');
+
     const downloadButton = attachment ? (
       <div
-        onClick={onDownload}
+        onClick={() => {
+          if (onDownload) {
+            onDownload(isDangerous);
+          }
+        }}
         role="button"
         className={classNames(
           'module-message__buttons__download',

@@ -1057,7 +1057,14 @@
       }
     },
 
-    downloadAttachment({ attachment, message }) {
+    downloadAttachment({ attachment, message, isDangerous }) {
+      if (isDangerous) {
+        const toast = new Whisper.DangerousFileTypeToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
+        return;
+      }
+
       Signal.Types.Attachment.save({
         attachment,
         document,

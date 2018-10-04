@@ -345,6 +345,10 @@
   padding-top: 4px;
 }
 
+.module-message__generic-attachment__icon-container {
+  position: relative;
+}
+
 .module-message__generic-attachment__icon {
   background: url('../images/file-gradient.svg') no-repeat center;
   height: 44px;
@@ -357,6 +361,26 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.module-message__generic-attachment__icon-dangerous-container {
+  position: absolute;
+
+  top: -1px;
+  right: -4px;
+
+  height: 16px;
+  width: 16px;
+
+  border-radius: 50%;
+  background-color: $color-white;
+}
+
+.module-message__generic-attachment__icon-dangerous {
+  height: 16px;
+  width: 16px;
+
+  @include color-svg('../images/error-filled.svg', $color-core-red);
 }
 
 .module-message__generic-attachment__icon__extension {

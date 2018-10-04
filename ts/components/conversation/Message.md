@@ -1922,6 +1922,48 @@ Voice notes are not shown any differently from audio attachments.
 </util.ConversationContext>
 ```
 
+#### Dangerous file type
+
+```jsx
+<util.ConversationContext theme={util.theme}>
+  <li>
+    <Message
+      conversationColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'blah.exe',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={isDangerous =>
+        console.log('onClickAttachment - isDangerous:', isDangerous)
+      }
+    />
+  </li>
+  <li>
+    <Message
+      conversationColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      attachment={{
+        url: util.txtObjectUrl,
+        contentType: 'text/plain',
+        fileName: 'blah.exe',
+        fileSize: '3.05 KB',
+      }}
+      onClickAttachment={isDangerous =>
+        console.log('onClickAttachment - isDangerous:', isDangerous)
+      }
+    />
+  </li>
+</util.ConversationContext>
+```
+
 ### In a group conversation
 
 Note that the author avatar goes away if `collapseMetadata` is set.
