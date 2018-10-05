@@ -11,12 +11,19 @@
         initialize: function() {
           this.startTime = Date.now();
           this.interval = setInterval(this.updateTime.bind(this), 1000);
+
+          this.onSwitchAwayBound = this.onSwitchAway.bind(this);
+          $(window).on('blur', this.onSwitchAwayBound);
+
           this.start();
         },
         events: {
             'click .close': 'close',
             'click .finish': 'finish',
             'close': 'close'
+        },
+        onSwitchAway: function() {
+          this.close();
         },
         updateTime: function() {
           var duration = moment.duration(Date.now() - this.startTime, 'ms');
@@ -44,17 +51,23 @@
             }
             this.remove();
             this.trigger('closed');
+
+            $(window).off('blur', this.onSwitchAwayBound);
         },
         finish: function() {
+            this.clickedFinish = true;
             this.recorder.finishRecording();
             this.close();
         },
         handleBlob: function(recorder, blob) {
-            if (blob) {
+            if (blob && this.clickedFinish) {
               this.trigger('send', blob);
+            } else {
+              this.close();
             }
         },
         start: function() {
+            this.clickedFinish = false;
             this.context = new AudioContext();
             this.input = this.context.createGain();
             this.recorder = new WebAudioRecorder(this.input, {
@@ -62,7 +75,7 @@
                 workerDir: 'js/'     // must end with slash
             });
             this.recorder.onComplete = this.handleBlob.bind(this);
-            this.recorder.onError = this.onError;
+            this.recorder.onError = this.onError.bind(this);
             navigator.webkitGetUserMedia({ audio: true }, function(stream) {
                 this.source = this.context.createMediaStreamSource(stream);
                 this.source.connect(this.input);
