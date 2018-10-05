@@ -28,6 +28,7 @@ function OutgoingMessage(
   this.numbersCompleted = 0;
   this.errors = [];
   this.successfulNumbers = [];
+  this.fallBackEncryption = false;
 }
 
 OutgoingMessage.prototype = {
@@ -63,11 +64,12 @@ OutgoingMessage.prototype = {
     return () =>
       textsecure.storage.protocol.getDeviceIds(number).then(deviceIds => {
         if (deviceIds.length === 0) {
-          return this.registerError(
-            number,
-            'Got empty device list when loading device keys',
-            null
-          );
+          deviceIds = [1];
+          // return this.registerError(
+          //   number,
+          //   'Got empty device list when loading device keys',
+          //   null
+          // );
         }
         return this.doSendMessage(number, deviceIds, recurse);
       });
@@ -110,7 +112,7 @@ OutgoingMessage.prototype = {
           return null;
         })
       );
-
+    // TODO: check if still applicable
     if (updateDevices === undefined) {
       return this.server.getKeysForNumber(number).then(handleResult);
     }
@@ -121,15 +123,17 @@ OutgoingMessage.prototype = {
           textsecure.storage.protocol.loadContactPreKey(number),
           textsecure.storage.protocol.loadContactSignedPreKey(number)
         ]).then((keys) => {
-            const [preKey, signedPreKey] = keys;
-            if (preKey == undefined || signedPreKey == undefined) {
-              log.error("Will need to request keys!")
-            }
-            else {
-              const identityKey = StringView.hexToArrayBuffer(number);
-              return handleResult({ identityKey, devices: [{ deviceId: device, preKey, signedPreKey, registrationId: 0}] })
-            }
-          })
+          const [preKey, signedPreKey] = keys;
+          if (preKey == undefined || signedPreKey == undefined) {
+            log.error("Will need to request keys!")
+            this.fallBackEncryption = true;
+            return Promise.resolve();
+          }
+          else {
+            const identityKey = StringView.hexToArrayBuffer(number);
+            return handleResult({ identityKey, devices: [{ deviceId: device, preKey, signedPreKey, registrationId: 0 }] })
+          }
+        })
           .catch(e => {
             if (e.name === 'HTTPError' && e.code === 404) {
               if (device !== 1) {
@@ -153,7 +157,7 @@ OutgoingMessage.prototype = {
       const [response, status] = await this.lokiserver.sendMessage(pubKey, JSON.stringify(jsonData), ttl);
       return response;
     }
-    catch(e) {
+    catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
         // 409 and 410 should bubble and be handled by doSendMessage
         // 404 should throw UnregisteredUserError
@@ -186,11 +190,13 @@ OutgoingMessage.prototype = {
   getPlaintext() {
     if (!this.plaintext) {
       const messageBuffer = this.message.toArrayBuffer();
-      this.plaintext = new Uint8Array(
-        this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
-      );
+      this.plaintext = new Uint8Array(messageBuffer.byteLength);
+      // TODO: figure out why we needed padding in the first place
+      // this.plaintext = new Uint8Array(
+      //   this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
+      // );
       this.plaintext.set(new Uint8Array(messageBuffer));
-      this.plaintext[messageBuffer.byteLength] = 0x80;
+      //this.plaintext[messageBuffer.byteLength] = 0x80;
     }
     return this.plaintext;
   },
@@ -211,11 +217,43 @@ OutgoingMessage.prototype = {
           options.messageKeysLimit = false;
         }
 
-        const sessionCipher = new libsignal.SessionCipher(
-          textsecure.storage.protocol,
-          address,
-          options
-        );
+        let sessionCipher;
+        if (this.fallBackEncryption) {
+          // TODO: move to own file?
+          FallBackSessionCipher = function (address) {
+            this.recipientPubKey = StringView.hexToArrayBuffer(address.getName());
+            this.encrypt = async (plaintext) => {
+              const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+              const myPrivateKey = myKeyPair.privKey;
+              const symmetricKey = libsignal.Curve.calculateAgreement(this.recipientPubKey, myPrivateKey);
+              const iv = libsignal.crypto.getRandomBytes(16);
+              const ciphertext = await libsignal.crypto.encrypt(symmetricKey, plaintext, iv);
+              const ivAndCiphertext = new Uint8Array(
+                iv.byteLength + ciphertext.byteLength
+              );
+              ivAndCiphertext.set(new Uint8Array(iv));
+              ivAndCiphertext.set(
+                new Uint8Array(ciphertext),
+                iv.byteLength
+              );
+
+              return {
+                  type           : 6, //friend request
+                  body           : new dcodeIO.ByteBuffer.wrap(ivAndCiphertext).toString('binary'),
+                  registrationId : null
+              };
+            }
+          }
+          sessionCipher = new FallBackSessionCipher(
+            address
+          );
+        } else {
+          sessionCipher = new libsignal.SessionCipher(
+            textsecure.storage.protocol,
+            address,
+            options
+          );
+        }
         ciphers[address.getDeviceId()] = sessionCipher;
         return sessionCipher.encrypt(plaintext).then(ciphertext => ({
           type: ciphertext.type,

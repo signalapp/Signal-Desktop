@@ -646,6 +646,7 @@ MessageReceiver.prototype.extend({
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
         promise = Promise.resolve(ciphertext.toArrayBuffer())//;sessionCipher
+          // TODO: restore decryption & unpadding
           //.decryptWhisperMessage(ciphertext)
           //.then(this.unpad);
         break;
