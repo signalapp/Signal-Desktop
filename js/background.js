@@ -743,17 +743,15 @@
       PASSWORD
     );
 
-    // Because v0.43.2 introduced a bug that lost contact details, v0.43.4 introduces
-    //   a one-time contact sync to restore all lost contact/group information. We
-    //   disable this checking if a user is first registering.
-    const key = 'chrome-contact-sync-v0.43.4';
-    if (!storage.get(key)) {
-      storage.put(key, true);
-
+    // On startup after upgrading to a new version, request a contact sync
+    //   (but only if we're not the primary device)
+    if (
+      !firstRun &&
+      newVersion &&
       // eslint-disable-next-line eqeqeq
-      if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
-        window.getSyncRequest();
-      }
+      textsecure.storage.user.getDeviceId() != '1'
+    ) {
+      window.getSyncRequest();
     }
 
     const deviceId = textsecure.storage.user.getDeviceId();
