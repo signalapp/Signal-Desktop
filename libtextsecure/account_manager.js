@@ -68,7 +68,9 @@
       }
       libsignal.KeyHelper.generateIdentityKeyPair().then(keyPair => {
         const pubKey = StringView.arrayBufferToHex(keyPair.pubKey);
+        const privKey = StringView.arrayBufferToHex(keyPair.privKey);
         log.info('contact pubkey ' + pubKey);
+        log.info('contact privkey ' + privKey);
         const signedKeyId = Math.floor((Math.random() * 1000) + 1);
         const promises = [
           libsignal.KeyHelper.generateSignedPreKey(keyPair, signedKeyId)
