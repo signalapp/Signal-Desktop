@@ -62,53 +62,41 @@
         })
       );
     },
-    addMockContact(doSave) {
+    async addMockContact(doSave) {
       if (doSave === undefined) {
         doSave = true;
       }
-      libsignal.KeyHelper.generateIdentityKeyPair().then(keyPair => {
-        const pubKey = StringView.arrayBufferToHex(keyPair.pubKey);
-        const privKey = StringView.arrayBufferToHex(keyPair.privKey);
-        log.info('contact pubkey ' + pubKey);
-        log.info('contact privkey ' + privKey);
-        const signedKeyId = Math.floor((Math.random() * 1000) + 1);
-        const promises = [
-          libsignal.KeyHelper.generateSignedPreKey(keyPair, signedKeyId)
-            .then((signedPreKey) => {
-              const contactSignedPreKey = {
-                publicKey: signedPreKey.keyPair.pubKey,
-                signature: signedPreKey.signature,
-                keyId: signedPreKey.keyId
-              };
-              if (doSave) {
-                return textsecure.storage.protocol.storeContactSignedPreKey(pubKey, contactSignedPreKey);
-              }
-              else {
-                log.info('signed prekey: ' + StringView.arrayBufferToHex(contactSignedPreKey.publicKey));
-                log.info('signature: ' + StringView.arrayBufferToHex(contactSignedPreKey.signature));
-                return Promise.resolve();
-              }
-            }),
-        ];
+      const keyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const pubKey = StringView.arrayBufferToHex(keyPair.pubKey);
+      const privKey = StringView.arrayBufferToHex(keyPair.privKey);
+      log.info('contact pubkey ' + pubKey);
+      log.info('contact privkey ' + privKey);
+      const signedKeyId = Math.floor((Math.random() * 1000) + 1);
 
-        for (let keyId = 0; keyId < 10; keyId += 1) {
-          promises.push(
-            libsignal.KeyHelper.generatePreKey(keyId)
-              .then((preKey) => {
-                if (doSave) {
-                  return textsecure.storage.protocol.storeContactPreKey(pubKey, { publicKey: preKey.keyPair.pubKey, keyId: keyId });
-                }
-                else {
-                  log.info('signed prekey: ' + StringView.arrayBufferToHex(preKey.keyPair.pubKey));
-                  return Promise.resolve();
-                }
-            }),
-          )
+      const signedPreKey = await libsignal.KeyHelper.generateSignedPreKey(keyPair, signedKeyId);
+      const contactSignedPreKey = {
+        publicKey: signedPreKey.keyPair.pubKey,
+        signature: signedPreKey.signature,
+        keyId: signedPreKey.keyId
+      };
+      if (doSave) {
+        await textsecure.storage.protocol.storeContactSignedPreKey(pubKey, contactSignedPreKey);
+      }
+      else {
+        log.info('signed prekey: ' + StringView.arrayBufferToHex(contactSignedPreKey.publicKey));
+        log.info('signature: ' + StringView.arrayBufferToHex(contactSignedPreKey.signature));
+      }
+
+      for (let keyId = 0; keyId < 10; keyId += 1) {
+        const preKey = await libsignal.KeyHelper.generatePreKey(keyId);
+        if (doSave) {
+          await textsecure.storage.protocol.storeContactPreKey(pubKey, { publicKey: preKey.keyPair.pubKey, keyId: keyId });
         }
-        return Promise.all(promises).then(
-          log.info("Added mock contact")
-        );
-      });
+        else {
+          log.info('signed prekey: ' + StringView.arrayBufferToHex(preKey.keyPair.pubKey));
+        }
+      }
+      log.info("Added mock contact")
     },
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
       const createAccount = this.createAccount.bind(this);
