@@ -1,4 +1,4 @@
-/* global textsecure, libsignal, window, btoa */
+/* global textsecure, libsignal, window, btoa, libloki */
 
 /* eslint-disable more/no-then */
 
@@ -209,7 +209,7 @@ OutgoingMessage.prototype = {
       content: outgoingObject.content,
     });
     const requestMessage = new textsecure.protobuf.WebSocketRequestMessage({
-        id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0],
+        id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0], // random ID for now
         verb: 'PUT',
         path: '/api/v1/message',
         body: messageEnvelope.encode().toArrayBuffer()
@@ -239,32 +239,7 @@ OutgoingMessage.prototype = {
 
         let sessionCipher;
         if (this.fallBackEncryption) {
-          // TODO: move to own file?
-          FallBackSessionCipher = function (address) {
-            this.recipientPubKey = StringView.hexToArrayBuffer(address.getName());
-            this.encrypt = async (plaintext) => {
-              const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
-              const myPrivateKey = myKeyPair.privKey;
-              const symmetricKey = libsignal.Curve.calculateAgreement(this.recipientPubKey, myPrivateKey);
-              const iv = libsignal.crypto.getRandomBytes(16);
-              const ciphertext = await libsignal.crypto.encrypt(symmetricKey, plaintext, iv);
-              const ivAndCiphertext = new Uint8Array(
-                iv.byteLength + ciphertext.byteLength
-              );
-              ivAndCiphertext.set(new Uint8Array(iv));
-              ivAndCiphertext.set(
-                new Uint8Array(ciphertext),
-                iv.byteLength
-              );
-
-              return {
-                  type           : 6, //friend request
-                  body           : new dcodeIO.ByteBuffer.wrap(ivAndCiphertext).toString('binary'),
-                  registrationId : null
-              };
-            }
-          }
-          sessionCipher = new FallBackSessionCipher(
+          sessionCipher = new libloki.FallBackSessionCipher(
             address
           );
         } else {
