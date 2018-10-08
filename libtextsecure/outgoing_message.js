@@ -214,11 +214,11 @@ OutgoingMessage.prototype = {
         path: '/api/v1/message',
         body: messageEnvelope.encode().toArrayBuffer()
     });
-    const protomessage = new textsecure.protobuf.WebSocketMessage({
+    const websocketMessage = new textsecure.protobuf.WebSocketMessage({
       type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
       request: requestMessage
     });
-    const bytes = new Uint8Array(protomessage.encode().toArrayBuffer())
+    const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer())
     return bytes;
   },
   doSendMessage(number, deviceIds, recurse) {
