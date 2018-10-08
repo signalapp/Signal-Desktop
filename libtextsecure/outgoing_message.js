@@ -200,13 +200,33 @@ OutgoingMessage.prototype = {
     }
     return this.plaintext;
   },
-
+  async wrapInWebsocketMessage(outgoingObject) {
+    const messageEnvelope = new textsecure.protobuf.Envelope({
+      type: outgoingObject.type,
+      source: outgoingObject.address.getName(),
+      sourceDevice: outgoingObject.address.getDeviceId(),
+      timestamp: this.timestamp,
+      content: outgoingObject.content,
+    });
+    const requestMessage = new textsecure.protobuf.WebSocketRequestMessage({
+        id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0],
+        verb: 'PUT',
+        path: '/api/v1/message',
+        body: messageEnvelope.encode().toArrayBuffer()
+    });
+    const protomessage = new textsecure.protobuf.WebSocketMessage({
+      type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
+      request: requestMessage
+    });
+    const bytes = new Uint8Array(protomessage.encode().toArrayBuffer())
+    return bytes;
+  },
   doSendMessage(number, deviceIds, recurse) {
     const ciphers = {};
     const plaintext = this.getPlaintext();
 
     return Promise.all(
-      deviceIds.map(deviceId => {
+      deviceIds.map(async deviceId => {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
 
         const ourNumber = textsecure.storage.user.getNumber();
@@ -257,17 +277,24 @@ OutgoingMessage.prototype = {
         ciphers[address.getDeviceId()] = sessionCipher;
         return sessionCipher.encrypt(plaintext).then(ciphertext => ({
           type: ciphertext.type,
+          address: address,
           destinationDeviceId: address.getDeviceId(),
           destinationRegistrationId: ciphertext.registrationId,
-          content: btoa(ciphertext.body),
+          // TODO: simplify the binary -> string -> binary here
+          content: dcodeIO.ByteBuffer.wrap(ciphertext.body,'binary').toArrayBuffer(),
         }));
       })
     )
-      .then(jsonData =>
-        this.transmitMessage(number, jsonData, this.timestamp).then(() => {
-          this.successfulNumbers[this.successfulNumbers.length] = number;
-          this.numberCompleted();
-        })
+      .then(async outgoingObjects => {
+        let promises = [];
+        outgoingObjects.forEach(outgoingObject => {
+          promises.push(this.wrapInWebsocketMessage(outgoingObject));
+        });
+        const socketMessages = await Promise.all(promises);
+        await this.transmitMessage(number, socketMessages, this.timestamp);
+        this.successfulNumbers[this.successfulNumbers.length] = number;
+        this.numberCompleted();
+        }
       )
       .catch(error => {
         if (
