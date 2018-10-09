@@ -150,11 +150,11 @@ OutgoingMessage.prototype = {
     return promise;
   },
 
-  async transmitMessage(number, jsonData, timestamp) {
+  async transmitMessage(number, data, timestamp) {
     const pubKey = number;
     const ttl = 2 * 24 * 60 * 60;
     try {
-      const [response, status] = await this.lokiserver.sendMessage(pubKey, JSON.stringify(jsonData), ttl);
+      const [response, status] = await this.lokiserver.sendMessage(pubKey, data, ttl);
       return response;
     }
     catch (e) {
@@ -259,7 +259,7 @@ OutgoingMessage.prototype = {
 
               return {
                   type           : 6, //friend request
-                  body           : new dcodeIO.ByteBuffer.wrap(ivAndCiphertext).toString('binary'),
+                  body           : ivAndCiphertext,
                   registrationId : null
               };
             }
@@ -280,8 +280,7 @@ OutgoingMessage.prototype = {
           address: address,
           destinationDeviceId: address.getDeviceId(),
           destinationRegistrationId: ciphertext.registrationId,
-          // TODO: simplify the binary -> string -> binary here
-          content: dcodeIO.ByteBuffer.wrap(ciphertext.body,'binary').toArrayBuffer(),
+          content: ciphertext.body,
         }));
       })
     )
@@ -290,7 +289,8 @@ OutgoingMessage.prototype = {
         outgoingObjects.forEach(outgoingObject => {
           promises.push(this.wrapInWebsocketMessage(outgoingObject));
         });
-        const socketMessages = await Promise.all(promises);
+        // TODO: handle multiple devices/messages per transmit
+        const socketMessages = await promises[0];
         await this.transmitMessage(number, socketMessages, this.timestamp);
         this.successfulNumbers[this.successfulNumbers.length] = number;
         this.numberCompleted();
