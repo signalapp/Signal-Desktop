@@ -275,7 +275,11 @@ OutgoingMessage.prototype = {
           );
         }
         ciphers[address.getDeviceId()] = sessionCipher;
-        return sessionCipher.encrypt(plaintext).then(ciphertext => ({
+        return sessionCipher.encrypt(plaintext).then(ciphertext => {
+          if (! this.fallBackEncryption)
+            ciphertext.body = new Uint8Array(dcodeIO.ByteBuffer.wrap(ciphertext.body,'binary').toArrayBuffer());
+          return ciphertext;
+        }).then(ciphertext => ({
           type: ciphertext.type,
           address: address,
           destinationDeviceId: address.getDeviceId(),

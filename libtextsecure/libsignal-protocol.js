@@ -36121,8 +36121,7 @@ SessionCipher.prototype = {
               preKeyMsg.signedPreKeyId = session.pendingPreKey.signedKeyId;
 
               preKeyMsg.message = message;
-              //var result = String.fromCharCode((3 << 4) | 3) + util.toString(preKeyMsg.encode());
-              var result = new Uint8Array(preKeyMsg.encode().buffer);
+              var result = String.fromCharCode((3 << 4) | 3) + util.toString(preKeyMsg.encode());
               return {
                   type           : 3,
                   body           : result,
@@ -36132,7 +36131,7 @@ SessionCipher.prototype = {
           } else {
               return {
                   type           : 1,
-                  body           : message, //util.toString(message),
+                  body           : util.toString(message),
                   registrationId : session.registrationId
               };
           }
