@@ -73,7 +73,7 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.21.0",
     "mustache": "^2.3.0",
-    "node-fetch": "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4",
+    "node-fetch": "^2.2.0",
     "node-gyp": "^3.8.0",
     "node-sass": "^4.9.3",
     "os-locale": "^2.1.0",
