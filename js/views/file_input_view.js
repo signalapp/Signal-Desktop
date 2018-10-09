@@ -132,6 +132,12 @@
             return;
           }
 
+          const gifMaxSize = 25000 * 1024;
+          if (file.type === 'image/gif' && file.size <= gifMaxSize) {
+            resolve(file);
+            return;
+          }
+
           if (file.type === 'image/gif') {
             reject(new Error('GIF is too large'));
             return;
