@@ -393,6 +393,7 @@
       const contact = this.findAndFormatContact(phoneNumber);
       const contactModel = this.findContact(phoneNumber);
 
+      const authorColor = contactModel ? contactModel.getColor() : null;
       const authorAvatarPath = contactModel
         ? contactModel.getAvatarPath()
         : null;
@@ -406,7 +407,6 @@
 
       const conversation = this.getConversation();
       const isGroup = conversation && !conversation.isPrivate();
-      const conversationColor = conversation && conversation.getColor();
 
       const attachments = this.get('attachments');
       const firstAttachment = attachments && attachments[0];
@@ -418,10 +418,10 @@
         timestamp: this.get('sent_at'),
         status: this.getMessagePropStatus(),
         contact: this.getPropsForEmbeddedContact(),
+        authorColor,
         authorName: contact.name,
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
-        conversationColor,
         conversationType: isGroup ? 'group' : 'direct',
         attachment: this.getPropsForAttachment(firstAttachment),
         quote: this.getPropsForQuote(),
@@ -534,9 +534,9 @@
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
 
-      const conversation = this.getConversation();
       const { author, id, referencedMessageNotFound } = quote;
       const contact = author && ConversationController.get(author);
+      const authorColor = contact ? contact.getColor() : 'grey';
 
       const authorPhoneNumber = format(author, {
         ourRegionCode: regionCode,
@@ -563,7 +563,7 @@
         authorPhoneNumber,
         authorProfileName,
         authorName,
-        conversationColor: conversation && conversation.getColor(),
+        authorColor,
         onClick,
         referencedMessageNotFound,
       };

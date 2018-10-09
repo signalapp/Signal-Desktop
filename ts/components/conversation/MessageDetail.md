@@ -6,7 +6,7 @@
     disableMenu: true,
     direction: 'incoming',
     timestamp: Date.now(),
-    conversationColor: 'pink',
+    authorColor: 'pink',
     text:
       'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
     onDelete: () => console.log('onDelete'),
@@ -31,7 +31,7 @@
     disableMenu: true,
     direction: 'outgoing',
     timestamp: Date.now(),
-    conversationColor: 'pink',
+    authorColor: 'pink',
     text:
       'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
     status: 'read',
@@ -68,7 +68,7 @@
     disableMenu: true,
     direction: 'outgoing',
     timestamp: Date.now(),
-    conversationColor: 'pink',
+    authorColor: 'pink',
     text:
       'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
     status: 'sending',
@@ -94,7 +94,7 @@
     disableMenu: true,
     direction: 'outgoing',
     timestamp: Date.now(),
-    conversationColor: 'pink',
+    authorColor: 'pink',
     text:
       'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
     status: 'error',

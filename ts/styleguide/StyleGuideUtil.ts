@@ -83,6 +83,7 @@ export {
 const query = window.location.search.replace(/^\?/, '');
 const urlOptions = QueryString.parse(query);
 const theme = urlOptions.theme || 'light-theme';
+const ios = urlOptions.ios || false;
 const locale = urlOptions.locale || 'en';
 
 // @ts-ignore
@@ -92,7 +93,7 @@ import localeMessages from '../../_locales/en/messages.json';
 import { setup } from '../../js/modules/i18n';
 const i18n = setup(locale, localeMessages);
 
-export { theme, locale, i18n };
+export { theme, ios, locale, i18n };
 
 // Telling Lodash to relinquish _ for use by underscore
 // @ts-ignore

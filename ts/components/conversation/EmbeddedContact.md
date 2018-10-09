@@ -22,10 +22,10 @@ const contact = {
   onSendMessage: () => console.log('onSendMessage'),
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -34,7 +34,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -44,7 +44,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -54,7 +54,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -86,10 +86,10 @@ const contact = {
   },
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme}  ios={util.ios}>
   <li>
     <Message
-    conversationColor="green"
+    authorColor="green"
     direction="incoming"
     i18n={util.i18n}
     timestamp={Date.now()}
@@ -97,7 +97,7 @@ const contact = {
   </li>
   <li>
   <Message
-    conversationColor="green"
+    authorColor="green"
     direction="outgoing"
     status="delivered"
     i18n={util.i18n}
@@ -127,10 +127,10 @@ const contact = {
   },
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme} type="group">
+<util.ConversationContext theme={util.theme} type="group" ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       conversationType="group"
       authorName="Mr. Fire"
       authorAvatarPath={util.gifObjectUrl}
@@ -142,7 +142,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       authorName="Mr. Fire"
       conversationType="group"
@@ -154,7 +154,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       conversationType="group"
       authorName="Mr. Fire"
@@ -187,10 +187,10 @@ const contact = {
   },
   hasSignalAccount: false,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -199,7 +199,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -209,7 +209,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -219,7 +219,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -249,10 +249,10 @@ const contact = {
   },
   hasSignalAccount: false,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -261,7 +261,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -271,7 +271,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -281,7 +281,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -313,10 +313,10 @@ const contact = {
   },
   hasSignalAccount: false,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -325,7 +325,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -335,7 +335,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -345,7 +345,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -372,10 +372,10 @@ const contact = {
   ],
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -384,7 +384,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -394,7 +394,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -404,7 +404,7 @@ const contact = {
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -420,10 +420,10 @@ const contact = {
 
 ```jsx
 const contact = {};
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -432,7 +432,7 @@ const contact = {};
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -442,7 +442,7 @@ const contact = {};
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -452,7 +452,7 @@ const contact = {};
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -501,11 +501,11 @@ const contactWithoutAccount = {
   },
   hasSignalAccount: false,
 };
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       text="I want to introduce you to Someone..."
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -515,7 +515,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -526,7 +526,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -536,7 +536,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -547,7 +547,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -558,7 +558,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -570,7 +570,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -581,7 +581,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"

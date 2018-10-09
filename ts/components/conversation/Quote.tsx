@@ -15,7 +15,7 @@ interface Props {
   authorPhoneNumber: string;
   authorProfileName?: string;
   authorName?: string;
-  conversationColor: Color;
+  authorColor?: Color;
   i18n: Localizer;
   isFromMe: boolean;
   isIncoming: boolean;
@@ -318,7 +318,7 @@ export class Quote extends React.Component<Props> {
 
   public render() {
     const {
-      conversationColor,
+      authorColor,
       isIncoming,
       onClick,
       referencedMessageNotFound,
@@ -343,8 +343,8 @@ export class Quote extends React.Component<Props> {
             'module-quote',
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
             isIncoming
-              ? `module-quote--incoming-${conversationColor}`
-              : `module-quote--outgoing-${conversationColor}`,
+              ? `module-quote--incoming-${authorColor}`
+              : `module-quote--outgoing-${authorColor}`,
             !onClick ? 'module-quote--no-click' : null,
             withContentAbove ? 'module-quote--with-content-above' : null,
             referencedMessageNotFound

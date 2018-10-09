@@ -1,10 +1,10 @@
 ### Countdown at different rates
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="10 second timer"
@@ -18,7 +18,7 @@
     <Message
       direction="outgoing"
       status="delivered"
-      conversationColor="blue"
+      authorColor="blue"
       text="30 second timer"
       i18n={util.i18n}
       timestamp={Date.now() + 30 * 1000}
@@ -28,7 +28,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="1 minute timer"
@@ -40,7 +40,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="5 minute timer"
@@ -56,10 +56,10 @@
 ### Timer calculations
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="incoming"
       text="Full timer"
       i18n={util.i18n}
@@ -70,7 +70,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="Full timer"
@@ -82,7 +82,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="incoming"
       text="55 timer"
       i18n={util.i18n}
@@ -93,7 +93,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="55 timer"
@@ -105,7 +105,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="incoming"
       text="30 timer"
       i18n={util.i18n}
@@ -116,7 +116,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="30 timer"
@@ -128,7 +128,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="incoming"
       text="5 timer"
       i18n={util.i18n}
@@ -139,7 +139,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="5 timer"
@@ -151,7 +151,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="incoming"
       text="Expired timer"
       i18n={util.i18n}
@@ -162,7 +162,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="Expired timer"
@@ -174,7 +174,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="incoming"
       text="Expiration is too far away"
       i18n={util.i18n}
@@ -185,7 +185,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="Expiration is too far away"
@@ -197,7 +197,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="incoming"
       text="Already expired"
       i18n={util.i18n}
@@ -208,7 +208,7 @@
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="Already expired"

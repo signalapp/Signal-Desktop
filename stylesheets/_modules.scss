@@ -76,7 +76,7 @@
   cursor: pointer;
   @include color-svg('../images/download.svg', $color-light-45);
   &:hover {
-    @include color-svg('../images/download.svg', $color-light-90);
+    @include color-svg('../images/download.svg', $color-gray-90);
   }
 }
 
@@ -94,7 +94,7 @@
   cursor: pointer;
   @include color-svg('../images/reply.svg', $color-light-45);
   &:hover {
-    @include color-svg('../images/reply.svg', $color-light-90);
+    @include color-svg('../images/reply.svg', $color-gray-90);
   }
 }
 
@@ -112,7 +112,7 @@
   cursor: pointer;
   @include color-svg('../images/ellipsis.svg', $color-light-45);
   &:hover {
-    @include color-svg('../images/ellipsis.svg', $color-light-90);
+    @include color-svg('../images/ellipsis.svg', $color-gray-90);
   }
 }
 
@@ -157,46 +157,46 @@
   min-width: 0px;
 }
 
-.module-message__container--incoming {
+.module-message__container--outgoing {
   background-color: $color-light-10;
 }
 
 // In case the color gets messed up
-.module-message__container--outgoing {
+.module-message__container--incoming {
   background-color: $color-conversation-grey;
 }
 
-.module-message__container--outgoing-red {
+.module-message__container--incoming-red {
   background-color: $color-conversation-red;
 }
-.module-message__container--outgoing-deep_orange {
+.module-message__container--incoming-deep_orange {
   background-color: $color-conversation-deep_orange;
 }
-.module-message__container--outgoing-brown {
+.module-message__container--incoming-brown {
   background-color: $color-conversation-brown;
 }
-.module-message__container--outgoing-pink {
+.module-message__container--incoming-pink {
   background-color: $color-conversation-pink;
 }
-.module-message__container--outgoing-purple {
+.module-message__container--incoming-purple {
   background-color: $color-conversation-purple;
 }
-.module-message__container--outgoing-indigo {
+.module-message__container--incoming-indigo {
   background-color: $color-conversation-indigo;
 }
-.module-message__container--outgoing-blue {
+.module-message__container--incoming-blue {
   background-color: $color-conversation-blue;
 }
-.module-message__container--outgoing-teal {
+.module-message__container--incoming-teal {
   background-color: $color-conversation-teal;
 }
-.module-message__container--outgoing-green {
+.module-message__container--incoming-green {
   background-color: $color-conversation-green;
 }
-.module-message__container--outgoing-light_green {
+.module-message__container--incoming-light_green {
   background-color: $color-conversation-light_green;
 }
-.module-message__container--outgoing-blue_grey {
+.module-message__container--incoming-blue_grey {
   background-color: $color-conversation-blue_grey;
 }
 
@@ -400,7 +400,7 @@
   white-space: nowrap;
   text-overflow: clip;
 
-  color: $color-light-90;
+  color: $color-gray-90;
 }
 
 .module-message__generic-attachment__text {
@@ -411,7 +411,7 @@
 }
 
 .module-message__generic-attachment__file-name {
-  color: $color-white;
+  color: $color-gray-90;
   font-size: 14px;
   line-height: 18px;
   font-weight: 300;
@@ -424,11 +424,11 @@
 }
 
 .module-message__generic-attachment__file-name--incoming {
-  color: $color-light-90;
+  color: $color-white;
 }
 
 .module-message__generic-attachment__file-size {
-  color: $color-white;
+  color: $color-gray-90;
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
@@ -436,11 +436,11 @@
 }
 
 .module-message__generic-attachment__file-size--incoming {
-  color: $color-light-90;
+  color: $color-white;
 }
 
 .module-message__author {
-  color: $color-light-90;
+  color: $color-white;
   font-size: 13px;
   font-weight: 300;
   line-height: 18px;
@@ -456,7 +456,7 @@
 }
 
 .module-message__text {
-  color: $color-white;
+  color: $color-gray-90;
   font-size: 14px;
   line-height: 18px;
   text-align: start;
@@ -468,15 +468,15 @@
 
   a {
     text-decoration: underline;
-    color: $color-white;
+    color: $color-gray-90;
   }
 }
 
 .module-message__text--incoming {
-  color: $color-light-90;
+  color: $color-white;
   a {
     text-decoration: underline;
-    color: $color-light-90;
+    color: $color-white;
   }
 }
 
@@ -508,11 +508,11 @@
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
-  color: $color-white-08;
+  color: $color-gray-60;
   text-transform: uppercase;
 }
 .module-message__metadata__date--incoming {
-  color: $color-light-60;
+  color: $color-white-08;
 }
 .module-message__metadata__date--with-image-no-caption {
   color: $color-white;
@@ -531,7 +531,7 @@
 }
 
 .module-message__metadata__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-white-08);
+  @include color-svg('../images/sending.svg', $color-gray-60);
   animation: module-message__metdata__status-icon--spinning 4s linear infinite;
 }
 
@@ -543,14 +543,14 @@
 }
 
 .module-message__metadata__status-icon--sent {
-  @include color-svg('../images/check-circle-outline.svg', $color-white-08);
+  @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
 }
 .module-message__metadata__status-icon--delivered {
-  @include color-svg('../images/double-check.svg', $color-white-08);
+  @include color-svg('../images/double-check.svg', $color-gray-60);
   width: 18px;
 }
 .module-message__metadata__status-icon--read {
-  @include color-svg('../images/read.svg', $color-white-08);
+  @include color-svg('../images/read.svg', $color-gray-60);
   width: 18px;
 }
 
@@ -595,48 +595,48 @@
   display: inline-block;
   margin-left: 6px;
   margin-bottom: 2px;
-  @include color-svg('../images/timer-60.svg', $color-white-08);
+  @include color-svg('../images/timer-60.svg', $color-gray-60);
 }
 
 .module-expire-timer--55 {
-  @include color-svg('../images/timer-55.svg', $color-white-08);
+  @include color-svg('../images/timer-55.svg', $color-gray-60);
 }
 .module-expire-timer--50 {
-  @include color-svg('../images/timer-50.svg', $color-white-08);
+  @include color-svg('../images/timer-50.svg', $color-gray-60);
 }
 .module-expire-timer--45 {
-  @include color-svg('../images/timer-45.svg', $color-white-08);
+  @include color-svg('../images/timer-45.svg', $color-gray-60);
 }
 .module-expire-timer--40 {
-  @include color-svg('../images/timer-40.svg', $color-white-08);
+  @include color-svg('../images/timer-40.svg', $color-gray-60);
 }
 .module-expire-timer--35 {
-  @include color-svg('../images/timer-35.svg', $color-white-08);
+  @include color-svg('../images/timer-35.svg', $color-gray-60);
 }
 .module-expire-timer--30 {
-  @include color-svg('../images/timer-30.svg', $color-white-08);
+  @include color-svg('../images/timer-30.svg', $color-gray-60);
 }
 .module-expire-timer--25 {
-  @include color-svg('../images/timer-25.svg', $color-white-08);
+  @include color-svg('../images/timer-25.svg', $color-gray-60);
 }
 .module-expire-timer--20 {
-  @include color-svg('../images/timer-20.svg', $color-white-08);
+  @include color-svg('../images/timer-20.svg', $color-gray-60);
 }
 .module-expire-timer--15 {
-  @include color-svg('../images/timer-15.svg', $color-white-08);
+  @include color-svg('../images/timer-15.svg', $color-gray-60);
 }
 .module-expire-timer--10 {
-  @include color-svg('../images/timer-10.svg', $color-white-08);
+  @include color-svg('../images/timer-10.svg', $color-gray-60);
 }
 .module-expire-timer--05 {
-  @include color-svg('../images/timer-05.svg', $color-white-08);
+  @include color-svg('../images/timer-05.svg', $color-gray-60);
 }
 .module-expire-timer--00 {
-  @include color-svg('../images/timer-00.svg', $color-white-08);
+  @include color-svg('../images/timer-00.svg', $color-gray-60);
 }
 
 .module-expire-timer--incoming {
-  background-color: $color-gray-60;
+  background-color: $color-white-08;
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
@@ -687,90 +687,90 @@
   border-bottom-right-radius: 0px;
 }
 
-.module-quote--incoming {
+.module-quote--outgoing {
   border-left-color: $color-conversation-grey;
   background-color: $color-conversation-grey-tint;
 }
-.module-quote--incoming-red {
+.module-quote--outgoing-red {
   border-left-color: $color-conversation-red;
   background-color: $color-conversation-red-tint;
 }
-.module-quote--incoming-deep_orange {
+.module-quote--outgoing-deep_orange {
   border-left-color: $color-conversation-deep_orange;
   background-color: $color-conversation-deep_orange-tint;
 }
-.module-quote--incoming-brown {
+.module-quote--outgoing-brown {
   border-left-color: $color-conversation-brown;
   background-color: $color-conversation-brown-tint;
 }
-.module-quote--incoming-pink {
+.module-quote--outgoing-pink {
   border-left-color: $color-conversation-pink;
   background-color: $color-conversation-pink-tint;
 }
-.module-quote--incoming-purple {
+.module-quote--outgoing-purple {
   border-left-color: $color-conversation-purple;
   background-color: $color-conversation-purple-tint;
 }
-.module-quote--incoming-indigo {
+.module-quote--outgoing-indigo {
   border-left-color: $color-conversation-indigo;
   background-color: $color-conversation-indigo-tint;
 }
-.module-quote--incoming-blue {
+.module-quote--outgoing-blue {
   border-left-color: $color-conversation-blue;
   background-color: $color-conversation-blue-tint;
 }
-.module-quote--incoming-teal {
+.module-quote--outgoing-teal {
   border-left-color: $color-conversation-teal;
   background-color: $color-conversation-teal-tint;
 }
-.module-quote--incoming-green {
+.module-quote--outgoing-green {
   border-left-color: $color-conversation-green;
   background-color: $color-conversation-green-tint;
 }
-.module-quote--incoming-light_green {
+.module-quote--outgoing-light_green {
   border-left-color: $color-conversation-light_green;
   background-color: $color-conversation-light_green-tint;
 }
-.module-quote--incoming-blue_grey {
+.module-quote--outgoing-blue_grey {
   border-left-color: $color-conversation-blue_grey;
   background-color: $color-conversation-blue_grey-tint;
 }
 
-.module-quote--outgoing {
+.module-quote--incoming {
   border-left-color: $color-white;
   background-color: $color-conversation-grey-tint;
 }
-.module-quote--outgoing-red {
+.module-quote--incoming-red {
   background-color: $color-conversation-red-tint;
 }
-.module-quote--outgoing-deep_orange {
+.module-quote--incoming-deep_orange {
   background-color: $color-conversation-deep_orange-tint;
 }
-.module-quote--outgoing-brown {
+.module-quote--incoming-brown {
   background-color: $color-conversation-brown-tint;
 }
-.module-quote--outgoing-pink {
+.module-quote--incoming-pink {
   background-color: $color-conversation-pink-tint;
 }
-.module-quote--outgoing-purple {
+.module-quote--incoming-purple {
   background-color: $color-conversation-purple-tint;
 }
-.module-quote--outgoing-indigo {
+.module-quote--incoming-indigo {
   background-color: $color-conversation-indigo-tint;
 }
-.module-quote--outgoing-blue {
+.module-quote--incoming-blue {
   background-color: $color-conversation-blue-tint;
 }
-.module-quote--outgoing-teal {
+.module-quote--incoming-teal {
   background-color: $color-conversation-teal-tint;
 }
-.module-quote--outgoing-green {
+.module-quote--incoming-green {
   background-color: $color-conversation-green-tint;
 }
-.module-quote--outgoing-light_green {
+.module-quote--incoming-light_green {
   background-color: $color-conversation-light_green-tint;
 }
-.module-quote--outgoing-blue_grey {
+.module-quote--incoming-blue_grey {
   background-color: $color-conversation-blue_grey-tint;
 }
 
@@ -788,7 +788,7 @@
   font-size: 13px;
   line-height: 18px;
   font-weight: 300;
-  color: $color-light-90;
+  color: $color-gray-90;
 
   overflow-x: hidden;
   white-space: nowrap;
@@ -802,10 +802,10 @@
 .module-quote__primary__text {
   font-size: 14px;
   line-height: 18px;
-  color: $color-light-90;
+  color: $color-gray-90;
 
   a {
-    color: $color-light-90;
+    color: $color-gray-90;
   }
 
   overflow-wrap: break-word;
@@ -827,7 +827,7 @@
 
 .module-quote__primary__type-label {
   font-style: italic;
-  color: $color-light-90;
+  color: $color-gray-90;
   font-size: 13px;
   line-height: 18px;
 }
@@ -930,7 +930,7 @@
 .module-quote__generic-file__text {
   font-size: 14px;
   line-height: 18px;
-  color: $color-light-90;
+  color: $color-gray-90;
 
   max-width: calc(100% - 26px);
   overflow-x: hidden;
@@ -954,12 +954,12 @@
 .module-quote__reference-warning__icon {
   height: 16px;
   width: 16px;
-  @include color-svg('../images/broken-link.svg', $color-light-60);
+  @include color-svg('../images/broken-link.svg', $color-gray-60);
 }
 
 .module-quote__reference-warning__text {
   margin-left: 6px;
-  color: $color-light-90;
+  color: $color-gray-90;
   font-size: 13px;
   line-height: 18px;
 }
@@ -994,7 +994,7 @@
   line-height: 18px;
   font-weight: 300;
   margin-top: 6px;
-  color: $color-white;
+  color: $color-gray-90;
 
   max-width: 100%;
   white-space: nowrap;
@@ -1003,7 +1003,7 @@
 }
 
 .module-embedded-contact__contact-name--incoming {
-  color: $color-light-90;
+  color: $color-white;
 }
 
 .module-embedded-contact__contact-method {
@@ -1011,7 +1011,7 @@
   line-height: 16px;
   letter-spacing: 0.3px;
   margin-top: 3px;
-  color: $color-white-07;
+  color: $color-gray-60;
 
   max-width: 100%;
   white-space: nowrap;
@@ -1020,7 +1020,7 @@
 }
 
 .module-embedded-contact__contact-method--incoming {
-  color: $color-light-60;
+  color: $color-white-07;
 }
 
 // Module: Contact Detail
@@ -1098,7 +1098,7 @@
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
-  color: $color-light-60;
+  color: $color-gray-60;
   text-align: center;
 }
 
@@ -1117,7 +1117,7 @@
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
-  color: $color-light-60;
+  color: $color-gray-60;
   text-align: center;
 }
 
@@ -1134,14 +1134,14 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 7px;
-  @include color-svg('../images/shield.svg', $color-light-60);
+  @include color-svg('../images/shield.svg', $color-gray-60);
 }
 
 .module-safety-number-notification__text {
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
-  color: $color-light-60;
+  color: $color-gray-60;
 }
 
 .module-safety-number-notification__contact {
@@ -1168,7 +1168,7 @@
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
-  color: $color-light-60;
+  color: $color-gray-60;
   text-align: center;
 }
 
@@ -1182,7 +1182,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 4px;
-  @include color-svg('../images/verified-check.svg', $color-light-60);
+  @include color-svg('../images/verified-check.svg', $color-gray-60);
 }
 
 .module-verification-notification__icon--mark-not-verified {
@@ -1191,7 +1191,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 7px;
-  @include color-svg('../images/shield.svg', $color-light-60);
+  @include color-svg('../images/shield.svg', $color-gray-60);
 }
 
 // Module: Timer Notification
@@ -1201,7 +1201,7 @@
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
-  color: $color-light-60;
+  color: $color-gray-60;
   text-align: center;
 }
 
@@ -1218,11 +1218,11 @@
   height: 20px;
   width: 20px;
   display: inline-block;
-  @include color-svg('../images/timer.svg', $color-light-60);
+  @include color-svg('../images/timer.svg', $color-gray-60);
 }
 
 .module-timer-notification__icon--disabled {
-  @include color-svg('../images/timer-disabled.svg', $color-light-60);
+  @include color-svg('../images/timer-disabled.svg', $color-gray-60);
 }
 
 .module-timer-notification__icon-label {
@@ -1262,7 +1262,7 @@
   flex-direction: row;
   align-items: center;
 
-  color: $color-light-60;
+  color: $color-gray-60;
 }
 
 .module-contact-list-item--with-click-handler {
@@ -1288,7 +1288,7 @@
 }
 
 .module-contact-list-item__text__verified-icon {
-  @include color-svg('../images/verified-check.svg', $color-light-60);
+  @include color-svg('../images/verified-check.svg', $color-gray-60);
   display: inline-block;
   width: 18px;
   height: 18px;
@@ -1308,14 +1308,14 @@
   align-items: center;
 
   height: $header-height;
-  color: $color-light-90;
+  color: $color-gray-90;
 
   background-color: $color-white;
   border-bottom: 1px solid $color-black-02;
 }
 
 .module-conversation-header__back-icon {
-  @include color-svg('../images/back.svg', $color-light-90);
+  @include color-svg('../images/back.svg', $color-gray-90);
   display: inline-block;
   margin-left: -10px;
   margin-right: -2px;
@@ -1357,7 +1357,7 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 300;
-  color: $color-light-90;
+  color: $color-gray-90;
 
   // width of avatar (28px) and our 8px left margin
   max-width: calc(100% - 36px);
@@ -1373,7 +1373,7 @@
 }
 
 .module-conversation-header__title__verified-icon {
-  @include color-svg('../images/verified-check.svg', $color-light-90);
+  @include color-svg('../images/verified-check.svg', $color-gray-90);
   display: inline-block;
   width: 1.25em;
   height: 1.25em;
@@ -1389,7 +1389,7 @@
 }
 
 .module-conversation-header__expiration__clock-icon {
-  @include color-svg('../images/timer.svg', $color-light-60);
+  @include color-svg('../images/timer.svg', $color-gray-60);
   height: 20px;
   width: 20px;
   display: inline-block;
@@ -1401,7 +1401,7 @@
 }
 
 .module-conversation-header__gear-icon {
-  @include color-svg('../images/gear.svg', $color-light-60);
+  @include color-svg('../images/gear.svg', $color-gray-60);
   height: 20px;
   width: 20px;
   margin-left: 4px;
@@ -1487,7 +1487,7 @@
 }
 
 .module-message-detail__contact__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-light-60);
+  @include color-svg('../images/sending.svg', $color-gray-60);
   animation: module-message-detail__contact__status-icon--spinning 4s linear
     infinite;
 }
@@ -1882,7 +1882,7 @@
 }
 
 .module-conversation-list-item__message__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-light-60);
+  @include color-svg('../images/sending.svg', $color-gray-60);
   animation: module-conversation-list-item__message__status-icon--spinning 4s
     linear infinite;
 }
@@ -2086,7 +2086,7 @@
   line-height: 24px;
   font-weight: 300;
   margin-left: 32px;
-  color: $color-light-90;
+  color: $color-gray-90;
 }
 
 // Third-party module: react-contextmenu
@@ -2108,7 +2108,7 @@
 }
 
 .react-contextmenu-item {
-  color: $color-light-90;
+  color: $color-gray-90;
 
   cursor: pointer;
   font-size: 13px;
@@ -2126,7 +2126,7 @@
   display: inline-block;
   position: absolute;
   right: 7px;
-  color: $color-light-90;
+  color: $color-gray-90;
 }
 
 .react-contextmenu-item.react-contextmenu-submenu {
@@ -2143,7 +2143,7 @@
   display: inline-block;
   position: absolute;
   right: 7px;
-  color: $color-light-90;
+  color: $color-gray-90;
 }
 
 .react-contextmenu-item.react-contextmenu-item--active,

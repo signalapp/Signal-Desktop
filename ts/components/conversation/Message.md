@@ -3,13 +3,13 @@
 Note that timestamp and status can be hidden with the `collapseMetadata` boolean property.
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
       timestamp={Date.now()}
       authorPhoneNumber="(202) 555-2001"
-      conversationColor="green"
+      authorColor="green"
       text="🔥"
       i18n={util.i18n}
       onDownload={() => console.log('onDownload')}
@@ -22,7 +22,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      conversationColor="green"
+      authorColor="green"
       text="Hello there from the new world! http://somewhere.com"
       i18n={util.i18n}
       onDownload={() => console.log('onDownload')}
@@ -36,7 +36,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
       collapseMetadata
       direction="incoming"
       timestamp={Date.now()}
-      conversationColor="red"
+      authorColor="red"
       text="Hello there from the new world!"
       i18n={util.i18n}
       onDownload={() => console.log('onDownload')}
@@ -49,7 +49,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      conversationColor="grey"
+      authorColor="grey"
       text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
       i18n={util.i18n}
       onDownload={() => console.log('onDownload')}
@@ -61,7 +61,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   <li>
     <Message
       direction="incoming"
-      conversationColor="deep_orange"
+      authorColor="deep_orange"
       timestamp={Date.now()}
       collapseMetadata
       text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
@@ -77,7 +77,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
       direction="outgoing"
       timestamp={Date.now()}
       status="sent"
-      conversationColor="pink"
+      authorColor="pink"
       text="🔥"
       i18n={util.i18n}
       onDownload={() => console.log('onDownload')}
@@ -91,7 +91,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
       direction="outgoing"
       timestamp={Date.now()}
       status="read"
-      conversationColor="pink"
+      authorColor="pink"
       text="Hello there from the new world! http://somewhere.com"
       i18n={util.i18n}
       onDownload={() => console.log('onDownload')}
@@ -119,7 +119,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
       direction="outgoing"
       status="sent"
       timestamp={Date.now()}
-      conversationColor="blue"
+      authorColor="blue"
       text="Hello there from the new world! And this is multiple lines of text. Lines and lines and lines."
       i18n={util.i18n}
       onDownload={() => console.log('onDownload')}
@@ -148,12 +148,12 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 ### Status
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="outgoing"
       status="sending"
-      conversationColor="pink"
+      authorColor="pink"
       timestamp={Date.now()}
       text="This is still sending."
       i18n={util.i18n}
@@ -163,7 +163,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="outgoing"
       status="sent"
-      conversationColor="red"
+      authorColor="red"
       timestamp={Date.now()}
       text="This has been successfully sent!"
       i18n={util.i18n}
@@ -173,7 +173,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="outgoing"
       status="delivered"
-      conversationColor="blue"
+      authorColor="blue"
       timestamp={Date.now()}
       text="This has been delivered!"
       i18n={util.i18n}
@@ -183,7 +183,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="outgoing"
       status="read"
-      conversationColor="purple"
+      authorColor="purple"
       timestamp={Date.now()}
       text="This has been read!"
       i18n={util.i18n}
@@ -193,7 +193,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="outgoing"
       status="error"
-      conversationColor="purple"
+      authorColor="purple"
       timestamp={Date.now() - 56}
       text="Error!"
       i18n={util.i18n}
@@ -204,7 +204,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="incoming"
       status="error"
-      conversationColor="purple"
+      authorColor="purple"
       timestamp={Date.now()}
       text="Error!"
       i18n={util.i18n}
@@ -214,7 +214,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="outgoing"
       status="sending"
-      conversationColor="pink"
+      authorColor="pink"
       timestamp={Date.now()}
       text="🔥"
       i18n={util.i18n}
@@ -224,7 +224,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="outgoing"
       status="sent"
-      conversationColor="red"
+      authorColor="red"
       timestamp={Date.now()}
       text="🔥"
       i18n={util.i18n}
@@ -234,7 +234,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="outgoing"
       status="delivered"
-      conversationColor="blue"
+      authorColor="blue"
       timestamp={Date.now()}
       text="🔥"
       i18n={util.i18n}
@@ -244,7 +244,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="outgoing"
       status="read"
-      conversationColor="purple"
+      authorColor="purple"
       timestamp={Date.now()}
       text="🔥"
       i18n={util.i18n}
@@ -254,7 +254,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="outgoing"
       status="error"
-      conversationColor="purple"
+      authorColor="purple"
       timestamp={Date.now() - 57}
       text="🔥"
       i18n={util.i18n}
@@ -265,7 +265,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     <Message
       direction="incoming"
       status="error"
-      conversationColor="purple"
+      authorColor="purple"
       timestamp={Date.now()}
       text="🔥"
       i18n={util.i18n}
@@ -277,12 +277,12 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 ### All colors
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="red"
+      authorColor="red"
       timestamp={Date.now()}
       text="This is red"
       i18n={util.i18n}
@@ -290,9 +290,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="deep_orange"
+      authorColor="deep_orange"
       timestamp={Date.now()}
       text="This is deep_orange"
       i18n={util.i18n}
@@ -300,9 +300,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="brown"
+      authorColor="brown"
       timestamp={Date.now()}
       text="This is brown"
       i18n={util.i18n}
@@ -310,9 +310,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="pink"
+      authorColor="pink"
       timestamp={Date.now()}
       text="This is pink"
       i18n={util.i18n}
@@ -320,9 +320,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="purple"
+      authorColor="purple"
       timestamp={Date.now()}
       text="This is purple"
       i18n={util.i18n}
@@ -330,9 +330,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="indigo"
+      authorColor="indigo"
       timestamp={Date.now()}
       text="This is indigo"
       i18n={util.i18n}
@@ -340,9 +340,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="blue"
+      authorColor="blue"
       timestamp={Date.now()}
       text="This is blue"
       i18n={util.i18n}
@@ -350,9 +350,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="teal"
+      authorColor="teal"
       timestamp={Date.now()}
       text="This is teal"
       i18n={util.i18n}
@@ -360,9 +360,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="green"
+      authorColor="green"
       timestamp={Date.now()}
       text="This is green"
       i18n={util.i18n}
@@ -370,9 +370,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="light_green"
+      authorColor="light_green"
       timestamp={Date.now()}
       text="This is light_green"
       i18n={util.i18n}
@@ -380,9 +380,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="blue_grey"
+      authorColor="blue_grey"
       timestamp={Date.now()}
       text="This is blue_grey"
       i18n={util.i18n}
@@ -390,9 +390,9 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="outgoing"
+      direction="incoming"
       status="delivered"
-      conversationColor="grey"
+      authorColor="grey"
       timestamp={Date.now()}
       text="This is grey"
       i18n={util.i18n}
@@ -404,10 +404,10 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 ### Long data
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="purple"
+      authorColor="purple"
       direction="incoming"
       text="A really long link https://app.zeplin.io/project/5b2136b8e490ad6a54399857/screen/5b3bd068e03b763a0ee4c3e9"
       timestamp={Date.now()}
@@ -416,7 +416,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      conversationColor="purple"
+      authorColor="purple"
       direction="outgoing"
       status="delivered"
       text="A really long link https://app.zeplin.io/project/5b2136b8e490ad6a54399857/screen/5b3bd068e03b763a0ee4c3e9"
@@ -426,7 +426,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      conversationColor="purple"
+      authorColor="purple"
       direction="incoming"
       text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget condimentum tellus. Aenean vulputate, dui a gravida rhoncus, mi orci varius urna, ut placerat felis ex ac elit. In pulvinar quis velit convallis varius. Quisque mattis, metus id lobortis porttitor, lacus ex laoreet dui, sit amet laoreet massa leo sed tellus. Phasellus iaculis pulvinar bibendum. In vitae imperdiet felis. Vivamus lacinia eros nec arcu varius, sodales faucibus nulla molestie. Etiam luctus lectus sit amet nulla facilisis, a porta mi tempus. Donec sit amet convallis ipsum.
 
@@ -441,7 +441,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      conversationColor="purple"
+      authorColor="purple"
       direction="outgoing"
       status="delivered"
       text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget condimentum tellus. Aenean vulputate, dui a gravida rhoncus, mi orci varius urna, ut placerat felis ex ac elit. In pulvinar quis velit convallis varius. Quisque mattis, metus id lobortis porttitor, lacus ex laoreet dui, sit amet laoreet massa leo sed tellus. Phasellus iaculis pulvinar bibendum. In vitae imperdiet felis. Vivamus lacinia eros nec arcu varius, sodales faucibus nulla molestie. Etiam luctus lectus sit amet nulla facilisis, a porta mi tempus. Donec sit amet convallis ipsum.
@@ -463,10 +463,10 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 #### Image with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="incoming"
       text="I am pretty confused about Pi."
       timestamp={Date.now()}
@@ -484,7 +484,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       status="delivered"
       text="I am pretty confused about Pi."
@@ -503,7 +503,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="incoming"
       text="I am pretty confused about Pi."
       collapseMetadata
@@ -522,7 +522,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      conversationColor="blue"
+      authorColor="blue"
       direction="outgoing"
       text="I am pretty confused about Pi."
       collapseMetadata
@@ -547,10 +547,10 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 First, showing the metadata overlay on dark and light images, then a message with `collapseMetadata` set.
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
       i18n={util.i18n}
@@ -567,7 +567,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="sent"
       timestamp={Date.now()}
@@ -585,7 +585,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
       i18n={util.i18n}
@@ -600,7 +600,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="sent"
       timestamp={Date.now()}
@@ -616,7 +616,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       timestamp={Date.now()}
@@ -632,7 +632,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="sent"
@@ -655,12 +655,12 @@ First, showing the metadata overlay on dark and light images, then a message wit
 Note that the delivered indicator is always Signal Blue, not the conversation color.
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="outgoing"
       status="sending"
-      conversationColor="pink"
+      authorColor="pink"
       timestamp={Date.now()}
       i18n={util.i18n}
       attachment={{
@@ -676,7 +676,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
     <Message
       direction="outgoing"
       status="sent"
-      conversationColor="red"
+      authorColor="red"
       timestamp={Date.now()}
       i18n={util.i18n}
       attachment={{
@@ -692,7 +692,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
     <Message
       direction="outgoing"
       status="delivered"
-      conversationColor="blue"
+      authorColor="blue"
       timestamp={Date.now()}
       i18n={util.i18n}
       attachment={{
@@ -708,7 +708,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
     <Message
       direction="outgoing"
       status="read"
-      conversationColor="purple"
+      authorColor="purple"
       timestamp={Date.now()}
       i18n={util.i18n}
       attachment={{
@@ -726,10 +726,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with portrait aspect ratio
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="purple"
+      authorColor="purple"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -744,7 +744,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="purple"
+      authorColor="purple"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -760,7 +760,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="purple"
+      authorColor="purple"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -776,7 +776,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="purple"
+      authorColor="purple"
       direction="outgoing"
       collapseMetadata
       i18n={util.i18n}
@@ -796,10 +796,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with portrait aspect ratio and caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="This is an odd yellow bar. Cool, huh?"
       direction="incoming"
       i18n={util.i18n}
@@ -815,7 +815,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       text="This is an odd yellow bar. Cool, huh?"
@@ -832,7 +832,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="This is an odd yellow bar. Cool, huh?"
       direction="incoming"
       collapseMetadata
@@ -849,7 +849,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="This is an odd yellow bar. Cool, huh?"
       collapseMetadata
@@ -870,10 +870,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with landscape aspect ratio
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -888,7 +888,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -904,7 +904,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -920,7 +920,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       i18n={util.i18n}
@@ -940,10 +940,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with landscape aspect ratio and caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="An interesting horizontal bar. It's art."
       direction="incoming"
       i18n={util.i18n}
@@ -959,7 +959,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="An interesting horizontal bar. It's art."
       i18n={util.i18n}
@@ -976,7 +976,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="An interesting horizontal bar. It's art."
       direction="incoming"
       collapseMetadata
@@ -993,7 +993,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="An interesting horizontal bar. It's art."
       collapseMetadata
@@ -1014,10 +1014,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Video with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="Beautiful, isn't it?"
       direction="incoming"
       i18n={util.i18n}
@@ -1035,7 +1035,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="Beautiful, isn't it?"
       status="delivered"
@@ -1054,7 +1054,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="Beautiful, isn't it?"
       collapseMetadata
       direction="incoming"
@@ -1075,7 +1075,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="Beautiful, isn't it?"
       collapseMetadata
@@ -1100,10 +1100,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Video
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       i18n={util.i18n}
@@ -1123,7 +1123,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -1143,7 +1143,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       i18n={util.i18n}
@@ -1164,7 +1164,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -1189,10 +1189,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Missing images and videos
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1210,7 +1210,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       timestamp={Date.now()}
@@ -1229,7 +1229,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   <li>
     <Message
       text="Did something go wrong?"
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1247,7 +1247,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="Did something go wrong?"
       direction="outgoing"
       status="delivered"
@@ -1266,7 +1266,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1286,7 +1286,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       timestamp={Date.now()}
       i18n={util.i18n}
@@ -1307,7 +1307,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   <li>
     <Message
       text="Did something go wrong?"
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1327,7 +1327,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="Did something go wrong?"
       direction="outgoing"
       timestamp={Date.now()}
@@ -1352,10 +1352,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Broken source URL images and videos
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1373,7 +1373,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="Did something go wrong?"
       direction="outgoing"
       status="delivered"
@@ -1392,7 +1392,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1412,7 +1412,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       timestamp={Date.now()}
       i18n={util.i18n}
@@ -1436,10 +1436,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image/video which is too big
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1457,7 +1457,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       timestamp={Date.now()}
@@ -1475,7 +1475,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1495,7 +1495,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       timestamp={Date.now()}
       i18n={util.i18n}
@@ -1519,10 +1519,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image/video missing height/width
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1538,7 +1538,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       timestamp={Date.now()}
@@ -1555,7 +1555,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       status="delivered"
       timestamp={Date.now()}
@@ -1576,7 +1576,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       timestamp={Date.now()}
       i18n={util.i18n}
@@ -1598,10 +1598,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Audio with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="This is a nice song"
       direction="incoming"
       timestamp={Date.now()}
@@ -1615,7 +1615,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="sent"
       text="This is a nice song"
@@ -1630,7 +1630,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       text="This is a nice song"
       collapseMetadata
       direction="incoming"
@@ -1645,7 +1645,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="This is a nice song"
       collapseMetadata
@@ -1664,10 +1664,10 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Audio
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -1680,7 +1680,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       status="sent"
       i18n={util.i18n}
@@ -1694,7 +1694,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -1708,7 +1708,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -1730,10 +1730,10 @@ Voice notes are not shown any differently from audio attachments.
 #### Other file type with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       text="My manifesto is now complete!"
       i18n={util.i18n}
@@ -1749,7 +1749,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="My manifesto is now complete!"
       status="sent"
@@ -1766,7 +1766,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       text="My manifesto is now complete!"
       collapseMetadata
@@ -1783,7 +1783,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="My manifesto is now complete!"
       i18n={util.i18n}
@@ -1800,7 +1800,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       text="My manifesto is now complete!"
       collapseMetadata
@@ -1818,7 +1818,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="My manifesto is now complete!"
       i18n={util.i18n}
@@ -1835,7 +1835,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       text="My manifesto is now complete!"
       i18n={util.i18n}
@@ -1855,10 +1855,10 @@ Voice notes are not shown any differently from audio attachments.
 #### Other file type
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -1873,7 +1873,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -1889,7 +1889,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
@@ -1905,7 +1905,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -1925,10 +1925,10 @@ Voice notes are not shown any differently from audio attachments.
 #### Dangerous file type
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -1945,7 +1945,7 @@ Voice notes are not shown any differently from audio attachments.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
       timestamp={Date.now()}
@@ -1969,12 +1969,12 @@ Voice notes are not shown any differently from audio attachments.
 Note that the author avatar goes away if `collapseMetadata` is set.
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      conversationColor="pink"
+      authorColor="pink"
       conversationType="group"
       authorPhoneNumber="(202) 555-0003"
       text="Just phone number"
@@ -1986,7 +1986,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      conversationColor="blue"
+      authorColor="blue"
       conversationType="group"
       authorPhoneNumber="(202) 555-0003"
       authorProfileName="On🔥!"
@@ -1999,7 +1999,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      conversationColor="deep_orange"
+      authorColor="deep_orange"
       conversationType="group"
       authorName="Mr. Fire"
       authorPhoneNumber="(202) 555-0003"
@@ -2013,7 +2013,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      conversationColor="purple"
+      authorColor="purple"
       conversationType="group"
       authorName="Mr. Fire with a super-long name and that's just what's gonna happen. No doubt."
       authorPhoneNumber="(202) 555-0003"
@@ -2025,7 +2025,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       authorName="Mr. Fire"
       conversationType="group"
       direction="incoming"
@@ -2043,7 +2043,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       conversationType="group"
       authorName="Mr. Fire"
       direction="incoming"
@@ -2065,7 +2065,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </li>
   <li>
     <Message
-      conversationColor="green"
+      authorColor="green"
       conversationType="group"
       authorName="Mr. Fire"
       direction="incoming"
@@ -2083,7 +2083,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
     <Message
       direction="incoming"
       conversationType="group"
-      conversationColor="red"
+      authorColor="red"
       authorName="Mr. Fire"
       text="My manifesto is now complete!"
       i18n={util.i18n}
@@ -2101,7 +2101,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      conversationColor="deep_orange"
+      authorColor="deep_orange"
       conversationType="group"
       authorName="Mr. Fire"
       collapseMetadata
@@ -2119,7 +2119,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
       conversationType="group"
       authorPhoneNumber="(202) 555-0003"
       text="No contact, no avatar"
-      conversationColor="grey"
+      authorColor="grey"
       i18n={util.i18n}
     />
   </li>
@@ -2127,11 +2127,11 @@ Note that the author avatar goes away if `collapseMetadata` is set.
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      conversationColor="deep_orange"
+      authorColor="deep_orange"
       conversationType="group"
       authorName="Mr. Fire"
       authorPhoneNumber="(202) 555-0003"
-      conversationColor="teal"
+      authorColor="teal"
       text="Contact and color, but no avatar"
       i18n={util.i18n}
     />
@@ -2139,7 +2139,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   <li>
     <Message
       direction="outgoing"
-      conversationColor="pink"
+      authorColor="pink"
       status="delivered"
       timestamp={Date.now()}
       conversationType="group"
