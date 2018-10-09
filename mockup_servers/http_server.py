@@ -15,10 +15,18 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
     #self.send_header()
     self.end_headers()
 
-    message = self.rfile.read(int(self.headers.get('Content-Length'))).decode('UTF-8')
-
-    print(message)
-
+    #message = self.rfile.read(int(self.headers.get('Content-Length'))).decode('UTF-8')
+    length = self.headers.get('Content-Length')
+    for (k,v) in self.headers.items():
+      print(k + ':' + v)
+    if length:
+      print ('length: ' + self.headers.get('Content-Length'))
+      message = self.rfile.read(int(length))
+    
+      array = []
+      for k in message:
+        array += [k]
+      print(array)
     # Send message back to client
     #message = "ok"
     # Write content as utf-8 data
