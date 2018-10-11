@@ -27,7 +27,7 @@
 
       return {
           type           : 6, //friend request
-          body           : new dcodeIO.ByteBuffer.wrap(ivAndCiphertext).toString('binary'),
+          body           : ivAndCiphertext,
           registrationId : null
       };
     },
