@@ -86,6 +86,12 @@ module.exports = grunt => {
         ],
         dest: 'js/libtextsecure.js',
       },
+      libloki: {
+        src: [
+          'libloki/libloki-protocol.js',
+        ],
+        dest: 'js/libloki.js',
+      },
       libtextsecuretest: {
         src: [
           'node_modules/jquery/dist/jquery.js',
@@ -127,6 +133,10 @@ module.exports = grunt => {
       libtextsecure: {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
         tasks: ['concat:libtextsecure'],
+      },
+      libloki: {
+        files: ['./libloki/*.js'],
+        tasks: ['concat:libloki'],
       },
       protobuf: {
         files: ['./protos/SignalService.proto'],

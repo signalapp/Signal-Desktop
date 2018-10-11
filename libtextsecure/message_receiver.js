@@ -646,9 +646,16 @@ MessageReceiver.prototype.extend({
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
         promise = Promise.resolve(ciphertext.toArrayBuffer())//;sessionCipher
-          // TODO: restore decryption & unpadding
+          // TODO: restore decryption & unpadding (?)
           //.decryptWhisperMessage(ciphertext)
           //.then(this.unpad);
+        break;
+      case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST:
+        window.log.info('friend-request message from ', envelope.source)
+        const fallBackSessionCipher = new libloki.FallBackSessionCipher(
+          address
+        );
+        promise = fallBackSessionCipher.decrypt(ciphertext.toArrayBuffer());
         break;
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
         window.log.info('prekey message from', this.getEnvelopeId(envelope));
