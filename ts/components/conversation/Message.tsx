@@ -365,7 +365,7 @@ export class Message extends React.Component<Props, State> {
     );
   }
 
-  // tslint:disable-next-line max-func-body-length cyclomatic-complexity jsx-no-lambda react-this-binding-issue
+  // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   public renderAttachment() {
     const {
       i18n,
