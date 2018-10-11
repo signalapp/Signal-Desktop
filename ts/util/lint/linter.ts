@@ -52,6 +52,7 @@ const excludedFiles = [
   // Generated files
   '^js/components.js',
   '^js/libtextsecure.js',
+  '^js/libloki.js',
   '^js/util_worker.js',
   '^libtextsecure/components.js',
   '^libtextsecure/test/test.js',

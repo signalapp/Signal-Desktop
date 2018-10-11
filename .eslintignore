@@ -12,6 +12,7 @@ test/views/*.js
 # Generated files
 js/components.js
 js/libtextsecure.js
+js/libloki.js
 js/util_worker.js
 js/libsignal-protocol-worker.js
 libtextsecure/components.js
