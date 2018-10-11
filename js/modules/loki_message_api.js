@@ -29,21 +29,18 @@ function initialize({ url }) {
       };
         
       log.info(options.type, options.url);
-      
-      const body = JSON.stringify({
-        pub_key,
-        message: data,
-        ttl,
-      });
+
 
       const fetchOptions = {
         method: options.type,
-        body,
-        headers: { 'X-Loki-Messenger-Agent': 'OWD' },
+        body: data,
+        headers: {
+          'X-Loki-ttl': ttl,
+          'X-Loki-recipient': pub_key,
+          'Content-Length': data.byteLength,
+        },
         timeout: options.timeout,
       };
-
-      fetchOptions.headers['Content-Type'] = 'application/json; charset=utf-8';
 
       let response;
       try {
