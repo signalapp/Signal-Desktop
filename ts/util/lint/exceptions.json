@@ -402,7 +402,7 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 966,
+    "lineNumber": 972,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -2218,7 +2218,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 681,
+    "lineNumber": 688,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -2226,7 +2226,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 706,
+    "lineNumber": 713,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
