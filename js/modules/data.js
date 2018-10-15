@@ -524,7 +524,7 @@ async function callChannel(name) {
 
     setTimeout(
       () => reject(new Error(`callChannel call to ${name} timed out`)),
-      5000
+      DATABASE_UPDATE_TIMEOUT
     );
   });
 }
