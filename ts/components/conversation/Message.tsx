@@ -505,7 +505,7 @@ export class Message extends React.Component<Props, State> {
     } else {
       const { fileName, fileSize, contentType } = attachment;
       const extension = getExtension({ contentType, fileName });
-      const isDangerous = isFileDangerous(fileName);
+      const isDangerous = isFileDangerous(fileName || '');
 
       return (
         <div
@@ -738,7 +738,7 @@ export class Message extends React.Component<Props, State> {
       return null;
     }
 
-    const fileName = attachment && attachment.fileName;
+    const fileName = attachment ? attachment.fileName : null;
     const isDangerous = isFileDangerous(fileName || '');
 
     const downloadButton = attachment ? (
