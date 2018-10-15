@@ -164,7 +164,7 @@
     "rule": "jQuery-$(",
     "path": "js/background.js",
     "line": "        if ($('.dark-overlay').length) {",
-    "lineNumber": 264,
+    "lineNumber": 261,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -173,7 +173,7 @@
     "rule": "jQuery-$(",
     "path": "js/background.js",
     "line": "        $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
-    "lineNumber": 267,
+    "lineNumber": 264,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -182,7 +182,7 @@
     "rule": "jQuery-prepend(",
     "path": "js/background.js",
     "line": "        $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
-    "lineNumber": 267,
+    "lineNumber": 264,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Hard-coded value"
@@ -191,7 +191,7 @@
     "rule": "jQuery-$(",
     "path": "js/background.js",
     "line": "        $('.dark-overlay').on('click', () => $('.dark-overlay').remove());",
-    "lineNumber": 268,
+    "lineNumber": 265,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -200,7 +200,7 @@
     "rule": "jQuery-$(",
     "path": "js/background.js",
     "line": "      removeDarkOverlay: () => $('.dark-overlay').remove(),",
-    "lineNumber": 270,
+    "lineNumber": 267,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -209,7 +209,7 @@
     "rule": "jQuery-$(",
     "path": "js/background.js",
     "line": "        $('body').append(clearDataView.el);",
-    "lineNumber": 273,
+    "lineNumber": 270,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -218,7 +218,7 @@
     "rule": "jQuery-append(",
     "path": "js/background.js",
     "line": "        $('body').append(clearDataView.el);",
-    "lineNumber": 273,
+    "lineNumber": 270,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -227,7 +227,7 @@
     "rule": "jQuery-load(",
     "path": "js/background.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 508,
+    "lineNumber": 488,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
@@ -235,7 +235,7 @@
     "rule": "jQuery-$(",
     "path": "js/background.js",
     "line": "      el: $('body'),",
-    "lineNumber": 562,
+    "lineNumber": 542,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -244,7 +244,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "        const profileKey = dcodeIO.ByteBuffer.wrap(details.profileKey).toString(",
-    "lineNumber": 883,
+    "lineNumber": 863,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
