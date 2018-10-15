@@ -76,7 +76,7 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
-        keysPending: true
+        keyExchangeStatus: 'none'
       };
     },
 
@@ -398,29 +398,36 @@
         return contact.isVerified();
       });
     },
-    isKeysPending() {
-      if (this.isPrivate()) {
-        if (this.isMe()) {
-          return false;
-        }
-        const keysPending = this.get('keysPending');
-        if (keysPending === undefined) {
-          keysPending = true;
-        }
-        return keysPending;
-      }
-
-      throw new Error(
-        'isKeysPending not implemented for groups'
-      );
+    getKeyExchangeStatus() {
+      return this.get('keyExchangeStatus') || 'none';
     },
-    setKeysPending(keysPending) {
-      if (typeof keysPending !== 'boolean') {
+    isKeyExchangeCompleted() {
+      if (!this.isPrivate()) {
         throw new Error(
-          'setKeysPending expects a boolean'
+          'isKeyExchangeCompleted not implemented for groups'
         );
       }
-      this.set({ keysPending });
+
+      if (this.isMe()) {
+        return true;
+      }
+
+      return this.getKeyExchangeStatus() == 'completed';
+    },
+    setKeyExchangeStatus(status) {
+      if (typeof status !== 'string') {
+        throw new Error(
+          'setKeyExchangeStatus expects a string'
+        );
+      }
+      status = status.toLowerCase();
+      
+      if (['none', 'ongoing', 'completed'].indexOf(status) < 0) {
+        throw new Error(
+          'unknown string value given to setKeyExchangeStatus'
+        );
+      }
+      this.set({ keyExchangeStatus: status });
     },
     isUnverified() {
       if (this.isPrivate()) {

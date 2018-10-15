@@ -160,7 +160,7 @@
           color: this.model.getColor(),
           avatarPath,
           isVerified: this.model.isVerified(),
-          isKeysPending: this.model.isKeysPending(),
+          isKeysPending: this.model.isKeyExchangeCompleted() == false,
           isMe: this.model.isMe(),
           isGroup: !this.model.isPrivate(),
           expirationSettingName,
