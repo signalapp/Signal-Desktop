@@ -7,6 +7,7 @@
   const IV_LENGTH = 16;
 
   FallBackSessionCipher = function (address) {
+    this.identityKeyString = address.getName();
     this.pubKey = StringView.hexToArrayBuffer(address.getName());
 
     this.encrypt = async (plaintext) => {
@@ -37,11 +38,15 @@
       const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
       const myPrivateKey = myKeyPair.privKey;
       const symmetricKey = libsignal.Curve.calculateAgreement(this.pubKey, myPrivateKey);
-      const plaintext = await libsignal.crypto.decrypt(symmetricKey, cipherText, iv);
-      return plaintext;
+      try {
+        return await libsignal.crypto.decrypt(symmetricKey, cipherText, iv);
+      } catch(e) {
+        throw new FallBackDecryptionError('Could not decrypt message from ' + this.identityKeyString + ' using FallBack encryption.')
+      }
     }
   }
   
   window.libloki.FallBackSessionCipher = FallBackSessionCipher;
+  window.libloki.FallBackDecryptionError = FallBackDecryptionError;
 
 })();
