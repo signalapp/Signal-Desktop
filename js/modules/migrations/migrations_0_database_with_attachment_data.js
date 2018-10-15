@@ -165,6 +165,17 @@ const migrations = [
       next();
     },
   },
+  {
+    version: 19,
+    migrate(transaction, next) {
+      window.log.info('Migration 19');
+
+      // Empty because we don't want to cause incompatibility with users who have already
+      //   run migration 19 when it was the object store removal.
+
+      next();
+    },
+  },
 ];
 
 const database = {

@@ -6,12 +6,12 @@ const db = require('../database');
 const settings = require('../settings');
 const { runMigrations } = require('./run_migrations');
 
-// These are cleanup migrations, to be run after migration to SQLCipher
+// These are migrations for after the SQLCipher migration, currently not running
 exports.migrations = [
   {
-    version: 19,
+    version: 20,
     migrate(transaction, next) {
-      window.log.info('Migration 19');
+      window.log.info('Migration 20');
       window.log.info(
         'Removing messages, unprocessed, and conversations object stores'
       );
