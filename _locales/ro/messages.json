@@ -28,7 +28,7 @@
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Hide Others",
+        "message": "Ascunde altele",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
@@ -92,7 +92,7 @@
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
+        "message": "Adu toate în față",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
@@ -250,7 +250,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "Ai marcat numărul tău de siguranță cu $name$ ca fiind verificat",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -260,7 +260,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "Ai marcat numărul tău de siguranță cu $name$ ca neverificat.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -270,7 +270,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "Ai marcat numărul tău de siguranță cu $name$ ca verificat de pe alt dispozitiv.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -280,7 +280,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "Ai marcat numărul tău de siguranță cu $name$ ca neverificat de pe alt dispozitiv.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -479,8 +479,16 @@
         "message": "Tipul fişierului nu este suportat",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Ne pare rău, fişierul selectat depăşeşte restricţia de mărime a mesajului.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Nu s-a putut încărca atașamentul selectat.",
         "description": ""
     },
     "disconnected": {
@@ -616,7 +624,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloadAttachment": {
-        "message": "Download Attachment",
+        "message": "Descarcă atașamentul",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
@@ -624,11 +632,11 @@
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Original message not found",
+        "message": "Mesajul original nu a fost găsit",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Original message no longer available",
+        "message": "Mesajul original nu mai este disponibil",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
@@ -698,7 +706,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only.",
+        "message": "Ești sigur? Apăsând 'ștergere' vei șterge permanent acest mesaj doar de pe acest dispozitiv.",
         "description": ""
     },
     "deleteThisMessage": {
@@ -764,7 +772,7 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "Încearcă re-trimiterea",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
@@ -787,20 +795,12 @@
         "message": "Thumbnail of image from quoted message",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Imaginea nu a putut fi încărcată",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Imagine atașată la mesaj",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "Screenshot la video atașat la mesaj",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
@@ -1093,8 +1093,12 @@
         "message": "Deblochează acest contact pentru a putea trimite mesaje.",
         "description": "Brief message shown when trying to message a blocked number"
     },
+    "unblockGroupToSend": {
+        "message": "Deblochează acest grup pentru a putea trimite un mesaj.",
+        "description": "Brief message shown when trying to message a blocked group"
+    },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "Ai setat timpul pentru mesajele care dispar la $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1104,7 +1108,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "S-a actualizat timpul pentru mesajele care dispar la $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1114,7 +1118,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ a setat timpul pentru mesajele care dispar la $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1228,11 +1232,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
+        "message": "Mesaje care dispar sunt dezactivate",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$ a dezactivat mesajele care dispar",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1242,7 +1246,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
+        "message": "Ai dezactivat mesajele care dispar",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {

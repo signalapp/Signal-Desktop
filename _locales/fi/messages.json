@@ -1,6 +1,6 @@
 {
     "mainMenuFile": {
-        "message": "&Arkisto",
+        "message": "&Tiedosto",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -478,6 +478,10 @@
     "unsupportedFileType": {
         "message": "Tiedostotyyppiä ei tueta",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "dangerousFileType": {
+        "message": "Turvallisuussyistä tätä tiedostotyyppiä ei voida liittää.",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "fileSizeWarning": {
         "message": "Valitettavasti kyseinen tiedosto ylittää viesteille asetetun kokorajoituksen.",

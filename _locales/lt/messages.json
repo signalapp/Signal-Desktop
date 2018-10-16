@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Pradėti naudoti Signal darbalaukiui",
+        "message": "Pradėti naudoti Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -479,8 +479,16 @@
         "message": "Nepalaikomas failo tipas",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Priedo tipas saugumo sumetimais yra neleidžiamas",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Nepavyko įkelti pasirinkto priedo.",
         "description": ""
     },
     "disconnected": {
@@ -534,11 +542,11 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal darbalaukiui nuostatos",
+        "message": "Signal Desktop nuostatos",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Apie Signal darbalaukiui",
+        "message": "Apie Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -558,7 +566,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "trayTooltip": {
-        "message": "Signal darbalaukiui",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
@@ -650,7 +658,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Norėdami siųsti garso žinutes, suteikite Signal darbalaukiui prieigą prie savo mikrofono.",
+        "message": "Norėdami siųsti garso žinutes, suteikite Signal Desktop prieigą prie savo mikrofono.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -787,14 +795,6 @@
         "message": "Paveikslo iš cituotos žinutės miniatiūra",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Nepavyko įkelti paveikslo",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Nepavyko įkelti vaizdo įrašo ekrano kopijos",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Prie žinutės pridėtas paveikslas",
         "description": "Used in alt tag of image attachment"
@@ -822,7 +822,7 @@
         }
     },
     "installWelcome": {
-        "message": "Sveiki atvykę į Signal darbalaukiui",
+        "message": "Sveiki atvykę į Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -830,7 +830,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Susiekite savo telefoną su Signal darbalaukiui",
+        "message": "Susiekite savo telefoną su Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -986,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Pasibaigė šios Signal darbalaukiui skirtos versijos galiojimas. Norint tęsti susirašinėjimą, prašome atsinaujinti iki naujausios versijos.",
+        "message": "Pasibaigė šios Signal Desktop skirtos versijos galiojimas. Norint tęsti susirašinėjimą, prašome atsinaujinti iki naujausios versijos.",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Atblokuokite šį kontaktą, kad išsiųstumėte žinutę.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Norėdami siųsti žinutę, atblokuokite šią grupę.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Jūs nustatėte išnykstančių žinučių laikmatį į $time$",
@@ -1312,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Norėdami tęsti susirašinėjimą, iš naujo susiekite Signal darbalaukiui su savo mobiliuoju įrenginiu.",
+        "message": "Norėdami tęsti susirašinėjimą, iš naujo susiekite Signal Desktop su savo mobiliuoju įrenginiu.",
         "description": ""
     },
     "unlinked": {

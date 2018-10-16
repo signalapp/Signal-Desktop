@@ -479,8 +479,16 @@
         "message": "Nieobsługiwany typ pliku",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Ze względów bezpieczeństwa ten typ załącznika nie jest dozwolony",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Wybrany plik przekracza ograniczenia rozmiaru wiadomości.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Nie można załadować wybranego załącznika.",
         "description": ""
     },
     "disconnected": {
@@ -787,14 +795,6 @@
         "message": "Miniatura obrazu z cytowanej wiadomości",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Nie udało się wczytać obrazu",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Zrzut ekranu z filmu się nie załadował",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Zdjęcie załączone do wiadomości",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Odblokuj ten kontakt, aby wysłać wiadomość.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Odblokuj tę grupę, aby wysłać wiadomość.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Ustawiłeś(aś) znikające wiadomości na $time$",

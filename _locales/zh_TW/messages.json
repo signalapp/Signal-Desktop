@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "開始使用 Signal 桌面",
+        "message": "開始使用 Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -479,8 +479,16 @@
         "message": "不支援的檔案類型",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "抱歉，選擇的檔案大小超過訊息限制",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Unable to load selected attachment.",
         "description": ""
     },
     "disconnected": {
@@ -534,11 +542,11 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal 桌面設定",
+        "message": "Signal Desktop設定",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "關於 Signal 桌面",
+        "message": "關於 Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -558,7 +566,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "trayTooltip": {
-        "message": "Signal 桌面",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
@@ -787,14 +795,6 @@
         "message": "引用訊息的縮圖",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "載入圖片失敗",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "影片截取無法載入",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "訊息裏插入的圖片",
         "description": "Used in alt tag of image attachment"
@@ -822,7 +822,7 @@
         }
     },
     "installWelcome": {
-        "message": "歡迎來到 Signal 桌面版",
+        "message": "歡迎來到 Signal Desktop版",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -830,7 +830,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "您的手機與 Signal 桌面連結",
+        "message": "您的手機與 Signal Desktop連結",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -986,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Signal 桌面版的版本已經過期。請更新到最新版來傳送訊息。",
+        "message": "Signal Desktop版的版本已經過期。請更新到最新版來傳送訊息。",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "解鎖聯絡人來傳送訊息。",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Unblock this group to send a message.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "您設定訊息讀後焚毀的時間為 $time$",
@@ -1312,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "重新連結 Signal 桌面到你的行動裝置來持續發送訊息。",
+        "message": "重新連結 Signal Desktop到你的行動裝置來持續發送訊息。",
         "description": ""
     },
     "unlinked": {
