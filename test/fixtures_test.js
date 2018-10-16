@@ -4,6 +4,7 @@ describe("Fixtures", function() {
   before(function(done) {
     // NetworkStatusView checks this method every five seconds while showing
     window.getSocketStatus = function() { return WebSocket.OPEN; };
+    window.EXPIRATION_TIME = new Date(Date.now() - 1000);
 
     Whisper.Fixtures.saveAll().then(function() {
       done();

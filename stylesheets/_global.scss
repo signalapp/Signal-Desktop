@@ -545,11 +545,10 @@ input[type=text], input[type=search], textarea {
 .upgrade-banner {
   background: linear-gradient(
     to bottom,
-    rgb(238,238,238) 0%, // (1 - 0.41) * 255 + 0.41 * 213
-    rgb(243,243,243) 20%, // (1 - 0.19) * 255 + 0.19 * 191
-    rgb(255,255,255) 35%,
-    rgb(255,255,255) 65%,
-    rgb(249,249,249) 80%, // (1 - 0.19) * 255 + 0.19 * 222
+    rgb(213,213,213) 0%, // (1 - 0.41) * 255 + 0.41 * 213
+    rgb(249,249,249) 35%, // (1 - 0.19) * 255 + 0.19 * 191
+    rgb(255,255,255) 50%,
+    rgb(249,249,249) 65%, // (1 - 0.19) * 255 + 0.19 * 222
     rgb(213,213,213) 100% // (1 - 0.27) * 255 + 0.27 * 98
   );
   padding: 10px;
@@ -572,6 +571,11 @@ input[type=text], input[type=search], textarea {
 
   .message {
     padding: 10px 0;
+  }
+
+  .highlight {
+    font-weight: bold;
+    font-family: roboto;
   }
 
   .x {
@@ -747,6 +751,14 @@ input[type=text], input[type=search], textarea {
     text-align: left;
     margin-left: auto;
     margin-right: auto;
+
+    &.red-text {
+      color: red;
+
+      a {
+        color: red;
+      }
+    }
   }
 
   .step {
@@ -803,6 +815,7 @@ input[type=text], input[type=search], textarea {
   .button {
     cursor: pointer;
     display: inline-block;
+    text-decoration: none;
     border: none;
     min-width: 300px;
     padding: 0.75em;

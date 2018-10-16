@@ -152,7 +152,7 @@
                 }
                 this.showUpgradeScreen();
             }
-            else if (storage.get(window.UPGRADE_FLAG)) {
+            else {
                 this.showUpgradeBanner();
             }
         },
@@ -327,9 +327,34 @@
     Whisper.UpgradeBanner = Whisper.View.extend({
         templateName: 'upgrade_banner',
         className: 'expiredAlert upgrade-banner clearfix',
+        initializer: function() {
+            var HOUR = 1000 * 60 * 60;
+            this.interval = setInterval(this.render.bind(this), HOUR);
+        },
+        remove: function() {
+            if (this.interval) {
+                clearInterval(this.interval);
+                this.interval = null;
+            }
+
+            Backbone.View.prototype.remove.call(this);
+        },
         render_attributes: function() {
+            var DAY = 1000 * 60 * 60 * 24;
+            var timeLeft = window.EXPIRATION_TIME.getTime() - Date.now();
+
+            if (timeLeft <= 0) {
+                return {
+                    upgradeMessage: i18n('upgradeBannerExpired'),
+                    upgradeNow: i18n('upgradeNow'),
+                };
+            }
+
+            var daysLeft = Math.floor(timeLeft / DAY);
+
             return {
                 upgradeMessage: i18n('upgradeBanner'),
+                highlight: i18n('upgradeBannerTimespan', [daysLeft]),
                 upgradeNow: i18n('upgradeNow'),
             };
         }

@@ -486,7 +486,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     padding: 10px 0; }
 
 .upgrade-banner {
-  background: linear-gradient(to bottom, #eeeeee 0%, #f3f3f3 20%, white 35%, white 65%, #f9f9f9 80%, #d5d5d5 100%);
+  background: linear-gradient(to bottom, #d5d5d5 0%, #f9f9f9 35%, white 50%, #f9f9f9 65%, #d5d5d5 100%);
   padding: 10px;
   font-family: roboto-light;
   font-size: 14pt; }
@@ -504,6 +504,9 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     margin-left: 20px; }
   .upgrade-banner .message {
     padding: 10px 0; }
+  .upgrade-banner .highlight {
+    font-weight: bold;
+    font-family: roboto; }
   .upgrade-banner .x {
     float: right;
     margin-left: 0.5em;
@@ -635,6 +638,10 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     text-align: left;
     margin-left: auto;
     margin-right: auto; }
+    .migration-flow .body-text-wide.red-text {
+      color: red; }
+      .migration-flow .body-text-wide.red-text a {
+        color: red; }
   .migration-flow .step {
     height: 100%;
     width: 100%;
@@ -673,6 +680,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   .migration-flow .button {
     cursor: pointer;
     display: inline-block;
+    text-decoration: none;
     border: none;
     min-width: 300px;
     padding: 0.75em;

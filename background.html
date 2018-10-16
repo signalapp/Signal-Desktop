@@ -88,7 +88,7 @@
     <span class='x banner-close'></span>
     <button class='migrate'>{{ upgradeNow }}</button>
     <div class='message'>
-      {{ upgradeMessage }}
+      {{ upgradeMessage }} <span class='highlight'>{{ highlight }}</span>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='banner'>
@@ -614,7 +614,9 @@ sudo apt update && sudo apt install signal-desktop
         <div class='step-body'>
           <img class='banner-image' src='/images/icon_128.png'>
           <div class='header'>{{ startHeader }}</div>
-          <div class='body-text-wide'>{{ start }}</div>
+          <div class='body-text-wide'>{{ startParagraph1 }}</div>
+          <div class='body-text-wide'>{{ startParagraph2 }}</div>
+          <div class='body-text-wide red-text'>{{ startParagraph3 }} <a target='_blank' href='https://support.signal.org/hc/en-us/articles/360007320431'>{{ moreInformation }}</div>
         </div>
         <div class='nav'>
           <div>
@@ -631,44 +633,6 @@ sudo apt update && sudo apt install signal-desktop
     <div id='step2' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <div class='header'>{{ installHeader }}</div>
-          <p>{{ install }}</p>
-        </div>
-        <div class='install-container'>
-          <div class='install'>
-            <a class='install-mac' target='_blank' href='{{ macLink }}'>
-              <span class='install-icon apple'></span>
-              <div>Mac</div>
-            </a>
-          </div>
-          <div class='install'>
-            <a class='install-windows' target='_blank' href='{{ windowsLink }}'>
-              <span class='install-icon windows'></span>
-              <div>Windows</div>
-            </a>
-          </div>
-          <div class='install'>
-            <a class='install-linux' href='#'>
-              <span class='install-icon linux'></span>
-              <div>Debian-based Linux</div>
-            </a>
-          </div>
-        </div>
-        <div class='nav'>
-          <div>
-            <a class='button installed'>{{ installCompleteButton }}</a>
-          </div>
-          <div>
-            <a class='link cancel'>{{ cancelButton }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isStep2}}
-    {{#isStep3}}
-    <div id='step3' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
           <span class='banner-icon folder-outline'></span>
           <div class='header'>{{ chooseHeader }}</div>
           <div class='body-text-wide'>{{ choose }}</div>
@@ -683,9 +647,9 @@ sudo apt update && sudo apt install signal-desktop
         </div>
       </div>
     </div>
-    {{/isStep3}}
-    {{#isStep4}}
-    <div id='step4' class='step'>
+    {{/isStep2}}
+    {{#isStep3}}
+    <div id='step3' class='step'>
       <div class='inner'>
         <div class='step-body'>
           <span class='banner-icon export'></span>
@@ -703,9 +667,9 @@ sudo apt update && sudo apt install signal-desktop
         </div>
       </div>
     </div>
-    {{/isStep4}}
-    {{#isStep5}}
-    <div id='step5' class='step'>
+    {{/isStep3}}
+    {{#isStep4}}
+    <div id='step4' class='step'>
       <div class='inner'>
         <div class='step-body'>
           <span class='banner-icon check-circle-outline'></span>
@@ -717,12 +681,15 @@ sudo apt update && sudo apt install signal-desktop
         </div>
         <div class='nav'>
           <div>
+            <a class='button get-new-version' target='_blank' href='{{ downloadLocation }}'>{{ installButton }}</a>
+          </div>
+          <div>
             <a class='link submit-debug-log'>{{ debugLogButton }}</a>
           </div>
         </div>
       </div>
     </div>
-    {{/isStep5}}
+    {{/isStep4}}
     {{#isError}}
     <div id='error' class='step'>
       <div class='inner error-dialog clearfix'>

@@ -80,55 +80,9 @@
         return roll <= percentage;
     }
 
-    var UPGRADE_VALUE = 'feb-2018-upgrade-dice';
-    var UPGRADE_FLAG = window.UPGRADE_FLAG = 'feb-2018-upgrade-alert';
-    var UPGRADE_URL = 'https://updates.signal.org/desktop/feb-2018-upgrade.txt';
-    var HALF_HOUR = 30 * 60 * 1000;
-
-    function checkForUpgrade() {
-        $.ajax(UPGRADE_URL).done(function(data) {
-            var previous = storage.get(UPGRADE_VALUE);
-            if (data === previous) {
-                console.log('Upgrade check: Got same value as last time. Another check in 30 minutes');
-                return;
-            }
-
-            storage.put(UPGRADE_VALUE, data);
-            if (isTimeToUpgrade(data)) {
-                console.log('Upgrade check: time to upgrade!');
-                storage.put(UPGRADE_FLAG, true);
-                addUpgradeAlert();
-            } else {
-                console.log('Upgrade check: Not yet time to upgrade. Another check in 30 minutes');
-                setTimeout(checkForUpgrade, HALF_HOUR);
-            }
-        }).fail(function() {
-            console.log('Upgrade check: Request failed; another check in 30 minutes');
-            setTimeout(checkForUpgrade, HALF_HOUR);
-        });
-    }
-
-    function addUpgradeAlert() {
-        var app = window.owsDesktopApp;
-        if (!app) {
-            return;
-        }
-
-        var view = app.inboxView;
-        if (!view) {
-            return;
-        }
-
-        view.showUpgradeBanner();
-    }
-
     storage.fetch();
     storage.onready(function() {
         ConversationController.load();
-
-        if (!storage.get(UPGRADE_FLAG)) {
-            checkForUpgrade();
-        }
 
         window.dispatchEvent(new Event('storage_ready'));
         setUnreadCount(storage.get("unreadCount", 0));
@@ -172,6 +126,17 @@
 
     function init(firstRun) {
         window.removeEventListener('online', init);
+
+        // End of day, November 15th, 2018, Pacific Time (midnight the next day)
+        window.EXPIRATION_TIME = new Date('2018-11-16T08:00:00.000Z');
+        var timeLeft = window.EXPIRATION_TIME.getTime() - Date.now();
+        if (timeLeft <= 0) {
+            // start the migrate process, don't start up normally
+            return window.owsDesktopApp.getAppView().then(function(inboxView) {
+                inboxView.showUpgradeScreen();
+            });
+        }
+
         if (!Whisper.Registration.isDone()) { return; }
         if (Whisper.Migration.inProgress()) { return; }
 

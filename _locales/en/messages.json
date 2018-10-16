@@ -12,8 +12,22 @@
       "description": "Button to click when user has installed the new Signal Desktop"
     },
     "upgradeBanner": {
-      "message": "The next generation of Signal Desktop is here.",
-      "description": "Shown at the top of the application prompting the user to upgrade to the new, standalone version of the app."
+      "message": "This legacy version of Signal Desktop will stop working in:",
+      "description": "Shown at the top of the application alerting the user that this version of Signal Desktop will soon no longer be available."
+    },
+    "upgradeBannerExpired": {
+      "message": "This legacy version of Signal Desktop is in read-only mode",
+      "description": "Shown at the top of the application alerting the user that they will need to find a new Signal Desktop application."
+    },
+    "upgradeBannerTimespan": {
+      "message": "$days$ days",
+      "description": "Shown at the top of the application giving the user the amount of time left before this version of Signal Desktop stops working",
+      "placeholders": {
+        "days": {
+          "content": "$1",
+          "example": "5"
+        }
+      }
     },
     "upgradeNow": {
       "message": "Upgrade now",
@@ -28,7 +42,7 @@
       "description": "The first step in the export process; installing the standalone desktop app, to ensure it is available for that platform."
     },
     "saveDataPrompt": {
-      "message": "Your messages, contacts, groups, and other information can be seamlessly transferred to the new Signal Desktop. Select the folder where your exported Signal data should be saved.",
+      "message": "Your messages, contacts, groups, and other information can be seamlessly transferred to the standalone version of Signal Desktop. Select the folder where your exported Signal data should be saved.",
       "description": "Explanation of what will happen when the user presses the 'choose folder' button during the upgrade process"
     },
     "chooseFolder": {
@@ -39,8 +53,24 @@
       "message": "Upgrade to the new Signal Desktop",
       "description": "Header shown when starting the export and upgrade process"
     },
-    "startExportIntro": {
-      "message": "Signal Desktop is now available as a standalone application that features faster performance, expanded emoji support (with a brand-new emoji selector), enhanced notifications, and many other improvements. This process will prepare your Signal data for a smooth transition to upgrade.",
+    "startExportIntroParagraph1": {
+      "message": "You are currently using the legacy Chrome version of Signal that was officially deprecated on October 31, 2017. Since then, the new standalone version of Signal Desktop has received regular updates, numerous feature enhancements, and significant performance improvements.",
+      "description": "Description of the why and the what of the export and upgrade process"
+    },
+    "startExportIntroParagraph2": {
+      "message": "This migration process will help you switch to the latest release. All of your information will be saved, and the upgrade should only take a few minutes. ",
+      "description": "Description of the why and the what of the export and upgrade process"
+    },
+    "startExportIntroParagraph3": {
+      "message": "Note: Non-Debian-based Linux distributions, ChromeOS, and 32-bit Windows platforms are not currently supported.",
+      "description": "Description of the why and the what of the export and upgrade process"
+    },
+    "moreInformation": {
+      "message": "More information",
+      "description": "Description of the why and the what of the export and upgrade process"
+    },
+    "upgradeLater": {
+      "message": "Upgrade Later",
       "description": "Description of the why and the what of the export and upgrade process"
     },
     "imReady": {
@@ -80,16 +110,16 @@
       "description": "The header for the finish step of the export and upgrade flow"
     },
     "completeIntro": {
-      "message": "Your Signal data was successfully saved here:",
+      "message": "Your Signal Desktop migration data was successfully saved here. Remember this location:",
       "description": "A label for the location of the files we put on disk during the export"
     },
     "completeNextSteps": {
-      "message": "You are ready to make your move. Launch the new Signal Desktop and follow the instructions to complete the migration process.",
+      "message": "You are almost done! Download and run the new version to import your data and finish the move.",
       "description": "A summary of the next steps to finish the export and upgrade process"
     },
-    "completeSignoff": {
-      "message": "We hope that you enjoy the new features. We're just getting started. Thanks for using Signal Desktop.",
-      "description": "A warm signoff now that the export and upgrade process is complete"
+    "getNewVersion": {
+      "message": "Get New Version",
+      "description": "The button to download the new Signal Desktop version after export is complete"
     },
     "exportErrorHeader": {
       "message": "Something went wrong!",

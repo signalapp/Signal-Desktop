@@ -42,10 +42,9 @@
 
   var STEPS = {
     INTRODUCTION: 1,
-    INSTALL: 2,
-    CHOOSE: 3,
-    EXPORTING: 4,
-    COMPLETE: 5,
+    CHOOSE: 2,
+    EXPORTING: 3,
+    COMPLETE: 4,
   };
 
   var GET_YAML_PATH = /^path: (.+)$/m;
@@ -139,15 +138,11 @@
     templateName: 'migration-flow-template',
     className: 'migration-flow',
     events: {
-      'click .install': 'onInstallClick',
-      'click .install-mac': 'onClickMac',
-      'click .install-windows': 'onClickWindows',
-      'click .install-linux': 'onClickLinux',
       'click .start': 'onClickStart',
-      'click .installed': 'onClickInstalled',
       'click .choose': 'onClickChoose',
       'click .submit-debug-log': 'onClickDebugLog',
       'click .cancel': 'onClickCancel',
+      'click .get-new-version': 'onGetNewVersion',
     },
     initialize: function() {
       this.step = STEPS.INTRODUCTION;
@@ -200,59 +195,55 @@
 
       var location = Whisper.Migration.getExportLocation() || i18n('selectedLocation');
 
+      var userAgent = navigator.userAgent.toLowerCase();
+      var downloadLocation = '#';
+      if (userAgent.indexOf('windows') !== -1) {
+        downloadLocation = this.windowsLink;
+      } else if (userAgent.indexOf('macintosh') !== -1) {
+        downloadLocation = this.macLink;
+      } else {
+        downloadLocation = 'https://signal.org/download';
+      }
+
       return {
-        cancelButton: i18n('cancel'),
+        cancelButton: i18n('upgradeLater'),
         debugLogButton: i18n('submitDebugLog'),
 
         isStep1: this.step === 1,
         startHeader: i18n('startExportHeader'),
-        start: i18n('startExportIntro'),
+        startParagraph1: i18n('startExportIntroParagraph1'),
+        startParagraph2: i18n('startExportIntroParagraph2'),
+        startParagraph3: i18n('startExportIntroParagraph3'),
+        moreInformation: i18n('moreInformation'),
         startButton: i18n('imReady'),
 
         isStep2: this.step === 2,
-        installHeader: i18n('installHeader'),
-        install: i18n('installIntro'),
-        macOS: i18n('macOS'),
-        macLink: this.macLink,
-        windows: i18n('windows'),
-        windowsLink: this.windowsLink,
-        linux: i18n('debianLinux'),
-        installCompleteButton: i18n('installed'),
-
-        isStep3: this.step === 3,
         chooseHeader: i18n('saveHeader'),
         choose: i18n('saveDataPrompt'),
         chooseButton: i18n('chooseFolder'),
 
-        isStep4: this.step === 4,
+        isStep3: this.step === 3,
         exportHeader: i18n('savingData'),
 
-        isStep5: this.step === 5,
+        isStep4: this.step === 4,
         completeHeader: i18n('completeHeader'),
         completeIntro: i18n('completeIntro'),
         completeLocation: location,
         completeNextSteps: i18n('completeNextSteps'),
-        completeSignoff: i18n('completeSignoff'),
+        downloadLocation: downloadLocation,
+        installButton: i18n('getNewVersion'),
       };
     },
+    onGetNewVersion: function(e) {
+      if (userAgent.indexOf('linux') !== -1) {
+        e.preventDefault();
+
+        var dialog = this.linuxInstructionsView = new LinuxInstructionsView({});
+        this.$el.prepend(dialog.el);
+        dialog.focusOk();
+      }
+    },
     onClickStart: function() {
-      this.selectStep(STEPS.INSTALL);
-    },
-    onClickMac: function() {
-      console.log('Mac install link clicked');
-    },
-    onClickWindows: function() {
-      console.log('Windows install link clicked');
-    },
-    onInstallClick: function() {
-      this.$el.find('.installed').css('visibility', 'visible');
-    },
-    onClickLinux: function() {
-      var dialog = this.linuxInstructionsView = new LinuxInstructionsView({});
-      this.$el.prepend(dialog.el);
-      dialog.focusOk();
-    },
-    onClickInstalled: function() {
       this.selectStep(STEPS.CHOOSE);
     },
     onClickChoose: function() {
