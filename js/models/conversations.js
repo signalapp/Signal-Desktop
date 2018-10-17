@@ -76,7 +76,7 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
-        keysPending: true
+        keyExchangeCompleted: false,
       };
     },
 
@@ -398,29 +398,27 @@
         return contact.isVerified();
       });
     },
-    isKeysPending() {
-      if (this.isPrivate()) {
-        if (this.isMe()) {
-          return false;
-        }
-        const keysPending = this.get('keysPending');
-        if (keysPending === undefined) {
-          keysPending = true;
-        }
-        return keysPending;
-      }
-
-      throw new Error(
-        'isKeysPending not implemented for groups'
-      );
-    },
-    setKeysPending(keysPending) {
-      if (typeof keysPending !== 'boolean') {
+    isKeyExchangeCompleted() {
+      if (!this.isPrivate()) {
         throw new Error(
-          'setKeysPending expects a boolean'
+          'isKeyExchangeCompleted not implemented for groups'
         );
       }
-      this.set({ keysPending });
+
+      if (this.isMe()) {
+        return true;
+      }
+
+      return this.get('keyExchangeCompleted') || false;
+    },
+    setKeyExchangeCompleted(completed) {
+      if (typeof completed !== 'boolean') {
+        throw new Error(
+          'setKeyExchangeCompleted expects a bool'
+        );
+      }
+      
+      this.set({ keyExchangeCompleted: completed });
     },
     isUnverified() {
       if (this.isPrivate()) {
