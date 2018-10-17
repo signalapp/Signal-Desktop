@@ -283,7 +283,7 @@
     font-family: inherit;
 
     &[disabled='disabled'] {
-      background: transparent;
+      background: $color-light-35;
     }
   }
   .capture-audio {

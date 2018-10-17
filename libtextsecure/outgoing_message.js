@@ -368,15 +368,16 @@ OutgoingMessage.prototype = {
     return this.getStaleDeviceIdsForNumber(number).then(updateDevices =>
       this.getKeysForNumber(number, updateDevices)
         .then(async (keysFound) =>  {
+          const conversation = ConversationController.get(number);
           let attachPrekeys = false;
           if (!keysFound)
           {
             log.info("Fallback encryption enabled");
+            conversation.friendRequestSent();
             this.fallBackEncryption = true;
             attachPrekeys = true;
           } else {
             try {
-              const conversation = ConversationController.get(number);
               attachPrekeys = !conversation.isKeyExchangeCompleted();
             } catch(e) {
               // do nothing

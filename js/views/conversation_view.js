@@ -70,6 +70,7 @@
     template: $('#conversation').html(),
     render_attributes() {
       return {
+        'disable-inputs': this.model.shouldDisableInputs(),
         'send-message': i18n('sendMessage'),
         'android-length-warning': i18n('androidMessageLengthWarning'),
       };
@@ -80,6 +81,7 @@
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
+      this.listenTo(this.model, 'disable:input', this.onDisableInput);
       this.listenTo(
         this.model.messageCollection,
         'show-identity',
@@ -275,6 +277,10 @@
       } else if (this.view.atBottom()) {
         this.trim();
       }
+    },
+
+    onDisableInput(disable) {
+      this.$('button.emoji, button.microphone, button.paperclip, .send-message').attr('disabled', disable);
     },
 
     unload(reason) {
