@@ -235,6 +235,7 @@
       };
     },
     onGetNewVersion: function(e) {
+      var userAgent = navigator.userAgent.toLowerCase();
       if (userAgent.indexOf('linux') !== -1) {
         e.preventDefault();
 
