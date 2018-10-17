@@ -4,6 +4,8 @@
 (function() {
   window.libloki = window.libloki || {};
 
+  class FallBackDecryptionError extends Error {}
+
   const IV_LENGTH = 16;
 
   FallBackSessionCipher = function (address) {
