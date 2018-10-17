@@ -694,6 +694,9 @@ MessageReceiver.prototype.extend({
             buffer.toArrayBuffer(),
             error.identityKey
           );
+        } else {
+          // re-throw
+          throw error;
         }
         const ev = new Event('error');
         ev.error = errorToThrow;
@@ -820,7 +823,11 @@ MessageReceiver.prototype.extend({
   handleContentMessage(envelope) {
     return this.decrypt(envelope, envelope.content).then(plaintext =>
       this.innerHandleContentMessage(envelope, plaintext)
-    );
+    ).catch(e => {
+      if (e instanceof libloki.FallBackDecryptionError) {
+        console.log(e.message + ' Ignoring message.');
+      }
+    });
   },
   innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
