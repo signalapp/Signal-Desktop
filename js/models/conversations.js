@@ -76,7 +76,7 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
-        keyExchangeStatus: 'none'
+        keyExchangeCompleted: false,
       };
     },
 
@@ -398,9 +398,6 @@
         return contact.isVerified();
       });
     },
-    getKeyExchangeStatus() {
-      return this.get('keyExchangeStatus') || 'none';
-    },
     isKeyExchangeCompleted() {
       if (!this.isPrivate()) {
         throw new Error(
@@ -412,22 +409,16 @@
         return true;
       }
 
-      return this.getKeyExchangeStatus() == 'completed';
+      return this.get('keyExchangeCompleted') || false;
     },
-    setKeyExchangeStatus(status) {
-      if (typeof status !== 'string') {
+    setKeyExchangeCompleted(completed) {
+      if (typeof completed !== 'boolean') {
         throw new Error(
-          'setKeyExchangeStatus expects a string'
+          'setKeyExchangeCompleted expects a bool'
         );
       }
-      status = status.toLowerCase();
       
-      if (['none', 'ongoing', 'completed'].indexOf(status) < 0) {
-        throw new Error(
-          'unknown string value given to setKeyExchangeStatus'
-        );
-      }
-      this.set({ keyExchangeStatus: status });
+      this.set({ keyExchangeCompleted: completed });
     },
     isUnverified() {
       if (this.isPrivate()) {
