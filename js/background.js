@@ -125,16 +125,18 @@
   window.setImmediate = window.nodeSetImmediate;
 
   const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
+  const {
+    mandatoryMessageUpgrade,
+    migrateAllToSQLCipher,
+    removeDatabase,
+    runMigrations,
+    doesDatabaseExist,
+  } = Signal.IndexedDB;
   const { Errors, Message } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     writeNewAttachmentData,
     deleteAttachmentData,
-    getCurrentVersion,
-  } = window.Signal.Migrations;
-  const {
-    Migrations0DatabaseWithAttachmentData,
-    Migrations1DatabaseWithoutAttachmentData,
   } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
@@ -184,16 +186,13 @@
   };
 
   const cancelInitializationMessage = Views.Initialization.setMessage();
-  window.log.info('Start IndexedDB migrations');
 
-  window.log.info('Run migrations on database with attachment data');
-  await Migrations0DatabaseWithAttachmentData.run({
-    Backbone,
-    logger: window.log,
-  });
-
-  const latestDBVersion2 = await getCurrentVersion();
-  Whisper.Database.migrations[0].version = latestDBVersion2;
+  const isIndexedDBPresent = await doesDatabaseExist();
+  if (isIndexedDBPresent) {
+    window.installStorage(window.legacyStorage);
+    window.log.info('Start IndexedDB migrations');
+    await runMigrations();
+  }
 
   window.log.info('Storage fetch');
   storage.fetch();
@@ -294,120 +293,16 @@
       );
     }
 
-    const MINIMUM_VERSION = 7;
-    async function upgradeMessages() {
-      const NUM_MESSAGES_PER_BATCH = 10;
-      window.log.info(
-        'upgradeMessages: Mandatory message schema upgrade started.',
-        `Target version: ${MINIMUM_VERSION}`
-      );
+    if (isIndexedDBPresent) {
+      await mandatoryMessageUpgrade({ upgradeMessageSchema });
+      await migrateAllToSQLCipher({ writeNewAttachmentData, Views });
+      await removeDatabase();
 
-      let isMigrationWithoutIndexComplete = false;
-      while (!isMigrationWithoutIndexComplete) {
-        const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-        // eslint-disable-next-line no-await-in-loop
-        const batchWithoutIndex = await MessageDataMigrator.processNextBatchWithoutIndex(
-          {
-            databaseName: database.name,
-            minDatabaseVersion: database.version,
-            numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-            upgradeMessageSchema,
-            maxVersion: MINIMUM_VERSION,
-            BackboneMessage: Whisper.Message,
-            saveMessage: window.Signal.Data.saveLegacyMessage,
-          }
-        );
-        window.log.info(
-          'upgradeMessages: upgrade without index',
-          batchWithoutIndex
-        );
-        isMigrationWithoutIndexComplete = batchWithoutIndex.done;
-      }
-      window.log.info('upgradeMessages: upgrade without index complete!');
-
-      let isMigrationWithIndexComplete = false;
-      while (!isMigrationWithIndexComplete) {
-        // eslint-disable-next-line no-await-in-loop
-        const batchWithIndex = await MessageDataMigrator.processNext({
-          BackboneMessage: Whisper.Message,
-          BackboneMessageCollection: Whisper.MessageCollection,
-          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-          upgradeMessageSchema,
-          getMessagesNeedingUpgrade:
-            window.Signal.Data.getLegacyMessagesNeedingUpgrade,
-          saveMessage: window.Signal.Data.saveLegacyMessage,
-          maxVersion: MINIMUM_VERSION,
-        });
-        window.log.info('upgradeMessages: upgrade with index', batchWithIndex);
-        isMigrationWithIndexComplete = batchWithIndex.done;
-      }
-      window.log.info('upgradeMessages: upgrade with index complete!');
-
-      window.log.info('upgradeMessages: Message schema upgrade complete');
+      window.installStorage(window.newStorage);
+      await window.storage.fetch();
     }
-
-    await upgradeMessages();
-
-    const db = await Whisper.Database.open();
-    let totalMessages;
-    try {
-      totalMessages = await MessageDataMigrator.getNumMessages({
-        connection: db,
-      });
-    } catch (error) {
-      window.log.error(
-        'background.getNumMessages error:',
-        error && error.stack ? error.stack : error
-      );
-      totalMessages = 0;
-    }
-
-    function showMigrationStatus(current) {
-      const status = `${current}/${totalMessages}`;
-      Views.Initialization.setMessage(
-        window.i18n('migratingToSQLCipher', [status])
-      );
-    }
-
-    if (totalMessages) {
-      window.log.info(`About to migrate ${totalMessages} messages`);
-      showMigrationStatus(0);
-    } else {
-      window.log.info('About to migrate non-messages');
-    }
-
-    await window.Signal.migrateToSQL({
-      db,
-      clearStores: Whisper.Database.clearStores,
-      handleDOMException: Whisper.Database.handleDOMException,
-      arrayBufferToString: textsecure.MessageReceiver.arrayBufferToStringBase64,
-      countCallback: count => {
-        window.log.info(`Migration: ${count} messages complete`);
-        showMigrationStatus(count);
-      },
-      writeNewAttachmentData,
-    });
-
-    db.close();
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
-
-    window.log.info('Running cleanup IndexedDB migrations...');
-    // Close all previous connections to the database first
-    await Whisper.Database.close();
-
-    // Now we clean up IndexedDB database after extracting data from it
-    await Migrations1DatabaseWithoutAttachmentData.run({
-      Backbone,
-      logger: window.log,
-    });
-
-    await Whisper.Database.close();
-
-    const latestDBVersion = _.last(
-      Migrations1DatabaseWithoutAttachmentData.migrations
-    ).version;
-    Whisper.Database.migrations[0].version = latestDBVersion;
 
     window.log.info('Cleanup: starting...');
     const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(

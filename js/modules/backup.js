@@ -207,10 +207,10 @@ function exportContactsAndGroups(db, fileWriter) {
   });
 }
 
-async function importNonMessages(db, parent, options) {
+async function importNonMessages(parent, options) {
   const file = 'db.json';
   const string = await readFileAsText(parent, file);
-  return importFromJsonString(db, string, path.join(parent, file), options);
+  return importFromJsonString(string, path.join(parent, file), options);
 }
 
 function eliminateClientConfigInBackup(data, targetPath) {
@@ -265,7 +265,7 @@ async function importConversationsFromJSON(conversations, options) {
   );
 }
 
-async function importFromJsonString(db, jsonString, targetPath, options) {
+async function importFromJsonString(jsonString, targetPath, options) {
   options = options || {};
   _.defaults(options, {
     forceLightImport: false,
@@ -278,136 +278,96 @@ async function importFromJsonString(db, jsonString, targetPath, options) {
     fullImport: true,
   };
 
-  return new Promise(async (resolve, reject) => {
-    const importObject = JSON.parse(jsonString);
-    delete importObject.debug;
+  const importObject = JSON.parse(jsonString);
+  delete importObject.debug;
 
-    if (!importObject.sessions || options.forceLightImport) {
-      result.fullImport = false;
+  if (!importObject.sessions || options.forceLightImport) {
+    result.fullImport = false;
 
-      delete importObject.items;
-      delete importObject.signedPreKeys;
-      delete importObject.preKeys;
-      delete importObject.identityKeys;
-      delete importObject.sessions;
-      delete importObject.unprocessed;
-
-      window.log.info(
-        'This is a light import; contacts, groups and messages only'
-      );
-    }
-
-    // We mutate the on-disk backup to prevent the user from importing client
-    //   configuration more than once - that causes lots of encryption errors.
-    //   This of course preserves the true data: conversations and groups.
-    eliminateClientConfigInBackup(importObject, targetPath);
-
-    const storeNames = _.keys(importObject);
-    window.log.info('Importing to these stores:', storeNames.join(', '));
-
-    let finished = false;
-    const finish = via => {
-      window.log.info('non-messages import done via', via);
-      if (finished) {
-        resolve(result);
-      }
-      finished = true;
-    };
-
-    // Special-case conversations key here, going to SQLCipher
-    const { conversations } = importObject;
-    const remainingStoreNames = _.without(
-      storeNames,
-      'conversations',
-      'unprocessed'
-    );
-    try {
-      await importConversationsFromJSON(conversations, options);
-    } catch (error) {
-      reject(error);
-    }
-
-    // Because the 'are we done?' check below looks at the keys remaining in importObject
-    delete importObject.conversations;
+    delete importObject.items;
+    delete importObject.signedPreKeys;
+    delete importObject.preKeys;
+    delete importObject.identityKeys;
+    delete importObject.sessions;
     delete importObject.unprocessed;
 
-    // The rest go to IndexedDB
-    const transaction = db.transaction(remainingStoreNames, 'readwrite');
-    transaction.onerror = () => {
-      Whisper.Database.handleDOMException(
-        'importFromJsonString transaction error',
-        transaction.error,
-        reject
-      );
-    };
-    transaction.oncomplete = finish.bind(null, 'transaction complete');
+    window.log.info(
+      'This is a light import; contacts, groups and messages only'
+    );
+  }
 
-    _.each(remainingStoreNames, storeName => {
-      const items = importObject[storeName];
+  // We mutate the on-disk backup to prevent the user from importing client
+  //   configuration more than once - that causes lots of encryption errors.
+  //   This of course preserves the true data: conversations and groups.
+  eliminateClientConfigInBackup(importObject, targetPath);
 
-      window.log.info('Importing items for store', storeName);
+  const storeNames = _.keys(importObject);
+  window.log.info('Importing to these stores:', storeNames.join(', '));
 
-      let count = 0;
-      let skipCount = 0;
+  // Special-case conversations key here, going to SQLCipher
+  const { conversations } = importObject;
+  const remainingStoreNames = _.without(
+    storeNames,
+    'conversations',
+    'unprocessed'
+  );
+  await importConversationsFromJSON(conversations, options);
 
-      const finishStore = () => {
-        // added all objects for this store
-        delete importObject[storeName];
-        window.log.info(
-          'Done importing to store',
-          storeName,
-          'Total count:',
-          count,
-          'Skipped:',
-          skipCount
+  const SAVE_FUNCTIONS = {
+    groups: window.Signal.Data.createOrUpdateGroup,
+    identityKeys: window.Signal.Data.createOrUpdateIdentityKey,
+    items: window.Signal.Data.createOrUpdateItem,
+    preKeys: window.Signal.Data.createOrUpdatePreKey,
+    sessions: window.Signal.Data.createOrUpdateSession,
+    signedPreKeys: window.Signal.Data.createOrUpdateSignedPreKey,
+  };
+
+  await Promise.all(
+    _.map(remainingStoreNames, async storeName => {
+      const save = SAVE_FUNCTIONS[storeName];
+      if (!_.isFunction(save)) {
+        throw new Error(
+          `importFromJsonString: Didn't have save function for store ${storeName}`
         );
-        if (_.keys(importObject).length === 0) {
-          // added all object stores
-          window.log.info('DB import complete');
-          finish('puts scheduled');
-        }
-      };
+      }
 
-      if (!items || !items.length) {
-        finishStore();
+      window.log.info(`Importing items for store ${storeName}`);
+      const toImport = importObject[storeName];
+
+      if (!toImport || !toImport.length) {
+        window.log.info(`No items in ${storeName} store`);
         return;
       }
 
-      _.each(items, toAdd => {
-        toAdd = unstringify(toAdd);
+      let skipCount = 0;
+
+      for (let i = 0, max = toImport.length; i < max; i += 1) {
+        const toAdd = unstringify(toImport[i]);
 
         const haveGroupAlready =
           storeName === 'groups' && groupLookup[getGroupKey(toAdd)];
 
         if (haveGroupAlready) {
           skipCount += 1;
-          count += 1;
-          return;
+        } else {
+          // eslint-disable-next-line no-await-in-loop
+          await save(toAdd);
         }
-
-        const request = transaction.objectStore(storeName).put(toAdd, toAdd.id);
-        request.onsuccess = () => {
-          count += 1;
-          if (count + skipCount >= items.length) {
-            finishStore();
-          }
-        };
-        request.onerror = () => {
-          Whisper.Database.handleDOMException(
-            `importFromJsonString request error (store: ${storeName})`,
-            request.error,
-            reject
-          );
-        };
-      });
-
-      // We have to check here, because we may have skipped every item, resulting
-      //   in no onsuccess callback at all.
-      if (skipCount === count) {
-        finishStore();
       }
-    });
-  });
+
+      window.log.info(
+        'Done importing to store',
+        storeName,
+        'Total count:',
+        toImport.length,
+        'Skipped:',
+        skipCount
+      );
+    })
+  );
+
+  window.log.info('DB import complete');
+  return result;
 }
 
 function createDirectory(parent, name) {
@@ -1043,11 +1003,11 @@ async function loadAttachments(dir, getName, options) {
   // TODO: Handle video screenshots, and image/video thumbnails
 }
 
-function saveMessage(db, message) {
-  return saveAllMessages(db, [message]);
+function saveMessage(message) {
+  return saveAllMessages([message]);
 }
 
-async function saveAllMessages(db, rawMessages) {
+async function saveAllMessages(rawMessages) {
   if (rawMessages.length === 0) {
     return;
   }
@@ -1085,7 +1045,7 @@ async function saveAllMessages(db, rawMessages) {
 //   message, save it, and only then do we move on to the next message. Thus, every
 //   message with attachments needs to be removed from our overall message save with the
 //   filter() call.
-async function importConversation(db, dir, options) {
+async function importConversation(dir, options) {
   options = options || {};
   _.defaults(options, { messageLookup: {} });
 
@@ -1141,7 +1101,7 @@ async function importConversation(db, dir, options) {
           message,
           key,
         });
-        return saveMessage(db, message);
+        return saveMessage(message);
       };
 
       // eslint-disable-next-line more/no-then
@@ -1153,7 +1113,7 @@ async function importConversation(db, dir, options) {
     return true;
   });
 
-  await saveAllMessages(db, messages);
+  await saveAllMessages(messages);
 
   await promiseChain;
   window.log.info(
@@ -1166,7 +1126,7 @@ async function importConversation(db, dir, options) {
   );
 }
 
-async function importConversations(db, dir, options) {
+async function importConversations(dir, options) {
   const contents = await getDirContents(dir);
   let promiseChain = Promise.resolve();
 
@@ -1175,8 +1135,7 @@ async function importConversations(db, dir, options) {
       return;
     }
 
-    const loadConversation = () =>
-      importConversation(db, conversationDir, options);
+    const loadConversation = () => importConversation(conversationDir, options);
 
     // eslint-disable-next-line more/no-then
     promiseChain = promiseChain.then(loadConversation);
@@ -1211,46 +1170,9 @@ async function loadConversationLookup() {
 function getGroupKey(group) {
   return group.id;
 }
-function loadGroupsLookup(db) {
-  return assembleLookup(db, 'groups', getGroupKey);
-}
-
-function assembleLookup(db, storeName, keyFunction) {
-  const lookup = Object.create(null);
-
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(storeName, 'readwrite');
-    transaction.onerror = () => {
-      Whisper.Database.handleDOMException(
-        `assembleLookup(${storeName}) transaction error`,
-        transaction.error,
-        reject
-      );
-    };
-    transaction.oncomplete = () => {
-      // not really very useful - fires at unexpected times
-    };
-
-    const store = transaction.objectStore(storeName);
-    const request = store.openCursor();
-    request.onerror = () => {
-      Whisper.Database.handleDOMException(
-        `assembleLookup(${storeName}) request error`,
-        request.error,
-        reject
-      );
-    };
-    request.onsuccess = event => {
-      const cursor = event.target.result;
-      if (cursor && cursor.value) {
-        lookup[keyFunction(cursor.value)] = true;
-        cursor.continue();
-      } else {
-        window.log.info(`Done creating ${storeName} lookup`);
-        resolve(lookup);
-      }
-    };
-  });
+async function loadGroupsLookup() {
+  const array = await window.Signal.Data.getAllGroupIds();
+  return fromPairs(map(array, item => [getGroupKey(item), true]));
 }
 
 function getDirectoryForExport() {
@@ -1383,11 +1305,10 @@ async function importFromDirectory(directory, options) {
   options = options || {};
 
   try {
-    const db = await Whisper.Database.open();
     const lookups = await Promise.all([
-      loadMessagesLookup(db),
-      loadConversationLookup(db),
-      loadGroupsLookup(db),
+      loadMessagesLookup(),
+      loadConversationLookup(),
+      loadGroupsLookup(),
     ]);
     const [messageLookup, conversationLookup, groupLookup] = lookups;
     options = Object.assign({}, options, {
@@ -1422,8 +1343,8 @@ async function importFromDirectory(directory, options) {
         options = Object.assign({}, options, {
           attachmentsDir,
         });
-        const result = await importNonMessages(db, stagingDir, options);
-        await importConversations(db, stagingDir, Object.assign({}, options));
+        const result = await importNonMessages(stagingDir, options);
+        await importConversations(stagingDir, Object.assign({}, options));
 
         window.log.info('Done importing from backup!');
         return result;
@@ -1437,8 +1358,8 @@ async function importFromDirectory(directory, options) {
       }
     }
 
-    const result = await importNonMessages(db, directory, options);
-    await importConversations(db, directory, options);
+    const result = await importNonMessages(directory, options);
+    await importConversations(directory, options);
 
     window.log.info('Done importing!');
     return result;

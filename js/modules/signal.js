@@ -5,6 +5,7 @@ const Crypto = require('./crypto');
 const Data = require('./data');
 const Database = require('./database');
 const Emoji = require('../../ts/util/emoji');
+const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Settings = require('./settings');
@@ -63,9 +64,7 @@ const {
   getPlaceholderMigrations,
   getCurrentVersion,
 } = require('./migrations/get_placeholder_migrations');
-
-const Migrations0DatabaseWithAttachmentData = require('./migrations/migrations_0_database_with_attachment_data');
-const Migrations1DatabaseWithoutAttachmentData = require('./migrations/migrations_1_database_without_attachment_data');
+const { run } = require('./migrations/migrations');
 
 // Types
 const AttachmentType = require('./types/attachment');
@@ -132,8 +131,7 @@ function initializeMigrations({
     loadAttachmentData,
     loadQuoteData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
-    Migrations0DatabaseWithAttachmentData,
-    Migrations1DatabaseWithoutAttachmentData,
+    run,
     upgradeMessageSchema: (message, options = {}) => {
       const { maxVersion } = options;
 
@@ -225,6 +223,7 @@ exports.setup = (options = {}) => {
     Data,
     Database,
     Emoji,
+    IndexedDB,
     Migrations,
     Notifications,
     OS,

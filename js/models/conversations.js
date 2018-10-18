@@ -47,7 +47,6 @@
   ];
 
   Whisper.Conversation = Backbone.Model.extend({
-    database: Whisper.Database,
     storeName: 'conversations',
     defaults() {
       return {
@@ -1665,8 +1664,6 @@
   });
 
   Whisper.ConversationCollection = Backbone.Collection.extend({
-    database: Whisper.Database,
-    storeName: 'conversations',
     model: Whisper.Conversation,
 
     comparator(m) {

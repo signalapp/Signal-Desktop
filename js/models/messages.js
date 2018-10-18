@@ -65,9 +65,6 @@
   window.hasSignalAccount = number => window.AccountCache[number];
 
   window.Whisper.Message = Backbone.Model.extend({
-    // Keeping this for legacy upgrade pre-migrate to SQLCipher
-    database: Whisper.Database,
-    storeName: 'messages',
     initialize(attributes) {
       if (_.isObject(attributes)) {
         this.set(
@@ -1418,9 +1415,6 @@
 
   Whisper.MessageCollection = Backbone.Collection.extend({
     model: Whisper.Message,
-    // Keeping this for legacy upgrade pre-migrate to SQLCipher
-    database: Whisper.Database,
-    storeName: 'messages',
     comparator(left, right) {
       if (left.get('received_at') === right.get('received_at')) {
         return (left.get('sent_at') || 0) - (right.get('sent_at') || 0);
