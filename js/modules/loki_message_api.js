@@ -52,13 +52,16 @@ function initialize({ url }) {
     };
 
     async function sendMessage(pub_key, data, ttl) {
-      var timestamp = Math.floor(Date.now() / 1000);
+      const timestamp = Math.floor(Date.now() / 1000);
       // Nonce is returned as a base64 string to include in header
-      nonce = await getPoWNonce(timestamp, ttl, pub_key, data).catch((err) => {
+      let nonce;
+      try {
+        nonce = await getPoWNonce(timestamp, ttl, pub_key, data);
+      } catch(err) {
         // Something went horribly wrong
         // TODO: Handle gracefully
         console.log("Error computing PoW");
-      });
+      };
 
       const options = {
         url: `${url}/send_message`,

@@ -1,9 +1,9 @@
 const hash = require('js-sha512');
 const bb = require('bytebuffer');
 
-// Increment Uint8Array by 1 with carrying
+// Increment Uint8Array nonce by 1 with carrying
 function incrementNonce(nonce) {
-  idx = nonce.length - 1;
+  let idx = nonce.length - 1;
   nonce[idx] += 1;
   // Nonce will just reset to 0 if all values are 255 causing infinite loop, should never happen
   while (nonce[idx] == 0 && idx >= 0) {
@@ -12,52 +12,49 @@ function incrementNonce(nonce) {
   return nonce;
 }
 
-// Convert a Uint8Array to a base64 string. Copied from stackoverflow
+// Convert a Uint8Array to a base64 string
 function bufferToBase64(buf) {
-  var binstr = Array.prototype.map.call(buf, function (ch) {
+  let binstr = Array.prototype.map.call(buf, function (ch) {
       return String.fromCharCode(ch);
   }).join('');
   return bb.btoa(binstr);
 }
 
-// Convert number to Uint8Array
+// Convert javascript number to Uint8Array of length 8
 function numberToUintArr(numberVal) {
-  // TODO: Make this not hardcoded for arrays of length 8?
-  var arr = new Uint8Array(8);
-  for (var idx = 7; idx >= 0; idx--) {
-    // Get the lowest 8 bits from the number
-    var byte = numberVal & 0xff;
-    arr[idx] = byte;
-    // Essentially bitshift 
-    numberVal = (numberVal - byte) / 256 ;
+  let arr = new Uint8Array(8);
+  for (let idx = 7; idx >= 0; idx--) {
+    let n = 8 - (idx + 1);
+    // 256 ** n is the value of one bit in arr[idx], modulus to carry over
+    arr[idx] = (numberVal / 256**n) % 256;
   }
   return arr;
 }
 
 // Return nonce that hashes together with payload lower than the target
 function calcPoW(timestamp, ttl, pub_key, data) {
-  var leadingString = timestamp.toString() + ttl.toString() + pub_key;
-  var leadingArray = new Uint8Array(bb.wrap(leadingString, 'binary').toArrayBuffer());
+  const leadingString = timestamp.toString() + ttl.toString() + pub_key;
+  const leadingArray = new Uint8Array(bb.wrap(leadingString, 'binary').toArrayBuffer());
   // Payload constructed from concatenating timestamp, ttl and pubkey strings, converting to Uint8Array
   // and then appending to the message data array
-  var payload = leadingArray + data;
-  var nonceLen = 8;
+  const payload = leadingArray + data;
+  const nonceLen = 8;
   // Modify this value for difficulty scaling
   // TODO: Have more informed reason for setting this to 100
-  var nonceTrialsPerByte = 100;
-  var nonce = new Uint8Array(nonceLen);
-  var trialValue = numberToUintArr(Number.MAX_SAFE_INTEGER);
+  const nonceTrialsPerByte = 1000;
+  let nonce = new Uint8Array(nonceLen);
+  let trialValue = numberToUintArr(Number.MAX_SAFE_INTEGER);
   // Target is converter to Uint8Array for simple comparison with trialValue
-  var target = numberToUintArr(Math.pow(2, 64) / (
+  const target = numberToUintArr(Math.floor(Math.pow(2, 64) / (
     nonceTrialsPerByte * (
       payload.length + nonceLen + (
         (ttl * ( payload.length + nonceLen ))
         / Math.pow(2, 16)
       )
     )
-  ));
-  initialHash = new Uint8Array(bb.wrap(hash(payload), 'hex').toArrayBuffer());
-  while (target < trialValue) {
+  )));
+  const initialHash = new Uint8Array(bb.wrap(hash(payload), 'hex').toArrayBuffer());
+  while (trialValue > target) {
     nonce = incrementNonce(nonce);
     trialValue = (new Uint8Array(bb.wrap(hash(nonce + initialHash), 'hex').toArrayBuffer())).slice(0, 8);
   }
