@@ -96,7 +96,7 @@
       new Whisper.FontSizeView({ el: this.$el });
 
       const ourNumber = textsecure.storage.user.getNumber();
-      const me = ConversationController.get(ourNumber);
+      const me = ConversationController.getOrCreate(ourNumber, 'private');
       this.mainHeaderView = new Whisper.ReactWrapperView({
         className: 'main-header-wrapper',
         Component: Signal.Components.MainHeader,
