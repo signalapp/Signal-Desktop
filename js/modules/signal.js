@@ -11,6 +11,8 @@ const Settings = require('./settings');
 const Startup = require('./startup');
 const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
+const Metadata = require('./metadata/SecretSessionCipher');
+const RefreshSenderCertificate = require('./refresh_sender_certificate');
 
 // Components
 const {
@@ -216,6 +218,7 @@ exports.setup = (options = {}) => {
   };
 
   return {
+    Metadata,
     Backbone,
     Components,
     Crypto,
@@ -225,6 +228,7 @@ exports.setup = (options = {}) => {
     Migrations,
     Notifications,
     OS,
+    RefreshSenderCertificate,
     Settings,
     Startup,
     Types,

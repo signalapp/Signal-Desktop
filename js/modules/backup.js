@@ -1,6 +1,5 @@
 /* global Signal: false */
 /* global Whisper: false */
-/* global dcodeIO: false */
 /* global _: false */
 /* global textsecure: false */
 /* global i18n: false */
@@ -48,7 +47,7 @@ function stringify(object) {
       object[key] = {
         type: 'ArrayBuffer',
         encoding: 'base64',
-        data: dcodeIO.ByteBuffer.wrap(val).toString('base64'),
+        data: crypto.arrayBufferToBase64(val),
       };
     } else if (val instanceof Object) {
       object[key] = stringify(val);
@@ -70,7 +69,7 @@ function unstringify(object) {
       val.encoding === 'base64' &&
       typeof val.data === 'string'
     ) {
-      object[key] = dcodeIO.ByteBuffer.wrap(val.data, 'base64').toArrayBuffer();
+      object[key] = crypto.base64ToArrayBuffer(val.data);
     } else if (val instanceof Object) {
       object[key] = unstringify(object[key]);
     }

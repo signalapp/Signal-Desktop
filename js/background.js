@@ -1,14 +1,15 @@
-/* global Backbone: false */
-/* global $: false */
-
-/* global dcodeIO: false */
-/* global ConversationController: false */
-/* global getAccountManager: false */
-/* global Signal: false */
-/* global storage: false */
-/* global textsecure: false */
-/* global Whisper: false */
-/* global _: false */
+/* global
+  $,
+  _,
+  Backbone,
+  ConversationController,
+  getAccountManager,
+  Signal,
+  storage,
+  textsecure,
+  WebAPI
+  Whisper,
+*/
 
 // eslint-disable-next-line func-names
 (async function() {
@@ -553,7 +554,16 @@
     window.log.info('listening for registration events');
     Whisper.events.on('registration_done', () => {
       window.log.info('handling registration event');
+
+      // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
+      window.Signal.RefreshSenderCertificate.initialize({
+        events: Whisper.events,
+        storage,
+        navigator,
+        logger: window.log,
+      });
+
       connect(true);
     });
 
@@ -570,7 +580,15 @@
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
     } else if (Whisper.Registration.everDone()) {
+      // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
+      window.Signal.RefreshSenderCertificate.initialize({
+        events: Whisper.events,
+        storage,
+        navigator,
+        logger: window.log,
+      });
+
       connect();
       appView.openInbox({
         initialLoadComplete,
@@ -713,6 +731,7 @@
     connectCount += 1;
     const options = {
       retryCached: connectCount === 1,
+      serverTrustRoot: window.getServerTrustRoot(),
     };
 
     Whisper.Notifications.disable(); // avoid notification flood until empty
@@ -755,14 +774,33 @@
       window.getSyncRequest();
     }
 
+    const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
+    if (!storage.get(udSupportKey)) {
+      const server = WebAPI.connect({ username: USERNAME, password: PASSWORD });
+      try {
+        await server.registerSupportForUnauthenticatedDelivery();
+        storage.put(udSupportKey, true);
+      } catch (error) {
+        window.log.error(
+          'Error: Unable to register for unauthenticated delivery support.',
+          error && error.stack ? error.stack : error
+        );
+      }
+    }
+
     const deviceId = textsecure.storage.user.getDeviceId();
+    const ourNumber = textsecure.storage.user.getNumber();
     const { sendRequestConfigurationSyncMessage } = textsecure.messaging;
     const status = await Signal.Startup.syncReadReceiptConfiguration({
+      ourNumber,
       deviceId,
       sendRequestConfigurationSyncMessage,
       storage,
+      prepareForSend: ConversationController.prepareForSend.bind(
+        ConversationController
+      ),
     });
-    window.log.info('Sync read receipt configuration status:', status);
+    window.log.info('Sync configuration status:', status);
 
     if (firstRun === true && deviceId !== '1') {
       const hasThemeSetting = Boolean(storage.get('theme-setting'));
@@ -786,14 +824,17 @@
       });
 
       if (Whisper.Import.isComplete()) {
-        textsecure.messaging
-          .sendRequestConfigurationSyncMessage()
-          .catch(error => {
-            window.log.error(
-              'Import complete, but failed to send sync message',
-              error && error.stack ? error.stack : error
-            );
-          });
+        const { wrap, sendOptions } = ConversationController.prepareForSend(
+          textsecure.storage.user.getNumber()
+        );
+        wrap(
+          textsecure.messaging.sendRequestConfigurationSyncMessage(sendOptions)
+        ).catch(error => {
+          window.log.error(
+            'Import complete, but failed to send sync message',
+            error && error.stack ? error.stack : error
+          );
+        });
       }
     }
 
@@ -838,7 +879,20 @@
     }
   }
   function onConfiguration(ev) {
-    storage.put('read-receipt-setting', ev.configuration.readReceipts);
+    const { configuration } = ev;
+
+    storage.put('read-receipt-setting', configuration.readReceipts);
+
+    const { unidentifiedDeliveryIndicators } = configuration;
+    if (
+      unidentifiedDeliveryIndicators === true ||
+      unidentifiedDeliveryIndicators === false
+    ) {
+      storage.put(
+        'unidentifiedDeliveryIndicators',
+        unidentifiedDeliveryIndicators
+      );
+    }
     ev.confirm();
   }
 
@@ -881,10 +935,10 @@
       }
 
       if (details.profileKey) {
-        const profileKey = dcodeIO.ByteBuffer.wrap(details.profileKey).toString(
-          'base64'
+        const profileKey = window.Signal.Crypto.arrayBufferToBase64(
+          details.profileKey
         );
-        conversation.set({ profileKey });
+        conversation.setProfileKey(profileKey);
       }
 
       if (typeof details.blocked !== 'undefined') {
@@ -1052,7 +1106,7 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
-      const message = createMessage(data);
+      const message = await createMessage(data);
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
         window.log.warn('Received duplicate message', message.idForLogging());
@@ -1191,15 +1245,27 @@
 
   function createSentMessage(data) {
     const now = Date.now();
+    let sentTo = [];
+
+    if (data.unidentifiedStatus && data.unidentifiedStatus.length) {
+      sentTo = data.unidentifiedStatus.map(item => item.destination);
+      const unidentified = _.filter(data.unidentifiedStatus, item =>
+        Boolean(item.unidentified)
+      );
+      // eslint-disable-next-line no-param-reassign
+      data.unidentifiedDeliveries = unidentified.map(item => item.destination);
+    }
 
     return new Whisper.Message({
       source: textsecure.storage.user.getNumber(),
       sourceDevice: data.device,
       sent_at: data.timestamp,
+      sent_to: sentTo,
       received_at: now,
       conversationId: data.destination,
       type: 'outgoing',
       sent: true,
+      unidentifiedDeliveries: data.unidentifiedDeliveries || [],
       expirationStartTimestamp: Math.min(
         data.expirationStartTimestamp || data.timestamp || Date.now(),
         Date.now()
@@ -1227,16 +1293,45 @@
     }
   }
 
-  function initIncomingMessage(data) {
+  async function initIncomingMessage(data, options = {}) {
+    const { isError } = options;
+
     const message = new Whisper.Message({
       source: data.source,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
       received_at: data.receivedAt || Date.now(),
       conversationId: data.source,
+      unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
     });
+
+    // If we don't return early here, we can get into infinite error loops. So, no
+    //   delivery receipts for sealed sender errors.
+    if (isError || !data.unidentifiedDeliveryReceived) {
+      return message;
+    }
+
+    try {
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        data.source
+      );
+      await wrap(
+        textsecure.messaging.sendDeliveryReceipt(
+          data.source,
+          data.timestamp,
+          sendOptions
+        )
+      );
+    } catch (error) {
+      window.log.error(
+        `Failed to send delivery receipt to ${data.source} for message ${
+          data.timestamp
+        }:`,
+        error && error.stack ? error.stack : error
+      );
+    }
 
     return message;
   }
@@ -1322,7 +1417,7 @@
         return;
       }
       const envelope = ev.proto;
-      const message = initIncomingMessage(envelope);
+      const message = await initIncomingMessage(envelope, { isError: true });
 
       await message.saveErrors(error || new Error('Error was null'));
       const id = message.get('conversationId');

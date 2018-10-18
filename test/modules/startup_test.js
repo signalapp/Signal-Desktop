@@ -12,6 +12,7 @@ describe('Startup', () => {
     });
 
     it('should complete if user hasn’t previously synced', async () => {
+      const ourNumber = '+15551234567';
       const deviceId = '2';
       const sendRequestConfigurationSyncMessage = sandbox.spy();
       const storagePutSpy = sandbox.spy();
@@ -25,15 +26,21 @@ describe('Startup', () => {
         },
         put: storagePutSpy,
       };
+      const prepareForSend = () => ({
+        wrap: promise => promise,
+        sendOptions: {},
+      });
 
       const expected = {
         status: 'complete',
       };
 
       const actual = await Startup.syncReadReceiptConfiguration({
+        ourNumber,
         deviceId,
         sendRequestConfigurationSyncMessage,
         storage,
+        prepareForSend,
       });
 
       assert.deepEqual(actual, expected);
@@ -43,9 +50,14 @@ describe('Startup', () => {
     });
 
     it('should be skipped if this is the primary device', async () => {
+      const ourNumber = '+15551234567';
       const deviceId = '1';
       const sendRequestConfigurationSyncMessage = () => {};
       const storage = {};
+      const prepareForSend = () => ({
+        wrap: promise => promise,
+        sendOptions: {},
+      });
 
       const expected = {
         status: 'skipped',
@@ -53,15 +65,18 @@ describe('Startup', () => {
       };
 
       const actual = await Startup.syncReadReceiptConfiguration({
+        ourNumber,
         deviceId,
         sendRequestConfigurationSyncMessage,
         storage,
+        prepareForSend,
       });
 
       assert.deepEqual(actual, expected);
     });
 
     it('should be skipped if user has previously synced', async () => {
+      const ourNumber = '+15551234567';
       const deviceId = '2';
       const sendRequestConfigurationSyncMessage = () => {};
       const storage = {
@@ -73,6 +88,10 @@ describe('Startup', () => {
           return true;
         },
       };
+      const prepareForSend = () => ({
+        wrap: promise => promise,
+        sendOptions: {},
+      });
 
       const expected = {
         status: 'skipped',
@@ -80,15 +99,18 @@ describe('Startup', () => {
       };
 
       const actual = await Startup.syncReadReceiptConfiguration({
+        ourNumber,
         deviceId,
         sendRequestConfigurationSyncMessage,
         storage,
+        prepareForSend,
       });
 
       assert.deepEqual(actual, expected);
     });
 
     it('should return error if sending of sync request fails', async () => {
+      const ourNumber = '+15551234567';
       const deviceId = '2';
 
       const sendRequestConfigurationSyncMessage = sandbox.stub();
@@ -105,11 +127,17 @@ describe('Startup', () => {
         },
         put: storagePutSpy,
       };
+      const prepareForSend = () => ({
+        wrap: promise => promise,
+        sendOptions: {},
+      });
 
       const actual = await Startup.syncReadReceiptConfiguration({
+        ourNumber,
         deviceId,
         sendRequestConfigurationSyncMessage,
         storage,
+        prepareForSend,
       });
 
       assert.equal(actual.status, 'error');

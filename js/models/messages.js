@@ -599,9 +599,24 @@
           : null,
       };
     },
+    isUnidentifiedDelivery(contactId, lookup) {
+      if (this.isIncoming()) {
+        return this.get('unidentifiedDeliveryReceived');
+      }
+
+      return Boolean(lookup[contactId]);
+    },
     getPropsForMessageDetail() {
       const newIdentity = i18n('newIdentity');
       const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
+
+      const unidentifiedLookup = (
+        this.get('unidentifiedDeliveries') || []
+      ).reduce((accumulator, item) => {
+        // eslint-disable-next-line no-param-reassign
+        accumulator[item] = true;
+        return accumulator;
+      }, Object.create(null));
 
       // Older messages don't have the recipients included on the message, so we fall
       //   back to the conversation's current recipients
@@ -628,12 +643,16 @@
         const isOutgoingKeyError = Boolean(
           _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
         );
+        const isUnidentifiedDelivery =
+          storage.get('unidentifiedDeliveryIndicators') &&
+          this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
         return {
           ...this.findAndFormatContact(id),
           status: this.getStatus(id),
           errors: errorsForContact,
           isOutgoingKeyError,
+          isUnidentifiedDelivery,
           onSendAnyway: () =>
             this.trigger('force-send', {
               contact: this.findContact(id),
@@ -696,11 +715,12 @@
       const quoteWithData = await loadQuoteData(this.get('quote'));
 
       const conversation = this.getConversation();
+      const options = conversation.getSendOptions();
+
       let promise;
 
       if (conversation.isPrivate()) {
         const [number] = numbers;
-
         promise = textsecure.messaging.sendMessageToNumber(
           number,
           this.get('body'),
@@ -708,28 +728,33 @@
           quoteWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
-          profileKey
+          profileKey,
+          options
         );
       } else {
         // Because this is a partial group send, we manually construct the request like
         //   sendMessageToGroup does.
-        promise = textsecure.messaging.sendMessage({
-          recipients: numbers,
-          body: this.get('body'),
-          timestamp: this.get('sent_at'),
-          attachments: attachmentsWithData,
-          quote: quoteWithData,
-          needsSync: !this.get('synced'),
-          expireTimer: this.get('expireTimer'),
-          profileKey,
-          group: {
-            id: this.get('conversationId'),
-            type: textsecure.protobuf.GroupContext.Type.DELIVER,
+
+        promise = textsecure.messaging.sendMessage(
+          {
+            recipients: numbers,
+            body: this.get('body'),
+            timestamp: this.get('sent_at'),
+            attachments: attachmentsWithData,
+            quote: quoteWithData,
+            needsSync: !this.get('synced'),
+            expireTimer: this.get('expireTimer'),
+            profileKey,
+            group: {
+              id: this.get('conversationId'),
+              type: textsecure.protobuf.GroupContext.Type.DELIVER,
+            },
           },
-        });
+          options
+        );
       }
 
-      return this.send(promise);
+      return this.send(conversation.wrapSend(promise));
     },
     isReplayableError(e) {
       return (
@@ -752,6 +777,9 @@
         );
         const quoteWithData = await loadQuoteData(this.get('quote'));
 
+        const { wrap, sendOptions } = ConversationController.prepareForSend(
+          number
+        );
         const promise = textsecure.messaging.sendMessageToNumber(
           number,
           this.get('body'),
@@ -759,10 +787,11 @@
           quoteWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
-          profileKey
+          profileKey,
+          sendOptions
         );
 
-        this.send(promise);
+        this.send(wrap(promise));
       }
     },
     removeOutgoingErrors(number) {
@@ -860,11 +889,13 @@
             sent_to: _.union(sentTo, result.successfulNumbers),
             sent: true,
             expirationStartTimestamp: Date.now(),
+            unidentifiedDeliveries: result.unidentifiedDeliveries,
           });
 
           await window.Signal.Data.saveMessage(this.attributes, {
             Message: Whisper.Message,
           });
+
           this.trigger('sent', this);
           this.sendSyncMessage();
         })
@@ -909,6 +940,7 @@
                 sent_to: _.union(sentTo, result.successfulNumbers),
                 sent: true,
                 expirationStartTimestamp,
+                unidentifiedDeliveries: result.unidentifiedDeliveries,
               });
               promises.push(this.sendSyncMessage());
             } else {
@@ -950,28 +982,36 @@
     },
 
     sendSyncMessage() {
+      const ourNumber = textsecure.storage.user.getNumber();
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        ourNumber
+      );
+
       this.syncPromise = this.syncPromise || Promise.resolve();
       this.syncPromise = this.syncPromise.then(() => {
         const dataMessage = this.get('dataMessage');
         if (this.get('synced') || !dataMessage) {
           return Promise.resolve();
         }
-        return textsecure.messaging
-          .sendSyncMessage(
+        return wrap(
+          textsecure.messaging.sendSyncMessage(
             dataMessage,
             this.get('sent_at'),
             this.get('destination'),
-            this.get('expirationStartTimestamp')
+            this.get('expirationStartTimestamp'),
+            this.get('sent_to'),
+            this.get('unidentifiedDeliveries'),
+            sendOptions
           )
-          .then(() => {
-            this.set({
-              synced: true,
-              dataMessage: null,
-            });
-            return window.Signal.Data.saveMessage(this.attributes, {
-              Message: Whisper.Message,
-            });
+        ).then(() => {
+          this.set({
+            synced: true,
+            dataMessage: null,
           });
+          return window.Signal.Data.saveMessage(this.attributes, {
+            Message: Whisper.Message,
+          });
+        });
       });
     },
 
@@ -1238,7 +1278,7 @@
             if (source === textsecure.storage.user.getNumber()) {
               conversation.set({ profileSharing: true });
             } else if (conversation.isPrivate()) {
-              conversation.set({ profileKey });
+              conversation.setProfileKey(profileKey);
             } else {
               ConversationController.getOrCreateAndWait(source, 'private').then(
                 sender => {

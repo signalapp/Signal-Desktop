@@ -325,6 +325,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion2,
   updateToSchemaVersion3,
   updateToSchemaVersion4,
+  // version 5 was dropped
 ];
 
 async function updateSchema(instance) {

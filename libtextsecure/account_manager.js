@@ -6,7 +6,8 @@
   btoa,
   getString,
   libphonenumber,
-  Event
+  Event,
+  ConversationController
 */
 
 /* eslint-disable more/no-then */
@@ -52,19 +53,29 @@
       const confirmKeys = this.confirmKeys.bind(this);
       const registrationDone = this.registrationDone.bind(this);
       return this.queueTask(() =>
-        libsignal.KeyHelper.generateIdentityKeyPair().then(identityKeyPair => {
-          const profileKey = textsecure.crypto.getRandomBytes(32);
-          return createAccount(
-            number,
-            verificationCode,
-            identityKeyPair,
-            profileKey
-          )
-            .then(clearSessionsAndPreKeys)
-            .then(generateKeys)
-            .then(keys => registerKeys(keys).then(() => confirmKeys(keys)))
-            .then(registrationDone);
-        })
+        libsignal.KeyHelper.generateIdentityKeyPair().then(
+          async identityKeyPair => {
+            const profileKey = textsecure.crypto.getRandomBytes(32);
+            const accessKey = await window.Signal.Crypto.deriveAccessKey(
+              profileKey
+            );
+
+            return createAccount(
+              number,
+              verificationCode,
+              identityKeyPair,
+              profileKey,
+              null,
+              null,
+              null,
+              { accessKey }
+            )
+              .then(clearSessionsAndPreKeys)
+              .then(generateKeys)
+              .then(keys => registerKeys(keys).then(() => confirmKeys(keys)))
+              .then(() => registrationDone(number));
+          }
+        )
       );
     },
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
@@ -147,7 +158,9 @@
                                     confirmKeys(keys)
                                   )
                                 )
-                                .then(registrationDone);
+                                .then(() =>
+                                  registrationDone(provisionMessage.number)
+                                );
                             }
                           )
                         )
@@ -185,8 +198,6 @@
         const store = textsecure.storage.protocol;
         const { server, cleanSignedPreKeys } = this;
 
-        // TODO: harden this against missing identity key? Otherwise, we get
-        //   retries every five seconds.
         return store
           .getIdentityKeyPair()
           .then(
@@ -196,6 +207,8 @@
                 signedKeyId
               ),
             () => {
+              // We swallow any error here, because we don't want to get into
+              //   a loop of repeated retries.
               window.log.error(
                 'Failed to get identity key. Canceling key rotation.'
               );
@@ -329,8 +342,10 @@
       profileKey,
       deviceName,
       userAgent,
-      readReceipts
+      readReceipts,
+      options = {}
     ) {
+      const { accessKey } = options;
       const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
       let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
       password = password.substring(0, password.length - 2);
@@ -345,7 +360,8 @@
           password,
           signalingKey,
           registrationId,
-          deviceName
+          deviceName,
+          { accessKey }
         )
         .then(response => {
           if (previousNumber && previousNumber !== number) {
@@ -499,8 +515,12 @@
         );
       });
     },
-    registrationDone() {
+    async registrationDone(number) {
       window.log.info('registration done');
+
+      // Ensure that we always have a conversation for ourself
+      await ConversationController.getOrCreateAndWait(number, 'private');
+
       this.dispatchEvent(new Event('registration'));
     },
   });
