@@ -409,3 +409,6 @@ OutgoingMessage.prototype = {
     );
   },
 };
+
+window.textsecure = window.textsecure || {};
+window.textsecure.OutgoingMessage = OutgoingMessage;
