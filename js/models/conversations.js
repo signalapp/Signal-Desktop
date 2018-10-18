@@ -428,12 +428,12 @@
     getFriendRequestStatus() {
       return this.get('friendRequestStatus');
     },
-    shouldDisableInputs() {
-      const status = this.getFriendRequestStatus();
-      if (!status) {
+    waitingForFriendRequestApproval() {
+      const friendRequestStatus = this.getFriendRequestStatus();
+      if (!friendRequestStatus) {
         return false;
       }
-      return !status.allowSending;
+      return !friendRequestStatus.allowSending;
     },
     setFriendRequestTimer() {
       const friendRequestStatus = this.getFriendRequestStatus();
@@ -441,18 +441,24 @@
         if (!friendRequestStatus.allowSending) {
           const delay = Math.max(friendRequestStatus.unlockTimestamp - Date.now(), 0);
           setTimeout(() => {
-            this.friendRequestTimedOut();
+            this.onFriendRequestTimedOut();
           }, delay);
         }
       }
     },
-    friendRequestTimedOut() {
+    onFriendRequestAccepted() {
+      this.save({ friendRequestStatus: null })
+      this.trigger('disable:input', false);
+      this.trigger('change:placeholder', 'chat');
+    },
+    onFriendRequestTimedOut() {
       let friendRequestStatus = this.getFriendRequestStatus();
       friendRequestStatus.allowSending = true;
       this.save({ friendRequestStatus })
       this.trigger('disable:input', false);
+      this.trigger('change:placeholder', 'friend-request');
     },
-    friendRequestSent() {
+    onFriendRequestSent() {
       const friendRequestLockDuration = 72; // hours
 
       let friendRequestStatus = this.getFriendRequestStatus();
@@ -464,8 +470,9 @@
       const delayMs = 100 * 1000 ;//(60 * 60 * 1000 * friendRequestLockDuration);
       friendRequestStatus.unlockTimestamp = Date.now() + delayMs;
       this.trigger('disable:input', true);
+      this.trigger('change:placeholder', 'disabled');
 
-      setTimeout(() => { this.friendRequestTimedOut() }, delayMs);
+      setTimeout(() => { this.onFriendRequestTimedOut() }, delayMs);
 
       this.save({ friendRequestStatus })
     },

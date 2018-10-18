@@ -373,7 +373,7 @@ OutgoingMessage.prototype = {
           if (!keysFound)
           {
             log.info("Fallback encryption enabled");
-            conversation.friendRequestSent();
+            conversation.onFriendRequestSent();
             this.fallBackEncryption = true;
             attachPrekeys = true;
           } else {

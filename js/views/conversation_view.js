@@ -69,9 +69,16 @@
     },
     template: $('#conversation').html(),
     render_attributes() {
+      let sendMessagePlaceholder = 'sendMessageFriendRequest';
+      const sendDisabled = this.model.waitingForFriendRequestApproval();
+      if (sendDisabled) {
+        sendMessagePlaceholder = 'sendMessageDisabled';
+      } else if (this.model.getFriendRequestStatus() === null) {
+        sendMessagePlaceholder = 'sendMessage';
+      }
       return {
-        'disable-inputs': this.model.shouldDisableInputs(),
-        'send-message': i18n('sendMessage'),
+        'disable-inputs': sendDisabled,
+        'send-message': i18n(sendMessagePlaceholder),
         'android-length-warning': i18n('androidMessageLengthWarning'),
       };
     },
@@ -82,6 +89,7 @@
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
       this.listenTo(this.model, 'disable:input', this.onDisableInput);
+      this.listenTo(this.model, 'change:placeholder', this.onChangePlaceholder);
       this.listenTo(
         this.model.messageCollection,
         'show-identity',
@@ -281,6 +289,22 @@
 
     onDisableInput(disable) {
       this.$('button.emoji, button.microphone, button.paperclip, .send-message').attr('disabled', disable);
+    },
+
+    onChangePlaceholder(type) {
+      let placeholder;
+      switch (type) {
+        case 'friend-request':
+          placeholder = i18n('sendMessageFriendRequest');
+          break;
+        case 'disabled':
+          placeholder = i18n('sendMessageDisabled');
+          break;
+        default:
+          placeholder = i18n('sendMessage');
+          break;
+      }
+      this.$messageField.attr('placeholder', placeholder);
     },
 
     unload(reason) {
