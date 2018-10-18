@@ -74,13 +74,13 @@
     ]);
 
     const preKeyMessage = new textsecure.protobuf.PreKeyBundleMessage({
-      identityKey,
+      identityKey: new Uint8Array(identityKey),
 	    deviceId: 1,        // TODO: fetch from somewhere
 	    preKeyId: preKey.keyId,
 	    signedKeyId,
-      preKey: preKey.pubKey,
-      signedKey: signedKey.pubKey,
-      signature: signedKey.signature,
+      preKey: new Uint8Array(preKey.pubKey),
+      signedKey: new Uint8Array(signedKey.pubKey),
+      signature: new Uint8Array(signedKey.signature),
     });
 
     return preKeyMessage;
