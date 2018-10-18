@@ -557,7 +557,13 @@ export class Message extends React.Component<Props, State> {
   }
 
   public renderQuote() {
-    const { conversationType, direction, i18n, quote } = this.props;
+    const {
+      conversationType,
+      authorColor,
+      direction,
+      i18n,
+      quote,
+    } = this.props;
 
     if (!quote) {
       return null;
@@ -565,6 +571,8 @@ export class Message extends React.Component<Props, State> {
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
+    const quoteColor =
+      direction === 'incoming' ? authorColor : quote.authorColor;
 
     return (
       <Quote
@@ -576,7 +584,7 @@ export class Message extends React.Component<Props, State> {
         authorPhoneNumber={quote.authorPhoneNumber}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
-        authorColor={quote.authorColor}
+        authorColor={quoteColor}
         referencedMessageNotFound={quote.referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}

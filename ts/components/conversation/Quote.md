@@ -227,13 +227,32 @@
 
 #### All colors
 
+Note: for incoming messages, quote color is taken from the parent message. For outgoing
+messages the color is taken from the contact who wrote the quoted message.
+
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="red"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'red',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="red"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -246,29 +265,13 @@
   </li>
   <li>
     <Message
-      direction="outgoing"
-      timestamp={Date.now()}
-      status="sending"
-      authorColor="grey"
-      text="Nice!"
-      i18n={util.i18n}
-      quote={{
-        authorColor: 'red',
-        text: 'red',
-        authorPhoneNumber: '(202) 555-0011',
-        onClick: () => console.log('onClick'),
-      }}
-    />
-  </li>
-  <li>
-    <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="red"
       text="Nice!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'deep_orange',
+        authorColor: 'pink',
         text: 'deep_orange',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
@@ -280,7 +283,7 @@
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
-      authorColor="grey"
+      authorColor="deep_orange"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -295,11 +298,11 @@
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="brown"
       text="Nice!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'brown',
+        authorColor: 'pink',
         text: 'brown',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
@@ -311,7 +314,7 @@
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
-      authorColor="grey"
+      authorColor="brown"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -326,7 +329,7 @@
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="pink"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -342,7 +345,7 @@
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
-      authorColor="grey"
+      authorColor="pink"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -357,7 +360,23 @@
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="purple"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'purple',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="purple"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -370,29 +389,13 @@
   </li>
   <li>
     <Message
-      direction="outgoing"
-      timestamp={Date.now()}
-      status="sending"
-      authorColor="grey"
-      text="Nice!"
-      i18n={util.i18n}
-      quote={{
-        authorColor: 'purple',
-        text: 'purple',
-        authorPhoneNumber: '(202) 555-0011',
-        onClick: () => console.log('onClick'),
-      }}
-    />
-  </li>
-  <li>
-    <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="indigo"
       text="Nice!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'indigo',
+        authorColor: 'pink',
         text: 'indigo',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
@@ -404,7 +407,7 @@
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
-      authorColor="grey"
+      authorColor="indigo"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -419,7 +422,23 @@
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="blue"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'blue',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="blue"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -432,29 +451,13 @@
   </li>
   <li>
     <Message
-      direction="outgoing"
-      timestamp={Date.now()}
-      status="sending"
-      authorColor="grey"
-      text="Nice!"
-      i18n={util.i18n}
-      quote={{
-        authorColor: 'blue',
-        text: 'blue',
-        authorPhoneNumber: '(202) 555-0011',
-        onClick: () => console.log('onClick'),
-      }}
-    />
-  </li>
-  <li>
-    <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="teal"
       text="Nice!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'teal',
+        authorColor: 'pink',
         text: 'teal',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
@@ -466,7 +469,7 @@
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
-      authorColor="grey"
+      authorColor="teal"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -481,11 +484,11 @@
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="green"
       text="Nice!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'green',
+        authorColor: 'pink',
         text: 'green',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
@@ -497,7 +500,7 @@
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
-      authorColor="grey"
+      authorColor="green"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -512,11 +515,11 @@
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="light_green"
       text="Nice!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'light_green',
+        authorColor: 'pink',
         text: 'light_green',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
@@ -528,7 +531,7 @@
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
-      authorColor="grey"
+      authorColor="light_green"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -543,11 +546,11 @@
     <Message
       direction="incoming"
       timestamp={Date.now()}
-      authorColor="grey"
+      authorColor="blue_grey"
       text="Nice!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'blue_grey',
+        authorColor: 'pink',
         text: 'blue_grey',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
@@ -559,7 +562,7 @@
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
-      authorColor="grey"
+      authorColor="blue_grey"
       text="Nice!"
       i18n={util.i18n}
       quote={{
@@ -578,7 +581,7 @@
       text="Nice!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'grey',
+        authorColor: 'pink',
         text: 'grey',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
