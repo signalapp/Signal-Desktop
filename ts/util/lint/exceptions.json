@@ -1244,7 +1244,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "        toast.$el.insertAfter(this.$el);",
-    "lineNumber": 188,
+    "lineNumber": 190,
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-11T19:22:47.331Z",
     "reasonDetail": "Operating on already-existing DOM elements"
@@ -1253,7 +1253,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "          toast.$el.insertAfter(this.$el);",
-    "lineNumber": 282,
+    "lineNumber": 284,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -1262,7 +1262,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/file_input_view.js",
     "line": "      this.$('.avatar').show();",
-    "lineNumber": 386,
+    "lineNumber": 388,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1271,7 +1271,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/views/file_input_view.js",
     "line": "        .wrap('<form>')",
-    "lineNumber": 396,
+    "lineNumber": 398,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Hard-coded value"
