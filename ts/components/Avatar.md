@@ -62,6 +62,13 @@
 ```jsx
 <Avatar
   size={28}
+  color="signal-blue"
+  name="Group"
+  conversationType="group"
+  i18n={util.i18n}
+/>
+<Avatar
+  size={28}
   color="red"
   name="Red"
   conversationType="direct"
