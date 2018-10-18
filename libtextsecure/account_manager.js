@@ -47,7 +47,7 @@
     registerSingleDevice() {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
-      const generateKeys = this.generateKeys.bind(this, 100);
+      const generateKeys = this.generateKeys.bind(this, 0);
       const confirmKeys = this.confirmKeys.bind(this);
       const registrationDone = this.registrationDone.bind(this);
       return this.queueTask(() =>
@@ -101,7 +101,7 @@
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
-      const generateKeys = this.generateKeys.bind(this, 100, progressCallback);
+      const generateKeys = this.generateKeys.bind(this, 0, progressCallback);
       const confirmKeys = this.confirmKeys.bind(this);
       const registrationDone = this.registrationDone.bind(this);
       const registerKeys = this.server.registerKeys.bind(this.server);
@@ -193,7 +193,7 @@
       );
     },
     refreshPreKeys() {
-      const generateKeys = this.generateKeys.bind(this, 100);
+      const generateKeys = this.generateKeys.bind(this, 0);
       const registerKeys = this.server.registerKeys.bind(this.server);
 
       return this.queueTask(() =>
@@ -239,14 +239,14 @@
             window.log.info('Saving new signed prekey', res.keyId);
             return Promise.all([
               textsecure.storage.put('signedKeyId', signedKeyId + 1),
-              store.storeSignedPreKey(res.keyId, res.keyPair),
+              store.storeSignedPreKey(res.keyId, res.keyPair, undefined, res.signature),
             ])
               .then(() => {
                 const confirmed = true;
                 window.log.info('Confirming new signed prekey', res.keyId);
                 return Promise.all([
                   textsecure.storage.remove('signedKeyRotationRejected'),
-                  store.storeSignedPreKey(res.keyId, res.keyPair, confirmed),
+                  store.storeSignedPreKey(res.keyId, res.keyPair, confirmed, res.signature),
                 ]);
               })
               .then(() => cleanSignedPreKeys());
@@ -407,7 +407,7 @@
       const confirmed = true;
 
       window.log.info('confirmKeys: confirming key', key.keyId);
-      return store.storeSignedPreKey(key.keyId, key.keyPair, confirmed);
+      return store.storeSignedPreKey(key.keyId, key.keyPair, confirmed, key.signature);
     },
     generateKeys(count, providedProgressCallback) {
       const progressCallback =
@@ -449,7 +449,7 @@
             identityKey,
             signedKeyId
           ).then(res => {
-            store.storeSignedPreKey(res.keyId, res.keyPair);
+            store.storeSignedPreKey(res.keyId, res.keyPair, undefined, res.signature);
             result.signedPreKey = {
               keyId: res.keyId,
               publicKey: res.keyPair.pubKey,

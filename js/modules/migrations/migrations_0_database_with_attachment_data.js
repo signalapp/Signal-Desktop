@@ -44,7 +44,9 @@ const migrations = [
 
       transaction.db.createObjectStore('sessions');
       transaction.db.createObjectStore('identityKeys');
-      transaction.db.createObjectStore('preKeys');
+      const preKeys = transaction.db.createObjectStore('preKeys', { keyPath: 'id'});
+      preKeys.createIndex('recipient', 'recipient', { unique: true });
+
       transaction.db.createObjectStore('signedPreKeys');
       transaction.db.createObjectStore('items');
       

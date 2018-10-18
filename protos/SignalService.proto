@@ -11,7 +11,7 @@ message Envelope {
     KEY_EXCHANGE  = 2;
     PREKEY_BUNDLE = 3;
     RECEIPT       = 5;
-    FRIEND_REQUEST = 6;
+    FRIEND_REQUEST = 6; // contains prekeys + message and is using simple encryption
   }
 
   optional Type   type          = 1;
@@ -29,6 +29,17 @@ message Content {
   optional CallMessage    callMessage    = 3;
   optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
+  optional PreKeyBundleMessage preKeyBundleMessage = 6;
+}
+
+message PreKeyBundleMessage {
+  optional bytes identityKey      = 1;
+  optional uint32 deviceId        = 2;
+  optional uint32 preKeyId        = 3;
+  optional uint32 signedKeyId     = 4;
+  optional bytes preKey           = 5;
+  optional bytes signedKey        = 6;
+  optional bytes signature        = 7;
 }
 
 message CallMessage {
