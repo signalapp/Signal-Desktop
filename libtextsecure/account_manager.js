@@ -44,14 +44,25 @@
     requestSMSVerification(number) {
       return this.server.requestVerificationSMS(number);
     },
-    registerSingleDevice() {
+    registerSingleDevice(mnemonic) {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
       const generateKeys = this.generateKeys.bind(this, 0);
       const confirmKeys = this.confirmKeys.bind(this);
       const registrationDone = this.registrationDone.bind(this);
-      return this.queueTask(() =>
-        libsignal.KeyHelper.generateIdentityKeyPair().then(identityKeyPair => {
+      let generateKeypair;
+      if (mnemonic) {
+        generateKeypair = () => {
+          const seedHex = window.mnemonic.decode(mnemonic);
+          // use seed as privkey?
+          const privKey = dcodeIO.ByteBuffer.wrap(seedHex, 'hex').toArrayBuffer();
+          return libsignal.Curve.async.createKeyPair(privKey);
+        };
+      } else {
+        generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;
+      }
+      return this.queueTask(() => 
+        generateKeypair().then(identityKeyPair => {
           return createAccount(
             identityKeyPair,
           )

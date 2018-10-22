@@ -31,14 +31,27 @@
       'click #request-sms': 'requestSMSVerification',
       'change #code': 'onChangeCode',
       'click #register': 'register',
+      'click #register-mnemonic': 'registerWithMnemonic',
+      'change #mnemonic': 'onChangeMnemonic',
     },
     register() {
       this.accountManager
-        .registerSingleDevice()
+        .registerSingleDevice(this.$('#mnemonic').val())
         .then(() => {
           this.$el.trigger('openInbox');
         })
         .catch(this.log.bind(this));
+    },
+    registerWithMnemonic() {
+      const words = this.$('#mnemonic').val();
+      if (!words) {
+        log('Please provide a mnemonic word list');
+      } else {
+        this.register();
+      }
+    },
+    onChangeMnemonic() {
+      this.$('#status').html('');
     },
     log(s) {
       window.log.info(s);
