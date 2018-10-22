@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
+const { fork } = require('child_process');
 
 module.exports = {
   initialize,
@@ -19,8 +20,49 @@ function initialize({ url }) {
       sendMessage
     };
 
-    async function sendMessage(pub_key, data, ttl)
-    {
+    function getPoWNonce(timestamp, ttl, pub_key, data) {
+      return new Promise((resolve, reject) => {
+        // Create forked node process to calculate PoW without blocking main process
+        const child = fork('./libloki/proof-of-work.js');
+
+        // Send data required for PoW to child process
+        child.send({
+          timestamp,
+          ttl,
+          pub_key,
+          data
+        });
+
+        // Handle child process error (should never happen)
+        child.on('error', (err) => {
+          reject(err);
+        });
+
+        // Callback to receive PoW result
+        child.on('message', (msg) => {
+          if (msg.err) {
+            reject(msg.err);
+          } else {
+            child.kill();
+            resolve(msg.nonce);
+          }
+        });
+
+      });
+    };
+
+    async function sendMessage(pub_key, data, ttl) {
+      const timestamp = Math.floor(Date.now() / 1000);
+      // Nonce is returned as a base64 string to include in header
+      let nonce;
+      try {
+        nonce = await getPoWNonce(timestamp, ttl, pub_key, data);
+      } catch(err) {
+        // Something went horribly wrong
+        // TODO: Handle gracefully
+        console.log("Error computing PoW");
+      };
+
       const options = {
         url: `${url}/send_message`,
         type: 'POST',
@@ -30,12 +72,13 @@ function initialize({ url }) {
         
       log.info(options.type, options.url);
 
-
       const fetchOptions = {
         method: options.type,
         body: data,
         headers: {
-          'X-Loki-ttl': ttl,
+          'X-Loki-pow-nonce': nonce,
+          'X-Loki-timestamp': timestamp.toString(),
+          'X-Loki-ttl': ttl.toString(),
           'X-Loki-recipient': pub_key,
           'Content-Length': data.byteLength,
         },
@@ -74,7 +117,7 @@ function initialize({ url }) {
           result
         );
       }
-    }
+    };
   }
 }
 
