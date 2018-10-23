@@ -365,18 +365,22 @@ OutgoingMessage.prototype = {
   },
 
   sendToNumber(number) {
+    let conversation;
+    try {
+      conversation = ConversationController.get(number);
+    } catch(e) {
+    }
+
     return this.getStaleDeviceIdsForNumber(number).then(updateDevices =>
       this.getKeysForNumber(number, updateDevices)
         .then(async (keysFound) =>  {
-          const conversation = ConversationController.get(number);
           let attachPrekeys = false;
           if (!keysFound)
           {
             log.info("Fallback encryption enabled");
-            conversation.onFriendRequestSent();
             this.fallBackEncryption = true;
             attachPrekeys = true;
-          } else {
+          } else if (conversation) {
             try {
               attachPrekeys = !conversation.isKeyExchangeCompleted();
             } catch(e) {
@@ -389,6 +393,11 @@ OutgoingMessage.prototype = {
             this.message.preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(number);
           }
         }).then(this.reloadDevicesAndSend(number, true))
+        .then(() => {
+          if (this.fallBackEncryption && conversation) {
+            conversation.onFriendRequestSent();
+          }
+        })
         .catch(error => {
           if (error.message === 'Identity key changed') {
             // eslint-disable-next-line no-param-reassign
