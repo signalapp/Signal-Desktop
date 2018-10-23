@@ -39,7 +39,7 @@ export class MainHeader extends React.Component<Props> {
           profileName={profileName}
           size={28}
         />
-        <div className="module-main-header__app-name">Signal</div>
+        <div className="module-main-header__app-name">Loki Messenger</div>
       </div>
     );
   }
