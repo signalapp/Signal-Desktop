@@ -190,11 +190,6 @@ MessageSender.prototype = {
       );
   },
 
-  retransmitMessage(number, jsonData, timestamp) {
-    const outgoing = new OutgoingMessage(this.server);
-    return outgoing.transmitMessage(number, jsonData, timestamp);
-  },
-
   validateRetryContentMessage(content) {
     // We want at least one field set, but not more than one
     let count = 0;
