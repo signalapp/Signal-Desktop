@@ -148,9 +148,9 @@ OutgoingMessage.prototype = {
     return promise;
   },
 
-  async transmitMessage(number, data, timestamp) {
+  // Default ttl to 24 hours if no value provided
+  async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
     const pubKey = number;
-    const ttl = 2 * 24 * 60 * 60;
     try {
       const [response, status] = await this.lokiserver.sendMessage(pubKey, data, ttl);
       return response;
@@ -263,13 +263,17 @@ OutgoingMessage.prototype = {
       })
     )
       .then(async outgoingObjects => {
-        let promises = [];
-        outgoingObjects.forEach(outgoingObject => {
-          promises.push(this.wrapInWebsocketMessage(outgoingObject));
-        });
         // TODO: handle multiple devices/messages per transmit
-        const socketMessages = await promises[0];
-        await this.transmitMessage(number, socketMessages, this.timestamp);
+        const outgoingObject = outgoingObjects[0];
+        const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
+        let ttl;
+        // TODO: Allow user to set ttl manually
+        if (outgoingObject.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+          ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
+        } else {
+          ttl = 24 * 60 * 60; // 1 day default for any other message
+        }
+        await this.transmitMessage(number, socketMessage, this.timestamp, ttl);
         this.successfulNumbers[this.successfulNumbers.length] = number;
         this.numberCompleted();
         }
