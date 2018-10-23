@@ -1,13 +1,13 @@
 /* global Backbone: false */
 /* global $: false */
 
+/* global dcodeIO: false */
 /* global ConversationController: false */
 /* global getAccountManager: false */
 /* global Signal: false */
 /* global storage: false */
 /* global textsecure: false */
 /* global Whisper: false */
-/* global wrapDeferred: false */
 /* global _: false */
 
 // eslint-disable-next-line func-names
@@ -125,7 +125,12 @@
 
   const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
   const { Errors, Message } = window.Signal.Types;
-  const { upgradeMessageSchema } = window.Signal.Migrations;
+  const {
+    upgradeMessageSchema,
+    writeNewAttachmentData,
+    deleteAttachmentData,
+    getCurrentVersion,
+  } = window.Signal.Migrations;
   const { Migrations0DatabaseWithAttachmentData } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
@@ -182,6 +187,9 @@
     Backbone,
     logger: window.log,
   });
+
+  const latestDBVersion2 = await getCurrentVersion();
+  Whisper.Database.migrations[0].version = latestDBVersion2;
 
   window.log.info('Storage fetch');
   storage.fetch();
@@ -337,9 +345,18 @@
     await upgradeMessages();
 
     const db = await Whisper.Database.open();
-    const totalMessages = await MessageDataMigrator.getNumMessages({
-      connection: db,
-    });
+    let totalMessages;
+    try {
+      totalMessages = await MessageDataMigrator.getNumMessages({
+        connection: db,
+      });
+    } catch (error) {
+      window.log.error(
+        'background.getNumMessages error:',
+        error && error.stack ? error.stack : error
+      );
+      totalMessages = 0;
+    }
 
     function showMigrationStatus(current) {
       const status = `${current}/${totalMessages}`;
@@ -350,20 +367,24 @@
 
     if (totalMessages) {
       window.log.info(`About to migrate ${totalMessages} messages`);
-
       showMigrationStatus(0);
-      await window.Signal.migrateToSQL({
-        db,
-        clearStores: Whisper.Database.clearStores,
-        handleDOMException: Whisper.Database.handleDOMException,
-        arrayBufferToString:
-          textsecure.MessageReceiver.arrayBufferToStringBase64,
-        countCallback: count => {
-          window.log.info(`Migration: ${count} messages complete`);
-          showMigrationStatus(count);
-        },
-      });
+    } else {
+      window.log.info('About to migrate non-messages');
     }
+
+    await window.Signal.migrateToSQL({
+      db,
+      clearStores: Whisper.Database.clearStores,
+      handleDOMException: Whisper.Database.handleDOMException,
+      arrayBufferToString: textsecure.MessageReceiver.arrayBufferToStringBase64,
+      countCallback: count => {
+        window.log.info(`Migration: ${count} messages complete`);
+        showMigrationStatus(count);
+      },
+      writeNewAttachmentData,
+    });
+
+    db.close();
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
 
@@ -413,9 +434,6 @@
     }
 
     Views.Initialization.setMessage(window.i18n('loading'));
-
-    // Note: We are not invoking the second set of IndexedDB migrations because it is
-    //   likely that any future migrations will simply extracting things from IndexedDB.
 
     idleDetector = new IdleDetector();
     let isMigrationWithIndexComplete = false;
@@ -705,17 +723,15 @@
       PASSWORD
     );
 
-    // Because v0.43.2 introduced a bug that lost contact details, v0.43.4 introduces
-    //   a one-time contact sync to restore all lost contact/group information. We
-    //   disable this checking if a user is first registering.
-    const key = 'chrome-contact-sync-v0.43.4';
-    if (!storage.get(key)) {
-      storage.put(key, true);
-
+    // On startup after upgrading to a new version, request a contact sync
+    //   (but only if we're not the primary device)
+    if (
+      !firstRun &&
+      newVersion &&
       // eslint-disable-next-line eqeqeq
-      if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
-        window.getSyncRequest();
-      }
+      textsecure.storage.user.getDeviceId() != '1'
+    ) {
+      window.getSyncRequest();
     }
 
     const deviceId = textsecure.storage.user.getDeviceId();
@@ -844,7 +860,10 @@
       }
 
       if (details.profileKey) {
-        conversation.set({ profileKey: details.profileKey });
+        const profileKey = dcodeIO.ByteBuffer.wrap(details.profileKey).toString(
+          'base64'
+        );
+        conversation.set({ profileKey });
       }
 
       if (typeof details.blocked !== 'undefined') {
@@ -855,14 +874,29 @@
         }
       }
 
-      await wrapDeferred(
-        conversation.save({
-          name: details.name,
-          avatar: details.avatar,
-          color: details.color,
-          active_at: activeAt,
-        })
-      );
+      conversation.set({
+        name: details.name,
+        color: details.color,
+        active_at: activeAt,
+      });
+
+      // Update the conversation avatar only if new avatar exists and hash differs
+      const { avatar } = details;
+      if (avatar && avatar.data) {
+        const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
+          conversation.attributes,
+          avatar.data,
+          {
+            writeNewAttachmentData,
+            deleteAttachmentData,
+          }
+        );
+        conversation.set(newAttributes);
+      }
+
+      await window.Signal.Data.updateConversation(id, conversation.attributes, {
+        Conversation: Whisper.Conversation,
+      });
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
@@ -901,12 +935,14 @@
       id,
       'group'
     );
+
     const updates = {
       name: details.name,
       members: details.members,
-      avatar: details.avatar,
+      color: details.color,
       type: 'group',
     };
+
     if (details.active) {
       const activeAt = conversation.get('active_at');
 
@@ -926,7 +962,25 @@
       storage.removeBlockedGroup(id);
     }
 
-    await wrapDeferred(conversation.save(updates));
+    conversation.set(updates);
+
+    // Update the conversation avatar only if new avatar exists and hash differs
+    const { avatar } = details;
+    if (avatar && avatar.data) {
+      const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
+        conversation.attributes,
+        avatar.data,
+        {
+          writeNewAttachmentData,
+          deleteAttachmentData,
+        }
+      );
+      conversation.set(newAttributes);
+    }
+
+    await window.Signal.Data.updateConversation(id, conversation.attributes, {
+      Conversation: Whisper.Conversation,
+    });
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
     if (!isValidExpireTimer) {
@@ -1077,12 +1131,15 @@
     confirm,
     messageDescriptor,
   }) {
-    const profileKey = data.message.profileKey.toArrayBuffer();
+    const profileKey = data.message.profileKey.toString('base64');
     const sender = await ConversationController.getOrCreateAndWait(
       messageDescriptor.id,
       'private'
     );
+
+    // Will do the save for us
     await sender.setProfileKey(profileKey);
+
     return confirm();
   }
 
@@ -1097,11 +1154,17 @@
     confirm,
     messageDescriptor,
   }) {
+    const { id, type } = messageDescriptor;
     const conversation = await ConversationController.getOrCreateAndWait(
-      messageDescriptor.id,
-      messageDescriptor.type
+      id,
+      type
     );
-    await wrapDeferred(conversation.save({ profileSharing: true }));
+
+    conversation.set({ profileSharing: true });
+    await window.Signal.Data.updateConversation(id, conversation.attributes, {
+      Conversation: Whisper.Conversation,
+    });
+
     return confirm();
   }
 
@@ -1174,6 +1237,7 @@
       Whisper.Registration.remove();
 
       const NUMBER_ID_KEY = 'number_id';
+      const VERSION_KEY = 'version';
       const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
       const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
 
@@ -1203,6 +1267,7 @@
           LAST_PROCESSED_INDEX_KEY,
           lastProcessedIndex || null
         );
+        textsecure.storage.put(VERSION_KEY, window.getVersion());
 
         window.log.info('Successfully cleared local configuration');
       } catch (eraseError) {
@@ -1262,7 +1327,9 @@
         ev.confirm();
       }
 
-      await wrapDeferred(conversation.save());
+      await window.Signal.Data.updateConversation(id, conversation.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     }
 
     throw error;

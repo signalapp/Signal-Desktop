@@ -1040,6 +1040,9 @@
     },
 
     // Not yet processed messages - for resiliency
+    getUnprocessedCount() {
+      return window.Signal.Data.getUnprocessedCount();
+    },
     getAllUnprocessed() {
       return window.Signal.Data.getAllUnprocessed();
     },
@@ -1059,6 +1062,9 @@
     },
     removeUnprocessed(id) {
       return window.Signal.Data.removeUnprocessed(id, { Unprocessed });
+    },
+    removeAllUnprocessed() {
+      return window.Signal.Data.removeAllUnprocessed();
     },
     async removeAllData() {
       // First the in-memory caches:
@@ -1082,7 +1088,6 @@
         'sessions',
         'signedPreKeys',
         'preKeys',
-        'unprocessed',
       ]);
 
       await window.Signal.Data.removeAllUnprocessed();

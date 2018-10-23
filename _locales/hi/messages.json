@@ -294,11 +294,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "आपके द्वारा अंतिम सत्यापित होने के बाद से कई समूह सदस्यों के साथ आपकी सुरक्षा संख्या बदल गई हैं। इसका मतलब यह हो सकता है कि कोई आपके संचार को अवरुद्ध करने का प्रयास कर रहा है या उन्होंने सिग्नल को बस पुनः स्थापित किया है",
+        "message": "आपके द्वारा अंतिम सत्यापित होने के बाद से कई समूह सदस्यों के साथ आपकी सुरक्षा संख्या बदल गई हैं। इसका मतलब यह हो सकता है कि कोई आपके संचार को अवरुद्ध करने का प्रयास कर रहा है या उन्होंने Signal को बस पुनः स्थापित किया है",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "आपकी सुरक्षा संख्या के साथ$name$आपके अंतिम सत्यापन के बाद से बदल गया है। इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस सिग्नल को पुनः स्थापित किया है",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$आपके अंतिम सत्यापन के बाद से बदल गया है। इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस Signal को पुनः स्थापित किया है",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -308,7 +308,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "आपके द्वारा सत्यापित करने की कोशिश कर रहे सुरक्षा नंबर बदल गया है कृपया अपने नए सुरक्षा नंबर के साथ की समीक्षा करें$name$|याद रखें, इस परिवर्तन का मतलब यह हो सकता है कि कोई आपकी संचार को रोकना चाहता है या$name$बस सिग्नल को पुनः स्थापित किया है",
+        "message": "आपके द्वारा सत्यापित करने की कोशिश कर रहे सुरक्षा नंबर बदल गया है कृपया अपने नए सुरक्षा नंबर के साथ की समीक्षा करें$name$|याद रखें, इस परिवर्तन का मतलब यह हो सकता है कि कोई आपकी संचार को रोकना चाहता है या$name$बस Signal को पुनः स्थापित किया है",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -318,11 +318,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "कई समूह सदस्यों के साथ आपकी सुरक्षा संख्या हाल ही में बदल गई हैं इसका मतलब यह हो सकता है कि कोई आपके संचार को अवरुद्ध करने का प्रयास कर रहा है या उन्होंने सिग्नल को बस पुनः स्थापित किया है",
+        "message": "कई समूह सदस्यों के साथ आपकी सुरक्षा संख्या हाल ही में बदल गई हैं इसका मतलब यह हो सकता है कि कोई आपके संचार को अवरुद्ध करने का प्रयास कर रहा है या उन्होंने Signal को बस पुनः स्थापित किया है",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "आपकी सुरक्षा संख्या के साथ$name$हाल ही में बदल गया है|इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस सिग्नल को पुनः स्थापित किया है",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$हाल ही में बदल गया है|इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस Signal को पुनः स्थापित किया है",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -332,7 +332,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "आपकी सुरक्षा संख्या के साथ$name$बदल गया है।इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या $name$बस सिग्नल को पुनः स्थापित किया है आप इस संपर्क के साथ अपना सुरक्षा नंबर सत्यापित करना चाह सकते हैं।",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$बदल गया है।इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या $name$बस Signal को पुनः स्थापित किया है आप इस संपर्क के साथ अपना सुरक्षा नंबर सत्यापित करना चाह सकते हैं।",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -420,7 +420,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "इस संपर्क के साथ आपकी सुरक्षा संख्या बदल गई है इसका मतलब यह हो सकता है कि कोई आपके संचार को अवरुद्ध करने का प्रयास कर रहा है, या इस संपर्क को केवल सिग्नल को पुनः स्थापित किया गया है आप नीचे नई सुरक्षा संख्या को सत्यापित करना चाह सकते हैं।",
+        "message": "इस संपर्क के साथ आपकी सुरक्षा संख्या बदल गई है इसका मतलब यह हो सकता है कि कोई आपके संचार को अवरुद्ध करने का प्रयास कर रहा है, या इस संपर्क को केवल Signal को पुनः स्थापित किया गया है आप नीचे नई सुरक्षा संख्या को सत्यापित करना चाह सकते हैं।",
         "description": ""
     },
     "incomingError": {
@@ -479,8 +479,16 @@
         "message": "असमर्थित फ़ाइल प्रकार",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "क्षमा करें, चयनित दस्तावेज का आकार संदेश आकार प्रतिबंध से अधिक है।",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Unable to load selected attachment.",
         "description": ""
     },
     "disconnected": {
@@ -538,7 +546,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "सिग्नल डेस्कटॉप के बारे में",
+        "message": "Signal डेस्कटॉप के बारे में",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -787,14 +795,6 @@
         "message": "Thumbnail of image from quoted message",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Image failed to load",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Image attached to message",
         "description": "Used in alt tag of image attachment"
@@ -822,11 +822,11 @@
         }
     },
     "installWelcome": {
-        "message": "सिग्नल डेस्कटॉप में आपका स्वागत है",
+        "message": "Signal डेस्कटॉप में आपका स्वागत है",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "गोपनीयता संभव है. सिग्नल उसे आसान बनता है",
+        "message": "गोपनीयता संभव है. Signal उसे आसान बनता है",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
@@ -986,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "सिग्नल डेस्कटॉप का यह संस्करण समाप्त हो गया है। संदेश जारी रखने के लिए कृपया नवीनतम संस्करण में नवीनीकृत करें।",
+        "message": "Signal डेस्कटॉप का यह संस्करण समाप्त हो गया है। संदेश जारी रखने के लिए कृपया नवीनतम संस्करण में नवीनीकृत करें।",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1010,7 +1010,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "अपने मोबाइल डिवाइस से सभी सिग्नल समूहों और संपर्कों को आयात करें",
+        "message": "अपने मोबाइल डिवाइस से सभी Signal समूहों और संपर्कों को आयात करें",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "कोई संदेश भेजने के लिए इस संपर्क को अनवरोधित करें",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Unblock this group to send a message.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "You set the disappearing message timer to $time$",
@@ -1312,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "संदेश जारी रखने के लिए सिग्नल डेस्कटॉप को अपने मोबाइल डिवाइस पर लिंक करें।",
+        "message": "संदेश जारी रखने के लिए Signal डेस्कटॉप को अपने मोबाइल डिवाइस पर लिंक करें।",
         "description": ""
     },
     "unlinked": {

@@ -36,7 +36,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "خروج از سیگنال",
+        "message": "خروج از Signal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "شما پروسه اکسپورت را انجام دادید، مخاطبین ، پیام های شما روی کامپیوتر شما آماده هستند. پوشه ای که شامل داده های  ذخیره شده سیگنال شما می باشد را انتخاب کنید.",
+        "message": "شما پروسه اکسپورت را انجام دادید، مخاطبین ، پیام های شما روی کامپیوتر شما آماده هستند. پوشه ای که شامل داده های  ذخیره شده Signal شما می باشد را انتخاب کنید.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "مطمئن شوید که دایرکتوری صحیح را که شامل داده های ذخیره شده سیگنال شما می باشد را انتخاب کرده اید. نام آن باید با 'Signal Export' آغاز شده باشد. شما همچنین میتوانید یک کپی جدید از داده های خود را از برنامه کروم ذخیره کنید.",
+        "message": "مطمئن شوید که دایرکتوری صحیح را که شامل داده های ذخیره شده Signal شما می باشد را انتخاب کرده اید. نام آن باید با 'Signal Export' آغاز شده باشد. شما همچنین میتوانید یک کپی جدید از داده های خود را از برنامه کروم ذخیره کنید.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "شروع به استفاده از سیگنال دسکتاپ",
+        "message": "شروع به استفاده از Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -294,11 +294,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "کد امنیتی چند نفر از اعضای گروه از زمان آخریت تائید، تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً سیگنال را دوباره نصب کرده‌اند.",
+        "message": "کد امنیتی چند نفر از اعضای گروه از زمان آخریت تائید، تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً Signal را دوباره نصب کرده‌اند.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "شماره امن شما با $name$ بعد از آخرین تایید شما تغییر یافته است. این بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا اینکه $name$به تازگی سیگنال را مجددا نصب کرده است.",
+        "message": "شماره امن شما با $name$ بعد از آخرین تایید شما تغییر یافته است. این بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا اینکه $name$به تازگی Signal را مجددا نصب کرده است.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -308,7 +308,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "شماره امنی که شما در تلاش برای تایید آن هستید تغییر کرده است. لطفا شماره امن جدید خود را با$name$بازبینی کنید. به یاد داشته باشید، این تغییر بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا $name$مجددا سیگنال را نصب کرده است.",
+        "message": "شماره امنی که شما در تلاش برای تایید آن هستید تغییر کرده است. لطفا شماره امن جدید خود را با$name$بازبینی کنید. به یاد داشته باشید، این تغییر بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا $name$مجددا Signal را نصب کرده است.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -318,11 +318,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "کد امنیتی چند نفر از اعضای گروه اخیرآً تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً سیگنال را دوباره نصب کرده‌اند.",
+        "message": "کد امنیتی چند نفر از اعضای گروه اخیرآً تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً Signal را دوباره نصب کرده‌اند.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "شماره امن شما با $name$به تازگی تغییر یافته است.این امر بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست یا اینکه $name$بار دیگر سیگنال را نصب کرده است.",
+        "message": "شماره امن شما با $name$به تازگی تغییر یافته است.این امر بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست یا اینکه $name$بار دیگر Signal را نصب کرده است.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -332,7 +332,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "شماره امن شما با $name$ تغییر کرده است. این به این معناست که شخصی در تلاش برای رهگیری ارتباط شماست یا اینکه $name$مجددا سیگنال را نصب کرده است. بهتر است شماره امن خود با این مخاطب را تایید کنید.",
+        "message": "شماره امن شما با $name$ تغییر کرده است. این به این معناست که شخصی در تلاش برای رهگیری ارتباط شماست یا اینکه $name$مجددا Signal را نصب کرده است. بهتر است شماره امن خود با این مخاطب را تایید کنید.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -420,7 +420,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "شماره‌ی امنیتی این مخاطب تغییر کرده‌ است. این می‌تواند به این معنی باشد که کسی در حال نفوذ به ارتباط شما است و یا اینکه مخاطب شما سیگنال را از نو نصب کرده و حالا شماره‌ی امنیتی جدیدی دارد.",
+        "message": "شماره‌ی امنیتی این مخاطب تغییر کرده‌ است. این می‌تواند به این معنی باشد که کسی در حال نفوذ به ارتباط شما است و یا اینکه مخاطب شما Signal را از نو نصب کرده و حالا شماره‌ی امنیتی جدیدی دارد.",
         "description": ""
     },
     "incomingError": {
@@ -478,6 +478,10 @@
     "unsupportedFileType": {
         "message": "این نوع فایل پشتیبانی نمی‌شود",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "fileSizeWarning": {
         "message": "متاسفانه حجم فایل انتخاب شده از حداکثر طول پیام بیشتر است.",
@@ -538,11 +542,11 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "ترجیحات سیگنال دسکتاپ",
+        "message": "ترجیحات Signal Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "درباره سیگنال دسکتاپ",
+        "message": "درباره Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -562,7 +566,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "trayTooltip": {
-        "message": "سیگنال دسکتاپ",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
@@ -570,7 +574,7 @@
         "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
-        "message": "به سیگنال خوش‌آمدید",
+        "message": "به Signal خوش‌آمدید",
         "description": ""
     },
     "selectAContact": {
@@ -654,7 +658,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "برای فرستادن پیام های صوتی، به سیگنال دسکتاپ اجازه دسترسی به میکروفون خود را بدهید.",
+        "message": "برای فرستادن پیام های صوتی، به Signal Desktop اجازه دسترسی به میکروفون خود را بدهید.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -818,19 +822,19 @@
         }
     },
     "installWelcome": {
-        "message": "به سیگنال دسکتاپ خوش‌آمدید",
+        "message": "به Signal Desktop خوش‌آمدید",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "حفظ حریم خصوصی ممکن است. سیگنال این کار را راحت‌تر میکند.",
+        "message": "حفظ حریم خصوصی ممکن است. Signal این کار را راحت‌تر میکند.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "موبایل خود را به سیگنال دسکتاپ لینک کنید",
+        "message": "موبایل خود را به Signal Desktop لینک کنید",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "تنظیمات سیگنال",
+        "message": "تنظیمات Signal",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
@@ -982,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "این نسخه‌ی سیگنال قدیمی است. برای ارسال پیام لطفا آن را به آخرین نسخه ارتقاء دهید.",
+        "message": "این نسخه‌ی Signal قدیمی است. برای ارسال پیام لطفا آن را به آخرین نسخه ارتقاء دهید.",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1006,7 +1010,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "واردسازی لیست تمام گروه‌ها و مخاطب‌های سیگنال از گوشی موبایل شما.",
+        "message": "واردسازی لیست تمام گروه‌ها و مخاطب‌های Signal از گوشی موبایل شما.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1312,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "برای ادامه‌ی استفاده از ‌سیگنال دسکتاپ، دوباره این برنامه را به سیگنال موبایل خود متصل نمایید.",
+        "message": "برای ادامه‌ی استفاده از ‌Signal Desktop، دوباره این برنامه را به Signal موبایل خود متصل نمایید.",
         "description": ""
     },
     "unlinked": {
@@ -1324,19 +1328,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "به‌روزرسانی سیگنال در دسترس است",
+        "message": "به‌روزرسانی Signal در دسترس است",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "نسخه جدیدی از سیگنال در دسترس است.",
+        "message": "نسخه جدیدی از Signal در دسترس است.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "برای اعمال آپدیت ها سیگنال را ری استارت کنید.",
+        "message": "برای اعمال آپدیت ها Signal را ری استارت کنید.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "راه اندازی مجدد سیگنال",
+        "message": "راه اندازی مجدد Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

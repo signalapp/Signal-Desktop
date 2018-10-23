@@ -44,6 +44,9 @@ const PRIVATE = 'private';
 // Version 8
 //   - Attachments: Capture video/image dimensions and thumbnails, as well as a
 //       full-size screenshot for video.
+// Version 9
+//   - Attachments: Expand the set of unicode characters we filter out of
+//     attachment filenames
 
 const INITIAL_SCHEMA_VERSION = 0;
 
@@ -270,6 +273,11 @@ const toVersion8 = exports._withSchemaVersion({
   upgrade: exports._mapAttachments(Attachment.captureDimensionsAndScreenshot),
 });
 
+const toVersion9 = exports._withSchemaVersion({
+  schemaVersion: 9,
+  upgrade: exports._mapAttachments(Attachment.replaceUnicodeV2),
+});
+
 const VERSIONS = [
   toVersion0,
   toVersion1,
@@ -280,6 +288,7 @@ const VERSIONS = [
   toVersion6,
   toVersion7,
   toVersion8,
+  toVersion9,
 ];
 exports.CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
 

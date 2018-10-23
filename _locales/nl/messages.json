@@ -479,8 +479,16 @@
         "message": "Niet-ondersteund bestandstype",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Unable to load selected attachment.",
         "description": ""
     },
     "disconnected": {
@@ -787,14 +795,6 @@
         "message": "Bijlagenminiatuur van de afbeelding uit het aangehaalde bericht",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Afbeelding kon niet geladen worden",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video schermafdruk kon niet geladen worden",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Afbeelding toegevoegd aan bericht",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Deblokkeer dit contact om een bericht te verzenden.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Unblock this group to send a message.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Je hebt de timer voor verdwijnende berichten op $time$gezet",

@@ -3,7 +3,7 @@
   "productName": "Loki Messenger",
   "description": "Private messaging from your desktop",
   "repository": "https://github.com/sloki-project/loki-messenger.git",
-  "version": "1.16.2",
+  "version": "1.17.0",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",

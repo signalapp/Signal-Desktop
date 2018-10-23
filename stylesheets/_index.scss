@@ -19,14 +19,14 @@
 }
 
 .gutter {
-  background-color: $color-black-008-no-tranparency;
+  background-color: $color-gray-02;
 
   ::-webkit-scrollbar-track {
-    background: $color-black-008-no-tranparency;
+    background: $color-gray-02;
   }
 
   ::-webkit-scrollbar-thumb {
-    border: 2px solid $color-black-008-no-tranparency;
+    border: 2px solid $color-gray-02;
   }
 
   float: left;

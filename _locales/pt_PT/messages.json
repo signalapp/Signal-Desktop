@@ -132,7 +132,7 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "A otimizar aplicação...",
+        "message": "A optimizar aplicação...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Acabou de passar pelo processo de exportação, e os seus contactos e mensagens estão a aguardar pacientemente no seu computados. Seleccione a paste que contém os seus dados Signal guardados.",
+        "message": "Acabou de passar pelo processo de exportação, e os seus contactos e mensagens estão a aguardar pacientemente no seu computados. Seleccione a pasta que contém os seus dados Signal guardados.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -178,7 +178,7 @@
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Escolher pasta e tentar novamente",
+        "message": "Escolha a pasta e tente novamente",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
@@ -368,7 +368,7 @@
         "description": ""
     },
     "reportIssue": {
-        "message": "Denunciar um problema",
+        "message": "Reportar um problema",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -479,8 +479,16 @@
         "message": "Tipo de ficheiro não suportado",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Tipo de ficheiro deste anexo não é permitido por razões de segurança",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Lamentamos, o ficheiro seleccionado excede o tamanho máximo permitido.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Não foi possível carregar o anexo seleccionado.",
         "description": ""
     },
     "disconnected": {
@@ -510,7 +518,7 @@
         }
     },
     "submitDebugLog": {
-        "message": "Ficheiro de depuração",
+        "message": "Enviar relatório de erros",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
@@ -530,7 +538,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Reportar um problema",
+        "message": "Reportar um Problema",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
@@ -558,11 +566,11 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "trayTooltip": {
-        "message": "Signal Desktop\n",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
-        "message": "Inserir nome ou número",
+        "message": "Insira nome ou número",
         "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
@@ -588,7 +596,7 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "Casa",
+        "message": "casa",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
@@ -722,7 +730,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Enviar mensagem",
+        "message": "Enviar uma mensagem",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -764,7 +772,7 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Tentar Novamente Envio",
+        "message": "Tentar Enviar Novamente ",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
@@ -786,14 +794,6 @@
     "quoteThumbnailAlt": {
         "message": "Thumbnail da imagem da mensagem",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "imageFailedToLoad": {
-        "message": "Falha a carregar imagem",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Falha a carregar o screenshot de video",
-        "description": "When a attachment video screenshot is missing, this message is shown"
     },
     "imageAttachmentAlt": {
         "message": "Imagem anexada à mensagem",
@@ -822,7 +822,7 @@
         }
     },
     "installWelcome": {
-        "message": "Bem-vindo ao Signal Desktop",
+        "message": "O Signal Desktop dá-lhe as Boas-vindas!",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -830,7 +830,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Ligar o seu telefone ao Signal Desktop",
+        "message": "Associar o seu telefone ao Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -838,7 +838,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Dispositivos ligados",
+        "message": "Dispositivos Associados",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
@@ -846,11 +846,11 @@
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Ligar um novo dispositivo",
+        "message": "Associar um novo dispositivo",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Nome deste dispositivo",
+        "message": "Nome do dispositivo",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
@@ -858,11 +858,11 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Finalizar a ligação ao telefone",
+        "message": "Finalizar a associação ao telefone",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Sincronizando contactos e grupos",
+        "message": "A sincronizar contactos e grupos",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -870,7 +870,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Existem demasiados dispositivos sincronizados. Tente remover alguns.",
+        "message": "Existem demasiados dispositivos associados. Tente remover alguns.",
         "description": ""
     },
     "settings": {
@@ -902,7 +902,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Isto limpará todos os dados da aplicação, removendo todas as mensagens e dados de conta.",
+        "message": "Isto limpará todos os dados da aplicação, removendo todas as mensagens e dados da sua conta.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Desbloqueie este contacto para enviar mensagens.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Desbloqueie este grupo para enviar uma mensagem.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "As suas mensagens irão desaparecer após $time$",
@@ -1332,7 +1336,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Pressione Restart Signal para aplicar as atualizações.",
+        "message": "Pressione Reiniciar o Signal para aplicar as atualizações.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {

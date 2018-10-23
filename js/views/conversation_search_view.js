@@ -134,24 +134,8 @@
       this.hideHints();
       this.new_contact_view.$el.hide();
       this.$input.val('').focus();
-      if (this.showAllContacts) {
-        // NOTE: Temporarily allow `then` until we convert the entire file
-        // to `async` / `await`:
-        // eslint-disable-next-line more/no-then
-        this.typeahead.fetchAlphabetical().then(() => {
-          if (this.typeahead.length > 0) {
-            this.typeahead_view.collection.reset(
-              this.typeahead.filter(isSearchable)
-            );
-          } else {
-            this.showHints();
-          }
-        });
-        this.trigger('show');
-      } else {
-        this.typeahead_view.collection.reset([]);
-        this.trigger('hide');
-      }
+      this.typeahead_view.collection.reset([]);
+      this.trigger('hide');
     },
 
     showHints() {

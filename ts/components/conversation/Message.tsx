@@ -6,6 +6,7 @@ import {
   isVideoTypeSupported,
 } from '../../util/GoogleChrome';
 
+import { Avatar } from '../Avatar';
 import { MessageBody } from './MessageBody';
 import { ExpireTimer, getIncrement } from './ExpireTimer';
 import { Timestamp } from './Timestamp';
@@ -13,6 +14,7 @@ import { ContactName } from './ContactName';
 import { Quote, QuotedAttachment } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
 
+import { isFileDangerous } from '../../util/isFileDangerous';
 import { Contact } from '../../types/Contact';
 import { Color, Localizer } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
@@ -66,7 +68,7 @@ export interface Props {
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
-  authorColor: Color;
+  authorColor?: Color;
   conversationType: 'group' | 'direct';
   attachment?: Attachment;
   quote?: {
@@ -76,7 +78,7 @@ export interface Props {
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
-    authorColor: Color;
+    authorColor?: Color;
     onClick?: () => void;
     referencedMessageNotFound: boolean;
   };
@@ -87,7 +89,7 @@ export interface Props {
   onClickAttachment?: () => void;
   onReply?: () => void;
   onRetrySend?: () => void;
-  onDownload?: () => void;
+  onDownload?: (isDangerous: boolean) => void;
   onDelete?: () => void;
   onShowDetail: () => void;
 }
@@ -132,10 +134,6 @@ function canDisplayImage(attachment?: Attachment) {
   const { height, width } = attachment || { height: 0, width: 0 };
 
   return height > 0 && height <= 4096 && width > 0 && width <= 4096;
-}
-
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
 }
 
 function getExtension({
@@ -507,6 +505,7 @@ export class Message extends React.Component<Props, State> {
     } else {
       const { fileName, fileSize, contentType } = attachment;
       const extension = getExtension({ contentType, fileName });
+      const isDangerous = isFileDangerous(fileName || '');
 
       return (
         <div
@@ -520,10 +519,17 @@ export class Message extends React.Component<Props, State> {
               : null
           )}
         >
-          <div className="module-message__generic-attachment__icon">
-            {extension ? (
-              <div className="module-message__generic-attachment__icon__extension">
-                {extension}
+          <div className="module-message__generic-attachment__icon-container">
+            <div className="module-message__generic-attachment__icon">
+              {extension ? (
+                <div className="module-message__generic-attachment__icon__extension">
+                  {extension}
+                </div>
+              ) : null}
+            </div>
+            {isDangerous ? (
+              <div className="module-message__generic-attachment__icon-dangerous-container">
+                <div className="module-message__generic-attachment__icon-dangerous" />
               </div>
             ) : null}
           </div>
@@ -551,7 +557,13 @@ export class Message extends React.Component<Props, State> {
   }
 
   public renderQuote() {
-    const { conversationType, direction, i18n, quote } = this.props;
+    const {
+      conversationType,
+      authorColor,
+      direction,
+      i18n,
+      quote,
+    } = this.props;
 
     if (!quote) {
       return null;
@@ -559,6 +571,8 @@ export class Message extends React.Component<Props, State> {
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
+    const quoteColor =
+      direction === 'incoming' ? authorColor : quote.authorColor;
 
     return (
       <Quote
@@ -570,7 +584,7 @@ export class Message extends React.Component<Props, State> {
         authorPhoneNumber={quote.authorPhoneNumber}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
-        authorColor={quote.authorColor}
+        authorColor={quoteColor}
         referencedMessageNotFound={quote.referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
@@ -628,20 +642,16 @@ export class Message extends React.Component<Props, State> {
 
   public renderAvatar() {
     const {
+      authorAvatarPath,
       authorName,
       authorPhoneNumber,
       authorProfileName,
-      authorAvatarPath,
-      authorColor,
       collapseMetadata,
+      authorColor,
       conversationType,
       direction,
       i18n,
     } = this.props;
-
-    const title = `${authorName || authorPhoneNumber}${
-      !authorName && authorProfileName ? ` ~${authorProfileName}` : ''
-    }`;
 
     if (
       collapseMetadata ||
@@ -651,26 +661,18 @@ export class Message extends React.Component<Props, State> {
       return;
     }
 
-    if (!authorAvatarPath) {
-      const label = authorName ? getInitial(authorName) : '#';
-
-      return (
-        <div
-          className={classNames(
-            'module-message__author-default-avatar',
-            `module-message__author-default-avatar--${authorColor}`
-          )}
-        >
-          <div className="module-message__author-default-avatar__label">
-            {label}
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="module-message__author-avatar">
-        <img alt={i18n('contactAvatarAlt', [title])} src={authorAvatarPath} />
+        <Avatar
+          avatarPath={authorAvatarPath}
+          color={authorColor}
+          conversationType="direct"
+          i18n={i18n}
+          name={authorName}
+          phoneNumber={authorPhoneNumber}
+          profileName={authorProfileName}
+          size={36}
+        />
       </div>
     );
   }
@@ -744,9 +746,16 @@ export class Message extends React.Component<Props, State> {
       return null;
     }
 
+    const fileName = attachment ? attachment.fileName : null;
+    const isDangerous = isFileDangerous(fileName || '');
+
     const downloadButton = attachment ? (
       <div
-        onClick={onDownload}
+        onClick={() => {
+          if (onDownload) {
+            onDownload(isDangerous);
+          }
+        }}
         role="button"
         className={classNames(
           'module-message__buttons__download',

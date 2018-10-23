@@ -18,10 +18,14 @@
     // CSS-in-JS solution:
     "jsx-no-multiline-js": false,
 
+    // We'll make tradeoffs where appropriate
+    "jsx-no-lambda": false,
+    "react-this-binding-issue": false,
+
     "linebreak-style": [true, "LF"],
 
-    // Ignore `import`s to allow Prettier formatting:
-    "max-line-length": [true, { "limit": 90, "ignore-pattern": "^import" }],
+    // Prettier handles this for us
+    "max-line-length": false,
 
     "mocha-avoid-only": true,
     // Disabled until we can allow dynamically generated tests:

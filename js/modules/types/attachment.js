@@ -108,6 +108,29 @@ exports._replaceUnicodeOrderOverridesSync = attachment => {
 exports.replaceUnicodeOrderOverrides = async attachment =>
   exports._replaceUnicodeOrderOverridesSync(attachment);
 
+// \u202A-\u202E is LRE, RLE, PDF, LRO, RLO
+// \u2066-\u2069 is LRI, RLI, FSI, PDI
+// \u200E is LRM
+// \u200F is RLM
+// \u061C is ALM
+const V2_UNWANTED_UNICODE = /[\u202A-\u202E\u2066-\u2069\u200E\u200F\u061C]/g;
+
+exports.replaceUnicodeV2 = async attachment => {
+  if (!is.string(attachment.fileName)) {
+    return attachment;
+  }
+
+  const fileName = attachment.fileName.replace(
+    V2_UNWANTED_UNICODE,
+    UNICODE_REPLACEMENT_CHARACTER
+  );
+
+  return {
+    ...attachment,
+    fileName,
+  };
+};
+
 exports.removeSchemaVersion = ({ attachment, logger }) => {
   if (!exports.isValid(attachment)) {
     logger.error(

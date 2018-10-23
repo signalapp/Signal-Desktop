@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
+import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message, Props as MessageProps } from './Message';
 import { Localizer } from '../../types/Util';
@@ -31,40 +32,21 @@ interface Props {
   i18n: Localizer;
 }
 
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
-}
-
 export class MessageDetail extends React.Component<Props> {
   public renderAvatar(contact: Contact) {
     const { i18n } = this.props;
     const { avatarPath, color, phoneNumber, name, profileName } = contact;
 
-    if (!avatarPath) {
-      const initial = getInitial(name || '');
-
-      return (
-        <div
-          className={classNames(
-            'module-message-detail__contact__avatar',
-            'module-message-detail__contact__default-avatar',
-            `module-message-detail__contact__default-avatar--${color}`
-          )}
-        >
-          {initial}
-        </div>
-      );
-    }
-
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
-
     return (
-      <img
-        className="module-message-detail__contact__avatar"
-        alt={i18n('contactAvatarAlt', [title])}
-        src={avatarPath}
+      <Avatar
+        avatarPath={avatarPath}
+        color={color}
+        conversationType="direct"
+        i18n={i18n}
+        name={name}
+        phoneNumber={phoneNumber}
+        profileName={profileName}
+        size={48}
       />
     );
   }

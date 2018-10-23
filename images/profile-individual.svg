@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Profile/profile-28</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M14,14 C16.7625,14 19,11.7625 19,9 C19,6.2375 16.7625,4 14,4 C11.2375,4 9,6.2375 9,9 C9,11.7625 11.2375,14 14,14 Z M14,16.5 C10.6625,16.5 4,18.175 4,21.5 L4,24 L24,24 L24,21.5 C24,18.175 17.3375,16.5 14,16.5 Z" id="path-1"></path>
+        <rect id="path-3" x="0" y="0" width="28" height="28"></rect>
+    </defs>
+    <g id="Profile/profile-28" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Shape" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+        <g id="Color/UI/Black" mask="url(#mask-2)">
+            <mask id="mask-4" fill="white">
+                <use xlink:href="#path-3"></use>
+            </mask>
+            <use id="fill" fill="#000000" fill-rule="evenodd" xlink:href="#path-3"></use>
+        </g>
+    </g>
+</svg>

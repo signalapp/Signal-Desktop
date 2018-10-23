@@ -232,7 +232,9 @@ Whisper.Fixtures = function() {
   conversationCollection.saveAll = function() {
     return Promise.all(
       this.map(async (convo) => {
-        await wrapDeferred(convo.save());
+        await window.Signal.Data.saveConversation(convo.attributes, {
+          Conversation: Whisper.Conversation,
+        });
 
         await Promise.all(
           convo.messageCollection.map(async (message) => {

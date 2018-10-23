@@ -479,8 +479,16 @@
         "message": "Ikke-understøttet fil-type",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Beklager, den valgte fil overstiger den tilladte størrelse.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Unable to load selected attachment.",
         "description": ""
     },
     "disconnected": {
@@ -787,14 +795,6 @@
         "message": "Thumbnail of image from quoted message",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Image failed to load",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Image attached to message",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Fjern blokering af denne kontakt for at sende en besked.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Unblock this group to send a message.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "You set the disappearing message timer to $time$",

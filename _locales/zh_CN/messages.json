@@ -96,7 +96,7 @@
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "原来大小",
+        "message": "实际大小",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "开始使用 Signal 桌面版",
+        "message": "开始使用 Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -298,7 +298,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "您与$name$的安全码自从上次确认后被修改过。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是简单的重装了下Signal。",
+        "message": "您与$name$的安全码自上次确认后已改变。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -322,7 +322,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "您与$name$的安全码最近被修改过。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是简单的重装了下Signal。",
+        "message": "您与$name$的安全码最近被修改过。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -479,8 +479,16 @@
         "message": "尚未支持该文件类型",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "为了安全，不允许此附件类型",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "对不起，所选文件超过最大限制。",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "无法加载选中的附件。",
         "description": ""
     },
     "disconnected": {
@@ -534,11 +542,11 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal 桌面版偏好",
+        "message": "Signal Desktop偏好",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "关于 Signal 桌面版",
+        "message": "关于 Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -562,7 +570,7 @@
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
-        "message": "请输入名称或号码",
+        "message": "请输入名字或号码",
         "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
@@ -650,7 +658,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "发送音频消息前，请先允许 Signal 桌面版访问您的麦克风。",
+        "message": "发送音频消息前，请先允许 Signal Desktop访问您的麦克风。",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -787,14 +795,6 @@
         "message": "引用消息图片的缩略图",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "图片加载失败",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "视频截图加载失败",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "消息图片",
         "description": "Used in alt tag of image attachment"
@@ -830,7 +830,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "关联您的手机到 Signal 桌面版",
+        "message": "关联您的手机到 Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -1090,11 +1090,15 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "unblockToSend": {
-        "message": "取消阻止此联系人来发送消息。",
+        "message": "取消屏蔽此联系人以发送消息。",
         "description": "Brief message shown when trying to message a blocked number"
     },
+    "unblockGroupToSend": {
+        "message": "取消屏蔽此群组以发送消息。",
+        "description": "Brief message shown when trying to message a blocked group"
+    },
     "youChangedTheTimer": {
-        "message": "您已将阅后即焚的倒计时时长度设为$time$",
+        "message": "您已将阅后即焚的时长设为$time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1104,7 +1108,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "阅后即焚的倒计时长度已更新为$time$",
+        "message": "阅后即焚的时长已更新为$time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1114,7 +1118,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$已将阅后即焚的倒计时长度设为$time$",
+        "message": "$name$将阅后即焚的时长设为$time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {

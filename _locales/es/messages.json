@@ -479,8 +479,16 @@
         "message": "Tipo de archivo no admitido",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Typo de adjunto no permitido por razones se seguridad",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Lo sentimos, el archivo seleccionado excede las restricciones de tamaño.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Fallo al cargar el adjunto seleccionado.",
         "description": ""
     },
     "disconnected": {
@@ -787,14 +795,6 @@
         "message": "Miniatura de una foto como cita de un mensaje",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Fallo al cargar la imagen",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Fallo al cargar la captura de vídeo",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Imagen adjunta al mensaje",
         "description": "Used in alt tag of image attachment"
@@ -1090,8 +1090,12 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "unblockToSend": {
-        "message": "Desbloquear contacto para enviar mensaje.",
+        "message": "Desbloquea este contacto para enviarle mensajes.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Desbloquea este grupo para enviar mensajes.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Has fijado la caducidad de mansajes a $time$.",

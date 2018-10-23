@@ -18,10 +18,11 @@ function getDecember1159() {
   return getJanuary1201() - 2 * 60 * 1000;
 }
 
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="red"
       timestamp={Date.now() - 500}
       text="500ms ago - all below 1 minute are 'now'"
@@ -31,6 +32,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={Date.now() - 5 * 1000}
       text="Five seconds ago"
@@ -40,6 +42,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={Date.now() - 30 * 1000}
       text="30 seconds ago"
@@ -49,6 +52,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="red"
       timestamp={Date.now() - 60 * 1000}
       text="One minute ago - in minutes"
@@ -58,6 +62,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={Date.now() - 30 * 60 * 1000}
       text="30 minutes ago"
@@ -67,6 +72,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={Date.now() - 45 * 60 * 1000}
       text="45 minutes ago (used to round up to 1 hour with moment)"
@@ -76,6 +82,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="red"
       timestamp={Date.now() - 60 * 60 * 1000}
       text="One hour ago - in hours"
@@ -85,6 +92,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={get1201()}
       text="12:01am today"
@@ -94,6 +102,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="red"
       timestamp={getYesterday1159()}
       text="11:59pm yesterday - adds day name"
@@ -103,6 +112,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={Date.now() - 24 * 60 * 60 * 1000}
       text="24 hours ago"
@@ -112,6 +122,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={Date.now() - 2 * 24 * 60 * 60 * 1000}
       text="Two days ago"
@@ -121,6 +132,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="red"
       timestamp={Date.now() - 7 * 24 * 60 * 60 * 1000}
       text="Seven days ago - adds month"
@@ -130,6 +142,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={Date.now() - 30 * 24 * 60 * 60 * 1000}
       text="Thirty days ago"
@@ -139,6 +152,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={getJanuary1201()}
       text="January 1st at 12:01am"
@@ -148,6 +162,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="red"
       timestamp={getDecember1159()}
       text="December 31st at 11:59pm - adds year"
@@ -157,6 +172,7 @@ function getDecember1159() {
   <li>
     <Message
       direction="incoming"
+      status="delivered"
       authorColor="teal"
       timestamp={Date.now() - 366 * 24 * 60 * 60 * 1000}
       text="One year ago"

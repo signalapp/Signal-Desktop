@@ -186,11 +186,11 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "התחל להשתמש ב־Signal שולחן עבודה",
+        "message": "התחל להשתמש ב־Signal Desktop עבודה",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "קשר מכשיר זה לטלפוון שלך",
+        "message": "קשר מכשיר זה אל הטלפון שלך",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
@@ -479,8 +479,16 @@
         "message": "סוג הקובץ אינו נתמך",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "סוג הצרופה אינו מותר מסיבות אבטחה",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "הקובץ עובר את מגבלת הגודל המקסימלי.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "לא היה ניתן לטעון את הצרופה הנבחרת.",
         "description": ""
     },
     "disconnected": {
@@ -534,11 +542,11 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "העדפות Signal שולחן עבודה",
+        "message": "העדפות Signal Desktop עבודה",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "אודות Signal שולחן עבודה",
+        "message": "אודות Signal Desktop עבודה",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -558,7 +566,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "trayTooltip": {
-        "message": "Signal שולחן עבודה",
+        "message": "Signal Desktop עבודה",
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
@@ -650,7 +658,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "כדי לשלוח הודעות קוליות, התר אל Signal שולחן עבודה לקבל גישה אל המיקרופון שלך.",
+        "message": "כדי לשלוח הודעות קוליות, התר אל Signal Desktop עבודה לקבל גישה אל המיקרופון שלך.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -787,14 +795,6 @@
         "message": "תמונה ממוזערת מהודעה מצוטטת",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "תמונה נכשלה להיטען",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "צילום מסך של וידיאו נכשל להיטען",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "תמונה צורפה אל הודעה",
         "description": "Used in alt tag of image attachment"
@@ -822,7 +822,7 @@
         }
     },
     "installWelcome": {
-        "message": "ברוך הבא אל Signal שולחן עבודה",
+        "message": "ברוך הבא אל Signal Desktop עבודה",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -830,7 +830,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "קשר את הטלפון של אל Signal שולחן עבודה",
+        "message": "שולחן עבודה Signal קשר את הטלפון שלך אל",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -986,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "גרסה זו של Signal שולחן עבודה פגה. אנא שדרג אל הגרסה האחרונה כדי להמשיך בשליחת הודעות.",
+        "message": "גרסה זו של Signal Desktop עבודה פגה. אנא שדרג אל הגרסה האחרונה כדי להמשיך בשליחת הודעות.",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "בטל חסימה של איש קשר זה כדי לשלוח הודעה.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "בטל חסימה של קבוצה זו כדי לשלוח הודעה.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "הגדרת את קוצב הזמן של ההודעות הנעלמות אל $time$",
@@ -1312,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "קשר מחדש את Signal שולחן עבודה אל המכשיר הנייד שלך כדי להמשיך בשליחת הודעות.",
+        "message": "קשר מחדש את Signal Desktop עבודה אל המכשיר הנייד שלך כדי להמשיך בשליחת הודעות.",
         "description": ""
     },
     "unlinked": {

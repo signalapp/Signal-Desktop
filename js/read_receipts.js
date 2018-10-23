@@ -40,15 +40,15 @@
         return message;
       }
 
-      const groups = new Whisper.GroupCollection();
-      return groups.fetchGroups(reader).then(() => {
-        const ids = groups.pluck('id');
-        ids.push(reader);
-        return messages.find(
-          item =>
-            item.isOutgoing() && _.contains(ids, item.get('conversationId'))
-        );
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(reader, {
+        ConversationCollection: Whisper.ConversationCollection,
       });
+      const ids = groups.pluck('id');
+      ids.push(reader);
+
+      return messages.find(
+        item => item.isOutgoing() && _.contains(ids, item.get('conversationId'))
+      );
     },
     async onReceipt(receipt) {
       try {

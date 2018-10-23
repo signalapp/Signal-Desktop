@@ -479,8 +479,16 @@
         "message": "Lloj i Pambuluar Kartele",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Lloj bashkëngjitjeje i palejuar për arsye sigurie",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "S’arrihet të ngarkohet bashkëngjitja e përzgjedhur.",
         "description": ""
     },
     "disconnected": {
@@ -787,14 +795,6 @@
         "message": "Miniaturë e figurës nga mesazhi i cituar",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Dështoi ngarkimi i figurës",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Dështoi ngarkimi i fotos së ekranit të videos",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Figurë bashkëngjitur mesazhit",
         "description": "Used in alt tag of image attachment"
@@ -1093,8 +1093,12 @@
         "message": "Që t’i dërgohet një mesazh, zhbllokojeni këtë kontakt.",
         "description": "Brief message shown when trying to message a blocked number"
     },
+    "unblockGroupToSend": {
+        "message": "Zhbllokojeni këtë grup që të dërgojë një mesazh.",
+        "description": "Brief message shown when trying to message a blocked group"
+    },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "E keni caktuar kohëmatësin e zhdukjes së mesazheve në $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1104,7 +1108,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "Kohëmatësi i zhdukjes së mesazheve u përditësua në $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1114,7 +1118,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ caktoi kohëmatësin e zhdukjes së mesazheve në $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1228,11 +1232,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
+        "message": "Zhdukja e mesazheve është e çaktivizuar",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$ çaktivizoi zhdukjen e mesazheve",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1242,7 +1246,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
+        "message": "Çaktivizuat zhdukjen e mesazheve",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {

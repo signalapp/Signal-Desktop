@@ -8,7 +8,6 @@
 /* global Signal: false */
 /* global textsecure: false */
 /* global Whisper: false */
-/* global wrapDeferred: false */
 
 /* eslint-disable more/no-then */
 
@@ -301,7 +300,6 @@
       const regionCode = storage.get('regionCode');
 
       const contactModel = this.findContact(phoneNumber);
-      const avatar = contactModel ? contactModel.getAvatar() : null;
       const color = contactModel ? contactModel.getColor() : null;
 
       return {
@@ -309,7 +307,7 @@
           ourRegionCode: regionCode,
         }),
         color,
-        avatarPath: avatar ? avatar.url : null,
+        avatarPath: contactModel ? contactModel.getAvatarPath() : null,
         name: contactModel ? contactModel.getName() : null,
         profileName: contactModel ? contactModel.getProfileName() : null,
         title: contactModel ? contactModel.getTitle() : null,
@@ -396,8 +394,9 @@
       const contactModel = this.findContact(phoneNumber);
 
       const authorColor = contactModel ? contactModel.getColor() : null;
-      const authorAvatar = contactModel ? contactModel.getAvatar() : null;
-      const authorAvatarPath = authorAvatar ? authorAvatar.url : null;
+      const authorAvatarPath = contactModel
+        ? contactModel.getAvatarPath()
+        : null;
 
       const expirationLength = this.get('expireTimer') * 1000;
       const expireTimerStart = this.get('expirationStartTimestamp');
@@ -419,10 +418,10 @@
         timestamp: this.get('sent_at'),
         status: this.getMessagePropStatus(),
         contact: this.getPropsForEmbeddedContact(),
+        authorColor,
         authorName: contact.name,
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
-        authorColor,
         conversationType: isGroup ? 'group' : 'direct',
         attachment: this.getPropsForAttachment(firstAttachment),
         quote: this.getPropsForQuote(),
@@ -440,10 +439,11 @@
             message: this,
           }),
 
-        onDownload: () =>
+        onDownload: isDangerous =>
           this.trigger('download', {
             attachment: firstAttachment,
             message: this,
+            isDangerous,
           }),
       };
     },
@@ -531,13 +531,18 @@
         return null;
       }
 
+      const { format } = PhoneNumber;
+      const regionCode = storage.get('regionCode');
+
       const { author, id, referencedMessageNotFound } = quote;
       const contact = author && ConversationController.get(author);
+      const authorColor = contact ? contact.getColor() : 'grey';
 
-      const authorPhoneNumber = author;
+      const authorPhoneNumber = format(author, {
+        ourRegionCode: regionCode,
+      });
       const authorProfileName = contact ? contact.getProfileName() : null;
       const authorName = contact ? contact.getName() : null;
-      const authorColor = contact ? contact.getColor() : 'grey';
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
       const onClick = () => {
         this.trigger('scroll-to-message', {
@@ -1212,7 +1217,7 @@
           }
 
           if (dataMessage.profileKey) {
-            const profileKey = dataMessage.profileKey.toArrayBuffer();
+            const profileKey = dataMessage.profileKey.toString('base64');
             if (source === textsecure.storage.user.getNumber()) {
               conversation.set({ profileSharing: true });
             } else if (conversation.isPrivate()) {
@@ -1231,15 +1236,18 @@
           });
           message.set({ id });
 
-          await wrapDeferred(conversation.save());
+          await window.Signal.Data.updateConversation(
+            conversationId,
+            conversation.attributes,
+            { Conversation: Whisper.Conversation }
+          );
 
           conversation.trigger('newmessage', message);
 
           try {
-            // We fetch() here because, between the message.save() above and
-            // the previous line's trigger() call, we might have marked all
-            // messages unread in the database. This message might already
-            // be read!
+            // We go to the database here because, between the message save above and
+            // the previous line's trigger() call, we might have marked all messages
+            // unread in the database. This message might already be read!
             const fetched = await window.Signal.Data.getMessageById(
               message.get('id'),
               {

@@ -479,8 +479,16 @@
         "message": "Nepodprta vrsta datoteke",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Ta vrsta priponke iz varnostnih razlogov ni dovoljena",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Izbrana datoteka presega največjo dovoljeno velikost.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Izbrane priponke ni bilo mogoče zagnati.",
         "description": ""
     },
     "disconnected": {
@@ -787,14 +795,6 @@
         "message": "Predogled slike citiranega sporočila",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Slika se ni uspela naložiti",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Zajem slike videa se ni uspel naložiti",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Slika je priložena sporočilu",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Za pošiljanje sporočila morate najprej odblokirati ta stik",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Odblokiraj to skupino za pošiljanje sporočila.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Odštevanje za izginjajoča sporočila ste nastavili na $time$",
