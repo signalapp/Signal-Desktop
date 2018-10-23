@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage, wrapDeferred */
+/* global _, Whisper, Backbone, storage */
 
 /* eslint-disable more/no-then */
 
@@ -131,8 +131,10 @@
       conversation = conversations.add({
         id,
         type,
+        version: 2,
       });
-      conversation.initialPromise = new Promise((resolve, reject) => {
+
+      const create = async () => {
         if (!conversation.isValid()) {
           const validationError = conversation.validationError || {};
           window.log.error(
@@ -141,19 +143,28 @@
             validationError.stack
           );
 
-          return resolve(conversation);
+          return conversation;
         }
 
-        const deferred = conversation.save();
-        if (!deferred) {
-          window.log.error('Conversation save failed! ', id, type);
-          return reject(new Error('getOrCreate: Conversation save failed'));
+        try {
+          await window.Signal.Data.saveConversation(conversation.attributes, {
+            Conversation: Whisper.Conversation,
+          });
+        } catch (error) {
+          window.log.error(
+            'Conversation save failed! ',
+            id,
+            type,
+            'Error:',
+            error && error.stack ? error.stack : error
+          );
+          throw error;
         }
 
-        return deferred.then(() => {
-          resolve(conversation);
-        }, reject);
-      });
+        return conversation;
+      };
+
+      conversation.initialPromise = create();
 
       return conversation;
     },
@@ -170,11 +181,11 @@
         );
       });
     },
-    getAllGroupsInvolvingId(id) {
-      const groups = new Whisper.GroupCollection();
-      return groups
-        .fetchGroups(id)
-        .then(() => groups.map(group => conversations.add(group)));
+    async getAllGroupsInvolvingId(id) {
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(id, {
+        ConversationCollection: Whisper.ConversationCollection,
+      });
+      return groups.map(group => conversations.add(group));
     },
     loadPromise() {
       return this._initialPromise;
@@ -193,7 +204,12 @@
 
       const load = async () => {
         try {
-          await wrapDeferred(conversations.fetch());
+          const collection = await window.Signal.Data.getAllConversations({
+            ConversationCollection: Whisper.ConversationCollection,
+          });
+
+          conversations.add(collection.models);
+
           this._initialFetchComplete = true;
           await Promise.all(
             conversations.map(conversation => conversation.updateLastMessage())

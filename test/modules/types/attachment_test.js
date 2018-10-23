@@ -83,6 +83,50 @@ describe('Attachment', () => {
     );
   });
 
+  describe('replaceUnicodeV2', () => {
+    it('should remove all bad characters', async () => {
+      const input = {
+        size: 1111,
+        fileName:
+          'file\u202A\u202B\u202C\u202D\u202E\u2066\u2067\u2068\u2069\u200E\u200F\u061C.jpeg',
+      };
+      const expected = {
+        fileName:
+          'file\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD.jpeg',
+        size: 1111,
+      };
+
+      const actual = await Attachment.replaceUnicodeV2(input);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should should leave normal filename alone', async () => {
+      const input = {
+        fileName: 'normal.jpeg',
+        size: 1111,
+      };
+      const expected = {
+        fileName: 'normal.jpeg',
+        size: 1111,
+      };
+
+      const actual = await Attachment.replaceUnicodeV2(input);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should handle missing fileName', async () => {
+      const input = {
+        size: 1111,
+      };
+      const expected = {
+        size: 1111,
+      };
+
+      const actual = await Attachment.replaceUnicodeV2(input);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('removeSchemaVersion', () => {
     it('should remove existing schema version', () => {
       const input = {

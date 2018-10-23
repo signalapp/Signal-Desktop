@@ -16,8 +16,12 @@
     database: Whisper.Database,
     storeName: 'conversations',
     model: Whisper.Conversation,
-    fetchContacts() {
-      return this.fetch({ reset: true, conditions: { type: 'private' } });
+    async fetchContacts() {
+      const models = window.Signal.Data.getAllPrivateConversations({
+        ConversationCollection: Whisper.ConversationCollection,
+      });
+
+      this.reset(models);
     },
   });
 

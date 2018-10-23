@@ -36,6 +36,7 @@ const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
+const { MainHeader } = require('../../ts/components/MainHeader');
 const { Message } = require('../../ts/components/conversation/Message');
 const { MessageBody } = require('../../ts/components/conversation/MessageBody');
 const {
@@ -58,6 +59,7 @@ const {
 // Migrations
 const {
   getPlaceholderMigrations,
+  getCurrentVersion,
 } = require('./migrations/get_placeholder_migrations');
 
 const Migrations0DatabaseWithAttachmentData = require('./migrations/migrations_0_database_with_attachment_data');
@@ -67,7 +69,7 @@ const Migrations1DatabaseWithoutAttachmentData = require('./migrations/migration
 const AttachmentType = require('./types/attachment');
 const VisualAttachment = require('./types/visual_attachment');
 const Contact = require('../../ts/types/Contact');
-const Conversation = require('../../ts/types/Conversation');
+const Conversation = require('./types/conversation');
 const Errors = require('./types/errors');
 const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
 const MessageType = require('./types/message');
@@ -123,11 +125,14 @@ function initializeMigrations({
     }),
     getAbsoluteAttachmentPath,
     getPlaceholderMigrations,
+    getCurrentVersion,
     loadAttachmentData,
     loadQuoteData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
     Migrations0DatabaseWithAttachmentData,
     Migrations1DatabaseWithoutAttachmentData,
+    writeNewAttachmentData: createWriterForNew(attachmentsPath),
+    deleteAttachmentData: deleteOnDisk,
     upgradeMessageSchema: (message, options = {}) => {
       const { maxVersion } = options;
 
@@ -174,6 +179,7 @@ exports.setup = (options = {}) => {
     GroupNotification,
     Lightbox,
     LightboxGallery,
+    MainHeader,
     MediaGallery,
     Message,
     MessageBody,

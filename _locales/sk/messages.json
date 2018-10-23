@@ -479,8 +479,16 @@
         "message": "Nepodporovaný typ súboru",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Tento typ súboru je z bezpečnostných dôvodov zakázaný",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Ospravedlňujeme sa, vybraný súbor prekročil limit veľkosti správy.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Zvolenú prílohu sa nepodarilo načítať.",
         "description": ""
     },
     "disconnected": {
@@ -787,14 +795,6 @@
         "message": "Náhľad obrázku z citovanej správy.",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Obrázok sa nepodarilo načítať",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Náhľad videa sa nepodarilo načítať",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Obrázok pripojený k správe",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Pre odoslanie správy kontakt odblokujte.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Odblokujte skupinu pre poslanie správy.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Nastavili ste časovač miznúcich správ na $time$",

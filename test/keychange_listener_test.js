@@ -20,23 +20,25 @@ describe('KeyChangeListener', function() {
 
   describe('When we have a conversation with this contact', function() {
     let convo;
-    before(function() {
+    before(async function() {
       convo = ConversationController.dangerouslyCreateAndAdd({
         id: phoneNumberWithKeyChange,
         type: 'private',
       });
-      return convo.save();
+      await window.Signal.Data.saveConversation(convo.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     });
 
-    after(function() {
-      convo.destroyMessages();
-      return convo.destroy();
+    after(async function() {
+      await convo.destroyMessages();
+      await window.Signal.Data.saveConversation(convo.id);
     });
 
     it('generates a key change notice in the private conversation with this contact', function(done) {
-      convo.on('newmessage', async function() {
+      convo.once('newmessage', async () => {
         await convo.fetchMessages();
-        var message = convo.messageCollection.at(0);
+        const message = convo.messageCollection.at(0);
         assert.strictEqual(message.get('type'), 'keychange');
         done();
       });
@@ -46,23 +48,26 @@ describe('KeyChangeListener', function() {
 
   describe('When we have a group with this contact', function() {
     let convo;
-    before(function() {
+    before(async function() {
+      console.log('Creating group with contact', phoneNumberWithKeyChange);
       convo = ConversationController.dangerouslyCreateAndAdd({
         id: 'groupId',
         type: 'group',
         members: [phoneNumberWithKeyChange],
       });
-      return convo.save();
+      await window.Signal.Data.saveConversation(convo.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     });
-    after(function() {
-      convo.destroyMessages();
-      return convo.destroy();
+    after(async function() {
+      await convo.destroyMessages();
+      await window.Signal.Data.saveConversation(convo.id);
     });
 
     it('generates a key change notice in the group conversation with this contact', function(done) {
-      convo.on('newmessage', async function() {
+      convo.once('newmessage', async () => {
         await convo.fetchMessages();
-        var message = convo.messageCollection.at(0);
+        const message = convo.messageCollection.at(0);
         assert.strictEqual(message.get('type'), 'keychange');
         done();
       });

@@ -100,19 +100,19 @@
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Zoom In",
+        "message": "Zoom Inn",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Zoom Out",
+        "message": "Zoom Ut",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
+        "message": "Skru av/på Fullskjerm",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
+        "message": "Skru av/på Utviklerverktøy",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
@@ -136,7 +136,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimizing messages... $status$ complete.",
+        "message": "Optimaliserer meldinger... $status$fullført.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -158,7 +158,7 @@
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "Velg mappe med eksporterte data",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
@@ -479,8 +479,16 @@
         "message": "Filtype ikke støttet.",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Beklager, den valgte filen overskrider begrensninger for meldingsstørrelse.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Unable to load selected attachment.",
         "description": ""
     },
     "disconnected": {
@@ -518,7 +526,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Go to Release Notes",
+        "message": "Se Endringslogg",
         "description": ""
     },
     "goToForums": {
@@ -616,7 +624,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloadAttachment": {
-        "message": "Download Attachment",
+        "message": "Last ned Vedlegg",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
@@ -624,11 +632,11 @@
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Original message not found",
+        "message": "Fant ikke Original melding",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Original message no longer available",
+        "message": "Den Originale meldingen er ikke tilgjengelig lenger",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
@@ -760,15 +768,15 @@
         "description": ""
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "Mer info...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "Send på nytt",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "Slett Melding",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -787,16 +795,8 @@
         "message": "Thumbnail of image from quoted message",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Image failed to load",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "Bilde lagt ved i melding",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
@@ -1042,7 +1042,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgoShort": {
-        "message": "$hours$ hr",
+        "message": "$hours$ t",
         "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "hours": {
@@ -1052,7 +1052,7 @@
         }
     },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "$hours$ t siden",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1072,7 +1072,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "$minutes$ min siden",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Opphev blokkeringen på denne kontakten for å sende en melding.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Unblock this group to send a message.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "You set the disappearing message timer to $time$",
@@ -1288,11 +1292,11 @@
         }
     },
     "themeLight": {
-        "message": "Light",
+        "message": "Lyst",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "Mørkt",
         "description": "Label text for dark theme"
     },
     "hideMenuBar": {
@@ -1364,7 +1368,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "Gruppe oppdatert",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {

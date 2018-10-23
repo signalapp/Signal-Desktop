@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Group/group-28</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M18.7272727,13.2857143 C20.6890909,13.2857143 22.2609091,11.6585714 22.2609091,9.64285714 C22.2609091,7.62714286 20.6890909,6 18.7272727,6 C16.7654545,6 15.1818182,7.62714286 15.1818182,9.64285714 C15.1818182,11.6585714 16.7654545,13.2857143 18.7272727,13.2857143 Z M9.27272727,13.2857143 C11.2345455,13.2857143 12.8063636,11.6585714 12.8063636,9.64285714 C12.8063636,7.62714286 11.2345455,6 9.27272727,6 C7.31090909,6 5.72727273,7.62714286 5.72727273,9.64285714 C5.72727273,11.6585714 7.31090909,13.2857143 9.27272727,13.2857143 Z M9.27272727,15.7142857 C6.51909091,15.7142857 1,17.135 1,19.9642857 L1,23 L17.5454545,23 L17.5454545,19.9642857 C17.5454545,17.135 12.0263636,15.7142857 9.27272727,15.7142857 Z M18.7272727,15.7142857 C18.3845455,15.7142857 17.9945455,15.7385714 17.5809091,15.775 C18.9518182,16.795 19.9090909,18.1671429 19.9090909,19.9642857 L19.9090909,23 L27,23 L27,19.9642857 C27,17.135 21.4809091,15.7142857 18.7272727,15.7142857 Z" id="path-1"></path>
+        <rect id="path-3" x="0" y="0" width="28" height="28"></rect>
+    </defs>
+    <g id="Group/group-28" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Shape" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+        <g id="Color/UI/Black" mask="url(#mask-2)">
+            <mask id="mask-4" fill="white">
+                <use xlink:href="#path-3"></use>
+            </mask>
+            <use id="fill" fill="#000000" fill-rule="evenodd" xlink:href="#path-3"></use>
+        </g>
+    </g>
+</svg>

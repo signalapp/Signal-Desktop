@@ -479,8 +479,16 @@
         "message": "Nem támogatott fájltípus",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "A csatolmánytípus biztonsági okokból nincs engedélyezve",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Nem sikerült betölteni a kiválasztott csatolmányt.",
         "description": ""
     },
     "disconnected": {
@@ -787,14 +795,6 @@
         "message": "Az idézett üzenetben megjelenített fotó előnézeti képe",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "A képet nem sikerült betölteni",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "A videó előnézeti képét nem sikerült betölteni",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Üzenethez csatolt kép",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Üzenet küldéséhez oldd fel partnered blokkolását!",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Üzenet küldéséhez oldd fel a csoport blokkolását!",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Az időzítő értékét a következőre módosítottad: $time$.",

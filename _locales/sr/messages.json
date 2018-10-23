@@ -294,11 +294,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Ваше шифре преписки за више чланова ове групе су промењене од како сте последњи пут проверавали. Ово значи или да неко пресреће вашу преписку, или су једноставно извршили поновну инсталацију Сигнал-а.",
+        "message": "Ваше шифре преписки за више чланова ове групе су промењене од како сте последњи пут проверавали. Ово значи или да неко пресреће вашу преписку, или су једноставно извршили поновну инсталацију Signal-а.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Шифра преписке са $name$ је промењена од како сте последњи пут проверавли. Ово значи или да неко пресреће вашу преписку, или је $name$ једноставно извршио поновну инсталацију Сигнал-а. ",
+        "message": "Шифра преписке са $name$ је промењена од како сте последњи пут проверавли. Ово значи или да неко пресреће вашу преписку, или је $name$ једноставно извршио поновну инсталацију Signal-а. ",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -308,7 +308,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Шифра преписке коју покушавате да проверите је промењена. Молимо да проверите вашу нову шифру преписке са $name$. Имајте у виду да ово може значити да неко покушава да пресретне вашу преписку или то да је $name$ једноставно извршио поновну инсталацију Сигнал-а.",
+        "message": "Шифра преписке коју покушавате да проверите је промењена. Молимо да проверите вашу нову шифру преписке са $name$. Имајте у виду да ово може значити да неко покушава да пресретне вашу преписку или то да је $name$ једноставно извршио поновну инсталацију Signal-а.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -318,11 +318,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Ваше шифре преписки за више чланова ове групе су недавно промењене. Ово значи или да неко покушава да пресретне вашу преписку, или су једноставно извршили поновну инсталацију Сигнал-а.",
+        "message": "Ваше шифре преписки за више чланова ове групе су недавно промењене. Ово значи или да неко покушава да пресретне вашу преписку, или су једноставно извршили поновну инсталацију Signal-а.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Шифра преписке са $name$ је промењена. Ово значи или да неко пресреће вашу преписку, или је $name$ једноставно извршио поновну инсталацију Сигнал-а. ",
+        "message": "Шифра преписке са $name$ је промењена. Ово значи или да неко пресреће вашу преписку, или је $name$ једноставно извршио поновну инсталацију Signal-а. ",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -332,7 +332,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Шифра преписке са $name$ је промењена. Ово значи или да неко пресреће вашу преписку, или је $name$ једноставно извршио поновну инсталацију Сигнал-а. Можда би требало да пoтврдите шифру преписке са овим контактом.",
+        "message": "Шифра преписке са $name$ је промењена. Ово значи или да неко пресреће вашу преписку, или је $name$ једноставно извршио поновну инсталацију Signal-а. Можда би требало да пoтврдите шифру преписке са овим контактом.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -420,7 +420,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Шифра преписке са овим дописником је другачија. Ово значи или да неко пресреће вашу преписку, или је овај дописник једноставно извршио поновну инсталацију Сигнал-а. Можда желите да верификујете приказану шифру.",
+        "message": "Шифра преписке са овим дописником је другачија. Ово значи или да неко пресреће вашу преписку, или је овај дописник једноставно извршио поновну инсталацију Signal-а. Можда желите да верификујете приказану шифру.",
         "description": ""
     },
     "incomingError": {
@@ -479,8 +479,16 @@
         "message": "Недозвољен тип датотеке",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Жао нам је, ваша датотека превазилази ограничење величине.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Unable to load selected attachment.",
         "description": ""
     },
     "disconnected": {
@@ -566,7 +574,7 @@
         "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
-        "message": "Добродошли у Сигнал",
+        "message": "Добродошли у Signal",
         "description": ""
     },
     "selectAContact": {
@@ -787,14 +795,6 @@
         "message": "Thumbnail of image from quoted message",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Image failed to load",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Image attached to message",
         "description": "Used in alt tag of image attachment"
@@ -822,11 +822,11 @@
         }
     },
     "installWelcome": {
-        "message": "Добродошли у Сигнал Десктоп",
+        "message": "Добродошли у Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Приватност је достижна. Сигнал вам то олакшава.",
+        "message": "Приватност је достижна. Signal вам то олакшава.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
@@ -986,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Ваша верзија Сигнал-а за десктоп је застарела. Да би сте наставили дописивање, молимо вас да ажурирате програм.",
+        "message": "Ваша верзија Signal-а за десктоп је застарела. Да би сте наставили дописивање, молимо вас да ажурирате програм.",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1010,7 +1010,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Увезите све групе Сигнал-а и особе са вашег мобилног уређаја.",
+        "message": "Увезите све групе Signal-а и особе са вашег мобилног уређаја.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Одблокирајте дописника да би послали поруку.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Unblock this group to send a message.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "You set the disappearing message timer to $time$",
@@ -1312,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Да би наставили дописивање, поново повежите Сигнал за десктоп са мобилним уређајем.",
+        "message": "Да би наставили дописивање, поново повежите Signal за десктоп са мобилним уређајем.",
         "description": ""
     },
     "unlinked": {
@@ -1324,7 +1328,7 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Нова верзија Сигнал-а је доступна",
+        "message": "Нова верзија Signal-а је доступна",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {

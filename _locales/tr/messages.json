@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Signal Masaüstü'nü kullanmaya başlayın",
+        "message": "Signal Desktop'ı kullanmaya başlayın",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -479,8 +479,16 @@
         "message": "Desteklenmeyen dosya türü",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Eklenti türüne güvenlik sebeplerinden dolayı izin verilmemektedir",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Üzgünüz, seçilen dosya mesaj boyutu kısıtlamalarını aşıyor.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Seçilen eklenti yüklenemedi.",
         "description": ""
     },
     "disconnected": {
@@ -534,11 +542,11 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Masaüstü Tercihleri",
+        "message": "Signal Desktop Tercihleri",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Signal Masaüstü Hakkında",
+        "message": "Signal Desktop Hakkında",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -558,7 +566,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "trayTooltip": {
-        "message": "Signal Masaüstü",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
@@ -650,7 +658,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Sesli mesajlar göndermek için, Signal Masaüstü'nün mikrofonunuza erişimine izin verin.",
+        "message": "Sesli mesajlar göndermek için, Signal Desktop'ın mikrofonunuza erişimine izin verin.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -787,14 +795,6 @@
         "message": "Alıntılanmış mesajdaki resmin önizlemesi",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Görüntü yüklenemedi",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Ekran kaydı yüklenemedi",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Mesaja görüntü eklenmiş",
         "description": "Used in alt tag of image attachment"
@@ -822,7 +822,7 @@
         }
     },
     "installWelcome": {
-        "message": "Signal Masaüstü'ne Hoş Geldiniz",
+        "message": "Signal Desktop'a Hoş Geldiniz",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -830,7 +830,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Signal Masaüstü'ne telefonunuzu bağlayın",
+        "message": "Signal Desktop'a telefonunuzu bağlayın",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -986,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Signal Masaüstü'nün bu sürümünün süresi doldu. Mesajlaşmaya devam etmek için lütfen en son sürüme geçin.",
+        "message": "Signal Desktop'ın bu sürümünün süresi doldu. Mesajlaşmaya devam etmek için lütfen en son sürüme geçin.",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Mesaj göndermek için bu kişinin engellenmesini kaldırın.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Mesaj göndermek için bu grubun engellenmesini kaldırın.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Kaybolan mesaj zamanlayıcsını $time$ olarak ayarladınız",
@@ -1312,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Mesajlaşmaya devam etmek için Signal Masaüstü'nü mobil cihazınıza yeniden bağlayın.",
+        "message": "Mesajlaşmaya devam etmek için Signal Desktop'ı mobil cihazınıza yeniden bağlayın.",
         "description": ""
     },
     "unlinked": {

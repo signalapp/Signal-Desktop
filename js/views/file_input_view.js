@@ -34,6 +34,10 @@
     template: i18n('unsupportedFileType'),
   });
 
+  Whisper.DangerousFileTypeToast = Whisper.ToastView.extend({
+    template: i18n('dangerousFileType'),
+  });
+
   Whisper.FileInputView = Backbone.View.extend({
     tagName: 'span',
     className: 'file-input',
@@ -132,6 +136,12 @@
             return;
           }
 
+          const gifMaxSize = 25000 * 1024;
+          if (file.type === 'image/gif' && file.size <= gifMaxSize) {
+            resolve(file);
+            return;
+          }
+
           if (file.type === 'image/gif') {
             reject(new Error('GIF is too large'));
             return;
@@ -170,6 +180,16 @@
       this.clearForm();
       const file = this.file || this.$input.prop('files')[0];
       if (!file) {
+        return;
+      }
+      const { name } = file;
+      if (window.Signal.Util.isFileDangerous(name)) {
+        this.deleteFiles();
+
+        const toast = new Whisper.DangerousFileTypeToast();
+        toast.$el.insertAfter(this.$el);
+        toast.render();
+
         return;
       }
 
@@ -291,9 +311,10 @@
 
     getFile(rawFile) {
       const file = rawFile || this.file || this.$input.prop('files')[0];
-      if (file === undefined) {
+      if (!file) {
         return Promise.resolve();
       }
+
       const attachmentFlags = this.isVoiceNote
         ? textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE
         : null;

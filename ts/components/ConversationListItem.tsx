@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
@@ -11,6 +12,7 @@ interface Props {
   profileName?: string;
   name?: string;
   color?: string;
+  conversationType: 'group' | 'direct';
   avatarPath?: string;
 
   lastUpdated: number;
@@ -26,48 +28,47 @@ interface Props {
   onClick?: () => void;
 }
 
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
-}
-
 export class ConversationListItem extends React.Component<Props> {
   public renderAvatar() {
     const {
       avatarPath,
       color,
+      conversationType,
       i18n,
       name,
       phoneNumber,
       profileName,
     } = this.props;
 
-    if (!avatarPath) {
-      const initial = getInitial(name || '');
+    return (
+      <div className="module-conversation-list-item__avatar-container">
+        <Avatar
+          avatarPath={avatarPath}
+          color={color}
+          conversationType={conversationType}
+          i18n={i18n}
+          name={name}
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          size={48}
+        />
+        {this.renderUnread()}
+      </div>
+    );
+  }
 
+  public renderUnread() {
+    const { unreadCount } = this.props;
+
+    if (unreadCount > 0) {
       return (
-        <div
-          className={classNames(
-            'module-conversation-list-item__avatar',
-            'module-conversation-list-item__default-avatar',
-            `module-conversation-list-item__default-avatar--${color}`
-          )}
-        >
-          {initial}
+        <div className="module-conversation-list-item__unread-count">
+          {unreadCount}
         </div>
       );
     }
 
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
-
-    return (
-      <img
-        className="module-conversation-list-item__avatar"
-        alt={i18n('contactAvatarAlt', [title])}
-        src={avatarPath}
-      />
-    );
+    return null;
   }
 
   public renderHeader() {
@@ -116,20 +117,6 @@ export class ConversationListItem extends React.Component<Props> {
     );
   }
 
-  public renderUnread() {
-    const { unreadCount } = this.props;
-
-    if (unreadCount > 0) {
-      return (
-        <div className="module-conversation-list-item__unread-count">
-          {unreadCount}
-        </div>
-      );
-    }
-
-    return null;
-  }
-
   public renderMessage() {
     const { lastMessage, unreadCount, i18n } = this.props;
 
@@ -164,7 +151,6 @@ export class ConversationListItem extends React.Component<Props> {
             )}
           />
         ) : null}
-        {this.renderUnread()}
       </div>
     );
   }

@@ -42,20 +42,17 @@
   });
 
   const COLORS = {
-    red: '#EF5350',
-    pink: '#EC407A',
-    purple: '#AB47BC',
-    deep_purple: '#7E57C2',
-    indigo: '#5C6BC0',
-    blue: '#2196F3',
-    light_blue: '#03A9F4',
-    cyan: '#00BCD4',
-    teal: '#009688',
-    green: '#4CAF50',
-    light_green: '#7CB342',
-    orange: '#FF9800',
-    deep_orange: '#FF5722',
-    amber: '#FFB300',
-    blue_grey: '#607D8B',
+    red: '#cc163d',
+    deep_orange: '#c73800',
+    brown: '#746c53',
+    pink: '#a23474',
+    purple: '#862caf',
+    indigo: '#5951c8',
+    blue: '#336ba3',
+    teal: '#067589',
+    green: '#3b7845',
+    light_green: '#895d66',
+    blue_grey: '#607d8b',
+    grey: '#6b6b78',
   };
 })();

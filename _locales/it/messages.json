@@ -108,7 +108,7 @@
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Attiva/disattiva schermo intero",
+        "message": "Modalità schermo intero",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
@@ -250,7 +250,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "Hai segnato il codice di sicurezza con $name$ come verificato",
+        "message": "Hai segnato il numero di sicurezza con $name$ come verificato",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -260,7 +260,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Hai segnato il codice di sicurezza con $name$ come non verificato. ",
+        "message": "Hai segnato il numero di sicurezza con $name$ come non verificato",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -270,7 +270,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Hai segnato il codice di sicurezza con $name$ come verificato da un altro dispositivo",
+        "message": "Hai segnato il numero di sicurezza con $name$ come verificato da un altro dispositivo",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -280,7 +280,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Hai segnato il codice di sicurezza con $name$ come non verificato da un altro dispositivo",
+        "message": "Hai segnato il numero di sicurezza con $name$ come non verificato da un altro dispositivo",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -346,7 +346,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Il tuo codice di sicurezza con $name$è cambiato e non è più valido. Clicca per visualizzarlo.",
+        "message": "Il tuo numero di sicurezza con $name$ è cambiato e non è più valido. Clicca per visualizzarlo.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -479,6 +479,10 @@
         "message": "Tipo di file non supportato",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Il tipo di allegato non è consentito per ragioni di sicurezza",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio.",
         "description": ""
@@ -496,7 +500,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-        "message": "Sconnesso",
+        "message": "Disconnesso",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
@@ -742,7 +746,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Mostra codice di sicurezza",
+        "message": "Mostra numero di sicurezza",
         "description": ""
     },
     "viewAllMedia": {
@@ -1260,11 +1264,11 @@
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Il codice di sicurezza è cambiato",
+        "message": "Il numero di sicurezza è cambiato",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Il codice di sicurezza con $name$ è cambiato",
+        "message": "Il numero di sicurezza con $name$ è cambiato",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1274,7 +1278,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verifica codice di sicurezza",
+        "message": "Verifica numero di sicurezza",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {

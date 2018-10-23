@@ -987,7 +987,6 @@
         'sessions',
         'signedPreKeys',
         'preKeys',
-        'unprocessed',
       ]);
 
       await window.Signal.Data.removeAllUnprocessed();

@@ -34,6 +34,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -53,6 +54,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -84,19 +86,24 @@ const contact = {
   },
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li><Message
+<util.ConversationContext theme={util.theme}  ios={util.ios}>
+  <li>
+    <Message
     authorColor="green"
     direction="incoming"
     i18n={util.i18n}
     timestamp={Date.now()}
-    contact={contact}/></li>
-  <li><Message
+    contact={contact}/>
+  </li>
+  <li>
+  <Message
+    authorColor="green"
     direction="outgoing"
     status="delivered"
     i18n={util.i18n}
     timestamp={Date.now()}
-    contact={contact}/></li>
+    contact={contact}/>
+  </li>
 </util.ConversationContext>;
 ```
 
@@ -120,7 +127,7 @@ const contact = {
   },
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme} ios={util.ios} type="group">
+<util.ConversationContext theme={util.theme} type="group" ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -147,6 +154,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       conversationType="group"
       authorName="Mr. Fire"
@@ -191,6 +199,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -210,6 +219,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -251,6 +261,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -270,6 +281,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -313,6 +325,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -332,6 +345,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -370,6 +384,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -389,6 +404,7 @@ const contact = {
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -416,6 +432,7 @@ const contact = {};
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -435,6 +452,7 @@ const contact = {};
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -497,6 +515,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -517,6 +536,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
@@ -538,6 +558,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
@@ -560,6 +581,7 @@ const contactWithoutAccount = {
   <li>
     <Message
       text="I want to introduce you to Someone..."
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"

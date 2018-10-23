@@ -6,6 +6,8 @@ const {
   _removeMessages,
   saveUnprocesseds,
   removeUnprocessed,
+  saveConversations,
+  _removeConversations,
 } = require('./data');
 const {
   getMessageExportLastIndex,
@@ -15,6 +17,7 @@ const {
   getUnprocessedExportLastIndex,
   setUnprocessedExportLastIndex,
 } = require('./settings');
+const { migrateConversation } = require('./types/conversation');
 
 module.exports = {
   migrateToSQL,
@@ -26,6 +29,7 @@ async function migrateToSQL({
   handleDOMException,
   countCallback,
   arrayBufferToString,
+  writeNewAttachmentData,
 }) {
   if (!db) {
     throw new Error('Need db for IndexedDB connection!');
@@ -74,6 +78,11 @@ async function migrateToSQL({
     }
   }
   window.log.info('migrateToSQL: migrate of messages complete');
+  try {
+    await clearStores(['messages']);
+  } catch (error) {
+    window.log.warn('Failed to clear messages store');
+  }
 
   lastIndex = await getUnprocessedExportLastIndex(db);
   complete = false;
@@ -116,8 +125,43 @@ async function migrateToSQL({
     await setUnprocessedExportLastIndex(db, lastIndex);
   }
   window.log.info('migrateToSQL: migrate of unprocessed complete');
+  try {
+    await clearStores(['unprocessed']);
+  } catch (error) {
+    window.log.warn('Failed to clear unprocessed store');
+  }
 
-  await clearStores(['messages', 'unprocessed']);
+  complete = false;
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const status = await migrateStoreToSQLite({
+      db,
+      // eslint-disable-next-line no-loop-func
+      save: async array => {
+        const conversations = await Promise.all(
+          map(array, async conversation =>
+            migrateConversation(conversation, { writeNewAttachmentData })
+          )
+        );
+
+        saveConversations(conversations);
+      },
+      remove: _removeConversations,
+      storeName: 'conversations',
+      handleDOMException,
+      lastIndex,
+      // Because we're doing real-time moves to the filesystem, minimize parallelism
+      batchSize: 5,
+    });
+
+    ({ complete, lastIndex } = status);
+  }
+  window.log.info('migrateToSQL: migrate of conversations complete');
+  try {
+    await clearStores(['conversations']);
+  } catch (error) {
+    window.log.warn('Failed to clear conversations store');
+  }
 
   window.log.info('migrateToSQL: complete');
 }

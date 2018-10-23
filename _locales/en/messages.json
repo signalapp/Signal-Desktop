@@ -546,6 +546,11 @@
     "message": "Unsupported file type",
     "description": "Displayed for outgoing unsupported attachment"
   },
+  "dangerousFileType": {
+    "message": "Attachment type not allowed for security reasons",
+    "description":
+      "Shown in toast when user attempts to send .exe file, for example"
+  },
   "fileSizeWarning": {
     "message": "Sorry, the selected file exceeds message size restrictions."
   },

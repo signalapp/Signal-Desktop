@@ -40,11 +40,11 @@
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "取り消す",
+        "message": "元に戻す",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "リドゥーする",
+        "message": "やり直す",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
@@ -56,7 +56,7 @@
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "貼り付く",
+        "message": "貼り付け",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
@@ -136,7 +136,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimizing messages... $status$ complete.",
+        "message": "メッセージを最適化中... $status$完了した。",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -250,7 +250,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "$name$との安全番号を検証済みにしました",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -260,7 +260,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "$name$との安全番号を未検証にしました",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -270,7 +270,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "$name$との安全番号を他の端末で検証済みにしました",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -280,7 +280,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "$name$との安全番号を他の端末で未検証にしました",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -364,7 +364,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "アップロードには失敗ありました！手入力でログをバグ報告に付けることを考慮して下さい。",
         "description": ""
     },
     "reportIssue": {
@@ -424,7 +424,7 @@
         "description": ""
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "受信中にエラー",
         "description": ""
     },
     "media": {
@@ -479,8 +479,16 @@
         "message": "サポートされていない種類のファイル",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "選択したファイルが大きすぎます",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "選択された添付ファイルをロードできません。",
         "description": ""
     },
     "disconnected": {
@@ -574,7 +582,7 @@
         "description": ""
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "$name$のアイコン",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -616,7 +624,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloadAttachment": {
-        "message": "Download Attachment",
+        "message": "添付ファイルをダウンロード",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
@@ -624,15 +632,15 @@
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Original message not found",
+        "message": "元のメッセージを見つけれません",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Original message no longer available",
+        "message": "元のメッセージは入手できません",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Original message found, but not loaded. Scroll up to load it.",
+        "message": "元のメッセージを見つけたが、ロードされていません。ロードするのにスクロールアップして下さい。",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "you": {
@@ -738,7 +746,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "View safety number",
+        "message": "安全番号を表示する",
         "description": ""
     },
     "viewAllMedia": {
@@ -760,7 +768,7 @@
         "description": ""
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "詳細...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -768,7 +776,7 @@
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "メッセージを削除",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -787,20 +795,12 @@
         "message": "引用されたメッセージから画像のサムネール",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "イメージのロードに失敗しました",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Video screenshot failed to load",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "メッセージにイメージを添付する",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "メッセージに添付された動画のスクリーンショット",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
@@ -1093,6 +1093,10 @@
         "message": "この連絡先にメッセージを送るためにブロックを解除する。",
         "description": "Brief message shown when trying to message a blocked number"
     },
+    "unblockGroupToSend": {
+        "message": "このグループにメッセージを送信するには、ブロックを解除してください。",
+        "description": "Brief message shown when trying to message a blocked group"
+    },
     "youChangedTheTimer": {
         "message": "消えるメッセージのタイマーを$time$に設定しました",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
@@ -1260,11 +1264,11 @@
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "セイフティナンバーが変更されました",
+        "message": "安全番号が変更されました",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "$name$ との安全番号が変更されました",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1288,11 +1292,11 @@
         }
     },
     "themeLight": {
-        "message": "Light",
+        "message": "ライト",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "ダーク",
         "description": "Label text for dark theme"
     },
     "hideMenuBar": {
@@ -1332,7 +1336,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "変更を適応するにはSignalを再起動してください。",
+        "message": "アップデートを適用するにはSignalを再起動してください。",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -1344,7 +1348,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ がグループを退会しました",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1354,7 +1358,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ がグループを退会しました",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1364,11 +1368,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "グループがアップデートされました",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "タイトルが '$name$' になりました",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1378,7 +1382,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ がグループに参加しました",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1388,7 +1392,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ がグループに参加しました",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {

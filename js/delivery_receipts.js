@@ -38,8 +38,9 @@
         return message;
       }
 
-      const groups = new Whisper.GroupCollection();
-      await groups.fetchGroups(source);
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(source, {
+        ConversationCollection: Whisper.ConversationCollection,
+      });
 
       const ids = groups.pluck('id');
       ids.push(source);

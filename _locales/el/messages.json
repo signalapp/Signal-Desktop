@@ -479,8 +479,16 @@
         "message": "Μη υποστηριζόμενος τύπος αρχείου",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Ο τύπος του συνημμένου δεν επιτρέπεται για λόγους ασφαλείας",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Δεν είναι δυνατή η φόρτωση του επιλεγμένου συνημμένου.",
         "description": ""
     },
     "disconnected": {
@@ -787,14 +795,6 @@
         "message": "Μικρογραφία της εικόνας από το αναφερόμενο μήνυμα",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "Αποτυχία λήψης της εικόνας",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Αποτυχία φόρτωσης του στιγμιότυπου οθόνης του βίντεο",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "Εικόνα επισυνημμένη στο μήνυμα",
         "description": "Used in alt tag of image attachment"
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Καταργήστε τον αποκλεισμό αυτής την επαφής για να στείλετε ένα μήνυμα.",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Καταργήστε τον αποκλεισμό αυτής της ομάδας για να στείλετε ένα μήνυμα.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Ορίσατε το χρονοδιακόπτη μηνυμάτων που εξαφανίζονται σε  $time$",

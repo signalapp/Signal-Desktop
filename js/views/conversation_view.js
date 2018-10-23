@@ -145,8 +145,6 @@
       });
 
       const getHeaderProps = () => {
-        const avatar = this.model.getAvatar();
-        const avatarPath = avatar ? avatar.url : null;
         const expireTimer = this.model.get('expireTimer');
         const expirationSettingName = expireTimer
           ? Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
@@ -158,7 +156,7 @@
           phoneNumber: this.model.getNumber(),
           profileName: this.model.getProfileName(),
           color: this.model.getColor(),
-          avatarPath,
+          avatarPath: this.model.getAvatarPath(),
           isVerified: this.model.isVerified(),
           isMe: this.model.isMe(),
           isGroup: !this.model.isPrivate(),
@@ -1059,7 +1057,14 @@
       }
     },
 
-    downloadAttachment({ attachment, message }) {
+    downloadAttachment({ attachment, message, isDangerous }) {
+      if (isDangerous) {
+        const toast = new Whisper.DangerousFileTypeToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
+        return;
+      }
+
       Signal.Types.Attachment.save({
         attachment,
         document,
@@ -1401,6 +1406,7 @@
       }
 
       const message = new Whisper.Message({
+        conversationId: this.model.id,
         quote: this.quote,
       });
       message.quotedMessage = this.quotedMessage;

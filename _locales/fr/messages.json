@@ -479,8 +479,16 @@
         "message": "Le type de fichier n’est pas pris en charge",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Le type de fichier joint n’est pas autorisé pour des raisons de sécurité",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "Désolé, le fichier sélectionné dépasse la limite de taille des messages.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "Impossible de charger le fichier joint sélectionné.",
         "description": ""
     },
     "disconnected": {
@@ -500,7 +508,7 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
-        "message": "Tentative de reconnexion dans $reconnect_duration_in_seconds$ secondes",
+        "message": "Tentative de reconnexion $reconnect_duration_in_seconds$ secondes",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -698,7 +706,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Êtes-vous certain ? Cliquer sur Supprimer supprimera définitivement ce message de cet appareil seulement.",
+        "message": "Êtes-vous certain ? Cliquer sur Supprimer effacera définitivement ce message de cet appareil seulement.",
         "description": ""
     },
     "deleteThisMessage": {
@@ -738,7 +746,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Visualiser le numéro de sécurité",
+        "message": "Afficher le numéro de sécurité",
         "description": ""
     },
     "viewAllMedia": {
@@ -768,7 +776,7 @@
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Supprimer le message",
+        "message": "Supprimer ce message",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -786,14 +794,6 @@
     "quoteThumbnailAlt": {
         "message": "Imagette du message cité",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
-    },
-    "imageFailedToLoad": {
-        "message": "Échec de chargement de l’image",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "Échec de chargement de la capture d’écran vidéo",
-        "description": "When a attachment video screenshot is missing, this message is shown"
     },
     "imageAttachmentAlt": {
         "message": "Image jointe au message",
@@ -822,7 +822,7 @@
         }
     },
     "installWelcome": {
-        "message": "Bienvenue sur Signal pour ordinateur",
+        "message": "Bienvenue sur Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -986,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Cette version de Signal pour ordinateur est expirée. Veuillez la mettre à niveau vers la version la plus récente afin de continuer à échanger.",
+        "message": "Cette version de Signal Desktop est expirée. Veuillez la mettre à niveau vers la version la plus récente afin de continuer à échanger.",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "Débloquez ce contact pour envoyer un message",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Débloquer ce groupe pour envoyer un message.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "Vous avez défini l’expiration des messages éphémères à $time$",
@@ -1312,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Reliez Signal pour ordinateur à votre appareil mobile de nouveau pour continuer à communiquer.",
+        "message": "Reliez Signal Desktop à votre appareil mobile de nouveau pour continuer à communiquer.",
         "description": ""
     },
     "unlinked": {

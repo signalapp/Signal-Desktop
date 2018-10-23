@@ -36,7 +36,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "ចាកចេញពីស៊ីហ្គណល",
+        "message": "ចាកចេញពីSignal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -136,7 +136,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimizing messages... $status$ complete.",
+        "message": "កំពុងរៀបចំសារ... $status$ រួចរាល់។",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "អ្នកទើបឆ្លងកាត់ដំណើការនាំចេញ បញ្ជីទំនាក់ទំនង និងសាររបស់អ្នកគឺកំពុងរង់ចាំនៅលើម៉ាស៊ីនកុំព្យូទ័ររបស់អ្នក។ ជ្រើសរើស ថតផ្ទុកទិន្នន័យស៊ីហ្គណលរបស់អ្នក ដែលបានរក្សាទុក។",
+        "message": "អ្នកទើបឆ្លងកាត់ដំណើការនាំចេញ បញ្ជីទំនាក់ទំនង និងសាររបស់អ្នកគឺកំពុងរង់ចាំនៅលើម៉ាស៊ីនកុំព្យូទ័ររបស់អ្នក។ ជ្រើសរើស ថតផ្ទុកទិន្នន័យSignalរបស់អ្នក ដែលបានរក្សាទុក។",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "សូមប្រាកដថា អ្នកបានជ្រើសរើស កន្លែងត្រឹមត្រូវដែលផ្ទុកទិន្នន័យស៊ីហ្គណលរបស់អ្នក ដែលបានរក្សាទុក។ ឈ្មោះវា គួរតែចាប់ផ្តើមដោយ 'នាំចេញ ស៊ីហ្គណល។' អ្នកអាចរក្សាទុកការចម្លងថ្មីមួយនៃទិន្នន័យរបស់អ្នក ពីកម្មវិធី Chrome ។",
+        "message": "សូមប្រាកដថា អ្នកបានជ្រើសរើស កន្លែងត្រឹមត្រូវដែលផ្ទុកទិន្នន័យSignalរបស់អ្នក ដែលបានរក្សាទុក។ ឈ្មោះវា គួរតែចាប់ផ្តើមដោយ 'នាំចេញ Signal។' អ្នកអាចរក្សាទុកការចម្លងថ្មីមួយនៃទិន្នន័យរបស់អ្នក ពីកម្មវិធី Chrome ។",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "ចាប់ផ្តើមប្រើប្រាស់ ស៊ីហ្គណល Desktop",
+        "message": "ចាប់ផ្តើមប្រើប្រាស់ Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -298,7 +298,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ តាំងពីអ្នកបានផ្ទៀងផ្ទាត់លើកចុងក្រោយ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រៀតចូលការទំនាក់ទំនង ឬ $name$ បានដំឡើង ស៊ីហ្គណល ឡើងវិញ។",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ តាំងពីអ្នកបានផ្ទៀងផ្ទាត់លើកចុងក្រោយ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រៀតចូលការទំនាក់ទំនង ឬ $name$ បានដំឡើង Signal ឡើងវិញ។",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -479,8 +479,16 @@
         "message": "មិនគាំទ្រប្រភេទឯកសារ",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "dangerousFileType": {
+        "message": "Attachment type not allowed for security reasons",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
     "fileSizeWarning": {
         "message": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។",
         "description": ""
     },
     "disconnected": {
@@ -534,11 +542,11 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "ចំណង់ចំណូលចិត្តស៊ីហ្គណល Desktop ",
+        "message": "ចំណង់ចំណូលចិត្តSignal Desktop ",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "អំពី ស៊ីហ្គណល Desktop",
+        "message": "អំពី Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -558,7 +566,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "trayTooltip": {
-        "message": "ស៊ីហ្គណល Desktop",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
@@ -566,7 +574,7 @@
         "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
-        "message": "ស្វាគមន៍មកកាន់ ស៊ីហ្គណល",
+        "message": "ស្វាគមន៍មកកាន់ Signal",
         "description": ""
     },
     "selectAContact": {
@@ -616,7 +624,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloadAttachment": {
-        "message": "Download Attachment",
+        "message": "ទាញយកឯកសារភ្ជាប់",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
@@ -624,15 +632,15 @@
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Original message not found",
+        "message": "រកមិនឃើញឯកសារដើម",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Original message no longer available",
+        "message": "ឯកសារដើមលែងមានទៀតហើយ",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Original message found, but not loaded. Scroll up to load it.",
+        "message": "រកឃើញសារដើម ប៉ុន្តែមិនអាចផ្ទុក។ រំកិលចុះក្រោម ដើម្បីផ្ទុកវា។",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "you": {
@@ -650,7 +658,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "ដើម្បីបញ្ជូនសារសំឡេង អនុញ្ញាតឲ្យស៊ីហ្គណល Desktop ចូលប្រើប្រាស់ម៉ៃក្រូហ្វូនរបស់អ្នក។",
+        "message": "ដើម្បីបញ្ជូនសារសំឡេង អនុញ្ញាតឲ្យSignal Desktop ចូលប្រើប្រាស់ម៉ៃក្រូហ្វូនរបស់អ្នក។",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -698,7 +706,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only.",
+        "message": "តើអ្នកច្បាស់ទេ? ចុច 'លុប' នឹងសារនេះ ចេញពីឧបករណ៍នេះរហូត។",
         "description": ""
     },
     "deleteThisMessage": {
@@ -738,7 +746,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "View safety number",
+        "message": "បង្ហាញលេខសុវត្ថិភាព",
         "description": ""
     },
     "viewAllMedia": {
@@ -787,14 +795,6 @@
         "message": "រូបភាពតូចៗនៃរូបភាពពីសារដែលបានដកស្រង់",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
-    "imageFailedToLoad": {
-        "message": "រូបភាពបរាជ័យក្នុងការផ្ទុក",
-        "description": "When an image attachment is missing, this message is shown"
-    },
-    "videoScreenshotFailedToLoad": {
-        "message": "បរាជ័យក្នុងការផ្ទុករូបថតអេក្រង់វីដេអូ",
-        "description": "When a attachment video screenshot is missing, this message is shown"
-    },
     "imageAttachmentAlt": {
         "message": "រូបភាពបានភ្ជាប់ទៅសារ",
         "description": "Used in alt tag of image attachment"
@@ -822,19 +822,19 @@
         }
     },
     "installWelcome": {
-        "message": "ស្វាគមន៍មកកាន់ ស៊ីហ្គណល Desktop",
+        "message": "ស្វាគមន៍មកកាន់ Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "ភាពឯកជនគឺអាចធ្វើទៅបាន។ ស៊ីហ្គណលធ្វើបានដោយងាយស្រួល។",
+        "message": "ភាពឯកជនគឺអាចធ្វើទៅបាន។ Signalធ្វើបានដោយងាយស្រួល។",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "តភ្ជាប់ទូរស័ព្ទរបស់អ្នក ទៅកាន់ ស៊ីហ្គណល Desktop",
+        "message": "តភ្ជាប់ទូរស័ព្ទរបស់អ្នក ទៅកាន់ Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "ការកំណត់ ស៊ីហ្គណល",
+        "message": "ការកំណត់ Signal",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
@@ -986,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "ជំនាន់ ស៊ីហ្គណល Desktop នេះ បានហួសសុពលភាព។ សូមដំឡើងទីកាន់ជំនាន់ចុងក្រោយ ដើម្បីបន្តការផ្ញើសារ។",
+        "message": "ជំនាន់ Signal Desktop នេះ បានហួសសុពលភាព។ សូមដំឡើងទីកាន់ជំនាន់ចុងក្រោយ ដើម្បីបន្តការផ្ញើសារ។",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1010,7 +1010,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "នាំចូលក្រុម និងបញ្ជីទំនាក់ទំនង ស៊ីហ្គណលទាំងអស់ ពីទូរស័ព្ទរបស់អ្នក។",
+        "message": "នាំចូលក្រុម និងបញ្ជីទំនាក់ទំនង Signalទាំងអស់ ពីទូរស័ព្ទរបស់អ្នក។",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1092,6 +1092,10 @@
     "unblockToSend": {
         "message": "ដោះការហាមឃាត់លេខទំនាក់ទំនងនេះ ដើម្បីផ្ញើសារ។",
         "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "Unblock this group to send a message.",
+        "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
         "message": "អ្នកបានកំណត់រយៈពេលសារបាត់ទៅវិញជា $time$",
@@ -1274,7 +1278,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verify Safety Number",
+        "message": "ផ្ទៀងផ្ទាត់លេខសុវត្ថិភាព",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1324,19 +1328,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "មានបច្ចុប្បន្នភាព ស៊ីហ្គណល",
+        "message": "មានបច្ចុប្បន្នភាព Signal",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "មានស៊ីហ្គណលជំនាន់ថ្មី",
+        "message": "មានSignalជំនាន់ថ្មី",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "ចុច បើក ស៊ីហ្គណលឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
+        "message": "ចុច បើក Signalឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "បើកស៊ីហ្គណល ឡើងវិញ",
+        "message": "បើកSignal ឡើងវិញ",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
