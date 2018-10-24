@@ -116,7 +116,7 @@ OutgoingMessage.prototype = {
     if (updateDevices === undefined) {
       return this.server.getKeysForNumber(number).then(handleResult);
     }
-    let promise = Promise.resolve();
+    let promise = Promise.resolve(true);
     updateDevices.forEach(device => {
       promise = promise.then(() =>
         Promise.all([
@@ -217,7 +217,7 @@ OutgoingMessage.prototype = {
       request: requestMessage
     });
     const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer())
-    bytes.toString(); // print bytes for debugging purposes: can be injected in mock socket server 
+    console.log(bytes.toString()); // print bytes for debugging purposes: can be injected in mock socket server
     return bytes;
   },
   doSendMessage(number, deviceIds, recurse) {
@@ -413,3 +413,6 @@ OutgoingMessage.prototype = {
     );
   },
 };
+
+window.textsecure = window.textsecure || {};
+window.textsecure.OutgoingMessage = OutgoingMessage;

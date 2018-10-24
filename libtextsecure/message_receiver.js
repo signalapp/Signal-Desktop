@@ -836,8 +836,13 @@ MessageReceiver.prototype.extend({
       }
     });
   },
-  innerHandleContentMessage(envelope, plaintext) {
+  async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
+
+    if (content.preKeyBundleMessage) {
+      await this.handlePreKeyBundleMessage(envelope, content.preKeyBundleMessage);
+    }
+
     if (content.syncMessage) {
       return this.handleSyncMessage(envelope, content.syncMessage);
     } else if (content.dataMessage) {
@@ -1058,6 +1063,30 @@ MessageReceiver.prototype.extend({
     textsecure.storage.put('blocked-groups', groupIds);
 
     return this.removeFromCache(envelope);
+  },
+  async handlePreKeyBundleMessage(envelope, preKeyBundleMessage) {
+
+    const { preKeyId, signedKeyId } = preKeyBundleMessage;
+    const [ identityKey, preKey, signedKey, signature ] = [
+      preKeyBundleMessage.identityKey,
+      preKeyBundleMessage.preKey,
+      preKeyBundleMessage.signedKey,
+      preKeyBundleMessage.signature
+    ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
+
+    if (envelope.source != StringView.arrayBufferToHex(identityKey)) {
+      throw new Error("Error in handlePreKeyBundleMessage: envelope pubkey does not match pubkey in prekey bundle");
+    }
+    const pubKey = envelope.source;
+
+    return await libloki.savePreKeyBundleForNumber({
+      pubKey,
+      preKeyId,
+      signedKeyId,
+      preKey,
+      signedKey,
+      signature,
+    });
   },
   isBlocked(number) {
     return textsecure.storage.get('blocked', []).indexOf(number) >= 0;

@@ -1,4 +1,4 @@
-/* global window, libsignal, textsecure */
+/* global window, libsignal, textsecure, OutgoingMessage */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -74,20 +74,77 @@
     ]);
 
     const preKeyMessage = new textsecure.protobuf.PreKeyBundleMessage({
-      identityKey,
+      identityKey: new Uint8Array(identityKey),
 	    deviceId: 1,        // TODO: fetch from somewhere
 	    preKeyId: preKey.keyId,
 	    signedKeyId,
-      preKey: preKey.pubKey,
-      signedKey: signedKey.pubKey,
-      signature: signedKey.signature,
+      preKey: new Uint8Array(preKey.pubKey),
+      signedKey: new Uint8Array(signedKey.pubKey),
+      signature: new Uint8Array(signedKey.signature),
     });
 
     return preKeyMessage;
+  }
+
+  savePreKeyBundleForNumber = async function({ pubKey, preKeyId, preKey, signedKeyId, signedKey, signature }) {    
+    const signedKeyPromise = new Promise(async (resolve) => {
+      const existingSignedKeys = await textsecure.storage.protocol.loadContactSignedPreKeys({ identityKeyString: pubKey, keyId: signedKeyId });
+      if (!existingSignedKeys || (existingSignedKeys instanceof Array && existingSignedKeys.length == 0))
+      {
+        const signedPreKey = {
+          keyId: signedKeyId,
+          publicKey: signedKey,
+          signature,
+        };
+        await textsecure.storage.protocol.storeContactSignedPreKey(pubKey, signedPreKey);
+      }
+      resolve();
+    });
+    
+    const preKeyPromise = new Promise(async (resolve) => {
+      const existingPreKeys = textsecure.storage.protocol.loadContactPreKeys({ identityKeyString: pubKey, keyId: preKeyId });
+      if (!existingPreKeys || (existingPreKeys instanceof Array && existingPreKeys.length == 0))
+      {
+        const preKeyObject = {
+          publicKey: preKey,
+          keyId: preKeyId,
+        }
+        await textsecure.storage.protocol.storeContactPreKey(pubKey, preKeyObject);
+      }
+      resolve();
+    });
+
+    await Promise.all([signedKeyPromise, preKeyPromise]);
+  }
+
+  sendEmptyMessageWithPreKeys = async function(pubKey) {
+    // empty content message
+    const content = new textsecure.protobuf.Content();
+
+    // will be called once the transmission succeeded or failed
+    const callback = res => {
+      if (res.errors.length > 0) {
+        res.errors.forEach(error => console.error(error));
+      } else {
+        console.log('empty message sent successfully');
+      }
+    };
+    // send an empty message. The logic in ougoing_message will attach the prekeys.
+    const outgoingMessage = new textsecure.OutgoingMessage(
+      null, //server
+      Date.now(), //timestamp,
+      [pubKey], //numbers
+      content, //message
+      true, //silent
+      callback, //callback
+      );
+    await outgoingMessage.sendToNumber(pubKey);
   }
   
   window.libloki.FallBackSessionCipher = FallBackSessionCipher;
   window.libloki.getPreKeyBundleForNumber = getPreKeyBundleForNumber;
   window.libloki.FallBackDecryptionError = FallBackDecryptionError;
+  window.libloki.savePreKeyBundleForNumber = savePreKeyBundleForNumber;
+  window.libloki.sendEmptyMessageWithPreKeys = sendEmptyMessageWithPreKeys;
 
 })();
