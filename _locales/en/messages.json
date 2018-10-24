@@ -821,6 +821,14 @@
     "message": "Send a message",
     "description": "Placeholder text in the message entry field"
   },
+  "sendMessageDisabled": {
+    "message": "Waiting for friend request approval",
+    "description": "Placeholder text in the message entry field when it is disabled while we are waiting for a friend request approval"
+  },
+  "sendMessageFriendRequest": {
+    "message": "Hi there! This is <insert name here> !",
+    "description": "Placeholder text in the message entry field when it is the first message sent to that contact"
+  },
   "groupMembers": {
     "message": "Group members"
   },

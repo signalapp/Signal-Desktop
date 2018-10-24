@@ -57,6 +57,7 @@
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         keyExchangeCompleted: false,
+        friendRequestStatus: { allowSending: true, unlockTimestamp: null }
       };
     },
 
@@ -118,6 +119,10 @@
       this.on('read', this.updateAndMerge);
       this.on('expiration-change', this.updateAndMerge);
       this.on('expired', this.onExpired);
+
+      setTimeout(() => {
+        this.setFriendRequestTimer();
+      }, 0);
     },
 
     isMe() {
@@ -366,6 +371,57 @@
       }
       
       this.set({ keyExchangeCompleted: completed });
+    },
+    getFriendRequestStatus() {
+      return this.get('friendRequestStatus');
+    },
+    waitingForFriendRequestApproval() {
+      const friendRequestStatus = this.getFriendRequestStatus();
+      if (!friendRequestStatus) {
+        return false;
+      }
+      return !friendRequestStatus.allowSending;
+    },
+    setFriendRequestTimer() {
+      const friendRequestStatus = this.getFriendRequestStatus();
+      if (friendRequestStatus) {
+        if (!friendRequestStatus.allowSending) {
+          const delay = Math.max(friendRequestStatus.unlockTimestamp - Date.now(), 0);
+          setTimeout(() => {
+            this.onFriendRequestTimedOut();
+          }, delay);
+        }
+      }
+    },
+    onFriendRequestAccepted() {
+      this.save({ friendRequestStatus: null })
+      this.trigger('disable:input', false);
+      this.trigger('change:placeholder', 'chat');
+    },
+    onFriendRequestTimedOut() {
+      let friendRequestStatus = this.getFriendRequestStatus();
+      friendRequestStatus.allowSending = true;
+      this.save({ friendRequestStatus })
+      this.trigger('disable:input', false);
+      this.trigger('change:placeholder', 'friend-request');
+    },
+    onFriendRequestSent() {
+      const friendRequestLockDuration = 72; // hours
+
+      let friendRequestStatus = this.getFriendRequestStatus();
+      if (!friendRequestStatus) {
+        friendRequestStatus = {};
+      }
+
+      friendRequestStatus.allowSending = false;
+      const delayMs = 100 * 1000 ;//(60 * 60 * 1000 * friendRequestLockDuration);
+      friendRequestStatus.unlockTimestamp = Date.now() + delayMs;
+      this.trigger('disable:input', true);
+      this.trigger('change:placeholder', 'disabled');
+
+      setTimeout(() => { this.onFriendRequestTimedOut() }, delayMs);
+
+      this.save({ friendRequestStatus })
     },
     isUnverified() {
       if (this.isPrivate()) {
