@@ -119,6 +119,7 @@ function initializeMigrations({
 
   return {
     attachmentsPath,
+    deleteAttachmentData: deleteOnDisk,
     deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
       deleteAttachmentData: Type.deleteData(deleteOnDisk),
       deleteOnDisk,
@@ -131,8 +132,6 @@ function initializeMigrations({
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
     Migrations0DatabaseWithAttachmentData,
     Migrations1DatabaseWithoutAttachmentData,
-    writeNewAttachmentData: createWriterForNew(attachmentsPath),
-    deleteAttachmentData: deleteOnDisk,
     upgradeMessageSchema: (message, options = {}) => {
       const { maxVersion } = options;
 
@@ -153,6 +152,7 @@ function initializeMigrations({
       writeExistingAttachmentData: createWriterForExisting(attachmentsPath),
       logger,
     }),
+    writeNewAttachmentData: createWriterForNew(attachmentsPath),
   };
 }
 
