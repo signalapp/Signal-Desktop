@@ -89,7 +89,6 @@ module.exports = grunt => {
       libloki: {
         src: [
           'libloki/libloki-protocol.js',
-          'libloki/mnemonic.js',
         ],
         dest: 'js/libloki.js',
       },

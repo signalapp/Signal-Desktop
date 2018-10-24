@@ -53,9 +53,8 @@
       let generateKeypair;
       if (mnemonic) {
         generateKeypair = () => {
-          const seedHex = window.mnemonic.decode(mnemonic);
-          // use seed as privkey?
-          const privKey = dcodeIO.ByteBuffer.wrap(seedHex, 'hex').toArrayBuffer();
+          const seedHex = window.mnemonic.mn_decode(mnemonic);
+          const privKey = window.mnemonic.sc_reduce32(seedHex);
           return libsignal.Curve.async.createKeyPair(privKey);
         };
       } else {

@@ -45,7 +45,7 @@
     registerWithMnemonic() {
       const words = this.$('#mnemonic').val();
       if (!words) {
-        log('Please provide a mnemonic word list');
+        this.log('Please provide a mnemonic word list');
       } else {
         this.register();
       }

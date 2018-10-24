@@ -206,7 +206,7 @@ window.LokiAPI = initializeLokiAPI({
   url: config.serverUrl,
 });
 
-window.crc32 = require('buffer-crc32');
+window.mnemonic = require('./libloki/mnemonic');
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
