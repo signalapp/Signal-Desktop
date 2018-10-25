@@ -864,7 +864,10 @@ MessageReceiver.prototype.extend({
       }
       if (!conversation) {
         const accepted = await this.promptUserToAcceptFriendRequest(envelope.source, content.dataMessage.body);
-        if (!accepted) {
+        if (accepted) {
+          // send our own prekeys as a response - no need to wait
+          libloki.sendEmptyMessageWithPreKeys(envelope.source);
+        } else {
           console.log('friend request declined!');
           return;
         }
