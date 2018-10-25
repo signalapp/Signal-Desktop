@@ -131,7 +131,10 @@
     deleteAttachmentData,
     getCurrentVersion,
   } = window.Signal.Migrations;
-  const { Migrations0DatabaseWithAttachmentData } = window.Signal.Migrations;
+  const {
+    Migrations0DatabaseWithAttachmentData,
+    Migrations1DatabaseWithoutAttachmentData,
+  } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
   // Implicitly used in `indexeddb-backbonejs-adapter`:
@@ -387,6 +390,23 @@
     db.close();
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
+
+    window.log.info('Running cleanup IndexedDB migrations...');
+    // Close all previous connections to the database first
+    await Whisper.Database.close();
+
+    // Now we clean up IndexedDB database after extracting data from it
+    await Migrations1DatabaseWithoutAttachmentData.run({
+      Backbone,
+      logger: window.log,
+    });
+
+    await Whisper.Database.close();
+
+    const latestDBVersion = _.last(
+      Migrations1DatabaseWithoutAttachmentData.migrations
+    ).version;
+    Whisper.Database.migrations[0].version = latestDBVersion;
 
     window.log.info('Cleanup: starting...');
     const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(
