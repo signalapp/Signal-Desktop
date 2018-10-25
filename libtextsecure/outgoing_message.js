@@ -165,7 +165,7 @@ OutgoingMessage.prototype = {
         }
         throw new textsecure.SendMessageNetworkError(
           number,
-          jsonData,
+          "",
           e,
           timestamp
         );
