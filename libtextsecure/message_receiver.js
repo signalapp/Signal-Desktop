@@ -836,8 +836,40 @@ MessageReceiver.prototype.extend({
       }
     });
   },
+  async promptUserToAcceptFriendRequest(pubKey, message) {
+    pubKey = pubKey.slice(0,30)+"...";
+    let p = new Promise(resolve => {
+      window.Whisper.events.trigger('showFriendRequest', {
+        pubKey,
+        message,
+        accept: () => {
+          resolve(true);
+        },
+        decline: () => {
+          resolve(false);
+        }
+      });
+    });
+    return await p;
+  },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
+
+    if (envelope.type == textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+      // only prompt friend request if there is no conversation yet
+      let conversation;
+      try {
+        conversation = ConversationController.get(envelope.source);
+      } catch(e) {
+      }
+      if (!conversation) {
+        const accepted = await this.promptUserToAcceptFriendRequest(envelope.source, content.dataMessage.body);
+        if (!accepted) {
+          console.log('friend request declined!');
+          return;
+        }
+      }
+    }
 
     if (content.preKeyBundleMessage) {
       await this.handlePreKeyBundleMessage(envelope, content.preKeyBundleMessage);

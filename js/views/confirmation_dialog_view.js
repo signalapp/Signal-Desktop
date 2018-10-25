@@ -19,6 +19,8 @@
       this.reject = options.reject;
       this.cancelText = options.cancelText || i18n('cancel');
 
+      this.title = options.title;
+
       this.render();
     },
     events: {
@@ -32,6 +34,7 @@
         showCancel: !this.hideCancel,
         cancel: this.cancelText,
         ok: this.okText,
+        title: this.title,
       };
     },
     ok() {

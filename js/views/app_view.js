@@ -178,5 +178,16 @@
         });
       }
     },
+    showFriendRequest({ pubKey, message, accept, decline }) {
+      const dialog = new Whisper.ConfirmationDialogView({
+        title: `${pubKey} sent you a friend request:`,
+        message: message,
+        okText: 'Accept',
+        cancelText: 'Decline',
+        resolve: accept,
+        reject: decline,
+      });
+      this.el.append(dialog.el);
+    },
   });
 })();

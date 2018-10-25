@@ -595,6 +595,12 @@
         });
       }
     });
+
+    Whisper.events.on('showFriendRequest', friendRequest => {
+      if (appView) {
+        appView.showFriendRequest(friendRequest);
+      }
+    });
   }
 
   window.getSyncRequest = () =>
