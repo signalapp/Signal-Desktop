@@ -747,6 +747,7 @@
     //   (but only if we're not the primary device)
     if (
       !firstRun &&
+      connectCount === 1 &&
       newVersion &&
       // eslint-disable-next-line eqeqeq
       textsecure.storage.user.getDeviceId() != '1'
