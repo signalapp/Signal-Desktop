@@ -346,11 +346,6 @@ async function importFromJsonString(db, jsonString, targetPath, options) {
     _.each(remainingStoreNames, storeName => {
       window.log.info('Importing items for store', storeName);
 
-      if (!importObject[storeName].length) {
-        delete importObject[storeName];
-        return;
-      }
-
       let count = 0;
       let skipCount = 0;
 
@@ -371,6 +366,10 @@ async function importFromJsonString(db, jsonString, targetPath, options) {
           finish('puts scheduled');
         }
       };
+
+      if (!importObject[storeName].length) {
+        finishStore();
+      }
 
       _.each(importObject[storeName], toAdd => {
         toAdd = unstringify(toAdd);
@@ -402,7 +401,7 @@ async function importFromJsonString(db, jsonString, targetPath, options) {
 
       // We have to check here, because we may have skipped every item, resulting
       //   in no onsuccess callback at all.
-      if (count === importObject[storeName].length) {
+      if (skipCount === count) {
         finishStore();
       }
     });

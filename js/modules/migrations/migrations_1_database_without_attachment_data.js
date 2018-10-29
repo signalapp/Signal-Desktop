@@ -1,25 +1,37 @@
 /* global window */
 
-const { last } = require('lodash');
+const { last, includes } = require('lodash');
 
-const db = require('../database');
+const { open } = require('../database');
 const settings = require('../settings');
 const { runMigrations } = require('./run_migrations');
 
-// These are migrations for after the SQLCipher migration, currently not running
+// These are cleanup migrations, to be run after migration to SQLCipher
 exports.migrations = [
   {
     version: 20,
     migrate(transaction, next) {
       window.log.info('Migration 20');
-      window.log.info(
-        'Removing messages, unprocessed, and conversations object stores'
-      );
+
+      const { db } = transaction;
 
       // This should be run after things are migrated to SQLCipher
-      transaction.db.deleteObjectStore('messages');
-      transaction.db.deleteObjectStore('unprocessed');
-      transaction.db.deleteObjectStore('conversations');
+
+      // We check for existence first, because this removal was present in v1.17.0.beta.1,
+      //  but reverted in v1.17.0-beta.3
+
+      if (includes(db.objectStoreNames, 'messages')) {
+        window.log.info('Removing messages store');
+        db.deleteObjectStore('messages');
+      }
+      if (includes(db.objectStoreNames, 'unprocessed')) {
+        window.log.info('Removing unprocessed store');
+        db.deleteObjectStore('unprocessed');
+      }
+      if (includes(db.objectStoreNames, 'conversations')) {
+        window.log.info('Removing conversations store');
+        db.deleteObjectStore('conversations');
+      }
 
       next();
     },
@@ -48,7 +60,7 @@ exports.run = async ({ Backbone, logger } = {}) => {
 };
 
 exports.getStatus = async ({ database } = {}) => {
-  const connection = await db.open(database.id, database.version);
+  const connection = await open(database.id, database.version);
   const isAttachmentMigrationComplete = await settings.isAttachmentMigrationComplete(
     connection
   );
