@@ -35,6 +35,23 @@ function numberToUintArr(numberVal) {
   return arr;
 }
 
+// Compare two Uint8Arrays, return true if arr1 is > arr2
+function compareUint8Arrays(arr1, arr2) {
+  // Early exit if lengths are not equal. Should never happen
+  if (arr1.length !== arr2.length)
+    return false;
+
+  const len = arr1.length
+
+  for (let i = 0; i < len; i += 1) {
+    if (arr1[i] > arr2[i])
+      return true;
+    if (arr1[i] < arr2[i])
+      return false;
+  }
+  return false;
+}
+
 // Return nonce that hashes together with payload lower than the target
 function calcPoW(timestamp, ttl, pubKey, data) {
   const leadingString = timestamp.toString() + ttl.toString() + pubKey;
@@ -46,11 +63,10 @@ function calcPoW(timestamp, ttl, pubKey, data) {
   payload.set(data, leadingArray.length);
   const nonceLen = 8;
   // Modify this value for difficulty scaling
-  // TODO: Have more informed reason for setting this to 100
   const nonceTrialsPerByte = 1000;
   let nonce = new Uint8Array(nonceLen);
   let trialValue = numberToUintArr(Number.MAX_SAFE_INTEGER);
-  // Target is converter to Uint8Array for simple comparison with trialValue
+  // Target is converted to Uint8Array for simple comparison with trialValue
   const targetNum = Math.floor(2**64 / (
     nonceTrialsPerByte * (
       payload.length + nonceLen + (
@@ -61,9 +77,14 @@ function calcPoW(timestamp, ttl, pubKey, data) {
   ));
   const target = numberToUintArr(targetNum);
   const initialHash = new Uint8Array(bb.wrap(hash(payload), 'hex').toArrayBuffer());
-  while (trialValue > target) {
+  const innerPayload = new Uint8Array(initialHash.length + nonceLen);
+  innerPayload.set(initialHash, nonceLen);
+  let resultHash;
+  while (compareUint8Arrays(trialValue, target)) {
     nonce = incrementNonce(nonce);
-    trialValue = (new Uint8Array(bb.wrap(hash(nonce + initialHash), 'hex').toArrayBuffer())).slice(0, 8);
+    innerPayload.set(nonce);
+    resultHash = hash(innerPayload);
+    trialValue = (new Uint8Array(bb.wrap(resultHash, 'hex').toArrayBuffer())).slice(0, 8);
   }
   return bufferToBase64(nonce);
 }
