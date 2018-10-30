@@ -1,9 +1,11 @@
 const hash = require('js-sha512');
 const bb = require('bytebuffer');
 
+const NONCE_LEN = 8;
+
 // Increment Uint8Array nonce by 1 with carrying
 function incrementNonce(nonce) {
-  let idx = nonce.length - 1;
+  let idx = NONCE_LEN - 1;
   const newNonce = nonce;
   newNonce[idx] += 1;
   // Nonce will just reset to 0 if all values are 255 causing infinite loop
@@ -19,16 +21,16 @@ function bufferToBase64(buf) {
   function mapFn(ch) {
       return String.fromCharCode(ch);
   };
-  const binstr = Array.prototype.map.call(buf, mapFn).join('');
-  return bb.btoa(binstr);
+  const binaryString = Array.prototype.map.call(buf, mapFn).join('');
+  return bb.btoa(binaryString);
 }
 
 // Convert javascript number to Uint8Array of length 8
 function numberToUintArr(numberVal) {
-  const arr = new Uint8Array(8);
+  const arr = new Uint8Array(NONCE_LEN);
   let n;
-  for (let idx = 7; idx >= 0; idx -= 1) {
-    n = 8 - (idx + 1);
+  for (let idx = NONCE_LEN - 1; idx >= 0; idx -= 1) {
+    n = NONCE_LEN - (idx + 1);
     // 256 ** n is the value of one bit in arr[idx], modulus to carry over
     arr[idx] = (numberVal / 256**n) % 256;
   }
@@ -61,24 +63,23 @@ function calcPoW(timestamp, ttl, pubKey, data) {
   const payload = new Uint8Array(leadingArray.length + data.length);
   payload.set(leadingArray);
   payload.set(data, leadingArray.length);
-  const nonceLen = 8;
   // Modify this value for difficulty scaling
   const nonceTrialsPerByte = 1000;
-  let nonce = new Uint8Array(nonceLen);
+  let nonce = new Uint8Array(NONCE_LEN);
   let trialValue = numberToUintArr(Number.MAX_SAFE_INTEGER);
   // Target is converted to Uint8Array for simple comparison with trialValue
   const targetNum = Math.floor(2**64 / (
     nonceTrialsPerByte * (
-      payload.length + nonceLen + (
-        (ttl * ( payload.length + nonceLen )) /
+      payload.length + NONCE_LEN + (
+        (ttl * ( payload.length + NONCE_LEN )) /
         2**16
       )
     )
   ));
   const target = numberToUintArr(targetNum);
   const initialHash = new Uint8Array(bb.wrap(hash(payload), 'hex').toArrayBuffer());
-  const innerPayload = new Uint8Array(initialHash.length + nonceLen);
-  innerPayload.set(initialHash, nonceLen);
+  const innerPayload = new Uint8Array(initialHash.length + NONCE_LEN);
+  innerPayload.set(initialHash, NONCE_LEN);
   let resultHash;
   while (compareUint8Arrays(trialValue, target)) {
     nonce = incrementNonce(nonce);
