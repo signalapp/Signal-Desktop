@@ -17,10 +17,10 @@ function initialize({ url }) {
 
   function connect() {
     return {
-      sendMessage
+      sendMessage,
     };
 
-    function getPoWNonce(timestamp, ttl, pub_key, data) {
+    function getPoWNonce(timestamp, ttl, pubKey, data) {
       return new Promise((resolve, reject) => {
         // Create forked node process to calculate PoW without blocking main process
         const child = fork('./libloki/proof-of-work.js');
@@ -29,8 +29,8 @@ function initialize({ url }) {
         child.send({
           timestamp,
           ttl,
-          pub_key,
-          data
+          pubKey,
+          data: Array.from(data),
         });
 
         // Handle child process error (should never happen)
@@ -49,14 +49,14 @@ function initialize({ url }) {
         });
 
       });
-    };
+    }
 
-    async function sendMessage(pub_key, data, ttl) {
+    async function sendMessage(pubKey, data, ttl) {
       const timestamp = Math.floor(Date.now() / 1000);
       // Nonce is returned as a base64 string to include in header
       let nonce;
       try {
-        nonce = await getPoWNonce(timestamp, ttl, pub_key, data);
+        nonce = await getPoWNonce(timestamp, ttl, pubKey, data);
       } catch(err) {
         // Something went horribly wrong
         // TODO: Handle gracefully
@@ -67,7 +67,7 @@ function initialize({ url }) {
         url: `${url}/send_message`,
         type: 'POST',
         responseType: undefined,
-        timeout: undefined
+        timeout: undefined,
       };
         
       log.info(options.type, options.url);
@@ -79,7 +79,7 @@ function initialize({ url }) {
           'X-Loki-pow-nonce': nonce,
           'X-Loki-timestamp': timestamp.toString(),
           'X-Loki-ttl': ttl.toString(),
-          'X-Loki-recipient': pub_key,
+          'X-Loki-recipient': pubKey,
           'Content-Length': data.byteLength,
         },
         timeout: options.timeout,
