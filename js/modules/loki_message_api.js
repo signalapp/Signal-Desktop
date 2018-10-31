@@ -30,7 +30,7 @@ function initialize({ url }) {
           timestamp,
           ttl,
           pubKey,
-          data,
+          data: Array.from(data),
         });
 
         // Handle child process error (should never happen)
