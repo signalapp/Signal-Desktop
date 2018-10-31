@@ -66,7 +66,7 @@ OutgoingMessage.prototype = {
     this.errors[this.errors.length] = error;
     this.numberCompleted();
   },
-  reloadDevicesAndSend(number, recurse, failover) {
+  reloadDevicesAndSend(number, recurse) {
     return () =>
       textsecure.storage.protocol.getDeviceIds(number).then(deviceIds => {
         if (deviceIds.length === 0) {
@@ -76,7 +76,7 @@ OutgoingMessage.prototype = {
             null
           );
         }
-        return this.doSendMessage(number, deviceIds, recurse, failover);
+        return this.doSendMessage(number, deviceIds, recurse);
       });
   },
 
@@ -245,7 +245,7 @@ OutgoingMessage.prototype = {
     return this.plaintext;
   },
 
-  doSendMessage(number, deviceIds, recurse, failover) {
+  doSendMessage(number, deviceIds, recurse) {
     const ciphers = {};
     const plaintext = this.getPlaintext();
 
@@ -261,8 +261,7 @@ OutgoingMessage.prototype = {
       );
     }
 
-    // If failover is true, we don't send an unidentified sender message
-    const sealedSender = Boolean(!failover && accessKey && senderCertificate);
+    const sealedSender = Boolean(accessKey && senderCertificate);
 
     // We don't send to ourselves if unless sealedSender is enabled
     const ourNumber = textsecure.storage.user.getNumber();
@@ -288,7 +287,6 @@ OutgoingMessage.prototype = {
           options.messageKeysLimit = false;
         }
 
-        // If failover is true, we don't send an unidentified sender message
         if (sealedSender) {
           const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
             textsecure.storage.protocol
@@ -397,9 +395,9 @@ OutgoingMessage.prototype = {
                 ? error.response.staleDevices
                 : error.response.missingDevices;
             return this.getKeysForNumber(number, resetDevices).then(
-              // For now, we we won't retry unidentified delivery if we get here; new
-              //   devices could have been added which don't support it.
-              this.reloadDevicesAndSend(number, error.code === 409, true)
+              // We continue to retry as long as the error code was 409; the assumption is
+              //   that we'll request new device info and the next request will succeed.
+              this.reloadDevicesAndSend(number, error.code === 409)
             );
           });
         } else if (error.message === 'Identity key changed') {

@@ -16,6 +16,13 @@
 
   window.Whisper = window.Whisper || {};
 
+  const SEALED_SENDER = {
+    UNKNOWN: 0,
+    ENABLED: 1,
+    DISABLED: 2,
+    UNRESTRICTED: 3,
+  };
+
   const { Util } = window.Signal;
   const {
     Conversation,
@@ -113,6 +120,14 @@
       this.on('read', this.updateAndMerge);
       this.on('expiration-change', this.updateAndMerge);
       this.on('expired', this.onExpired);
+
+      const sealedSender = this.get('sealedSender');
+      if (sealedSender === undefined) {
+        this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
+      }
+      this.unset('unidentifiedDelivery');
+      this.unset('unidentifiedDeliveryUnrestricted');
+      this.unset('hasFetchedProfile');
     },
 
     isMe() {
@@ -783,38 +798,65 @@
       return promise.then(
         async result => {
           // success
-          if (
-            result &&
-            result.failoverNumbers &&
-            result.failoverNumbers.length
-          ) {
-            await this.handleFailover(result.failoverNumbers);
+          if (result) {
+            await this.handleMessageSendResult(
+              result.failoverNumbers,
+              result.unidentifiedDeliveries
+            );
           }
           return result;
         },
         async result => {
           // failure
-          if (
-            result &&
-            result.failoverNumbers &&
-            result.failoverNumbers.length
-          ) {
-            await this.handleFailover(result.failoverNumbers);
+          if (result) {
+            await this.handleMessageSendResult(
+              result.failoverNumbers,
+              result.unidentifiedDeliveries
+            );
           }
           throw result;
         }
       );
     },
 
-    handleFailover(numberArray) {
-      return Promise.all(
-        (numberArray || []).map(async number => {
+    async handleMessageSendResult(failoverNumbers, unidentifiedDeliveries) {
+      await Promise.all(
+        (failoverNumbers || []).map(async number => {
           const conversation = ConversationController.get(number);
-          if (conversation && conversation.get('unidentifiedDelivery')) {
-            window.log.info(
-              `Marking unidentifiedDelivery false for conversation ${conversation.idForLogging()}`
+
+          if (
+            conversation &&
+            conversation.get('sealedSender') !== SEALED_SENDER.DISABLED
+          ) {
+            conversation.set({
+              sealedSender: SEALED_SENDER.DISABLED,
+            });
+            await window.Signal.Data.updateConversation(
+              conversation.id,
+              conversation.attributes,
+              { Conversation: Whisper.Conversation }
             );
-            conversation.set({ unidentifiedDelivery: false });
+          }
+        })
+      );
+
+      await Promise.all(
+        (unidentifiedDeliveries || []).map(async number => {
+          const conversation = ConversationController.get(number);
+
+          if (
+            conversation &&
+            conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN
+          ) {
+            if (conversation.get('accessKey')) {
+              conversation.set({
+                sealedSender: SEALED_SENDER.ENABLED,
+              });
+            } else {
+              conversation.set({
+                sealedSender: SEALED_SENDER.UNRESTRICTED,
+              });
+            }
             await window.Signal.Data.updateConversation(
               conversation.id,
               conversation.attributes,
@@ -835,42 +877,54 @@
       };
     },
 
-    getNumberInfo() {
-      const UD = 'unidentifiedDelivery';
-      const UNRESTRICTED_UD = 'unidentifiedDeliveryUnrestricted';
-
+    getNumberInfo({ disableMeCheck } = {}) {
       // We don't want to enable unidentified delivery for send unless it is
       //   also enabled for our own account.
       const me = ConversationController.getOrCreate(this.ourNumber, 'private');
-      if (!me.get(UD) && !me.get(UNRESTRICTED_UD)) {
+      if (
+        !disableMeCheck &&
+        me.get('sealedSender') === SEALED_SENDER.DISABLED
+      ) {
         return null;
       }
 
-      if (this.isPrivate()) {
-        const accessKey = this.get('accessKey');
-        const unidentifiedDelivery = this.get(UD);
-        const unrestricted = this.get(UNRESTRICTED_UD);
+      if (!this.isPrivate()) {
+        const infoArray = this.contactCollection.map(conversation =>
+          conversation.getNumberInfo({ disableMeCheck })
+        );
+        return Object.assign({}, ...infoArray);
+      }
 
-        if (!unidentifiedDelivery && !unrestricted) {
-          return null;
-        }
+      const accessKey = this.get('accessKey');
+      const sealedSender = this.get('sealedSender');
 
+      // If we've never fetched user's profile, we default to what we have
+      if (sealedSender === SEALED_SENDER.UNKNOWN) {
         return {
           [this.id]: {
             accessKey:
-              accessKey && !unrestricted
-                ? accessKey
-                : window.Signal.Crypto.arrayBufferToBase64(
-                    window.Signal.Crypto.getRandomBytes(16)
-                  ),
+              accessKey ||
+              window.Signal.Crypto.arrayBufferToBase64(
+                window.Signal.Crypto.getRandomBytes(16)
+              ),
           },
         };
       }
 
-      const infoArray = this.contactCollection.map(conversation =>
-        conversation.getNumberInfo()
-      );
-      return Object.assign({}, ...infoArray);
+      if (sealedSender === SEALED_SENDER.DISABLED) {
+        return null;
+      }
+
+      return {
+        [this.id]: {
+          accessKey:
+            accessKey && sealedSender === SEALED_SENDER.ENABLED
+              ? accessKey
+              : window.Signal.Crypto.arrayBufferToBase64(
+                  window.Signal.Crypto.getRandomBytes(16)
+                ),
+        },
+      };
     },
 
     async updateLastMessage() {
@@ -1237,37 +1291,19 @@
       c.changed = {};
 
       try {
-        if (c.get('profileKey') && !c.get('accessKey')) {
-          const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
-            c.get('profileKey')
-          );
-          const buffer = await window.Signal.Crypto.deriveAccessKey(
-            profileKeyBuffer
-          );
-          c.set({
-            accessKey: window.Signal.Crypto.arrayBufferToBase64(buffer),
-          });
-        }
-
-        const firstProfileFetch = !c.get('hasFetchedProfile');
-        const accessKey = c.get('accessKey');
+        await c.deriveAccessKeyIfNeeded();
+        const numberInfo = c.getNumberInfo({ disableMeCheck: true }) || {};
+        const getInfo = numberInfo[c.id] || {};
 
         let profile;
-        if (c.get('unidentifiedDelivery') || firstProfileFetch) {
+        if (getInfo.accessKey) {
           try {
             profile = await textsecure.messaging.getProfile(id, {
-              accessKey:
-                accessKey ||
-                window.Signal.Crypto.arrayBufferToBase64(
-                  window.window.Signal.Crypto.getRandomBytes(16)
-                ),
+              accessKey: getInfo.accessKey,
             });
           } catch (error) {
             if (error.code === 401 || error.code === 403) {
-              c.set({
-                unidentifiedDelivery: false,
-                unidentifiedDeliveryUnrestricted: false,
-              });
+              c.set({ sealedSender: SEALED_SENDER.DISABLED });
               profile = await textsecure.messaging.getProfile(id);
             } else {
               throw error;
@@ -1297,17 +1333,13 @@
           await sessionCipher.closeOpenSessionForDevice();
         }
 
-        c.set({
-          hasFetchedProfile: true,
-        });
-
+        const accessKey = c.get('accessKey');
         if (
           profile.unrestrictedUnidentifiedAccess &&
           profile.unidentifiedAccess
         ) {
           c.set({
-            unidentifiedDelivery: true,
-            unidentifiedDeliveryUnrestricted: true,
+            sealedSender: SEALED_SENDER.UNRESTRICTED,
           });
         } else if (accessKey && profile.unidentifiedAccess) {
           const haveCorrectKey = await window.Signal.Crypto.verifyAccessKey(
@@ -1315,17 +1347,18 @@
             window.Signal.Crypto.base64ToArrayBuffer(profile.unidentifiedAccess)
           );
 
-          window.log.info(
-            `Setting unidentifiedDelivery to ${haveCorrectKey} for conversation ${c.idForLogging()}`
-          );
-          c.set({
-            unidentifiedDelivery: haveCorrectKey,
-            unidentifiedDeliveryUnrestricted: false,
-          });
+          if (haveCorrectKey) {
+            c.set({
+              sealedSender: SEALED_SENDER.ENABLED,
+            });
+          } else {
+            c.set({
+              sealedSender: SEALED_SENDER.DISABLED,
+            });
+          }
         } else {
           c.set({
-            unidentifiedDelivery: false,
-            unidentifiedDeliveryUnrestricted: false,
+            sealedSender: SEALED_SENDER.DISABLED,
           });
         }
 
@@ -1406,22 +1439,39 @@
     async setProfileKey(profileKey) {
       // profileKey is a string so we can compare it directly
       if (this.get('profileKey') !== profileKey) {
-        const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
-          profileKey
-        );
-        const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
-          profileKeyBuffer
-        );
-        const accessKey = window.Signal.Crypto.arrayBufferToBase64(
-          accessKeyBuffer
-        );
+        this.set({
+          profileKey,
+          accessKey: null,
+          sealedSender: SEALED_SENDER.UNKNOWN,
+        });
 
-        this.set({ profileKey, accessKey });
+        await this.deriveAccessKeyIfNeeded();
 
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
       }
+    },
+
+    async deriveAccessKeyIfNeeded() {
+      const profileKey = this.get('profileKey');
+      if (!profileKey) {
+        return;
+      }
+      if (this.get('accessKey')) {
+        return;
+      }
+
+      const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
+        profileKey
+      );
+      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
+        profileKeyBuffer
+      );
+      const accessKey = window.Signal.Crypto.arrayBufferToBase64(
+        accessKeyBuffer
+      );
+      this.set({ accessKey });
     },
 
     async upgradeMessages(messages) {
