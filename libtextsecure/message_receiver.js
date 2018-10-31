@@ -441,7 +441,7 @@ MessageReceiver.prototype.extend({
   getEnvelopeId(envelope) {
     return `${envelope.source}.${
       envelope.sourceDevice
-    } ${envelope.timestamp.toNumber()}`;
+      } ${envelope.timestamp.toNumber()}`;
   },
   async getAllFromCache() {
     window.log.info('getAllFromCache');
@@ -653,9 +653,9 @@ MessageReceiver.prototype.extend({
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
         promise = Promise.resolve(ciphertext.toArrayBuffer())//;sessionCipher
-          // TODO: restore decryption & unpadding (?)
-          //.decryptWhisperMessage(ciphertext)
-          //.then(this.unpad);
+        // TODO: restore decryption & unpadding (?)
+        //.decryptWhisperMessage(ciphertext)
+        //.then(this.unpad);
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST:
         window.log.info('friend-request message from ', envelope.source)
@@ -752,7 +752,7 @@ MessageReceiver.prototype.extend({
         const isMe = envelope.source === textsecure.storage.user.getNumber();
         const isLeavingGroup = Boolean(
           message.group &&
-            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -793,7 +793,7 @@ MessageReceiver.prototype.extend({
         const isMe = envelope.source === textsecure.storage.user.getNumber();
         const isLeavingGroup = Boolean(
           message.group &&
-            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -837,7 +837,7 @@ MessageReceiver.prototype.extend({
     });
   },
   async promptUserToAcceptFriendRequest(pubKey, message) {
-    pubKey = pubKey.slice(0,30)+"...";
+    pubKey = pubKey.slice(0, 30) + "...";
     let p = new Promise(resolve => {
       window.Whisper.events.trigger('showFriendRequest', {
         pubKey,
@@ -855,12 +855,12 @@ MessageReceiver.prototype.extend({
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
 
-    if (envelope.type == textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
       // only prompt friend request if there is no conversation yet
       let conversation;
       try {
         conversation = ConversationController.get(envelope.source);
-      } catch(e) {
+      } catch (e) {
       }
       if (!conversation) {
         const accepted = await this.promptUserToAcceptFriendRequest(envelope.source, content.dataMessage.body);
@@ -1102,7 +1102,7 @@ MessageReceiver.prototype.extend({
   async handlePreKeyBundleMessage(envelope, preKeyBundleMessage) {
 
     const { preKeyId, signedKeyId } = preKeyBundleMessage;
-    const [ identityKey, preKey, signedKey, signature ] = [
+    const [identityKey, preKey, signedKey, signature] = [
       preKeyBundleMessage.identityKey,
       preKeyBundleMessage.preKey,
       preKeyBundleMessage.signedKey,
