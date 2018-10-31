@@ -343,6 +343,8 @@ async function importFromJsonString(db, jsonString, targetPath, options) {
     transaction.oncomplete = finish.bind(null, 'transaction complete');
 
     _.each(remainingStoreNames, storeName => {
+      const items = importObject[storeName];
+
       window.log.info('Importing items for store', storeName);
 
       let count = 0;
@@ -366,11 +368,12 @@ async function importFromJsonString(db, jsonString, targetPath, options) {
         }
       };
 
-      if (!importObject[storeName].length) {
+      if (!items || !items.length) {
         finishStore();
+        return;
       }
 
-      _.each(importObject[storeName], toAdd => {
+      _.each(items, toAdd => {
         toAdd = unstringify(toAdd);
 
         const haveGroupAlready =
@@ -385,7 +388,7 @@ async function importFromJsonString(db, jsonString, targetPath, options) {
         const request = transaction.objectStore(storeName).put(toAdd, toAdd.id);
         request.onsuccess = () => {
           count += 1;
-          if (count === importObject[storeName].length) {
+          if (count + skipCount >= items.length) {
             finishStore();
           }
         };
