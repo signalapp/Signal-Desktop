@@ -196,9 +196,12 @@ function _updateJob(id, data) {
     resolve: value => {
       _removeJob(id);
       const end = Date.now();
-      window.log.info(
-        `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
-      );
+      const delta = end - start;
+      if (delta > 10) {
+        window.log.info(
+          `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
+        );
+      }
       return resolve(value);
     },
     reject: error => {
