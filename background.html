@@ -152,6 +152,9 @@
   </script>
   <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
     <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
       <div class='message'>{{ message }}</div>
       <div class='buttons'>
         {{ #showCancel }}
