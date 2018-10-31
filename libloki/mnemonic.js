@@ -5,6 +5,7 @@ module.exports = {
   mn_encode,
   mn_decode,
   sc_reduce32,
+  get_languages,
 };
 class MnemonicError extends Error {}
 
@@ -127,13 +128,13 @@ function mn_decode(str, wordset_name) {
 }
 
 var mn_words = {
-  'electrum': {
-    prefix_len: 0,
-    words: require('../mnemonic_languages/electrum'),
-  },
   'english': {
     prefix_len: 3,
     words: require('../mnemonic_languages/english'),
+  },
+  'electrum': {
+    prefix_len: 0,
+    words: require('../mnemonic_languages/electrum'),
   },
   'spanish': {
     prefix_len: 4,
@@ -148,6 +149,10 @@ var mn_words = {
     words: require('../mnemonic_languages/japanese'),
   }
 };
+
+function get_languages() {
+  return Object.keys(mn_words);
+}
 
 for (var i in mn_words) {
   if (mn_words.hasOwnProperty(i)) {

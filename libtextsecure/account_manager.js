@@ -44,7 +44,7 @@
     requestSMSVerification(number) {
       return this.server.requestVerificationSMS(number);
     },
-    registerSingleDevice(mnemonic) {
+    registerSingleDevice(mnemonic, mnemonicLanguage) {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
       const generateKeys = this.generateKeys.bind(this, 0);
@@ -53,7 +53,7 @@
       let generateKeypair;
       if (mnemonic) {
         generateKeypair = () => {
-          const seedHex = window.mnemonic.mn_decode(mnemonic);
+          const seedHex = window.mnemonic.mn_decode(mnemonic, mnemonicLanguage);
           const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
           const privKey = dcodeIO.ByteBuffer.wrap(privKeyHex, 'hex').toArrayBuffer();
           return libsignal.Curve.async.createKeyPair(privKey);

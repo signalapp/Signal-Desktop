@@ -24,6 +24,14 @@
         el: this.$('#phone-number-input'),
       });
       this.$('#error').hide();
+
+      window.mnemonic.get_languages().forEach(language => {
+        this.$('#mnemonic-language').append($('<option>', {
+          value: language,
+          text: language.charAt(0).toUpperCase() + language.slice(1),
+        }));
+      });
+
     },
     events: {
       'validation input.number': 'onValidation',
@@ -36,7 +44,7 @@
     },
     register() {
       this.accountManager
-        .registerSingleDevice(this.$('#mnemonic').val())
+        .registerSingleDevice(this.$('#mnemonic').val(), this.$('#mnemonic-language').val())
         .then(() => {
           this.$el.trigger('openInbox');
         })
