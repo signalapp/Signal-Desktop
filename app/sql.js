@@ -14,6 +14,7 @@ module.exports = {
   initialize,
   close,
   removeDB,
+  removeIndexedDBFiles,
 
   createOrUpdateGroup,
   getGroupById,
@@ -453,6 +454,7 @@ async function updateSchema(instance) {
 
 let db;
 let filePath;
+let indexedDBPath;
 
 async function initialize({ configDir, key }) {
   if (db) {
@@ -466,10 +468,13 @@ async function initialize({ configDir, key }) {
     throw new Error('initialize: key` is required!');
   }
 
+  indexedDBPath = path.join(configDir, 'IndexedDB');
+
   const dbDir = path.join(configDir, 'sql');
   mkdirp.sync(dbDir);
 
   filePath = path.join(dbDir, 'db.sqlite');
+
   const sqlInstance = await openDatabase(filePath);
   const promisified = promisify(sqlInstance);
 
@@ -500,6 +505,18 @@ async function removeDB() {
   }
 
   rimraf.sync(filePath);
+}
+
+async function removeIndexedDBFiles() {
+  if (!indexedDBPath) {
+    throw new Error(
+      'removeIndexedDBFiles: Need to initialize and set indexedDBPath first!'
+    );
+  }
+
+  const pattern = path.join(indexedDBPath, '*.leveldb');
+  rimraf.sync(pattern);
+  indexedDBPath = null;
 }
 
 const GROUPS_TABLE = 'groups';

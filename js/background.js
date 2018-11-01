@@ -297,6 +297,7 @@
       await mandatoryMessageUpgrade({ upgradeMessageSchema });
       await migrateAllToSQLCipher({ writeNewAttachmentData, Views });
       await removeDatabase();
+      await window.Signal.Data.removeIndexedDBFiles();
 
       window.installStorage(window.newStorage);
       await window.storage.fetch();

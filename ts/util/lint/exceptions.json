@@ -227,7 +227,7 @@
     "rule": "jQuery-load(",
     "path": "js/background.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 404,
+    "lineNumber": 405,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
@@ -235,7 +235,7 @@
     "rule": "jQuery-$(",
     "path": "js/background.js",
     "line": "      el: $('body'),",
-    "lineNumber": 467,
+    "lineNumber": 468,
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-16T23:47:48.006Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -244,7 +244,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "        wrap(",
-    "lineNumber": 725,
+    "lineNumber": 726,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-18T22:23:00.485Z"
   },
@@ -252,7 +252,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "      await wrap(",
-    "lineNumber": 1215,
+    "lineNumber": 1227,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-26T22:43:23.229Z"
   },

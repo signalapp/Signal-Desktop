@@ -41,6 +41,7 @@ module.exports = {
 
   close,
   removeDB,
+  removeIndexedDBFiles,
 
   createOrUpdateGroup,
   getGroupById,
@@ -317,6 +318,10 @@ async function close() {
 // Note: will need to restart the app after calling this, to set up afresh
 async function removeDB() {
   await channels.removeDB();
+}
+
+async function removeIndexedDBFiles() {
+  await channels.removeIndexedDBFiles();
 }
 
 // Groups
