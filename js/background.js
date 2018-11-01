@@ -767,6 +767,7 @@
   }
   function onProgress(ev) {
     const { count } = ev;
+    window.log.info(`onProgress: Message count is ${count}`);
 
     const view = window.owsDesktopApp.appView;
     if (view) {
