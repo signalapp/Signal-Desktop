@@ -1132,7 +1132,7 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "desactiva",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
@@ -1184,7 +1184,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "desactivat",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
@@ -1260,7 +1260,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Reprodueix la notificació de so",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
@@ -1278,7 +1278,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verify Safety Number",
+        "message": "Verifiqueu el número de seguretat",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1304,7 +1304,7 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Start conversation…",
+        "message": "Comenceu la conversa...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
@@ -1316,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Torneu a enllaçar el Signal Desktop amb el vostre aparell mòbil per a continuar enviant missatges.",
         "description": ""
     },
     "unlinked": {
@@ -1328,23 +1328,23 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Disponible una actualització del Signal",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Hi ha disponible una versió nova del Signal.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "Premeu Reinicia el Signal per a aplicar les actualitzacions.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
+        "message": "Reinicia el Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "Més tard",
         "description": ""
     },
     "leftTheGroup": {

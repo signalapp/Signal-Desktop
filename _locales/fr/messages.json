@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Commencez à utiliser Signal pour ordinateur",
+        "message": "Commencez à utiliser Signal Desktop pour ordinateur",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -542,11 +542,11 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Préférences de Signal pour ordinateur",
+        "message": "Préférences de Signal Desktop pour ordinateur",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "À propos de Signal pour ordinateur",
+        "message": "À propos de Signal Desktop pour ordinateur",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -566,7 +566,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "trayTooltip": {
-        "message": "Signal pour ordinateur",
+        "message": "Signal Desktop pour ordinateur",
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
@@ -658,7 +658,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Afin d’envoyer des messages audio, autorisez Signal pour ordinateur à accéder à votre micro.",
+        "message": "Afin d’envoyer des messages audio, autorisez Signal Desktop pour ordinateur à accéder à votre micro.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -682,7 +682,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "ok": {
-        "message": "D’accord",
+        "message": "Valider",
         "description": ""
     },
     "cancel": {
@@ -822,7 +822,7 @@
         }
     },
     "installWelcome": {
-        "message": "Bienvenue sur Signal Desktop",
+        "message": "Bienvenue sur Signal Desktop pour ordinateur",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -830,7 +830,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Reliez votre téléphone à Signal pour ordinateur",
+        "message": "Reliez votre téléphone à Signal Desktop pour ordinateur",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -902,7 +902,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Toutes les données dans l’application seront supprimées, y compris tous les messages et les informations de compte enregistrées.",
+        "message": "Toutes les données dans l’application seront supprimées, y compris tous les messages et les renseignements de compte enregistrés.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -914,7 +914,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Vous êtes sur le point de supprimer toutes les informations de compte enregistrées de cette application, y compris tous les contacts et messages. Vous pourrez toujours relier votre appareil mobile de nouveau, mais cela ne restaurera pas les messages supprimés.",
+        "message": "Vous êtes sur le point de supprimer tous les renseignements de compte enregistrés de cette application, y compris tous les contacts et messages. Vous pourrez toujours relier votre appareil mobile de nouveau, mais cela ne restaurera pas les messages supprimés.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -986,7 +986,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Cette version de Signal Desktop est expirée. Veuillez la mettre à niveau vers la version la plus récente afin de continuer à échanger.",
+        "message": "Cette version de Signal Desktop pour ordinateur est expirée. Veuillez la mettre à niveau vers la version la plus récente afin de continuer à échanger.",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1316,7 +1316,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Reliez Signal Desktop à votre appareil mobile de nouveau pour continuer à communiquer.",
+        "message": "Reliez Signal Desktop pour ordinateur à votre appareil mobile de nouveau pour continuer à communiquer.",
         "description": ""
     },
     "unlinked": {
