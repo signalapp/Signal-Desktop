@@ -834,7 +834,7 @@ async function getLegacyMessagesNeedingUpgrade(
 ) {
   const db = await window.Whisper.Database.open();
   try {
-    await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const transaction = db.transaction('messages', 'readonly');
       const messages = [];
 

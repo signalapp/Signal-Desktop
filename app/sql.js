@@ -862,10 +862,6 @@ async function getAllPrivateConversations() {
      ORDER BY id ASC;`
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -879,10 +875,6 @@ async function getAllGroupsInvolvingId(id) {
       $id: `%${id}%`,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -900,10 +892,6 @@ async function searchConversations(query) {
       $profileName: `%${query}%`,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -1121,10 +1109,6 @@ async function getUnreadByConversation(conversationId) {
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -1145,10 +1129,6 @@ async function getMessagesByConversation(
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -1161,10 +1141,6 @@ async function getMessagesBySentAt(sentAt) {
       $sent_at: sentAt,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -1182,10 +1158,6 @@ async function getExpiredMessages() {
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -1199,10 +1171,6 @@ async function getOutgoingWithoutExpiresAt() {
     ORDER BY expires_at ASC;
   `);
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -1213,10 +1181,6 @@ async function getNextExpiringMessage() {
     ORDER BY expires_at ASC
     LIMIT 1;
   `);
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -1303,10 +1267,6 @@ async function getAllUnprocessed() {
     'SELECT json FROM unprocessed ORDER BY timestamp ASC;'
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -1385,10 +1345,6 @@ async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -1408,10 +1364,6 @@ async function getMessagesWithVisualMediaAttachments(
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -1427,10 +1379,6 @@ async function getMessagesWithFileAttachments(conversationId, { limit }) {
       $limit: limit,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
