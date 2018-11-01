@@ -831,6 +831,9 @@
             conversation &&
             conversation.get('sealedSender') !== SEALED_SENDER.DISABLED
           ) {
+            window.log.info(
+              `Setting sealedSender to DISABLED for conversation ${conversation.idForLogging()}`
+            );
             conversation.set({
               sealedSender: SEALED_SENDER.DISABLED,
             });
@@ -852,10 +855,16 @@
             conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN
           ) {
             if (conversation.get('accessKey')) {
+              window.log.info(
+                `Setting sealedSender to ENABLED for conversation ${conversation.idForLogging()}`
+              );
               conversation.set({
                 sealedSender: SEALED_SENDER.ENABLED,
               });
             } else {
+              window.log.info(
+                `Setting sealedSender to UNRESTRICTED for conversation ${conversation.idForLogging()}`
+              );
               conversation.set({
                 sealedSender: SEALED_SENDER.UNRESTRICTED,
               });
@@ -1306,6 +1315,9 @@
             });
           } catch (error) {
             if (error.code === 401 || error.code === 403) {
+              window.log.info(
+                `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
+              );
               c.set({ sealedSender: SEALED_SENDER.DISABLED });
               profile = await textsecure.messaging.getProfile(id);
             } else {
@@ -1341,6 +1353,9 @@
           profile.unrestrictedUnidentifiedAccess &&
           profile.unidentifiedAccess
         ) {
+          window.log.info(
+            `Setting sealedSender to UNRESTRICTED for conversation ${c.idForLogging()}`
+          );
           c.set({
             sealedSender: SEALED_SENDER.UNRESTRICTED,
           });
@@ -1351,15 +1366,24 @@
           );
 
           if (haveCorrectKey) {
+            window.log.info(
+              `Setting sealedSender to ENABLED for conversation ${c.idForLogging()}`
+            );
             c.set({
               sealedSender: SEALED_SENDER.ENABLED,
             });
           } else {
+            window.log.info(
+              `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
+            );
             c.set({
               sealedSender: SEALED_SENDER.DISABLED,
             });
           }
         } else {
+          window.log.info(
+            `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
+          );
           c.set({
             sealedSender: SEALED_SENDER.DISABLED,
           });
@@ -1442,6 +1466,9 @@
     async setProfileKey(profileKey) {
       // profileKey is a string so we can compare it directly
       if (this.get('profileKey') !== profileKey) {
+        window.log.info(
+          `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
+        );
         this.set({
           profileKey,
           accessKey: null,
