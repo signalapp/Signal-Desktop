@@ -1,4 +1,13 @@
-/* global textsecure, libsignal, window, btoa, libloki */
+/* global
+  textsecure,
+  libsignal,
+  window,
+  ConversationController,
+  libloki,
+  StringView,
+  dcodeIO,
+  log,
+ */
 
 /* eslint-disable more/no-then */
 
@@ -23,7 +32,7 @@ function OutgoingMessage(
   this.callback = callback;
   this.silent = silent;
 
-  this.lokiserver = window.LokiAPI.connect()
+  this.lokiserver = window.LokiAPI.connect();
 
   this.numbersCompleted = 0;
   this.errors = [];
@@ -64,6 +73,7 @@ OutgoingMessage.prototype = {
     return () =>
       textsecure.storage.protocol.getDeviceIds(number).then(deviceIds => {
         if (deviceIds.length === 0) {
+          // eslint-disable-next-line no-param-reassign
           deviceIds = [1];
           // return this.registerError(
           //   number,
@@ -121,17 +131,21 @@ OutgoingMessage.prototype = {
       promise = promise.then(() =>
         Promise.all([
           textsecure.storage.protocol.loadContactPreKey(number),
-          textsecure.storage.protocol.loadContactSignedPreKey(number)
-        ]).then((keys) => {
-          const [preKey, signedPreKey] = keys;
-          if (preKey == undefined || signedPreKey == undefined) {
-            return false;
-          }
-          else {
+          textsecure.storage.protocol.loadContactSignedPreKey(number),
+        ])
+          .then(keys => {
+            const [preKey, signedPreKey] = keys;
+            if (preKey === undefined || signedPreKey === undefined) {
+              return false;
+            }
             const identityKey = StringView.hexToArrayBuffer(number);
-            return handleResult({ identityKey, devices: [{ deviceId: device, preKey, signedPreKey, registrationId: 0 }] })
-          }
-        })
+            return handleResult({
+              identityKey,
+              devices: [
+                { deviceId: device, preKey, signedPreKey, registrationId: 0 },
+              ],
+            });
+          })
           .catch(e => {
             if (e.name === 'HTTPError' && e.code === 404) {
               if (device !== 1) {
@@ -152,10 +166,9 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
     const pubKey = number;
     try {
-      const [response, status] = await this.lokiserver.sendMessage(pubKey, data, ttl);
+      const [response] = await this.lokiserver.sendMessage(pubKey, data, ttl);
       return response;
-    }
-    catch (e) {
+    } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
         // 409 and 410 should bubble and be handled by doSendMessage
         // 404 should throw UnregisteredUserError
@@ -163,12 +176,7 @@ OutgoingMessage.prototype = {
         if (e.code === 404) {
           throw new textsecure.UnregisteredUserError(number, e);
         }
-        throw new textsecure.SendMessageNetworkError(
-          number,
-          "",
-          e,
-          timestamp
-        );
+        throw new textsecure.SendMessageNetworkError(number, '', e, timestamp);
       }
       throw e;
     }
@@ -194,7 +202,7 @@ OutgoingMessage.prototype = {
       //   this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
       // );
       this.plaintext.set(new Uint8Array(messageBuffer));
-      //this.plaintext[messageBuffer.byteLength] = 0x80;
+      // this.plaintext[messageBuffer.byteLength] = 0x80;
     }
     return this.plaintext;
   },
@@ -207,17 +215,17 @@ OutgoingMessage.prototype = {
       content: outgoingObject.content,
     });
     const requestMessage = new textsecure.protobuf.WebSocketRequestMessage({
-        id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0], // random ID for now
-        verb: 'PUT',
-        path: '/api/v1/message',
-        body: messageEnvelope.encode().toArrayBuffer()
+      id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0], // random ID for now
+      verb: 'PUT',
+      path: '/api/v1/message',
+      body: messageEnvelope.encode().toArrayBuffer(),
     });
     const websocketMessage = new textsecure.protobuf.WebSocketMessage({
       type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
-      request: requestMessage
+      request: requestMessage,
     });
-    const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer())
-    console.log(bytes.toString()); // print bytes for debugging purposes: can be injected in mock socket server
+    const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer());
+    log.info(bytes.toString()); // print bytes for debugging purposes: can be injected in mock socket server
     return bytes;
   },
   doSendMessage(number, deviceIds, recurse) {
@@ -238,9 +246,7 @@ OutgoingMessage.prototype = {
 
         let sessionCipher;
         if (this.fallBackEncryption) {
-          sessionCipher = new libloki.FallBackSessionCipher(
-            address
-          );
+          sessionCipher = new libloki.FallBackSessionCipher(address);
         } else {
           sessionCipher = new libsignal.SessionCipher(
             textsecure.storage.protocol,
@@ -249,17 +255,26 @@ OutgoingMessage.prototype = {
           );
         }
         ciphers[address.getDeviceId()] = sessionCipher;
-        return sessionCipher.encrypt(plaintext).then(ciphertext => {
-          if (! this.fallBackEncryption)
-            ciphertext.body = new Uint8Array(dcodeIO.ByteBuffer.wrap(ciphertext.body,'binary').toArrayBuffer());
-          return ciphertext;
-        }).then(ciphertext => ({
-          type: ciphertext.type,
-          address: address,
-          destinationDeviceId: address.getDeviceId(),
-          destinationRegistrationId: ciphertext.registrationId,
-          content: ciphertext.body,
-        }));
+        return sessionCipher
+          .encrypt(plaintext)
+          .then(ciphertext => {
+            if (!this.fallBackEncryption)
+              // eslint-disable-next-line no-param-reassign
+              ciphertext.body = new Uint8Array(
+                dcodeIO.ByteBuffer.wrap(
+                  ciphertext.body,
+                  'binary'
+                ).toArrayBuffer()
+              );
+            return ciphertext;
+          })
+          .then(ciphertext => ({
+            type: ciphertext.type,
+            address,
+            destinationDeviceId: address.getDeviceId(),
+            destinationRegistrationId: ciphertext.registrationId,
+            content: ciphertext.body,
+          }));
       })
     )
       .then(async outgoingObjects => {
@@ -268,7 +283,10 @@ OutgoingMessage.prototype = {
         const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
         let ttl;
         // TODO: Allow user to set ttl manually
-        if (outgoingObject.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+        if (
+          outgoingObject.type ===
+          textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
+        ) {
           ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
         } else {
           ttl = 24 * 60 * 60; // 1 day default for any other message
@@ -276,8 +294,7 @@ OutgoingMessage.prototype = {
         await this.transmitMessage(number, socketMessage, this.timestamp, ttl);
         this.successfulNumbers[this.successfulNumbers.length] = number;
         this.numberCompleted();
-        }
-      )
+      })
       .catch(error => {
         if (
           error instanceof Error &&
@@ -372,31 +389,34 @@ OutgoingMessage.prototype = {
     let conversation;
     try {
       conversation = ConversationController.get(number);
-    } catch(e) {
+    } catch (e) {
+      // do nothing
     }
 
     return this.getStaleDeviceIdsForNumber(number).then(updateDevices =>
       this.getKeysForNumber(number, updateDevices)
-        .then(async (keysFound) =>  {
+        .then(async keysFound => {
           let attachPrekeys = false;
-          if (!keysFound)
-          {
-            log.info("Fallback encryption enabled");
+          if (!keysFound) {
+            log.info('Fallback encryption enabled');
             this.fallBackEncryption = true;
             attachPrekeys = true;
           } else if (conversation) {
             try {
               attachPrekeys = !conversation.isKeyExchangeCompleted();
-            } catch(e) {
+            } catch (e) {
               // do nothing
             }
           }
-          
+
           if (attachPrekeys) {
             log.info('attaching prekeys to outgoing message');
-            this.message.preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(number);
+            this.message.preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(
+              number
+            );
           }
-        }).then(this.reloadDevicesAndSend(number, true))
+        })
+        .then(this.reloadDevicesAndSend(number, true))
         .then(() => {
           if (this.fallBackEncryption && conversation) {
             conversation.onFriendRequestSent();

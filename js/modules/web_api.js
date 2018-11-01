@@ -156,7 +156,7 @@ function _createSocket(url, { certificateAuthority, proxyUrl, signature }) {
   let headers;
   if (signature) {
     headers = {
-      signature
+      signature,
     };
   }
 

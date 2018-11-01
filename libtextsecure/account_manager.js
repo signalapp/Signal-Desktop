@@ -5,8 +5,10 @@
   WebSocketResource,
   btoa,
   getString,
-  libphonenumber,
-  Event
+  Event,
+  dcodeIO,
+  StringView,
+  log,
 */
 
 /* eslint-disable more/no-then */
@@ -55,59 +57,77 @@
         generateKeypair = () => {
           const seedHex = window.mnemonic.mn_decode(mnemonic, mnemonicLanguage);
           const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
-          const privKey = dcodeIO.ByteBuffer.wrap(privKeyHex, 'hex').toArrayBuffer();
+          const privKey = dcodeIO.ByteBuffer.wrap(
+            privKeyHex,
+            'hex'
+          ).toArrayBuffer();
           return libsignal.Curve.async.createKeyPair(privKey);
         };
       } else {
         generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;
       }
-      return this.queueTask(() => 
-        generateKeypair().then(identityKeyPair => {
-          return createAccount(
-            identityKeyPair,
-          )
+      return this.queueTask(() =>
+        generateKeypair().then(identityKeyPair =>
+          createAccount(identityKeyPair)
             .then(clearSessionsAndPreKeys)
             .then(generateKeys)
             .then(keys => confirmKeys(keys))
-            .then(registrationDone);
-        })
+            .then(registrationDone)
+        )
       );
     },
     async addMockContact(doSave) {
       if (doSave === undefined) {
+        // eslint-disable-next-line no-param-reassign
         doSave = true;
       }
       const keyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
       const pubKey = StringView.arrayBufferToHex(keyPair.pubKey);
       const privKey = StringView.arrayBufferToHex(keyPair.privKey);
-      log.info('contact pubkey ' + pubKey);
-      log.info('contact privkey ' + privKey);
-      const signedKeyId = Math.floor((Math.random() * 1000) + 1);
+      log.info(`contact pubkey ${pubKey}`);
+      log.info(`contact privkey ${privKey}`);
+      const signedKeyId = Math.floor(Math.random() * 1000 + 1);
 
-      const signedPreKey = await libsignal.KeyHelper.generateSignedPreKey(keyPair, signedKeyId);
+      const signedPreKey = await libsignal.KeyHelper.generateSignedPreKey(
+        keyPair,
+        signedKeyId
+      );
       const contactSignedPreKey = {
         publicKey: signedPreKey.keyPair.pubKey,
         signature: signedPreKey.signature,
-        keyId: signedPreKey.keyId
+        keyId: signedPreKey.keyId,
       };
       if (doSave) {
-        await textsecure.storage.protocol.storeContactSignedPreKey(pubKey, contactSignedPreKey);
-      }
-      else {
-        log.info('signed prekey: ' + StringView.arrayBufferToHex(contactSignedPreKey.publicKey));
-        log.info('signature: ' + StringView.arrayBufferToHex(contactSignedPreKey.signature));
+        await textsecure.storage.protocol.storeContactSignedPreKey(
+          pubKey,
+          contactSignedPreKey
+        );
+      } else {
+        log.info(
+          `signed prekey:
+          ${StringView.arrayBufferToHex(contactSignedPreKey.publicKey)}`
+        );
+        log.info(
+          `signature:
+          ${StringView.arrayBufferToHex(contactSignedPreKey.signature)}`
+        );
       }
 
       for (let keyId = 0; keyId < 10; keyId += 1) {
         const preKey = await libsignal.KeyHelper.generatePreKey(keyId);
         if (doSave) {
-          await textsecure.storage.protocol.storeContactPreKey(pubKey, { publicKey: preKey.keyPair.pubKey, keyId: keyId });
-        }
-        else {
-          log.info('signed prekey: ' + StringView.arrayBufferToHex(preKey.keyPair.pubKey));
+          await textsecure.storage.protocol.storeContactPreKey(pubKey, {
+            publicKey: preKey.keyPair.pubKey,
+            keyId,
+          });
+        } else {
+          log.info(
+            `signed prekey:
+            ${StringView.arrayBufferToHex(preKey.keyPair.pubKey)}`
+          );
         }
       }
-      log.info("Added mock contact")
+      log.info('Added mock contact');
     },
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
       const createAccount = this.createAccount.bind(this);
@@ -225,7 +245,7 @@
         }
 
         const store = textsecure.storage.protocol;
-        const { server, cleanSignedPreKeys } = this;
+        const { cleanSignedPreKeys } = this;
 
         // TODO: harden this against missing identity key? Otherwise, we get
         //   retries every five seconds.
@@ -250,14 +270,24 @@
             window.log.info('Saving new signed prekey', res.keyId);
             return Promise.all([
               textsecure.storage.put('signedKeyId', signedKeyId + 1),
-              store.storeSignedPreKey(res.keyId, res.keyPair, undefined, res.signature),
+              store.storeSignedPreKey(
+                res.keyId,
+                res.keyPair,
+                undefined,
+                res.signature
+              ),
             ])
               .then(() => {
                 const confirmed = true;
                 window.log.info('Confirming new signed prekey', res.keyId);
                 return Promise.all([
                   textsecure.storage.remove('signedKeyRotationRejected'),
-                  store.storeSignedPreKey(res.keyId, res.keyPair, confirmed, res.signature),
+                  store.storeSignedPreKey(
+                    res.keyId,
+                    res.keyPair,
+                    confirmed,
+                    res.signature
+                  ),
                 ]);
               })
               .then(() => cleanSignedPreKeys());
@@ -359,47 +389,41 @@
         });
       });
     },
-    createAccount(
-      identityKeyPair,
-      userAgent,
-      readReceipts
-    ) {
-      return Promise.resolve()
-        .then(response => {
-          textsecure.storage.remove('identityKey');
-          textsecure.storage.remove('number_id');
-          textsecure.storage.remove('device_name');
-          textsecure.storage.remove('userAgent');
-          textsecure.storage.remove('read-receipts-setting');
+    createAccount(identityKeyPair, userAgent, readReceipts) {
+      return Promise.resolve().then(() => {
+        textsecure.storage.remove('identityKey');
+        textsecure.storage.remove('number_id');
+        textsecure.storage.remove('device_name');
+        textsecure.storage.remove('userAgent');
+        textsecure.storage.remove('read-receipts-setting');
 
-          // update our own identity key, which may have changed
-          // if we're relinking after a reinstall on the master device
-          const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
+        // update our own identity key, which may have changed
+        // if we're relinking after a reinstall on the master device
+        const pubKeyString = StringView.arrayBufferToHex(
+          identityKeyPair.pubKey
+        );
 
-          textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
-            id: pubKeyString,
-            publicKey: identityKeyPair.pubKey,
-            firstUse: true,
-            timestamp: Date.now(),
-            verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
-            nonblockingApproval: true,
-          });
-
-          textsecure.storage.put('identityKey', identityKeyPair);
-          if (userAgent) {
-            textsecure.storage.put('userAgent', userAgent);
-          }
-          if (readReceipts) {
-            textsecure.storage.put('read-receipt-setting', true);
-          } else {
-            textsecure.storage.put('read-receipt-setting', false);
-          }
-
-          textsecure.storage.user.setNumberAndDeviceId(
-           pubKeyString,
-           1,
-          );
+        textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
+          id: pubKeyString,
+          publicKey: identityKeyPair.pubKey,
+          firstUse: true,
+          timestamp: Date.now(),
+          verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
+          nonblockingApproval: true,
         });
+
+        textsecure.storage.put('identityKey', identityKeyPair);
+        if (userAgent) {
+          textsecure.storage.put('userAgent', userAgent);
+        }
+        if (readReceipts) {
+          textsecure.storage.put('read-receipt-setting', true);
+        } else {
+          textsecure.storage.put('read-receipt-setting', false);
+        }
+
+        textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
+      });
     },
     clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;
@@ -418,7 +442,12 @@
       const confirmed = true;
 
       window.log.info('confirmKeys: confirming key', key.keyId);
-      return store.storeSignedPreKey(key.keyId, key.keyPair, confirmed, key.signature);
+      return store.storeSignedPreKey(
+        key.keyId,
+        key.keyPair,
+        confirmed,
+        key.signature
+      );
     },
     generateKeys(count, providedProgressCallback) {
       const progressCallback =
@@ -460,7 +489,12 @@
             identityKey,
             signedKeyId
           ).then(res => {
-            store.storeSignedPreKey(res.keyId, res.keyPair, undefined, res.signature);
+            store.storeSignedPreKey(
+              res.keyId,
+              res.keyPair,
+              undefined,
+              res.signature
+            );
             result.signedPreKey = {
               keyId: res.keyId,
               publicKey: res.keyPair.pubKey,

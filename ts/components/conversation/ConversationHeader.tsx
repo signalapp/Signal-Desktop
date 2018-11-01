@@ -85,7 +85,14 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderTitle() {
-    const { name, phoneNumber, i18n, profileName, isVerified, isKeysPending } = this.props;
+    const {
+      name,
+      phoneNumber,
+      i18n,
+      profileName,
+      isVerified,
+      isKeysPending,
+    } = this.props;
 
     return (
       <div className="module-conversation-header__title">

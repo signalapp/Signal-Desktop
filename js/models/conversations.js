@@ -57,7 +57,7 @@
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         keyExchangeCompleted: false,
-        friendRequestStatus: { allowSending: true, unlockTimestamp: null }
+        friendRequestStatus: { allowSending: true, unlockTimestamp: null },
       };
     },
 
@@ -352,9 +352,7 @@
     },
     isKeyExchangeCompleted() {
       if (!this.isPrivate()) {
-        throw new Error(
-          'isKeyExchangeCompleted not implemented for groups'
-        );
+        throw new Error('isKeyExchangeCompleted not implemented for groups');
       }
 
       if (this.isMe()) {
@@ -365,11 +363,9 @@
     },
     setKeyExchangeCompleted(completed) {
       if (typeof completed !== 'boolean') {
-        throw new Error(
-          'setKeyExchangeCompleted expects a bool'
-        );
+        throw new Error('setKeyExchangeCompleted expects a bool');
       }
-      
+
       this.set({ keyExchangeCompleted: completed });
     },
     getFriendRequestStatus() {
@@ -386,7 +382,10 @@
       const friendRequestStatus = this.getFriendRequestStatus();
       if (friendRequestStatus) {
         if (!friendRequestStatus.allowSending) {
-          const delay = Math.max(friendRequestStatus.unlockTimestamp - Date.now(), 0);
+          const delay = Math.max(
+            friendRequestStatus.unlockTimestamp - Date.now(),
+            0
+          );
           setTimeout(() => {
             this.onFriendRequestTimedOut();
           }, delay);
@@ -394,14 +393,14 @@
       }
     },
     onFriendRequestAccepted() {
-      this.save({ friendRequestStatus: null })
+      this.save({ friendRequestStatus: null });
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'chat');
     },
     onFriendRequestTimedOut() {
-      let friendRequestStatus = this.getFriendRequestStatus();
+      const friendRequestStatus = this.getFriendRequestStatus();
       friendRequestStatus.allowSending = true;
-      this.save({ friendRequestStatus })
+      this.save({ friendRequestStatus });
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'friend-request');
     },
@@ -414,14 +413,16 @@
       }
 
       friendRequestStatus.allowSending = false;
-      const delayMs = 100 * 1000 ;//(60 * 60 * 1000 * friendRequestLockDuration);
+      const delayMs = 60 * 60 * 1000 * friendRequestLockDuration;
       friendRequestStatus.unlockTimestamp = Date.now() + delayMs;
       this.trigger('disable:input', true);
       this.trigger('change:placeholder', 'disabled');
 
-      setTimeout(() => { this.onFriendRequestTimedOut() }, delayMs);
+      setTimeout(() => {
+        this.onFriendRequestTimedOut();
+      }, delayMs);
 
-      this.save({ friendRequestStatus })
+      this.save({ friendRequestStatus });
     },
     isUnverified() {
       if (this.isPrivate()) {
@@ -672,8 +673,8 @@
 
     validateNumber() {
       if (this.isPrivate()) {
-        if (this.id.length == (33 * 2)) // 33 bytes in hex
-        {
+        if (this.id.length === 33 * 2) {
+          // 33 bytes in hex
           this.set({ id: this.id });
           return null;
         }

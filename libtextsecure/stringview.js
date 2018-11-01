@@ -100,13 +100,19 @@
     },
 
     arrayBufferToHex(aArrayBuffer) {
-      return Array.prototype.map.call(new Uint8Array(aArrayBuffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+      return Array.prototype.map
+        .call(new Uint8Array(aArrayBuffer), x =>
+          ('00' + x.toString(16)).slice(-2)
+        )
+        .join('');
     },
 
     hexToArrayBuffer(aString) {
-      return new Uint8Array(aString.match(/[\da-f]{2}/gi).map(function (h) {
-        return parseInt(h, 16)
-      })).buffer
+      return new Uint8Array(
+        aString.match(/[\da-f]{2}/gi).map(function(h) {
+          return parseInt(h, 16);
+        })
+      ).buffer;
     },
   };
 })();

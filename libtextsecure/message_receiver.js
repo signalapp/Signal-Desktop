@@ -441,7 +441,7 @@ MessageReceiver.prototype.extend({
   getEnvelopeId(envelope) {
     return `${envelope.source}.${
       envelope.sourceDevice
-      } ${envelope.timestamp.toNumber()}`;
+    } ${envelope.timestamp.toNumber()}`;
   },
   async getAllFromCache() {
     window.log.info('getAllFromCache');
@@ -652,13 +652,13 @@ MessageReceiver.prototype.extend({
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
-        promise = Promise.resolve(ciphertext.toArrayBuffer())//;sessionCipher
+        promise = Promise.resolve(ciphertext.toArrayBuffer()); //;sessionCipher
         // TODO: restore decryption & unpadding (?)
         //.decryptWhisperMessage(ciphertext)
         //.then(this.unpad);
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST:
-        window.log.info('friend-request message from ', envelope.source)
+        window.log.info('friend-request message from ', envelope.source);
         const fallBackSessionCipher = new libloki.FallBackSessionCipher(
           address
         );
@@ -752,7 +752,7 @@ MessageReceiver.prototype.extend({
         const isMe = envelope.source === textsecure.storage.user.getNumber();
         const isLeavingGroup = Boolean(
           message.group &&
-          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -793,7 +793,7 @@ MessageReceiver.prototype.extend({
         const isMe = envelope.source === textsecure.storage.user.getNumber();
         const isLeavingGroup = Boolean(
           message.group &&
-          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -828,16 +828,16 @@ MessageReceiver.prototype.extend({
     return this.handleDataMessage(envelope, message);
   },
   handleContentMessage(envelope) {
-    return this.decrypt(envelope, envelope.content).then(plaintext =>
-      this.innerHandleContentMessage(envelope, plaintext)
-    ).catch(e => {
-      if (e instanceof libloki.FallBackDecryptionError) {
-        console.log(e.message + ' Ignoring message.');
-      }
-    });
+    return this.decrypt(envelope, envelope.content)
+      .then(plaintext => this.innerHandleContentMessage(envelope, plaintext))
+      .catch(e => {
+        if (e instanceof libloki.FallBackDecryptionError) {
+          console.log(e.message + ' Ignoring message.');
+        }
+      });
   },
   async promptUserToAcceptFriendRequest(pubKey, message) {
-    pubKey = pubKey.slice(0, 30) + "...";
+    pubKey = pubKey.slice(0, 30) + '...';
     let p = new Promise(resolve => {
       window.Whisper.events.trigger('showFriendRequest', {
         pubKey,
@@ -847,7 +847,7 @@ MessageReceiver.prototype.extend({
         },
         decline: () => {
           resolve(false);
-        }
+        },
       });
     });
     return await p;
@@ -860,10 +860,12 @@ MessageReceiver.prototype.extend({
       let conversation;
       try {
         conversation = ConversationController.get(envelope.source);
-      } catch (e) {
-      }
+      } catch (e) {}
       if (!conversation) {
-        const accepted = await this.promptUserToAcceptFriendRequest(envelope.source, content.dataMessage.body);
+        const accepted = await this.promptUserToAcceptFriendRequest(
+          envelope.source,
+          content.dataMessage.body
+        );
         if (accepted) {
           // send our own prekeys as a response - no need to wait
           libloki.sendEmptyMessageWithPreKeys(envelope.source);
@@ -875,7 +877,10 @@ MessageReceiver.prototype.extend({
     }
 
     if (content.preKeyBundleMessage) {
-      await this.handlePreKeyBundleMessage(envelope, content.preKeyBundleMessage);
+      await this.handlePreKeyBundleMessage(
+        envelope,
+        content.preKeyBundleMessage
+      );
     }
 
     if (content.syncMessage) {
@@ -1100,17 +1105,18 @@ MessageReceiver.prototype.extend({
     return this.removeFromCache(envelope);
   },
   async handlePreKeyBundleMessage(envelope, preKeyBundleMessage) {
-
     const { preKeyId, signedKeyId } = preKeyBundleMessage;
     const [identityKey, preKey, signedKey, signature] = [
       preKeyBundleMessage.identityKey,
       preKeyBundleMessage.preKey,
       preKeyBundleMessage.signedKey,
-      preKeyBundleMessage.signature
+      preKeyBundleMessage.signature,
     ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
 
     if (envelope.source != StringView.arrayBufferToHex(identityKey)) {
-      throw new Error("Error in handlePreKeyBundleMessage: envelope pubkey does not match pubkey in prekey bundle");
+      throw new Error(
+        'Error in handlePreKeyBundleMessage: envelope pubkey does not match pubkey in prekey bundle'
+      );
     }
     const pubKey = envelope.source;
 

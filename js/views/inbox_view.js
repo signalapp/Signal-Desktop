@@ -5,6 +5,7 @@
 /* global Whisper: false */
 /* global textsecure: false */
 /* global Signal: false */
+/* global StringView: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -182,7 +183,7 @@
         selectAContact: i18n('selectAContact'),
         searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
         settings: i18n('settings'),
-        identityKey: StringView.arrayBufferToHex(identityKey)
+        identityKey: StringView.arrayBufferToHex(identityKey),
       };
     },
     events: {

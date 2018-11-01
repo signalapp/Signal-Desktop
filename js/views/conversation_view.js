@@ -136,7 +136,7 @@
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
         1000 // one second
-      );  
+      );
       this.throttledGetProfiles = _.throttle(
         this.model.getProfiles.bind(this.model),
         1000 * 60 * 5 // five minutes
@@ -168,7 +168,7 @@
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
           isVerified: this.model.isVerified(),
-          isKeysPending: this.model.isKeyExchangeCompleted() == false,
+          isKeysPending: this.model.isKeyExchangeCompleted() === false,
           isMe: this.model.isMe(),
           isGroup: !this.model.isPrivate(),
           expirationSettingName,
@@ -286,7 +286,9 @@
     },
 
     onDisableInput(disable) {
-      this.$('button.emoji, button.microphone, button.paperclip, .send-message').attr('disabled', disable);
+      this.$(
+        'button.emoji, button.microphone, button.paperclip, .send-message'
+      ).attr('disabled', disable);
     },
 
     onChangePlaceholder(type) {

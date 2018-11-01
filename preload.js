@@ -200,7 +200,9 @@ window.WebAPI = initializeWebAPI({
   proxyUrl: config.proxyUrl,
 });
 
-const { initialize: initializeLokiAPI } = require('./js/modules/loki_message_api');
+const {
+  initialize: initializeLokiAPI,
+} = require('./js/modules/loki_message_api');
 
 window.LokiAPI = initializeLokiAPI({
   url: config.serverUrl,

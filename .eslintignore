@@ -2,6 +2,7 @@ build/**
 components/**
 coverage/**
 dist/**
+mnemonic_languages/**
 
 # these aren't ready yet, pulling files in one-by-one
 libtextsecure/test/*.js

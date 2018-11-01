@@ -44,18 +44,32 @@ const migrations = [
 
       transaction.db.createObjectStore('sessions');
       transaction.db.createObjectStore('identityKeys');
-      const preKeys = transaction.db.createObjectStore('preKeys', { keyPath: 'id'});
+      const preKeys = transaction.db.createObjectStore('preKeys', {
+        keyPath: 'id',
+      });
       preKeys.createIndex('recipient', 'recipient', { unique: true });
 
       transaction.db.createObjectStore('signedPreKeys');
       transaction.db.createObjectStore('items');
-      
-      const contactPreKeys = transaction.db.createObjectStore('contactPreKeys', { keyPath: 'id', autoIncrement : true });
-      contactPreKeys.createIndex('identityKeyString', 'identityKeyString', { unique: false });
+
+      const contactPreKeys = transaction.db.createObjectStore(
+        'contactPreKeys',
+        { keyPath: 'id', autoIncrement: true }
+      );
+      contactPreKeys.createIndex('identityKeyString', 'identityKeyString', {
+        unique: false,
+      });
       contactPreKeys.createIndex('keyId', 'keyId', { unique: false });
-      
-      const contactSignedPreKeys = transaction.db.createObjectStore('contactSignedPreKeys', { keyPath: 'id', autoIncrement : true });
-      contactSignedPreKeys.createIndex('identityKeyString', 'identityKeyString', { unique: false });
+
+      const contactSignedPreKeys = transaction.db.createObjectStore(
+        'contactSignedPreKeys',
+        { keyPath: 'id', autoIncrement: true }
+      );
+      contactSignedPreKeys.createIndex(
+        'identityKeyString',
+        'identityKeyString',
+        { unique: false }
+      );
       contactSignedPreKeys.createIndex('keyId', 'keyId', { unique: false });
 
       window.log.info('creating debug log');

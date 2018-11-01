@@ -1,3 +1,5 @@
+/* global log */
+
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
 const { fork } = require('child_process');
@@ -34,12 +36,12 @@ function initialize({ url }) {
         });
 
         // Handle child process error (should never happen)
-        child.on('error', (err) => {
+        child.on('error', err => {
           reject(err);
         });
 
         // Callback to receive PoW result
-        child.on('message', (msg) => {
+        child.on('message', msg => {
           if (msg.err) {
             reject(msg.err);
           } else {
@@ -47,7 +49,6 @@ function initialize({ url }) {
             resolve(msg.nonce);
           }
         });
-
       });
     }
 
@@ -57,11 +58,11 @@ function initialize({ url }) {
       let nonce;
       try {
         nonce = await getPoWNonce(timestamp, ttl, pubKey, data);
-      } catch(err) {
+      } catch (err) {
         // Something went horribly wrong
         // TODO: Handle gracefully
-        console.log("Error computing PoW");
-      };
+        log.error('Error computing PoW');
+      }
 
       const options = {
         url: `${url}/send_message`,
@@ -69,7 +70,7 @@ function initialize({ url }) {
         responseType: undefined,
         timeout: undefined,
       };
-        
+
       log.info(options.type, options.url);
 
       const fetchOptions = {
@@ -88,8 +89,7 @@ function initialize({ url }) {
       let response;
       try {
         response = await fetch(options.url, fetchOptions);
-      }
-      catch(e) {
+      } catch (e) {
         log.error(options.type, options.url, 0, 'Error');
         throw HTTPError('fetch error', 0, e.toString());
       }
@@ -109,15 +109,10 @@ function initialize({ url }) {
       if (response.status >= 0 && response.status < 400) {
         log.info(options.type, options.url, response.status, 'Success');
         return [result, response.status];
-      } else {
-        log.error(options.type, options.url, response.status, 'Error');
-        throw HTTPError(
-          'sendMessage: error response',
-          response.status,
-          result
-        );
       }
-    };
+      log.error(options.type, options.url, response.status, 'Error');
+      throw HTTPError('sendMessage: error response', response.status, result);
+    }
   }
 }
 

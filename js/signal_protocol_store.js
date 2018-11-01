@@ -184,16 +184,18 @@
     database: Whisper.Database,
     model: ContactPreKey,
     fetchBy(filter) {
-      return this.fetch({ conditions: filter, });
+      return this.fetch({ conditions: filter });
     },
   });
-  const ContactSignedPreKey = Model.extend({ storeName: 'contactSignedPreKeys' });
+  const ContactSignedPreKey = Model.extend({
+    storeName: 'contactSignedPreKeys',
+  });
   const ContactSignedPreKeyCollection = Backbone.Collection.extend({
     storeName: 'contactSignedPreKeys',
     database: Whisper.Database,
     model: ContactSignedPreKey,
     fetchBy(filter) {
-      return this.fetch({ conditions: filter, });
+      return this.fetch({ conditions: filter });
     },
   });
 
@@ -217,7 +219,7 @@
         item.fetch().then(() => {
           resolve(item.get('value'));
         }, reject);
-      });*/
+      }); */
     },
 
     /* Returns a prekeypair object or undefined */
@@ -244,7 +246,10 @@
       return new Promise(resolve => {
         prekey.fetch().then(
           () => {
-            window.log.info('Successfully fetched prekey for recipient :', contactIdentityKeyString);
+            window.log.info(
+              'Successfully fetched prekey for recipient :',
+              contactIdentityKeyString
+            );
             resolve({
               pubKey: prekey.get('publicKey'),
               privKey: prekey.get('privateKey'),
@@ -280,19 +285,25 @@
     loadContactPreKeys(filters) {
       const contactPreKeys = new ContactPreKeyCollection();
       return new Promise((resolve, reject) => {
-        contactPreKeys.fetchBy(filters).then(() => {
-          resolve(
-            contactPreKeys.map(prekey => ({
-              id: prekey.get('id'),
-              keyId: prekey.get('keyId'),
-              publicKey: prekey.get('publicKey'),
-              identityKeyString: prekey.get('identityKeyString'),
-            }))
-          );
-        }).fail(e => {
-          window.log.error('Failed to fetch signed prekey with filters', filters);
-          reject(e);
-        });
+        contactPreKeys
+          .fetchBy(filters)
+          .then(() => {
+            resolve(
+              contactPreKeys.map(prekey => ({
+                id: prekey.get('id'),
+                keyId: prekey.get('keyId'),
+                publicKey: prekey.get('publicKey'),
+                identityKeyString: prekey.get('identityKeyString'),
+              }))
+            );
+          })
+          .fail(e => {
+            window.log.error(
+              'Failed to fetch signed prekey with filters',
+              filters
+            );
+            reject(e);
+          });
       });
     },
     storeContactPreKey(pubKey, preKey) {
@@ -377,22 +388,28 @@
     loadContactSignedPreKeys(filters) {
       const contactSignedPreKeys = new ContactSignedPreKeyCollection();
       return new Promise((resolve, reject) => {
-        contactSignedPreKeys.fetchBy(filters).then(() => {
-          resolve(
-            contactSignedPreKeys.map(prekey => ({
-              id: prekey.get('id'),
-              identityKeyString: prekey.get('identityKeyString'),
-              publicKey: prekey.get('publicKey'),
-              signature: prekey.get('signature'),
-              created_at: prekey.get('created_at'),
-              keyId: prekey.get('keyId'),
-              confirmed: prekey.get('confirmed'),
-            }))
-          );
-        }).fail(e => {
-          window.log.error('Failed to fetch signed prekey with filters', filters);
-          reject(e);
-        });
+        contactSignedPreKeys
+          .fetchBy(filters)
+          .then(() => {
+            resolve(
+              contactSignedPreKeys.map(prekey => ({
+                id: prekey.get('id'),
+                identityKeyString: prekey.get('identityKeyString'),
+                publicKey: prekey.get('publicKey'),
+                signature: prekey.get('signature'),
+                created_at: prekey.get('created_at'),
+                keyId: prekey.get('keyId'),
+                confirmed: prekey.get('confirmed'),
+              }))
+            );
+          })
+          .fail(e => {
+            window.log.error(
+              'Failed to fetch signed prekey with filters',
+              filters
+            );
+            reject(e);
+          });
       });
     },
     loadContactSignedPreKey(pubKey) {
