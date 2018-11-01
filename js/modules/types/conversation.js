@@ -33,7 +33,7 @@ function buildAvatarUpdater({ field }) {
     if (!avatar || !avatar.hash) {
       return {
         ...conversation,
-        avatar: {
+        [field]: {
           hash: newHash,
           path: await writeNewAttachmentData(data),
         },
@@ -50,7 +50,7 @@ function buildAvatarUpdater({ field }) {
 
     return {
       ...conversation,
-      avatar: {
+      [field]: {
         hash: newHash,
         path: await writeNewAttachmentData(data),
       },
