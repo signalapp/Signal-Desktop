@@ -128,6 +128,9 @@
       this.unset('unidentifiedDelivery');
       this.unset('unidentifiedDeliveryUnrestricted');
       this.unset('hasFetchedProfile');
+      this.unset('tokens');
+      this.unset('lastMessage');
+      this.unset('lastMessageStatus');
     },
 
     isMe() {
@@ -956,8 +959,8 @@
 
       let hasChanged = false;
       const { lastMessage, lastMessageStatus } = lastMessageUpdate;
-      lastMessageUpdate.lastMessage = null;
-      lastMessageUpdate.lastMessageStatus = null;
+      delete lastMessageUpdate.lastMessage;
+      delete lastMessageUpdate.lastMessageStatus;
 
       hasChanged = hasChanged || lastMessage !== this.lastMessage;
       this.lastMessage = lastMessage;
@@ -1076,7 +1079,7 @@
     },
 
     isSearchable() {
-      return !this.get('left') || !!this.get('lastMessage');
+      return !this.get('left');
     },
 
     async endSession() {
