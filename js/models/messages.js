@@ -371,7 +371,7 @@
       }
 
       const readBy = this.get('read_by') || [];
-      if (readBy.length > 0) {
+      if (storage.get('read-receipt-setting') && readBy.length > 0) {
         return 'read';
       }
       const delivered = this.get('delivered');
