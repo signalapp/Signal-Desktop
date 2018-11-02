@@ -1,5 +1,5 @@
 {
-  "serverUrl": "http://localhost",
+  "serverUrl": "http://localhost:8080",
   "cdnUrl": "http://localhost",
   "disableAutoUpdate": false,
   "openDevTools": false,
