@@ -22,8 +22,8 @@ function incrementNonce(nonce) {
 // Convert a Uint8Array to a base64 string
 function bufferToBase64(buf) {
   function mapFn(ch) {
-    return String.fromCharCode(ch);
-  }
+      return String.fromCharCode(ch);
+  };
   const binaryString = Array.prototype.map.call(buf, mapFn).join('');
   return bb.btoa(binaryString);
 }
@@ -36,9 +36,7 @@ function bigIntToUint8Array(bigInt) {
     n = NONCE_LEN - (idx + 1);
     // 256 ** n is the value of one bit in arr[idx], modulus to carry over
     // (bigInt / 256**n) % 256;
-    const uint8Val = bigInt
-      .divide(new BigInteger('256').pow(n))
-      .mod(new BigInteger('256'));
+    const uint8Val = (bigInt.divide((new BigInteger('256')).pow(n))).mod(new BigInteger('256'));
     arr[idx] = uint8Val.intValue();
   }
   return arr;
@@ -47,11 +45,14 @@ function bigIntToUint8Array(bigInt) {
 // Compare two Uint8Arrays, return true if arr1 is > arr2
 function greaterThan(arr1, arr2) {
   // Early exit if lengths are not equal. Should never happen
-  if (arr1.length !== arr2.length) return false;
+  if (arr1.length !== arr2.length)
+    return false;
 
   for (let i = 0, len = arr1.length; i < len; i += 1) {
-    if (arr1[i] > arr2[i]) return true;
-    if (arr1[i] < arr2[i]) return false;
+    if (arr1[i] > arr2[i])
+      return true;
+    if (arr1[i] < arr2[i])
+      return false;
   }
   return false;
 }
@@ -59,9 +60,7 @@ function greaterThan(arr1, arr2) {
 // Return nonce that hashes together with payload lower than the target
 function calcPoW(timestamp, ttl, pubKey, data) {
   const leadingString = timestamp.toString() + ttl.toString() + pubKey;
-  const leadingArray = new Uint8Array(
-    bb.wrap(leadingString, 'binary').toArrayBuffer()
-  );
+  const leadingArray = new Uint8Array(bb.wrap(leadingString, 'binary').toArrayBuffer());
   // Payload constructed from concatenating timestamp, ttl and pubkey strings,
   // converting to Uint8Array and then appending to the message data array
   const payload = new Uint8Array(leadingArray.length + data.length);
@@ -69,54 +68,37 @@ function calcPoW(timestamp, ttl, pubKey, data) {
   payload.set(data, leadingArray.length);
 
   // payloadLength + NONCE_LEN
-  const totalLen = new BigInteger(payload.length.toString()).add(
-    new BigInteger(NONCE_LEN.toString())
-  );
+  const totalLen = (new BigInteger(payload.length.toString())).add(new BigInteger(NONCE_LEN.toString()));
   // ttl * totalLen
-  const ttlMult = new BigInteger(ttl.toString()).multiply(totalLen);
+  const ttlMult = (new BigInteger(ttl.toString())).multiply(totalLen);
   // ttlMult / (2^16 - 1)
-  const innerFrac = ttlMult.divide(
-    new BigInteger('2').pow(16).subtract(new BigInteger('1'))
-  );
+  const innerFrac = ttlMult.divide((new BigInteger('2').pow(16)).subtract(new BigInteger('1')));
   // totalLen + innerFrac
   const lenPlusInnerFrac = totalLen.add(innerFrac);
   // NONCE_TRIALS * lenPlusInnerFrac
-  const denominator = new BigInteger(NONCE_TRIALS.toString()).multiply(
-    lenPlusInnerFrac
-  );
+  const denominator = (new BigInteger(NONCE_TRIALS.toString())).multiply(lenPlusInnerFrac);
   // 2^64 - 1
-  const two64 = new BigInteger('2').pow(64).subtract(new BigInteger('1'));
+  const two64 = (new BigInteger('2').pow(64)).subtract(new BigInteger('1'));
   // two64 / denominator
   const targetNum = two64.divide(denominator);
   const target = bigIntToUint8Array(targetNum);
 
   let nonce = new Uint8Array(NONCE_LEN);
-  let trialValue = bigIntToUint8Array(
-    new BigInteger(Number.MAX_SAFE_INTEGER.toString())
-  );
-  const initialHash = new Uint8Array(
-    bb.wrap(hash(payload), 'hex').toArrayBuffer()
-  );
+  let trialValue = bigIntToUint8Array(new BigInteger(Number.MAX_SAFE_INTEGER.toString()));
+  const initialHash = new Uint8Array(bb.wrap(hash(payload), 'hex').toArrayBuffer());
   const innerPayload = new Uint8Array(initialHash.length + NONCE_LEN);
   innerPayload.set(initialHash, NONCE_LEN);
   let resultHash;
   while (greaterThan(trialValue, target)) {
     nonce = incrementNonce(nonce);
-    trialValue = new Uint8Array(
-      bb.wrap(hash(nonce + initialHash), 'hex').toArrayBuffer()
-    ).slice(0, 8);
+    innerPayload.set(nonce);
+    resultHash = hash(innerPayload);
+    trialValue = (new Uint8Array(bb.wrap(resultHash, 'hex').toArrayBuffer())).slice(0, NONCE_LEN);
   }
   return bufferToBase64(nonce);
 }
 
 // Start calculation in child process when main process sends message data
-process.on('message', msg => {
-  process.send({
-    nonce: calcPoW(
-      msg.timestamp,
-      msg.ttl,
-      msg.pubKey,
-      new Uint8Array(msg.data)
-    ),
-  });
+process.on('message', (msg) => {
+	process.send({nonce: calcPoW(msg.timestamp, msg.ttl, msg.pubKey, new Uint8Array(msg.data))});
 });
