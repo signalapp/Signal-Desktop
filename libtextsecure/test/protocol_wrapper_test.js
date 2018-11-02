@@ -1,19 +1,20 @@
-describe('Protocol Wrapper', function() {
+/* global libsignal, textsecure */
+
+describe('Protocol Wrapper', function thisNeeded() {
   const store = textsecure.storage.protocol;
   const identifier = '+5558675309';
-  const another_identifier = '+5555590210';
-  let prekeys, identityKey, testKey;
+
   this.timeout(5000);
+
   before(done => {
     localStorage.clear();
     libsignal.KeyHelper.generateIdentityKeyPair()
-      .then(identityKey =>
-        textsecure.storage.protocol.saveIdentity(identifier, identityKey)
-      )
+      .then(key => textsecure.storage.protocol.saveIdentity(identifier, key))
       .then(() => {
         done();
       });
   });
+
   describe('processPreKey', () => {
     it('rejects if the identity key changes', () => {
       const address = new libsignal.SignalProtocolAddress(identifier, 1);

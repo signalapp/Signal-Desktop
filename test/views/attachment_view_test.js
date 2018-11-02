@@ -1,17 +1,15 @@
-/* global assert: false */
-
-/* global Whisper: false */
+/* global assert, storage, Whisper */
 
 'use strict';
 
 describe('AttachmentView', () => {
-  var convo, message;
+  let convo;
 
   before(async () => {
     await clearDatabase();
 
     convo = new Whisper.Conversation({ id: 'foo' });
-    message = convo.messageCollection.add({
+    convo.messageCollection.add({
       conversationId: convo.id,
       body: 'hello world',
       type: 'outgoing',

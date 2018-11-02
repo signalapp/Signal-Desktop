@@ -1,11 +1,11 @@
+/* global $, ConversationController, textsecure, Whisper */
+
 'use strict';
 
-describe('Fixtures', function() {
-  before(async function() {
+describe('Fixtures', () => {
+  before(async () => {
     // NetworkStatusView checks this method every five seconds while showing
-    window.getSocketStatus = function() {
-      return WebSocket.OPEN;
-    };
+    window.getSocketStatus = () => WebSocket.OPEN;
 
     await clearDatabase();
     await textsecure.storage.user.setNumberAndDeviceId(
@@ -26,11 +26,11 @@ describe('Fixtures', function() {
     ConversationController.reset();
     await ConversationController.load();
 
-    var view = new Whisper.InboxView({ window: window });
+    let view = new Whisper.InboxView({ window });
     view.onEmpty();
     view.$el.prependTo($('#render-light-theme'));
 
-    var view = new Whisper.InboxView({ window: window });
+    view = new Whisper.InboxView({ window });
     view.$el.removeClass('light-theme').addClass('dark-theme');
     view.onEmpty();
     view.$el.prependTo($('#render-dark-theme'));

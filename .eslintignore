@@ -3,12 +3,6 @@ components/**
 coverage/**
 dist/**
 
-# these aren't ready yet, pulling files in one-by-one
-libtextsecure/test/*.js
-test/*.js
-test/models/*.js
-test/views/*.js
-
 # Generated files
 js/components.js
 js/libtextsecure.js

@@ -1,28 +1,32 @@
+/* global Backbone */
+
 'use strict';
 
-describe('ReliableTrigger', function() {
-  describe('trigger', function() {
-    var Model, model;
+describe('ReliableTrigger', () => {
+  describe('trigger', () => {
+    let Model;
+    let model;
 
-    before(function() {
-      Model = Backbone.Model;
+    before(() => {
+      ({ Model } = Backbone);
     });
 
-    beforeEach(function() {
+    beforeEach(() => {
       model = new Model();
     });
 
-    it('returns successfully if this._events is falsey', function() {
+    it('returns successfully if this._events is falsey', () => {
       model._events = null;
       model.trigger('click');
     });
-    it('handles map of events to trigger', function() {
-      var a = 0,
-        b = 0;
-      model.on('a', function(arg) {
+    it('handles map of events to trigger', () => {
+      let a = 0;
+      let b = 0;
+
+      model.on('a', arg => {
         a = arg;
       });
-      model.on('b', function(arg) {
+      model.on('b', arg => {
         b = arg;
       });
 
@@ -34,13 +38,14 @@ describe('ReliableTrigger', function() {
       assert.strictEqual(a, 1);
       assert.strictEqual(b, 2);
     });
-    it('handles space-separated list of events to trigger', function() {
-      var a = false,
-        b = false;
-      model.on('a', function() {
+    it('handles space-separated list of events to trigger', () => {
+      let a = false;
+      let b = false;
+
+      model.on('a', () => {
         a = true;
       });
-      model.on('b', function() {
+      model.on('b', () => {
         b = true;
       });
 
@@ -49,9 +54,9 @@ describe('ReliableTrigger', function() {
       assert.strictEqual(a, true);
       assert.strictEqual(b, true);
     });
-    it('calls all clients registered for "all" event', function() {
-      var count = 0;
-      model.on('all', function() {
+    it('calls all clients registered for "all" event', () => {
+      let count = 0;
+      model.on('all', () => {
         count += 1;
       });
 
@@ -60,13 +65,14 @@ describe('ReliableTrigger', function() {
 
       assert.strictEqual(count, 2);
     });
-    it('calls all clients registered for target event', function() {
-      var a = false,
-        b = false;
-      model.on('event', function() {
+    it('calls all clients registered for target event', () => {
+      let a = false;
+      let b = false;
+
+      model.on('event', () => {
         a = true;
       });
-      model.on('event', function() {
+      model.on('event', () => {
         b = true;
       });
 
@@ -75,14 +81,15 @@ describe('ReliableTrigger', function() {
       assert.strictEqual(a, true);
       assert.strictEqual(b, true);
     });
-    it('successfully returns and calls all clients even if first failed', function() {
-      var a = false,
-        b = false;
-      model.on('event', function() {
+    it('successfully returns and calls all clients even if first failed', () => {
+      let a = false;
+      let b = false;
+
+      model.on('event', () => {
         a = true;
         throw new Error('a is set, but exception is thrown');
       });
-      model.on('event', function() {
+      model.on('event', () => {
         b = true;
       });
 
@@ -91,9 +98,9 @@ describe('ReliableTrigger', function() {
       assert.strictEqual(a, true);
       assert.strictEqual(b, true);
     });
-    it('calls clients with no args', function() {
-      var called = false;
-      model.on('event', function() {
+    it('calls clients with no args', () => {
+      let called = false;
+      model.on('event', () => {
         called = true;
       });
 
@@ -101,20 +108,20 @@ describe('ReliableTrigger', function() {
 
       assert.strictEqual(called, true);
     });
-    it('calls clients with 1 arg', function() {
-      var args;
-      model.on('event', function() {
-        args = arguments;
+    it('calls clients with 1 arg', () => {
+      let args;
+      model.on('event', (...eventArgs) => {
+        args = eventArgs;
       });
 
       model.trigger('event', 1);
 
       assert.strictEqual(args[0], 1);
     });
-    it('calls clients with 2 args', function() {
-      var args;
-      model.on('event', function() {
-        args = arguments;
+    it('calls clients with 2 args', () => {
+      let args;
+      model.on('event', (...eventArgs) => {
+        args = eventArgs;
       });
 
       model.trigger('event', 1, 2);
@@ -122,10 +129,10 @@ describe('ReliableTrigger', function() {
       assert.strictEqual(args[0], 1);
       assert.strictEqual(args[1], 2);
     });
-    it('calls clients with 3 args', function() {
-      var args;
-      model.on('event', function() {
-        args = arguments;
+    it('calls clients with 3 args', () => {
+      let args;
+      model.on('event', (...eventArgs) => {
+        args = eventArgs;
       });
 
       model.trigger('event', 1, 2, 3);
@@ -134,10 +141,10 @@ describe('ReliableTrigger', function() {
       assert.strictEqual(args[1], 2);
       assert.strictEqual(args[2], 3);
     });
-    it('calls clients with 4+ args', function() {
-      var args;
-      model.on('event', function() {
-        args = arguments;
+    it('calls clients with 4+ args', () => {
+      let args;
+      model.on('event', (...eventArgs) => {
+        args = eventArgs;
       });
 
       model.trigger('event', 1, 2, 3, 4);
