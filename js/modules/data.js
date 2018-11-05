@@ -32,6 +32,9 @@ const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 const _jobs = Object.create(null);
 const _DEBUG = false;
 let _jobCounter = 0;
+let _shuttingDown = false;
+let _shutdownCallback = null;
+let _shutdownPromise = null;
 
 const channels = {};
 
@@ -39,6 +42,7 @@ module.exports = {
   _jobs,
   _cleanData,
 
+  shutdown,
   close,
   removeDB,
   removeIndexedDBFiles,
@@ -172,7 +176,45 @@ function _cleanData(data) {
   return data;
 }
 
+async function _shutdown() {
+  if (_shutdownPromise) {
+    return _shutdownPromise;
+  }
+
+  _shuttingDown = true;
+
+  const jobKeys = Object.keys(_jobs);
+  window.log.info(
+    `data.shutdown: starting process. ${jobKeys.length} jobs outstanding`
+  );
+
+  // No outstanding jobs, return immediately
+  if (jobKeys.length === 0) {
+    return null;
+  }
+
+  // Outstanding jobs; we need to wait until the last one is done
+  _shutdownPromise = new Promise((resolve, reject) => {
+    _shutdownCallback = error => {
+      window.log.info('data.shutdown: process complete');
+      if (error) {
+        return reject(error);
+      }
+
+      return resolve();
+    };
+  });
+
+  return _shutdownPromise;
+}
+
 function _makeJob(fnName) {
+  if (_shuttingDown && fnName !== 'close') {
+    throw new Error(
+      `Rejecting SQL channel job (${fnName}); application is shutting down`
+    );
+  }
+
   _jobCounter += 1;
   const id = _jobCounter;
 
@@ -219,8 +261,16 @@ function _updateJob(id, data) {
 function _removeJob(id) {
   if (_DEBUG) {
     _jobs[id].complete = true;
-  } else {
-    delete _jobs[id];
+    return;
+  }
+
+  delete _jobs[id];
+
+  if (_shutdownCallback) {
+    const keys = Object.keys(_jobs);
+    if (keys.length === 0) {
+      _shutdownCallback();
+    }
   }
 }
 
@@ -309,6 +359,14 @@ function keysFromArrayBuffer(keys, data) {
 }
 
 // Top-level calls
+
+async function shutdown() {
+  // Stop accepting new SQL jobs, flush outstanding queue
+  await _shutdown();
+
+  // Close database
+  await close();
+}
 
 // Note: will need to restart the app after calling this, to set up afresh
 async function close() {

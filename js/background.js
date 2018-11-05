@@ -272,6 +272,10 @@
         const clearDataView = new window.Whisper.ClearDataView().render();
         $('body').append(clearDataView.el);
       },
+
+      shutdown: async () => {
+        await window.Signal.Data.shutdown();
+      },
     };
 
     const currentVersion = window.getVersion();
