@@ -84,6 +84,11 @@
             this.typeahead_view.collection.reset(
               this.typeahead.filter(isSearchable)
             );
+
+            // Check if the query is in the model list
+            // If it is then hide the new contact view
+            var modelExists = this.typeahead_view.collection.find(item => item.get('id') == query);
+            if (modelExists) this.new_contact_view.$el.hide();
           })
         );
         /* eslint-enable more/no-then */
