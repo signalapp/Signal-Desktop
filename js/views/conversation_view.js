@@ -215,6 +215,9 @@
       this.onFocus = () => {
         if (this.$el.css('display') !== 'none') {
           this.markRead();
+          if ((!this.panels || !this.panels.length) && !this.captureAudioView) {
+            this.$('.send-message').focus();
+          }
         }
       };
       this.window.addEventListener('focus', this.onFocus);
