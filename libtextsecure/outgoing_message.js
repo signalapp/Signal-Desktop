@@ -296,6 +296,10 @@ OutgoingMessage.prototype = {
         this.numberCompleted();
       })
       .catch(error => {
+        // TODO(loki): handle http errors properly
+        // - retry later if 400
+        // - ignore if 409 (conflict) means the hash already exists
+        throw error;
         if (
           error instanceof Error &&
           error.name === 'HTTPError' &&
@@ -409,6 +413,10 @@ OutgoingMessage.prototype = {
             }
           }
 
+          if (this.fallBackEncryption && conversation) {
+            conversation.onFriendRequestSent();
+          }
+
           if (attachPrekeys) {
             log.info('attaching prekeys to outgoing message');
             this.message.preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(
@@ -417,12 +425,10 @@ OutgoingMessage.prototype = {
           }
         })
         .then(this.reloadDevicesAndSend(number, true))
-        .then(() => {
-          if (this.fallBackEncryption && conversation) {
-            conversation.onFriendRequestSent();
-          }
-        })
         .catch(error => {
+          if (this.fallBackEncryption && conversation) {
+            conversation.onFriendRequestTimedOut();
+          }
           if (error.message === 'Identity key changed') {
             // eslint-disable-next-line no-param-reassign
             error = new textsecure.OutgoingIdentityKeyError(
