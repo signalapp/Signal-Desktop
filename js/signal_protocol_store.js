@@ -207,26 +207,18 @@
       window.log.error('Failed to fetch prekey:', keyId);
       return undefined;
     },
-    loadPreKeyForContactIdentityKeyString(contactIdentityKeyString) {
-      const prekey = new PreKey({ recipient: contactIdentityKeyString });
-      return new Promise(resolve => {
-        prekey.fetch().then(
-          () => {
-            window.log.info(
-              'Successfully fetched prekey for recipient :',
-              contactIdentityKeyString
-            );
-            resolve({
-              pubKey: prekey.get('publicKey'),
-              privKey: prekey.get('privateKey'),
-              keyId: prekey.get('id'),
-            });
-          },
-          () => {
-            resolve();
-          }
-        );
-      });
+    async loadPreKeyForContactIdentityKeyString(contactIdentityKeyString) {
+      const key = await window.Signal.Data.getPreKeyByRecipient(contactIdentityKeyString);
+
+      if (key) {
+        window.log.info('Successfully fetched prekey for recipient:', contactIdentityKeyString);
+        return {
+          pubKey: key.publicKey,
+          privKey: key.privateKey,
+          keyId: key.id,
+          recipient: key.recipient,
+        };
+      }
     },
     loadContactPreKey(pubKey) {
       const prekey = new ContactPreKey({ identityKeyString: pubKey });
@@ -394,7 +386,7 @@
         created_at: prekey.created_at,
         keyId: prekey.id,
         confirmed: prekey.confirmed,
-        signature: prekey.get('signature'),
+        signature: prekey.signature,
       }));
     },
     async storeSignedPreKey(keyId, keyPair, confirmed, signature) {

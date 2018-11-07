@@ -31,6 +31,7 @@ module.exports = {
 
   createOrUpdatePreKey,
   getPreKeyById,
+  getPreKeyByRecipient,
   bulkAddPreKeys,
   removePreKeyById,
   removeAllPreKeys,
@@ -407,6 +408,7 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   await instance.run(
     `CREATE TABLE preKeys(
       id INTEGER PRIMARY KEY ASC,
+      recipient STRING,
       json TEXT
     );`
   );
@@ -559,10 +561,41 @@ async function removeAllIdentityKeys() {
 
 const PRE_KEYS_TABLE = 'preKeys';
 async function createOrUpdatePreKey(data) {
-  return createOrUpdate(PRE_KEYS_TABLE, data);
+  const { id, recipient } = data;
+  if (!id) {
+    throw new Error('createOrUpdate: Provided data did not have a truthy id');
+  }
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${PRE_KEYS_TABLE} (
+      id,
+      recipient,
+      json
+    ) values (
+      $id,
+      $recipient,
+      $json
+    )`,
+    {
+      $id: id,
+      $recipient: recipient || '',
+      $json: objectToJSON(data),
+    }
+  );
 }
 async function getPreKeyById(id) {
   return getById(PRE_KEYS_TABLE, id);
+}
+async function getPreKeyByRecipient(recipient) {
+  const row = await db.get(`SELECT * FROM ${PRE_KEYS_TABLE} WHERE recipient = $recipient;`, {
+    $recipient: recipient,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
 }
 async function bulkAddPreKeys(array) {
   return bulkAdd(PRE_KEYS_TABLE, array);
