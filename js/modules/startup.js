@@ -46,7 +46,9 @@ exports.syncReadReceiptConfiguration = async ({
   }
 
   try {
-    const { wrap, sendOptions } = prepareForSend(ourNumber);
+    const { wrap, sendOptions } = prepareForSend(ourNumber, {
+      syncMessage: true,
+    });
     await wrap(sendRequestConfigurationSyncMessage(sendOptions));
     storage.put(settingName, true);
   } catch (error) {

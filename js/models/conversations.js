@@ -342,10 +342,11 @@
       //   a sync message to our own devices, we need to send the accessKeys down for both
       //   contacts. So we merge their sendOptions.
       const { sendOptions } = ConversationController.prepareForSend(
-        this.ourNumber
+        this.ourNumber,
+        { syncMessage: true }
       );
-      const recipientSendOptions = this.getSendOptions();
-      const options = Object.assign({}, sendOptions, recipientSendOptions);
+      const contactSendOptions = this.getSendOptions();
+      const options = Object.assign({}, sendOptions, contactSendOptions);
 
       const promise = textsecure.storage.protocol.loadIdentityKey(number);
       return promise.then(key =>
@@ -879,9 +880,9 @@
       );
     },
 
-    getSendOptions() {
+    getSendOptions(options = {}) {
       const senderCertificate = storage.get('senderCertificate');
-      const numberInfo = this.getNumberInfo();
+      const numberInfo = this.getNumberInfo(options);
 
       return {
         senderCertificate,
@@ -889,7 +890,10 @@
       };
     },
 
-    getNumberInfo({ disableMeCheck } = {}) {
+    getNumberInfo(options = {}) {
+      const { syncMessage, disableMeCheck } = options;
+
+      // START: this code has an Expiration date of ~2018/11/21
       // We don't want to enable unidentified delivery for send unless it is
       //   also enabled for our own account.
       const me = ConversationController.getOrCreate(this.ourNumber, 'private');
@@ -899,16 +903,22 @@
       ) {
         return null;
       }
+      // END
 
       if (!this.isPrivate()) {
         const infoArray = this.contactCollection.map(conversation =>
-          conversation.getNumberInfo({ disableMeCheck })
+          conversation.getNumberInfo(options)
         );
         return Object.assign({}, ...infoArray);
       }
 
       const accessKey = this.get('accessKey');
       const sealedSender = this.get('sealedSender');
+
+      // We never send sync messages as sealed sender
+      if (syncMessage && this.id === this.ourNumber) {
+        return null;
+      }
 
       // If we've never fetched user's profile, we default to what we have
       if (sealedSender === SEALED_SENDER.UNKNOWN) {
@@ -1243,19 +1253,17 @@
         window.log.info(`Sending ${read.length} read receipts`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.
-        const prep = ConversationController.prepareForSend(this.ourNumber);
-        const recipientSendOptions = this.getSendOptions();
-        const sendOptions = Object.assign(
-          {},
-          prep.sendOptions,
-          recipientSendOptions
+        const { sendOptions } = ConversationController.prepareForSend(
+          this.ourNumber,
+          { syncMessage: true }
         );
-
         await this.wrapSend(
           textsecure.messaging.syncReadMessages(read, sendOptions)
         );
 
         if (storage.get('read-receipt-setting')) {
+          const convoSendOptions = this.getSendOptions();
+
           await Promise.all(
             _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
               const timestamps = _.map(receipts, 'timestamp');
@@ -1263,7 +1271,7 @@
                 textsecure.messaging.sendReadReceipts(
                   sender,
                   timestamps,
-                  sendOptions
+                  convoSendOptions
                 )
               );
             })

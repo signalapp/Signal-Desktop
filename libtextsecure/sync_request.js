@@ -25,7 +25,8 @@
 
     const ourNumber = textsecure.storage.user.getNumber();
     const { wrap, sendOptions } = ConversationController.prepareForSend(
-      ourNumber
+      ourNumber,
+      { syncMessage: true }
     );
     window.log.info('SyncRequest created. Sending contact sync message...');
     wrap(sender.sendRequestContactSyncMessage(sendOptions))
