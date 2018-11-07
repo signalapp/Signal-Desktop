@@ -20,8 +20,10 @@
       this.listenTo(this.model, 'change', this.render); // auto update
     },
     render_attributes() {
+      // Show the appropriate message based on model validity
+      const message = this.model && this.model.isValid() ? i18n('startConversation') : i18n('invalidNumberError');
       return {
-        number: i18n('startConversation'),
+        number: message,
         title: this.model.getNumber(),
         avatar: this.model.getAvatar(),
       };
@@ -68,14 +70,13 @@
     filterContacts() {
       const query = this.$input.val().trim();
       if (query.length) {
-        if (this.maybeNumber(query)) {
-          this.new_contact_view.model.set('id', query);
-          this.new_contact_view.render().$el.show();
-          this.new_contact_view.validate();
-          this.hideHints();
-        } else {
-          this.new_contact_view.$el.hide();
-        }
+
+        // Update the contact model
+        this.new_contact_view.model.set('id', query);
+        this.new_contact_view.render().$el.show();
+        this.new_contact_view.validate();
+        this.hideHints();
+
         // NOTE: Temporarily allow `then` until we convert the entire file
         // to `async` / `await`:
         /* eslint-disable more/no-then */
@@ -113,7 +114,6 @@
     async createConversation() {
       const isValidNumber = this.new_contact_view.model.isValid();
       if (!isValidNumber) {
-        this.new_contact_view.$('.number').text(i18n('invalidNumberError'));
         this.$input.focus();
         return;
       }
@@ -159,10 +159,6 @@
         this.hintView.remove();
         this.hintView = null;
       }
-    },
-
-    maybeNumber(number) {
-      return number.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/); // hex representation
     },
   });
 })();
