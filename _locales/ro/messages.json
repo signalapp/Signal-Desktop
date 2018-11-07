@@ -424,7 +424,7 @@
         "description": ""
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "Eroare la procesarea mesajului primit",
         "description": ""
     },
     "media": {
@@ -640,7 +640,7 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Original message found, but not loaded. Scroll up to load it.",
+        "message": "Mesaj original găsit, dar neîncărcat. Scroll-ează în sus pentru a-l încărca.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "you": {

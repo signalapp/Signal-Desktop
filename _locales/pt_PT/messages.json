@@ -644,7 +644,7 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "you": {
-        "message": "Tu",
+        "message": "Você",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {

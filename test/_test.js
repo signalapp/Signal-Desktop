@@ -72,16 +72,8 @@ function deleteDatabase() {
 before(async () => {
   await deleteDatabase();
   await window.Signal.Data.removeAll();
-
-  await Signal.Migrations.Migrations0DatabaseWithAttachmentData.run({
-    Backbone,
-    databaseName: Whisper.Database.id,
-    logger: window.log,
-  });
 });
 
 async function clearDatabase() {
-  const db = await Whisper.Database.open();
-  await Whisper.Database.clear();
   await window.Signal.Data.removeAll();
 }

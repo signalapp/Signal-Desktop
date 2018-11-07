@@ -480,7 +480,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "dangerousFileType": {
-        "message": "Attachment type not allowed for security reasons",
+        "message": "Manuse tüüp pole turvakaalutlustel lubatud.",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "fileSizeWarning": {

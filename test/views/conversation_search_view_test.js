@@ -65,7 +65,7 @@ describe('ConversationSearchView', function() {
       before(async function() {
         input = $('<input>');
         view = new Whisper.ConversationSearchView({ input: input }).render();
-        convo.set({ id: '2-search-view', lastMessage: 'asdf' });
+        convo.set({ id: '2-search-view', left: false });
 
         await window.Signal.Data.saveConversation(convo.attributes, {
           Conversation: Whisper.Conversation,

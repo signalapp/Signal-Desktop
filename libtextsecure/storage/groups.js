@@ -73,7 +73,9 @@
 
     getNumbers(groupId) {
       return textsecure.storage.protocol.getGroup(groupId).then(group => {
-        if (group === undefined) return undefined;
+        if (!group) {
+          return undefined;
+        }
 
         return group.numbers;
       });

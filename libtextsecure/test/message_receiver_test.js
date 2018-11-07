@@ -90,8 +90,11 @@ describe('MessageReceiver', () => {
         done();
       });
       const messageReceiver = new textsecure.MessageReceiver(
-        'ws://localhost:8080',
-        window
+        'username',
+        'password',
+        'signalingKey'
+        // 'ws://localhost:8080',
+        // window,
       );
     });
   });

@@ -9,6 +9,9 @@
   dcodeIO,
   StringView,
   log,
+  libphonenumber,
+  Event,
+  ConversationController
 */
 
 /* eslint-disable more/no-then */
@@ -209,7 +212,9 @@
                                     confirmKeys(keys)
                                   )
                                 )
-                                .then(registrationDone);
+                                .then(() =>
+                                  registrationDone(provisionMessage.number)
+                                );
                             }
                           )
                         )
@@ -247,8 +252,6 @@
         const store = textsecure.storage.protocol;
         const { cleanSignedPreKeys } = this;
 
-        // TODO: harden this against missing identity key? Otherwise, we get
-        //   retries every five seconds.
         return store
           .getIdentityKeyPair()
           .then(
@@ -258,6 +261,8 @@
                 signedKeyId
               ),
             () => {
+              // We swallow any error here, because we don't want to get into
+              //   a loop of repeated retries.
               window.log.error(
                 'Failed to get identity key. Canceling key rotation.'
               );
@@ -513,8 +518,12 @@
         );
       });
     },
-    registrationDone() {
+    async registrationDone(number) {
       window.log.info('registration done');
+
+      // Ensure that we always have a conversation for ourself
+      await ConversationController.getOrCreateAndWait(number, 'private');
+
       this.dispatchEvent(new Event('registration'));
     },
   });

@@ -1,13 +1,13 @@
 /* global window, Whisper */
 
-const Migrations0DatabaseWithAttachmentData = require('./migrations_0_database_with_attachment_data');
+const Migrations = require('./migrations');
 
 exports.getPlaceholderMigrations = () => {
-  const last0MigrationVersion = Migrations0DatabaseWithAttachmentData.getLatestVersion();
+  const version = Migrations.getLatestVersion();
 
   return [
     {
-      version: last0MigrationVersion,
+      version,
       migrate() {
         throw new Error(
           'Unexpected invocation of placeholder migration!' +
