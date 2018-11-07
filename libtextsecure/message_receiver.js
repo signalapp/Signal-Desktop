@@ -121,7 +121,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
-  this.server = WebAPI.connect({ username, password });
+  this.lokiserver = window.LokiAPI.connect();
 
   const address = libsignal.SignalProtocolAddress.fromString(username);
   this.number = address.getName();
@@ -147,7 +147,7 @@ MessageReceiver.arrayBufferToStringBase64 = arrayBuffer =>
 MessageReceiver.prototype = new textsecure.EventTarget();
 MessageReceiver.prototype.extend({
   constructor: MessageReceiver,
-  connect() {
+  async connect() {
     if (this.calledClose) {
       return;
     }
@@ -159,7 +159,12 @@ MessageReceiver.prototype.extend({
     }
 
     this.hasConnected = true;
+    const myKeys = await textsecure.storage.protocol.getIdentityKeyPair();
+    const result = await this.lokiserver.retrieveMessages(myKeys);
 
+    return;
+
+    // TODO: Rework this socket stuff to work with online messaging
     if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
       this.socket.close();
       this.wsr.close();
@@ -1136,6 +1141,8 @@ MessageReceiver.prototype.extend({
     return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
   },
   handleAttachment(attachment) {
+    console.log("Not handling attachments.");
+    return;
     // eslint-disable-next-line no-param-reassign
     attachment.id = attachment.id.toString();
     // eslint-disable-next-line no-param-reassign

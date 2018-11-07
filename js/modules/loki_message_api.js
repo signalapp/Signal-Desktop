@@ -20,6 +20,7 @@ function initialize({ url }) {
   function connect() {
     return {
       sendMessage,
+      retrieveMessages,
     };
 
     function getPoWNonce(timestamp, ttl, pubKey, data) {
@@ -50,6 +51,52 @@ function initialize({ url }) {
           }
         });
       });
+    }
+
+    async function retrieveMessages(pubKey) {
+      const options = {
+        url: `${url}/retrieve`,
+        type: 'GET',
+        responseType: undefined,
+        timeout: undefined,
+      };
+
+      log.info(options.type, options.url);
+
+      const fetchOptions = {
+        method: options.type,
+        headers: {
+          'X-Loki-recipient': pubKey,
+        },
+        timeout: options.timeout,
+      };
+
+      let response;
+      try {
+        response = await fetch(options.url, fetchOptions);
+      } catch (e) {
+        log.error(options.type, options.url, 0, 'Error');
+        throw HTTPError('fetch error', 0, e.toString());
+      }
+
+      let result;
+      if (
+        options.responseType === 'json' &&
+        response.headers.get('Content-Type') === 'application/json'
+      ) {
+        result = await response.json();
+      } else if (options.responseType === 'arraybuffer') {
+        result = await response.buffer();
+      } else {
+        result = await response.text();
+      }
+
+      if (response.status >= 0 && response.status < 400) {
+        log.info(options.type, options.url, response.status, 'Success');
+        return [result, response.status];
+      }
+      log.error(options.type, options.url, response.status, 'Error');
+      throw HTTPError('retrieveMessages: error response', response.status, result);
     }
 
     async function sendMessage(pubKey, data, ttl) {
