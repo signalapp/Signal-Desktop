@@ -1434,23 +1434,7 @@
       if (!this.isPrivate()) {
         return '';
       }
-      const number = this.id;
-      try {
-        const parsedNumber = libphonenumber.parse(number);
-        const regionCode = libphonenumber.getRegionCodeForNumber(parsedNumber);
-        if (regionCode === storage.get('regionCode')) {
-          return libphonenumber.format(
-            parsedNumber,
-            libphonenumber.PhoneNumberFormat.NATIONAL
-          );
-        }
-        return libphonenumber.format(
-          parsedNumber,
-          libphonenumber.PhoneNumberFormat.INTERNATIONAL
-        );
-      } catch (e) {
-        return number;
-      }
+      return this.id;
     },
 
     isPrivate() {

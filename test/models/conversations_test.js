@@ -38,7 +38,7 @@
   });
 
   describe('Conversation', function() {
-    var attributes = { type: 'private', id: '+18085555555' };
+    var attributes = { type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' };
     before(async () => {
       var convo = new Whisper.ConversationCollection().add(attributes);
       await window.Signal.Data.saveConversation(convo.attributes, {
@@ -59,7 +59,7 @@
     after(clearDatabase);
 
     it('sorts its contacts in an intl-friendly way', function() {
-      var convo = new Whisper.Conversation({ id: '+18085555555' });
+      var convo = new Whisper.Conversation({ id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
       convo.contactCollection.add(
         new Whisper.Conversation({
           name: 'C',
@@ -83,7 +83,7 @@
 
     it('contains its own messages', async function() {
       var convo = new Whisper.ConversationCollection().add({
-        id: '+18085555555',
+        id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
       });
       await convo.fetchMessages();
       assert.notEqual(convo.messageCollection.length, 0);
@@ -91,7 +91,7 @@
 
     it('contains only its own messages', async function() {
       var convo = new Whisper.ConversationCollection().add({
-        id: '+18085556666',
+        id: '6eb56f06737d0966239e70d431d4dfd9e57c1e7dddacaf61907fcbc14295e424fd',
       });
       await convo.fetchMessages();
       assert.strictEqual(convo.messageCollection.length, 0);
@@ -109,7 +109,7 @@
     it('has a title', function() {
       var convos = new Whisper.ConversationCollection();
       var convo = convos.add(attributes);
-      assert.equal(convo.getTitle(), '+1 808-555-5555');
+      assert.equal(convo.getTitle(), '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab');
 
       convo = convos.add({ type: '' });
       assert.equal(convo.getTitle(), 'Unknown group');
@@ -121,7 +121,7 @@
     it('returns the number', function() {
       var convos = new Whisper.ConversationCollection();
       var convo = convos.add(attributes);
-      assert.equal(convo.getNumber(), '+1 808-555-5555');
+      assert.equal(convo.getNumber(), '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab');
 
       convo = convos.add({ type: '' });
       assert.equal(convo.getNumber(), '');
@@ -134,41 +134,21 @@
       assert.property(avatar, 'color');
     });
 
-    describe('phone number parsing', function() {
-      after(function() {
-        storage.remove('regionCode');
+    describe('when set to private', function() {
+      it('correctly validates hex numbers', function() {
+        const regularId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
+        const invalidId = new Whisper.Conversation({ type: 'private', id: 'j71d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
+        assert.ok(regularId.isValid());
+        assert.notOk(invalidId.isValid());
       });
-      function checkAttributes(number) {
-        var convo = new Whisper.ConversationCollection().add({
-          type: 'private',
-        });
-        convo.set('id', number);
-        convo.validate(convo.attributes);
-        assert.strictEqual(convo.get('id'), '+14155555555', number);
-      }
-      it('processes the phone number when validating', function() {
-        ['+14155555555'].forEach(checkAttributes);
-      });
-      it('defaults to the local regionCode', function() {
-        storage.put('regionCode', 'US');
-        ['14155555555', '4155555555'].forEach(checkAttributes);
-      });
-      it('works with common phone number formats', function() {
-        storage.put('regionCode', 'US');
-        [
-          '415 555 5555',
-          '415-555-5555',
-          '(415) 555 5555',
-          '(415) 555-5555',
-          '1 415 555 5555',
-          '1 415-555-5555',
-          '1 (415) 555 5555',
-          '1 (415) 555-5555',
-          '+1 415 555 5555',
-          '+1 415-555-5555',
-          '+1 (415) 555 5555',
-          '+1 (415) 555-5555',
-        ].forEach(checkAttributes);
+
+      it('correctly validates length', function() {
+        const regularId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
+        const shortId = new Whisper.Conversation({ type: 'private', id: '771d11d' });
+        const longId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94abaa' });
+        assert.ok(regularId.isValid());
+        assert.notOk(shortId.isValid());
+        assert.notOk(longId.isValid());
       });
     });
   });
@@ -178,7 +158,7 @@
 
     beforeEach(async function() {
       convo = new Whisper.ConversationCollection().add({
-        id: '+14155555555',
+        id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
         type: 'private',
         name: 'John Doe',
       });
@@ -202,21 +182,20 @@
         })
       );
     }
-    it('matches by partial phone number', function() {
+    it('matches by partial keys', function() {
       return testSearch([
         '1',
-        '4',
-        '+1',
-        '415',
-        '4155',
-        '4155555555',
-        '14155555555',
-        '+14155555555',
+        '771',
+        '1e',
+        '56d9bfc3d74115c3322',
+        '6d9bfc3d74115c33225a632321b509ac17a13fdeac71165d',
+        '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab'
       ]);
     });
-    it('matches by name', function() {
-      return testSearch(['John', 'Doe', 'john', 'doe', 'John Doe', 'john doe']);
-    });
+    // TODO: Re-enable once we have nickanme functionality
+    // it('matches by name', function() {
+    //   return testSearch(['John', 'Doe', 'john', 'doe', 'John Doe', 'john doe']);
+    // });
     it('does not match +', async function() {
       var collection = new Whisper.ConversationCollection();
       await collection.search('+');
