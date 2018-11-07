@@ -672,14 +672,19 @@
     },
 
     validateNumber() {
+      if (!this.id) return null;
+
       if (this.isPrivate()) {
-        if (this.id.length === 33 * 2) {
+        // Check if it's hex
+        const isHex = this.id.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
+        if (!isHex) return 'Invalid Hex ID';
+
+        // Check if it has a valid length
+        if (this.id.length !== 33 * 2) {
           // 33 bytes in hex
           this.set({ id: this.id });
-          return null;
+          return 'Invalid ID Length';
         }
-
-        return 'Invalid ID';
       }
 
       return null;
@@ -1477,9 +1482,10 @@
       if (avatar && avatar.path) {
         return { url: getAbsoluteAttachmentPath(avatar.path), color };
       } else if (this.isPrivate()) {
+        const symbol = this.isValid() ? '#' : '!';
         return {
           color,
-          content: title ? title.trim()[0] : '#',
+          content: title ? title.trim()[0] : symbol,
         };
       }
       return { url: 'images/group_default.png', color };
