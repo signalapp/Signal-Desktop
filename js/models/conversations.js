@@ -672,7 +672,7 @@
     },
 
     validateNumber() {
-      if (!this.id) return null;
+      if (!this.id) return 'Invalid ID';
 
       if (this.isPrivate()) {
         // Check if it's hex
