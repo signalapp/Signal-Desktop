@@ -418,14 +418,22 @@
       }
     },
     onFriendRequestAccepted() {
-      this.save({ friendRequestStatus: null });
+      window.Signal.Data.updateConversation(
+        this.id,
+        { friendRequestStatus: null },
+        { Conversation: Whisper.Conversation }
+      );
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'chat');
     },
     onFriendRequestTimedOut() {
       const friendRequestStatus = this.getFriendRequestStatus();
       friendRequestStatus.allowSending = true;
-      this.save({ friendRequestStatus });
+      window.Signal.Data.updateConversation(
+        this.id,
+        { friendRequestStatus },
+        { Conversation: Whisper.Conversation }
+      );
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'friend-request');
     },
@@ -447,7 +455,11 @@
         this.onFriendRequestTimedOut();
       }, delayMs);
 
-      this.save({ friendRequestStatus });
+      window.Signal.Data.updateConversation(
+        this.id,
+        { friendRequestStatus },
+        { Conversation: Whisper.Conversation }
+      );
     },
     isUnverified() {
       if (this.isPrivate()) {

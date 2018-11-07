@@ -134,27 +134,7 @@ OutgoingMessage.prototype = {
         })
       );
     // TODO: check if still applicable
-
-    const { numberInfo } = this;
-    const info = numberInfo && numberInfo[number] ? numberInfo[number] : {};
-    const { accessKey } = info || {};
-
     if (updateDevices === undefined) {
-      if (accessKey) {
-        return this.server
-          .getKeysForNumberUnauth(number, '*', { accessKey })
-          .catch(error => {
-            if (error.code === 401 || error.code === 403) {
-              if (this.failoverNumbers.indexOf(number) === -1) {
-                this.failoverNumbers.push(number);
-              }
-              return this.server.getKeysForNumber(number, '*');
-            }
-            throw error;
-          })
-          .then(handleResult);
-      }
-
       return this.server.getKeysForNumber(number, '*').then(handleResult);
     }
     let promise = Promise.resolve(true);
@@ -263,6 +243,7 @@ OutgoingMessage.prototype = {
     const ciphers = {};
     const plaintext = this.getPlaintext();
 
+    /* Disabled because i'm not sure how senderCertificate works :thinking:
     const { numberInfo, senderCertificate } = this;
     const info = numberInfo && numberInfo[number] ? numberInfo[number] : {};
     const { accessKey } = info || {};
@@ -289,11 +270,12 @@ OutgoingMessage.prototype = {
           deviceId === ourDeviceId || deviceId === parseInt(ourDeviceId, 10)
       );
     }
+    */
 
     return Promise.all(
       deviceIds.map(async deviceId => {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
-
+        const ourNumber = textsecure.storage.user.getNumber();
         const options = {};
 
         // No limit on message keys if we're communicating with our other devices

@@ -58,6 +58,7 @@ module.exports = {
 
   createOrUpdatePreKey,
   getPreKeyById,
+  getPreKeyByRecipient,
   bulkAddPreKeys,
   removePreKeyById,
   removeAllPreKeys,
@@ -398,8 +399,8 @@ async function getPreKeyById(id) {
   const data = await channels.getPreKeyById(id);
   return keysToArrayBuffer(PRE_KEY_KEYS, data);
 }
-async function getPreKeyByRecipent(recipient) {
-  const data = await channels.getPreKeyByRecipent(recipient);
+async function getPreKeyByRecipient(recipient) {
+  const data = await channels.getPreKeyByRecipient(recipient);
   return keysToArrayBuffer(PRE_KEY_KEYS, data);
 }
 async function bulkAddPreKeys(array) {
