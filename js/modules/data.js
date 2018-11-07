@@ -69,6 +69,23 @@ module.exports = {
   removeSignedPreKeyById,
   removeAllSignedPreKeys,
 
+  createOrUpdateContactPreKey,
+  getContactPreKeyById,
+  getContactPreKeyByIdentityKey,
+  getContactPreKeys,
+  getAllContactPreKeys,
+  bulkAddContactPreKeys,
+  removeContactPreKeyById,
+  removeAllContactPreKeys,
+
+  createOrUpdateContactSignedPreKey,
+  getContactSignedPreKeyById,
+  getContactSignedPreKeyByIdentityKey,
+  getContactSignedPreKeys,
+  bulkAddContactSignedPreKeys,
+  removeContactSignedPreKeyById,
+  removeAllContactSignedPreKeys,
+
   createOrUpdateItem,
   getItemById,
   getAllItems,
@@ -381,6 +398,10 @@ async function getPreKeyById(id) {
   const data = await channels.getPreKeyById(id);
   return keysToArrayBuffer(PRE_KEY_KEYS, data);
 }
+async function getPreKeyByRecipent(recipient) {
+  const data = await channels.getPreKeyByRecipent(recipient);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
 async function bulkAddPreKeys(array) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
   await channels.bulkAddPreKeys(updated);
@@ -417,6 +438,67 @@ async function removeSignedPreKeyById(id) {
 async function removeAllSignedPreKeys() {
   await channels.removeAllSignedPreKeys();
 }
+
+// Contact Pre Key
+async function createOrUpdateContactPreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdateContactPreKey(updated);
+}
+async function getContactPreKeyById(id) {
+  const data = await channels.getContactPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactPreKeyByIdentityKey(key) {
+  const data = await channels.getContactPreKeyByIdentityKey(key);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactPreKeys(keyId, identityKeyString) {
+  const keys = await channels.getContactPreKeys(keyId, identityKeyString);
+  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, data));
+}
+async function getAllContactPreKeys() {
+  const keys = await channels.getAllContactPreKeys();
+  return keys;
+}
+async function bulkAddContactPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddContactPreKeys(updated);
+}
+async function removeContactPreKeyById(id) {
+  await channels.removePreContactKeyById(id);
+}
+async function removeAllContactPreKeys() {
+  await channels.removeAllContactPreKeys();
+}
+
+// Contact Signed Pre Key
+async function createOrUpdateContactSignedPreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdateContactSignedPreKey(updated);
+}
+async function getContactSignedPreKeyById(id) {
+  const data = await channels.getContactSignedPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactSignedPreKeyByIdentityKey(key) {
+  const data = await channels.getContactSignedPreKeyByIdentityKey(key);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactSignedPreKeys(keyId, identityKeyString) {
+  const keys = await channels.getContactSignedPreKeys(keyId, identityKeyString);
+  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, data));
+}
+async function bulkAddContactSignedPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddContactSignedPreKeys(updated);
+}
+async function removeContactSignedPreKeyById(id) {
+  await channels.removePreContactSignedKeyById(id);
+}
+async function removeAllContactSignedPreKeys() {
+  await channels.removeAllContactSignedPreKeys();
+}
+
 
 // Items
 

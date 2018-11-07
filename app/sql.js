@@ -43,6 +43,22 @@ module.exports = {
   removeSignedPreKeyById,
   removeAllSignedPreKeys,
 
+  createOrUpdateContactPreKey,
+  getContactPreKeyById,
+  getContactPreKeyByIdentityKey,
+  getContactPreKeys,
+  bulkAddContactPreKeys,
+  removeContactPreKeyById,
+  removeAllContactPreKeys,
+
+  createOrUpdateContactSignedPreKey,
+  getContactSignedPreKeyById,
+  getContactSignedPreKeyByIdentityKey,
+  getContactSignedPreKeys,
+  bulkAddContactSignedPreKeys,
+  removeContactSignedPreKeyById,
+  removeAllContactSignedPreKeys,
+
   createOrUpdateItem,
   getItemById,
   getAllItems,
@@ -419,6 +435,24 @@ async function updateToSchemaVersion6(currentVersion, instance) {
     );`
   );
 
+  await instance.run(
+    `CREATE TABLE contactPreKeys(
+      id INTEGER PRIMARY KEY ASC AUTO_INCREMENT,
+      keyId INTEGER,
+      identityKeyString STRING,
+      json TEXT
+    );`
+  );
+
+  await instance.run(
+    `CREATE TABLE contactSignedPreKeys(
+      id INTEGER PRIMARY KEY ASC AUTO_INCREMENT,
+      identityKeyString STRING,
+      keyId INTEGER,
+      json TEXT
+    );`
+  );
+
   await instance.run('PRAGMA schema_version = 6;');
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToSchemaVersion6: success!');
@@ -605,6 +639,113 @@ async function removePreKeyById(id) {
 }
 async function removeAllPreKeys() {
   return removeAllFromTable(PRE_KEYS_TABLE);
+}
+
+const CONTACT_PRE_KEYS_TABLE = 'contactPreKeys';
+async function createOrUpdateContactPreKey(data) {
+  const { keyId, identityKeyString } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${CONTACT_PRE_KEYS_TABLE} (
+      keyId,
+      identityKeyString,
+      json
+    ) values (
+      $keyId,
+      $identityKeyString,
+      $json
+    )`,
+    {
+      $keyId: keyId,
+      $identityKeyString: identityKeyString || '',
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getContactPreKeyById(id) {
+  return getById(CONTACT_PRE_KEYS_TABLE, id);
+}
+async function getContactPreKeyByIdentityKey(key) {
+  const row = await db.get(`SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
+    $identityKeyString: key,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function getContactPreKeys(keyId, identityKeyString) {
+  const query = `SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString AND keyId = $keyId;`;
+  const rows = await db.all(query, {
+    $keyId: keyId,
+    $identityKeyString: identityKeyString,
+  });
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function bulkAddContactPreKeys(array) {
+  return bulkAdd(CONTACT_PRE_KEYS_TABLE, array);
+}
+async function removeContactPreKeyById(id) {
+  return removeById(CONTACT_PRE_KEYS_TABLE, id);
+}
+async function removeAllContactPreKeys() {
+  return removeAllFromTable(CONTACT_PRE_KEYS_TABLE);
+}
+
+const CONTACT_SIGNED_PRE_KEYS_TABLE = 'contactSignedPreKeys';
+async function createOrUpdateContactSignedPreKey(data) {
+  const { keyId, identityKeyString } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${CONTACT_SIGNED_PRE_KEYS_TABLE} (
+      keyId,
+      identityKeyString,
+      json
+    ) values (
+      $keyId,
+      $identityKeyString,
+      $json
+    )`,
+    {
+      $keyId: keyId,
+      $identityKeyString: identityKeyString || '',
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getContactSignedPreKeyById(id) {
+  return getById(CONTACT_SIGNED_PRE_KEYS_TABLE, id);
+}
+async function getContactSignedPreKeyByIdentityKey(key) {
+  const row = await db.get(`SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
+    $identityKeyString: key,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function getContactSignedPreKeys(keyId, identityKeyString) {
+  const query = `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString AND keyId = $keyId;`;
+  const rows = await db.all(query, {
+    $keyId: keyId,
+    $identityKeyString: identityKeyString,
+  });
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddContactSignedPreKeys(array) {
+  return bulkAdd(CONTACT_SIGNED_PRE_KEYS_TABLE, array);
+}
+async function removeContactSignedPreKeyById(id) {
+  return removeById(CONTACT_SIGNED_PRE_KEYS_TABLE, id);
+}
+async function removeAllContactSignedPreKeys() {
+  return removeAllFromTable(CONTACT_SIGNED_PRE_KEYS_TABLE);
 }
 
 const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';

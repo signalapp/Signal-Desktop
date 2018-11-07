@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* global
   textsecure,
   libsignal,
@@ -8,10 +7,9 @@
   StringView,
   dcodeIO,
   log,
- */
-=======
-/* global textsecure, libsignal, window, btoa, _ */
->>>>>>> sig-development
+  btoa,
+  _
+*/
 
 /* eslint-disable more/no-then */
 
