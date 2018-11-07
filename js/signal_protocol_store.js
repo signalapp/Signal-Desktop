@@ -238,7 +238,7 @@
         keyId: preKey.keyId,
       };
 
-      await window.Signal.Data.createorUpdateContactPreKey(key);
+      await window.Signal.Data.createOrUpdateContactPreKey(key);
     },
     async storePreKey(keyId, keyPair, contactIdentityKeyString) {
       const data = {
@@ -357,7 +357,7 @@
         created_at: Date.now(),
         confirmed: false,
       };
-      await window.Signal.Date.createorUpdateContactSignedPreKey(key);
+      await window.Signal.Data.createOrUpdateContactSignedPreKey(key);
     },
     async removeSignedPreKey(keyId) {
       await window.Signal.Data.removeSignedPreKeyById(keyId);

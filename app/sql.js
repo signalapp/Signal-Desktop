@@ -47,6 +47,7 @@ module.exports = {
   getContactPreKeyById,
   getContactPreKeyByIdentityKey,
   getContactPreKeys,
+  getAllContactPreKeys,
   bulkAddContactPreKeys,
   removeContactPreKeyById,
   removeAllContactPreKeys,
@@ -424,7 +425,6 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   await instance.run(
     `CREATE TABLE preKeys(
       id INTEGER PRIMARY KEY ASC,
-      recipient STRING,
       json TEXT
     );`
   );
@@ -435,27 +435,42 @@ async function updateToSchemaVersion6(currentVersion, instance) {
     );`
   );
 
+  await instance.run('PRAGMA schema_version = 6;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion6: success!');
+}
+
+async function updateToSchemaVersion7(currentVersion, instance) {
+  if (currentVersion >= 7) {
+    return;
+  }
+  console.log('updateToSchemaVersion7: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // Add recipient row
+  await instance.run('ALTER TABLE preKeys ADD recipient STRING;');
+
   await instance.run(
     `CREATE TABLE contactPreKeys(
-      id INTEGER PRIMARY KEY ASC AUTO_INCREMENT,
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      identityKeyString VARCHAR(255),
       keyId INTEGER,
-      identityKeyString STRING,
       json TEXT
     );`
   );
 
   await instance.run(
     `CREATE TABLE contactSignedPreKeys(
-      id INTEGER PRIMARY KEY ASC AUTO_INCREMENT,
-      identityKeyString STRING,
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      identityKeyString VARCHAR(255),
       keyId INTEGER,
       json TEXT
     );`
   );
 
-  await instance.run('PRAGMA schema_version = 6;');
+  await instance.run('PRAGMA schema_version = 7;');
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToSchemaVersion6: success!');
+  console.log('updateToSchemaVersion7: success!');
 }
 
 const SCHEMA_VERSIONS = [
@@ -465,6 +480,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion4,
   // version 5 was dropped
   updateToSchemaVersion6,
+  updateToSchemaVersion7, // Loki schema
 ];
 
 async function updateSchema(instance) {
@@ -757,6 +773,10 @@ async function getSignedPreKeyById(id) {
 }
 async function getAllSignedPreKeys() {
   const rows = await db.all('SELECT json FROM signedPreKeys ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+async function getAllContactPreKeys() {
+  const rows = await db.all('SELECT json FROM contactPreKeys ORDER BY id ASC;');
   return map(rows, row => jsonToObject(row.json));
 }
 async function bulkAddSignedPreKeys(array) {
