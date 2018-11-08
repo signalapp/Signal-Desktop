@@ -70,12 +70,33 @@
         generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;
       }
       return this.queueTask(() =>
-        generateKeypair().then(identityKeyPair =>
-          createAccount(identityKeyPair)
-            .then(clearSessionsAndPreKeys)
-            .then(generateKeys)
-            .then(keys => confirmKeys(keys))
-            .then(registrationDone)
+        generateKeypair().then(
+          async identityKeyPair => {
+            const profileKey = textsecure.crypto.getRandomBytes(32);
+            const accessKey = await window.Signal.Crypto.deriveAccessKey(
+              profileKey
+            );
+            
+            // our key
+            const pubKeyString = StringView.arrayBufferToHex(
+              identityKeyPair.pubKey
+            );
+
+            return createAccount(
+              pubKeyString,
+              null,
+              identityKeyPair,
+              profileKey,
+              null,
+              null,
+              null,
+              { accessKey }
+            )
+              .then(clearSessionsAndPreKeys)
+              .then(generateKeys)
+              .then(confirmKeys)
+              .then(() => registrationDone(pubKeyString))
+          }
         )
       );
     },
@@ -394,13 +415,21 @@
         });
       });
     },
-    createAccount(identityKeyPair, userAgent, readReceipts) {
-      return Promise.resolve().then(() => {
-        textsecure.storage.remove('identityKey');
-        textsecure.storage.remove('number_id');
-        textsecure.storage.remove('device_name');
-        textsecure.storage.remove('userAgent');
-        textsecure.storage.remove('read-receipts-setting');
+    // Original parameters are left so we are still compatible with the other signal code
+    createAccount(
+      number,
+      verificationCode,
+      identityKeyPair,
+      profileKey,
+      deviceName,
+      userAgent,
+      readReceipts,
+      options = {}
+    ) {
+      const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
+      let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
+      password = password.substring(0, password.length - 2);
+      const registrationId = libsignal.KeyHelper.generateRegistrationId();
 
         // update our own identity key, which may have changed
         // if we're relinking after a reinstall on the master device
@@ -408,27 +437,52 @@
           identityKeyPair.pubKey
         );
 
-        textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
-          id: pubKeyString,
-          publicKey: identityKeyPair.pubKey,
-          firstUse: true,
-          timestamp: Date.now(),
-          verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
-          nonblockingApproval: true,
+      return Promise.resolve().then(() => {
+          textsecure.storage.remove('identityKey');
+          textsecure.storage.remove('signaling_key');
+          textsecure.storage.remove('password');
+          textsecure.storage.remove('registrationId');
+          textsecure.storage.remove('number_id');
+          textsecure.storage.remove('device_name');
+          textsecure.storage.remove('regionCode');
+          textsecure.storage.remove('userAgent');
+          textsecure.storage.remove('profileKey');
+          textsecure.storage.remove('read-receipts-setting');
+
+          const identity = number || pubKeyString;
+
+          // update our own identity key, which may have changed
+          // if we're relinking after a reinstall on the master device
+          textsecure.storage.protocol.saveIdentityWithAttributes(identity, {
+            id: identity,
+            publicKey: identityKeyPair.pubKey,
+            firstUse: true,
+            timestamp: Date.now(),
+            verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
+            nonblockingApproval: true,
+          });
+
+          textsecure.storage.put('identityKey', identityKeyPair);
+          textsecure.storage.put('signaling_key', signalingKey);
+          textsecure.storage.put('password', password);
+          textsecure.storage.put('registrationId', registrationId);
+          if (profileKey) {
+            textsecure.storage.put('profileKey', profileKey);
+          }
+          if (userAgent) {
+            textsecure.storage.put('userAgent', userAgent);
+          }
+          if (readReceipts) {
+            textsecure.storage.put('read-receipt-setting', true);
+          } else {
+            textsecure.storage.put('read-receipt-setting', false);
+          }
+
+          textsecure.storage.user.setNumberAndDeviceId(
+            pubKeyString,
+            1,
+          );
         });
-
-        textsecure.storage.put('identityKey', identityKeyPair);
-        if (userAgent) {
-          textsecure.storage.put('userAgent', userAgent);
-        }
-        if (readReceipts) {
-          textsecure.storage.put('read-receipt-setting', true);
-        } else {
-          textsecure.storage.put('read-receipt-setting', false);
-        }
-
-        textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
-      });
     },
     clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;
@@ -441,13 +495,13 @@
       ]);
     },
     // Takes the same object returned by generateKeys
-    confirmKeys(keys) {
+    async confirmKeys(keys) {
       const store = textsecure.storage.protocol;
       const key = keys.signedPreKey;
       const confirmed = true;
 
       window.log.info('confirmKeys: confirming key', key.keyId);
-      return store.storeSignedPreKey(
+      await store.storeSignedPreKey(
         key.keyId,
         key.keyPair,
         confirmed,
