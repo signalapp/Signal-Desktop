@@ -6,7 +6,7 @@ window.PROTO_ROOT = '../protos';
 
 const OriginalReporter = mocha._reporter;
 
-const SauceReporter = runner => {
+const SauceReporter = function Constructor(runner) {
   const failedTests = [];
 
   runner.on('end', () => {
@@ -64,7 +64,7 @@ window.hexToArrayBuffer = str => {
 
 function deleteIndexedDB() {
   return new Promise((resolve, reject) => {
-    const idbReq = indexedDB.deleteIndexedDB('test');
+    const idbReq = indexedDB.deleteDatabase('test');
     idbReq.onsuccess = resolve;
     idbReq.error = reject;
   });

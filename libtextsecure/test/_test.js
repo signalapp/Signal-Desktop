@@ -6,7 +6,7 @@ window.PROTO_ROOT = '../../protos';
 
 const OriginalReporter = mocha._reporter;
 
-const SauceReporter = runner => {
+const SauceReporter = function Constructor(runner) {
   const failedTests = [];
 
   runner.on('end', () => {
