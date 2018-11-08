@@ -1232,7 +1232,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
+        "message": "Зникаючі повідомлення заборонені",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {

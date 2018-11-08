@@ -632,11 +632,11 @@
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Original message not found",
+        "message": "لم يتم العثور على الرسالة الأصلية",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Original message no longer available",
+        "message": "الرسالة الأصلية لم تعد متوفرة",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
