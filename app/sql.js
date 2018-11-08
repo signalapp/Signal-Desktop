@@ -1518,6 +1518,8 @@ async function removeAll() {
       db.run('DELETE FROM sessions;'),
       db.run('DELETE FROM signedPreKeys;'),
       db.run('DELETE FROM unprocessed;'),
+      db.run('DELETE FROM contactPreKeys'),
+      db.run('DELETE FROM contactSignedPreKeys'),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
@@ -1538,6 +1540,8 @@ async function removeAllConfiguration() {
       db.run('DELETE FROM sessions;'),
       db.run('DELETE FROM signedPreKeys;'),
       db.run('DELETE FROM unprocessed;'),
+      db.run('DELETE FROM contactPreKeys'),
+      db.run('DELETE FROM contactSignedPreKeys'),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
