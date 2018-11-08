@@ -425,6 +425,7 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   await instance.run(
     `CREATE TABLE preKeys(
       id INTEGER PRIMARY KEY ASC,
+      recipient STRING,
       json TEXT
     );`
   );
@@ -434,21 +435,6 @@ async function updateToSchemaVersion6(currentVersion, instance) {
       json TEXT
     );`
   );
-
-  await instance.run('PRAGMA schema_version = 6;');
-  await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToSchemaVersion6: success!');
-}
-
-async function updateToSchemaVersion7(currentVersion, instance) {
-  if (currentVersion >= 7) {
-    return;
-  }
-  console.log('updateToSchemaVersion7: starting...');
-  await instance.run('BEGIN TRANSACTION;');
-
-  // Add recipient row
-  await instance.run('ALTER TABLE preKeys ADD recipient STRING;');
 
   await instance.run(
     `CREATE TABLE contactPreKeys(
@@ -468,9 +454,9 @@ async function updateToSchemaVersion7(currentVersion, instance) {
     );`
   );
 
-  await instance.run('PRAGMA schema_version = 7;');
+  await instance.run('PRAGMA schema_version = 6;');
   await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToSchemaVersion7: success!');
+  console.log('updateToSchemaVersion6: success!');
 }
 
 const SCHEMA_VERSIONS = [
@@ -480,7 +466,6 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion4,
   // version 5 was dropped
   updateToSchemaVersion6,
-  updateToSchemaVersion7, // Loki schema
 ];
 
 async function updateSchema(instance) {
