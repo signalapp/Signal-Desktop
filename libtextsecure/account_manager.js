@@ -70,32 +70,15 @@
         generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;
       }
       return this.queueTask(() =>
-        generateKeypair().then(
-          async identityKeyPair => {
-            const profileKey = textsecure.crypto.getRandomBytes(32);
-            const accessKey = await window.Signal.Crypto.deriveAccessKey(
-              profileKey
-            );
-            
-            // our key
-            const pubKeyString = StringView.arrayBufferToHex(
-              identityKeyPair.pubKey
-            );
-
-            return createAccount(
-              pubKeyString,
-              null,
-              identityKeyPair,
-              profileKey,
-              null,
-              null,
-              null,
-              { accessKey }
-            )
+        generateKeypair().then(async identityKeyPair => {
+            return createAccount(identityKeyPair)
               .then(clearSessionsAndPreKeys)
               .then(generateKeys)
               .then(confirmKeys)
-              .then(() => registrationDone(pubKeyString))
+              .then(() => {
+                const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
+                registrationDone(pubKeyString)
+              });
           }
         )
       );
@@ -154,100 +137,7 @@
       log.info('Added mock contact');
     },
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
-      const createAccount = this.createAccount.bind(this);
-      const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
-      const generateKeys = this.generateKeys.bind(this, 0, progressCallback);
-      const confirmKeys = this.confirmKeys.bind(this);
-      const registrationDone = this.registrationDone.bind(this);
-      const registerKeys = this.server.registerKeys.bind(this.server);
-      const getSocket = this.server.getProvisioningSocket.bind(this.server);
-      const queueTask = this.queueTask.bind(this);
-      const provisioningCipher = new libsignal.ProvisioningCipher();
-      let gotProvisionEnvelope = false;
-      return provisioningCipher.getPublicKey().then(
-        pubKey =>
-          new Promise((resolve, reject) => {
-            const socket = getSocket();
-            socket.onclose = event => {
-              window.log.info('provisioning socket closed. Code:', event.code);
-              if (!gotProvisionEnvelope) {
-                reject(new Error('websocket closed'));
-              }
-            };
-            socket.onopen = () => {
-              window.log.info('provisioning socket open');
-            };
-            const wsr = new WebSocketResource(socket, {
-              keepalive: { path: '/v1/keepalive/provisioning' },
-              handleRequest(request) {
-                if (request.path === '/v1/address' && request.verb === 'PUT') {
-                  const proto = textsecure.protobuf.ProvisioningUuid.decode(
-                    request.body
-                  );
-                  setProvisioningUrl(
-                    [
-                      'tsdevice:/?uuid=',
-                      proto.uuid,
-                      '&pub_key=',
-                      encodeURIComponent(btoa(getString(pubKey))),
-                    ].join('')
-                  );
-                  request.respond(200, 'OK');
-                } else if (
-                  request.path === '/v1/message' &&
-                  request.verb === 'PUT'
-                ) {
-                  const envelope = textsecure.protobuf.ProvisionEnvelope.decode(
-                    request.body,
-                    'binary'
-                  );
-                  request.respond(200, 'OK');
-                  gotProvisionEnvelope = true;
-                  wsr.close();
-                  resolve(
-                    provisioningCipher
-                      .decrypt(envelope)
-                      .then(provisionMessage =>
-                        queueTask(() =>
-                          confirmNumber(provisionMessage.number).then(
-                            deviceName => {
-                              if (
-                                typeof deviceName !== 'string' ||
-                                deviceName.length === 0
-                              ) {
-                                throw new Error('Invalid device name');
-                              }
-                              return createAccount(
-                                provisionMessage.number,
-                                provisionMessage.provisioningCode,
-                                provisionMessage.identityKeyPair,
-                                provisionMessage.profileKey,
-                                deviceName,
-                                provisionMessage.userAgent,
-                                provisionMessage.readReceipts
-                              )
-                                .then(clearSessionsAndPreKeys)
-                                .then(generateKeys)
-                                .then(keys =>
-                                  registerKeys(keys).then(() =>
-                                    confirmKeys(keys)
-                                  )
-                                )
-                                .then(() =>
-                                  registrationDone(provisionMessage.number)
-                                );
-                            }
-                          )
-                        )
-                      )
-                  );
-                } else {
-                  window.log.error('Unknown websocket message', request.path);
-                }
-              },
-            });
-          })
-      );
+      throw new Error('account_manager: registerSecondDevice has not been implemented!');
     },
     refreshPreKeys() {
       const generateKeys = this.generateKeys.bind(this, 0);
@@ -415,17 +305,7 @@
         });
       });
     },
-    // Original parameters are left so we are still compatible with the other signal code
-    createAccount(
-      number,
-      verificationCode,
-      identityKeyPair,
-      profileKey,
-      deviceName,
-      userAgent,
-      readReceipts,
-      options = {}
-    ) {
+    createAccount(identityKeyPair, userAgent, readReceipts) {
       const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
       let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
       password = password.substring(0, password.length - 2);
@@ -444,17 +324,13 @@
           textsecure.storage.remove('registrationId');
           textsecure.storage.remove('number_id');
           textsecure.storage.remove('device_name');
-          textsecure.storage.remove('regionCode');
           textsecure.storage.remove('userAgent');
-          textsecure.storage.remove('profileKey');
           textsecure.storage.remove('read-receipts-setting');
-
-          const identity = number || pubKeyString;
 
           // update our own identity key, which may have changed
           // if we're relinking after a reinstall on the master device
-          textsecure.storage.protocol.saveIdentityWithAttributes(identity, {
-            id: identity,
+          textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
+            id: pubKeyString,
             publicKey: identityKeyPair.pubKey,
             firstUse: true,
             timestamp: Date.now(),
@@ -466,9 +342,6 @@
           textsecure.storage.put('signaling_key', signalingKey);
           textsecure.storage.put('password', password);
           textsecure.storage.put('registrationId', registrationId);
-          if (profileKey) {
-            textsecure.storage.put('profileKey', profileKey);
-          }
           if (userAgent) {
             textsecure.storage.put('userAgent', userAgent);
           }
@@ -478,10 +351,7 @@
             textsecure.storage.put('read-receipt-setting', false);
           }
 
-          textsecure.storage.user.setNumberAndDeviceId(
-            pubKeyString,
-            1,
-          );
+          textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
         });
     },
     clearSessionsAndPreKeys() {
