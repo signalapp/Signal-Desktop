@@ -119,7 +119,7 @@ describe('TimestampView', function() {
       view.$el.attr('data-timestamp', now - 1000 - 6 * 24 * 60 * 60 * 1000); // 6 days and 1 sec ago
       view.update();
       assert.isAbove(view.delay, 60 * 60 * 1000); // hour
-      assert.isBelow(view.delay, 24 * 60 * 60 * 1000); // day
+      assert.isBelow(view.delay, 36 * 60 * 60 * 1000); // day and a half
     });
 
     it('does not updates very old timestamps', function() {
