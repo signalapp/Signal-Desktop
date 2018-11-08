@@ -1,12 +1,12 @@
 /* global window: false */
 /* global textsecure: false */
-/* global WebAPI: false */
+/* global StringView: false */
 /* global libsignal: false */
-/* global WebSocketResource: false */
 /* global WebSocket: false */
 /* global Event: false */
 /* global dcodeIO: false */
 /* global _: false */
+/* global HttpResource: false */
 /* global ContactBuffer: false */
 /* global GroupBuffer: false */
 /* global Worker: false */
@@ -147,7 +147,7 @@ MessageReceiver.arrayBufferToStringBase64 = arrayBuffer =>
 MessageReceiver.prototype = new textsecure.EventTarget();
 MessageReceiver.prototype.extend({
   constructor: MessageReceiver,
-  async connect() {
+  connect() {
     if (this.calledClose) {
       return;
     }
@@ -159,12 +159,13 @@ MessageReceiver.prototype.extend({
     }
 
     this.hasConnected = true;
-    const myKeys = await textsecure.storage.protocol.getIdentityKeyPair();
-    const result = await this.lokiserver.retrieveMessages(myKeys);
-
+    this.hr = new HttpResource(this.lokiserver, {
+      handleRequest: this.handleRequest.bind(this),
+    });
+    this.hr.startPolling();
+    // TODO: Rework this socket stuff to work with online messaging
     return;
 
-    // TODO: Rework this socket stuff to work with online messaging
     if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
       this.socket.close();
       this.wsr.close();
@@ -234,7 +235,6 @@ MessageReceiver.prototype.extend({
     );
     // TODO: handle properly
     return;
-
     this.shutdown();
 
     if (this.calledClose) {
@@ -274,8 +274,8 @@ MessageReceiver.prototype.extend({
       return;
     }
 
-    const promise = Promise.resolve(request.body.toArrayBuffer()) //textsecure.crypto
-      //.decryptWebsocketMessage(request.body, this.signalingKey)
+    const promise = Promise.resolve(request.body.toArrayBuffer()) // textsecure.crypto
+      // .decryptWebsocketMessage(request.body, this.signalingKey)
       .then(plaintext => {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
         // After this point, decoding errors are not the server's

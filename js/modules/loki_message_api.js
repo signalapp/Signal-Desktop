@@ -1,4 +1,4 @@
-/* global log */
+/* global log, dcodeIO */
 
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
@@ -33,7 +33,7 @@ function initialize({ url }) {
           timestamp,
           ttl,
           pubKey,
-          data: Array.from(data),
+          data,
         });
 
         // Handle child process error (should never happen)
@@ -57,7 +57,7 @@ function initialize({ url }) {
       const options = {
         url: `${url}/retrieve`,
         type: 'GET',
-        responseType: undefined,
+        responseType: 'json',
         timeout: undefined,
       };
 
@@ -93,18 +93,20 @@ function initialize({ url }) {
 
       if (response.status >= 0 && response.status < 400) {
         log.info(options.type, options.url, response.status, 'Success');
-        return [result, response.status];
+        return result;
       }
       log.error(options.type, options.url, response.status, 'Error');
       throw HTTPError('retrieveMessages: error response', response.status, result);
     }
 
     async function sendMessage(pubKey, data, ttl) {
+      const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
+
       const timestamp = Math.floor(Date.now() / 1000);
       // Nonce is returned as a base64 string to include in header
       let nonce;
       try {
-        nonce = await getPoWNonce(timestamp, ttl, pubKey, data);
+        nonce = await getPoWNonce(timestamp, ttl, pubKey, data64);
       } catch (err) {
         // Something went horribly wrong
         // TODO: Handle gracefully
@@ -122,13 +124,12 @@ function initialize({ url }) {
 
       const fetchOptions = {
         method: options.type,
-        body: data,
+        body: data64,
         headers: {
           'X-Loki-pow-nonce': nonce,
           'X-Loki-timestamp': timestamp.toString(),
           'X-Loki-ttl': ttl.toString(),
           'X-Loki-recipient': pubKey,
-          'Content-Length': data.byteLength,
         },
         timeout: options.timeout,
       };
@@ -155,7 +156,7 @@ function initialize({ url }) {
 
       if (response.status >= 0 && response.status < 400) {
         log.info(options.type, options.url, response.status, 'Success');
-        return [result, response.status];
+        return result;
       }
       log.error(options.type, options.url, response.status, 'Error');
       throw HTTPError('sendMessage: error response', response.status, result);

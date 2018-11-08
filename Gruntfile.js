@@ -76,6 +76,7 @@ module.exports = grunt => {
           'libtextsecure/event_target.js',
           'libtextsecure/account_manager.js',
           'libtextsecure/websocket-resources.js',
+          'libtextsecure/http-resources.js',
           'libtextsecure/message_receiver.js',
           'libtextsecure/outgoing_message.js',
           'libtextsecure/sendmessage.js',

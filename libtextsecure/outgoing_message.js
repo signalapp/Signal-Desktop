@@ -166,8 +166,8 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
     const pubKey = number;
     try {
-      const [response] = await this.lokiserver.sendMessage(pubKey, data, ttl);
-      return response;
+      const result = await this.lokiserver.sendMessage(pubKey, data, ttl);
+      return result;
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
         // 409 and 410 should bubble and be handled by doSendMessage
@@ -209,8 +209,8 @@ OutgoingMessage.prototype = {
   async wrapInWebsocketMessage(outgoingObject) {
     const messageEnvelope = new textsecure.protobuf.Envelope({
       type: outgoingObject.type,
-      source: outgoingObject.address.getName(),
-      sourceDevice: outgoingObject.address.getDeviceId(),
+      source: outgoingObject.ourKey,
+      sourceDevice: outgoingObject.sourceDevice,
       timestamp: this.timestamp,
       content: outgoingObject.content,
     });
@@ -236,11 +236,11 @@ OutgoingMessage.prototype = {
       deviceIds.map(async deviceId => {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
 
-        const ourNumber = textsecure.storage.user.getNumber();
+        const ourKey = textsecure.storage.user.getNumber();
         const options = {};
 
         // No limit on message keys if we're communicating with our other devices
-        if (ourNumber === number) {
+        if (ourKey === number) {
           options.messageKeysLimit = false;
         }
 
@@ -270,8 +270,8 @@ OutgoingMessage.prototype = {
           })
           .then(ciphertext => ({
             type: ciphertext.type,
-            address,
-            destinationDeviceId: address.getDeviceId(),
+            ourKey,
+            sourceDevice: 1,
             destinationRegistrationId: ciphertext.registrationId,
             content: ciphertext.body,
           }));
