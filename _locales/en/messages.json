@@ -1577,5 +1577,38 @@
         "example": "Alice, Bob"
       }
     }
+  },
+  "friendRequestPending": {
+    "message": "$name$ sent you a friend request",
+    "description":
+      "Shown in the conversation history when the user recieves a friend request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "friendRequestAccepted": {
+    "message": "You accepted $name$'s friend request",
+    "description":
+      "Shown in the conversation history when the user accepts a friend request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "friendRequestDeclined": {
+    "message": "You declined $name$'s friend request",
+    "description":
+      "Shown in the conversation history when the user declines a friend request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
   }
 }

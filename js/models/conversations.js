@@ -567,7 +567,7 @@
     },
     // This will add a message which will allow the user to reply to a friend request
     // TODO: Maybe add callbacks for accept and decline?
-    async addFriendRequest() {
+    async addFriendRequest(body, type = 'incoming') {
       if (this.isMe()) {
         window.log.info(
           'refusing to send friend request to ourselves'
@@ -591,10 +591,11 @@
         sent_at: lastMessage,
         received_at: timestamp,
         unread: 1,
-        source: this.id,
-        target: this.ourNumber,
+        from: this.id,
+        to: this.ourNumber,
         status: 'pending',
-        type: 'incoming',
+        requestType: type,
+        body,
       };
 
       const id = await window.Signal.Data.saveMessage(message, {

@@ -1023,6 +1023,35 @@
   color: $color-white-07;
 }
 
+// Module: Friend Request
+.module-friend-request__buttonContainer {
+  margin-top: 8px;
+  justify-content: space-around;
+  border-top: 1px solid $color-white-07;
+  padding-top: 4px;
+}
+
+.module-friend-request__buttonContainer button {
+  flex: 0.5;
+  padding: 8px;
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  outline:none;
+  color: $color-white;
+}
+
+.module-friend-request__buttonContainer button:first-of-type {
+  border-right: 1px solid $color-white-07;
+}
+
+.module-friend-request__text {
+  padding-top: 6px;
+  padding-bottom: 4px;
+  color: $color-white-08;
+}
+
+
 // Module: Contact Detail
 
 .module-contact-detail {

@@ -296,16 +296,35 @@
       return {};
     },
     getPropsForFriendRequest() {
-      const source = this.get('source');
-      const target = this.get('target');
+      const source = this.get('from');
+      const target = this.get('to');
       const status = this.get('status') || 'pending';
       const type = this.get('requestType') || 'incoming';
 
+      //TODO: Not sure how we go about confirming and deleting message on server side
+      // I.e do we send a network request from the model? or call a function in the conversation to send the new status
+      const onAccept = async () => {
+        this.set({ status: 'accepted' });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+      };
+
+      const onDecline = async () => {
+        this.set({ status: 'declined' });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+      };
+
       return {
+        text: this.createNonBreakingLastSeparator(this.get('body')),
         source: this.findAndFormatContact(source),
         target: this.findAndFormatContact(target),
         status,
         type,
+        onAccept,
+        onDecline,
       }
     },
     findContact(phoneNumber) {
