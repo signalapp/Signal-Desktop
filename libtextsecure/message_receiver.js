@@ -287,6 +287,9 @@ MessageReceiver.prototype.extend({
         }
 
         envelope.id = envelope.serverGuid || window.getGuid();
+        envelope.serverTimestamp = envelope.serverTimestamp
+          ? envelope.serverTimestamp.toNumber()
+          : null;
 
         return this.addToCache(envelope, plaintext).then(
           async () => {
@@ -404,6 +407,11 @@ MessageReceiver.prototype.extend({
         );
       }
       const envelope = textsecure.protobuf.Envelope.decode(envelopePlaintext);
+      envelope.id = envelope.serverGuid || item.id;
+      envelope.source = envelope.source || item.source;
+      envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
+      envelope.serverTimestamp =
+        envelope.serverTimestamp || item.serverTimestamp;
 
       const { decrypted } = item;
       if (decrypted) {
@@ -516,15 +524,19 @@ MessageReceiver.prototype.extend({
     }
 
     if (item.get('version') === 2) {
-      item.set(
-        'decrypted',
-        await MessageReceiver.arrayBufferToStringBase64(plaintext)
-      );
+      item.set({
+        source: envelope.source,
+        sourceDevice: envelope.sourceDevice,
+        serverTimestamp: envelope.serverTimestamp,
+        decrypted: await MessageReceiver.arrayBufferToStringBase64(plaintext),
+      });
     } else {
-      item.set(
-        'decrypted',
-        await MessageReceiver.arrayBufferToString(plaintext)
-      );
+      item.set({
+        source: envelope.source,
+        sourceDevice: envelope.sourceDevice,
+        serverTimestamp: envelope.serverTimestamp,
+        decrypted: await MessageReceiver.arrayBufferToString(plaintext),
+      });
     }
 
     return textsecure.storage.unprocessed.save(item.attributes);
@@ -691,12 +703,7 @@ MessageReceiver.prototype.extend({
           .decrypt(
             window.Signal.Metadata.createCertificateValidator(serverTrustRoot),
             ciphertext.toArrayBuffer(),
-            Math.min(
-              envelope.serverTimestamp
-                ? envelope.serverTimestamp.toNumber()
-                : Date.now(),
-              Date.now()
-            ),
+            Math.min(envelope.serverTimestamp || Date.now(), Date.now()),
             me
           )
           .then(
@@ -737,7 +744,7 @@ MessageReceiver.prototype.extend({
                 throw error;
               }
 
-              return this.removeFromCache().then(() => {
+              return this.removeFromCache(envelope).then(() => {
                 throw error;
               });
             }
