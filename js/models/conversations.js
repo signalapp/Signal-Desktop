@@ -565,6 +565,50 @@
         })
       );
     },
+    // This will add a message which will allow the user to reply to a friend request
+    // TODO: Maybe add callbacks for accept and decline?
+    async addFriendRequest() {
+      if (this.isMe()) {
+        window.log.info(
+          'refusing to send friend request to ourselves'
+        );
+        return;
+      }
+
+      const lastMessage = this.get('timestamp') || Date.now();
+
+      window.log.info(
+        'adding friend request for',
+        this.ourNumber,
+        this.idForLogging(),
+        lastMessage
+      );
+
+      const timestamp = Date.now();
+      const message = {
+        conversationId: this.id,
+        type: 'friend-request',
+        sent_at: lastMessage,
+        received_at: timestamp,
+        unread: 1,
+        source: this.id,
+        target: this.ourNumber,
+        status: 'pending',
+        type: 'incoming',
+      };
+
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
+      });
+
+      this.trigger(
+        'newmessage',
+        new Whisper.Message({
+          ...message,
+          id,
+        })
+      );
+    },
     async addVerifiedChange(verifiedChangeId, verified, providedOptions) {
       const options = providedOptions || {};
       _.defaults(options, { local: true });

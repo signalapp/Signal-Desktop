@@ -187,6 +187,9 @@
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
+    isFriendRequest() {
+      return this.get('type') === 'friend-request';
+    },
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
@@ -291,6 +294,19 @@
     getPropsForResetSessionNotification() {
       // It doesn't need anything right now!
       return {};
+    },
+    getPropsForFriendRequest() {
+      const source = this.get('source');
+      const target = this.get('target');
+      const status = this.get('status') || 'pending';
+      const type = this.get('requestType') || 'incoming';
+
+      return {
+        source: this.findAndFormatContact(source),
+        target: this.findAndFormatContact(target),
+        status,
+        type,
+      }
     },
     findContact(phoneNumber) {
       return ConversationController.get(phoneNumber);
