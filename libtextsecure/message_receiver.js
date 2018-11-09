@@ -837,7 +837,6 @@ MessageReceiver.prototype.extend({
       });
   },
   promptUserToAcceptFriendRequest(pubKey, message) {
-    // pubKey = pubKey.slice(0, 30) + '...';
     window.Whisper.events.trigger('showFriendRequest', {
       pubKey,
       message,
@@ -846,6 +845,15 @@ MessageReceiver.prototype.extend({
   // A handler function for when a friend request is accepted or declined
   onFriendRequestUpdate(pubKey, message) {
     if (!message || !message.requestType || !message.status) return;
+
+    // Update the conversation
+    const conversation = ConversationController.get(pubKey);
+    if (conversation) {
+      // Update the conversation friend request indicator
+      conversation.updatePendingFriendRequests();
+    }
+    
+    // Send our own prekeys as a response
     if (message.requestType === 'incoming' && message.status === 'accepted') {
       libloki.sendEmptyMessageWithPreKeys(pubKey);
     }

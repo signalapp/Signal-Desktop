@@ -23,6 +23,7 @@ interface Props {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
   };
+  showFriendRequestIndicator?: boolean;
 
   i18n: Localizer;
   onClick?: () => void;
@@ -156,7 +157,7 @@ export class ConversationListItem extends React.Component<Props> {
   }
 
   public render() {
-    const { unreadCount, onClick, isSelected } = this.props;
+    const { unreadCount, onClick, isSelected, showFriendRequestIndicator } = this.props;
 
     return (
       <div
@@ -165,7 +166,8 @@ export class ConversationListItem extends React.Component<Props> {
         className={classNames(
           'module-conversation-list-item',
           unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
-          isSelected ? 'module-conversation-list-item--is-selected' : null
+          isSelected ? 'module-conversation-list-item--is-selected' : null,
+          showFriendRequestIndicator ? 'module-conversation-list-item--has-friend-request' : null
         )}
       >
         {this.renderAvatar()}

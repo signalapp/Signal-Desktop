@@ -182,10 +182,8 @@
       const controller = window.ConversationController;
       const conversation = await controller.getOrCreateAndWait(pubKey, 'private');
       if (conversation) {
-        conversation.addFriendRequest(message, 'incoming');
+        conversation.addFriendRequest(message);
       }
-
-      this.openConversation(conversation);
     },
   });
 })();

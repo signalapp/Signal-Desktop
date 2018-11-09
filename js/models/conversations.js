@@ -92,6 +92,8 @@
         conversation: this,
       });
 
+      this.pendingFriendRequest = false;
+
       this.messageCollection.on('change:errors', this.handleMessageError, this);
       this.messageCollection.on('send-error', this.onMessageError, this);
 
@@ -202,6 +204,32 @@
         title: this.getTitle(),
       };
     },
+    // This function sets `pendingFriendRequest` variable in memory
+    async updatePendingFriendRequests() {
+      const pendingFriendRequest = await this.hasPendingFriendRequests();
+      // Only update if we have different values
+      if (this.pendingFriendRequest !== pendingFriendRequest) {
+        this.pendingFriendRequest = pendingFriendRequest;
+        // trigger an update
+        this.trigger('change');
+      }
+    },
+    // This goes through all our message history and finds a friend request
+    // But this is not a concurrent operation and thus `updatePendingFriendRequests` is used
+    async hasPendingFriendRequests() {
+      // Go through the messages and check for any pending friend requests
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { MessageCollection: Whisper.MessageCollection }
+      );
+
+      for (let i = 0; i < messages.models.length; ++i) {
+        const message = messages.models[i];
+        if (message.isFriendRequest() && message.attributes.status === 'pending') return true;
+      }
+
+      return false;
+    },
     getPropsForListItem() {
       const result = {
         ...this.format(),
@@ -210,7 +238,7 @@
         lastUpdated: this.get('timestamp'),
         unreadCount: this.get('unreadCount') || 0,
         isSelected: this.isSelected,
-
+        showFriendRequestIndicator: this.pendingFriendRequest,
         lastMessage: {
           status: this.lastMessageStatus,
           text: this.lastMessage,
@@ -566,8 +594,7 @@
       );
     },
     // This will add a message which will allow the user to reply to a friend request
-    // TODO: Maybe add callbacks for accept and decline?
-    async addFriendRequest(body, type = 'incoming') {
+    async addFriendRequest(body, status = 'pending', type = 'incoming') {
       if (this.isMe()) {
         window.log.info(
           'refusing to send friend request to ourselves'
@@ -584,6 +611,17 @@
         lastMessage
       );
 
+      this.lastMessageStatus = 'sending';
+
+      this.set({
+        active_at: Date.now(),
+        timestamp: Date.now(),
+      });
+
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+
       const timestamp = Date.now();
       const message = {
         conversationId: this.id,
@@ -593,7 +631,7 @@
         unread: 1,
         from: this.id,
         to: this.ourNumber,
-        status: 'pending',
+        status,
         requestType: type,
         body,
       };
@@ -601,7 +639,7 @@
       const id = await window.Signal.Data.saveMessage(message, {
         Message: Whisper.Message,
       });
-
+     
       this.trigger(
         'newmessage',
         new Whisper.Message({
@@ -901,6 +939,9 @@
       if (!this.id) {
         return;
       }
+
+      // Update our friend indicator
+      this.updatePendingFriendRequests();
 
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,

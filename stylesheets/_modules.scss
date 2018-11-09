@@ -1796,6 +1796,11 @@
   border-left: 4px solid $color-signal-blue;
 }
 
+.module-conversation-list-item--has-friend-request {
+  padding-left: 12px;
+  border-left: 4px solid $color-conversation-indigo;
+}
+
 .module-conversation-list-item--is-selected {
   background-color: $color-gray-05;
 }
