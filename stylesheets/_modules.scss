@@ -1027,8 +1027,12 @@
 .module-friend-request__buttonContainer {
   margin-top: 8px;
   justify-content: space-around;
-  border-top: 1px solid $color-white-07;
+  border-top: 1px solid $color-gray-90;
   padding-top: 4px;
+}
+
+.module-friend-request__buttonContainer--incoming {
+  border-top: 1px solid $color-white-07;
 }
 
 .module-friend-request__buttonContainer button {
@@ -1038,16 +1042,28 @@
   border: 0;
   overflow: hidden;
   outline:none;
+  color: $color-gray-90;
+}
+
+.module-friend-request__buttonContainer--incoming button {
   color: $color-white;
 }
 
 .module-friend-request__buttonContainer button:first-of-type {
+  border-right: 1px solid $color-gray-90;
+}
+
+.module-friend-request__buttonContainer--incoming button:first-of-type {
   border-right: 1px solid $color-white-07;
 }
 
 .module-friend-request__text {
   padding-top: 6px;
   padding-bottom: 4px;
+  color: $color-gray-60;
+}
+
+.module-friend-request__text--incoming {
   color: $color-white-08;
 }
 

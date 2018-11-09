@@ -1578,7 +1578,7 @@
       }
     }
   },
-  "friendRequestPending": {
+  "incomingFriendRequestPending": {
     "message": "$name$ sent you a friend request",
     "description":
       "Shown in the conversation history when the user recieves a friend request",
@@ -1589,7 +1589,7 @@
       }
     }
   },
-  "friendRequestAccepted": {
+  "incomingFriendRequestAccepted": {
     "message": "You accepted $name$'s friend request",
     "description":
       "Shown in the conversation history when the user accepts a friend request",
@@ -1600,10 +1600,43 @@
       }
     }
   },
-  "friendRequestDeclined": {
+  "incomingFriendRequestDeclined": {
     "message": "You declined $name$'s friend request",
     "description":
       "Shown in the conversation history when the user declines a friend request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "outgoingFriendRequestPending": {
+    "message": "You sent $name$ a friend request",
+    "description":
+      "Shown in the conversation history when the user sends a friend request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "outgoingFriendRequestAccepted": {
+    "message": "$name$ accepted your friend request",
+    "description":
+      "Shown in the conversation history when the users friend request is accepted",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "outgoingFriendRequestDeclined": {
+    "message": "$name$ declined your friend request",
+    "description":
+      "Shown in the conversation history when the users friend request is declined",
     "placeholders": {
       "name": {
         "content": "$1",

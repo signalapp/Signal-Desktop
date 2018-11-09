@@ -25,22 +25,22 @@ interface Props {
 
 export class FriendRequest extends React.Component<Props> {
   public getStringId() {
-    const { status } = this.props;
+    const { type, status } = this.props;
 
     switch (status) {
       case 'pending':
-        return 'friendRequestPending';
+        return `${type}FriendRequestPending`;
       case 'accepted':
-        return 'friendRequestAccepted';
+        return `${type}FriendRequestAccepted`;
       case 'declined':
-        return 'friendRequestDeclined';
+        return `${type}FriendRequestDeclined`;
       default:
         throw new Error(`Invalid friend request status: ${status}`);
     }
   }
 
   public renderText() {
-    const { text, i18n } = this.props;
+    const { type, text, i18n } = this.props;
 
     if (!text) {
       return null;
@@ -49,7 +49,7 @@ export class FriendRequest extends React.Component<Props> {
     return (
       <div
         dir="auto"
-        className='module-message__text module-friend-request__text'
+        className={`module-message__text module-friend-request__text module-friend-request__text--${type}`}
       >
         <MessageBody text={text || ''} i18n={i18n} />
       </div>
@@ -84,9 +84,9 @@ export class FriendRequest extends React.Component<Props> {
   }
 
   public renderButtons() {
-      const { onAccept, onDecline } = this.props;
+      const { type, onAccept, onDecline } = this.props;
       return (
-          <div className="module-message__metadata module-friend-request__buttonContainer">
+          <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${type}`}>
             <button onClick={onAccept}>Accept</button>
             <button onClick={onDecline}>Decline</button>
           </div>
@@ -96,12 +96,14 @@ export class FriendRequest extends React.Component<Props> {
   public render() {
     const { type, status} = this.props;
 
+    const shouldRenderButtons = (status === 'pending' && type === 'incoming');
+
     return (
       <div className={`module-message module-message--${type}`}>
         <div className={`module-message__container module-message__container--${type}`}>
             <div className={`module-message__text module-message__text--${type}`}>
                 {this.renderContents()}
-                {(status === 'pending') && this.renderButtons()}
+                {shouldRenderButtons && this.renderButtons()}
             </div>
         </div>
       </div>
