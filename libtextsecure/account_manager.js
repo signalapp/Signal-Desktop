@@ -387,21 +387,23 @@
 
           return response;
         })
-        .then(response => {
-          textsecure.storage.remove('identityKey');
-          textsecure.storage.remove('signaling_key');
-          textsecure.storage.remove('password');
-          textsecure.storage.remove('registrationId');
-          textsecure.storage.remove('number_id');
-          textsecure.storage.remove('device_name');
-          textsecure.storage.remove('regionCode');
-          textsecure.storage.remove('userAgent');
-          textsecure.storage.remove('profileKey');
-          textsecure.storage.remove('read-receipts-setting');
+        .then(async response => {
+          await Promise.all([
+            textsecure.storage.remove('identityKey'),
+            textsecure.storage.remove('signaling_key'),
+            textsecure.storage.remove('password'),
+            textsecure.storage.remove('registrationId'),
+            textsecure.storage.remove('number_id'),
+            textsecure.storage.remove('device_name'),
+            textsecure.storage.remove('regionCode'),
+            textsecure.storage.remove('userAgent'),
+            textsecure.storage.remove('profileKey'),
+            textsecure.storage.remove('read-receipts-setting'),
+          ]);
 
           // update our own identity key, which may have changed
           // if we're relinking after a reinstall on the master device
-          textsecure.storage.protocol.saveIdentityWithAttributes(number, {
+          await textsecure.storage.protocol.saveIdentityWithAttributes(number, {
             id: number,
             publicKey: identityKeyPair.pubKey,
             firstUse: true,
@@ -410,28 +412,28 @@
             nonblockingApproval: true,
           });
 
-          textsecure.storage.put('identityKey', identityKeyPair);
-          textsecure.storage.put('signaling_key', signalingKey);
-          textsecure.storage.put('password', password);
-          textsecure.storage.put('registrationId', registrationId);
+          await textsecure.storage.put('identityKey', identityKeyPair);
+          await textsecure.storage.put('signaling_key', signalingKey);
+          await textsecure.storage.put('password', password);
+          await textsecure.storage.put('registrationId', registrationId);
           if (profileKey) {
-            textsecure.storage.put('profileKey', profileKey);
+            await textsecure.storage.put('profileKey', profileKey);
           }
           if (userAgent) {
-            textsecure.storage.put('userAgent', userAgent);
-          }
-          if (readReceipts) {
-            textsecure.storage.put('read-receipt-setting', true);
-          } else {
-            textsecure.storage.put('read-receipt-setting', false);
+            await textsecure.storage.put('userAgent', userAgent);
           }
 
-          textsecure.storage.user.setNumberAndDeviceId(
+          await textsecure.storage.put(
+            'read-receipt-setting',
+            Boolean(readReceipts)
+          );
+
+          await textsecure.storage.user.setNumberAndDeviceId(
             number,
             response.deviceId || 1,
             deviceName
           );
-          textsecure.storage.put(
+          await textsecure.storage.put(
             'regionCode',
             libphonenumber.util.getRegionCodeForNumber(number)
           );
