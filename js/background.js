@@ -560,7 +560,7 @@
     } else {
       appView.openStandalone();
     }
-
+  
     Whisper.events.on('showDebugLog', () => {
       appView.openDebugLog();
     });
@@ -595,6 +595,14 @@
         });
       }
     });
+
+    // Gets called when a user accepts or declines a friend request
+    Whisper.events.on('friendRequestUpdated', friendRequest => {
+      const { pubKey, ...message } = friendRequest; 
+      if (messageReceiver) {
+        messageReceiver.onFriendRequestUpdate(pubKey, message);
+      }
+    })
 
     Whisper.events.on('showFriendRequest', friendRequest => {
       if (appView) {

@@ -300,6 +300,7 @@
       const target = this.get('to');
       const status = this.get('status') || 'pending';
       const type = this.get('requestType') || 'incoming';
+      const conversation = this.getConversation();
 
       //TODO: Not sure how we go about confirming and deleting message on server side
       // I.e do we send a network request from the model? or call a function in the conversation to send the new status
@@ -308,12 +309,22 @@
         await window.Signal.Data.saveMessage(this.attributes, {
           Message: Whisper.Message,
         });
+
+        window.Whisper.events.trigger('friendRequestUpdated', {
+          pubKey: conversation.id,
+          ...this.attributes,
+        });
       };
 
       const onDecline = async () => {
         this.set({ status: 'declined' });
         await window.Signal.Data.saveMessage(this.attributes, {
           Message: Whisper.Message,
+        });
+
+        window.Whisper.events.trigger('friendRequestUpdated', {
+          pubKey: conversation.id,
+          ...this.attributes,
         });
       };
 

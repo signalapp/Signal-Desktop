@@ -836,21 +836,20 @@ MessageReceiver.prototype.extend({
         }
       });
   },
-  async promptUserToAcceptFriendRequest(pubKey, message) {
-    pubKey = pubKey.slice(0, 30) + '...';
-    let p = new Promise(resolve => {
-      window.Whisper.events.trigger('showFriendRequest', {
-        pubKey,
-        message,
-        accept: () => {
-          resolve(true);
-        },
-        decline: () => {
-          resolve(false);
-        },
-      });
+  promptUserToAcceptFriendRequest(pubKey, message) {
+    // pubKey = pubKey.slice(0, 30) + '...';
+    window.Whisper.events.trigger('showFriendRequest', {
+      pubKey,
+      message,
     });
-    return await p;
+  },
+  // A handler function for when a friend request is accepted or declined
+  onFriendRequestUpdate(pubKey, message) {
+    if (!message || !message.requestType || !message.status) return;
+    if (message.requestType === 'incoming' && message.status === 'accepted') {
+      libloki.sendEmptyMessageWithPreKeys(pubKey);
+    }
+    console.log(`Friend request for ${pubKey} was ${message.status}`, message);
   },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
@@ -862,19 +861,22 @@ MessageReceiver.prototype.extend({
         conversation = ConversationController.get(envelope.source);
       } catch (e) {}
       if (!conversation) {
-        const accepted = await this.promptUserToAcceptFriendRequest(
+        this.promptUserToAcceptFriendRequest(
           envelope.source,
           content.dataMessage.body
         );
-        if (accepted) {
-          // send our own prekeys as a response - no need to wait
-          libloki.sendEmptyMessageWithPreKeys(envelope.source);
-        } else {
-          console.log('friend request declined!');
-          return;
-        }
+        return;
+        // if (accepted) {
+        //   // send our own prekeys as a response - no need to wait
+        //   libloki.sendEmptyMessageWithPreKeys(envelope.source);
+        // } else {
+        //   console.log('friend request declined!');
+        //   return;
+        // }
       }
     }
+
+    //TODO: Check with sacha if this code needs to be called after friend request is accepted
 
     if (content.preKeyBundleMessage) {
       await this.handlePreKeyBundleMessage(
@@ -1458,6 +1460,8 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
   );
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
   this.close = messageReceiver.close.bind(messageReceiver);
+  this.onFriendRequestUpdate = messageReceiver.onFriendRequestUpdate.bind(messageReceiver);
+
   messageReceiver.connect();
 };
 
