@@ -420,19 +420,30 @@
         }
       }
     },
-    onFriendRequestAccepted() {
-      this.save({ friendRequestStatus: null });
+    async onFriendRequestAccepted() {
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'chat');
+      this.set({
+        friendRequestStatus: null,
+      });
+
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     },
-    onFriendRequestTimedOut() {
-      const friendRequestStatus = this.getFriendRequestStatus();
-      friendRequestStatus.allowSending = true;
-      this.save({ friendRequestStatus });
+    async onFriendRequestTimedOut() {
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'friend-request');
+
+      const friendRequestStatus = this.getFriendRequestStatus();
+      friendRequestStatus.allowSending = true;
+      this.set({ friendRequestStatus });
+
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     },
-    onFriendRequestSent() {
+    async onFriendRequestSent() {
       const friendRequestLockDuration = 72; // hours
 
       let friendRequestStatus = this.getFriendRequestStatus();
@@ -443,14 +454,19 @@
       friendRequestStatus.allowSending = false;
       const delayMs = 60 * 60 * 1000 * friendRequestLockDuration;
       friendRequestStatus.unlockTimestamp = Date.now() + delayMs;
+      
       this.trigger('disable:input', true);
       this.trigger('change:placeholder', 'disabled');
+
+      this.set({ friendRequestStatus });
+
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
 
       setTimeout(() => {
         this.onFriendRequestTimedOut();
       }, delayMs);
-
-      this.save({ friendRequestStatus });
     },
     isUnverified() {
       if (this.isPrivate()) {
