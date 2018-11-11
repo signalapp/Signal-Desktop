@@ -224,7 +224,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Scroll to bottom of conversation",
+        "message": "Vés al final de la conversa",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messageBelow": {
@@ -424,7 +424,7 @@
         "description": ""
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "S'ha produït un error en gestionar el missatge rebut",
         "description": ""
     },
     "media": {
@@ -480,7 +480,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "dangerousFileType": {
-        "message": "Attachment type not allowed for security reasons",
+        "message": "Per raons de seguretat, el tipus d'adjunt no es permès ",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "fileSizeWarning": {
@@ -488,7 +488,7 @@
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Unable to load selected attachment.",
+        "message": "No s'ha pogut carregar l'adjunt seleccionat",
         "description": ""
     },
     "disconnected": {
@@ -804,7 +804,7 @@
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Image sent in conversation",
+        "message": "S'ha enviat una imatge a la conversa",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "fileIconAlt": {
@@ -958,7 +958,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Most recent from:",
+        "message": "Més recent de:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
@@ -1010,7 +1010,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Importa tots els grups i contactes del Signal des del vostre aparell mòbil.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1268,7 +1268,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "El número de seguretat amb $name$ ha canviat.",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1282,7 +1282,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$:",
+        "message": "El número de seguretat amb $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {

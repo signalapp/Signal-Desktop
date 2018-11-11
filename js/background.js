@@ -727,7 +727,8 @@
 
       if (Whisper.Import.isComplete()) {
         const { wrap, sendOptions } = ConversationController.prepareForSend(
-          textsecure.storage.user.getNumber()
+          textsecure.storage.user.getNumber(),
+          { syncMessage: true }
         );
         wrap(
           textsecure.messaging.sendRequestConfigurationSyncMessage(sendOptions)

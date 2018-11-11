@@ -244,7 +244,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "        wrap(",
-    "lineNumber": 726,
+    "lineNumber": 727,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-18T22:23:00.485Z"
   },
@@ -252,7 +252,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "      await wrap(",
-    "lineNumber": 1227,
+    "lineNumber": 1228,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-26T22:43:23.229Z"
   },
@@ -260,7 +260,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "    async load() {",
-    "lineNumber": 208,
+    "lineNumber": 210,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
@@ -268,7 +268,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 237,
+    "lineNumber": 239,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
@@ -311,7 +311,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
     "line": "        return wrap(",
-    "lineNumber": 993,
+    "lineNumber": 994,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -383,7 +383,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/modules/startup.js",
     "line": "    await wrap(sendRequestConfigurationSyncMessage(sendOptions));",
-    "lineNumber": 50,
+    "lineNumber": 52,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -2331,7 +2331,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sync_request.js",
     "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
-    "lineNumber": 31,
+    "lineNumber": 32,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -2339,7 +2339,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sync_request.js",
     "line": "        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 34,
+    "lineNumber": 35,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },

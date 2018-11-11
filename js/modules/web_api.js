@@ -1,6 +1,7 @@
 const WebSocket = require('websocket').w3cwebsocket;
 const fetch = require('node-fetch');
 const ProxyAgent = require('proxy-agent');
+const { Agent } = require('https');
 
 const is = require('@sindresorhus/is');
 
@@ -166,6 +167,11 @@ function _createSocket(url, { certificateAuthority, proxyUrl, signature }) {
   return new WebSocket(url, null, null, headers, requestOptions);
 }
 
+const agents = {
+  unauth: null,
+  auth: null,
+};
+
 function _promiseAjax(providedUrl, options) {
   return new Promise((resolve, reject) => {
     const url = providedUrl || `${options.host}/${options.path}`;
@@ -176,10 +182,16 @@ function _promiseAjax(providedUrl, options) {
       typeof options.timeout !== 'undefined' ? options.timeout : 10000;
 
     const { proxyUrl } = options;
-    let agent;
-    if (proxyUrl) {
-      agent = new ProxyAgent(proxyUrl);
+    const agentType = options.unathenticated ? 'unauth' : 'auth';
+
+    if (!agents[agentType]) {
+      if (proxyUrl) {
+        agents[agentType] = new ProxyAgent(proxyUrl);
+      } else {
+        agents[agentType] = new Agent();
+      }
     }
+    const agent = agents[agentType];
 
     const fetchOptions = {
       method: options.type,

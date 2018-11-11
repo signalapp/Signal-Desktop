@@ -1,3 +1,5 @@
+/* global Signal, textsecure */
+
 'use strict';
 
 describe('Crypto', () => {
@@ -16,39 +18,36 @@ describe('Crypto', () => {
 
   describe('symmetric encryption', () => {
     it('roundtrips', async () => {
-      var message = 'this is my message';
-      var plaintext = new dcodeIO.ByteBuffer.wrap(
+      const message = 'this is my message';
+      const plaintext = dcodeIO.ByteBuffer.wrap(
         message,
         'binary'
       ).toArrayBuffer();
-      var key = textsecure.crypto.getRandomBytes(32);
+      const key = textsecure.crypto.getRandomBytes(32);
 
-      var encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
-      var decrypted = await Signal.Crypto.decryptSymmetric(key, encrypted);
+      const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
+      const decrypted = await Signal.Crypto.decryptSymmetric(key, encrypted);
 
-      var equal = Signal.Crypto.constantTimeEqual(plaintext, decrypted);
+      const equal = Signal.Crypto.constantTimeEqual(plaintext, decrypted);
       if (!equal) {
         throw new Error('The output and input did not match!');
       }
     });
 
     it('roundtrip fails if nonce is modified', async () => {
-      var message = 'this is my message';
-      var plaintext = new dcodeIO.ByteBuffer.wrap(
+      const message = 'this is my message';
+      const plaintext = dcodeIO.ByteBuffer.wrap(
         message,
         'binary'
       ).toArrayBuffer();
-      var key = textsecure.crypto.getRandomBytes(32);
+      const key = textsecure.crypto.getRandomBytes(32);
 
-      var encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
-      var uintArray = new Uint8Array(encrypted);
+      const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
+      const uintArray = new Uint8Array(encrypted);
       uintArray[2] = 9;
 
       try {
-        var decrypted = await Signal.Crypto.decryptSymmetric(
-          key,
-          uintArray.buffer
-        );
+        await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
       } catch (error) {
         assert.strictEqual(
           error.message,
@@ -61,22 +60,19 @@ describe('Crypto', () => {
     });
 
     it('roundtrip fails if mac is modified', async () => {
-      var message = 'this is my message';
-      var plaintext = new dcodeIO.ByteBuffer.wrap(
+      const message = 'this is my message';
+      const plaintext = dcodeIO.ByteBuffer.wrap(
         message,
         'binary'
       ).toArrayBuffer();
-      var key = textsecure.crypto.getRandomBytes(32);
+      const key = textsecure.crypto.getRandomBytes(32);
 
-      var encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
-      var uintArray = new Uint8Array(encrypted);
+      const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
+      const uintArray = new Uint8Array(encrypted);
       uintArray[uintArray.length - 3] = 9;
 
       try {
-        var decrypted = await Signal.Crypto.decryptSymmetric(
-          key,
-          uintArray.buffer
-        );
+        await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
       } catch (error) {
         assert.strictEqual(
           error.message,
@@ -89,22 +85,19 @@ describe('Crypto', () => {
     });
 
     it('roundtrip fails if encrypted contents are modified', async () => {
-      var message = 'this is my message';
-      var plaintext = new dcodeIO.ByteBuffer.wrap(
+      const message = 'this is my message';
+      const plaintext = dcodeIO.ByteBuffer.wrap(
         message,
         'binary'
       ).toArrayBuffer();
-      var key = textsecure.crypto.getRandomBytes(32);
+      const key = textsecure.crypto.getRandomBytes(32);
 
-      var encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
-      var uintArray = new Uint8Array(encrypted);
+      const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
+      const uintArray = new Uint8Array(encrypted);
       uintArray[35] = 9;
 
       try {
-        var decrypted = await Signal.Crypto.decryptSymmetric(
-          key,
-          uintArray.buffer
-        );
+        await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
       } catch (error) {
         assert.strictEqual(
           error.message,
