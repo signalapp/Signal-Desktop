@@ -680,6 +680,14 @@
         })
       );
     },
+    async _removeMessage(id) {
+      await window.Signal.Data.removeMessage(id, { Message: Whisper.Message });
+      const existing = this.messageCollection.get(id);
+      if (existing) {
+        this.messageCollection.remove(id);
+        existing.trigger('destroy');
+      }
+    },
     // This will add a message which will allow the user to reply to a friend request
     async addFriendRequest(body, options = {}) {
       const _options = {
@@ -724,12 +732,7 @@
         
         for (const request of requests) {
           // Delete the old message if it's pending
-          await window.Signal.Data.removeMessage(request.id, { Message: Whisper.Message });
-          const existing = this.messageCollection.get(request.id);
-          if (existing) {
-            this.messageCollection.remove(request.id);
-            existing.trigger('destroy');
-          }
+          await this._removeMessage(request.id);
         }
         // Trigger an update if we removed messages
         if (requests.length > 0)
@@ -954,7 +957,7 @@
       };
     },
 
-    sendMessage(body, attachments, quote) {
+    async sendMessage(body, attachments, quote) {
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
@@ -973,20 +976,57 @@
           'with timestamp',
           now
         );
+        
+        let messageWithSchema = null;
 
-        // TODO: Maybe create the friend request here?
-        // TODO: Make sure we're not adding duplicate messages if keys haven't been exchanged
-        const messageWithSchema = await upgradeMessageSchema({
-          type: 'outgoing',
-          body,
-          conversationId: destination,
-          quote,
-          attachments,
-          sent_at: now,
-          received_at: now,
-          expireTimer,
-          recipients,
-        });
+        // If we have exchanged keys then let the user send the message normally
+        if (this.isKeyExchangeCompleted()) {
+          messageWithSchema = await upgradeMessageSchema({
+            type: 'outgoing',
+            body,
+            conversationId: destination,
+            quote,
+            attachments,
+            sent_at: now,
+            received_at: now,
+            expireTimer,
+            recipients,
+          });
+        } else {
+            // We also need to make sure we don't send a new friend request if we already have an existing one
+            const incomingRequests = await this.getPendingFriendRequests('incoming');
+            if (incomingRequests.length > 0) return;
+
+          // Otherwise check if we have sent a friend request
+          const outgoingRequests = await this.getPendingFriendRequests('outgoing');
+          if (outgoingRequests.length > 0) {
+            // Check if the requests have errored, if so then remove them and send the new request if possible
+            const friendRequestSent = false;
+            for (const outgoing of outgoingRequests) {
+              if (outgoing.hasErrors()) {
+                await this._removeMessage(outgoing.id);
+              } else {
+                // No errors = we have sent over the friend request
+                friendRequestSent = true;
+              }
+            }
+
+            // If the requests didn't error then don't add a new friend request because one of them was sent successfully
+            if (friendRequestSent) return;
+          }
+
+          messageWithSchema = await upgradeMessageSchema({
+            type: 'friend-request',
+            body,
+            conversationId: destination,
+            sent_at: now,
+            received_at: now,
+            expireTimer,
+            recipients,
+            direction: 'outgoing',
+            friendStatus: 'pending',
+          });
+        }
 
         const message = this.addSingleMessage(messageWithSchema);
         this.lastMessage = message.getNotificationText();
