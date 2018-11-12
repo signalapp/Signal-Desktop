@@ -139,6 +139,8 @@
       this.unset('tokens');
       this.unset('lastMessage');
       this.unset('lastMessageStatus');
+
+      this.updateTextInputState();
     },
 
     isMe() {
@@ -238,7 +240,7 @@
       );
 
       for (const message of messages.models) {
-        if (message.isFriendRequest() && message.attributes.status === 'pending') return true;
+        if (message.isFriendRequest() && message.attributes.friendStatus === 'pending') return true;
       }
 
       return false;
@@ -418,7 +420,8 @@
     },
     isKeyExchangeCompleted() {
       if (!this.isPrivate()) {
-        throw new Error('isKeyExchangeCompleted not implemented for groups');
+        return false;
+        // throw new Error('isKeyExchangeCompleted not implemented for groups');
       }
 
       if (this.isMe()) {
@@ -462,16 +465,7 @@
         }
       }
     },
-<<<<<<< HEAD
     async onFriendRequestAccepted() {
-=======
-    onFriendRequestAccepted() {
-      window.Signal.Data.updateConversation(
-        this.id,
-        { friendRequestStatus: null },
-        { Conversation: Whisper.Conversation }
-      );
->>>>>>> development
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'chat');
       this.set({
@@ -482,18 +476,7 @@
         Conversation: Whisper.Conversation,
       });
     },
-<<<<<<< HEAD
     async onFriendRequestTimedOut() {
-=======
-    onFriendRequestTimedOut() {
-      const friendRequestStatus = this.getFriendRequestStatus();
-      friendRequestStatus.allowSending = true;
-      window.Signal.Data.updateConversation(
-        this.id,
-        { friendRequestStatus },
-        { Conversation: Whisper.Conversation }
-      );
->>>>>>> development
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'friend-request');
 
@@ -529,15 +512,6 @@
       setTimeout(() => {
         this.onFriendRequestTimedOut();
       }, delayMs);
-<<<<<<< HEAD
-=======
-
-      window.Signal.Data.updateConversation(
-        this.id,
-        { friendRequestStatus },
-        { Conversation: Whisper.Conversation }
-      );
->>>>>>> development
     },
     isUnverified() {
       if (this.isPrivate()) {
@@ -1096,7 +1070,30 @@
         );
       });
     },
+    async updateTextInputState() {
+      // Check if we need to disable the text field
+      if (!this.isKeyExchangeCompleted()) {
+        // Check if we have an incoming friend request
+        // Or any successful outgoing ones
+        const incoming = await this.getPendingFriendRequests('incoming');
+        const outgoing = await this.getPendingFriendRequests('outgoing');
+        const successfulOutgoing = outgoing.filter(o => !o.hasErrors());
 
+        // Disable the input
+        if (incoming.length > 0 || successfulOutgoing.length > 0) {
+          this.trigger('disable:input', true);
+          this.trigger('change:placeholder', 'disabled');
+          return;
+        } else if (outgoing.length > 0) {
+          // Tell the user to introduce themselves
+          this.trigger('disable:input', false);
+          this.trigger('change:placeholder', 'friend-request');
+          return;
+        }
+      }
+      this.trigger('disable:input', false);
+      this.trigger('change:placeholder', 'chat');
+    },
     wrapSend(promise) {
       return promise.then(
         async result => {
@@ -1247,7 +1244,6 @@
         },
       };
     },
-
     async updateLastMessage() {
       if (!this.id) {
         return;
@@ -1255,6 +1251,9 @@
 
       // Update our friend indicator
       this.updatePendingFriendRequests();
+
+      // Update our text input state
+      await this.updateTextInputState();
 
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,

@@ -950,6 +950,7 @@ MessageReceiver.prototype.extend({
     if (conversation) {
       // Update the conversation friend request indicator
       conversation.updatePendingFriendRequests();
+      conversation.updateTextInputState();
     }
     
     // Send our own prekeys as a response
