@@ -334,6 +334,7 @@
         text: this.createNonBreakingLastSeparator(this.get('body')),
         source: this.findAndFormatContact(source),
         target: this.findAndFormatContact(target),
+        status: this.getMessagePropStatus(),
         direction,
         friendStatus,
         onAccept,
@@ -416,7 +417,14 @@
       if (this.hasErrors()) {
         return 'error';
       }
-      if (!this.isOutgoing()) {
+
+      // Handle friend request statuses
+      const isFriendRequest = this.isFriendRequest();
+      const isOutgoingFriendRequest = isFriendRequest && this.get('direction') === 'outgoing';
+      const isOutgoing = this.isOutgoing() || isOutgoingFriendRequest;
+
+      // Only return the status on outgoing messages
+      if (!isOutgoing()) {
         return null;
       }
 

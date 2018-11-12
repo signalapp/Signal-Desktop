@@ -989,6 +989,7 @@
             if (friendRequestSent) return;
           }
 
+          // Send the friend request!
           messageWithSchema = await upgradeMessageSchema({
             type: 'friend-request',
             body,
