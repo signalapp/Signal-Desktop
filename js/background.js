@@ -301,10 +301,18 @@
       await mandatoryMessageUpgrade({ upgradeMessageSchema });
       await migrateAllToSQLCipher({ writeNewAttachmentData, Views });
       await removeDatabase();
-      await window.Signal.Data.removeIndexedDBFiles();
+      try {
+        await window.Signal.Data.removeIndexedDBFiles();
+      } catch (error) {
+        window.log.error(
+          'Failed to remove IndexedDB files:',
+          error && error.stack ? error.stack : error
+        );
+      }
 
       window.installStorage(window.newStorage);
       await window.storage.fetch();
+      await storage.put('indexeddb-delete-needed', true);
     }
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
