@@ -297,13 +297,13 @@
     getPropsForFriendRequest() {
       const source = this.get('from');
       const target = this.get('to');
-      const status = this.get('friendStatus') || 'pending';
-      const type = this.get('direction') || 'incoming';
+      const friendStatus = this.get('friendStatus') || 'pending';
+      const direction = this.get('direction') || 'incoming';
       const conversation = this.getConversation();
 
       // I.e do we send a network request from the model? or call a function in the conversation to send the new status
       const onAccept = async () => {
-        this.set({ status: 'accepted' });
+        this.set({ friendStatus: 'accepted' });
         await window.Signal.Data.saveMessage(this.attributes, {
           Message: Whisper.Message,
         });
@@ -315,7 +315,7 @@
       };
 
       const onDecline = async () => {
-        this.set({ status: 'declined' });
+        this.set({ friendStatus: 'declined' });
         await window.Signal.Data.saveMessage(this.attributes, {
           Message: Whisper.Message,
         });
@@ -334,8 +334,8 @@
         text: this.createNonBreakingLastSeparator(this.get('body')),
         source: this.findAndFormatContact(source),
         target: this.findAndFormatContact(target),
-        status,
-        type,
+        direction,
+        friendStatus,
         onAccept,
         onDecline,
         onDelete,

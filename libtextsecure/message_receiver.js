@@ -943,7 +943,7 @@ MessageReceiver.prototype.extend({
   },
   // A handler function for when a friend request is accepted or declined
   async onFriendRequestUpdate(pubKey, message) {
-    if (!message || !message.requestType || !message.friendStatus) return;
+    if (!message || !message.direction || !message.friendStatus) return;
 
     // Update the conversation
     const conversation = ConversationController.get(pubKey);
@@ -953,7 +953,7 @@ MessageReceiver.prototype.extend({
     }
     
     // Send our own prekeys as a response
-    if (message.requestType === 'incoming' && message.friendStatus === 'accepted') {
+    if (message.direction === 'incoming' && message.friendStatus === 'accepted') {
       libloki.sendEmptyMessageWithPreKeys(pubKey);
 
       // Register the preKeys used for communication

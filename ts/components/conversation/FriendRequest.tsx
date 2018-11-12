@@ -12,11 +12,11 @@ interface Contact {
 
 interface Props {
   text?: string;
-  type: 'incoming' | 'outgoing';
+  direction: 'incoming' | 'outgoing';
   source: Contact;
   target: Contact;
   i18n: Localizer;
-  status: 'pending' | 'accepted' | 'declined';
+  friendStatus: 'pending' | 'accepted' | 'declined';
   onAccept: () => void;
   onDecline: () => void;
   onDelete: () => void;
@@ -24,27 +24,27 @@ interface Props {
 
 export class FriendRequest extends React.Component<Props> {
   public getStringId() {
-    const { status, type } = this.props;
+    const { friendStatus, direction } = this.props;
 
-    switch (status) {
+    switch (friendStatus) {
       case 'pending':
-        return `${type}FriendRequestPending`;
+        return `${direction}FriendRequestPending`;
       case 'accepted':
         return `friendRequestAccepted`;
       case 'declined':
         return `friendRequestDeclined`;
       default:
-        throw new Error(`Invalid friend request status: ${status}`);
+        throw new Error(`Invalid friend request status: ${friendStatus}`);
     }
   }
 
   public renderContents() {
-    const { type, i18n, text } = this.props;
+    const { direction, i18n, text } = this.props;
     const id = this.getStringId();
 
     return (
       <div>
-        <div className={`module-friend-request__title module-friend-request__title--${type}`}>{i18n(id)}</div>
+        <div className={`module-friend-request__title module-friend-request__title--${direction}`}>{i18n(id)}</div>
         {!!text &&
           <div dir="auto">
             <MessageBody text={text || ''} i18n={i18n} />
@@ -56,19 +56,19 @@ export class FriendRequest extends React.Component<Props> {
   }
 
   public renderButtons() {
-      const { status, type, onAccept, onDecline, onDelete } = this.props;
+      const { friendStatus, direction, onAccept, onDecline, onDelete } = this.props;
 
-      if (type === 'incoming') {
-        if (status === 'pending') {
+      if (direction === 'incoming') {
+        if (friendStatus === 'pending') {
           return (
-              <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${type}`}>
+              <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${direction}`}>
                 <button onClick={onAccept}>Accept</button>
                 <button onClick={onDecline}>Decline</button>
               </div>
           );
-        } else if (status === 'declined') {
+        } else if (friendStatus === 'declined') {
           return (
-            <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${type}`}>
+            <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${direction}`}>
               <button onClick={onDelete}>Delete Conversation</button>
             </div>
           );
@@ -78,12 +78,12 @@ export class FriendRequest extends React.Component<Props> {
   }
 
   public render() {
-    const { type} = this.props;
+    const { direction } = this.props;
 
     return (
-      <div className={`module-message module-message--${type} module-message-friend-request`}>
-        <div className={`module-message__container module-message__container--${type} module-message-friend-request__container`}>
-            <div className={`module-message__text module-message__text--${type}`}>
+      <div className={`module-message module-message--${direction} module-message-friend-request`}>
+        <div className={`module-message__container module-message__container--${direction} module-message-friend-request__container`}>
+            <div className={`module-message__text module-message__text--${direction}`}>
                 {this.renderContents()}
                 {this.renderButtons()}
             </div>

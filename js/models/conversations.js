@@ -196,9 +196,9 @@
       removeMessage();
     },
 
-    addSingleMessage(message) {
+    addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
-      model.setToExpire();
+      if (setToExpire) model.setToExpire();
       return model;
     },
 
@@ -245,14 +245,16 @@
     },
     async getPendingFriendRequests(direction) {
       // Theoretically all ouur messages could be friend requests, thus we have to unfortunately go through each one :(
-      // We are most likely to find the friend request in the more recent conversations first
-      const messages = await window.Signal.Data.getMessagesByConversation(this.id, {
-        MessageCollection: Whisper.MessageCollection,
-        limit: Number.MAX_VALUE,
-      }).reverse();
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { MessageCollection: Whisper.MessageCollection }
+      );
 
+      // We are most likely to find the friend request in the more recent conversations first
       // Get the messages that are matching the direction and the friendStatus
-      return messages.filter(m => (m.direction === direction && m.friendStatus === 'pending'));
+      return messages.models.reverse().filter(m => {
+        return (m.attributes.direction === direction && m.attributes.friendStatus === 'pending')
+      });
     },
     getPropsForListItem() {
       const result = {
@@ -425,7 +427,7 @@
 
       return this.get('keyExchangeCompleted') || false;
     },
-    setKeyExchangeCompleted(completed) {
+    async setKeyExchangeCompleted(completed) {
       if (typeof completed !== 'boolean') {
         throw new Error('setKeyExchangeCompleted expects a bool');
       }
@@ -680,7 +682,7 @@
     },
     // This will add a message which will allow the user to reply to a friend request
     async addFriendRequest(body, options = {}) {
-      const mergedOptions = {
+      const _options = {
         status: 'pending',
         direction: 'incoming',
         preKeyBundle: null,
@@ -714,6 +716,27 @@
         Conversation: Whisper.Conversation,
       });
 
+      // If we need to add new incoming friend requests
+      // Then we need to make sure we remove any pending requests that we may have
+      // This is to ensure that one user cannot spam us with multiple friend requests
+      if (_options.direction === 'incoming') {
+        const requests = await this.getPendingFriendRequests('incoming');
+        
+        for (const request of requests) {
+          // Delete the old message if it's pending
+          await window.Signal.Data.removeMessage(request.id, { Message: Whisper.Message });
+          const existing = this.messageCollection.get(request.id);
+          if (existing) {
+            this.messageCollection.remove(request.id);
+            existing.trigger('destroy');
+          }
+        }
+        // Trigger an update if we removed messages
+        if (requests.length > 0)
+          this.trigger('change');
+      }
+
+      // Add the new message
       const timestamp = Date.now();
       const message = {
         conversationId: this.id,
@@ -723,10 +746,10 @@
         unread: 1,
         from: this.id,
         to: this.ourNumber,
-        friendStatus: mergedOptions.status,
-        direction: mergedOptions.direction,
+        friendStatus: _options.status,
+        direction: _options.direction,
         body,
-        preKeyBundle: mergedOptions.preKeyBundle,
+        preKeyBundle: _options.preKeyBundle,
       };
 
       const id = await window.Signal.Data.saveMessage(message, {
