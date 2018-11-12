@@ -585,6 +585,13 @@
       }
     });
 
+    Whisper.events.on('deleteConversation', async conversation => {
+      await conversation.destroyMessages();
+      await window.Signal.Data.removeConversation(conversation.id, {
+        Conversation: Whisper.Conversation,
+      });
+    });
+
     Whisper.Notifications.on('click', conversation => {
       window.showWindow();
       if (conversation) {
@@ -602,7 +609,7 @@
       if (messageReceiver) {
         messageReceiver.onFriendRequestUpdate(pubKey, message);
       }
-    })
+    });
 
     Whisper.events.on('showFriendRequest', friendRequest => {
       if (appView) {

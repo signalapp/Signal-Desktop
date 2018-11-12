@@ -329,9 +329,7 @@
       };
 
       const onDelete = async () => {
-        await window.Signal.Data.removeConversation(conversation.id, {
-          Conversation: Whisper.Conversation,
-        })
+        window.Whisper.events.trigger('deleteConversation', conversation);
       };
 
       return {
