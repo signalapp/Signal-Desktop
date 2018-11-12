@@ -223,8 +223,7 @@
         { MessageCollection: Whisper.MessageCollection }
       );
 
-      for (let i = 0; i < messages.models.length; ++i) {
-        const message = messages.models[i];
+      for (const message of messages.models) {
         if (message.isFriendRequest() && message.attributes.status === 'pending') return true;
       }
 

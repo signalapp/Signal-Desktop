@@ -560,7 +560,7 @@
     } else {
       appView.openStandalone();
     }
-  
+
     Whisper.events.on('showDebugLog', () => {
       appView.openDebugLog();
     });
