@@ -5,24 +5,24 @@ import { Localizer } from '../../types/Util';
 import { MessageBody } from './MessageBody';
 
 interface Props {
-  text?: string;
+  text: string;
   direction: 'incoming' | 'outgoing';
   status: string;
-  i18n: Localizer;
   friendStatus: 'pending' | 'accepted' | 'declined';
+  i18n: Localizer;
   onAccept: () => void;
   onDecline: () => void;
-  onDelete: () => void;
+  onDeleteConversation: () => void;
   onRetrySend: () => void;
 }
 
 export class FriendRequest extends React.Component<Props> {
   public getStringId() {
-    const { friendStatus, direction } = this.props;
+    const { friendStatus } = this.props;
 
     switch (friendStatus) {
       case 'pending':
-        return `${direction}FriendRequestPending`;
+        return `friendRequestPending`;
       case 'accepted':
         return `friendRequestAccepted`;
       case 'declined':
@@ -38,32 +38,44 @@ export class FriendRequest extends React.Component<Props> {
 
     return (
       <div>
-        <div className={`module-friend-request__title module-friend-request__title--${direction}`}>{i18n(id)}</div>
-        {!!text &&
-          <div dir="auto">
-            <MessageBody text={text || ''} i18n={i18n} />
-          </div>
-        }
+        <div className={`module-friend-request__title module-friend-request__title--${direction}`}>
+          {i18n(id)}
+        </div>
+        <div dir="auto">
+          <MessageBody text={text || ''} i18n={i18n} />
+        </div>
       </div>
       
     );
   }
 
   public renderButtons() {
-      const { friendStatus, direction, status, onAccept, onDecline, onDelete, onRetrySend } = this.props;
+      const { friendStatus, direction, status, onAccept, onDecline, onDeleteConversation, onRetrySend } = this.props;
 
       if (direction === 'incoming') {
         if (friendStatus === 'pending') {
           return (
-              <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${direction}`}>
+              <div
+                className={classNames(
+                  'module-message__metadata',
+                  'module-friend-request__buttonContainer',
+                  `module-friend-request__buttonContainer--${direction}`
+                )}
+              >
                 <button onClick={onAccept}>Accept</button>
                 <button onClick={onDecline}>Decline</button>
               </div>
           );
         } else if (friendStatus === 'declined') {
           return (
-            <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${direction}`}>
-              <button onClick={onDelete}>Delete Conversation</button>
+            <div
+              className={classNames(
+                'module-message__metadata',
+                'module-friend-request__buttonContainer',
+                `module-friend-request__buttonContainer--${direction}`
+              )}
+            >
+              <button onClick={onDeleteConversation}>Delete Conversation</button>
             </div>
           );
         }
@@ -71,7 +83,13 @@ export class FriendRequest extends React.Component<Props> {
         // Render the retry button if we errored
         if (status === 'error') {
           return (
-            <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${direction}`}>
+            <div
+              className={classNames(
+                'module-message__metadata',
+                'module-friend-request__buttonContainer',
+                `module-friend-request__buttonContainer--${direction}`
+              )}
+            >
               <button onClick={onRetrySend}>Retry Send</button>
             </div>
           );
@@ -100,7 +118,7 @@ export class FriendRequest extends React.Component<Props> {
   }
 
   // Renders 'sending', 'read' icons
-  public renderMetadata() {
+  public renderStatusIndicator() {
     const { direction, status } = this.props;
     if (direction !== 'outgoing' || status === 'error') return null;
 
@@ -110,7 +128,7 @@ export class FriendRequest extends React.Component<Props> {
         <div
           className={classNames(
             'module-message__metadata__status-icon',
-            `module-message__metadata__status-icon--sending`,
+            `module-message__metadata__status-icon--${status}`,
           )}
         />
       </div>
@@ -120,14 +138,29 @@ export class FriendRequest extends React.Component<Props> {
   public render() {
     const { direction } = this.props;
     
-    //  const showRetry = status === 'error' && direction === 'outgoing';
     return (
-      <div className={`module-message module-message--${direction} module-message-friend-request`}>
+      <div
+        className={classNames(
+          `module-message module-message--${direction}`,
+          'module-message-friend-request',
+        )}
+      >
          {this.renderError(direction === 'incoming')}
-        <div className={`module-message__container module-message__container--${direction} module-message-friend-request__container`}>
-            <div className={`module-message__text module-message__text--${direction}`}>
+        <div
+          className={classNames(
+            'module-message__container',
+            `module-message__container--${direction}`,
+            'module-message-friend-request__container',
+          )}
+        >
+            <div 
+              className={classNames(
+                'module-message__text',
+                `module-message__text--${direction}`,
+              )}
+            >
                 {this.renderContents()}
-                {this.renderMetadata()}
+                {this.renderStatusIndicator()}
                 {this.renderButtons()}
             </div>
         </div>

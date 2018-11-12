@@ -324,7 +324,7 @@
         });
       };
 
-      const onDelete = async () => {
+      const onDeleteConversation = async () => {
         // Delete the whole conversation
         window.Whisper.events.trigger('deleteConversation', conversation);
       };
@@ -336,7 +336,7 @@
         friendStatus,
         onAccept,
         onDecline,
-        onDelete,
+        onDeleteConversation,
         onRetrySend: () => this.retrySend(),
       }
     },
