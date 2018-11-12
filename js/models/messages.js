@@ -297,8 +297,8 @@
     getPropsForFriendRequest() {
       const source = this.get('from');
       const target = this.get('to');
-      const status = this.get('status') || 'pending';
-      const type = this.get('requestType') || 'incoming';
+      const status = this.get('friendStatus') || 'pending';
+      const type = this.get('direction') || 'incoming';
       const conversation = this.getConversation();
 
       // I.e do we send a network request from the model? or call a function in the conversation to send the new status

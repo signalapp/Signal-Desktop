@@ -243,6 +243,17 @@
 
       return false;
     },
+    async getPendingFriendRequests(direction) {
+      // Theoretically all ouur messages could be friend requests, thus we have to unfortunately go through each one :(
+      // We are most likely to find the friend request in the more recent conversations first
+      const messages = await window.Signal.Data.getMessagesByConversation(this.id, {
+        MessageCollection: Whisper.MessageCollection,
+        limit: Number.MAX_VALUE,
+      }).reverse();
+
+      // Get the messages that are matching the direction and the friendStatus
+      return messages.filter(m => (m.direction === direction && m.friendStatus === 'pending'));
+    },
     getPropsForListItem() {
       const result = {
         ...this.format(),
@@ -420,6 +431,10 @@
       }
 
       this.set({ keyExchangeCompleted: completed });
+
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     },
     getFriendRequestStatus() {
       return this.get('friendRequestStatus');
@@ -667,7 +682,7 @@
     async addFriendRequest(body, options = {}) {
       const mergedOptions = {
         status: 'pending',
-        type: 'incoming',
+        direction: 'incoming',
         preKeyBundle: null,
         ...options,
       };
@@ -708,8 +723,8 @@
         unread: 1,
         from: this.id,
         to: this.ourNumber,
-        status: mergedOptions.status,
-        requestType: mergedOptions.type,
+        friendStatus: mergedOptions.status,
+        direction: mergedOptions.direction,
         body,
         preKeyBundle: mergedOptions.preKeyBundle,
       };
@@ -936,6 +951,8 @@
           now
         );
 
+        // TODO: Maybe create the friend request here?
+        // TODO: Make sure we're not adding duplicate messages if keys haven't been exchanged
         const messageWithSchema = await upgradeMessageSchema({
           type: 'outgoing',
           body,
