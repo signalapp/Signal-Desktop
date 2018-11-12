@@ -610,7 +610,14 @@
       );
     },
     // This will add a message which will allow the user to reply to a friend request
-    async addFriendRequest(body, status = 'pending', type = 'incoming') {
+    async addFriendRequest(body, options = {}) {
+      const mergedOptions = {
+        status: 'pending',
+        type: 'incoming',
+        preKeyBundle: null,
+        ...options,
+      };
+
       if (this.isMe()) {
         window.log.info(
           'refusing to send friend request to ourselves'
@@ -647,9 +654,10 @@
         unread: 1,
         from: this.id,
         to: this.ourNumber,
-        status,
-        requestType: type,
+        status: mergedOptions.status,
+        requestType: mergedOptions.type,
         body,
+        preKeyBundle: mergedOptions.preKeyBundle,
       };
 
       const id = await window.Signal.Data.saveMessage(message, {

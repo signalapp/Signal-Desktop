@@ -21,6 +21,7 @@ interface Props {
   status: 'pending' | 'accepted' | 'declined';
   onAccept: () => void;
   onDecline: () => void;
+  onDelete: () => void;
 }
 
 export class FriendRequest extends React.Component<Props> {
@@ -84,26 +85,36 @@ export class FriendRequest extends React.Component<Props> {
   }
 
   public renderButtons() {
-      const { type, onAccept, onDecline } = this.props;
-      return (
-          <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${type}`}>
-            <button onClick={onAccept}>Accept</button>
-            <button onClick={onDecline}>Decline</button>
-          </div>
-      )
+      const { status, type, onAccept, onDecline, onDelete } = this.props;
+
+      if (type === 'incoming') {
+        if (status === 'pending') {
+          return (
+              <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${type}`}>
+                <button onClick={onAccept}>Accept</button>
+                <button onClick={onDecline}>Decline</button>
+              </div>
+          );
+        } else if (status === 'declined') {
+          return (
+            <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${type}`}>
+              <button onClick={onDelete}>Delete Conversation</button>
+            </div>
+          );
+        }
+      }
+      return null;
   }
 
   public render() {
-    const { type, status} = this.props;
-
-    const shouldRenderButtons = (status === 'pending' && type === 'incoming');
+    const { type} = this.props;
 
     return (
       <div className={`module-message module-message--${type}`}>
         <div className={`module-message__container module-message__container--${type}`}>
             <div className={`module-message__text module-message__text--${type}`}>
                 {this.renderContents()}
-                {shouldRenderButtons && this.renderButtons()}
+                {this.renderButtons()}
             </div>
         </div>
       </div>

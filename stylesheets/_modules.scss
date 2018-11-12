@@ -1057,6 +1057,14 @@
   border-right: 1px solid $color-white-07;
 }
 
+.module-friend-request__buttonContainer button:last-of-type {
+  border-right: 0;
+}
+
+.module-friend-request__buttonContainer--incoming button:last-of-type {
+  border-right: 0;
+}
+
 .module-friend-request__text {
   padding-top: 6px;
   padding-bottom: 4px;

@@ -328,6 +328,12 @@
         });
       };
 
+      const onDelete = async () => {
+        await window.Signal.Data.removeConversation(conversation.id, {
+          Conversation: Whisper.Conversation,
+        })
+      };
+
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
         source: this.findAndFormatContact(source),
@@ -336,6 +342,7 @@
         type,
         onAccept,
         onDecline,
+        onDelete,
       }
     },
     findContact(phoneNumber) {
