@@ -1024,6 +1024,14 @@
 }
 
 // Module: Friend Request
+.module-message-friend-request {
+  width: 100%;
+}
+
+.module-message-friend-request__container {
+  flex: 1,
+}
+
 .module-friend-request__buttonContainer {
   margin-top: 8px;
   justify-content: space-around;
@@ -2246,10 +2254,6 @@
     width: 374px;
   }
 
-  .module-message-friend-request__container {
-    flex: 1,
-  }
-
   // Spec: container < 438px
   .module-message--incoming {
     margin-left: 0;
@@ -2285,10 +2289,6 @@
 
   .module-message-friend-request {
     width: 66%;
-  }
-
-  .module-message-friend-request__container {
-    flex: 1,
   }
 
   .module-message--incoming {
