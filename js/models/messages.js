@@ -302,7 +302,6 @@
       const type = this.get('requestType') || 'incoming';
       const conversation = this.getConversation();
 
-      //TODO: Not sure how we go about confirming and deleting message on server side
       // I.e do we send a network request from the model? or call a function in the conversation to send the new status
       const onAccept = async () => {
         this.set({ status: 'accepted' });
