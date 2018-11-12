@@ -1065,13 +1065,13 @@
   border-right: 0;
 }
 
-.module-friend-request__text {
-  padding-top: 6px;
+.module-friend-request__title {
   padding-bottom: 4px;
   color: $color-gray-60;
+  text-align: center;
 }
 
-.module-friend-request__text--incoming {
+.module-friend-request__title--incoming {
   color: $color-white-08;
 }
 
@@ -2242,6 +2242,14 @@
     max-width: 374px;
   }
 
+  .module-message-friend-request {
+    width: 374px;
+  }
+
+  .module-message-friend-request__container {
+    flex: 1,
+  }
+
   // Spec: container < 438px
   .module-message--incoming {
     margin-left: 0;
@@ -2273,6 +2281,14 @@
 @media (min-width: 926px) {
   .module-message {
     max-width: 66%;
+  }
+
+  .module-message-friend-request {
+    width: 66%;
+  }
+
+  .module-message-friend-request__container {
+    flex: 1,
   }
 
   .module-message--incoming {

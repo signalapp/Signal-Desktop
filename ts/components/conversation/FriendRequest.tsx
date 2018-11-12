@@ -1,8 +1,6 @@
 import React from 'react';
 // import classNames from 'classnames';
 
-import { ContactName } from './ContactName';
-import { Intl } from '../Intl';
 import { Localizer } from '../../types/Util';
 import { MessageBody } from './MessageBody';
 
@@ -26,59 +24,32 @@ interface Props {
 
 export class FriendRequest extends React.Component<Props> {
   public getStringId() {
-    const { type, status } = this.props;
+    const { status, type } = this.props;
 
     switch (status) {
       case 'pending':
         return `${type}FriendRequestPending`;
       case 'accepted':
-        return `${type}FriendRequestAccepted`;
+        return `friendRequestAccepted`;
       case 'declined':
-        return `${type}FriendRequestDeclined`;
+        return `friendRequestDeclined`;
       default:
         throw new Error(`Invalid friend request status: ${status}`);
     }
   }
 
-  public renderText() {
-    const { type, text, i18n } = this.props;
-
-    if (!text) {
-      return null;
-    }
-
-    return (
-      <div
-        dir="auto"
-        className={`module-message__text module-friend-request__text module-friend-request__text--${type}`}
-      >
-        <MessageBody text={text || ''} i18n={i18n} />
-      </div>
-    );
-  }
-
-
   public renderContents() {
-    const { source, i18n } = this.props;
+    const { type, i18n, text } = this.props;
     const id = this.getStringId();
 
     return (
       <div>
-        <Intl
-            id={id}
-            components={[
-            <ContactName
-                i18n={i18n}
-                key="external-1"
-                name={source.name}
-                profileName={source.profileName}
-                phoneNumber={source.phoneNumber}
-                module="module-friend-request__contact"
-            />,
-            ]}
-            i18n={i18n}
-        />
-        {this.renderText()}
+        <div className={`module-friend-request__title module-friend-request__title--${type}`}>{i18n(id)}</div>
+        {!!text &&
+          <div dir="auto">
+            <MessageBody text={text || ''} i18n={i18n} />
+          </div>
+        }
       </div>
       
     );
@@ -110,8 +81,8 @@ export class FriendRequest extends React.Component<Props> {
     const { type} = this.props;
 
     return (
-      <div className={`module-message module-message--${type}`}>
-        <div className={`module-message__container module-message__container--${type}`}>
+      <div className={`module-message module-message--${type} module-message-friend-request`}>
+        <div className={`module-message__container module-message__container--${type} module-message-friend-request__container`}>
             <div className={`module-message__text module-message__text--${type}`}>
                 {this.renderContents()}
                 {this.renderButtons()}

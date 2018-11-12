@@ -1579,69 +1579,19 @@
     }
   },
   "incomingFriendRequestPending": {
-    "message": "$name$ sent you a friend request",
-    "description":
-      "Shown in the conversation history when the user recieves a friend request",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
-  },
-  "incomingFriendRequestAccepted": {
-    "message": "You accepted $name$'s friend request",
-    "description":
-      "Shown in the conversation history when the user accepts a friend request",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
-  },
-  "incomingFriendRequestDeclined": {
-    "message": "You declined $name$'s friend request",
-    "description":
-      "Shown in the conversation history when the user declines a friend request",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "message": "Friend request received",
+    "description": "Shown in the conversation history when the user recieves a friend request"
   },
   "outgoingFriendRequestPending": {
-    "message": "You sent $name$ a friend request",
-    "description":
-      "Shown in the conversation history when the user sends a friend request",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "message": "Friend request sent",
+    "description": "Shown in the conversation history when the user sends a friend request"
   },
-  "outgoingFriendRequestAccepted": {
-    "message": "$name$ accepted your friend request",
-    "description":
-      "Shown in the conversation history when the users friend request is accepted",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+  "friendRequestAccepted": {
+    "message": "Friend request accepted",
+    "description": "Shown in the conversation history when the user accepts a friend request"
   },
-  "outgoingFriendRequestDeclined": {
-    "message": "$name$ declined your friend request",
-    "description":
-      "Shown in the conversation history when the users friend request is declined",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+  "friendRequestDeclined": {
+    "message": "Friend request declined",
+    "description": "Shown in the conversation history when the user declines a friend request"
   }
 }
