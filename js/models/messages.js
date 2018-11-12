@@ -295,8 +295,6 @@
       return {};
     },
     getPropsForFriendRequest() {
-      const source = this.get('from');
-      const target = this.get('to');
       const friendStatus = this.get('friendStatus') || 'pending';
       const direction = this.get('direction') || 'incoming';
       const conversation = this.getConversation();
@@ -327,19 +325,19 @@
       };
 
       const onDelete = async () => {
+        // Delete the whole conversation
         window.Whisper.events.trigger('deleteConversation', conversation);
       };
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
-        source: this.findAndFormatContact(source),
-        target: this.findAndFormatContact(target),
         status: this.getMessagePropStatus(),
         direction,
         friendStatus,
         onAccept,
         onDecline,
         onDelete,
+        onRetrySend: () => this.retrySend(),
       }
     },
     findContact(phoneNumber) {
@@ -424,7 +422,7 @@
       const isOutgoing = this.isOutgoing() || isOutgoingFriendRequest;
 
       // Only return the status on outgoing messages
-      if (!isOutgoing()) {
+      if (!isOutgoing) {
         return null;
       }
 

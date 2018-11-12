@@ -1,25 +1,19 @@
 import React from 'react';
-// import classNames from 'classnames';
+import classNames from 'classnames';
 
 import { Localizer } from '../../types/Util';
 import { MessageBody } from './MessageBody';
 
-interface Contact {
-  phoneNumber: string;
-  profileName?: string;
-  name?: string;
-}
-
 interface Props {
   text?: string;
   direction: 'incoming' | 'outgoing';
-  source: Contact;
-  target: Contact;
+  status: string;
   i18n: Localizer;
   friendStatus: 'pending' | 'accepted' | 'declined';
   onAccept: () => void;
   onDecline: () => void;
   onDelete: () => void;
+  onRetrySend: () => void;
 }
 
 export class FriendRequest extends React.Component<Props> {
@@ -56,7 +50,7 @@ export class FriendRequest extends React.Component<Props> {
   }
 
   public renderButtons() {
-      const { friendStatus, direction, onAccept, onDecline, onDelete } = this.props;
+      const { friendStatus, direction, status, onAccept, onDecline, onDelete, onRetrySend } = this.props;
 
       if (direction === 'incoming') {
         if (friendStatus === 'pending') {
@@ -73,21 +67,71 @@ export class FriendRequest extends React.Component<Props> {
             </div>
           );
         }
+      } else {
+        // Render the retry button if we errored
+        if (status === 'error') {
+          return (
+            <div className={`module-message__metadata module-friend-request__buttonContainer module-friend-request__buttonContainer--${direction}`}>
+              <button onClick={onRetrySend}>Retry Send</button>
+            </div>
+          );
+        }
       }
       return null;
   }
 
-  public render() {
-    const { direction } = this.props;
+  public renderError(isCorrectSide: boolean) {
+    const { status, direction } = this.props;
+
+    if (!isCorrectSide || status !== 'error') {
+      return null;
+    }
 
     return (
+      <div className="module-message__error-container">
+        <div
+          className={classNames(
+            'module-message__error',
+            `module-message__error--${direction}`
+          )}
+        />
+      </div>
+    );
+  }
+
+  // Renders 'sending', 'read' icons
+  public renderMetadata() {
+    const { direction, status } = this.props;
+    if (direction !== 'outgoing' || status === 'error') return null;
+
+    return (
+      <div className="module-message__metadata">
+        <span className="module-message__metadata__spacer" />
+        <div
+          className={classNames(
+            'module-message__metadata__status-icon',
+            `module-message__metadata__status-icon--sending`,
+          )}
+        />
+      </div>
+    );
+  }
+
+  public render() {
+    const { direction } = this.props;
+    
+    //  const showRetry = status === 'error' && direction === 'outgoing';
+    return (
       <div className={`module-message module-message--${direction} module-message-friend-request`}>
+         {this.renderError(direction === 'incoming')}
         <div className={`module-message__container module-message__container--${direction} module-message-friend-request__container`}>
             <div className={`module-message__text module-message__text--${direction}`}>
                 {this.renderContents()}
+                {this.renderMetadata()}
                 {this.renderButtons()}
             </div>
         </div>
+        {this.renderError(direction === 'outgoing')}
       </div>
     );
   }
