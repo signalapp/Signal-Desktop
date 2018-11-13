@@ -56,6 +56,7 @@ const importMode =
   process.argv.some(arg => arg === '--import') || config.get('import');
 
 const development = config.environment === 'development';
+const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 
 // We generally want to pull in our own modules after this point, after the user
 //   data directory has been set.
@@ -96,7 +97,7 @@ function showWindow() {
   }
 }
 
-if (!process.mas && !development) {
+if (!process.mas) {
   console.log('making app single instance');
   const shouldQuit = app.makeSingleInstance(() => {
     // Someone tried to run a second instance, we should focus our window
@@ -110,7 +111,7 @@ if (!process.mas && !development) {
     return true;
   });
 
-  if (shouldQuit) {
+  if (appInstance === 0 && shouldQuit) {
     console.log('quitting; we are the second instance');
     app.exit();
   }
