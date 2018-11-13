@@ -1,29 +1,7 @@
-describe('ConversationSearchView', function() {
-  it('should match partial numbers', function() {
-    var $el = $('<div><div class="new-contact contact hide"></div></div>');
-    var view = new Whisper.ConversationSearchView({
-      el: $el,
-      input: $('<input>'),
-    }).render();
-    var maybe_numbers = [
-      '+1 415',
-      '+1415',
-      '+1415',
-      '415',
-      '(415)',
-      ' (415',
-      '(415) 123 4567',
-      '+1 (415) 123 4567',
-      ' +1 (415) 123 4567',
-      '1 (415) 123 4567',
-      '1 415-123-4567',
-      '415-123-4567',
-    ];
-    maybe_numbers.forEach(function(n) {
-      assert.ok(view.maybeNumber(n), n);
-    });
-  });
-  describe('Searching for left groups', function() {
+/* global $, Whisper */
+
+describe('ConversationSearchView', () => {
+  describe('Searching for left groups', () => {
     let convo;
 
     before(() => {
@@ -39,33 +17,33 @@ describe('ConversationSearchView', function() {
         Conversation: Whisper.Conversation,
       });
     });
-    describe('with no messages', function() {
-      var input;
-      var view;
+    describe('with no messages', () => {
+      let input;
+      let view;
 
-      before(function(done) {
+      before(done => {
         input = $('<input>');
-        view = new Whisper.ConversationSearchView({ input: input }).render();
+        view = new Whisper.ConversationSearchView({ input }).render();
         view.$input.val('left');
         view.filterContacts();
-        view.typeahead_view.collection.on('reset', function() {
+        view.typeahead_view.collection.on('reset', () => {
           done();
         });
       });
-      it('should not surface left groups with no messages', function() {
+      it('should not surface left groups with no messages', () => {
         assert.isUndefined(
           view.typeahead_view.collection.get(convo.id),
           'got left group'
         );
       });
     });
-    describe('with messages', function() {
-      var input;
-      var view;
-      before(async function() {
+    describe('with messages', () => {
+      let input;
+      let view;
+      before(async () => {
         input = $('<input>');
-        view = new Whisper.ConversationSearchView({ input: input }).render();
-        convo.set({ id: '2-search-view', lastMessage: 'asdf' });
+        view = new Whisper.ConversationSearchView({ input }).render();
+        convo.set({ id: '2-search-view', left: false });
 
         await window.Signal.Data.saveConversation(convo.attributes, {
           Conversation: Whisper.Conversation,
@@ -78,7 +56,7 @@ describe('ConversationSearchView', function() {
           view.typeahead_view.collection.on('reset', resolve);
         });
       });
-      it('should surface left groups with messages', function() {
+      it('should surface left groups with messages', () => {
         assert.isDefined(
           view.typeahead_view.collection.get(convo.id),
           'got left group'

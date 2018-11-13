@@ -149,6 +149,7 @@ function prepareURL(pathSegments, moreKeys) {
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
       importMode: importMode ? true : undefined, // for stringify()
+      serverTrustRoot: config.get('serverTrustRoot'),
       ...moreKeys,
     },
   });

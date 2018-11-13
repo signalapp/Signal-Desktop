@@ -1,0 +1,45 @@
+package signalservice;
+
+option java_package = "org.whispersystems.libsignal.protocol";
+option java_outer_classname = "WhisperProtos";
+
+message ServerCertificate {
+    message Certificate {
+        optional uint32 id  = 1;
+        optional bytes  key = 2;
+    }
+
+    optional bytes certificate = 1;
+    optional bytes signature   = 2;
+}
+
+message SenderCertificate {
+    message Certificate {
+        optional string            sender        = 1;
+        optional uint32            senderDevice  = 2;
+        optional fixed64           expires       = 3;
+        optional bytes             identityKey   = 4;
+        optional ServerCertificate signer        = 5;
+    }
+
+    optional bytes certificate = 1;
+    optional bytes signature   = 2;
+}
+
+message UnidentifiedSenderMessage {
+
+    message Message {
+        enum Type {
+            PREKEY_MESSAGE = 1;
+            MESSAGE        = 2;
+        }
+
+        optional Type              type              = 1;
+        optional SenderCertificate senderCertificate = 2;
+        optional bytes             content           = 3;
+    }
+
+    optional bytes ephemeralPublic  = 1;
+    optional bytes encryptedStatic  = 2;
+    optional bytes encryptedMessage = 3;
+}

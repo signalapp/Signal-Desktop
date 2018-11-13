@@ -4,7 +4,7 @@
 /* global textsecure: false */
 /* global _: false */
 
-/* eslint-disable no-unreachable */
+/* eslint-disable no-unreachable, no-console */
 
 'use strict';
 

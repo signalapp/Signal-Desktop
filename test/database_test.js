@@ -1,30 +1,32 @@
+/* global Whisper */
+
 'use strict';
 
-describe('Database', function() {
-  describe('handleDOMException', function() {
-    it('handles null, still calls reject', function() {
-      var called = 0;
-      var reject = function() {
+describe('Database', () => {
+  describe('handleDOMException', () => {
+    it('handles null, still calls reject', () => {
+      let called = 0;
+      const reject = () => {
         called += 1;
       };
-      var error = null;
-      var prefix = 'something';
+      const error = null;
+      const prefix = 'something';
 
       Whisper.Database.handleDOMException(prefix, error, reject);
 
       assert.strictEqual(called, 1);
     });
 
-    it('handles object code and message', function() {
-      var called = 0;
-      var reject = function() {
+    it('handles object code and message', () => {
+      let called = 0;
+      const reject = () => {
         called += 1;
       };
-      var error = {
+      const error = {
         code: 4,
         message: 'some cryptic error',
       };
-      var prefix = 'something';
+      const prefix = 'something';
 
       Whisper.Database.handleDOMException(prefix, error, reject);
 

@@ -46,7 +46,7 @@ describe('AccountManager', () => {
       return accountManager.cleanSignedPreKeys();
     });
 
-    it('eliminates confirmed keys over a week old, if more than three', () => {
+    it('eliminates confirmed keys over a week old, if more than three', async () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -77,20 +77,19 @@ describe('AccountManager', () => {
       ];
 
       let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = function(keyId) {
+      window.textsecure.storage.protocol.removeSignedPreKey = keyId => {
         if (keyId !== 1 && keyId !== 4) {
           throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
-        count++;
+        count += 1;
       };
 
-      return accountManager.cleanSignedPreKeys().then(() => {
-        assert.strictEqual(count, 2);
-      });
+      await accountManager.cleanSignedPreKeys();
+      assert.strictEqual(count, 2);
     });
 
-    it('keeps at least three unconfirmed keys if no confirmed', () => {
+    it('keeps at least three unconfirmed keys if no confirmed', async () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -112,20 +111,19 @@ describe('AccountManager', () => {
       ];
 
       let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = function(keyId) {
+      window.textsecure.storage.protocol.removeSignedPreKey = keyId => {
         if (keyId !== 2) {
           throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
-        count++;
+        count += 1;
       };
 
-      return accountManager.cleanSignedPreKeys().then(() => {
-        assert.strictEqual(count, 1);
-      });
+      await accountManager.cleanSignedPreKeys();
+      assert.strictEqual(count, 1);
     });
 
-    it('if some confirmed keys, keeps unconfirmed to addd up to three total', () => {
+    it('if some confirmed keys, keeps unconfirmed to addd up to three total', async () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -149,17 +147,16 @@ describe('AccountManager', () => {
       ];
 
       let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = function(keyId) {
+      window.textsecure.storage.protocol.removeSignedPreKey = keyId => {
         if (keyId !== 3) {
           throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
-        count++;
+        count += 1;
       };
 
-      return accountManager.cleanSignedPreKeys().then(() => {
-        assert.strictEqual(count, 1);
-      });
+      await accountManager.cleanSignedPreKeys();
+      assert.strictEqual(count, 1);
     });
   });
 });

@@ -9,6 +9,9 @@
   dcodeIO,
   StringView,
   log,
+  libphonenumber,
+  Event,
+  ConversationController
 */
 
 /* eslint-disable more/no-then */
@@ -67,12 +70,16 @@
         generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;
       }
       return this.queueTask(() =>
-        generateKeypair().then(identityKeyPair =>
-          createAccount(identityKeyPair)
-            .then(clearSessionsAndPreKeys)
-            .then(generateKeys)
-            .then(keys => confirmKeys(keys))
-            .then(registrationDone)
+        generateKeypair().then(async identityKeyPair => {
+            return createAccount(identityKeyPair)
+              .then(clearSessionsAndPreKeys)
+              .then(generateKeys)
+              .then(confirmKeys)
+              .then(() => {
+                const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
+                registrationDone(pubKeyString)
+              });
+          }
         )
       );
     },
@@ -130,98 +137,7 @@
       log.info('Added mock contact');
     },
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
-      const createAccount = this.createAccount.bind(this);
-      const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
-      const generateKeys = this.generateKeys.bind(this, 0, progressCallback);
-      const confirmKeys = this.confirmKeys.bind(this);
-      const registrationDone = this.registrationDone.bind(this);
-      const registerKeys = this.server.registerKeys.bind(this.server);
-      const getSocket = this.server.getProvisioningSocket.bind(this.server);
-      const queueTask = this.queueTask.bind(this);
-      const provisioningCipher = new libsignal.ProvisioningCipher();
-      let gotProvisionEnvelope = false;
-      return provisioningCipher.getPublicKey().then(
-        pubKey =>
-          new Promise((resolve, reject) => {
-            const socket = getSocket();
-            socket.onclose = event => {
-              window.log.info('provisioning socket closed. Code:', event.code);
-              if (!gotProvisionEnvelope) {
-                reject(new Error('websocket closed'));
-              }
-            };
-            socket.onopen = () => {
-              window.log.info('provisioning socket open');
-            };
-            const wsr = new WebSocketResource(socket, {
-              keepalive: { path: '/v1/keepalive/provisioning' },
-              handleRequest(request) {
-                if (request.path === '/v1/address' && request.verb === 'PUT') {
-                  const proto = textsecure.protobuf.ProvisioningUuid.decode(
-                    request.body
-                  );
-                  setProvisioningUrl(
-                    [
-                      'tsdevice:/?uuid=',
-                      proto.uuid,
-                      '&pub_key=',
-                      encodeURIComponent(btoa(getString(pubKey))),
-                    ].join('')
-                  );
-                  request.respond(200, 'OK');
-                } else if (
-                  request.path === '/v1/message' &&
-                  request.verb === 'PUT'
-                ) {
-                  const envelope = textsecure.protobuf.ProvisionEnvelope.decode(
-                    request.body,
-                    'binary'
-                  );
-                  request.respond(200, 'OK');
-                  gotProvisionEnvelope = true;
-                  wsr.close();
-                  resolve(
-                    provisioningCipher
-                      .decrypt(envelope)
-                      .then(provisionMessage =>
-                        queueTask(() =>
-                          confirmNumber(provisionMessage.number).then(
-                            deviceName => {
-                              if (
-                                typeof deviceName !== 'string' ||
-                                deviceName.length === 0
-                              ) {
-                                throw new Error('Invalid device name');
-                              }
-                              return createAccount(
-                                provisionMessage.number,
-                                provisionMessage.provisioningCode,
-                                provisionMessage.identityKeyPair,
-                                provisionMessage.profileKey,
-                                deviceName,
-                                provisionMessage.userAgent,
-                                provisionMessage.readReceipts
-                              )
-                                .then(clearSessionsAndPreKeys)
-                                .then(generateKeys)
-                                .then(keys =>
-                                  registerKeys(keys).then(() =>
-                                    confirmKeys(keys)
-                                  )
-                                )
-                                .then(registrationDone);
-                            }
-                          )
-                        )
-                      )
-                  );
-                } else {
-                  window.log.error('Unknown websocket message', request.path);
-                }
-              },
-            });
-          })
-      );
+      throw new Error('account_manager: registerSecondDevice has not been implemented!');
     },
     refreshPreKeys() {
       const generateKeys = this.generateKeys.bind(this, 0);
@@ -247,8 +163,6 @@
         const store = textsecure.storage.protocol;
         const { cleanSignedPreKeys } = this;
 
-        // TODO: harden this against missing identity key? Otherwise, we get
-        //   retries every five seconds.
         return store
           .getIdentityKeyPair()
           .then(
@@ -258,6 +172,8 @@
                 signedKeyId
               ),
             () => {
+              // We swallow any error here, because we don't want to get into
+              //   a loop of repeated retries.
               window.log.error(
                 'Failed to get identity key. Canceling key rotation.'
               );
@@ -390,12 +306,10 @@
       });
     },
     createAccount(identityKeyPair, userAgent, readReceipts) {
-      return Promise.resolve().then(() => {
-        textsecure.storage.remove('identityKey');
-        textsecure.storage.remove('number_id');
-        textsecure.storage.remove('device_name');
-        textsecure.storage.remove('userAgent');
-        textsecure.storage.remove('read-receipts-setting');
+      const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
+      let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
+      password = password.substring(0, password.length - 2);
+      const registrationId = libsignal.KeyHelper.generateRegistrationId();
 
         // update our own identity key, which may have changed
         // if we're relinking after a reinstall on the master device
@@ -403,27 +317,42 @@
           identityKeyPair.pubKey
         );
 
-        textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
-          id: pubKeyString,
-          publicKey: identityKeyPair.pubKey,
-          firstUse: true,
-          timestamp: Date.now(),
-          verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
-          nonblockingApproval: true,
+      return Promise.resolve().then(() => {
+          textsecure.storage.remove('identityKey');
+          textsecure.storage.remove('signaling_key');
+          textsecure.storage.remove('password');
+          textsecure.storage.remove('registrationId');
+          textsecure.storage.remove('number_id');
+          textsecure.storage.remove('device_name');
+          textsecure.storage.remove('userAgent');
+          textsecure.storage.remove('read-receipts-setting');
+
+          // update our own identity key, which may have changed
+          // if we're relinking after a reinstall on the master device
+          textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
+            id: pubKeyString,
+            publicKey: identityKeyPair.pubKey,
+            firstUse: true,
+            timestamp: Date.now(),
+            verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
+            nonblockingApproval: true,
+          });
+
+          textsecure.storage.put('identityKey', identityKeyPair);
+          textsecure.storage.put('signaling_key', signalingKey);
+          textsecure.storage.put('password', password);
+          textsecure.storage.put('registrationId', registrationId);
+          if (userAgent) {
+            textsecure.storage.put('userAgent', userAgent);
+          }
+          if (readReceipts) {
+            textsecure.storage.put('read-receipt-setting', true);
+          } else {
+            textsecure.storage.put('read-receipt-setting', false);
+          }
+
+          textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
         });
-
-        textsecure.storage.put('identityKey', identityKeyPair);
-        if (userAgent) {
-          textsecure.storage.put('userAgent', userAgent);
-        }
-        if (readReceipts) {
-          textsecure.storage.put('read-receipt-setting', true);
-        } else {
-          textsecure.storage.put('read-receipt-setting', false);
-        }
-
-        textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
-      });
     },
     clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;
@@ -436,13 +365,13 @@
       ]);
     },
     // Takes the same object returned by generateKeys
-    confirmKeys(keys) {
+    async confirmKeys(keys) {
       const store = textsecure.storage.protocol;
       const key = keys.signedPreKey;
       const confirmed = true;
 
       window.log.info('confirmKeys: confirming key', key.keyId);
-      return store.storeSignedPreKey(
+      await store.storeSignedPreKey(
         key.keyId,
         key.keyPair,
         confirmed,
@@ -513,8 +442,12 @@
         );
       });
     },
-    registrationDone() {
+    async registrationDone(number) {
       window.log.info('registration done');
+
+      // Ensure that we always have a conversation for ourself
+      await ConversationController.getOrCreateAndWait(number, 'private');
+
       this.dispatchEvent(new Event('registration'));
     },
   });

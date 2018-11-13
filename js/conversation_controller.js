@@ -181,6 +181,18 @@
         );
       });
     },
+    prepareForSend(id, options) {
+      // id is either a group id or an individual user's id
+      const conversation = this.get(id);
+      const sendOptions = conversation
+        ? conversation.getSendOptions(options)
+        : null;
+      const wrap = conversation
+        ? conversation.wrapSend.bind(conversation)
+        : promise => promise;
+
+      return { wrap, sendOptions };
+    },
     async getAllGroupsInvolvingId(id) {
       const groups = await window.Signal.Data.getAllGroupsInvolvingId(id, {
         ConversationCollection: Whisper.ConversationCollection,

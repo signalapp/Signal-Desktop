@@ -27,6 +27,7 @@ window.isImportMode = () => config.importMode;
 window.getExpiration = () => config.buildExpiration;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
+window.getServerTrustRoot = () => config.serverTrustRoot;
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -225,6 +226,7 @@ window.filesize = require('filesize');
 window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
+window.getGuid = require('uuid/v4');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');

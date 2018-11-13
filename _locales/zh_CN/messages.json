@@ -294,11 +294,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "自上次验证以来，您与多为群组成员的安全码已发生改变。这可能表示有人试图偷听您的对话，或者只是联系人他们重新安装了 Signal。",
+        "message": "自上次验证以来，您与多位群组成员的安全码已发生改变。这可能意味着有人试图截取您的对话，或者只是联系人重新安装了 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "您与$name$的安全码自上次确认后已改变。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了Signal。",
+        "message": "您与$name$的安全码自上次确认后已改变。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -322,7 +322,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "您与$name$的安全码最近被修改过。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了Signal。",
+        "message": "您与$name$的安全码最近发生了变化。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
