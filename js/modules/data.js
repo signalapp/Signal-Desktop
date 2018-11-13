@@ -776,11 +776,12 @@ async function getUnreadByConversation(conversationId, { MessageCollection }) {
 
 async function getMessagesByConversation(
   conversationId,
-  { limit = 100, receivedAt = Number.MAX_VALUE, MessageCollection }
+  { limit = 100, receivedAt = Number.MAX_VALUE, MessageCollection, type = null }
 ) {
   const messages = await channels.getMessagesByConversation(conversationId, {
     limit,
     receivedAt,
+    type,
   });
 
   return new MessageCollection(messages);

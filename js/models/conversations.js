@@ -237,7 +237,10 @@
       // Go through the messages and check for any pending friend requests
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
-        { MessageCollection: Whisper.MessageCollection }
+        { 
+          type: 'friend-request',
+          MessageCollection: Whisper.MessageCollection,
+        }
       );
 
       for (const message of messages.models) {
@@ -250,7 +253,10 @@
       // Theoretically all ouur messages could be friend requests, thus we have to unfortunately go through each one :(
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
-        { MessageCollection: Whisper.MessageCollection }
+        { 
+          type: 'friend-request',
+          MessageCollection: Whisper.MessageCollection,
+        }
       );
 
       // We are most likely to find the friend request in the more recent conversations first
