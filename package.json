@@ -13,6 +13,7 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "start": "electron .",
+    "start-multi": "NODE_APP_INSTANCE=1 electron .",
     "grunt": "grunt",
     "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
     "generate": "yarn icon-gen && yarn grunt",
