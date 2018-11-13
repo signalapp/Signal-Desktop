@@ -121,7 +121,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
-  this.lokiserver = window.LokiAPI.connect();
+  this.lokiserver = window.LokiAPI;
 
   if (!options.serverTrustRoot) {
     throw new Error('Server trust root is required!');
@@ -456,7 +456,7 @@ MessageReceiver.prototype.extend({
     if (envelope.source) {
       return `${envelope.source}.${
         envelope.sourceDevice
-      } ${envelope.timestamp.toNumber()} (${envelope.id})`;
+        } ${envelope.timestamp.toNumber()} (${envelope.id})`;
     }
 
     return envelope.id;
@@ -844,7 +844,7 @@ MessageReceiver.prototype.extend({
         const isMe = envelope.source === textsecure.storage.user.getNumber();
         const isLeavingGroup = Boolean(
           message.group &&
-            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -886,7 +886,7 @@ MessageReceiver.prototype.extend({
         const isMe = envelope.source === textsecure.storage.user.getNumber();
         const isLeavingGroup = Boolean(
           message.group &&
-            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -977,7 +977,7 @@ MessageReceiver.prototype.extend({
       let conversation;
       try {
         conversation = ConversationController.get(envelope.source);
-      } catch (e) {}
+      } catch (e) { }
       if (!conversation) {
         this.promptUserToAcceptFriendRequest(
           envelope.source,
