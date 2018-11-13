@@ -453,12 +453,12 @@
 
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      window.Signal.RefreshSenderCertificate.initialize({
-        events: Whisper.events,
-        storage,
-        navigator,
-        logger: window.log,
-      });
+      // window.Signal.RefreshSenderCertificate.initialize({
+      //   events: Whisper.events,
+      //   storage,
+      //   navigator,
+      //   logger: window.log,
+      // });
 
       connect(true);
     });
@@ -478,12 +478,12 @@
     } else if (Whisper.Registration.everDone()) {
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      window.Signal.RefreshSenderCertificate.initialize({
-        events: Whisper.events,
-        storage,
-        navigator,
-        logger: window.log,
-      });
+      // window.Signal.RefreshSenderCertificate.initialize({
+      //   events: Whisper.events,
+      //   storage,
+      //   navigator,
+      //   logger: window.log,
+      // });
 
       connect();
       appView.openInbox({
@@ -691,19 +691,19 @@
       window.getSyncRequest();
     }
 
-    const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
-    if (!storage.get(udSupportKey)) {
-      const server = WebAPI.connect({ username: USERNAME, password: PASSWORD });
-      try {
-        await server.registerSupportForUnauthenticatedDelivery();
-        storage.put(udSupportKey, true);
-      } catch (error) {
-        window.log.error(
-          'Error: Unable to register for unauthenticated delivery support.',
-          error && error.stack ? error.stack : error
-        );
-      }
-    }
+    // const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
+    // if (!storage.get(udSupportKey)) {
+    //   const server = WebAPI.connect({ username: USERNAME, password: PASSWORD });
+    //   try {
+    //     await server.registerSupportForUnauthenticatedDelivery();
+    //     storage.put(udSupportKey, true);
+    //   } catch (error) {
+    //     window.log.error(
+    //       'Error: Unable to register for unauthenticated delivery support.',
+    //       error && error.stack ? error.stack : error
+    //     );
+    //   }
+    // }
 
     const deviceId = textsecure.storage.user.getDeviceId();
     const ourNumber = textsecure.storage.user.getNumber();
