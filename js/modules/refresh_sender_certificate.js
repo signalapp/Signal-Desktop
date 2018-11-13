@@ -7,9 +7,9 @@ module.exports = {
 const ONE_DAY = 24 * 60 * 60 * 1000; // one day
 const MINIMUM_TIME_LEFT = 2 * 60 * 60 * 1000; // two hours
 
-let initialized = false;
 let timeout = null;
 let scheduledTime = null;
+let scheduleNext = null;
 
 // We need to refresh our own profile regularly to account for newly-added devices which
 //   do not support unidentified delivery.
@@ -20,11 +20,12 @@ function refreshOurProfile() {
 }
 
 function initialize({ events, storage, navigator, logger }) {
-  if (initialized) {
-    logger.warn('refreshSenderCertificate: already initialized!');
+  // We don't want to set up all of the below functions, but we do want to ensure that our
+  //   refresh timer is up-to-date.
+  if (scheduleNext) {
+    scheduleNext();
     return;
   }
-  initialized = true;
 
   runWhenOnline();
 
@@ -54,6 +55,9 @@ function initialize({ events, storage, navigator, logger }) {
 
     setTimeoutForNextRun(time);
   }
+
+  // Keeping this entrypoint around so more inialize() calls just kick the timing
+  scheduleNext = scheduleNextRotation;
 
   async function run() {
     logger.info('refreshSenderCertificate: Getting new certificate...');
