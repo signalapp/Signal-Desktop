@@ -12,7 +12,7 @@ message Envelope {
     PREKEY_BUNDLE = 3;
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
-    FRIEND_REQUEST = 7; // contains prekeys + message and is using simple encryption
+    FRIEND_REQUEST = 101; // contains prekeys + message and is using simple encryption
   }
 
   optional Type   type            = 1;
