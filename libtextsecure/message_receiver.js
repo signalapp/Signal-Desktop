@@ -987,6 +987,39 @@ MessageReceiver.prototype.extend({
       }
     }
 
+    // Check if our friend request got accepted
+    if (content.preKeyBundle) {
+      // By default we don't want to save the preKey
+      let savePreKey = false;
+
+      // The conversation
+      let conversation = null;
+
+      try {
+        conversation = ConversationController.get(envelope.source);
+
+        // We only want to save the preKey if we have a outgoing friend request which is pending
+        const pending = await conversation.getPendingFriendRequests('outgoing');
+        const successful = pending.filter(p => !p.hasErrors());
+
+        // Save the key only if we have an outgoing friend request
+        savePreKey = (successful.length > 0);
+      } catch (e) {}
+      
+      // Save the pre key if we have a conversation
+      if (savePreKey && conversation) {
+        await this.handlePreKeyBundleMessage(
+          envelope.source,
+          content.preKeyBundle
+        );
+
+        // Update the conversation
+        await conversation.onFriendRequestAccepted();
+
+        return;
+      }
+    }
+
     if (content.syncMessage) {
       return this.handleSyncMessage(envelope, content.syncMessage);
     } else if (content.dataMessage) {

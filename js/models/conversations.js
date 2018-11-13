@@ -120,6 +120,7 @@
       this.on('change:profileKey', this.onChangeProfileKey);
 
       // Listening for out-of-band data updates
+      this.on('updateMessage', this.updateAndMerge);
       this.on('delivered', this.updateAndMerge);
       this.on('read', this.updateAndMerge);
       this.on('expiration-change', this.updateAndMerge);
@@ -466,19 +467,35 @@
       }
     },
     async onFriendRequestAccepted() {
-      this.trigger('disable:input', false);
-      this.trigger('change:placeholder', 'chat');
       this.set({
         friendRequestStatus: null,
+        keyExchangeCompleted: true,
       });
 
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
+
+      // Enable the text inputs early
+      this.updateTextInputState();
+
+      // Update any pending outgoing messages
+      const pending = await this.getPendingFriendRequests('outgoing');
+      for (const request of pending) {
+        // Only update successfully sent requests
+        if (request.hasErrors()) continue;
+
+        request.set({ friendStatus: 'accepted' });
+        await window.Signal.Data.saveMessage(request.attributes, {
+          Message: Whisper.Message,
+        });
+        this.trigger('updateMessage', request);
+      }
+
+      await this.updatePendingFriendRequests();
     },
     async onFriendRequestTimedOut() {
-      this.trigger('disable:input', false);
-      this.trigger('change:placeholder', 'friend-request');
+      this.updateTextInputState();
 
       const friendRequestStatus = this.getFriendRequestStatus();
       friendRequestStatus.allowSending = true;
@@ -500,8 +517,8 @@
       const delayMs = 60 * 60 * 1000 * friendRequestLockDuration;
       friendRequestStatus.unlockTimestamp = Date.now() + delayMs;
       
-      this.trigger('disable:input', true);
-      this.trigger('change:placeholder', 'disabled');
+      // Update the text input state
+      this.updateTextInputState();
 
       this.set({ friendRequestStatus });
 
