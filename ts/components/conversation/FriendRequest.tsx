@@ -81,7 +81,7 @@ export class FriendRequest extends React.Component<Props> {
         }
       } else {
         // Render the retry button if we errored
-        if (status === 'error') {
+        if (status === 'error' && friendStatus === 'pending') {
           return (
             <div
               className={classNames(
