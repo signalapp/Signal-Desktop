@@ -455,7 +455,7 @@ async function getContactPreKeyByIdentityKey(key) {
 }
 async function getContactPreKeys(keyId, identityKeyString) {
   const keys = await channels.getContactPreKeys(keyId, identityKeyString);
-  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, data));
+  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, k));
 }
 async function getAllContactPreKeys() {
   const keys = await channels.getAllContactPreKeys();
@@ -487,7 +487,7 @@ async function getContactSignedPreKeyByIdentityKey(key) {
 }
 async function getContactSignedPreKeys(keyId, identityKeyString) {
   const keys = await channels.getContactSignedPreKeys(keyId, identityKeyString);
-  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, data));
+  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, k));
 }
 async function bulkAddContactSignedPreKeys(array) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
