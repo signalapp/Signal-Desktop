@@ -299,7 +299,6 @@
       const direction = this.get('direction') || 'incoming';
       const conversation = this.getConversation();
 
-      // I.e do we send a network request from the model? or call a function in the conversation to send the new status
       const onAccept = async () => {
         this.set({ friendStatus: 'accepted' });
         await window.Signal.Data.saveMessage(this.attributes, {
