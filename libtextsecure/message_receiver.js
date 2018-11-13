@@ -964,7 +964,8 @@ MessageReceiver.prototype.extend({
           message.preKeyBundle
         );
       }
-  
+
+      await conversation.onFriendRequestAccepted();
     }
     console.log(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
   },

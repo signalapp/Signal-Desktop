@@ -498,14 +498,19 @@
       this.updateTextInputState();
 
       const friendRequestStatus = this.getFriendRequestStatus();
-      friendRequestStatus.allowSending = true;
-      this.set({ friendRequestStatus });
+      if (friendRequestStatus) {
+        friendRequestStatus.allowSending = true;
+        this.set({ friendRequestStatus });
 
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
     },
     async onFriendRequestSent() {
+      // Don't bother setting the friend request if we have already exchanged keys
+      if (this.isKeyExchangeCompleted()) return;
+
       const friendRequestLockDuration = 72; // hours
 
       let friendRequestStatus = this.getFriendRequestStatus();
@@ -1102,7 +1107,7 @@
           this.trigger('disable:input', true);
           this.trigger('change:placeholder', 'disabled');
           return;
-        } else if (outgoing.length > 0) {
+        } else {
           // Tell the user to introduce themselves
           this.trigger('disable:input', false);
           this.trigger('change:placeholder', 'friend-request');
