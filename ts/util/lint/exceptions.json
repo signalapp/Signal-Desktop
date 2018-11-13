@@ -227,7 +227,7 @@
     "rule": "jQuery-load(",
     "path": "js/background.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 405,
+    "lineNumber": 417,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
@@ -235,7 +235,7 @@
     "rule": "jQuery-$(",
     "path": "js/background.js",
     "line": "      el: $('body'),",
-    "lineNumber": 468,
+    "lineNumber": 480,
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-16T23:47:48.006Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -244,7 +244,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "        wrap(",
-    "lineNumber": 727,
+    "lineNumber": 739,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-18T22:23:00.485Z"
   },
@@ -252,7 +252,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "      await wrap(",
-    "lineNumber": 1228,
+    "lineNumber": 1240,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-26T22:43:23.229Z"
   },
@@ -311,7 +311,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
     "line": "        return wrap(",
-    "lineNumber": 994,
+    "lineNumber": 1000,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -2315,7 +2315,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 774,
+    "lineNumber": 781,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -2323,7 +2323,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 799,
+    "lineNumber": 806,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
