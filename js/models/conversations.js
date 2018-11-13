@@ -259,9 +259,8 @@
         }
       );
 
-      // We are most likely to find the friend request in the more recent conversations first
       // Get the messages that are matching the direction and the friendStatus
-      return messages.models.reverse().filter(m => {
+      return messages.models.filter(m => {
         return (m.attributes.direction === direction && m.attributes.friendStatus === 'pending')
       });
     },
@@ -436,17 +435,6 @@
       }
 
       return this.get('keyExchangeCompleted') || false;
-    },
-    async setKeyExchangeCompleted(completed) {
-      if (typeof completed !== 'boolean') {
-        throw new Error('setKeyExchangeCompleted expects a bool');
-      }
-
-      this.set({ keyExchangeCompleted: completed });
-
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
     },
     getFriendRequestStatus() {
       return this.get('friendRequestStatus');
@@ -682,6 +670,7 @@
         })
       );
     },
+    // Remove the message locally from our conversation
     async _removeMessage(id) {
       await window.Signal.Data.removeMessage(id, { Message: Whisper.Message });
       const existing = this.messageCollection.get(id);
@@ -693,7 +682,7 @@
     // This will add a message which will allow the user to reply to a friend request
     async addFriendRequest(body, options = {}) {
       const _options = {
-        status: 'pending',
+        friendStatus: 'pending',
         direction: 'incoming',
         preKeyBundle: null,
         ...options,
@@ -751,7 +740,7 @@
         unread: 1,
         from: this.id,
         to: this.ourNumber,
-        friendStatus: _options.status,
+        friendStatus: _options.friendStatus,
         direction: _options.direction,
         body,
         preKeyBundle: _options.preKeyBundle,
