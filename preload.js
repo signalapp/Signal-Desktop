@@ -201,11 +201,9 @@ window.WebAPI = initializeWebAPI({
   proxyUrl: config.proxyUrl,
 });
 
-const {
-  initialize: initializeLokiAPI,
-} = require('./js/modules/loki_message_api');
+const { LokiServer } = require('./js/modules/loki_message_api');
 
-window.LokiAPI = initializeLokiAPI({
+window.LokiAPI = new LokiServer({
   url: config.serverUrl,
 });
 
@@ -213,7 +211,7 @@ window.mnemonic = require('./libloki/mnemonic');
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
-  window.nodeSetImmediate(() => {});
+  window.nodeSetImmediate(() => { });
 }, 1000);
 
 const { autoOrientImage } = require('./js/modules/auto_orient_image');

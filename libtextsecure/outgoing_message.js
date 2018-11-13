@@ -35,7 +35,7 @@ function OutgoingMessage(
   this.callback = callback;
   this.silent = silent;
 
-  this.lokiserver = window.LokiAPI.connect();
+  this.lokiserver = window.LokiAPI;
 
   this.numbersCompleted = 0;
   this.errors = [];
