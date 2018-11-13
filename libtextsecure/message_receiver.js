@@ -1,12 +1,12 @@
 /* global window: false */
 /* global textsecure: false */
-/* global WebAPI: false */
+/* global StringView: false */
 /* global libsignal: false */
-/* global WebSocketResource: false */
 /* global WebSocket: false */
 /* global Event: false */
 /* global dcodeIO: false */
 /* global _: false */
+/* global HttpResource: false */
 /* global ContactBuffer: false */
 /* global GroupBuffer: false */
 /* global Worker: false */
@@ -121,7 +121,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
-  this.server = WebAPI.connect({ username, password });
+  this.lokiserver = window.LokiAPI.connect();
 
   if (!options.serverTrustRoot) {
     throw new Error('Server trust root is required!');
@@ -166,6 +166,12 @@ MessageReceiver.prototype.extend({
     }
 
     this.hasConnected = true;
+    this.hr = new HttpResource(this.lokiserver, {
+      handleRequest: this.handleRequest.bind(this),
+    });
+    this.hr.startPolling();
+    // TODO: Rework this socket stuff to work with online messaging
+    return;
 
     if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
       this.socket.close();
@@ -236,7 +242,6 @@ MessageReceiver.prototype.extend({
     );
     // TODO: handle properly
     return;
-
     this.shutdown();
 
     if (this.calledClose) {
@@ -276,8 +281,8 @@ MessageReceiver.prototype.extend({
       return;
     }
 
-    const promise = Promise.resolve(request.body.toArrayBuffer()) //textsecure.crypto
-      //.decryptWebsocketMessage(request.body, this.signalingKey)
+    const promise = Promise.resolve(request.body.toArrayBuffer()) // textsecure.crypto
+      // .decryptWebsocketMessage(request.body, this.signalingKey)
       .then(plaintext => {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
         // After this point, decoding errors are not the server's
@@ -1222,6 +1227,8 @@ MessageReceiver.prototype.extend({
     return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
   },
   handleAttachment(attachment) {
+    console.log("Not handling attachments.");
+    return;
     // eslint-disable-next-line no-param-reassign
     attachment.id = attachment.id.toString();
     // eslint-disable-next-line no-param-reassign
