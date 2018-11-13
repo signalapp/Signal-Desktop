@@ -32,7 +32,7 @@
       ivAndCiphertext.set(new Uint8Array(ciphertext), iv.byteLength);
 
       return {
-        type: 6, // friend request
+        type: textsecure.protobuf.Envelope.Type.FRIEND_REQUEST, // friend request
         body: ivAndCiphertext,
         registrationId: null,
       };
