@@ -934,11 +934,17 @@ MessageReceiver.prototype.extend({
       return this.innerHandleContentMessage(envelope, plaintext);
     });
   },
-  promptUserToAcceptFriendRequest(pubKey, message, preKeyBundle) {
+  promptUserToAcceptFriendRequest(envelope, message, preKeyBundle) {
     window.Whisper.events.trigger('showFriendRequest', {
-      pubKey,
+      pubKey: envelope.source,
       message,
       preKeyBundle,
+      options: {
+        source: envelope.source,
+        sourceDevice: envelope.sourceDevice,
+        timestamp: envelope.timestamp.toNumber(),
+        receivedAt: envelope.receivedAt,
+      },
     });
   },
   // A handler function for when a friend request is accepted or declined
@@ -973,19 +979,22 @@ MessageReceiver.prototype.extend({
     const content = textsecure.protobuf.Content.decode(plaintext);
 
     if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-      // only prompt friend request if there is no conversation yet
       let conversation;
       try {
         conversation = ConversationController.get(envelope.source);
       } catch (e) { }
+
+       // only prompt friend request if there is no conversation yet
       if (!conversation) {
         this.promptUserToAcceptFriendRequest(
-          envelope.source,
+          envelope,
           content.dataMessage.body,
           content.preKeyBundle,
         );
-        return;
       }
+
+      // Exit early since the friend request reply will be a regular empty message
+      return;
     }
 
     // Check if our friend request got accepted
