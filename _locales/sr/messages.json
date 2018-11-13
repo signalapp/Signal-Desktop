@@ -428,7 +428,7 @@
         "description": ""
     },
     "media": {
-        "message": "Media",
+        "message": "Медији",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
@@ -632,11 +632,11 @@
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Original message not found",
+        "message": "Оригинална порука није нађена",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Original message no longer available",
+        "message": "Оригинална порука више није доступна",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {

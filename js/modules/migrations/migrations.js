@@ -194,8 +194,19 @@ const migrations = [
     migrate(transaction, next) {
       window.log.info('Migration 19');
 
+      // Empty because we don't want to cause incompatibility with beta users who have
+      //   already run migration 19 when it was object store removal.
+
+      next();
+    },
+  },
+  {
+    version: 20,
+    migrate(transaction, next) {
+      window.log.info('Migration 20');
+
       // Empty because we don't want to cause incompatibility with users who have already
-      //   run migration 19 when it was the object store removal.
+      //   run migration 20 when it was object store removal.
 
       next();
     },

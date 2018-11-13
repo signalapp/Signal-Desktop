@@ -1,24 +1,20 @@
-describe('InboxView', function() {
+/* global ConversationController, textsecure, Whisper */
+
+describe('InboxView', () => {
   let inboxView;
   let conversation;
 
   before(async () => {
-    try {
-      await ConversationController.load();
-    } catch (error) {
-      console.log(
-        'InboxView before:',
-        error && error.stack ? error.stack : error
-      );
-    }
+    ConversationController.reset();
+    await ConversationController.load();
     await ConversationController.getOrCreateAndWait(
       textsecure.storage.user.getNumber(),
       'private'
     );
     inboxView = new Whisper.InboxView({
       model: {},
-      window: window,
-      initialLoadComplete: function() {},
+      window,
+      initialLoadComplete() {},
     }).render();
 
     conversation = new Whisper.Conversation({
@@ -27,32 +23,32 @@ describe('InboxView', function() {
     });
   });
 
-  describe('the conversation stack', function() {
-    it('should be rendered', function() {
+  describe('the conversation stack', () => {
+    it('should be rendered', () => {
       assert.ok(inboxView.$('.conversation-stack').length === 1);
     });
 
-    describe('opening a conversation', function() {
-      var triggeredOpenedCount = 0;
+    describe('opening a conversation', () => {
+      let triggeredOpenedCount = 0;
 
-      before(function() {
-        conversation.on('opened', function() {
-          triggeredOpenedCount++;
+      before(() => {
+        conversation.on('opened', () => {
+          triggeredOpenedCount += 1;
         });
 
         inboxView.conversation_stack.open(conversation);
       });
 
-      it('should trigger an opened event', function() {
+      it('should trigger an opened event', () => {
         assert.ok(triggeredOpenedCount === 1);
       });
 
-      describe('and then opening it again immediately', function() {
-        before(function() {
+      describe('and then opening it again immediately', () => {
+        before(() => {
           inboxView.conversation_stack.open(conversation);
         });
 
-        it('should trigger the opened event again', function() {
+        it('should trigger the opened event again', () => {
           assert.ok(triggeredOpenedCount === 2);
         });
       });

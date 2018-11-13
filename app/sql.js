@@ -14,6 +14,66 @@ module.exports = {
   initialize,
   close,
   removeDB,
+  removeIndexedDBFiles,
+
+  createOrUpdateGroup,
+  getGroupById,
+  getAllGroupIds,
+  bulkAddGroups,
+  removeGroupById,
+  removeAllGroups,
+
+  createOrUpdateIdentityKey,
+  getIdentityKeyById,
+  bulkAddIdentityKeys,
+  removeIdentityKeyById,
+  removeAllIdentityKeys,
+
+  createOrUpdatePreKey,
+  getPreKeyById,
+  getPreKeyByRecipient,
+  bulkAddPreKeys,
+  removePreKeyById,
+  removeAllPreKeys,
+
+  createOrUpdateSignedPreKey,
+  getSignedPreKeyById,
+  getAllSignedPreKeys,
+  bulkAddSignedPreKeys,
+  removeSignedPreKeyById,
+  removeAllSignedPreKeys,
+
+  createOrUpdateContactPreKey,
+  getContactPreKeyById,
+  getContactPreKeyByIdentityKey,
+  getContactPreKeys,
+  getAllContactPreKeys,
+  bulkAddContactPreKeys,
+  removeContactPreKeyById,
+  removeAllContactPreKeys,
+
+  createOrUpdateContactSignedPreKey,
+  getContactSignedPreKeyById,
+  getContactSignedPreKeyByIdentityKey,
+  getContactSignedPreKeys,
+  bulkAddContactSignedPreKeys,
+  removeContactSignedPreKeyById,
+  removeAllContactSignedPreKeys,
+
+  createOrUpdateItem,
+  getItemById,
+  getAllItems,
+  bulkAddItems,
+  removeItemById,
+  removeAllItems,
+
+  createOrUpdateSession,
+  getSessionById,
+  getSessionsByNumber,
+  bulkAddSessions,
+  removeSessionById,
+  removeSessionsByNumber,
+  removeAllSessions,
 
   getConversationCount,
   saveConversation,
@@ -51,6 +111,7 @@ module.exports = {
   removeAllUnprocessed,
 
   removeAll,
+  removeAllConfiguration,
 
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
@@ -320,11 +381,91 @@ async function updateToSchemaVersion4(currentVersion, instance) {
   console.log('updateToSchemaVersion4: success!');
 }
 
+async function updateToSchemaVersion6(currentVersion, instance) {
+  if (currentVersion >= 6) {
+    return;
+  }
+  console.log('updateToSchemaVersion6: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // key-value, ids are strings, one extra column
+  await instance.run(
+    `CREATE TABLE sessions(
+      id STRING PRIMARY KEY ASC,
+      number STRING,
+      json TEXT
+    );`
+  );
+
+  await instance.run(`CREATE INDEX sessions_number ON sessions (
+    number
+  ) WHERE number IS NOT NULL;`);
+
+  // key-value, ids are strings
+  await instance.run(
+    `CREATE TABLE groups(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );`
+  );
+  await instance.run(
+    `CREATE TABLE identityKeys(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );`
+  );
+  await instance.run(
+    `CREATE TABLE items(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );`
+  );
+
+  // key-value, ids are integers
+  await instance.run(
+    `CREATE TABLE preKeys(
+      id INTEGER PRIMARY KEY ASC,
+      recipient STRING,
+      json TEXT
+    );`
+  );
+  await instance.run(
+    `CREATE TABLE signedPreKeys(
+      id INTEGER PRIMARY KEY ASC,
+      json TEXT
+    );`
+  );
+
+  await instance.run(
+    `CREATE TABLE contactPreKeys(
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      identityKeyString VARCHAR(255),
+      keyId INTEGER,
+      json TEXT
+    );`
+  );
+
+  await instance.run(
+    `CREATE TABLE contactSignedPreKeys(
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      identityKeyString VARCHAR(255),
+      keyId INTEGER,
+      json TEXT
+    );`
+  );
+
+  await instance.run('PRAGMA schema_version = 6;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion6: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
   updateToSchemaVersion3,
   updateToSchemaVersion4,
+  // version 5 was dropped
+  updateToSchemaVersion6,
 ];
 
 async function updateSchema(instance) {
@@ -350,6 +491,7 @@ async function updateSchema(instance) {
 
 let db;
 let filePath;
+let indexedDBPath;
 
 async function initialize({ configDir, key }) {
   if (db) {
@@ -363,10 +505,13 @@ async function initialize({ configDir, key }) {
     throw new Error('initialize: key` is required!');
   }
 
+  indexedDBPath = path.join(configDir, 'IndexedDB');
+
   const dbDir = path.join(configDir, 'sql');
   mkdirp.sync(dbDir);
 
   filePath = path.join(dbDir, 'db.sqlite');
+
   const sqlInstance = await openDatabase(filePath);
   const promisified = promisify(sqlInstance);
 
@@ -398,6 +543,382 @@ async function removeDB() {
 
   rimraf.sync(filePath);
 }
+
+async function removeIndexedDBFiles() {
+  if (!indexedDBPath) {
+    throw new Error(
+      'removeIndexedDBFiles: Need to initialize and set indexedDBPath first!'
+    );
+  }
+
+  const pattern = path.join(indexedDBPath, '*.leveldb');
+  rimraf.sync(pattern);
+  indexedDBPath = null;
+}
+
+const GROUPS_TABLE = 'groups';
+async function createOrUpdateGroup(data) {
+  return createOrUpdate(GROUPS_TABLE, data);
+}
+async function getGroupById(id) {
+  return getById(GROUPS_TABLE, id);
+}
+async function getAllGroupIds() {
+  const rows = await db.all('SELECT id FROM groups ORDER BY id ASC;');
+  return map(rows, row => row.id);
+}
+async function bulkAddGroups(array) {
+  return bulkAdd(GROUPS_TABLE, array);
+}
+async function removeGroupById(id) {
+  return removeById(GROUPS_TABLE, id);
+}
+async function removeAllGroups() {
+  return removeAllFromTable(GROUPS_TABLE);
+}
+
+const IDENTITY_KEYS_TABLE = 'identityKeys';
+async function createOrUpdateIdentityKey(data) {
+  return createOrUpdate(IDENTITY_KEYS_TABLE, data);
+}
+async function getIdentityKeyById(id) {
+  return getById(IDENTITY_KEYS_TABLE, id);
+}
+async function bulkAddIdentityKeys(array) {
+  return bulkAdd(IDENTITY_KEYS_TABLE, array);
+}
+async function removeIdentityKeyById(id) {
+  return removeById(IDENTITY_KEYS_TABLE, id);
+}
+async function removeAllIdentityKeys() {
+  return removeAllFromTable(IDENTITY_KEYS_TABLE);
+}
+
+const PRE_KEYS_TABLE = 'preKeys';
+async function createOrUpdatePreKey(data) {
+  const { id, recipient } = data;
+  if (!id) {
+    throw new Error('createOrUpdate: Provided data did not have a truthy id');
+  }
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${PRE_KEYS_TABLE} (
+      id,
+      recipient,
+      json
+    ) values (
+      $id,
+      $recipient,
+      $json
+    )`,
+    {
+      $id: id,
+      $recipient: recipient || '',
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getPreKeyById(id) {
+  return getById(PRE_KEYS_TABLE, id);
+}
+async function getPreKeyByRecipient(recipient) {
+  const row = await db.get(`SELECT * FROM ${PRE_KEYS_TABLE} WHERE recipient = $recipient;`, {
+    $recipient: recipient,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function bulkAddPreKeys(array) {
+  return bulkAdd(PRE_KEYS_TABLE, array);
+}
+async function removePreKeyById(id) {
+  return removeById(PRE_KEYS_TABLE, id);
+}
+async function removeAllPreKeys() {
+  return removeAllFromTable(PRE_KEYS_TABLE);
+}
+
+const CONTACT_PRE_KEYS_TABLE = 'contactPreKeys';
+async function createOrUpdateContactPreKey(data) {
+  const { keyId, identityKeyString } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${CONTACT_PRE_KEYS_TABLE} (
+      keyId,
+      identityKeyString,
+      json
+    ) values (
+      $keyId,
+      $identityKeyString,
+      $json
+    )`,
+    {
+      $keyId: keyId,
+      $identityKeyString: identityKeyString || '',
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getContactPreKeyById(id) {
+  return getById(CONTACT_PRE_KEYS_TABLE, id);
+}
+async function getContactPreKeyByIdentityKey(key) {
+  const row = await db.get(`SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
+    $identityKeyString: key,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function getContactPreKeys(keyId, identityKeyString) {
+  const query = `SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString AND keyId = $keyId;`;
+  const rows = await db.all(query, {
+    $keyId: keyId,
+    $identityKeyString: identityKeyString,
+  });
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function bulkAddContactPreKeys(array) {
+  return bulkAdd(CONTACT_PRE_KEYS_TABLE, array);
+}
+async function removeContactPreKeyById(id) {
+  return removeById(CONTACT_PRE_KEYS_TABLE, id);
+}
+async function removeAllContactPreKeys() {
+  return removeAllFromTable(CONTACT_PRE_KEYS_TABLE);
+}
+
+const CONTACT_SIGNED_PRE_KEYS_TABLE = 'contactSignedPreKeys';
+async function createOrUpdateContactSignedPreKey(data) {
+  const { keyId, identityKeyString } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${CONTACT_SIGNED_PRE_KEYS_TABLE} (
+      keyId,
+      identityKeyString,
+      json
+    ) values (
+      $keyId,
+      $identityKeyString,
+      $json
+    )`,
+    {
+      $keyId: keyId,
+      $identityKeyString: identityKeyString || '',
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getContactSignedPreKeyById(id) {
+  return getById(CONTACT_SIGNED_PRE_KEYS_TABLE, id);
+}
+async function getContactSignedPreKeyByIdentityKey(key) {
+  const row = await db.get(`SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
+    $identityKeyString: key,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function getContactSignedPreKeys(keyId, identityKeyString) {
+  const query = `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString AND keyId = $keyId;`;
+  const rows = await db.all(query, {
+    $keyId: keyId,
+    $identityKeyString: identityKeyString,
+  });
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddContactSignedPreKeys(array) {
+  return bulkAdd(CONTACT_SIGNED_PRE_KEYS_TABLE, array);
+}
+async function removeContactSignedPreKeyById(id) {
+  return removeById(CONTACT_SIGNED_PRE_KEYS_TABLE, id);
+}
+async function removeAllContactSignedPreKeys() {
+  return removeAllFromTable(CONTACT_SIGNED_PRE_KEYS_TABLE);
+}
+
+const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
+async function createOrUpdateSignedPreKey(data) {
+  return createOrUpdate(SIGNED_PRE_KEYS_TABLE, data);
+}
+async function getSignedPreKeyById(id) {
+  return getById(SIGNED_PRE_KEYS_TABLE, id);
+}
+async function getAllSignedPreKeys() {
+  const rows = await db.all('SELECT json FROM signedPreKeys ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+async function getAllContactPreKeys() {
+  const rows = await db.all('SELECT json FROM contactPreKeys ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddSignedPreKeys(array) {
+  return bulkAdd(SIGNED_PRE_KEYS_TABLE, array);
+}
+async function removeSignedPreKeyById(id) {
+  return removeById(SIGNED_PRE_KEYS_TABLE, id);
+}
+async function removeAllSignedPreKeys() {
+  return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
+}
+
+const ITEMS_TABLE = 'items';
+async function createOrUpdateItem(data) {
+  return createOrUpdate(ITEMS_TABLE, data);
+}
+async function getItemById(id) {
+  return getById(ITEMS_TABLE, id);
+}
+async function getAllItems() {
+  const rows = await db.all('SELECT json FROM items ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddItems(array) {
+  return bulkAdd(ITEMS_TABLE, array);
+}
+async function removeItemById(id) {
+  return removeById(ITEMS_TABLE, id);
+}
+async function removeAllItems() {
+  return removeAllFromTable(ITEMS_TABLE);
+}
+
+const SESSIONS_TABLE = 'sessions';
+async function createOrUpdateSession(data) {
+  const { id, number } = data;
+  if (!id) {
+    throw new Error(
+      'createOrUpdateSession: Provided data did not have a truthy id'
+    );
+  }
+  if (!number) {
+    throw new Error(
+      'createOrUpdateSession: Provided data did not have a truthy number'
+    );
+  }
+
+  await db.run(
+    `INSERT OR REPLACE INTO sessions (
+      id,
+      number,
+      json
+    ) values (
+      $id,
+      $number,
+      $json
+    )`,
+    {
+      $id: id,
+      $number: number,
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getSessionById(id) {
+  return getById(SESSIONS_TABLE, id);
+}
+async function getSessionsByNumber(number) {
+  const rows = await db.all('SELECT * FROM sessions WHERE number = $number;', {
+    $number: number,
+  });
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddSessions(array) {
+  return bulkAdd(SESSIONS_TABLE, array);
+}
+async function removeSessionById(id) {
+  return removeById(SESSIONS_TABLE, id);
+}
+async function removeSessionsByNumber(number) {
+  await db.run('DELETE FROM sessions WHERE number = $number;', {
+    $number: number,
+  });
+}
+async function removeAllSessions() {
+  return removeAllFromTable(SESSIONS_TABLE);
+}
+
+async function createOrUpdate(table, data) {
+  const { id } = data;
+  if (!id) {
+    throw new Error('createOrUpdate: Provided data did not have a truthy id');
+  }
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${table} (
+      id,
+      json
+    ) values (
+      $id,
+      $json
+    )`,
+    {
+      $id: id,
+      $json: objectToJSON(data),
+    }
+  );
+}
+
+async function bulkAdd(table, array) {
+  let promise;
+
+  db.serialize(() => {
+    promise = Promise.all([
+      db.run('BEGIN TRANSACTION;'),
+      ...map(array, data => createOrUpdate(table, data)),
+      db.run('COMMIT TRANSACTION;'),
+    ]);
+  });
+
+  await promise;
+}
+
+async function getById(table, id) {
+  const row = await db.get(`SELECT * FROM ${table} WHERE id = $id;`, {
+    $id: id,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+
+async function removeById(table, id) {
+  if (!Array.isArray(id)) {
+    await db.run(`DELETE FROM ${table} WHERE id = $id;`, { $id: id });
+    return;
+  }
+
+  if (!id.length) {
+    throw new Error('removeById: No ids to delete!');
+  }
+
+  // Our node interface doesn't seem to allow you to replace one single ? with an array
+  await db.run(
+    `DELETE FROM ${table} WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
+    id
+  );
+}
+
+async function removeAllFromTable(table) {
+  await db.run(`DELETE FROM ${table};`);
+}
+
+// Conversations
 
 async function getConversationCount() {
   const row = await db.get('SELECT count(*) from conversations;');
@@ -537,10 +1058,6 @@ async function getAllPrivateConversations() {
      ORDER BY id ASC;`
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -554,10 +1071,6 @@ async function getAllGroupsInvolvingId(id) {
       $id: `%${id}%`,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -575,10 +1088,6 @@ async function searchConversations(query) {
       $profileName: `%${query}%`,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -796,10 +1305,6 @@ async function getUnreadByConversation(conversationId) {
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -820,10 +1325,6 @@ async function getMessagesByConversation(
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -836,10 +1337,6 @@ async function getMessagesBySentAt(sentAt) {
       $sent_at: sentAt,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -857,10 +1354,6 @@ async function getExpiredMessages() {
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -874,10 +1367,6 @@ async function getOutgoingWithoutExpiresAt() {
     ORDER BY expires_at ASC;
   `);
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -888,10 +1377,6 @@ async function getNextExpiringMessage() {
     ORDER BY expires_at ASC
     LIMIT 1;
   `);
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -978,10 +1463,6 @@ async function getAllUnprocessed() {
     'SELECT json FROM unprocessed ORDER BY timestamp ASC;'
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -1006,15 +1487,46 @@ async function removeAllUnprocessed() {
   await db.run('DELETE FROM unprocessed;');
 }
 
+// All data in database
 async function removeAll() {
   let promise;
 
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
+      db.run('DELETE FROM conversations;'),
+      db.run('DELETE FROM groups;'),
+      db.run('DELETE FROM identityKeys;'),
+      db.run('DELETE FROM items;'),
       db.run('DELETE FROM messages;'),
+      db.run('DELETE FROM preKeys;'),
+      db.run('DELETE FROM sessions;'),
+      db.run('DELETE FROM signedPreKeys;'),
       db.run('DELETE FROM unprocessed;'),
-      db.run('DELETE from conversations;'),
+      db.run('DELETE FROM contactPreKeys;'),
+      db.run('DELETE FROM contactSignedPreKeys;'),
+      db.run('COMMIT TRANSACTION;'),
+    ]);
+  });
+
+  await promise;
+}
+
+// Anything that isn't user-visible data
+async function removeAllConfiguration() {
+  let promise;
+
+  db.serialize(() => {
+    promise = Promise.all([
+      db.run('BEGIN TRANSACTION;'),
+      db.run('DELETE FROM identityKeys;'),
+      db.run('DELETE FROM items;'),
+      db.run('DELETE FROM preKeys;'),
+      db.run('DELETE FROM sessions;'),
+      db.run('DELETE FROM signedPreKeys;'),
+      db.run('DELETE FROM unprocessed;'),
+      db.run('DELETE FROM contactPreKeys;'),
+      db.run('DELETE FROM contactSignedPreKeys;'),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
@@ -1032,10 +1544,6 @@ async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
       $limit: limit,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -1056,10 +1564,6 @@ async function getMessagesWithVisualMediaAttachments(
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -1075,10 +1579,6 @@ async function getMessagesWithFileAttachments(conversationId, { limit }) {
       $limit: limit,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }

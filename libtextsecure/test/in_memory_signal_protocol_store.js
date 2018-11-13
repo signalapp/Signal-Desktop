@@ -36,10 +36,10 @@ SignalProtocolStore.prototype = {
 
   isTrustedIdentity(identifier, identityKey) {
     if (identifier === null || identifier === undefined) {
-      throw new error('tried to check identity key for undefined/null key');
+      throw new Error('tried to check identity key for undefined/null key');
     }
     if (!(identityKey instanceof ArrayBuffer)) {
-      throw new error('Expected identityKey to be an ArrayBuffer');
+      throw new Error('Expected identityKey to be an ArrayBuffer');
     }
     const trusted = this.get(`identityKey${identifier}`);
     if (trusted === undefined) {
@@ -96,9 +96,11 @@ SignalProtocolStore.prototype = {
   loadSignedPreKeys() {
     return new Promise(resolve => {
       const res = [];
-      for (const i in this.store) {
-        if (i.startsWith('25519KeysignedKey')) {
-          res.push(this.store[i]);
+      const keys = Object.keys(this.store);
+      for (let i = 0, max = keys.length; i < max; i += 1) {
+        const key = keys[i];
+        if (key.startsWith('25519KeysignedKey')) {
+          res.push(this.store[key]);
         }
       }
       resolve(res);
@@ -127,7 +129,9 @@ SignalProtocolStore.prototype = {
   },
   removeAllSessions(identifier) {
     return new Promise(resolve => {
-      for (key in this.store) {
+      const keys = Object.keys(this.store);
+      for (let i = 0, max = keys.length; i < max; i += 1) {
+        const key = keys[i];
         if (key.match(RegExp(`^session${identifier.replace('+', '\\+')}.+`))) {
           delete this.store[key];
         }
@@ -138,9 +142,11 @@ SignalProtocolStore.prototype = {
   getDeviceIds(identifier) {
     return new Promise(resolve => {
       const deviceIds = [];
-      for (key in this.store) {
+      const keys = Object.keys(this.store);
+      for (let i = 0, max = keys.length; i < max; i += 1) {
+        const key = keys[i];
         if (key.match(RegExp(`^session${identifier.replace('+', '\\+')}.+`))) {
-          deviceIds.push(parseInt(key.split('.')[1]));
+          deviceIds.push(parseInt(key.split('.')[1], 10));
         }
       }
       resolve(deviceIds);

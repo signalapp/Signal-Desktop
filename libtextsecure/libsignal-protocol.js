@@ -22848,7 +22848,7 @@ function _memset(ptr, value, num) {
         }
       }
       while ((ptr|0) < (stop4|0)) {
-        HEAP32[ptr>>2]=value4;
+        HEAP32[((ptr)>>2)]=value4;
         ptr = (ptr+4)|0;
       }
     }
@@ -22904,7 +22904,7 @@ function _memcpy(dest, src, num) {
         num = (num-1)|0;
       }
       while ((num|0) >= 4) {
-        HEAP32[dest>>2]=((HEAP32[src>>2])|0);
+        HEAP32[((dest)>>2)]=((HEAP32[((src)>>2)])|0);
         dest = (dest+4)|0;
         src = (src+4)|0;
         num = (num-4)|0;
@@ -35093,7 +35093,6 @@ Curve25519Worker.prototype = {
         if (pubKey.byteLength == 33) {
             return pubKey.slice(1);
         } else {
-            console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
             return pubKey;
         }
     }
@@ -35179,7 +35178,10 @@ Curve25519Worker.prototype = {
             },
             calculateSignature: function(privKey, message) {
                 return curve.Ed25519Sign(privKey, message);
-            }
+            },
+            validatePubKeyFormat: function(buffer) {
+                return validatePubKeyFormat(buffer);
+            },
         };
     }
 
@@ -35272,10 +35274,6 @@ var Internal = Internal || {};
 
     // HKDF for TextSecure has a bit of additional handling - salts always end up being 32 bytes
     Internal.HKDF = function(input, salt, info) {
-        if (salt.byteLength != 32) {
-            throw new Error("Got salt of incorrect length");
-        }
-
         return Internal.crypto.HKDF(input, salt,  util.toArrayBuffer(info));
     };
 
@@ -35460,7 +35458,7 @@ Internal.protoText = function() {
 /* vim: ts=4:sw=4 */
 var Internal = Internal || {};
 
-Internal.protobuf = function() {
+Internal.protobuf = (function() {
     'use strict';
 
     function loadProtoBufs(filename) {
@@ -35473,7 +35471,7 @@ Internal.protobuf = function() {
         WhisperMessage            : protocolMessages.WhisperMessage,
         PreKeyWhisperMessage      : protocolMessages.PreKeyWhisperMessage
     };
-}();
+})();
 
 /*
  * vim: ts=4:sw=4
@@ -35888,6 +35886,7 @@ SessionBuilder.prototype = {
         if (message.preKeyId && !preKeyPair) {
             console.log('Invalid prekey id', message.preKeyId);
         }
+
         return this.initSession(false, preKeyPair, signedPreKeyPair,
             message.identityKey.toArrayBuffer(),
             message.baseKey.toArrayBuffer(), undefined, message.registrationId
@@ -36028,6 +36027,7 @@ SessionCipher.prototype = {
           return Internal.SessionRecord.deserialize(serialized);
       });
   },
+  // encoding is an optional parameter - wrap() will only translate if one is provided
   encrypt: function(buffer, encoding) {
     buffer = dcodeIO.ByteBuffer.wrap(buffer, encoding).toArrayBuffer();
     return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
@@ -36370,6 +36370,20 @@ SessionCipher.prototype = {
           });
       });
   },
+  getSessionVersion: function() {
+    return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
+      return this.getRecord(this.remoteAddress.toString()).then(function(record) {
+          if (record === undefined) {
+              return undefined;
+          }
+          var openSession = record.getOpenSession();
+          if (openSession === undefined || openSession.indexInfo === undefined) {
+              return null;
+          }
+          return openSession.indexInfo.baseKeyType;
+      });
+    }.bind(this));
+  },
   getRemoteRegistrationId: function() {
     return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
       return this.getRecord(this.remoteAddress.toString()).then(function(record) {
@@ -36428,6 +36442,7 @@ libsignal.SessionCipher = function(storage, remoteAddress) {
 
     // returns a Promise that resolves to a ciphertext object
     this.encrypt = cipher.encrypt.bind(cipher);
+    this.getRecord = cipher.getRecord.bind(cipher);
 
     // returns a Promise that inits a session if necessary and resolves
     // to a decrypted plaintext array buffer

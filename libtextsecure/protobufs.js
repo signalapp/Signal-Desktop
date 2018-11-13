@@ -35,4 +35,7 @@
   loadProtoBufs('SignalService.proto');
   loadProtoBufs('SubProtocol.proto');
   loadProtoBufs('DeviceMessages.proto');
+
+  // Metadata-specific protos
+  loadProtoBufs('UnidentifiedDelivery.proto');
 })();

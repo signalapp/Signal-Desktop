@@ -1,14 +1,7 @@
-/* global dcodeIO: false */
-/* global Backbone: false */
-/* global Whisper: false */
-/* global _: false */
-/* global libsignal: false */
-/* global textsecure: false */
-/* global ConversationController: false */
-/* global wrapDeferred: false */
-/* global stringObject: false */
+/* global
+   dcodeIO, Backbone, _, libsignal, textsecure, ConversationController, stringObject */
 
-/* eslint-disable more/no-then, no-proto */
+/* eslint-disable no-proto */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -105,30 +98,8 @@
     return result === 0;
   }
 
-  const Model = Backbone.Model.extend({ database: Whisper.Database });
-  const PreKey = Model.extend({ storeName: 'preKeys' });
-  const PreKeyCollection = Backbone.Collection.extend({
-    storeName: 'preKeys',
-    database: Whisper.Database,
-    model: PreKey,
-  });
-  const SignedPreKey = Model.extend({ storeName: 'signedPreKeys' });
-  const SignedPreKeyCollection = Backbone.Collection.extend({
-    storeName: 'signedPreKeys',
-    database: Whisper.Database,
-    model: SignedPreKey,
-  });
-  const Session = Model.extend({ storeName: 'sessions' });
-  const SessionCollection = Backbone.Collection.extend({
-    storeName: 'sessions',
-    database: Whisper.Database,
-    model: Session,
-    fetchSessionsForNumber(number) {
-      return this.fetch({ range: [`${number}.1`, `${number}.:`] });
-    },
-  });
-  const Unprocessed = Model.extend();
-  const IdentityRecord = Model.extend({
+  const Unprocessed = Backbone.Model.extend();
+  const IdentityRecord = Backbone.Model.extend({
     storeName: 'identityKeys',
     validAttributes: [
       'id',
@@ -176,307 +147,208 @@
       return null;
     },
   });
-  const Group = Model.extend({ storeName: 'groups' });
-  const Item = Model.extend({ storeName: 'items' });
-  const ContactPreKey = Model.extend({ storeName: 'contactPreKeys' });
-  const ContactPreKeyCollection = Backbone.Collection.extend({
-    storeName: 'contactPreKeys',
-    database: Whisper.Database,
-    model: ContactPreKey,
-    fetchBy(filter) {
-      return this.fetch({ conditions: filter });
-    },
-  });
-  const ContactSignedPreKey = Model.extend({
-    storeName: 'contactSignedPreKeys',
-  });
-  const ContactSignedPreKeyCollection = Backbone.Collection.extend({
-    storeName: 'contactSignedPreKeys',
-    database: Whisper.Database,
-    model: ContactSignedPreKey,
-    fetchBy(filter) {
-      return this.fetch({ conditions: filter });
-    },
-  });
 
   function SignalProtocolStore() {}
 
   SignalProtocolStore.prototype = {
     constructor: SignalProtocolStore,
-    getIdentityKeyPair() {
-      const item = new Item({ id: 'identityKey' });
-      return new Promise((resolve, reject) => {
-        item.fetch().then(() => {
-          resolve(item.get('value'));
-        }, reject);
-      });
+    async getIdentityKeyPair() {
+      const item = await window.Signal.Data.getItemById('identityKey');
+      if (item) {
+        return item.value;
+      }
+
+      return undefined;
     },
-    getLocalRegistrationId() {
-      return Promise.resolve(1);
-      /*
-      const item = new Item({ id: 'registrationId' });
-      return new Promise((resolve, reject) => {
-        item.fetch().then(() => {
-          resolve(item.get('value'));
-        }, reject);
-      }); */
+    async getLocalRegistrationId() {
+      return 1;
+      
+      // const item = await window.Signal.Data.getItemById('registrationId');
+      // if (item) {
+      //   return item.value;
+      // }
+
+      // return undefined;
     },
 
     /* Returns a prekeypair object or undefined */
-    loadPreKey(keyId) {
-      const prekey = new PreKey({ id: keyId });
-      return new Promise(resolve => {
-        prekey.fetch().then(
-          () => {
-            window.log.info('Successfully fetched prekey:', keyId);
-            resolve({
-              pubKey: prekey.get('publicKey'),
-              privKey: prekey.get('privateKey'),
-            });
-          },
-          () => {
-            window.log.error('Failed to fetch prekey:', keyId);
-            resolve();
-          }
-        );
-      });
+    async loadPreKey(keyId) {
+      const key = await window.Signal.Data.getPreKeyById(keyId);
+      if (key) {
+        window.log.info('Successfully fetched prekey:', keyId);
+        return {
+          pubKey: key.publicKey,
+          privKey: key.privateKey,
+        };
+      }
+
+      window.log.error('Failed to fetch prekey:', keyId);
+      return undefined;
     },
-    loadPreKeyForContactIdentityKeyString(contactIdentityKeyString) {
-      const prekey = new PreKey({ recipient: contactIdentityKeyString });
-      return new Promise(resolve => {
-        prekey.fetch().then(
-          () => {
-            window.log.info(
-              'Successfully fetched prekey for recipient :',
-              contactIdentityKeyString
-            );
-            resolve({
-              pubKey: prekey.get('publicKey'),
-              privKey: prekey.get('privateKey'),
-              keyId: prekey.get('id'),
-            });
-          },
-          () => {
-            resolve();
-          }
-        );
-      });
+    async loadPreKeyForContactIdentityKeyString(contactIdentityKeyString) {
+      const key = await window.Signal.Data.getPreKeyByRecipient(contactIdentityKeyString);
+
+      if (key) {
+        window.log.info('Successfully fetched prekey for recipient:', contactIdentityKeyString);
+        return {
+          pubKey: key.publicKey,
+          privKey: key.privateKey,
+          keyId: key.id,
+          recipient: key.recipient,
+        };
+      }
     },
-    loadContactPreKey(pubKey) {
-      const prekey = new ContactPreKey({ identityKeyString: pubKey });
-      return new Promise(resolve => {
-        prekey.fetch().then(
-          () => {
-            window.log.info('Successfully fetched contact prekey:', pubKey);
-            resolve({
-              id: prekey.get('id'),
-              keyId: prekey.get('keyId'),
-              publicKey: prekey.get('publicKey'),
-              identityKeyString: prekey.get('identityKeyString'),
-            });
-          },
-          () => {
-            window.log.error('Failed to fetch contact prekey:', pubKey);
-            resolve();
-          }
-        );
-      });
+    async loadContactPreKey(pubKey) {
+      const preKey = await window.Signal.Data.getContactPreKeyByIdentityKey(pubKey);
+      if (preKey) {
+        return {
+          id: preKey.id,
+          keyId: preKey.keyId,
+          publicKey: preKey.publicKey,
+          identityKeyString: preKey.identityKeyString,
+        }
+      }
+
+      window.log.error('Failed to fetch contact prekey:', pubKey);
+      return undefined;
     },
-    loadContactPreKeys(filters) {
-      const contactPreKeys = new ContactPreKeyCollection();
-      return new Promise((resolve, reject) => {
-        contactPreKeys
-          .fetchBy(filters)
-          .then(() => {
-            resolve(
-              contactPreKeys.map(prekey => ({
-                id: prekey.get('id'),
-                keyId: prekey.get('keyId'),
-                publicKey: prekey.get('publicKey'),
-                identityKeyString: prekey.get('identityKeyString'),
-              }))
-            );
-          })
-          .fail(e => {
-            window.log.error(
-              'Failed to fetch signed prekey with filters',
-              filters
-            );
-            reject(e);
-          });
-      });
+    async loadContactPreKeys(filters) {
+      const { keyId, identityKeyString } = filters;
+      const keys = await window.Signal.Data.getContactPreKeys(keyId, identityKeyString);
+      if (keys) {
+        return keys.map(preKey => ({
+          id: preKey.id,
+          keyId: preKey.keyId,
+          publicKey: preKey.publicKey,
+          identityKeyString: preKey.identityKeyString,
+        }));
+      }
+
+      window.log.error(
+        'Failed to fetch signed prekey with filters',
+        filters
+      );
+      return undefined;
     },
-    storeContactPreKey(pubKey, preKey) {
-      const prekey = new ContactPreKey({
+    async storeContactPreKey(pubKey, preKey) {
+      const key = {
         // id: (autoincrement)
         identityKeyString: pubKey,
         publicKey: preKey.publicKey,
         keyId: preKey.keyId,
-      });
-      return new Promise(resolve => {
-        prekey.save().always(() => {
-          resolve();
-        });
-      });
+      };
+
+      await window.Signal.Data.createOrUpdateContactPreKey(key);
     },
-    storePreKey(keyId, keyPair, contactIdentityKeyString) {
-      const prekey = new PreKey({
+    async storePreKey(keyId, keyPair, contactIdentityKeyString) {
+      const data = {
         id: keyId,
         publicKey: keyPair.pubKey,
         privateKey: keyPair.privKey,
         recipient: contactIdentityKeyString,
-      });
-      return new Promise(resolve => {
-        prekey.save().always(() => {
-          resolve();
-        });
-      });
+      };
+
+      await window.Signal.Data.createOrUpdatePreKey(data);
     },
-    removePreKey(keyId) {
-      const prekey = new PreKey({ id: keyId });
+    async removePreKey(keyId) {
+      try {
+        this.trigger('removePreKey');
+      } catch (error) {
+        window.log.error(
+          'removePreKey error triggering removePreKey:',
+          error && error.stack ? error.stack : error
+        );
+      }
 
-      this.trigger('removePreKey');
-
-      return new Promise(resolve => {
-        const deferred = prekey.destroy();
-        if (!deferred) {
-          return resolve();
-        }
-
-        return deferred.then(resolve, error => {
-          window.log.error(
-            'removePreKey error:',
-            error && error.stack ? error.stack : error
-          );
-          resolve();
-        });
-      });
+      await window.Signal.Data.removePreKeyById(keyId);
     },
-    clearPreKeyStore() {
-      return new Promise(resolve => {
-        const preKeys = new PreKeyCollection();
-        preKeys.sync('delete', preKeys, {}).always(resolve);
-      });
+    async clearPreKeyStore() {
+      await window.Signal.Data.removeAllPreKeys();
     },
 
     /* Returns a signed keypair object or undefined */
-    loadSignedPreKey(keyId) {
-      const prekey = new SignedPreKey({ id: keyId });
-      return new Promise(resolve => {
-        prekey
-          .fetch()
-          .then(() => {
-            window.log.info(
-              'Successfully fetched signed prekey:',
-              prekey.get('id')
-            );
-            resolve({
-              pubKey: prekey.get('publicKey'),
-              privKey: prekey.get('privateKey'),
-              created_at: prekey.get('created_at'),
-              keyId: prekey.get('id'),
-              confirmed: prekey.get('confirmed'),
-              signature: prekey.get('signature'),
-            });
-          })
-          .fail(() => {
-            window.log.error('Failed to fetch signed prekey:', keyId);
-            resolve();
-          });
-      });
-    },
-    loadContactSignedPreKeys(filters) {
-      const contactSignedPreKeys = new ContactSignedPreKeyCollection();
-      return new Promise((resolve, reject) => {
-        contactSignedPreKeys
-          .fetchBy(filters)
-          .then(() => {
-            resolve(
-              contactSignedPreKeys.map(prekey => ({
-                id: prekey.get('id'),
-                identityKeyString: prekey.get('identityKeyString'),
-                publicKey: prekey.get('publicKey'),
-                signature: prekey.get('signature'),
-                created_at: prekey.get('created_at'),
-                keyId: prekey.get('keyId'),
-                confirmed: prekey.get('confirmed'),
-              }))
-            );
-          })
-          .fail(e => {
-            window.log.error(
-              'Failed to fetch signed prekey with filters',
-              filters
-            );
-            reject(e);
-          });
-      });
-    },
-    loadContactSignedPreKey(pubKey) {
-      const prekey = new ContactSignedPreKey({ identityKeyString: pubKey });
-      return new Promise(resolve => {
-        prekey
-          .fetch()
-          .then(() => {
-            window.log.info(
-              'Successfully fetched signed prekey:',
-              prekey.get('id')
-            );
-            resolve({
-              id: prekey.get('id'),
-              identityKeyString: prekey.get('identityKeyString'),
-              publicKey: prekey.get('publicKey'),
-              signature: prekey.get('signature'),
-              created_at: prekey.get('created_at'),
-              keyId: prekey.get('keyId'),
-              confirmed: prekey.get('confirmed'),
-            });
-          })
-          .fail(() => {
-            window.log.error('Failed to fetch signed prekey:', pubKey);
-            resolve();
-          });
-      });
-    },
-    loadSignedPreKeys() {
-      if (arguments.length > 0) {
-        return Promise.reject(
-          new Error('loadSignedPreKeys takes no arguments')
-        );
+    async loadSignedPreKey(keyId) {
+      const key = await window.Signal.Data.getSignedPreKeyById(keyId);
+      if (key) {
+        window.log.info('Successfully fetched signed prekey:', key.id);
+        return {
+          pubKey: key.publicKey,
+          privKey: key.privateKey,
+          created_at: key.created_at,
+          keyId: key.id,
+          confirmed: key.confirmed,
+          signature: key.signature,
+        };
       }
-      const signedPreKeys = new SignedPreKeyCollection();
-      return new Promise(resolve => {
-        signedPreKeys.fetch().then(() => {
-          resolve(
-            signedPreKeys.map(prekey => ({
-              pubKey: prekey.get('publicKey'),
-              privKey: prekey.get('privateKey'),
-              created_at: prekey.get('created_at'),
-              keyId: prekey.get('id'),
-              confirmed: prekey.get('confirmed'),
-              signature: prekey.get('signature'),
-            }))
-          );
-        });
-      });
+
+      window.log.error('Failed to fetch signed prekey:', keyId);
+      return undefined;
     },
-    storeSignedPreKey(keyId, keyPair, confirmed, signature) {
-      const prekey = new SignedPreKey({
+    async loadContactSignedPreKeys(filters) {
+      const { keyId, identityKeyString } = filters;
+      const keys = await window.Signal.Data.getContactSignedPreKeys(keyId, identityKeyString);
+      if (keys) {
+        return keys.map(preKey => ({
+          id: preKey.id,
+          identityKeyString: preKey.identityKeyString,
+          publicKey: preKey.publicKey,
+          signature: preKey.signature,
+          created_at: preKey.created_at,
+          keyId: preKey.keyId,
+          confirmed: preKey.confirmed,
+        }));
+      }
+
+      window.log.error(
+        'Failed to fetch contact signed prekey with filters',
+        filters
+      );
+      return undefined;
+    },
+    async loadContactSignedPreKey(pubKey) {
+      const preKey = await window.Signal.Data.getContactSignedPreKeyByIdentityKey(pubKey);
+      if (preKey) {
+        return {
+          id: preKey.id,
+          identityKeyString: preKey.identityKeyString,
+          publicKey: preKey.publicKey,
+          signature: preKey.signature,
+          created_at: preKey.created_at,
+          keyId: preKey.keyId,
+          confirmed: preKey.confirmed,
+        };
+      }
+      window.log.error('Failed to fetch contact signed prekey:', pubKey);
+      return undefined;
+    },
+    async loadSignedPreKeys() {
+      if (arguments.length > 0) {
+        throw new Error('loadSignedPreKeys takes no arguments');
+      }
+
+      const keys = await window.Signal.Data.getAllSignedPreKeys();
+      return keys.map(prekey => ({
+        pubKey: prekey.publicKey,
+        privKey: prekey.privateKey,
+        created_at: prekey.created_at,
+        keyId: prekey.id,
+        confirmed: prekey.confirmed,
+        signature: prekey.signature,
+      }));
+    },
+    async storeSignedPreKey(keyId, keyPair, confirmed, signature) {
+      const key = {
         id: keyId,
         publicKey: keyPair.pubKey,
         privateKey: keyPair.privKey,
         created_at: Date.now(),
         confirmed: Boolean(confirmed),
         signature,
-      });
-      return new Promise(resolve => {
-        prekey.save().always(() => {
-          resolve();
-        });
-      });
+      };
+      await window.Signal.Data.createOrUpdateSignedPreKey(key);
     },
-    storeContactSignedPreKey(pubKey, signedPreKey) {
-      const prekey = new ContactSignedPreKey({
+    async storeContactSignedPreKey(pubKey, signedPreKey) {
+      const key = {
         // id: (autoincrement)
         identityKeyString: pubKey,
         keyId: signedPreKey.keyId,
@@ -484,187 +356,137 @@
         signature: signedPreKey.signature,
         created_at: Date.now(),
         confirmed: false,
-      });
-      return new Promise(resolve => {
-        prekey.save().always(() => {
-          resolve();
-        });
-      });
+      };
+      await window.Signal.Data.createOrUpdateContactSignedPreKey(key);
     },
-    removeSignedPreKey(keyId) {
-      const prekey = new SignedPreKey({ id: keyId });
-      return new Promise((resolve, reject) => {
-        const deferred = prekey.destroy();
-        if (!deferred) {
-          return resolve();
-        }
-
-        return deferred.then(resolve, reject);
-      });
+    async removeSignedPreKey(keyId) {
+      await window.Signal.Data.removeSignedPreKeyById(keyId);
     },
-    clearSignedPreKeysStore() {
-      return new Promise(resolve => {
-        const signedPreKeys = new SignedPreKeyCollection();
-        signedPreKeys.sync('delete', signedPreKeys, {}).always(resolve);
-      });
+    async clearSignedPreKeysStore() {
+      await window.Signal.Data.removeAllSignedPreKeys();
     },
 
-    loadSession(encodedNumber) {
+    async loadSession(encodedNumber) {
       if (encodedNumber === null || encodedNumber === undefined) {
         throw new Error('Tried to get session for undefined/null number');
       }
-      return new Promise(resolve => {
-        const session = new Session({ id: encodedNumber });
-        session.fetch().always(() => {
-          resolve(session.get('record'));
-        });
-      });
+
+      const session = await window.Signal.Data.getSessionById(encodedNumber);
+      if (session) {
+        return session.record;
+      }
+
+      return undefined;
     },
-    storeSession(encodedNumber, record) {
+    async storeSession(encodedNumber, record) {
       if (encodedNumber === null || encodedNumber === undefined) {
         throw new Error('Tried to put session for undefined/null number');
       }
-      return new Promise(resolve => {
-        const number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-        const deviceId = parseInt(
-          textsecure.utils.unencodeNumber(encodedNumber)[1],
-          10
-        );
+      const unencoded = textsecure.utils.unencodeNumber(encodedNumber);
+      const number = unencoded[0];
+      const deviceId = parseInt(unencoded[1], 10);
 
-        const session = new Session({ id: encodedNumber });
-        session.fetch().always(() => {
-          session
-            .save({
-              record,
-              deviceId,
-              number,
-            })
-            .fail(e => {
-              window.log.error('Failed to save session', encodedNumber, e);
-            })
-            .always(() => {
-              resolve();
-            });
-        });
-      });
+      const data = {
+        id: encodedNumber,
+        number,
+        deviceId,
+        record,
+      };
+
+      await window.Signal.Data.createOrUpdateSession(data);
     },
-    getDeviceIds(number) {
+    async getDeviceIds(number) {
       if (number === null || number === undefined) {
         throw new Error('Tried to get device ids for undefined/null number');
       }
-      return new Promise(resolve => {
-        const sessions = new SessionCollection();
-        sessions.fetchSessionsForNumber(number).always(() => {
-          resolve(sessions.pluck('deviceId'));
-        });
-      });
+
+      const sessions = await window.Signal.Data.getSessionsByNumber(number);
+      return _.pluck(sessions, 'deviceId');
     },
-    removeSession(encodedNumber) {
+    async removeSession(encodedNumber) {
       window.log.info('deleting session for ', encodedNumber);
-      return new Promise(resolve => {
-        const session = new Session({ id: encodedNumber });
-        session
-          .fetch()
-          .then(() => {
-            session.destroy().then(resolve);
-          })
-          .fail(resolve);
-      });
+      await window.Signal.Data.removeSessionById(encodedNumber);
     },
-    removeAllSessions(number) {
+    async removeAllSessions(number) {
       if (number === null || number === undefined) {
         throw new Error('Tried to remove sessions for undefined/null number');
       }
-      return new Promise((resolve, reject) => {
-        const sessions = new SessionCollection();
-        sessions.fetchSessionsForNumber(number).always(() => {
-          const promises = [];
-          while (sessions.length > 0) {
-            promises.push(
-              new Promise((res, rej) => {
-                sessions
-                  .pop()
-                  .destroy()
-                  .then(res, rej);
-              })
-            );
-          }
-          Promise.all(promises).then(resolve, reject);
-        });
-      });
+
+      await window.Signal.Data.removeSessionsByNumber(number);
     },
-    archiveSiblingSessions(identifier) {
+    async archiveSiblingSessions(identifier) {
       const address = libsignal.SignalProtocolAddress.fromString(identifier);
-      return this.getDeviceIds(address.getName()).then(deviceIds => {
-        const siblings = _.without(deviceIds, address.getDeviceId());
-        return Promise.all(
-          siblings.map(deviceId => {
-            const sibling = new libsignal.SignalProtocolAddress(
-              address.getName(),
-              deviceId
-            );
-            window.log.info('closing session for', sibling.toString());
-            const sessionCipher = new libsignal.SessionCipher(
-              textsecure.storage.protocol,
-              sibling
-            );
-            return sessionCipher.closeOpenSessionForDevice();
-          })
-        );
-      });
-    },
-    archiveAllSessions(number) {
-      return this.getDeviceIds(number).then(deviceIds =>
-        Promise.all(
-          deviceIds.map(deviceId => {
-            const address = new libsignal.SignalProtocolAddress(
-              number,
-              deviceId
-            );
-            window.log.info('closing session for', address.toString());
-            const sessionCipher = new libsignal.SessionCipher(
-              textsecure.storage.protocol,
-              address
-            );
-            return sessionCipher.closeOpenSessionForDevice();
-          })
-        )
+
+      const deviceIds = await this.getDeviceIds(address.getName());
+      const siblings = _.without(deviceIds, address.getDeviceId());
+
+      await Promise.all(
+        siblings.map(async deviceId => {
+          const sibling = new libsignal.SignalProtocolAddress(
+            address.getName(),
+            deviceId
+          );
+          window.log.info('closing session for', sibling.toString());
+          const sessionCipher = new libsignal.SessionCipher(
+            textsecure.storage.protocol,
+            sibling
+          );
+          await sessionCipher.closeOpenSessionForDevice();
+        })
       );
     },
-    clearSessionStore() {
-      return new Promise(resolve => {
-        const sessions = new SessionCollection();
-        sessions.sync('delete', sessions, {}).always(resolve);
-      });
+    async archiveAllSessions(number) {
+      const deviceIds = await this.getDeviceIds(number);
+
+      await Promise.all(
+        deviceIds.map(async deviceId => {
+          const address = new libsignal.SignalProtocolAddress(number, deviceId);
+          window.log.info('closing session for', address.toString());
+          const sessionCipher = new libsignal.SessionCipher(
+            textsecure.storage.protocol,
+            address
+          );
+          await sessionCipher.closeOpenSessionForDevice();
+        })
+      );
     },
-    isTrustedIdentity(identifier, publicKey, direction) {
+    async clearSessionStore() {
+      window.Signal.Data.removeAllSessions();
+    },
+    async isTrustedIdentity(identifier, publicKey, direction) {
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to get identity key for undefined/null key');
       }
       const number = textsecure.utils.unencodeNumber(identifier)[0];
       const isOurNumber = number === textsecure.storage.user.getNumber();
-      const identityRecord = new IdentityRecord({ id: number });
-      return new Promise(resolve => {
-        identityRecord.fetch().always(resolve);
-      }).then(() => {
-        const existing = identityRecord.get('publicKey');
 
-        if (isOurNumber) {
-          return equalArrayBuffers(existing, publicKey);
-        }
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
 
-        switch (direction) {
-          case Direction.SENDING:
-            return this.isTrustedForSending(publicKey, identityRecord);
-          case Direction.RECEIVING:
-            return true;
-          default:
-            throw new Error(`Unknown direction: ${direction}`);
-        }
-      });
+      if (isOurNumber) {
+        const existing = identityRecord ? identityRecord.publicKey : null;
+        return equalArrayBuffers(existing, publicKey);
+      }
+
+      switch (direction) {
+        case Direction.SENDING:
+          return this.isTrustedForSending(publicKey, identityRecord);
+        case Direction.RECEIVING:
+          return true;
+        default:
+          throw new Error(`Unknown direction: ${direction}`);
+      }
     },
     isTrustedForSending(publicKey, identityRecord) {
-      const existing = identityRecord.get('publicKey');
+      if (!identityRecord) {
+        window.log.info(
+          'isTrustedForSending: No previous record, returning true...'
+        );
+        return true;
+      }
+
+      const existing = identityRecord.publicKey;
 
       if (!existing) {
         window.log.info('isTrustedForSending: Nothing here, returning true...');
@@ -674,7 +496,7 @@
         window.log.info("isTrustedForSending: Identity keys don't match...");
         return false;
       }
-      if (identityRecord.get('verified') === VerifiedStatus.UNVERIFIED) {
+      if (identityRecord.verified === VerifiedStatus.UNVERIFIED) {
         window.log.error('Needs unverified approval!');
         return false;
       }
@@ -685,19 +507,22 @@
 
       return true;
     },
-    loadIdentityKey(identifier) {
+    async loadIdentityKey(identifier) {
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to get identity key for undefined/null key');
       }
       const number = textsecure.utils.unencodeNumber(identifier)[0];
-      return new Promise(resolve => {
-        const identityRecord = new IdentityRecord({ id: number });
-        identityRecord.fetch().always(() => {
-          resolve(identityRecord.get('publicKey'));
-        });
-      });
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
+
+      if (identityRecord) {
+        return identityRecord.publicKey;
+      }
+
+      return undefined;
     },
-    saveIdentity(identifier, publicKey, nonblockingApproval) {
+    async saveIdentity(identifier, publicKey, nonblockingApproval) {
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to put identity key for undefined/null key');
       }
@@ -709,118 +534,124 @@
         // eslint-disable-next-line no-param-reassign
         nonblockingApproval = false;
       }
+
       const number = textsecure.utils.unencodeNumber(identifier)[0];
-      return new Promise((resolve, reject) => {
-        const identityRecord = new IdentityRecord({ id: number });
-        identityRecord.fetch().always(() => {
-          const oldpublicKey = identityRecord.get('publicKey');
-          if (!oldpublicKey) {
-            // Lookup failed, or the current key was removed, so save this one.
-            window.log.info('Saving new identity...');
-            identityRecord
-              .save({
-                publicKey,
-                firstUse: true,
-                timestamp: Date.now(),
-                verified: VerifiedStatus.DEFAULT,
-                nonblockingApproval,
-              })
-              .then(() => {
-                resolve(false);
-              }, reject);
-          } else if (!equalArrayBuffers(oldpublicKey, publicKey)) {
-            window.log.info('Replacing existing identity...');
-            const previousStatus = identityRecord.get('verified');
-            let verifiedStatus;
-            if (
-              previousStatus === VerifiedStatus.VERIFIED ||
-              previousStatus === VerifiedStatus.UNVERIFIED
-            ) {
-              verifiedStatus = VerifiedStatus.UNVERIFIED;
-            } else {
-              verifiedStatus = VerifiedStatus.DEFAULT;
-            }
-            identityRecord
-              .save({
-                publicKey,
-                firstUse: false,
-                timestamp: Date.now(),
-                verified: verifiedStatus,
-                nonblockingApproval,
-              })
-              .then(() => {
-                this.trigger('keychange', number);
-                this.archiveSiblingSessions(identifier).then(() => {
-                  resolve(true);
-                }, reject);
-              }, reject);
-          } else if (this.isNonBlockingApprovalRequired(identityRecord)) {
-            window.log.info('Setting approval status...');
-            identityRecord
-              .save({
-                nonblockingApproval,
-              })
-              .then(() => {
-                resolve(false);
-              }, reject);
-          } else {
-            resolve(false);
-          }
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
+
+      if (!identityRecord || !identityRecord.publicKey) {
+        // Lookup failed, or the current key was removed, so save this one.
+        window.log.info('Saving new identity...');
+        await window.Signal.Data.createOrUpdateIdentityKey({
+          id: number,
+          publicKey,
+          firstUse: true,
+          timestamp: Date.now(),
+          verified: VerifiedStatus.DEFAULT,
+          nonblockingApproval,
         });
-      });
+
+        return false;
+      }
+
+      const oldpublicKey = identityRecord.publicKey;
+      if (!equalArrayBuffers(oldpublicKey, publicKey)) {
+        window.log.info('Replacing existing identity...');
+        const previousStatus = identityRecord.verified;
+        let verifiedStatus;
+        if (
+          previousStatus === VerifiedStatus.VERIFIED ||
+          previousStatus === VerifiedStatus.UNVERIFIED
+        ) {
+          verifiedStatus = VerifiedStatus.UNVERIFIED;
+        } else {
+          verifiedStatus = VerifiedStatus.DEFAULT;
+        }
+
+        await window.Signal.Data.createOrUpdateIdentityKey({
+          id: number,
+          publicKey,
+          firstUse: false,
+          timestamp: Date.now(),
+          verified: verifiedStatus,
+          nonblockingApproval,
+        });
+
+        try {
+          this.trigger('keychange', number);
+        } catch (error) {
+          window.log.error(
+            'saveIdentity error triggering keychange:',
+            error && error.stack ? error.stack : error
+          );
+        }
+        await this.archiveSiblingSessions(identifier);
+
+        return true;
+      } else if (this.isNonBlockingApprovalRequired(identityRecord)) {
+        window.log.info('Setting approval status...');
+
+        identityRecord.nonblockingApproval = nonblockingApproval;
+        await window.Signal.Data.createOrUpdateIdentityKey(identityRecord);
+
+        return false;
+      }
+
+      return false;
     },
     isNonBlockingApprovalRequired(identityRecord) {
       return (
-        !identityRecord.get('firstUse') &&
-        Date.now() - identityRecord.get('timestamp') < TIMESTAMP_THRESHOLD &&
-        !identityRecord.get('nonblockingApproval')
+        !identityRecord.firstUse &&
+        Date.now() - identityRecord.timestamp < TIMESTAMP_THRESHOLD &&
+        !identityRecord.nonblockingApproval
       );
     },
-    saveIdentityWithAttributes(identifier, attributes) {
+    async saveIdentityWithAttributes(identifier, attributes) {
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to put identity key for undefined/null key');
       }
+
       const number = textsecure.utils.unencodeNumber(identifier)[0];
-      return new Promise((resolve, reject) => {
-        const identityRecord = new IdentityRecord({ id: number });
-        identityRecord.set(attributes);
-        if (identityRecord.isValid()) {
-          // false if invalid attributes
-          identityRecord.save().then(resolve);
-        } else {
-          reject(identityRecord.validationError);
-        }
-      });
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
+
+      const updates = {
+        id: number,
+        ...identityRecord,
+        ...attributes,
+      };
+
+      const model = new IdentityRecord(updates);
+      if (model.isValid()) {
+        await window.Signal.Data.createOrUpdateIdentityKey(updates);
+      } else {
+        throw model.validationError;
+      }
     },
-    setApproval(identifier, nonblockingApproval) {
+    async setApproval(identifier, nonblockingApproval) {
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to set approval for undefined/null identifier');
       }
       if (typeof nonblockingApproval !== 'boolean') {
         throw new Error('Invalid approval status');
       }
+
       const number = textsecure.utils.unencodeNumber(identifier)[0];
-      return new Promise((resolve, reject) => {
-        const identityRecord = new IdentityRecord({ id: number });
-        identityRecord.fetch().then(() => {
-          identityRecord
-            .save({
-              nonblockingApproval,
-            })
-            .then(
-              () => {
-                resolve();
-              },
-              () => {
-                // catch
-                reject(new Error(`No identity record for ${number}`));
-              }
-            );
-        });
-      });
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
+
+      if (!identityRecord) {
+        throw new Error(`No identity record for ${number}`);
+      }
+
+      identityRecord.nonblockingApproval = nonblockingApproval;
+      await window.Signal.Data.createOrUpdateIdentityKey(identityRecord);
     },
-    setVerified(identifier, verifiedStatus, publicKey) {
-      if (identifier === null || identifier === undefined) {
+    async setVerified(number, verifiedStatus, publicKey) {
+      if (number === null || number === undefined) {
         throw new Error('Tried to set verified for undefined/null key');
       }
       if (!validateVerifiedStatus(verifiedStatus)) {
@@ -829,56 +660,49 @@
       if (arguments.length > 2 && !(publicKey instanceof ArrayBuffer)) {
         throw new Error('Invalid public key');
       }
-      return new Promise((resolve, reject) => {
-        const identityRecord = new IdentityRecord({ id: identifier });
-        identityRecord.fetch().then(
-          () => {
-            if (
-              !publicKey ||
-              equalArrayBuffers(identityRecord.get('publicKey'), publicKey)
-            ) {
-              identityRecord.set({ verified: verifiedStatus });
 
-              if (identityRecord.isValid()) {
-                identityRecord.save({}).then(() => {
-                  resolve();
-                }, reject);
-              } else {
-                reject(identityRecord.validationError);
-              }
-            } else {
-              window.log.info('No identity record for specified publicKey');
-              resolve();
-            }
-          },
-          () => {
-            // catch
-            reject(new Error(`No identity record for ${identifier}`));
-          }
-        );
-      });
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
+      if (!identityRecord) {
+        throw new Error(`No identity record for ${number}`);
+      }
+
+      if (
+        !publicKey ||
+        equalArrayBuffers(identityRecord.publicKey, publicKey)
+      ) {
+        identityRecord.verified = verifiedStatus;
+
+        const model = new IdentityRecord(identityRecord);
+        if (model.isValid()) {
+          await window.Signal.Data.createOrUpdateIdentityKey(identityRecord);
+        } else {
+          throw identityRecord.validationError;
+        }
+      } else {
+        window.log.info('No identity record for specified publicKey');
+      }
     },
-    getVerified(identifier) {
-      if (identifier === null || identifier === undefined) {
+    async getVerified(number) {
+      if (number === null || number === undefined) {
         throw new Error('Tried to set verified for undefined/null key');
       }
-      return new Promise((resolve, reject) => {
-        const identityRecord = new IdentityRecord({ id: identifier });
-        identityRecord.fetch().then(
-          () => {
-            const verifiedStatus = identityRecord.get('verified');
-            if (validateVerifiedStatus(verifiedStatus)) {
-              resolve(verifiedStatus);
-            } else {
-              resolve(VerifiedStatus.DEFAULT);
-            }
-          },
-          () => {
-            // catch
-            reject(new Error(`No identity record for ${identifier}`));
-          }
-        );
-      });
+
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
+
+      if (!identityRecord) {
+        throw new Error(`No identity record for ${number}`);
+      }
+
+      const verifiedStatus = identityRecord.verified;
+      if (validateVerifiedStatus(verifiedStatus)) {
+        return verifiedStatus;
+      }
+
+      return VerifiedStatus.DEFAULT;
     },
     // Resolves to true if a new identity key was saved
     processContactSyncVerificationState(identifier, verifiedStatus, publicKey) {
@@ -894,75 +718,72 @@
     // This function encapsulates the non-Java behavior, since the mobile apps don't
     //   currently receive contact syncs and therefore will see a verify sync with
     //   UNVERIFIED status
-    processUnverifiedMessage(identifier, verifiedStatus, publicKey) {
-      if (identifier === null || identifier === undefined) {
+    async processUnverifiedMessage(number, verifiedStatus, publicKey) {
+      if (number === null || number === undefined) {
         throw new Error('Tried to set verified for undefined/null key');
       }
       if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
         throw new Error('Invalid public key');
       }
-      return new Promise((resolve, reject) => {
-        const identityRecord = new IdentityRecord({ id: identifier });
-        let isPresent = false;
-        let isEqual = false;
-        identityRecord
-          .fetch()
-          .then(() => {
-            isPresent = true;
-            if (publicKey) {
-              isEqual = equalArrayBuffers(
-                publicKey,
-                identityRecord.get('publicKey')
-              );
-            }
-          })
-          .always(() => {
-            if (
-              isPresent &&
-              isEqual &&
-              identityRecord.get('verified') !== VerifiedStatus.UNVERIFIED
-            ) {
-              return textsecure.storage.protocol
-                .setVerified(identifier, verifiedStatus, publicKey)
-                .then(resolve, reject);
-            }
 
-            if (!isPresent || !isEqual) {
-              return textsecure.storage.protocol
-                .saveIdentityWithAttributes(identifier, {
-                  publicKey,
-                  verified: verifiedStatus,
-                  firstUse: false,
-                  timestamp: Date.now(),
-                  nonblockingApproval: true,
-                })
-                .then(() => {
-                  if (isPresent && !isEqual) {
-                    this.trigger('keychange', identifier);
-                    return this.archiveAllSessions(identifier).then(
-                      () =>
-                        // true signifies that we overwrote a previous key with a new one
-                        resolve(true),
-                      reject
-                    );
-                  }
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
+      const isPresent = Boolean(identityRecord);
+      let isEqual = false;
 
-                  return resolve();
-                }, reject);
-            }
+      if (isPresent && publicKey) {
+        isEqual = equalArrayBuffers(publicKey, identityRecord.publicKey);
+      }
 
-            // The situation which could get us here is:
-            //   1. had a previous key
-            //   2. new key is the same
-            //   3. desired new status is same as what we had before
-            return resolve();
-          });
-      });
+      if (
+        isPresent &&
+        isEqual &&
+        identityRecord.verified !== VerifiedStatus.UNVERIFIED
+      ) {
+        await textsecure.storage.protocol.setVerified(
+          number,
+          verifiedStatus,
+          publicKey
+        );
+        return false;
+      }
+
+      if (!isPresent || !isEqual) {
+        await textsecure.storage.protocol.saveIdentityWithAttributes(number, {
+          publicKey,
+          verified: verifiedStatus,
+          firstUse: false,
+          timestamp: Date.now(),
+          nonblockingApproval: true,
+        });
+
+        if (isPresent && !isEqual) {
+          try {
+            this.trigger('keychange', number);
+          } catch (error) {
+            window.log.error(
+              'processUnverifiedMessage error triggering keychange:',
+              error && error.stack ? error.stack : error
+            );
+          }
+
+          await this.archiveAllSessions(number);
+
+          return true;
+        }
+      }
+
+      // The situation which could get us here is:
+      //   1. had a previous key
+      //   2. new key is the same
+      //   3. desired new status is same as what we had before
+      return false;
     },
     // This matches the Java method as of
     //   https://github.com/signalapp/Signal-Android/blob/d0bb68e1378f689e4d10ac6a46014164992ca4e4/src/org/thoughtcrime/securesms/util/IdentityUtil.java#L188
-    processVerifiedMessage(identifier, verifiedStatus, publicKey) {
-      if (identifier === null || identifier === undefined) {
+    async processVerifiedMessage(number, verifiedStatus, publicKey) {
+      if (number === null || number === undefined) {
         throw new Error('Tried to set verified for undefined/null key');
       }
       if (!validateVerifiedStatus(verifiedStatus)) {
@@ -971,144 +792,133 @@
       if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
         throw new Error('Invalid public key');
       }
-      return new Promise((resolve, reject) => {
-        const identityRecord = new IdentityRecord({ id: identifier });
-        let isPresent = false;
-        let isEqual = false;
-        identityRecord
-          .fetch()
-          .then(() => {
-            isPresent = true;
-            if (publicKey) {
-              isEqual = equalArrayBuffers(
-                publicKey,
-                identityRecord.get('publicKey')
-              );
-            }
-          })
-          .always(() => {
-            if (!isPresent && verifiedStatus === VerifiedStatus.DEFAULT) {
-              window.log.info('No existing record for default status');
-              return resolve();
-            }
 
-            if (
-              isPresent &&
-              isEqual &&
-              identityRecord.get('verified') !== VerifiedStatus.DEFAULT &&
-              verifiedStatus === VerifiedStatus.DEFAULT
-            ) {
-              return textsecure.storage.protocol
-                .setVerified(identifier, verifiedStatus, publicKey)
-                .then(resolve, reject);
-            }
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
 
-            if (
-              verifiedStatus === VerifiedStatus.VERIFIED &&
-              (!isPresent ||
-                (isPresent && !isEqual) ||
-                (isPresent &&
-                  identityRecord.get('verified') !== VerifiedStatus.VERIFIED))
-            ) {
-              return textsecure.storage.protocol
-                .saveIdentityWithAttributes(identifier, {
-                  publicKey,
-                  verified: verifiedStatus,
-                  firstUse: false,
-                  timestamp: Date.now(),
-                  nonblockingApproval: true,
-                })
-                .then(() => {
-                  if (isPresent && !isEqual) {
-                    this.trigger('keychange', identifier);
-                    return this.archiveAllSessions(identifier).then(
-                      () =>
-                        // true signifies that we overwrote a previous key with a new one
-                        resolve(true),
-                      reject
-                    );
-                  }
+      const isPresent = Boolean(identityRecord);
+      let isEqual = false;
 
-                  return resolve();
-                }, reject);
-            }
+      if (isPresent && publicKey) {
+        isEqual = equalArrayBuffers(publicKey, identityRecord.publicKey);
+      }
 
-            // We get here if we got a new key and the status is DEFAULT. If the
-            //   message is out of date, we don't want to lose whatever more-secure
-            //   state we had before.
-            return resolve();
-          });
-      });
+      if (!isPresent && verifiedStatus === VerifiedStatus.DEFAULT) {
+        window.log.info('No existing record for default status');
+        return false;
+      }
+
+      if (
+        isPresent &&
+        isEqual &&
+        identityRecord.verified !== VerifiedStatus.DEFAULT &&
+        verifiedStatus === VerifiedStatus.DEFAULT
+      ) {
+        await textsecure.storage.protocol.setVerified(
+          number,
+          verifiedStatus,
+          publicKey
+        );
+        return false;
+      }
+
+      if (
+        verifiedStatus === VerifiedStatus.VERIFIED &&
+        (!isPresent ||
+          (isPresent && !isEqual) ||
+          (isPresent && identityRecord.verified !== VerifiedStatus.VERIFIED))
+      ) {
+        await textsecure.storage.protocol.saveIdentityWithAttributes(number, {
+          publicKey,
+          verified: verifiedStatus,
+          firstUse: false,
+          timestamp: Date.now(),
+          nonblockingApproval: true,
+        });
+
+        if (isPresent && !isEqual) {
+          try {
+            this.trigger('keychange', number);
+          } catch (error) {
+            window.log.error(
+              'processVerifiedMessage error triggering keychange:',
+              error && error.stack ? error.stack : error
+            );
+          }
+
+          await this.archiveAllSessions(number);
+
+          // true signifies that we overwrote a previous key with a new one
+          return true;
+        }
+      }
+
+      // We get here if we got a new key and the status is DEFAULT. If the
+      //   message is out of date, we don't want to lose whatever more-secure
+      //   state we had before.
+      return false;
     },
-    isUntrusted(identifier) {
-      if (identifier === null || identifier === undefined) {
+    async isUntrusted(number) {
+      if (number === null || number === undefined) {
         throw new Error('Tried to set verified for undefined/null key');
       }
-      return new Promise((resolve, reject) => {
-        const identityRecord = new IdentityRecord({ id: identifier });
-        identityRecord.fetch().then(
-          () => {
-            if (
-              Date.now() - identityRecord.get('timestamp') <
-                TIMESTAMP_THRESHOLD &&
-              !identityRecord.get('nonblockingApproval') &&
-              !identityRecord.get('firstUse')
-            ) {
-              resolve(true);
-            } else {
-              resolve(false);
-            }
-          },
-          () => {
-            // catch
-            reject(new Error(`No identity record for ${identifier}`));
-          }
-        );
-      });
+
+      const identityRecord = await window.Signal.Data.getIdentityKeyById(
+        number
+      );
+
+      if (!identityRecord) {
+        throw new Error(`No identity record for ${number}`);
+      }
+
+      if (
+        Date.now() - identityRecord.timestamp < TIMESTAMP_THRESHOLD &&
+        !identityRecord.nonblockingApproval &&
+        !identityRecord.firstUse
+      ) {
+        return true;
+      }
+
+      return false;
     },
     async removeIdentityKey(number) {
-      const identityRecord = new IdentityRecord({ id: number });
-      try {
-        await wrapDeferred(identityRecord.fetch());
-        await wrapDeferred(identityRecord.destroy());
-        return textsecure.storage.protocol.removeAllSessions(number);
-      } catch (error) {
-        throw new Error('Tried to remove identity for unknown number');
-      }
+      await window.Signal.Data.removeIdentityKeyById(number);
+      return textsecure.storage.protocol.removeAllSessions(number);
     },
 
     // Groups
-    getGroup(groupId) {
+    async getGroup(groupId) {
       if (groupId === null || groupId === undefined) {
         throw new Error('Tried to get group for undefined/null id');
       }
-      return new Promise(resolve => {
-        const group = new Group({ id: groupId });
-        group.fetch().always(() => {
-          resolve(group.get('data'));
-        });
-      });
+
+      const group = await window.Signal.Data.getGroupById(groupId);
+      if (group) {
+        return group.data;
+      }
+
+      return undefined;
     },
-    putGroup(groupId, group) {
+    async putGroup(groupId, group) {
       if (groupId === null || groupId === undefined) {
         throw new Error('Tried to put group key for undefined/null id');
       }
       if (group === null || group === undefined) {
         throw new Error('Tried to put undefined/null group object');
       }
-      const newGroup = new Group({ id: groupId, data: group });
-      return new Promise(resolve => {
-        newGroup.save().always(resolve);
-      });
+      const data = {
+        id: groupId,
+        data: group,
+      };
+      await window.Signal.Data.createOrUpdateGroup(data);
     },
-    removeGroup(groupId) {
+    async removeGroup(groupId) {
       if (groupId === null || groupId === undefined) {
         throw new Error('Tried to remove group key for undefined/null id');
       }
-      return new Promise(resolve => {
-        const group = new Group({ id: groupId });
-        group.destroy().always(resolve);
-      });
+
+      await window.Signal.Data.removeGroupById(groupId);
     },
 
     // Not yet processed messages - for resiliency
@@ -1139,30 +949,19 @@
       return window.Signal.Data.removeAllUnprocessed();
     },
     async removeAllData() {
-      // First the in-memory caches:
-      window.storage.reset(); // items store
-      ConversationController.reset(); // conversations store
-      await ConversationController.load();
-
-      // Then, the entire database:
-      await Whisper.Database.clear();
-
       await window.Signal.Data.removeAll();
+
+      window.storage.reset();
+      await window.storage.fetch();
+
+      ConversationController.reset();
+      await ConversationController.load();
     },
     async removeAllConfiguration() {
-      // First the in-memory cache for the items store:
+      await window.Signal.Data.removeAllConfiguration();
+
       window.storage.reset();
-
-      // Then anything in the database that isn't a message/conversation/group:
-      await Whisper.Database.clearStores([
-        'items',
-        'identityKeys',
-        'sessions',
-        'signedPreKeys',
-        'preKeys',
-      ]);
-
-      await window.Signal.Data.removeAllUnprocessed();
+      await window.storage.fetch();
     },
   };
   _.extend(SignalProtocolStore.prototype, Backbone.Events);

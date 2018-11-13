@@ -819,6 +819,8 @@ export class Message extends React.Component<Props, State> {
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
+    const fileName = attachment ? attachment.fileName : null;
+    const isDangerous = isFileDangerous(fileName || '');
 
     return (
       <ContextMenu id={triggerId}>
@@ -827,7 +829,11 @@ export class Message extends React.Component<Props, State> {
             attributes={{
               className: 'module-message__context__download',
             }}
-            onClick={onDownload}
+            onClick={() => {
+              if (onDownload) {
+                onDownload(isDangerous);
+              }
+            }}
           >
             {i18n('downloadAttachment')}
           </MenuItem>
