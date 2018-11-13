@@ -96,7 +96,7 @@ function showWindow() {
   }
 }
 
-if (!process.mas) {
+if (!process.mas && !development) {
   console.log('making app single instance');
   const shouldQuit = app.makeSingleInstance(() => {
     // Someone tried to run a second instance, we should focus our window
