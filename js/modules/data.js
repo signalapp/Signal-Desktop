@@ -416,7 +416,7 @@ async function removeAllPreKeys() {
 
 // Signed Pre Keys
 
-const PRE_KEY_KEYS = ['privateKey', 'publicKey'];
+const PRE_KEY_KEYS = ['privateKey', 'publicKey', 'signature'];
 async function createOrUpdateSignedPreKey(data) {
   const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
   await channels.createOrUpdateSignedPreKey(updated);
