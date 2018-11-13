@@ -1023,6 +1023,67 @@
   color: $color-white-07;
 }
 
+// Module: Friend Request
+.module-message-friend-request {
+  width: 100%;
+}
+
+.module-message-friend-request__container {
+  flex: 1,
+}
+
+.module-friend-request__buttonContainer {
+  margin-top: 8px;
+  justify-content: space-around;
+  border-top: 1px solid $color-gray-90;
+  padding-top: 4px;
+}
+
+.module-friend-request__buttonContainer--incoming {
+  border-top: 1px solid $color-white-07;
+}
+
+.module-friend-request__buttonContainer button {
+  flex: 0.5;
+  padding: 8px;
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  outline:none;
+  color: $color-gray-90;
+}
+
+.module-friend-request__buttonContainer--incoming button {
+  color: $color-white;
+}
+
+.module-friend-request__buttonContainer button:first-of-type {
+  border-right: 1px solid $color-gray-90;
+}
+
+.module-friend-request__buttonContainer--incoming button:first-of-type {
+  border-right: 1px solid $color-white-07;
+}
+
+.module-friend-request__buttonContainer button:last-of-type {
+  border-right: 0;
+}
+
+.module-friend-request__buttonContainer--incoming button:last-of-type {
+  border-right: 0;
+}
+
+.module-friend-request__title {
+  padding-bottom: 4px;
+  color: $color-gray-60;
+  text-align: center;
+}
+
+.module-friend-request__title--incoming {
+  color: $color-white-08;
+}
+
+
 // Module: Contact Detail
 
 .module-contact-detail {
@@ -1760,6 +1821,11 @@
   border-left: 4px solid $color-signal-blue;
 }
 
+.module-conversation-list-item--has-friend-request {
+  padding-left: 12px;
+  border-left: 4px solid $color-conversation-indigo;
+}
+
 .module-conversation-list-item--is-selected {
   background-color: $color-gray-05;
 }
@@ -2193,6 +2259,10 @@
     max-width: 374px;
   }
 
+  .module-message-friend-request {
+    width: 374px;
+  }
+
   // Spec: container < 438px
   .module-message--incoming {
     margin-left: 0;
@@ -2224,6 +2294,10 @@
 @media (min-width: 926px) {
   .module-message {
     max-width: 66%;
+  }
+
+  .module-message-friend-request {
+    width: 66%;
   }
 
   .module-message--incoming {

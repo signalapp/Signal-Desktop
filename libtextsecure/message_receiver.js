@@ -934,21 +934,40 @@ MessageReceiver.prototype.extend({
       return this.innerHandleContentMessage(envelope, plaintext);
     });
   },
-  async promptUserToAcceptFriendRequest(pubKey, message) {
-    pubKey = pubKey.slice(0, 30) + '...';
-    let p = new Promise(resolve => {
-      window.Whisper.events.trigger('showFriendRequest', {
-        pubKey,
-        message,
-        accept: () => {
-          resolve(true);
-        },
-        decline: () => {
-          resolve(false);
-        },
-      });
+  promptUserToAcceptFriendRequest(pubKey, message, preKeyBundle) {
+    window.Whisper.events.trigger('showFriendRequest', {
+      pubKey,
+      message,
+      preKeyBundle,
     });
-    return await p;
+  },
+  // A handler function for when a friend request is accepted or declined
+  async onFriendRequestUpdate(pubKey, message) {
+    if (!message || !message.direction || !message.friendStatus) return;
+
+    // Update the conversation
+    const conversation = ConversationController.get(pubKey);
+    if (conversation) {
+      // Update the conversation friend request indicator
+      conversation.updatePendingFriendRequests();
+      conversation.updateTextInputState();
+    }
+    
+    // Send our own prekeys as a response
+    if (message.direction === 'incoming' && message.friendStatus === 'accepted') {
+      libloki.sendEmptyMessageWithPreKeys(pubKey);
+
+      // Register the preKeys used for communication
+      if (message.preKeyBundle) {
+        await this.handlePreKeyBundleMessage(
+          pubKey,
+          message.preKeyBundle
+        );
+      }
+
+      await conversation.onFriendRequestAccepted();
+    }
+    console.log(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
   },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
@@ -960,25 +979,46 @@ MessageReceiver.prototype.extend({
         conversation = ConversationController.get(envelope.source);
       } catch (e) {}
       if (!conversation) {
-        const accepted = await this.promptUserToAcceptFriendRequest(
+        this.promptUserToAcceptFriendRequest(
           envelope.source,
-          content.dataMessage.body
+          content.dataMessage.body,
+          content.preKeyBundle,
         );
-        if (accepted) {
-          // send our own prekeys as a response - no need to wait
-          libloki.sendEmptyMessageWithPreKeys(envelope.source);
-        } else {
-          console.log('friend request declined!');
-          return;
-        }
+        return;
       }
     }
 
-    if (content.preKeyBundleMessage) {
-      await this.handlePreKeyBundleMessage(
-        envelope,
-        content.preKeyBundleMessage
-      );
+    // Check if our friend request got accepted
+    if (content.preKeyBundle) {
+      // By default we don't want to save the preKey
+      let savePreKey = false;
+
+      // The conversation
+      let conversation = null;
+
+      try {
+        conversation = ConversationController.get(envelope.source);
+
+        // We only want to save the preKey if we have a outgoing friend request which is pending
+        const pending = await conversation.getPendingFriendRequests('outgoing');
+        const successful = pending.filter(p => !p.hasErrors());
+
+        // Save the key only if we have an outgoing friend request
+        savePreKey = (successful.length > 0);
+      } catch (e) {}
+      
+      // Save the pre key if we have a conversation
+      if (savePreKey && conversation) {
+        await this.handlePreKeyBundleMessage(
+          envelope.source,
+          content.preKeyBundle
+        );
+
+        // Update the conversation
+        await conversation.onFriendRequestAccepted();
+
+        return;
+      }
     }
 
     if (content.syncMessage) {
@@ -1195,7 +1235,7 @@ MessageReceiver.prototype.extend({
 
     return this.removeFromCache(envelope);
   },
-  async handlePreKeyBundleMessage(envelope, preKeyBundleMessage) {
+  async handlePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
     const { preKeyId, signedKeyId } = preKeyBundleMessage;
     const [identityKey, preKey, signedKey, signature] = [
       preKeyBundleMessage.identityKey,
@@ -1204,12 +1244,11 @@ MessageReceiver.prototype.extend({
       preKeyBundleMessage.signature,
     ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
 
-    if (envelope.source != StringView.arrayBufferToHex(identityKey)) {
+    if (pubKey != StringView.arrayBufferToHex(identityKey)) {
       throw new Error(
         'Error in handlePreKeyBundleMessage: envelope pubkey does not match pubkey in prekey bundle'
       );
     }
-    const pubKey = envelope.source;
 
     return await libloki.savePreKeyBundleForNumber({
       pubKey,
@@ -1455,6 +1494,9 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
   );
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
   this.close = messageReceiver.close.bind(messageReceiver);
+  this.onFriendRequestUpdate = messageReceiver.onFriendRequestUpdate.bind(messageReceiver);
+  this.handlePreKeyBundleMessage = messageReceiver.handlePreKeyBundleMessage.bind(messageReceiver);
+
   messageReceiver.connect();
 };
 

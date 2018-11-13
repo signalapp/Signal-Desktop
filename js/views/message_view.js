@@ -69,6 +69,11 @@
           Component: Components.GroupNotification,
           props: this.model.getPropsForGroupNotification(),
         };
+      } else if (this.model.isFriendRequest()) {
+        return {
+          Component: Components.FriendRequest,
+          props: this.model.getPropsForFriendRequest(),
+        }; 
       }
 
       return {

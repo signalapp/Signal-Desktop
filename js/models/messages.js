@@ -186,6 +186,9 @@
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
+    isFriendRequest() {
+      return this.get('type') === 'friend-request';
+    },
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
@@ -291,6 +294,51 @@
       // It doesn't need anything right now!
       return {};
     },
+    getPropsForFriendRequest() {
+      const friendStatus = this.get('friendStatus') || 'pending';
+      const direction = this.get('direction') || 'incoming';
+      const conversation = this.getConversation();
+
+      const onAccept = async () => {
+        this.set({ friendStatus: 'accepted' });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+
+        window.Whisper.events.trigger('friendRequestUpdated', {
+          pubKey: conversation.id,
+          ...this.attributes,
+        });
+      };
+
+      const onDecline = async () => {
+        this.set({ friendStatus: 'declined' });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+
+        window.Whisper.events.trigger('friendRequestUpdated', {
+          pubKey: conversation.id,
+          ...this.attributes,
+        });
+      };
+
+      const onDeleteConversation = async () => {
+        // Delete the whole conversation
+        window.Whisper.events.trigger('deleteConversation', conversation);
+      };
+
+      return {
+        text: this.createNonBreakingLastSeparator(this.get('body')),
+        status: this.getMessagePropStatus(),
+        direction,
+        friendStatus,
+        onAccept,
+        onDecline,
+        onDeleteConversation,
+        onRetrySend: () => this.retrySend(),
+      }
+    },
     findContact(phoneNumber) {
       return ConversationController.get(phoneNumber);
     },
@@ -366,7 +414,14 @@
       if (this.hasErrors()) {
         return 'error';
       }
-      if (!this.isOutgoing()) {
+
+      // Handle friend request statuses
+      const isFriendRequest = this.isFriendRequest();
+      const isOutgoingFriendRequest = isFriendRequest && this.get('direction') === 'outgoing';
+      const isOutgoing = this.isOutgoing() || isOutgoingFriendRequest;
+
+      // Only return the status on outgoing messages
+      if (!isOutgoing) {
         return null;
       }
 

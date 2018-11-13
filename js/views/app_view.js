@@ -178,16 +178,14 @@
         });
       }
     },
-    showFriendRequest({ pubKey, message, accept, decline }) {
-      const dialog = new Whisper.ConfirmationDialogView({
-        title: `${pubKey} sent you a friend request:`,
-        message,
-        okText: 'Accept',
-        cancelText: 'Decline',
-        resolve: accept,
-        reject: decline,
-      });
-      this.el.append(dialog.el);
+    async showFriendRequest({ pubKey, message, preKeyBundle }) {
+      const controller = window.ConversationController;
+      const conversation = await controller.getOrCreateAndWait(pubKey, 'private');
+      if (conversation) {
+        conversation.addFriendRequest(message, {
+          preKeyBundle: preKeyBundle || null,
+        });
+      }
     },
   });
 })();

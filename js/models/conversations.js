@@ -95,6 +95,8 @@
         conversation: this,
       });
 
+      this.pendingFriendRequest = false;
+
       this.messageCollection.on('change:errors', this.handleMessageError, this);
       this.messageCollection.on('send-error', this.onMessageError, this);
 
@@ -118,6 +120,7 @@
       this.on('change:profileKey', this.onChangeProfileKey);
 
       // Listening for out-of-band data updates
+      this.on('updateMessage', this.updateAndMerge);
       this.on('delivered', this.updateAndMerge);
       this.on('read', this.updateAndMerge);
       this.on('expiration-change', this.updateAndMerge);
@@ -137,6 +140,8 @@
       this.unset('tokens');
       this.unset('lastMessage');
       this.unset('lastMessageStatus');
+
+      this.updateTextInputState();
     },
 
     isMe() {
@@ -194,9 +199,9 @@
       removeMessage();
     },
 
-    addSingleMessage(message) {
+    addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
-      model.setToExpire();
+      if (setToExpire) model.setToExpire();
       return model;
     },
 
@@ -216,6 +221,49 @@
         title: this.getTitle(),
       };
     },
+    // This function sets `pendingFriendRequest` variable in memory
+    async updatePendingFriendRequests() {
+      const pendingFriendRequest = await this.hasPendingFriendRequests();
+      // Only update if we have different values
+      if (this.pendingFriendRequest !== pendingFriendRequest) {
+        this.pendingFriendRequest = pendingFriendRequest;
+        // trigger an update
+        this.trigger('change');
+      }
+    },
+    // This goes through all our message history and finds a friend request
+    // But this is not a concurrent operation and thus `updatePendingFriendRequests` is used
+    async hasPendingFriendRequests() {
+      // Go through the messages and check for any pending friend requests
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { 
+          type: 'friend-request',
+          MessageCollection: Whisper.MessageCollection,
+        }
+      );
+
+      for (const message of messages.models) {
+        if (message.isFriendRequest() && message.attributes.friendStatus === 'pending') return true;
+      }
+
+      return false;
+    },
+    async getPendingFriendRequests(direction) {
+      // Theoretically all ouur messages could be friend requests, thus we have to unfortunately go through each one :(
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { 
+          type: 'friend-request',
+          MessageCollection: Whisper.MessageCollection,
+        }
+      );
+
+      // Get the messages that are matching the direction and the friendStatus
+      return messages.models.filter(m => {
+        return (m.attributes.direction === direction && m.attributes.friendStatus === 'pending')
+      });
+    },
     getPropsForListItem() {
       const result = {
         ...this.format(),
@@ -224,7 +272,7 @@
         lastUpdated: this.get('timestamp'),
         unreadCount: this.get('unreadCount') || 0,
         isSelected: this.isSelected,
-
+        showFriendRequestIndicator: this.pendingFriendRequest,
         lastMessage: {
           status: this.lastMessageStatus,
           text: this.lastMessage,
@@ -378,7 +426,8 @@
     },
     isKeyExchangeCompleted() {
       if (!this.isPrivate()) {
-        throw new Error('isKeyExchangeCompleted not implemented for groups');
+        return false;
+        // throw new Error('isKeyExchangeCompleted not implemented for groups');
       }
 
       if (this.isMe()) {
@@ -386,13 +435,6 @@
       }
 
       return this.get('keyExchangeCompleted') || false;
-    },
-    setKeyExchangeCompleted(completed) {
-      if (typeof completed !== 'boolean') {
-        throw new Error('setKeyExchangeCompleted expects a bool');
-      }
-
-      this.set({ keyExchangeCompleted: completed });
     },
     getFriendRequestStatus() {
       return this.get('friendRequestStatus');
@@ -418,27 +460,51 @@
         }
       }
     },
-    onFriendRequestAccepted() {
-      window.Signal.Data.updateConversation(
-        this.id,
-        { friendRequestStatus: null },
-        { Conversation: Whisper.Conversation }
-      );
-      this.trigger('disable:input', false);
-      this.trigger('change:placeholder', 'chat');
+    async onFriendRequestAccepted() {
+      this.set({
+        friendRequestStatus: null,
+        keyExchangeCompleted: true,
+      });
+
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+
+      // Enable the text inputs early
+      this.updateTextInputState();
+
+      // Update any pending outgoing messages
+      const pending = await this.getPendingFriendRequests('outgoing');
+      for (const request of pending) {
+        // Only update successfully sent requests
+        if (request.hasErrors()) continue;
+
+        request.set({ friendStatus: 'accepted' });
+        await window.Signal.Data.saveMessage(request.attributes, {
+          Message: Whisper.Message,
+        });
+        this.trigger('updateMessage', request);
+      }
+
+      await this.updatePendingFriendRequests();
     },
-    onFriendRequestTimedOut() {
+    async onFriendRequestTimedOut() {
+      this.updateTextInputState();
+
       const friendRequestStatus = this.getFriendRequestStatus();
-      friendRequestStatus.allowSending = true;
-      window.Signal.Data.updateConversation(
-        this.id,
-        { friendRequestStatus },
-        { Conversation: Whisper.Conversation }
-      );
-      this.trigger('disable:input', false);
-      this.trigger('change:placeholder', 'friend-request');
+      if (friendRequestStatus) {
+        friendRequestStatus.allowSending = true;
+        this.set({ friendRequestStatus });
+
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
     },
-    onFriendRequestSent() {
+    async onFriendRequestSent() {
+      // Don't bother setting the friend request if we have already exchanged keys
+      if (this.isKeyExchangeCompleted()) return;
+
       const friendRequestLockDuration = 72; // hours
 
       let friendRequestStatus = this.getFriendRequestStatus();
@@ -449,18 +515,19 @@
       friendRequestStatus.allowSending = false;
       const delayMs = 60 * 60 * 1000 * friendRequestLockDuration;
       friendRequestStatus.unlockTimestamp = Date.now() + delayMs;
-      this.trigger('disable:input', true);
-      this.trigger('change:placeholder', 'disabled');
+      
+      // Update the text input state
+      this.updateTextInputState();
+
+      this.set({ friendRequestStatus });
+
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
 
       setTimeout(() => {
         this.onFriendRequestTimedOut();
       }, delayMs);
-
-      window.Signal.Data.updateConversation(
-        this.id,
-        { friendRequestStatus },
-        { Conversation: Whisper.Conversation }
-      );
     },
     isUnverified() {
       if (this.isPrivate()) {
@@ -595,6 +662,94 @@
         Message: Whisper.Message,
       });
 
+      this.trigger(
+        'newmessage',
+        new Whisper.Message({
+          ...message,
+          id,
+        })
+      );
+    },
+    // Remove the message locally from our conversation
+    async _removeMessage(id) {
+      await window.Signal.Data.removeMessage(id, { Message: Whisper.Message });
+      const existing = this.messageCollection.get(id);
+      if (existing) {
+        this.messageCollection.remove(id);
+        existing.trigger('destroy');
+      }
+    },
+    // This will add a message which will allow the user to reply to a friend request
+    async addFriendRequest(body, options = {}) {
+      const _options = {
+        friendStatus: 'pending',
+        direction: 'incoming',
+        preKeyBundle: null,
+        ...options,
+      };
+
+      if (this.isMe()) {
+        window.log.info(
+          'refusing to send friend request to ourselves'
+        );
+        return;
+      }
+
+      const lastMessage = this.get('timestamp') || Date.now();
+
+      window.log.info(
+        'adding friend request for',
+        this.ourNumber,
+        this.idForLogging(),
+        lastMessage
+      );
+
+      this.lastMessageStatus = 'sending';
+
+      this.set({
+        active_at: Date.now(),
+        timestamp: Date.now(),
+      });
+
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+
+      // If we need to add new incoming friend requests
+      // Then we need to make sure we remove any pending requests that we may have
+      // This is to ensure that one user cannot spam us with multiple friend requests
+      if (_options.direction === 'incoming') {
+        const requests = await this.getPendingFriendRequests('incoming');
+        
+        for (const request of requests) {
+          // Delete the old message if it's pending
+          await this._removeMessage(request.id);
+        }
+        // Trigger an update if we removed messages
+        if (requests.length > 0)
+          this.trigger('change');
+      }
+
+      // Add the new message
+      const timestamp = Date.now();
+      const message = {
+        conversationId: this.id,
+        type: 'friend-request',
+        sent_at: lastMessage,
+        received_at: timestamp,
+        unread: 1,
+        from: this.id,
+        to: this.ourNumber,
+        friendStatus: _options.friendStatus,
+        direction: _options.direction,
+        body,
+        preKeyBundle: _options.preKeyBundle,
+      };
+
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
+      });
+     
       this.trigger(
         'newmessage',
         new Whisper.Message({
@@ -793,7 +948,7 @@
       };
     },
 
-    sendMessage(body, attachments, quote) {
+    async sendMessage(body, attachments, quote) {
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
@@ -812,18 +967,58 @@
           'with timestamp',
           now
         );
+        
+        let messageWithSchema = null;
 
-        const messageWithSchema = await upgradeMessageSchema({
-          type: 'outgoing',
-          body,
-          conversationId: destination,
-          quote,
-          attachments,
-          sent_at: now,
-          received_at: now,
-          expireTimer,
-          recipients,
-        });
+        // If we have exchanged keys then let the user send the message normally
+        if (this.isKeyExchangeCompleted()) {
+          messageWithSchema = await upgradeMessageSchema({
+            type: 'outgoing',
+            body,
+            conversationId: destination,
+            quote,
+            attachments,
+            sent_at: now,
+            received_at: now,
+            expireTimer,
+            recipients,
+          });
+        } else {
+            // We also need to make sure we don't send a new friend request if we already have an existing one
+            const incomingRequests = await this.getPendingFriendRequests('incoming');
+            if (incomingRequests.length > 0) return;
+
+          // Otherwise check if we have sent a friend request
+          const outgoingRequests = await this.getPendingFriendRequests('outgoing');
+          if (outgoingRequests.length > 0) {
+            // Check if the requests have errored, if so then remove them and send the new request if possible
+            const friendRequestSent = false;
+            for (const outgoing of outgoingRequests) {
+              if (outgoing.hasErrors()) {
+                await this._removeMessage(outgoing.id);
+              } else {
+                // No errors = we have sent over the friend request
+                friendRequestSent = true;
+              }
+            }
+
+            // If the requests didn't error then don't add a new friend request because one of them was sent successfully
+            if (friendRequestSent) return;
+          }
+
+          // Send the friend request!
+          messageWithSchema = await upgradeMessageSchema({
+            type: 'friend-request',
+            body,
+            conversationId: destination,
+            sent_at: now,
+            received_at: now,
+            expireTimer,
+            recipients,
+            direction: 'outgoing',
+            friendStatus: 'pending',
+          });
+        }
 
         const message = this.addSingleMessage(messageWithSchema);
         this.lastMessage = message.getNotificationText();
@@ -893,7 +1088,30 @@
         );
       });
     },
+    async updateTextInputState() {
+      // Check if we need to disable the text field
+      if (!this.isKeyExchangeCompleted()) {
+        // Check if we have an incoming friend request
+        // Or any successful outgoing ones
+        const incoming = await this.getPendingFriendRequests('incoming');
+        const outgoing = await this.getPendingFriendRequests('outgoing');
+        const successfulOutgoing = outgoing.filter(o => !o.hasErrors());
 
+        // Disable the input
+        if (incoming.length > 0 || successfulOutgoing.length > 0) {
+          this.trigger('disable:input', true);
+          this.trigger('change:placeholder', 'disabled');
+          return;
+        } else {
+          // Tell the user to introduce themselves
+          this.trigger('disable:input', false);
+          this.trigger('change:placeholder', 'friend-request');
+          return;
+        }
+      }
+      this.trigger('disable:input', false);
+      this.trigger('change:placeholder', 'chat');
+    },
     wrapSend(promise) {
       return promise.then(
         async result => {
@@ -1044,11 +1262,16 @@
         },
       };
     },
-
     async updateLastMessage() {
       if (!this.id) {
         return;
       }
+
+      // Update our friend indicator
+      this.updatePendingFriendRequests();
+
+      // Update our text input state
+      await this.updateTextInputState();
 
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,

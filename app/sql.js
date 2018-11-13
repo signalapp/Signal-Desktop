@@ -1310,21 +1310,23 @@ async function getUnreadByConversation(conversationId) {
 
 async function getMessagesByConversation(
   conversationId,
-  { limit = 100, receivedAt = Number.MAX_VALUE } = {}
+  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' } = {}
 ) {
-  const rows = await db.all(
-    `SELECT json FROM messages WHERE
-       conversationId = $conversationId AND
-       received_at < $received_at
-     ORDER BY received_at DESC
-     LIMIT $limit;`,
+  const rows = await db.all(`
+    SELECT json FROM messages WHERE
+      conversationId = $conversationId AND
+      received_at < $received_at AND
+      type LIKE $type
+    ORDER BY received_at DESC
+    LIMIT $limit;
+    `,
     {
       $conversationId: conversationId,
       $received_at: receivedAt,
       $limit: limit,
+      $type: type,
     }
   );
-
   return map(rows, row => jsonToObject(row.json));
 }
 

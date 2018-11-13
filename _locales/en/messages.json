@@ -1577,5 +1577,17 @@
         "example": "Alice, Bob"
       }
     }
+  },
+  "friendRequestPending": {
+    "message": "Friend request",
+    "description": "Shown in the conversation history when the user sends or recieves a friend request"
+  },
+  "friendRequestAccepted": {
+    "message": "Friend request accepted",
+    "description": "Shown in the conversation history when the user accepts a friend request"
+  },
+  "friendRequestDeclined": {
+    "message": "Friend request declined",
+    "description": "Shown in the conversation history when the user declines a friend request"
   }
 }

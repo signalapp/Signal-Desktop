@@ -37,6 +37,12 @@
       }
       conversation.trigger('opened');
     },
+    close(conversation) {
+      const $el = this.$(`#conversation-${conversation.cid}`);
+      if ($el && $el.length > 0) {
+        $el.remove();
+      }
+    }
   });
 
   Whisper.FontSizeView = Whisper.View.extend({
@@ -138,10 +144,12 @@
         'add change:timestamp change:name change:number',
         this.inboxListView.updateLocation
       );
-      this.inboxListView.listenTo(
+
+      // Listen to any conversation remove
+      this.listenTo(
         inboxCollection,
         'remove',
-        this.inboxListView.removeItem
+        this.closeConversation,
       );
 
       this.searchView = new Whisper.ConversationSearchView({
@@ -272,6 +280,12 @@
           ConversationController.get(conversation.id)
         );
         this.focusConversation();
+      }
+    },
+    closeConversation(conversation) {
+      if (conversation) {
+        this.inboxListView.removeItem(conversation);
+        this.conversation_stack.close(conversation);
       }
     },
     closeRecording(e) {

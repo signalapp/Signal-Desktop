@@ -32,6 +32,9 @@ const {
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
 const {
+  FriendRequest,
+} = require('../../ts/components/conversation/FriendRequest');
+const {
   GroupNotification,
 } = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
@@ -176,6 +179,7 @@ exports.setup = (options = {}) => {
     ConversationListItem,
     EmbeddedContact,
     Emojify,
+    FriendRequest,
     GroupNotification,
     Lightbox,
     LightboxGallery,
