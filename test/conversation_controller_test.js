@@ -1,8 +1,10 @@
+/* global Whisper */
+
 'use strict';
 
-describe('ConversationController', function() {
-  it('sorts conversations based on timestamp then by intl-friendly title', function() {
-    var collection = window.getInboxCollection();
+describe('ConversationController', () => {
+  it('sorts conversations based on timestamp then by intl-friendly title', () => {
+    const collection = window.getInboxCollection();
     collection.reset([]);
 
     collection.add(

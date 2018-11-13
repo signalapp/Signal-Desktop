@@ -126,3 +126,41 @@
   i18n={util.i18n}
 />
 ```
+
+### Unidentified Delivery
+
+```jsx
+<MessageDetail
+  message={{
+    disableMenu: true,
+    direction: 'outgoing',
+    timestamp: Date.now(),
+    conversationColor: 'pink',
+    text:
+      'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
+    status: 'read',
+    onDelete: () => console.log('onDelete'),
+  }}
+  contacts={[
+    {
+      phoneNumber: '(202) 555-1001',
+      avatarPath: util.gifObjectUrl,
+      status: 'read',
+      isUnidentifiedDelivery: true,
+    },
+    {
+      phoneNumber: '(202) 555-1002',
+      avatarPath: util.pngObjectUrl,
+      status: 'delivered',
+      isUnidentifiedDelivery: true,
+    },
+    {
+      phoneNumber: '(202) 555-1003',
+      color: 'teal',
+      status: 'read',
+    },
+  ]}
+  sentAt={Date.now()}
+  i18n={util.i18n}
+/>
+```

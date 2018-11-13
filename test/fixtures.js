@@ -1,12 +1,14 @@
-Whisper.Fixtures = function() {
-  var VERA_ID = '+13016886524'; // nsa
-  var NESTOR_ID = '+17034820623'; // cia
-  var MASHA_ID = '+441242221491'; // gchq
-  var FRED_ID = '+14155537400'; // fbi sf
-  var MICHEL_ID = '+12024561111'; // twh
+/* global Whisper */
 
-  var now = Date.now();
-  var conversationCollection = new Whisper.ConversationCollection([
+Whisper.Fixtures = () => {
+  const VERA_ID = '+13016886524'; // nsa
+  const NESTOR_ID = '+17034820623'; // cia
+  const MASHA_ID = '+441242221491'; // gchq
+  const FRED_ID = '+14155537400'; // fbi sf
+  const MICHEL_ID = '+12024561111'; // twh
+
+  const now = Date.now();
+  const conversationCollection = new Whisper.ConversationCollection([
     {
       name: 'Vera Zasulich',
       id: VERA_ID,
@@ -51,7 +53,7 @@ Whisper.Fixtures = function() {
     },
   ]);
 
-  var Vera = conversationCollection.get(VERA_ID);
+  const Vera = conversationCollection.get(VERA_ID);
   Vera.messageCollection.add([
     {
       conversationId: VERA_ID,
@@ -62,7 +64,7 @@ Whisper.Fixtures = function() {
     },
   ]);
 
-  var Nestor = conversationCollection.get(NESTOR_ID);
+  const Nestor = conversationCollection.get(NESTOR_ID);
   Nestor.messageCollection.add([
     {
       conversationId: NESTOR_ID,
@@ -73,7 +75,7 @@ Whisper.Fixtures = function() {
     },
   ]);
 
-  var Fred = conversationCollection.get(FRED_ID);
+  const Fred = conversationCollection.get(FRED_ID);
   Fred.messageCollection.add([
     {
       conversationId: FRED_ID,
@@ -85,7 +87,7 @@ Whisper.Fixtures = function() {
     },
   ]);
 
-  var Michel = conversationCollection.get(MICHEL_ID);
+  const Michel = conversationCollection.get(MICHEL_ID);
   Michel.messageCollection.add([
     {
       conversationId: MICHEL_ID,
@@ -118,7 +120,7 @@ Whisper.Fixtures = function() {
     },
   ]);
 
-  var Masha = conversationCollection.get(MASHA_ID);
+  const Masha = conversationCollection.get(MASHA_ID);
   Masha.messageCollection.add(
     [
       {
@@ -150,7 +152,7 @@ Whisper.Fixtures = function() {
         body: "I can't wait to try it!",
         unread: 1,
       },
-    ].map(function(m) {
+    ].map((m) => {
       return {
         conversationId: MASHA_ID,
         type: m.type,
@@ -165,7 +167,7 @@ Whisper.Fixtures = function() {
     })
   );
 
-  var group = conversationCollection.add({
+  const group = conversationCollection.add({
     name: '📖 Book Club',
     type: 'group',
     active_at: now - 100000,
@@ -210,7 +212,7 @@ Whisper.Fixtures = function() {
         delivered_to: [MICHEL_ID, FRED_ID],
         sent_to: [NESTOR_ID],
       },
-    ].map(function(m) {
+    ].map((m) => {
       return Object.assign({}, m, {
         conversationId: group.id,
         sent_at: m.date,
@@ -221,16 +223,16 @@ Whisper.Fixtures = function() {
   );
 
   function dataURItoBlob(dataURI) {
-    var binary = atob(dataURI.split(',')[1]);
-    var array = [];
-    for (var i = 0; i < binary.length; i++) {
+    const binary = atob(dataURI.split(',')[1]);
+    const array = [];
+    for (let i = 0; i < binary.length; i += 1) {
       array.push(binary.charCodeAt(i));
     }
     return new Uint8Array(array).buffer;
   }
 
-  conversationCollection.saveAll = function() {
-    return Promise.all(
+  conversationCollection.saveAll = function thisNeeded() {
+    Promise.all(
       this.map(async (convo) => {
         await window.Signal.Data.saveConversation(convo.attributes, {
           Conversation: Whisper.Conversation,
@@ -239,7 +241,7 @@ Whisper.Fixtures = function() {
         await Promise.all(
           convo.messageCollection.map(async (message) => {
             const id = await window.Signal.Data.saveMessage(message.attributes, {
-              Message: Whisper.Message
+              Message: Whisper.Message,
             });
             message.set({ id });
           })

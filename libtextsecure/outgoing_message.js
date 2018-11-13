@@ -7,7 +7,9 @@
   StringView,
   dcodeIO,
   log,
- */
+  btoa,
+  _
+*/
 
 /* eslint-disable more/no-then */
 
@@ -17,7 +19,8 @@ function OutgoingMessage(
   numbers,
   message,
   silent,
-  callback
+  callback,
+  options = {}
 ) {
   if (message instanceof textsecure.protobuf.DataMessage) {
     const content = new textsecure.protobuf.Content();
@@ -38,6 +41,12 @@ function OutgoingMessage(
   this.errors = [];
   this.successfulNumbers = [];
   this.fallBackEncryption = false;
+  this.failoverNumbers = [];
+  this.unidentifiedDeliveries = [];
+
+  const { numberInfo, senderCertificate } = options;
+  this.numberInfo = numberInfo;
+  this.senderCertificate = senderCertificate;
 }
 
 OutgoingMessage.prototype = {
@@ -47,7 +56,9 @@ OutgoingMessage.prototype = {
     if (this.numbersCompleted >= this.numbers.length) {
       this.callback({
         successfulNumbers: this.successfulNumbers,
+        failoverNumbers: this.failoverNumbers,
         errors: this.errors,
+        unidentifiedDeliveries: this.unidentifiedDeliveries,
       });
     }
   },
@@ -124,7 +135,7 @@ OutgoingMessage.prototype = {
       );
     // TODO: check if still applicable
     if (updateDevices === undefined) {
-      return this.server.getKeysForNumber(number).then(handleResult);
+      return this.server.getKeysForNumber(number, '*').then(handleResult);
     }
     let promise = Promise.resolve(true);
     updateDevices.forEach(device => {
@@ -166,8 +177,8 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
     const pubKey = number;
     try {
-      const [response] = await this.lokiserver.sendMessage(pubKey, data, ttl);
-      return response;
+      const result = await this.lokiserver.sendMessage(pubKey, data, ttl);
+      return result;
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
         // 409 and 410 should bubble and be handled by doSendMessage
@@ -209,8 +220,8 @@ OutgoingMessage.prototype = {
   async wrapInWebsocketMessage(outgoingObject) {
     const messageEnvelope = new textsecure.protobuf.Envelope({
       type: outgoingObject.type,
-      source: outgoingObject.address.getName(),
-      sourceDevice: outgoingObject.address.getDeviceId(),
+      source: outgoingObject.ourKey,
+      sourceDevice: outgoingObject.sourceDevice,
       timestamp: this.timestamp,
       content: outgoingObject.content,
     });
@@ -232,15 +243,43 @@ OutgoingMessage.prototype = {
     const ciphers = {};
     const plaintext = this.getPlaintext();
 
+    /* Disabled because i'm not sure how senderCertificate works :thinking:
+    const { numberInfo, senderCertificate } = this;
+    const info = numberInfo && numberInfo[number] ? numberInfo[number] : {};
+    const { accessKey } = info || {};
+
+    if (accessKey && !senderCertificate) {
+      return Promise.reject(
+        new Error(
+          'OutgoingMessage.doSendMessage: accessKey was provided, but senderCertificate was not'
+        )
+      );
+    }
+
+    const sealedSender = Boolean(accessKey && senderCertificate);
+
+    // We don't send to ourselves if unless sealedSender is enabled
+    const ourNumber = textsecure.storage.user.getNumber();
+    const ourDeviceId = textsecure.storage.user.getDeviceId();
+    if (number === ourNumber && !sealedSender) {
+      // eslint-disable-next-line no-param-reassign
+      deviceIds = _.reject(
+        deviceIds,
+        deviceId =>
+          // because we store our own device ID as a string at least sometimes
+          deviceId === ourDeviceId || deviceId === parseInt(ourDeviceId, 10)
+      );
+    }
+    */
+
     return Promise.all(
       deviceIds.map(async deviceId => {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
-
-        const ourNumber = textsecure.storage.user.getNumber();
+        const ourKey = textsecure.storage.user.getNumber();
         const options = {};
 
         // No limit on message keys if we're communicating with our other devices
-        if (ourNumber === number) {
+        if (ourKey === number) {
           options.messageKeysLimit = false;
         }
 
@@ -270,8 +309,8 @@ OutgoingMessage.prototype = {
           })
           .then(ciphertext => ({
             type: ciphertext.type,
-            address,
-            destinationDeviceId: address.getDeviceId(),
+            ourKey,
+            sourceDevice: 1,
             destinationRegistrationId: ciphertext.registrationId,
             content: ciphertext.body,
           }));
@@ -321,7 +360,9 @@ OutgoingMessage.prototype = {
           } else {
             p = Promise.all(
               error.response.staleDevices.map(deviceId =>
-                ciphers[deviceId].closeOpenSessionForDevice()
+                ciphers[deviceId].closeOpenSessionForDevice(
+                  new libsignal.SignalProtocolAddress(number, deviceId)
+                )
               )
             );
           }
@@ -332,6 +373,8 @@ OutgoingMessage.prototype = {
                 ? error.response.staleDevices
                 : error.response.missingDevices;
             return this.getKeysForNumber(number, resetDevices).then(
+              // We continue to retry as long as the error code was 409; the assumption is
+              //   that we'll request new device info and the next request will succeed.
               this.reloadDevicesAndSend(number, error.code === 409)
             );
           });

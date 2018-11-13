@@ -15,8 +15,10 @@ interface Contact {
   avatarPath?: string;
   color: string;
   isOutgoingKeyError: boolean;
+  isUnidentifiedDelivery: boolean;
 
   errors?: Array<Error>;
+
   onSendAnyway: () => void;
   onShowSafetyNumber: () => void;
 }
@@ -94,6 +96,9 @@ export class MessageDetail extends React.Component<Props> {
         )}
       />
     ) : null;
+    const unidentifiedDeliveryComponent = contact.isUnidentifiedDelivery ? (
+      <div className="module-message-detail__contact__unidentified-delivery-icon" />
+    ) : null;
 
     return (
       <div key={contact.phoneNumber} className="module-message-detail__contact">
@@ -114,6 +119,7 @@ export class MessageDetail extends React.Component<Props> {
           ))}
         </div>
         {errorComponent}
+        {unidentifiedDeliveryComponent}
         {statusComponent}
       </div>
     );

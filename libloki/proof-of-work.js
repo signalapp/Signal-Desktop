@@ -58,15 +58,9 @@ function greaterThan(arr1, arr2) {
 
 // Return nonce that hashes together with payload lower than the target
 function calcPoW(timestamp, ttl, pubKey, data) {
-  const leadingString = timestamp.toString() + ttl.toString() + pubKey;
-  const leadingArray = new Uint8Array(
-    bb.wrap(leadingString, 'binary').toArrayBuffer()
+  const payload = new Uint8Array(
+    bb.wrap(timestamp.toString() + ttl.toString() + pubKey + data, 'binary').toArrayBuffer()
   );
-  // Payload constructed from concatenating timestamp, ttl and pubkey strings,
-  // converting to Uint8Array and then appending to the message data array
-  const payload = new Uint8Array(leadingArray.length + data.length);
-  payload.set(leadingArray);
-  payload.set(data, leadingArray.length);
 
   // payloadLength + NONCE_LEN
   const totalLen = new BigInteger(payload.length.toString()).add(
@@ -118,7 +112,7 @@ process.on('message', msg => {
       msg.timestamp,
       msg.ttl,
       msg.pubKey,
-      new Uint8Array(msg.data)
+      msg.data
     ),
   });
 });

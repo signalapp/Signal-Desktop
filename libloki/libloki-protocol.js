@@ -132,7 +132,7 @@
     });
 
     const preKeyPromise = new Promise(async resolve => {
-      const existingPreKeys = textsecure.storage.protocol.loadContactPreKeys({
+      const existingPreKeys = await textsecure.storage.protocol.loadContactPreKeys({
         identityKeyString: pubKey,
         keyId: preKeyId,
       });

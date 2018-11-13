@@ -12,7 +12,6 @@ describe('Helpers', () => {
 
   describe('stringToArrayBuffer', () => {
     it('returns ArrayBuffer when passed string', () => {
-      const StaticArrayBufferProto = new ArrayBuffer().__proto__;
       const anArrayBuffer = new ArrayBuffer(1);
       const typedArray = new Uint8Array(anArrayBuffer);
       typedArray[0] = 'a'.charCodeAt(0);

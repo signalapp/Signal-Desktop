@@ -11,16 +11,20 @@ message Envelope {
     KEY_EXCHANGE  = 2;
     PREKEY_BUNDLE = 3;
     RECEIPT       = 5;
-    FRIEND_REQUEST = 6; // contains prekeys + message and is using simple encryption
+    UNIDENTIFIED_SENDER = 6;
+    FRIEND_REQUEST = 7; // contains prekeys + message and is using simple encryption
   }
 
-  optional Type   type          = 1;
-  optional string source        = 2;
-  optional uint32 sourceDevice  = 7;
-  optional string relay         = 3;
-  optional uint64 timestamp     = 5;
-  optional bytes  legacyMessage = 6; // Contains an encrypted DataMessage
-  optional bytes  content       = 8; // Contains an encrypted Content
+  optional Type   type            = 1;
+  optional string source          = 2;
+  optional uint32 sourceDevice    = 7;
+  optional string relay           = 3;
+  optional uint64 timestamp       = 5;
+  optional bytes  legacyMessage   = 6; // Contains an encrypted DataMessage
+  optional bytes  content         = 8; // Contains an encrypted Content
+  optional string serverGuid      = 9;
+  optional uint64 serverTimestamp = 10;
+
 }
 
 message Content {
@@ -203,10 +207,16 @@ message Verified {
 
 message SyncMessage {
   message Sent {
-    optional string      destination              = 1;
-    optional uint64      timestamp                = 2;
-    optional DataMessage message                  = 3;
-    optional uint64      expirationStartTimestamp = 4;
+    message UnidentifiedDeliveryStatus {
+      optional string destination  = 1;
+      optional bool   unidentified = 2;
+    }
+
+    optional string                     destination              = 1;
+    optional uint64                     timestamp                = 2;
+    optional DataMessage                message                  = 3;
+    optional uint64                     expirationStartTimestamp = 4;
+    repeated UnidentifiedDeliveryStatus unidentifiedStatus       = 5;
   }
 
   message Contacts {
@@ -241,7 +251,8 @@ message SyncMessage {
   }
 
   message Configuration {
-    optional bool readReceipts = 1;
+    optional bool readReceipts                   = 1;
+    optional bool unidentifiedDeliveryIndicators = 2;
   }
 
   optional Sent          sent          = 1;

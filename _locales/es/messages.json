@@ -480,7 +480,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "dangerousFileType": {
-        "message": "Typo de adjunto no permitido por razones se seguridad",
+        "message": "Tipo de adjunto no permitido por razones se seguridad",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "fileSizeWarning": {

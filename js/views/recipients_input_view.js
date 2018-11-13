@@ -13,8 +13,6 @@
       'national_number',
       'international_number',
     ],
-    database: Whisper.Database,
-    storeName: 'conversations',
     model: Whisper.Conversation,
     async fetchContacts() {
       const models = window.Signal.Data.getAllPrivateConversations({

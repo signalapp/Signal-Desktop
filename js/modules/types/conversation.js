@@ -1,19 +1,12 @@
-/* global dcodeIO, crypto */
+/* global crypto */
 
 const { isFunction, isNumber } = require('lodash');
 const { createLastMessageUpdate } = require('../../../ts/types/Conversation');
+const { arrayBufferToBase64, base64ToArrayBuffer } = require('../crypto');
 
 async function computeHash(arraybuffer) {
   const hash = await crypto.subtle.digest({ name: 'SHA-512' }, arraybuffer);
   return arrayBufferToBase64(hash);
-}
-
-function arrayBufferToBase64(arraybuffer) {
-  return dcodeIO.ByteBuffer.wrap(arraybuffer).toString('base64');
-}
-
-function base64ToArrayBuffer(base64) {
-  return dcodeIO.ByteBuffer.wrap(base64, 'base64').toArrayBuffer();
 }
 
 function buildAvatarUpdater({ field }) {
@@ -40,7 +33,7 @@ function buildAvatarUpdater({ field }) {
     if (!avatar || !avatar.hash) {
       return {
         ...conversation,
-        avatar: {
+        [field]: {
           hash: newHash,
           path: await writeNewAttachmentData(data),
         },
@@ -57,7 +50,7 @@ function buildAvatarUpdater({ field }) {
 
     return {
       ...conversation,
-      avatar: {
+      [field]: {
         hash: newHash,
         path: await writeNewAttachmentData(data),
       },

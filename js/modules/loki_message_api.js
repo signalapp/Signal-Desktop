@@ -1,4 +1,4 @@
-/* global log */
+/* global log, dcodeIO */
 
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
@@ -20,6 +20,7 @@ function initialize({ url }) {
   function connect() {
     return {
       sendMessage,
+      retrieveMessages,
     };
 
     function getPoWNonce(timestamp, ttl, pubKey, data) {
@@ -32,7 +33,7 @@ function initialize({ url }) {
           timestamp,
           ttl,
           pubKey,
-          data: Array.from(data),
+          data,
         });
 
         // Handle child process error (should never happen)
@@ -52,22 +53,11 @@ function initialize({ url }) {
       });
     }
 
-    async function sendMessage(pubKey, data, ttl) {
-      const timestamp = Math.floor(Date.now() / 1000);
-      // Nonce is returned as a base64 string to include in header
-      let nonce;
-      try {
-        nonce = await getPoWNonce(timestamp, ttl, pubKey, data);
-      } catch (err) {
-        // Something went horribly wrong
-        // TODO: Handle gracefully
-        log.error('Error computing PoW');
-      }
-
+    async function retrieveMessages(pubKey) {
       const options = {
-        url: `${url}/store`,
-        type: 'POST',
-        responseType: undefined,
+        url: `${url}/retrieve`,
+        type: 'GET',
+        responseType: 'json',
         timeout: undefined,
       };
 
@@ -75,13 +65,8 @@ function initialize({ url }) {
 
       const fetchOptions = {
         method: options.type,
-        body: data,
         headers: {
-          'X-Loki-pow-nonce': nonce,
-          'X-Loki-timestamp': timestamp.toString(),
-          'X-Loki-ttl': ttl.toString(),
           'X-Loki-recipient': pubKey,
-          'Content-Length': data.byteLength,
         },
         timeout: options.timeout,
       };
@@ -108,7 +93,70 @@ function initialize({ url }) {
 
       if (response.status >= 0 && response.status < 400) {
         log.info(options.type, options.url, response.status, 'Success');
-        return [result, response.status];
+        return result;
+      }
+      log.error(options.type, options.url, response.status, 'Error');
+      throw HTTPError('retrieveMessages: error response', response.status, result);
+    }
+
+    async function sendMessage(pubKey, data, ttl) {
+      const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
+
+      const timestamp = Math.floor(Date.now() / 1000);
+      // Nonce is returned as a base64 string to include in header
+      let nonce;
+      try {
+        nonce = await getPoWNonce(timestamp, ttl, pubKey, data64);
+      } catch (err) {
+        // Something went horribly wrong
+        // TODO: Handle gracefully
+        log.error('Error computing PoW');
+      }
+
+      const options = {
+        url: `${url}/store`,
+        type: 'POST',
+        responseType: undefined,
+        timeout: undefined,
+      };
+
+      log.info(options.type, options.url);
+
+      const fetchOptions = {
+        method: options.type,
+        body: data64,
+        headers: {
+          'X-Loki-pow-nonce': nonce,
+          'X-Loki-timestamp': timestamp.toString(),
+          'X-Loki-ttl': ttl.toString(),
+          'X-Loki-recipient': pubKey,
+        },
+        timeout: options.timeout,
+      };
+
+      let response;
+      try {
+        response = await fetch(options.url, fetchOptions);
+      } catch (e) {
+        log.error(options.type, options.url, 0, 'Error');
+        throw HTTPError('fetch error', 0, e.toString());
+      }
+
+      let result;
+      if (
+        options.responseType === 'json' &&
+        response.headers.get('Content-Type') === 'application/json'
+      ) {
+        result = await response.json();
+      } else if (options.responseType === 'arraybuffer') {
+        result = await response.buffer();
+      } else {
+        result = await response.text();
+      }
+
+      if (response.status >= 0 && response.status < 400) {
+        log.info(options.type, options.url, response.status, 'Success');
+        return result;
       }
       log.error(options.type, options.url, response.status, 'Error');
       throw HTTPError('sendMessage: error response', response.status, result);

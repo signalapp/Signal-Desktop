@@ -1,10 +1,19 @@
-/* global window, setTimeout */
+/* global window, setTimeout, IDBKeyRange */
 
 const electron = require('electron');
 
-const { forEach, isFunction, isObject, merge } = require('lodash');
+const {
+  cloneDeep,
+  forEach,
+  get,
+  isFunction,
+  isObject,
+  map,
+  merge,
+  set,
+} = require('lodash');
 
-const { deferredToPromise } = require('./deferred_to_promise');
+const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
 const MessageType = require('./types/message');
 
 const { ipcRenderer } = electron;
@@ -12,11 +21,6 @@ const { ipcRenderer } = electron;
 // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
 ipcRenderer.setMaxListeners(0);
-
-// calls to search for when finding functions to convert:
-//   .fetch(
-//   .save(
-//   .destroy(
 
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
@@ -37,6 +41,66 @@ module.exports = {
 
   close,
   removeDB,
+  removeIndexedDBFiles,
+
+  createOrUpdateGroup,
+  getGroupById,
+  getAllGroupIds,
+  bulkAddGroups,
+  removeGroupById,
+  removeAllGroups,
+
+  createOrUpdateIdentityKey,
+  getIdentityKeyById,
+  bulkAddIdentityKeys,
+  removeIdentityKeyById,
+  removeAllIdentityKeys,
+
+  createOrUpdatePreKey,
+  getPreKeyById,
+  getPreKeyByRecipient,
+  bulkAddPreKeys,
+  removePreKeyById,
+  removeAllPreKeys,
+
+  createOrUpdateSignedPreKey,
+  getSignedPreKeyById,
+  getAllSignedPreKeys,
+  bulkAddSignedPreKeys,
+  removeSignedPreKeyById,
+  removeAllSignedPreKeys,
+
+  createOrUpdateContactPreKey,
+  getContactPreKeyById,
+  getContactPreKeyByIdentityKey,
+  getContactPreKeys,
+  getAllContactPreKeys,
+  bulkAddContactPreKeys,
+  removeContactPreKeyById,
+  removeAllContactPreKeys,
+
+  createOrUpdateContactSignedPreKey,
+  getContactSignedPreKeyById,
+  getContactSignedPreKeyByIdentityKey,
+  getContactSignedPreKeys,
+  bulkAddContactSignedPreKeys,
+  removeContactSignedPreKeyById,
+  removeAllContactSignedPreKeys,
+
+  createOrUpdateItem,
+  getItemById,
+  getAllItems,
+  bulkAddItems,
+  removeItemById,
+  removeAllItems,
+
+  createOrUpdateSession,
+  getSessionById,
+  getSessionsByNumber,
+  bulkAddSessions,
+  removeSessionById,
+  removeSessionsByNumber,
+  removeAllSessions,
 
   getConversationCount,
   saveConversation,
@@ -81,6 +145,8 @@ module.exports = {
   removeAllUnprocessed,
 
   removeAll,
+  removeAllConfiguration,
+
   removeOtherData,
   cleanupOrphanedAttachments,
 
@@ -149,9 +215,12 @@ function _updateJob(id, data) {
     resolve: value => {
       _removeJob(id);
       const end = Date.now();
-      window.log.info(
-        `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
-      );
+      const delta = end - start;
+      if (delta > 10) {
+        window.log.info(
+          `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
+        );
+      }
       return resolve(value);
     },
     reject: error => {
@@ -229,6 +298,36 @@ forEach(module.exports, fn => {
   }
 });
 
+function keysToArrayBuffer(keys, data) {
+  const updated = cloneDeep(data);
+  for (let i = 0, max = keys.length; i < max; i += 1) {
+    const key = keys[i];
+    const value = get(data, key);
+
+    if (value) {
+      set(updated, key, base64ToArrayBuffer(value));
+    }
+  }
+
+  return updated;
+}
+
+function keysFromArrayBuffer(keys, data) {
+  const updated = cloneDeep(data);
+  for (let i = 0, max = keys.length; i < max; i += 1) {
+    const key = keys[i];
+    const value = get(data, key);
+
+    if (value) {
+      set(updated, key, arrayBufferToBase64(value));
+    }
+  }
+
+  return updated;
+}
+
+// Top-level calls
+
 // Note: will need to restart the app after calling this, to set up afresh
 async function close() {
   await channels.close();
@@ -238,6 +337,251 @@ async function close() {
 async function removeDB() {
   await channels.removeDB();
 }
+
+async function removeIndexedDBFiles() {
+  await channels.removeIndexedDBFiles();
+}
+
+// Groups
+
+async function createOrUpdateGroup(data) {
+  await channels.createOrUpdateGroup(data);
+}
+async function getGroupById(id) {
+  const group = await channels.getGroupById(id);
+  return group;
+}
+async function getAllGroupIds() {
+  const ids = await channels.getAllGroupIds();
+  return ids;
+}
+async function bulkAddGroups(array) {
+  await channels.bulkAddGroups(array);
+}
+async function removeGroupById(id) {
+  await channels.removeGroupById(id);
+}
+async function removeAllGroups() {
+  await channels.removeAllGroups();
+}
+
+// Identity Keys
+
+const IDENTITY_KEY_KEYS = ['publicKey'];
+async function createOrUpdateIdentityKey(data) {
+  const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, data);
+  await channels.createOrUpdateIdentityKey(updated);
+}
+async function getIdentityKeyById(id) {
+  const data = await channels.getIdentityKeyById(id);
+  return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
+}
+async function bulkAddIdentityKeys(array) {
+  const updated = map(array, data =>
+    keysFromArrayBuffer(IDENTITY_KEY_KEYS, data)
+  );
+  await channels.bulkAddIdentityKeys(updated);
+}
+async function removeIdentityKeyById(id) {
+  await channels.removeIdentityKeyById(id);
+}
+async function removeAllIdentityKeys() {
+  await channels.removeAllIdentityKeys();
+}
+
+// Pre Keys
+
+async function createOrUpdatePreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdatePreKey(updated);
+}
+async function getPreKeyById(id) {
+  const data = await channels.getPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getPreKeyByRecipient(recipient) {
+  const data = await channels.getPreKeyByRecipient(recipient);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function bulkAddPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddPreKeys(updated);
+}
+async function removePreKeyById(id) {
+  await channels.removePreKeyById(id);
+}
+async function removeAllPreKeys() {
+  await channels.removeAllPreKeys();
+}
+
+// Signed Pre Keys
+
+const PRE_KEY_KEYS = ['privateKey', 'publicKey'];
+async function createOrUpdateSignedPreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdateSignedPreKey(updated);
+}
+async function getSignedPreKeyById(id) {
+  const data = await channels.getSignedPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getAllSignedPreKeys() {
+  const keys = await channels.getAllSignedPreKeys();
+  return keys;
+}
+async function bulkAddSignedPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddSignedPreKeys(updated);
+}
+async function removeSignedPreKeyById(id) {
+  await channels.removeSignedPreKeyById(id);
+}
+async function removeAllSignedPreKeys() {
+  await channels.removeAllSignedPreKeys();
+}
+
+// Contact Pre Key
+async function createOrUpdateContactPreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdateContactPreKey(updated);
+}
+async function getContactPreKeyById(id) {
+  const data = await channels.getContactPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactPreKeyByIdentityKey(key) {
+  const data = await channels.getContactPreKeyByIdentityKey(key);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactPreKeys(keyId, identityKeyString) {
+  const keys = await channels.getContactPreKeys(keyId, identityKeyString);
+  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, k));
+}
+async function getAllContactPreKeys() {
+  const keys = await channels.getAllContactPreKeys();
+  return keys;
+}
+async function bulkAddContactPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddContactPreKeys(updated);
+}
+async function removeContactPreKeyById(id) {
+  await channels.removePreContactKeyById(id);
+}
+async function removeAllContactPreKeys() {
+  await channels.removeAllContactPreKeys();
+}
+
+// Contact Signed Pre Key
+async function createOrUpdateContactSignedPreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdateContactSignedPreKey(updated);
+}
+async function getContactSignedPreKeyById(id) {
+  const data = await channels.getContactSignedPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactSignedPreKeyByIdentityKey(key) {
+  const data = await channels.getContactSignedPreKeyByIdentityKey(key);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactSignedPreKeys(keyId, identityKeyString) {
+  const keys = await channels.getContactSignedPreKeys(keyId, identityKeyString);
+  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, k));
+}
+async function bulkAddContactSignedPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddContactSignedPreKeys(updated);
+}
+async function removeContactSignedPreKeyById(id) {
+  await channels.removePreContactSignedKeyById(id);
+}
+async function removeAllContactSignedPreKeys() {
+  await channels.removeAllContactSignedPreKeys();
+}
+
+
+// Items
+
+const ITEM_KEYS = {
+  identityKey: ['value.pubKey', 'value.privKey'],
+  senderCertificate: [
+    'value.certificate',
+    'value.signature',
+    'value.serialized',
+  ],
+  signaling_key: ['value'],
+  profileKey: ['value'],
+};
+async function createOrUpdateItem(data) {
+  const { id } = data;
+  if (!id) {
+    throw new Error(
+      'createOrUpdateItem: Provided data did not have a truthy id'
+    );
+  }
+
+  const keys = ITEM_KEYS[id];
+  const updated = Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
+
+  await channels.createOrUpdateItem(updated);
+}
+async function getItemById(id) {
+  const keys = ITEM_KEYS[id];
+  const data = await channels.getItemById(id);
+
+  return Array.isArray(keys) ? keysToArrayBuffer(keys, data) : data;
+}
+async function getAllItems() {
+  const items = await channels.getAllItems();
+  return map(items, item => {
+    const { id } = item;
+    const keys = ITEM_KEYS[id];
+    return Array.isArray(keys) ? keysToArrayBuffer(keys, item) : item;
+  });
+}
+async function bulkAddItems(array) {
+  const updated = map(array, data => {
+    const { id } = data;
+    const keys = ITEM_KEYS[id];
+    return Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
+  });
+  await channels.bulkAddItems(updated);
+}
+async function removeItemById(id) {
+  await channels.removeItemById(id);
+}
+async function removeAllItems() {
+  await channels.removeAllItems();
+}
+
+// Sessions
+
+async function createOrUpdateSession(data) {
+  await channels.createOrUpdateSession(data);
+}
+async function getSessionById(id) {
+  const session = await channels.getSessionById(id);
+  return session;
+}
+async function getSessionsByNumber(number) {
+  const sessions = await channels.getSessionsByNumber(number);
+  return sessions;
+}
+async function bulkAddSessions(array) {
+  await channels.bulkAddSessions(array);
+}
+async function removeSessionById(id) {
+  await channels.removeSessionById(id);
+}
+async function removeSessionsByNumber(number) {
+  await channels.removeSessionsByNumber(number);
+}
+async function removeAllSessions(id) {
+  await channels.removeAllSessions(id);
+}
+
+// Conversation
 
 async function getConversationCount() {
   return channels.getConversationCount();
@@ -319,6 +663,8 @@ async function searchConversations(query, { ConversationCollection }) {
   return collection;
 }
 
+// Message
+
 async function getMessageCount() {
   return channels.getMessageCount();
 }
@@ -329,10 +675,41 @@ async function saveMessage(data, { forceSave, Message } = {}) {
   return id;
 }
 
-async function saveLegacyMessage(data, { Message }) {
-  const message = new Message(data);
-  await deferredToPromise(message.save());
-  return message.id;
+async function saveLegacyMessage(data) {
+  const db = await window.Whisper.Database.open();
+  try {
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction('messages', 'readwrite');
+
+      transaction.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'saveLegacyMessage transaction error',
+          transaction.error,
+          reject
+        );
+      };
+      transaction.oncomplete = resolve;
+
+      const store = transaction.objectStore('messages');
+
+      if (!data.id) {
+        // eslint-disable-next-line no-param-reassign
+        data.id = window.getGuid();
+      }
+
+      const request = store.put(data, data.id);
+      request.onsuccess = resolve;
+      request.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'saveLegacyMessage request error',
+          request.error,
+          reject
+        );
+      };
+    });
+  } finally {
+    db.close();
+  }
 }
 
 async function saveMessages(arrayOfMessages, { forceSave } = {}) {
@@ -459,6 +836,8 @@ async function getNextExpiringMessage({ MessageCollection }) {
   return new MessageCollection(messages);
 }
 
+// Unprocessed
+
 async function getUnprocessedCount() {
   return channels.getUnprocessedCount();
 }
@@ -495,8 +874,14 @@ async function removeAllUnprocessed() {
   await channels.removeAllUnprocessed();
 }
 
+// Other
+
 async function removeAll() {
   await channels.removeAll();
+}
+
+async function removeAllConfiguration() {
+  await channels.removeAllConfiguration();
 }
 
 async function cleanupOrphanedAttachments() {
@@ -529,28 +914,61 @@ async function callChannel(name) {
   });
 }
 
-// Functions below here return JSON
+// Functions below here return plain JSON instead of Backbone Models
 
 async function getLegacyMessagesNeedingUpgrade(
   limit,
-  { MessageCollection, maxVersion = MessageType.CURRENT_SCHEMA_VERSION }
+  { maxVersion = MessageType.CURRENT_SCHEMA_VERSION }
 ) {
-  const messages = new MessageCollection();
+  const db = await window.Whisper.Database.open();
+  try {
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction('messages', 'readonly');
+      const messages = [];
 
-  await deferredToPromise(
-    messages.fetch({
-      limit,
-      index: {
-        name: 'schemaVersion',
-        upper: maxVersion,
-        excludeUpper: true,
-        order: 'desc',
-      },
-    })
-  );
+      transaction.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'getLegacyMessagesNeedingUpgrade transaction error',
+          transaction.error,
+          reject
+        );
+      };
+      transaction.oncomplete = () => {
+        resolve(messages);
+      };
 
-  const models = messages.models || [];
-  return models.map(model => model.toJSON());
+      const store = transaction.objectStore('messages');
+      const index = store.index('schemaVersion');
+      const range = IDBKeyRange.upperBound(maxVersion, true);
+
+      const request = index.openCursor(range);
+      let count = 0;
+
+      request.onsuccess = event => {
+        const cursor = event.target.result;
+
+        if (cursor) {
+          count += 1;
+          messages.push(cursor.value);
+
+          if (count >= limit) {
+            return;
+          }
+
+          cursor.continue();
+        }
+      };
+      request.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'getLegacyMessagesNeedingUpgrade request error',
+          request.error,
+          reject
+        );
+      };
+    });
+  } finally {
+    db.close();
+  }
 }
 
 async function getMessagesNeedingUpgrade(

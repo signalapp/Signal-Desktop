@@ -1,14 +1,15 @@
-/* global Backbone: false */
-/* global $: false */
-
-/* global dcodeIO: false */
-/* global ConversationController: false */
-/* global getAccountManager: false */
-/* global Signal: false */
-/* global storage: false */
-/* global textsecure: false */
-/* global Whisper: false */
-/* global _: false */
+/* global
+  $,
+  _,
+  Backbone,
+  ConversationController,
+  getAccountManager,
+  Signal,
+  storage,
+  textsecure,
+  WebAPI
+  Whisper,
+*/
 
 // eslint-disable-next-line func-names
 (async function() {
@@ -124,14 +125,19 @@
   window.setImmediate = window.nodeSetImmediate;
 
   const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
+  const {
+    mandatoryMessageUpgrade,
+    migrateAllToSQLCipher,
+    removeDatabase,
+    runMigrations,
+    doesDatabaseExist,
+  } = Signal.IndexedDB;
   const { Errors, Message } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     writeNewAttachmentData,
     deleteAttachmentData,
-    getCurrentVersion,
   } = window.Signal.Migrations;
-  const { Migrations0DatabaseWithAttachmentData } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
   // Implicitly used in `indexeddb-backbonejs-adapter`:
@@ -180,16 +186,13 @@
   };
 
   const cancelInitializationMessage = Views.Initialization.setMessage();
-  window.log.info('Start IndexedDB migrations');
 
-  window.log.info('Run migrations on database with attachment data');
-  await Migrations0DatabaseWithAttachmentData.run({
-    Backbone,
-    logger: window.log,
-  });
-
-  const latestDBVersion2 = await getCurrentVersion();
-  Whisper.Database.migrations[0].version = latestDBVersion2;
+  const isIndexedDBPresent = await doesDatabaseExist();
+  if (isIndexedDBPresent) {
+    window.installStorage(window.legacyStorage);
+    window.log.info('Start IndexedDB migrations');
+    await runMigrations();
+  }
 
   window.log.info('Storage fetch');
   storage.fetch();
@@ -290,101 +293,15 @@
       );
     }
 
-    const MINIMUM_VERSION = 7;
-    async function upgradeMessages() {
-      const NUM_MESSAGES_PER_BATCH = 10;
-      window.log.info(
-        'upgradeMessages: Mandatory message schema upgrade started.',
-        `Target version: ${MINIMUM_VERSION}`
-      );
+    if (isIndexedDBPresent) {
+      await mandatoryMessageUpgrade({ upgradeMessageSchema });
+      await migrateAllToSQLCipher({ writeNewAttachmentData, Views });
+      await removeDatabase();
+      await window.Signal.Data.removeIndexedDBFiles();
 
-      let isMigrationWithoutIndexComplete = false;
-      while (!isMigrationWithoutIndexComplete) {
-        const database = Migrations0DatabaseWithAttachmentData.getDatabase();
-        // eslint-disable-next-line no-await-in-loop
-        const batchWithoutIndex = await MessageDataMigrator.processNextBatchWithoutIndex(
-          {
-            databaseName: database.name,
-            minDatabaseVersion: database.version,
-            numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-            upgradeMessageSchema,
-            maxVersion: MINIMUM_VERSION,
-            BackboneMessage: Whisper.Message,
-            saveMessage: window.Signal.Data.saveLegacyMessage,
-          }
-        );
-        window.log.info(
-          'upgradeMessages: upgrade without index',
-          batchWithoutIndex
-        );
-        isMigrationWithoutIndexComplete = batchWithoutIndex.done;
-      }
-      window.log.info('upgradeMessages: upgrade without index complete!');
-
-      let isMigrationWithIndexComplete = false;
-      while (!isMigrationWithIndexComplete) {
-        // eslint-disable-next-line no-await-in-loop
-        const batchWithIndex = await MessageDataMigrator.processNext({
-          BackboneMessage: Whisper.Message,
-          BackboneMessageCollection: Whisper.MessageCollection,
-          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-          upgradeMessageSchema,
-          getMessagesNeedingUpgrade:
-            window.Signal.Data.getLegacyMessagesNeedingUpgrade,
-          saveMessage: window.Signal.Data.saveLegacyMessage,
-          maxVersion: MINIMUM_VERSION,
-        });
-        window.log.info('upgradeMessages: upgrade with index', batchWithIndex);
-        isMigrationWithIndexComplete = batchWithIndex.done;
-      }
-      window.log.info('upgradeMessages: upgrade with index complete!');
-
-      window.log.info('upgradeMessages: Message schema upgrade complete');
+      window.installStorage(window.newStorage);
+      await window.storage.fetch();
     }
-
-    await upgradeMessages();
-
-    const db = await Whisper.Database.open();
-    let totalMessages;
-    try {
-      totalMessages = await MessageDataMigrator.getNumMessages({
-        connection: db,
-      });
-    } catch (error) {
-      window.log.error(
-        'background.getNumMessages error:',
-        error && error.stack ? error.stack : error
-      );
-      totalMessages = 0;
-    }
-
-    function showMigrationStatus(current) {
-      const status = `${current}/${totalMessages}`;
-      Views.Initialization.setMessage(
-        window.i18n('migratingToSQLCipher', [status])
-      );
-    }
-
-    if (totalMessages) {
-      window.log.info(`About to migrate ${totalMessages} messages`);
-      showMigrationStatus(0);
-    } else {
-      window.log.info('About to migrate non-messages');
-    }
-
-    await window.Signal.migrateToSQL({
-      db,
-      clearStores: Whisper.Database.clearStores,
-      handleDOMException: Whisper.Database.handleDOMException,
-      arrayBufferToString: textsecure.MessageReceiver.arrayBufferToStringBase64,
-      countCallback: count => {
-        window.log.info(`Migration: ${count} messages complete`);
-        showMigrationStatus(count);
-      },
-      writeNewAttachmentData,
-    });
-
-    db.close();
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
 
@@ -533,7 +450,16 @@
     window.log.info('listening for registration events');
     Whisper.events.on('registration_done', () => {
       window.log.info('handling registration event');
+
+      // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
+      window.Signal.RefreshSenderCertificate.initialize({
+        events: Whisper.events,
+        storage,
+        navigator,
+        logger: window.log,
+      });
+
       connect(true);
     });
 
@@ -550,7 +476,15 @@
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
     } else if (Whisper.Registration.everDone()) {
+      // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
+      window.Signal.RefreshSenderCertificate.initialize({
+        events: Whisper.events,
+        storage,
+        navigator,
+        logger: window.log,
+      });
+
       connect();
       appView.openInbox({
         initialLoadComplete,
@@ -714,6 +648,7 @@
     connectCount += 1;
     const options = {
       retryCached: connectCount === 1,
+      serverTrustRoot: window.getServerTrustRoot(),
     };
 
     Whisper.Notifications.disable(); // avoid notification flood until empty
@@ -748,6 +683,7 @@
     //   (but only if we're not the primary device)
     if (
       !firstRun &&
+      connectCount === 1 &&
       newVersion &&
       // eslint-disable-next-line eqeqeq
       textsecure.storage.user.getDeviceId() != '1'
@@ -755,14 +691,33 @@
       window.getSyncRequest();
     }
 
+    const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
+    if (!storage.get(udSupportKey)) {
+      const server = WebAPI.connect({ username: USERNAME, password: PASSWORD });
+      try {
+        await server.registerSupportForUnauthenticatedDelivery();
+        storage.put(udSupportKey, true);
+      } catch (error) {
+        window.log.error(
+          'Error: Unable to register for unauthenticated delivery support.',
+          error && error.stack ? error.stack : error
+        );
+      }
+    }
+
     const deviceId = textsecure.storage.user.getDeviceId();
+    const ourNumber = textsecure.storage.user.getNumber();
     const { sendRequestConfigurationSyncMessage } = textsecure.messaging;
     const status = await Signal.Startup.syncReadReceiptConfiguration({
+      ourNumber,
       deviceId,
       sendRequestConfigurationSyncMessage,
       storage,
+      prepareForSend: ConversationController.prepareForSend.bind(
+        ConversationController
+      ),
     });
-    window.log.info('Sync read receipt configuration status:', status);
+    window.log.info('Sync configuration status:', status);
 
     if (firstRun === true && deviceId !== '1') {
       const hasThemeSetting = Boolean(storage.get('theme-setting'));
@@ -786,14 +741,18 @@
       });
 
       if (Whisper.Import.isComplete()) {
-        textsecure.messaging
-          .sendRequestConfigurationSyncMessage()
-          .catch(error => {
-            window.log.error(
-              'Import complete, but failed to send sync message',
-              error && error.stack ? error.stack : error
-            );
-          });
+        const { wrap, sendOptions } = ConversationController.prepareForSend(
+          textsecure.storage.user.getNumber(),
+          { syncMessage: true }
+        );
+        wrap(
+          textsecure.messaging.sendRequestConfigurationSyncMessage(sendOptions)
+        ).catch(error => {
+          window.log.error(
+            'Import complete, but failed to send sync message',
+            error && error.stack ? error.stack : error
+          );
+        });
       }
     }
 
@@ -831,6 +790,7 @@
   }
   function onProgress(ev) {
     const { count } = ev;
+    window.log.info(`onProgress: Message count is ${count}`);
 
     const view = window.owsDesktopApp.appView;
     if (view) {
@@ -838,7 +798,20 @@
     }
   }
   function onConfiguration(ev) {
-    storage.put('read-receipt-setting', ev.configuration.readReceipts);
+    const { configuration } = ev;
+
+    storage.put('read-receipt-setting', configuration.readReceipts);
+
+    const { unidentifiedDeliveryIndicators } = configuration;
+    if (
+      unidentifiedDeliveryIndicators === true ||
+      unidentifiedDeliveryIndicators === false
+    ) {
+      storage.put(
+        'unidentifiedDeliveryIndicators',
+        unidentifiedDeliveryIndicators
+      );
+    }
     ev.confirm();
   }
 
@@ -881,10 +854,10 @@
       }
 
       if (details.profileKey) {
-        const profileKey = dcodeIO.ByteBuffer.wrap(details.profileKey).toString(
-          'base64'
+        const profileKey = window.Signal.Crypto.arrayBufferToBase64(
+          details.profileKey
         );
-        conversation.set({ profileKey });
+        conversation.setProfileKey(profileKey);
       }
 
       if (typeof details.blocked !== 'undefined') {
@@ -1052,7 +1025,7 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
-      const message = createMessage(data);
+      const message = await createMessage(data);
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
         window.log.warn('Received duplicate message', message.idForLogging());
@@ -1172,9 +1145,11 @@
 
   // Sent:
   async function handleMessageSentProfileUpdate({
+    data,
     confirm,
     messageDescriptor,
   }) {
+    // First set profileSharing = true for the conversation we sent to
     const { id, type } = messageDescriptor;
     const conversation = await ConversationController.getOrCreateAndWait(
       id,
@@ -1186,20 +1161,40 @@
       Conversation: Whisper.Conversation,
     });
 
+    // Then we update our own profileKey if it's different from what we have
+    const ourNumber = textsecure.storage.user.getNumber();
+    const profileKey = data.message.profileKey.toString('base64');
+    const me = await ConversationController.getOrCreate(ourNumber, 'private');
+
+    // Will do the save for us if needed
+    await me.setProfileKey(profileKey);
+
     return confirm();
   }
 
   function createSentMessage(data) {
     const now = Date.now();
+    let sentTo = [];
+
+    if (data.unidentifiedStatus && data.unidentifiedStatus.length) {
+      sentTo = data.unidentifiedStatus.map(item => item.destination);
+      const unidentified = _.filter(data.unidentifiedStatus, item =>
+        Boolean(item.unidentified)
+      );
+      // eslint-disable-next-line no-param-reassign
+      data.unidentifiedDeliveries = unidentified.map(item => item.destination);
+    }
 
     return new Whisper.Message({
       source: textsecure.storage.user.getNumber(),
       sourceDevice: data.device,
       sent_at: data.timestamp,
+      sent_to: sentTo,
       received_at: now,
       conversationId: data.destination,
       type: 'outgoing',
       sent: true,
+      unidentifiedDeliveries: data.unidentifiedDeliveries || [],
       expirationStartTimestamp: Math.min(
         data.expirationStartTimestamp || data.timestamp || Date.now(),
         Date.now()
@@ -1227,16 +1222,45 @@
     }
   }
 
-  function initIncomingMessage(data) {
+  async function initIncomingMessage(data, options = {}) {
+    const { isError } = options;
+
     const message = new Whisper.Message({
       source: data.source,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
       received_at: data.receivedAt || Date.now(),
       conversationId: data.source,
+      unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
     });
+
+    // If we don't return early here, we can get into infinite error loops. So, no
+    //   delivery receipts for sealed sender errors.
+    if (isError || !data.unidentifiedDeliveryReceived) {
+      return message;
+    }
+
+    try {
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        data.source
+      );
+      await wrap(
+        textsecure.messaging.sendDeliveryReceipt(
+          data.source,
+          data.timestamp,
+          sendOptions
+        )
+      );
+    } catch (error) {
+      window.log.error(
+        `Failed to send delivery receipt to ${data.source} for message ${
+          data.timestamp
+        }:`,
+        error && error.stack ? error.stack : error
+      );
+    }
 
     return message;
   }
@@ -1322,7 +1346,7 @@
         return;
       }
       const envelope = ev.proto;
-      const message = initIncomingMessage(envelope);
+      const message = await initIncomingMessage(envelope, { isError: true });
 
       await message.saveErrors(error || new Error('Error was null'));
       const id = message.get('conversationId');
