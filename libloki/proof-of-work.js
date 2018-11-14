@@ -1,6 +1,6 @@
 const hash = require('js-sha512');
 const bb = require('bytebuffer');
-const BigInteger = require('jsbn').BigInteger;
+const { BigInteger } = require('jsbn');
 
 const NONCE_LEN = 8;
 // Modify this value for difficulty scaling

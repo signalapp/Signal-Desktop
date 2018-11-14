@@ -36,15 +36,20 @@ function getPoWNonce(timestamp, ttl, pubKey, data) {
 
 class LokiServer {
 
-  constructor({ url }) {
-    if (!is.string(url)) {
-      throw new Error('WebAPI.initialize: Invalid server url');
-    }
-    this.url = url;
+  constructor({ urls }) {
+    this.nodes = [];
+    urls.forEach(url => {
+      if (!is.string(url)) {
+        throw new Error('WebAPI.initialize: Invalid server url');
+      }
+      this.nodes.push({ url });
+    });
   }
 
   async sendMessage(pubKey, data, ttl) {
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
+    // Hardcoded to use a single node/server for now
+    const currentNode = this.nodes[0];
 
     const timestamp = Math.floor(Date.now() / 1000);
     // Nonce is returned as a base64 string to include in header
@@ -58,7 +63,7 @@ class LokiServer {
     }
 
     const options = {
-      url: `${this.url}/store`,
+      url: `${currentNode.url}/store`,
       type: 'POST',
       responseType: undefined,
       timeout: undefined,
@@ -107,8 +112,11 @@ class LokiServer {
   }
 
   async retrieveMessages(pubKey) {
+    // Hardcoded to use a single node/server for now
+    const currentNode = this.nodes[0];
+
     const options = {
-      url: `${this.url}/retrieve`,
+      url: `${currentNode.url}/retrieve`,
       type: 'GET',
       responseType: 'json',
       timeout: undefined,
@@ -116,11 +124,17 @@ class LokiServer {
 
     log.info(options.type, options.url);
 
+    const headers = {
+      'X-Loki-recipient': pubKey,
+    };
+
+    if (currentNode.lastHash) {
+      headers['X-Loki-last-hash'] = currentNode.lastHash;
+    }
+
     const fetchOptions = {
       method: options.type,
-      headers: {
-        'X-Loki-recipient': pubKey,
-      },
+      headers,
       timeout: options.timeout,
     };
 
@@ -146,6 +160,9 @@ class LokiServer {
 
     if (response.status >= 0 && response.status < 400) {
       log.info(options.type, options.url, response.status, 'Success');
+      if (result.lastHash) {
+        currentNode.lastHash = result.lastHash;
+      }
       return result;
     }
     log.error(options.type, options.url, response.status, 'Error');
