@@ -34,6 +34,11 @@ import png from '../../fixtures/freepngs-2cd43b_bed7d1327e88454487397574d87b64dc
 const pngObjectUrl = makeObjectUrl(png, 'image/png');
 
 // @ts-ignore
+import landscape from '../../fixtures/koushik-chowdavarapu-105425-unsplash.jpg';
+// 800×1200
+const landscapeObjectUrl = makeObjectUrl(landscape, 'image/png');
+
+// @ts-ignore
 import landscapeGreen from '../../fixtures/1000x50-green.jpeg';
 const landscapeGreenObjectUrl = makeObjectUrl(landscapeGreen, 'image/jpeg');
 // @ts-ignore
@@ -68,6 +73,8 @@ export {
   pngObjectUrl,
   txt,
   txtObjectUrl,
+  landscape,
+  landscapeObjectUrl,
   landscapeGreen,
   landscapeGreenObjectUrl,
   landscapePurple,

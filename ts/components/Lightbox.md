@@ -1,4 +1,4 @@
-## Image (supported format)
+## Image
 
 ```js
 const noop = () => {};
@@ -6,6 +6,22 @@ const noop = () => {};
 <div style={{ position: 'relative', width: '100%', height: 500 }}>
   <Lightbox
     objectURL="https://placekitten.com/800/600"
+    contentType="image/jpeg"
+    onSave={noop}
+    i18n={util.i18n}
+  />
+</div>;
+```
+
+## Image with caption
+
+```js
+const noop = () => {};
+
+<div style={{ position: 'relative', width: '100%', height: 500 }}>
+  <Lightbox
+    objectURL="https://placekitten.com/800/600"
+    caption="This is the user-provided caption. We show it overlaid on the image. If it's really long, then it wraps, but it doesn't get too close to the edges of the image."
     contentType="image/jpeg"
     onSave={noop}
     i18n={util.i18n}

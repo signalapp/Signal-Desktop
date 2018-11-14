@@ -664,7 +664,7 @@
           MessageCollection: Whisper.MessageCollection,
         }
       );
-      const documents = await Signal.Data.getMessagesWithFileAttachments(
+      const rawDocuments = await Signal.Data.getMessagesWithFileAttachments(
         conversationId,
         {
           limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
@@ -688,24 +688,39 @@
         }
       }
 
-      const media = rawMedia.map(mediaMessage => {
-        const { attachments } = mediaMessage;
-        const first = attachments && attachments[0];
-        const { thumbnail } = first;
+      const media = _.flatten(
+        rawMedia.map(message => {
+          const { attachments } = message;
+          return (attachments || []).map((attachment, index) => {
+            const { thumbnail } = attachment;
 
+            return {
+              objectURL: getAbsoluteAttachmentPath(attachment.path),
+              thumbnailObjectUrl: thumbnail
+                ? getAbsoluteAttachmentPath(thumbnail.path)
+                : null,
+              contentType: attachment.contentType,
+              index,
+              attachment,
+              message,
+            };
+          });
+        })
+      );
+
+      // Unlike visual media, only one non-image attachment is supported
+      const documents = rawDocuments.map(message => {
+        const attachments = message.attachments || [];
+        const attachment = attachments[0];
         return {
-          ...mediaMessage,
-          thumbnailObjectUrl: thumbnail
-            ? getAbsoluteAttachmentPath(thumbnail.path)
-            : null,
-          objectURL: getAbsoluteAttachmentPath(
-            mediaMessage.attachments[0].path
-          ),
+          contentType: attachment.contentType,
+          index: 0,
+          attachment,
+          message,
         };
       });
 
-      const saveAttachment = async ({ message } = {}) => {
-        const attachment = message.attachments[0];
+      const saveAttachment = async ({ attachment, message } = {}) => {
         const timestamp = message.received_at;
         Signal.Types.Attachment.save({
           attachment,
@@ -715,22 +730,22 @@
         });
       };
 
-      const onItemClick = async ({ message, type }) => {
+      const onItemClick = async ({ message, attachment, type }) => {
         switch (type) {
           case 'documents': {
-            saveAttachment({ message });
+            saveAttachment({ message, attachment });
             break;
           }
 
           case 'media': {
             const selectedIndex = media.findIndex(
-              mediaMessage => mediaMessage.id === message.id
+              mediaMessage => mediaMessage.attachment.path === attachment.path
             );
             this.lightboxGalleryView = new Whisper.ReactWrapperView({
               className: 'lightbox-wrapper',
               Component: Signal.Components.LightboxGallery,
               props: {
-                messages: media,
+                media,
                 onSave: saveAttachment,
                 selectedIndex,
               },
@@ -1103,18 +1118,56 @@
         return;
       }
 
-      const props = {
-        objectURL: getAbsoluteAttachmentPath(path),
-        contentType,
-        onSave: () => this.downloadAttachment({ attachment, message }),
+      const attachments = message.get('attachments') || [];
+      if (attachments.length === 1) {
+        const props = {
+          objectURL: getAbsoluteAttachmentPath(path),
+          contentType,
+          onSave: () => this.downloadAttachment({ attachment, message }),
+        };
+        this.lightboxView = new Whisper.ReactWrapperView({
+          className: 'lightbox-wrapper',
+          Component: Signal.Components.Lightbox,
+          props,
+          onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+        });
+        Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+        return;
+      }
+
+      const selectedIndex = _.findIndex(
+        attachments,
+        item => attachment.path === item.path
+      );
+      const media = attachments.map((item, index) => ({
+        objectURL: getAbsoluteAttachmentPath(item.path),
+        contentType: item.contentType,
+        index,
+        message,
+        attachment: item,
+      }));
+
+      const onSave = async (options = {}) => {
+        Signal.Types.Attachment.save({
+          attachment: options.attachment,
+          document,
+          getAbsolutePath: getAbsoluteAttachmentPath,
+          timestamp: options.message.received_at,
+        });
       };
-      this.lightboxView = new Whisper.ReactWrapperView({
+
+      const props = {
+        media,
+        selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
+        onSave,
+      };
+      this.lightboxGalleryView = new Whisper.ReactWrapperView({
         className: 'lightbox-wrapper',
-        Component: Signal.Components.Lightbox,
+        Component: Signal.Components.LightboxGallery,
         props,
         onClose: () => Signal.Backbone.Views.Lightbox.hide(),
       });
-      Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+      Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
     showMessageDetail(message) {

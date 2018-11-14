@@ -1292,7 +1292,15 @@ MessageReceiver.prototype.extend({
       );
     }
 
-    for (let i = 0, max = decrypted.attachments.length; i < max; i += 1) {
+    const attachmentCount = decrypted.attachments.length;
+    const ATTACHMENT_MAX = 32;
+    if (attachmentCount > ATTACHMENT_MAX) {
+      throw new Error(
+        `Too many attachments: ${attachmentCount} included in one message, max is ${ATTACHMENT_MAX}`
+      );
+    }
+
+    for (let i = 0; i < attachmentCount; i += 1) {
       const attachment = decrypted.attachments[i];
       promises.push(this.handleAttachment(attachment));
     }

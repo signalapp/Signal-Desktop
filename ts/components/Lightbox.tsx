@@ -28,6 +28,7 @@ interface Props {
   contentType: MIME.MIMEType | undefined;
   i18n: Localizer;
   objectURL: string;
+  caption?: string;
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
@@ -57,6 +58,7 @@ const styles = {
     paddingBottom: 0,
   } as React.CSSProperties,
   objectContainer: {
+    position: 'relative',
     flexGrow: 1,
     display: 'inline-flex',
     justifyContent: 'center',
@@ -67,6 +69,18 @@ const styles = {
     maxWidth: '100%',
     maxHeight: '100%',
     objectFit: 'contain',
+  } as React.CSSProperties,
+  caption: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    color: 'white',
+    padding: '1em',
+    paddingLeft: '3em',
+    paddingRight: '3em',
+    backgroundColor: 'rgba(192, 192, 192, .20)',
   } as React.CSSProperties,
   controlsOffsetPlaceholder: {
     width: CONTROLS_WIDTH,
@@ -194,6 +208,7 @@ export class Lightbox extends React.Component<Props> {
 
   public render() {
     const {
+      caption,
       contentType,
       objectURL,
       onNext,
@@ -215,6 +230,7 @@ export class Lightbox extends React.Component<Props> {
             {!is.undefined(contentType)
               ? this.renderObject({ objectURL, contentType, i18n })
               : null}
+            {caption ? <div style={styles.caption}>{caption}</div> : null}
           </div>
           <div style={styles.controls}>
             <IconButton type="close" onClick={this.onClose} />

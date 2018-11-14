@@ -11,7 +11,7 @@ import { Color, Localizer } from '../../types/Util';
 import { ContactName } from './ContactName';
 
 interface Props {
-  attachment?: QuotedAttachment;
+  attachment?: QuotedAttachmentType;
   authorPhoneNumber: string;
   authorProfileName?: string;
   authorName?: string;
@@ -26,7 +26,7 @@ interface Props {
   referencedMessageNotFound: boolean;
 }
 
-export interface QuotedAttachment {
+export interface QuotedAttachmentType {
   contentType: MIME.MIMEType;
   fileName: string;
   /** Not included in protobuf */
