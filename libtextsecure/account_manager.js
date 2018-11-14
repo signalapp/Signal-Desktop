@@ -317,7 +317,7 @@
           identityKeyPair.pubKey
         );
 
-      return Promise.resolve().then(() => {
+      return Promise.resolve().then(async () => {
           await Promise.all([
             textsecure.storage.remove('identityKey'),
             textsecure.storage.remove('signaling_key'),
@@ -352,7 +352,7 @@
             'read-receipt-setting',
             Boolean(readReceipts)
           );
-          
+
           await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
         });
     },
