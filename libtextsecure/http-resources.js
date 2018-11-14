@@ -58,14 +58,14 @@
         connected = true;
       } catch(err) {
         connected = false;
-        setTimeout(() => { pollServer(); }, 5000);
+        setTimeout(() => { pollServer(callBack); }, 5000);
         return;
       }
       if (typeof callBack === 'function') {
         callBack(connected);
       }
       if (!result.messages) {
-        setTimeout(() => { pollServer(); }, 5000);
+        setTimeout(() => { pollServer(callBack); }, 5000);
         return;
       }
       result.messages.forEach(async message => {
@@ -83,7 +83,7 @@
           );
         }
       });
-      setTimeout(() => { pollServer(); }, 5000);
+      setTimeout(() => { pollServer(callBack); }, 5000);
     };
 
     this.isConnected = function isConnected() {
