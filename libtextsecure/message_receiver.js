@@ -991,43 +991,37 @@ MessageReceiver.prototype.extend({
           content.dataMessage.body,
           content.preKeyBundleMessage,
         );
+      } else {
+        const keyExchangeComplete = conversation.isKeyExchangeCompleted();
+
+        // Check here if we received preKeys from the other user
+        // We are certain that other user accepted the friend request IF:
+        // - The message has a preKeyBundleMessage
+        // - We have an outgoing friend request that is pending
+        // The second check is crucial because it makes sure we don't save the preKeys of the incoming friend request (which is saved only when we press accept)
+        if (!keyExchangeComplete && content.preKeyBundleMessage) {
+          // Check for any outgoing friend requests
+          const pending = await conversation.getPendingFriendRequests('outgoing');
+          const successful = pending.filter(p => !p.hasErrors());
+
+          // Save the key only if we have an outgoing friend request
+          const savePreKey = (successful.length > 0);
+
+          // Save the pre key
+          if (savePreKey) {
+            await this.handlePreKeyBundleMessage(
+              envelope.source,
+              this.decodePreKeyBundleMessage(content.preKeyBundleMessage),
+            );
+
+            // Update the conversation
+            await conversation.onFriendRequestAccepted();
+          }
+        }
       }
 
       // Exit early since the friend request reply will be a regular empty message
       return;
-    }
-
-    // Check if our friend request got accepted
-    if (content.preKeyBundleMessage) {
-      // By default we don't want to save the preKey
-      let savePreKey = false;
-
-      // The conversation
-      let conversation = null;
-
-      try {
-        conversation = ConversationController.get(envelope.source);
-
-        // We only want to save the preKey if we have a outgoing friend request which is pending
-        const pending = await conversation.getPendingFriendRequests('outgoing');
-        const successful = pending.filter(p => !p.hasErrors());
-
-        // Save the key only if we have an outgoing friend request
-        savePreKey = (successful.length > 0);
-      } catch (e) {}
-      
-      // Save the pre key if we have a conversation
-      if (savePreKey && conversation) {
-        await this.handlePreKeyBundleMessage(
-          envelope.source,
-          this.decodePreKeyBundleMessage(content.preKeyBundleMessage),
-        );
-
-        // Update the conversation
-        await conversation.onFriendRequestAccepted();
-
-        return;
-      }
     }
 
     if (content.syncMessage) {
