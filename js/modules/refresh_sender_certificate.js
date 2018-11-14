@@ -29,11 +29,7 @@ function initialize({ events, storage, navigator, logger }) {
 
   runWhenOnline();
 
-  events.on('timetravel', () => {
-    if (initialized) {
-      scheduleNextRotation();
-    }
-  });
+  events.on('timetravel', scheduleNextRotation);
 
   function scheduleNextRotation() {
     const now = Date.now();
