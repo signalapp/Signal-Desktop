@@ -72,6 +72,7 @@
     "intl-tel-input": "^12.1.15",
     "jquery": "^3.3.1",
     "js-sha512": "^0.8.0",
+    "jsbn": "^1.1.0",
     "linkify-it": "^2.0.3",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",

@@ -23,7 +23,7 @@
   const ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
 
   function AccountManager(username, password) {
-    this.server = window.WebAPI.connect({ username, password });
+    // this.server = window.WebAPI.connect({ username, password });
     this.pending = Promise.resolve();
   }
 
@@ -44,10 +44,10 @@
   AccountManager.prototype.extend({
     constructor: AccountManager,
     requestVoiceVerification(number) {
-      return this.server.requestVerificationVoice(number);
+      // return this.server.requestVerificationVoice(number);
     },
     requestSMSVerification(number) {
-      return this.server.requestVerificationSMS(number);
+      // return this.server.requestVerificationSMS(number);
     },
     registerSingleDevice(mnemonic, mnemonicLanguage) {
       const createAccount = this.createAccount.bind(this);
@@ -140,18 +140,18 @@
       throw new Error('account_manager: registerSecondDevice has not been implemented!');
     },
     refreshPreKeys() {
-      const generateKeys = this.generateKeys.bind(this, 0);
-      const registerKeys = this.server.registerKeys.bind(this.server);
+      // const generateKeys = this.generateKeys.bind(this, 0);
+      // const registerKeys = this.server.registerKeys.bind(this.server);
 
-      return this.queueTask(() =>
-        this.server.getMyKeys().then(preKeyCount => {
-          window.log.info(`prekey count ${preKeyCount}`);
-          if (preKeyCount < 10) {
-            return generateKeys().then(registerKeys);
-          }
-          return null;
-        })
-      );
+      // return this.queueTask(() =>
+      //   this.server.getMyKeys().then(preKeyCount => {
+      //     window.log.info(`prekey count ${preKeyCount}`);
+      //     if (preKeyCount < 10) {
+      //       return generateKeys().then(registerKeys);
+      //     }
+      //     return null;
+      //   })
+      // );
     },
     rotateSignedPreKey() {
       return this.queueTask(() => {

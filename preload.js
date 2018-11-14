@@ -204,7 +204,7 @@ window.WebAPI = initializeWebAPI({
 const { LokiServer } = require('./js/modules/loki_message_api');
 
 window.LokiAPI = new LokiServer({
-  url: config.serverUrl,
+  urls: [config.serverUrl],
 });
 
 window.mnemonic = require('./libloki/mnemonic');
