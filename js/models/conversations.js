@@ -1,6 +1,5 @@
 /* global _: false */
 /* global Backbone: false */
-/* global dcodeIO: false */
 /* global libphonenumber: false */
 
 /* global ConversationController: false */
@@ -16,6 +15,13 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
+
+  const SEALED_SENDER = {
+    UNKNOWN: 0,
+    ENABLED: 1,
+    DISABLED: 2,
+    UNRESTRICTED: 3,
+  };
 
   const { Util } = window.Signal;
   const {
@@ -33,8 +39,6 @@
     deleteAttachmentData,
   } = window.Signal.Migrations;
 
-  // TODO: Factor out private and group subclasses of Conversation
-
   const COLORS = [
     'red',
     'deep_orange',
@@ -50,7 +54,6 @@
   ];
 
   Whisper.Conversation = Backbone.Model.extend({
-    database: Whisper.Database,
     storeName: 'conversations',
     defaults() {
       return {
@@ -117,6 +120,17 @@
       this.on('read', this.updateAndMerge);
       this.on('expiration-change', this.updateAndMerge);
       this.on('expired', this.onExpired);
+
+      const sealedSender = this.get('sealedSender');
+      if (sealedSender === undefined) {
+        this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
+      }
+      this.unset('unidentifiedDelivery');
+      this.unset('unidentifiedDeliveryUnrestricted');
+      this.unset('hasFetchedProfile');
+      this.unset('tokens');
+      this.unset('lastMessage');
+      this.unset('lastMessageStatus');
     },
 
     isMe() {
@@ -324,9 +338,21 @@
       }
     },
     sendVerifySyncMessage(number, state) {
+      // Because syncVerification sends a (null) message to the target of the verify and
+      //   a sync message to our own devices, we need to send the accessKeys down for both
+      //   contacts. So we merge their sendOptions.
+      const { sendOptions } = ConversationController.prepareForSend(
+        this.ourNumber,
+        { syncMessage: true }
+      );
+      const contactSendOptions = this.getSendOptions();
+      const options = Object.assign({}, sendOptions, contactSendOptions);
+
       const promise = textsecure.storage.protocol.loadIdentityKey(number);
       return promise.then(key =>
-        textsecure.messaging.syncVerification(number, state, key)
+        this.wrapSend(
+          textsecure.messaging.syncVerification(number, state, key, options)
+        )
       );
     },
     isVerified() {
@@ -754,18 +780,173 @@
           messageWithSchema.attachments.map(loadAttachmentData)
         );
 
+        const options = this.getSendOptions();
         return message.send(
-          sendFunction(
-            destination,
-            body,
-            attachmentsWithData,
-            quote,
-            now,
-            expireTimer,
-            profileKey
+          this.wrapSend(
+            sendFunction(
+              destination,
+              body,
+              attachmentsWithData,
+              quote,
+              now,
+              expireTimer,
+              profileKey,
+              options
+            )
           )
         );
       });
+    },
+
+    wrapSend(promise) {
+      return promise.then(
+        async result => {
+          // success
+          if (result) {
+            await this.handleMessageSendResult(
+              result.failoverNumbers,
+              result.unidentifiedDeliveries
+            );
+          }
+          return result;
+        },
+        async result => {
+          // failure
+          if (result) {
+            await this.handleMessageSendResult(
+              result.failoverNumbers,
+              result.unidentifiedDeliveries
+            );
+          }
+          throw result;
+        }
+      );
+    },
+
+    async handleMessageSendResult(failoverNumbers, unidentifiedDeliveries) {
+      await Promise.all(
+        (failoverNumbers || []).map(async number => {
+          const conversation = ConversationController.get(number);
+
+          if (
+            conversation &&
+            conversation.get('sealedSender') !== SEALED_SENDER.DISABLED
+          ) {
+            window.log.info(
+              `Setting sealedSender to DISABLED for conversation ${conversation.idForLogging()}`
+            );
+            conversation.set({
+              sealedSender: SEALED_SENDER.DISABLED,
+            });
+            await window.Signal.Data.updateConversation(
+              conversation.id,
+              conversation.attributes,
+              { Conversation: Whisper.Conversation }
+            );
+          }
+        })
+      );
+
+      await Promise.all(
+        (unidentifiedDeliveries || []).map(async number => {
+          const conversation = ConversationController.get(number);
+
+          if (
+            conversation &&
+            conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN
+          ) {
+            if (conversation.get('accessKey')) {
+              window.log.info(
+                `Setting sealedSender to ENABLED for conversation ${conversation.idForLogging()}`
+              );
+              conversation.set({
+                sealedSender: SEALED_SENDER.ENABLED,
+              });
+            } else {
+              window.log.info(
+                `Setting sealedSender to UNRESTRICTED for conversation ${conversation.idForLogging()}`
+              );
+              conversation.set({
+                sealedSender: SEALED_SENDER.UNRESTRICTED,
+              });
+            }
+            await window.Signal.Data.updateConversation(
+              conversation.id,
+              conversation.attributes,
+              { Conversation: Whisper.Conversation }
+            );
+          }
+        })
+      );
+    },
+
+    getSendOptions(options = {}) {
+      const senderCertificate = storage.get('senderCertificate');
+      const numberInfo = this.getNumberInfo(options);
+
+      return {
+        senderCertificate,
+        numberInfo,
+      };
+    },
+
+    getNumberInfo(options = {}) {
+      const { syncMessage, disableMeCheck } = options;
+
+      // START: this code has an Expiration date of ~2018/11/21
+      // We don't want to enable unidentified delivery for send unless it is
+      //   also enabled for our own account.
+      const me = ConversationController.getOrCreate(this.ourNumber, 'private');
+      if (
+        !disableMeCheck &&
+        me.get('sealedSender') === SEALED_SENDER.DISABLED
+      ) {
+        return null;
+      }
+      // END
+
+      if (!this.isPrivate()) {
+        const infoArray = this.contactCollection.map(conversation =>
+          conversation.getNumberInfo(options)
+        );
+        return Object.assign({}, ...infoArray);
+      }
+
+      const accessKey = this.get('accessKey');
+      const sealedSender = this.get('sealedSender');
+
+      // We never send sync messages as sealed sender
+      if (syncMessage && this.id === this.ourNumber) {
+        return null;
+      }
+
+      // If we've never fetched user's profile, we default to what we have
+      if (sealedSender === SEALED_SENDER.UNKNOWN) {
+        return {
+          [this.id]: {
+            accessKey:
+              accessKey ||
+              window.Signal.Crypto.arrayBufferToBase64(
+                window.Signal.Crypto.getRandomBytes(16)
+              ),
+          },
+        };
+      }
+
+      if (sealedSender === SEALED_SENDER.DISABLED) {
+        return null;
+      }
+
+      return {
+        [this.id]: {
+          accessKey:
+            accessKey && sealedSender === SEALED_SENDER.ENABLED
+              ? accessKey
+              : window.Signal.Crypto.arrayBufferToBase64(
+                  window.Signal.Crypto.getRandomBytes(16)
+                ),
+        },
+      };
     },
 
     async updateLastMessage() {
@@ -797,8 +978,8 @@
 
       let hasChanged = false;
       const { lastMessage, lastMessageStatus } = lastMessageUpdate;
-      lastMessageUpdate.lastMessage = null;
-      lastMessageUpdate.lastMessageStatus = null;
+      delete lastMessageUpdate.lastMessage;
+      delete lastMessageUpdate.lastMessageStatus;
 
       hasChanged = hasChanged || lastMessage !== this.lastMessage;
       this.lastMessage = lastMessage;
@@ -901,20 +1082,23 @@
       if (this.get('profileSharing')) {
         profileKey = storage.get('profileKey');
       }
+
+      const sendOptions = this.getSendOptions();
       const promise = sendFunc(
         this.get('id'),
         this.get('expireTimer'),
         message.get('sent_at'),
-        profileKey
+        profileKey,
+        sendOptions
       );
 
-      await message.send(promise);
+      await message.send(this.wrapSend(promise));
 
       return message;
     },
 
     isSearchable() {
-      return !this.get('left') || !!this.get('lastMessage');
+      return !this.get('left');
     },
 
     async endSession() {
@@ -935,7 +1119,12 @@
         });
         message.set({ id });
 
-        message.send(textsecure.messaging.resetSession(this.id, now));
+        const options = this.getSendOptions();
+        message.send(
+          this.wrapSend(
+            textsecure.messaging.resetSession(this.id, now, options)
+          )
+        );
       }
     },
 
@@ -962,12 +1151,16 @@
       });
       message.set({ id });
 
+      const options = this.getSendOptions();
       message.send(
-        textsecure.messaging.updateGroup(
-          this.id,
-          this.get('name'),
-          this.get('avatar'),
-          this.get('members')
+        this.wrapSend(
+          textsecure.messaging.updateGroup(
+            this.id,
+            this.get('name'),
+            this.get('avatar'),
+            this.get('members'),
+            options
+          )
         )
       );
     },
@@ -993,7 +1186,10 @@
         });
         message.set({ id });
 
-        message.send(textsecure.messaging.leaveGroup(this.id));
+        const options = this.getSendOptions();
+        message.send(
+          this.wrapSend(textsecure.messaging.leaveGroup(this.id, options))
+        );
       }
     },
 
@@ -1054,14 +1250,30 @@
       read = read.filter(item => !item.hasErrors);
 
       if (read.length && options.sendReadReceipts) {
-        window.log.info('Sending', read.length, 'read receipts');
-        await textsecure.messaging.syncReadMessages(read);
+        window.log.info(`Sending ${read.length} read receipts`);
+        // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
+        //   to a contact, we need accessKeys for both.
+        const { sendOptions } = ConversationController.prepareForSend(
+          this.ourNumber,
+          { syncMessage: true }
+        );
+        await this.wrapSend(
+          textsecure.messaging.syncReadMessages(read, sendOptions)
+        );
 
         if (storage.get('read-receipt-setting')) {
+          const convoSendOptions = this.getSendOptions();
+
           await Promise.all(
             _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
               const timestamps = _.map(receipts, 'timestamp');
-              await textsecure.messaging.sendReadReceipts(sender, timestamps);
+              await this.wrapSend(
+                textsecure.messaging.sendReadReceipts(
+                  sender,
+                  timestamps,
+                  convoSendOptions
+                )
+              );
             })
           );
         }
@@ -1092,13 +1304,41 @@
         );
       }
 
-      try {
-        const profile = await textsecure.messaging.getProfile(id);
-        const identityKey = dcodeIO.ByteBuffer.wrap(
-          profile.identityKey,
-          'base64'
-        ).toArrayBuffer();
+      const c = await ConversationController.getOrCreateAndWait(id, 'private');
 
+      // Because we're no longer using Backbone-integrated saves, we need to manually
+      //   clear the changed fields here so our hasChanged() check is useful.
+      c.changed = {};
+
+      try {
+        await c.deriveAccessKeyIfNeeded();
+        const numberInfo = c.getNumberInfo({ disableMeCheck: true }) || {};
+        const getInfo = numberInfo[c.id] || {};
+
+        let profile;
+        if (getInfo.accessKey) {
+          try {
+            profile = await textsecure.messaging.getProfile(id, {
+              accessKey: getInfo.accessKey,
+            });
+          } catch (error) {
+            if (error.code === 401 || error.code === 403) {
+              window.log.info(
+                `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
+              );
+              c.set({ sealedSender: SEALED_SENDER.DISABLED });
+              profile = await textsecure.messaging.getProfile(id);
+            } else {
+              throw error;
+            }
+          }
+        } else {
+          profile = await textsecure.messaging.getProfile(id);
+        }
+
+        const identityKey = window.Signal.Crypto.base64ToArrayBuffer(
+          profile.identityKey
+        );
         const changed = await textsecure.storage.protocol.saveIdentity(
           `${id}.1`,
           identityKey,
@@ -1116,49 +1356,77 @@
           await sessionCipher.closeOpenSessionForDevice();
         }
 
-        try {
-          const c = ConversationController.get(id);
+        const accessKey = c.get('accessKey');
+        if (
+          profile.unrestrictedUnidentifiedAccess &&
+          profile.unidentifiedAccess
+        ) {
+          window.log.info(
+            `Setting sealedSender to UNRESTRICTED for conversation ${c.idForLogging()}`
+          );
+          c.set({
+            sealedSender: SEALED_SENDER.UNRESTRICTED,
+          });
+        } else if (accessKey && profile.unidentifiedAccess) {
+          const haveCorrectKey = await window.Signal.Crypto.verifyAccessKey(
+            window.Signal.Crypto.base64ToArrayBuffer(accessKey),
+            window.Signal.Crypto.base64ToArrayBuffer(profile.unidentifiedAccess)
+          );
 
-          // Because we're no longer using Backbone-integrated saves, we need to manually
-          //   clear the changed fields here so our hasChanged() check is useful.
-          c.changed = {};
-          await c.setProfileName(profile.name);
-          await c.setProfileAvatar(profile.avatar);
-
-          if (c.hasChanged()) {
-            await window.Signal.Data.updateConversation(id, c.attributes, {
-              Conversation: Whisper.Conversation,
+          if (haveCorrectKey) {
+            window.log.info(
+              `Setting sealedSender to ENABLED for conversation ${c.idForLogging()}`
+            );
+            c.set({
+              sealedSender: SEALED_SENDER.ENABLED,
+            });
+          } else {
+            window.log.info(
+              `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
+            );
+            c.set({
+              sealedSender: SEALED_SENDER.DISABLED,
             });
           }
-        } catch (e) {
-          if (e.name === 'ProfileDecryptError') {
-            // probably the profile key has changed.
-            window.log.error(
-              'decryptProfile error:',
-              id,
-              e && e.stack ? e.stack : e
-            );
-          }
+        } else {
+          window.log.info(
+            `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
+          );
+          c.set({
+            sealedSender: SEALED_SENDER.DISABLED,
+          });
         }
+
+        await c.setProfileName(profile.name);
+
+        // This might throw if we can't pull the avatar down, so we do it last
+        await c.setProfileAvatar(profile.avatar);
       } catch (error) {
         window.log.error(
           'getProfile error:',
+          id,
           error && error.stack ? error.stack : error
         );
+      } finally {
+        if (c.hasChanged()) {
+          await window.Signal.Data.updateConversation(id, c.attributes, {
+            Conversation: Whisper.Conversation,
+          });
+        }
       }
     },
     async setProfileName(encryptedName) {
+      if (!encryptedName) {
+        return;
+      }
       const key = this.get('profileKey');
       if (!key) {
         return;
       }
 
       // decode
-      const keyBuffer = dcodeIO.ByteBuffer.wrap(key, 'base64').toArrayBuffer();
-      const data = dcodeIO.ByteBuffer.wrap(
-        encryptedName,
-        'base64'
-      ).toArrayBuffer();
+      const keyBuffer = window.Signal.Crypto.base64ToArrayBuffer(key);
+      const data = window.Signal.Crypto.base64ToArrayBuffer(encryptedName);
 
       // decrypt
       const decrypted = await textsecure.crypto.decryptProfileName(
@@ -1167,10 +1435,10 @@
       );
 
       // encode
-      const name = dcodeIO.ByteBuffer.wrap(decrypted).toString('utf8');
+      const profileName = window.Signal.Crypto.stringFromBytes(decrypted);
 
       // set
-      this.set({ profileName: name });
+      this.set({ profileName });
     },
     async setProfileAvatar(avatarPath) {
       if (!avatarPath) {
@@ -1182,7 +1450,7 @@
       if (!key) {
         return;
       }
-      const keyBuffer = dcodeIO.ByteBuffer.wrap(key, 'base64').toArrayBuffer();
+      const keyBuffer = window.Signal.Crypto.base64ToArrayBuffer(key);
 
       // decrypt
       const decrypted = await textsecure.crypto.decryptProfile(
@@ -1204,13 +1472,44 @@
       }
     },
     async setProfileKey(profileKey) {
-      // profileKey is now being saved as a string
+      // profileKey is a string so we can compare it directly
       if (this.get('profileKey') !== profileKey) {
-        this.set({ profileKey });
+        window.log.info(
+          `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
+        );
+        this.set({
+          profileKey,
+          accessKey: null,
+          sealedSender: SEALED_SENDER.UNKNOWN,
+        });
+
+        await this.deriveAccessKeyIfNeeded();
+
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
       }
+    },
+
+    async deriveAccessKeyIfNeeded() {
+      const profileKey = this.get('profileKey');
+      if (!profileKey) {
+        return;
+      }
+      if (this.get('accessKey')) {
+        return;
+      }
+
+      const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
+        profileKey
+      );
+      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
+        profileKeyBuffer
+      );
+      const accessKey = window.Signal.Crypto.arrayBufferToBase64(
+        accessKeyBuffer
+      );
+      this.set({ accessKey });
     },
 
     async upgradeMessages(messages) {
@@ -1453,8 +1752,6 @@
   });
 
   Whisper.ConversationCollection = Backbone.Collection.extend({
-    database: Whisper.Database,
-    storeName: 'conversations',
     model: Whisper.Conversation,
 
     comparator(m) {

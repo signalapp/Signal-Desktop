@@ -1,3 +1,5 @@
+/* global libsignal, textsecure */
+
 describe('encrypting and decrypting profile data', () => {
   const NAME_PADDED_LENGTH = 26;
   describe('encrypting and decrypting profile names', () => {
@@ -61,12 +63,12 @@ describe('encrypting and decrypting profile data', () => {
         'This is an avatar'
       ).toArrayBuffer();
       const key = libsignal.crypto.getRandomBytes(32);
-      const bad_key = libsignal.crypto.getRandomBytes(32);
+      const badKey = libsignal.crypto.getRandomBytes(32);
 
       return textsecure.crypto.encryptProfile(buffer, key).then(encrypted => {
         assert(encrypted.byteLength === buffer.byteLength + 16 + 12);
         return textsecure.crypto
-          .decryptProfile(encrypted, bad_key)
+          .decryptProfile(encrypted, badKey)
           .catch(error => {
             assert.strictEqual(error.name, 'ProfileDecryptError');
           });

@@ -1,9 +1,12 @@
+/* global libsignal, textsecure, SignalProtocolStore */
+
 describe('MessageReceiver', () => {
   textsecure.storage.impl = new SignalProtocolStore();
-  const WebSocket = window.WebSocket;
+  const { WebSocket } = window;
   const number = '+19999999999';
   const deviceId = 1;
   const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
+
   before(() => {
     window.WebSocket = MockSocket;
     textsecure.storage.user.setNumberAndDeviceId(number, deviceId, 'name');
@@ -15,7 +18,6 @@ describe('MessageReceiver', () => {
   });
 
   describe('connecting', () => {
-    const blob = null;
     const attrs = {
       type: textsecure.protobuf.Envelope.Type.CIPHERTEXT,
       source: number,
@@ -29,14 +31,12 @@ describe('MessageReceiver', () => {
 
     before(done => {
       const signal = new textsecure.protobuf.Envelope(attrs).toArrayBuffer();
-      const data = new textsecure.protobuf.DataMessage({ body: 'hello' });
 
-      const signaling_key = signalingKey;
-      const aes_key = signaling_key.slice(0, 32);
-      const mac_key = signaling_key.slice(32, 32 + 20);
+      const aesKey = signalingKey.slice(0, 32);
+      const macKey = signalingKey.slice(32, 32 + 20);
 
       window.crypto.subtle
-        .importKey('raw', aes_key, { name: 'AES-CBC' }, false, ['encrypt'])
+        .importKey('raw', aesKey, { name: 'AES-CBC' }, false, ['encrypt'])
         .then(key => {
           const iv = libsignal.crypto.getRandomBytes(16);
           window.crypto.subtle
@@ -45,14 +45,14 @@ describe('MessageReceiver', () => {
               window.crypto.subtle
                 .importKey(
                   'raw',
-                  mac_key,
+                  macKey,
                   { name: 'HMAC', hash: { name: 'SHA-256' } },
                   false,
                   ['sign']
                 )
-                .then(key => {
+                .then(innerKey => {
                   window.crypto.subtle
-                    .sign({ name: 'HMAC', hash: 'SHA-256' }, key, signal)
+                    .sign({ name: 'HMAC', hash: 'SHA-256' }, innerKey, signal)
                     .then(mac => {
                       const version = new Uint8Array([1]);
                       const message = dcodeIO.ByteBuffer.concat([
@@ -82,16 +82,24 @@ describe('MessageReceiver', () => {
 
       window.addEventListener('textsecure:message', ev => {
         const signal = ev.proto;
-        for (const key in attrs) {
+        const keys = Object.keys(attrs);
+
+        for (let i = 0, max = keys.length; i < max; i += 1) {
+          const key = keys[i];
           assert.strictEqual(attrs[key], signal[key]);
         }
         assert.strictEqual(signal.message.body, 'hello');
-        server.close();
+        mockServer.close();
+
         done();
       });
-      const messageReceiver = new textsecure.MessageReceiver(
-        'ws://localhost:8080',
-        window
+
+      window.messageReceiver = new textsecure.MessageReceiver(
+        'username',
+        'password',
+        'signalingKey'
+        // 'ws://localhost:8080',
+        // window,
       );
     });
   });

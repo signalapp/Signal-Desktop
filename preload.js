@@ -27,6 +27,7 @@ window.isImportMode = () => config.importMode;
 window.getExpiration = () => config.buildExpiration;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
+window.getServerTrustRoot = () => config.serverTrustRoot;
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -150,6 +151,25 @@ ipc.on('delete-all-data', () => {
   }
 });
 
+ipc.on('get-ready-for-shutdown', async () => {
+  const { shutdown } = window.Events;
+  if (!shutdown) {
+    window.log.error('preload shutdown handler: shutdown method not found');
+    ipc.send('now-ready-for-shutdown');
+    return;
+  }
+
+  try {
+    await shutdown();
+    ipc.send('now-ready-for-shutdown');
+  } catch (error) {
+    ipc.send(
+      'now-ready-for-shutdown',
+      error && error.stack ? error.stack : error
+    );
+  }
+});
+
 function installGetter(name, functionName) {
   ipc.on(`get-${name}`, async () => {
     const getFn = window.Events[functionName];
@@ -158,7 +178,10 @@ function installGetter(name, functionName) {
       try {
         ipc.send(`get-success-${name}`, null, await getFn());
       } catch (error) {
-        ipc.send(`get-success-${name}`, error);
+        ipc.send(
+          `get-success-${name}`,
+          error && error.stack ? error.stack : error
+        );
       }
     }
   });
@@ -215,6 +238,7 @@ window.filesize = require('filesize');
 window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
+window.getGuid = require('uuid/v4');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');

@@ -8,7 +8,6 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
-  const { Database } = window.Whisper;
   const { Logs } = window.Signal;
 
   const CLEAR_DATA_STEPS = {
@@ -33,26 +32,12 @@
       this.step = CLEAR_DATA_STEPS.DELETING;
       this.render();
 
-      try {
-        await Database.clear();
-        await Database.close();
-        window.log.info(
-          'All database connections closed. Starting database drop.'
-        );
-        await Database.drop();
-      } catch (error) {
-        window.log.error(
-          'Something went wrong deleting IndexedDB data then dropping database.'
-        );
-      }
-
-      this.clearAllData();
+      await this.clearAllData();
     },
     async clearAllData() {
       try {
         await Logs.deleteAll();
 
-        // SQLCipher
         await window.Signal.Data.removeAll();
         await window.Signal.Data.close();
         await window.Signal.Data.removeDB();

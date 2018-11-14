@@ -1,43 +1,45 @@
+/* global chai, Whisper */
+
 mocha.setup('bdd');
 window.assert = chai.assert;
 window.PROTO_ROOT = '../protos';
 
-(function() {
-  var OriginalReporter = mocha._reporter;
+const OriginalReporter = mocha._reporter;
 
-  var SauceReporter = function(runner) {
-    var failedTests = [];
+const SauceReporter = function Constructor(runner) {
+  const failedTests = [];
 
-    runner.on('end', function() {
-      window.mochaResults = runner.stats;
-      window.mochaResults.reports = failedTests;
+  runner.on('end', () => {
+    window.mochaResults = runner.stats;
+    window.mochaResults.reports = failedTests;
+  });
+
+  runner.on('fail', (test, err) => {
+    const flattenTitles = item => {
+      const titles = [];
+      while (item.parent.title) {
+        titles.push(item.parent.title);
+        // eslint-disable-next-line no-param-reassign
+        item = item.parent;
+      }
+      return titles.reverse();
+    };
+    failedTests.push({
+      name: test.title,
+      result: false,
+      message: err.message,
+      stack: err.stack,
+      titles: flattenTitles(test),
     });
+  });
 
-    runner.on('fail', function(test, err) {
-      var flattenTitles = function(test) {
-        var titles = [];
-        while (test.parent.title) {
-          titles.push(test.parent.title);
-          test = test.parent;
-        }
-        return titles.reverse();
-      };
-      failedTests.push({
-        name: test.title,
-        result: false,
-        message: err.message,
-        stack: err.stack,
-        titles: flattenTitles(test),
-      });
-    });
+  // eslint-disable-next-line no-new
+  new OriginalReporter(runner);
+};
 
-    new OriginalReporter(runner);
-  };
+SauceReporter.prototype = OriginalReporter.prototype;
 
-  SauceReporter.prototype = OriginalReporter.prototype;
-
-  mocha.reporter(SauceReporter);
-})();
+mocha.reporter(SauceReporter);
 
 // Override the database id.
 window.Whisper = window.Whisper || {};
@@ -47,22 +49,22 @@ Whisper.Database.id = 'test';
 /*
  * global helpers for tests
  */
-function assertEqualArrayBuffers(ab1, ab2) {
+window.assertEqualArrayBuffers = (ab1, ab2) => {
   assert.deepEqual(new Uint8Array(ab1), new Uint8Array(ab2));
-}
+};
 
-function hexToArrayBuffer(str) {
-  var ret = new ArrayBuffer(str.length / 2);
-  var array = new Uint8Array(ret);
-  for (var i = 0; i < str.length / 2; i++) {
+window.hexToArrayBuffer = str => {
+  const ret = new ArrayBuffer(str.length / 2);
+  const array = new Uint8Array(ret);
+  for (let i = 0; i < str.length / 2; i += 1) {
     array[i] = parseInt(str.substr(i * 2, 2), 16);
   }
   return ret;
-}
+};
 
-function deleteDatabase() {
+function deleteIndexedDB() {
   return new Promise((resolve, reject) => {
-    var idbReq = indexedDB.deleteDatabase('test');
+    const idbReq = indexedDB.deleteDatabase('test');
     idbReq.onsuccess = resolve;
     idbReq.error = reject;
   });
@@ -70,18 +72,10 @@ function deleteDatabase() {
 
 /* Delete the database before running any tests */
 before(async () => {
-  await deleteDatabase();
+  await deleteIndexedDB();
   await window.Signal.Data.removeAll();
-
-  await Signal.Migrations.Migrations0DatabaseWithAttachmentData.run({
-    Backbone,
-    databaseName: Whisper.Database.id,
-    logger: window.log,
-  });
 });
 
-async function clearDatabase() {
-  const db = await Whisper.Database.open();
-  await Whisper.Database.clear();
+window.clearDatabase = async () => {
   await window.Signal.Data.removeAll();
-}
+};
