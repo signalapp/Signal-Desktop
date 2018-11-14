@@ -166,33 +166,43 @@ MessageReceiver.prototype.extend({
     }
 
     this.hasConnected = true;
-    this.hr = new HttpResource(this.lokiserver, {
+    this.httpPollingResource = new HttpResource(this.lokiserver, {
       handleRequest: this.handleRequest.bind(this),
     });
-    this.hr.startPolling();
+    this.httpPollingResource.startPolling((connected) => {
+      // Emulate receiving an 'empty' websocket messages from the server.
+      // This is required to update the internal logic that checks
+      // if we are connected to the server. Without this, for example,
+      // the loading screen would never disappear if the navigator
+      // detects internet connectivity but never receives an 'empty' signal.
+      if (connected) {
+        this.onEmpty();
+      }
+    });
     // TODO: Rework this socket stuff to work with online messaging
-    return;
+    const useWebSocket = false;
+    if (useWebSocket) {
+      if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
+        this.socket.close();
+        this.wsr.close();
+      }
+      // initialize the socket and start listening for messages
+      this.socket = this.server.getMessageSocket();
+      this.socket.onclose = this.onclose.bind(this);
+      this.socket.onerror = this.onerror.bind(this);
+      this.socket.onopen = this.onopen.bind(this);
+      this.wsr = new WebSocketResource(this.socket, {
+        handleRequest: this.handleRequest.bind(this),
+        keepalive: {
+          path: '/v1/keepalive',
+          disconnect: true,
+        },
+      });
 
-    if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
-      this.socket.close();
-      this.wsr.close();
+      // Because sometimes the socket doesn't properly emit its close event
+      this._onClose = this.onclose.bind(this);
+      this.wsr.addEventListener('close', this._onClose);
     }
-    // initialize the socket and start listening for messages
-    this.socket = this.server.getMessageSocket();
-    this.socket.onclose = this.onclose.bind(this);
-    this.socket.onerror = this.onerror.bind(this);
-    this.socket.onopen = this.onopen.bind(this);
-    this.wsr = new WebSocketResource(this.socket, {
-      handleRequest: this.handleRequest.bind(this),
-      keepalive: {
-        path: '/v1/keepalive',
-        disconnect: true,
-      },
-    });
-
-    // Because sometimes the socket doesn't properly emit its close event
-    this._onClose = this.onclose.bind(this);
-    this.wsr.addEventListener('close', this._onClose);
 
     // Ensures that an immediate 'empty' event from the websocket will fire only after
     //   all cached envelopes are processed.
@@ -609,6 +619,9 @@ MessageReceiver.prototype.extend({
     throw new Error('Received message with no content and no legacyMessage');
   },
   getStatus() {
+    if (this.httpPollingResource) {
+      return this.httpPollingResource.isConnected() ? WebSocket.OPEN : WebSocket.CLOSED;
+    }
     if (this.socket) {
       return this.socket.readyState;
     } else if (this.hasConnected) {
