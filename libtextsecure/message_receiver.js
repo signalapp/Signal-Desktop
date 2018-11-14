@@ -807,6 +807,7 @@ MessageReceiver.prototype.extend({
   },
   async decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address) {
     const padded = await sessionCipher.decryptPreKeyWhisperMessage(ciphertext);
+    return padded;
 
     try {
       return this.unpad(padded);
@@ -1032,8 +1033,9 @@ MessageReceiver.prototype.extend({
     } else if (content.receiptMessage) {
       return this.handleReceiptMessage(envelope, content.receiptMessage);
     }
-    this.removeFromCache(envelope);
-    throw new Error('Unsupported content message');
+    if (!content.preKeyBundleMessage) {
+      throw new Error('Unsupported content message');
+    }
   },
   handleCallMessage(envelope) {
     window.log.info('call message from', this.getEnvelopeId(envelope));
