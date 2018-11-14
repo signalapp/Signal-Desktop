@@ -685,6 +685,10 @@
         friendStatus: 'pending',
         direction: 'incoming',
         preKeyBundle: null,
+        timestamp: null,
+        source: null,
+        sourceDevice: null,
+        received_at: null,
         ...options,
       };
 
@@ -695,13 +699,13 @@
         return;
       }
 
-      const lastMessage = this.get('timestamp') || Date.now();
+      const timestamp = _options.timestamp || this.get('timestamp') || Date.now();
 
       window.log.info(
         'adding friend request for',
         this.ourNumber,
         this.idForLogging(),
-        lastMessage
+        timestamp
       );
 
       this.lastMessageStatus = 'sending';
@@ -731,12 +735,12 @@
       }
 
       // Add the new message
-      const timestamp = Date.now();
+      const received_at = _options.received_at || Date.now();
       const message = {
         conversationId: this.id,
         type: 'friend-request',
-        sent_at: lastMessage,
-        received_at: timestamp,
+        sent_at: timestamp,
+        received_at,
         unread: 1,
         from: this.id,
         to: this.ourNumber,
@@ -744,6 +748,8 @@
         direction: _options.direction,
         body,
         preKeyBundle: _options.preKeyBundle,
+        source: _options.source,
+        sourceDevice: _options.sourceDevice,
       };
 
       const id = await window.Signal.Data.saveMessage(message, {

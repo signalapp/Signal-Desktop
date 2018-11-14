@@ -934,11 +934,17 @@ MessageReceiver.prototype.extend({
       return this.innerHandleContentMessage(envelope, plaintext);
     });
   },
-  promptUserToAcceptFriendRequest(pubKey, message, preKeyBundle) {
+  promptUserToAcceptFriendRequest(envelope, message, preKeyBundleMessage) {
     window.Whisper.events.trigger('showFriendRequest', {
-      pubKey,
+      pubKey: envelope.source,
       message,
-      preKeyBundle,
+      preKeyBundle: this.decodePreKeyBundleMessage(preKeyBundleMessage),
+      options: {
+        source: envelope.source,
+        sourceDevice: envelope.sourceDevice,
+        timestamp: envelope.timestamp.toNumber(),
+        receivedAt: envelope.receivedAt,
+      },
     });
   },
   // A handler function for when a friend request is accepted or declined
@@ -973,52 +979,49 @@ MessageReceiver.prototype.extend({
     const content = textsecure.protobuf.Content.decode(plaintext);
 
     if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-      // only prompt friend request if there is no conversation yet
       let conversation;
       try {
         conversation = ConversationController.get(envelope.source);
       } catch (e) { }
+
+       // only prompt friend request if there is no conversation yet
       if (!conversation) {
         this.promptUserToAcceptFriendRequest(
-          envelope.source,
+          envelope,
           content.dataMessage.body,
-          content.preKeyBundle,
+          content.preKeyBundleMessage,
         );
-        return;
+      } else {
+        const keyExchangeComplete = conversation.isKeyExchangeCompleted();
+
+        // Check here if we received preKeys from the other user
+        // We are certain that other user accepted the friend request IF:
+        // - The message has a preKeyBundleMessage
+        // - We have an outgoing friend request that is pending
+        // The second check is crucial because it makes sure we don't save the preKeys of the incoming friend request (which is saved only when we press accept)
+        if (!keyExchangeComplete && content.preKeyBundleMessage) {
+          // Check for any outgoing friend requests
+          const pending = await conversation.getPendingFriendRequests('outgoing');
+          const successful = pending.filter(p => !p.hasErrors());
+
+          // Save the key only if we have an outgoing friend request
+          const savePreKey = (successful.length > 0);
+
+          // Save the pre key
+          if (savePreKey) {
+            await this.handlePreKeyBundleMessage(
+              envelope.source,
+              this.decodePreKeyBundleMessage(content.preKeyBundleMessage),
+            );
+
+            // Update the conversation
+            await conversation.onFriendRequestAccepted();
+          }
+        }
       }
-    }
 
-    // Check if our friend request got accepted
-    if (content.preKeyBundle) {
-      // By default we don't want to save the preKey
-      let savePreKey = false;
-
-      // The conversation
-      let conversation = null;
-
-      try {
-        conversation = ConversationController.get(envelope.source);
-
-        // We only want to save the preKey if we have a outgoing friend request which is pending
-        const pending = await conversation.getPendingFriendRequests('outgoing');
-        const successful = pending.filter(p => !p.hasErrors());
-
-        // Save the key only if we have an outgoing friend request
-        savePreKey = (successful.length > 0);
-      } catch (e) {}
-      
-      // Save the pre key if we have a conversation
-      if (savePreKey && conversation) {
-        await this.handlePreKeyBundleMessage(
-          envelope.source,
-          content.preKeyBundle
-        );
-
-        // Update the conversation
-        await conversation.onFriendRequestAccepted();
-
-        return;
-      }
+      // Exit early since the friend request reply will be a regular empty message
+      return;
     }
 
     if (content.syncMessage) {
@@ -1235,14 +1238,31 @@ MessageReceiver.prototype.extend({
 
     return this.removeFromCache(envelope);
   },
-  async handlePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
-    const { preKeyId, signedKeyId } = preKeyBundleMessage;
+  decodePreKeyBundleMessage(preKeyBundleMessage) {
     const [identityKey, preKey, signedKey, signature] = [
       preKeyBundleMessage.identityKey,
       preKeyBundleMessage.preKey,
       preKeyBundleMessage.signedKey,
       preKeyBundleMessage.signature,
     ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
+
+    return { 
+      ...preKeyBundleMessage,
+      identityKey,
+      preKey,
+      signedKey,
+      signature,
+    };
+  },
+  async handlePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
+    const {
+      preKeyId,
+      signedKeyId,
+      identityKey,
+      preKey,
+      signedKey,
+      signature,
+    } = preKeyBundleMessage;
 
     if (pubKey != StringView.arrayBufferToHex(identityKey)) {
       throw new Error(
