@@ -693,10 +693,9 @@ MessageReceiver.prototype.extend({
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
-        promise = Promise.resolve(ciphertext.toArrayBuffer()); //;sessionCipher
-        // TODO: restore decryption & unpadding (?)
-        //.decryptWhisperMessage(ciphertext)
-        //.then(this.unpad);
+        promise = sessionCipher.decryptWhisperMessage(ciphertext);
+        // TODO: restore unpadding (?)
+        // .then(this.unpad);
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST:
         window.log.info('friend-request message from ', envelope.source);
