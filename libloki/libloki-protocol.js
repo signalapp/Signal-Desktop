@@ -152,7 +152,7 @@
       if (res.errors.length > 0) {
         res.errors.forEach(error => log.error(error));
       } else {
-        log.notice('empty message sent successfully');
+        log.info('empty message sent successfully');
       }
     };
     // send an empty message. The logic in ougoing_message will attach the prekeys.
