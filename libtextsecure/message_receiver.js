@@ -934,11 +934,11 @@ MessageReceiver.prototype.extend({
       return this.innerHandleContentMessage(envelope, plaintext);
     });
   },
-  promptUserToAcceptFriendRequest(envelope, message, preKeyBundle) {
+  promptUserToAcceptFriendRequest(envelope, message, preKeyBundleMessage) {
     window.Whisper.events.trigger('showFriendRequest', {
       pubKey: envelope.source,
       message,
-      preKeyBundle,
+      preKeyBundle: this.decodePreKeyBundleMessage(preKeyBundleMessage),
       options: {
         source: envelope.source,
         sourceDevice: envelope.sourceDevice,
@@ -989,7 +989,7 @@ MessageReceiver.prototype.extend({
         this.promptUserToAcceptFriendRequest(
           envelope,
           content.dataMessage.body,
-          content.preKeyBundle,
+          content.preKeyBundleMessage,
         );
       }
 
@@ -998,7 +998,7 @@ MessageReceiver.prototype.extend({
     }
 
     // Check if our friend request got accepted
-    if (content.preKeyBundle) {
+    if (content.preKeyBundleMessage) {
       // By default we don't want to save the preKey
       let savePreKey = false;
 
@@ -1020,7 +1020,7 @@ MessageReceiver.prototype.extend({
       if (savePreKey && conversation) {
         await this.handlePreKeyBundleMessage(
           envelope.source,
-          content.preKeyBundle
+          this.decodePreKeyBundleMessage(content.preKeyBundleMessage),
         );
 
         // Update the conversation
@@ -1244,14 +1244,31 @@ MessageReceiver.prototype.extend({
 
     return this.removeFromCache(envelope);
   },
-  async handlePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
-    const { preKeyId, signedKeyId } = preKeyBundleMessage;
+  decodePreKeyBundleMessage(preKeyBundleMessage) {
     const [identityKey, preKey, signedKey, signature] = [
       preKeyBundleMessage.identityKey,
       preKeyBundleMessage.preKey,
       preKeyBundleMessage.signedKey,
       preKeyBundleMessage.signature,
     ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
+
+    return { 
+      ...preKeyBundleMessage,
+      identityKey,
+      preKey,
+      signedKey,
+      signature,
+    };
+  },
+  async handlePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
+    const {
+      preKeyId,
+      signedKeyId,
+      identityKey,
+      preKey,
+      signedKey,
+      signature,
+    } = preKeyBundleMessage;
 
     if (pubKey != StringView.arrayBufferToHex(identityKey)) {
       throw new Error(

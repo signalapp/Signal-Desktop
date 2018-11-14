@@ -664,13 +664,14 @@ async function searchConversations(query, { ConversationCollection }) {
 }
 
 // Message
-
+const MESSAGE_PRE_KEYS = ['identityKey', 'preKey', 'signature', 'signedKey'].map(k => `preKeyBundle.${k}`);
 async function getMessageCount() {
   return channels.getMessageCount();
 }
 
 async function saveMessage(data, { forceSave, Message } = {}) {
-  const id = await channels.saveMessage(_cleanData(data), { forceSave });
+  const updated = keysFromArrayBuffer(MESSAGE_PRE_KEYS, data);
+  const id = await channels.saveMessage(_cleanData(updated), { forceSave });
   Message.refreshExpirationTimer();
   return id;
 }
@@ -713,7 +714,8 @@ async function saveLegacyMessage(data) {
 }
 
 async function saveMessages(arrayOfMessages, { forceSave } = {}) {
-  await channels.saveMessages(_cleanData(arrayOfMessages), { forceSave });
+  const updated = arrayOfMessages.map(m => keysFromArrayBuffer(MESSAGE_PRE_KEYS, m));
+  await channels.saveMessages(_cleanData(updated), { forceSave });
 }
 
 async function removeMessage(id, { Message }) {
@@ -738,13 +740,16 @@ async function getMessageById(id, { Message }) {
     return null;
   }
 
-  return new Message(message);
+  const encoded = keysToArrayBuffer(MESSAGE_PRE_KEYS, message);
+
+  return new Message(encoded);
 }
 
 // For testing only
 async function getAllMessages({ MessageCollection }) {
   const messages = await channels.getAllMessages();
-  return new MessageCollection(messages);
+  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
+  return new MessageCollection(encoded);
 }
 
 async function getAllMessageIds() {
@@ -766,7 +771,9 @@ async function getMessageBySender(
     return null;
   }
 
-  return new Message(messages[0]);
+  const encoded = keysToArrayBuffer(MESSAGE_PRE_KEYS, messages[0]);
+
+  return new Message(encoded);
 }
 
 async function getUnreadByConversation(conversationId, { MessageCollection }) {
@@ -784,7 +791,9 @@ async function getMessagesByConversation(
     type,
   });
 
-  return new MessageCollection(messages);
+  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
+
+  return new MessageCollection(encoded);
 }
 
 async function removeAllMessagesInConversation(
@@ -819,22 +828,26 @@ async function removeAllMessagesInConversation(
 
 async function getMessagesBySentAt(sentAt, { MessageCollection }) {
   const messages = await channels.getMessagesBySentAt(sentAt);
-  return new MessageCollection(messages);
+  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
+  return new MessageCollection(encoded);
 }
 
 async function getExpiredMessages({ MessageCollection }) {
   const messages = await channels.getExpiredMessages();
-  return new MessageCollection(messages);
+  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
+  return new MessageCollection(encoded);
 }
 
 async function getOutgoingWithoutExpiresAt({ MessageCollection }) {
   const messages = await channels.getOutgoingWithoutExpiresAt();
-  return new MessageCollection(messages);
+  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
+  return new MessageCollection(encoded);
 }
 
 async function getNextExpiringMessage({ MessageCollection }) {
   const messages = await channels.getNextExpiringMessage();
-  return new MessageCollection(messages);
+  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
+  return new MessageCollection(encoded);
 }
 
 // Unprocessed
