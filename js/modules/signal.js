@@ -56,6 +56,9 @@ const {
   TimerNotification,
 } = require('../../ts/components/conversation/TimerNotification');
 const {
+  TypingBubble,
+} = require('../../ts/components/conversation/TypingBubble');
+const {
   VerificationNotification,
 } = require('../../ts/components/conversation/VerificationNotification');
 
@@ -191,6 +194,7 @@ exports.setup = (options = {}) => {
     Types: {
       Message: MediaGalleryMessage,
     },
+    TypingBubble,
     VerificationNotification,
   };
 

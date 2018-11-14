@@ -653,6 +653,10 @@
   "selectAContact": {
     "message": "Select a contact or group to start chatting."
   },
+  "typingAlt": {
+    "message": "Typing animation for this conversation",
+    "description": "Used as the 'title' attibute for the typing animation"
+  },
   "contactAvatarAlt": {
     "message": "Avatar for contact $name$",
     "description": "Used in the alt tag for the image avatar of a contact",

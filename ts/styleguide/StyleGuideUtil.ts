@@ -105,3 +105,10 @@ export { theme, ios, locale, i18n };
 // Telling Lodash to relinquish _ for use by underscore
 // @ts-ignore
 _.noConflict();
+
+// @ts-ignore
+window.log = {
+  info: console.log,
+  error: console.log,
+  war: console.log,
+};

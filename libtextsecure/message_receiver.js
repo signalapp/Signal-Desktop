@@ -935,6 +935,8 @@ MessageReceiver.prototype.extend({
       return this.handleCallMessage(envelope, content.callMessage);
     } else if (content.receiptMessage) {
       return this.handleReceiptMessage(envelope, content.receiptMessage);
+    } else if (content.typingMessage) {
+      return this.handleTypingMessage(envelope, content.typingMessage);
     }
     this.removeFromCache(envelope);
     throw new Error('Unsupported content message');
@@ -973,6 +975,43 @@ MessageReceiver.prototype.extend({
       }
     }
     return Promise.all(results);
+  },
+  handleTypingMessage(envelope, typingMessage) {
+    const ev = new Event('typing');
+
+    this.removeFromCache(envelope);
+
+    if (envelope.timestamp && typingMessage.timestamp) {
+      const envelopeTimestamp = envelope.timestamp.toNumber();
+      const typingTimestamp = typingMessage.timestamp.toNumber();
+
+      if (typingTimestamp !== envelopeTimestamp) {
+        window.log.warn(
+          `Typing message envelope timestamp (${envelopeTimestamp}) did not match typing timestamp (${typingTimestamp})`
+        );
+        return null;
+      }
+    }
+
+    ev.sender = envelope.source;
+    ev.senderDevice = envelope.sourceDevice;
+    ev.typing = {
+      typingMessage,
+      timestamp: typingMessage.timestamp
+        ? typingMessage.timestamp.toNumber()
+        : Date.now(),
+      groupId: typingMessage.groupId
+        ? typingMessage.groupId.toString('binary')
+        : null,
+      started:
+        typingMessage.action ===
+        textsecure.protobuf.TypingMessage.Action.STARTED,
+      stopped:
+        typingMessage.action ===
+        textsecure.protobuf.TypingMessage.Action.STOPPED,
+    };
+
+    return this.dispatchEvent(ev);
   },
   handleNullMessage(envelope) {
     window.log.info('null message from', this.getEnvelopeId(envelope));

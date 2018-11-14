@@ -664,6 +664,7 @@
     messageReceiver.addEventListener('reconnect', onReconnect);
     messageReceiver.addEventListener('progress', onProgress);
     messageReceiver.addEventListener('configuration', onConfiguration);
+    messageReceiver.addEventListener('typing', onTyping);
 
     window.textsecure.messaging = new textsecure.MessageSender(
       USERNAME,
@@ -790,10 +791,14 @@
   }
   function onConfiguration(ev) {
     const { configuration } = ev;
+    const {
+      readReceipts,
+      typingIndicators,
+      unidentifiedDeliveryIndicators,
+    } = configuration;
 
-    storage.put('read-receipt-setting', configuration.readReceipts);
+    storage.put('read-receipt-setting', readReceipts);
 
-    const { unidentifiedDeliveryIndicators } = configuration;
     if (
       unidentifiedDeliveryIndicators === true ||
       unidentifiedDeliveryIndicators === false
@@ -803,7 +808,32 @@
         unidentifiedDeliveryIndicators
       );
     }
+
+    if (typingIndicators === true || typingIndicators === false) {
+      storage.put('typingIndicators', typingIndicators);
+    }
+
     ev.confirm();
+  }
+
+  function onTyping(ev) {
+    const { typing, sender, senderDevice } = ev;
+    const { groupId, started } = typing || {};
+
+    // We don't do anything with incoming typing messages if the setting is disabled
+    if (!storage.get('typingIndicators')) {
+      return;
+    }
+
+    const conversation = ConversationController.get(groupId || sender);
+
+    if (conversation) {
+      conversation.notifyTyping({
+        isTyping: started,
+        sender,
+        senderDevice,
+      });
+    }
   }
 
   async function onContactReceived(ev) {

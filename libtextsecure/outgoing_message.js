@@ -30,9 +30,10 @@ function OutgoingMessage(
   this.failoverNumbers = [];
   this.unidentifiedDeliveries = [];
 
-  const { numberInfo, senderCertificate } = options;
+  const { numberInfo, senderCertificate, online } = options;
   this.numberInfo = numberInfo;
   this.senderCertificate = senderCertificate;
+  this.online = online;
 }
 
 OutgoingMessage.prototype = {
@@ -192,6 +193,7 @@ OutgoingMessage.prototype = {
         jsonData,
         timestamp,
         this.silent,
+        this.online,
         { accessKey }
       );
     } else {
@@ -199,7 +201,8 @@ OutgoingMessage.prototype = {
         number,
         jsonData,
         timestamp,
-        this.silent
+        this.silent,
+        this.online
       );
     }
 

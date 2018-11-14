@@ -1,12 +1,15 @@
-/* global $: false */
-/* global _: false */
-/* global emojiData: false */
-/* global EmojiPanel: false */
-/* global extension: false */
-/* global i18n: false */
-/* global Signal: false */
-/* global storage: false */
-/* global Whisper: false */
+/* global
+  $,
+  _,
+  emojiData,
+  EmojiPanel,
+  extension,
+  i18n,
+  Signal,
+  storage,
+  Whisper,
+  ConversationController
+*/
 
 // eslint-disable-next-line func-names
 (function() {
@@ -80,6 +83,7 @@
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
+      this.listenTo(this.model, 'typing-update', this.renderTypingBubble);
       this.listenTo(
         this.model.messageCollection,
         'show-identity',
@@ -236,6 +240,7 @@
       'submit .send': 'checkUnverifiedSendMessage',
       'input .send-message': 'updateMessageFieldSize',
       'keydown .send-message': 'updateMessageFieldSize',
+      'keyup .send-message': 'maybeBumpTyping',
       click: 'onClick',
       'click .bottom-bar': 'focusMessageField',
       'click .capture-audio .microphone': 'captureAudio',
@@ -421,6 +426,43 @@
       }
     },
 
+    renderTypingBubble() {
+      const timers = this.model.contactTypingTimers || {};
+      const records = _.values(timers);
+      const mostRecent = _.first(_.sortBy(records, 'timestamp'));
+
+      if (!mostRecent && this.typingBubbleView) {
+        this.typingBubbleView.remove();
+        this.typingBubbleView = null;
+      }
+      if (!mostRecent) {
+        return;
+      }
+
+      const { sender } = mostRecent;
+      const contact = ConversationController.getOrCreate(sender, 'private');
+      const props = {
+        ...contact.format(),
+        conversationType: this.model.isPrivate() ? 'direct' : 'group',
+      };
+
+      if (this.typingBubbleView) {
+        this.typingBubbleView.update(props);
+        return;
+      }
+
+      this.typingBubbleView = new Whisper.ReactWrapperView({
+        className: 'message-wrapper typing-bubble-wrapper',
+        Component: Signal.Components.TypingBubble,
+        props,
+      });
+      this.typingBubbleView.$el.appendTo(this.$('.typing-container'));
+
+      if (this.view.atBottom()) {
+        this.typingBubbleView.el.scrollIntoView();
+      }
+    },
+
     toggleMicrophone() {
       if (
         this.$('.send-message').val().length > 0 ||
@@ -538,6 +580,7 @@
       this.view.resetScrollPosition();
       this.$el.trigger('force-resize');
       this.focusMessageField();
+      this.renderTypingBubble();
 
       if (this.inProgressFetch) {
         // eslint-disable-next-line more/no-then
@@ -1492,6 +1535,7 @@
     async sendMessage(e) {
       this.removeLastSeenIndicator();
       this.closeEmojiPanel();
+      this.model.clearTypingTimers();
 
       let toast;
       if (extension.expired()) {
@@ -1540,6 +1584,15 @@
         );
       } finally {
         this.focusMessageFieldAndClearDisabled();
+      }
+    },
+
+    // Called whenever the user changes the message composition field. But only
+    //   fires if there's content in the message field after the change.
+    maybeBumpTyping() {
+      const messageText = this.$messageField.val();
+      if (messageText.length) {
+        this.model.bumpTyping();
       }
     },
 

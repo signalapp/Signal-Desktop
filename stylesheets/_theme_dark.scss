@@ -1368,6 +1368,16 @@ body.dark-theme {
     color: $color-dark-05;
   }
 
+  // Module: Typing Animation
+
+  .module-typing-animation__dot {
+    background-color: $color-white;
+  }
+
+  .module-typing-animation__dot--light {
+    background-color: $color-white;
+  }
+
   // Third-party module: react-contextmenu
 
   .react-contextmenu {

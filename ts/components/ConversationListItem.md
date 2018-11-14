@@ -112,6 +112,40 @@
 </util.LeftPaneContext>
 ```
 
+#### Is typing
+
+```jsx
+<util.LeftPaneContext theme={util.theme}>
+  <div>
+    <ConversationListItem
+      phoneNumber="(202) 555-0011"
+      conversationType={'direct'}
+      unreadCount={4}
+      lastUpdated={Date.now() - 5 * 60 * 1000}
+      isTyping={true}
+      onClick={() => console.log('onClick')}
+      i18n={util.i18n}
+    />
+  </div>
+  <div>
+    <ConversationListItem
+      phoneNumber="(202) 555-0011"
+      conversationType={'direct'}
+      unreadCount={4}
+      lastUpdated={Date.now() - 5 * 60 * 1000}
+      isTyping={true}
+      lastMessage={{
+        status: 'read',
+      }}
+      onClick={() => console.log('onClick')}
+      i18n={util.i18n}
+    />
+  </div>
+</util.LeftPaneContext>
+```
+
+#### Selected
+
 #### With unread
 
 ```jsx

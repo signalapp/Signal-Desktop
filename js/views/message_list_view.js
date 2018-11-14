@@ -1,4 +1,4 @@
-/* global Whisper, _ */
+/* global Whisper, Backbone, _, $ */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -6,15 +6,36 @@
 
   window.Whisper = window.Whisper || {};
 
-  Whisper.MessageListView = Whisper.ListView.extend({
+  Whisper.MessageListView = Backbone.View.extend({
     tagName: 'ul',
     className: 'message-list',
+
+    template: $('#message-list').html(),
     itemView: Whisper.MessageView,
+
     events: {
       scroll: 'onScroll',
     },
+
+    // Here we reimplement Whisper.ListView so we can override addAll
+    render() {
+      this.addAll();
+      return this;
+    },
+
+    // The key is that we don't erase all inner HTML, we re-render our template.
+    //   And then we keep a reference to .messages
+    addAll() {
+      Whisper.View.prototype.render.call(this);
+      this.$messages = this.$('.messages');
+      this.collection.each(this.addOne, this);
+    },
+
     initialize() {
-      Whisper.ListView.prototype.initialize.call(this);
+      this.listenTo(this.collection, 'add', this.addOne);
+      this.listenTo(this.collection, 'reset', this.addAll);
+
+      this.render();
 
       this.triggerLazyScroll = _.debounce(() => {
         this.$el.trigger('lazyScroll');
@@ -78,10 +99,10 @@
 
       if (index === this.collection.length - 1) {
         // add to the bottom.
-        this.$el.append(view.el);
+        this.$messages.append(view.el);
       } else if (index === 0) {
         // add to top
-        this.$el.prepend(view.el);
+        this.$messages.prepend(view.el);
       } else {
         // insert
         const next = this.$(`#${this.collection.at(index + 1).id}`);
@@ -92,7 +113,7 @@
           view.$el.insertAfter(prev);
         } else {
           // scan for the right spot
-          const elements = this.$el.children();
+          const elements = this.$messages.children();
           if (elements.length > 0) {
             for (let i = 0; i < elements.length; i += 1) {
               const m = this.collection.get(elements[i].id);
@@ -103,7 +124,7 @@
               }
             }
           } else {
-            this.$el.append(view.el);
+            this.$messages.append(view.el);
           }
         }
       }
