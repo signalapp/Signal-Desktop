@@ -47,16 +47,22 @@
     if (typeof handleRequest !== 'function') {
       handleRequest = request => request.respond(404, 'Not found');
     };
+    let connected = false;
 
-    this.startPolling = async function pollServer() {
+    this.startPolling = async function pollServer(callBack) {
       const myKeys = await textsecure.storage.protocol.getIdentityKeyPair();
       const pubKey = StringView.arrayBufferToHex(myKeys.pubKey)
       let result;
       try {
         result = await server.retrieveMessages(pubKey);
+        connected = true;
       } catch(err) {
+        connected = false;
         setTimeout(() => { pollServer(); }, 5000);
         return;
+      }
+      if (typeof handleRequest === 'function') {
+        callBack(connected);
       }
       if (!result.messages) {
         setTimeout(() => { pollServer(); }, 5000);
@@ -79,5 +85,9 @@
       });
       setTimeout(() => { pollServer(); }, 5000);
     };
+
+    this.isConnected = function isConnected() {
+      return connected;
+    }
   };
 })();
