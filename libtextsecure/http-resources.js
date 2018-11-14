@@ -61,7 +61,7 @@
         setTimeout(() => { pollServer(); }, 5000);
         return;
       }
-      if (typeof handleRequest === 'function') {
+      if (typeof callBack === 'function') {
         callBack(connected);
       }
       if (!result.messages) {
