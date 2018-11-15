@@ -487,20 +487,8 @@
       }
 
       await this.updatePendingFriendRequests();
-      
-      this.getNotificationIcon().then(iconUrl => {
-        window.log.info('Add notification for friend request updated', {
-          conversationId: this.idForLogging(),
-        });
-        Whisper.Notifications.add({
-          conversationId: this.id,
-          iconUrl,
-          isExpiringMessage: false,
-          message: `Accepted your friend request`,
-          messageSentAt: Date.now(),
-          title: this.getTitle(),
-        });
-      }); 
+
+      this.notifyFriendRequest(this.id, 'accepted')
     },
     async onFriendRequestTimedOut() {
       this.updateTextInputState();
@@ -2041,7 +2029,8 @@
     },
 
     notify(message) {
-      if (!(message.isIncoming() || message.isFriendRequest())) {
+      if (!message.isIncoming()) {
+        if (message.isFriendRequest()) return this.notifyFriendRequest(message.get('source'), 'requested');
         return Promise.resolve();
       }
       const conversationId = this.id;
@@ -2072,6 +2061,43 @@
           });
         })
       );
+    },
+    // Notification for friend request received
+    async notifyFriendRequest(source, type) {
+      // Data validation
+      if (!source) return Promise.reject('Invalid source');
+      if (!['accepted', 'requested'].includes(type)) return Promise.reject('Type must be accepted or requested.');
+
+      // Call the notification on the right conversation
+      let conversation = this;
+      if (conversation.id !== source) {
+        try {
+          conversation = await ConversationController.getOrCreateAndWait(
+            source,
+            'private'
+          );
+        } catch (e) {
+          return Promise.reject('Failed to fetch conversation');
+        }
+      }
+
+      const isTypeAccepted = type === 'accepted';
+      const title = isTypeAccepted ? 'friendRequestAcceptedNotificationTitle' : 'friendRequestNotificationTitle';
+      const message = isTypeAccepted ? 'friendRequestAcceptedNotificationMessage' : 'friendRequestNotificationMessage';
+
+      conversation.getNotificationIcon().then(iconUrl => {
+        window.log.info('Add notification for friend request updated', {
+          conversationId: conversation.idForLogging(),
+        });
+        Whisper.Notifications.add({
+          conversationId: conversation.id,
+          iconUrl,
+          isExpiringMessage: false,
+          message: i18n(message, conversation.getTitle()),
+          messageSentAt: Date.now(),
+          title: i18n(title),
+        });
+      }); 
     },
   });
 
