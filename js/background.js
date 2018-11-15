@@ -318,11 +318,14 @@
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
 
     window.log.info('Cleanup: starting...');
-    const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(
-      {
-        MessageCollection: Whisper.MessageCollection,
-      }
-    );
+    const results = await Promise.all([
+      window.Signal.Data.getOutgoingWithoutExpiresAt({ MessageCollection: Whisper.MessageCollection }),
+      window.Signal.Data.getAllUnsentMessages({ MessageCollection: Whisper.MessageCollection }),
+    ]);
+
+    // Combine the models
+    const messagesForCleanup = results.reduce((array, current) => array.concat(current.toArray()), []);
+    
     window.log.info(
       `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
     );

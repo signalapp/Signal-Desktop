@@ -133,6 +133,7 @@ module.exports = {
   getMessageBySender,
   getMessageById,
   getAllMessages,
+  getAllUnsentMessages,
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
@@ -806,6 +807,12 @@ async function getMessageById(id, { Message }) {
 // For testing only
 async function getAllMessages({ MessageCollection }) {
   const messages = await channels.getAllMessages();
+  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
+  return new MessageCollection(encoded);
+}
+
+async function getAllUnsentMessages({ MessageCollection }) {
+  const messages = await channels.getAllUnsentMessages();
   const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
   return new MessageCollection(encoded);
 }
