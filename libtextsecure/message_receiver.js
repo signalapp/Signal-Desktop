@@ -1028,7 +1028,7 @@ MessageReceiver.prototype.extend({
             );
 
             // Update the conversation
-            await conversation.onFriendRequestAccepted();
+            await conversation.onFriendRequestAccepted(true);
           }
         }
       }

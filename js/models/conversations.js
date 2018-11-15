@@ -460,10 +460,13 @@
         }
       }
     },
-    async onFriendRequestAccepted() {
+    async onFriendRequestAccepted(updateUnread = false) {
+      // Make sure we don't keep incrementing the unread count
+      const unreadCount = this.isKeyExchangeCompleted() || !updateUnread ? {} : { unreadCount: this.get('unreadCount') + 1 };
       this.set({
         friendRequestStatus: null,
         keyExchangeCompleted: true,
+        ...unreadCount
       });
 
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -715,6 +718,7 @@
       this.set({
         active_at: Date.now(),
         timestamp: Date.now(),
+        unreadCount: this.get('unreadCount') + 1,
       });
 
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
