@@ -198,6 +198,15 @@
       await this.inProgressFetch;
       removeMessage();
     },
+    async onCalculatingPoW(pubKey, timestamp) {
+      if (this.id !== pubKey) return;
+
+      // Go through our messages and find the one that we need to update
+      const messages = this.messageCollection.models.filter(m => m.get('sent_at') === timestamp);
+      for (const message of messages) {
+        await message.setCalculatingPoW();
+      }
+    },
 
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });

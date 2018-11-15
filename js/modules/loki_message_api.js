@@ -46,7 +46,7 @@ class LokiServer {
     });
   }
 
-  async sendMessage(pubKey, data, ttl) {
+  async sendMessage(pubKey, data, messageTimeStamp, ttl) {
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     // Hardcoded to use a single node/server for now
     const currentNode = this.nodes[0];
@@ -55,6 +55,10 @@ class LokiServer {
     // Nonce is returned as a base64 string to include in header
     let nonce;
     try {
+      window.Whisper.events.trigger('calculatingPoW', {
+        pubKey,
+        timestamp: messageTimeStamp,
+      });
       nonce = await getPoWNonce(timestamp, ttl, pubKey, data64);
     } catch (err) {
       // Something went horribly wrong

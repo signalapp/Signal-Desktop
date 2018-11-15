@@ -562,6 +562,13 @@
         appView.showFriendRequest(friendRequest);
       }
     });
+
+    Whisper.events.on('calculatingPoW', ({ pubKey, timestamp}) => {
+      try {
+        const conversation = ConversationController.get(pubKey);
+        conversation.onCalculatingPoW(pubKey, timestamp);
+      } catch (e) {}
+    });
   }
 
   window.getSyncRequest = () =>
