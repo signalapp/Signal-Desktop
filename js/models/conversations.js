@@ -2080,6 +2080,7 @@
             source,
             'private'
           );
+          window.log.info(`Notify called on a different conversation. expected: ${this.id}. actual: ${conversation.id}`);
         } catch (e) {
           return Promise.reject('Failed to fetch conversation');
         }
