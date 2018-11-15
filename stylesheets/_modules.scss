@@ -535,6 +535,11 @@
   animation: module-message__metdata__status-icon--spinning 4s linear infinite;
 }
 
+.module-message__metadata__status-icon--pow {
+  @include color-svg('../images/pow.svg', $color-gray-60);
+  animation: module-message__metdata__status-icon--spinning 4s linear infinite;
+}
+
 @keyframes module-message__metdata__status-icon--spinning {
   100% {
     -webkit-transform: rotate(360deg);

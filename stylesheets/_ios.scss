@@ -48,6 +48,10 @@
     @include color-svg('../images/sending.svg', $color-white);
   }
 
+  .module-message__metadata__status-icon--pow {
+    @include color-svg('../images/pow.svg', $color-white);
+  }
+
   .module-message__metadata__status-icon--sent {
     @include color-svg('../images/check-circle-outline.svg', $color-white-08);
   }
@@ -151,6 +155,10 @@
 
     .module-message__metadata__status-icon--sending {
       @include color-svg('../images/sending.svg', $color-white);
+    }
+
+    .module-message__metadata__status-icon--pow {
+      @include color-svg('../images/pow.svg', $color-white);
     }
 
     .module-message__metadata__status-icon--sent {
