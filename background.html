@@ -688,6 +688,33 @@ sudo apt update && sudo apt install signal-desktop
       </div>
     </div>
     {{/isStep4}}
+    {{#isStep5}}
+    <div id='step5' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon check-circle-outline'></span>
+          <div class='header'>{{ uninstallHeader }}</div>
+          <div class='body-text-wide center'>
+            <ol class='uninstall-steps'>
+              <li>{{ uninstallStep5 }}</li>
+              <div class='export-location'>{{ completeLocation }}</div>
+              {{ #uninstallStep6 }}
+                <li><a href="https://support.signal.org/hc/en-us/articles/360007320191" target="_blank">{{ uninstallStep6 }}</a></li>
+              {{ /uninstallStep6 }}
+              <li>{{ uninstallStep1 }} <div class='url'>chrome://extensions/</div></li>
+              <li>{{ uninstallStep2 }}</li>
+              <li>{{ uninstallStep3 }}</li>
+              <li>{{ uninstallStep4 }}</li>
+            </ol>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='link submit-debug-log'>{{ debugLogButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep5}}
     {{#isError}}
     <div id='error' class='step'>
       <div class='inner error-dialog clearfix'>

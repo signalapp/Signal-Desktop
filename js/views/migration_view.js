@@ -18,8 +18,7 @@
     },
     render_attributes: function() {
       var attributes = this._super.render_attributes.call(this);
-      // TODO: i18n
-      attributes.header = 'Debian-based Linux install instructions';
+      attributes.header = i18n('linuxInstallInstructions');
       return attributes;
     },
     ok: function(event) {
@@ -45,6 +44,7 @@
     CHOOSE: 2,
     EXPORTING: 3,
     COMPLETE: 4,
+    UNINSTALL: 5,
   };
 
   var GET_YAML_PATH = /^path: (.+)$/m;
@@ -176,7 +176,7 @@
       if (Whisper.Migration.everComplete()) {
         // If the user has ever successfully exported before, we'll show the 'finished'
         //   screen with the 'Export again' button.
-        this.step = STEPS.COMPLETE;
+        this.step = STEPS.UNINSTALL;
         Whisper.Migration.markComplete();
       }
 
@@ -198,9 +198,9 @@
       var userAgent = navigator.userAgent.toLowerCase();
       var downloadLocation = '#';
       if (userAgent.indexOf('windows') !== -1) {
-        downloadLocation = this.windowsLink;
+        downloadLocation = this.windowsLink || 'https://signal.org/download';
       } else if (userAgent.indexOf('macintosh') !== -1) {
-        downloadLocation = this.macLink;
+        downloadLocation = this.macLink || 'https://signal.org/download';
       } else {
         downloadLocation = 'https://signal.org/download';
       }
@@ -232,6 +232,15 @@
         completeNextSteps: i18n('completeNextSteps'),
         downloadLocation: downloadLocation,
         installButton: i18n('getNewVersion'),
+
+        isStep5: this.step === 5,
+        uninstallHeader: i18n('uninstallHeader'),
+        uninstallStep1: i18n('uninstallStep1'),
+        uninstallStep2: i18n('uninstallStep2'),
+        uninstallStep3: i18n('uninstallStep3'),
+        uninstallStep4: i18n('uninstallStep4'),
+        uninstallStep5: i18n('uninstallStep5'),
+        uninstallStep6: userAgent.indexOf('macintosh') !== -1 ? i18n('uninstallStep6') : null,
       };
     },
     onGetNewVersion: function(e) {

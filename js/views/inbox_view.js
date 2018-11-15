@@ -144,6 +144,7 @@
                     this.appLoadingScreen = null;
                 }
                 this.showUpgradeScreen();
+                this.showUpgradeBanner();
             }
             else {
                 this.showUpgradeBanner();

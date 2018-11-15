@@ -1,4 +1,29 @@
 {
+    "uninstallHeader": {
+      "message": "How to uninstall"
+    },
+    "uninstallStep1": {
+      "message": "Open this location in your Chrome browser:"
+    },
+    "uninstallStep2": {
+      "message": "Find 'Signal Private Messenger'"
+    },
+    "uninstallStep3": {
+      "message": "Select 'Remove'"
+    },
+    "uninstallStep4": {
+      "message": "Click 'Remove' to confirm"
+    },
+    "uninstallStep5": {
+      "message": "Delete your previously exported data here:"
+    },
+    "uninstallStep6": {
+      "message": "Remove the Signal Desktop Chrome App shortcut"
+    },
+    "linuxInstallInstructions": {
+      "message": "Debian-based Linux install instructions",
+      "description": "When exporting data for migration to Electron app, Linux instructions pop up."
+    },
     "readOnlyMode": {
       "message": "This application is in read-only mode. Please upgrade to the latest Signal Desktop.",
       "description": "Shown when the user tries to send a message"

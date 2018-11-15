@@ -650,6 +650,12 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     margin-left: auto;
     margin-right: auto;
     max-width: 35em; }
+  .migration-flow .uninstall-steps {
+    margin-bottom: 4em; }
+    .migration-flow .uninstall-steps li {
+      margin: 0.5em; }
+  .migration-flow .url {
+    font-weight: bold; }
   .migration-flow .linux-install-instructions .content {
     max-width: 1300px; }
     .migration-flow .linux-install-instructions .content .header {

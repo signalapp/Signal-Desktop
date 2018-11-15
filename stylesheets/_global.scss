@@ -771,6 +771,15 @@ input[type=text], input[type=search], textarea {
     margin-right: auto;
     max-width: 35em;
   }
+  .uninstall-steps {
+    margin-bottom: 4em;
+    li {
+      margin: 0.5em;
+    }
+  }
+  .url {
+    font-weight: bold;
+  }
 
   .linux-install-instructions .content {
     max-width: 1300px;
