@@ -487,6 +487,20 @@
       }
 
       await this.updatePendingFriendRequests();
+      
+      this.getNotificationIcon().then(iconUrl => {
+        window.log.info('Add notification for friend request updated', {
+          conversationId: this.idForLogging(),
+        });
+        Whisper.Notifications.add({
+          conversationId: this.id,
+          iconUrl,
+          isExpiringMessage: false,
+          message: `Accepted your friend request`,
+          messageSentAt: Date.now(),
+          title: this.getTitle(),
+        });
+      }); 
     },
     async onFriendRequestTimedOut() {
       this.updateTextInputState();
@@ -755,14 +769,14 @@
       const id = await window.Signal.Data.saveMessage(message, {
         Message: Whisper.Message,
       });
+
+      const whisperMessage =  new Whisper.Message({
+        ...message,
+        id,
+      });
      
-      this.trigger(
-        'newmessage',
-        new Whisper.Message({
-          ...message,
-          id,
-        })
-      );
+      this.trigger('newmessage', whisperMessage);
+      this.notify(whisperMessage);
     },
     async addVerifiedChange(verifiedChangeId, verified, providedOptions) {
       const options = providedOptions || {};
@@ -2027,7 +2041,7 @@
     },
 
     notify(message) {
-      if (!message.isIncoming()) {
+      if (!(message.isIncoming() || message.isFriendRequest())) {
         return Promise.resolve();
       }
       const conversationId = this.id;
