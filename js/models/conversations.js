@@ -909,6 +909,26 @@
       return current;
     },
 
+    queueMessageSend(callback) {
+      const previous = this.pendingSend || Promise.resolve();
+
+      const taskWithTimeout = textsecure.createTaskWithTimeout(
+        callback,
+        `conversation ${this.idForLogging()}`
+      );
+
+      this.pendingSend = previous.then(taskWithTimeout, taskWithTimeout);
+      const current = this.pendingSend;
+
+      current.then(() => {
+        if (this.pendingSend === current) {
+          delete this.pendingSend;
+        }
+      });
+
+      return current;
+    },
+
     getRecipients() {
       if (this.isPrivate()) {
         return [this.id];
@@ -1078,20 +1098,26 @@
         );
 
         const options = this.getSendOptions();
-        return message.send(
-          this.wrapSend(
-            sendFunction(
-              destination,
-              body,
-              attachmentsWithData,
-              quote,
-              now,
-              expireTimer,
-              profileKey,
-              options
+
+        // Add the message sending on another queue so that our UI doesn't get blocked
+        this.queueMessageSend(async () => {
+          return message.send(
+            this.wrapSend(
+              sendFunction(
+                destination,
+                body,
+                attachmentsWithData,
+                quote,
+                now,
+                expireTimer,
+                profileKey,
+                options
+              )
             )
-          )
-        );
+          );
+        });
+
+        return true;
       });
     },
     async updateTextInputState() {
