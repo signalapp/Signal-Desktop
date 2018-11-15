@@ -20,6 +20,11 @@
             return { toastMessage: i18n('youLeftTheGroup') };
         }
     });
+    Whisper.ReadOnlyToast = Whisper.ToastView.extend({
+        render_attributes: function() {
+            return { toastMessage: i18n('readOnlyMode') };
+        }
+    });
 
     var MenuView = Whisper.View.extend({
         toggleMenu: function() {
@@ -869,34 +874,10 @@
 
         checkUnverifiedSendMessage: function(e, options) {
             e.preventDefault();
-            this.sendStart = Date.now();
-            this.$messageField.prop('disabled', true);
 
-            options = options || {};
-            _.defaults(options, {force: false});
-
-            // This will go to the trust store for the latest identity key information,
-            //   and may result in the display of a new banner for this conversation.
-            this.model.updateVerified().then(function() {
-                var contacts = this.model.getUnverified();
-                if (!contacts.length) {
-                    return this.checkUntrustedSendMessage(e, options);
-                }
-
-                if (options.force) {
-                    return this.markAllAsVerifiedDefault(contacts).then(function() {
-                        this.checkUnverifiedSendMessage(e, options);
-                    }.bind(this));
-                }
-
-                this.showSendConfirmationDialog(e, contacts);
-            }.bind(this)).catch(function(error) {
-                this.focusMessageField();
-                console.log(
-                    'checkUnverifiedSendMessage error:',
-                    error && error.stack ? error.stack : error
-                );
-            }.bind(this));
+            const toast = new Whisper.ReadOnlyToast();
+            toast.$el.insertAfter(this.$el);
+            toast.render();
         },
 
         checkUntrustedSendMessage: function(e, options) {

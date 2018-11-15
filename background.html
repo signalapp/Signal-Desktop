@@ -127,7 +127,6 @@
             <div class='conversation-menu menu'>
               <button class='hamburger' alt='conversation menu'></button>
               <ul class='menu-list'>
-                  <li class='disappearing-messages'>{{ disappearing-messages }}</li>
                   {{#group}}
                       <li class='show-members'>{{ show-members }}</li>
                       <!-- <li class='update-group'>Update group</li> -->
@@ -137,7 +136,6 @@
                       {{ ^isMe }}
                         <li class='show-identity'>{{ show-identity }}</li>
                       {{ /isMe }}
-                      <li class='end-session'>{{ end-session }}</li>
                   {{/group}}
                   <li class='destroy'>{{ destroy }}</li>
               </ul>

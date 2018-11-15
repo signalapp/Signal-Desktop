@@ -1,4 +1,8 @@
 {
+    "readOnlyMode": {
+      "message": "This application is in read-only mode. Please upgrade to the latest Signal Desktop.",
+      "description": "Shown when the user tries to send a message"
+    },
     "close": {
       "message": "Close",
       "description": "Shown on a button to dismiss a dialog box"

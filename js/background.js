@@ -129,65 +129,6 @@
 
         // End of day, November 15th, 2018, Pacific Time (midnight the next day)
         window.EXPIRATION_TIME = new Date('2018-11-16T08:00:00.000Z');
-
-        if (!Whisper.Registration.isDone()) { return; }
-        if (Whisper.Migration.inProgress()) { return; }
-
-        if (messageReceiver) { messageReceiver.close(); }
-
-        Whisper.RotateSignedPreKeyListener.init(Whisper.events);
-
-        var USERNAME = storage.get('number_id');
-        var PASSWORD = storage.get('password');
-        var mySignalingKey = storage.get('signaling_key');
-
-        // initialize the socket and start listening for messages
-        messageReceiver = new textsecure.MessageReceiver(
-            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD, mySignalingKey
-        );
-        messageReceiver.addEventListener('message', onMessageReceived);
-        messageReceiver.addEventListener('receipt', onDeliveryReceipt);
-        messageReceiver.addEventListener('contact', onContactReceived);
-        messageReceiver.addEventListener('group', onGroupReceived);
-        messageReceiver.addEventListener('sent', onSentMessage);
-        messageReceiver.addEventListener('read', onReadReceipt);
-        messageReceiver.addEventListener('verified', onVerified);
-        messageReceiver.addEventListener('error', onError);
-        messageReceiver.addEventListener('empty', onEmpty);
-        messageReceiver.addEventListener('progress', onProgress);
-
-        window.textsecure.messaging = new textsecure.MessageSender(
-            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
-        );
-
-        // Because v0.43.2 introduced a bug that lost contact details, v0.43.4 introduces
-        //   a one-time contact sync to restore all lost contact/group information. We
-        //   disable this checking if a user is first registering.
-        var key = 'chrome-contact-sync-v0.43.4';
-        if (!storage.get(key)) {
-            storage.put(key, true);
-
-            if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
-                window.getSyncRequest();
-            }
-        }
-
-        if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
-            if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
-                storage.put('theme-setting', 'ios');
-            }
-            var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
-            Whisper.events.trigger('contactsync:begin');
-            syncRequest.addEventListener('success', function() {
-                console.log('sync successful');
-                storage.put('synced_at', Date.now());
-                Whisper.events.trigger('contactsync');
-            });
-            syncRequest.addEventListener('timeout', function() {
-                console.log('sync timed out');
-                Whisper.events.trigger('contactsync');
-            });
-        }
     }
 
     function onEmpty() {

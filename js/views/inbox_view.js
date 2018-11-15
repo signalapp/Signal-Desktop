@@ -98,13 +98,6 @@
                 model: { window: options.window }
             });
 
-            if (!options.initialLoadComplete) {
-                this.appLoadingScreen = new Whisper.AppLoadingScreen();
-                this.appLoadingScreen.render();
-                this.appLoadingScreen.$el.prependTo(this.el);
-                this.startConnectionListener();
-            }
-
             var inboxCollection = getInboxCollection();
 
             inboxCollection.on('messageError', function() {
