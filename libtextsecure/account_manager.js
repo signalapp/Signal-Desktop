@@ -317,19 +317,21 @@
           identityKeyPair.pubKey
         );
 
-      return Promise.resolve().then(() => {
-          textsecure.storage.remove('identityKey');
-          textsecure.storage.remove('signaling_key');
-          textsecure.storage.remove('password');
-          textsecure.storage.remove('registrationId');
-          textsecure.storage.remove('number_id');
-          textsecure.storage.remove('device_name');
-          textsecure.storage.remove('userAgent');
-          textsecure.storage.remove('read-receipts-setting');
-
+      return Promise.resolve().then(async () => {
+          await Promise.all([
+            textsecure.storage.remove('identityKey'),
+            textsecure.storage.remove('signaling_key'),
+            textsecure.storage.remove('password'),
+            textsecure.storage.remove('registrationId'),
+            textsecure.storage.remove('number_id'),
+            textsecure.storage.remove('device_name'),
+            textsecure.storage.remove('userAgent'),
+            textsecure.storage.remove('read-receipts-setting'),
+          ]);
+          
           // update our own identity key, which may have changed
           // if we're relinking after a reinstall on the master device
-          textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
+          await textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
             id: pubKeyString,
             publicKey: identityKeyPair.pubKey,
             firstUse: true,
@@ -338,20 +340,20 @@
             nonblockingApproval: true,
           });
 
-          textsecure.storage.put('identityKey', identityKeyPair);
-          textsecure.storage.put('signaling_key', signalingKey);
-          textsecure.storage.put('password', password);
-          textsecure.storage.put('registrationId', registrationId);
+          await textsecure.storage.put('identityKey', identityKeyPair);
+          await textsecure.storage.put('signaling_key', signalingKey);
+          await textsecure.storage.put('password', password);
+          await textsecure.storage.put('registrationId', registrationId);
           if (userAgent) {
-            textsecure.storage.put('userAgent', userAgent);
-          }
-          if (readReceipts) {
-            textsecure.storage.put('read-receipt-setting', true);
-          } else {
-            textsecure.storage.put('read-receipt-setting', false);
+            await textsecure.storage.put('userAgent', userAgent);
           }
 
-          textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
+          await textsecure.storage.put(
+            'read-receipt-setting',
+            Boolean(readReceipts)
+          );
+
+          await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
         });
     },
     clearSessionsAndPreKeys() {

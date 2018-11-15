@@ -899,7 +899,13 @@
       return this.OUR_NUMBER;
     },
     getContact() {
-      return ConversationController.getOrCreate(this.getSource(), 'private');
+      const source = this.getSource();
+
+      if (!source) {
+        return null;
+      }
+
+      return ConversationController.getOrCreate(source, 'private');
     },
     isOutgoing() {
       return this.get('type') === 'outgoing';
