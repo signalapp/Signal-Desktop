@@ -150,6 +150,7 @@
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
         spellCheckHeader: i18n('spellCheck'),
         spellCheckDescription: i18n('spellCheckDescription'),
+        blockedHeader: 'Blocked Users',
       };
     },
     onClose() {

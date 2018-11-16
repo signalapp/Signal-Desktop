@@ -63,10 +63,16 @@
 
         return null;
       },
+      unblockAll() {
+        const all = blockedNumbers.models;
+        all.forEach(number => {
+          storage.removeBlockedNumber(number);
+          blockedNumbers.remove(number);
+        })
+      },
       isBlocked(number) {
         return storage.isBlocked(number);
       },
-
     };
   })();
   
