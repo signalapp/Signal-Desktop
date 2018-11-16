@@ -875,7 +875,7 @@
         checkUnverifiedSendMessage: function(e, options) {
             e.preventDefault();
 
-            const toast = new Whisper.ReadOnlyToast();
+            var toast = new Whisper.ReadOnlyToast();
             toast.$el.insertAfter(this.$el);
             toast.render();
         },
