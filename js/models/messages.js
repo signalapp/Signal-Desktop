@@ -93,7 +93,6 @@
       return {
         timestamp: new Date().getTime(),
         attachments: [],
-        pow: false,
         sent: false,
       };
     },
