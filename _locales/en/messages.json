@@ -1589,5 +1589,35 @@
   "friendRequestDeclined": {
     "message": "Friend request declined",
     "description": "Shown in the conversation history when the user declines a friend request"
+  },
+  "friendRequestNotificationTitle": {
+    "message": "Friend request",
+    "description": "Shown in a notification title when receiving a friend request"
+  },
+  "friendRequestNotificationMessage": {
+    "message": "$name$ sent you a friend request",
+    "description":
+      "Shown in a notification body when receiving a friend request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "friendRequestAcceptedNotificationTitle": {
+    "message": "Friend request accepted",
+    "description": "Shown in a notification title when friend request was accepted by the other user"
+  },
+  "friendRequestAcceptedNotificationMessage": {
+    "message": "$name$ accepted your friend request",
+    "description":
+      "Shown in a notification body when friend request was accepted by the other user",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
   }
 }

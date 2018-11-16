@@ -467,10 +467,13 @@
         }
       }
     },
-    async onFriendRequestAccepted() {
+    async onFriendRequestAccepted({ updateUnread }) {
+      // Make sure we don't keep incrementing the unread count
+      const unreadCount = this.isKeyExchangeCompleted() || !updateUnread ? {} : { unreadCount: this.get('unreadCount') + 1 };
       this.set({
         friendRequestStatus: null,
         keyExchangeCompleted: true,
+        ...unreadCount,
       });
 
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -482,18 +485,21 @@
 
       // Update any pending outgoing messages
       const pending = await this.getPendingFriendRequests('outgoing');
-      for (const request of pending) {
-        // Only update successfully sent requests
-        if (request.hasErrors()) continue;
+      await Promise.all(
+        pending.map(async request => {
+          if (request.hasErrors()) return;
 
-        request.set({ friendStatus: 'accepted' });
-        await window.Signal.Data.saveMessage(request.attributes, {
-          Message: Whisper.Message,
-        });
-        this.trigger('updateMessage', request);
-      }
+          request.set({ friendStatus: 'accepted' });
+          await window.Signal.Data.saveMessage(request.attributes, {
+            Message: Whisper.Message,
+          });
+          this.trigger('updateMessage', request);
+        })
+      );
 
       await this.updatePendingFriendRequests();
+
+      this.notifyFriendRequest(this.id, 'accepted')
     },
     async onFriendRequestTimedOut() {
       this.updateTextInputState();
@@ -720,6 +726,7 @@
       this.set({
         active_at: Date.now(),
         timestamp: Date.now(),
+        unreadCount: this.get('unreadCount') + 1,
       });
 
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -762,14 +769,14 @@
       const id = await window.Signal.Data.saveMessage(message, {
         Message: Whisper.Message,
       });
+
+      const whisperMessage =  new Whisper.Message({
+        ...message,
+        id,
+      });
      
-      this.trigger(
-        'newmessage',
-        new Whisper.Message({
-          ...message,
-          id,
-        })
-      );
+      this.trigger('newmessage', whisperMessage);
+      this.notify(whisperMessage);
     },
     async addVerifiedChange(verifiedChangeId, verified, providedOptions) {
       const options = providedOptions || {};
@@ -2061,6 +2068,8 @@
 
     notify(message) {
       if (!message.isIncoming()) {
+        if (message.isFriendRequest())
+          return this.notifyFriendRequest(message.get('source'), 'requested');
         return Promise.resolve();
       }
       const conversationId = this.id;
@@ -2091,6 +2100,44 @@
           });
         })
       );
+    },
+    // Notification for friend request received
+    async notifyFriendRequest(source, type) {
+      // Data validation
+      if (!source) return Promise.reject('Invalid source');
+      if (!['accepted', 'requested'].includes(type)) return Promise.reject('Type must be accepted or requested.');
+
+      // Call the notification on the right conversation
+      let conversation = this;
+      if (conversation.id !== source) {
+        try {
+          conversation = await ConversationController.getOrCreateAndWait(
+            source,
+            'private'
+          );
+          window.log.info(`Notify called on a different conversation. expected: ${this.id}. actual: ${conversation.id}`);
+        } catch (e) {
+          return Promise.reject('Failed to fetch conversation');
+        }
+      }
+
+      const isTypeAccepted = type === 'accepted';
+      const title = isTypeAccepted ? 'friendRequestAcceptedNotificationTitle' : 'friendRequestNotificationTitle';
+      const message = isTypeAccepted ? 'friendRequestAcceptedNotificationMessage' : 'friendRequestNotificationMessage';
+
+      conversation.getNotificationIcon().then(iconUrl => {
+        window.log.info('Add notification for friend request updated', {
+          conversationId: conversation.idForLogging(),
+        });
+        Whisper.Notifications.add({
+          conversationId: conversation.id,
+          iconUrl,
+          isExpiringMessage: false,
+          message: i18n(message, conversation.getTitle()),
+          messageSentAt: Date.now(),
+          title: i18n(title),
+        });
+      }); 
     },
   });
 

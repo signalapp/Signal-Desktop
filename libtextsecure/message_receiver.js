@@ -1030,11 +1030,11 @@ MessageReceiver.prototype.extend({
           if (savePreKey) {
             await this.handlePreKeyBundleMessage(
               envelope.source,
-              this.decodePreKeyBundleMessage(content.preKeyBundleMessage),
+              this.decodePreKeyBundleMessage(content.preKeyBundleMessage)
             );
 
             // Update the conversation
-            await conversation.onFriendRequestAccepted();
+            await conversation.onFriendRequestAccepted({ updateUnread: true });
           }
         }
       }
