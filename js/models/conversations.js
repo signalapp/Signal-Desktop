@@ -203,7 +203,7 @@
 
       // Go through our messages and find the one that we need to update
       const messages = this.messageCollection.models.filter(m => m.get('sent_at') === timestamp);
-      await Promise.all(messages.map(m => m.setCalculatingPoW()))
+      await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
     addSingleMessage(message, setToExpire = true) {
