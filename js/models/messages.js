@@ -192,7 +192,8 @@
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
-        if (this.isFriendRequest()) return `Friend Request: ${description}`;
+        if (this.isFriendRequest())
+          return `Friend Request: ${description}`;
         return description;
       }
       if (this.get('attachments').length > 0) {

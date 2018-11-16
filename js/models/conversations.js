@@ -460,13 +460,13 @@
         }
       }
     },
-    async onFriendRequestAccepted(updateUnread = false) {
+    async onFriendRequestAccepted({ updateUnread }) {
       // Make sure we don't keep incrementing the unread count
       const unreadCount = this.isKeyExchangeCompleted() || !updateUnread ? {} : { unreadCount: this.get('unreadCount') + 1 };
       this.set({
         friendRequestStatus: null,
         keyExchangeCompleted: true,
-        ...unreadCount
+        ...unreadCount,
       });
 
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -478,16 +478,17 @@
 
       // Update any pending outgoing messages
       const pending = await this.getPendingFriendRequests('outgoing');
-      for (const request of pending) {
-        // Only update successfully sent requests
-        if (request.hasErrors()) continue;
+      await Promise.all(
+        pending.map(async request => {
+          if (request.hasErrors()) return;
 
-        request.set({ friendStatus: 'accepted' });
-        await window.Signal.Data.saveMessage(request.attributes, {
-          Message: Whisper.Message,
-        });
-        this.trigger('updateMessage', request);
-      }
+          request.set({ friendStatus: 'accepted' });
+          await window.Signal.Data.saveMessage(request.attributes, {
+            Message: Whisper.Message,
+          });
+          this.trigger('updateMessage', request);
+        })
+      );
 
       await this.updatePendingFriendRequests();
 
@@ -2034,7 +2035,8 @@
 
     notify(message) {
       if (!message.isIncoming()) {
-        if (message.isFriendRequest()) return this.notifyFriendRequest(message.get('source'), 'requested');
+        if (message.isFriendRequest())
+          return this.notifyFriendRequest(message.get('source'), 'requested');
         return Promise.resolve();
       }
       const conversationId = this.id;
