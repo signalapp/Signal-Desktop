@@ -126,9 +126,6 @@
 
     function init(firstRun) {
         window.removeEventListener('online', init);
-
-        // End of day, November 15th, 2018, Pacific Time (midnight the next day)
-        window.EXPIRATION_TIME = new Date('2018-11-16T08:00:00.000Z');
     }
 
     function onEmpty() {

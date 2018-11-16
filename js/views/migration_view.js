@@ -294,9 +294,9 @@
 
     cancel: function() {
       Whisper.Migration.cancel().then(function() {
-        console.log('Restarting now');
-        window.location.reload();
-      });
+        console.log('Removing migration view');
+        this.remove();
+      }.bind(this));
     },
     selectStep: function(step) {
       this.step = step;

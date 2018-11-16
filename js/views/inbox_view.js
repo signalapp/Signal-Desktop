@@ -134,20 +134,13 @@
             this.networkStatusView = new Whisper.NetworkStatusView();
             this.$el.find('.network-status-container').append(this.networkStatusView.render().el);
 
-            extension.windows.onClosed(function() {
-                this.inboxListView.stopListening();
-            }.bind(this));
+            this.showUpgradeScreen();
+            this.showUpgradeBanner();
 
-            if (Whisper.Migration.inProgress()) {
-                if (this.appLoadingScreen) {
-                    this.appLoadingScreen.remove();
-                    this.appLoadingScreen = null;
-                }
-                this.showUpgradeScreen();
-                this.showUpgradeBanner();
-            }
-            else {
-                this.showUpgradeBanner();
+            if (extension.windows) {
+                extension.windows.onClosed(function() {
+                    this.inboxListView.stopListening();
+                }.bind(this));
             }
         },
         render_attributes: {
@@ -334,21 +327,8 @@
             Backbone.View.prototype.remove.call(this);
         },
         render_attributes: function() {
-            var DAY = 1000 * 60 * 60 * 24;
-            var timeLeft = window.EXPIRATION_TIME.getTime() - Date.now();
-
-            if (timeLeft <= 0) {
-                return {
-                    upgradeMessage: i18n('upgradeBannerExpired'),
-                    upgradeNow: i18n('upgradeNow'),
-                };
-            }
-
-            var daysLeft = Math.floor(timeLeft / DAY);
-
             return {
-                upgradeMessage: i18n('upgradeBanner'),
-                highlight: i18n('upgradeBannerTimespan', [daysLeft]),
+                upgradeMessage: i18n('upgradeBannerExpired'),
                 upgradeNow: i18n('upgradeNow'),
             };
         }
