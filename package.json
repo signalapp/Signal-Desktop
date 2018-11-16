@@ -92,7 +92,7 @@
     "to-arraybuffer": "1.0.1",
     "underscore": "1.9.0",
     "uuid": "3.3.2",
-    "websocket": "1.0.25"
+    "websocket": "1.0.28"
   },
   "devDependencies": {
     "@types/chai": "4.1.2",
