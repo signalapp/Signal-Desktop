@@ -1302,7 +1302,9 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
 
 async function getAllUnsentMessages() {
   const rows = await db.all(`
-    SELECT json FROM messages WHERE NOT sent
+    SELECT json FROM messages WHERE
+      type IN ('outgoing', 'friend-request') AND
+      NOT sent
     ORDER BY sent_at DESC;
   `);
   return map(rows, row => jsonToObject(row.json));

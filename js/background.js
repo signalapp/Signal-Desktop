@@ -337,6 +337,11 @@
           'expirationStartTimestamp'
         );
 
+        // Make sure we only target outgoing messages
+        if (message.isFriendRequest() && message.get('direction') === 'incoming') {
+          return;
+        }
+
         if (message.hasErrors()) {
           return;
         }
