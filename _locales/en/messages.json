@@ -1,4 +1,7 @@
 {
+    "preLinkExpiredHeader": {
+      "message": "Time to upgrade"
+    },
     "uninstallHeader": {
       "message": "How to uninstall"
     },

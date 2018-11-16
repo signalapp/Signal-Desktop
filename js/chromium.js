@@ -172,9 +172,12 @@
             extension.windows.open({
                 id: id,
                 url: url,
-                bounds: { width: 800, height: 666, },
-                minWidth: 800,
-                minHeight: 666
+                bounds: {
+                    width: 580,
+                    height: 440,
+                },
+                minWidth: 600,
+                minHeight: 360
             });
         }
     };
