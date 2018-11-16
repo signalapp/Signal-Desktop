@@ -198,6 +198,13 @@
       await this.inProgressFetch;
       removeMessage();
     },
+    async onCalculatingPoW(pubKey, timestamp) {
+      if (this.id !== pubKey) return;
+
+      // Go through our messages and find the one that we need to update
+      const messages = this.messageCollection.models.filter(m => m.get('sent_at') === timestamp);
+      await Promise.all(messages.map(m => m.setCalculatingPoW()));
+    },
 
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
@@ -909,6 +916,26 @@
       return current;
     },
 
+    queueMessageSend(callback) {
+      const previous = this.pendingSend || Promise.resolve();
+
+      const taskWithTimeout = textsecure.createTaskWithTimeout(
+        callback,
+        `conversation ${this.idForLogging()}`
+      );
+
+      this.pendingSend = previous.then(taskWithTimeout, taskWithTimeout);
+      const current = this.pendingSend;
+
+      current.then(() => {
+        if (this.pendingSend === current) {
+          delete this.pendingSend;
+        }
+      });
+
+      return current;
+    },
+
     getRecipients() {
       if (this.isPrivate()) {
         return [this.id];
@@ -1078,20 +1105,26 @@
         );
 
         const options = this.getSendOptions();
-        return message.send(
-          this.wrapSend(
-            sendFunction(
-              destination,
-              body,
-              attachmentsWithData,
-              quote,
-              now,
-              expireTimer,
-              profileKey,
-              options
+
+        // Add the message sending on another queue so that our UI doesn't get blocked
+        this.queueMessageSend(async () => {
+          return message.send(
+            this.wrapSend(
+              sendFunction(
+                destination,
+                body,
+                attachmentsWithData,
+                quote,
+                now,
+                expireTimer,
+                profileKey,
+                options
+              )
             )
-          )
-        );
+          );
+        });
+
+        return true;
       });
     },
     async updateTextInputState() {

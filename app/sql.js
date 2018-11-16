@@ -96,6 +96,7 @@ module.exports = {
   getMessageById,
   getAllMessages,
   getAllMessageIds,
+  getAllUnsentMessages,
   getMessagesBySentAt,
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
@@ -203,6 +204,7 @@ async function updateToSchemaVersion1(currentVersion, instance) {
 
       unread INTEGER,
       expires_at INTEGER,
+      sent BOOLEAN,
       sent_at INTEGER,
       schemaVersion INTEGER,
       conversationId STRING,
@@ -1115,6 +1117,7 @@ async function saveMessage(data, { forceSave } = {}) {
     received_at,
     schemaVersion,
     // eslint-disable-next-line camelcase
+    sent,
     sent_at,
     source,
     sourceDevice,
@@ -1137,6 +1140,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $hasVisualMediaAttachments: hasVisualMediaAttachments,
     $received_at: received_at,
     $schemaVersion: schemaVersion,
+    $sent: sent,
     $sent_at: sent_at,
     $source: source,
     $sourceDevice: sourceDevice,
@@ -1158,6 +1162,7 @@ async function saveMessage(data, { forceSave } = {}) {
         id = $id,
         received_at = $received_at,
         schemaVersion = $schemaVersion,
+        sent = $sent,
         sent_at = $sent_at,
         source = $source,
         sourceDevice = $sourceDevice,
@@ -1189,6 +1194,7 @@ async function saveMessage(data, { forceSave } = {}) {
     hasVisualMediaAttachments,
     received_at,
     schemaVersion,
+    sent,
     sent_at,
     source,
     sourceDevice,
@@ -1207,6 +1213,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $hasVisualMediaAttachments,
     $received_at,
     $schemaVersion,
+    $sent,
     $sent_at,
     $source,
     $sourceDevice,
@@ -1290,6 +1297,14 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
     }
   );
 
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllUnsentMessages() {
+  const rows = await db.all(`
+    SELECT json FROM messages WHERE NOT sent
+    ORDER BY sent_at DESC;
+  `);
   return map(rows, row => jsonToObject(row.json));
 }
 

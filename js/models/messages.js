@@ -93,6 +93,7 @@
       return {
         timestamp: new Date().getTime(),
         attachments: [],
+        sent: false,
       };
     },
     validate(attributes) {
@@ -439,6 +440,8 @@
       if (sent || sentTo.length > 0) {
         return 'sent';
       }
+      const calculatingPoW = this.get('calculatingPoW');
+      if (calculatingPoW) return 'pow';
 
       return 'sending';
     },
@@ -930,7 +933,17 @@
 
       return null;
     },
+    async setCalculatingPoW() {
+      if (this.calculatingPoW) return;
 
+      this.set({
+        calculatingPoW: true,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
     send(promise) {
       this.trigger('pending');
       return promise

@@ -177,7 +177,7 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
     const pubKey = number;
     try {
-      const result = await this.lokiserver.sendMessage(pubKey, data, ttl);
+      const result = await this.lokiserver.sendMessage(pubKey, data, timestamp, ttl);
       return result;
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
