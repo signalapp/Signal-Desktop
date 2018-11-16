@@ -129,13 +129,6 @@
 
         // End of day, November 15th, 2018, Pacific Time (midnight the next day)
         window.EXPIRATION_TIME = new Date('2018-11-16T08:00:00.000Z');
-        var timeLeft = window.EXPIRATION_TIME.getTime() - Date.now();
-        if (timeLeft <= 0) {
-            // start the migrate process, don't start up normally
-            return window.owsDesktopApp.getAppView().then(function(inboxView) {
-                inboxView.showUpgradeScreen();
-            });
-        }
 
         if (!Whisper.Registration.isDone()) { return; }
         if (Whisper.Migration.inProgress()) { return; }
