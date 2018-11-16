@@ -86,7 +86,7 @@
       return m.get('number');
     },
     getNumber(number) {
-      return this.model.find(m => m.number === number);
+      return this.models.find(m => m.number === number);
     },
   });
   

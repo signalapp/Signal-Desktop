@@ -30,6 +30,7 @@ interface Props {
   color: string;
 
   avatarPath?: string;
+  isBlocked: boolean;
   isMe: boolean;
   isGroup: boolean;
   expirationSettingName?: string;
@@ -44,6 +45,9 @@ interface Props {
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
   onGoBack: () => void;
+
+  onBlockUser: () => void;
+  onUnblockUser: () => void;
 }
 
 export class ConversationHeader extends React.Component<Props> {
@@ -182,6 +186,7 @@ export class ConversationHeader extends React.Component<Props> {
   public renderMenu(triggerId: string) {
     const {
       i18n,
+      isBlocked,
       isMe,
       isGroup,
       onDeleteMessages,
@@ -191,9 +196,14 @@ export class ConversationHeader extends React.Component<Props> {
       onShowGroupMembers,
       onShowSafetyNumber,
       timerOptions,
+      onBlockUser,
+      onUnblockUser,
     } = this.props;
 
     const disappearingTitle = i18n('disappearingMessages') as any;
+
+    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
+    const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
 
     return (
       <ContextMenu id={triggerId}>
@@ -222,6 +232,10 @@ export class ConversationHeader extends React.Component<Props> {
         ) : null}
         {!isGroup ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
+        ) : null}
+        {/* Only show the block on other conversations */}
+        {!isMe ? (
+          <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
         ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
       </ContextMenu>

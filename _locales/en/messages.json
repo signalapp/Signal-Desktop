@@ -1619,5 +1619,11 @@
         "example": "Bob"
       }
     }
+  },
+  "blockUser": {
+    "message": "Block user"
+  },
+  "unblockUser": {
+    "message": "Unblock user"
   }
 }

@@ -1,6 +1,6 @@
 /* global _: false */
 /* global Backbone: false */
-/* global libphonenumber: false */
+/* global BlockedNumberController: false */
 
 /* global ConversationController: false */
 /* global libsignal: false */
@@ -147,7 +147,17 @@
     isMe() {
       return this.id === this.ourNumber;
     },
-
+    isBlocked() {
+      return BlockedNumberController.isBlocked(this.id);
+    },
+    block() {
+      BlockedNumberController.block(this.id);
+      this.trigger('change');
+    },
+    unblock() {
+      BlockedNumberController.unblock(this.id);
+      this.trigger('change');
+    },
     async cleanup() {
       await window.Signal.Types.Conversation.deleteExternalFiles(
         this.attributes,
@@ -280,6 +290,7 @@
         unreadCount: this.get('unreadCount') || 0,
         isSelected: this.isSelected,
         showFriendRequestIndicator: this.pendingFriendRequest,
+        isBlocked: this.isBlocked(),
         lastMessage: {
           status: this.lastMessageStatus,
           text: this.lastMessage,
