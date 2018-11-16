@@ -705,16 +705,16 @@ MessageReceiver.prototype.extend({
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
-        promise = sessionCipher.decryptWhisperMessage(ciphertext);
-        // TODO: restore unpadding (?)
-        // .then(this.unpad);
+        promise = sessionCipher.decryptWhisperMessage(ciphertext)
+          .then(this.unpad);
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST:
         window.log.info('friend-request message from ', envelope.source);
         const fallBackSessionCipher = new libloki.FallBackSessionCipher(
           address
         );
-        promise = fallBackSessionCipher.decrypt(ciphertext.toArrayBuffer());
+        promise = fallBackSessionCipher.decrypt(ciphertext.toArrayBuffer())
+          .then(this.unpad);
         break;
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
         window.log.info('prekey message from', this.getEnvelopeId(envelope));
@@ -826,7 +826,6 @@ MessageReceiver.prototype.extend({
   },
   async decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address) {
     const padded = await sessionCipher.decryptPreKeyWhisperMessage(ciphertext);
-    return padded;
 
     try {
       return this.unpad(padded);

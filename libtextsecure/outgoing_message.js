@@ -207,13 +207,11 @@ OutgoingMessage.prototype = {
   getPlaintext() {
     if (!this.plaintext) {
       const messageBuffer = this.message.toArrayBuffer();
-      this.plaintext = new Uint8Array(messageBuffer.byteLength);
-      // TODO: figure out why we needed padding in the first place
-      // this.plaintext = new Uint8Array(
-      //   this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
-      // );
+      this.plaintext = new Uint8Array(
+        this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
+      );
       this.plaintext.set(new Uint8Array(messageBuffer));
-      // this.plaintext[messageBuffer.byteLength] = 0x80;
+      this.plaintext[messageBuffer.byteLength] = 0x80;
     }
     return this.plaintext;
   },
