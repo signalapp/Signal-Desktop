@@ -893,6 +893,10 @@
     getNumberInfo(options = {}) {
       const { syncMessage, disableMeCheck } = options;
 
+      if (!this.ourNumber) {
+        return null;
+      }
+
       // START: this code has an Expiration date of ~2018/11/21
       // We don't want to enable unidentified delivery for send unless it is
       //   also enabled for our own account.
