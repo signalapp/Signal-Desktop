@@ -53,7 +53,6 @@
     "config": "1.28.1",
     "electron-editor-context-menu": "1.1.1",
     "electron-is-dev": "0.3.0",
-    "electron-unhandled": "https://github.com/scottnonnenberg-signal/electron-unhandled.git#7496187472aa561d39fcd4c843a54ffbef0a388c",
     "electron-updater": "2.21.10",
     "emoji-datasource": "4.0.0",
     "emoji-datasource-apple": "4.0.0",
