@@ -26,6 +26,10 @@ window.getAppInstance = () => config.appInstance;
 
 window.closeSettings = () => ipcRenderer.send('close-settings');
 
+// Events for updating block number states across different windows
+// In this case we need these to update the blocked number collection on the main window from the settings window
+window.onUnblockNumber = number => ipcRenderer.send('on-unblock-number', number);
+
 window.getDeviceName = makeGetter('device-name');
 
 window.getThemeSetting = makeGetter('theme-setting');

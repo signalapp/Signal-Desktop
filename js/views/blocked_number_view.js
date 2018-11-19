@@ -8,7 +8,7 @@
 // eslint-disable-next-line func-names
 (function() {
     'use strict';
-  
+
     window.Whisper = window.Whisper || {};
 
     Whisper.BlockedNumberView = Whisper.View.extend({
@@ -25,7 +25,7 @@
           });
 
           this.listView.render();
-          this.$('.content').append(this.listView.el);
+          this.$('.blocked-user-settings').append(this.listView.el);
         });
       },
       render_attributes() {
@@ -37,12 +37,11 @@
 
 
   Whisper.BlockedNumberListView = Whisper.ListView.extend({
-    tagName: 'div',
     itemView: Whisper.View.extend({
-      tagName: 'div',
+      tagName: 'li',
       templateName: 'blockedNumber',
-      initialize() {
-        this.listenTo(this.model, 'change', this.render);
+      events: {
+        'click .unblock-button': 'onUnblock',
       },
       render_attributes() {
         const number = (this.model && this.model.get('number')) || '-';
@@ -50,7 +49,16 @@
           number,
         }
       },
+      onUnblock() {
+        const number = this.model && this.model.get('number');
+        if (!number) return;
+
+        if (BlockedNumberController.isBlocked(number)) {
+          BlockedNumberController.unblock(number);
+          window.onUnblockNumber(number);
+          this.remove();
+        }
+      },
     }),
   });
   })();
-  

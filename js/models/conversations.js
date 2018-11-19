@@ -129,7 +129,7 @@
       setTimeout(() => {
         this.setFriendRequestTimer();
       }, 0);
-      
+
       const sealedSender = this.get('sealedSender');
       if (sealedSender === undefined) {
         this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
@@ -153,10 +153,12 @@
     block() {
       BlockedNumberController.block(this.id);
       this.trigger('change');
+      this.messageCollection.forEach(m => m.trigger('change'));
     },
     unblock() {
       BlockedNumberController.unblock(this.id);
       this.trigger('change');
+      this.messageCollection.forEach(m => m.trigger('change'));
     },
     async cleanup() {
       await window.Signal.Types.Conversation.deleteExternalFiles(
@@ -254,7 +256,7 @@
       // Go through the messages and check for any pending friend requests
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
-        { 
+        {
           type: 'friend-request',
           MessageCollection: Whisper.MessageCollection,
         }

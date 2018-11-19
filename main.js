@@ -930,6 +930,12 @@ ipc.on('set-media-permissions', (event, value) => {
   event.sender.send('set-success-media-permissions', null);
 });
 
+ipc.on('on-unblock-number', (event, number) => {
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send('on-unblock-number', number);
+  }
+});
+
 installSettingsGetter('is-primary');
 installSettingsGetter('sync-request');
 installSettingsGetter('sync-time');

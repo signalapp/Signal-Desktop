@@ -38,6 +38,41 @@
       color: red;
     }
   }
+
+  .blocked-number {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .blocked-number {
+    div {
+      flex: 1;
+      flex-wrap: wrap-reverse;
+      word-break: break-all;
+    }
+    button {
+      line-height: 36px;
+      padding: 0 20px;
+      margin: 0 0 20px 20px;
+    }
+  }
+
+  .blocked-user-settings ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .wordwrap {
+    white-space: pre-wrap;      /* CSS3 */
+    white-space: -moz-pre-wrap; /* Firefox */
+    white-space: -pre-wrap;     /* Opera <7 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    word-wrap: break-word;      /* IE */
+ }
+
   .restart-needed {
     margin-top: 1em;
   }

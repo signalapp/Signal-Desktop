@@ -1,4 +1,4 @@
-/* global , Whisper, storage */
+/* global , Whisper, storage, ConversationController */
 /* global textsecure: false */
 
 /* eslint-disable more/no-then */
@@ -6,12 +6,12 @@
 // eslint-disable-next-line func-names
 (function() {
     'use strict';
-  
+
     window.Whisper = window.Whisper || {};
-  
+
     const blockedNumbers = new Whisper.BlockedNumberCollection();
     window.getBlockedNumbers = () => blockedNumbers;
-  
+
     window.BlockedNumberController = {
       getAll() {
         try {
@@ -26,7 +26,7 @@
       },
       load() {
         window.log.info('BlockedNumberController: starting initial fetch');
-  
+
         if (blockedNumbers.length) {
           throw new Error('BlockedNumberController: Already loaded!');
         }
@@ -83,4 +83,3 @@
       },
     };
   })();
-  
