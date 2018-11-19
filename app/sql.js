@@ -458,6 +458,11 @@ async function updateToSchemaVersion6(currentVersion, instance) {
     );`
   );
 
+  await instance.run(`CREATE UNIQUE INDEX contact_prekey_identity_key_string_keyid ON contactPreKeys (
+    identityKeyString,
+    keyId
+  );`);
+
   await instance.run(
     `CREATE TABLE contactSignedPreKeys(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -466,6 +471,11 @@ async function updateToSchemaVersion6(currentVersion, instance) {
       json TEXT
     );`
   );
+
+  await instance.run(`CREATE UNIQUE INDEX contact_signed_prekey_identity_key_string_keyid ON contactSignedPreKeys (
+    identityKeyString,
+    keyId
+  );`);
 
   await instance.run('PRAGMA schema_version = 6;');
   await instance.run('COMMIT TRANSACTION;');
