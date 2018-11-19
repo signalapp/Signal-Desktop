@@ -40,6 +40,17 @@
     };
   };
 
+  const filterIncomingMessages = async function filterIncomingMessages(messages) {
+      const incomingHashes = messages.map(m => m.hash);
+      const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(incomingHashes);
+      const newMessages = messages.filter(m => !dupHashes.includes(m.hash));
+      const newHashes = newMessages.map(m => ({
+        expiresAt: m.expiration,
+        hash: m.hash,
+      }));
+      await window.Signal.Data.saveSeenMessageHashes(newHashes);
+      return newMessages;
+  };
 
   window.HttpResource = function HttpResource(_server, opts = {}) {
     server = _server;
@@ -68,19 +79,8 @@
         setTimeout(() => { pollServer(callBack); }, 5000);
         return;
       }
-      const incomingHashes = result.messages.map(m => m.hash);
-      const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(incomingHashes);
-      if (incomingHashes.length === dupHashes.length) {
-        setTimeout(() => { pollServer(callBack); }, 5000);
-        return;
-      }
-      const NewMessages = result.messages.filter(m => !dupHashes.includes(m.hash));
-      const NewHashes = NewMessages.map(m => ({
-        expiresAt: m.expiration,
-        hash: m.hash,
-      }));
-      await window.Signal.Data.saveMessageHashes(NewHashes);
-      NewMessages.forEach(async message => {
+      const newMessages = await filterIncomingMessages(result.messages);
+      newMessages.forEach(async message => {
         const { data } = message;
         const dataPlaintext = stringToArrayBufferBase64(data);
         const messageBuf = textsecure.protobuf.WebSocketMessage.decode(dataPlaintext);

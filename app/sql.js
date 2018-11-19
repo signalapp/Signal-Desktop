@@ -394,9 +394,8 @@ async function updateToSchemaVersion6(currentVersion, instance) {
 
   await instance.run(
     `CREATE TABLE seenMessages(
-      id STRING PRIMARY KEY ASC,
-      expiresAt INTEGER,
-      hash STRING
+      hash STRING PRIMARY KEY,
+      expiresAt INTEGER
     );`
   );
 
@@ -1256,15 +1255,12 @@ async function saveSeenMessageHash(data) {
   } = data;
   await db.run(
     `INSERT INTO seenMessages (
-      id,
       expiresAt,
       hash
     ) values (
-      $id,
       $expiresAt,
       $hash
     );`, {
-      $id: generateUUID(),
       $expiresAt: expiresAt,
       $hash: hash,
     }
