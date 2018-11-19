@@ -76,7 +76,7 @@
         all.forEach(number => {
           storage.removeBlockedNumber(number);
           blockedNumbers.remove(number);
-        })
+        });
       },
       isBlocked(number) {
         return storage.isBlocked(number);
