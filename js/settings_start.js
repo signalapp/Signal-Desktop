@@ -1,4 +1,4 @@
-/* global $, Whisper */
+/* global $, Whisper, storage */
 
 $(document).on('keyup', e => {
   'use strict';
@@ -34,6 +34,8 @@ window.initialRequest = getInitialData();
 // eslint-disable-next-line more/no-then
 window.initialRequest.then(data => {
   'use strict';
+
+  storage.fetch();
 
   window.initialData = data;
   window.view = new Whisper.SettingsView();

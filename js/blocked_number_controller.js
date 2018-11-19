@@ -13,6 +13,14 @@
     window.getBlockedNumbers = () => blockedNumbers;
   
     window.BlockedNumberController = {
+      getAll() {
+        try {
+          this.load();
+        } catch (e) {
+          console.warn(e);
+        }
+        return blockedNumbers;
+      },
       reset() {
         blockedNumbers.reset([]);
       },

@@ -34,6 +34,15 @@
       </p>
     </div>
 </script>
+<script type='text/x-tmpl-mustache' id='blockedNumber'>
+  <div>{{ number }}</div>
+  </div>
+</script>
+<script type='text/x-tmpl-mustache' id='blockedUserSettings'>
+  <h3>{{ blockedHeader }}</h3>
+  <div class='content'>
+  </div>
+</script>
 <script type='text/x-tmpl-mustache' id='settings'>
   <div class='content'>
     <a class='x close' alt='close settings' href='#'></a>
@@ -111,12 +120,17 @@
     </div>
     <hr>
     <div class='blocked-user-setting'>
-      <h3>{{ blockedHeader }}</h3>
     </div>
   </div>
 </script>
+
 <script type='text/javascript' src='js/components.js'></script>
+<script type='text/javascript' src='js/storage.js'></script>
+<script type='text/javascript' src='js/models/blockedNumbers.js'></script>
+<script type='text/javascript' src='js/blocked_number_controller.js'></script>
 <script type='text/javascript' src='js/views/whisper_view.js'></script>
+<script type='text/javascript' src='js/views/list_view.js'></script>
+<script type='text/javascript' src='js/views/blocked_number_view.js'></script>
 <script type='text/javascript' src='js/views/settings_view.js'></script>
 <script type='text/javascript' src='js/settings_start.js'></script>
 </html>

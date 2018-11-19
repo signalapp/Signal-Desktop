@@ -117,6 +117,10 @@
         value: window.initialData.mediaPermissions,
         setFn: window.setMediaPermissions,
       });
+
+      const blockedNumberView = new Whisper.BlockedNumberView().render();
+      this.$('.blocked-user-setting').append(blockedNumberView.el);
+
       if (!window.initialData.isPrimary) {
         const syncView = new SyncView().render();
         this.$('.sync-setting').append(syncView.el);
