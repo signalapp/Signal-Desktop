@@ -1,7 +1,7 @@
 /* global BlockedNumberController: false */
 /* global Whisper: false */
 /* global storage: false */
-/* global $: false */
+/* global i18n: false */
 
 /* eslint-disable no-new */
 
@@ -30,7 +30,7 @@
       },
       render_attributes() {
         return {
-          blockedHeader: 'Blocked Users',
+          blockedHeader: i18n('settingsUnblockHeader'),
         };
       },
     });
@@ -47,6 +47,7 @@
         const number = (this.model && this.model.get('number')) || '-';
         return {
           number,
+          unblockMessage: i18n('unblockUser'),
         }
       },
       onUnblock() {

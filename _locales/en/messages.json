@@ -1625,5 +1625,9 @@
   },
   "unblockUser": {
     "message": "Unblock user"
+  },
+  "settingsUnblockHeader": {
+    "message": "Blocked Users",
+    "description": "Shown in the settings page as the heading for the blocked user settings"
   }
 }

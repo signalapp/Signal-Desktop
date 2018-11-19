@@ -82,6 +82,12 @@ window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 window.onUnblockNumber = number => ipc.send('on-unblock-number', number);
 
 ipc.on('on-unblock-number', (event, number) => {
+  // Unblock the number
+  if (window.BlockedNumberController) {
+    window.BlockedNumberController.unblock(number);
+  }
+
+  // Update the conversation
   if (window.ConversationController) {
     try {
       const conversation = window.ConversationController.get(number);
