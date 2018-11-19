@@ -89,6 +89,9 @@ module.exports = {
 
   getMessageCount,
   saveMessage,
+  cleanSeenMessages,
+  saveSeenMessageHashes,
+  saveSeenMessageHash,
   saveMessages,
   removeMessage,
   getUnreadByConversation,
@@ -97,6 +100,7 @@ module.exports = {
   getAllMessages,
   getAllMessageIds,
   getMessagesBySentAt,
+  getSeenMessagesByHashList,
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
@@ -387,6 +391,14 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   }
   console.log('updateToSchemaVersion6: starting...');
   await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `CREATE TABLE seenMessages(
+      id STRING PRIMARY KEY ASC,
+      expiresAt INTEGER,
+      hash STRING
+    );`
+  );
 
   // key-value, ids are strings, one extra column
   await instance.run(
@@ -1223,6 +1235,48 @@ async function saveMessage(data, { forceSave } = {}) {
   return toCreate.id;
 }
 
+async function saveSeenMessageHashes(arrayOfHashes) {
+  let promise;
+
+  db.serialize(() => {
+    promise = Promise.all([
+      db.run('BEGIN TRANSACTION;'),
+      ...map(arrayOfHashes, hashData => saveSeenMessageHash(hashData)),
+      db.run('COMMIT TRANSACTION;'),
+    ]);
+  });
+
+  await promise;
+}
+
+async function saveSeenMessageHash(data) {
+  const {
+    expiresAt,
+    hash,
+  } = data;
+  await db.run(
+    `INSERT INTO seenMessages (
+      id,
+      expiresAt,
+      hash
+    ) values (
+      $id,
+      $expiresAt,
+      $hash
+    );`, {
+      $id: generateUUID(),
+      $expiresAt: expiresAt,
+      $hash: hash,
+    }
+  );
+}
+
+async function cleanSeenMessages() {
+  await db.run('DELETE FROM seenMessages WHERE expiresAt <= $now;', {
+    $now: Date.now(),
+  });
+}
+
 async function saveMessages(arrayOfMessages, { forceSave } = {}) {
   let promise;
 
@@ -1341,6 +1395,15 @@ async function getMessagesBySentAt(sentAt) {
   );
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getSeenMessagesByHashList(hashes) {
+  const rows = await db.all(
+    `SELECT * FROM seenMessages WHERE hash IN ( ${hashes.map(() => '?').join(', ')} );`,
+     hashes
+  );
+
+  return map(rows, row => row.hash);
 }
 
 async function getExpiredMessages() {

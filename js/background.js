@@ -456,7 +456,13 @@
     }
   });
 
+  function manageSeenMessages() {
+    window.Signal.Data.cleanSeenMessages();
+    setTimeout(manageSeenMessages, 1000 * 60 * 60);
+  }
+
   async function start() {
+    manageSeenMessages();
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('listening for registration events');

@@ -68,7 +68,19 @@
         setTimeout(() => { pollServer(callBack); }, 5000);
         return;
       }
-      result.messages.forEach(async message => {
+      const incomingHashes = result.messages.map(m => m.hash);
+      const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(incomingHashes);
+      if (incomingHashes.length === dupHashes.length) {
+        setTimeout(() => { pollServer(callBack); }, 5000);
+        return;
+      }
+      const NewMessages = result.messages.filter(m => !dupHashes.includes(m.hash));
+      const NewHashes = NewMessages.map(m => ({
+        expiresAt: m.expiration,
+        hash: m.hash,
+      }));
+      await window.Signal.Data.saveMessageHashes(NewHashes);
+      NewMessages.forEach(async message => {
         const { data } = message;
         const dataPlaintext = stringToArrayBufferBase64(data);
         const messageBuf = textsecure.protobuf.WebSocketMessage.decode(dataPlaintext);
