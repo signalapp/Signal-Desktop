@@ -1,6 +1,7 @@
 /* global window: false */
 /* global textsecure: false */
 /* global StringView: false */
+/* global libloki: false */
 /* global libsignal: false */
 /* global WebSocket: false */
 /* global Event: false */
@@ -10,8 +11,10 @@
 /* global ContactBuffer: false */
 /* global GroupBuffer: false */
 /* global Worker: false */
+/* global WebSocketResource: false */
 
 /* eslint-disable more/no-then */
+/* eslint-disable no-unreachable */
 
 const WORKER_TIMEOUT = 60 * 1000; // one minute
 
@@ -251,7 +254,7 @@ MessageReceiver.prototype.extend({
       this.calledClose
     );
     // TODO: handle properly
-    return;
+    return Promise.resolve();
     this.shutdown();
 
     if (this.calledClose) {
@@ -708,7 +711,7 @@ MessageReceiver.prototype.extend({
         promise = sessionCipher.decryptWhisperMessage(ciphertext)
           .then(this.unpad);
         break;
-      case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST:
+      case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
         const fallBackSessionCipher = new libloki.FallBackSessionCipher(
           address
@@ -716,6 +719,7 @@ MessageReceiver.prototype.extend({
         promise = fallBackSessionCipher.decrypt(ciphertext.toArrayBuffer())
           .then(this.unpad);
         break;
+      }
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
         window.log.info('prekey message from', this.getEnvelopeId(envelope));
         promise = this.decryptPreKeyWhisperMessage(
@@ -971,13 +975,13 @@ MessageReceiver.prototype.extend({
     if (!message || !message.direction || !message.friendStatus) return;
 
     // Update the conversation
-    const conversation = ConversationController.get(pubKey);
+    const conversation = window.ConversationController.get(pubKey);
     if (conversation) {
       // Update the conversation friend request indicator
       conversation.updatePendingFriendRequests();
       conversation.updateTextInputState();
     }
-    
+
     // Send our own prekeys as a response
     if (message.direction === 'incoming' && message.friendStatus === 'accepted') {
       libloki.sendEmptyMessageWithPreKeys(pubKey);
@@ -990,9 +994,9 @@ MessageReceiver.prototype.extend({
         );
       }
 
-      await conversation.onFriendRequestAccepted();
+      await conversation.onFriendRequestAccepted({ updateUnread: false });
     }
-    console.log(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
+    window.log.info(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
   },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
@@ -1000,15 +1004,17 @@ MessageReceiver.prototype.extend({
     if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
       let conversation;
       try {
-        conversation = ConversationController.get(envelope.source);
-      } catch (e) { }
+        conversation = window.ConversationController.get(envelope.source);
+      } catch (e) {
+        throw new Error('Error getting conversation for message.')
+      }
 
-       // only prompt friend request if there is no conversation yet
+      // only prompt friend request if there is no conversation yet
       if (!conversation) {
         this.promptUserToAcceptFriendRequest(
           envelope,
           content.dataMessage.body,
-          content.preKeyBundleMessage,
+          content.preKeyBundleMessage
         );
       } else {
         const keyExchangeComplete = conversation.isKeyExchangeCompleted();
@@ -1017,7 +1023,8 @@ MessageReceiver.prototype.extend({
         // We are certain that other user accepted the friend request IF:
         // - The message has a preKeyBundleMessage
         // - We have an outgoing friend request that is pending
-        // The second check is crucial because it makes sure we don't save the preKeys of the incoming friend request (which is saved only when we press accept)
+        // The second check is crucial because it makes sure we don't save the preKeys of
+        // the incoming friend request (which is saved only when we press accept)
         if (!keyExchangeComplete && content.preKeyBundleMessage) {
           // Check for any outgoing friend requests
           const pending = await conversation.getPendingFriendRequests('outgoing');
@@ -1040,7 +1047,7 @@ MessageReceiver.prototype.extend({
       }
 
       // Exit early since the friend request reply will be a regular empty message
-      return;
+      return Promise.resolve();
     }
 
     if (content.syncMessage) {
@@ -1054,9 +1061,7 @@ MessageReceiver.prototype.extend({
     } else if (content.receiptMessage) {
       return this.handleReceiptMessage(envelope, content.receiptMessage);
     }
-    if (!content.preKeyBundleMessage) {
-      throw new Error('Unsupported content message');
-    }
+    throw new Error('Unsupported content message');
   },
   handleCallMessage(envelope) {
     window.log.info('call message from', this.getEnvelopeId(envelope));
@@ -1266,7 +1271,7 @@ MessageReceiver.prototype.extend({
       preKeyBundleMessage.signature,
     ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
 
-    return { 
+    return {
       ...preKeyBundleMessage,
       identityKey,
       preKey,
@@ -1284,13 +1289,13 @@ MessageReceiver.prototype.extend({
       signature,
     } = preKeyBundleMessage;
 
-    if (pubKey != StringView.arrayBufferToHex(identityKey)) {
+    if (pubKey !== StringView.arrayBufferToHex(identityKey)) {
       throw new Error(
         'Error in handlePreKeyBundleMessage: envelope pubkey does not match pubkey in prekey bundle'
       );
     }
 
-    return await libloki.savePreKeyBundleForNumber({
+    return libloki.savePreKeyBundleForNumber({
       pubKey,
       preKeyId,
       signedKeyId,
@@ -1306,8 +1311,8 @@ MessageReceiver.prototype.extend({
     return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
   },
   handleAttachment(attachment) {
-    console.log("Not handling attachments.");
-    return;
+    window.log.info('Not handling attachments.');
+    return Promise.reject();
     // eslint-disable-next-line no-param-reassign
     attachment.id = attachment.id.toString();
     // eslint-disable-next-line no-param-reassign

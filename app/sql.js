@@ -89,6 +89,9 @@ module.exports = {
 
   getMessageCount,
   saveMessage,
+  cleanSeenMessages,
+  saveSeenMessageHashes,
+  saveSeenMessageHash,
   saveMessages,
   removeMessage,
   getUnreadByConversation,
@@ -98,6 +101,7 @@ module.exports = {
   getAllMessageIds,
   getAllUnsentMessages,
   getMessagesBySentAt,
+  getSeenMessagesByHashList,
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
@@ -390,6 +394,13 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   console.log('updateToSchemaVersion6: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
+  await instance.run(
+    `CREATE TABLE seenMessages(
+      hash STRING PRIMARY KEY,
+      expiresAt INTEGER
+    );`
+  );
+
   // key-value, ids are strings, one extra column
   await instance.run(
     `CREATE TABLE sessions(
@@ -447,6 +458,11 @@ async function updateToSchemaVersion6(currentVersion, instance) {
     );`
   );
 
+  await instance.run(`CREATE UNIQUE INDEX contact_prekey_identity_key_string_keyid ON contactPreKeys (
+    identityKeyString,
+    keyId
+  );`);
+
   await instance.run(
     `CREATE TABLE contactSignedPreKeys(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -455,6 +471,11 @@ async function updateToSchemaVersion6(currentVersion, instance) {
       json TEXT
     );`
   );
+
+  await instance.run(`CREATE UNIQUE INDEX contact_signed_prekey_identity_key_string_keyid ON contactSignedPreKeys (
+    identityKeyString,
+    keyId
+  );`);
 
   await instance.run('PRAGMA schema_version = 6;');
   await instance.run('COMMIT TRANSACTION;');
@@ -1118,6 +1139,7 @@ async function saveMessage(data, { forceSave } = {}) {
     schemaVersion,
     // eslint-disable-next-line camelcase
     sent,
+    // eslint-disable-next-line camelcase
     sent_at,
     source,
     sourceDevice,
@@ -1228,6 +1250,45 @@ async function saveMessage(data, { forceSave } = {}) {
   );
 
   return toCreate.id;
+}
+
+async function saveSeenMessageHashes(arrayOfHashes) {
+  let promise;
+
+  db.serialize(() => {
+    promise = Promise.all([
+      db.run('BEGIN TRANSACTION;'),
+      ...map(arrayOfHashes, hashData => saveSeenMessageHash(hashData)),
+      db.run('COMMIT TRANSACTION;'),
+    ]);
+  });
+
+  await promise;
+}
+
+async function saveSeenMessageHash(data) {
+  const {
+    expiresAt,
+    hash,
+  } = data;
+  await db.run(
+    `INSERT INTO seenMessages (
+      expiresAt,
+      hash
+    ) values (
+      $expiresAt,
+      $hash
+    );`, {
+      $expiresAt: expiresAt,
+      $hash: hash,
+    }
+  );
+}
+
+async function cleanSeenMessages() {
+  await db.run('DELETE FROM seenMessages WHERE expiresAt <= $now;', {
+    $now: Date.now(),
+  });
 }
 
 async function saveMessages(arrayOfMessages, { forceSave } = {}) {
@@ -1358,6 +1419,15 @@ async function getMessagesBySentAt(sentAt) {
   );
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getSeenMessagesByHashList(hashes) {
+  const rows = await db.all(
+    `SELECT * FROM seenMessages WHERE hash IN ( ${hashes.map(() => '?').join(', ')} );`,
+    hashes
+  );
+
+  return map(rows, row => row.hash);
 }
 
 async function getExpiredMessages() {
