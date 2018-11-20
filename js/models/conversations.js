@@ -743,7 +743,7 @@
         const requests = await this.getPendingFriendRequests('incoming');
 
         // Delete the old message if it's pending
-        await Promise.all(requests.map(async request => this._removeMessage(request.id)));
+        await Promise.all(requests.map(request => this._removeMessage(request.id)));
         // Trigger an update if we removed messages
         if (requests.length > 0)
           this.trigger('change');
@@ -1038,7 +1038,7 @@
             // and send the new request if possible
             let friendRequestSent = false;
             const promises = [];
-            outgoingRequests.forEach(async outgoing => {
+            outgoingRequests.forEach(outgoing => {
               if (outgoing.hasErrors()) {
                 promises.push(this._removeMessage(outgoing.id));
               } else {
@@ -2110,9 +2110,10 @@
     // Notification for friend request received
     async notifyFriendRequest(source, type) {
       // Data validation
-      if (!source) return Promise.reject(new Error('Invalid source'));
+      if (!source)
+        throw new Error('Invalid source');
       if (!['accepted', 'requested'].includes(type))
-        return Promise.reject(new Error('Type must be accepted or requested.'));
+        throw new Error('Type must be accepted or requested.');
 
       // Call the notification on the right conversation
       let conversation = this;
@@ -2125,7 +2126,7 @@
           window.log.info(`Notify called on a different conversation.
                            Expected: ${this.id}. Actual: ${conversation.id}`);
         } catch (e) {
-          return Promise.reject(new Error('Failed to fetch conversation'));
+          throw new Error('Failed to fetch conversation.');
         }
       }
 
@@ -2149,7 +2150,6 @@
         messageSentAt: Date.now(),
         title: i18n(title),
       });
-      return Promise.resolve();
     },
   });
 

@@ -254,27 +254,26 @@ MessageReceiver.prototype.extend({
       this.calledClose
     );
     // TODO: handle properly
-    return Promise.resolve();
-    this.shutdown();
+    // this.shutdown();
 
-    if (this.calledClose) {
-      return Promise.resolve();
-    }
-    if (ev.code === 3000) {
-      return Promise.resolve();
-    }
-    if (ev.code === 3001) {
-      this.onEmpty();
-    }
-    // possible 403 or network issue. Make an request to confirm
-    return this.server
-      .getDevices(this.number)
-      .then(this.connect.bind(this)) // No HTTP error? Reconnect
-      .catch(e => {
-        const event = new Event('error');
-        event.error = e;
-        return this.dispatchAndWait(event);
-      });
+    // if (this.calledClose) {
+    //   return Promise.resolve();
+    // }
+    // if (ev.code === 3000) {
+    //   return Promise.resolve();
+    // }
+    // if (ev.code === 3001) {
+    //   this.onEmpty();
+    // }
+    // // possible 403 or network issue. Make an request to confirm
+    // return this.server
+    //   .getDevices(this.number)
+    //   .then(this.connect.bind(this)) // No HTTP error? Reconnect
+    //   .catch(e => {
+    //     const event = new Event('error');
+    //     event.error = e;
+    //     return this.dispatchAndWait(event);
+    //   });
   },
   handleRequest(request) {
     this.incoming = this.incoming || [];
@@ -1047,7 +1046,7 @@ MessageReceiver.prototype.extend({
       }
 
       // Exit early since the friend request reply will be a regular empty message
-      return Promise.resolve();
+      return null;
     }
 
     if (content.syncMessage) {

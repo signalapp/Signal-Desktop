@@ -1137,7 +1137,6 @@ async function saveMessage(data, { forceSave } = {}) {
     // eslint-disable-next-line camelcase
     received_at,
     schemaVersion,
-    // eslint-disable-next-line camelcase
     sent,
     // eslint-disable-next-line camelcase
     sent_at,
