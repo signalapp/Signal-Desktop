@@ -59,14 +59,31 @@
       addOne(model) {
         const number = model.get('number');
         if (number) {
-          this.$el.append(`<option value="${number}">${number}</option>`);
+          this.$el.append(`<option value="${number}">${this.truncate(number, 15)}</option>`);
         }
       },
       addAll() {
         this.$el.html('');
         this.collection.each(this.addOne, this);
       },
+      truncate(string, limit) {
+        // Make sure an element and number of items to truncate is provided
+        if (!string || !limit) return string;
 
+        // Get the inner content of the element
+        let content = string.trim();
+
+        // Convert the content into an array of words
+        // Remove any words above the limit
+        content = content.slice(0, limit);
+
+        // Convert the array of words back into a string
+        // If there's content to add after it, add it
+        if (string.length > limit)
+          content = `${content}...`;
+
+        return content;
+      },
       render() {
         this.addAll();
         return this;
