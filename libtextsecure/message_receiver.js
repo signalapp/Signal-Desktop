@@ -431,6 +431,7 @@ MessageReceiver.prototype.extend({
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
       envelope.serverTimestamp =
         envelope.serverTimestamp || item.serverTimestamp;
+      envelope.preKeyBundleMessage = envelope.preKeyBundleMessage || item.preKeyBundleMessage;
 
       const { decrypted } = item;
       if (decrypted) {
@@ -445,6 +446,13 @@ MessageReceiver.prototype.extend({
         if (typeof payloadPlaintext === 'string') {
           payloadPlaintext = await MessageReceiver.stringToArrayBuffer(
             payloadPlaintext
+          );
+        }
+
+        // Convert preKeys to array buffer
+        if (typeof envelope.preKeyBundleMessage === 'string') {
+          envelope.preKeyBundleMessage = await MessageReceiver.stringToArrayBuffer(
+            envelope.preKeyBundleMessage
           );
         }
         this.queueDecryptedEnvelope(envelope, payloadPlaintext);
@@ -672,7 +680,7 @@ MessageReceiver.prototype.extend({
 
     return plaintext;
   },
-  decrypt(envelope, ciphertext) {
+  async decrypt(envelope, ciphertext) {
     const { serverTrustRoot } = this;
 
     let promise;
@@ -699,6 +707,28 @@ MessageReceiver.prototype.extend({
       textsecure.storage.protocol
     );
 
+    const fallBackSessionCipher = new libloki.FallBackSessionCipher(
+      address
+    );
+
+    // Check if we have preKey bundles to decrypt
+    if (envelope.preKeyBundleMessage) {
+      const decryptedText = await fallBackSessionCipher.decrypt(envelope.preKeyBundleMessage);
+
+      // Convert the decryptedText to an array buffer if we have a string
+      if (typeof decryptedText === 'string') {
+        // eslint-disable-next-line no-param-reassign
+        envelope.preKeyBundleMessage = await MessageReceiver.stringToArrayBuffer(
+          decryptedText
+        );
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        envelope.preKeyBundleMessage = decryptedText;
+      }
+
+      // TODO: Do we save the preKeys here?
+    }
+
     const me = {
       number: ourNumber,
       deviceId: parseInt(textsecure.storage.user.getDeviceId(), 10),
@@ -712,9 +742,6 @@ MessageReceiver.prototype.extend({
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
-        const fallBackSessionCipher = new libloki.FallBackSessionCipher(
-          address
-        );
         promise = fallBackSessionCipher.decrypt(ciphertext.toArrayBuffer())
           .then(this.unpad);
         break;
