@@ -54,7 +54,7 @@
 
   /**
    * A few key things that need to be known in this is the difference
-   *  between isFriend() and isKeyExhangeCompleted().
+   *  between isFriend() and isKeyExchangeCompleted().
    *
    * `isFriend` returns whether we have accepted the other user as a friend.
    *    - This is implicitly checked by whether we have a session
@@ -464,6 +464,9 @@
       return this.get('keyExchangeCompleted') || false;
     },
     async setKeyExchangeCompleted(value) {
+      // Only update the value if it's different
+      if (this.get('keyExchangeCompleted') === value) return;
+
       this.set({ keyExchangeCompleted: value });
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,

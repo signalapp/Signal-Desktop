@@ -726,7 +726,15 @@ MessageReceiver.prototype.extend({
         envelope.preKeyBundleMessage = decryptedText;
       }
 
-      // TODO: Do we save the preKeys here?
+      // Save the preKey bundle if this is not a friend request.
+      // We don't automatically save on a friend request because
+      //  we only want to save the preKeys when we click the accept button.
+      if (envelope.type !== textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+        await this.handlePreKeyBundleMessage(
+          envelope.source,
+          envelope.preKeyBundleMessage
+        );
+      }
     }
 
     const me = {
@@ -1008,10 +1016,8 @@ MessageReceiver.prototype.extend({
       conversation.updateTextInputState();
     }
 
-    // Send our own prekeys as a response
+    // If we accepted an incoming friend request then save the preKeyBundle
     if (message.direction === 'incoming' && message.friendStatus === 'accepted') {
-      libloki.sendEmptyMessageWithPreKeys(pubKey);
-
       // Register the preKeys used for communication
       if (message.preKeyBundle) {
         await this.handlePreKeyBundleMessage(
@@ -1020,60 +1026,43 @@ MessageReceiver.prototype.extend({
         );
       }
 
-      await conversation.onFriendRequestAccepted({ updateUnread: false });
+      // Send a reply back
+      libloki.sendEmptyMessageWithPreKeys(pubKey);
+
+      if (conversation) {
+        await conversation.updateFriendRequestUI();
+      }
     }
     window.log.info(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
   },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
 
-    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-      let conversation;
-      try {
-        conversation = window.ConversationController.get(envelope.source);
-      } catch (e) {
-        throw new Error('Error getting conversation for message.')
-      }
+    let conversation;
+    try {
+      conversation = window.ConversationController.get(envelope.source);
+    } catch (e) {
+      window.log.info('Error getting conversation: ', envelope.source);
+    }
 
+    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
       // only prompt friend request if there is no conversation yet
       if (!conversation) {
         this.promptUserToAcceptFriendRequest(
           envelope,
           content.dataMessage.body,
-          content.preKeyBundleMessage
+          envelope.preKeyBundleMessage
         );
-      } else {
-        const keyExchangeComplete = conversation.isKeyExchangeCompleted();
-
-        // Check here if we received preKeys from the other user
-        // We are certain that other user accepted the friend request IF:
-        // - The message has a preKeyBundleMessage
-        // - We have an outgoing friend request that is pending
-        // The second check is crucial because it makes sure we don't save the preKeys of
-        // the incoming friend request (which is saved only when we press accept)
-        if (!keyExchangeComplete && content.preKeyBundleMessage) {
-          // Check for any outgoing friend requests
-          const pending = await conversation.getPendingFriendRequests('outgoing');
-          const successful = pending.filter(p => !p.hasErrors());
-
-          // Save the key only if we have an outgoing friend request
-          const savePreKey = (successful.length > 0);
-
-          // Save the pre key
-          if (savePreKey) {
-            await this.handlePreKeyBundleMessage(
-              envelope.source,
-              this.decodePreKeyBundleMessage(content.preKeyBundleMessage)
-            );
-
-            // Update the conversation
-            await conversation.onFriendRequestAccepted({ updateUnread: true });
-          }
-        }
       }
 
       // Exit early since the friend request reply will be a regular empty message
       return null;
+    } else if (envelope.type === textsecure.protobuf.Envelope.Type.CIPHERTEXT) {
+      // If we get a cipher text and we are friends then we can mark keys as exchanged
+      if (conversation && conversation.isFriend()) {
+        await conversation.setKeyExchangeCompleted(true);
+        await conversation.updateFriendRequestUI();
+      }
     }
 
     if (content.syncMessage) {
