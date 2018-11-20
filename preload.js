@@ -77,8 +77,9 @@ window.setMediaPermissions = enabled =>
   ipc.send('set-media-permissions', enabled);
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 
-// Events for updating block number states across different windows
-// In this case we need these to update the blocked number collection on the main window from the settings window
+// Events for updating block number states across different windows.
+// In this case we need these to update the blocked number
+//  collection on the main window from the settings window.
 window.onUnblockNumber = number => ipc.send('on-unblock-number', number);
 
 ipc.on('on-unblock-number', (event, number) => {

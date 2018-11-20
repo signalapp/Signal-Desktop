@@ -47,29 +47,25 @@
       // Make sure we don't block ourselves
       if (ourNumber === number) {
         window.log.info('BlockedNumberController: Cannot block yourself!');
-        return null;
+        return;
       }
 
       storage.addBlockedNumber(number);
 
       // Make sure we don't add duplicates
-      const exists = blockedNumbers.getNumber(number);
-      if (exists)
-        return exists;
+      if (blockedNumbers.getNumber(number))
+        return;
 
-      return blockedNumbers.add({ number });
+      blockedNumbers.add({ number });
     },
     unblock(number) {
       storage.removeBlockedNumber(number);
 
       // Make sure we don't add duplicates
-      const exists = blockedNumbers.getNumber(number);
-      if (exists) {
-        blockedNumbers.remove(exists);
-        return exists;
+      const model = blockedNumbers.getNumber(number);
+      if (model) {
+        blockedNumbers.remove(model);
       }
-
-      return null;
     },
     unblockAll() {
       const all = blockedNumbers.models;
