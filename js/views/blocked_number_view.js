@@ -15,7 +15,7 @@
       templateName: 'blockedUserSettings',
       className: 'blockedUserSettings',
       events: {
-        'click .sync': 'sync',
+        'click .unblock-button': 'onUnblock',
       },
       initialize() {
         storage.onready(() => {
@@ -25,41 +25,51 @@
           });
 
           this.listView.render();
-          this.$('.blocked-user-settings').append(this.listView.el);
+          this.blockedUserSettings = this.$('.blocked-user-settings');
+          this.blockedUserSettings.prepend(this.listView.el);
         });
       },
       render_attributes() {
         return {
           blockedHeader: i18n('settingsUnblockHeader'),
+          unblockMessage: i18n('unblockUser'),
         };
       },
-    });
-
-
-  Whisper.BlockedNumberListView = Whisper.ListView.extend({
-    itemView: Whisper.View.extend({
-      tagName: 'li',
-      templateName: 'blockedNumber',
-      events: {
-        'click .unblock-button': 'onUnblock',
-      },
-      render_attributes() {
-        const number = (this.model && this.model.get('number')) || '-';
-        return {
-          number,
-          unblockMessage: i18n('unblockUser'),
-        }
-      },
       onUnblock() {
-        const number = this.model && this.model.get('number');
+        const number = this.$('select option:selected').val();
         if (!number) return;
 
         if (BlockedNumberController.isBlocked(number)) {
           BlockedNumberController.unblock(number);
           window.onUnblockNumber(number);
-          this.remove();
+          this.listView.collection.remove(this.listView.collection.where({ number }));
         }
       },
-    }),
-  });
+    });
+
+
+  Whisper.BlockedNumberListView = Whisper.View.extend({
+      tagName: 'select',
+      initialize(options) {
+        this.options = options || {};
+        this.listenTo(this.collection, 'add', this.addOne);
+        this.listenTo(this.collection, 'reset', this.addAll);
+        this.listenTo(this.collection, 'remove', this.addAll);
+      },
+      addOne(model) {
+        const number = model.get('number');
+        if (number) {
+          this.$el.append(`<option value="${number}">${number}</option>`);
+        }
+      },
+      addAll() {
+        this.$el.html('');
+        this.collection.each(this.addOne, this);
+      },
+
+      render() {
+        this.addAll();
+        return this;
+      },
+    });
   })();

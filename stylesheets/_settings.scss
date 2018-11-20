@@ -39,23 +39,24 @@
     }
   }
 
-  .blocked-number {
+  .blocked-user-settings {
     display: flex;
     flex: 1;
     flex-direction: row;
-    justify-content: center;
+    align-items: center;
   }
 
-  .blocked-number {
-    div {
+  .blocked-user-settings {
+    select {
       flex: 1;
-      flex-wrap: wrap-reverse;
-      word-break: break-all;
+      cursor: pointer;
+      font-size: 14px;
     }
     button {
-      line-height: 36px;
+      line-height: 28px;
       padding: 0 20px;
-      margin: 0 0 20px 20px;
+      margin: auto;
+      margin-left: 20px;
     }
   }
 
