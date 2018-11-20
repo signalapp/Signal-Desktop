@@ -940,7 +940,7 @@ describe('SignalProtocolStore', () => {
   describe('getDeviceIds', () => {
     it('returns deviceIds for a number', async () => {
       const testRecord = 'an opaque string';
-      const devices = [1, 2, 3].map(deviceId => {
+      const devices = [1, 2, 3, 10].map(deviceId => {
         return [number, deviceId].join('.');
       });
 
@@ -951,7 +951,7 @@ describe('SignalProtocolStore', () => {
       );
 
       const deviceIds = await store.getDeviceIds(number);
-      assert.sameMembers(deviceIds, [1, 2, 3]);
+      assert.sameMembers(deviceIds, [1, 2, 3, 10]);
     });
     it('returns empty array for a number with no device ids', async () => {
       const deviceIds = await store.getDeviceIds('foo');
