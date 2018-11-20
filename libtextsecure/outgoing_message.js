@@ -468,7 +468,7 @@ OutgoingMessage.prototype = {
         .then(this.reloadDevicesAndSend(number, true))
         .catch(error => {
           if (this.fallBackEncryption && conversation) {
-            conversation.onFriendRequestTimedOut();
+            conversation.updateFriendRequestUI();
           }
           if (error.message === 'Identity key changed') {
             // eslint-disable-next-line no-param-reassign
