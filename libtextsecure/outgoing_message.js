@@ -7,11 +7,10 @@
   StringView,
   dcodeIO,
   log,
-  btoa,
-  _
 */
 
 /* eslint-disable more/no-then */
+/* eslint-disable no-unreachable */
 
 function OutgoingMessage(
   server,
@@ -249,7 +248,8 @@ OutgoingMessage.prototype = {
     if (accessKey && !senderCertificate) {
       return Promise.reject(
         new Error(
-          'OutgoingMessage.doSendMessage: accessKey was provided, but senderCertificate was not'
+          'OutgoingMessage.doSendMessage: accessKey was provided, ' +
+          'but senderCertificate was not'
         )
       );
     }

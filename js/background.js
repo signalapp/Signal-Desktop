@@ -7,13 +7,12 @@
   Signal,
   storage,
   textsecure,
-  WebAPI
   Whisper,
   BlockedNumberController
 */
 
 // eslint-disable-next-line func-names
-(async function() {
+(async function () {
   'use strict';
 
   // Globally disable drag and drop
@@ -326,7 +325,7 @@
 
     // Combine the models
     const messagesForCleanup = results.reduce((array, current) => array.concat(current.toArray()), []);
-    
+
     window.log.info(
       `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
     );
@@ -377,7 +376,7 @@
     let isMigrationWithIndexComplete = false;
     window.log.info(
       `Starting background data migration. Target version: ${
-        Message.CURRENT_SCHEMA_VERSION
+      Message.CURRENT_SCHEMA_VERSION
       }`
     );
     idleDetector.on('idle', async () => {
@@ -466,7 +465,13 @@
     }
   });
 
+  function manageSeenMessages() {
+    window.Signal.Data.cleanSeenMessages();
+    setTimeout(manageSeenMessages, 1000 * 60 * 60);
+  }
+
   async function start() {
+    manageSeenMessages();
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('listening for registration events');
@@ -561,7 +566,7 @@
 
     // Gets called when a user accepts or declines a friend request
     Whisper.events.on('friendRequestUpdated', friendRequest => {
-      const { pubKey, ...message } = friendRequest; 
+      const { pubKey, ...message } = friendRequest;
       if (messageReceiver) {
         messageReceiver.onFriendRequestUpdate(pubKey, message);
       }
@@ -573,11 +578,13 @@
       }
     });
 
-    Whisper.events.on('calculatingPoW', ({ pubKey, timestamp}) => {
+    Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);
         conversation.onCalculatingPoW(pubKey, timestamp);
-      } catch (e) {}
+      } catch (e) {
+        window.log.error('Error showing PoW cog');
+      }
     });
   }
 
@@ -1285,7 +1292,7 @@
     } catch (error) {
       window.log.error(
         `Failed to send delivery receipt to ${data.source} for message ${
-          data.timestamp
+        data.timestamp
         }:`,
         error && error.stack ? error.stack : error
       );
