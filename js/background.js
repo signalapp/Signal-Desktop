@@ -1259,7 +1259,7 @@
   async function initIncomingMessage(data, options = {}) {
     const { isError } = options;
 
-    const message = new Whisper.Message({
+    let messageData = {
       source: data.source,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
@@ -1268,7 +1268,19 @@
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
-    });
+    };
+
+    if (data.type === 'friend-request') {
+      messageData = {
+        ...messageData,
+        type: 'friend-request',
+        friendStatus: 'pending',
+        preKeyBundle: data.preKeyBundle || null,
+        direction: 'incoming',
+      }
+    }
+
+    const message = new Whisper.Message(messageData);
 
     // If we don't return early here, we can get into infinite error loops. So, no
     //   delivery receipts for sealed sender errors.

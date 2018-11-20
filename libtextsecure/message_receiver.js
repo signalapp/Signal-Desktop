@@ -929,7 +929,10 @@ MessageReceiver.prototype.extend({
       })
     );
   },
-  handleDataMessage(envelope, msg) {
+  async handleFriendRequestMessage(envelope, msg) {
+    return this.handleDataMessage(envelope, msg, 'friend-request');
+  },
+  handleDataMessage(envelope, msg, type = 'data') {
     window.log.info('data message from', this.getEnvelopeId(envelope));
     let p = Promise.resolve();
     // eslint-disable-next-line no-bitwise
@@ -946,6 +949,13 @@ MessageReceiver.prototype.extend({
           message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
 
+        if (type === 'friend-request' && isMe) {
+          window.log.info(
+            'refusing to add a friend request to ourselves'
+          );
+          throw new Error('Cannot add a friend request for ourselves!')
+        }
+
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
           window.log.warn(
             `Message ${this.getEnvelopeId(
@@ -955,15 +965,19 @@ MessageReceiver.prototype.extend({
           return this.removeFromCache(envelope);
         }
 
+        const preKeyBundle = envelope.preKeyBundleMessage && this.decodePreKeyBundleMessage(envelope.preKeyBundleMessage);
+
         const ev = new Event('message');
         ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.data = {
+          type,
           source: envelope.source,
           sourceDevice: envelope.sourceDevice,
           timestamp: envelope.timestamp.toNumber(),
           receivedAt: envelope.receivedAt,
           unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
           message,
+          preKeyBundle: preKeyBundle || null,
         };
         return this.dispatchAndWait(ev);
       })
@@ -1046,17 +1060,7 @@ MessageReceiver.prototype.extend({
     }
 
     if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-      // only prompt friend request if there is no conversation yet
-      if (!conversation) {
-        this.promptUserToAcceptFriendRequest(
-          envelope,
-          content.dataMessage.body,
-          envelope.preKeyBundleMessage
-        );
-      }
-
-      // Exit early since the friend request reply will be a regular empty message
-      return null;
+      return this.handleFriendRequestMessage(envelope, content.dataMessage);
     } else if (envelope.type === textsecure.protobuf.Envelope.Type.CIPHERTEXT) {
       // If we get a cipher text and we are friends then we can mark keys as exchanged
       if (conversation && conversation.isFriend()) {

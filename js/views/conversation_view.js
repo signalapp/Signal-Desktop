@@ -70,14 +70,10 @@
     template: $('#conversation').html(),
     render_attributes() {
       let sendMessagePlaceholder = 'sendMessageFriendRequest';
-      const sendDisabled = this.model.waitingForFriendRequestApproval();
-      if (sendDisabled) {
-        sendMessagePlaceholder = 'sendMessageDisabled';
-      } else if (this.model.getFriendRequestStatus() === null) {
+      if (this.model.isFriend()) {
         sendMessagePlaceholder = 'sendMessage';
       }
       return {
-        'disable-inputs': sendDisabled,
         'send-message': i18n(sendMessagePlaceholder),
         'android-length-warning': i18n('androidMessageLengthWarning'),
       };
@@ -240,6 +236,8 @@
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
       this.$emojiPanelContainer = this.$('.emoji-panel-container');
+
+      this.model.updateFriendRequestUI();
     },
 
     events: {

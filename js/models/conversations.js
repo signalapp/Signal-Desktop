@@ -144,10 +144,6 @@
       this.on('expiration-change', this.updateAndMerge);
       this.on('expired', this.onExpired);
 
-      setTimeout(() => {
-        this.setFriendRequestTimer();
-      }, 0);
-
       const sealedSender = this.get('sealedSender');
       if (sealedSender === undefined) {
         this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
@@ -472,14 +468,23 @@
         Conversation: Whisper.Conversation,
       });
     },
+    async waitingForFriendRequestApproval() {
+      // Check if we have an incoming friend request
+     // Or any successful outgoing ones
+     const incoming = await this.getPendingFriendRequests('incoming');
+     const outgoing = await this.getPendingFriendRequests('outgoing');
+     const successfulOutgoing = outgoing.filter(o => !o.hasErrors());
+
+     return (incoming.length > 0 || successfulOutgoing.length > 0);
+   },
     async isFriend() {
       // We are a friend IF:
       // - We have the preKey bundle of the user OR
       // - We have a session with the user
       const preKeys = await window.Signal.Data.getContactPreKeyByIdentityKey(this.id);
-      const session = await window.Signal.Data.getSessionsByNumber(this.id);
+      // const session = await window.Signal.Data.getSessionsByNumber(this.id);
 
-      return !!(preKeys || session);
+      return !!preKeys;
     },
     // Update any pending friend requests for the current user
     async updateFriendRequestUI() {
@@ -1114,14 +1119,9 @@
       // Check if we need to disable the text field
       const isFriend = await this.isFriend();
       if (isFriend) {
-        // Check if we have an incoming friend request
-        // Or any successful outgoing ones
-        const incoming = await this.getPendingFriendRequests('incoming');
-        const outgoing = await this.getPendingFriendRequests('outgoing');
-        const successfulOutgoing = outgoing.filter(o => !o.hasErrors());
-
-        // Disable the input
-        if (incoming.length > 0 || successfulOutgoing.length > 0) {
+        // Disable the input if we're waiting for friend request approval
+        const waiting = await this.waitingForFriendRequestApproval();
+        if (waiting) {
           this.trigger('disable:input', true);
           this.trigger('change:placeholder', 'disabled');
           return;
