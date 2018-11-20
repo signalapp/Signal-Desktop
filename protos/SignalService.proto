@@ -24,7 +24,7 @@ message Envelope {
   optional bytes  content         = 8; // Contains an encrypted Content
   optional string serverGuid      = 9;
   optional uint64 serverTimestamp = 10;
-  optional PreKeyBundleMessage preKeyBundleMessage = 101;
+  optional bytes preKeyBundleMessage = 101;
 
 }
 

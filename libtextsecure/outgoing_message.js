@@ -219,12 +219,16 @@ OutgoingMessage.prototype = {
     return this.plaintext;
   },
   async wrapInWebsocketMessage(outgoingObject) {
+    const preKeyEnvelope = outgoingObject.preKeyBundleMessage ? {
+      preKeyBundleMessage: outgoingObject.preKeyBundleMessage,
+    } : {};
     const messageEnvelope = new textsecure.protobuf.Envelope({
       type: outgoingObject.type,
       source: outgoingObject.ourKey,
       sourceDevice: outgoingObject.sourceDevice,
       timestamp: this.timestamp,
       content: outgoingObject.content,
+      ...preKeyEnvelope,
     });
     const requestMessage = new textsecure.protobuf.WebSocketRequestMessage({
       id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0], // random ID for now
