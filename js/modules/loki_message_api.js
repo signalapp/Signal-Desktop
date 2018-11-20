@@ -1,4 +1,4 @@
-/* global log, dcodeIO */
+/* global log, dcodeIO, window */
 
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');

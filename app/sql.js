@@ -1137,8 +1137,8 @@ async function saveMessage(data, { forceSave } = {}) {
     // eslint-disable-next-line camelcase
     received_at,
     schemaVersion,
-    // eslint-disable-next-line camelcase
     sent,
+    // eslint-disable-next-line camelcase
     sent_at,
     source,
     sourceDevice,
@@ -1423,7 +1423,7 @@ async function getMessagesBySentAt(sentAt) {
 async function getSeenMessagesByHashList(hashes) {
   const rows = await db.all(
     `SELECT * FROM seenMessages WHERE hash IN ( ${hashes.map(() => '?').join(', ')} );`,
-     hashes
+    hashes
   );
 
   return map(rows, row => row.hash);

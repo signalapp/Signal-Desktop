@@ -12,7 +12,7 @@
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   'use strict';
 
   window.Whisper = window.Whisper || {};
@@ -536,8 +536,8 @@
         contact.number && contact.number[0] && contact.number[0].value;
       const onSendMessage = firstNumber
         ? () => {
-            this.trigger('open-conversation', firstNumber);
-          }
+          this.trigger('open-conversation', firstNumber);
+        }
         : null;
       const onClick = async () => {
         // First let's be sure that the signal account check is complete.
@@ -576,8 +576,8 @@
         !path && !objectUrl
           ? null
           : Object.assign({}, attachment.thumbnail || {}, {
-              objectUrl: path || objectUrl,
-            });
+            objectUrl: path || objectUrl,
+          });
 
       return Object.assign({}, attachment, {
         isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
@@ -644,15 +644,15 @@
         url: getAbsoluteAttachmentPath(path),
         screenshot: screenshot
           ? {
-              ...screenshot,
-              url: getAbsoluteAttachmentPath(screenshot.path),
-            }
+            ...screenshot,
+            url: getAbsoluteAttachmentPath(screenshot.path),
+          }
           : null,
         thumbnail: thumbnail
           ? {
-              ...thumbnail,
-              url: getAbsoluteAttachmentPath(thumbnail.path),
-            }
+            ...thumbnail,
+            url: getAbsoluteAttachmentPath(thumbnail.path),
+          }
           : null,
       };
     },
@@ -1393,7 +1393,7 @@
             if (previousUnread !== message.get('unread')) {
               window.log.warn(
                 'Caught race condition on new message read state! ' +
-                  'Manually starting timers.'
+                'Manually starting timers.'
               );
               // We call markRead() even though the message is already
               // marked read because we need to start expiration
