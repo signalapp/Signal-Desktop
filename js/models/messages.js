@@ -1227,7 +1227,16 @@
             hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
             quote: dataMessage.quote,
             schemaVersion: dataMessage.schemaVersion,
+            preKeyBundle: dataMessage.preKeyBundle || null,
           });
+
+          if (type === 'friend-request') {
+            message.set({
+              friendStatus: dataMessage.friendStatus,
+              direction: dataMessage.direction,
+            });
+          }
+
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(
               conversation,
@@ -1291,7 +1300,7 @@
               );
             }
           }
-          if (type === 'incoming') {
+          if (type === 'incoming' || type === 'friend-request') {
             const readSync = Whisper.ReadSyncs.forMessage(message);
             if (readSync) {
               if (

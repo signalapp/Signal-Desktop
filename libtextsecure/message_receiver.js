@@ -541,7 +541,7 @@ MessageReceiver.prototype.extend({
     return textsecure.storage.unprocessed.add(data);
   },
   async updateCache(envelope, plaintext) {
-    const { id, preKeyBundleMessage } = envelope;
+    const { id } = envelope;
     const item = await textsecure.storage.unprocessed.get(id);
     if (!item) {
       window.log.error(
@@ -556,7 +556,6 @@ MessageReceiver.prototype.extend({
         sourceDevice: envelope.sourceDevice,
         serverTimestamp: envelope.serverTimestamp,
         decrypted: await MessageReceiver.arrayBufferToStringBase64(plaintext),
-        preKeyBundleMessage: await MessageReceiver.arrayBufferToStringBase64(preKeyBundleMessage),
       });
     } else {
       item.set({
@@ -564,7 +563,6 @@ MessageReceiver.prototype.extend({
         sourceDevice: envelope.sourceDevice,
         serverTimestamp: envelope.serverTimestamp,
         decrypted: await MessageReceiver.arrayBufferToString(plaintext),
-        preKeyBundleMessage: await MessageReceiver.arrayBufferToStringBase64(preKeyBundleMessage),
       });
     }
 
@@ -717,9 +715,11 @@ MessageReceiver.prototype.extend({
     if (envelope.preKeyBundleMessage) {
       const decryptedText = await fallBackSessionCipher.decrypt(envelope.preKeyBundleMessage.toArrayBuffer());
       const unpadded = await this.unpad(decryptedText);
+      const decodedProto = textsecure.protobuf.PreKeyBundleMessage.decode(unpadded);
+      const decodedBundle = this.decodePreKeyBundleMessage(decodedProto);
 
       // eslint-disable-next-line no-param-reassign
-      envelope.preKeyBundleMessage = unpadded;
+      envelope.preKeyBundleMessage = decodedBundle;
 
       // Save the preKey bundle if this is not a friend request.
       // We don't automatically save on a friend request because
@@ -960,8 +960,6 @@ MessageReceiver.prototype.extend({
           return this.removeFromCache(envelope);
         }
 
-        const preKeyBundle = envelope.preKeyBundleMessage && this.decodePreKeyBundleMessage(envelope.preKeyBundleMessage);
-
         const ev = new Event('message');
         ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.data = {
@@ -972,7 +970,7 @@ MessageReceiver.prototype.extend({
           receivedAt: envelope.receivedAt,
           unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
           message,
-          preKeyBundle: preKeyBundle || null,
+          preKeyBundle: envelope.preKeyBundleMessage || null,
         };
         return this.dispatchAndWait(ev);
       })
@@ -998,19 +996,6 @@ MessageReceiver.prototype.extend({
         return null;
       }
       return this.innerHandleContentMessage(envelope, plaintext);
-    });
-  },
-  promptUserToAcceptFriendRequest(envelope, message, preKeyBundleMessage) {
-    window.Whisper.events.trigger('showFriendRequest', {
-      pubKey: envelope.source,
-      message,
-      preKeyBundle: this.decodePreKeyBundleMessage(preKeyBundleMessage),
-      options: {
-        source: envelope.source,
-        sourceDevice: envelope.sourceDevice,
-        timestamp: envelope.timestamp.toNumber(),
-        receivedAt: envelope.receivedAt,
-      },
     });
   },
   // A handler function for when a friend request is accepted or declined
@@ -1046,12 +1031,6 @@ MessageReceiver.prototype.extend({
   },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
-    const preKeyBundleMessage = envelope.preKeyBundleMessage && textsecure.protobuf.PreKeyBundleMessage.decode(envelope.preKeyBundleMessage);
-
-    // Set the decoded preKeyMessage
-    if (preKeyBundleMessage) {
-      envelope.preKeyBundleMessage = preKeyBundleMessage;
-    }
 
     let conversation;
     try {
@@ -1300,6 +1279,8 @@ MessageReceiver.prototype.extend({
     };
   },
   async handlePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
+    if (!preKeyBundleMessage) return null;
+
     const {
       preKeyId,
       signedKeyId,

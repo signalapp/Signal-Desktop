@@ -570,12 +570,6 @@
       }
     });
 
-    Whisper.events.on('showFriendRequest', friendRequest => {
-      if (appView) {
-        appView.showFriendRequest(friendRequest);
-      }
-    });
-
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);
@@ -1268,6 +1262,7 @@
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
+      preKeyBundle: data.preKeyBundle || null,
     };
 
     if (data.type === 'friend-request') {
@@ -1275,7 +1270,6 @@
         ...messageData,
         type: 'friend-request',
         friendStatus: 'pending',
-        preKeyBundle: data.preKeyBundle || null,
         direction: 'incoming',
       }
     }

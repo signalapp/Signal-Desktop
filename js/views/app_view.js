@@ -178,15 +178,5 @@
         });
       }
     },
-    async showFriendRequest({ pubKey, message, preKeyBundle, options }) {
-      const controller = window.ConversationController;
-      const conversation = await controller.getOrCreateAndWait(pubKey, 'private');
-      if (conversation) {
-        conversation.addFriendRequest(message, {
-          preKeyBundle: preKeyBundle || null,
-          ...options,
-        });
-      }
-    },
   });
 })();

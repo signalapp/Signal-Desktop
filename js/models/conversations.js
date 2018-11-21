@@ -668,91 +668,6 @@
         existing.trigger('destroy');
       }
     },
-    // This will add a message which will allow the user to reply to a friend request
-    async addFriendRequest(body, options = {}) {
-      const _options = {
-        friendStatus: 'pending',
-        direction: 'incoming',
-        preKeyBundle: null,
-        timestamp: null,
-        source: null,
-        sourceDevice: null,
-        received_at: null,
-        ...options,
-      };
-
-      if (this.isMe()) {
-        window.log.info(
-          'refusing to send friend request to ourselves'
-        );
-        return;
-      }
-
-      const timestamp = _options.timestamp || this.get('timestamp') || Date.now();
-
-      window.log.info(
-        'adding friend request for',
-        this.ourNumber,
-        this.idForLogging(),
-        timestamp
-      );
-
-      this.lastMessageStatus = 'sending';
-
-      this.set({
-        active_at: Date.now(),
-        timestamp: Date.now(),
-        unreadCount: this.get('unreadCount') + 1,
-      });
-
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
-
-      // If we need to add new incoming friend requests
-      // Then we need to make sure we remove any pending requests that we may have
-      // This is to ensure that one user cannot spam us with multiple friend requests
-      if (_options.direction === 'incoming') {
-        const requests = await this.getPendingFriendRequests('incoming');
-
-        // Delete the old message if it's pending
-        await Promise.all(requests.map(request => this._removeMessage(request.id)));
-        // Trigger an update if we removed messages
-        if (requests.length > 0)
-          this.trigger('change');
-      }
-
-      // Add the new message
-      // eslint-disable-next-line camelcase
-      const received_at = _options.received_at || Date.now();
-      const message = {
-        conversationId: this.id,
-        type: 'friend-request',
-        sent_at: timestamp,
-        received_at,
-        unread: 1,
-        from: this.id,
-        to: this.ourNumber,
-        friendStatus: _options.friendStatus,
-        direction: _options.direction,
-        body,
-        preKeyBundle: _options.preKeyBundle,
-        source: _options.source,
-        sourceDevice: _options.sourceDevice,
-      };
-
-      const id = await window.Signal.Data.saveMessage(message, {
-        Message: Whisper.Message,
-      });
-
-      const whisperMessage = new Whisper.Message({
-        ...message,
-        id,
-      });
-
-      this.trigger('newmessage', whisperMessage);
-      this.notify(whisperMessage);
-    },
     async addVerifiedChange(verifiedChangeId, verified, providedOptions) {
       const options = providedOptions || {};
       _.defaults(options, { local: true });
@@ -1332,6 +1247,20 @@
       //   clear the changed fields here so our hasChanged() check below is useful.
       this.changed = {};
       this.set(lastMessageUpdate);
+
+      // If we need to add new incoming friend requests
+      // Then we need to make sure we remove any pending requests that we may have
+      // This is to ensure that one user cannot spam us with multiple friend requests
+      if (lastMessage.isFriendRequest() && lastMessage.direction === 'incoming') {
+        const requests = await this.getPendingFriendRequests('incoming');
+
+        // Delete the old message if it's pending
+        await Promise.all(requests.map(request => this._removeMessage(request.id)));
+
+        // Trigger an update if we removed messages
+        hasChanged = hasChanged || (requests.length > 0);
+      }
+
 
       if (this.hasChanged()) {
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
