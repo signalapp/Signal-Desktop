@@ -914,14 +914,13 @@ MessageReceiver.prototype.extend({
     const message = textsecure.protobuf.DataMessage.decode(plaintext);
     return this.handleDataMessage(envelope, message);
   },
-  handleContentMessage(envelope) {
-    return this.decrypt(envelope, envelope.content).then(plaintext => {
-      if (!plaintext) {
-        window.log.warn('handleContentMessage: plaintext was falsey');
-        return null;
-      }
-      return this.innerHandleContentMessage(envelope, plaintext);
-    });
+  async handleContentMessage(envelope) {
+    const plaintext = await this.decrypt(envelope, envelope.content);
+    if (!plaintext) {
+      window.log.warn('handleContentMessage: plaintext was falsey');
+      return null;
+    }
+    return this.innerHandleContentMessage(envelope, plaintext);
   },
   innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
