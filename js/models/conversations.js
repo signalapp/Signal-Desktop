@@ -62,13 +62,14 @@
    *
    * `isKeyExchangeCompleted` return whether we know for certain
    *   that both of our preKeyBundles have been exhanged.
-   *    - This will be set when we receive a valid CIPHER message from the other user.
+   *    - This will be set when we receive a valid CIPHER or
+   *      PREKEY_BUNDLE message from the other user.
    *        * Valid meaning we can decypher the message using the preKeys provided
    *           or the keys we have stored.
    *
    * `isFriend` will determine whether we should send a FRIEND_REQUEST message.
    *
-   * `isKeyExhangeCompleted` will determine whether we keep
+   * `isKeyExchangeCompleted` will determine whether we keep
    *   sending preKeyBundle to the other user.
    */
 
@@ -513,8 +514,9 @@
       // Update our local state
       await this.updatePendingFriendRequests();
 
-      // Send the notification
-      this.notifyFriendRequest(this.id, 'accepted')
+      // Send the notification if we had an outgoing friend request
+      if (pending.length > 0)
+        this.notifyFriendRequest(this.id, 'accepted')
     },
     async onFriendRequestSent() {
       return this.updateFriendRequestUI();
@@ -1224,7 +1226,7 @@
         );
 
         // We also need to update any outgoing pending requests and set them to denied.
-        //  when we get an incoming friend request.
+        // when we get an incoming friend request.
         const outgoing = await this.getPendingFriendRequests('outgoing');
         await Promise.all(
           outgoing.map(async request => {
