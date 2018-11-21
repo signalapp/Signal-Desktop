@@ -81,6 +81,7 @@
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         keyExchangeCompleted: false,
         blockInput: false,
+        unlockTimestamp: null, // Timestamp used for expiring friend requests.
       };
     },
 
@@ -158,6 +159,7 @@
       this.unset('lastMessageStatus');
 
       this.updateTextInputState();
+      this.setFriendRequestExpiryTimeout();
     },
 
     isMe() {
@@ -214,6 +216,7 @@
       await this.inProgressFetch;
       removeMessage();
     },
+
     async onCalculatingPoW(pubKey, timestamp) {
       if (this.id !== pubKey) return;
 
@@ -227,7 +230,6 @@
       if (setToExpire) model.setToExpire();
       return model;
     },
-
     format() {
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
@@ -518,8 +520,65 @@
       if (pending.length > 0)
         this.notifyFriendRequest(this.id, 'accepted')
     },
+    async onFriendRequestTimeout() {
+      // Unset the timer
+      if (this.unlockTimer)
+        clearTimeout(this.unlockTimer);
+
+      this.unlockTimer = null;
+
+      // Set the unlock timestamp to null
+      if (this.get('unlockTimestamp')) {
+        this.set({ unlockTimestamp: null });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+
+      // Change any pending outgoing friend requests to expired
+      const outgoing = await this.getPendingFriendRequests('outgoing');
+      await Promise.all(
+        outgoing.map(async request => {
+          if (request.hasErrors()) return;
+
+          request.set({ friendStatus: 'expired' });
+          await window.Signal.Data.saveMessage(request.attributes, {
+            Message: Whisper.Message,
+          });
+          this.trigger('updateMessage', request);
+        })
+      );
+
+      // Update the UI
+      this.updateFriendRequestUI();
+    },
     async onFriendRequestSent() {
-      return this.updateFriendRequestUI();
+      // Check if we need to set the friend request expiry
+      const unlockTimestamp = this.get('unlockTimestamp');
+      const isFriend = await this.isFriend();
+      if (!isFriend && !unlockTimestamp) {
+        // Expire the messages after 72 hours
+        const hourLockDuration = 72;
+        const ms = 60 * 60 * 1000 * hourLockDuration;
+
+        this.set({ unlockTimestamp: Date.now() + ms });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+
+        this.setFriendRequestExpiryTimeout();
+      }
+
+      this.updateFriendRequestUI();
+    },
+    setFriendRequestExpiryTimeout() {
+      const unlockTimestamp = this.get('unlockTimestamp');
+      if (unlockTimestamp && !this.unlockTimer) {
+        const delta = Math.max(unlockTimestamp - Date.now(), 0);
+        this.unlockTimer = setTimeout(() => {
+          this.onFriendRequestTimeout();
+        }, delta);
+      }
     },
     isUnverified() {
       if (this.isPrivate()) {

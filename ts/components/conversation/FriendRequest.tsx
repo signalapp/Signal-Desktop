@@ -8,7 +8,7 @@ interface Props {
   text: string;
   direction: 'incoming' | 'outgoing';
   status: string;
-  friendStatus: 'pending' | 'accepted' | 'declined';
+  friendStatus: 'pending' | 'accepted' | 'declined' | 'expired';
   i18n: Localizer;
   onAccept: () => void;
   onDecline: () => void;
@@ -22,11 +22,13 @@ export class FriendRequest extends React.Component<Props> {
 
     switch (friendStatus) {
       case 'pending':
-        return `friendRequestPending`;
+        return 'friendRequestPending';
       case 'accepted':
-        return `friendRequestAccepted`;
+        return 'friendRequestAccepted';
       case 'declined':
-        return `friendRequestDeclined`;
+        return 'friendRequestDeclined';
+      case 'expired':
+        return 'friendRequestExpired'
       default:
         throw new Error(`Invalid friend request status: ${friendStatus}`);
     }
@@ -45,7 +47,6 @@ export class FriendRequest extends React.Component<Props> {
           <MessageBody text={text || ''} i18n={i18n} />
         </div>
       </div>
-      
     );
   }
 
@@ -137,7 +138,7 @@ export class FriendRequest extends React.Component<Props> {
 
   public render() {
     const { direction } = this.props;
-    
+
     return (
       <div
         className={classNames(
@@ -153,7 +154,7 @@ export class FriendRequest extends React.Component<Props> {
             'module-message-friend-request__container',
           )}
         >
-            <div 
+            <div
               className={classNames(
                 'module-message__text',
                 `module-message__text--${direction}`,

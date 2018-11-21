@@ -475,7 +475,7 @@ OutgoingMessage.prototype = {
           }
 
           if (this.fallBackEncryption && conversation) {
-            conversation.onFriendRequestSent();
+            await conversation.onFriendRequestSent();
           }
         })
         .then(this.reloadDevicesAndSend(number, true))
