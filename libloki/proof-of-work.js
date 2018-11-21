@@ -4,7 +4,7 @@ const { BigInteger } = require('jsbn');
 
 const NONCE_LEN = 8;
 // Modify this value for difficulty scaling
-const NONCE_TRIALS = 1000;
+const NONCE_TRIALS = 10;
 
 // Increment Uint8Array nonce by 1 with carrying
 function incrementNonce(nonce) {

@@ -541,7 +541,7 @@ MessageReceiver.prototype.extend({
     return textsecure.storage.unprocessed.add(data);
   },
   async updateCache(envelope, plaintext) {
-    const { id } = envelope;
+    const { id, preKeyBundleMessage } = envelope;
     const item = await textsecure.storage.unprocessed.get(id);
     if (!item) {
       window.log.error(
@@ -556,6 +556,7 @@ MessageReceiver.prototype.extend({
         sourceDevice: envelope.sourceDevice,
         serverTimestamp: envelope.serverTimestamp,
         decrypted: await MessageReceiver.arrayBufferToStringBase64(plaintext),
+        preKeyBundleMessage: await MessageReceiver.arrayBufferToStringBase64(preKeyBundleMessage),
       });
     } else {
       item.set({
@@ -563,6 +564,7 @@ MessageReceiver.prototype.extend({
         sourceDevice: envelope.sourceDevice,
         serverTimestamp: envelope.serverTimestamp,
         decrypted: await MessageReceiver.arrayBufferToString(plaintext),
+        preKeyBundleMessage: await MessageReceiver.arrayBufferToStringBase64(preKeyBundleMessage),
       });
     }
 
@@ -713,18 +715,11 @@ MessageReceiver.prototype.extend({
 
     // Check if we have preKey bundles to decrypt
     if (envelope.preKeyBundleMessage) {
-      const decryptedText = await fallBackSessionCipher.decrypt(envelope.preKeyBundleMessage);
+      const decryptedText = await fallBackSessionCipher.decrypt(envelope.preKeyBundleMessage.toArrayBuffer());
+      const unpadded = await this.unpad(decryptedText);
 
-      // Convert the decryptedText to an array buffer if we have a string
-      if (typeof decryptedText === 'string') {
-        // eslint-disable-next-line no-param-reassign
-        envelope.preKeyBundleMessage = await MessageReceiver.stringToArrayBuffer(
-          decryptedText
-        );
-      } else {
-        // eslint-disable-next-line no-param-reassign
-        envelope.preKeyBundleMessage = decryptedText;
-      }
+      // eslint-disable-next-line no-param-reassign
+      envelope.preKeyBundleMessage = unpadded;
 
       // Save the preKey bundle if this is not a friend request.
       // We don't automatically save on a friend request because
@@ -1051,6 +1046,12 @@ MessageReceiver.prototype.extend({
   },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
+    const preKeyBundleMessage = envelope.preKeyBundleMessage && textsecure.protobuf.PreKeyBundleMessage.decode(envelope.preKeyBundleMessage);
+
+    // Set the decoded preKeyMessage
+    if (preKeyBundleMessage) {
+      envelope.preKeyBundleMessage = preKeyBundleMessage;
+    }
 
     let conversation;
     try {
