@@ -53,6 +53,12 @@ function log(...args) {
 if (window.console) {
   console._log = console.log;
   console.log = log;
+  console._trace = console.trace;
+  console._debug = console.debug
+  console._info = console.info;
+  console._warn = console.warn;
+  console._error = console.error;
+  console._fatal = console.error;
 }
 
 // The mechanics of preparing a log for publish
@@ -95,12 +101,18 @@ function fetch() {
 }
 
 const publish = debuglogs.upload;
+const development = (window.getEnvironment() !== 'production');
 
 // A modern logging interface for the browser
 
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
 function logAtLevel(level, prefix, ...args) {
-  console._log(prefix, now(), ...args);
+  if (development) {
+    const fn = `_${level}`;
+    console[fn](prefix, now(), ...args);
+  } else {
+    console._log(prefix, now(), ...args);
+  }
 
   const str = cleanArgsForIPC(args);
   const logText = Privacy.redactAll(str);
