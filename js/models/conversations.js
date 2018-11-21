@@ -79,6 +79,7 @@
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         keyExchangeCompleted: false,
+        blockInput: false,
       };
     },
 
@@ -134,7 +135,7 @@
         this.updateLastMessage
       );
 
-      this.on('newmessage', this.updateLastMessage);
+      this.on('newmessage', this.onNewMessage);
       this.on('change:profileKey', this.onChangeProfileKey);
 
       // Listening for out-of-band data updates
@@ -1030,22 +1031,32 @@
         return true;
       });
     },
+    async updateBlockInput(blockInput) {
+      if (this.get('blockInput') === blockInput) return;
+      this.set({ blockInput });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+    },
     async updateTextInputState() {
       // Check if we need to disable the text field
       const isFriend = await this.isFriend();
-      if (isFriend) {
+      if (!isFriend) {
         // Disable the input if we're waiting for friend request approval
         const waiting = await this.waitingForFriendRequestApproval();
         if (waiting) {
+          await this.updateBlockInput(true);
           this.trigger('disable:input', true);
           this.trigger('change:placeholder', 'disabled');
           return;
         }
         // Tell the user to introduce themselves
+        await this.updateBlockInput(false);
         this.trigger('disable:input', false);
         this.trigger('change:placeholder', 'friend-request');
         return;
       }
+      await this.updateBlockInput(false);
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'chat');
     },
@@ -1199,6 +1210,41 @@
         },
       };
     },
+    async onNewMessage(message) {
+      if (message.get('type') === 'friend-request' && message.get('direction') === 'incoming') {
+        // We need to make sure we remove any pending requests that we may have
+        // This is to ensure that one user cannot spam us with multiple friend requests.
+        const incoming = await this.getPendingFriendRequests('incoming');
+
+        // Delete the old messages if it's pending
+        await Promise.all(
+          incoming
+          .filter(i => i.id !== message.id)
+          .map(request => this._removeMessage(request.id))
+        );
+
+        // We also need to update any outgoing pending requests and set them to denied.
+        //  when we get an incoming friend request.
+        const outgoing = await this.getPendingFriendRequests('outgoing');
+        await Promise.all(
+          outgoing.map(async request => {
+            if (request.hasErrors()) return;
+
+            request.set({ friendStatus: 'declined' });
+            await window.Signal.Data.saveMessage(request.attributes, {
+              Message: Whisper.Message,
+            });
+            this.trigger('updateMessage', request);
+          })
+        );
+
+        // Trigger an update if we removed or updated messages
+        if (outgoing.length > 0 || incoming.length > 0)
+          this.trigger('change');
+      }
+
+      return this.updateLastMessage();
+    },
     async updateLastMessage() {
       if (!this.id) {
         return;
@@ -1247,20 +1293,6 @@
       //   clear the changed fields here so our hasChanged() check below is useful.
       this.changed = {};
       this.set(lastMessageUpdate);
-
-      // If we need to add new incoming friend requests
-      // Then we need to make sure we remove any pending requests that we may have
-      // This is to ensure that one user cannot spam us with multiple friend requests
-      if (lastMessage.isFriendRequest() && lastMessage.direction === 'incoming') {
-        const requests = await this.getPendingFriendRequests('incoming');
-
-        // Delete the old message if it's pending
-        await Promise.all(requests.map(request => this._removeMessage(request.id)));
-
-        // Trigger an update if we removed messages
-        hasChanged = hasChanged || (requests.length > 0);
-      }
-
 
       if (this.hasChanged()) {
         await window.Signal.Data.updateConversation(this.id, this.attributes, {

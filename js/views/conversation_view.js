@@ -70,10 +70,14 @@
     template: $('#conversation').html(),
     render_attributes() {
       let sendMessagePlaceholder = 'sendMessageFriendRequest';
-      if (this.model.isFriend()) {
+      const sendDisabled = this.model.get('blockInput');
+      if (sendDisabled) {
+        sendMessagePlaceholder = 'sendMessageDisabled';
+      } else if (this.model.isFriend()) {
         sendMessagePlaceholder = 'sendMessage';
       }
       return {
+        'disable-inputs': sendDisabled,
         'send-message': i18n(sendMessagePlaceholder),
         'android-length-warning': i18n('androidMessageLengthWarning'),
       };
@@ -139,6 +143,8 @@
       );
 
       this.render();
+
+      this.model.updateTextInputState();
 
       this.loadingScreen = new Whisper.ConversationLoadingScreen();
       this.loadingScreen.render();
