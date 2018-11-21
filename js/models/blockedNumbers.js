@@ -1,8 +1,18 @@
 /* global storage, _ */
+/* global _: false */
+/* global Backbone: false */
+
+/* global BlockedNumberController: false */
+/* global storage: false */
+/* global Whisper: false */
+
+/* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
 (function() {
   'use strict';
+
+  window.Whisper = window.Whisper || {};
 
   const BLOCKED_NUMBERS_ID = 'blocked';
   const BLOCKED_GROUPS_ID = 'blocked-groups';
@@ -12,6 +22,7 @@
 
     return _.include(numbers, number);
   };
+  storage.getBlockedNumbers = () => storage.get(BLOCKED_NUMBERS_ID, []);
   storage.addBlockedNumber = number => {
     const numbers = storage.get(BLOCKED_NUMBERS_ID, []);
     if (_.include(numbers, number)) {
@@ -54,4 +65,29 @@
     window.log.info(`removing group(${groupId} from blocked list`);
     storage.put(BLOCKED_GROUPS_ID, _.without(groupIds, groupId));
   };
+
+  Whisper.BlockedNumber = Backbone.Model.extend({
+    defaults() {
+      return {
+        number: '',
+      };
+    },
+    block() {
+      return BlockedNumberController.block(this.number);
+    },
+    unblock() {
+      return BlockedNumberController.unblock(this.number);
+    },
+  });
+
+  Whisper.BlockedNumberCollection = Backbone.Collection.extend({
+    model: Whisper.BlockedNumber,
+    comparator(m) {
+      return m.get('number');
+    },
+    getNumber(number) {
+      return this.models.find(m => m.get('number') === number);
+    },
+  });
+
 })();

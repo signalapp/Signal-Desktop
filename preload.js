@@ -77,6 +77,28 @@ window.setMediaPermissions = enabled =>
   ipc.send('set-media-permissions', enabled);
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 
+// Events for updating block number states across different windows.
+// In this case we need these to update the blocked number
+//  collection on the main window from the settings window.
+window.onUnblockNumber = number => ipc.send('on-unblock-number', number);
+
+ipc.on('on-unblock-number', (event, number) => {
+  // Unblock the number
+  if (window.BlockedNumberController) {
+    window.BlockedNumberController.unblock(number);
+  }
+
+  // Update the conversation
+  if (window.ConversationController) {
+    try {
+      const conversation = window.ConversationController.get(number);
+      conversation.unblock();
+    } catch (e) {
+      window.log.info('IPC on unblock: failed to fetch conversation for number: ', number);
+    }
+  }
+});
+
 window.closeAbout = () => ipc.send('close-about');
 
 window.updateTrayIcon = unreadCount =>

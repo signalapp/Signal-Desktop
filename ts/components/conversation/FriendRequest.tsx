@@ -10,10 +10,13 @@ interface Props {
   status: string;
   friendStatus: 'pending' | 'accepted' | 'declined';
   i18n: Localizer;
+  isBlocked: boolean;
   onAccept: () => void;
   onDecline: () => void;
   onDeleteConversation: () => void;
   onRetrySend: () => void;
+  onBlockUser: () => void;
+  onUnblockUser: () => void;
 }
 
 export class FriendRequest extends React.Component<Props> {
@@ -50,7 +53,7 @@ export class FriendRequest extends React.Component<Props> {
   }
 
   public renderButtons() {
-      const { friendStatus, direction, status, onAccept, onDecline, onDeleteConversation, onRetrySend } = this.props;
+      const { i18n, friendStatus, direction, status, onAccept, onDecline, onDeleteConversation, onRetrySend, isBlocked, onBlockUser, onUnblockUser } = this.props;
 
       if (direction === 'incoming') {
         if (friendStatus === 'pending') {
@@ -67,6 +70,8 @@ export class FriendRequest extends React.Component<Props> {
               </div>
           );
         } else if (friendStatus === 'declined') {
+          const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
+          const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
           return (
             <div
               className={classNames(
@@ -76,6 +81,7 @@ export class FriendRequest extends React.Component<Props> {
               )}
             >
               <button onClick={onDeleteConversation}>Delete Conversation</button>
+              <button onClick={blockHandler}>{blockTitle}</button>
             </div>
           );
         }

@@ -1269,6 +1269,10 @@ body.dark-theme {
     border-left: 4px solid $color-conversation-indigo;
   }
 
+  .module-conversation-list-item--is-blocked {
+    border-left: 4px solid $color-conversation-red;
+  }
+
   .module-conversation-list-item--is-selected {
     background-color: $color-dark-70;
   }

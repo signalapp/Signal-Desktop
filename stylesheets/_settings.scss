@@ -38,6 +38,42 @@
       color: red;
     }
   }
+
+  .blocked-user-settings {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .blocked-user-settings {
+    select {
+      flex: 1;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button {
+      line-height: 28px;
+      padding: 0 20px;
+      margin: auto;
+      margin-left: 20px;
+    }
+  }
+
+  .blocked-user-settings ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .wordwrap {
+    white-space: pre-wrap;      /* CSS3 */
+    white-space: -moz-pre-wrap; /* Firefox */
+    white-space: -pre-wrap;     /* Opera <7 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    word-wrap: break-word;      /* IE */
+ }
+
   .restart-needed {
     margin-top: 1em;
   }

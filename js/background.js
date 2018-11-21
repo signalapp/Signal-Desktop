@@ -8,6 +8,7 @@
   storage,
   textsecure,
   Whisper,
+  BlockedNumberController
 */
 
 // eslint-disable-next-line func-names
@@ -422,6 +423,7 @@
 
     try {
       await ConversationController.load();
+      BlockedNumberController.load();
     } catch (error) {
       window.log.error(
         'background.js: ConversationController failed to load:',
