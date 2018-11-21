@@ -9,7 +9,7 @@ message Envelope {
     UNKNOWN       = 0;
     CIPHERTEXT    = 1;
     KEY_EXCHANGE  = 2;
-    PREKEY_BUNDLE = 3;
+    PREKEY_BUNDLE = 3; //Used By Signal. DO NOT TOUCH! we don't use this at all.
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
     FRIEND_REQUEST = 101; // contains prekeys + message and is using simple encryption

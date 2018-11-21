@@ -1006,8 +1006,8 @@ MessageReceiver.prototype.extend({
     const conversation = window.ConversationController.get(pubKey);
     if (conversation) {
       // Update the conversation friend request indicator
-      conversation.updatePendingFriendRequests();
-      conversation.updateTextInputState();
+      await conversation.updatePendingFriendRequests();
+      await conversation.updateTextInputState();
     }
 
     // If we accepted an incoming friend request then save the preKeyBundle
@@ -1041,7 +1041,12 @@ MessageReceiver.prototype.extend({
 
     if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
       return this.handleFriendRequestMessage(envelope, content.dataMessage);
-    } else if (envelope.type === textsecure.protobuf.Envelope.Type.CIPHERTEXT) {
+    } else if (
+        envelope.type === textsecure.protobuf.Envelope.Type.CIPHERTEXT ||
+        // We also need to check for PREKEY_BUNDLE aswell if the session hasn't started.
+        // ref: libsignal-protocol.js:36120
+        envelope.type === textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE
+      ) {
       // If we get a cipher text and we are friends then we can mark keys as exchanged
       if (conversation && conversation.isFriend()) {
         await conversation.setKeyExchangeCompleted(true);
@@ -1060,6 +1065,8 @@ MessageReceiver.prototype.extend({
     } else if (content.receiptMessage) {
       return this.handleReceiptMessage(envelope, content.receiptMessage);
     }
+    if (envelope.preKeyBundleMessage) return null;
+
     throw new Error('Unsupported content message');
   },
   handleCallMessage(envelope) {
