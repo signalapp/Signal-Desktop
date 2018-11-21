@@ -59,7 +59,7 @@
       addOne(model) {
         const number = model.get('number');
         if (number) {
-          this.$el.append(`<option value="${number}">${this.truncate(number, 15)}</option>`);
+          this.$el.append(`<option value="${number}">${this.truncate(number, 25)}</option>`);
         }
       },
       addAll() {
