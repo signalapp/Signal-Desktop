@@ -73,7 +73,7 @@ class LokiServer {
       timeout: undefined,
     };
 
-    log.info(options.type, options.url);
+    log.debug(options.type, options.url);
 
     const fetchOptions = {
       method: options.type,
@@ -108,7 +108,7 @@ class LokiServer {
     }
 
     if (response.status >= 0 && response.status < 400) {
-      log.info(options.type, options.url, response.status, 'Success');
+      log.debug(options.type, options.url, response.status, 'Success');
       return result;
     }
     log.error(options.type, options.url, response.status, 'Error');
@@ -126,7 +126,7 @@ class LokiServer {
       timeout: undefined,
     };
 
-    log.info(options.type, options.url);
+    log.debug(options.type, options.url);
 
     const headers = {
       'X-Loki-recipient': pubKey,
@@ -163,7 +163,7 @@ class LokiServer {
     }
 
     if (response.status >= 0 && response.status < 400) {
-      log.info(options.type, options.url, response.status, 'Success');
+      log.debug(options.type, options.url, response.status, 'Success');
       if (result.lastHash) {
         currentNode.lastHash = result.lastHash;
       }

@@ -1,5 +1,5 @@
 /* global
-   dcodeIO, Backbone, _, libsignal, textsecure, ConversationController, stringObject */
+   dcodeIO, Backbone, _, libsignal, textsecure, ConversationController, stringObject, BlockedNumberController */
 
 /* eslint-disable no-proto */
 
@@ -955,7 +955,9 @@
       await window.storage.fetch();
 
       ConversationController.reset();
+      BlockedNumberController.reset();
       await ConversationController.load();
+      BlockedNumberController.load();
     },
     async removeAllConfiguration() {
       await window.Signal.Data.removeAllConfiguration();

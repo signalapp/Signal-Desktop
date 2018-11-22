@@ -365,7 +365,7 @@ MessageReceiver.prototype.extend({
     this.incoming = [];
 
     const dispatchEmpty = () => {
-      window.log.info("MessageReceiver: emitting 'empty' event");
+      window.log.debug("MessageReceiver: emitting 'empty' event");
       const ev = new Event('empty');
       return this.dispatchAndWait(ev);
     };

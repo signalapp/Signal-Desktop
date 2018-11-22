@@ -7,6 +7,7 @@
 /* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
+/* global BlockNumberConversation: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -165,6 +166,7 @@
           isVerified: this.model.isVerified(),
           isKeysPending: this.model.isKeyExchangeCompleted() === false,
           isMe: this.model.isMe(),
+          isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
@@ -194,6 +196,13 @@
           onGoBack: () => {
             this.resetPanel();
             this.updateHeader();
+          },
+
+          onBlockUser: () => {
+            this.model.block();
+          },
+          onUnblockUser:  () => {
+            this.model.unblock();
           },
         };
       };

@@ -339,15 +339,27 @@
         window.Whisper.events.trigger('deleteConversation', conversation);
       };
 
+      const onBlockUser = () => {
+        conversation.block();
+        this.trigger('change');
+      };
+
+      const onUnblockUser = () => {
+        conversation.unblock();
+        this.trigger('change');
+      };
+
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
         status: this.getMessagePropStatus(),
         direction,
         friendStatus,
+        isBlocked: conversation.isBlocked(),
         onAccept,
         onDecline,
         onDeleteConversation,
-        onRetrySend: () => this.retrySend(),
+        onBlockUser,
+        onUnblockUser,
       }
     },
     findContact(phoneNumber) {
