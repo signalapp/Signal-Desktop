@@ -725,19 +725,10 @@ MessageReceiver.prototype.extend({
       // We don't automatically save on a friend request because
       //  we only want to save the preKeys when we click the accept button.
       if (envelope.type !== textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-        try {
-          const conversation = window.ConversationController.get(envelope.source);
-
-          // Make sure we only save the preKeys if we're friends
-          if (conversation.isFriend()) {
-            await this.handlePreKeyBundleMessage(
-              envelope.source,
-              envelope.preKeyBundleMessage
-            );
-          }
-        } catch (e) {
-          window.log.info('Error saving preKeyBundleMessage from: ', envelope.source);
-        }
+        await this.handlePreKeyBundleMessage(
+          envelope.source,
+          envelope.preKeyBundleMessage
+        );
       }
     }
 
