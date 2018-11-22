@@ -554,7 +554,8 @@
       );
 
       // Update the UI
-      this.updateFriendRequestUI();
+      await this.updatePendingFriendRequests();
+      await this.updateFriendRequestUI();
     },
     async onFriendRequestSent() {
       // Check if we need to set the friend request expiry
@@ -1285,20 +1286,17 @@
           .map(request => this._removeMessage(request.id))
         );
 
-        // We also need to update any outgoing pending requests and set them to denied.
-        // when we get an incoming friend request.
+        // If we have an outgoing friend request then
+        // we auto accept the incoming friend request
         const outgoing = await this.getPendingFriendRequests('outgoing');
-        await Promise.all(
-          outgoing.map(async request => {
-            if (request.hasErrors()) return;
-
-            request.set({ friendStatus: 'declined' });
-            await window.Signal.Data.saveMessage(request.attributes, {
-              Message: Whisper.Message,
-            });
-            this.trigger('updateMessage', request);
-          })
-        );
+        if (outgoing.length > 0) {
+          const current = this.messageCollection.find(i => i.id === message.id);
+          if (current) {
+            await current.acceptFriendRequest();
+          } else {
+            window.log.debug('onNewMessage: Failed to find incoming friend request');
+          }
+        }
 
         // Trigger an update if we removed or updated messages
         if (outgoing.length > 0 || incoming.length > 0)
