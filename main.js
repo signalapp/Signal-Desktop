@@ -905,6 +905,8 @@ installSettingsSetter('theme-setting');
 installSettingsGetter('hide-menu-bar');
 installSettingsSetter('hide-menu-bar');
 
+installSettingsGetter('read-receipt-setting');
+installSettingsSetter('read-receipt-setting');
 installSettingsGetter('notification-setting');
 installSettingsSetter('notification-setting');
 installSettingsGetter('audio-notification');

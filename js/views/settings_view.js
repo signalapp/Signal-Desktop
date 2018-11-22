@@ -50,6 +50,25 @@
     },
   });
 
+  const ReadReceiptSettingView = Whisper.View.extend({
+    initialize(options) {
+      this.value = options.value;
+      this.setFn = options.setFn;
+      this.populate();
+    },
+    events: {
+      change: 'change',
+    },
+    change(e) {
+      this.value = e.target.checked;
+      this.setFn(this.value);
+      window.log.info('read-receipt-setting changed to', this.value);
+    },
+    populate() {
+      this.$('input').prop('checked', Boolean(this.value));
+    },
+  });
+
   const RadioButtonGroupView = Whisper.View.extend({
     initialize(options) {
       this.name = options.name;
@@ -117,7 +136,11 @@
         value: window.initialData.mediaPermissions,
         setFn: window.setMediaPermissions,
       });
-
+      new ReadReceiptSettingView({
+        el: this.$('.read-receipt-setting'),
+        value: window.initialData.readReceiptSetting,
+        setFn: window.setReadReceiptSetting,
+      });
       const blockedNumberView = new Whisper.BlockedNumberView().render();
       this.$('.blocked-user-setting').append(blockedNumberView.el);
 
@@ -152,6 +175,7 @@
         clearDataExplanation: i18n('clearDataExplanation'),
         permissions: i18n('permissions'),
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
+        readReceiptSettingDescription: i18n('readReceiptSettingDescription'),
         spellCheckHeader: i18n('spellCheck'),
         spellCheckDescription: i18n('spellCheckDescription'),
         blockedHeader: 'Blocked Users',
