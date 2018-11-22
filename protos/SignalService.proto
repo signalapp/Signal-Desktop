@@ -9,7 +9,7 @@ message Envelope {
     UNKNOWN       = 0;
     CIPHERTEXT    = 1;
     KEY_EXCHANGE  = 2;
-    PREKEY_BUNDLE = 3;
+    PREKEY_BUNDLE = 3; //Used By Signal. DO NOT TOUCH! we don't use this at all.
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
     FRIEND_REQUEST = 101; // contains prekeys + message and is using simple encryption
@@ -24,6 +24,7 @@ message Envelope {
   optional bytes  content         = 8; // Contains an encrypted Content
   optional string serverGuid      = 9;
   optional uint64 serverTimestamp = 10;
+  optional bytes preKeyBundleMessage = 101;
 
 }
 
@@ -33,7 +34,6 @@ message Content {
   optional CallMessage    callMessage    = 3;
   optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
-  optional PreKeyBundleMessage preKeyBundleMessage = 6;
 }
 
 message PreKeyBundleMessage {

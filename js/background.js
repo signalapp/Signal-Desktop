@@ -572,12 +572,6 @@
       }
     });
 
-    Whisper.events.on('showFriendRequest', friendRequest => {
-      if (appView) {
-        appView.showFriendRequest(friendRequest);
-      }
-    });
-
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);
@@ -1261,7 +1255,7 @@
   async function initIncomingMessage(data, options = {}) {
     const { isError } = options;
 
-    const message = new Whisper.Message({
+    let messageData = {
       source: data.source,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
@@ -1270,7 +1264,19 @@
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
-    });
+      preKeyBundle: data.preKeyBundle || null,
+    };
+
+    if (data.type === 'friend-request') {
+      messageData = {
+        ...messageData,
+        type: 'friend-request',
+        friendStatus: 'pending',
+        direction: 'incoming',
+      }
+    }
+
+    const message = new Whisper.Message(messageData);
 
     // If we don't return early here, we can get into infinite error loops. So, no
     //   delivery receipts for sealed sender errors.

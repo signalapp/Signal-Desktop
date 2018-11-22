@@ -202,25 +202,33 @@ OutgoingMessage.prototype = {
 
     return messagePartCount * 160;
   },
+  convertMessageToText(message) {
+    const messageBuffer = message.toArrayBuffer();
+    const plaintext = new Uint8Array(
+      this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
+    );
+    plaintext.set(new Uint8Array(messageBuffer));
+    plaintext[messageBuffer.byteLength] = 0x80;
 
+    return plaintext;
+  },
   getPlaintext() {
     if (!this.plaintext) {
-      const messageBuffer = this.message.toArrayBuffer();
-      this.plaintext = new Uint8Array(
-        this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
-      );
-      this.plaintext.set(new Uint8Array(messageBuffer));
-      this.plaintext[messageBuffer.byteLength] = 0x80;
+      this.plaintext = this.convertMessageToText(this.message);
     }
     return this.plaintext;
   },
   async wrapInWebsocketMessage(outgoingObject) {
+    const preKeyEnvelope = outgoingObject.preKeyBundleMessage ? {
+      preKeyBundleMessage: outgoingObject.preKeyBundleMessage,
+    } : {};
     const messageEnvelope = new textsecure.protobuf.Envelope({
       type: outgoingObject.type,
       source: outgoingObject.ourKey,
       sourceDevice: outgoingObject.sourceDevice,
       timestamp: this.timestamp,
       content: outgoingObject.content,
+      ...preKeyEnvelope,
     });
     const requestMessage = new textsecure.protobuf.WebSocketRequestMessage({
       id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0], // random ID for now
@@ -275,6 +283,18 @@ OutgoingMessage.prototype = {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
         const ourKey = textsecure.storage.user.getNumber();
         const options = {};
+        const fallBackEncryption = new libloki.FallBackSessionCipher(address);
+
+        // Check if we need to attach the preKeys
+        let preKeys = {};
+        if (this.attachPrekeys) {
+          // Encrypt them with the fallback
+          const preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(number);
+          const textBundle = this.convertMessageToText(preKeyBundleMessage);
+          const encryptedBundle = await fallBackEncryption.encrypt(textBundle);
+          preKeys = { preKeyBundleMessage: encryptedBundle.body };
+          window.log.info('attaching prekeys to outgoing message');
+        }
 
         // No limit on message keys if we're communicating with our other devices
         if (ourKey === number) {
@@ -283,7 +303,7 @@ OutgoingMessage.prototype = {
 
         let sessionCipher;
         if (this.fallBackEncryption) {
-          sessionCipher = new libloki.FallBackSessionCipher(address);
+          sessionCipher = fallBackEncryption;
         } else {
           sessionCipher = new libsignal.SessionCipher(
             textsecure.storage.protocol,
@@ -292,26 +312,26 @@ OutgoingMessage.prototype = {
           );
         }
         ciphers[address.getDeviceId()] = sessionCipher;
-        return sessionCipher
-          .encrypt(plaintext)
-          .then(ciphertext => {
-            if (!this.fallBackEncryption)
-              // eslint-disable-next-line no-param-reassign
-              ciphertext.body = new Uint8Array(
-                dcodeIO.ByteBuffer.wrap(
-                  ciphertext.body,
-                  'binary'
-                ).toArrayBuffer()
-              );
-            return ciphertext;
-          })
-          .then(ciphertext => ({
-            type: ciphertext.type,
-            ourKey,
-            sourceDevice: 1,
-            destinationRegistrationId: ciphertext.registrationId,
-            content: ciphertext.body,
-          }));
+
+        // Encrypt our plain text
+        const ciphertext = await sessionCipher.encrypt(plaintext);
+        if (!this.fallBackEncryption) {
+          // eslint-disable-next-line no-param-reassign
+          ciphertext.body = new Uint8Array(
+            dcodeIO.ByteBuffer.wrap(
+              ciphertext.body,
+              'binary'
+            ).toArrayBuffer()
+          );
+        }
+        return {
+          type: ciphertext.type, // FallBackSessionCipher sets this to FRIEND_REQUEST
+          ourKey,
+          sourceDevice: 1,
+          destinationRegistrationId: ciphertext.registrationId,
+          content: ciphertext.body,
+          ...preKeys,
+        };
       })
     )
       .then(async outgoingObjects => {
@@ -441,34 +461,27 @@ OutgoingMessage.prototype = {
     return this.getStaleDeviceIdsForNumber(number).then(updateDevices =>
       this.getKeysForNumber(number, updateDevices)
         .then(async keysFound => {
-          let attachPrekeys = false;
+          this.attachPrekeys = false;
           if (!keysFound) {
             log.info('Fallback encryption enabled');
             this.fallBackEncryption = true;
-            attachPrekeys = true;
+            this.attachPrekeys = true;
           } else if (conversation) {
             try {
-              attachPrekeys = !conversation.isKeyExchangeCompleted();
+              this.attachPrekeys = !conversation.isKeyExchangeCompleted();
             } catch (e) {
               // do nothing
             }
           }
 
           if (this.fallBackEncryption && conversation) {
-            conversation.onFriendRequestSent();
-          }
-
-          if (attachPrekeys) {
-            log.info('attaching prekeys to outgoing message');
-            this.message.preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(
-              number
-            );
+            await conversation.onFriendRequestSent();
           }
         })
         .then(this.reloadDevicesAndSend(number, true))
         .catch(error => {
           if (this.fallBackEncryption && conversation) {
-            conversation.onFriendRequestTimedOut();
+            conversation.updateFriendRequestUI();
           }
           if (error.message === 'Identity key changed') {
             // eslint-disable-next-line no-param-reassign

@@ -70,16 +70,9 @@
     },
     template: $('#conversation').html(),
     render_attributes() {
-      let sendMessagePlaceholder = 'sendMessageFriendRequest';
-      const sendDisabled = this.model.waitingForFriendRequestApproval();
-      if (sendDisabled) {
-        sendMessagePlaceholder = 'sendMessageDisabled';
-      } else if (this.model.getFriendRequestStatus() === null) {
-        sendMessagePlaceholder = 'sendMessage';
-      }
       return {
-        'disable-inputs': sendDisabled,
-        'send-message': i18n(sendMessagePlaceholder),
+        'disable-inputs': false,
+        'send-message': i18n('sendMessage'),
         'android-length-warning': i18n('androidMessageLengthWarning'),
       };
     },
@@ -144,6 +137,8 @@
       );
 
       this.render();
+
+      this.model.updateTextInputState();
 
       this.loadingScreen = new Whisper.ConversationLoadingScreen();
       this.loadingScreen.render();
@@ -249,6 +244,8 @@
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
       this.$emojiPanelContainer = this.$('.emoji-panel-container');
+
+      this.model.updateFriendRequestUI();
     },
 
     events: {

@@ -1590,6 +1590,10 @@
     "message": "Friend request declined",
     "description": "Shown in the conversation history when the user declines a friend request"
   },
+  "friendRequestExpired": {
+    "message": "Friend request expired",
+    "description": "Shown in the conversation history when the users friend request expires"
+  },
   "friendRequestNotificationTitle": {
     "message": "Friend request",
     "description": "Shown in a notification title when receiving a friend request"

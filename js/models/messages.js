@@ -297,34 +297,42 @@
       // It doesn't need anything right now!
       return {};
     },
+
+    async acceptFriendRequest() {
+      if (this.get('friendStatus') !== 'pending') return;
+      const conversation = this.getConversation();
+
+      this.set({ friendStatus: 'accepted' });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+
+      window.Whisper.events.trigger('friendRequestUpdated', {
+        pubKey: conversation.id,
+        ...this.attributes,
+      });
+    },
+    async declineFriendRequest() {
+      if (this.get('friendStatus') !== 'pending') return;
+      const conversation = this.getConversation();
+
+      this.set({ friendStatus: 'declined' });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+
+      window.Whisper.events.trigger('friendRequestUpdated', {
+        pubKey: conversation.id,
+        ...this.attributes,
+      });
+    },
     getPropsForFriendRequest() {
       const friendStatus = this.get('friendStatus') || 'pending';
       const direction = this.get('direction') || 'incoming';
       const conversation = this.getConversation();
 
-      const onAccept = async () => {
-        this.set({ friendStatus: 'accepted' });
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-
-        window.Whisper.events.trigger('friendRequestUpdated', {
-          pubKey: conversation.id,
-          ...this.attributes,
-        });
-      };
-
-      const onDecline = async () => {
-        this.set({ friendStatus: 'declined' });
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-
-        window.Whisper.events.trigger('friendRequestUpdated', {
-          pubKey: conversation.id,
-          ...this.attributes,
-        });
-      };
+      const onAccept = () => this.acceptFriendRequest();
+      const onDecline = () => this.declineFriendRequest()
 
       const onDeleteConversation = async () => {
         // Delete the whole conversation
@@ -1240,6 +1248,7 @@
             quote: dataMessage.quote,
             schemaVersion: dataMessage.schemaVersion,
           });
+
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(
               conversation,
@@ -1303,7 +1312,7 @@
               );
             }
           }
-          if (type === 'incoming') {
+          if (type === 'incoming' || type === 'friend-request') {
             const readSync = Whisper.ReadSyncs.forMessage(message);
             if (readSync) {
               if (
