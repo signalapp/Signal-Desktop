@@ -60,7 +60,7 @@
    *    - This is explicilty stored as a state in the conversation
    *
    * `isKeyExchangeCompleted` return whether we know for certain
-   *   that both of our preKeyBundles have been exhanged.
+   *   that both of our preKeyBundles have been exchanged.
    *    - This will be set when we receive a valid CIPHER or
    *      PREKEY_BUNDLE message from the other user.
    *        * Valid meaning we can decypher the message using the preKeys provided

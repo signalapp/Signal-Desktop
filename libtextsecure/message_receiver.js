@@ -1048,7 +1048,7 @@ MessageReceiver.prototype.extend({
         // ref: libsignal-protocol.js:36120
         envelope.type === textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE
       ) {
-      // We know for sure that keys are exhanged
+      // We know for sure that keys are exchanged
       if (conversation) {
         await conversation.setKeyExchangeCompleted(true);
 
