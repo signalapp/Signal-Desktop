@@ -141,6 +141,8 @@ installSetter('theme-setting', 'setThemeSetting');
 installGetter('hide-menu-bar', 'getHideMenuBar');
 installSetter('hide-menu-bar', 'setHideMenuBar');
 
+installGetter('read-receipt-setting', 'getReadReceiptSetting');
+installSetter('read-receipt-setting', 'setReadReceiptSetting');
 installGetter('notification-setting', 'getNotificationSetting');
 installSetter('notification-setting', 'setNotificationSetting');
 installGetter('audio-notification', 'getAudioNotification');

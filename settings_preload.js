@@ -41,6 +41,8 @@ window.setHideMenuBar = makeSetter('hide-menu-bar');
 window.getSpellCheck = makeGetter('spell-check');
 window.setSpellCheck = makeSetter('spell-check');
 
+window.getReadReceiptSetting = makeGetter('read-receipt-setting');
+window.setReadReceiptSetting = makeSetter('read-receipt-setting');
 window.getNotificationSetting = makeGetter('notification-setting');
 window.setNotificationSetting = makeSetter('notification-setting');
 window.getAudioNotification = makeGetter('audio-notification');
