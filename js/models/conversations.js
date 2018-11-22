@@ -57,8 +57,7 @@
    *  between isFriend() and isKeyExchangeCompleted().
    *
    * `isFriend` returns whether we have accepted the other user as a friend.
-   *    - This is implicitly checked by whether we have a session
-   *       or we have the preKeyBundle of the user.
+   *    - This is explicilty stored as a state in the conversation
    *
    * `isKeyExchangeCompleted` return whether we know for certain
    *   that both of our preKeyBundles have been exhanged.
