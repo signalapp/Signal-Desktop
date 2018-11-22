@@ -79,6 +79,7 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        isFriend: false,
         keyExchangeCompleted: false,
         blockInput: false,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
@@ -481,14 +482,8 @@
 
      return (incoming.length > 0 || successfulOutgoing.length > 0);
    },
-    async isFriend() {
-      // We are a friend IF:
-      // - We have the preKey bundle of the user OR
-      // - We have a session with the user
-      const preKeys = await window.Signal.Data.getContactPreKeyByIdentityKey(this.id);
-      // const session = await window.Signal.Data.getSessionsByNumber(this.id);
-
-      return !!preKeys;
+    isFriend() {
+      return this.get('isFriend');
     },
     // Update any pending friend requests for the current user
     async updateFriendRequestUI() {
@@ -496,8 +491,7 @@
       this.updateTextInputState();
 
       // We only update our friend requests if we have the user as a friend
-      const isFriend = await this.isFriend();
-      if (!isFriend) return;
+      if (!this.isFriend()) return;
 
       // Update any pending outgoing messages
       const pending = await this.getPendingFriendRequests('outgoing');
@@ -519,6 +513,16 @@
       // Send the notification if we had an outgoing friend request
       if (pending.length > 0)
         this.notifyFriendRequest(this.id, 'accepted')
+    },
+    async onFriendRequestAccepted() {
+      if (!this.isFriend()) {
+        this.set({ isFriend: true });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+
+      await this.updateFriendRequestUI();
     },
     async onFriendRequestTimeout() {
       // Unset the timer
@@ -555,8 +559,7 @@
     async onFriendRequestSent() {
       // Check if we need to set the friend request expiry
       const unlockTimestamp = this.get('unlockTimestamp');
-      const isFriend = await this.isFriend();
-      if (!isFriend && !unlockTimestamp) {
+      if (!this.isFriend() && !unlockTimestamp) {
         // Expire the messages after 72 hours
         const hourLockDuration = 72;
         const ms = 60 * 60 * 1000 * hourLockDuration;
@@ -963,8 +966,7 @@
         let messageWithSchema = null;
 
         // If we are a friend then let the user send the message normally
-        const isFriend = await this.isFriend();
-        if (isFriend) {
+        if (this.isFriend()) {
           messageWithSchema = await upgradeMessageSchema({
             type: 'outgoing',
             body,
@@ -1101,8 +1103,7 @@
     },
     async updateTextInputState() {
       // Check if we need to disable the text field
-      const isFriend = await this.isFriend();
-      if (!isFriend) {
+      if (!this.isFriend()) {
         // Disable the input if we're waiting for friend request approval
         const waiting = await this.waitingForFriendRequestApproval();
         if (waiting) {

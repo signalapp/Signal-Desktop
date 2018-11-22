@@ -1020,12 +1020,13 @@ MessageReceiver.prototype.extend({
         );
       }
 
+      // Accept the friend request
+      if (conversation) {
+        await conversation.onFriendRequestAccepted();
+      }
+
       // Send a reply back
       libloki.sendEmptyMessageWithPreKeys(pubKey);
-
-      if (conversation) {
-        await conversation.updateFriendRequestUI();
-      }
     }
     window.log.info(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
   },
@@ -1047,10 +1048,12 @@ MessageReceiver.prototype.extend({
         // ref: libsignal-protocol.js:36120
         envelope.type === textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE
       ) {
-      // If we get a cipher text and we are friends then we can mark keys as exchanged
-      if (conversation && conversation.isFriend()) {
+      // We know for sure that keys are exhanged
+      if (conversation) {
         await conversation.setKeyExchangeCompleted(true);
-        await conversation.updateFriendRequestUI();
+
+        // TODO: We should probably set this based on the PKB type
+        await conversation.onFriendRequestAccepted();
       }
     }
 
