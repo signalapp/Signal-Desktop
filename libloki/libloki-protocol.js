@@ -143,7 +143,7 @@
     await Promise.all([signedKeyPromise, preKeyPromise]);
   }
 
-  async function sendEmptyMessageWithPreKeys(pubKey) {
+  async function sendFriendRequestAccepted(pubKey) {
     // empty content message
     const content = new textsecure.protobuf.Content();
 
@@ -155,6 +155,9 @@
         log.info('empty message sent successfully');
       }
     };
+    const options = {
+      preKeyBundleType: textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST_ACCEPT,
+    };
     // send an empty message. The logic in ougoing_message will attach the prekeys.
     const outgoingMessage = new textsecure.OutgoingMessage(
       null, // server
@@ -162,7 +165,8 @@
       [pubKey], // numbers
       content, // message
       true, // silent
-      callback // callback
+      callback, // callback
+      options
     );
     await outgoingMessage.sendToNumber(pubKey);
   }
@@ -171,5 +175,5 @@
   window.libloki.getPreKeyBundleForNumber = getPreKeyBundleForNumber;
   window.libloki.FallBackDecryptionError = FallBackDecryptionError;
   window.libloki.savePreKeyBundleForNumber = savePreKeyBundleForNumber;
-  window.libloki.sendEmptyMessageWithPreKeys = sendEmptyMessageWithPreKeys;
+  window.libloki.sendFriendRequestAccepted = sendFriendRequestAccepted;
 })();

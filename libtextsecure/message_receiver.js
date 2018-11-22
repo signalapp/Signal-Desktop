@@ -1026,7 +1026,7 @@ MessageReceiver.prototype.extend({
       }
 
       // Send a reply back
-      libloki.sendEmptyMessageWithPreKeys(pubKey);
+      libloki.sendFriendRequestAccepted(pubKey);
     }
     window.log.info(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
   },
