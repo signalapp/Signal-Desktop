@@ -80,7 +80,6 @@
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         isFriend: false,
         keyExchangeCompleted: false,
-        blockInput: false,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
       };
     },
@@ -1094,31 +1093,21 @@
         return true;
       });
     },
-    async updateBlockInput(blockInput) {
-      if (this.get('blockInput') === blockInput) return;
-      this.set({ blockInput });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
-    },
     async updateTextInputState() {
       // Check if we need to disable the text field
       if (!this.isFriend()) {
         // Disable the input if we're waiting for friend request approval
         const waiting = await this.waitingForFriendRequestApproval();
         if (waiting) {
-          await this.updateBlockInput(true);
           this.trigger('disable:input', true);
           this.trigger('change:placeholder', 'disabled');
           return;
         }
         // Tell the user to introduce themselves
-        await this.updateBlockInput(false);
         this.trigger('disable:input', false);
         this.trigger('change:placeholder', 'friend-request');
         return;
       }
-      await this.updateBlockInput(false);
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'chat');
     },
