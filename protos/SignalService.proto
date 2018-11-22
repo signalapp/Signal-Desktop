@@ -37,6 +37,13 @@ message Content {
 }
 
 message PreKeyBundleMessage {
+  enum Type {
+    UNKNOWN               = 0;
+    FRIEND_REQUEST        = 1;
+    FRIEND_REQUEST_ACCEPT = 2;
+    RESET_SESSION         = 3;
+    RESET_SESSION_ACK     = 4;
+  }
   optional bytes identityKey      = 1;
   optional uint32 deviceId        = 2;
   optional uint32 preKeyId        = 3;
@@ -44,6 +51,7 @@ message PreKeyBundleMessage {
   optional bytes preKey           = 5;
   optional bytes signedKey        = 6;
   optional bytes signature        = 7;
+  optional Type type              = 8;
 }
 
 message CallMessage {
