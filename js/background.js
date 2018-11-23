@@ -236,6 +236,10 @@
         window.setMenuBarVisibility(!value);
       },
 
+      getReadReceiptSetting: () =>
+        storage.get('read-receipt-setting'),
+      setReadReceiptSetting: value =>
+        storage.put('read-receipt-setting', value),
       getNotificationSetting: () =>
         storage.get('notification-setting', 'message'),
       setNotificationSetting: value =>

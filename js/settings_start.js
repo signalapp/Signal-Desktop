@@ -18,6 +18,7 @@ const getInitialData = async () => ({
   themeSetting: await window.getThemeSetting(),
   hideMenuBar: await window.getHideMenuBar(),
 
+  readReceiptSetting: await window.getReadReceiptSetting(),
   notificationSetting: await window.getNotificationSetting(),
   audioNotification: await window.getAudioNotification(),
 

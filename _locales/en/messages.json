@@ -1050,6 +1050,10 @@
     "message": "Notifications",
     "description": "Header for notification settings"
   },
+  "readReceiptSettingDescription": {
+    "message": "Enable the sending and receiving of read receipts",
+    "description": "Description of the read receipts setting"
+  },
   "notificationSettingsDialog": {
     "message": "When messages arrive, display notifications that reveal:",
     "description": "Explain the purpose of the notification settings"
