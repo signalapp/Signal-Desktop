@@ -98,47 +98,26 @@
     signedKey,
     signature,
   }) {
-    const signedKeyPromise = new Promise(async resolve => {
-      const existingSignedKeys = await textsecure.storage.protocol.loadContactSignedPreKeys(
-        { identityKeyString: pubKey, keyId: signedKeyId }
-      );
-      if (
-        !existingSignedKeys ||
-        (existingSignedKeys instanceof Array && existingSignedKeys.length === 0)
-      ) {
-        const signedPreKey = {
-          keyId: signedKeyId,
-          publicKey: signedKey,
-          signature,
-        };
-        await textsecure.storage.protocol.storeContactSignedPreKey(
-          pubKey,
-          signedPreKey
-        );
-      }
-      resolve();
-    });
+    const signedPreKey = {
+      keyId: signedKeyId,
+      publicKey: signedKey,
+      signature,
+    };
 
-    const preKeyPromise = new Promise(async resolve => {
-      const existingPreKeys = await textsecure.storage.protocol.loadContactPreKeys({
-        identityKeyString: pubKey,
-        keyId: preKeyId,
-      });
-      if (
-        !existingPreKeys ||
-        (existingPreKeys instanceof Array && existingPreKeys.length === 0)
-      ) {
-        const preKeyObject = {
-          publicKey: preKey,
-          keyId: preKeyId,
-        };
-        await textsecure.storage.protocol.storeContactPreKey(
-          pubKey,
-          preKeyObject
-        );
-      }
-      resolve();
-    });
+    const signedKeyPromise = textsecure.storage.protocol.storeContactSignedPreKey(
+      pubKey,
+      signedPreKey
+    );
+
+    const preKeyObject = {
+      publicKey: preKey,
+      keyId: preKeyId,
+    };
+
+    const preKeyPromise = textsecure.storage.protocol.storeContactPreKey(
+      pubKey,
+      preKeyObject
+    );
 
     await Promise.all([signedKeyPromise, preKeyPromise]);
   }

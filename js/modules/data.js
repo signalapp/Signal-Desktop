@@ -727,7 +727,6 @@ async function searchConversations(query, { ConversationCollection }) {
 }
 
 // Message
-const MESSAGE_PRE_KEYS = ['identityKey', 'preKey', 'signature', 'signedKey'].map(k => `preKeyBundle.${k}`);
 async function getMessageCount() {
   return channels.getMessageCount();
 }
@@ -745,8 +744,7 @@ async function saveSeenMessageHash(data) {
 }
 
 async function saveMessage(data, { forceSave, Message } = {}) {
-  const updated = keysFromArrayBuffer(MESSAGE_PRE_KEYS, data);
-  const id = await channels.saveMessage(_cleanData(updated), { forceSave });
+  const id = await channels.saveMessage(_cleanData(data), { forceSave });
   Message.refreshExpirationTimer();
   return id;
 }
@@ -789,8 +787,7 @@ async function saveLegacyMessage(data) {
 }
 
 async function saveMessages(arrayOfMessages, { forceSave } = {}) {
-  const updated = arrayOfMessages.map(m => keysFromArrayBuffer(MESSAGE_PRE_KEYS, m));
-  await channels.saveMessages(_cleanData(updated), { forceSave });
+  await channels.saveMessages(_cleanData(arrayOfMessages), { forceSave });
 }
 
 async function removeMessage(id, { Message }) {
