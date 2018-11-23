@@ -43,9 +43,10 @@ function OutgoingMessage(
   this.failoverNumbers = [];
   this.unidentifiedDeliveries = [];
 
-  const { numberInfo, senderCertificate } = options;
+  const { numberInfo, senderCertificate, preKeyBundleType } = options;
   this.numberInfo = numberInfo;
   this.senderCertificate = senderCertificate;
+  this.preKeyBundleType = preKeyBundleType || textsecure.protobuf.PreKeyBundleMessage.Type.UNKOWN;
 }
 
 OutgoingMessage.prototype = {
@@ -290,6 +291,12 @@ OutgoingMessage.prototype = {
         if (this.attachPrekeys) {
           // Encrypt them with the fallback
           const preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(number);
+          preKeyBundleMessage.type = this.preKeyBundleType;
+
+          // If we have to use fallback encryption then this must be a friend request
+          if (this.fallBackEncryption)
+            preKeyBundleMessage.type = textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST;
+
           const textBundle = this.convertMessageToText(preKeyBundleMessage);
           const encryptedBundle = await fallBackEncryption.encrypt(textBundle);
           preKeys = { preKeyBundleMessage: encryptedBundle.body };
