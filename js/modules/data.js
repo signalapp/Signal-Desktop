@@ -80,7 +80,7 @@ module.exports = {
   getContactPreKeys,
   getAllContactPreKeys,
   bulkAddContactPreKeys,
-  removeContactPreKeyById,
+  removeContactPreKeyByIdentityKey,
   removeAllContactPreKeys,
 
   createOrUpdateContactSignedPreKey,
@@ -88,7 +88,7 @@ module.exports = {
   getContactSignedPreKeyByIdentityKey,
   getContactSignedPreKeys,
   bulkAddContactSignedPreKeys,
-  removeContactSignedPreKeyById,
+  removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
 
   createOrUpdateItem,
@@ -528,8 +528,8 @@ async function bulkAddContactPreKeys(array) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
   await channels.bulkAddContactPreKeys(updated);
 }
-async function removeContactPreKeyById(id) {
-  await channels.removePreContactKeyById(id);
+async function removeContactPreKeyByIdentityKey(id) {
+  await channels.removeContactPreKeyByIdentityKey(id);
 }
 async function removeAllContactPreKeys() {
   await channels.removeAllContactPreKeys();
@@ -556,8 +556,8 @@ async function bulkAddContactSignedPreKeys(array) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
   await channels.bulkAddContactSignedPreKeys(updated);
 }
-async function removeContactSignedPreKeyById(id) {
-  await channels.removePreContactSignedKeyById(id);
+async function removeContactSignedPreKeyByIdentityKey(id) {
+  await channels.removeContactSignedPreKeyByIdentityKey(id);
 }
 async function removeAllContactSignedPreKeys() {
   await channels.removeAllContactSignedPreKeys();
@@ -812,22 +812,18 @@ async function getMessageById(id, { Message }) {
     return null;
   }
 
-  const encoded = keysToArrayBuffer(MESSAGE_PRE_KEYS, message);
-
-  return new Message(encoded);
+  return new Message(message);
 }
 
 // For testing only
 async function getAllMessages({ MessageCollection }) {
   const messages = await channels.getAllMessages();
-  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
-  return new MessageCollection(encoded);
+  return new MessageCollection(messages);
 }
 
 async function getAllUnsentMessages({ MessageCollection }) {
   const messages = await channels.getAllUnsentMessages();
-  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
-  return new MessageCollection(encoded);
+  return new MessageCollection(messages);
 }
 
 async function getAllMessageIds() {
@@ -849,9 +845,7 @@ async function getMessageBySender(
     return null;
   }
 
-  const encoded = keysToArrayBuffer(MESSAGE_PRE_KEYS, messages[0]);
-
-  return new Message(encoded);
+  return new Message(messages[0]);
 }
 
 async function getUnreadByConversation(conversationId, { MessageCollection }) {
@@ -869,9 +863,7 @@ async function getMessagesByConversation(
     type,
   });
 
-  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
-
-  return new MessageCollection(encoded);
+  return new MessageCollection(messages);
 }
 
 async function getSeenMessagesByHashList(
@@ -913,26 +905,22 @@ async function removeAllMessagesInConversation(
 
 async function getMessagesBySentAt(sentAt, { MessageCollection }) {
   const messages = await channels.getMessagesBySentAt(sentAt);
-  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
-  return new MessageCollection(encoded);
+  return new MessageCollection(messages);
 }
 
 async function getExpiredMessages({ MessageCollection }) {
   const messages = await channels.getExpiredMessages();
-  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
-  return new MessageCollection(encoded);
+  return new MessageCollection(messages);
 }
 
 async function getOutgoingWithoutExpiresAt({ MessageCollection }) {
   const messages = await channels.getOutgoingWithoutExpiresAt();
-  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
-  return new MessageCollection(encoded);
+  return new MessageCollection(messages);
 }
 
 async function getNextExpiringMessage({ MessageCollection }) {
   const messages = await channels.getNextExpiringMessage();
-  const encoded = messages.map(m => keysToArrayBuffer(MESSAGE_PRE_KEYS, m));
-  return new MessageCollection(encoded);
+  return new MessageCollection(messages);
 }
 
 // Unprocessed

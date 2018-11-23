@@ -122,6 +122,13 @@
     await Promise.all([signedKeyPromise, preKeyPromise]);
   }
 
+  async function removePreKeyBundleForNumber(pubKey) {
+    await Promise.all([
+      textsecure.storage.protocol.removeContactPreKey(pubKey),
+      textsecure.storage.protocol.removeContactSignedPreKey(pubKey),
+    ]);
+  }
+
   async function sendFriendRequestAccepted(pubKey) {
     // empty content message
     const content = new textsecure.protobuf.Content();
@@ -154,5 +161,6 @@
   window.libloki.getPreKeyBundleForNumber = getPreKeyBundleForNumber;
   window.libloki.FallBackDecryptionError = FallBackDecryptionError;
   window.libloki.savePreKeyBundleForNumber = savePreKeyBundleForNumber;
+  window.libloki.removePreKeyBundleForNumber = removePreKeyBundleForNumber;
   window.libloki.sendFriendRequestAccepted = sendFriendRequestAccepted;
 })();

@@ -49,7 +49,7 @@ module.exports = {
   getContactPreKeys,
   getAllContactPreKeys,
   bulkAddContactPreKeys,
-  removeContactPreKeyById,
+  removeContactPreKeyByIdentityKey,
   removeAllContactPreKeys,
 
   createOrUpdateContactSignedPreKey,
@@ -57,7 +57,7 @@ module.exports = {
   getContactSignedPreKeyByIdentityKey,
   getContactSignedPreKeys,
   bulkAddContactSignedPreKeys,
-  removeContactSignedPreKeyById,
+  removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
 
   createOrUpdateItem,
@@ -712,8 +712,10 @@ async function getContactPreKeys(keyId, identityKeyString) {
 async function bulkAddContactPreKeys(array) {
   return bulkAdd(CONTACT_PRE_KEYS_TABLE, array);
 }
-async function removeContactPreKeyById(id) {
-  return removeById(CONTACT_PRE_KEYS_TABLE, id);
+async function removeContactPreKeyByIdentityKey(key) {
+  await db.run(`DELETE FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
+    $identityKeyString: key,
+  });
 }
 async function removeAllContactPreKeys() {
   return removeAllFromTable(CONTACT_PRE_KEYS_TABLE);
@@ -765,8 +767,10 @@ async function getContactSignedPreKeys(keyId, identityKeyString) {
 async function bulkAddContactSignedPreKeys(array) {
   return bulkAdd(CONTACT_SIGNED_PRE_KEYS_TABLE, array);
 }
-async function removeContactSignedPreKeyById(id) {
-  return removeById(CONTACT_SIGNED_PRE_KEYS_TABLE, id);
+async function removeContactSignedPreKeyByIdentityKey(key) {
+  await db.run(`DELETE FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
+    $identityKeyString: key,
+  });
 }
 async function removeAllContactSignedPreKeys() {
   return removeAllFromTable(CONTACT_SIGNED_PRE_KEYS_TABLE);

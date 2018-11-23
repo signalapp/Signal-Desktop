@@ -1005,19 +1005,22 @@ MessageReceiver.prototype.extend({
       await conversation.updateTextInputState();
     }
 
-    // If we accepted an incoming friend request then update our state
-    if (message.direction === 'incoming' && message.friendStatus === 'accepted') {
+    // Check if we changed the state of the incoming friend request
+    if (message.direction === 'incoming') {
+      // If we accepted an incoming friend request then update our state
+      if (message.friendStatus === 'accepted') {
+        // Accept the friend request
+        if (conversation) {
+          await conversation.onFriendRequestAccepted();
+        }
 
-      // Accept the friend request
-      if (conversation) {
-        await conversation.onFriendRequestAccepted();
+        // Send a reply back
+        libloki.sendFriendRequestAccepted(pubKey);
+      } else if (message.friendStatus === 'declined') {
+        // Delete the preKeys
+        await libloki.removePreKeyBundleForNumber(pubKey);
       }
-
-      // Send a reply back
-      libloki.sendFriendRequestAccepted(pubKey);
     }
-
-    // TODO: If we decline a friend request then delete preKeys from our db
 
     window.log.info(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
   },
