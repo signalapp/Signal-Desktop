@@ -46,7 +46,7 @@ function OutgoingMessage(
   const { numberInfo, senderCertificate, preKeyBundleType } = options;
   this.numberInfo = numberInfo;
   this.senderCertificate = senderCertificate;
-  this.preKeyBundleType = preKeyBundleType || textsecure.protobuf.PreKeyBundleMessage.Type.UNKOWN;
+  this.preKeyBundleType = preKeyBundleType || textsecure.protobuf.PreKeyBundleMessage.Type.UNKNOWN;
 }
 
 OutgoingMessage.prototype = {
