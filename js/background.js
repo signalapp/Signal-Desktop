@@ -1268,7 +1268,6 @@
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
-      preKeyBundle: data.preKeyBundle || null,
     };
 
     if (data.type === 'friend-request') {

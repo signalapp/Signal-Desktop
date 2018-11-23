@@ -721,15 +721,11 @@ MessageReceiver.prototype.extend({
       // eslint-disable-next-line no-param-reassign
       envelope.preKeyBundleMessage = decodedBundle;
 
-      // Save the preKey bundle if this is not a friend request.
-      // We don't automatically save on a friend request because
-      //  we only want to save the preKeys when we click the accept button.
-      if (envelope.type !== textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-        await this.handlePreKeyBundleMessage(
-          envelope.source,
-          envelope.preKeyBundleMessage
-        );
-      }
+      // Save the preKeyBundle
+      await this.handlePreKeyBundleMessage(
+        envelope.source,
+        envelope.preKeyBundleMessage
+      );
     }
 
     const me = {
@@ -970,7 +966,6 @@ MessageReceiver.prototype.extend({
           receivedAt: envelope.receivedAt,
           unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
           message,
-          preKeyBundle: envelope.preKeyBundleMessage || null,
         };
         return this.dispatchAndWait(ev);
       })
@@ -1010,24 +1005,23 @@ MessageReceiver.prototype.extend({
       await conversation.updateTextInputState();
     }
 
-    // If we accepted an incoming friend request then save the preKeyBundle
-    if (message.direction === 'incoming' && message.friendStatus === 'accepted') {
-      // Register the preKeys used for communication
-      if (message.preKeyBundle) {
-        await this.handlePreKeyBundleMessage(
-          pubKey,
-          message.preKeyBundle
-        );
-      }
+    // Check if we changed the state of the incoming friend request
+    if (message.direction === 'incoming') {
+      // If we accepted an incoming friend request then update our state
+      if (message.friendStatus === 'accepted') {
+        // Accept the friend request
+        if (conversation) {
+          await conversation.onFriendRequestAccepted();
+        }
 
-      // Accept the friend request
-      if (conversation) {
-        await conversation.onFriendRequestAccepted();
+        // Send a reply back
+        libloki.sendFriendRequestAccepted(pubKey);
+      } else if (message.friendStatus === 'declined') {
+        // Delete the preKeys
+        await libloki.removePreKeyBundleForNumber(pubKey);
       }
-
-      // Send a reply back
-      libloki.sendFriendRequestAccepted(pubKey);
     }
+
     window.log.info(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
   },
   async innerHandleContentMessage(envelope, plaintext) {

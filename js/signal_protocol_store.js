@@ -162,7 +162,7 @@
     },
     async getLocalRegistrationId() {
       return 1;
-      
+
       // const item = await window.Signal.Data.getItemById('registrationId');
       // if (item) {
       //   return item.value;
@@ -197,6 +197,8 @@
           recipient: key.recipient,
         };
       }
+
+      return undefined;
     },
     async loadContactPreKey(pubKey) {
       const preKey = await window.Signal.Data.getContactPreKeyByIdentityKey(pubKey);
@@ -264,6 +266,13 @@
     },
     async clearPreKeyStore() {
       await window.Signal.Data.removeAllPreKeys();
+    },
+
+    async removeContactPreKey(pubKey) {
+      await window.Signal.Data.removeContactPreKeyByIdentityKey(pubKey);
+    },
+    async clearContactPreKeysStore() {
+      await window.Signal.Data.removeAllContactPreKeys();
     },
 
     /* Returns a signed keypair object or undefined */
@@ -364,6 +373,13 @@
     },
     async clearSignedPreKeysStore() {
       await window.Signal.Data.removeAllSignedPreKeys();
+    },
+
+    async removeContactSignedPreKey(pubKey) {
+      await window.Signal.Data.removeContactSignedPreKeyByIdentityKey(pubKey);
+    },
+    async clearContactSignedPreKeysStore() {
+      await window.Signal.Data.removeAllContactSignedPreKeys();
     },
 
     async loadSession(encodedNumber) {

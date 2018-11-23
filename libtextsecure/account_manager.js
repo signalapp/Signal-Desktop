@@ -328,7 +328,7 @@
             textsecure.storage.remove('userAgent'),
             textsecure.storage.remove('read-receipts-setting'),
           ]);
-          
+
           // update our own identity key, which may have changed
           // if we're relinking after a reinstall on the master device
           await textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
@@ -362,7 +362,9 @@
       window.log.info('clearing all sessions, prekeys, and signed prekeys');
       return Promise.all([
         store.clearPreKeyStore(),
+        store.clearContactPreKeysStore(),
         store.clearSignedPreKeysStore(),
+        store.clearContactSignedPreKeysStore(),
         store.clearSessionStore(),
       ]);
     },
