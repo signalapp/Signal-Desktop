@@ -306,11 +306,7 @@
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
-
-      window.Whisper.events.trigger('friendRequestUpdated', {
-        pubKey: conversation.id,
-        ...this.attributes,
-      });
+      conversation.onAcceptFriendRequest();
     },
     async declineFriendRequest() {
       if (this.get('friendStatus') !== 'pending') return;
@@ -320,11 +316,7 @@
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
-
-      window.Whisper.events.trigger('friendRequestUpdated', {
-        pubKey: conversation.id,
-        ...this.attributes,
-      });
+      conversation.onDeclineFriendRequest();
     },
     getPropsForFriendRequest() {
       const friendStatus = this.get('friendStatus') || 'pending';

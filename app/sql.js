@@ -395,6 +395,11 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   await instance.run('BEGIN TRANSACTION;');
 
   await instance.run(
+    `ALTER TABLE conversations
+     ADD COLUMN friendStatus INTEGER;`
+  );
+
+  await instance.run(
     `CREATE TABLE seenMessages(
       hash STRING PRIMARY KEY,
       expiresAt INTEGER
@@ -959,7 +964,7 @@ async function getConversationCount() {
 
 async function saveConversation(data) {
   // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, profileName } = data;
+  const { id, active_at, type, members, name, friendStatus, profileName } = data;
 
   await db.run(
     `INSERT INTO conversations (
@@ -970,6 +975,7 @@ async function saveConversation(data) {
     type,
     members,
     name,
+    friendStatus,
     profileName
   ) values (
     $id,
@@ -979,6 +985,7 @@ async function saveConversation(data) {
     $type,
     $members,
     $name,
+    $friendStatus,
     $profileName
   );`,
     {
@@ -989,6 +996,7 @@ async function saveConversation(data) {
       $type: type,
       $members: members ? members.join(' ') : null,
       $name: name,
+      $friendStatus: friendStatus,
       $profileName: profileName,
     }
   );
@@ -1012,7 +1020,7 @@ async function saveConversations(arrayOfConversations) {
 
 async function updateConversation(data) {
   // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, profileName } = data;
+  const { id, active_at, type, members, name, friendStatus, profileName } = data;
 
   await db.run(
     `UPDATE conversations SET
@@ -1022,6 +1030,7 @@ async function updateConversation(data) {
     type = $type,
     members = $members,
     name = $name,
+    friendStatus = $friendStatus,
     profileName = $profileName
   WHERE id = $id;`,
     {
@@ -1032,6 +1041,7 @@ async function updateConversation(data) {
       $type: type,
       $members: members ? members.join(' ') : null,
       $name: name,
+      $friendStatus: friendStatus,
       $profileName: profileName,
     }
   );

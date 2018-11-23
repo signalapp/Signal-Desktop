@@ -46,7 +46,8 @@ function OutgoingMessage(
   const { numberInfo, senderCertificate, preKeyBundleType } = options;
   this.numberInfo = numberInfo;
   this.senderCertificate = senderCertificate;
-  this.preKeyBundleType = preKeyBundleType || textsecure.protobuf.PreKeyBundleMessage.Type.UNKNOWN;
+  this.preKeyBundleType =
+    preKeyBundleType || textsecure.protobuf.PreKeyBundleMessage.Type.UNKNOWN;
 }
 
 OutgoingMessage.prototype = {
@@ -293,10 +294,6 @@ OutgoingMessage.prototype = {
           const preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(number);
           preKeyBundleMessage.type = this.preKeyBundleType;
 
-          // If we have to use fallback encryption then this must be a friend request
-          if (this.fallBackEncryption)
-            preKeyBundleMessage.type = textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST;
-
           const textBundle = this.convertMessageToText(preKeyBundleMessage);
           const encryptedBundle = await fallBackEncryption.encrypt(textBundle);
           preKeys = { preKeyBundleMessage: encryptedBundle.body };
@@ -349,7 +346,7 @@ OutgoingMessage.prototype = {
         // TODO: Allow user to set ttl manually
         if (
           outgoingObject.type ===
-          textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
+          textsecure.protobuf.Envelope.Type.FALLBACK_CIPHERTEXT
         ) {
           ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
         } else {

@@ -568,14 +568,6 @@
       }
     });
 
-    // Gets called when a user accepts or declines a friend request
-    Whisper.events.on('friendRequestUpdated', friendRequest => {
-      const { pubKey, ...message } = friendRequest;
-      if (messageReceiver) {
-        messageReceiver.onFriendRequestUpdate(pubKey, message);
-      }
-    });
-
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);

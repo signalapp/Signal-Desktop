@@ -38,6 +38,20 @@
     deleteAttachmentData,
   } = window.Signal.Migrations;
 
+  // Possible conversation friend states
+  const FriendStatusEnum = Object.freeze({
+    // New conversation, no messages sent or received
+    none: 0,
+    // Have received a friend request, waiting to accept/decline
+    pendingAction: 1,
+    // Have send a friend request, waiting for response
+    pendingResponse: 2,
+    // Have send and received prekeybundle, waiting for ciphertext confirming key exchange
+    pendingCipher: 3,
+    // We did it!
+    friends: 4,
+  });
+
   const COLORS = [
     'red',
     'deep_orange',
@@ -78,6 +92,7 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        friendStatus: FriendStatusEnum.none,
         isFriend: false,
         keyExchangeCompleted: false,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
@@ -473,13 +488,12 @@
         return true;
       }
 
-      return this.get('keyExchangeCompleted') || false;
+      return this.get('friendStatus') === FriendStatusEnum.friends;
     },
-    async setKeyExchangeCompleted(value) {
-      // Only update the value if it's different
-      if (this.get('keyExchangeCompleted') === value) return;
+    async setKeyExchangeCompleted() {
+      if (this.get('friendStatus') !== FriendStatusEnum.pendingCipher) return;
 
-      this.set({ keyExchangeCompleted: value });
+      this.set({ friendStatus: FriendStatusEnum.friends });
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
@@ -492,9 +506,22 @@
      const successfulOutgoing = outgoing.filter(o => !o.hasErrors());
 
      return (incoming.length > 0 || successfulOutgoing.length > 0);
-   },
+    },
+    getPreKeyBundleType() {
+      switch (this.get('friendStatus')) {
+        case FriendStatusEnum.none:
+        case FriendStatusEnum.pendingResponse:
+          return textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST;
+        case FriendStatusEnum.pendingAction:
+        case FriendStatusEnum.pendingCipher:
+          return textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST_ACCEPT;
+        default:
+          return textsecure.protobuf.PreKeyBundleMessage.Type.UNKNOWN;
+      }
+    },
     isFriend() {
-      return this.get('isFriend');
+      return this.get('friendStatus') === FriendStatusEnum.pendingCipher ||
+             this.get('friendStatus') === FriendStatusEnum.friends;
     },
     // Update any pending friend requests for the current user
     async updateFriendRequestUI() {
@@ -525,15 +552,42 @@
       if (pending.length > 0)
         this.notifyFriendRequest(this.id, 'accepted')
     },
-    async onFriendRequestAccepted() {
-      if (!this.isFriend()) {
-        this.set({ isFriend: true });
+    // We have declined an incoming friend request
+    async onDeclineFriendRequest() {
+      // Should we change states for other states? (They should never happen)
+      if (this.get('friendStatus') === FriendStatusEnum.pendingAction) {
+        this.set({ friendStatus: FriendStatusEnum.none });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
+        await this.updateFriendRequestUI();
+        await this.updatePendingFriendRequests();
+        await window.libloki.removePreKeyBundleForNumber(this.id);
       }
-
-      await this.updateFriendRequestUI();
+    },
+    // We have accepted an incoming friend request
+    async onAcceptFriendRequest() {
+      // Should we change states for other states? (They should never happen)
+      if (this.get('friendStatus') === FriendStatusEnum.pendingAction) {
+        this.set({ friendStatus: FriendStatusEnum.pendingCipher });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+        await this.updateFriendRequestUI();
+        await this.updatePendingFriendRequests();
+        window.libloki.sendFriendRequestAccepted(this.id);
+      }
+    },
+    // Our outgoing friend request has been accepted
+    async onFriendRequestAccepted() {
+      // TODO: Think about how we want to handle other states
+      if (this.get('friendStatus') === FriendStatusEnum.pendingResponse) {
+        this.set({ friendStatus: FriendStatusEnum.pendingCipher });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+        await this.updateFriendRequestUI();
+      }
     },
     async onFriendRequestTimeout() {
       // Unset the timer
@@ -568,6 +622,33 @@
       await this.updatePendingFriendRequests();
       await this.updateFriendRequestUI();
     },
+    async onFriendRequestReceived() {
+      switch (this.get('friendStatus')) {
+        case FriendStatusEnum.none:
+          this.set({ friendStatus: FriendStatusEnum.pendingAction });
+          await window.Signal.Data.updateConversation(this.id, this.attributes, {
+            Conversation: Whisper.Conversation,
+          });
+          await this.updateFriendRequestUI();
+          return;
+        case FriendStatusEnum.pendingResponse:
+          this.set({ friendStatus: FriendStatusEnum.pendingCipher });
+          await window.Signal.Data.updateConversation(this.id, this.attributes, {
+            Conversation: Whisper.Conversation,
+          });
+          await this.updateFriendRequestUI();
+          return;
+        case FriendStatusEnum.pendingAction:
+        case FriendStatusEnum.pendingCipher:
+          // No need to change state
+          return;
+        case FriendStatusEnum.friends:
+          // TODO: Handle this case (discuss with squad)
+          return;
+        default:
+          throw new TypeError(`Invalid friendStatus type: '${this.friendStatus}'`);
+      }
+    },
     async onFriendRequestSent() {
       // Check if we need to set the friend request expiry
       const unlockTimestamp = this.get('unlockTimestamp');
@@ -584,6 +665,12 @@
         this.setFriendRequestExpiryTimeout();
       }
 
+      if (this.get('friendStatus') === FriendStatusEnum.none) {
+        this.set({ friendStatus: FriendStatusEnum.pendingResponse });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
       this.updateFriendRequestUI();
     },
     setFriendRequestExpiryTimeout() {
@@ -1209,10 +1296,12 @@
     getSendOptions(options = {}) {
       const senderCertificate = storage.get('senderCertificate');
       const numberInfo = this.getNumberInfo(options);
+      const preKeyBundleType = this.getPreKeyBundleType();
 
       return {
         senderCertificate,
         numberInfo,
+        preKeyBundleType,
       };
     },
 
