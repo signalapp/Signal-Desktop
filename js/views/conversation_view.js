@@ -298,6 +298,8 @@
     },
 
     onChangePlaceholder(type) {
+      if (!this.$messageField)
+        return;
       let placeholder;
       switch (type) {
         case 'friend-request':
