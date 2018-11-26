@@ -118,7 +118,7 @@ OutgoingMessage.prototype = {
             if (device.registrationId === 0) {
               window.log.info('device registrationId 0!');
             }
-            return builder.processPreKey(device).catch(error => {
+            return builder.processPreKey(device).then(() => true).catch(error => {
               if (error.message === 'Identity key changed') {
                 // eslint-disable-next-line no-param-reassign
                 error.timestamp = this.timestamp;
@@ -131,7 +131,7 @@ OutgoingMessage.prototype = {
             });
           }
 
-          return true;
+          return false;
         })
       );
     // TODO: check if still applicable
@@ -156,7 +156,7 @@ OutgoingMessage.prototype = {
               devices: [
                 { deviceId: device, preKey, signedPreKey, registrationId: 0 },
               ],
-            });
+            }).then(results => results.every(value => value === true));
           })
           .catch(e => {
             if (e.name === 'HTTPError' && e.code === 404) {
