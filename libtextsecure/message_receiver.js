@@ -632,9 +632,13 @@ MessageReceiver.prototype.extend({
       return this.onDeliveryReceipt(envelope);
     }
 
+    if (envelope.preKeyBundleMessage) {
+      return this.handlePreKeyBundleMessage(envelope);
+    }
     if (envelope.content) {
       return this.handleContentMessage(envelope);
-    } else if (envelope.legacyMessage) {
+    }
+    if (envelope.legacyMessage) {
       return this.handleLegacyMessage(envelope);
     }
     this.removeFromCache(envelope);
@@ -711,23 +715,6 @@ MessageReceiver.prototype.extend({
       address
     );
 
-    // Check if we have preKey bundles to decrypt
-    if (envelope.preKeyBundleMessage) {
-      const decryptedText = await fallBackSessionCipher.decrypt(envelope.preKeyBundleMessage.toArrayBuffer());
-      const unpadded = await this.unpad(decryptedText);
-      const decodedProto = textsecure.protobuf.PreKeyBundleMessage.decode(unpadded);
-      const decodedBundle = this.decodePreKeyBundleMessage(decodedProto);
-
-      // eslint-disable-next-line no-param-reassign
-      envelope.preKeyBundleMessage = decodedBundle;
-
-      // Save the preKeyBundle
-      await this.handlePreKeyBundleMessage(
-        envelope.source,
-        envelope.preKeyBundleMessage
-      );
-    }
-
     const me = {
       number: ourNumber,
       deviceId: parseInt(textsecure.storage.user.getDeviceId(), 10),
@@ -739,7 +726,7 @@ MessageReceiver.prototype.extend({
         promise = sessionCipher.decryptWhisperMessage(ciphertext)
           .then(this.unpad);
         break;
-      case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
+      case textsecure.protobuf.Envelope.Type.FALLBACK_CIPHERTEXT: {
         window.log.info('friend-request message from ', envelope.source);
         promise = fallBackSessionCipher.decrypt(ciphertext.toArrayBuffer())
           .then(this.unpad);
@@ -993,37 +980,6 @@ MessageReceiver.prototype.extend({
       return this.innerHandleContentMessage(envelope, plaintext);
     });
   },
-  // A handler function for when a friend request is accepted or declined
-  async onFriendRequestUpdate(pubKey, message) {
-    if (!message || !message.direction || !message.friendStatus) return;
-
-    // Update the conversation
-    const conversation = window.ConversationController.get(pubKey);
-    if (conversation) {
-      // Update the conversation friend request indicator
-      await conversation.updatePendingFriendRequests();
-      await conversation.updateTextInputState();
-    }
-
-    // Check if we changed the state of the incoming friend request
-    if (message.direction === 'incoming') {
-      // If we accepted an incoming friend request then update our state
-      if (message.friendStatus === 'accepted') {
-        // Accept the friend request
-        if (conversation) {
-          await conversation.onFriendRequestAccepted();
-        }
-
-        // Send a reply back
-        libloki.sendFriendRequestAccepted(pubKey);
-      } else if (message.friendStatus === 'declined') {
-        // Delete the preKeys
-        await libloki.removePreKeyBundleForNumber(pubKey);
-      }
-    }
-
-    window.log.info(`Friend request for ${pubKey} was ${message.friendStatus}`, message);
-  },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
 
@@ -1034,27 +990,22 @@ MessageReceiver.prototype.extend({
       window.log.info('Error getting conversation: ', envelope.source);
     }
 
-    // Check if the other user accepted our friend request
     if (
       envelope.preKeyBundleMessage &&
-      envelope.preKeyBundleMessage.type === textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST_ACCEPT &&
-      conversation
+      envelope.preKeyBundleMessage.type ===
+      textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST
     ) {
-      await conversation.onFriendRequestAccepted();
-    }
-
-    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
       return this.handleFriendRequestMessage(envelope, content.dataMessage);
     } else if (
-        envelope.type === textsecure.protobuf.Envelope.Type.CIPHERTEXT ||
-        // We also need to check for PREKEY_BUNDLE aswell if the session hasn't started.
-        // ref: libsignal-protocol.js:36120
-        envelope.type === textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE
-      ) {
+      envelope.type === textsecure.protobuf.Envelope.Type.CIPHERTEXT ||
+      // We also need to check for PREKEY_BUNDLE aswell if the session hasn't started.
+      // ref: libsignal-protocol.js:36120
+      envelope.type === textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE
+    ) {
       // If we get a cipher and we're already friends
       // then we set our key exchange to complete
       if (conversation && conversation.isFriend()) {
-        await conversation.setKeyExchangeCompleted(true);
+        await conversation.setKeyExchangeCompleted();
       }
     }
 
@@ -1289,7 +1240,44 @@ MessageReceiver.prototype.extend({
       signature,
     };
   },
-  async handlePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
+  async handlePreKeyBundleMessage(envelope) {
+    const preKeyBundleMessage = await this.decryptPreKeyBundleMessage(envelope);
+    // eslint-disable-next-line no-param-reassign
+    envelope.preKeyBundleMessage = preKeyBundleMessage;
+    await this.savePreKeyBundleMessage(
+      envelope.source,
+      preKeyBundleMessage
+    );
+    const conversation = await window.ConversationController.getOrCreateAndWait(
+      envelope.source,
+      'private'
+    );
+    if (preKeyBundleMessage.type === textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST) {
+      conversation.onFriendRequestReceived();
+    } else if (preKeyBundleMessage.type === textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST_ACCEPT) {
+      conversation.onFriendRequestAccepted();
+    } else {
+      window.log.warn('Unknown PreKeyBundleMessage Type')
+    }
+    if (envelope.content)
+      return this.handleContentMessage(envelope);
+    return null;
+  },
+  async decryptPreKeyBundleMessage(envelope) {
+    if (!envelope.preKeyBundleMessage) return null;
+    const address = new libsignal.SignalProtocolAddress(envelope.source, envelope.sourceDevice);
+    const fallBackSessionCipher = new libloki.FallBackSessionCipher(
+      address
+    );
+    const decryptedText =
+      await fallBackSessionCipher.decrypt(envelope.preKeyBundleMessage.toArrayBuffer());
+    const unpadded = await this.unpad(decryptedText);
+    const decodedProto = textsecure.protobuf.PreKeyBundleMessage.decode(unpadded);
+    const decodedBundle = this.decodePreKeyBundleMessage(decodedProto);
+
+    return decodedBundle;
+  },
+  async savePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
     if (!preKeyBundleMessage) return null;
 
     const {
@@ -1303,7 +1291,7 @@ MessageReceiver.prototype.extend({
 
     if (pubKey !== StringView.arrayBufferToHex(identityKey)) {
       throw new Error(
-        'Error in handlePreKeyBundleMessage: envelope pubkey does not match pubkey in prekey bundle'
+        'Error in savePreKeyBundleMessage: envelope pubkey does not match pubkey in prekey bundle'
       );
     }
 
@@ -1551,8 +1539,7 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
   );
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
   this.close = messageReceiver.close.bind(messageReceiver);
-  this.onFriendRequestUpdate = messageReceiver.onFriendRequestUpdate.bind(messageReceiver);
-  this.handlePreKeyBundleMessage = messageReceiver.handlePreKeyBundleMessage.bind(messageReceiver);
+  this.savePreKeyBundleMessage = messageReceiver.savePreKeyBundleMessage.bind(messageReceiver);
 
   messageReceiver.connect();
 };

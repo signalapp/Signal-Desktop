@@ -25,7 +25,7 @@
       ivAndCiphertext.set(new Uint8Array(iv));
       ivAndCiphertext.set(new Uint8Array(ciphertext), iv.byteLength);
       return {
-        type: textsecure.protobuf.Envelope.Type.FRIEND_REQUEST,
+        type: textsecure.protobuf.Envelope.Type.FALLBACK_CIPHERTEXT,
         body: ivAndCiphertext,
         registrationId: null,
       };
