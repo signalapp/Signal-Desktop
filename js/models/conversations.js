@@ -44,9 +44,9 @@
     none: 0,
     // Have received a friend request, waiting to accept/decline
     pendingAction: 1,
-    // Have send a friend request, waiting for response
+    // Have sent a friend request, waiting for response
     pendingResponse: 2,
-    // Have send and received prekeybundle, waiting for ciphertext confirming key exchange
+    // Have sent and received prekeybundle, waiting for ciphertext confirming key exchange
     pendingCipher: 3,
     // We did it!
     friends: 4,
