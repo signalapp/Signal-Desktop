@@ -93,7 +93,6 @@
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         friendStatus: FriendStatusEnum.none,
-        isFriend: false,
         keyExchangeCompleted: false,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
       };
