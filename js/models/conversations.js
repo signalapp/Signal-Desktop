@@ -1739,9 +1739,13 @@
     // Update profile variables dynamically
     async updateProfile() {
       const profileName = this.get('profileName');
-      const profile = await storage.getProfile(this.id);
 
-      const newProfileName = (profile && profile.name && profile.name.displayName) || null
+      // Prioritise nickname over the profile display name
+      const nickname = await storage.getNickname(this.id);
+      const profile = await storage.getProfile(this.id);
+      const displayName = profile && profile.name && profile.name.displayName;
+
+      const newProfileName = nickname || displayName || null;
       if (profileName !== newProfileName) {
         this.set({ profileName: newProfileName });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
