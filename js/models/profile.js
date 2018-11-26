@@ -1,4 +1,4 @@
-/* global storage */
+/* global storage, _ */
 /* global storage: false */
 
 /* eslint-disable more/no-then */
@@ -18,14 +18,17 @@
 
   storage.saveProfile = async (number, profile) => {
     const profiles = storage.get(PROFILE_ID, {});
-    if (profiles[number]) {
+    const storedProfile = profiles[number];
+
+    // Only store the profile if we have a different object
+    if (storedProfile && _.isEqual(storedProfile, profile)) {
       return;
     }
 
     window.log.info('adding profile ', profile, 'for ', number);
     await storage.put(PROFILE_ID, {
       ...profiles,
-      number: profile,
+      [number]: profile,
     });
   }
 

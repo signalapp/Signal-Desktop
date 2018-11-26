@@ -1736,7 +1736,21 @@
         this.getProfiles();
       }
     },
+    // Update profile variables dynamically
+    async updateProfile() {
+      const profile = await storage.getProfile(this.id);
+      if (!profile) {
+        this.set({ profileName: null });
+      } else {
+        this.set({ profileName: profile.name.displayName });
+      }
 
+      if (this.hasChanged()) {
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
     getProfiles() {
       // request all conversation members' keys
       let ids = [];
@@ -1866,6 +1880,7 @@
         }
       }
     },
+    // Signal profile name
     async setProfileName(encryptedName) {
       if (!encryptedName) {
         return;

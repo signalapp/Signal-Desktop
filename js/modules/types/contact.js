@@ -66,7 +66,7 @@ function idForLogging(message) {
 
 exports._validate = (contact, options = {}) => {
   const { messageId } = options;
-  const { name, number, email, address, organization } = contact;
+  const { name, organization } = contact;
 
   if ((!name || !name.displayName) && !organization) {
     return new Error(
@@ -74,15 +74,16 @@ exports._validate = (contact, options = {}) => {
     );
   }
 
-  if (
-    (!number || !number.length) &&
-    (!email || !email.length) &&
-    (!address || !address.length)
-  ) {
-    return new Error(
-      `Message ${messageId}: Contact had no included numbers, email or addresses`
-    );
-  }
+  // Disabled as we don't require the users to provide this
+  // if (
+  //   (!number || !number.length) &&
+  //   (!email || !email.length) &&
+  //   (!address || !address.length)
+  // ) {
+  //   return new Error(
+  //     `Message ${messageId}: Contact had no included numbers, email or addresses`
+  //   );
+  // }
 
   return null;
 };
