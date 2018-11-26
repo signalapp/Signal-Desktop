@@ -3,6 +3,8 @@
 // eslint-disable-next-line func-names
 (function () {
   let server;
+  const development = (window.getEnvironment() !== 'production');
+  const pollTime = development ? 100 : 5000;
 
   function stringToArrayBufferBase64(string) {
     return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
@@ -69,14 +71,14 @@
         connected = true;
       } catch (err) {
         connected = false;
-        setTimeout(() => { pollServer(callBack); }, 5000);
+        setTimeout(() => { pollServer(callBack); }, pollTime);
         return;
       }
       if (typeof callBack === 'function') {
         callBack(connected);
       }
       if (!result.messages) {
-        setTimeout(() => { pollServer(callBack); }, 5000);
+        setTimeout(() => { pollServer(callBack); }, pollTime);
         return;
       }
       const newMessages = await filterIncomingMessages(result.messages);
@@ -95,7 +97,7 @@
           );
         }
       });
-      setTimeout(() => { pollServer(callBack); }, 5000);
+      setTimeout(() => { pollServer(callBack); }, pollTime);
     };
 
     this.isConnected = function isConnected() {
