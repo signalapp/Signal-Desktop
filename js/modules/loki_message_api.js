@@ -4,6 +4,8 @@ const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
 const { fork } = require('child_process');
 
+const development = (window.getEnvironment() !== 'production');
+
 function getPoWNonce(timestamp, ttl, pubKey, data) {
   return new Promise((resolve, reject) => {
     // Create forked node process to calculate PoW without blocking main process
@@ -15,6 +17,7 @@ function getPoWNonce(timestamp, ttl, pubKey, data) {
       ttl,
       pubKey,
       data,
+      development,
     });
 
     // Handle child process error (should never happen)
@@ -73,8 +76,6 @@ class LokiServer {
       timeout: undefined,
     };
 
-    log.debug(options.type, options.url);
-
     const fetchOptions = {
       method: options.type,
       body: data64,
@@ -108,7 +109,6 @@ class LokiServer {
     }
 
     if (response.status >= 0 && response.status < 400) {
-      log.debug(options.type, options.url, response.status, 'Success');
       return result;
     }
     log.error(options.type, options.url, response.status, 'Error');
@@ -125,8 +125,6 @@ class LokiServer {
       responseType: 'json',
       timeout: undefined,
     };
-
-    log.debug(options.type, options.url);
 
     const headers = {
       'X-Loki-recipient': pubKey,
@@ -163,7 +161,6 @@ class LokiServer {
     }
 
     if (response.status >= 0 && response.status < 400) {
-      log.debug(options.type, options.url, response.status, 'Success');
       if (result.lastHash) {
         currentNode.lastHash = result.lastHash;
       }

@@ -4,7 +4,7 @@ const { BigInteger } = require('jsbn');
 
 const NONCE_LEN = 8;
 // Modify this value for difficulty scaling
-const NONCE_TRIALS = 1000;
+let NONCE_TRIALS = 1000;
 
 // Increment Uint8Array nonce by 1 with carrying
 function incrementNonce(nonce) {
@@ -107,6 +107,8 @@ function calcPoW(timestamp, ttl, pubKey, data) {
 
 // Start calculation in child process when main process sends message data
 process.on('message', msg => {
+  if (msg.development)
+    NONCE_TRIALS = 10;
   process.send({
     nonce: calcPoW(
       msg.timestamp,
