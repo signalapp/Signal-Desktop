@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Emojify } from './Emojify';
+import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
 import { Localizer } from '../../types/Util';
 import {
@@ -90,32 +90,20 @@ export class ConversationHeader extends React.Component<Props> {
 
   public renderTitle() {
     const {
-      name,
       phoneNumber,
       i18n,
       profileName,
-      isVerified,
       isKeysPending,
     } = this.props;
 
     return (
       <div className="module-conversation-header__title">
-        {name ? <Emojify text={name} i18n={i18n} /> : null}
-        {name && phoneNumber ? ' · ' : null}
-        {phoneNumber ? phoneNumber : null}{' '}
-        {profileName && !name ? (
-          <span className="module-conversation-header__title__profile-name">
-            ~<Emojify text={profileName} i18n={i18n} />
-          </span>
-        ) : null}
-        {isVerified ? ' · ' : null}
-        {isVerified ? (
-          <span>
-            <span className="module-conversation-header__title__verified-icon" />
-            {i18n('verified')}
-          </span>
-        ) : null}
-        {isKeysPending ? '(pending)' : null}
+        <ContactName
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          i18n={i18n}
+        />
+        {isKeysPending ? ' (pending)' : null}
       </div>
     );
   }
