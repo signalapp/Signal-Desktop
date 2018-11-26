@@ -1738,14 +1738,12 @@
     },
     // Update profile variables dynamically
     async updateProfile() {
+      const profileName = this.get('profileName');
       const profile = await storage.getProfile(this.id);
-      if (!profile) {
-        this.set({ profileName: null });
-      } else {
-        this.set({ profileName: profile.name.displayName });
-      }
 
-      if (this.hasChanged()) {
+      const newProfileName = (profile && profile.name && profile.name.displayName) || null
+      if (profileName !== newProfileName) {
+        this.set({ profileName: newProfileName });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });

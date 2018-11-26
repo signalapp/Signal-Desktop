@@ -136,7 +136,7 @@ Message.prototype = {
     if (this.profile) {
       const contact = new textsecure.protobuf.DataMessage.Contact();
       contact.name = this.profile.name;
-      proto.contact.push(contact);
+      proto.profile = contact;
     }
 
     this.dataMessage = proto;
