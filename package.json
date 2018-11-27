@@ -68,7 +68,7 @@
     "intl-tel-input": "12.1.15",
     "jquery": "3.3.1",
     "linkify-it": "2.0.3",
-    "lodash": "4.17.4",
+    "lodash": "4.17.11",
     "mkdirp": "0.5.1",
     "moment": "2.21.0",
     "mustache": "2.3.0",
