@@ -4722,26 +4722,25 @@
     "rule": "jQuery-before(",
     "path": "node_modules/lodash/core.js",
     "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2203,
+    "lineNumber": 2228,
     "reasonCategory": "exampleCode",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "<optional>"
+    "updated": "2018-11-27T01:59:02.018Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/lodash/core.js",
     "line": "  function before(n, func) {",
-    "lineNumber": 2206,
+    "lineNumber": 2231,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2018-11-27T01:59:02.018Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/lodash/core.js",
     "line": "    return before(2, func);",
-    "lineNumber": 2356,
+    "lineNumber": 2381,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2018-11-27T01:59:02.018Z"
   },
   {
     "rule": "jQuery-$(",
@@ -4754,90 +4753,41 @@
     "rule": "jQuery-after(",
     "path": "node_modules/lodash/lodash.js",
     "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9998,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 9983,
+    "reasonCategory": "exampleCode",
+    "updated": "2018-11-27T01:59:02.018Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/lodash/lodash.js",
     "line": "    function after(n, func) {",
-    "lineNumber": 10007,
+    "lineNumber": 9992,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2018-11-27T01:59:02.018Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/lodash/lodash.js",
     "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10056,
+    "lineNumber": 10041,
     "reasonCategory": "exampleCode",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2018-11-27T01:59:02.018Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/lodash/lodash.js",
     "line": "    function before(n, func) {",
-    "lineNumber": 10059,
+    "lineNumber": 10044,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2018-11-27T01:59:02.018Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/lodash/lodash.js",
     "line": "      return before(2, func);",
-    "lineNumber": 10632,
+    "lineNumber": 10619,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/lodash/lodash.min.js",
-    "lineNumber": 11,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/lodash/lodash.min.js",
-    "lineNumber": 46,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/lodash/lodash.min.js",
-    "lineNumber": 51,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/lodash/lodash.min.js",
-    "lineNumber": 72,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/lodash/lodash.min.js",
-    "lineNumber": 105,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/lodash/lodash.min.js",
-    "lineNumber": 124,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/lodash/lodash.min.js",
-    "lineNumber": 125,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2018-11-27T01:59:02.018Z"
   },
   {
     "rule": "jQuery-before(",
