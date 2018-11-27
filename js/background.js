@@ -568,6 +568,12 @@
       }
     });
 
+    Whisper.events.on('showNicknameDialog', options => {
+      if (appView) {
+        appView.showNicknameDialog(options);
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);

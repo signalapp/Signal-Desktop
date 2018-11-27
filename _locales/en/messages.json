@@ -781,6 +781,9 @@
   "cancel": {
     "message": "Cancel"
   },
+  "clear": {
+    "message": "Clear"
+  },
   "failedToSend": {
     "message":
       "Failed to send to some recipients. Check your network connection."
