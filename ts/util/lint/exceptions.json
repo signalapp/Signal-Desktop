@@ -3061,7 +3061,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 156,
+    "lineNumber": 154,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -3069,7 +3069,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/node.js",
     "line": "exports.enable(load());",
-    "lineNumber": 248,
+    "lineNumber": 246,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -3161,38 +3161,6 @@
     "lineNumber": 177,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-download/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:18:34.630Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-download/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:18:34.630Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-download/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 154,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:18:34.630Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-download/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 246,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:18:34.630Z"
   },
   {
     "rule": "eval",
@@ -3648,6 +3616,38 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/globby/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
@@ -3759,6 +3759,70 @@
     "lineNumber": 133,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/http-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/http-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/http-proxy-agent/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/http-proxy-agent/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/https-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/https-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/https-proxy-agent/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/https-proxy-agent/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
   },
   {
     "rule": "jQuery-$(",
@@ -4896,6 +4960,38 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/needle/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/needle/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/needle/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/needle/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/neo-async/async.js",
     "line": "      this.insertBefore(this.head, node);",
@@ -5001,38 +5097,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/nugget/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/nugget/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/nugget/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 154,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/nugget/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 246,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/optionator/lib/help.js",
     "line": "      return namesString + \"\" + typeSeparatorString + wrap(type).replace(/^\\s+/, '');",
@@ -5124,33 +5188,33 @@
     "rule": "jQuery-load(",
     "path": "node_modules/pac-proxy-agent/node_modules/debug/src/browser.js",
     "line": "function load() {",
-    "lineNumber": 150,
+    "lineNumber": 160,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
+    "updated": "2018-11-27T18:02:26.186Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/pac-proxy-agent/node_modules/debug/src/browser.js",
     "line": "exports.enable(load());",
-    "lineNumber": 168,
+    "lineNumber": 178,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
+    "updated": "2018-11-27T18:02:26.186Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/pac-proxy-agent/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 154,
+    "lineNumber": 162,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
+    "updated": "2018-11-27T18:02:26.186Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/pac-proxy-agent/node_modules/debug/src/node.js",
     "line": "exports.enable(load());",
-    "lineNumber": 246,
+    "lineNumber": 186,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
+    "updated": "2018-11-27T18:02:26.186Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -5279,38 +5343,6 @@
     "lineNumber": 72,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/portfinder/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/portfinder/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/portfinder/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 154,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/portfinder/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 246,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
   },
   {
     "rule": "jQuery-append(",
@@ -5695,6 +5727,38 @@
     "lineNumber": 235,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proxy-agent/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proxy-agent/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proxy-agent/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proxy-agent/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
   },
   {
     "rule": "eval",
@@ -6385,6 +6449,30 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/socks/build/client/socksclient.js",
+    "line": "        this._receiveBuffer.append(data);",
+    "lineNumber": 274,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/socks/build/common/receivebuffer.js",
+    "line": "    append(data) {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/socks/typings/common/receiveBuffer.d.ts",
+    "line": "    append(data: Buffer): number;",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
     "rule": "jQuery-prepend(",
     "path": "node_modules/source-map-support/browser-source-map-support.js",
     "lineNumber": 93,
@@ -6461,102 +6549,6 @@
     "lineNumber": 90,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/spdy-transport/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/spdy-transport/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/spdy-transport/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 154,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/spdy-transport/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 246,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/spdy/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/spdy/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/spdy/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 154,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/spdy/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 246,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 154,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 246,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
   },
   {
     "rule": "jQuery-append(",
@@ -6727,38 +6719,6 @@
     "lineNumber": 60,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/websocket/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/websocket/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/websocket/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 154,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/websocket/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 246,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
   },
   {
     "rule": "jQuery-append(",
