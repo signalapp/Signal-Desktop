@@ -22,7 +22,7 @@ export class IdentityKeyHeader extends React.Component<Props> {
           </div>
           {!!name &&
             <div>
-              Your nickname: <span className='identity-key_bold'>{name}</span>
+              Your display name: <span className='identity-key_bold'>{name}</span>
             </div>
           }
         </div>
