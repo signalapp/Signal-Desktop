@@ -112,7 +112,7 @@
         this.updateLastMessage
       );
 
-      this.on('newmessage', this.updateLastMessage);
+      this.on('newmessage', this.onNewMessage);
       this.on('change:profileKey', this.onChangeProfileKey);
 
       // Listening for out-of-band data updates
@@ -269,13 +269,17 @@
       removeMessage();
     },
 
-    addSingleMessage(message) {
+    async onNewMessage(message) {
+      await this.updateLastMessage();
+
       // Clear typing indicator for a given contact if we receive a message from them
       const identifier = message.get
         ? `${message.get('source')}.${message.get('sourceDevice')}`
         : `${message.source}.${message.sourceDevice}`;
       this.clearContactTypingTimer(identifier);
+    },
 
+    addSingleMessage(message) {
       const model = this.messageCollection.add(message, { merge: true });
       model.setToExpire();
       return model;
