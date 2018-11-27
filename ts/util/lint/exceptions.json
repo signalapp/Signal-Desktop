@@ -3061,7 +3061,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 154,
+    "lineNumber": 156,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -3069,7 +3069,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/node.js",
     "line": "exports.enable(load());",
-    "lineNumber": 246,
+    "lineNumber": 248,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -3163,42 +3163,42 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/electron-download/node_modules/es6-promise/dist/es6-promise.auto.js",
-    "line": "        return resolve$$(entry);",
-    "lineNumber": 546,
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2018-11-27T01:18:34.630Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/electron-download/node_modules/es6-promise/dist/es6-promise.auto.js",
-    "line": "    this._willSettleAt(resolve$$(entry), i);",
-    "lineNumber": 550,
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2018-11-27T01:18:34.630Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/electron-download/node_modules/es6-promise/dist/es6-promise.js",
-    "line": "        return resolve$$(entry);",
-    "lineNumber": 546,
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2018-11-27T01:18:34.630Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/electron-download/node_modules/es6-promise/dist/es6-promise.js",
-    "line": "    this._willSettleAt(resolve$$(entry), i);",
-    "lineNumber": 550,
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2018-11-27T01:18:34.630Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 1745,
+    "lineNumber": 1834,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -3206,7 +3206,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3128,
+    "lineNumber": 3243,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -3648,38 +3648,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/globby/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
@@ -3688,100 +3656,92 @@
     "updated": "2018-09-19T18:06:35.446Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "          c ? c.load(a) : goog.logToConsole_(\"Could not load \" + a + \" because there is no debug loader.\");",
-    "lineNumber": 146,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "      var a = !eval('\"use strict\";let x = 1; function f() { return typeof x; };f() == \"number\";');",
-    "lineNumber": 183,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Hard-coded string used for testing capabilities."
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  eval(a);",
-    "lineNumber": 218,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Used to load dependencies; parent function loadModuleFromSource_ is used in one place only."
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "        eval(f + \"\\n//# sourceURL=\" + e);",
-    "lineNumber": 249,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Used for google closure compiler transpilation scenarios"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "          goog.global.eval(\"var _evalTest_ = 1;\");",
-    "lineNumber": 395,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Hardcoded value"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "        goog.global.eval(a);",
-    "lineNumber": 409,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "More transpilation logic"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  b && (a = a.replace(/\\{\\$([^}]+)}/g, function(a, d) {",
-    "lineNumber": 449,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "      return !!eval(a);",
-    "lineNumber": 584,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "More transpilation logic"
-  },
-  {
     "rule": "jQuery-globalEval(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "    goog.globalEval(b);",
-    "lineNumber": 721,
-    "reasonCategory": "testCode",
-    "updated": "2018-09-18T19:19:27.699Z",
+    "lineNumber": 238,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Part of their google closure 'debug loader'"
   },
   {
     "rule": "DOM-document.write(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "  goog.global.document.write('<script type=\"text/javascript\" src=\"' + a + '\">\\x3c/script>');",
-    "lineNumber": 724,
-    "reasonCategory": "testCode",
-    "updated": "2018-09-18T19:19:27.699Z",
+    "lineNumber": 243,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Part of their google closure 'debug loader'"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "      var a = !eval('\"use strict\";let x = 1; function f() { return typeof x; };f() == \"number\";');",
+    "lineNumber": 333,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-11-27T01:31:13.384Z",
+    "reasonDetail": "Hard-coded string used for testing capabilities."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "  eval(a);",
+    "lineNumber": 368,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2018-11-27T01:31:13.384Z",
+    "reasonDetail": "Used to load dependencies; parent function loadModuleFromSource_ is used in one place only."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "      eval(f + \"\\n//# sourceURL=\" + e);",
+    "lineNumber": 411,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2018-11-27T01:31:13.384Z",
+    "reasonDetail": "Used for google closure compiler transpilation scenarios"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "        if (goog.global.eval(\"var _evalTest_ = 1;\"), \"undefined\" != typeof goog.global._evalTest_) {",
+    "lineNumber": 555,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-11-27T01:31:13.384Z",
+    "reasonDetail": "Hard-coded string used for testing capabilities."
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "        goog.global.eval(a);",
+    "lineNumber": 566,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2018-11-27T01:31:13.384Z",
+    "reasonDetail": "More transpilation logic"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "  b && (a = a.replace(/\\{\\$([^}]+)}/g, function(a, d) {",
+    "lineNumber": 606,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "      return !!eval(a);",
+    "lineNumber": 719,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2018-11-27T01:31:13.384Z",
+    "reasonDetail": "More transpilation logic"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "    e || (d.innerHTML = a + \" \", e = d.firstChild.nodeValue.slice(0, -1));",
-    "lineNumber": 1766,
+    "lineNumber": 949,
     "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-09-18T19:19:27.699Z",
+    "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "An odd technique of unescaping content by putting it into the dom"
   },
   {
@@ -3799,70 +3759,6 @@
     "lineNumber": 133,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/http-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/http-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/http-proxy-agent/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/http-proxy-agent/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/https-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/https-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/https-proxy-agent/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/https-proxy-agent/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5050,38 +4946,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/neo-async/async.js",
     "line": "      this.insertBefore(this.head, node);",
@@ -5187,6 +5051,38 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/optionator/lib/help.js",
     "line": "      return namesString + \"\" + typeSeparatorString + wrap(type).replace(/^\\s+/, '');",
@@ -5273,6 +5169,38 @@
     "lineNumber": 460,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -5401,6 +5329,38 @@
     "lineNumber": 72,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/portfinder/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/portfinder/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/portfinder/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/portfinder/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
   },
   {
     "rule": "jQuery-append(",
@@ -5783,38 +5743,6 @@
     "path": "node_modules/protobufjs/src/root.js",
     "line": "    return this.load(filename, options, SYNC);",
     "lineNumber": 235,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -6585,6 +6513,102 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spdy-transport/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spdy-transport/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spdy-transport/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spdy-transport/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spdy/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spdy/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spdy/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spdy/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/table/dist/createStream.js",
     "line": "        return append(row, columnWidthIndex, config);",
@@ -6753,6 +6777,38 @@
     "lineNumber": 60,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-27T01:31:13.384Z"
   },
   {
     "rule": "jQuery-append(",
