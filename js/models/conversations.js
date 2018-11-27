@@ -1736,7 +1736,15 @@
         this.getProfiles();
       }
     },
-    // Update profile variables dynamically
+    /*
+      Update profile values from the profile in storage.
+
+      Signal has methods of setting data from a profile it fetches.
+      It fetches this via a server and they aren't saved anywhere.
+
+      We made our own profile storage system so thus to avoid
+        any future conflict with upstream, we just use this method to update the values.
+    */
     async updateProfile() {
       const profileName = this.get('profileName');
 
@@ -2083,7 +2091,10 @@
 
     getTitle() {
       if (this.isPrivate()) {
-        return this.get('name') || this.getNumber();
+        const profileName = this.getProfileName();
+        const number = this.getNumber();
+        const name = profileName ? `${profileName} (${number})` : number;
+        return this.get('name') || name;
       }
       return this.get('name') || 'Unknown group';
     },

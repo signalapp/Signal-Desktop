@@ -6,6 +6,16 @@ body.dark-theme {
 }
 
 .dark-theme {
+  // identity key
+  .identity-key-wrapper {
+    background-color:$color-gray-85;
+  }
+
+  .identity-key-wrapper__pencil-icon {
+    @include color-svg('../images/lead-pencil.svg', $color-gray-25);
+  }
+
+
   // _conversation
 
   .conversation {
@@ -85,6 +95,37 @@ body.dark-theme {
             border-color: $color-dark-55;
           }
         }
+      }
+    }
+  }
+
+  .nickname-dialog {
+    .content {
+      background: $color-black;
+      color: $color-dark-05;
+
+      .buttons {
+        button {
+          background-color: $color-dark-85;
+          border-radius: $border-radius;
+          border: 1px solid $color-dark-60;
+          color: $color-dark-05;
+
+          &:hover {
+            background-color: $color-dark-70;
+            border-color: $color-dark-55;
+          }
+        }
+      }
+
+      input {
+        color: $color-dark-05;
+        background-color: $color-dark-70;
+        border-color: $color-dark-55;
+      }
+
+      .message {
+        color: $color-light-35;
       }
     }
   }

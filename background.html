@@ -63,9 +63,7 @@
         </div>
       </div>
     </div>
-    <div class='identityKeyWrapper'>
-      Your identity key: <span class='identityKey'>{{ identityKey }}</span>
-    </div>
+    <div class='identity-key-placeholder'></div>
     <div class='underneathIdentityWrapper'>
       <div class='conversation-stack'>
         <div class='conversation placeholder'>
@@ -155,8 +153,10 @@
       {{ #title }}
         <h4>{{ title }}</h4>
       {{ /title }}
-      <div class='message'>{{ message }}</div>
-      <input type='text' name='name' class='name' placeholder='Type a nickname' value='{{ name }}'>
+      <input type='text' name='name' class='name' placeholder='Type a nickname' autofocus maxlength="25">
+      {{ #message }}
+        <div class='message'>{{ message }}</div>
+      {{ /message }}
       <div class='buttons'>
         <button class='clear' tabindex='3'>{{ clear }}</button>
         <button class='cancel' tabindex='2'>{{ cancel }}</button>

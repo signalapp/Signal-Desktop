@@ -6,6 +6,7 @@
 /* global textsecure: false */
 /* global Signal: false */
 /* global StringView: false */
+/* global storage: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -42,7 +43,7 @@
       if ($el && $el.length > 0) {
         $el.remove();
       }
-    }
+    },
   });
 
   Whisper.FontSizeView = Whisper.View.extend({
@@ -112,6 +113,16 @@
       const update = () => this.mainHeaderView.update(me.format());
       this.listenTo(me, 'change', update);
       this.$('.main-header-placeholder').append(this.mainHeaderView.el);
+
+      this.identityKeyView = new Whisper.ReactWrapperView({
+        className: 'identity-key-wrapper',
+        Component: Signal.Components.IdentityKeyHeader,
+        props: this._getIdentityKeyViewProps(),
+      });
+      this.on('updateProfile', () => {
+        this.identityKeyView.update(this._getIdentityKeyViewProps());
+      })
+      this.$('.identity-key-placeholder').append(this.identityKeyView.el);
 
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
@@ -184,14 +195,33 @@
         this.$el.addClass('expired');
       }
     },
+    _getIdentityKeyViewProps() {
+      const identityKey = textsecure.storage.get('identityKey').pubKey;
+      const pubKey = StringView.arrayBufferToHex(identityKey);
+      const profile = storage.getProfile(pubKey);
+      const name = profile && profile.name && profile.name.displayName;
+
+      return {
+        identityKey: pubKey,
+        name,
+        onEditProfile: async () => {
+          window.Whisper.events.trigger('onEditProfile');
+        },
+      }
+    },
     render_attributes() {
       const identityKey = textsecure.storage.get('identityKey').pubKey;
+      const pubKey = StringView.arrayBufferToHex(identityKey);
+      const profile = storage.getProfile(pubKey);
+      const name = profile && profile.name && profile.name.displayName;
+
       return {
         welcomeToSignal: i18n('welcomeToSignal'),
         selectAContact: i18n('selectAContact'),
         searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
         settings: i18n('settings'),
-        identityKey: StringView.arrayBufferToHex(identityKey),
+        identityKey: pubKey,
+        name,
       };
     },
     events: {

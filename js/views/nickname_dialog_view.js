@@ -27,6 +27,9 @@
       this.render();
 
       this.$input = this.$('input');
+      this.$input.val(this.name);
+      this.$input.focus();
+
       this.validateNickname();
     },
     events: {
@@ -36,9 +39,6 @@
       'click .clear': 'clear',
       change: 'validateNickname',
     },
-    isValidNickname(name) {
-      return (name || '').length < 20;
-    },
     validateNickname() {
       const nickname = this.$input.val();
 
@@ -47,19 +47,9 @@
       } else {
         this.$('.clear').show();
       }
-
-      if (this.isValidNickname(nickname)) {
-        this.$('.content').removeClass('invalid');
-        this.$('.content').addClass('valid');
-        this.$('.ok').show();
-      } else {
-        this.$('.content').removeClass('valid');
-        this.$('.ok').hide();
-      }
     },
     render_attributes() {
       return {
-        name: this.name,
         message: this.message,
         showCancel: !this.hideCancel,
         cancel: this.cancelText,
@@ -69,8 +59,7 @@
       };
     },
     ok() {
-      const nickname = this.$input.val();
-      if (!this.isValidNickname(nickname)) return;
+      const nickname = this.$input.val().trim();
 
       this.remove();
       if (this.resolve) {
@@ -87,12 +76,19 @@
       this.$input.val('').trigger('change');
     },
     onKeyup(event) {
-      if (event.key === 'Escape' || event.key === 'Esc') {
-        this.cancel();
-        return;
-      }
-
       this.validateNickname();
+      switch (event.key) {
+        case 'Enter':
+          this.ok();
+          break;
+        case 'Escape':
+        case 'Esc':
+          this.cancel();
+          break;
+        default:
+          return;
+      }
+      event.preventDefault();
     },
     focusCancel() {
       this.$('.cancel').focus();

@@ -568,6 +568,40 @@
       }
     });
 
+    Whisper.events.on('onEditProfile', () => {
+      const ourNumber = textsecure.storage.user.getNumber();
+      const profile = storage.getProfile(ourNumber);
+      const nickname = profile && profile.name && profile.name.displayName;
+      if (appView) {
+        appView.showNicknameDialog({
+          title: 'Change your own nickname',
+          message: 'Note: Your nickname will be visible to your contacts.',
+          nickname,
+          onOk: async (newNickname) => {
+
+            // Update our profiles accordingly
+            if (_.isEmpty(newNickname)) {
+              await storage.removeProfile(ourNumber);
+            } else {
+              await storage.saveProfile(ourNumber, {
+                name: {
+                  displayName: newNickname,
+                },
+              });
+            }
+
+            appView.inboxView.trigger('updateProfile');
+
+            // Update the conversation if we have it
+            try {
+              const conversation = ConversationController.get(ourNumber);
+              conversation.updateProfile();
+            } catch (e) {}
+          },
+        })
+      }
+    });
+
     Whisper.events.on('showNicknameDialog', options => {
       if (appView) {
         appView.showNicknameDialog(options);

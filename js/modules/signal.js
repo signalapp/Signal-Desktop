@@ -43,6 +43,7 @@ const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
 const { MainHeader } = require('../../ts/components/MainHeader');
+const { IdentityKeyHeader } = require('../../ts/components/IdentityKeyHeader');
 const { Message } = require('../../ts/components/conversation/Message');
 const { MessageBody } = require('../../ts/components/conversation/MessageBody');
 const {
@@ -184,6 +185,7 @@ exports.setup = (options = {}) => {
     Lightbox,
     LightboxGallery,
     MainHeader,
+    IdentityKeyHeader,
     MediaGallery,
     Message,
     MessageBody,
