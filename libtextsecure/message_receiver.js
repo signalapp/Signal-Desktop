@@ -1019,6 +1019,7 @@ MessageReceiver.prototype.extend({
     } else if (content.receiptMessage) {
       return this.handleReceiptMessage(envelope, content.receiptMessage);
     }
+    this.removeFromCache(envelope);
     if (envelope.preKeyBundleMessage) return null;
 
     throw new Error('Unsupported content message');
