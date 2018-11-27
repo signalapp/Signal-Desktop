@@ -78,7 +78,7 @@
     "os-locale": "2.1.0",
     "pify": "3.0.0",
     "protobufjs": "~6.8.6",
-    "proxy-agent": "2.1.0",
+    "proxy-agent": "3.0.3",
     "react": "16.2.0",
     "react-contextmenu": "2.9.2",
     "react-dom": "16.2.0",
