@@ -570,33 +570,34 @@
 
     Whisper.events.on('onEditProfile', () => {
       const ourNumber = textsecure.storage.user.getNumber();
-      const profile = storage.getProfile(ourNumber);
-      const nickname = profile && profile.name && profile.name.displayName;
+      const profile = storage.getLocalProfile();
+      const displayName = profile && profile.name && profile.name.displayName;
       if (appView) {
         appView.showNicknameDialog({
           title: 'Change your own nickname',
           message: 'Note: Your nickname will be visible to your contacts.',
-          nickname,
+          nickname: displayName,
           onOk: async (newNickname) => {
-
-            // Update our profiles accordingly
-            if (_.isEmpty(newNickname)) {
-              await storage.removeProfile(ourNumber);
+            // Update our profiles accordingly'
+            const trimmed = newNickname && newNickname.trim();
+            let newProfile = null;
+            if (_.isEmpty(trimmed)) {
+              await storage.removeLocalProfile();
             } else {
-              await storage.saveProfile(ourNumber, {
+              newProfile = {
                 name: {
-                  displayName: newNickname,
+                  displayName: trimmed,
                 },
-              });
+              };
+              await storage.saveLocalProfile(newProfile);
             }
 
             appView.inboxView.trigger('updateProfile');
 
             // Update the conversation if we have it
-            try {
-              const conversation = ConversationController.get(ourNumber);
-              conversation.updateProfile();
-            } catch (e) {}
+            const conversation = ConversationController.get(ourNumber);
+            if (conversation)
+              conversation.setProfile(newProfile);
           },
         })
       }

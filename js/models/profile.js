@@ -9,75 +9,27 @@
 
   window.Whisper = window.Whisper || {};
 
-  const PROFILE_ID = 'profiles';
+  const PROFILE_ID = 'local-profile';
 
-  storage.getProfile = number => {
-    const profiles = storage.get(PROFILE_ID, {});
-    return profiles[number] || null;
+  storage.getLocalProfile = () => {
+    const profile = storage.get(PROFILE_ID, null);
+    return profile;
   }
 
-  storage.saveProfile = async (number, profile) => {
-    const profiles = storage.get(PROFILE_ID, {});
-    const storedProfile = profiles[number];
+  storage.saveLocalProfile = async (profile) => {
+    const storedProfile = storage.get(PROFILE_ID, null);
 
     // Only store the profile if we have a different object
     if (storedProfile && _.isEqual(storedProfile, profile)) {
       return;
     }
 
-    window.log.info('adding profile ', profile, 'for ', number);
-    await storage.put(PROFILE_ID, {
-      ...profiles,
-      [number]: profile,
-    });
+    window.log.info('saving local profile ', profile);
+    await storage.put(PROFILE_ID, profile);
   }
 
-  storage.removeProfile = async number => {
-    const profiles = storage.get(PROFILE_ID, {});
-    if (!profiles[number]) {
-      return;
-    }
-
-    delete profiles[number];
-
-    window.log.info('removing profile for ', number);
-    await storage.put(PROFILE_ID, profiles);
-  }
-
-  // Names that user can set for users
-
-  const NICKNAME_ID = 'nickname';
-
-  storage.getNickname = number => {
-    const nicknames = storage.get(NICKNAME_ID, {});
-    return nicknames[number] || null;
-  }
-
-  storage.saveNickname = async (number, name) => {
-    const nicknames = storage.get(NICKNAME_ID, {});
-    const storedName = nicknames[number];
-
-    // Only store the name if we have a different name
-    if (storedName === name) {
-      return;
-    }
-
-    window.log.info('adding nickname ', name, 'for ', number);
-    await storage.put(NICKNAME_ID, {
-      ...nicknames,
-      [number]: name,
-    });
-  }
-
-  storage.removeNickname = async number => {
-    const nicknames = storage.get(NICKNAME_ID, {});
-    if (!nicknames[number]) {
-      return;
-    }
-
-    delete nicknames[number];
-
-    window.log.info('removing nickname for ', number);
-    await storage.put(NICKNAME_ID, nicknames);
+  storage.removeLocalProfile = async () => {
+    window.log.info('removing local profile');
+    await storage.remove(PROFILE_ID);
   }
 })();

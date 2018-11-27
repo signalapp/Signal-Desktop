@@ -663,8 +663,7 @@ MessageSender.prototype = {
     profileKey,
     options
   ) {
-    const myNumber = textsecure.storage.user.getNumber();
-    const profile = textsecure.storage.impl.getProfile(myNumber);
+    const profile = textsecure.storage.impl.getLocalProfile();
     return this.sendMessage(
       {
         recipients: [number],

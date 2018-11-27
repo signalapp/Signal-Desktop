@@ -929,18 +929,15 @@ MessageReceiver.prototype.extend({
         );
 
         // Check if we need to update any profile names
-        if (!isMe) {
+        if (!isMe && conversation) {
+          let profile = null;
           if (message.profile) {
             const name = JSON.parse(message.profile.name.encodeJSON());
-            await storage.saveProfile(envelope.source, { name });
-          } else {
-            await storage.removeProfile(envelope.source);
+            profile = { name };
           }
 
-          // Update the conversation profle
-          if (conversation) {
-            conversation.updateProfile();
-          }
+          // Update the conversation
+          conversation.setProfile(profile);
         }
 
         if (type === 'friend-request' && isMe) {

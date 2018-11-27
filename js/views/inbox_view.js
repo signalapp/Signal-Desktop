@@ -198,7 +198,7 @@
     _getIdentityKeyViewProps() {
       const identityKey = textsecure.storage.get('identityKey').pubKey;
       const pubKey = StringView.arrayBufferToHex(identityKey);
-      const profile = storage.getProfile(pubKey);
+      const profile = storage.getLocalProfile();
       const name = profile && profile.name && profile.name.displayName;
 
       return {
@@ -210,18 +210,11 @@
       }
     },
     render_attributes() {
-      const identityKey = textsecure.storage.get('identityKey').pubKey;
-      const pubKey = StringView.arrayBufferToHex(identityKey);
-      const profile = storage.getProfile(pubKey);
-      const name = profile && profile.name && profile.name.displayName;
-
       return {
         welcomeToSignal: i18n('welcomeToSignal'),
         selectAContact: i18n('selectAContact'),
         searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
         settings: i18n('settings'),
-        identityKey: pubKey,
-        name,
       };
     },
     events: {

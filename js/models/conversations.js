@@ -1731,26 +1731,35 @@
       }
     },
 
-    onChangeProfileKey() {
-      if (this.isPrivate()) {
-        this.getProfiles();
-      }
+    // LOKI PROFILES
+
+    async setNickname(nickname) {
+      const trimmed = nickname && nickname.trim();
+      if (this.get('nickname') === trimmed) return;
+
+      this.set({ nickname: trimmed });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+
+      await this.updateProfile();
     },
-    /*
-      Update profile values from the profile in storage.
+    async setProfile(profile) {
+      if (_.isEqual(this.get('profile'), profile)) return;
 
-      Signal has methods of setting data from a profile it fetches.
-      It fetches this via a server and they aren't saved anywhere.
+      this.set({ profile });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
 
-      We made our own profile storage system so thus to avoid
-        any future conflict with upstream, we just use this method to update the values.
-    */
+      await this.updateProfile();
+    },
     async updateProfile() {
       const profileName = this.get('profileName');
 
       // Prioritise nickname over the profile display name
-      const nickname = await storage.getNickname(this.id);
-      const profile = await storage.getProfile(this.id);
+      const nickname = this.getNickname();
+      const profile = this.getLocalProfile();
       const displayName = profile && profile.name && profile.name.displayName;
 
       const newProfileName = nickname || displayName || null;
@@ -1761,6 +1770,21 @@
         });
       }
     },
+    getLocalProfile() {
+      return this.get('profile');
+    },
+    getNickname() {
+      return this.get('nickname');
+    },
+
+    // SIGNAL PROFILES
+
+    onChangeProfileKey() {
+      if (this.isPrivate()) {
+        this.getProfiles();
+      }
+    },
+
     getProfiles() {
       // request all conversation members' keys
       let ids = [];
