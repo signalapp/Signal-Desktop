@@ -11,7 +11,7 @@
     templateName: 'nickname-dialog',
     initialize(options) {
       this.message = options.message;
-      this.name = options.name;
+      this.name = options.name || '';
 
       this.resolve = options.resolve;
       this.okText = options.okText || i18n('ok');

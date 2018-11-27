@@ -36,6 +36,7 @@ interface Props {
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
+  hasNickname?: boolean;
 
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
@@ -48,6 +49,9 @@ interface Props {
 
   onBlockUser: () => void;
   onUnblockUser: () => void;
+
+  onClearNickname: () => void;
+  onChangeNickname: () => void;
 }
 
 export class ConversationHeader extends React.Component<Props> {
@@ -186,6 +190,9 @@ export class ConversationHeader extends React.Component<Props> {
       timerOptions,
       onBlockUser,
       onUnblockUser,
+      hasNickname,
+      onClearNickname,
+      onChangeNickname,
     } = this.props;
 
     const disappearingTitle = i18n('disappearingMessages') as any;
@@ -224,6 +231,12 @@ export class ConversationHeader extends React.Component<Props> {
         {/* Only show the block on other conversations */}
         {!isMe ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+        ) : null}
+        {!isMe ? (
+          <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
+        ) : null}
+        {!isMe && hasNickname ? (
+          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
       </ContextMenu>

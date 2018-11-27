@@ -174,6 +174,7 @@
             name: item.getName(),
             value: item.get('seconds'),
           })),
+          hasNickname: !!storage.getNickname(this.model.id),
 
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
@@ -203,6 +204,24 @@
           },
           onUnblockUser:  () => {
             this.model.unblock();
+          },
+          onChangeNickname: () => {
+            window.Whisper.events.trigger('showNicknameDialog', {
+              pubKey: this.model.id,
+              nickname: storage.getNickname(this.model.id),
+              onOk: async (newName) => {
+                if (_.isEmpty(newName)) {
+                  await storage.removeNickname(this.model.id)
+                } else {
+                  await storage.saveNickname(this.model.id, newName);
+                }
+                this.model.updateProfile();
+              },
+            });
+          },
+          onClearNickname: async () => {
+            await storage.removeNickname(this.model.id);
+            this.model.updateProfile();
           },
         };
       };

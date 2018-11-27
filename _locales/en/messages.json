@@ -1349,6 +1349,14 @@
     "message": "Disappearing messages",
     "description": "Conversation menu option to enable disappearing messages"
   },
+  "changeNickname": {
+    "message": "Change nickname",
+    "description": "Conversation menu option to change user nickname"
+  },
+  "clearNickname": {
+    "message": "Clear nickname",
+    "description": "Conversation menu option to clear user nickname"
+  },
   "timerOption_0_seconds_abbreviated": {
     "message": "off",
     "description":
