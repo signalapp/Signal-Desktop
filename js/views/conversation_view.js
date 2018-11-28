@@ -164,7 +164,7 @@
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
           isVerified: this.model.isVerified(),
-          isKeysPending: this.model.isKeyExchangeCompleted() === false,
+          isKeysPending: this.model.isFriend() === false,
           isMe: this.model.isMe(),
           isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),

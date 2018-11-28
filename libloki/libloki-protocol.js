@@ -25,7 +25,7 @@
       ivAndCiphertext.set(new Uint8Array(iv));
       ivAndCiphertext.set(new Uint8Array(ciphertext), iv.byteLength);
       return {
-        type: textsecure.protobuf.Envelope.Type.FALLBACK_CIPHERTEXT,
+        type: textsecure.protobuf.Envelope.Type.FRIEND_REQUEST,
         body: ivAndCiphertext,
         registrationId: null,
       };
@@ -141,9 +141,7 @@
         log.info('empty message sent successfully');
       }
     };
-    const options = {
-      preKeyBundleType: textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST_ACCEPT,
-    };
+    const options = {};
     // send an empty message. The logic in ougoing_message will attach the prekeys.
     const outgoingMessage = new textsecure.OutgoingMessage(
       null, // server
