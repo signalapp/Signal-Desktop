@@ -29,11 +29,32 @@
     border: 2px solid $color-gray-02;
   }
 
+  display: flex;
+  flex-direction: column;
   float: left;
   width: 300px;
+
+  .tool-bar {
+    margin-top: 8px;
+  }
+
   .content {
     overflow-y: scroll;
     max-height: calc(100% - 88px);
+    min-height: 0px;
+    flex: 1 1 auto;
+  }
+
+  .loki {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    background: $color-light-35;
+    img {
+      max-width: 60%;
+      max-height: 60%;
+    }
   }
 }
 .network-status-container {
