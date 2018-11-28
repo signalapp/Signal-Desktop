@@ -289,6 +289,7 @@ export class Lightbox extends React.Component<Props> {
           onClick={this.playVideoBound}
           controls={true}
           style={styles.object}
+          key={objectURL}
         >
           <source src={objectURL} />
         </video>
