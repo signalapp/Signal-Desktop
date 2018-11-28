@@ -139,7 +139,7 @@
     "react-docgen-typescript": "1.2.6",
     "react-styleguidist": "7.0.1",
     "sinon": "4.4.2",
-    "spectron": "3.8.0",
+    "spectron": "5.0.0",
     "ts-loader": "4.1.0",
     "tslint": "5.9.1",
     "tslint-microsoft-contrib": "5.0.3",
@@ -257,6 +257,10 @@
       "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
       "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node",
+      "node_modules/socks/build/*.js",
+      "node_modules/socks/build/common/*.js",
+      "node_modules/socks/build/client/*.js",
+      "node_modules/smart-buffer/build/*.js",
       "!node_modules/@journeyapps/sqlcipher/deps/*"
     ]
   }

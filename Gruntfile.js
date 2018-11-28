@@ -350,7 +350,7 @@ module.exports = grunt => {
     'test-release',
     'Test packaged releases',
     function thisNeeded() {
-      const dir = grunt.option('dir') || 'dist';
+      const dir = grunt.option('dir') || 'release';
       const environment = grunt.option('env') || 'production';
       const config = this.data;
       const archive = [dir, config.archive].join('/');
