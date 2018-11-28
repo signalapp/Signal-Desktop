@@ -580,19 +580,19 @@
           onOk: async (newName) => {
             // Update our profiles accordingly'
             const trimmed = newName && newName.trim();
-            let newProfile = null;
+
+            // If we get an empty name then unset the name property
+            // Otherwise update it
+            const newProfile = profile || {};
             if (_.isEmpty(trimmed)) {
-              await storage.removeLocalProfile();
+              delete newProfile.name;
             } else {
-              newProfile = {
-                ...(profile || {}),
-                name: {
-                  displayName: trimmed,
-                },
-              };
-              await storage.saveLocalProfile(newProfile);
+              newProfile.name = {
+                displayName: trimmed,
+              }
             }
 
+            await storage.saveLocalProfile(newProfile);
             appView.inboxView.trigger('updateProfile');
 
             // Update the conversation if we have it

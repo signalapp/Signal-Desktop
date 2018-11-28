@@ -918,7 +918,7 @@ MessageReceiver.prototype.extend({
       p = this.handleEndSession(envelope.source);
     }
     return p.then(() =>
-      this.processDecrypted(envelope, msg, envelope.source).then(async message => {
+      this.processDecrypted(envelope, msg, envelope.source).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
         const isMe = envelope.source === textsecure.storage.user.getNumber();
@@ -932,8 +932,7 @@ MessageReceiver.prototype.extend({
         if (!isMe && conversation) {
           let profile = null;
           if (message.profile) {
-            const name = JSON.parse(message.profile.name.encodeJSON());
-            profile = { name };
+            profile = JSON.parse(message.profile.encodeJSON());
           }
 
           // Update the conversation
