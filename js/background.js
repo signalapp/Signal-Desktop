@@ -698,19 +698,6 @@
     }
 
     const deviceId = textsecure.storage.user.getDeviceId();
-    const ourNumber = textsecure.storage.user.getNumber();
-    const { sendRequestConfigurationSyncMessage } = textsecure.messaging;
-    const status = await Signal.Startup.syncReadReceiptConfiguration({
-      ourNumber,
-      deviceId,
-      sendRequestConfigurationSyncMessage,
-      storage,
-      prepareForSend: ConversationController.prepareForSend.bind(
-        ConversationController
-      ),
-    });
-    window.log.info('Sync configuration status:', status);
-
     if (firstRun === true && deviceId !== '1') {
       const hasThemeSetting = Boolean(storage.get('theme-setting'));
       if (!hasThemeSetting && textsecure.storage.get('userAgent') === 'OWI') {

@@ -244,7 +244,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "        wrap(",
-    "lineNumber": 740,
+    "lineNumber": 727,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-18T22:23:00.485Z"
   },
@@ -252,7 +252,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "      await wrap(",
-    "lineNumber": 1270,
+    "lineNumber": 1257,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-26T22:43:23.229Z"
   },
@@ -378,14 +378,6 @@
     "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/startup.js",
-    "line": "    await wrap(sendRequestConfigurationSyncMessage(sendOptions));",
-    "lineNumber": 52,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
   },
   {
     "rule": "jQuery-$(",
@@ -2375,8 +2367,16 @@
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sync_request.js",
+    "line": "    wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));",
+    "lineNumber": 33,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-11-28T19:48:16.607Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/sync_request.js",
     "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
-    "lineNumber": 32,
+    "lineNumber": 36,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -2384,7 +2384,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sync_request.js",
     "line": "        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 35,
+    "lineNumber": 39,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },

@@ -9,7 +9,6 @@ const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Settings = require('./settings');
-const Startup = require('./startup');
 const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
 const Metadata = require('./metadata/SecretSessionCipher');
@@ -233,7 +232,6 @@ exports.setup = (options = {}) => {
     OS,
     RefreshSenderCertificate,
     Settings,
-    Startup,
     Types,
     Util,
     Views,
