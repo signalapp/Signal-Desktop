@@ -13,7 +13,7 @@ script:
   - yarn test-node
   - yarn nsp check
   - yarn prepare-beta-build
-  - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
+  - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never --config.directories.output=release
   - ./travis.sh
 env:
   global:
