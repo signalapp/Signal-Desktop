@@ -1094,7 +1094,7 @@
         );
 
         const options = this.getSendOptions();
-        options.messageType = message.attributes.type;
+        options.messageType = message.get('type');
 
         // Add the message sending on another queue so that our UI doesn't get blocked
         this.queueMessageSend(async () =>

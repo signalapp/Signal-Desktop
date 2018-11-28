@@ -987,6 +987,8 @@ MessageReceiver.prototype.extend({
     }
     if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
       conversation.onFriendRequestReceived();
+    } else {
+      conversation.onFriendRequestAccepted();
     }
 
     if (content.preKeyBundleMessage) {
@@ -1010,9 +1012,6 @@ MessageReceiver.prototype.extend({
       return this.handleReceiptMessage(envelope, content.receiptMessage);
 
     this.removeFromCache(envelope);
-    // TODO: The empty friend request response could get lost
-    // Need to trigger this event whenever a message is received in the pending state
-    conversation.onFriendRequestAccepted();
     return null;
   },
   handleCallMessage(envelope) {
