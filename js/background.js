@@ -574,8 +574,8 @@
       const displayName = profile && profile.name && profile.name.displayName;
       if (appView) {
         appView.showNicknameDialog({
-          title: 'Change your own display name',
-          message: 'Note: Your display name will be visible to your contacts.',
+          title: window.i18n('editProfileTitle'),
+          message: window.i18n('editProfileDisplayNameWarning'),
           nickname: displayName,
           onOk: async (newName) => {
             // Update our profiles accordingly'
@@ -585,6 +585,7 @@
               await storage.removeLocalProfile();
             } else {
               newProfile = {
+                ...(profile || {}),
                 name: {
                   displayName: trimmed,
                 },
