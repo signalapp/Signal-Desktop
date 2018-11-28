@@ -12,7 +12,7 @@ message Envelope {
     PREKEY_BUNDLE = 3; //Used By Signal. DO NOT TOUCH! we don't use this at all.
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
-    FALLBACK_CIPHERTEXT = 101; // contains prekeys + message and is using simple encryption
+    FRIEND_REQUEST = 101; // contains prekeys + message and is using simple encryption
   }
 
   optional Type   type            = 1;
@@ -24,7 +24,6 @@ message Envelope {
   optional bytes  content         = 8; // Contains an encrypted Content
   optional string serverGuid      = 9;
   optional uint64 serverTimestamp = 10;
-  optional bytes preKeyBundleMessage = 101;
 
 }
 
@@ -34,16 +33,10 @@ message Content {
   optional CallMessage    callMessage    = 3;
   optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
+  optional PreKeyBundleMessage preKeyBundleMessage = 101;
 }
 
 message PreKeyBundleMessage {
-  enum Type {
-    UNKNOWN               = 0;
-    FRIEND_REQUEST        = 1;
-    FRIEND_REQUEST_ACCEPT = 2;
-    RESET_SESSION         = 3;
-    RESET_SESSION_ACK     = 4;
-  }
   optional bytes identityKey      = 1;
   optional uint32 deviceId        = 2;
   optional uint32 preKeyId        = 3;
@@ -51,7 +44,6 @@ message PreKeyBundleMessage {
   optional bytes preKey           = 5;
   optional bytes signedKey        = 6;
   optional bytes signature        = 7;
-  optional Type type              = 8;
 }
 
 message CallMessage {

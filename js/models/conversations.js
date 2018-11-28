@@ -1,5 +1,6 @@
 /* global _: false */
 /* global Backbone: false */
+/* global BlockedNumberController: false */
 /* global ConversationController: false */
 /* global i18n: false */
 /* global libsignal: false */
@@ -42,14 +43,10 @@
   const FriendStatusEnum = Object.freeze({
     // New conversation, no messages sent or received
     none: 0,
-    // Have received a friend request, waiting to accept/decline
-    pendingAction: 1,
-    // Have sent a friend request, waiting for response
-    pendingResponse: 2,
-    // Have sent and received prekeybundle, waiting for ciphertext confirming key exchange
-    pendingCipher: 3,
+    // Friend request not complete yet, input blocked
+    pending: 1,
     // We did it!
-    friends: 4,
+    friends: 2,
   });
 
   const COLORS = [
@@ -66,26 +63,6 @@
     'blue_grey',
   ];
 
-  /**
-   * A few key things that need to be known in this is the difference
-   *  between isFriend() and isKeyExchangeCompleted().
-   *
-   * `isFriend` returns whether we have accepted the other user as a friend.
-   *    - This is explicilty stored as a state in the conversation
-   *
-   * `isKeyExchangeCompleted` return whether we know for certain
-   *   that both of our preKeyBundles have been exchanged.
-   *    - This will be set when we receive a valid CIPHER or
-   *      PREKEY_BUNDLE message from the other user.
-   *        * Valid meaning we can decypher the message using the preKeys provided
-   *           or the keys we have stored.
-   *
-   * `isFriend` will determine whether we should send a FRIEND_REQUEST message.
-   *
-   * `isKeyExchangeCompleted` will determine whether we keep
-   *   sending preKeyBundle to the other user.
-   */
-
   Whisper.Conversation = Backbone.Model.extend({
     storeName: 'conversations',
     defaults() {
@@ -93,7 +70,6 @@
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         friendStatus: FriendStatusEnum.none,
-        keyExchangeCompleted: false,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
       };
     },
@@ -477,50 +453,17 @@
         return contact.isVerified();
       });
     },
-    isKeyExchangeCompleted() {
-      if (!this.isPrivate()) {
-        return false;
-        // throw new Error('isKeyExchangeCompleted not implemented for groups');
-      }
-
-      if (this.isMe()) {
-        return true;
-      }
-
-      return this.get('friendStatus') === FriendStatusEnum.friends;
-    },
-    async setKeyExchangeCompleted() {
-      if (this.get('friendStatus') !== FriendStatusEnum.pendingCipher) return;
-
-      this.set({ friendStatus: FriendStatusEnum.friends });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
-    },
     async waitingForFriendRequestApproval() {
       // Check if we have an incoming friend request
-     // Or any successful outgoing ones
-     const incoming = await this.getPendingFriendRequests('incoming');
-     const outgoing = await this.getPendingFriendRequests('outgoing');
-     const successfulOutgoing = outgoing.filter(o => !o.hasErrors());
+      // Or any successful outgoing ones
+      const incoming = await this.getPendingFriendRequests('incoming');
+      const outgoing = await this.getPendingFriendRequests('outgoing');
+      const successfulOutgoing = outgoing.filter(o => !o.hasErrors());
 
-     return (incoming.length > 0 || successfulOutgoing.length > 0);
-    },
-    getPreKeyBundleType() {
-      switch (this.get('friendStatus')) {
-        case FriendStatusEnum.none:
-        case FriendStatusEnum.pendingResponse:
-          return textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST;
-        case FriendStatusEnum.pendingAction:
-        case FriendStatusEnum.pendingCipher:
-          return textsecure.protobuf.PreKeyBundleMessage.Type.FRIEND_REQUEST_ACCEPT;
-        default:
-          return textsecure.protobuf.PreKeyBundleMessage.Type.UNKNOWN;
-      }
+      return (incoming.length > 0 || successfulOutgoing.length > 0);
     },
     isFriend() {
-      return this.get('friendStatus') === FriendStatusEnum.pendingCipher ||
-             this.get('friendStatus') === FriendStatusEnum.friends;
+      return this.get('friendStatus') === FriendStatusEnum.friends;
     },
     // Update any pending friend requests for the current user
     async updateFriendRequestUI() {
@@ -554,7 +497,7 @@
     // We have declined an incoming friend request
     async onDeclineFriendRequest() {
       // Should we change states for other states? (They should never happen)
-      if (this.get('friendStatus') === FriendStatusEnum.pendingAction) {
+      if (this.get('friendStatus') === FriendStatusEnum.pending) {
         this.set({ friendStatus: FriendStatusEnum.none });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
@@ -567,8 +510,8 @@
     // We have accepted an incoming friend request
     async onAcceptFriendRequest() {
       // Should we change states for other states? (They should never happen)
-      if (this.get('friendStatus') === FriendStatusEnum.pendingAction) {
-        this.set({ friendStatus: FriendStatusEnum.pendingCipher });
+      if (this.get('friendStatus') === FriendStatusEnum.pending) {
+        this.set({ friendStatus: FriendStatusEnum.friends });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
@@ -579,9 +522,8 @@
     },
     // Our outgoing friend request has been accepted
     async onFriendRequestAccepted() {
-      // TODO: Think about how we want to handle other states
-      if (this.get('friendStatus') === FriendStatusEnum.pendingResponse) {
-        this.set({ friendStatus: FriendStatusEnum.pendingCipher });
+      if (this.get('friendStatus') === FriendStatusEnum.pending) {
+        this.set({ friendStatus: FriendStatusEnum.friends });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
@@ -622,30 +564,12 @@
       await this.updateFriendRequestUI();
     },
     async onFriendRequestReceived() {
-      switch (this.get('friendStatus')) {
-        case FriendStatusEnum.none:
-          this.set({ friendStatus: FriendStatusEnum.pendingAction });
-          await window.Signal.Data.updateConversation(this.id, this.attributes, {
-            Conversation: Whisper.Conversation,
-          });
-          await this.updateFriendRequestUI();
-          return;
-        case FriendStatusEnum.pendingResponse:
-          this.set({ friendStatus: FriendStatusEnum.pendingCipher });
-          await window.Signal.Data.updateConversation(this.id, this.attributes, {
-            Conversation: Whisper.Conversation,
-          });
-          await this.updateFriendRequestUI();
-          return;
-        case FriendStatusEnum.pendingAction:
-        case FriendStatusEnum.pendingCipher:
-          // No need to change state
-          return;
-        case FriendStatusEnum.friends:
-          // TODO: Handle this case (discuss with squad)
-          return;
-        default:
-          throw new TypeError(`Invalid friendStatus type: '${this.friendStatus}'`);
+      if (this.get('friendStatus') === FriendStatusEnum.none) {
+        this.set({ friendStatus: FriendStatusEnum.pending });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+        await this.updateFriendRequestUI();
       }
     },
     async onFriendRequestSent() {
@@ -665,7 +589,7 @@
       }
 
       if (this.get('friendStatus') === FriendStatusEnum.none) {
-        this.set({ friendStatus: FriendStatusEnum.pendingResponse });
+        this.set({ friendStatus: FriendStatusEnum.pending });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
@@ -1170,6 +1094,7 @@
         );
 
         const options = this.getSendOptions();
+        options.messageType = message.get('type');
 
         // Add the message sending on another queue so that our UI doesn't get blocked
         this.queueMessageSend(async () =>
@@ -1295,12 +1220,10 @@
     getSendOptions(options = {}) {
       const senderCertificate = storage.get('senderCertificate');
       const numberInfo = this.getNumberInfo(options);
-      const preKeyBundleType = this.getPreKeyBundleType();
 
       return {
         senderCertificate,
         numberInfo,
-        preKeyBundleType,
       };
     },
 
@@ -1371,8 +1294,8 @@
         // Delete the old messages if it's pending
         await Promise.all(
           incoming
-          .filter(i => i.id !== message.id)
-          .map(request => this._removeMessage(request.id))
+            .filter(i => i.id !== message.id)
+            .map(request => this._removeMessage(request.id))
         );
 
         // If we have an outgoing friend request then

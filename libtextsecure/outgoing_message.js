@@ -43,11 +43,11 @@ function OutgoingMessage(
   this.failoverNumbers = [];
   this.unidentifiedDeliveries = [];
 
-  const { numberInfo, senderCertificate, preKeyBundleType } = options;
+  const { numberInfo, senderCertificate, messageType } = options;
   this.numberInfo = numberInfo;
   this.senderCertificate = senderCertificate;
-  this.preKeyBundleType =
-    preKeyBundleType || textsecure.protobuf.PreKeyBundleMessage.Type.UNKNOWN;
+  this.messageType =
+    messageType || 'outgoing';
 }
 
 OutgoingMessage.prototype = {
@@ -221,16 +221,12 @@ OutgoingMessage.prototype = {
     return this.plaintext;
   },
   async wrapInWebsocketMessage(outgoingObject) {
-    const preKeyEnvelope = outgoingObject.preKeyBundleMessage ? {
-      preKeyBundleMessage: outgoingObject.preKeyBundleMessage,
-    } : {};
     const messageEnvelope = new textsecure.protobuf.Envelope({
       type: outgoingObject.type,
       source: outgoingObject.ourKey,
       sourceDevice: outgoingObject.sourceDevice,
       timestamp: this.timestamp,
       content: outgoingObject.content,
-      ...preKeyEnvelope,
     });
     const requestMessage = new textsecure.protobuf.WebSocketRequestMessage({
       id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0], // random ID for now
@@ -248,7 +244,6 @@ OutgoingMessage.prototype = {
   },
   doSendMessage(number, deviceIds, recurse) {
     const ciphers = {};
-    const plaintext = this.getPlaintext();
 
     /* Disabled because i'm not sure how senderCertificate works :thinking:
     const { numberInfo, senderCertificate } = this;
@@ -288,25 +283,11 @@ OutgoingMessage.prototype = {
         const fallBackEncryption = new libloki.FallBackSessionCipher(address);
 
         // Check if we need to attach the preKeys
-        let preKeys = {};
-        if (this.attachPrekeys) {
-          // Encrypt them with the fallback
-          const preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(number);
-          preKeyBundleMessage.type = this.preKeyBundleType;
-
-          const textBundle = this.convertMessageToText(preKeyBundleMessage);
-          const encryptedBundle = await fallBackEncryption.encrypt(textBundle);
-          preKeys = { preKeyBundleMessage: encryptedBundle.body };
-          window.log.info('attaching prekeys to outgoing message');
-        }
-
-        // No limit on message keys if we're communicating with our other devices
-        if (ourKey === number) {
-          options.messageKeysLimit = false;
-        }
-
         let sessionCipher;
-        if (this.fallBackEncryption) {
+        if (this.messageType === 'friend-request') {
+          // Encrypt them with the fallback
+          this.message.preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(number);
+          window.log.info('attaching prekeys to outgoing message');
           sessionCipher = fallBackEncryption;
         } else {
           sessionCipher = new libsignal.SessionCipher(
@@ -315,6 +296,13 @@ OutgoingMessage.prototype = {
             options
           );
         }
+        const plaintext = this.getPlaintext();
+
+        // No limit on message keys if we're communicating with our other devices
+        if (ourKey === number) {
+          options.messageKeysLimit = false;
+        }
+
         ciphers[address.getDeviceId()] = sessionCipher;
 
         // Encrypt our plain text
@@ -334,7 +322,6 @@ OutgoingMessage.prototype = {
           sourceDevice: 1,
           destinationRegistrationId: ciphertext.registrationId,
           content: ciphertext.body,
-          ...preKeys,
         };
       })
     )
@@ -344,10 +331,7 @@ OutgoingMessage.prototype = {
         const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
         let ttl;
         // TODO: Allow user to set ttl manually
-        if (
-          outgoingObject.type ===
-          textsecure.protobuf.Envelope.Type.FALLBACK_CIPHERTEXT
-        ) {
+        if (outgoingObject.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
           ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
         } else {
           ttl = 24 * 60 * 60; // 1 day default for any other message
@@ -465,17 +449,9 @@ OutgoingMessage.prototype = {
     return this.getStaleDeviceIdsForNumber(number).then(updateDevices =>
       this.getKeysForNumber(number, updateDevices)
         .then(async keysFound => {
-          this.attachPrekeys = false;
           if (!keysFound) {
             log.info('Fallback encryption enabled');
             this.fallBackEncryption = true;
-            this.attachPrekeys = true;
-          } else if (conversation) {
-            try {
-              this.attachPrekeys = !conversation.isKeyExchangeCompleted();
-            } catch (e) {
-              // do nothing
-            }
           }
 
           if (this.fallBackEncryption && conversation) {
