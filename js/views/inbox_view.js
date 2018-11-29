@@ -1,6 +1,7 @@
 /* global ConversationController: false */
 /* global extension: false */
 /* global getInboxCollection: false */
+/* global getFriendCollection: false */
 /* global i18n: false */
 /* global Whisper: false */
 /* global textsecure: false */
@@ -136,6 +137,7 @@
         this.startConnectionListener();
       }
 
+      // Inbox
       const inboxCollection = getInboxCollection();
 
       this.listenTo(inboxCollection, 'messageError', () => {
@@ -152,7 +154,7 @@
 
       this.inboxListView.listenTo(
         inboxCollection,
-        'add change:timestamp change:name change:number',
+        'add change:timestamp change:name change:number change:profileName',
         this.inboxListView.updateLocation
       );
 
@@ -160,9 +162,32 @@
       this.listenTo(
         inboxCollection,
         'remove',
-        this.closeConversation,
+        this.closeConversation
       );
 
+      // Friends
+      const friendCollection = getFriendCollection();
+
+      this.listenTo(friendCollection, 'select', this.openConversation);
+
+      this.friendListView = new Whisper.ConversationListView({
+        el: this.$('.friends'),
+        collection: friendCollection,
+      }).render();
+
+      this.friendListView.listenTo(
+        friendCollection,
+        'add change:timestamp change:name change:number change:profileName',
+        this.friendListView.updateLocation
+      );
+
+      this.listenTo(
+        friendCollection,
+        'remove',
+        this.closeConversation
+      );
+
+      // Search
       this.searchView = new Whisper.ConversationSearchView({
         el: this.$('.search-results'),
         input: this.$('input.search'),
@@ -173,10 +198,12 @@
       this.listenTo(this.searchView, 'hide', function toggleVisibility() {
         this.searchView.$el.hide();
         this.inboxListView.$el.show();
+        this.friendListView.$el.show();
       });
       this.listenTo(this.searchView, 'show', function toggleVisibility() {
         this.searchView.$el.show();
         this.inboxListView.$el.hide();
+        this.friendListView.$el.hide();
       });
       this.listenTo(this.searchView, 'open', this.openConversation);
 
@@ -187,6 +214,7 @@
 
       extension.windows.onClosed(() => {
         this.inboxListView.stopListening();
+        this.friendListView.stopListening();
       });
 
       if (extension.expired()) {
@@ -308,6 +336,7 @@
     closeConversation(conversation) {
       if (conversation) {
         this.inboxListView.removeItem(conversation);
+        this.friendListView.removeItem(conversation);
         this.conversation_stack.close(conversation);
       }
     },

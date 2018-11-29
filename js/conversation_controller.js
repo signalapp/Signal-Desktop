@@ -11,7 +11,7 @@
   const conversations = new Whisper.ConversationCollection();
   const inboxCollection = new (Backbone.Collection.extend({
     initialize() {
-      this.on('change:timestamp change:name change:number', this.sort);
+      this.on('change:timestamp change:name change:number change:profileName', this.sort);
 
       this.listenTo(conversations, 'add change:active_at', this.addActive);
       this.listenTo(conversations, 'reset', () => this.reset([]));
@@ -76,6 +76,34 @@
   }))();
 
   window.getInboxCollection = () => inboxCollection;
+
+  const friendCollection = new (Backbone.Collection.extend({
+    initialize() {
+      this.on('change:timestamp change:name change:number change:profileName', this.sort);
+
+      this.listenTo(conversations, 'add change:active_at', this.addActive);
+      this.listenTo(conversations, 'reset', () => this.reset([]));
+
+      this.collator = new Intl.Collator();
+    },
+    comparator(m1, m2) {
+      const title1 = m1.getTitle().toLowerCase();
+      const title2 = m2.getTitle().toLowerCase();
+      return this.collator.compare(title1, title2);
+    },
+    addActive(model) {
+      // We only want models which are not shown in the inbox
+      // And that we are friends with
+      const inboxHasModel = inboxCollection.contains(model);
+      if (!inboxHasModel) {
+        this.add(model);
+      } else {
+        this.remove(model);
+      }
+    },
+  }))();
+
+  window.getFriendCollection = () => friendCollection;
 
   window.ConversationController = {
     markAsSelected(toSelect) {
