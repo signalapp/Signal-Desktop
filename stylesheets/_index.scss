@@ -54,7 +54,7 @@
   }
 
   .content {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: calc(100% - 88px);
     min-height: 0px;
     flex: 1 1 auto;
@@ -85,6 +85,7 @@
   margin-top: 1px;
   margin-bottom: 1px;
   overflow: hidden;
+  user-select: none;
 }
 
 .section-toggle::after {

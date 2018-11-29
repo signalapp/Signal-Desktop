@@ -11,7 +11,7 @@
   const conversations = new Whisper.ConversationCollection();
   const inboxCollection = new (Backbone.Collection.extend({
     initialize() {
-      this.on('change:timestamp change:name change:number change:profileName', this.sort);
+      this.on('change:timestamp change:name change:number', this.sort);
 
       this.listenTo(conversations, 'add change:active_at', this.addActive);
       this.listenTo(conversations, 'reset', () => this.reset([]));
@@ -44,6 +44,7 @@
     addActive(model) {
       if (model.get('active_at')) {
         this.add(model);
+        model.updateLastMessage();
       } else {
         this.remove(model);
       }
@@ -77,7 +78,7 @@
 
   window.getInboxCollection = () => inboxCollection;
 
-  const friendCollection = new (Backbone.Collection.extend({
+  const contactCollection = new (Backbone.Collection.extend({
     initialize() {
       this.on('change:timestamp change:name change:number change:profileName', this.sort);
 
@@ -94,16 +95,16 @@
     addActive(model) {
       // We only want models which are not shown in the inbox
       // And that we are friends with
-      const inboxHasModel = inboxCollection.contains(model);
-      if (!inboxHasModel) {
+      if (model.isFriend()) {
         this.add(model);
+        model.updateLastMessage();
       } else {
         this.remove(model);
       }
     },
   }))();
 
-  window.getFriendCollection = () => friendCollection;
+  window.getContactCollection = () => contactCollection;
 
   window.ConversationController = {
     markAsSelected(toSelect) {

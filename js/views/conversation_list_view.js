@@ -65,4 +65,8 @@
       }
     },
   });
+
+  Whisper.ConversationContactListView = Whisper.ListView.extend({
+    itemView: Whisper.ConversationContactListItemView,
+  });
 })();

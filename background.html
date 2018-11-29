@@ -60,7 +60,7 @@
         <div class='conversations-list'>
           <h4 class='section-toggle section-toggle-visible'>Conversations</h4>
           <div class='conversations inbox'></div>
-          <h4 class='section-toggle section-toggle-visible'>Friends</h4>
+          <h4 class='section-toggle section-toggle-visible'>Contacts</h4>
           <div class='conversations friends'></div>
         </div>
         <div class='conversations search-results hide'>
@@ -135,13 +135,13 @@
               <div class='flex'>
                 <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
-                <div class='capture-audio' hide>
+                <div class='capture-audio hide'>
                     <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 </div>
                 <div class='android-length-warning'>
                     {{ android-length-warning }}
                 </div>
-                <div class='choose-file' hide>
+                <div class='choose-file hide'>
                     <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                     <input type='file' class='file-input'>
                 </div>

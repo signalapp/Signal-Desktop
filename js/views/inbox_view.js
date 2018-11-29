@@ -1,7 +1,7 @@
 /* global ConversationController: false */
 /* global extension: false */
 /* global getInboxCollection: false */
-/* global getFriendCollection: false */
+/* global getContactCollection: false */
 /* global i18n: false */
 /* global Whisper: false */
 /* global textsecure: false */
@@ -166,25 +166,25 @@
       );
 
       // Friends
-      const friendCollection = getFriendCollection();
+      const contactCollection = getContactCollection();
 
-      this.listenTo(friendCollection, 'select', this.openConversation);
+      this.listenTo(contactCollection, 'select', this.openConversation);
 
-      this.friendListView = new Whisper.ConversationListView({
+      this.contactListView = new Whisper.ConversationContactListView({
         el: this.$('.friends'),
-        collection: friendCollection,
+        collection: contactCollection,
       }).render();
 
-      this.friendListView.listenTo(
-        friendCollection,
+      this.contactListView.listenTo(
+        contactCollection,
         'add change:timestamp change:name change:number change:profileName',
-        this.friendListView.updateLocation
+        this.contactListView.updateLocation
       );
 
       this.listenTo(
-        friendCollection,
+        contactCollection,
         'remove',
-        this.closeConversation
+        this.contactListView.removeItem
       );
 
       // Search
@@ -212,7 +212,7 @@
 
       extension.windows.onClosed(() => {
         this.inboxListView.stopListening();
-        this.friendListView.stopListening();
+        this.contactListView.stopListening();
       });
 
       if (extension.expired()) {
@@ -344,7 +344,6 @@
     closeConversation(conversation) {
       if (conversation) {
         this.inboxListView.removeItem(conversation);
-        this.friendListView.removeItem(conversation);
         this.conversation_stack.close(conversation);
       }
     },
