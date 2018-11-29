@@ -477,14 +477,16 @@
       // ALWAYS HIDE until we support audio
       this.$('.capture-audio').hide();
 
-      // if (
-      //   this.$('.send-message').val().length > 0 ||
-      //   this.fileInput.hasFiles()
-      // ) {
-      //   this.$('.capture-audio').hide();
-      // } else {
-      //   this.$('.capture-audio').show();
-      // }
+      /*
+      if (
+        this.$('.send-message').val().length > 0 ||
+        this.fileInput.hasFiles()
+      ) {
+        this.$('.capture-audio').hide();
+      } else {
+        this.$('.capture-audio').show();
+      }
+      */
     },
     toggleLengthWarning() {
       if (this.$('.send-message').val().length > 2000) {
