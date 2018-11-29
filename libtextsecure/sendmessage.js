@@ -133,10 +133,9 @@ Message.prototype = {
       proto.profileKey = this.profileKey;
     }
 
-    if (this.profile) {
+    if (this.profile && this.profile.name) {
       const contact = new textsecure.protobuf.DataMessage.Contact();
-      if (this.profile.name)
-        contact.name = this.profile.name;
+      contact.name = this.profile.name;
       proto.profile = contact;
     }
 
