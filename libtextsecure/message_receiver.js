@@ -466,7 +466,7 @@ MessageReceiver.prototype.extend({
     window.log.info('getAllFromCache');
     const count = await textsecure.storage.unprocessed.getCount();
 
-    if (count > 250) {
+    if (count > 1500) {
       await textsecure.storage.unprocessed.removeAll();
       window.log.warn(
         `There were ${count} messages in cache. Deleted all instead of reprocessing`
@@ -719,12 +719,14 @@ MessageReceiver.prototype.extend({
               // Here we take this sender information and attach it back to the envelope
               //   to make the rest of the app work properly.
 
+              const originalSource = envelope.source;
+
               // eslint-disable-next-line no-param-reassign
               envelope.source = sender.getName();
               // eslint-disable-next-line no-param-reassign
               envelope.sourceDevice = sender.getDeviceId();
               // eslint-disable-next-line no-param-reassign
-              envelope.unidentifiedDeliveryReceived = true;
+              envelope.unidentifiedDeliveryReceived = !originalSource;
 
               // Return just the content because that matches the signature of the other
               //   decrypt methods used above.
@@ -734,12 +736,14 @@ MessageReceiver.prototype.extend({
               const { sender } = error || {};
 
               if (sender) {
+                const originalSource = envelope.source;
+
                 // eslint-disable-next-line no-param-reassign
                 envelope.source = sender.getName();
                 // eslint-disable-next-line no-param-reassign
                 envelope.sourceDevice = sender.getDeviceId();
                 // eslint-disable-next-line no-param-reassign
-                envelope.unidentifiedDeliveryReceived = true;
+                envelope.unidentifiedDeliveryReceived = !originalSource;
 
                 throw error;
               }
