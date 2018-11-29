@@ -93,9 +93,8 @@
       return this.collator.compare(title1, title2);
     },
     addActive(model) {
-      // We only want models which are not shown in the inbox
-      // And that we are friends with
-      if (model.isFriend()) {
+      // We only want models which we are friends with
+      if (model.isFriend() && !model.isMe()) {
         this.add(model);
         model.updateLastMessage();
       } else {
