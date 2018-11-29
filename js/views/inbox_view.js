@@ -197,13 +197,11 @@
 
       this.listenTo(this.searchView, 'hide', function toggleVisibility() {
         this.searchView.$el.hide();
-        this.inboxListView.$el.show();
-        this.friendListView.$el.show();
+        this.$('.conversations-list').show();
       });
       this.listenTo(this.searchView, 'show', function toggleVisibility() {
         this.searchView.$el.show();
-        this.inboxListView.$el.hide();
-        this.friendListView.$el.hide();
+        this.$('.conversations-list').hide();
       });
       this.listenTo(this.searchView, 'open', this.openConversation);
 
@@ -249,6 +247,7 @@
       click: 'onClick',
       'click #header': 'focusHeader',
       'click .conversation': 'focusConversation',
+      'click .section-toggle': 'toggleSection',
       'input input.search': 'filterContacts',
     },
     startConnectionListener() {
@@ -322,6 +321,15 @@
       } else {
         input.removeClass('active');
       }
+    },
+    toggleSection(e) {
+      // Expand or collapse this panel
+      const $target = this.$(e.target);
+      const $next = $target.next();
+
+      // Toggle section visibility
+      $next.slideToggle('fast');
+      $target.toggleClass('section-toggle-visible');
     },
     openConversation(conversation) {
       this.searchView.hideHints();

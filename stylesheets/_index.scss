@@ -58,6 +58,7 @@
     max-height: calc(100% - 88px);
     min-height: 0px;
     flex: 1 1 auto;
+    color: $color-gray-05;
   }
 
   .loki {
@@ -71,6 +72,38 @@
       max-height: 60%;
     }
   }
+}
+
+.section-toggle {
+  position: relative;
+  display: block;
+  padding: 0 0 0 1em;
+  background: $color-dark-75;
+  font-weight: bold;
+  line-height: 3;
+  cursor: pointer;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  overflow: hidden;
+}
+
+.section-toggle::after {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  width: 3em;
+  height: 3em;
+  line-height: 3;
+  text-align: center;
+  -webkit-transition: all .35s;
+  -o-transition: all .35s;
+  transition: all .35s;
+  content: "+";
+}
+
+.section-toggle-visible::after {
+  transform: rotate(315deg);
 }
 
 .network-status-container {
