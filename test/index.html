@@ -127,6 +127,17 @@
       <span class='time'>0:00</span>
       <button class='close'><span class='icon'></span></button>
   </script>
+  <script type='text/x-tmpl-mustache' id='nickname-dialog'>
+    <div class='content'>
+      <div class='message'>{{ message }}</div>
+      <input type='text' name='name' class='name' placeholder='Type a name' value='{{ name }}'>
+      <div class='buttons'>
+        <button class='clear' tabindex='3'>{{ clear }}</button>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
     <div class="content">
       <div class='message'>{{ message }}</div>
@@ -378,6 +389,7 @@
   <script type='text/javascript' src='../js/views/inbox_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/network_status_view.js'></script>
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/nickname_dialog_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/identicon_svg_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/last_seen_indicator_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/scroll_down_button_view.js' data-cover></script>

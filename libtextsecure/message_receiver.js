@@ -1,5 +1,6 @@
 /* global window: false */
 /* global textsecure: false */
+/* global storage: false */
 /* global StringView: false */
 /* global libloki: false */
 /* global libsignal: false */
@@ -918,10 +919,22 @@ MessageReceiver.prototype.extend({
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
         const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const conversation = window.ConversationController.get(envelope.source);
         const isLeavingGroup = Boolean(
           message.group &&
           message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
+
+        // Check if we need to update any profile names
+        if (!isMe && conversation) {
+          let profile = null;
+          if (message.profile) {
+            profile = JSON.parse(message.profile.encodeJSON());
+          }
+
+          // Update the conversation
+          conversation.setProfile(profile);
+        }
 
         if (type === 'friend-request' && isMe) {
           window.log.info(

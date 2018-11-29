@@ -174,6 +174,7 @@
             name: item.getName(),
             value: item.get('seconds'),
           })),
+          hasNickname: !!this.model.getNickname(),
 
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
@@ -203,6 +204,16 @@
           },
           onUnblockUser:  () => {
             this.model.unblock();
+          },
+          onChangeNickname: () => {
+            window.Whisper.events.trigger('showNicknameDialog', {
+              pubKey: this.model.id,
+              nickname: this.model.getNickname(),
+              onOk: newName => this.model.setNickname(newName),
+            });
+          },
+          onClearNickname: async () => {
+            this.model.setNickname(null);
           },
         };
       };

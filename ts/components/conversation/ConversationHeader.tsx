@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Emojify } from './Emojify';
+import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
 import { Localizer } from '../../types/Util';
 import {
@@ -36,6 +36,7 @@ interface Props {
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
+  hasNickname?: boolean;
 
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
@@ -48,6 +49,9 @@ interface Props {
 
   onBlockUser: () => void;
   onUnblockUser: () => void;
+
+  onClearNickname: () => void;
+  onChangeNickname: () => void;
 }
 
 export class ConversationHeader extends React.Component<Props> {
@@ -90,32 +94,20 @@ export class ConversationHeader extends React.Component<Props> {
 
   public renderTitle() {
     const {
-      name,
       phoneNumber,
       i18n,
       profileName,
-      isVerified,
       isKeysPending,
     } = this.props;
 
     return (
       <div className="module-conversation-header__title">
-        {name ? <Emojify text={name} i18n={i18n} /> : null}
-        {name && phoneNumber ? ' · ' : null}
-        {phoneNumber ? phoneNumber : null}{' '}
-        {profileName && !name ? (
-          <span className="module-conversation-header__title__profile-name">
-            ~<Emojify text={profileName} i18n={i18n} />
-          </span>
-        ) : null}
-        {isVerified ? ' · ' : null}
-        {isVerified ? (
-          <span>
-            <span className="module-conversation-header__title__verified-icon" />
-            {i18n('verified')}
-          </span>
-        ) : null}
-        {isKeysPending ? '(pending)' : null}
+        <ContactName
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          i18n={i18n}
+        />
+        {isKeysPending ? ' (pending)' : null}
       </div>
     );
   }
@@ -198,6 +190,9 @@ export class ConversationHeader extends React.Component<Props> {
       timerOptions,
       onBlockUser,
       onUnblockUser,
+      hasNickname,
+      onClearNickname,
+      onChangeNickname,
     } = this.props;
 
     const disappearingTitle = i18n('disappearingMessages') as any;
@@ -236,6 +231,12 @@ export class ConversationHeader extends React.Component<Props> {
         {/* Only show the block on other conversations */}
         {!isMe ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+        ) : null}
+        {!isMe ? (
+          <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
+        ) : null}
+        {!isMe && hasNickname ? (
+          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
       </ContextMenu>

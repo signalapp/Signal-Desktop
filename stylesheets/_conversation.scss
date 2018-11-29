@@ -351,6 +351,63 @@
   }
 }
 
+.nickname-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .content {
+    max-width: 75%;
+    min-width: 60%;
+    padding: 1em;
+    background: white;
+    border-radius: $border-radius;
+    overflow: auto;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
+
+    .buttons {
+      margin-top: 10px;
+
+      button {
+        float: right;
+        margin-left: 10px;
+        background-color: $grey_l;
+        border-radius: $border-radius;
+        padding: 5px 8px;
+        border: 1px solid $grey_l2;
+
+        &:hover {
+          background-color: $grey_l2;
+          border-color: $grey_l3;
+        }
+      }
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 4px;
+    }
+
+    h4 {
+      white-space: -moz-pre-wrap; /* Mozilla */
+      white-space: -hp-pre-wrap; /* HP printers */
+      white-space: -o-pre-wrap; /* Opera 7 */
+      white-space: -pre-wrap; /* Opera 4-6 */
+      white-space: pre-wrap; /* CSS 2.1 */
+      white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+      word-wrap: break-word; /* IE */
+      word-break: break-all;
+    }
+
+    .message {
+      font-style: italic;
+      color: $grey;
+      font-size: 12px;
+    }
+  }
+}
+
 .permissions-popup,
 .debug-log-window {
   .modal {

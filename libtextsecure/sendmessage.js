@@ -25,6 +25,7 @@ function Message(options) {
   this.needsSync = options.needsSync;
   this.expireTimer = options.expireTimer;
   this.profileKey = options.profileKey;
+  this.profile = options.profile;
 
   if (!(this.recipients instanceof Array) || this.recipients.length < 1) {
     throw new Error('Invalid recipient list');
@@ -130,6 +131,12 @@ Message.prototype = {
 
     if (this.profileKey) {
       proto.profileKey = this.profileKey;
+    }
+
+    if (this.profile && this.profile.name) {
+      const contact = new textsecure.protobuf.DataMessage.Contact();
+      contact.name = this.profile.name;
+      proto.profile = contact;
     }
 
     this.dataMessage = proto;
@@ -656,6 +663,7 @@ MessageSender.prototype = {
     profileKey,
     options
   ) {
+    const profile = textsecure.storage.impl.getLocalProfile();
     return this.sendMessage(
       {
         recipients: [number],
@@ -666,6 +674,7 @@ MessageSender.prototype = {
         needsSync: true,
         expireTimer,
         profileKey,
+        profile,
       },
       options
     );

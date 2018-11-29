@@ -1654,6 +1654,47 @@
       }
     },
 
+    // LOKI PROFILES
+
+    async setNickname(nickname) {
+      const trimmed = nickname && nickname.trim();
+      if (this.get('nickname') === trimmed) return;
+
+      this.set({ nickname: trimmed });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+
+      await this.updateProfile();
+    },
+    async setProfile(profile) {
+      if (_.isEqual(this.get('profile'), profile)) return;
+
+      this.set({ profile });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+
+      await this.updateProfile();
+    },
+    async updateProfile() {
+      // Prioritise nickname over the profile display name
+      const nickname = this.getNickname();
+      const profile = this.getLocalProfile();
+      const displayName = profile && profile.name && profile.name.displayName;
+
+      const profileName = nickname || displayName || null;
+      await this.setProfileName(profileName);
+    },
+    getLocalProfile() {
+      return this.get('profile');
+    },
+    getNickname() {
+      return this.get('nickname');
+    },
+
+    // SIGNAL PROFILES
+
     onChangeProfileKey() {
       if (this.isPrivate()) {
         this.getProfiles();
@@ -1671,148 +1712,22 @@
       return Promise.all(_.map(ids, this.getProfile));
     },
 
+    // This function is wrongly named by signal
+    // This is basically an `update` function and thus we have overwritten it with such
     async getProfile(id) {
-      if (!textsecure.messaging) {
-        throw new Error(
-          'Conversation.getProfile: textsecure.messaging not available'
-        );
-      }
-
       const c = await ConversationController.getOrCreateAndWait(id, 'private');
 
-      // Because we're no longer using Backbone-integrated saves, we need to manually
-      //   clear the changed fields here so our hasChanged() check is useful.
-      c.changed = {};
-
-      try {
-        await c.deriveAccessKeyIfNeeded();
-        const numberInfo = c.getNumberInfo({ disableMeCheck: true }) || {};
-        const getInfo = numberInfo[c.id] || {};
-
-        let profile;
-        if (getInfo.accessKey) {
-          try {
-            profile = await textsecure.messaging.getProfile(id, {
-              accessKey: getInfo.accessKey,
-            });
-          } catch (error) {
-            if (error.code === 401 || error.code === 403) {
-              window.log.info(
-                `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
-              );
-              c.set({ sealedSender: SEALED_SENDER.DISABLED });
-              profile = await textsecure.messaging.getProfile(id);
-            } else {
-              throw error;
-            }
-          }
-        } else {
-          profile = await textsecure.messaging.getProfile(id);
-        }
-
-        const identityKey = window.Signal.Crypto.base64ToArrayBuffer(
-          profile.identityKey
-        );
-        const changed = await textsecure.storage.protocol.saveIdentity(
-          `${id}.1`,
-          identityKey,
-          false
-        );
-        if (changed) {
-          // save identity will close all sessions except for .1, so we
-          // must close that one manually.
-          const address = new libsignal.SignalProtocolAddress(id, 1);
-          window.log.info('closing session for', address.toString());
-          const sessionCipher = new libsignal.SessionCipher(
-            textsecure.storage.protocol,
-            address
-          );
-          await sessionCipher.closeOpenSessionForDevice();
-        }
-
-        const accessKey = c.get('accessKey');
-        if (
-          profile.unrestrictedUnidentifiedAccess &&
-          profile.unidentifiedAccess
-        ) {
-          window.log.info(
-            `Setting sealedSender to UNRESTRICTED for conversation ${c.idForLogging()}`
-          );
-          c.set({
-            sealedSender: SEALED_SENDER.UNRESTRICTED,
-          });
-        } else if (accessKey && profile.unidentifiedAccess) {
-          const haveCorrectKey = await window.Signal.Crypto.verifyAccessKey(
-            window.Signal.Crypto.base64ToArrayBuffer(accessKey),
-            window.Signal.Crypto.base64ToArrayBuffer(profile.unidentifiedAccess)
-          );
-
-          if (haveCorrectKey) {
-            window.log.info(
-              `Setting sealedSender to ENABLED for conversation ${c.idForLogging()}`
-            );
-            c.set({
-              sealedSender: SEALED_SENDER.ENABLED,
-            });
-          } else {
-            window.log.info(
-              `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
-            );
-            c.set({
-              sealedSender: SEALED_SENDER.DISABLED,
-            });
-          }
-        } else {
-          window.log.info(
-            `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
-          );
-          c.set({
-            sealedSender: SEALED_SENDER.DISABLED,
-          });
-        }
-
-        await c.setProfileName(profile.name);
-
-        // This might throw if we can't pull the avatar down, so we do it last
-        await c.setProfileAvatar(profile.avatar);
-      } catch (error) {
-        window.log.error(
-          'getProfile error:',
-          id,
-          error && error.stack ? error.stack : error
-        );
-      } finally {
-        if (c.hasChanged()) {
-          await window.Signal.Data.updateConversation(id, c.attributes, {
-            Conversation: Whisper.Conversation,
-          });
-        }
-      }
+      // We only need to update the profile as they are all stored inside the conversation
+      await c.updateProfile();
     },
-    async setProfileName(encryptedName) {
-      if (!encryptedName) {
-        return;
+    async setProfileName(name) {
+      const profileName = this.get('profileName');
+      if (profileName !== name) {
+        this.set({ profileName: name });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
       }
-      const key = this.get('profileKey');
-      if (!key) {
-        return;
-      }
-
-      // decode
-      const keyBuffer = window.Signal.Crypto.base64ToArrayBuffer(key);
-      const data = window.Signal.Crypto.base64ToArrayBuffer(encryptedName);
-
-      // decrypt
-      const decrypted = await textsecure.crypto.decryptProfileName(
-        data,
-        keyBuffer
-      );
-
-      // encode
-      const profileName = window.Signal.Crypto.stringFromBytes(decrypted);
-
-      // set
-      this.set({ profileName });
     },
     async setProfileAvatar(avatarPath) {
       if (!avatarPath) {
@@ -1989,7 +1904,10 @@
 
     getTitle() {
       if (this.isPrivate()) {
-        return this.get('name') || this.getNumber();
+        const profileName = this.getProfileName();
+        const number = this.getNumber();
+        const name = profileName ? `${profileName} (${number})` : number;
+        return this.get('name') || name;
       }
       return this.get('name') || 'Unknown group';
     },

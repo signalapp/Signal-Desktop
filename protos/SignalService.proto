@@ -176,6 +176,7 @@ message DataMessage {
   optional uint64             timestamp   = 7;
   optional Quote              quote       = 8;
   repeated Contact            contact     = 9;
+  optional Contact            profile     = 101; // Loki: The profile of the current user
 }
 
 message NullMessage {

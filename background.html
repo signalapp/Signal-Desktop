@@ -63,9 +63,7 @@
         </div>
       </div>
     </div>
-    <div class='identityKeyWrapper'>
-      Your identity key: <span class='identityKey'>{{ identityKey }}</span>
-    </div>
+    <div class='identity-key-placeholder'></div>
     <div class='underneathIdentityWrapper'>
       <div class='conversation-stack'>
         <div class='conversation placeholder'>
@@ -149,6 +147,22 @@
       <button class='finish'><span class='icon'></span></button>
       <span class='time'>0:00</span>
       <button class='close'><span class='icon'></span></button>
+  </script>
+  <script type='text/x-tmpl-mustache' id='nickname-dialog'>
+    <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
+      <input type='text' name='name' class='name' placeholder='Type a name' autofocus maxlength="25">
+      {{ #message }}
+        <div class='message'>{{ message }}</div>
+      {{ /message }}
+      <div class='buttons'>
+        <button class='clear' tabindex='3'>{{ clear }}</button>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
     <div class="content">
@@ -608,6 +622,7 @@
   <script type='text/javascript' src='js/models/messages.js'></script>
   <script type='text/javascript' src='js/models/conversations.js'></script>
   <script type='text/javascript' src='js/models/blockedNumbers.js'></script>
+  <script type='text/javascript' src='js/models/profile.js'></script>
   <script type='text/javascript' src='js/expiring_messages.js'></script>
 
   <script type='text/javascript' src='js/chromium.js'></script>
@@ -641,6 +656,7 @@
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
   <script type='text/javascript' src='js/views/network_status_view.js'></script>
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/nickname_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>

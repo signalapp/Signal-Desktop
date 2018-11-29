@@ -781,6 +781,9 @@
   "cancel": {
     "message": "Cancel"
   },
+  "clear": {
+    "message": "Clear"
+  },
   "failedToSend": {
     "message":
       "Failed to send to some recipients. Check your network connection."
@@ -1346,6 +1349,14 @@
     "message": "Disappearing messages",
     "description": "Conversation menu option to enable disappearing messages"
   },
+  "changeNickname": {
+    "message": "Change nickname",
+    "description": "Conversation menu option to change user nickname"
+  },
+  "clearNickname": {
+    "message": "Clear nickname",
+    "description": "Conversation menu option to clear user nickname"
+  },
   "timerOption_0_seconds_abbreviated": {
     "message": "off",
     "description":
@@ -1637,5 +1648,13 @@
   "settingsUnblockHeader": {
     "message": "Blocked Users",
     "description": "Shown in the settings page as the heading for the blocked user settings"
+  },
+  "editProfileTitle": {
+    "message": "Change your own display name",
+    "description": "The title shown when user edits their own profile"
+  },
+  "editProfileDisplayNameWarning": {
+    "message": "Note: Your display name will be visible to your contacts",
+    "description": "Shown to the user as a warning about setting display name"
   }
 }

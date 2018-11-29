@@ -568,6 +568,48 @@
       }
     });
 
+    Whisper.events.on('onEditProfile', () => {
+      const ourNumber = textsecure.storage.user.getNumber();
+      const profile = storage.getLocalProfile();
+      const displayName = profile && profile.name && profile.name.displayName;
+      if (appView) {
+        appView.showNicknameDialog({
+          title: window.i18n('editProfileTitle'),
+          message: window.i18n('editProfileDisplayNameWarning'),
+          nickname: displayName,
+          onOk: async (newName) => {
+            // Update our profiles accordingly'
+            const trimmed = newName && newName.trim();
+
+            // If we get an empty name then unset the name property
+            // Otherwise update it
+            const newProfile = profile || {};
+            if (_.isEmpty(trimmed)) {
+              delete newProfile.name;
+            } else {
+              newProfile.name = {
+                displayName: trimmed,
+              }
+            }
+
+            await storage.saveLocalProfile(newProfile);
+            appView.inboxView.trigger('updateProfile');
+
+            // Update the conversation if we have it
+            const conversation = ConversationController.get(ourNumber);
+            if (conversation)
+              conversation.setProfile(newProfile);
+          },
+        })
+      }
+    });
+
+    Whisper.events.on('showNicknameDialog', options => {
+      if (appView) {
+        appView.showNicknameDialog(options);
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);

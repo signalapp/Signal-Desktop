@@ -226,6 +226,9 @@
           await Promise.all(
             conversations.map(conversation => conversation.updateLastMessage())
           );
+
+          // Update profiles
+          conversations.map(conversation => conversation.updateProfile());
           window.log.info('ConversationController: done with initial fetch');
         } catch (error) {
           window.log.error(
