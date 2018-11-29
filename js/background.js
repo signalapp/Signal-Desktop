@@ -1293,7 +1293,7 @@
       unread: 1,
     };
 
-    if (data.type === 'friend-request') {
+    if (data.friendRequest) {
       messageData = {
         ...messageData,
         type: 'friend-request',
