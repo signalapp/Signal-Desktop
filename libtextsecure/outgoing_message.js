@@ -280,7 +280,7 @@ OutgoingMessage.prototype = {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
         const ourKey = textsecure.storage.user.getNumber();
         const options = {};
-        const fallBackEncryption = new libloki.FallBackSessionCipher(address);
+        const fallBackCipher = new libloki.FallBackSessionCipher(address);
 
         // Check if we need to attach the preKeys
         let sessionCipher;
@@ -288,7 +288,7 @@ OutgoingMessage.prototype = {
           // Encrypt them with the fallback
           this.message.preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(number);
           window.log.info('attaching prekeys to outgoing message');
-          sessionCipher = fallBackEncryption;
+          sessionCipher = fallBackCipher;
         } else {
           sessionCipher = new libsignal.SessionCipher(
             textsecure.storage.protocol,
@@ -453,13 +453,10 @@ OutgoingMessage.prototype = {
             log.info('Fallback encryption enabled');
             this.fallBackEncryption = true;
           }
-
-          if (this.fallBackEncryption && conversation) {
-            await conversation.onFriendRequestSent();
-          }
         })
         .then(this.reloadDevicesAndSend(number, true))
         .catch(error => {
+          conversation.resetPendingSend();
           if (error.message === 'Identity key changed') {
             // eslint-disable-next-line no-param-reassign
             error = new textsecure.OutgoingIdentityKeyError(

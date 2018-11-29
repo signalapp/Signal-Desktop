@@ -43,12 +43,14 @@
   const FriendRequestStatusEnum = Object.freeze({
     // New conversation, no messages sent or received
     none: 0,
+    // This state is used to lock the input early while sending
+    pendingSend: 1,
     // Friend request sent, awaiting response
-    requestSent: 1,
+    requestSent: 2,
     // Friend request received, awaiting user input
-    requestReceived: 2,
+    requestReceived: 3,
     // We did it!
-    friends: 3,
+    friends: 4,
   });
 
   const COLORS = [
@@ -435,10 +437,16 @@
     isNone() {
       return this.get('friendRequestStatus') === FriendRequestStatusEnum.none;
     },
+    hasInputBlocked() {
+      const status = this.get('friendRequestStatus');
+      return status === FriendRequestStatusEnum.requestSent ||
+        status === FriendRequestStatusEnum.requestReceived ||
+        status === FriendRequestStatusEnum.pendingSend;
+    },
     isPending() {
       const status = this.get('friendRequestStatus');
       return status === FriendRequestStatusEnum.requestSent ||
-        status === FriendRequestStatusEnum.requestSent;
+        status === FriendRequestStatusEnum.requestReceived;
     },
     hasSentFriendRequest() {
       return this.get('friendRequestStatus') === FriendRequestStatusEnum.requestSent;
@@ -455,6 +463,7 @@
           this.trigger('disable:input', false);
           this.trigger('change:placeholder', 'friend-request');
           return;
+        case FriendRequestStatusEnum.pendingSend:
         case FriendRequestStatusEnum.requestReceived:
         case FriendRequestStatusEnum.requestSent:
           this.trigger('disable:input', true);
@@ -469,6 +478,9 @@
       }
     },
     async setFriendRequestStatus(newStatus) {
+      // Ensure that the new status is a valid FriendStatusEnum value
+      if (!Object.values(FriendRequestStatusEnum).some(v => v === newStatus))
+        return;
       if (this.get('friendRequestStatus') !== newStatus) {
         this.set({ friendRequestStatus: newStatus });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -493,6 +505,11 @@
           this.trigger('updateMessage', request);
         })
       );
+    },
+    async resetPendingSend() {
+      if (this.get('friendRequestStatus') === FriendRequestStatusEnum.pendingSend) {
+        await this.setFriendRequestStatus(FriendRequestStatusEnum.none);
+      }
     },
     // We have declined an incoming friend request
     async onDeclineFriendRequest() {
@@ -949,7 +966,7 @@
 
     async sendMessage(body, attachments, quote) {
       // Input should be blocked if there is a pending friend request
-      if (this.isPending())
+      if (this.hasInputBlocked())
         return;
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
@@ -1007,6 +1024,7 @@
             // because one of them was sent successfully
             if (friendRequestSent) return null;
           }
+          await this.setFriendRequestStatus(FriendRequestStatusEnum.pendingSend);
 
           // Send the friend request!
           messageWithSchema = await upgradeMessageSchema({
@@ -1089,7 +1107,8 @@
                 expireTimer,
                 profileKey,
                 options
-              )
+              ),
+              message.isFriendRequest()
             )
           )
         );
@@ -1097,11 +1116,13 @@
         return true;
       });
     },
-    wrapSend(promise) {
+    wrapSend(promise, isFriendRequest = false) {
       return promise.then(
         async result => {
           // success
           if (result) {
+            if (isFriendRequest)
+              this.onFriendRequestSent();
             await this.handleMessageSendResult(
               result.failoverNumbers,
               result.unidentifiedDeliveries
@@ -1903,12 +1924,12 @@
     },
 
     notify(message) {
-      if (message.isOutgoing()) return Promise.resolve();
       if (message.isFriendRequest()) {
         if (this.hasSentFriendRequest())
           return this.notifyFriendRequest(message.get('source'), 'accepted')
         return this.notifyFriendRequest(message.get('source'), 'requested');
       }
+      if (!message.isIncoming()) return Promise.resolve();
       const conversationId = this.id;
 
       return ConversationController.getOrCreateAndWait(
