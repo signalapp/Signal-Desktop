@@ -3,7 +3,7 @@
 /* global BlockedNumberController: false */
 /* global ConversationController: false */
 /* global i18n: false */
-/* global libsignal: false */
+/* global profileImages: false */
 /* global storage: false */
 /* global textsecure: false */
 /* global Whisper: false */
@@ -174,6 +174,12 @@
           deleteAttachmentData,
         }
       );
+      profileImages.removeImage(this.id);
+    },
+
+    async updateProfileAvatar() {
+      const path = profileImages.getOrCreateImagePath(this.id);
+      await this.setProfileAvatar(path);
     },
 
     async updateAndMerge(message) {
@@ -1730,34 +1736,12 @@
       }
     },
     async setProfileAvatar(avatarPath) {
-      if (!avatarPath) {
-        return;
-      }
-
-      const avatar = await textsecure.messaging.getAvatar(avatarPath);
-      const key = this.get('profileKey');
-      if (!key) {
-        return;
-      }
-      const keyBuffer = window.Signal.Crypto.base64ToArrayBuffer(key);
-
-      // decrypt
-      const decrypted = await textsecure.crypto.decryptProfile(
-        avatar,
-        keyBuffer
-      );
-
-      // update the conversation avatar only if hash differs
-      if (decrypted) {
-        const newAttributes = await window.Signal.Types.Conversation.maybeUpdateProfileAvatar(
-          this.attributes,
-          decrypted,
-          {
-            writeNewAttachmentData,
-            deleteAttachmentData,
-          }
-        );
-        this.set(newAttributes);
+      const profileAvatar = this.get('profileAvatar');
+      if (profileAvatar !== avatarPath) {
+        this.set({ profileAvatar: avatarPath });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
       }
     },
     async setProfileKey(profileKey) {
@@ -1959,8 +1943,9 @@
     getAvatarPath() {
       const avatar = this.get('avatar') || this.get('profileAvatar');
 
-      if (avatar && avatar.path) {
-        return getAbsoluteAttachmentPath(avatar.path);
+      if (avatar) {
+        if (avatar.path) return getAbsoluteAttachmentPath(avatar.path);
+        return avatar;
       }
 
       return null;
@@ -1970,8 +1955,10 @@
       const color = this.getColor();
       const avatar = this.get('avatar') || this.get('profileAvatar');
 
-      if (avatar && avatar.path) {
-        return { url: getAbsoluteAttachmentPath(avatar.path), color };
+      const url = avatar && avatar.path ? getAbsoluteAttachmentPath(avatar.path) : avatar;
+
+      if (url) {
+        return { url, color };
       } else if (this.isPrivate()) {
         const symbol = this.isValid() ? '#' : '!';
         return {

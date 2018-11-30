@@ -271,6 +271,7 @@ window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInst
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
 window.getGuid = require('uuid/v4');
+window.profileImages = require('./app/profile_images');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');
