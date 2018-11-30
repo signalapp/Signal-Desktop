@@ -757,7 +757,6 @@ MessageReceiver.prototype.extend({
     };
     const handleSessionReset = async () => {
       const currentSessionBaseKey = await getCurrentSessionBaseKey(sessionCipher);
-      // console.warn('%cdecipher session %s', 'color:red;', currentSessionBaseKey);
       if (this.activeSessionBaseKey && currentSessionBaseKey !== this.activeSessionBaseKey) {
         if (conversation.isSessionResetReceived()) {
           restoreActiveSession();
