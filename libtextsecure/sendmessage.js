@@ -691,6 +691,17 @@ MessageSender.prototype = {
       window.log.error(prefix, error && error.stack ? error.stack : error);
       throw error;
     };
+    // The actual deletion of the session now happens later
+    // as we need to ensure the other contact has successfully
+    // switch to a new session first.
+    return this.sendIndividualProto(
+      number,
+      proto,
+      timestamp,
+      silent,
+      options
+    ).catch(logError('resetSession/sendToContact error:'));
+    /*
     const deleteAllSessions = targetNumber =>
       textsecure.storage.protocol.getDeviceIds(targetNumber).then(deviceIds =>
         Promise.all(
@@ -741,6 +752,7 @@ MessageSender.prototype = {
     ).catch(logError('resetSession/sendSync error:'));
 
     return Promise.all([sendToContact, sendSync]);
+    */
   },
 
   sendMessageToGroup(

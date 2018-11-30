@@ -130,6 +130,9 @@
   }
 
   async function sendFriendRequestAccepted(pubKey) {
+    return sendEmptyMessage(pubKey);
+  }
+  async function sendEmptyMessage(pubKey) {
     // empty content message
     const content = new textsecure.protobuf.Content();
 
@@ -161,4 +164,5 @@
   window.libloki.savePreKeyBundleForNumber = savePreKeyBundleForNumber;
   window.libloki.removePreKeyBundleForNumber = removePreKeyBundleForNumber;
   window.libloki.sendFriendRequestAccepted = sendFriendRequestAccepted;
+  window.libloki.sendEmptyMessage = sendEmptyMessage;
 })();

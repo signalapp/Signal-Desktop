@@ -891,8 +891,13 @@
     "description":
       "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
+  "sessionResetOngoing": {
+    "message": "Secure session reset in progress",
+    "description":
+      "your secure session is currently being reset, waiting for the reset acknowledgment."
+  },
   "sessionEnded": {
-    "message": "Secure session reset",
+    "message": "Secure session reset done",
     "description":
       "This is a past tense, informational message. In other words, your secure session has been reset."
   },

@@ -1258,7 +1258,8 @@
       }
     },
 
-    endSession() {
+    async endSession() {
+      await this.model.onSessionResetInitiated();
       this.model.endSession();
     },
 

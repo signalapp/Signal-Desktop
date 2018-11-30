@@ -717,11 +717,70 @@ MessageReceiver.prototype.extend({
       deviceId: parseInt(textsecure.storage.user.getDeviceId(), 10),
     };
 
+    let conversation;
+    try {
+      conversation = await window.ConversationController.getOrCreateAndWait(envelope.source, 'private');
+    } catch (e) {
+      window.log.info('Error getting conversation: ', envelope.source);
+    }
+    const getCurrentSessionBaseKey = async () => {
+      const record = await sessionCipher.getRecord(address.toString());
+      if (!record)
+        return null;
+      const openSession = record.getOpenSession();
+      if (!openSession)
+        return null;
+      const { baseKey } = openSession.indexInfo;
+      return baseKey
+    };
+    const captureActiveSession = async () => {
+      this.activeSessionBaseKey = await getCurrentSessionBaseKey(sessionCipher);
+    };
+    const restoreActiveSession = async () => {
+      const record = await sessionCipher.getRecord(address.toString());
+      if (!record)
+        return
+      record.archiveCurrentState();
+      const sessionToRestore = record.sessions[this.activeSessionBaseKey];
+      record.promoteState(sessionToRestore);
+      record.updateSessionState(sessionToRestore);
+      await textsecure.storage.protocol.storeSession(address.toString(), record.serialize());
+    };
+    const deleteAllSessionExcept = async (sessionBaseKey) => {
+      const record = await sessionCipher.getRecord(address.toString());
+      if (!record)
+        return
+      const sessionToKeep = record.sessions[sessionBaseKey];
+      record.sessions = {}
+      record.updateSessionState(sessionToKeep);
+      await textsecure.storage.protocol.storeSession(address.toString(), record.serialize());
+    };
+    const handleSessionReset = async () => {
+      const currentSessionBaseKey = await getCurrentSessionBaseKey(sessionCipher);
+      // console.warn('%cdecipher session %s', 'color:red;', currentSessionBaseKey);
+      if (this.activeSessionBaseKey && currentSessionBaseKey !== this.activeSessionBaseKey) {
+        if (conversation.isSessionResetReceived()) {
+          restoreActiveSession();
+        } else {
+          deleteAllSessionExcept(currentSessionBaseKey);
+          conversation.onNewSessionAdopted();
+        }
+      } else if (conversation.isSessionResetReceived()) {
+        deleteAllSessionExcept(this.activeSessionBaseKey);
+        conversation.onNewSessionAdopted();
+      }
+    };
+
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
-        promise = sessionCipher.decryptWhisperMessage(ciphertext)
-          .then(this.unpad);
+        promise = captureActiveSession()
+          .then(() => sessionCipher.decryptWhisperMessage(ciphertext))
+          .then(this.unpad)
+          .then((plainText) => {
+            handleSessionReset();
+            return plainText;
+          });
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
@@ -731,11 +790,16 @@ MessageReceiver.prototype.extend({
       }
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
         window.log.info('prekey message from', this.getEnvelopeId(envelope));
-        promise = this.decryptPreKeyWhisperMessage(
-          ciphertext,
-          sessionCipher,
-          address
-        );
+        promise = captureActiveSession(sessionCipher)
+          .then(() => this.decryptPreKeyWhisperMessage(
+            ciphertext,
+            sessionCipher,
+            address
+          ))
+          .then((plainText) => {
+            handleSessionReset();
+            return plainText;
+          });
         break;
       case textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER:
         window.log.info('received unidentified sender message');
@@ -911,6 +975,9 @@ MessageReceiver.prototype.extend({
     if (msg.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
       p = this.handleEndSession(envelope.source);
     }
+    const type = (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST)
+      ? 'friend-request'
+      : 'data';
     return p.then(() =>
       this.processDecrypted(envelope, msg, envelope.source).then(message => {
         const groupId = message.group && message.group.id;
@@ -1282,17 +1349,37 @@ MessageReceiver.prototype.extend({
   async handleEndSession(number) {
     window.log.info('got end session');
     const deviceIds = await textsecure.storage.protocol.getDeviceIds(number);
+    const identityKey = StringView.hexToArrayBuffer(number);
+    let conversation;
+    try {
+      conversation = window.ConversationController.get(number);
+    } catch (e) {
+      window.log.error('Error getting conversation: ', number);
+    }
+
+    conversation.onSessionResetReceived();
 
     return Promise.all(
-      deviceIds.map(deviceId => {
+      deviceIds.map(async deviceId => {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
-        const sessionCipher = new libsignal.SessionCipher(
+        // Instead of deleting the sessions now,
+        // we process the new prekeys and initiate a new session.
+        // The old sessions will get deleted once the correspondant
+        // has switch the the new session.
+        const [preKey, signedPreKey] = await Promise.all([
+          textsecure.storage.protocol.loadContactPreKey(number),
+          textsecure.storage.protocol.loadContactSignedPreKey(number),
+        ]);
+        if (preKey === undefined || signedPreKey === undefined) {
+          return null;
+        }
+        const device = { identityKey, deviceId, preKey, signedPreKey, registrationId: 0 }
+        const builder = new libsignal.SessionBuilder(
           textsecure.storage.protocol,
           address
         );
-
-        window.log.info('deleting sessions for', address.toString());
-        return sessionCipher.deleteAllSessionsForDevice();
+        builder.processPreKey(device);
+        return null;
       })
     );
   },

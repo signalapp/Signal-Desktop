@@ -53,6 +53,16 @@
     friends: 4,
   });
 
+  // Possible session reset states
+  const SessionResetEnum = Object.freeze({
+    // No ongoing reset
+    none: 0,
+    // we initiated the session reset
+    initiated: 1,
+    // we received the session reset
+    request_received: 2,
+  });
+
   const COLORS = [
     'red',
     'deep_orange',
@@ -75,6 +85,7 @@
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         friendRequestStatus: FriendRequestStatusEnum.none,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
+        sessionResetStatus: FriendStatusEnum.none,
       };
     },
 
@@ -1421,30 +1432,77 @@
       return !this.get('left');
     },
 
+    async onSessionResetInitiated() {
+      if (this.get('sessionResetStatus') === SessionResetEnum.none) {
+        this.set({ sessionResetStatus : SessionResetEnum.initiated });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+
+    async onSessionResetReceived() {
+      if (this.get('sessionResetStatus') === SessionResetEnum.none) {
+        this.set({ sessionResetStatus : SessionResetEnum.request_received });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+        // send empty message, this will trigger the new session to propagate
+        // to the reset initiator.
+        window.libloki.sendEmptyMessage(this.id);
+      }
+    },
+
+    isSessionResetReceived() {
+      return this.get('sessionResetStatus') === SessionResetEnum.request_received;
+    },
+
+    async createAndStoreEndSessionMessage(endSessionType) {
+      const now = Date.now();
+      const message = this.messageCollection.add({
+        conversationId: this.id,
+        type: 'outgoing',
+        sent_at: now,
+        received_at: now,
+        destination: this.id,
+        recipients: this.getRecipients(),
+        flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
+        endSessionType,
+      });
+
+      const id = await window.Signal.Data.saveMessage(message.attributes, {
+        Message: Whisper.Message,
+      });
+      message.set({ id });
+      return message;
+    },
+
+    async onNewSessionAdopted() {
+      if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
+        // send empty message to confirm that we have adopted the new session
+        window.libloki.sendEmptyMessage(this.id);
+      }
+      this.createAndStoreEndSessionMessage('done');
+      this.set({ sessionResetStatus : SessionResetEnum.none });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+    },
+
     async endSession() {
       if (this.isPrivate()) {
-        const now = Date.now();
-        const message = this.messageCollection.add({
-          conversationId: this.id,
-          type: 'outgoing',
-          sent_at: now,
-          received_at: now,
-          destination: this.id,
-          recipients: this.getRecipients(),
-          flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
-        });
-
-        const id = await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        });
-        message.set({ id });
-
-        const options = this.getSendOptions();
-        message.send(
-          this.wrapSend(
-            textsecure.messaging.resetSession(this.id, now, options)
-          )
-        );
+        // Only create a new message if we initiated the session reset.
+        // On the receiver side, the actual message containing the END_SESSION flag
+        // will ensure the "session reset" message will be added to their conversation.
+        if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
+          const message = await this.createAndStoreEndSessionMessage('ongoing');
+          const options = this.getSendOptions();
+          message.send(
+            this.wrapSend(
+              textsecure.messaging.resetSession(this.id, message.get('sent_at'), options)
+            )
+          );
+        }
       }
     },
 

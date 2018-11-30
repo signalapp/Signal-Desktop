@@ -108,6 +108,12 @@
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
     },
+    getEndSessionTranslationKey() {
+      if (this.get('endSessionType') === 'ongoing') {
+        return 'sessionResetOngoing';
+      }
+      return 'sessionEnded';
+    },
     isExpirationTimerUpdate() {
       const flag =
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
@@ -174,7 +180,7 @@
         return messages.join(', ');
       }
       if (this.isEndSession()) {
-        return i18n('sessionEnded');
+        return i18n(this.getEndSessionTranslationKey());
       }
       if (this.isIncoming() && this.hasErrors()) {
         return i18n('incomingError');
@@ -294,8 +300,9 @@
       };
     },
     getPropsForResetSessionNotification() {
-      // It doesn't need anything right now!
-      return {};
+      return {
+        sessionResetMessageKey: this.getEndSessionTranslationKey(),
+      };
     },
 
     async acceptFriendRequest() {
@@ -1303,6 +1310,11 @@
                 message.get('received_at')
               );
             }
+          } else {
+            const endSessionType = conversation.isSessionResetReceived()
+              ? 'ongoing'
+              : 'done';
+            this.set({ endSessionType });
           }
           if (type === 'incoming' || type === 'friend-request') {
             const readSync = Whisper.ReadSyncs.forMessage(message);
