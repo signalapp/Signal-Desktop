@@ -23,7 +23,7 @@ describe('Message', () => {
         body: 'Imagine there is no heaven…',
         schemaVersion: 2,
       };
-      const writeExistingAttachmentData = () => {};
+      const writeExistingAttachmentData = () => { };
 
       const actual = await Message.createAttachmentDataWriter({
         writeExistingAttachmentData,
@@ -43,7 +43,7 @@ describe('Message', () => {
         schemaVersion: 4,
         attachments: [],
       };
-      const writeExistingAttachmentData = () => {};
+      const writeExistingAttachmentData = () => { };
 
       const actual = await Message.createAttachmentDataWriter({
         writeExistingAttachmentData,
@@ -432,7 +432,7 @@ describe('Message', () => {
 
   describe('_withSchemaVersion', () => {
     it('should require a version number', () => {
-      const toVersionX = () => {};
+      const toVersionX = () => { };
       assert.throws(
         () =>
           Message._withSchemaVersion({ schemaVersion: toVersionX, upgrade: 2 }),

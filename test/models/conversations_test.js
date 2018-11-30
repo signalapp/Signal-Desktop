@@ -1,4 +1,4 @@
-/* global storage, textsecure, Whisper */
+/* global textsecure, Whisper */
 
 'use strict';
 
@@ -72,8 +72,8 @@ describe('Conversation', () => {
     assert.strictEqual(convo.contactCollection.at('2').get('name'), 'C');
   });
 
-  it('contains its own messages', async function() {
-    var convo = new Whisper.ConversationCollection().add({
+  it('contains its own messages', async () => {
+    const convo = new Whisper.ConversationCollection().add({
       id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
     });
     await convo.fetchMessages();
@@ -125,15 +125,15 @@ describe('Conversation', () => {
     assert.property(avatar, 'color');
   });
 
-  describe('when set to private', function() {
-    it('correctly validates hex numbers', function() {
+  describe('when set to private', () => {
+    it('correctly validates hex numbers', () => {
       const regularId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
       const invalidId = new Whisper.Conversation({ type: 'private', id: 'j71d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
       assert.ok(regularId.isValid());
       assert.notOk(invalidId.isValid());
     });
 
-    it('correctly validates length', function() {
+    it('correctly validates length', () => {
       const regularId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
       const shortId = new Whisper.Conversation({ type: 'private', id: '771d11d' });
       const longId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94abaa' });
@@ -169,14 +169,14 @@ describe('Conversation', () => {
         })
       );
     }
-    it('matches by partial keys', function() {
+    it('matches by partial keys', () => {
       return testSearch([
         '1',
         '771',
         '1e',
         '56d9bfc3d74115c3322',
         '6d9bfc3d74115c33225a632321b509ac17a13fdeac71165d',
-        '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab'
+        '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
       ]);
     });
     // TODO: Re-enable once we have nickanme functionality
