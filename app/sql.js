@@ -695,7 +695,7 @@ async function getContactPreKeyById(id) {
   return getById(CONTACT_PRE_KEYS_TABLE, id);
 }
 async function getContactPreKeyByIdentityKey(key) {
-  const row = await db.get(`SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
+  const row = await db.get(`SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString ORDER BY keyId DESC LIMIT 1;`, {
     $identityKeyString: key,
   });
 
