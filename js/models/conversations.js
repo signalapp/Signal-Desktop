@@ -85,7 +85,7 @@
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         friendRequestStatus: FriendRequestStatusEnum.none,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
-        sessionResetStatus: FriendStatusEnum.none,
+        sessionResetStatus: SessionResetEnum.none,
       };
     },
 
