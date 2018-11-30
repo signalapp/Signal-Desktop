@@ -1431,26 +1431,25 @@
     isSearchable() {
       return !this.get('left');
     },
-
-    async onSessionResetInitiated() {
-      if (this.get('sessionResetStatus') === SessionResetEnum.none) {
-        this.set({ sessionResetStatus : SessionResetEnum.initiated });
+    async setSessionResetStatus(newStatus) {
+      // Ensure that the new status is a valid SessionResetEnum value
+      if (!(newStatus in Object.values(SessionResetEnum)))
+        return;
+      if (this.get('sessionResetStatus') !== newStatus) {
+        this.set({ sessionResetStatus: newStatus });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
       }
     },
-
-    async onSessionResetReceived() {
-      if (this.get('sessionResetStatus') === SessionResetEnum.none) {
-        this.set({ sessionResetStatus : SessionResetEnum.request_received });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-        // send empty message, this will trigger the new session to propagate
-        // to the reset initiator.
-        window.libloki.sendEmptyMessage(this.id);
-      }
+    async onSessionResetInitiated() {
+      this.setSessionResetStatus(SessionResetEnum.initiated);
+    },
+  async onSessionResetReceived() {
+      this.setSessionResetStatus(SessionResetEnum.request_received);
+      // send empty message, this will trigger the new session to propagate
+      // to the reset initiator.
+      window.libloki.sendEmptyMessage(this.id);
     },
 
     isSessionResetReceived() {
@@ -1483,10 +1482,7 @@
         window.libloki.sendEmptyMessage(this.id);
       }
       this.createAndStoreEndSessionMessage('done');
-      this.set({ sessionResetStatus : SessionResetEnum.none });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      this.setSessionResetStatus(SessionResetEnum.none);
     },
 
     async endSession() {
