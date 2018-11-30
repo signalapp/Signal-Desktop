@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import moment from 'moment';
 
 import * as Attachment from '../../types/Attachment';
 import * as MIME from '../../types/MIME';
@@ -44,7 +45,7 @@ describe('Attachment', () => {
           data: stringToArrayBuffer('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         };
-        const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
+        const timestamp = new Date(-moment().utcOffset() * 60 * 1000);
         const actual = Attachment.getSuggestedFilename({
           attachment,
           timestamp,

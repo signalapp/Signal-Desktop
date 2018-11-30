@@ -1,11 +1,17 @@
-/* global ConversationController, textsecure, Whisper */
+/* global storage, libsignal, ConversationController, textsecure, Whisper */
 
 describe('InboxView', () => {
   let inboxView;
   let conversation;
+  let identityKey;
 
   before(async () => {
     ConversationController.reset();
+    identityKey = {
+      pubKey: libsignal.crypto.getRandomBytes(33),
+      privKey: libsignal.crypto.getRandomBytes(32),
+    };
+    storage.put('identityKey', identityKey);
     await ConversationController.load();
     await ConversationController.getOrCreateAndWait(
       textsecure.storage.user.getNumber(),

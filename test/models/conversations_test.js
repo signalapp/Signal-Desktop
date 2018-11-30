@@ -146,6 +146,8 @@ describe('Conversation', () => {
   describe('Conversation search', () => {
     let convo;
 
+    before(clearDatabase);
+
     beforeEach(async () => {
       convo = new Whisper.ConversationCollection().add({
         id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
