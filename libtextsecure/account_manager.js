@@ -49,7 +49,7 @@
     requestSMSVerification(number) {
       // return this.server.requestVerificationSMS(number);
     },
-    registerSingleDevice(mnemonic, mnemonicLanguage) {
+    registerSingleDevice(mnemonic, mnemonicLanguage, callback) {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
       const generateKeys = this.generateKeys.bind(this, 0);
@@ -77,7 +77,8 @@
               .then(confirmKeys)
               .then(() => {
                 const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
-                registrationDone(pubKeyString)
+                registrationDone(pubKeyString);
+                callback(pubKeyString);
               });
           }
         )

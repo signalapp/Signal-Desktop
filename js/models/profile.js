@@ -16,6 +16,25 @@
     return profile;
   }
 
+  storage.setProfileName = async (newName) => {
+    // Update our profiles accordingly'
+    const trimmed = newName && newName.trim();
+
+    // If we get an empty name then unset the name property
+    // Otherwise update it
+    const profile = storage.getLocalProfile();
+    const newProfile = profile || {};
+    if (_.isEmpty(trimmed)) {
+      delete newProfile.name;
+    } else {
+      newProfile.name = {
+        displayName: trimmed,
+      }
+    }
+
+    await storage.saveLocalProfile(newProfile);
+  }
+
   storage.saveLocalProfile = async (profile) => {
     const storedProfile = storage.get(PROFILE_ID, null);
 
