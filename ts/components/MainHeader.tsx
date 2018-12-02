@@ -48,9 +48,6 @@ export class MainHeader extends React.Component<Props> {
             i18n={i18n}
           />
         </div>
-        <div
-          className="module-main-header__expand-icon"
-        />
       </div>
     );
   }

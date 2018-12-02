@@ -2180,6 +2180,23 @@
 
 // Module: Main Header
 
+.main-header-title-wrapper {
+  flex: 1;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.main-header-title-wrapper:hover {
+  background-color: $color-dark-75;
+}
+
+.main-header-wrapper {
+  overflow-x: hidden;
+  flex: 1;
+}
+
 .module-main-header {
   height: $header-height;
   padding-left: 16px;
@@ -2187,14 +2204,9 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  cursor: pointer;
 }
 
-.module-main-header:hover {
-  background-color: $color-dark-75;
-}
-
-.module-main-header__expand-icon {
+.main-header-content-toggle{
   width: 3em;
   line-height: 3em;
   font-weight: bold;
@@ -2204,7 +2216,7 @@
   text-align: center;
 }
 
-.module-main-header__expand-icon::after {
+.main-header-content-toggle::after {
   -webkit-transition: all .35s;
   -o-transition: all .35s;
   transition: all .35s;
@@ -2215,7 +2227,7 @@
   display: inline-block;
 }
 
-.module-main-header__expanded::after {
+.main-header-content-toggle-visible::after {
   transform: rotate(180deg);
 }
 

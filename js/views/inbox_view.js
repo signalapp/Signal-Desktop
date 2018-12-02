@@ -104,16 +104,9 @@
       // eslint-disable-next-line no-new
       new Whisper.FontSizeView({ el: this.$el });
 
-      const ourNumber = textsecure.storage.user.getNumber();
-      const me = ConversationController.getOrCreate(ourNumber, 'private');
-      this.mainHeaderView = new Whisper.ReactWrapperView({
-        className: 'main-header-wrapper',
-        Component: Signal.Components.MainHeader,
-        props: me.format(),
+      this.mainHeaderView = new Whisper.MainHeaderView({
+        el: this.$('.main-header-placeholder'),
       });
-      const update = () => this.mainHeaderView.update(me.format());
-      this.listenTo(me, 'change', update);
-      this.$('.main-header-placeholder').append(this.mainHeaderView.el);
 
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
