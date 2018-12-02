@@ -1,6 +1,7 @@
 /* global ConversationController: false */
 /* global extension: false */
 /* global getInboxCollection: false */
+/* global getContactCollection: false */
 /* global i18n: false */
 /* global Whisper: false */
 /* global textsecure: false */
@@ -136,6 +137,7 @@
         this.startConnectionListener();
       }
 
+      // Inbox
       const inboxCollection = getInboxCollection();
 
       this.listenTo(inboxCollection, 'messageError', () => {
@@ -152,7 +154,7 @@
 
       this.inboxListView.listenTo(
         inboxCollection,
-        'add change:timestamp change:name change:number',
+        'add change:timestamp change:name change:number change:profileName',
         this.inboxListView.updateLocation
       );
 
@@ -160,9 +162,32 @@
       this.listenTo(
         inboxCollection,
         'remove',
-        this.closeConversation,
+        this.closeConversation
       );
 
+      // Friends
+      const contactCollection = getContactCollection();
+
+      this.listenTo(contactCollection, 'select', this.openConversation);
+
+      this.contactListView = new Whisper.ConversationContactListView({
+        el: this.$('.friends'),
+        collection: contactCollection,
+      }).render();
+
+      this.contactListView.listenTo(
+        contactCollection,
+        'add change:timestamp change:name change:number change:profileName',
+        this.contactListView.updateLocation
+      );
+
+      this.listenTo(
+        contactCollection,
+        'remove',
+        this.contactListView.removeItem
+      );
+
+      // Search
       this.searchView = new Whisper.ConversationSearchView({
         el: this.$('.search-results'),
         input: this.$('input.search'),
@@ -172,11 +197,11 @@
 
       this.listenTo(this.searchView, 'hide', function toggleVisibility() {
         this.searchView.$el.hide();
-        this.inboxListView.$el.show();
+        this.$('.conversations-list').show();
       });
       this.listenTo(this.searchView, 'show', function toggleVisibility() {
         this.searchView.$el.show();
-        this.inboxListView.$el.hide();
+        this.$('.conversations-list').hide();
       });
       this.listenTo(this.searchView, 'open', this.openConversation);
 
@@ -187,6 +212,7 @@
 
       extension.windows.onClosed(() => {
         this.inboxListView.stopListening();
+        this.contactListView.stopListening();
       });
 
       if (extension.expired()) {
@@ -221,6 +247,7 @@
       click: 'onClick',
       'click #header': 'focusHeader',
       'click .conversation': 'focusConversation',
+      'click .section-toggle': 'toggleSection',
       'input input.search': 'filterContacts',
     },
     startConnectionListener() {
@@ -294,6 +321,15 @@
       } else {
         input.removeClass('active');
       }
+    },
+    toggleSection(e) {
+      // Expand or collapse this panel
+      const $target = this.$(e.target);
+      const $next = $target.next();
+
+      // Toggle section visibility
+      $next.slideToggle('fast');
+      $target.toggleClass('section-toggle-visible');
     },
     openConversation(conversation) {
       this.searchView.hideHints();

@@ -19,23 +19,94 @@
 }
 
 .gutter {
-  background-color: $color-gray-02;
+  background-color: $color-dark-85;
 
   ::-webkit-scrollbar-track {
-    background: $color-gray-02;
+    background: $color-dark-85;
   }
 
   ::-webkit-scrollbar-thumb {
-    border: 2px solid $color-gray-02;
+    border: 2px solid $color-dark-85;
   }
 
+  display: flex;
+  flex-direction: column;
   float: left;
   width: 300px;
+
+  .tool-bar {
+    margin-top: 8px;
+    color: $color-dark-05;
+
+    .search-icon {
+      background-color: $color-light-35;
+    }
+
+    input.search {
+      border: 1px solid $color-light-60;
+      color: $color-dark-05;
+      background-color: $color-gray-95;
+
+      &:focus {
+        outline: solid 1px $blue;
+      }
+    }
+  }
+
   .content {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: calc(100% - 88px);
+    min-height: 0px;
+    flex: 1 1 auto;
+    color: $color-gray-05;
+  }
+
+  .loki {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    background: $color-loki-extra-dark-gray;
+    img {
+      max-width: 60%;
+      max-height: 60%;
+    }
   }
 }
+
+.section-toggle {
+  position: relative;
+  display: block;
+  padding: 0 0 0 1em;
+  background: $color-dark-75;
+  font-weight: bold;
+  line-height: 3;
+  cursor: pointer;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  overflow: hidden;
+  user-select: none;
+}
+
+.section-toggle::after {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  width: 3em;
+  height: 3em;
+  line-height: 3;
+  text-align: center;
+  -webkit-transition: all .35s;
+  -o-transition: all .35s;
+  transition: all .35s;
+  content: "+";
+}
+
+.section-toggle-visible::after {
+  transform: rotate(315deg);
+}
+
 .network-status-container {
   .network-status {
     background: url('../images/error_red.svg') no-repeat left 10px center;
@@ -75,7 +146,7 @@
   background-color: $color-black-008-no-tranparency;
   display: flex;
   flex: 1;
-  height: 60px;
+  height: $header-height;
   padding-left: 16px;
   padding-right: 16px;
 }
@@ -115,7 +186,7 @@
 
 .underneathIdentityWrapper {
   position: absolute;
-  top: 60px;
+  top: $header-height;
   bottom: 0;
   left: 300px;
   right: 0;

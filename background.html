@@ -20,7 +20,7 @@
             style-src 'self' 'unsafe-inline';"
   >
   <title>Loki Messenger</title>
-  <link href='images/icon_128.png' rel='shortcut icon'>
+  <link href='images/loki/loki_icon_128.png' rel='shortcut icon'>
   <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
 
   <!--
@@ -29,7 +29,7 @@
 
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
-      <img src='images/icon_128.png'>
+      <img src='images/loki/loki_icon_128.png'>
       <div class='container'>
         <span class='dot'></span>
         <span class='dot'></span>
@@ -40,7 +40,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='conversation-loading-screen'>
     <div class='content'>
-      <img src='images/icon_128.png'>
+      <img src='images/loki/loki_icon_128.png'>
       <div class='container'>
         <span class='dot'></span>
         <span class='dot'></span>
@@ -57,10 +57,18 @@
         <span class='search-icon'></span>
       </div>
       <div class='content'>
-        <div class='conversations inbox'></div>
+        <div class='conversations-list'>
+          <h4 class='section-toggle section-toggle-visible'>Conversations</h4>
+          <div class='conversations inbox'></div>
+          <h4 class='section-toggle section-toggle-visible'>Contacts</h4>
+          <div class='conversations friends'></div>
+        </div>
         <div class='conversations search-results hide'>
           <div class='new-contact contact hide'></div>
         </div>
+      </div>
+      <div class='loki'>
+        <img src='images/loki/loki_icon_text.png'>
       </div>
     </div>
     <div class='identity-key-placeholder'></div>
@@ -70,7 +78,7 @@
           <div class='conversation-header'></div>
           <div class='container'>
             <div class='content'>
-              <img src='images/icon_128.png' />
+              <img src='images/loki/loki_icon_128.png' />
               <h3>{{ welcomeToSignal }}</h3>
               <p>{{ selectAContact }}</p>
             </div>
@@ -127,13 +135,13 @@
               <div class='flex'>
                 <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
-                <div class='capture-audio'>
+                <div class='capture-audio hide'>
                     <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 </div>
                 <div class='android-length-warning'>
                     {{ android-length-warning }}
                 </div>
-                <div class='choose-file'>
+                <div class='choose-file hide'>
                     <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                     <input type='file' class='file-input'>
                 </div>
@@ -673,7 +681,7 @@
 <body>
   <div class='app-loading-screen'>
     <div class='content'>
-      <img src='images/icon_128.png'>
+      <img src='images/loki/loki_icon_128.png'>
       <div class='container'>
         <span class='dot'></span>
         <span class='dot'></span>

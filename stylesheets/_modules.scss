@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-right: 8px;
 }
 
 .module-contact-name span {
@@ -1443,6 +1444,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
+  display: flex;
+  align-items: center;
+
   -webkit-user-select: text;
 }
 
@@ -1829,7 +1833,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: $color-gray-05;
+    background-color: $color-dark-70;
   }
 }
 
@@ -1849,7 +1853,7 @@
 }
 
 .module-conversation-list-item--is-selected {
-  background-color: $color-gray-05;
+  background-color: $color-dark-70;
 }
 
 .module-conversation-list-item__avatar-container {
@@ -1880,7 +1884,7 @@
   line-height: 16px;
   border-radius: 8px;
 
-  box-shadow: 0px 0px 0px 1px $color-gray-02;
+  box-shadow: 0px 0px 0px 1px $color-dark-85;
 }
 
 .module-conversation-list-item__content {
@@ -1911,7 +1915,7 @@
   text-overflow: ellipsis;
 
   font-weight: 300;
-  color: $color-gray-90;
+  color: $color-gray-05;
 }
 
 .module-conversation-list-item__header__name--with-unread {
@@ -1932,12 +1936,12 @@
 
   text-transform: uppercase;
 
-  color: $color-gray-60;
+  color: $color-gray-25;
 }
 
 .module-conversation-list-item__header__date--has-unread {
   font-weight: 300;
-  color: $color-gray-90;
+  color: $color-gray-05;
 }
 
 .module-conversation-list-item__message {
@@ -1955,7 +1959,7 @@
   font-size: 13px;
   line-height: 18px;
 
-  color: $color-gray-60;
+  color: $color-gray-25;
 
   height: 1.3em;
   overflow: hidden;
@@ -1965,7 +1969,7 @@
 
 .module-conversation-list-item__message__text--has-unread {
   font-weight: 300;
-  color: $color-gray-90;
+  color: $color-gray-05;
 }
 
 .module-conversation-list-item__message__status-icon {
@@ -1979,7 +1983,7 @@
 }
 
 .module-conversation-list-item__message__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-gray-60);
+  @include color-svg('../images/sending.svg', $color-light-35);
   animation: module-conversation-list-item__message__status-icon--spinning 4s
     linear infinite;
 }
@@ -2186,7 +2190,7 @@
   line-height: 24px;
   font-weight: 300;
   margin-left: 32px;
-  color: $color-gray-90;
+  color: $color-dark-05;
 }
 
 // Third-party module: react-contextmenu

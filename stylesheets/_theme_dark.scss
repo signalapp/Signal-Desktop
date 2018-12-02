@@ -68,6 +68,10 @@ body.dark-theme {
       color: $color-dark-05;
       border: 1px solid $color-light-60;
       outline: 0;
+
+      &[disabled='disabled'] {
+        background: $color-light-90;
+      }
     }
   }
 

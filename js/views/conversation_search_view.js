@@ -86,6 +86,9 @@
               this.typeahead.filter(isSearchable)
             );
 
+            // This will allow us to show the last message when searching
+            this.typeahead_view.collection.forEach(c => c.updateLastMessage());
+
             // Check if the query is in the model list
             // If it is then hide the new contact view
             const modelExists = this.typeahead_view.collection.find(item => item.get('id') === query);

@@ -259,6 +259,9 @@
   .flex {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    margin-right: 6px;
+    margin-bottom: 6px;
 
     .send-message {
       flex-grow: 1;
@@ -273,9 +276,8 @@
     display: block;
     max-height: 100px;
     padding: 10px;
-    margin-bottom: 6px;
-    border-radius: 20px;
-    background-color: $color-light-02;
+    border-radius: 2px;
+    background-color: $color-loki-light-gray;
     color: $color-light-90;
     border: 1px solid rgba(0, 0, 0, 0.2);
     outline: 0;

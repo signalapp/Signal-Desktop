@@ -72,7 +72,6 @@
     'hourglass_empty.svg',
     'hourglass_full.svg',
     'icon_1024.png',
-    'icon_128.png',
     'icon_16.png',
     'icon_250.png',
     'icon_256.png',
@@ -118,6 +117,8 @@
     'warning.svg',
     'x.svg',
     'x_white.svg',
+    'loki/loki_icon_text.png',
+    'loki/loki_icon_128.png',
   ]);
 
   // We add this to window here because the default Node context is erased at the end
