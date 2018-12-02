@@ -16,6 +16,10 @@ const RefreshSenderCertificate = require('./refresh_sender_certificate');
 
 // Components
 const {
+  AttachmentList,
+} = require('../../ts/components/conversation/AttachmentList');
+const { CaptionEditor } = require('../../ts/components/CaptionEditor');
+const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
@@ -172,6 +176,8 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
+    AttachmentList,
+    CaptionEditor,
     ContactDetail,
     ContactListItem,
     ContactName,

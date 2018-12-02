@@ -30,7 +30,7 @@ function OutgoingMessage(
   this.failoverNumbers = [];
   this.unidentifiedDeliveries = [];
 
-  const { numberInfo, senderCertificate, online } = options;
+  const { numberInfo, senderCertificate, online } = options || {};
   this.numberInfo = numberInfo;
   this.senderCertificate = senderCertificate;
   this.online = online;

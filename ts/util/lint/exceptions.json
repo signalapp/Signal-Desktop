@@ -659,468 +659,495 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "    template: $('#conversation').html(),",
-    "lineNumber": 73,
+    "lineNumber": 78,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-html(",
     "path": "js/views/conversation_view.js",
     "line": "    template: $('#conversation').html(),",
-    "lineNumber": 73,
+    "lineNumber": 78,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Getting the value, not setting it"
+    "updated": "2018-12-15T02:26:45.287Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.loadingScreen.$el.prependTo(this.$('.discussion-container'));",
-    "lineNumber": 143,
+    "lineNumber": 148,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T19:09:08.182Z",
+    "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-prependTo(",
     "path": "js/views/conversation_view.js",
     "line": "      this.loadingScreen.$el.prependTo(this.$('.discussion-container'));",
-    "lineNumber": 143,
+    "lineNumber": 148,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T19:07:46.079Z",
+    "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
-    "line": "        el: this.$('form.send'),",
-    "lineNumber": 147,
+    "line": "        el: this.$('.attachment-list'),",
+    "lineNumber": 152,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T19:07:46.079Z",
+    "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.conversation-header').append(this.titleView.el);",
-    "lineNumber": 205,
+    "lineNumber": 209,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.conversation-header').append(this.titleView.el);",
-    "lineNumber": 205,
+    "lineNumber": 209,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:26:45.287Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.discussion-container').append(this.view.el);",
-    "lineNumber": 211,
+    "lineNumber": 215,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.discussion-container').append(this.view.el);",
-    "lineNumber": 211,
+    "lineNumber": 215,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:26:45.287Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$messageField = this.$('.send-message');",
-    "lineNumber": 214,
+    "lineNumber": 218,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send-message').focus(this.focusBottomBar.bind(this));",
-    "lineNumber": 232,
+    "lineNumber": 236,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$emojiPanelContainer = this.$('.emoji-panel-container');",
-    "lineNumber": 235,
+    "lineNumber": 239,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:26:45.287Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/conversation_view.js",
+    "line": "      this.$('input.file-input').click();",
+    "lineNumber": 276,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/conversation_view.js",
+    "line": "      const fileField = this.$('input.file-input');",
+    "lineNumber": 279,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        const container = this.$('.discussion-container');",
-    "lineNumber": 421,
+    "lineNumber": 451,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/conversation_view.js",
     "line": "        container.append(this.banner.el);",
-    "lineNumber": 422,
+    "lineNumber": 452,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.typingBubbleView.$el.appendTo(this.$('.typing-container'));",
-    "lineNumber": 459,
+    "lineNumber": 489,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "$() parameter is a hard-coded string"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "      this.typingBubbleView.$el.appendTo(this.$('.typing-container'));",
-    "lineNumber": 459,
+    "lineNumber": 489,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "Both parameters are known elements from the DOM"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.send-message').val().length > 0 ||",
-    "lineNumber": 468,
+    "lineNumber": 498,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.capture-audio').hide();",
-    "lineNumber": 471,
+    "lineNumber": 501,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.capture-audio').show();",
-    "lineNumber": 473,
+    "lineNumber": 503,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      if (this.$('.send-message').val().length > 2000) {",
-    "lineNumber": 477,
+    "lineNumber": 507,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.android-length-warning').hide();",
-    "lineNumber": 480,
+    "lineNumber": 510,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-appendTo(",
+    "path": "js/views/conversation_view.js",
+    "line": "        toast.$el.appendTo(this.$el);",
+    "lineNumber": 518,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      view.$el.appendTo(this.$('.capture-audio'));",
-    "lineNumber": 500,
+    "lineNumber": 537,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "      view.$el.appendTo(this.$('.capture-audio'));",
-    "lineNumber": 500,
+    "lineNumber": 537,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send-message').attr('disabled', true);",
-    "lineNumber": 502,
+    "lineNumber": 539,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.bottom-bar form').submit();",
-    "lineNumber": 509,
+    "lineNumber": 548,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send-message').removeAttr('disabled');",
-    "lineNumber": 512,
+    "lineNumber": 551,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.bottom-bar form').removeClass('active');",
-    "lineNumber": 518,
+    "lineNumber": 557,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.bottom-bar form').addClass('active');",
-    "lineNumber": 521,
+    "lineNumber": 560,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        const container = this.$('.discussion-container');",
-    "lineNumber": 609,
+    "lineNumber": 648,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/conversation_view.js",
     "line": "        container.append(this.scrollDownButton.el);",
-    "lineNumber": 610,
+    "lineNumber": 649,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/views/conversation_view.js",
-    "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 637,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/views/conversation_view.js",
-    "line": "          toast.$el.appendTo(this.$el);",
-    "lineNumber": 670,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/views/conversation_view.js",
-    "line": "          toast.$el.appendTo(this.$el);",
-    "lineNumber": 674,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_view.js",
-    "line": "      const el = this.$(`#${databaseId}`);",
-    "lineNumber": 681,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 684,
+    "lineNumber": 676,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-appendTo(",
+    "path": "js/views/conversation_view.js",
+    "line": "          toast.$el.appendTo(this.$el);",
+    "lineNumber": 709,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-appendTo(",
+    "path": "js/views/conversation_view.js",
+    "line": "          toast.$el.appendTo(this.$el);",
+    "lineNumber": 713,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/conversation_view.js",
+    "line": "      const el = this.$(`#${databaseId}`);",
+    "lineNumber": 720,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-appendTo(",
+    "path": "js/views/conversation_view.js",
+    "line": "        toast.$el.appendTo(this.$el);",
+    "lineNumber": 723,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        lastSeenEl.insertBefore(this.$(`#${oldestUnread.get('id')}`));",
-    "lineNumber": 861,
+    "lineNumber": 900,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "js/views/conversation_view.js",
     "line": "        lastSeenEl.insertBefore(this.$(`#${oldestUnread.get('id')}`));",
-    "lineNumber": 861,
+    "lineNumber": 900,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.bar-container').show();",
-    "lineNumber": 916,
+    "lineNumber": 955,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "          this.$('.bar-container').hide();",
-    "lineNumber": 928,
+    "lineNumber": 967,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        const el = this.$(`#${message.id}`);",
-    "lineNumber": 1025,
+    "lineNumber": 1064,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-prepend(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$el.prepend(dialog.el);",
-    "lineNumber": 1098,
+    "lineNumber": 1137,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 1121,
+    "lineNumber": 1160,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-10-11T19:22:47.331Z",
-    "reasonDetail": "Operating on already-existing DOM elements"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-prepend(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$el.prepend(dialog.el);",
-    "lineNumber": 1149,
+    "lineNumber": 1188,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      view.$el.insertBefore(this.$('.panel').first());",
-    "lineNumber": 1283,
+    "lineNumber": 1323,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "js/views/conversation_view.js",
     "line": "      view.$el.insertBefore(this.$('.panel').first());",
-    "lineNumber": 1283,
+    "lineNumber": 1323,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-prepend(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$el.prepend(dialog.el);",
-    "lineNumber": 1361,
+    "lineNumber": 1401,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send').prepend(this.quoteView.el);",
-    "lineNumber": 1531,
+    "lineNumber": 1571,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-prepend(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send').prepend(this.quoteView.el);",
-    "lineNumber": 1531,
+    "lineNumber": 1571,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 1555,
+    "lineNumber": 1595,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.bottom-bar form').submit();",
-    "lineNumber": 1610,
+    "lineNumber": 1650,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      const $attachmentPreviews = this.$('.attachment-previews');",
-    "lineNumber": 1619,
+    "lineNumber": 1659,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.panel').css('display') === 'none'",
-    "lineNumber": 1650,
+    "lineNumber": 1690,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -1196,103 +1223,58 @@
     "reasonDetail": "Protected from arbitrary input"
   },
   {
-    "rule": "jQuery-$(",
+    "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
-    "line": "      this.$input = this.$('input[type=file]');",
-    "lineNumber": 45,
+    "line": "      toast.$el.insertAfter(this.$el);",
+    "lineNumber": 216,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/file_input_view.js",
-    "line": "      this.$('.avatar').hide();",
-    "lineNumber": 88,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/file_input_view.js",
-    "line": "      this.$('.attachment-previews').append(this.thumb.render().el);",
-    "lineNumber": 90,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/file_input_view.js",
-    "line": "      this.$('.attachment-previews').append(this.thumb.render().el);",
-    "lineNumber": 90,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/file_input_view.js",
-    "line": "      this.thumb.$('img')[0].onload = () => {",
-    "lineNumber": 98,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/file_input_view.js",
-    "line": "      this.thumb.$('img')[0].onerror = () => {",
-    "lineNumber": 101,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 108,
+    "lineNumber": 222,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "js/views/file_input_view.js",
-    "line": "        toast.$el.insertAfter(this.$el);",
-    "lineNumber": 190,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-10-11T19:22:47.331Z",
-    "reasonDetail": "Operating on already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "js/views/file_input_view.js",
-    "line": "          toast.$el.insertAfter(this.$el);",
-    "lineNumber": 284,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/file_input_view.js",
-    "line": "      this.$('.avatar').show();",
-    "lineNumber": 388,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
-    "rule": "jQuery-wrap(",
+    "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
-    "line": "        .wrap('<form>')",
-    "lineNumber": 398,
+    "line": "      toast.$el.insertAfter(this.$el);",
+    "lineNumber": 230,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Hard-coded value"
+    "updated": "2018-12-15T03:04:48.403Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "js/views/file_input_view.js",
+    "line": "      toast.$el.insertAfter(this.$el);",
+    "lineNumber": 236,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T03:04:48.403Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "js/views/file_input_view.js",
+    "line": "      toast.$el.insertAfter(this.$el);",
+    "lineNumber": 242,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T03:04:48.403Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "js/views/file_input_view.js",
+    "line": "      toast.$el.insertAfter(this.$el);",
+    "lineNumber": 248,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T03:04:48.403Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
@@ -3493,7 +3475,7 @@
     "lineNumber": 4136,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "<optional>"
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-wrap(",
@@ -4083,7 +4065,7 @@
     "lineNumber": 483,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "<optional>"
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-appendTo(",
@@ -5849,7 +5831,7 @@
     "lineNumber": 1699,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "<optional>"
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "DOM-innerHTML",

@@ -57,6 +57,11 @@
       return { toastMessage: i18n('messageFoundButNotLoaded') };
     },
   });
+  Whisper.VoiceNoteMustBeOnlyAttachmentToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('voiceNoteMustBeOnlyAttachment') };
+    },
+  });
 
   Whisper.ConversationLoadingScreen = Whisper.View.extend({
     templateName: 'conversation-loading-screen',
@@ -144,8 +149,7 @@
 
       this.window = options.window;
       this.fileInput = new Whisper.FileInputView({
-        el: this.$('form.send'),
-        window: this.window,
+        el: this.$('.attachment-list'),
       });
 
       const getHeaderProps = () => {
@@ -255,15 +259,41 @@
       'farFromBottom .message-list': 'addScrollDownButton',
       'lazyScroll .message-list': 'onLazyScroll',
       'force-resize': 'forceUpdateMessageFieldSize',
-      dragover: 'sendToFileInput',
-      drop: 'sendToFileInput',
-      dragleave: 'sendToFileInput',
+
+      'click button.paperclip': 'onChooseAttachment',
+      'change input.file-input': 'onChoseAttachment',
+
+      dragover: 'onDragOver',
+      dragleave: 'onDragLeave',
+      drop: 'onDrop',
+      paste: 'onPaste',
     },
-    sendToFileInput(e) {
-      if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
-        return;
-      }
-      this.fileInput.$el.trigger(e);
+
+    onChooseAttachment(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      this.$('input.file-input').click();
+    },
+    async onChoseAttachment() {
+      const fileField = this.$('input.file-input');
+      const file = fileField.prop('files')[0];
+      await this.fileInput.maybeAddAttachment(file);
+      this.toggleMicrophone();
+      fileField.val(null);
+    },
+
+    onDragOver(e) {
+      this.fileInput.onDragOver(e);
+    },
+    onDragLeave(e) {
+      this.fileInput.onDragLeave(e);
+    },
+    onDrop(e) {
+      this.fileInput.onDrop(e);
+    },
+    onPaste(e) {
+      this.fileInput.onPaste(e);
     },
 
     onPrune() {
@@ -483,6 +513,13 @@
     captureAudio(e) {
       e.preventDefault();
 
+      if (this.fileInput.hasFiles()) {
+        const toast = new Whisper.VoiceNoteMustBeOnlyAttachmentToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
+        return;
+      }
+
       // Note - clicking anywhere will close the audio capture panel, due to
       //   the onClick handler in InboxView, which calls its closeRecording method.
 
@@ -503,9 +540,11 @@
       this.$('.microphone').hide();
     },
     handleAudioCapture(blob) {
-      this.fileInput.file = blob;
-      this.fileInput.isVoiceNote = true;
-      this.fileInput.previewImages();
+      this.fileInput.addAttachment({
+        contentType: blob.type,
+        file: blob,
+        isVoiceNote: true,
+      });
       this.$('.bottom-bar form').submit();
     },
     endCaptureAudio() {
@@ -1576,7 +1615,7 @@
         this.setQuoteMessage(null);
         this.focusMessageFieldAndClearDisabled();
         this.forceUpdateMessageFieldSize(e);
-        this.fileInput.deleteFiles();
+        this.fileInput.clearAttachments();
       } catch (error) {
         window.log.error(
           'Error pulling attached files before send',

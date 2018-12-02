@@ -24,7 +24,7 @@ interface Props {
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
 const MIN_WIDTH = 200;
-const MIN_HEIGHT = 25;
+const MIN_HEIGHT = 50;
 
 export class ImageGrid extends React.Component<Props> {
   // tslint:disable-next-line max-func-body-length */

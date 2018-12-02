@@ -15,24 +15,29 @@ interface Props {
   overlayText?: string;
 
   bottomOverlay?: boolean;
+  closeButton?: boolean;
   curveBottomLeft?: boolean;
   curveBottomRight?: boolean;
   curveTopLeft?: boolean;
   curveTopRight?: boolean;
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
+  softCorners?: boolean;
 
   i18n: Localizer;
   onClick?: (attachment: AttachmentType) => void;
+  onClickClose?: (attachment: AttachmentType) => void;
   onError?: () => void;
 }
 
 export class Image extends React.Component<Props> {
+  // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   public render() {
     const {
       alt,
       attachment,
       bottomOverlay,
+      closeButton,
       curveBottomLeft,
       curveBottomRight,
       curveTopLeft,
@@ -41,9 +46,11 @@ export class Image extends React.Component<Props> {
       height,
       i18n,
       onClick,
+      onClickClose,
       onError,
       overlayText,
       playIconOverlay,
+      softCorners,
       url,
       width,
     } = this.props;
@@ -52,18 +59,20 @@ export class Image extends React.Component<Props> {
 
     return (
       <div
+        role={onClick ? 'button' : undefined}
         onClick={() => {
           if (onClick) {
             onClick(attachment);
           }
         }}
-        role="button"
         className={classNames(
           'module-image',
+          onClick ? 'module-image__with-click-handler' : null,
           curveBottomLeft ? 'module-image--curved-bottom-left' : null,
           curveBottomRight ? 'module-image--curved-bottom-right' : null,
           curveTopLeft ? 'module-image--curved-top-left' : null,
-          curveTopRight ? 'module-image--curved-top-right' : null
+          curveTopRight ? 'module-image--curved-top-right' : null,
+          softCorners ? 'module-image--soft-corners' : null
         )}
       >
         <img
@@ -88,9 +97,22 @@ export class Image extends React.Component<Props> {
             curveTopRight ? 'module-image--curved-top-right' : null,
             curveBottomLeft ? 'module-image--curved-bottom-left' : null,
             curveBottomRight ? 'module-image--curved-bottom-right' : null,
+            softCorners ? 'module-image--soft-corners' : null,
             darkOverlay ? 'module-image__border-overlay--dark' : null
           )}
         />
+        {closeButton ? (
+          <div
+            role="button"
+            onClick={(e: React.MouseEvent<{}>) => {
+              e.stopPropagation();
+              if (onClickClose) {
+                onClickClose(attachment);
+              }
+            }}
+            className="module-image__close-button"
+          />
+        ) : null}
         {bottomOverlay ? (
           <div
             className={classNames(
