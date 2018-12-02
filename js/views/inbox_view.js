@@ -115,16 +115,6 @@
       this.listenTo(me, 'change', update);
       this.$('.main-header-placeholder').append(this.mainHeaderView.el);
 
-      this.identityKeyView = new Whisper.ReactWrapperView({
-        className: 'identity-key-wrapper',
-        Component: Signal.Components.IdentityKeyHeader,
-        props: this._getIdentityKeyViewProps(),
-      });
-      this.on('updateProfile', () => {
-        this.identityKeyView.update(this._getIdentityKeyViewProps());
-      })
-      this.$('.identity-key-placeholder').append(this.identityKeyView.el);
-
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
         model: { window: options.window },
@@ -219,20 +209,6 @@
         const banner = new Whisper.ExpiredAlertBanner().render();
         banner.$el.prependTo(this.$el);
         this.$el.addClass('expired');
-      }
-    },
-    _getIdentityKeyViewProps() {
-      const identityKey = textsecure.storage.get('identityKey').pubKey;
-      const pubKey = StringView.arrayBufferToHex(identityKey);
-      const profile = storage.getLocalProfile();
-      const name = profile && profile.name && profile.name.displayName;
-
-      return {
-        identityKey: pubKey,
-        name,
-        onEditProfile: async () => {
-          window.Whisper.events.trigger('onEditProfile');
-        },
       }
     },
     render_attributes() {
