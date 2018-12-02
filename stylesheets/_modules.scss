@@ -2194,6 +2194,31 @@
   background-color: $color-dark-75;
 }
 
+.module-main-header__expand-icon {
+  width: 3em;
+  line-height: 3em;
+  font-weight: bold;
+  overflow: hidden;
+  user-select: none;
+  color: white;
+  text-align: center;
+}
+
+.module-main-header__expand-icon::after {
+  -webkit-transition: all .35s;
+  -o-transition: all .35s;
+  transition: all .35s;
+  width: 3em;
+  line-height: 3em;
+  height: 3em;
+  content: '\25BE';
+  display: inline-block;
+}
+
+.module-main-header__expanded::after {
+  transform: rotate(180deg);
+}
+
 
 .module-main-header__app-name {
   font-size: 16px;
@@ -2208,6 +2233,7 @@
   margin-left: 12px;
   color: $color-dark-05;
   overflow-x: auto;
+  flex: 1;
 }
 
 // Third-party module: react-contextmenu
