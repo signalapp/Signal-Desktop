@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Avatar } from './Avatar';
+import { ContactName } from './conversation/ContactName';
 
 import { Localizer } from '../types/Util';
 
@@ -39,7 +40,13 @@ export class MainHeader extends React.Component<Props> {
           profileName={profileName}
           size={28}
         />
-        <div className="module-main-header__app-name">Loki Messenger</div>
+        <div className="module-main-header__contact-name">
+          <ContactName
+            phoneNumber={phoneNumber}
+            profileName={profileName}
+            i18n={i18n}
+          />
+        </div>
       </div>
     );
   }

@@ -2182,12 +2182,18 @@
 
 .module-main-header {
   height: $header-height;
-  margin-left: 16px;
+  padding-left: 16px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 }
+
+.module-main-header:hover {
+  background-color: $color-dark-75;
+}
+
 
 .module-main-header__app-name {
   font-size: 16px;
@@ -2195,6 +2201,13 @@
   font-weight: 300;
   margin-left: 32px;
   color: $color-dark-05;
+}
+
+.module-main-header__contact-name {
+  font-weight: 300;
+  margin-left: 12px;
+  color: $color-dark-05;
+  overflow-x: auto;
 }
 
 // Third-party module: react-contextmenu
