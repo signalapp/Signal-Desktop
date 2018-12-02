@@ -869,6 +869,11 @@
           this.set({ id: this.id });
           return 'Invalid ID Length';
         }
+
+        // Check if the id is prefixed by 05
+        if (!/^05/.test(this.id)) {
+          return 'Invalid Pubkey Format';
+        }
       }
 
       return null;
