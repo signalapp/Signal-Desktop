@@ -107,7 +107,7 @@ export class ConversationHeader extends React.Component<Props> {
           profileName={profileName}
           i18n={i18n}
         />
-        {isKeysPending ? ' (pending)' : null}
+        {isKeysPending ? '(pending)' : null}
       </div>
     );
   }
