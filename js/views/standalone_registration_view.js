@@ -48,16 +48,7 @@
         .registerSingleDevice(
           this.$('#mnemonic').val(),
           this.$('#mnemonic-language').val(),
-          async (pubKey) => {
-            await storage.setProfileName(this.$('#display-name').val());
-
-            // Update the conversation if we have it
-            const conversation = ConversationController.get(pubKey);
-            if (conversation) {
-              const newProfile = storage.getLocalProfile();
-              conversation.setProfile(newProfile);
-            }
-          }
+          this.$('#display-name').val()
         )
         .then(() => {
           this.$el.trigger('openInbox');

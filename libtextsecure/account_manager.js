@@ -9,7 +9,7 @@
   dcodeIO,
   StringView,
   log,
-  libphonenumber,
+  storage,
   Event,
   ConversationController
 */
@@ -49,7 +49,7 @@
     requestSMSVerification(number) {
       // return this.server.requestVerificationSMS(number);
     },
-    registerSingleDevice(mnemonic, mnemonicLanguage, callback) {
+    registerSingleDevice(mnemonic, mnemonicLanguage, profileName) {
       const createAccount = this.createAccount.bind(this);
       const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
       const generateKeys = this.generateKeys.bind(this, 0);
@@ -77,8 +77,7 @@
               .then(confirmKeys)
               .then(() => {
                 const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
-                registrationDone(pubKeyString);
-                callback(pubKeyString);
+                registrationDone(pubKeyString, profileName);
               });
           }
         )
@@ -447,11 +446,17 @@
         );
       });
     },
-    async registrationDone(number) {
+    async registrationDone(number, profileName) {
       window.log.info('registration done');
 
       // Ensure that we always have a conversation for ourself
-      await ConversationController.getOrCreateAndWait(number, 'private');
+      const conversation = await ConversationController.getOrCreateAndWait(number, 'private');
+
+      await storage.setProfileName(profileName);
+
+      // Update the conversation if we have it
+      const newProfile = storage.getLocalProfile();
+      await conversation.setProfile(newProfile);
 
       this.dispatchEvent(new Event('registration'));
     },
