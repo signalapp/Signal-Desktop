@@ -211,7 +211,7 @@
         }
       }
 
-      window.log.error('Failed to fetch contact prekey:', pubKey);
+      window.log.warn('Failed to fetch contact prekey:', pubKey);
       return undefined;
     },
     async loadContactPreKeys(filters) {
@@ -226,7 +226,7 @@
         }));
       }
 
-      window.log.error(
+      window.log.warn(
         'Failed to fetch signed prekey with filters',
         filters
       );
@@ -308,7 +308,7 @@
         }));
       }
 
-      window.log.error(
+      window.log.warn(
         'Failed to fetch contact signed prekey with filters',
         filters
       );
@@ -327,7 +327,7 @@
           confirmed: preKey.confirmed,
         };
       }
-      window.log.error('Failed to fetch contact signed prekey:', pubKey);
+      window.log.warn('Failed to fetch contact signed prekey:', pubKey);
       return undefined;
     },
     async loadSignedPreKeys() {

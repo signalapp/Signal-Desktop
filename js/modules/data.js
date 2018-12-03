@@ -242,7 +242,7 @@ function _makeJob(fnName) {
   const id = _jobCounter;
 
   if (_DEBUG) {
-    window.log.info(`SQL channel job ${id} (${fnName}) started`);
+    window.log.debug(`SQL channel job ${id} (${fnName}) started`);
   }
   _jobs[id] = {
     fnName,
@@ -264,7 +264,7 @@ function _updateJob(id, data) {
       const end = Date.now();
       const delta = end - start;
       if (delta > 10) {
-        window.log.info(
+        window.log.debug(
           `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
         );
       }
@@ -273,7 +273,7 @@ function _updateJob(id, data) {
     reject: error => {
       _removeJob(id);
       const end = Date.now();
-      window.log.info(
+      window.log.warn(
         `SQL channel job ${id} (${fnName}) failed in ${end - start}ms`
       );
       return reject(error);
