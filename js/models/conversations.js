@@ -178,7 +178,7 @@
     },
 
     async updateProfileAvatar() {
-      const path = await profileImages.getOrCreateImagePath(this.id);
+      const path = profileImages.getOrCreateImagePath(this.id);
       await this.setProfileAvatar(path);
     },
 
