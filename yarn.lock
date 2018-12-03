@@ -1575,11 +1575,6 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000912.tgz#29c739d8c8fae006de61b51f547bdbf02f5d867e"
   integrity sha512-uiepPdHcJ06Na9t15L5l+pp3NWQU4IETbmleghD6tqCqbIYqhHSu7nVfbK2gqPjfy+9jl/wHF1UQlyTszh9tJQ==
 
-canvas-renderer@~2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/canvas-renderer/-/canvas-renderer-2.0.1.tgz#0124a39b2022010d3a3533225da5f4a0aa08263d"
-  integrity sha512-K2mOGkMN9je/GCm9JSg7llrlLr9hMHTnWsO5xQEZ5sRz+HjfQ92u8jnKIQZj1GXfJBJKAotPISyNls6IFvfWpg==
-
 capture-stack-trace@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/capture-stack-trace/-/capture-stack-trace-1.0.1.tgz#a6c0bbe1f38f3aa0b92238ecb6ff42c344d4135d"
@@ -4739,6 +4734,11 @@ icss-utils@^2.1.0:
   dependencies:
     postcss "^6.0.1"
 
+identicon.js@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/identicon.js/-/identicon.js-2.3.3.tgz#c505b8d60ecc6ea13bbd991a33964c44c1ad60a1"
+  integrity sha512-/qgOkXKZ7YbeCYbawJ9uQQ3XJ3uBg9VDpvHjabCAPp6aRMhjLaFAxG90+1TxzrhKaj6AYpVGrx6UXQfQA41UEA==
+
 ieee754@^1.1.4:
   version "1.1.12"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.12.tgz#50bf24e5b9c8bb98af4964c941cdb0918da7b60b"
@@ -5405,13 +5405,6 @@ javascript-stringify@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/javascript-stringify/-/javascript-stringify-1.6.0.tgz#142d111f3a6e3dae8f4a9afd77d45855b5a9cce3"
   integrity sha1-FC0RHzpuPa6PSpr9d9RYVbWpzOM=
-
-jdenticon@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/jdenticon/-/jdenticon-2.1.0.tgz#a94f0434d3537d66a831502a6e6e593b186515fb"
-  integrity sha512-EL3MgPHRg1/agDNuht5yYzjiY/F2VEoQrnMazTBRJiykZdRGbAiGDi8dXZw0cFYPn1xAGurGojUnR+HfJg1Ziw==
-  dependencies:
-    canvas-renderer "~2.0.1"
 
 jimp@^0.2.27:
   version "0.2.28"

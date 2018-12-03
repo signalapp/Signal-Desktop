@@ -261,6 +261,9 @@
           });
           await Promise.all(promises);
 
+          // Remove any unused images
+          window.profileImages.removeImagesNotInArray(conversations.map(c => c.id));
+
           window.log.info('ConversationController: done with initial fetch');
         } catch (error) {
           window.log.error(
