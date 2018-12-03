@@ -334,6 +334,7 @@
     openConversation(conversation) {
       this.searchView.hideHints();
       if (conversation) {
+        conversation.updateProfile();
         ConversationController.markAsSelected(conversation);
         this.conversation_stack.open(
           ConversationController.get(conversation.id)

@@ -1,4 +1,4 @@
-/* global Whisper, $, getAccountManager, textsecure */
+/* global Whisper, $, getAccountManager, textsecure, storage, ConversationController */
 
 /* eslint-disable more/no-then */
 
@@ -47,7 +47,8 @@
       this.accountManager
         .registerSingleDevice(
           this.$('#mnemonic').val(),
-          this.$('#mnemonic-language').val()
+          this.$('#mnemonic-language').val(),
+          this.$('#display-name').val()
         )
         .then(() => {
           this.$el.trigger('openInbox');

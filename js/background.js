@@ -579,27 +579,15 @@
           message: window.i18n('editProfileDisplayNameWarning'),
           nickname: displayName,
           onOk: async (newName) => {
-            // Update our profiles accordingly'
-            const trimmed = newName && newName.trim();
-
-            // If we get an empty name then unset the name property
-            // Otherwise update it
-            const newProfile = profile || {};
-            if (_.isEmpty(trimmed)) {
-              delete newProfile.name;
-            } else {
-              newProfile.name = {
-                displayName: trimmed,
-              }
-            }
-
-            await storage.saveLocalProfile(newProfile);
+            await storage.setProfileName(newName);
             appView.inboxView.trigger('updateProfile');
 
             // Update the conversation if we have it
             const conversation = ConversationController.get(ourNumber);
-            if (conversation)
+            if (conversation) {
+              const newProfile = storage.getLocalProfile();
               conversation.setProfile(newProfile);
+            }
           },
         })
       }

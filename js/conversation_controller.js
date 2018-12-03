@@ -192,7 +192,7 @@
         return conversation;
       };
 
-      conversation.initialPromise = create();
+      conversation.initialPromise = create().then(() => conversation.updateProfileAvatar());
 
       return conversation;
     },
@@ -251,12 +251,19 @@
           conversations.add(collection.models);
 
           this._initialFetchComplete = true;
-          await Promise.all(
-            conversations.map(conversation => conversation.updateLastMessage())
-          );
+          const promises = [];
+          conversations.forEach(conversation => {
+            promises.concat([
+              conversation.updateLastMessage(),
+              conversation.updateProfile(),
+              conversation.updateProfileAvatar(),
+            ]);
+          });
+          await Promise.all(promises);
 
-          // Update profiles
-          conversations.map(conversation => conversation.updateProfile());
+          // Remove any unused images
+          window.profileImages.removeImagesNotInArray(conversations.map(c => c.id));
+
           window.log.info('ConversationController: done with initial fetch');
         } catch (error) {
           window.log.error(
