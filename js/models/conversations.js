@@ -1621,12 +1621,12 @@
       await this.updateProfile();
     },
     async setProfile(profile) {
-      if (_.isEqual(this.get('profile'), profile)) return;
-
-      this.set({ profile });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      if (!_.isEqual(this.get('profile'), profile)) {
+        this.set({ profile });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
 
       await this.updateProfile();
     },
