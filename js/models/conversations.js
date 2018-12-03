@@ -1494,7 +1494,7 @@
         // Only create a new message if *we* initiated the session reset.
         // On the receiver side, the actual message containing the END_SESSION flag
         // will ensure the "session reset" message will be added to their conversation.
-        if (this.get('sessionResetStatus') === SessionResetEnum.none) {
+        if (this.get('sessionResetStatus') !== SessionResetEnum.request_received) {
           await this.onSessionResetInitiated();
           const message = await this.createAndStoreEndSessionMessage('ongoing');
           const options = this.getSendOptions();

@@ -347,6 +347,10 @@
           return;
         }
 
+        if (message.isEndSession()) {
+          return;
+        }
+
         if (message.hasErrors()) {
           return;
         }
