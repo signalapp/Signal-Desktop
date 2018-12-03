@@ -1456,6 +1456,10 @@
       return this.get('sessionResetStatus') === SessionResetEnum.request_received;
     },
 
+    isSessionResetOngoing() {
+      return this.get('sessionResetStatus') !== SessionResetEnum.none;
+    },
+
     async createAndStoreEndSessionMessage(endSessionType) {
       const now = Date.now();
       const message = this.messageCollection.add({

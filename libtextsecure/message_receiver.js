@@ -755,20 +755,26 @@ MessageReceiver.prototype.extend({
       record.updateSessionState(sessionToKeep);
       await textsecure.storage.protocol.storeSession(address.toString(), record.serialize());
     };
-    const handleSessionReset = async () => {
-      const currentSessionBaseKey = await getCurrentSessionBaseKey(sessionCipher);
-      if (this.activeSessionBaseKey && currentSessionBaseKey !== this.activeSessionBaseKey) {
-        if (conversation.isSessionResetReceived()) {
-          restoreActiveSession();
-        } else {
-          deleteAllSessionExcept(currentSessionBaseKey);
-          conversation.onNewSessionAdopted();
+    let handleSessionReset;
+    if (conversation.isSessionResetOngoing()) {
+      handleSessionReset = async (result) => {
+        const currentSessionBaseKey = await getCurrentSessionBaseKey(sessionCipher);
+        if (this.activeSessionBaseKey && currentSessionBaseKey !== this.activeSessionBaseKey) {
+          if (conversation.isSessionResetReceived()) {
+            await restoreActiveSession();
+          } else {
+            await deleteAllSessionExcept(currentSessionBaseKey);
+            await conversation.onNewSessionAdopted();
+          }
+        } else if (conversation.isSessionResetReceived()) {
+          await deleteAllSessionExcept(this.activeSessionBaseKey);
+          await conversation.onNewSessionAdopted();
         }
-      } else if (conversation.isSessionResetReceived()) {
-        deleteAllSessionExcept(this.activeSessionBaseKey);
-        conversation.onNewSessionAdopted();
-      }
-    };
+        return result;
+      };
+    } else {
+      handleSessionReset = async (result) => result;
+    }
 
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
@@ -776,10 +782,7 @@ MessageReceiver.prototype.extend({
         promise = captureActiveSession()
           .then(() => sessionCipher.decryptWhisperMessage(ciphertext))
           .then(this.unpad)
-          .then((plainText) => {
-            handleSessionReset();
-            return plainText;
-          });
+          .then(handleSessionReset);
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
@@ -795,10 +798,7 @@ MessageReceiver.prototype.extend({
             sessionCipher,
             address
           ))
-          .then((plainText) => {
-            handleSessionReset();
-            return plainText;
-          });
+          .then(handleSessionReset);
         break;
       case textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER:
         window.log.info('received unidentified sender message');
@@ -1356,9 +1356,12 @@ MessageReceiver.prototype.extend({
       window.log.error('Error getting conversation: ', number);
     }
 
-    conversation.onSessionResetReceived();
+    // Bail early if a session reset is already ongoing
+    if (conversation.isSessionResetOngoing()) {
+      return;
+    }
 
-    return Promise.all(
+    await Promise.all(
       deviceIds.map(async deviceId => {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
         // Instead of deleting the sessions now,
@@ -1370,7 +1373,7 @@ MessageReceiver.prototype.extend({
           textsecure.storage.protocol.loadContactSignedPreKey(number),
         ]);
         if (preKey === undefined || signedPreKey === undefined) {
-          return null;
+          return;
         }
         const device = { identityKey, deviceId, preKey, signedPreKey, registrationId: 0 }
         const builder = new libsignal.SessionBuilder(
@@ -1378,9 +1381,9 @@ MessageReceiver.prototype.extend({
           address
         );
         builder.processPreKey(device);
-        return null;
       })
     );
+    await conversation.onSessionResetReceived();
   },
   processDecrypted(envelope, decrypted, source) {
     /* eslint-disable no-bitwise, no-param-reassign */
