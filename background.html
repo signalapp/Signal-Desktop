@@ -91,7 +91,11 @@
     <div class='main-header-title-wrapper'>
       <div class='main-header-content-toggle'/>
     </div>
-    <div class='main-header-content-wrapper'><div>
+    <div class='main-header-content-wrapper'>
+      {{ #items }}
+        <div role='button' id='{{ id }}'>{{ text }}</div>
+      {{ /items }}
+    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
     <button class='text module-scroll-down__button {{ buttonClass }}' alt='{{ moreBelow }}'>

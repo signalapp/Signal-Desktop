@@ -5,9 +5,7 @@
 /* global i18n: false */
 /* global Whisper: false */
 /* global textsecure: false */
-/* global Signal: false */
-/* global StringView: false */
-/* global storage: false */
+/* global clipboard: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -106,6 +104,7 @@
 
       this.mainHeaderView = new Whisper.MainHeaderView({
         el: this.$('.main-header-placeholder'),
+        items: this.getMainHeaderItems(),
       });
 
       this.conversation_stack = new Whisper.ConversationStack({
@@ -325,6 +324,30 @@
     },
     onClick(e) {
       this.closeRecording(e);
+    },
+    getMainHeaderItems() {
+      return [
+        this._mainHeaderItem('copyPublicKey', () => {
+         const ourNumber = textsecure.storage.user.getNumber();
+          clipboard.writeText(ourNumber);
+
+          const toast = new Whisper.MessageToastView({
+            message: i18n('copiedPublicKey'),
+          });
+          toast.$el.appendTo(this.$('.gutter'));
+          toast.render();
+        }),
+        this._mainHeaderItem('editDisplayName', () => {
+          window.Whisper.events.trigger('onEditProfile');
+        }),
+      ];
+    },
+    _mainHeaderItem(textKey, onClick) {
+      return {
+        id: textKey,
+        text: i18n(textKey),
+        onClick,
+      };
     },
   });
 

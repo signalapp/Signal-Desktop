@@ -33,6 +33,7 @@
   flex-direction: column;
   float: left;
   width: 300px;
+  position: relative;
 
   .tool-bar {
     margin-top: 8px;
@@ -51,6 +52,10 @@
         outline: solid 1px $blue;
       }
     }
+  }
+
+  .toast {
+    bottom: 78px;
   }
 
   .content {

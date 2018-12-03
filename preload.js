@@ -7,6 +7,7 @@ const semver = require('semver');
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
 const { app } = electron.remote;
+const { clipboard } = electron;
 
 window.PROTO_ROOT = 'protos';
 const config = require('url').parse(window.location.toString(), true).query;
@@ -276,6 +277,8 @@ window.profileImages = require('./app/profile_images');
 window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');
+
+window.clipboard = clipboard;
 
 const Signal = require('./js/modules/signal');
 const i18n = require('./js/modules/i18n');
