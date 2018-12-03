@@ -257,6 +257,8 @@
               conversation.updateLastMessage(),
               conversation.updateProfile(),
               conversation.updateProfileAvatar(),
+              conversation.resetPendingSend(),
+              conversation.updateProfile(),
             ]);
           });
           await Promise.all(promises);

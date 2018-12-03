@@ -904,10 +904,7 @@ MessageReceiver.prototype.extend({
       })
     );
   },
-  async handleFriendRequestMessage(envelope, msg) {
-    return this.handleDataMessage(envelope, msg, 'friend-request');
-  },
-  handleDataMessage(envelope, msg, type = 'data') {
+  handleDataMessage(envelope, msg) {
     window.log.info('data message from', this.getEnvelopeId(envelope));
     let p = Promise.resolve();
     // eslint-disable-next-line no-bitwise
@@ -924,6 +921,8 @@ MessageReceiver.prototype.extend({
           message.group &&
           message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
+        const friendRequest =
+          envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
 
         // Check if we need to update any profile names
         if (!isMe && conversation) {
@@ -936,7 +935,7 @@ MessageReceiver.prototype.extend({
           conversation.setProfile(profile);
         }
 
-        if (type === 'friend-request' && isMe) {
+        if (friendRequest && isMe) {
           window.log.info(
             'refusing to add a friend request to ourselves'
           );
@@ -955,7 +954,7 @@ MessageReceiver.prototype.extend({
         const ev = new Event('message');
         ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.data = {
-          type,
+          friendRequest,
           source: envelope.source,
           sourceDevice: envelope.sourceDevice,
           timestamp: envelope.timestamp.toNumber(),
@@ -992,27 +991,11 @@ MessageReceiver.prototype.extend({
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
 
-    let conversation;
-    try {
-      conversation = await window.ConversationController.getOrCreateAndWait(envelope.source, 'private');
-    } catch (e) {
-      window.log.info('Error getting conversation: ', envelope.source);
-    }
-    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-      conversation.onFriendRequestReceived();
-    } else {
-      conversation.onFriendRequestAccepted();
-    }
-
-    if (content.preKeyBundleMessage) {
-      const preKeyBundleMessage =
-        this.decodePreKeyBundleMessage(content.preKeyBundleMessage);
+    if (content.preKeyBundleMessage)
       await this.savePreKeyBundleMessage(
         envelope.source,
-        preKeyBundleMessage
+        content.preKeyBundleMessage
       );
-      return this.handleDataMessage(envelope, content.dataMessage, 'friend-request');
-    }
     if (content.syncMessage)
       return this.handleSyncMessage(envelope, content.syncMessage);
     if (content.dataMessage)
@@ -1024,6 +1007,12 @@ MessageReceiver.prototype.extend({
     if (content.receiptMessage)
       return this.handleReceiptMessage(envelope, content.receiptMessage);
 
+    // Trigger conversation friend request event for empty message
+    const conversation = window.ConversationController.get(envelope.source);
+    if (conversation) {
+      conversation.onFriendRequestAccepted();
+      conversation.notifyFriendRequest(envelope.source, 'accepted');
+    }
     this.removeFromCache(envelope);
     return null;
   },
@@ -1227,7 +1216,7 @@ MessageReceiver.prototype.extend({
 
     return this.removeFromCache(envelope);
   },
-  decodePreKeyBundleMessage(preKeyBundleMessage) {
+  async savePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
     const [identityKey, preKey, signedKey, signature] = [
       preKeyBundleMessage.identityKey,
       preKeyBundleMessage.preKey,
@@ -1235,24 +1224,9 @@ MessageReceiver.prototype.extend({
       preKeyBundleMessage.signature,
     ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
 
-    return {
-      ...preKeyBundleMessage,
-      identityKey,
-      preKey,
-      signedKey,
-      signature,
-    };
-  },
-  async savePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
-    if (!preKeyBundleMessage) return null;
-
     const {
       preKeyId,
       signedKeyId,
-      identityKey,
-      preKey,
-      signedKey,
-      signature,
     } = preKeyBundleMessage;
 
     if (pubKey !== StringView.arrayBufferToHex(identityKey)) {
@@ -1261,7 +1235,7 @@ MessageReceiver.prototype.extend({
       );
     }
 
-    return libloki.savePreKeyBundleForNumber({
+    await libloki.savePreKeyBundleForNumber({
       pubKey,
       preKeyId,
       signedKeyId,

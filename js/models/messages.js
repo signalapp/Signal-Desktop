@@ -1375,6 +1375,20 @@
             }
           }
 
+          let autoAccept = false;
+          if (message.get('type') === 'friend-request') {
+            if (conversation.hasSentFriendRequest()) {
+              // Automatically accept incoming friend requests if we have send one already
+              autoAccept = true;
+              message.set({ friendStatus: 'accepted' });
+              await conversation.onFriendRequestAccepted();
+              window.libloki.sendFriendRequestAccepted(message.get('source'));
+            } else if (conversation.isFriendRequestStatusNone()) {
+              await conversation.onFriendRequestReceived();
+            }
+          } else {
+            await conversation.onFriendRequestAccepted();
+          }
           const id = await window.Signal.Data.saveMessage(message.attributes, {
             Message: Whisper.Message,
           });
@@ -1422,7 +1436,11 @@
           }
 
           if (message.get('unread')) {
-            await conversation.notify(message);
+            // Need to do this here because the conversation has already changed states
+            if (autoAccept)
+              await conversation.notifyFriendRequest(source, 'accepted');
+            else
+              await conversation.notify(message);
           }
 
           confirm();

@@ -40,13 +40,17 @@
   } = window.Signal.Migrations;
 
   // Possible conversation friend states
-  const FriendStatusEnum = Object.freeze({
+  const FriendRequestStatusEnum = Object.freeze({
     // New conversation, no messages sent or received
     none: 0,
-    // Friend request not complete yet, input blocked
-    pending: 1,
+    // This state is used to lock the input early while sending
+    pendingSend: 1,
+    // Friend request sent, awaiting response
+    requestSent: 2,
+    // Friend request received, awaiting user input
+    requestReceived: 3,
     // We did it!
-    friends: 2,
+    friends: 4,
   });
 
   const COLORS = [
@@ -69,7 +73,7 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
-        friendStatus: FriendStatusEnum.none,
+        friendRequestStatus: FriendRequestStatusEnum.none,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
       };
     },
@@ -104,8 +108,6 @@
       this.messageCollection = new Whisper.MessageCollection([], {
         conversation: this,
       });
-
-      this.pendingFriendRequest = false;
 
       this.messageCollection.on('change:errors', this.handleMessageError, this);
       this.messageCollection.on('send-error', this.onMessageError, this);
@@ -147,7 +149,6 @@
       this.unset('lastMessage');
       this.unset('lastMessageStatus');
 
-      this.updateTextInputState();
       this.setFriendRequestExpiryTimeout();
     },
 
@@ -253,35 +254,8 @@
         title: this.getTitle(),
       };
     },
-    // This function sets `pendingFriendRequest` variable in memory
-    async updatePendingFriendRequests() {
-      const pendingFriendRequest = await this.hasPendingFriendRequests();
-      // Only update if we have different values
-      if (this.pendingFriendRequest !== pendingFriendRequest) {
-        this.pendingFriendRequest = pendingFriendRequest;
-        // trigger an update
-        this.trigger('change');
-      }
-    },
     // This goes through all our message history and finds a friend request
-    // But this is not a concurrent operation and thus updatePendingFriendRequests is used
-    async hasPendingFriendRequests() {
-      // Go through the messages and check for any pending friend requests
-      const messages = await window.Signal.Data.getMessagesByConversation(
-        this.id,
-        {
-          type: 'friend-request',
-          MessageCollection: Whisper.MessageCollection,
-        }
-      );
-      const pendingFriendRequest =
-        messages.models.find(message =>
-          message.isFriendRequest() &&
-          message.attributes.friendStatus === 'pending'
-        );
-      return pendingFriendRequest !== undefined;
-    },
-    async getPendingFriendRequests(direction) {
+    async getPendingFriendRequests(direction = null) {
       // Theoretically all our messages could be friend requests,
       // thus we have to unfortunately go through each one :(
       const messages = await window.Signal.Data.getMessagesByConversation(
@@ -291,12 +265,13 @@
           MessageCollection: Whisper.MessageCollection,
         }
       );
-
-      // Get the messages that are matching the direction and the friendStatus
-      return messages.models.filter(m =>
-        m.attributes.direction === direction &&
-        m.attributes.friendStatus === 'pending'
-      );
+      // Get the pending friend requests that match the direction
+      // If no direction is supplied then return all pending friend requests
+      return messages.models.filter(m => {
+        if (m.get('friendStatus') !== 'pending')
+          return false;
+        return direction === null || m.get('direction') === direction;
+      });
     },
     getPropsForListItem() {
       const result = {
@@ -306,7 +281,7 @@
         lastUpdated: this.get('timestamp'),
         unreadCount: this.get('unreadCount') || 0,
         isSelected: this.isSelected,
-        showFriendRequestIndicator: this.pendingFriendRequest,
+        showFriendRequestIndicator: this.isPendingFriendRequest(),
         isBlocked: this.isBlocked(),
         lastMessage: {
           status: this.lastMessageStatus,
@@ -459,81 +434,105 @@
         return contact.isVerified();
       });
     },
-    async waitingForFriendRequestApproval() {
-      // Check if we have an incoming friend request
-      // Or any successful outgoing ones
-      const incoming = await this.getPendingFriendRequests('incoming');
-      const outgoing = await this.getPendingFriendRequests('outgoing');
-      const successfulOutgoing = outgoing.filter(o => !o.hasErrors());
-
-      return (incoming.length > 0 || successfulOutgoing.length > 0);
+    isFriendRequestStatusNone() {
+      return this.get('friendRequestStatus') === FriendRequestStatusEnum.none;
+    },
+    isPendingFriendRequest() {
+      const status = this.get('friendRequestStatus');
+      return status === FriendRequestStatusEnum.requestSent ||
+        status === FriendRequestStatusEnum.requestReceived ||
+        status === FriendRequestStatusEnum.pendingSend;
+    },
+    hasSentFriendRequest() {
+      return this.get('friendRequestStatus') === FriendRequestStatusEnum.requestSent;
+    },
+    hasReceivedFriendRequest() {
+      return this.get('friendRequestStatus') === FriendRequestStatusEnum.requestReceived;
     },
     isFriend() {
-      return this.get('friendStatus') === FriendStatusEnum.friends;
+      return this.get('friendRequestStatus') === FriendRequestStatusEnum.friends;
     },
-    // Update any pending friend requests for the current user
-    async updateFriendRequestUI() {
-      // Enable the text inputs early
-      this.updateTextInputState();
-
-      // We only update our friend requests if we have the user as a friend
-      if (!this.isFriend()) return;
-
-      // Update any pending outgoing messages
-      const pending = await this.getPendingFriendRequests('outgoing');
+    updateTextInputState() {
+      switch (this.get('friendRequestStatus')) {
+        case FriendRequestStatusEnum.none:
+          this.trigger('disable:input', false);
+          this.trigger('change:placeholder', 'friend-request');
+          return;
+        case FriendRequestStatusEnum.pendingSend:
+        case FriendRequestStatusEnum.requestReceived:
+        case FriendRequestStatusEnum.requestSent:
+          this.trigger('disable:input', true);
+          this.trigger('change:placeholder', 'disabled');
+          return;
+        case FriendRequestStatusEnum.friends:
+          this.trigger('disable:input', false);
+          this.trigger('change:placeholder', 'chat');
+          return;
+        default:
+          throw new Error('Invalid friend request state');
+      }
+    },
+    async setFriendRequestStatus(newStatus) {
+      // Ensure that the new status is a valid FriendStatusEnum value
+      if (!(newStatus in Object.values(FriendRequestStatusEnum)))
+        return;
+      if (this.get('friendRequestStatus') !== newStatus) {
+        this.set({ friendRequestStatus: newStatus });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+        this.updateTextInputState();
+      }
+    },
+    async respondToAllPendingFriendRequests(options) {
+      const { response, direction = null } = options;
+      // Ignore if no response supplied
+      if (!response) return;
+      const pending = await this.getPendingFriendRequests(direction);
       await Promise.all(
         pending.map(async request => {
           if (request.hasErrors()) return;
 
-          request.set({ friendStatus: 'accepted' });
+          request.set({ friendStatus: response });
           await window.Signal.Data.saveMessage(request.attributes, {
             Message: Whisper.Message,
           });
           this.trigger('updateMessage', request);
         })
       );
-
-      // Update our local state
-      await this.updatePendingFriendRequests();
-
-      // Send the notification if we had an outgoing friend request
-      if (pending.length > 0)
-        this.notifyFriendRequest(this.id, 'accepted')
+    },
+    async resetPendingSend() {
+      if (this.get('friendRequestStatus') === FriendRequestStatusEnum.pendingSend) {
+        await this.setFriendRequestStatus(FriendRequestStatusEnum.none);
+      }
     },
     // We have declined an incoming friend request
     async onDeclineFriendRequest() {
-      // Should we change states for other states? (They should never happen)
-      if (this.get('friendStatus') === FriendStatusEnum.pending) {
-        this.set({ friendStatus: FriendStatusEnum.none });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-        await this.updateFriendRequestUI();
-        await this.updatePendingFriendRequests();
-        await window.libloki.removePreKeyBundleForNumber(this.id);
-      }
+      this.setFriendRequestStatus(FriendRequestStatusEnum.none);
+      await this.respondToAllPendingFriendRequests({
+        response: 'declined',
+        direction: 'incoming',
+      });
+      await window.libloki.removePreKeyBundleForNumber(this.id);
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest() {
-      // Should we change states for other states? (They should never happen)
-      if (this.get('friendStatus') === FriendStatusEnum.pending) {
-        this.set({ friendStatus: FriendStatusEnum.friends });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
+      if (this.hasReceivedFriendRequest()) {
+        this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
+        await this.respondToAllPendingFriendRequests({
+          response: 'accepted',
+          direction: 'incoming',
         });
-        await this.updateFriendRequestUI();
-        await this.updatePendingFriendRequests();
         window.libloki.sendFriendRequestAccepted(this.id);
       }
     },
     // Our outgoing friend request has been accepted
     async onFriendRequestAccepted() {
-      if (this.get('friendStatus') === FriendStatusEnum.pending) {
-        this.set({ friendStatus: FriendStatusEnum.friends });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
+      if (this.hasSentFriendRequest()) {
+        this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
+        await this.respondToAllPendingFriendRequests({
+          response: 'accepted',
         });
-        await this.updateFriendRequestUI();
       }
     },
     async onFriendRequestTimeout() {
@@ -552,31 +551,31 @@
       }
 
       // Change any pending outgoing friend requests to expired
-      const outgoing = await this.getPendingFriendRequests('outgoing');
-      await Promise.all(
-        outgoing.map(async request => {
-          if (request.hasErrors()) return;
-
-          request.set({ friendStatus: 'expired' });
-          await window.Signal.Data.saveMessage(request.attributes, {
-            Message: Whisper.Message,
-          });
-          this.trigger('updateMessage', request);
-        })
-      );
-
-      // Update the UI
-      await this.updatePendingFriendRequests();
-      await this.updateFriendRequestUI();
+      await this.respondToAllPendingFriendRequests({
+        response: 'expired',
+        direction: 'outgoing',
+      });
+      await this.setFriendRequestStatus(FriendRequestStatusEnum.none);
     },
     async onFriendRequestReceived() {
-      if (this.get('friendStatus') === FriendStatusEnum.none) {
-        this.set({ friendStatus: FriendStatusEnum.pending });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-        await this.updateFriendRequestUI();
+      if (this.isFriendRequestStatusNone()) {
+        this.setFriendRequestStatus(FriendRequestStatusEnum.requestReceived);
+      } else if (this.hasSentFriendRequest()) {
+        await Promise.all([
+          this.setFriendRequestStatus(FriendRequestStatusEnum.friends),
+          // Accept all outgoing FR
+          this.respondToAllPendingFriendRequests({
+            direction: 'outgoing',
+            response: 'accepted',
+          }),
+        ]);
       }
+      // Delete stale incoming friend requests
+      const incoming = await this.getPendingFriendRequests('incoming');
+      await Promise.all(
+        incoming.map(request => this._removeMessage(request.id))
+      );
+      this.trigger('change');
     },
     async onFriendRequestSent() {
       // Check if we need to set the friend request expiry
@@ -587,20 +586,9 @@
         const ms = 60 * 60 * 1000 * hourLockDuration;
 
         this.set({ unlockTimestamp: Date.now() + ms });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-
         this.setFriendRequestExpiryTimeout();
       }
-
-      if (this.get('friendStatus') === FriendStatusEnum.none) {
-        this.set({ friendStatus: FriendStatusEnum.pending });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-      }
-      this.updateFriendRequestUI();
+      await this.setFriendRequestStatus(FriendRequestStatusEnum.requestSent);
     },
     setFriendRequestExpiryTimeout() {
       const unlockTimestamp = this.get('unlockTimestamp');
@@ -972,6 +960,9 @@
     },
 
     async sendMessage(body, attachments, quote) {
+      // Input should be blocked if there is a pending friend request
+      if (this.isPendingFriendRequest())
+        return;
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
@@ -1007,12 +998,7 @@
             recipients,
           });
         } else {
-          // We also need to make sure we don't send a new friend request
-          // if we already have an existing one
-          const incomingRequests = await this.getPendingFriendRequests('incoming');
-          if (incomingRequests.length > 0) return null;
-
-          // Otherwise check if we have sent a friend request
+          // Check if we have sent a friend request
           const outgoingRequests = await this.getPendingFriendRequests('outgoing');
           if (outgoingRequests.length > 0) {
             // Check if the requests have errored, if so then remove them
@@ -1033,6 +1019,7 @@
             // because one of them was sent successfully
             if (friendRequestSent) return null;
           }
+          await this.setFriendRequestStatus(FriendRequestStatusEnum.pendingSend);
 
           // Send the friend request!
           messageWithSchema = await upgradeMessageSchema({
@@ -1123,50 +1110,39 @@
         return true;
       });
     },
-    async updateTextInputState() {
-      // Check if we need to disable the text field
-      if (!this.isFriend()) {
-        // Disable the input if we're waiting for friend request approval
-        const waiting = await this.waitingForFriendRequestApproval();
-        if (waiting) {
-          this.trigger('disable:input', true);
-          this.trigger('change:placeholder', 'disabled');
-          return;
-        }
-        // Tell the user to introduce themselves
-        this.trigger('disable:input', false);
-        this.trigger('change:placeholder', 'friend-request');
-        return;
-      }
-      this.trigger('disable:input', false);
-      this.trigger('change:placeholder', 'chat');
-    },
     wrapSend(promise) {
       return promise.then(
         async result => {
           // success
           if (result) {
-            await this.handleMessageSendResult(
-              result.failoverNumbers,
-              result.unidentifiedDeliveries
-            );
+            await this.handleMessageSendResult({
+              ...result,
+              success: true,
+            });
           }
           return result;
         },
         async result => {
           // failure
           if (result) {
-            await this.handleMessageSendResult(
-              result.failoverNumbers,
-              result.unidentifiedDeliveries
-            );
+            await this.handleMessageSendResult({
+              ...result,
+              success: false,
+            });
           }
           throw result;
         }
       );
     },
 
-    async handleMessageSendResult(failoverNumbers, unidentifiedDeliveries) {
+    async handleMessageSendResult({
+      failoverNumbers,
+      unidentifiedDeliveries,
+      messageType,
+      success,
+    }) {
+      if (success && messageType === 'friend-request')
+        await this.onFriendRequestSent();
       await Promise.all(
         (failoverNumbers || []).map(async number => {
           const conversation = ConversationController.get(number);
@@ -1291,48 +1267,14 @@
         },
       };
     },
+    // eslint-disable-next-line no-unused-vars
     async onNewMessage(message) {
-      if (message.get('type') === 'friend-request' && message.get('direction') === 'incoming') {
-        // We need to make sure we remove any pending requests that we may have
-        // This is to ensure that one user cannot spam us with multiple friend requests.
-        const incoming = await this.getPendingFriendRequests('incoming');
-
-        // Delete the old messages if it's pending
-        await Promise.all(
-          incoming
-            .filter(i => i.id !== message.id)
-            .map(request => this._removeMessage(request.id))
-        );
-
-        // If we have an outgoing friend request then
-        // we auto accept the incoming friend request
-        const outgoing = await this.getPendingFriendRequests('outgoing');
-        if (outgoing.length > 0) {
-          const current = this.messageCollection.find(i => i.id === message.id);
-          if (current) {
-            await current.acceptFriendRequest();
-          } else {
-            window.log.debug('onNewMessage: Failed to find incoming friend request');
-          }
-        }
-
-        // Trigger an update if we removed or updated messages
-        if (outgoing.length > 0 || incoming.length > 0)
-          this.trigger('change');
-      }
-
       return this.updateLastMessage();
     },
     async updateLastMessage() {
       if (!this.id) {
         return;
       }
-
-      // Update our friend indicator
-      this.updatePendingFriendRequests();
-
-      // Update our text input state
-      await this.updateTextInputState();
 
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
@@ -1981,11 +1923,12 @@
     },
 
     notify(message) {
-      if (!message.isIncoming()) {
-        if (message.isFriendRequest())
-          return this.notifyFriendRequest(message.get('source'), 'requested');
-        return Promise.resolve();
+      if (message.isFriendRequest()) {
+        if (this.hasSentFriendRequest())
+          return this.notifyFriendRequest(message.get('source'), 'accepted')
+        return this.notifyFriendRequest(message.get('source'), 'requested');
       }
+      if (!message.isIncoming()) return Promise.resolve();
       const conversationId = this.id;
 
       return ConversationController.getOrCreateAndWait(

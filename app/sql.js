@@ -396,7 +396,7 @@ async function updateToSchemaVersion6(currentVersion, instance) {
 
   await instance.run(
     `ALTER TABLE conversations
-     ADD COLUMN friendStatus INTEGER;`
+     ADD COLUMN friendRequestStatus INTEGER;`
   );
 
   await instance.run(
@@ -964,7 +964,7 @@ async function getConversationCount() {
 
 async function saveConversation(data) {
   // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, friendStatus, profileName } = data;
+  const { id, active_at, type, members, name, friendRequestStatus, profileName } = data;
 
   await db.run(
     `INSERT INTO conversations (
@@ -975,7 +975,7 @@ async function saveConversation(data) {
     type,
     members,
     name,
-    friendStatus,
+    friendRequestStatus,
     profileName
   ) values (
     $id,
@@ -985,7 +985,7 @@ async function saveConversation(data) {
     $type,
     $members,
     $name,
-    $friendStatus,
+    $friendRequestStatus,
     $profileName
   );`,
     {
@@ -996,7 +996,7 @@ async function saveConversation(data) {
       $type: type,
       $members: members ? members.join(' ') : null,
       $name: name,
-      $friendStatus: friendStatus,
+      $friendRequestStatus: friendRequestStatus,
       $profileName: profileName,
     }
   );
@@ -1020,7 +1020,7 @@ async function saveConversations(arrayOfConversations) {
 
 async function updateConversation(data) {
   // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, friendStatus, profileName } = data;
+  const { id, active_at, type, members, name, friendRequestStatus, profileName } = data;
 
   await db.run(
     `UPDATE conversations SET
@@ -1030,7 +1030,7 @@ async function updateConversation(data) {
     type = $type,
     members = $members,
     name = $name,
-    friendStatus = $friendStatus,
+    friendRequestStatus = $friendRequestStatus,
     profileName = $profileName
   WHERE id = $id;`,
     {
@@ -1041,7 +1041,7 @@ async function updateConversation(data) {
       $type: type,
       $members: members ? members.join(' ') : null,
       $name: name,
-      $friendStatus: friendStatus,
+      $friendRequestStatus: friendRequestStatus,
       $profileName: profileName,
     }
   );

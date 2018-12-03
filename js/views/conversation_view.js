@@ -7,10 +7,9 @@
 /* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
-/* global BlockNumberConversation: false */
 
 // eslint-disable-next-line func-names
-(function() {
+(function () {
   'use strict';
 
   window.Whisper = window.Whisper || {};
@@ -202,7 +201,7 @@
           onBlockUser: () => {
             this.model.block();
           },
-          onUnblockUser:  () => {
+          onUnblockUser: () => {
             this.model.unblock();
           },
           onChangeNickname: () => {
@@ -255,8 +254,7 @@
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
       this.$emojiPanelContainer = this.$('.emoji-panel-container');
-
-      this.model.updateFriendRequestUI();
+      this.model.updateTextInputState();
     },
 
     events: {
