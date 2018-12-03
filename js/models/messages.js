@@ -1383,7 +1383,7 @@
               message.set({ friendStatus: 'accepted' });
               await conversation.onFriendRequestAccepted();
               window.libloki.sendFriendRequestAccepted(message.get('source'));
-            } else if (conversation.isNone()) {
+            } else if (conversation.isFriendRequestStatusNone()) {
               await conversation.onFriendRequestReceived();
             }
           } else {

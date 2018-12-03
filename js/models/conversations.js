@@ -281,7 +281,7 @@
         lastUpdated: this.get('timestamp'),
         unreadCount: this.get('unreadCount') || 0,
         isSelected: this.isSelected,
-        showFriendRequestIndicator: this.isPending(),
+        showFriendRequestIndicator: this.isPendingFriendRequest(),
         isBlocked: this.isBlocked(),
         lastMessage: {
           status: this.lastMessageStatus,
@@ -434,19 +434,14 @@
         return contact.isVerified();
       });
     },
-    isNone() {
+    isFriendRequestStatusNone() {
       return this.get('friendRequestStatus') === FriendRequestStatusEnum.none;
     },
-    hasInputBlocked() {
+    isPendingFriendRequest() {
       const status = this.get('friendRequestStatus');
       return status === FriendRequestStatusEnum.requestSent ||
         status === FriendRequestStatusEnum.requestReceived ||
         status === FriendRequestStatusEnum.pendingSend;
-    },
-    isPending() {
-      const status = this.get('friendRequestStatus');
-      return status === FriendRequestStatusEnum.requestSent ||
-        status === FriendRequestStatusEnum.requestReceived;
     },
     hasSentFriendRequest() {
       return this.get('friendRequestStatus') === FriendRequestStatusEnum.requestSent;
@@ -479,7 +474,7 @@
     },
     async setFriendRequestStatus(newStatus) {
       // Ensure that the new status is a valid FriendStatusEnum value
-      if (!Object.values(FriendRequestStatusEnum).some(v => v === newStatus))
+      if (!(newStatus in Object.values(FriendRequestStatusEnum)))
         return;
       if (this.get('friendRequestStatus') !== newStatus) {
         this.set({ friendRequestStatus: newStatus });
@@ -563,7 +558,7 @@
       await this.setFriendRequestStatus(FriendRequestStatusEnum.none);
     },
     async onFriendRequestReceived() {
-      if (this.isNone()) {
+      if (this.isFriendRequestStatusNone()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.requestReceived);
       } else if (this.hasSentFriendRequest()) {
         await Promise.all([
@@ -966,7 +961,7 @@
 
     async sendMessage(body, attachments, quote) {
       // Input should be blocked if there is a pending friend request
-      if (this.hasInputBlocked())
+      if (this.isPendingFriendRequest())
         return;
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
@@ -1107,8 +1102,7 @@
                 expireTimer,
                 profileKey,
                 options
-              ),
-              message.isFriendRequest()
+              )
             )
           )
         );
@@ -1116,34 +1110,39 @@
         return true;
       });
     },
-    wrapSend(promise, isFriendRequest = false) {
+    wrapSend(promise) {
       return promise.then(
         async result => {
           // success
           if (result) {
-            if (isFriendRequest)
-              this.onFriendRequestSent();
-            await this.handleMessageSendResult(
-              result.failoverNumbers,
-              result.unidentifiedDeliveries
-            );
+            await this.handleMessageSendResult({
+              ...result,
+              success: true,
+            });
           }
           return result;
         },
         async result => {
           // failure
           if (result) {
-            await this.handleMessageSendResult(
-              result.failoverNumbers,
-              result.unidentifiedDeliveries
-            );
+            await this.handleMessageSendResult({
+              ...result,
+              success: false,
+            });
           }
           throw result;
         }
       );
     },
 
-    async handleMessageSendResult(failoverNumbers, unidentifiedDeliveries) {
+    async handleMessageSendResult({
+      failoverNumbers,
+      unidentifiedDeliveries,
+      messageType,
+      success,
+    }) {
+      if (success && messageType === 'friend-request')
+        await this.onFriendRequestSent();
       await Promise.all(
         (failoverNumbers || []).map(async number => {
           const conversation = ConversationController.get(number);

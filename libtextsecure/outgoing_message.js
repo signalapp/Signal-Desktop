@@ -60,6 +60,7 @@ OutgoingMessage.prototype = {
         failoverNumbers: this.failoverNumbers,
         errors: this.errors,
         unidentifiedDeliveries: this.unidentifiedDeliveries,
+        messageType: this.messageType,
       });
     }
   },
