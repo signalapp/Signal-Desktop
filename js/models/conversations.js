@@ -1443,13 +1443,13 @@
       }
     },
     async onSessionResetInitiated() {
-      this.setSessionResetStatus(SessionResetEnum.initiated);
+      await this.setSessionResetStatus(SessionResetEnum.initiated);
     },
   async onSessionResetReceived() {
-      this.setSessionResetStatus(SessionResetEnum.request_received);
+      await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      window.libloki.sendEmptyMessage(this.id);
+      await window.libloki.sendEmptyMessage(this.id);
     },
 
     isSessionResetReceived() {
@@ -1479,25 +1479,30 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        window.libloki.sendEmptyMessage(this.id);
+        await window.libloki.sendEmptyMessage(this.id);
       }
-      this.createAndStoreEndSessionMessage('done');
-      this.setSessionResetStatus(SessionResetEnum.none);
+      await this.createAndStoreEndSessionMessage('done');
+      await this.setSessionResetStatus(SessionResetEnum.none);
     },
 
     async endSession() {
       if (this.isPrivate()) {
-        // Only create a new message if we initiated the session reset.
+        // Only create a new message if *we* initiated the session reset.
         // On the receiver side, the actual message containing the END_SESSION flag
         // will ensure the "session reset" message will be added to their conversation.
-        if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
+        if (this.get('sessionResetStatus') === SessionResetEnum.none) {
+          await this.onSessionResetInitiated();
           const message = await this.createAndStoreEndSessionMessage('ongoing');
           const options = this.getSendOptions();
-          message.send(
+          await message.send(
             this.wrapSend(
               textsecure.messaging.resetSession(this.id, message.get('sent_at'), options)
             )
           );
+          if (message.hasErrors()) {
+            await this.createAndStoreEndSessionMessage('failed');
+            await this.setSessionResetStatus(SessionResetEnum.none);
+          }
         }
       }
     },

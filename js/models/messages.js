@@ -109,8 +109,11 @@
       return !!(this.get('flags') & flag);
     },
     getEndSessionTranslationKey() {
-      if (this.get('endSessionType') === 'ongoing') {
+      const sessionType = this.get('endSessionType');
+      if (sessionType === 'ongoing') {
         return 'sessionResetOngoing';
+      } else if (sessionType === 'failed') {
+        return 'sessionResetFailed';
       }
       return 'sessionEnded';
     },
