@@ -10,7 +10,7 @@
 
   Whisper.StandaloneRegistrationView = Whisper.View.extend({
     templateName: 'standalone',
-    className: 'full-screen-flow',
+    className: 'full-screen-flow standalone-fullscreen',
     initialize() {
       this.accountManager = getAccountManager();
 

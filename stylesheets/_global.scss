@@ -800,7 +800,22 @@ textarea {
   }
 }
 
+.standalone-fullscreen {
+  background: $color-dark-85;
+}
+
 #standalone {
+  color: $color-dark-05;
+  height: auto;
+
+  ::-webkit-scrollbar-track {
+    background: $color-dark-85;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid $color-dark-85;
+  }
+
   .step-body {
     width: 80%;
     min-width: 100px;
@@ -808,12 +823,12 @@ textarea {
   }
 
   .section-toggle {
-    background: $color-gray-05;
+    background: $color-dark-75;
   }
 
   .section-content {
     padding: 1em 0;
-    background-color: $color-gray-02;
+    background-color: $color-dark-72;
   }
 
   #status {
@@ -834,10 +849,21 @@ textarea {
     }
   }
 
+  input {
+    border: 1px solid $color-light-60;
+    color: $color-dark-05;
+    background-color: $color-gray-95;
+
+    &:focus {
+      outline: solid 1px $blue;
+    }
+  }
+
   #mnemonic-display {
     margin: 8px;
     margin-top: 0;
     font-size: 16px;
+    font-style: italic;
   }
 }
 
