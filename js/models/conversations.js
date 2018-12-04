@@ -1039,14 +1039,6 @@
         this.lastMessage = message.getNotificationText();
         this.lastMessageStatus = 'sending';
 
-        this.set({
-          active_at: now,
-          timestamp: now,
-        });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-
         if (this.isPrivate()) {
           message.set({ destination });
         }
@@ -1055,6 +1047,14 @@
           Message: Whisper.Message,
         });
         message.set({ id });
+
+        this.set({
+          active_at: now,
+          timestamp: now,
+        });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
 
         // We're offline!
         if (!textsecure.messaging) {
