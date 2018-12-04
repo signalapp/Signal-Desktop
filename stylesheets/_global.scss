@@ -826,11 +826,38 @@ textarea {
 
   .section-toggle {
     background: $color-dark-75;
+
+    &:first-of-type {
+      border-radius: 8px 8px 0 0;
+    }
+
+    &:last-of-type {
+      border-radius: 0 0 8px 8px;
+    }
+  }
+
+  .section-toggle-visible:last-of-type {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   .section-content {
     padding: 1em 0;
     background-color: $color-dark-72;
+
+    &:last-of-type {
+      border-radius: 0 0 8px 8px;
+    }
+  }
+
+  #display-name {
+    font-weight: bold;
+    font-size: 25px;
+    border-radius: 100px;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   #status {
@@ -853,12 +880,16 @@ textarea {
 
   input {
     border: 1px solid $color-light-60;
-    color: $color-dark-05;
-    background-color: $color-gray-95;
+    border-radius: 4px;
 
     &:focus {
       outline: solid 1px $blue;
     }
+  }
+
+  .button {
+    background: $color-loki-green-gradient;
+    border-radius: 100px;
   }
 
   #mnemonic-display {
@@ -880,6 +911,55 @@ textarea {
 
   #generate-mnemonic, #copy-mnemonic {
     background: $grey;
+  }
+
+  .select-container {
+    position: relative;
+    display: block;
+    width: 10em;
+    line-height: 2.8;
+    background: white;
+    overflow: hidden;
+    border-radius: .25em;
+
+    select {
+      // Reset select
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      appearance: none;
+      outline: 0;
+      box-shadow: none;
+      border: 0 !important;
+      background: white;
+      background-image: none;
+
+      // Our own stlying
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0 0 0 .5em;
+      color: black;
+      cursor: pointer;
+
+      ::-ms-expand {
+        display: none;
+      }
+    }
+
+    &:after {
+      content: '\25BC';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0 1em;
+      background: $color-dark-85;
+      pointer-events: none;
+      -webkit-transition: .25s all ease;
+      -o-transition: .25s all ease;
+      transition: .25s all ease;
+    }
   }
 
   @media (min-height: 750px) and (min-width: 700px) {

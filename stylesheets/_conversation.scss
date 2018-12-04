@@ -276,7 +276,7 @@
     display: block;
     max-height: 100px;
     padding: 10px;
-    border-radius: 2px;
+    border-radius: 4px;
     background-color: $color-loki-light-gray;
     color: $color-light-90;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -392,7 +392,7 @@
       margin-bottom: 15px;
       border: 0;
       outline: none;
-      border-radius: 100px;
+      border-radius: 4px;
       background-color: $color-loki-light-gray;
     }
 
