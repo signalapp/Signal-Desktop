@@ -28,4 +28,13 @@
       setTimeout(this.close.bind(this), 2000);
     },
   });
+
+  Whisper.MessageToastView = Whisper.ToastView.extend({
+    initialize(options) {
+      this.message = options.message || '-';
+    },
+    render_attributes() {
+      return { toastMessage: this.message };
+    },
+  })
 })();

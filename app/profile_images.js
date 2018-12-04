@@ -49,7 +49,7 @@ const generateImage = pubKey => {
   */
   const png = new Identicon(sha224(pubKey), {
     margin: 0.2,
-    background: [0,0,0,0],
+    background: [0, 0, 0, 0],
   }).toString();
   fs.writeFileSync(imagePath, png, 'base64');
   return imagePath

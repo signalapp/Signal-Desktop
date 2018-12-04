@@ -1656,5 +1656,18 @@
   "editProfileDisplayNameWarning": {
     "message": "Note: Your display name will be visible to your contacts",
     "description": "Shown to the user as a warning about setting display name"
+  },
+
+  "copyPublicKey": {
+    "message": "Copy public key",
+    "description": "Button action that the user can click to copy their public keys"
+  },
+  "copiedPublicKey": {
+    "message": "Copied public key",
+    "description": "A toast message telling the user that the key was copied"
+  },
+  "editDisplayName": {
+    "message": "Edit display name",
+    "description": "Button action that the user can click to edit their display name"
   }
 }

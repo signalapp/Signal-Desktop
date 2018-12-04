@@ -869,6 +869,11 @@
           this.set({ id: this.id });
           return 'Invalid ID Length';
         }
+
+        // Check if the id is prefixed by 05
+        if (!/^05/.test(this.id)) {
+          return 'Invalid Pubkey Format';
+        }
       }
 
       return null;
@@ -1616,12 +1621,12 @@
       await this.updateProfile();
     },
     async setProfile(profile) {
-      if (_.isEqual(this.get('profile'), profile)) return;
-
-      this.set({ profile });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      if (!_.isEqual(this.get('profile'), profile)) {
+        this.set({ profile });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
 
       await this.updateProfile();
     },

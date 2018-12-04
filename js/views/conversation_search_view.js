@@ -73,7 +73,7 @@
 
         // Update the contact model
         this.new_contact_view.model.set('id', query);
-        this.new_contact_view.render().$el.show();
+        this.new_contact_view.render().$el.hide();
         this.new_contact_view.validate();
         this.hideHints();
 
@@ -89,10 +89,9 @@
             // This will allow us to show the last message when searching
             this.typeahead_view.collection.forEach(c => c.updateLastMessage());
 
-            // Check if the query is in the model list
-            // If it is then hide the new contact view
-            const modelExists = this.typeahead_view.collection.find(item => item.get('id') === query);
-            if (modelExists) this.new_contact_view.$el.hide();
+            // Show the new contact view if we already have results
+            if (this.typeahead_view.collection.length === 0)
+              this.new_contact_view.$el.show();
           })
         );
         /* eslint-enable more/no-then */

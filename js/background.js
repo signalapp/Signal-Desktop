@@ -580,7 +580,6 @@
           nickname: displayName,
           onOk: async (newName) => {
             await storage.setProfileName(newName);
-            appView.inboxView.trigger('updateProfile');
 
             // Update the conversation if we have it
             const conversation = ConversationController.get(ourNumber);

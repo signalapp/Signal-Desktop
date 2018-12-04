@@ -6,16 +6,6 @@ body.dark-theme {
 }
 
 .dark-theme {
-  // identity key
-  .identity-key-wrapper {
-    background-color:$color-gray-85;
-  }
-
-  .identity-key-wrapper__pencil-icon {
-    @include color-svg('../images/lead-pencil.svg', $color-gray-25);
-  }
-
-
   // _conversation
 
   .conversation {

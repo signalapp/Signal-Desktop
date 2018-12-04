@@ -33,6 +33,7 @@
   flex-direction: column;
   float: left;
   width: 300px;
+  position: relative;
 
   .tool-bar {
     margin-top: 8px;
@@ -51,6 +52,10 @@
         outline: solid 1px $blue;
       }
     }
+  }
+
+  .toast {
+    bottom: 78px;
   }
 
   .content {
@@ -142,51 +147,9 @@
   }
 }
 
-.identity-key-wrapper {
-  background-color: $color-black-008-no-tranparency;
-  display: flex;
-  flex: 1;
-  height: $header-height;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-.identity-key-container {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  white-space: nowrap;
-  overflow-x: hidden;
-}
-
-.identity-key-text-container {
-  flex: 1;
-  text-align: center;
-  flex-direction: column;
-}
-
-.identity-key-container div {
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.identity-key_bold {
-  font-weight: bold;
-}
-
-.identity-key-wrapper__pencil-icon {
-  @include color-svg('../images/lead-pencil.svg', $color-gray-60);
-  height: 20px;
-  width: 20px;
-  margin-left: 4px;
-  cursor: pointer;
-}
-
 .underneathIdentityWrapper {
   position: absolute;
-  top: $header-height;
+  top: 0;
   bottom: 0;
   left: 300px;
   right: 0;

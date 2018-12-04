@@ -5,9 +5,7 @@
 /* global i18n: false */
 /* global Whisper: false */
 /* global textsecure: false */
-/* global Signal: false */
-/* global StringView: false */
-/* global storage: false */
+/* global clipboard: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -104,26 +102,10 @@
       // eslint-disable-next-line no-new
       new Whisper.FontSizeView({ el: this.$el });
 
-      const ourNumber = textsecure.storage.user.getNumber();
-      const me = ConversationController.getOrCreate(ourNumber, 'private');
-      this.mainHeaderView = new Whisper.ReactWrapperView({
-        className: 'main-header-wrapper',
-        Component: Signal.Components.MainHeader,
-        props: me.format(),
+      this.mainHeaderView = new Whisper.MainHeaderView({
+        el: this.$('.main-header-placeholder'),
+        items: this.getMainHeaderItems(),
       });
-      const update = () => this.mainHeaderView.update(me.format());
-      this.listenTo(me, 'change', update);
-      this.$('.main-header-placeholder').append(this.mainHeaderView.el);
-
-      this.identityKeyView = new Whisper.ReactWrapperView({
-        className: 'identity-key-wrapper',
-        Component: Signal.Components.IdentityKeyHeader,
-        props: this._getIdentityKeyViewProps(),
-      });
-      this.on('updateProfile', () => {
-        this.identityKeyView.update(this._getIdentityKeyViewProps());
-      })
-      this.$('.identity-key-placeholder').append(this.identityKeyView.el);
 
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
@@ -219,20 +201,6 @@
         const banner = new Whisper.ExpiredAlertBanner().render();
         banner.$el.prependTo(this.$el);
         this.$el.addClass('expired');
-      }
-    },
-    _getIdentityKeyViewProps() {
-      const identityKey = textsecure.storage.get('identityKey').pubKey;
-      const pubKey = StringView.arrayBufferToHex(identityKey);
-      const profile = storage.getLocalProfile();
-      const name = profile && profile.name && profile.name.displayName;
-
-      return {
-        identityKey: pubKey,
-        name,
-        onEditProfile: async () => {
-          window.Whisper.events.trigger('onEditProfile');
-        },
       }
     },
     render_attributes() {
@@ -356,6 +324,30 @@
     },
     onClick(e) {
       this.closeRecording(e);
+    },
+    getMainHeaderItems() {
+      return [
+        this._mainHeaderItem('copyPublicKey', () => {
+         const ourNumber = textsecure.storage.user.getNumber();
+          clipboard.writeText(ourNumber);
+
+          const toast = new Whisper.MessageToastView({
+            message: i18n('copiedPublicKey'),
+          });
+          toast.$el.appendTo(this.$('.gutter'));
+          toast.render();
+        }),
+        this._mainHeaderItem('editDisplayName', () => {
+          window.Whisper.events.trigger('onEditProfile');
+        }),
+      ];
+    },
+    _mainHeaderItem(textKey, onClick) {
+      return {
+        id: textKey,
+        text: i18n(textKey),
+        onClick,
+      };
     },
   });
 

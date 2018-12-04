@@ -2180,14 +2180,72 @@
 
 // Module: Main Header
 
+.main-header-title-wrapper {
+  flex: 1;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-dark-75;
+  }
+}
+
+.main-header-content-wrapper {
+  color: $color-dark-05;
+
+  div {
+    padding: 12px;
+    background-color: $color-dark-90;
+
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-dark-75;
+    }
+  }
+}
+
+.main-header-wrapper {
+  overflow-x: hidden;
+  flex: 1;
+}
+
 .module-main-header {
   height: $header-height;
-  margin-left: 16px;
+  padding-left: 16px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
+.main-header-content-toggle {
+  width: 3em;
+  line-height: 3em;
+  font-weight: bold;
+  overflow: hidden;
+  user-select: none;
+  color: white;
+  text-align: center;
+
+  &:after {
+    -webkit-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+    width: 3em;
+    line-height: 3em;
+    height: 3em;
+    content: '\25BE';
+    display: inline-block;
+  }
+}
+
+.main-header-content-toggle-visible::after {
+  transform: rotate(180deg);
+}
+
 
 .module-main-header__app-name {
   font-size: 16px;
@@ -2195,6 +2253,14 @@
   font-weight: 300;
   margin-left: 32px;
   color: $color-dark-05;
+}
+
+.module-main-header__contact-name {
+  font-weight: 300;
+  margin-left: 12px;
+  color: $color-dark-05;
+  overflow-x: auto;
+  flex: 1;
 }
 
 // Third-party module: react-contextmenu
