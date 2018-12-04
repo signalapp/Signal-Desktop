@@ -1460,7 +1460,7 @@
       return this.get('sessionResetStatus') !== SessionResetEnum.none;
     },
 
-    async createAndStoreEndSessionMessage(endSessionType) {
+    async createAndStoreEndSessionMessage(attributes) {
       const now = Date.now();
       const message = this.messageCollection.add({
         conversationId: this.id,
@@ -1470,7 +1470,7 @@
         destination: this.id,
         recipients: this.getRecipients(),
         flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
-        endSessionType,
+        ...attributes,
       });
 
       const id = await window.Signal.Data.saveMessage(message.attributes, {
@@ -1485,7 +1485,7 @@
         // send empty message to confirm that we have adopted the new session
         await window.libloki.sendEmptyMessage(this.id);
       }
-      await this.createAndStoreEndSessionMessage('done');
+      await this.createAndStoreEndSessionMessage({ type: 'incoming', endSessionType: 'done' });
       await this.setSessionResetStatus(SessionResetEnum.none);
     },
 
@@ -1496,7 +1496,7 @@
         // will ensure the "session reset" message will be added to their conversation.
         if (this.get('sessionResetStatus') !== SessionResetEnum.request_received) {
           await this.onSessionResetInitiated();
-          const message = await this.createAndStoreEndSessionMessage('ongoing');
+          const message = await this.createAndStoreEndSessionMessage({ type: 'outgoing', endSessionType: 'ongoing' });
           const options = this.getSendOptions();
           await message.send(
             this.wrapSend(
@@ -1504,7 +1504,6 @@
             )
           );
           if (message.hasErrors()) {
-            await this.createAndStoreEndSessionMessage('failed');
             await this.setSessionResetStatus(SessionResetEnum.none);
           }
         }

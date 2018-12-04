@@ -1136,6 +1136,10 @@
       });
       errors = errors.concat(this.get('errors') || []);
 
+      if (this.isEndSession) {
+        this.set({ endSessionType: 'failed'});
+      }
+
       this.set({ errors });
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
