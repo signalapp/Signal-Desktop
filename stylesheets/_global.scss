@@ -802,11 +802,13 @@ textarea {
 
 .standalone-fullscreen {
   background: $color-dark-85;
+  overflow-y: auto;
 }
 
 #standalone {
   color: $color-dark-05;
   height: auto;
+  padding: 0;
 
   ::-webkit-scrollbar-track {
     background: $color-dark-85;
@@ -860,10 +862,38 @@ textarea {
   }
 
   #mnemonic-display {
-    margin: 8px;
-    margin-top: 0;
+    margin: 2em 8px;
     font-size: 16px;
     font-style: italic;
+  }
+
+  .standalone-register-warning {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0px 8px;
+  }
+
+  .display-name-header {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  #generate-mnemonic, #copy-mnemonic {
+    background: $grey;
+  }
+
+  @media (min-height: 750px) and (min-width: 700px) {
+    .display-name-header {
+      font-size: 18px;
+    }
+
+    .standalone-register-warning {
+      font-size: 20px;
+    }
+
+    #mnemonic-display {
+      font-size: 20px;
+    }
   }
 }
 
