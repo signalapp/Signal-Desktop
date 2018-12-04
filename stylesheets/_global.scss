@@ -533,7 +533,7 @@ textarea {
 
   font-size: 10pt;
   input {
-    margin-top: 1em;
+    margin-bottom: 1em;
     font-size: 12pt;
     font-family: roboto-light;
     border: 2px solid $blue;
@@ -647,10 +647,6 @@ textarea {
     max-width: 35em;
   }
 
-  #display-name {
-    margin-bottom: 12px;
-  }
-
   .inner {
     display: flex;
     align-items: center;
@@ -723,9 +719,6 @@ textarea {
     border: none;
     min-width: 300px;
     padding: 0.75em;
-    margin-top: 1em;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
     color: white;
     background: $blue;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -802,6 +795,41 @@ textarea {
     }
     .body {
       float: left;
+    }
+  }
+}
+
+#standalone {
+  .step-body {
+    width: 80%;
+    min-width: 100px;
+    max-width: none;
+  }
+
+  .section-toggle {
+    background: $color-gray-05;
+  }
+
+  .section-content {
+    padding: 1em 0;
+    background-color: $color-gray-02;
+  }
+
+  #status {
+    margin-top: 12px;
+  }
+
+  .standalone-mnemonic-inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1em 12px;
+    margin-top: 0;
+
+    input {
+      flex: 1;
+      margin: 0;
+      margin-right: 12px;
     }
   }
 }

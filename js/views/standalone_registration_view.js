@@ -25,6 +25,8 @@
       });
       this.$('#error').hide();
 
+      this.$('.standalone-mnemonic').hide();
+
       window.mnemonic.get_languages().forEach(language => {
         this.$('#mnemonic-language').append(
           $('<option>', {
@@ -42,6 +44,7 @@
       'click #register': 'register',
       'click #register-mnemonic': 'registerWithMnemonic',
       'change #mnemonic': 'onChangeMnemonic',
+      'click .section-toggle': 'toggleSection',
     },
     register() {
       this.accountManager
@@ -120,6 +123,19 @@
       } else {
         this.$('#number-container').addClass('invalid');
       }
+    },
+    toggleSection(e) {
+      // Expand or collapse this panel
+      const $target = this.$(e.target);
+      const $next = $target.next();
+
+      // Toggle section visibility
+      $next.slideToggle('fast');
+      $target.toggleClass('section-toggle-visible');
+
+      // Hide the other sections
+      this.$('.section-toggle').not($target).removeClass('section-toggle-visible')
+      this.$('.section-content').not($next).slideUp('fast');
     },
   });
 })();
