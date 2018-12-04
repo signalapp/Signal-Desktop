@@ -722,8 +722,9 @@ textarea {
     color: white;
     background: $blue;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
+    user-select: none;
     font-size: 12pt;
+    margin-top: 4px;
 
     &.neutral {
       color: black;
@@ -823,7 +824,7 @@ textarea {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 1em 12px;
+    margin: 1em 8px;
     margin-top: 0;
 
     input {
@@ -831,6 +832,12 @@ textarea {
       margin: 0;
       margin-right: 12px;
     }
+  }
+
+  #mnemonic-display {
+    margin: 8px;
+    margin-top: 0;
+    font-size: 16px;
   }
 }
 

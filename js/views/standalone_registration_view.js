@@ -1,4 +1,4 @@
-/* global Whisper, $, getAccountManager, textsecure, storage, ConversationController */
+/* global Whisper, $, getAccountManager, textsecure, i18n, storage, ConversationController */
 
 /* eslint-disable more/no-then */
 
@@ -27,6 +27,8 @@
 
       this.$('.standalone-mnemonic').hide();
 
+      this.onGenerateMnemonic();
+
       window.mnemonic.get_languages().forEach(language => {
         this.$('#mnemonic-language').append(
           $('<option>', {
@@ -41,15 +43,17 @@
       'click #request-voice': 'requestVoice',
       'click #request-sms': 'requestSMSVerification',
       'change #code': 'onChangeCode',
-      'click #register': 'register',
+      'click #register': 'registerWithoutMnemonic',
       'click #register-mnemonic': 'registerWithMnemonic',
       'change #mnemonic': 'onChangeMnemonic',
+      'click #generate-mnemonic': 'onGenerateMnemonic',
+      'click #copy-mnemonic': 'onCopyMnemonic',
       'click .section-toggle': 'toggleSection',
     },
-    register() {
+    register(mnemonic) {
       this.accountManager
         .registerSingleDevice(
-          this.$('#mnemonic').val(),
+          mnemonic,
           this.$('#mnemonic-language').val(),
           this.$('#display-name').val()
         )
@@ -58,16 +62,33 @@
         })
         .catch(this.log.bind(this));
     },
+    registerWithoutMnemonic() {
+      const mnemonic = this.$('#mnemonic-display').text();
+      this.register(mnemonic);
+    },
     registerWithMnemonic() {
-      const words = this.$('#mnemonic').val();
-      if (!words) {
+      const mnemonic = this.$('#mnemonic').val();
+      if (!mnemonic) {
         this.log('Please provide a mnemonic word list');
       } else {
-        this.register();
+        this.register(mnemonic);
       }
     },
     onChangeMnemonic() {
       this.$('#status').html('');
+    },
+    async onGenerateMnemonic() {
+      const mnemonic = await this.accountManager.generateMnemonic();
+      this.$('#mnemonic-display').text(mnemonic)
+    },
+    onCopyMnemonic() {
+      window.clipboard.writeText(this.$('#mnemonic-display').text());
+
+      const toast = new Whisper.MessageToastView({
+        message: i18n('copiedMnemonic'),
+      });
+      toast.$el.appendTo(this.$el);
+      toast.render();
     },
     log(s) {
       window.log.info(s);

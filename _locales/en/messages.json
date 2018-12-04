@@ -1669,5 +1669,10 @@
   "editDisplayName": {
     "message": "Edit display name",
     "description": "Button action that the user can click to edit their display name"
+  },
+
+  "copiedMnemonic": {
+    "message": "Copied mnemonic to clipboard",
+    "description": "A toast message telling the user that the mnemonic was copied"
   }
 }
