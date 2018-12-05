@@ -1,4 +1,4 @@
-/* global Whisper, $, getAccountManager, textsecure, storage, ConversationController */
+/* global Whisper, $, getAccountManager, textsecure, i18n, storage, ConversationController */
 
 /* eslint-disable more/no-then */
 
@@ -10,7 +10,7 @@
 
   Whisper.StandaloneRegistrationView = Whisper.View.extend({
     templateName: 'standalone',
-    className: 'full-screen-flow',
+    className: 'full-screen-flow standalone-fullscreen',
     initialize() {
       this.accountManager = getAccountManager();
 
@@ -25,28 +25,34 @@
       });
       this.$('#error').hide();
 
-      window.mnemonic.get_languages().forEach(language => {
-        this.$('#mnemonic-language').append(
-          $('<option>', {
-            value: language,
-            text: language.charAt(0).toUpperCase() + language.slice(1),
-          })
-        );
+      this.$('.standalone-mnemonic').hide();
+
+      this.onGenerateMnemonic();
+
+      const options = window.mnemonic.get_languages().map(language => {
+        const text = language.charAt(0).toUpperCase() + language.slice(1);
+        return `<option value="${language}">${text}</option>`;
       });
+      this.$('#mnemonic-language').append(options);
+      this.$('#mnemonic-display-language').append(options);
     },
     events: {
       'validation input.number': 'onValidation',
       'click #request-voice': 'requestVoice',
       'click #request-sms': 'requestSMSVerification',
       'change #code': 'onChangeCode',
-      'click #register': 'register',
+      'click #register': 'registerWithoutMnemonic',
       'click #register-mnemonic': 'registerWithMnemonic',
       'change #mnemonic': 'onChangeMnemonic',
+      'click #generate-mnemonic': 'onGenerateMnemonic',
+      'change #mnemonic-display-language': 'onGenerateMnemonic',
+      'click #copy-mnemonic': 'onCopyMnemonic',
+      'click .section-toggle': 'toggleSection',
     },
-    register() {
+    register(mnemonic) {
       this.accountManager
         .registerSingleDevice(
-          this.$('#mnemonic').val(),
+          mnemonic,
           this.$('#mnemonic-language').val(),
           this.$('#display-name').val()
         )
@@ -55,16 +61,34 @@
         })
         .catch(this.log.bind(this));
     },
+    registerWithoutMnemonic() {
+      const mnemonic = this.$('#mnemonic-display').text();
+      this.register(mnemonic);
+    },
     registerWithMnemonic() {
-      const words = this.$('#mnemonic').val();
-      if (!words) {
+      const mnemonic = this.$('#mnemonic').val();
+      if (!mnemonic) {
         this.log('Please provide a mnemonic word list');
       } else {
-        this.register();
+        this.register(mnemonic);
       }
     },
     onChangeMnemonic() {
       this.$('#status').html('');
+    },
+    async onGenerateMnemonic() {
+      const language = this.$('#mnemonic-display-language').val();
+      const mnemonic = await this.accountManager.generateMnemonic(language);
+      this.$('#mnemonic-display').text(mnemonic)
+    },
+    onCopyMnemonic() {
+      window.clipboard.writeText(this.$('#mnemonic-display').text());
+
+      const toast = new Whisper.MessageToastView({
+        message: i18n('copiedMnemonic'),
+      });
+      toast.$el.appendTo(this.$el);
+      toast.render();
     },
     log(s) {
       window.log.info(s);
@@ -120,6 +144,19 @@
       } else {
         this.$('#number-container').addClass('invalid');
       }
+    },
+    toggleSection(e) {
+      // Expand or collapse this panel
+      const $target = this.$(e.target);
+      const $next = $target.next();
+
+      // Toggle section visibility
+      $next.slideToggle('fast');
+      $target.toggleClass('section-toggle-visible');
+
+      // Hide the other sections
+      this.$('.section-toggle').not($target).removeClass('section-toggle-visible')
+      this.$('.section-content').not($next).slideUp('fast');
     },
   });
 })();

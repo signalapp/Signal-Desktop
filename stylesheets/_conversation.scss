@@ -276,7 +276,7 @@
     display: block;
     max-height: 100px;
     padding: 10px;
-    border-radius: 2px;
+    border-radius: 4px;
     background-color: $color-loki-light-gray;
     color: $color-light-90;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -368,19 +368,20 @@
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
 
     .buttons {
-      margin-top: 10px;
 
       button {
         float: right;
         margin-left: 10px;
-        background-color: $grey_l;
-        border-radius: $border-radius;
-        padding: 5px 8px;
-        border: 1px solid $grey_l2;
+        background-color: $color-loki-green;
+        border-radius: 100px;
+        padding: 5px 15px;
+        border: 1px solid $color-loki-green;
+        color: white;
+        outline: none;
 
         &:hover {
-          background-color: $grey_l2;
-          border-color: $grey_l3;
+          background-color: $color-loki-green-dark;
+          border-color: $color-loki-green-dark;
         }
       }
     }
@@ -388,10 +389,16 @@
     input {
       width: 100%;
       padding: 8px;
-      margin-bottom: 4px;
+      margin-bottom: 15px;
+      border: 0;
+      outline: none;
+      border-radius: 4px;
+      background-color: $color-loki-light-gray;
     }
 
     h4 {
+      margin-top: 8px;
+      margin-bottom: 16px;
       white-space: -moz-pre-wrap; /* Mozilla */
       white-space: -hp-pre-wrap; /* HP printers */
       white-space: -o-pre-wrap; /* Opera 7 */
@@ -406,6 +413,7 @@
       font-style: italic;
       color: $grey;
       font-size: 12px;
+      margin-bottom: 16px;
     }
   }
 }

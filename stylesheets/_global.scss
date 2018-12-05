@@ -533,7 +533,7 @@ textarea {
 
   font-size: 10pt;
   input {
-    margin-top: 1em;
+    margin-bottom: 1em;
     font-size: 12pt;
     font-family: roboto-light;
     border: 2px solid $blue;
@@ -647,10 +647,6 @@ textarea {
     max-width: 35em;
   }
 
-  #display-name {
-    margin-bottom: 12px;
-  }
-
   .inner {
     display: flex;
     align-items: center;
@@ -723,14 +719,12 @@ textarea {
     border: none;
     min-width: 300px;
     padding: 0.75em;
-    margin-top: 1em;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
     color: white;
     background: $blue;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
+    user-select: none;
     font-size: 12pt;
+    margin-top: 4px;
 
     &.neutral {
       color: black;
@@ -802,6 +796,194 @@ textarea {
     }
     .body {
       float: left;
+    }
+  }
+}
+
+.standalone-fullscreen {
+  background: $color-dark-85;
+  overflow-y: auto;
+}
+
+#standalone {
+  color: $color-dark-05;
+  height: auto;
+  padding: 0;
+
+  ::-webkit-scrollbar-track {
+    background: $color-dark-85;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid $color-dark-85;
+  }
+
+  .step-body {
+    width: 80%;
+    min-width: 100px;
+    max-width: none;
+  }
+
+  .section-toggle {
+    background: $color-dark-75;
+
+    &:first-of-type {
+      border-radius: 8px 8px 0 0;
+    }
+
+    &:last-of-type {
+      border-radius: 0 0 8px 8px;
+    }
+  }
+
+  .section-toggle-visible:last-of-type {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .section-content {
+    padding: 1em 0;
+    background-color: $color-dark-72;
+
+    &:last-of-type {
+      border-radius: 0 0 8px 8px;
+    }
+  }
+
+  #display-name {
+    font-weight: bold;
+    font-size: 25px;
+    border-radius: 100px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  #status {
+    margin-top: 12px;
+  }
+
+  .standalone-mnemonic-inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1em 8px;
+    margin-top: 0;
+
+    input {
+      flex: 1;
+      margin: 0;
+      margin-right: 12px;
+    }
+  }
+
+  input {
+    border: 1px solid $color-light-60;
+    border-radius: 4px;
+
+    &:focus {
+      outline: solid 1px $blue;
+    }
+  }
+
+  .button {
+    background: $color-loki-green-gradient;
+    border-radius: 100px;
+  }
+
+  #mnemonic-display {
+    margin: 2em 8px;
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  .standalone-register-warning {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0px 8px;
+  }
+
+  .standalone-register-language {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
+
+    span {
+      margin-right: 8px;
+    }
+  }
+
+  .display-name-header {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  #generate-mnemonic, #copy-mnemonic {
+    background: $grey;
+  }
+
+  .select-container {
+    position: relative;
+    display: block;
+    width: 10em;
+    line-height: 2.8;
+    background: white;
+    overflow: hidden;
+    border-radius: .25em;
+
+    select {
+      // Reset select
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      appearance: none;
+      outline: 0;
+      box-shadow: none;
+      border: 0 !important;
+      background: white;
+      background-image: none;
+
+      // Our own stlying
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0 0 0 .5em;
+      color: black;
+      cursor: pointer;
+
+      ::-ms-expand {
+        display: none;
+      }
+    }
+
+    &:after {
+      content: '\25BC';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0 1em;
+      background: $color-dark-85;
+      pointer-events: none;
+      -webkit-transition: .25s all ease;
+      -o-transition: .25s all ease;
+      transition: .25s all ease;
+    }
+  }
+
+  @media (min-height: 750px) and (min-width: 700px) {
+    .display-name-header {
+      font-size: 18px;
+    }
+
+    .standalone-register-warning {
+      font-size: 20px;
+    }
+
+    #mnemonic-display {
+      font-size: 20px;
     }
   }
 }

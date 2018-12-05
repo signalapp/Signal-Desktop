@@ -2,7 +2,7 @@
   window,
   textsecure,
   libsignal,
-  WebSocketResource,
+  mnemonic,
   btoa,
   getString,
   Event,
@@ -445,6 +445,11 @@
           this.cleanSignedPreKeys().then(() => result)
         );
       });
+    },
+    async generateMnemonic(language = 'english') {
+      const keys = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const hex = StringView.arrayBufferToHex(keys.privKey);
+      return mnemonic.mn_encode(hex, language);
     },
     async registrationDone(number, profileName) {
       window.log.info('registration done');
