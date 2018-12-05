@@ -11,7 +11,7 @@ test_all:
   stage: test
   script:
     # chrome drivers
-    - apt-get update && apt-get install -y libgtk2.0-0 libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb
+    - apt-get update && apt-get install -y libgtk2.0-0 libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb hunspell-en-us
     - whoami
     - node -v
     - yarn -v
@@ -19,6 +19,7 @@ test_all:
     - yarn generate
     - Xvfb -ac -screen scrn 1280x2000x24 :9.0 &
     - export DISPLAY=:9.0
+    - export LC_ALL=en_US
     - yarn test
   tags:
     - docker
