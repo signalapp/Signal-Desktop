@@ -17,8 +17,12 @@
   <style>
   </style>
   <script type='text/x-tmpl-mustache' id='launcher'>
-    <div class='content'>
-      <h4>{{ title }}</h4>
+    <div class='content' id='standalone'>
+      <h2>{{ title }}</h2>
+      <div class='inputs'>
+        <input class='form-control' type='text' id='mnemonic' placeholder='Password' autocomplete='off' spellcheck='false' />
+        <a class='button'>{{ buttonText }}</a>
+      </div>
     </div>
   </script>
 

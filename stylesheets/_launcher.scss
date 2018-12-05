@@ -1,0 +1,17 @@
+.launcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: $color-dark-85;
+  color: $color-dark-05;
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    width: 30em;
+  }
+}

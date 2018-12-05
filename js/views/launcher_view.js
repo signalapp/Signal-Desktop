@@ -11,14 +11,15 @@
   window.Whisper = window.Whisper || {};
 
   Whisper.LauncherView = Whisper.View.extend({
-    className: 'launcher',
+    className: 'launcher full-screen-flow',
     templateName: 'launcher',
     initialize() {
       this.render();
     },
     render_attributes() {
       return {
-        title: 'WOOOWEEE',
+        title: 'Type in your password',
+        buttonText: 'Unlock',
       };
     },
   });
