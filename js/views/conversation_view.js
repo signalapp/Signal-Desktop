@@ -1258,7 +1258,7 @@
       }
     },
 
-    async endSession() {
+    endSession() {
       this.model.endSession();
     },
 
