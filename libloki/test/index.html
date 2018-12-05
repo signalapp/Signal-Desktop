@@ -1,0 +1,39 @@
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>libloki test runner</title>
+  <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
+</head>
+<body>
+
+  <div id="mocha">
+  </div>
+  <div id="tests">
+  </div>
+
+  <script type="text/javascript" src="test.js"></script>
+  <script type="text/javascript" src="../../libtextsecure/test/in_memory_signal_protocol_store.js"></script>
+
+  <script type="text/javascript" src="../../libtextsecure/components.js"></script>
+  <script type="text/javascript" src="../../libtextsecure/helpers.js" data-cover></script>
+  <script type="text/javascript" src="../../libtextsecure/storage.js" data-cover></script>
+  <script type="text/javascript" src="../../libtextsecure/libsignal-protocol.js"></script>
+  <script type="text/javascript" src="../../libtextsecure/protocol_wrapper.js" data-cover></script>
+  <script type="text/javascript" src="../../libtextsecure/protobufs.js" data-cover></script>
+  <script type="text/javascript" src="../../libtextsecure/stringview.js" data-cover></script>
+
+  <script type="text/javascript" src="../libloki-protocol.js" data-cover></script>
+
+  <script type="text/javascript" src="libloki-protocol_test.js"></script>
+
+  <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
+  <!--   NOTE: blanket doesn't support modern syntax and will choke until we find a replacement. :0( -->
+  <!-- <script type="text/javascript" src="blanket_mocha.js"></script> -->
+
+  <!-- Uncomment to start tests without code coverage enabled -->
+  <script type="text/javascript">
+    mocha.run();
+  </script>
+</body>
+</html>

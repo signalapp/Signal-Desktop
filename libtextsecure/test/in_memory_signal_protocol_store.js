@@ -152,4 +152,16 @@ SignalProtocolStore.prototype = {
       resolve(deviceIds);
     });
   },
+  async loadPreKeyForContactIdentityKeyString(contactIdentityKeyString) {
+    return new Promise(resolve => {
+      const key = this.get(`25519KeypreKey${contactIdentityKeyString}`);
+      if (!key) resolve(undefined);
+      resolve({
+        pubKey: key.publicKey,
+        privKey: key.privateKey,
+        keyId: key.id,
+        recipient: key.recipient,
+      });
+    });
+  },
 };

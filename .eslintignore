@@ -11,6 +11,7 @@ js/libloki.js
 js/util_worker.js
 js/libsignal-protocol-worker.js
 libtextsecure/components.js
+libloki/test/test.js
 libtextsecure/test/test.js
 test/test.js
 
@@ -25,4 +26,3 @@ test/blanket_mocha.js
 
 # TypeScript generated files
 ts/**/*.js
-
