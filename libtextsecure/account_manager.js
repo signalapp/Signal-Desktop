@@ -446,10 +446,10 @@
         );
       });
     },
-    async generateMnemonic() {
+    async generateMnemonic(language = 'english') {
       const keys = await libsignal.KeyHelper.generateIdentityKeyPair();
       const hex = StringView.arrayBufferToHex(keys.privKey);
-      return mnemonic.mn_encode(hex);
+      return mnemonic.mn_encode(hex, language);
     },
     async registrationDone(number, profileName) {
       window.log.info('registration done');

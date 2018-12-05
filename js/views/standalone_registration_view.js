@@ -29,14 +29,12 @@
 
       this.onGenerateMnemonic();
 
-      window.mnemonic.get_languages().forEach(language => {
-        this.$('#mnemonic-language').append(
-          $('<option>', {
-            value: language,
-            text: language.charAt(0).toUpperCase() + language.slice(1),
-          })
-        );
+      const options = window.mnemonic.get_languages().map(language => {
+        const text = language.charAt(0).toUpperCase() + language.slice(1);
+        return `<option value="${language}">${text}</option>`;
       });
+      this.$('#mnemonic-language').append(options);
+      this.$('#mnemonic-display-language').append(options);
     },
     events: {
       'validation input.number': 'onValidation',
@@ -47,6 +45,7 @@
       'click #register-mnemonic': 'registerWithMnemonic',
       'change #mnemonic': 'onChangeMnemonic',
       'click #generate-mnemonic': 'onGenerateMnemonic',
+      'change #mnemonic-display-language': 'onGenerateMnemonic',
       'click #copy-mnemonic': 'onCopyMnemonic',
       'click .section-toggle': 'toggleSection',
     },
@@ -78,7 +77,8 @@
       this.$('#status').html('');
     },
     async onGenerateMnemonic() {
-      const mnemonic = await this.accountManager.generateMnemonic();
+      const language = this.$('#mnemonic-display-language').val();
+      const mnemonic = await this.accountManager.generateMnemonic(language);
       this.$('#mnemonic-display').text(mnemonic)
     },
     onCopyMnemonic() {

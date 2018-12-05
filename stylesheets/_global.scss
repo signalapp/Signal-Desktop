@@ -904,6 +904,17 @@ textarea {
     margin: 0px 8px;
   }
 
+  .standalone-register-language {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
+
+    span {
+      margin-right: 8px;
+    }
+  }
+
   .display-name-header {
     margin-bottom: 8px;
     font-size: 14px;
