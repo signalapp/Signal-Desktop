@@ -75,7 +75,18 @@ SignalProtocolStore.prototype = {
       resolve(res);
     });
   },
-  storePreKey(keyId, keyPair) {
+  storePreKey(keyId, keyPair, contactIdentityKeyString = null) {
+    if (contactIdentityKeyString) {
+      const data = {
+        id: keyId,
+        publicKey: keyPair.pubKey,
+        privateKey: keyPair.privKey,
+        recipient: contactIdentityKeyString,
+      };
+      return new Promise(resolve => {
+        resolve(this.put(`25519KeypreKey${contactIdentityKeyString}`, data));
+      });
+    }
     return new Promise(resolve => {
       resolve(this.put(`25519KeypreKey${keyId}`, keyPair));
     });

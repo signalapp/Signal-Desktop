@@ -57,4 +57,57 @@ describe('ConversationCollection', () => {
     for (let i = 0 ; i !== testKeyArray.byteLength ; i += 1)
       assert.strictEqual(testKeyArray[i], signedKeyArray[i]);
   });
+
+  it('should should return the same prekey bundle after creating a contact', async () => {
+    const pubKey = libsignal.crypto.getRandomBytes(32);
+    const pubKeyString = StringView.arrayBufferToHex(pubKey);
+    const bundle1 = await libloki.getPreKeyBundleForNumber(pubKeyString);
+    const bundle2 = await libloki.getPreKeyBundleForNumber(pubKeyString);
+
+    assert.isDefined(bundle1);
+    assert.isDefined(bundle1.identityKey);
+    assert.isDefined(bundle1.deviceId);
+    assert.isDefined(bundle1.preKeyId);
+    assert.isDefined(bundle1.signedKeyId);
+    assert.isDefined(bundle1.preKey);
+    assert.isDefined(bundle1.signedKey);
+    assert.isDefined(bundle1.signature);
+
+    assert.isDefined(bundle2);
+    assert.isDefined(bundle2.identityKey);
+    assert.isDefined(bundle2.deviceId);
+    assert.isDefined(bundle2.preKeyId);
+    assert.isDefined(bundle2.signedKeyId);
+    assert.isDefined(bundle2.preKey);
+    assert.isDefined(bundle2.signedKey);
+    assert.isDefined(bundle2.signature);
+
+    const identityKeyArray1 = new Uint8Array(bundle1.identityKey.toArrayBuffer());
+    const identityKeyArray2 = new Uint8Array(bundle2.identityKey.toArrayBuffer());
+    assert.strictEqual(identityKeyArray2.byteLength, identityKeyArray2.byteLength);
+    for (let i = 0 ; i !== identityKeyArray2.byteLength ; i += 1)
+      assert.strictEqual(identityKeyArray1[i], identityKeyArray2[i]);
+
+    assert.strictEqual(bundle1.deviceId, bundle2.deviceId);
+    assert.strictEqual(bundle1.preKeyId, bundle2.preKeyId);
+    assert.strictEqual(bundle1.signedKeyId, bundle2.signedKeyId);
+
+    const preKeyArray1 = new Uint8Array(bundle1.preKey.toArrayBuffer());
+    const preKeyArray2 = new Uint8Array(bundle2.preKey.toArrayBuffer());
+    assert.strictEqual(preKeyArray2.byteLength, preKeyArray2.byteLength);
+    for (let i = 0 ; i !== preKeyArray2.byteLength ; i += 1)
+      assert.strictEqual(preKeyArray1[i], preKeyArray2[i]);
+
+    const signedKeyArray1 = new Uint8Array(bundle1.signedKey.toArrayBuffer());
+    const signedKeyArray2 = new Uint8Array(bundle2.signedKey.toArrayBuffer());
+    assert.strictEqual(signedKeyArray2.byteLength, signedKeyArray2.byteLength);
+    for (let i = 0 ; i !== signedKeyArray2.byteLength ; i += 1)
+      assert.strictEqual(signedKeyArray1[i], signedKeyArray2[i]);
+
+    const signatureArray1 = new Uint8Array(bundle1.signature.toArrayBuffer());
+    const signatureArray2 = new Uint8Array(bundle2.signature.toArrayBuffer());
+    assert.strictEqual(signatureArray2.byteLength, signatureArray2.byteLength);
+    for (let i = 0 ; i !== signatureArray2.byteLength ; i += 1)
+      assert.strictEqual(signatureArray1[i], signatureArray2[i]);
+  });
 });
