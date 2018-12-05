@@ -174,7 +174,7 @@ describe('NetworkStatusView', () => {
           /Attempting reconnect/
         );
       });
-      it('should be reset by changing the socketStatus to CONNECTING', () => {});
+      it('should be reset by changing the socketStatus to CONNECTING', () => { });
     });
   });
 });

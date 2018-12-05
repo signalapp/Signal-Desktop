@@ -161,14 +161,12 @@
       return undefined;
     },
     async getLocalRegistrationId() {
+      const item = await window.Signal.Data.getItemById('registrationId');
+      if (item) {
+        return item.value;
+      }
+
       return 1;
-
-      // const item = await window.Signal.Data.getItemById('registrationId');
-      // if (item) {
-      //   return item.value;
-      // }
-
-      // return undefined;
     },
 
     /* Returns a prekeypair object or undefined */

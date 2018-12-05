@@ -1,4 +1,4 @@
-/* global storage, textsecure, Whisper */
+/* global textsecure, Whisper */
 
 'use strict';
 
@@ -29,7 +29,7 @@ describe('ConversationCollection', () => {
 });
 
 describe('Conversation', () => {
-  const attributes = { type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' };
+  const attributes = { type: 'private', id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' };
   before(async () => {
     const convo = new Whisper.ConversationCollection().add(attributes);
     await window.Signal.Data.saveConversation(convo.attributes, {
@@ -50,7 +50,7 @@ describe('Conversation', () => {
   after(clearDatabase);
 
   it('sorts its contacts in an intl-friendly way', () => {
-    const convo = new Whisper.Conversation({ id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
+    const convo = new Whisper.Conversation({ id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
     convo.contactCollection.add(
       new Whisper.Conversation({
         name: 'C',
@@ -72,9 +72,9 @@ describe('Conversation', () => {
     assert.strictEqual(convo.contactCollection.at('2').get('name'), 'C');
   });
 
-  it('contains its own messages', async function() {
-    var convo = new Whisper.ConversationCollection().add({
-      id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
+  it('contains its own messages', async () => {
+    const convo = new Whisper.ConversationCollection().add({
+      id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
     });
     await convo.fetchMessages();
     assert.notEqual(convo.messageCollection.length, 0);
@@ -82,7 +82,7 @@ describe('Conversation', () => {
 
   it('contains only its own messages', async () => {
     const convo = new Whisper.ConversationCollection().add({
-      id: '6eb56f06737d0966239e70d431d4dfd9e57c1e7dddacaf61907fcbc14295e424fd',
+      id: '052d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
     });
     await convo.fetchMessages();
     assert.strictEqual(convo.messageCollection.length, 0);
@@ -100,7 +100,7 @@ describe('Conversation', () => {
   it('has a title', () => {
     const convos = new Whisper.ConversationCollection();
     let convo = convos.add(attributes);
-    assert.equal(convo.getTitle(), '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab');
+    assert.equal(convo.getTitle(), '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab');
 
     convo = convos.add({ type: '' });
     assert.equal(convo.getTitle(), 'Unknown group');
@@ -112,7 +112,7 @@ describe('Conversation', () => {
   it('returns the number', () => {
     const convos = new Whisper.ConversationCollection();
     let convo = convos.add(attributes);
-    assert.equal(convo.getNumber(), '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab');
+    assert.equal(convo.getNumber(), '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab');
 
     convo = convos.add({ type: '' });
     assert.equal(convo.getNumber(), '');
@@ -125,19 +125,21 @@ describe('Conversation', () => {
     assert.property(avatar, 'color');
   });
 
-  describe('when set to private', function() {
-    it('correctly validates hex numbers', function() {
-      const regularId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
+  describe('when set to private', () => {
+    it('correctly validates hex numbers', () => {
+      const regularId = new Whisper.Conversation({ type: 'private', id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
       const invalidId = new Whisper.Conversation({ type: 'private', id: 'j71d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
       assert.ok(regularId.isValid());
       assert.notOk(invalidId.isValid());
     });
 
-    it('correctly validates length', function() {
-      const regularId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
+    it('correctly validates length', () => {
+      const regularId33 = new Whisper.Conversation({ type: 'private', id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
+      const regularId32 = new Whisper.Conversation({ type: 'private', id: '1d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
       const shortId = new Whisper.Conversation({ type: 'private', id: '771d11d' });
       const longId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94abaa' });
-      assert.ok(regularId.isValid());
+      assert.ok(regularId33.isValid());
+      assert.ok(regularId32.isValid());
       assert.notOk(shortId.isValid());
       assert.notOk(longId.isValid());
     });
@@ -145,6 +147,8 @@ describe('Conversation', () => {
 
   describe('Conversation search', () => {
     let convo;
+
+    before(clearDatabase);
 
     beforeEach(async () => {
       convo = new Whisper.ConversationCollection().add({
@@ -169,14 +173,13 @@ describe('Conversation', () => {
         })
       );
     }
-    it('matches by partial keys', function() {
+    it('matches by partial keys', () => {
       return testSearch([
         '1',
-        '771',
-        '1e',
-        '56d9bfc3d74115c3322',
-        '6d9bfc3d74115c33225a632321b509ac17a13fdeac71165d',
-        '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab'
+        'd11',
+        'fc3d74115c33225',
+        'd01e56d9bfc3d74115c33225a632321b509ac17a13fde',
+        '1d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
       ]);
     });
     // TODO: Re-enable once we have nickanme functionality

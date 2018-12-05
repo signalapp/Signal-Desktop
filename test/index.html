@@ -329,6 +329,16 @@
       </div>
     {{/action }}
   </script>
+  <script type='text/x-tmpl-mustache' id='main-header-placeholder'>
+    <div class='main-header-title-wrapper'>
+      <div class='main-header-content-toggle'/>
+    </div>
+    <div class='main-header-content-wrapper'>
+      {{ #items }}
+        <div role='button' id='{{ id }}'>{{ text }}</div>
+      {{ /items }}
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='file-view'>
     <div class='icon'></div>
     <div class='text'>
@@ -352,6 +362,7 @@
   <script type="text/javascript" src="../js/libtextsecure.js" data-cover></script>
 
   <script type="text/javascript" src="../js/libphonenumber-util.js"></script>
+  <script type='text/javascript' src='../js/models/profile.js' data-cover></script>
   <script type="text/javascript" src="../js/models/messages.js" data-cover></script>
   <script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
   <script type="text/javascript" src="../js/models/blockedNumbers.js" data-cover></script>
@@ -387,6 +398,7 @@
   <script type='text/javascript' src='../js/views/conversation_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/conversation_search_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/hint_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/main_header_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/inbox_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/network_status_view.js'></script>
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>

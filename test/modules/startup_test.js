@@ -52,7 +52,7 @@ describe('Startup', () => {
     it('should be skipped if this is the primary device', async () => {
       const ourNumber = '+15551234567';
       const deviceId = '1';
-      const sendRequestConfigurationSyncMessage = () => {};
+      const sendRequestConfigurationSyncMessage = () => { };
       const storage = {};
       const prepareForSend = () => ({
         wrap: promise => promise,
@@ -78,7 +78,7 @@ describe('Startup', () => {
     it('should be skipped if user has previously synced', async () => {
       const ourNumber = '+15551234567';
       const deviceId = '2';
-      const sendRequestConfigurationSyncMessage = () => {};
+      const sendRequestConfigurationSyncMessage = () => { };
       const storage = {
         get(name) {
           if (name !== 'read-receipt-configuration-sync') {

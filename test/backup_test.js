@@ -366,12 +366,12 @@ describe('Backup', () => {
             (message.contact || []).map(async contact => {
               return contact && contact.avatar && contact.avatar.avatar
                 ? Object.assign({}, contact, {
-                    avatar: Object.assign({}, contact.avatar, {
-                      avatar: await wrappedLoadAttachment(
-                        contact.avatar.avatar
-                      ),
-                    }),
-                  })
+                  avatar: Object.assign({}, contact.avatar, {
+                    avatar: await wrappedLoadAttachment(
+                      contact.avatar.avatar
+                    ),
+                  }),
+                })
                 : contact;
             })
           ),

@@ -857,25 +857,18 @@
 
     validateNumber() {
       if (!this.id) return 'Invalid ID';
+      if (!this.isPrivate()) return null;
 
-      if (this.isPrivate()) {
-        // Check if it's hex
-        const isHex = this.id.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
-        if (!isHex) return 'Invalid Hex ID';
+      // Check if it's hex
+      const isHex = this.id.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
+      if (!isHex) return 'Invalid Hex ID';
 
-        // Check if it has a valid length
-        if (this.id.length !== 33 * 2) {
-          // 33 bytes in hex
-          this.set({ id: this.id });
-          return 'Invalid ID Length';
-        }
+      // Check if the pubkey length is 33 and leading with 05 or of length 32
+      const len = this.id.length;
+      if ((len !== 33 * 2 || !/^05/.test(this.id)) && len !== 32 * 2)
+        return 'Invalid Pubkey Format';
 
-        // Check if the id is prefixed by 05
-        if (!/^05/.test(this.id)) {
-          return 'Invalid Pubkey Format';
-        }
-      }
-
+      this.set({ id: this.id });
       return null;
     },
 
