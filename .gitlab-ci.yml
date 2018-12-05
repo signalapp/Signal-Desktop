@@ -1,0 +1,24 @@
+image: node:8.10.0
+
+cache:
+  paths:
+  - node_modules/
+
+stages:
+  - test
+
+test_all:
+  stage: test
+  script:
+    # chrome drivers
+    - apt-get update && apt-get install -y libgtk2.0-0 libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb
+    - whoami
+    - node -v
+    - yarn -v
+    - yarn install --frozen-lockfile
+    - yarn generate
+    - Xvfb -ac -screen scrn 1280x2000x24 :9.0 &
+    - export DISPLAY=:9.0
+    - yarn test
+  tags:
+    - docker
