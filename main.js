@@ -420,6 +420,93 @@ function setupAsStandalone() {
   }
 }
 
+let launcherWindow;
+function showLauncher() {
+  if (launcherWindow) {
+    launcherWindow.show();
+    return;
+  }
+
+  const windowOptions = Object.assign(
+    {
+      show: !startInTray, // allow to start minimised in tray
+      width: DEFAULT_WIDTH,
+      height: DEFAULT_HEIGHT,
+      minWidth: MIN_WIDTH,
+      minHeight: MIN_HEIGHT,
+      autoHideMenuBar: false,
+      webPreferences: {
+        nodeIntegration: false,
+        nodeIntegrationInWorker: false,
+        // sandbox: true,
+        preload: path.join(__dirname, 'launcher_preload.js'),
+        nativeWindowOpen: true,
+      },
+      icon: path.join(__dirname, 'images', 'icon_256.png'),
+    },
+    _.pick(windowConfig, [
+      'maximized',
+      'autoHideMenuBar',
+      'width',
+      'height',
+      'x',
+      'y',
+    ])
+  );
+
+  launcherWindow = new BrowserWindow(windowOptions);
+
+  launcherWindow.loadURL(prepareURL([__dirname, 'launcher.html']));
+
+  captureClicks(launcherWindow);
+
+  // Ingested in preload.js via a sendSync call
+  ipc.on('locale-data', event => {
+    // eslint-disable-next-line no-param-reassign
+    event.returnValue = locale.messages;
+  });
+
+  launcherWindow.on('close', e => {
+     // If the application is terminating, just do the default
+     if (
+      config.environment === 'test' ||
+      config.environment === 'test-lib' ||
+      (windowState.shouldQuit())
+    ) {
+      return;
+    }
+
+    // Prevent the shutdown
+    e.preventDefault();
+    launcherWindow.hide();
+
+    // On Mac, or on other platforms when the tray icon is in use, the window
+    // should be only hidden, not closed, when the user clicks the close button
+    if (
+      !windowState.shouldQuit() &&
+      (usingTrayIcon || process.platform === 'darwin')
+    ) {
+      // toggle the visibility of the show/hide tray icon menu entries
+      if (tray) {
+        tray.updateContextMenu();
+      }
+
+      return;
+    }
+
+    launcherWindow.readyForShutdown = true;
+    app.quit();
+  });
+
+  launcherWindow.on('closed', () => {
+    launcherWindow = null;
+  });
+
+  launcherWindow.once('ready-to-show', () => {
+    launcherWindow.show();
+  });
+}
+
 let aboutWindow;
 function showAbout() {
   if (aboutWindow) {
@@ -654,7 +741,21 @@ app.on('ready', async () => {
     key = crypto.randomBytes(32).toString('hex');
     userConfig.set('key', key);
   }
-  await sql.initialize({ configDir: userDataPath, key });
+
+  // If we have a password set then show the launcher
+  // Otherwise show the main window
+  const passHash = userConfig.get('passHash');
+  if (!passHash) {
+    showLauncher();
+  } else {
+    await showMainWindow(key);
+  }
+});
+
+async function showMainWindow(sqlKey) {
+  const userDataPath = await getRealPath(app.getPath('userData'));
+
+  await sql.initialize({ configDir: userDataPath, key: sqlKey });
   await sqlChannels.initialize();
 
   try {
@@ -698,7 +799,7 @@ app.on('ready', async () => {
   }
 
   setupMenu();
-});
+}
 
 function setupMenu(options) {
   const { platform } = process;
