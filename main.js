@@ -51,6 +51,7 @@ const config = require('./app/config');
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
 const userConfig = require('./app/user_config');
+const passwordUtil = require('./app/password_util');
 
 const importMode =
   process.argv.some(arg => arg === '--import') || config.get('import');
@@ -306,12 +307,6 @@ function createWindow() {
     mainWindow.flashFrame(false);
   });
 
-  // Ingested in preload.js via a sendSync call
-  ipc.on('locale-data', event => {
-    // eslint-disable-next-line no-param-reassign
-    event.returnValue = locale.messages;
-  });
-
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
   } else if (config.environment === 'test-lib') {
@@ -459,12 +454,6 @@ function showLauncher() {
   launcherWindow.loadURL(prepareURL([__dirname, 'launcher.html']));
 
   captureClicks(launcherWindow);
-
-  // Ingested in preload.js via a sendSync call
-  ipc.on('locale-data', event => {
-    // eslint-disable-next-line no-param-reassign
-    event.returnValue = locale.messages;
-  });
 
   launcherWindow.on('close', e => {
      // If the application is terminating, just do the default
@@ -732,6 +721,19 @@ app.on('ready', async () => {
     locale = loadLocale({ appLocale, logger });
   }
 
+  const key = getDefaultSQLKey();
+
+  // If we have a password set then show the launcher
+  // Otherwise show the main window
+  const passHash = userConfig.get('passHash');
+  if (passHash) {
+    showLauncher();
+  } else {
+    await showMainWindow(key);
+  }
+});
+
+function getDefaultSQLKey() {
   let key = userConfig.get('key');
   if (!key) {
     console.log(
@@ -742,15 +744,8 @@ app.on('ready', async () => {
     userConfig.set('key', key);
   }
 
-  // If we have a password set then show the launcher
-  // Otherwise show the main window
-  const passHash = userConfig.get('passHash');
-  if (!passHash) {
-    showLauncher();
-  } else {
-    await showMainWindow(key);
-  }
-});
+  return key;
+}
 
 async function showMainWindow(sqlKey) {
   const userDataPath = await getRealPath(app.getPath('userData'));
@@ -908,6 +903,12 @@ app.on('web-contents-created', (createEvent, contents) => {
   });
 });
 
+// Ingested in preload.js via a sendSync call
+ipc.on('locale-data', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = locale.messages;
+});
+
 ipc.on('set-badge-count', (event, count) => {
   app.setBadgeCount(count);
 });
@@ -958,6 +959,31 @@ ipc.on('close-about', () => {
 ipc.on('update-tray-icon', (event, unreadCount) => {
   if (tray) {
     tray.updateIcon(unreadCount);
+  }
+});
+
+// Launch screen related IPC calls
+ipc.on('launcher-login', async (event, passPhrase) => {
+  const sendError = (e) => event.sender.send('launcher-login-response', e);
+
+  // Check if the phrase matches with the hash we have stored
+  const hash = userConfig.get('passHash');
+  const hashMatches = passPhrase && passwordUtil.matchesHash(passPhrase, hash);
+  if (hash && !hashMatches) {
+    sendError('Invalid password');
+    return;
+  }
+
+  // If we don't have a hash then use the default sql key to unlock the db
+  const key = hash ? passPhrase : getDefaultSQLKey();
+  try {
+    await showMainWindow(key);
+    if (launcherWindow) {
+      launcherWindow.close();
+      launcherWindow = null;
+    }
+  } catch (e) {
+    sendError('Failed to decrypt SQL database');
   }
 });
 

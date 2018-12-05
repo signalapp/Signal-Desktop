@@ -1,6 +1,5 @@
 /* global i18n: false */
 /* global Whisper: false */
-/* global $: false */
 
 /* eslint-disable no-new */
 
@@ -11,16 +10,31 @@
   window.Whisper = window.Whisper || {};
 
   Whisper.LauncherView = Whisper.View.extend({
-    className: 'launcher full-screen-flow',
+    className: 'launcher full-screen-flow standalone-fullscreen',
     templateName: 'launcher',
+    events: {
+      'click #unlock-button': 'onLogin',
+    },
     initialize() {
       this.render();
     },
     render_attributes() {
       return {
-        title: 'Type in your password',
-        buttonText: 'Unlock',
+        title: i18n('launcherViewTitle'),
+        buttonText: i18n('unlock'),
       };
+    },
+    async onLogin() {
+      const passPhrase = this.$('#passPhrase').val();
+      this.setError('');
+      try {
+        await window.onLogin(passPhrase);
+      } catch (e) {
+        this.setError(`Error: ${e}`);
+      }
+    },
+    setError(string) {
+      this.$('.error').text(string);
     },
   });
 
