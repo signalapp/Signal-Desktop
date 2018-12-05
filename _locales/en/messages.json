@@ -1686,7 +1686,7 @@
     "description": "A toast message telling the user that the mnemonic was copied"
   },
 
-  "launcherViewTitle": {
+  "passwordViewTitle": {
     "message": "Type in your password",
     "description": "The title shown when user needs to type in a password to unlock the messenger"
   },

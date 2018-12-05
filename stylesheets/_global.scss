@@ -637,9 +637,12 @@ textarea {
     width: 100%;
   }
   .step {
-    height: 100%;
-    width: 100%;
-    padding: 70px 0 50px;
+    display: flex;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100%;
+    margin: auto;
+    padding: 10px 0;
   }
   .step-body {
     margin-left: auto;
@@ -653,6 +656,7 @@ textarea {
     justify-content: center;
     flex-direction: column;
     height: 100%;
+    width: 100%;
   }
 
   .banner-image {

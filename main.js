@@ -415,47 +415,37 @@ function setupAsStandalone() {
   }
 }
 
-let launcherWindow;
-function showLauncher() {
-  if (launcherWindow) {
-    launcherWindow.show();
+let passwordWindow;
+function showPasswordWindow() {
+  if (passwordWindow) {
+    passwordWindow.show();
     return;
   }
 
-  const windowOptions = Object.assign(
-    {
-      show: !startInTray, // allow to start minimised in tray
-      width: DEFAULT_WIDTH,
-      height: DEFAULT_HEIGHT,
-      minWidth: MIN_WIDTH,
-      minHeight: MIN_HEIGHT,
-      autoHideMenuBar: false,
-      webPreferences: {
-        nodeIntegration: false,
-        nodeIntegrationInWorker: false,
-        // sandbox: true,
-        preload: path.join(__dirname, 'launcher_preload.js'),
-        nativeWindowOpen: true,
-      },
-      icon: path.join(__dirname, 'images', 'icon_256.png'),
+  const windowOptions = {
+    show: true, // allow to start minimised in tray
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
+    minWidth: MIN_WIDTH,
+    minHeight: MIN_HEIGHT,
+    autoHideMenuBar: false,
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      // sandbox: true,
+      preload: path.join(__dirname, 'password_preload.js'),
+      nativeWindowOpen: true,
     },
-    _.pick(windowConfig, [
-      'maximized',
-      'autoHideMenuBar',
-      'width',
-      'height',
-      'x',
-      'y',
-    ])
-  );
+    icon: path.join(__dirname, 'images', 'icon_256.png'),
+  };
 
-  launcherWindow = new BrowserWindow(windowOptions);
+  passwordWindow = new BrowserWindow(windowOptions);
 
-  launcherWindow.loadURL(prepareURL([__dirname, 'launcher.html']));
+  passwordWindow.loadURL(prepareURL([__dirname, 'password.html']));
 
-  captureClicks(launcherWindow);
+  captureClicks(passwordWindow);
 
-  launcherWindow.on('close', e => {
+  passwordWindow.on('close', e => {
      // If the application is terminating, just do the default
      if (
       config.environment === 'test' ||
@@ -467,7 +457,7 @@ function showLauncher() {
 
     // Prevent the shutdown
     e.preventDefault();
-    launcherWindow.hide();
+    passwordWindow.hide();
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
@@ -483,16 +473,12 @@ function showLauncher() {
       return;
     }
 
-    launcherWindow.readyForShutdown = true;
+    passwordWindow.readyForShutdown = true;
     app.quit();
   });
 
-  launcherWindow.on('closed', () => {
-    launcherWindow = null;
-  });
-
-  launcherWindow.once('ready-to-show', () => {
-    launcherWindow.show();
+  passwordWindow.on('closed', () => {
+    passwordWindow = null;
   });
 }
 
@@ -723,11 +709,11 @@ app.on('ready', async () => {
 
   const key = getDefaultSQLKey();
 
-  // If we have a password set then show the launcher
+  // If we have a password set then show the password window
   // Otherwise show the main window
   const passHash = userConfig.get('passHash');
   if (passHash) {
-    showLauncher();
+    showPasswordWindow();
   } else {
     await showMainWindow(key);
   }
@@ -962,9 +948,9 @@ ipc.on('update-tray-icon', (event, unreadCount) => {
   }
 });
 
-// Launch screen related IPC calls
-ipc.on('launcher-login', async (event, passPhrase) => {
-  const sendError = (e) => event.sender.send('launcher-login-response', e);
+// Password screen related IPC calls
+ipc.on('password-window-login', async (event, passPhrase) => {
+  const sendError = (e) => event.sender.send('password-window-login-response', e);
 
   // Check if the phrase matches with the hash we have stored
   const hash = userConfig.get('passHash');
@@ -978,9 +964,9 @@ ipc.on('launcher-login', async (event, passPhrase) => {
   const key = hash ? passPhrase : getDefaultSQLKey();
   try {
     await showMainWindow(key);
-    if (launcherWindow) {
-      launcherWindow.close();
-      launcherWindow = null;
+    if (passwordWindow) {
+      passwordWindow.close();
+      passwordWindow = null;
     }
   } catch (e) {
     sendError('Failed to decrypt SQL database');

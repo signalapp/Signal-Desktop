@@ -9,9 +9,9 @@
 
   window.Whisper = window.Whisper || {};
 
-  Whisper.LauncherView = Whisper.View.extend({
-    className: 'launcher full-screen-flow standalone-fullscreen',
-    templateName: 'launcher',
+  Whisper.PasswordView = Whisper.View.extend({
+    className: 'password full-screen-flow standalone-fullscreen',
+    templateName: 'password',
     events: {
       'click #unlock-button': 'onLogin',
     },
@@ -20,7 +20,7 @@
     },
     render_attributes() {
       return {
-        title: i18n('launcherViewTitle'),
+        title: i18n('passwordViewTitle'),
         buttonText: i18n('unlock'),
       };
     },

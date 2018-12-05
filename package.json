@@ -224,7 +224,7 @@
       "background.html",
       "about.html",
       "settings.html",
-      "launcher.html",
+      "password.html",
       "permissions_popup.html",
       "debug_log.html",
       "_locales/**",
