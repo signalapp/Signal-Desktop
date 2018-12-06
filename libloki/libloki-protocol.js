@@ -132,6 +132,7 @@
   async function sendFriendRequestAccepted(pubKey) {
     return sendEmptyMessage(pubKey);
   }
+
   async function sendEmptyMessage(pubKey) {
     // empty content message
     const content = new textsecure.protobuf.Content();
