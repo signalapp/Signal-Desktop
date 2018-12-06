@@ -513,7 +513,7 @@
         response: 'declined',
         direction: 'incoming',
       });
-      await window.libloki.removePreKeyBundleForNumber(this.id);
+      await window.libloki.removeContactPreKeyBundle(this.id);
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest() {

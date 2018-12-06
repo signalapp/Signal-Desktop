@@ -46,7 +46,7 @@
     }
   }
 
-  async function getPreKeyBundleForNumber(pubKey) {
+  async function getPreKeyBundleForContact(pubKey) {
     const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
     const identityKey = myKeyPair.pubKey;
 
@@ -57,7 +57,7 @@
       textsecure.storage.protocol.loadSignedPreKey(signedKeyId),
       new Promise(async resolve => {
         // retrieve existing prekey if we already generated one for that recipient
-        const storedPreKey = await textsecure.storage.protocol.loadPreKeyForContactIdentityKeyString(
+        const storedPreKey = await textsecure.storage.protocol.loadPreKeyForContact(
           pubKey
         );
         if (storedPreKey) {
@@ -77,7 +77,7 @@
       }),
     ]);
 
-    const preKeyMessage = new textsecure.protobuf.PreKeyBundleMessage({
+    return {
       identityKey: new Uint8Array(identityKey),
       deviceId: 1, // TODO: fetch from somewhere
       preKeyId: preKey.keyId,
@@ -85,12 +85,10 @@
       preKey: new Uint8Array(preKey.pubKey),
       signedKey: new Uint8Array(signedKey.pubKey),
       signature: new Uint8Array(signedKey.signature),
-    });
-
-    return preKeyMessage;
+    };
   }
 
-  async function savePreKeyBundleForNumber({
+  async function saveContactPreKeyBundle({
     pubKey,
     preKeyId,
     preKey,
@@ -122,7 +120,7 @@
     await Promise.all([signedKeyPromise, preKeyPromise]);
   }
 
-  async function removePreKeyBundleForNumber(pubKey) {
+  async function removeContactPreKeyBundle(pubKey) {
     await Promise.all([
       textsecure.storage.protocol.removeContactPreKey(pubKey),
       textsecure.storage.protocol.removeContactSignedPreKey(pubKey),
@@ -156,9 +154,9 @@
   }
 
   window.libloki.FallBackSessionCipher = FallBackSessionCipher;
-  window.libloki.getPreKeyBundleForNumber = getPreKeyBundleForNumber;
+  window.libloki.getPreKeyBundleForContact = getPreKeyBundleForContact;
   window.libloki.FallBackDecryptionError = FallBackDecryptionError;
-  window.libloki.savePreKeyBundleForNumber = savePreKeyBundleForNumber;
-  window.libloki.removePreKeyBundleForNumber = removePreKeyBundleForNumber;
+  window.libloki.saveContactPreKeyBundle = saveContactPreKeyBundle;
+  window.libloki.removeContactPreKeyBundle = removeContactPreKeyBundle;
   window.libloki.sendFriendRequestAccepted = sendFriendRequestAccepted;
 })();

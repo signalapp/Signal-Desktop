@@ -287,7 +287,9 @@ OutgoingMessage.prototype = {
         let sessionCipher;
         if (this.messageType === 'friend-request') {
           // Encrypt them with the fallback
-          this.message.preKeyBundleMessage = await libloki.getPreKeyBundleForNumber(number);
+          const pkb = await libloki.getPreKeyBundleForContact(number);
+          const preKeyBundleMessage = new textsecure.protobuf.PreKeyBundleMessage(pkb);
+          this.message.preKeyBundleMessage = preKeyBundleMessage;
           window.log.info('attaching prekeys to outgoing message');
           sessionCipher = fallBackCipher;
         } else {
