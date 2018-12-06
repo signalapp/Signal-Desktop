@@ -2,14 +2,13 @@
 
 'use strict';
 
-describe('ConversationCollection', () => {
+describe('FallBackSessionCipher', () => {
   let fallbackCipher;
   let identityKey;
-  let testKey;
   let address;
   const store = textsecure.storage.protocol;
 
-  beforeEach(async () => {
+  before(async () => {
     clearDatabase();
     identityKey = await libsignal.KeyHelper.generateIdentityKeyPair();
     store.put('identityKey', identityKey);
@@ -17,22 +16,29 @@ describe('ConversationCollection', () => {
     const pubKeyString = StringView.arrayBufferToHex(key);
     address = new libsignal.SignalProtocolAddress(
       pubKeyString,
-      1 // sourceDevice
+      1
     );
-    testKey = {
-      pubKey: libsignal.crypto.getRandomBytes(33),
-      privKey: libsignal.crypto.getRandomBytes(32),
-    };
     fallbackCipher = new libloki.FallBackSessionCipher(address);
-    textsecure.storage.put('maxPreKeyId', 0);
-    textsecure.storage.put('signedKeyId', 2);
-    await store.storeSignedPreKey(1, testKey);
   });
 
   it('should encrypt fallback cipher messages as friend requests', async () => {
     const buffer = new ArrayBuffer(10);
     const { type } = await fallbackCipher.encrypt(buffer);
     assert.strictEqual(type, textsecure.protobuf.Envelope.Type.FRIEND_REQUEST);
+  });
+});
+
+describe('LibLoki Protocol', () => {
+  let testKey;
+  const store = textsecure.storage.protocol;
+
+  beforeEach(async () => {
+    clearDatabase();
+    testKey = {
+      pubKey: libsignal.crypto.getRandomBytes(33),
+      privKey: libsignal.crypto.getRandomBytes(32),
+    };
+    await store.storeSignedPreKey(1, testKey);
   });
 
   it('should should generate a new prekey bundle for a new contact', async () => {
