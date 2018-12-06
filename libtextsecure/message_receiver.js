@@ -974,9 +974,6 @@ MessageReceiver.prototype.extend({
     if (msg.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
       p = this.handleEndSession(envelope.source);
     }
-    const type = (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST)
-      ? 'friend-request'
-      : 'data';
     return p.then(() =>
       this.processDecrypted(envelope, msg, envelope.source).then(message => {
         const groupId = message.group && message.group.id;
