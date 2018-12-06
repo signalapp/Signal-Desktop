@@ -47,6 +47,8 @@ module.exports = {
   removeDB,
   removeIndexedDBFiles,
 
+  getPasswordHash,
+
   createOrUpdateGroup,
   getGroupById,
   getAllGroupIds,
@@ -403,6 +405,12 @@ async function removeDB() {
 
 async function removeIndexedDBFiles() {
   await channels.removeIndexedDBFiles();
+}
+
+// Password hash
+
+async function getPasswordHash() {
+  return channels.getPasswordHash();
 }
 
 // Groups

@@ -1,10 +1,11 @@
+const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const sql = require('@journeyapps/sqlcipher');
 const pify = require('pify');
 const uuidv4 = require('uuid/v4');
-const { map, isString, fromPairs, forEach, last } = require('lodash');
+const { map, isString, fromPairs, forEach, last, isEmpty } = require('lodash');
 
 // To get long stack traces
 //   https://github.com/mapbox/node-sqlite3/wiki/API#sqlite3verbose
@@ -15,6 +16,11 @@ module.exports = {
   close,
   removeDB,
   removeIndexedDBFiles,
+  setSQLPassword,
+
+  getPasswordHash,
+  savePasswordHash,
+  removePasswordHash,
 
   createOrUpdateGroup,
   getGroupById,
@@ -181,15 +187,25 @@ async function getSQLCipherVersion(instance) {
   }
 }
 
-const INVALID_KEY = /[^0-9A-Fa-f]/;
+const HEX_KEY = /[^0-9A-Fa-f]/;
 async function setupSQLCipher(instance, { key }) {
-  const match = INVALID_KEY.exec(key);
-  if (match) {
-    throw new Error(`setupSQLCipher: key '${key}' is not valid`);
-  }
+  // If the key isn't hex then we need to derive a hex key from it
+  const deriveKey = HEX_KEY.test(key);
 
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-  await instance.run(`PRAGMA key = "x'${key}'";`);
+  const value = deriveKey ? `'${key}'` : `"x'${key}'"`
+  await instance.run(`PRAGMA key = ${value};`);
+}
+
+async function setSQLPassword(password) {
+  if (!db) {
+    throw new Error('setSQLPassword: db is not initialized');
+  }
+
+  // If the password isn't hex then we need to derive a key from it
+  const deriveKey = HEX_KEY.test(password);
+  const value = deriveKey ? `'${password}'` : `"x'${password}'"`
+  await db.run(`PRAGMA rekey = ${value};`);
 }
 
 async function updateToSchemaVersion1(currentVersion, instance) {
@@ -583,6 +599,25 @@ async function removeIndexedDBFiles() {
   rimraf.sync(pattern);
   indexedDBPath = null;
 }
+
+// Password hash
+async function getPasswordHash() {
+  const item = await getItemById('passHash');
+  return item && item.value;
+}
+async function savePasswordHash(hash) {
+  if (isEmpty(hash)) {
+    return removePasswordHash();
+  }
+
+  const data = { id: 'passHash', value: hash };
+  return createOrUpdateItem(data);
+}
+async function removePasswordHash() {
+  return removeItemById('passHash');
+}
+
+// Groups
 
 const GROUPS_TABLE = 'groups';
 async function createOrUpdateGroup(data) {

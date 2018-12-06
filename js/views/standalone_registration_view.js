@@ -1,4 +1,4 @@
-/* global Whisper, $, getAccountManager, textsecure, i18n, storage, ConversationController */
+/* global Whisper, $, getAccountManager, textsecure, i18n, passwordUtil, ConversationController */
 
 /* eslint-disable more/no-then */
 
@@ -35,6 +35,13 @@
       });
       this.$('#mnemonic-language').append(options);
       this.$('#mnemonic-display-language').append(options);
+
+      this.$passwordInput = this.$('#password');
+      this.$passwordConfirmationInput = this.$('#password-confirmation');
+      this.$passwordConfirmationInput.hide();
+      this.$passwordInputError = this.$('.password-inputs .error');
+
+      this.onValidatePassword();
     },
     events: {
       'validation input.number': 'onValidation',
@@ -48,18 +55,32 @@
       'change #mnemonic-display-language': 'onGenerateMnemonic',
       'click #copy-mnemonic': 'onCopyMnemonic',
       'click .section-toggle': 'toggleSection',
+      'keyup #password': 'onPasswordChange',
+      'keyup #password-confirmation': 'onValidatePassword',
     },
-    register(mnemonic) {
-      this.accountManager
-        .registerSingleDevice(
+    async register(mnemonic) {
+      // Make sure the password is valid
+      if (this.validatePassword()) {
+        this.showToast('Invalid password');
+        return;
+      }
+
+      const input = this.trim(this.$passwordInput.val());
+
+      try {
+        await window.setPassword(input);
+        await this.accountManager.registerSingleDevice(
           mnemonic,
           this.$('#mnemonic-language').val(),
           this.$('#display-name').val()
-        )
-        .then(() => {
-          this.$el.trigger('openInbox');
-        })
-        .catch(this.log.bind(this));
+        );
+        this.$el.trigger('openInbox');
+      } catch (e) {
+        if (typeof e === 'string') {
+          this.showToast(e);
+        }
+        this.log(e);
+      }
     },
     registerWithoutMnemonic() {
       const mnemonic = this.$('#mnemonic-display').text();
@@ -157,6 +178,53 @@
       // Hide the other sections
       this.$('.section-toggle').not($target).removeClass('section-toggle-visible')
       this.$('.section-content').not($next).slideUp('fast');
+    },
+    onPasswordChange() {
+      const input = this.$passwordInput.val();
+      if (!input || input.length === 0) {
+        this.$passwordConfirmationInput.val('');
+        this.$passwordConfirmationInput.hide();
+      } else {
+        this.$passwordConfirmationInput.show();
+      }
+      this.onValidatePassword();
+    },
+    validatePassword() {
+      const input = this.trim(this.$passwordInput.val());
+      const confirmationInput = this.trim(this.$passwordConfirmationInput.val());
+
+      const error = passwordUtil.validatePassword(input);
+      if (error)
+        return error;
+
+      if (input !== confirmationInput)
+        return 'Password don\'t match';
+
+      return null;
+    },
+    onValidatePassword() {
+      const passwordValidation = this.validatePassword();
+      if (passwordValidation) {
+        this.$passwordInput.addClass('error-input');
+        this.$passwordConfirmationInput.addClass('error-input');
+        this.$passwordInputError.text(passwordValidation);
+        this.$passwordInputError.show();
+      } else {
+        this.$passwordInput.removeClass('error-input');
+        this.$passwordConfirmationInput.removeClass('error-input');
+        this.$passwordInputError.text('');
+        this.$passwordInputError.hide();
+      }
+    },
+    trim(value) {
+      return value ? value.trim() : value;
+    },
+    showToast(message) {
+      const toast = new Whisper.MessageToastView({
+        message,
+      });
+      toast.$el.appendTo(this.$el);
+      toast.render();
     },
   });
 })();

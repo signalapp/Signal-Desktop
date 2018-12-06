@@ -27,4 +27,32 @@ describe('Password Util', () => {
       assert.isFalse(passwordUtil.matchesHash('phrase2', hash));
     });
   });
+
+  describe('password validation', () => {
+    it('should return nothing if password is valid', () => {
+      const valid = [
+        '123456',
+        '1a5b3C6g',
+        'ABC#DE#F$IJ',
+        'AabcDegf',
+      ];
+      valid.forEach(pass => {
+        assert.isNull(passwordUtil.validatePassword(pass));
+      });
+    });
+
+    it('should return an error string if password is invalid', () => {
+      const invalid = [
+        0,
+        123456,
+        [],
+        {},
+        '123',
+        '1234$',
+      ];
+      invalid.forEach(pass => {
+        assert.isNotNull(passwordUtil.validatePassword(pass));
+      });
+    });
+  });
 });

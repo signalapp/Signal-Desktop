@@ -603,8 +603,16 @@
         <div class='step-body'>
           <div class='header'>Create your Loki Messenger Account</div>
 
-          <div class='display-name-header'>Enter a name that will be shown to all your contacts</div>
-          <input class='form-control' type='text' id='display-name' placeholder='Display Name (optional)' autocomplete='off' spellcheck='false' maxlength='25'>
+          <div class='display-name-input'>
+            <div class='input-header'>Enter a name that will be shown to all your contacts</div>
+            <input class='form-control' type='text' id='display-name' placeholder='Display Name (optional)' autocomplete='off' spellcheck='false' maxlength='25'>
+          </div>
+          <div class='password-inputs'>
+              <div class='input-header'>Type an optional password for added security</div>
+              <input class='form-control' type='password' id='password' placeholder='Password (optional)' autocomplete='off' spellcheck='false'>
+              <input class='form-control' type='password' id='password-confirmation' placeholder='Retype your password' autocomplete='off' spellcheck='false'>
+              <div class='error'></div>
+          </div>
 
           <h4 class='section-toggle'>Restore using seed</h4>
           <div class='standalone-mnemonic section-content'>

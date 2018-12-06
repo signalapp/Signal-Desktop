@@ -919,7 +919,7 @@ textarea {
     }
   }
 
-  .display-name-header {
+  .input-header {
     margin-bottom: 8px;
     font-size: 14px;
   }
@@ -977,8 +977,26 @@ textarea {
     }
   }
 
+  .password-inputs {
+    input {
+      margin-bottom: 0.5em;
+    }
+
+    .error {
+      margin-bottom: 1em;
+    }
+
+    .error-input {
+      border: 3px solid $color-vermilion;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
   @media (min-height: 750px) and (min-width: 700px) {
-    .display-name-header {
+    .input-header {
       font-size: 18px;
     }
 

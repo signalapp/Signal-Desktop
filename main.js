@@ -171,7 +171,7 @@ function captureClicks(window) {
 }
 
 const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 610;
+const DEFAULT_HEIGHT = 710;
 const MIN_WIDTH = 640;
 const MIN_HEIGHT = 360;
 const BOUNDS_BUFFER = 100;
@@ -709,13 +709,12 @@ app.on('ready', async () => {
 
   const key = getDefaultSQLKey();
 
-  // If we have a password set then show the password window
-  // Otherwise show the main window
-  const passHash = userConfig.get('passHash');
-  if (passHash) {
-    showPasswordWindow();
-  } else {
+  // Try to show the main window with the default key
+  // If that fails then show the password window
+  try {
     await showMainWindow(key);
+  } catch (e) {
+    showPasswordWindow();
   }
 });
 
@@ -950,26 +949,45 @@ ipc.on('update-tray-icon', (event, unreadCount) => {
 
 // Password screen related IPC calls
 ipc.on('password-window-login', async (event, passPhrase) => {
-  const sendError = (e) => event.sender.send('password-window-login-response', e);
+  const sendResponse = (e) => event.sender.send('password-window-login-response', e);
 
-  // Check if the phrase matches with the hash we have stored
-  const hash = userConfig.get('passHash');
-  const hashMatches = passPhrase && passwordUtil.matchesHash(passPhrase, hash);
-  if (hash && !hashMatches) {
-    sendError('Invalid password');
-    return;
-  }
-
-  // If we don't have a hash then use the default sql key to unlock the db
-  const key = hash ? passPhrase : getDefaultSQLKey();
   try {
-    await showMainWindow(key);
+    await showMainWindow(passPhrase);
+    sendResponse();
     if (passwordWindow) {
       passwordWindow.close();
       passwordWindow = null;
     }
   } catch (e) {
-    sendError('Failed to decrypt SQL database');
+    sendResponse('Invalid password');
+  }
+});
+
+ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
+  const sendResponse = (e) => event.sender.send('set-password-response', e);
+
+  try {
+    // Check if the hash we have stored matches the hash of the old passphrase.
+    const hash = await sql.getPasswordHash();
+    const hashMatches = oldPhrase && passwordUtil.matchesHash(oldPhrase, hash);
+    if (hash && !hashMatches) {
+      sendResponse('Failed to set password: Old password provided is invalid');
+      return;
+    }
+
+    if (_.isEmpty(passPhrase)) {
+      const defaultKey = getDefaultSQLKey();
+      await sql.setSQLPassword(defaultKey);
+      await sql.removePasswordHash();
+    } else {
+      await sql.setSQLPassword(passPhrase);
+      const newHash = passwordUtil.generateHash(passPhrase);
+      await sql.savePasswordHash(newHash);
+    }
+
+    sendResponse();
+  } catch (e) {
+    sendResponse('Failed to set password');
   }
 });
 

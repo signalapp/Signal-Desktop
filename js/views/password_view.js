@@ -26,9 +26,10 @@
     },
     async onLogin() {
       const passPhrase = this.$('#passPhrase').val();
+      const trimmed = passPhrase ? passPhrase.trim() : passPhrase;
       this.setError('');
       try {
-        await window.onLogin(passPhrase);
+        await window.onLogin(trimmed);
       } catch (e) {
         this.setError(`Error: ${e}`);
       }

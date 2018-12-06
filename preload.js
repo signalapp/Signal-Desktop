@@ -49,6 +49,17 @@ const localeMessages = ipc.sendSync('locale-data');
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
+// Set the password for the database
+window.setPassword = (passPhrase, oldPhrase) => new Promise((resolve, reject) => {
+  ipc.once('set-password-response', (event, error) => {
+    if (error) {
+      return reject(error);
+    }
+    return resolve();
+  });
+  ipc.send('set-password', passPhrase, oldPhrase);
+});
+
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
 // eslint-disable-next-line no-eval, no-multi-assign
@@ -273,6 +284,7 @@ window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').Phone
 window.loadImage = require('blueimp-load-image');
 window.getGuid = require('uuid/v4');
 window.profileImages = require('./app/profile_images');
+window.passwordUtil = require('./app/password_util');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');
