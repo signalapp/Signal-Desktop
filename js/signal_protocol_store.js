@@ -183,7 +183,7 @@
       window.log.error('Failed to fetch prekey:', keyId);
       return undefined;
     },
-    async loadPreKeyForContact (contactPubKey) {
+    async loadPreKeyForContact(contactPubKey) {
       const key = await window.Signal.Data.getPreKeyByRecipient(contactPubKey);
 
       if (key) {
