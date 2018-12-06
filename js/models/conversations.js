@@ -1445,7 +1445,7 @@
     async onSessionResetInitiated() {
       await this.setSessionResetStatus(SessionResetEnum.initiated);
     },
-  async onSessionResetReceived() {
+    async onSessionResetReceived() {
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
