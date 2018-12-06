@@ -183,11 +183,11 @@
       window.log.error('Failed to fetch prekey:', keyId);
       return undefined;
     },
-    async loadPreKeyForContactIdentityKeyString(contactIdentityKeyString) {
-      const key = await window.Signal.Data.getPreKeyByRecipient(contactIdentityKeyString);
+    async loadPreKeyForContact (contactPubKey) {
+      const key = await window.Signal.Data.getPreKeyByRecipient(contactPubKey);
 
       if (key) {
-        window.log.info('Successfully fetched prekey for recipient:', contactIdentityKeyString);
+        window.log.info('Successfully fetched prekey for recipient:', contactPubKey);
         return {
           pubKey: key.publicKey,
           privKey: key.privateKey,
@@ -198,54 +198,12 @@
 
       return undefined;
     },
-    async loadContactPreKey(pubKey) {
-      const preKey = await window.Signal.Data.getContactPreKeyByIdentityKey(pubKey);
-      if (preKey) {
-        return {
-          id: preKey.id,
-          keyId: preKey.keyId,
-          publicKey: preKey.publicKey,
-          identityKeyString: preKey.identityKeyString,
-        }
-      }
-
-      window.log.warn('Failed to fetch contact prekey:', pubKey);
-      return undefined;
-    },
-    async loadContactPreKeys(filters) {
-      const { keyId, identityKeyString } = filters;
-      const keys = await window.Signal.Data.getContactPreKeys(keyId, identityKeyString);
-      if (keys) {
-        return keys.map(preKey => ({
-          id: preKey.id,
-          keyId: preKey.keyId,
-          publicKey: preKey.publicKey,
-          identityKeyString: preKey.identityKeyString,
-        }));
-      }
-
-      window.log.warn(
-        'Failed to fetch signed prekey with filters',
-        filters
-      );
-      return undefined;
-    },
-    async storeContactPreKey(pubKey, preKey) {
-      const key = {
-        // id: (autoincrement)
-        identityKeyString: pubKey,
-        publicKey: preKey.publicKey,
-        keyId: preKey.keyId,
-      };
-
-      await window.Signal.Data.createOrUpdateContactPreKey(key);
-    },
-    async storePreKey(keyId, keyPair, contactIdentityKeyString) {
+    async storePreKey(keyId, keyPair, contactPubKey) {
       const data = {
         id: keyId,
         publicKey: keyPair.pubKey,
         privateKey: keyPair.privKey,
-        recipient: contactIdentityKeyString,
+        recipient: contactPubKey,
       };
 
       await window.Signal.Data.createOrUpdatePreKey(data);
@@ -265,14 +223,6 @@
     async clearPreKeyStore() {
       await window.Signal.Data.removeAllPreKeys();
     },
-
-    async removeContactPreKey(pubKey) {
-      await window.Signal.Data.removeContactPreKeyByIdentityKey(pubKey);
-    },
-    async clearContactPreKeysStore() {
-      await window.Signal.Data.removeAllContactPreKeys();
-    },
-
     /* Returns a signed keypair object or undefined */
     async loadSignedPreKey(keyId) {
       const key = await window.Signal.Data.getSignedPreKeyById(keyId);
@@ -289,43 +239,6 @@
       }
 
       window.log.error('Failed to fetch signed prekey:', keyId);
-      return undefined;
-    },
-    async loadContactSignedPreKeys(filters) {
-      const { keyId, identityKeyString } = filters;
-      const keys = await window.Signal.Data.getContactSignedPreKeys(keyId, identityKeyString);
-      if (keys) {
-        return keys.map(preKey => ({
-          id: preKey.id,
-          identityKeyString: preKey.identityKeyString,
-          publicKey: preKey.publicKey,
-          signature: preKey.signature,
-          created_at: preKey.created_at,
-          keyId: preKey.keyId,
-          confirmed: preKey.confirmed,
-        }));
-      }
-
-      window.log.warn(
-        'Failed to fetch contact signed prekey with filters',
-        filters
-      );
-      return undefined;
-    },
-    async loadContactSignedPreKey(pubKey) {
-      const preKey = await window.Signal.Data.getContactSignedPreKeyByIdentityKey(pubKey);
-      if (preKey) {
-        return {
-          id: preKey.id,
-          identityKeyString: preKey.identityKeyString,
-          publicKey: preKey.publicKey,
-          signature: preKey.signature,
-          created_at: preKey.created_at,
-          keyId: preKey.keyId,
-          confirmed: preKey.confirmed,
-        };
-      }
-      window.log.warn('Failed to fetch contact signed prekey:', pubKey);
       return undefined;
     },
     async loadSignedPreKeys() {
@@ -354,32 +267,12 @@
       };
       await window.Signal.Data.createOrUpdateSignedPreKey(key);
     },
-    async storeContactSignedPreKey(pubKey, signedPreKey) {
-      const key = {
-        // id: (autoincrement)
-        identityKeyString: pubKey,
-        keyId: signedPreKey.keyId,
-        publicKey: signedPreKey.publicKey,
-        signature: signedPreKey.signature,
-        created_at: Date.now(),
-        confirmed: false,
-      };
-      await window.Signal.Data.createOrUpdateContactSignedPreKey(key);
-    },
     async removeSignedPreKey(keyId) {
       await window.Signal.Data.removeSignedPreKeyById(keyId);
     },
     async clearSignedPreKeysStore() {
       await window.Signal.Data.removeAllSignedPreKeys();
     },
-
-    async removeContactSignedPreKey(pubKey) {
-      await window.Signal.Data.removeContactSignedPreKeyByIdentityKey(pubKey);
-    },
-    async clearContactSignedPreKeysStore() {
-      await window.Signal.Data.removeAllContactSignedPreKeys();
-    },
-
     async loadSession(encodedNumber) {
       if (encodedNumber === null || encodedNumber === undefined) {
         throw new Error('Tried to get session for undefined/null number');

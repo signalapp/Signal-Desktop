@@ -1235,7 +1235,7 @@ MessageReceiver.prototype.extend({
       );
     }
 
-    await libloki.savePreKeyBundleForNumber({
+    await libloki.saveContactPreKeyBundle({
       pubKey,
       preKeyId,
       signedKeyId,
