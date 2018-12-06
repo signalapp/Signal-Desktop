@@ -119,7 +119,12 @@ OutgoingMessage.prototype = {
             if (device.registrationId === 0) {
               window.log.info('device registrationId 0!');
             }
-            return builder.processPreKey(device).then(() => true).catch(error => {
+            return builder.processPreKey(device).then(async () => {
+              // TODO: only remove the keys that were used above!
+              await window.libloki.removePreKeyBundleForNumber(number);
+              return true;
+            }
+            ).catch(error => {
               if (error.message === 'Identity key changed') {
                 // eslint-disable-next-line no-param-reassign
                 error.timestamp = this.timestamp;
@@ -285,12 +290,17 @@ OutgoingMessage.prototype = {
 
         // Check if we need to attach the preKeys
         let sessionCipher;
-        if (this.messageType === 'friend-request') {
+        const isFriendRequest = this.messageType === 'friend-request';
+        const flags = this.message.dataMessage ? this.message.dataMessage.get_flags() : null;
+        const isEndSession = flags === textsecure.protobuf.DataMessage.Flags.END_SESSION;
+        if (isFriendRequest || isEndSession) {
           // Encrypt them with the fallback
           const pkb = await libloki.getPreKeyBundleForContact(number);
           const preKeyBundleMessage = new textsecure.protobuf.PreKeyBundleMessage(pkb);
           this.message.preKeyBundleMessage = preKeyBundleMessage;
           window.log.info('attaching prekeys to outgoing message');
+        }
+        if (isFriendRequest) {
           sessionCipher = fallBackCipher;
         } else {
           sessionCipher = new libsignal.SessionCipher(

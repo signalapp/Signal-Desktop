@@ -108,6 +108,15 @@
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
     },
+    getEndSessionTranslationKey() {
+      const sessionType = this.get('endSessionType');
+      if (sessionType === 'ongoing') {
+        return 'sessionResetOngoing';
+      } else if (sessionType === 'failed') {
+        return 'sessionResetFailed';
+      }
+      return 'sessionEnded';
+    },
     isExpirationTimerUpdate() {
       const flag =
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
@@ -174,7 +183,7 @@
         return messages.join(', ');
       }
       if (this.isEndSession()) {
-        return i18n('sessionEnded');
+        return i18n(this.getEndSessionTranslationKey());
       }
       if (this.isIncoming() && this.hasErrors()) {
         return i18n('incomingError');
@@ -294,8 +303,9 @@
       };
     },
     getPropsForResetSessionNotification() {
-      // It doesn't need anything right now!
-      return {};
+      return {
+        sessionResetMessageKey: this.getEndSessionTranslationKey(),
+      };
     },
 
     async acceptFriendRequest() {
@@ -1126,6 +1136,10 @@
       });
       errors = errors.concat(this.get('errors') || []);
 
+      if (this.isEndSession) {
+        this.set({ endSessionType: 'failed'});
+      }
+
       this.set({ errors });
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
@@ -1303,6 +1317,11 @@
                 message.get('received_at')
               );
             }
+          } else {
+            const endSessionType = conversation.isSessionResetReceived()
+              ? 'ongoing'
+              : 'done';
+            this.set({ endSessionType });
           }
           if (type === 'incoming' || type === 'friend-request') {
             const readSync = Whisper.ReadSyncs.forMessage(message);
