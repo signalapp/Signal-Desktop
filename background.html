@@ -165,6 +165,35 @@
       <span class='time'>0:00</span>
       <button class='close'><span class='icon'></span></button>
   </script>
+  <script type='text/x-tmpl-mustache' id='password-dialog'>
+    <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
+      <input type='password' id='password' placeholder='Password' autofocus>
+      <input type='password' id='password-confirmation' placeholder='Type in your password again' autofocus>
+      <div class='error'></div>
+      <div class='buttons'>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='password-change-dialog'>
+    <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
+      <input type='password' id='old-password' placeholder='Old password' autofocus>
+      <input type='password' id='new-password' placeholder='New password' autofocus>
+      <input type='password' id='new-password-confirmation' placeholder='Type in your new password again' autofocus>
+      <div class='error'></div>
+      <div class='buttons'>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='nickname-dialog'>
     <div class="content">
       {{ #title }}
@@ -706,6 +735,7 @@
   <script type='text/javascript' src='js/views/network_status_view.js'></script>
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/nickname_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>

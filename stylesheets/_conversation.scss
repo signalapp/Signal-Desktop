@@ -353,7 +353,7 @@
   }
 }
 
-.nickname-dialog {
+.loki-dialog {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -366,55 +366,62 @@
     border-radius: $border-radius;
     overflow: auto;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
+  }
 
-    .buttons {
+  button {
+    float: right;
+    margin-left: 10px;
+    background-color: $color-loki-green;
+    border-radius: 100px;
+    padding: 5px 15px;
+    border: 1px solid $color-loki-green;
+    color: white;
+    outline: none;
 
-      button {
-        float: right;
-        margin-left: 10px;
-        background-color: $color-loki-green;
-        border-radius: 100px;
-        padding: 5px 15px;
-        border: 1px solid $color-loki-green;
-        color: white;
-        outline: none;
-
-        &:hover {
-          background-color: $color-loki-green-dark;
-          border-color: $color-loki-green-dark;
-        }
-      }
+    &:hover, &:disabled {
+      background-color: $color-loki-green-dark;
+      border-color: $color-loki-green-dark;
     }
 
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 15px;
-      border: 0;
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 0;
+    outline: none;
+    border-radius: 4px;
+    background-color: $color-loki-light-gray;
+
+    &:focus {
       outline: none;
-      border-radius: 4px;
-      background-color: $color-loki-light-gray;
     }
+  }
 
-    h4 {
-      margin-top: 8px;
-      margin-bottom: 16px;
-      white-space: -moz-pre-wrap; /* Mozilla */
-      white-space: -hp-pre-wrap; /* HP printers */
-      white-space: -o-pre-wrap; /* Opera 7 */
-      white-space: -pre-wrap; /* Opera 4-6 */
-      white-space: pre-wrap; /* CSS 2.1 */
-      white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
-      word-wrap: break-word; /* IE */
-      word-break: break-all;
-    }
+  h4 {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    white-space: -moz-pre-wrap; /* Mozilla */
+    white-space: -hp-pre-wrap; /* HP printers */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: pre-wrap; /* CSS 2.1 */
+    white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+    word-wrap: break-word; /* IE */
+    word-break: break-all;
+  }
+}
 
-    .message {
-      font-style: italic;
-      color: $grey;
-      font-size: 12px;
-      margin-bottom: 16px;
-    }
+.nickname-dialog {
+  .message {
+    font-style: italic;
+    color: $grey;
+    font-size: 12px;
+    margin-bottom: 16px;
   }
 }
 

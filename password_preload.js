@@ -24,6 +24,8 @@ window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getAppInstance = () => config.appInstance;
 
+window.passwordUtil = require('./app/password_util');
+
 window.onLogin = (passPhrase) => new Promise((resolve, reject) => {
   ipcRenderer.once('password-window-login-response', (event, error) => {
     if (error) {

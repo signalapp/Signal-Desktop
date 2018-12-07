@@ -334,29 +334,37 @@
          const ourNumber = textsecure.storage.user.getNumber();
           clipboard.writeText(ourNumber);
 
-          const toast = new Whisper.MessageToastView({
-            message: i18n('copiedPublicKey'),
-          });
-          toast.$el.appendTo(this.$('.gutter'));
-          toast.render();
+          this.showToastMessageInGutter(i18n('copiedPublicKey'));
         }),
         this._mainHeaderItem('editDisplayName', () => {
           window.Whisper.events.trigger('onEditProfile');
         }),
-        ...this.passwordHeaderItems || [],
       ];
     },
     async onPasswordUpdated() {
       const hasPassword = await Signal.Data.getPasswordHash();
       const items = this.getMainHeaderItems();
+
+      const showPasswordDialog = (type, resolve) => Whisper.events.trigger('showPasswordDialog', {
+        type,
+        resolve,
+      });
+
+      const passwordItem = (textKey, type) => this._mainHeaderItem(
+        textKey,
+        () => showPasswordDialog(type, () => {
+          this.showToastMessageInGutter(i18n(`${textKey}Success`));
+        })
+      );
+
       if (hasPassword) {
         items.push(
-          this._mainHeaderItem('changePassword'),
-          this._mainHeaderItem('removePassword')
+          passwordItem('changePassword', 'change'),
+          passwordItem('removePassword', 'remove')
         );
       } else {
         items.push(
-          this._mainHeaderItem('setPassword')
+          passwordItem('setPassword', 'set')
         );
       }
 
@@ -368,6 +376,13 @@
         text: i18n(textKey),
         onClick,
       };
+    },
+    showToastMessageInGutter(message) {
+      const toast = new Whisper.MessageToastView({
+        message,
+      });
+      toast.$el.appendTo(this.$('.gutter'));
+      toast.render();
     },
   });
 

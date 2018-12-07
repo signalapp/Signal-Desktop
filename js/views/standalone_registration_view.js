@@ -193,12 +193,14 @@
       const input = this.trim(this.$passwordInput.val());
       const confirmationInput = this.trim(this.$passwordConfirmationInput.val());
 
-      const error = passwordUtil.validatePassword(input);
-      if (error)
+      const error = passwordUtil.validatePassword(input, i18n);
+      if (error) {
         return error;
+      }
 
-      if (input !== confirmationInput)
+      if (input !== confirmationInput) {
         return 'Password don\'t match';
+      }
 
       return null;
     },
@@ -207,13 +209,30 @@
       if (passwordValidation) {
         this.$passwordInput.addClass('error-input');
         this.$passwordConfirmationInput.addClass('error-input');
+
+        this.$passwordInput.removeClass('match-input');
+        this.$passwordConfirmationInput.removeClass('match-input');
+
         this.$passwordInputError.text(passwordValidation);
         this.$passwordInputError.show();
+
       } else {
         this.$passwordInput.removeClass('error-input');
         this.$passwordConfirmationInput.removeClass('error-input');
+
         this.$passwordInputError.text('');
         this.$passwordInputError.hide();
+
+        // Show green box around inputs that match
+        const input = this.trim(this.$passwordInput.val());
+        const confirmationInput = this.trim(this.$passwordConfirmationInput.val());
+        if (input && input === confirmationInput) {
+          this.$passwordInput.addClass('match-input');
+          this.$passwordConfirmationInput.addClass('match-input');
+        } else {
+          this.$passwordInput.removeClass('match-input');
+          this.$passwordConfirmationInput.removeClass('match-input');
+        }
       }
     },
     trim(value) {

@@ -602,6 +602,12 @@
       }
     });
 
+    Whisper.events.on('showPasswordDialog', options => {
+      if (appView) {
+        appView.showPasswordDialog(options);
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);

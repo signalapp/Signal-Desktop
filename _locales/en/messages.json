@@ -1698,11 +1698,56 @@
     "description": "Button action that the user can click to set a password"
   },
   "changePassword": {
-    "message": "Set Password",
+    "message": "Change Password",
     "description": "Button action that the user can click to change a password"
   },
   "removePassword": {
-    "message": "Set Password",
+    "message": "Remove Password",
     "description": "Button action that the user can click to remove a password"
+  },
+  "typeInOldPassword": {
+    "message": "Please type in your old password"
+  },
+  "invalidPassword": {
+    "message": "Invalid password"
+  },
+  "passwordsDoNotMatch": {
+    "message": "Passwords do not match"
+  },
+  "setPasswordFail": {
+    "message": "Failed to set password"
+  },
+  "removePasswordFail": {
+    "message": "Failed to remove password"
+  },
+  "changePasswordFail": {
+    "message": "Failed to change password"
+  },
+  "setPasswordSuccess": {
+    "message": "Password set"
+  },
+  "removePasswordSuccess": {
+    "message": "Password removed"
+  },
+  "changePasswordSuccess": {
+    "message": "Password changed"
+  },
+  "passwordLengthError": {
+    "message": "Password must be atleast 6 characters long",
+    "description": "Error string shown to the user when password doesn't meet length criteria"
+  },
+  "passwordTypeError": {
+    "message": "Password must be a string",
+    "description": "Error string shown to the user when password is not a string"
+  },
+  "change": {
+    "message": "Change"
+  },
+  "set": {
+    "message": "Set"
+  },
+  "remove": {
+    "message": "Remove"
   }
+
 }

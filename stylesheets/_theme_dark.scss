@@ -93,34 +93,34 @@ body.dark-theme {
     }
   }
 
-  .nickname-dialog {
+  .loki-dialog {
     .content {
       background: $color-black;
       color: $color-dark-05;
+    }
 
-      .buttons {
-        button {
-          background-color: $color-dark-85;
-          border-radius: $border-radius;
-          border: 1px solid $color-dark-60;
-          color: $color-dark-05;
+    button {
+      background-color: $color-dark-85;
+      border-radius: $border-radius;
+      border: 1px solid $color-dark-60;
+      color: $color-dark-05;
 
-          &:hover {
-            background-color: $color-dark-70;
-            border-color: $color-dark-55;
-          }
-        }
-      }
-
-      input {
-        color: $color-dark-05;
+      &:hover {
         background-color: $color-dark-70;
         border-color: $color-dark-55;
       }
+    }
 
-      .message {
-        color: $color-light-35;
-      }
+    input {
+      color: $color-dark-05;
+      background-color: $color-dark-70;
+      border-color: $color-dark-55;
+    }
+  }
+
+  .nickname-dialog {
+    .message {
+      color: $color-light-35;
     }
   }
 

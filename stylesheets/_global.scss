@@ -993,6 +993,14 @@ textarea {
         outline: none;
       }
     }
+
+    .match-input {
+      border: 3px solid $color-loki-green;
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
   @media (min-height: 750px) and (min-width: 700px) {
