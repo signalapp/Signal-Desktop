@@ -26,6 +26,13 @@ describe('FallBackSessionCipher', () => {
     const { type } = await fallbackCipher.encrypt(buffer);
     assert.strictEqual(type, textsecure.protobuf.Envelope.Type.FRIEND_REQUEST);
   });
+
+  it('should encrypt and then decrypt a message with the same result', async () => {
+    const arr = new Uint8Array([1,2,3,4,5]);
+    const { body } = await fallbackCipher.encrypt(arr.buffer);
+    const result = await fallbackCipher.decrypt(body);
+    assert.deepEqual(result, arr.buffer);
+  });
 });
 
 describe('LibLoki Protocol', () => {
