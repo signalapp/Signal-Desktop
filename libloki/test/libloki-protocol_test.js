@@ -41,7 +41,7 @@ describe('LibLoki Protocol', () => {
     await store.storeSignedPreKey(1, testKey);
   });
 
-  it('should should generate a new prekey bundle for a new contact', async () => {
+  it('should generate a new prekey bundle for a new contact', async () => {
     const pubKey = libsignal.crypto.getRandomBytes(32);
     const pubKeyString = StringView.arrayBufferToHex(pubKey);
     const preKeyIdBefore = textsecure.storage.get('maxPreKeyId', 1);
