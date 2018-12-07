@@ -63,7 +63,7 @@ describe('LibLoki Protocol', () => {
       assert.strictEqual(testKeyArray[i], newBundle.signedKey[i]);
   });
 
-  it('should should return the same prekey bundle after creating a contact', async () => {
+  it('should return the same prekey bundle after creating a contact', async () => {
     const pubKey = libsignal.crypto.getRandomBytes(32);
     const pubKeyString = StringView.arrayBufferToHex(pubKey);
     const bundle1 = await libloki.getPreKeyBundleForContact(pubKeyString);
