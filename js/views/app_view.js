@@ -103,12 +103,10 @@
       }
     },
     openStandalone() {
-      if (window.getEnvironment() !== 'production') {
-        window.addSetupMenuItems();
-        this.resetViews();
-        this.standaloneView = new Whisper.StandaloneRegistrationView();
-        this.openView(this.standaloneView);
-      }
+      window.addSetupMenuItems();
+      this.resetViews();
+      this.standaloneView = new Whisper.StandaloneRegistrationView();
+      this.openView(this.standaloneView);
     },
     closeStandalone() {
       if (this.standaloneView) {
