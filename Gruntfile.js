@@ -462,7 +462,6 @@ module.exports = grunt => {
   ]);
   grunt.registerTask('dev', ['default', 'watch']);
   grunt.registerTask('test', ['unit-tests', 'lib-unit-tests', 'loki-unit-tests']);
-  grunt.registerTask('test-loki', ['loki-unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', [
     'exec:build-protobuf',

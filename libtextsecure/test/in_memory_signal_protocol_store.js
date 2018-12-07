@@ -75,7 +75,7 @@ SignalProtocolStore.prototype = {
       resolve(res);
     });
   },
-  storePreKey(keyId, keyPair, contactPubKey= null) {
+  storePreKey(keyId, keyPair, contactPubKey = null) {
     if (contactPubKey) {
       const data = {
         id: keyId,
@@ -177,7 +177,6 @@ SignalProtocolStore.prototype = {
   },
   async storeContactSignedPreKey(pubKey, signedPreKey) {
     const key = {
-      // id: (autoincrement)
       identityKeyString: pubKey,
       keyId: signedPreKey.keyId,
       publicKey: signedPreKey.publicKey,

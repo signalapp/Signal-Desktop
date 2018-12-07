@@ -49,18 +49,6 @@ Whisper.Database.id = 'test';
 /*
  * global helpers for tests
  */
-window.assertEqualArrayBuffers = (ab1, ab2) => {
-  assert.deepEqual(new Uint8Array(ab1), new Uint8Array(ab2));
-};
-
-window.hexToArrayBuffer = str => {
-  const ret = new ArrayBuffer(str.length / 2);
-  const array = new Uint8Array(ret);
-  for (let i = 0; i < str.length / 2; i += 1)
-    array[i] = parseInt(str.substr(i * 2, 2), 16);
-  return ret;
-};
-
 window.clearDatabase = async () => {
   await window.Signal.Data.removeAll();
 };
