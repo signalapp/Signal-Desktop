@@ -55,6 +55,7 @@ window.setPassword = (passPhrase, oldPhrase) => new Promise((resolve, reject) =>
     if (error) {
       return reject(error);
     }
+    Whisper.events.trigger('password-updated');
     return resolve();
   });
   ipc.send('set-password', passPhrase, oldPhrase);

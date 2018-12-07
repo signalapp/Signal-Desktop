@@ -1692,5 +1692,17 @@
   },
   "unlock": {
     "message": "Unlock"
+  },
+  "setPassword": {
+    "message": "Set Password",
+    "description": "Button action that the user can click to set a password"
+  },
+  "changePassword": {
+    "message": "Set Password",
+    "description": "Button action that the user can click to change a password"
+  },
+  "removePassword": {
+    "message": "Set Password",
+    "description": "Button action that the user can click to remove a password"
   }
 }

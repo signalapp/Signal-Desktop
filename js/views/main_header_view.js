@@ -1,4 +1,4 @@
-/* global Whisper, textsecure, ConversationController, Signal, i18n */
+/* global Whisper, textsecure, ConversationController, Signal */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -14,8 +14,6 @@
         'click .copy-key': 'onCopyKey',
       },
       initialize(options) {
-        this.items = options.items || [];
-
         this.ourNumber = textsecure.storage.user.getNumber();
         const me = ConversationController.getOrCreate(this.ourNumber, 'private');
 
@@ -34,14 +32,19 @@
         this.$content = this.$('.main-header-content-wrapper');
         this.$content.hide();
 
-        this.registerCallbacks();
+        this.updateItems(options.items);
       },
-      registerCallbacks() {
-        this.items.forEach(item => {
+      updateItems(items) {
+        this.$content.html('');
+        (items || []).forEach(item => {
+          // Add the item
+          this.$content.append(`<div role='button' id='${item.id}'>${item.text}</div>`);
+
+          // Register its callback
           if (item.onClick) {
             this.$(`#${item.id}`).click(item.onClick);
           }
-        })
+        });
       },
       render_attributes() {
         return {

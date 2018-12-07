@@ -610,6 +610,12 @@
         window.log.error('Error showing PoW cog');
       }
     });
+
+    Whisper.events.on('password-updated', () => {
+      if (appView && appView.inboxView) {
+        appView.inboxView.trigger('password-updated');
+      }
+    });
   }
 
   window.getSyncRequest = () =>

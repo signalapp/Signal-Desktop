@@ -6,6 +6,7 @@
 /* global Whisper: false */
 /* global textsecure: false */
 /* global clipboard: false */
+/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -106,6 +107,8 @@
         el: this.$('.main-header-placeholder'),
         items: this.getMainHeaderItems(),
       });
+      this.onPasswordUpdated();
+      this.on('password-updated', () => this.onPasswordUpdated());
 
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
@@ -340,7 +343,24 @@
         this._mainHeaderItem('editDisplayName', () => {
           window.Whisper.events.trigger('onEditProfile');
         }),
+        ...this.passwordHeaderItems || [],
       ];
+    },
+    async onPasswordUpdated() {
+      const hasPassword = await Signal.Data.getPasswordHash();
+      const items = this.getMainHeaderItems();
+      if (hasPassword) {
+        items.push(
+          this._mainHeaderItem('changePassword'),
+          this._mainHeaderItem('removePassword')
+        );
+      } else {
+        items.push(
+          this._mainHeaderItem('setPassword')
+        );
+      }
+
+      this.mainHeaderView.updateItems(items);
     },
     _mainHeaderItem(textKey, onClick) {
       return {
