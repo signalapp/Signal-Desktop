@@ -137,7 +137,7 @@ module.exports = grunt => {
         tasks: ['sass'],
       },
       transpile: {
-        files: ['./ts/**/*.ts'],
+        files: ['./ts/**/*.ts', './ts/**/*.tsx'],
         tasks: ['exec:transpile'],
       },
     },
