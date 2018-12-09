@@ -1733,12 +1733,16 @@
     "message": "Password changed"
   },
   "passwordLengthError": {
-    "message": "Password must be atleast 6 characters long",
+    "message": "Password must be between 6 and 50 characters long",
     "description": "Error string shown to the user when password doesn't meet length criteria"
   },
   "passwordTypeError": {
     "message": "Password must be a string",
     "description": "Error string shown to the user when password is not a string"
+  },
+  "passwordCharacterError": {
+    "message": "Password must only contain letters, numbers and symbols",
+    "description": "Error string shown to the user when password contains an invalid character"
   },
   "change": {
     "message": "Change"

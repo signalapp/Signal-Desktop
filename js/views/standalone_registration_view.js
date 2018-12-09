@@ -193,6 +193,11 @@
       const input = this.trim(this.$passwordInput.val());
       const confirmationInput = this.trim(this.$passwordConfirmationInput.val());
 
+      // If user hasn't set a value then skip
+      if (!input && !confirmationInput) {
+        return null;
+      }
+
       const error = passwordUtil.validatePassword(input, i18n);
       if (error) {
         return error;

@@ -1,18 +1,30 @@
 const { sha512 } = require('js-sha512');
 
+const ERRORS = {
+  TYPE: 'Password must be a string',
+  LENGTH: 'Password must be between 6 and 50 characters long',
+  CHARACTER: 'Password must only contain letters, numbers and symbols',
+};
+
 const generateHash = (phrase) => phrase && sha512(phrase.trim());
 const matchesHash = (phrase, hash) => phrase && sha512(phrase.trim()) === hash.trim();
 
 const validatePassword = (phrase, i18n) => {
-  if (typeof phrase !== 'string') {
-    return i18n ? i18n('passwordTypeError') : 'Password must be a string'
+  if (!phrase || typeof phrase !== 'string') {
+    return i18n ? i18n('passwordTypeError') : ERRORS.TYPE;
   }
 
-  if (phrase && phrase.trim().length < 6) {
-    return i18n ? i18n('passwordLengthError') : 'Password must be atleast 6 characters long';
+  const trimmed = phrase.trim();
+  if (trimmed.length < 6 || trimmed.length > 50) {
+    return i18n ? i18n('passwordLengthError') : ERRORS.LENGTH;
   }
 
-  // An empty password is still valid :P
+  // Restrict characters to letters, numbers and symbols
+  const characterRegex = /^[a-zA-Z0-9-!()._`~@#$%^&*+=[\]{}|<>,;:]+$/
+  if (!characterRegex.test(trimmed)) {
+    return i18n ? i18n('passwordCharacterError') : ERRORS.CHARACTER;
+  }
+
   return null;
 }
 

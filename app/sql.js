@@ -601,8 +601,9 @@ async function removeIndexedDBFiles() {
 }
 
 // Password hash
+const PASS_HASH_ID = 'passHash';
 async function getPasswordHash() {
-  const item = await getItemById('passHash');
+  const item = await getItemById(PASS_HASH_ID);
   return item && item.value;
 }
 async function savePasswordHash(hash) {
@@ -610,11 +611,11 @@ async function savePasswordHash(hash) {
     return removePasswordHash();
   }
 
-  const data = { id: 'passHash', value: hash };
+  const data = { id: PASS_HASH_ID, value: hash };
   return createOrUpdateItem(data);
 }
 async function removePasswordHash() {
-  return removeItemById('passHash');
+  return removeItemById(PASS_HASH_ID);
 }
 
 // Groups
