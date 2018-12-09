@@ -1,5 +1,5 @@
 const crc32 = require('buffer-crc32');
-const sc_reduce32_module = require('../components/sc_reduce32/sc_reduce32');
+const sc_reduce32_module = require('./sc_reduce32');
 
 module.exports = {
   mn_encode,
