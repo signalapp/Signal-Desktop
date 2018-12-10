@@ -143,7 +143,7 @@
       this.inboxListView.listenTo(
         inboxCollection,
         'add change:unreadCount',
-        ()=> this.updateInboxSectionUnread()
+        () => this.updateInboxSectionUnread()
       );
 
       // Listen to any conversation remove
