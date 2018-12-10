@@ -6,6 +6,7 @@
 /* global Whisper: false */
 /* global textsecure: false */
 /* global clipboard: false */
+/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -106,6 +107,8 @@
         el: this.$('.main-header-placeholder'),
         items: this.getMainHeaderItems(),
       });
+      this.onPasswordUpdated();
+      this.on('password-updated', () => this.onPasswordUpdated());
 
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
@@ -350,16 +353,41 @@
          const ourNumber = textsecure.storage.user.getNumber();
           clipboard.writeText(ourNumber);
 
-          const toast = new Whisper.MessageToastView({
-            message: i18n('copiedPublicKey'),
-          });
-          toast.$el.appendTo(this.$('.gutter'));
-          toast.render();
+          this.showToastMessageInGutter(i18n('copiedPublicKey'));
         }),
         this._mainHeaderItem('editDisplayName', () => {
           window.Whisper.events.trigger('onEditProfile');
         }),
       ];
+    },
+    async onPasswordUpdated() {
+      const hasPassword = await Signal.Data.getPasswordHash();
+      const items = this.getMainHeaderItems();
+
+      const showPasswordDialog = (type, resolve) => Whisper.events.trigger('showPasswordDialog', {
+        type,
+        resolve,
+      });
+
+      const passwordItem = (textKey, type) => this._mainHeaderItem(
+        textKey,
+        () => showPasswordDialog(type, () => {
+          this.showToastMessageInGutter(i18n(`${textKey}Success`));
+        })
+      );
+
+      if (hasPassword) {
+        items.push(
+          passwordItem('changePassword', 'change'),
+          passwordItem('removePassword', 'remove')
+        );
+      } else {
+        items.push(
+          passwordItem('setPassword', 'set')
+        );
+      }
+
+      this.mainHeaderView.updateItems(items);
     },
     _mainHeaderItem(textKey, onClick) {
       return {
@@ -367,6 +395,13 @@
         text: i18n(textKey),
         onClick,
       };
+    },
+    showToastMessageInGutter(message) {
+      const toast = new Whisper.MessageToastView({
+        message,
+      });
+      toast.$el.appendTo(this.$('.gutter'));
+      toast.render();
     },
   });
 

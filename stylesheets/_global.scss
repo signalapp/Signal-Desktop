@@ -637,9 +637,12 @@ textarea {
     width: 100%;
   }
   .step {
-    height: 100%;
-    width: 100%;
-    padding: 70px 0 50px;
+    display: flex;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100%;
+    margin: auto;
+    padding: 10px 0;
   }
   .step-body {
     margin-left: auto;
@@ -653,6 +656,7 @@ textarea {
     justify-content: center;
     flex-direction: column;
     height: 100%;
+    width: 100%;
   }
 
   .banner-image {
@@ -805,7 +809,7 @@ textarea {
   overflow-y: auto;
 }
 
-#standalone {
+.standalone {
   color: $color-dark-05;
   height: auto;
   padding: 0;
@@ -915,7 +919,7 @@ textarea {
     }
   }
 
-  .display-name-header {
+  .input-header {
     margin-bottom: 8px;
     font-size: 14px;
   }
@@ -973,8 +977,34 @@ textarea {
     }
   }
 
+  .password-inputs {
+    input {
+      margin-bottom: 0.5em;
+    }
+
+    .error {
+      margin-bottom: 1em;
+    }
+
+    .error-input {
+      border: 3px solid $color-vermilion;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .match-input {
+      border: 3px solid $color-loki-green;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
   @media (min-height: 750px) and (min-width: 700px) {
-    .display-name-header {
+    .input-header {
       font-size: 18px;
     }
 

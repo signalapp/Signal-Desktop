@@ -187,5 +187,9 @@
       });
       this.el.append(dialog.el);
     },
+    showPasswordDialog({ type, resolve, reject }) {
+      const dialog = Whisper.getPasswordDialogView(type, resolve, reject);
+      this.el.append(dialog.el);
+    },
   });
 })();

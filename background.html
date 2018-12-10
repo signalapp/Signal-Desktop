@@ -170,6 +170,35 @@
       <span class='time'>0:00</span>
       <button class='close'><span class='icon'></span></button>
   </script>
+  <script type='text/x-tmpl-mustache' id='password-dialog'>
+    <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
+      <input type='password' id='password' placeholder='Password' autofocus>
+      <input type='password' id='password-confirmation' placeholder='Type in your password again' autofocus>
+      <div class='error'></div>
+      <div class='buttons'>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='password-change-dialog'>
+    <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
+      <input type='password' id='old-password' placeholder='Old password' autofocus>
+      <input type='password' id='new-password' placeholder='New password' autofocus>
+      <input type='password' id='new-password-confirmation' placeholder='Type in your new password again' autofocus>
+      <div class='error'></div>
+      <div class='buttons'>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='nickname-dialog'>
     <div class="content">
       {{ #title }}
@@ -603,13 +632,21 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='standalone'>
-    <div id='standalone' class='step'>
+    <div class='step standalone'>
       <div class='inner'>
         <div class='step-body'>
           <div class='header'>Create your Loki Messenger Account</div>
 
-          <div class='display-name-header'>Enter a name that will be shown to all your contacts</div>
-          <input class='form-control' type='text' id='display-name' placeholder='Display Name (optional)' autocomplete='off' spellcheck='false' maxlength='25'>
+          <div class='display-name-input'>
+            <div class='input-header'>Enter a name that will be shown to all your contacts</div>
+            <input class='form-control' type='text' id='display-name' placeholder='Display Name (optional)' autocomplete='off' spellcheck='false' maxlength='25'>
+          </div>
+          <div class='password-inputs'>
+              <div class='input-header'>Type an optional password for added security</div>
+              <input class='form-control' type='password' id='password' placeholder='Password (optional)' autocomplete='off' spellcheck='false'>
+              <input class='form-control' type='password' id='password-confirmation' placeholder='Retype your password' autocomplete='off' spellcheck='false'>
+              <div class='error'></div>
+          </div>
 
           <h4 class='section-toggle'>Restore using seed</h4>
           <div class='standalone-mnemonic section-content'>
@@ -703,6 +740,7 @@
   <script type='text/javascript' src='js/views/network_status_view.js'></script>
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/nickname_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>

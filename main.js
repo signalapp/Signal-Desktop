@@ -51,6 +51,7 @@ const config = require('./app/config');
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
 const userConfig = require('./app/user_config');
+const passwordUtil = require('./app/password_util');
 
 const importMode =
   process.argv.some(arg => arg === '--import') || config.get('import');
@@ -170,7 +171,7 @@ function captureClicks(window) {
 }
 
 const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 610;
+const DEFAULT_HEIGHT = 710;
 const MIN_WIDTH = 640;
 const MIN_HEIGHT = 360;
 const BOUNDS_BUFFER = 100;
@@ -306,12 +307,6 @@ function createWindow() {
     mainWindow.flashFrame(false);
   });
 
-  // Ingested in preload.js via a sendSync call
-  ipc.on('locale-data', event => {
-    // eslint-disable-next-line no-param-reassign
-    event.returnValue = locale.messages;
-  });
-
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
   } else if (config.environment === 'test-lib') {
@@ -423,6 +418,73 @@ function setupAsStandalone() {
   if (mainWindow) {
     mainWindow.webContents.send('set-up-as-standalone');
   }
+}
+
+let passwordWindow;
+function showPasswordWindow() {
+  if (passwordWindow) {
+    passwordWindow.show();
+    return;
+  }
+
+  const windowOptions = {
+    show: true, // allow to start minimised in tray
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
+    minWidth: MIN_WIDTH,
+    minHeight: MIN_HEIGHT,
+    autoHideMenuBar: false,
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      // sandbox: true,
+      preload: path.join(__dirname, 'password_preload.js'),
+      nativeWindowOpen: true,
+    },
+    icon: path.join(__dirname, 'images', 'icon_256.png'),
+  };
+
+  passwordWindow = new BrowserWindow(windowOptions);
+
+  passwordWindow.loadURL(prepareURL([__dirname, 'password.html']));
+
+  captureClicks(passwordWindow);
+
+  passwordWindow.on('close', e => {
+     // If the application is terminating, just do the default
+     if (
+      config.environment === 'test' ||
+      config.environment === 'test-lib' ||
+      (windowState.shouldQuit())
+    ) {
+      return;
+    }
+
+    // Prevent the shutdown
+    e.preventDefault();
+    passwordWindow.hide();
+
+    // On Mac, or on other platforms when the tray icon is in use, the window
+    // should be only hidden, not closed, when the user clicks the close button
+    if (
+      !windowState.shouldQuit() &&
+      (usingTrayIcon || process.platform === 'darwin')
+    ) {
+      // toggle the visibility of the show/hide tray icon menu entries
+      if (tray) {
+        tray.updateContextMenu();
+      }
+
+      return;
+    }
+
+    passwordWindow.readyForShutdown = true;
+    app.quit();
+  });
+
+  passwordWindow.on('closed', () => {
+    passwordWindow = null;
+  });
 }
 
 let aboutWindow;
@@ -654,6 +716,18 @@ app.on('ready', async () => {
     locale = loadLocale({ appLocale, logger });
   }
 
+  const key = getDefaultSQLKey();
+
+  // Try to show the main window with the default key
+  // If that fails then show the password window
+  try {
+    await showMainWindow(key);
+  } catch (e) {
+    showPasswordWindow();
+  }
+});
+
+function getDefaultSQLKey() {
   let key = userConfig.get('key');
   if (!key) {
     console.log(
@@ -663,7 +737,14 @@ app.on('ready', async () => {
     key = crypto.randomBytes(32).toString('hex');
     userConfig.set('key', key);
   }
-  await sql.initialize({ configDir: userDataPath, key });
+
+  return key;
+}
+
+async function showMainWindow(sqlKey) {
+  const userDataPath = await getRealPath(app.getPath('userData'));
+
+  await sql.initialize({ configDir: userDataPath, key: sqlKey });
   await sqlChannels.initialize();
 
   try {
@@ -707,7 +788,7 @@ app.on('ready', async () => {
   }
 
   setupMenu();
-});
+}
 
 function setupMenu(options) {
   const { platform } = process;
@@ -817,6 +898,12 @@ app.on('web-contents-created', (createEvent, contents) => {
   });
 });
 
+// Ingested in preload.js via a sendSync call
+ipc.on('locale-data', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = locale.messages;
+});
+
 ipc.on('set-badge-count', (event, count) => {
   app.setBadgeCount(count);
 });
@@ -867,6 +954,53 @@ ipc.on('close-about', () => {
 ipc.on('update-tray-icon', (event, unreadCount) => {
   if (tray) {
     tray.updateIcon(unreadCount);
+  }
+});
+
+// Password screen related IPC calls
+ipc.on('password-window-login', async (event, passPhrase) => {
+  const sendResponse = (e) => event.sender.send('password-window-login-response', e);
+
+  try {
+    await showMainWindow(passPhrase);
+    sendResponse();
+    if (passwordWindow) {
+      passwordWindow.close();
+      passwordWindow = null;
+    }
+  } catch (e) {
+    const localisedError = locale.messages.invalidPassword.message;
+    sendResponse(localisedError || 'Invalid password');
+  }
+});
+
+ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
+  const sendResponse = (e) => event.sender.send('set-password-response', e);
+
+  try {
+    // Check if the hash we have stored matches the hash of the old passphrase.
+    const hash = await sql.getPasswordHash();
+    const hashMatches = oldPhrase && passwordUtil.matchesHash(oldPhrase, hash);
+    if (hash && !hashMatches) {
+      const incorrectOldPassword = locale.messages.invalidOldPassword.message;
+      sendResponse(incorrectOldPassword || 'Failed to set password: Old password provided is invalid');
+      return;
+    }
+
+    if (_.isEmpty(passPhrase)) {
+      const defaultKey = getDefaultSQLKey();
+      await sql.setSQLPassword(defaultKey);
+      await sql.removePasswordHash();
+    } else {
+      await sql.setSQLPassword(passPhrase);
+      const newHash = passwordUtil.generateHash(passPhrase);
+      await sql.savePasswordHash(newHash);
+    }
+
+    sendResponse();
+  } catch (e) {
+    const localisedError = locale.messages.setPasswordFail.message;
+    sendResponse(localisedError || 'Failed to set password');
   }
 });
 

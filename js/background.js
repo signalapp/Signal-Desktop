@@ -602,12 +602,24 @@
       }
     });
 
+    Whisper.events.on('showPasswordDialog', options => {
+      if (appView) {
+        appView.showPasswordDialog(options);
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);
         conversation.onCalculatingPoW(pubKey, timestamp);
       } catch (e) {
         window.log.error('Error showing PoW cog');
+      }
+    });
+
+    Whisper.events.on('password-updated', () => {
+      if (appView && appView.inboxView) {
+        appView.inboxView.trigger('password-updated');
       }
     });
   }

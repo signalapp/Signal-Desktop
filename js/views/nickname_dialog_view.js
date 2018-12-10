@@ -7,7 +7,7 @@
   window.Whisper = window.Whisper || {};
 
   Whisper.NicknameDialogView = Whisper.View.extend({
-    className: 'nickname-dialog modal',
+    className: 'loki-dialog nickname-dialog modal',
     templateName: 'nickname-dialog',
     initialize(options) {
       this.message = options.message;
