@@ -6761,22 +6761,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/wreck/node_modules/boom/lib/index.js",
-    "line": "        return exports.wrap(message, statusCode);",
-    "lineNumber": 115,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/wreck/node_modules/boom/lib/index.js",
-    "line": "        return exports.wrap(data, statusCode, message);",
-    "lineNumber": 419,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/xregexp/xregexp-all.js",
     "line": "        replacementToken = /\\$(?:{([\\w$]+)}|(\\d\\d?|[\\s\\S]))/g,",
