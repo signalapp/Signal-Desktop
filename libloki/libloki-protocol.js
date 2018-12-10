@@ -51,7 +51,7 @@
     const identityKey = myKeyPair.pubKey;
 
     // Retrieve ids. The ids stored are always the latest generated + 1
-    const signedKeyId = textsecure.storage.get('signedKeyId', 1) - 1;
+    const signedKeyId = textsecure.storage.get('signedKeyId', 2) - 1;
 
     const [signedKey, preKey] = await Promise.all([
       textsecure.storage.protocol.loadSignedPreKey(signedKeyId),
