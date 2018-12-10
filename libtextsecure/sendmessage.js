@@ -1,4 +1,4 @@
-/* global textsecure, WebAPI, libsignal, OutgoingMessage, window */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -533,7 +533,7 @@ MessageSender.prototype = {
     }
 
     const recipients = groupId
-      ? await textsecure.storage.groups.getNumbers(groupId)
+      ? _.without(await textsecure.storage.groups.getNumbers(groupId), myNumber)
       : [recipientId];
     const groupIdBuffer = groupId
       ? window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(groupId)

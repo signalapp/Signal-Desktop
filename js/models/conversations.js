@@ -96,6 +96,7 @@
       this.messageCollection.on('change:errors', this.handleMessageError, this);
       this.messageCollection.on('send-error', this.onMessageError, this);
 
+      this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
       const debouncedUpdateLastMessage = _.debounce(
         this.updateLastMessage.bind(this),
         200
@@ -1502,11 +1503,13 @@
         // This might throw if we can't pull the avatar down, so we do it last
         await c.setProfileAvatar(profile.avatar);
       } catch (error) {
-        window.log.error(
-          'getProfile error:',
-          id,
-          error && error.stack ? error.stack : error
-        );
+        if (error.code !== 403 && error.code !== 404) {
+          window.log.error(
+            'getProfile error:',
+            id,
+            error && error.stack ? error.stack : error
+          );
+        }
       } finally {
         if (c.hasChanged()) {
           await window.Signal.Data.updateConversation(id, c.attributes, {
