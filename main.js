@@ -959,7 +959,8 @@ ipc.on('password-window-login', async (event, passPhrase) => {
       passwordWindow = null;
     }
   } catch (e) {
-    sendResponse('Invalid password');
+    const localisedError = locale.messages.invalidPassword.message;
+    sendResponse(localisedError || 'Invalid password');
   }
 });
 
@@ -971,7 +972,8 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
     const hash = await sql.getPasswordHash();
     const hashMatches = oldPhrase && passwordUtil.matchesHash(oldPhrase, hash);
     if (hash && !hashMatches) {
-      sendResponse('Failed to set password: Old password provided is invalid');
+      const incorrectOldPassword = locale.messages.invalidOldPassword.message;
+      sendResponse(incorrectOldPassword || 'Failed to set password: Old password provided is invalid');
       return;
     }
 
@@ -987,7 +989,8 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
 
     sendResponse();
   } catch (e) {
-    sendResponse('Failed to set password');
+    const localisedError = locale.messages.setPasswordFail.message;
+    sendResponse(localisedError || 'Failed to set password');
   }
 });
 

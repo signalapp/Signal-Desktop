@@ -1708,6 +1708,9 @@
   "typeInOldPassword": {
     "message": "Please type in your old password"
   },
+  "invalidOldPassword": {
+    "message": "Old password is invalid"
+  },
   "invalidPassword": {
     "message": "Invalid password"
   },
