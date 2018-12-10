@@ -1402,7 +1402,7 @@
               message.set({ friendStatus: 'accepted' });
               await conversation.onFriendRequestAccepted();
               window.libloki.sendFriendRequestAccepted(message.get('source'));
-            } else if (conversation.isFriendRequestStatusNone()) {
+            } else if (!conversation.isFriend()) {
               await conversation.onFriendRequestReceived();
             }
           } else {

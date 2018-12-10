@@ -1876,6 +1876,12 @@
         timestamp: null,
         active_at: null,
       });
+
+      // Reset our friend status if we're not friends
+      if (!this.isFriend()) {
+        this.set({ friendRequestStatus: FriendRequestStatusEnum.none });
+      }
+
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });

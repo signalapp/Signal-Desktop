@@ -121,7 +121,7 @@ OutgoingMessage.prototype = {
             }
             return builder.processPreKey(device).then(async () => {
               // TODO: only remove the keys that were used above!
-              await window.libloki.removePreKeyBundleForNumber(number);
+              await window.libloki.removeContactPreKeyBundle(number);
               return true;
             }
             ).catch(error => {
