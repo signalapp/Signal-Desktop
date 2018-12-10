@@ -12,7 +12,9 @@ module.exports = {
 
 const NONCE_LEN = 8;
 // Modify this value for difficulty scaling
-let NONCE_TRIALS = 10;
+const DEV_NONCE_TRIALS = 10;
+const PROD_NONCE_TRIALS = 1000;
+let development = true;
 
 // Increment Uint8Array nonce by 1 with carrying
 function incrementNonce(nonce) {
@@ -106,8 +108,9 @@ function calcTarget(ttl, payloadLen) {
   );
   // totalLen + innerFrac
   const lenPlusInnerFrac = totalLen.add(innerFrac);
-  // NONCE_TRIALS * lenPlusInnerFrac
-  const denominator = new BigInteger(NONCE_TRIALS.toString()).multiply(
+  // nonceTrials * lenPlusInnerFrac
+  const nonceTrials = development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS;
+  const denominator = new BigInteger(nonceTrials.toString()).multiply(
     lenPlusInnerFrac
   );
   // 2^64 - 1
@@ -119,8 +122,7 @@ function calcTarget(ttl, payloadLen) {
 
 // Start calculation in child process when main process sends message data
 process.on('message', msg => {
-  if (!msg.development)
-    NONCE_TRIALS = 1000;
+  ({ development } = msg);
   process.send({
     nonce: calcPoW(
       msg.timestamp,
