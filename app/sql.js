@@ -193,7 +193,7 @@ async function setupSQLCipher(instance, { key }) {
   const deriveKey = HEX_KEY.test(key);
 
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-  const value = deriveKey ? `'${key}'` : `"x'${key}'"`
+  const value = deriveKey ? `'${key}'` : `"x'${key}'"`;
   await instance.run(`PRAGMA key = ${value};`);
 }
 
@@ -204,7 +204,7 @@ async function setSQLPassword(password) {
 
   // If the password isn't hex then we need to derive a key from it
   const deriveKey = HEX_KEY.test(password);
-  const value = deriveKey ? `'${password}'` : `"x'${password}'"`
+  const value = deriveKey ? `'${password}'` : `"x'${password}'"`;
   await db.run(`PRAGMA rekey = ${value};`);
 }
 
