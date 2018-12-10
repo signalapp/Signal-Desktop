@@ -140,6 +140,12 @@
         this.inboxListView.updateLocation
       );
 
+      this.inboxListView.listenTo(
+        inboxCollection,
+        'add change:unreadCount',
+        ()=> this.updateInboxSectionUnread()
+      );
+
       // Listen to any conversation remove
       this.listenTo(
         inboxCollection,
@@ -202,6 +208,8 @@
         banner.$el.prependTo(this.$el);
         this.$el.addClass('expired');
       }
+
+      this.updateInboxSectionUnread();
     },
     render_attributes() {
       return {
@@ -292,7 +300,7 @@
     },
     toggleSection(e) {
       // Expand or collapse this panel
-      const $target = this.$(e.target);
+      const $target = this.$(e.currentTarget);
       const $next = $target.next();
 
       // Toggle section visibility
@@ -321,6 +329,17 @@
         return;
       }
       this.$('.conversation:first .recorder').trigger('close');
+    },
+    updateInboxSectionUnread() {
+      const $section = this.$('.section-conversations-unread-counter');
+      const models = (this.inboxListView.collection && this.inboxListView.collection.models) || [];
+      const unreadCount = models.reduce((count, m) => count + Math.max(0, m.get('unreadCount')), 0);
+      $section.text(unreadCount);
+      if (unreadCount > 0) {
+        $section.show();
+      } else {
+        $section.hide();
+      }
     },
     onClick(e) {
       this.closeRecording(e);

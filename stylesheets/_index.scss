@@ -87,10 +87,13 @@
   font-weight: bold;
   line-height: 3;
   cursor: pointer;
-  margin-top: 1px;
-  margin-bottom: 1px;
   overflow: hidden;
   user-select: none;
+}
+
+h4.section-toggle, .section-toggle h4 {
+  margin-top: 1px;
+  margin-bottom: 1px;
 }
 
 .section-toggle::after {
@@ -110,6 +113,34 @@
 
 .section-toggle-visible::after {
   transform: rotate(315deg);
+}
+
+.section-conversations-container {
+  display: flex;
+  flex-direction: row;
+  margin-right: 3em;
+  align-items: center;
+
+  h4 {
+    flex: 1,
+  }
+
+  .section-conversations-unread-counter {
+    color: #ffffff;
+    background-color: #2090ea;
+    text-align: center;
+    padding-top: 1px;
+    padding-left: 3px;
+    padding-right: 3px;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.25px;
+    height: 16px;
+    min-width: 16px;
+    line-height: 16px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 0px 1px #1a1c20;
+  }
 }
 
 .network-status-container {
