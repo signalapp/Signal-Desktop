@@ -1,0 +1,18 @@
+{
+  "env": {
+    "browser": true,
+    "node": false,
+    "mocha": true
+  },
+  "parserOptions": {
+    "sourceType": "script"
+  },
+  "rules": {
+    "strict": "off",
+    "more/no-then": "off"
+  },
+  "globals": {
+    "assert": true,
+    "clearDatabase": true
+  }
+}

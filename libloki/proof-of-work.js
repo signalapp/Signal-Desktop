@@ -2,9 +2,19 @@ const hash = require('js-sha512');
 const bb = require('bytebuffer');
 const { BigInteger } = require('jsbn');
 
+module.exports = {
+  calcTarget,
+  incrementNonce,
+  bufferToBase64,
+  bigIntToUint8Array,
+  greaterThan,
+};
+
 const NONCE_LEN = 8;
 // Modify this value for difficulty scaling
-let NONCE_TRIALS = 1000;
+const DEV_NONCE_TRIALS = 10;
+const PROD_NONCE_TRIALS = 1000;
+let development = true;
 
 // Increment Uint8Array nonce by 1 with carrying
 function incrementNonce(nonce) {
@@ -62,27 +72,7 @@ function calcPoW(timestamp, ttl, pubKey, data) {
     bb.wrap(timestamp.toString() + ttl.toString() + pubKey + data, 'binary').toArrayBuffer()
   );
 
-  // payloadLength + NONCE_LEN
-  const totalLen = new BigInteger(payload.length.toString()).add(
-    new BigInteger(NONCE_LEN.toString())
-  );
-  // ttl * totalLen
-  const ttlMult = new BigInteger(ttl.toString()).multiply(totalLen);
-  // ttlMult / (2^16 - 1)
-  const innerFrac = ttlMult.divide(
-    new BigInteger('2').pow(16).subtract(new BigInteger('1'))
-  );
-  // totalLen + innerFrac
-  const lenPlusInnerFrac = totalLen.add(innerFrac);
-  // NONCE_TRIALS * lenPlusInnerFrac
-  const denominator = new BigInteger(NONCE_TRIALS.toString()).multiply(
-    lenPlusInnerFrac
-  );
-  // 2^64 - 1
-  const two64 = new BigInteger('2').pow(64).subtract(new BigInteger('1'));
-  // two64 / denominator
-  const targetNum = two64.divide(denominator);
-  const target = bigIntToUint8Array(targetNum);
+  const target = calcTarget(ttl, payload.length);
 
   let nonce = new Uint8Array(NONCE_LEN);
   let trialValue = bigIntToUint8Array(
@@ -105,10 +95,34 @@ function calcPoW(timestamp, ttl, pubKey, data) {
   return bufferToBase64(nonce);
 }
 
+function calcTarget(ttl, payloadLen) {
+  // payloadLength + NONCE_LEN
+  const totalLen = new BigInteger(payloadLen.toString()).add(
+    new BigInteger(NONCE_LEN.toString())
+  );
+  // ttl * totalLen
+  const ttlMult = new BigInteger(ttl.toString()).multiply(totalLen);
+  // ttlMult / (2^16 - 1)
+  const innerFrac = ttlMult.divide(
+    new BigInteger('2').pow(16).subtract(new BigInteger('1'))
+  );
+  // totalLen + innerFrac
+  const lenPlusInnerFrac = totalLen.add(innerFrac);
+  // nonceTrials * lenPlusInnerFrac
+  const nonceTrials = development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS;
+  const denominator = new BigInteger(nonceTrials.toString()).multiply(
+    lenPlusInnerFrac
+  );
+  // 2^64 - 1
+  const two64 = new BigInteger('2').pow(64).subtract(new BigInteger('1'));
+  // two64 / denominator
+  const targetNum = two64.divide(denominator);
+  return bigIntToUint8Array(targetNum);
+}
+
 // Start calculation in child process when main process sends message data
 process.on('message', msg => {
-  if (msg.development)
-    NONCE_TRIALS = 10;
+  ({ development } = msg);
   process.send({
     nonce: calcPoW(
       msg.timestamp,

@@ -75,7 +75,18 @@ SignalProtocolStore.prototype = {
       resolve(res);
     });
   },
-  storePreKey(keyId, keyPair) {
+  storePreKey(keyId, keyPair, contactPubKey = null) {
+    if (contactPubKey) {
+      const data = {
+        id: keyId,
+        publicKey: keyPair.pubKey,
+        privateKey: keyPair.privKey,
+        recipient: contactPubKey,
+      };
+      return new Promise(resolve => {
+        resolve(this.put(`25519KeypreKey${contactPubKey}`, data));
+      });
+    }
     return new Promise(resolve => {
       resolve(this.put(`25519KeypreKey${keyId}`, keyPair));
     });
@@ -151,5 +162,44 @@ SignalProtocolStore.prototype = {
       }
       resolve(deviceIds);
     });
+  },
+  async loadPreKeyForContact(contactPubKey) {
+    return new Promise(resolve => {
+      const key = this.get(`25519KeypreKey${contactPubKey}`);
+      if (!key) resolve(undefined);
+      resolve({
+        pubKey: key.publicKey,
+        privKey: key.privateKey,
+        keyId: key.id,
+        recipient: key.recipient,
+      });
+    });
+  },
+  async storeContactSignedPreKey(pubKey, signedPreKey) {
+    const key = {
+      identityKeyString: pubKey,
+      keyId: signedPreKey.keyId,
+      publicKey: signedPreKey.publicKey,
+      signature: signedPreKey.signature,
+      created_at: Date.now(),
+      confirmed: false,
+    };
+    this.put(`contactSignedPreKey${pubKey}`, key);
+  },
+  async loadContactSignedPreKey(pubKey) {
+    const preKey = this.get(`contactSignedPreKey${pubKey}`);
+    if (preKey) {
+      return {
+        id: preKey.id,
+        identityKeyString: preKey.identityKeyString,
+        publicKey: preKey.publicKey,
+        signature: preKey.signature,
+        created_at: preKey.created_at,
+        keyId: preKey.keyId,
+        confirmed: preKey.confirmed,
+      };
+    }
+    window.log.warn('Failed to fetch contact signed prekey:', pubKey);
+    return undefined;
   },
 };

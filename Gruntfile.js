@@ -91,6 +91,14 @@ module.exports = grunt => {
         src: ['libloki/libloki-protocol.js'],
         dest: 'js/libloki.js',
       },
+      lokitest: {
+        src: [
+          'node_modules/mocha/mocha.js',
+          'node_modules/chai/chai.js',
+          'libloki/test/_test.js',
+        ],
+        dest: 'libloki/test/test.js',
+      },
       libtextsecuretest: {
         src: [
           'node_modules/jquery/dist/jquery.js',
@@ -355,6 +363,17 @@ module.exports = grunt => {
     }
   );
 
+  grunt.registerTask(
+    'loki-unit-tests',
+    'Run loki unit tests w/Electron',
+    function thisNeeded() {
+      const environment = grunt.option('env') || 'test-loki';
+      const done = this.async();
+
+      runTests(environment, done);
+    }
+  );
+
   grunt.registerMultiTask(
     'test-release',
     'Test packaged releases',
@@ -442,7 +461,7 @@ module.exports = grunt => {
     'locale-patch',
   ]);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
+  grunt.registerTask('test', ['unit-tests', 'lib-unit-tests', 'loki-unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', [
     'exec:build-protobuf',
