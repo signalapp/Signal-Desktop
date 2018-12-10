@@ -653,6 +653,10 @@
   "selectAContact": {
     "message": "Select a contact or group to start chatting."
   },
+  "typingAlt": {
+    "message": "Typing animation for this conversation",
+    "description": "Used as the 'title' attibute for the typing animation"
+  },
   "contactAvatarAlt": {
     "message": "Avatar for contact $name$",
     "description": "Used in the alt tag for the image avatar of a contact",
@@ -900,6 +904,11 @@
     "message": "Image sent in conversation",
     "description":
       "Used in the alt tag for the image shown in a full-screen lightbox view"
+  },
+  "imageCaptionIconAlt": {
+    "message": "Icon showing that this image has a caption",
+    "description":
+      "Used for the icon layered on top of an image in message bubbles"
   },
   "fileIconAlt": {
     "message": "File icon",

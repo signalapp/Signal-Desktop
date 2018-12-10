@@ -76,14 +76,15 @@ InMemorySignalProtocolStore.prototype = {
     return Promise.resolve(toString(identityKey) === toString(trusted));
   },
   loadIdentityKey(identifier) {
-    if (identifier === null || identifier === undefined)
+    if (identifier === null || identifier === undefined) {
       throw new Error('Tried to get identity key for undefined/null key');
+    }
     return Promise.resolve(this.get(`identityKey${identifier}`));
   },
   saveIdentity(identifier, identityKey) {
-    if (identifier === null || identifier === undefined)
+    if (identifier === null || identifier === undefined) {
       throw new Error('Tried to put identity key for undefined/null key');
-
+    }
     const address = libsignal.SignalProtocolAddress.fromString(identifier);
 
     const existing = this.get(`identityKey${address.getName()}`);

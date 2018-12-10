@@ -8,7 +8,7 @@ cache:
 install:
   - systeminfo | findstr /C:"OS"
   - set PATH=C:\Ruby23-x64\bin;%PATH%
-  - ps: Install-Product node 8.9.3 x64
+  - ps: Install-Product node 10.13.0 x64
   - yarn install --frozen-lockfile
 
 build_script:
@@ -16,12 +16,11 @@ build_script:
   - yarn lint-windows
   - yarn lint-deps
   - yarn test-node
-  - yarn nsp check
   - node build\grunt.js
   - type package.json | findstr /v certificateSubjectName > temp.json
   - move temp.json package.json
   - yarn prepare-beta-build
-  - node_modules\.bin\build --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never
+  - node_modules\.bin\build --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never --config.directories.output=release
 
 test_script:
   - node build\grunt.js test

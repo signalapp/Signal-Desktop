@@ -1,18 +1,17 @@
 import React from 'react';
 
-import { AttachmentType } from './types/AttachmentType';
 import { DocumentListItem } from './DocumentListItem';
 import { ItemClickEvent } from './types/ItemClickEvent';
 import { MediaGridItem } from './MediaGridItem';
-import { Message } from './types/Message';
+import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { Localizer } from '../../../types/Util';
 
 interface Props {
   i18n: Localizer;
   header?: string;
-  type: AttachmentType;
-  messages: Array<Message>;
+  type: 'media' | 'documents';
+  mediaItems: Array<MediaItemType>;
   onItemClick?: (event: ItemClickEvent) => void;
 }
 
@@ -31,20 +30,19 @@ export class AttachmentSection extends React.Component<Props> {
   }
 
   private renderItems() {
-    const { i18n, messages, type } = this.props;
+    const { i18n, mediaItems, type } = this.props;
 
-    return messages.map((message, index, array) => {
-      const shouldShowSeparator = index < array.length - 1;
-      const { attachments } = message;
-      const firstAttachment = attachments[0];
+    return mediaItems.map((mediaItem, position, array) => {
+      const shouldShowSeparator = position < array.length - 1;
+      const { message, index, attachment } = mediaItem;
 
-      const onClick = this.createClickHandler(message);
+      const onClick = this.createClickHandler(mediaItem);
       switch (type) {
         case 'media':
           return (
             <MediaGridItem
-              key={message.id}
-              message={message}
+              key={`${message.id}-${index}`}
+              mediaItem={mediaItem}
               onClick={onClick}
               i18n={i18n}
             />
@@ -52,9 +50,9 @@ export class AttachmentSection extends React.Component<Props> {
         case 'documents':
           return (
             <DocumentListItem
-              key={message.id}
-              fileName={firstAttachment.fileName}
-              fileSize={firstAttachment.size}
+              key={`${message.id}-${index}`}
+              fileName={attachment.fileName}
+              fileSize={attachment.size}
               shouldShowSeparator={shouldShowSeparator}
               onClick={onClick}
               timestamp={message.received_at}
@@ -66,12 +64,14 @@ export class AttachmentSection extends React.Component<Props> {
     });
   }
 
-  private createClickHandler = (message: Message) => () => {
+  private createClickHandler = (mediaItem: MediaItemType) => () => {
     const { onItemClick, type } = this.props;
+    const { message, attachment } = mediaItem;
+
     if (!onItemClick) {
       return;
     }
 
-    onItemClick({ type, message });
+    onItemClick({ type, message, attachment });
   };
 }

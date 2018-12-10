@@ -407,8 +407,8 @@
       const conversation = this.getConversation();
       const isGroup = conversation && !conversation.isPrivate();
 
-      const attachments = this.get('attachments');
-      const firstAttachment = attachments && attachments[0];
+      const attachments = this.get('attachments') || [];
+      const firstAttachment = attachments[0];
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
@@ -422,7 +422,9 @@
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
         conversationType: isGroup ? 'group' : 'direct',
-        attachment: this.getPropsForAttachment(firstAttachment),
+        attachments: attachments.map(attachment =>
+          this.getPropsForAttachment(attachment)
+        ),
         quote: this.getPropsForQuote(),
         authorAvatarPath,
         isExpired: this.hasExpired,
@@ -432,9 +434,9 @@
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
         onDelete: () => this.trigger('delete', this),
-        onClickAttachment: () =>
+        onClickAttachment: attachment =>
           this.trigger('show-lightbox', {
-            attachment: firstAttachment,
+            attachment,
             message: this,
           }),
 
