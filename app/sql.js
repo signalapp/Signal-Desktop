@@ -487,13 +487,50 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   console.log('updateToSchemaVersion6: success!');
 }
 
+async function updateToSchemaVersion7(currentVersion, instance) {
+  if (currentVersion >= 7) {
+    return;
+  }
+  console.log('updateToSchemaVersion7: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // SQLite has been coercing our STRINGs into numbers, so we force it with TEXT
+  // We create a new table then copy the data into it, since we can't modify columns
+
+  await instance.run('DROP INDEX sessions_number;');
+  await instance.run('ALTER TABLE sessions RENAME TO sessions_old;');
+
+  await instance.run(
+    `CREATE TABLE sessions(
+      id TEXT PRIMARY KEY,
+      number TEXT,
+      json TEXT
+    );`
+  );
+
+  await instance.run(`CREATE INDEX sessions_number ON sessions (
+    number
+  ) WHERE number IS NOT NULL;`);
+
+  await instance.run(`INSERT INTO sessions(id, number, json)
+    SELECT "+" || id, number, json FROM sessions_old;
+  `);
+
+  await instance.run('DROP TABLE sessions_old;');
+
+  await instance.run('PRAGMA schema_version = 7;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion7: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
   updateToSchemaVersion3,
   updateToSchemaVersion4,
-  // version 5 was dropped
+  () => null, // version 5 was dropped
   updateToSchemaVersion6,
+  updateToSchemaVersion7,
 ];
 
 async function updateSchema(instance) {
