@@ -147,7 +147,7 @@
     },
     toggleSection(e) {
       // Expand or collapse this panel
-      const $target = this.$(e.target);
+      const $target = this.$(e.currentTarget);
       const $next = $target.next();
 
       // Toggle section visibility
