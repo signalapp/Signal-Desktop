@@ -45,6 +45,7 @@ describe('LibLoki Protocol', () => {
       pubKey: libsignal.crypto.getRandomBytes(33),
       privKey: libsignal.crypto.getRandomBytes(32),
     };
+    textsecure.storage.put('signedKeyId', 2);
     await store.storeSignedPreKey(1, testKey);
   });
 
