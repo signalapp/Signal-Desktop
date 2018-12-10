@@ -16,7 +16,6 @@ build_script:
   - yarn lint-windows
   - yarn lint-deps
   - yarn test-node
-  - yarn nsp check
   - node build\grunt.js
   - type package.json | findstr /v certificateSubjectName > temp.json
   - move temp.json package.json
