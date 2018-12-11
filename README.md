@@ -22,6 +22,10 @@ Spam protections for Loki Messenger are based on a Proof of Work which is attach
 
 Please search for any [existing issues](https://github.com/loki-project/loki-messenger/issues) that describe your bugs in order to avoid duplicate submissions. Submissions can be made by making a pull request to our development branch, if you don't know where to start contributing , try reading the Github issues page for ideas.
 
+## Build instruction
+
+build instructions can be found in [CONTRIBUTING.md](CONTRIBUTING.md)
+
 ## License
 
 Copyright 2018- Current, Loki Foundation
