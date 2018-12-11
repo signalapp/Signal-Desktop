@@ -1,5 +1,5 @@
 {
-  "serverUrl": "https://textsecure-service.whispersystems.org",
-  "cdnUrl": "https://cdn.signal.org",
+  "serverUrl": "http://159.69.22.124:8080",
+  "cdnUrl": "http://159.69.22.124",
   "serverTrustRoot": "BXu6QIKVz5MA8gstzfOgRQGqyLqOwNKHL6INkv3IHWMF"
 }
