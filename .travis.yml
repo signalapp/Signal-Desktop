@@ -1,20 +1,23 @@
 language: node_js
+cache: yarn
 node_js:
   - '8.9.3'
 os:
   - linux
 dist: trusty
+before_install:
+  - whoami
+  - node -v
+  - yarn -v
 install:
+  - apt-get update && apt-get install -y libgtk2.0-0 libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb hunspell-en-us
   - yarn install --frozen-lockfile
 script:
   - yarn generate
-  - yarn lint
-  - yarn lint-deps
-  - yarn test-node
-  - yarn nsp check
-  - yarn prepare-beta-build
-  - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
-  - ./travis.sh
+  - Xvfb -ac -screen scrn 1280x2000x24 :9.0 &
+  - export DISPLAY=:9.0
+  - export LC_ALL=en_US
+  - yarn test
 env:
   global:
     - SIGNAL_ENV: production
