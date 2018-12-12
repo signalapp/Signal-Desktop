@@ -55,8 +55,8 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 Now, run these commands in your preferred terminal in a good directory for development:
 
 ```
-git clone https://github.com/signalapp/Signal-Desktop.git
-cd Signal-Desktop
+git clone https://github.com/loki-project/loki-messenger.git
+cd loki-messenger
 npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
 yarn grunt                     # Generate final JS and CSS assets
