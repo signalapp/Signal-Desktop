@@ -9,8 +9,8 @@ before_install:
   - whoami
   - node -v
   - yarn -v
+  - sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb hunspell-en-us
 install:
-  - apt-get update && apt-get install -y libgtk2.0-0 libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb hunspell-en-us
   - yarn install --frozen-lockfile
 script:
   - yarn generate
