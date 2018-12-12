@@ -358,6 +358,9 @@
         this._mainHeaderItem('editDisplayName', () => {
           window.Whisper.events.trigger('onEditProfile');
         }),
+        this._mainHeaderItem('showSeed', () => {
+          window.Whisper.events.trigger('showSeedDialog');
+        }),
       ];
     },
     async onPasswordUpdated() {

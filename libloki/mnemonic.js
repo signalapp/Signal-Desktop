@@ -123,7 +123,7 @@ function mn_decode(str, wordset_name) {
       );
     }
     if (w1 === -1 || w2 === -1 || w3 === -1) {
-      throw MnemonicError('invalid word in mnemonic');
+      throw new MnemonicError('invalid word in mnemonic');
     }
     var x = w1 + n * ((n - w1 + w2) % n) + n * n * ((n - w2 + w3) % n);
     if (x % n != w1)

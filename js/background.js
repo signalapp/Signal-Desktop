@@ -608,6 +608,14 @@
       }
     });
 
+    Whisper.events.on('showSeedDialog', async () => {
+      const manager = await getAccountManager();
+      if (appView && manager) {
+        const seed = manager.getCurrentMnemonic();
+        appView.showSeedDialog(seed);
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);
