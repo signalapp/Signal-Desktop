@@ -813,6 +813,7 @@ textarea {
   color: $color-dark-05;
   height: auto;
   padding: 0;
+  background: inherit;
 
   ::-webkit-scrollbar-track {
     background: $color-dark-85;
