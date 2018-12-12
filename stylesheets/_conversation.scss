@@ -425,6 +425,17 @@
   }
 }
 
+.seed-dialog {
+  .title {
+    font-weight: bold;
+  }
+
+  .seed {
+    padding: 20px 0;
+    font-style: oblique;
+  }
+}
+
 .permissions-popup,
 .debug-log-window {
   .modal {

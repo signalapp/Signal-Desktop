@@ -191,5 +191,9 @@
       const dialog = Whisper.getPasswordDialogView(type, resolve, reject);
       this.el.append(dialog.el);
     },
+    showSeedDialog(seed) {
+      const dialog = new Whisper.SeedDialogView({ seed });
+      this.el.append(dialog.el);
+    },
   });
 })();

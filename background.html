@@ -229,6 +229,20 @@
       </div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='seed-dialog'>
+    <div class="content">
+      <div class='title'>
+        Please save the seed below in a safe location.
+        </br>
+        They can be used to restore your account if you lose access or migrate to a new device.
+      </div>
+      <div class='seed'>{{ seed }}</div>
+      <div class='buttons'>
+        <button class='copy-seed' tabindex='2'>{{ copyText }}</button>
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='attachment-preview'>
         <div class='image-container'>
           <img src='{{ source }}' class='preview' />
@@ -741,6 +755,7 @@
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/nickname_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>

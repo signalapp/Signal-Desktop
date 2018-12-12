@@ -58,7 +58,7 @@
       'keyup #password': 'onPasswordChange',
       'keyup #password-confirmation': 'onValidatePassword',
     },
-    async register(mnemonic) {
+    async register(mnemonic, language) {
       // Make sure the password is valid
       if (this.validatePassword()) {
         this.showToast('Invalid password');
@@ -71,7 +71,7 @@
         await window.setPassword(input);
         await this.accountManager.registerSingleDevice(
           mnemonic,
-          this.$('#mnemonic-language').val(),
+          language,
           this.$('#display-name').val()
         );
         this.$el.trigger('openInbox');
@@ -84,14 +84,16 @@
     },
     registerWithoutMnemonic() {
       const mnemonic = this.$('#mnemonic-display').text();
-      this.register(mnemonic);
+      const language = this.$('#mnemonic-display-language').val();
+      this.register(mnemonic, language);
     },
     registerWithMnemonic() {
       const mnemonic = this.$('#mnemonic').val();
+      const language = this.$('#mnemonic-language').val();
       if (!mnemonic) {
         this.log('Please provide a mnemonic word list');
       } else {
-        this.register(mnemonic);
+        this.register(mnemonic, language);
       }
     },
     onChangeMnemonic() {

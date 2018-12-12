@@ -72,6 +72,7 @@
       return this.queueTask(() =>
         generateKeypair().then(async identityKeyPair => {
             return createAccount(identityKeyPair)
+              .then(() => this.saveMnemonic(mnemonic))
               .then(clearSessionsAndPreKeys)
               .then(generateKeys)
               .then(confirmKeys)
@@ -450,6 +451,12 @@
       const keys = await libsignal.KeyHelper.generateIdentityKeyPair();
       const hex = StringView.arrayBufferToHex(keys.privKey);
       return mnemonic.mn_encode(hex, language);
+    },
+    getCurrentMnemonic() {
+      return textsecure.storage.get('mnemonic');
+    },
+    saveMnemonic(mnemonic) {
+      return textsecure.storage.put('mnemonic', mnemonic);
     },
     async registrationDone(number, profileName) {
       window.log.info('registration done');

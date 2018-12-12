@@ -784,6 +784,9 @@
   "clear": {
     "message": "Clear"
   },
+  "copySeed": {
+    "message": "Copy Seed"
+  },
   "failedToSend": {
     "message":
       "Failed to send to some recipients. Check your network connection."
@@ -1682,8 +1685,8 @@
   },
 
   "copiedMnemonic": {
-    "message": "Copied mnemonic to clipboard",
-    "description": "A toast message telling the user that the mnemonic was copied"
+    "message": "Copied seed to clipboard",
+    "description": "A toast message telling the user that the mnemonic seed was copied"
   },
 
   "passwordViewTitle": {
