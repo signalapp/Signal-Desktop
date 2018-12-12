@@ -479,7 +479,11 @@ function showPasswordWindow() {
     }
 
     passwordWindow.readyForShutdown = true;
-    app.quit();
+
+    // Quit the app if we don't have a main window
+    if (!mainWindow) {
+      app.quit();
+    }
   });
 
   passwordWindow.on('closed', () => {
