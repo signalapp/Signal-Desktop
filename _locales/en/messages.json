@@ -1683,6 +1683,10 @@
     "message": "Edit display name",
     "description": "Button action that the user can click to edit their display name"
   },
+  "showSeed": {
+    "message": "Show seed",
+    "description": "Button action that the user can click to view their unique seed"
+  },
 
   "copiedMnemonic": {
     "message": "Copied seed to clipboard",

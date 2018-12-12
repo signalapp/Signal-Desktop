@@ -17,7 +17,6 @@
       this.render();
     },
     events: {
-      keyup: 'onKeyup',
       'click .ok': 'ok',
       'click .copy-seed': 'copySeed',
     },
@@ -39,18 +38,6 @@
       });
       toast.$el.appendTo(this.$el);
       toast.render();
-    },
-    onKeyup(event) {
-      switch (event.key) {
-        case 'Enter':
-        case 'Escape':
-        case 'Esc':
-          this.ok();
-          break;
-        default:
-          return;
-      }
-      event.preventDefault();
     },
   });
 })();
