@@ -1,7 +1,9 @@
+
 [![Build Status](https://travis-ci.org/signalapp/Signal-Desktop.svg?branch=master)](https://travis-ci.org/signalapp/Signal-Desktop)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/signalapp/Signal-Desktop?branch=master&svg=true)](https://ci.appveyor.com/project/Signal-Desktop/signal-desktop)
+
 Signal Desktop
 ==========================
-
 Signal Desktop is an Electron application that links with Signal
 on [Android](https://github.com/signalapp/Signal-Android)
 or [iOS](https://github.com/signalapp/Signal-iOS).
