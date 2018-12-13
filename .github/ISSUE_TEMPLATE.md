@@ -7,7 +7,7 @@ locations if you have a question or comment:
 
   https://community.signalusers.org/
   http://support.signal.org/
-  mailto:support@signal.org
+  support@signal.org
 
 Lastly, be sure to preview your issue before saving. Thanks!
 -->
