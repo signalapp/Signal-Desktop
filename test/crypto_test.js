@@ -1,4 +1,4 @@
-/* global Signal, textsecure */
+/* global Signal, textsecure, libsignal */
 
 'use strict';
 
@@ -107,6 +107,43 @@ describe('Crypto', () => {
       }
 
       throw new Error('Expected error to be thrown');
+    });
+  });
+
+  describe('encrypted device name', () => {
+    it('roundtrips', async () => {
+      const deviceName = 'v1.19.0 on Windows 10';
+      const identityKey = await libsignal.KeyHelper.generateIdentityKeyPair();
+
+      const encrypted = await Signal.Crypto.encryptDeviceName(
+        deviceName,
+        identityKey.pubKey
+      );
+      const decrypted = await Signal.Crypto.decryptDeviceName(
+        encrypted,
+        identityKey.privKey
+      );
+
+      assert.strictEqual(decrypted, deviceName);
+    });
+
+    it('fails if iv is changed', async () => {
+      const deviceName = 'v1.19.0 on Windows 10';
+      const identityKey = await libsignal.KeyHelper.generateIdentityKeyPair();
+
+      const encrypted = await Signal.Crypto.encryptDeviceName(
+        deviceName,
+        identityKey.pubKey
+      );
+      encrypted.syntheticIv = Signal.Crypto.getRandomBytes(16);
+      try {
+        await Signal.Crypto.decryptDeviceName(encrypted, identityKey.privKey);
+      } catch (error) {
+        assert.strictEqual(
+          error.message,
+          'decryptDeviceName: synthetic IV did not match'
+        );
+      }
     });
   });
 });

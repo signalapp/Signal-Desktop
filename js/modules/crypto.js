@@ -1,5 +1,5 @@
 /* eslint-env browser */
-/* global dcodeIO */
+/* global dcodeIO, libsignal */
 
 /* eslint-disable camelcase, no-bitwise */
 
@@ -10,9 +10,11 @@ module.exports = {
   concatenateBytes,
   constantTimeEqual,
   decryptAesCtr,
+  decryptDeviceName,
   decryptSymmetric,
   deriveAccessKey,
   encryptAesCtr,
+  encryptDeviceName,
   encryptSymmetric,
   fromEncodedBinaryToArrayBuffer,
   getAccessKeyVerifier,
@@ -29,6 +31,55 @@ module.exports = {
 };
 
 // High-level Operations
+
+async function encryptDeviceName(deviceName, identityPublic) {
+  const plaintext = bytesFromString(deviceName);
+  const ephemeralKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
+  const masterSecret = await libsignal.Curve.async.calculateAgreement(
+    identityPublic,
+    ephemeralKeyPair.privKey
+  );
+
+  const key1 = await hmacSha256(masterSecret, bytesFromString('auth'));
+  const syntheticIv = _getFirstBytes(await hmacSha256(key1, plaintext), 16);
+
+  const key2 = await hmacSha256(masterSecret, bytesFromString('cipher'));
+  const cipherKey = await hmacSha256(key2, syntheticIv);
+
+  const counter = getZeroes(16);
+  const ciphertext = await encryptAesCtr(cipherKey, plaintext, counter);
+
+  return {
+    ephemeralPublic: ephemeralKeyPair.pubKey,
+    syntheticIv,
+    ciphertext,
+  };
+}
+
+async function decryptDeviceName(
+  { ephemeralPublic, syntheticIv, ciphertext } = {},
+  identityPrivate
+) {
+  const masterSecret = await libsignal.Curve.async.calculateAgreement(
+    ephemeralPublic,
+    identityPrivate
+  );
+
+  const key2 = await hmacSha256(masterSecret, bytesFromString('cipher'));
+  const cipherKey = await hmacSha256(key2, syntheticIv);
+
+  const counter = getZeroes(16);
+  const plaintext = await decryptAesCtr(cipherKey, ciphertext, counter);
+
+  const key1 = await hmacSha256(masterSecret, bytesFromString('auth'));
+  const ourSyntheticIv = _getFirstBytes(await hmacSha256(key1, plaintext), 16);
+
+  if (!constantTimeEqual(ourSyntheticIv, syntheticIv)) {
+    throw new Error('decryptDeviceName: synthetic IV did not match');
+  }
+
+  return stringFromBytes(plaintext);
+}
 
 async function deriveAccessKey(profileKey) {
   const iv = getZeroes(12);

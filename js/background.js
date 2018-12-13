@@ -681,6 +681,7 @@
       textsecure.storage.user.getDeviceId() != '1'
     ) {
       window.getSyncRequest();
+      window.getAccountManager().maybeUpdateDeviceName();
     }
 
     const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
