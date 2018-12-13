@@ -6,9 +6,8 @@ cache:
 node_js:
   - '8.9.3'
 install:
-  - yarn install --frozen-lockfile
+  - yarn install --frozen-lockfile --network-timeout 1000000
 script:
-  - export SIGNAL_ENV=production
   - yarn generate
   - yarn test
 env:
@@ -20,7 +19,7 @@ notifications:
 
 matrix:
   include:
-    - name: 'Linux Test'
+    - name: 'Linux'
       os: linux
       dist: trusty
       before_install:
@@ -29,5 +28,9 @@ matrix:
         - Xvfb -ac -screen scrn 1280x2000x24 :9.0 &
         - export DISPLAY=:9.0
         - export LC_ALL=en_US
-    - name: 'OSX Test'
+    - name: 'OSX'
       os: osx
+    - name: 'Windows'
+      os: windows
+      env:
+        - YARN_GPG=no
