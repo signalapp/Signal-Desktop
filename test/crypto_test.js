@@ -44,7 +44,7 @@ describe('Crypto', () => {
 
       const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
       const uintArray = new Uint8Array(encrypted);
-      uintArray[2] = 9;
+      uintArray[2] += 2;
 
       try {
         await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
@@ -69,7 +69,7 @@ describe('Crypto', () => {
 
       const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
       const uintArray = new Uint8Array(encrypted);
-      uintArray[uintArray.length - 3] = 9;
+      uintArray[uintArray.length - 3] += 2;
 
       try {
         await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
@@ -94,7 +94,7 @@ describe('Crypto', () => {
 
       const encrypted = await Signal.Crypto.encryptSymmetric(key, plaintext);
       const uintArray = new Uint8Array(encrypted);
-      uintArray[35] = 9;
+      uintArray[35] += 9;
 
       try {
         await Signal.Crypto.decryptSymmetric(key, uintArray.buffer);
@@ -143,6 +143,32 @@ describe('Crypto', () => {
           error.message,
           'decryptDeviceName: synthetic IV did not match'
         );
+      }
+    });
+  });
+
+  describe('attachment encryption', () => {
+    it('roundtrips', async () => {
+      const staticKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const message = 'this is my message';
+      const plaintext = Signal.Crypto.bytesFromString(message);
+      const path =
+        'fa/facdf99c22945b1c9393345599a276f4b36ad7ccdc8c2467f5441b742c2d11fa';
+
+      const encrypted = await Signal.Crypto.encryptAttachment(
+        staticKeyPair.pubKey.slice(1),
+        path,
+        plaintext
+      );
+      const decrypted = await Signal.Crypto.decryptAttachment(
+        staticKeyPair.privKey,
+        path,
+        encrypted
+      );
+
+      const equal = Signal.Crypto.constantTimeEqual(plaintext, decrypted);
+      if (!equal) {
+        throw new Error('The output and input did not match!');
       }
     });
   });

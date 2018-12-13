@@ -11,10 +11,14 @@ module.exports = {
   constantTimeEqual,
   decryptAesCtr,
   decryptDeviceName,
+  decryptAttachment,
+  decryptFile,
   decryptSymmetric,
   deriveAccessKey,
   encryptAesCtr,
   encryptDeviceName,
+  encryptAttachment,
+  encryptFile,
   encryptSymmetric,
   fromEncodedBinaryToArrayBuffer,
   getAccessKeyVerifier,
@@ -29,6 +33,24 @@ module.exports = {
   trimBytes,
   verifyAccessKey,
 };
+
+function arrayBufferToBase64(arrayBuffer) {
+  return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
+}
+function base64ToArrayBuffer(base64string) {
+  return dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();
+}
+
+function fromEncodedBinaryToArrayBuffer(key) {
+  return dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();
+}
+
+function bytesFromString(string) {
+  return dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();
+}
+function stringFromBytes(buffer) {
+  return dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');
+}
 
 // High-level Operations
 
@@ -79,6 +101,48 @@ async function decryptDeviceName(
   }
 
   return stringFromBytes(plaintext);
+}
+
+// Path structure: 'fa/facdf99c22945b1c9393345599a276f4b36ad7ccdc8c2467f5441b742c2d11fa'
+function getAttachmentLabel(path) {
+  const filename = path.slice(3);
+  return base64ToArrayBuffer(filename);
+}
+
+const PUB_KEY_LENGTH = 32;
+async function encryptAttachment(staticPublicKey, path, plaintext) {
+  const uniqueId = getAttachmentLabel(path);
+  return encryptFile(staticPublicKey, uniqueId, plaintext);
+}
+
+async function decryptAttachment(staticPrivateKey, path, data) {
+  const uniqueId = getAttachmentLabel(path);
+  return decryptFile(staticPrivateKey, uniqueId, data);
+}
+
+async function encryptFile(staticPublicKey, uniqueId, plaintext) {
+  const ephemeralKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
+  const agreement = await libsignal.Curve.async.calculateAgreement(
+    staticPublicKey,
+    ephemeralKeyPair.privKey
+  );
+  const key = await hmacSha256(agreement, uniqueId);
+
+  const prefix = ephemeralKeyPair.pubKey.slice(1);
+  return concatenateBytes(prefix, await encryptSymmetric(key, plaintext));
+}
+
+async function decryptFile(staticPrivateKey, uniqueId, data) {
+  const ephemeralPublicKey = _getFirstBytes(data, PUB_KEY_LENGTH);
+  const ciphertext = _getBytes(data, PUB_KEY_LENGTH, data.byteLength);
+  const agreement = await libsignal.Curve.async.calculateAgreement(
+    ephemeralPublicKey,
+    staticPrivateKey
+  );
+
+  const key = await hmacSha256(agreement, uniqueId);
+
+  return decryptSymmetric(key, ciphertext);
 }
 
 async function deriveAccessKey(profileKey) {
@@ -316,24 +380,6 @@ function intsToByteHighAndLow(highValue, lowValue) {
 
 function trimBytes(buffer, length) {
   return _getFirstBytes(buffer, length);
-}
-
-function arrayBufferToBase64(arrayBuffer) {
-  return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
-}
-function base64ToArrayBuffer(base64string) {
-  return dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();
-}
-
-function fromEncodedBinaryToArrayBuffer(key) {
-  return dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();
-}
-
-function bytesFromString(string) {
-  return dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();
-}
-function stringFromBytes(buffer) {
-  return dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');
 }
 
 function getViewOfArrayBuffer(buffer, start, finish) {
