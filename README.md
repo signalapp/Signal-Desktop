@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/signalapp/Signal-Desktop.svg?branch=master)](https://travis-ci.org/signalapp/Signal-Desktop)
-[![Build Status](https://ci.appveyor.com/api/projects/status/Signal-Desktop/signal-desktop/?branch=master&svg=true)](https://ci.appveyor.com/project/Signal-Desktop/signal-desktop)
+[![Build Status](https://camo.githubusercontent.com/8c27eda13147366d77d2827468e77e9ab5a98b90/68747470733a2f2f63692e6170707665796f722e636f6d2f6170692f70726f6a656374732f7374617475732f6769746875622f7369676e616c6170702f5369676e616c2d4465736b746f703f6272616e63683d6d6173746572267376673d74727565)](https://ci.appveyor.com/project/Signal-Desktop/signal-desktop)
 
 Signal Desktop
 ==========================
