@@ -73,7 +73,7 @@
         return {
           Component: Components.FriendRequest,
           props: this.model.getPropsForFriendRequest(),
-        }; 
+        };
       }
 
       return {

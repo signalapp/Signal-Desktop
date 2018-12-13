@@ -334,7 +334,8 @@
       const conversation = this.getConversation();
 
       const onAccept = () => this.acceptFriendRequest();
-      const onDecline = () => this.declineFriendRequest()
+      const onDecline = () => this.declineFriendRequest();
+      const onRetrySend = () => this.retrySend();
 
       const onDeleteConversation = async () => {
         // Delete the whole conversation
@@ -362,6 +363,7 @@
         onDeleteConversation,
         onBlockUser,
         onUnblockUser,
+        onRetrySend,
       }
     },
     findContact(phoneNumber) {
@@ -795,6 +797,7 @@
 
       const conversation = this.getConversation();
       const options = conversation.getSendOptions();
+      options.messageType = this.get('type');
 
       let promise;
 
