@@ -25,6 +25,12 @@ module.exports = grunt => {
     libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
   }
 
+  const liblokicomponents = [];
+  // eslint-disable-next-line guard-for-in, no-restricted-syntax
+  for (const i in bower.concat.libloki) {
+    liblokicomponents.push(bower.concat.libloki[i]);
+  }
+
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.initConfig({
@@ -37,6 +43,8 @@ module.exports = grunt => {
       util_worker: {
         src: [
           'components/bytebuffer/dist/ByteBufferAB.js',
+          'components/JSBI/dist/jsbi.mjs',
+          'libloki/proof-of-work.js',
           'components/long/dist/Long.js',
           'js/util_worker_tasks.js',
         ],
@@ -45,6 +53,10 @@ module.exports = grunt => {
       libtextsecurecomponents: {
         src: libtextsecurecomponents,
         dest: 'libtextsecure/components.js',
+      },
+      liblokicomponents: {
+        src: liblokicomponents,
+        dest: 'libloki/test/components.js',
       },
       test: {
         src: [
@@ -140,6 +152,16 @@ module.exports = grunt => {
       libtextsecure: {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
         tasks: ['concat:libtextsecure'],
+      },
+      utilworker: {
+        files: [
+          'components/bytebuffer/dist/ByteBufferAB.js',
+          'components/JSBI/dist/jsbi.mjs',
+          'libloki/proof-of-work.js',
+          'components/long/dist/Long.js',
+          'js/util_worker_tasks.js',
+        ],
+        tasks: ['concat:util_worker'],
       },
       libloki: {
         files: ['./libloki/*.js'],

@@ -1,6 +1,4 @@
-/* global require */
-const { assert } = require('chai');
-const { BigInteger } = require('jsbn');
+/* global assert, JSBI, pow */
 
 const {
   calcTarget,
@@ -8,7 +6,7 @@ const {
   bufferToBase64,
   bigIntToUint8Array,
   greaterThan,
-} = require('../../libloki/proof-of-work');
+} = pow;
 
 describe('Proof of Work Worker', () => {
   it('should increment a Uint8Array nonce correctly', () => {
@@ -42,11 +40,11 @@ describe('Proof of Work Worker', () => {
     const ttl = 86400;
     let expectedTarget = new Uint8Array([0,4,119,164,35,224,222,64]);
 
-    let actualTarget = calcTarget(ttl, payloadLen);
+    let actualTarget = calcTarget(ttl, payloadLen, 10);
     assert.deepEqual(actualTarget, expectedTarget);
     payloadLen = 6597;
     expectedTarget = new Uint8Array([0,0,109,145,174,146,124,3]);
-    actualTarget = calcTarget(ttl, payloadLen);
+    actualTarget = calcTarget(ttl, payloadLen, 10);
     assert.deepEqual(actualTarget, expectedTarget);
   });
 
@@ -81,16 +79,16 @@ describe('Proof of Work Worker', () => {
   });
 
   it('should correclty convert a BigInteger to a Uint8Array', () => {
-    let bigInt = new BigInteger(Number.MAX_SAFE_INTEGER.toString());
+    let bigInt = JSBI.BigInt(Number.MAX_SAFE_INTEGER);
     let expected = new Uint8Array([0, 31, 255, 255, 255, 255, 255, 255]);
     assert.deepEqual(bigIntToUint8Array(bigInt), expected);
-    bigInt = new BigInteger('0');
+    bigInt = JSBI.BigInt('0');
     expected = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
     assert.deepEqual(bigIntToUint8Array(bigInt), expected);
-    bigInt = new BigInteger('255');
+    bigInt = JSBI.BigInt('255');
     expected = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 255]);
     assert.deepEqual(bigIntToUint8Array(bigInt), expected);
-    bigInt = new BigInteger('256');
+    bigInt = JSBI.BigInt('256');
     expected = new Uint8Array([0, 0, 0, 0, 0, 0, 1, 0]);
     assert.deepEqual(bigIntToUint8Array(bigInt), expected);
   });

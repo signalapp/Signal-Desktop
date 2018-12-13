@@ -1,11 +1,10 @@
-/* global dcodeIO */
+/* global dcodeIO, pow */
 /* eslint-disable strict */
-
-'use strict';
 
 const functions = {
   stringToArrayBufferBase64,
   arrayBufferToStringBase64,
+  calcPoW,
 };
 
 onmessage = async e => {
@@ -41,4 +40,7 @@ function stringToArrayBufferBase64(string) {
 }
 function arrayBufferToStringBase64(arrayBuffer) {
   return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
+}
+function calcPoW(timestamp, ttl, pubKey, data, development) {
+  return pow.calcPoW(timestamp, ttl, pubKey, data, development);
 }

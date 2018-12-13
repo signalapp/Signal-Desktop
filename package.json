@@ -54,7 +54,6 @@
     "blueimp-load-image": "^2.18.0",
     "buffer-crc32": "^0.2.1",
     "bunyan": "^1.8.12",
-    "bytebuffer": "^5.0.1",
     "classnames": "^2.2.5",
     "config": "^1.28.1",
     "electron-editor-context-menu": "^1.1.1",

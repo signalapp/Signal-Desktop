@@ -64,6 +64,11 @@
       "components/long/**/*.js",
       "components/bytebuffer/**/*.js",
       "components/protobuf/**/*.js"
+    ],
+    "libloki": [
+      "components/long/**/*.js",
+      "components/bytebuffer/**/*.js",
+      "components/JSBI/dist/jsbi.mjs"
     ]
   }
 }

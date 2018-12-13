@@ -1,41 +1,7 @@
-/* global log, dcodeIO, window */
+/* global log, dcodeIO, window, callWorker */
 
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
-const { fork } = require('child_process');
-
-const development = (window.getEnvironment() !== 'production');
-
-function getPoWNonce(timestamp, ttl, pubKey, data) {
-  return new Promise((resolve, reject) => {
-    // Create forked node process to calculate PoW without blocking main process
-    const child = fork('./libloki/proof-of-work.js');
-
-    // Send data required for PoW to child process
-    child.send({
-      timestamp,
-      ttl,
-      pubKey,
-      data,
-      development,
-    });
-
-    // Handle child process error (should never happen)
-    child.on('error', err => {
-      reject(err);
-    });
-
-    // Callback to receive PoW result
-    child.on('message', msg => {
-      if (msg.err) {
-        reject(msg.err);
-      } else {
-        child.kill();
-        resolve(msg.nonce);
-      }
-    });
-  });
-}
 
 class LokiServer {
 
@@ -62,11 +28,12 @@ class LokiServer {
         pubKey,
         timestamp: messageTimeStamp,
       });
-      nonce = await getPoWNonce(timestamp, ttl, pubKey, data64);
+      const development = window.getEnvironment() !== 'production';
+      nonce = await callWorker('calcPoW', timestamp, ttl, pubKey, data64, development);
     } catch (err) {
       // Something went horribly wrong
       // TODO: Handle gracefully
-      log.error('Error computing PoW');
+      throw err;
     }
 
     const options = {
