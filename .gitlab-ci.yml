@@ -1,25 +1,73 @@
-image: node:8.10.0
-
-cache:
-  paths:
-  - node_modules/
-
-stages:
-  - test
-
-test_all:
-  stage: test
+linux:
+  image: tutum/curl:latest
+  tags:
+    - docker
   script:
-    # chrome drivers
-    - apt-get update && apt-get install -y libgtk2.0-0 libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb hunspell-en-us
     - whoami
+    - touch ~/.bash_profile
+    - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+    - export NVM_DIR=~/.nvm
+    - chmod 755 ~/.nvm/nvm.sh
+    - source ~/.nvm/nvm.sh
+    - nvm install
     - node -v
     - yarn -v
     - yarn install --frozen-lockfile
+    - export SIGNAL_ENV=production
     - yarn generate
-    - Xvfb -ac -screen scrn 1280x2000x24 :9.0 &
-    - export DISPLAY=:9.0
-    - export LC_ALL=en_US
-    - yarn test
+    - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$CI_COMMIT_REF_SLUG' --publish=never --config.directories.output=release
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - release/
+
+osx:
   tags:
-    - docker
+    - osx
+  script:
+    - nvm install
+    - npm install --global yarn
+    - yarn install --frozen-lockfile
+    - export SIGNAL_ENV=production
+    - yarn generate
+    - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$CI_COMMIT_REF_SLUG' --publish=never --config.directories.output=release
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - release/
+
+windows:
+  tags:
+    - windows-cmd
+  script:
+    # install
+    - set PATH=%PATH%;C:\Users\Administrator\AppData\Local\nvs\
+    - set SIGNAL_ENV=production
+    - echo %username%
+    - echo %PATH%
+    - set /p NVMRC_VER=<.nvmrc
+    - call nvs add %NVMRC_VER%
+    - call nvs use %NVMRC_VER%
+    - call "C:\\PROGRA~2\\MICROS~1\\2017\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"
+    - call yarn install --frozen-lockfile
+    # build
+    - call yarn generate
+    # - yarn lint-windows
+    # - yarn lint-deps
+    # - call yarn test-node
+    # - call yarn nsp check
+    - call node build\grunt.js
+    # - type package.json | findstr /v certificateSubjectName > temp.json
+    # - move temp.json package.json
+    - call  yarn prepare-beta-build
+    - call node_modules\.bin\build --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - dist/
