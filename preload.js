@@ -1,6 +1,6 @@
 /* global Whisper: false */
 /* global window: false */
-
+const path = require('path');
 const electron = require('electron');
 const semver = require('semver');
 
@@ -267,6 +267,11 @@ window.LokiAPI = new LokiServer({
 });
 
 window.mnemonic = require('./libloki/mnemonic');
+const { WorkerInterface } = require('./js/modules/util_worker_interface');
+
+const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
+const utilWorker = new WorkerInterface(utilWorkerPath);
+window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
