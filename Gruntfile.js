@@ -454,7 +454,7 @@ module.exports = grunt => {
         )
         .then(title => {
           // TODO: restore once fixed on win
-          if (this.target !== 'win ') {
+          if (this.target !== 'win') {
             // Verify the window's title
             assert.equal(title, packageJson.productName);
             console.log('title ok');
