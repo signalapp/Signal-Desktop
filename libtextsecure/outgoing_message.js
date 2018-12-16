@@ -195,6 +195,8 @@ OutgoingMessage.prototype = {
           throw new textsecure.UnregisteredUserError(number, e);
         }
         throw new textsecure.SendMessageNetworkError(number, '', e, timestamp);
+      } else if (e.name === 'TimedOutError') {
+        throw new textsecure.PoWError(number, e);
       }
       throw e;
     }
