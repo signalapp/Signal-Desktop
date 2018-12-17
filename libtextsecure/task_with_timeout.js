@@ -7,7 +7,7 @@
   window.textsecure = window.textsecure || {};
 
   window.textsecure.createTaskWithTimeout = (task, id, options = {}) => {
-    const timeout = options.timeout || 1000 * 60 * 2; // two minutes
+    const timeout = options.timeout || 1000 * 60 * 3; // three minutes
 
     const errorForStack = new Error('for stack');
     return () =>

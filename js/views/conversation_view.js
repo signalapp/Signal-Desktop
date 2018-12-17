@@ -1623,7 +1623,10 @@
       }
 
       const input = this.$messageField;
-      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
+      const inputMessage = window.Signal.Emoji.replaceColons(input.val()).trim();
+
+      // Limit the message to 2000 characters
+      const message = inputMessage.substring(0, Math.min(2000, inputMessage.length));
 
       try {
         if (!message.length && !this.fileInput.hasFiles()) {
