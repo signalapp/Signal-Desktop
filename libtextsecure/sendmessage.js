@@ -1,4 +1,4 @@
-/* global textsecure, WebAPI, libsignal, OutgoingMessage, window */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -323,10 +323,31 @@ MessageSender.prototype = {
     });
   },
 
+  sendMessageProtoAndWait(timestamp, numbers, message, silent, options = {}) {
+    return new Promise((resolve, reject) => {
+      const callback = result => {
+        if (result && result.errors && result.errors.length > 0) {
+          return reject(result);
+        }
+
+        return resolve(result);
+      };
+
+      this.sendMessageProto(
+        timestamp,
+        numbers,
+        message,
+        callback,
+        silent,
+        options
+      );
+    });
+  },
+
   sendIndividualProto(number, proto, timestamp, silent, options = {}) {
     return new Promise((resolve, reject) => {
       const callback = res => {
-        if (res.errors.length > 0) {
+        if (res && res.errors && res.errors.length > 0) {
           reject(res);
         } else {
           resolve(res);
@@ -454,6 +475,7 @@ MessageSender.prototype = {
 
     return Promise.resolve();
   },
+
   sendRequestGroupSyncMessage(options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -501,6 +523,55 @@ MessageSender.prototype = {
 
     return Promise.resolve();
   },
+
+  async sendTypingMessage(options = {}, sendOptions = {}) {
+    const ACTION_ENUM = textsecure.protobuf.TypingMessage.Action;
+    const { recipientId, groupId, isTyping, timestamp } = options;
+
+    // We don't want to send typing messages to our other devices, but we will
+    //   in the group case.
+    const myNumber = textsecure.storage.user.getNumber();
+    if (recipientId && myNumber === recipientId) {
+      return null;
+    }
+
+    if (!recipientId && !groupId) {
+      throw new Error('Need to provide either recipientId or groupId!');
+    }
+
+    const recipients = groupId
+      ? _.without(await textsecure.storage.groups.getNumbers(groupId), myNumber)
+      : [recipientId];
+    const groupIdBuffer = groupId
+      ? window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(groupId)
+      : null;
+
+    const action = isTyping ? ACTION_ENUM.STARTED : ACTION_ENUM.STOPPED;
+    const finalTimestamp = timestamp || Date.now();
+
+    const typingMessage = new textsecure.protobuf.TypingMessage();
+    typingMessage.groupId = groupIdBuffer;
+    typingMessage.action = action;
+    typingMessage.timestamp = finalTimestamp;
+
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.typingMessage = typingMessage;
+
+    const silent = true;
+    const online = true;
+
+    return this.sendMessageProtoAndWait(
+      finalTimestamp,
+      recipients,
+      contentMessage,
+      silent,
+      {
+        ...sendOptions,
+        online,
+      }
+    );
+  },
+
   sendDeliveryReceipt(recipientId, timestamp, options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -524,6 +595,7 @@ MessageSender.prototype = {
       options
     );
   },
+
   sendReadReceipts(sender, timestamps, options) {
     const receiptMessage = new textsecure.protobuf.ReceiptMessage();
     receiptMessage.type = textsecure.protobuf.ReceiptMessage.Type.READ;
@@ -992,6 +1064,7 @@ textsecure.MessageSender = function MessageSenderWrapper(
   this.sendMessage = sender.sendMessage.bind(sender);
   this.resetSession = sender.resetSession.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
+  this.sendTypingMessage = sender.sendTypingMessage.bind(sender);
   this.createGroup = sender.createGroup.bind(sender);
   this.updateGroup = sender.updateGroup.bind(sender);
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);

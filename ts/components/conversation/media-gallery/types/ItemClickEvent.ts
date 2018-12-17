@@ -1,7 +1,8 @@
-import { AttachmentType } from './AttachmentType';
+import { AttachmentType } from '../../types';
 import { Message } from './Message';
 
 export interface ItemClickEvent {
   message: Message;
-  type: AttachmentType;
+  attachment: AttachmentType;
+  type: 'media' | 'documents';
 }

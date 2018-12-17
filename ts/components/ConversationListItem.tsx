@@ -5,6 +5,8 @@ import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
+import { TypingAnimation } from './conversation/TypingAnimation';
+
 import { Localizer } from '../types/Util';
 
 interface Props {
@@ -19,6 +21,7 @@ interface Props {
   unreadCount: number;
   isSelected: boolean;
 
+  isTyping: boolean;
   lastMessage?: {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
@@ -120,9 +123,9 @@ export class ConversationListItem extends React.Component<Props> {
   }
 
   public renderMessage() {
-    const { lastMessage, unreadCount, i18n } = this.props;
+    const { lastMessage, isTyping, unreadCount, i18n } = this.props;
 
-    if (!lastMessage) {
+    if (!lastMessage && !isTyping) {
       return null;
     }
 
@@ -136,14 +139,18 @@ export class ConversationListItem extends React.Component<Props> {
               : null
           )}
         >
-          <MessageBody
-            text={lastMessage.text || ''}
-            disableJumbomoji={true}
-            disableLinks={true}
-            i18n={i18n}
-          />
+          {isTyping ? (
+            <TypingAnimation i18n={i18n} />
+          ) : (
+            <MessageBody
+              text={lastMessage && lastMessage.text ? lastMessage.text : ''}
+              disableJumbomoji={true}
+              disableLinks={true}
+              i18n={i18n}
+            />
+          )}
         </div>
-        {lastMessage.status ? (
+        {lastMessage && lastMessage.status ? (
           <div
             className={classNames(
               'module-conversation-list-item__message__status-icon',

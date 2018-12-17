@@ -215,6 +215,8 @@
   background-color: $color-conversation-blue_grey;
 }
 
+// START
+
 .module-message__attachment-container {
   // Entirely to ensure that images are centered if they aren't full width of bubble
   text-align: center;
@@ -244,95 +246,11 @@
   border-top-right-radius: 0px;
 }
 
-.module-message__img-border-overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  left: 0;
-  right: 0;
-  border-radius: 16px;
-  box-shadow: inset 0px 0px 0px 1px $color-black-015;
-}
-
-.module-message__img-border-overlay--with-content-below {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
-.module-message__img-border-overlay--with-content-above {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-}
-
 .module-message__img-attachment {
-  object-fit: cover;
-  width: 100%;
-  min-width: 200px;
-  min-height: 150px;
-  max-height: 300px;
-
-  // The padding on the bottom of the bubble produces three extra pixels of space at the
-  //   bottom, so this doesn't match up with the padding numbers above.
   margin-bottom: -3px;
 
   // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
-}
-
-.module-message__img-overlay {
-  height: 48px;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0) 9%,
-    rgba(0, 0, 0, 0.02) 17%,
-    rgba(0, 0, 0, 0.05) 24%,
-    rgba(0, 0, 0, 0.08) 31%,
-    rgba(0, 0, 0, 0.12) 37%,
-    rgba(0, 0, 0, 0.16) 44%,
-    rgba(0, 0, 0, 0.2) 50%,
-    rgba(0, 0, 0, 0.24) 56%,
-    rgba(0, 0, 0, 0.28) 63%,
-    rgba(0, 0, 0, 0.32) 69%,
-    rgba(0, 0, 0, 0.35) 76%,
-    rgba(0, 0, 0, 0.38) 83%,
-    rgba(0, 0, 0, 0.4) 91%,
-    rgba(0, 0, 0, 0.4)
-  );
-  position: absolute;
-  bottom: 0;
-  z-index: 2;
-  left: 0;
-  right: 0;
-  margin-left: -12px;
-  margin-right: -12px;
-  margin-bottom: -10px;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-}
-
-.module-message__video-overlay__circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: 48px;
-  height: 48px;
-  background-color: $color-white;
-  border-radius: 24px;
-}
-
-.module-message__video-overlay__play-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  height: 36px;
-  width: 36px;
-  @include color-svg('../images/play.svg', $color-signal-blue);
 }
 
 .module-message__audio-attachment {
@@ -602,9 +520,16 @@
 
 .module-message__author-avatar {
   position: absolute;
-  // This accounts for the weird extra 3px we get at the bottom of messages
-  bottom: -3px;
+  bottom: 0px;
   right: calc(100% + 4px);
+}
+
+.module-message__typing-container {
+  height: 16px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 // Module: Expire Timer
@@ -1954,8 +1879,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  margin-top: 3px;
 }
 
 .module-conversation-list-item__message__text {
@@ -2263,6 +2186,237 @@
   color: $color-dark-05;
   overflow-x: auto;
   flex: 1;
+}
+
+// Module: Image
+
+.module-image {
+  overflow: hidden;
+  background-color: $color-white;
+  position: relative;
+  display: inline-block;
+  margin: 1px;
+}
+
+.module-image__caption-icon {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+}
+
+.module-image--curved-top-left {
+  border-top-left-radius: 16px;
+}
+.module-image--curved-top-right {
+  border-top-right-radius: 16px;
+}
+.module-image--curved-bottom-left {
+  border-bottom-left-radius: 16px;
+}
+.module-image--curved-bottom-right {
+  border-bottom-right-radius: 16px;
+}
+
+.module-image__border-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  box-shadow: inset 0px 0px 0px 1px $color-black-015;
+}
+
+.module-image__border-overlay--dark {
+  background-color: $color-black-02;
+}
+
+.module-image__image {
+  object-fit: cover;
+  // redundant with attachment-container, but we get cursor flashing on move otherwise
+  cursor: pointer;
+
+  margin-bottom: -3px;
+}
+
+.module-image__bottom-overlay {
+  height: 48px;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0) 9%,
+    rgba(0, 0, 0, 0.02) 17%,
+    rgba(0, 0, 0, 0.05) 24%,
+    rgba(0, 0, 0, 0.08) 31%,
+    rgba(0, 0, 0, 0.12) 37%,
+    rgba(0, 0, 0, 0.16) 44%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.24) 56%,
+    rgba(0, 0, 0, 0.28) 63%,
+    rgba(0, 0, 0, 0.32) 69%,
+    rgba(0, 0, 0, 0.35) 76%,
+    rgba(0, 0, 0, 0.38) 83%,
+    rgba(0, 0, 0, 0.4) 91%,
+    rgba(0, 0, 0, 0.4)
+  );
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  left: 0;
+  right: 0;
+}
+
+.module-image__play-overlay__circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 48px;
+  height: 48px;
+  background-color: $color-white;
+  border-radius: 24px;
+}
+
+.module-image__play-overlay__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height: 36px;
+  width: 36px;
+  @include color-svg('../images/play.svg', $color-signal-blue);
+}
+
+.module-image__text-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+
+  color: $color-white;
+
+  font-size: 20px;
+  font-weight: normal;
+  letter-spacing: 0;
+
+  text-align: center;
+}
+
+// Module: Image Grid
+
+.module-image-grid {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+
+  margin: -1px;
+}
+
+.module-image-grid--one-image {
+  margin-bottom: -5px;
+}
+
+.module-image-grid__column {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.module-image-grid__row {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+}
+
+// Module: Typing Animation
+
+.module-typing-animation {
+  display: inline-flex;
+  flex-directin: row;
+  align-items: center;
+
+  height: 8px;
+  width: 38px;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.module-typing-animation__dot {
+  border-radius: 50%;
+  background-color: $color-gray-60;
+
+  height: 6px;
+  width: 6px;
+  opacity: 0.4;
+}
+
+.module-typing-animation__dot--light {
+  border-radius: 50%;
+  background-color: $color-white;
+
+  height: 6px;
+  width: 6px;
+  opacity: 0.4;
+}
+
+@keyframes typing-animation-first {
+  0% {
+    opacity: 0.4;
+  }
+  20% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes typing-animation-second {
+  10% {
+    opacity: 0.4;
+  }
+  30% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes typing-animation-third {
+  20% {
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.4;
+  }
+}
+
+.module-typing-animation__dot--first {
+  animation: typing-animation-first 1600ms ease infinite;
+}
+
+.module-typing-animation__dot--second {
+  animation: typing-animation-second 1600ms ease infinite;
+}
+
+.module-typing-animation__dot--third {
+  animation: typing-animation-third 1600ms ease infinite;
+}
+
+.module-typing-animation__spacer {
+  flex-grow: 1;
 }
 
 // Third-party module: react-contextmenu

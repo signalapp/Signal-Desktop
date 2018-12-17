@@ -289,18 +289,11 @@ SecretSessionCipher.prototype = {
       signalProtocolStore,
       destinationAddress
     );
-    const sessionRecord = await sessionCipher.getRecord(
-      destinationAddress.toString()
-    );
-    const openSession = sessionRecord.getOpenSession();
-    if (!openSession) {
-      throw new Error('No active session');
-    }
 
     const message = await sessionCipher.encrypt(paddedPlaintext);
     const ourIdentity = await signalProtocolStore.getIdentityKeyPair();
     const theirIdentity = fromEncodedBinaryToArrayBuffer(
-      openSession.indexInfo.remoteIdentityKey
+      await signalProtocolStore.loadIdentityKey(destinationAddress.getName())
     );
 
     const ephemeral = await libsignal.Curve.async.generateKeyPair();

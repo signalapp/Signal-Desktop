@@ -189,7 +189,7 @@ ipc.on('delete-all-data', () => {
 });
 
 ipc.on('get-ready-for-shutdown', async () => {
-  const { shutdown } = window.Events;
+  const { shutdown } = window.Events || {};
   if (!shutdown) {
     window.log.error('preload shutdown handler: shutdown method not found');
     ipc.send('now-ready-for-shutdown');

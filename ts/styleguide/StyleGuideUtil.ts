@@ -29,9 +29,17 @@ const txtObjectUrl = makeObjectUrl(txt, 'text/plain');
 import mp4 from '../../fixtures/pixabay-Soap-Bubble-7141.mp4';
 const mp4ObjectUrl = makeObjectUrl(mp4, 'video/mp4');
 // @ts-ignore
+import mp4v2 from '../../fixtures/ghost-kitty.mp4';
+const mp4ObjectUrlV2 = makeObjectUrl(mp4v2, 'video/mp4');
+// @ts-ignore
 import png from '../../fixtures/freepngs-2cd43b_bed7d1327e88454487397574d87b64dc_mv2.png';
 // 800×1200
 const pngObjectUrl = makeObjectUrl(png, 'image/png');
+
+// @ts-ignore
+import landscape from '../../fixtures/koushik-chowdavarapu-105425-unsplash.jpg';
+// 800×1200
+const landscapeObjectUrl = makeObjectUrl(landscape, 'image/png');
 
 // @ts-ignore
 import landscapeGreen from '../../fixtures/1000x50-green.jpeg';
@@ -64,10 +72,14 @@ export {
   gifObjectUrl,
   mp4,
   mp4ObjectUrl,
+  mp4v2,
+  mp4ObjectUrlV2,
   png,
   pngObjectUrl,
   txt,
   txtObjectUrl,
+  landscape,
+  landscapeObjectUrl,
   landscapeGreen,
   landscapeGreenObjectUrl,
   landscapePurple,
@@ -98,3 +110,10 @@ export { theme, ios, locale, i18n };
 // Telling Lodash to relinquish _ for use by underscore
 // @ts-ignore
 _.noConflict();
+
+// @ts-ignore
+window.log = {
+  info: console.log,
+  error: console.log,
+  war: console.log,
+};

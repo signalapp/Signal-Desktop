@@ -136,13 +136,13 @@
 .message-list {
   list-style: none;
 
+  .message-wrapper {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
   li {
     margin-bottom: 10px;
-
-    .message-wrapper {
-      margin-left: 16px;
-      margin-right: 16px;
-    }
 
     &::after {
       visibility: hidden;
@@ -158,10 +158,14 @@
 .group {
   .message-container,
   .message-list {
-    li .message-wrapper {
+    .message-wrapper {
       margin-left: 44px;
     }
   }
+}
+
+.typing-bubble-wrapper {
+  margin-bottom: 20px;
 }
 
 .contact-detail-pane {

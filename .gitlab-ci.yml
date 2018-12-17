@@ -1,6 +1,6 @@
 # TODO: Figure out a way to use nvm in the linux build
 linux:
-  image: node:8.10.0
+  image: node:10.13.0
   tags:
     - docker
   script:

@@ -471,12 +471,14 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
       text="I am pretty confused about Pi."
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
       onDownload={() => console.log('onDownload')}
       onReply={() => console.log('onReply')}
@@ -490,12 +492,14 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
       text="I am pretty confused about Pi."
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
       onDownload={() => console.log('onDownload')}
       onReply={() => console.log('onReply')}
@@ -509,12 +513,14 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
       collapseMetadata
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
       onDownload={() => console.log('onDownload')}
       onReply={() => console.log('onReply')}
@@ -528,12 +534,14 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
       collapseMetadata
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
       onDownload={() => console.log('onDownload')}
       onReply={() => console.log('onReply')}
@@ -556,12 +564,14 @@ First, showing the metadata overlay on dark and light images, then a message wit
       i18n={util.i18n}
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 30 * 1000}
-      attachment={{
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -574,12 +584,14 @@ First, showing the metadata overlay on dark and light images, then a message wit
       i18n={util.i18n}
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 30 * 1000}
-      attachment={{
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -589,12 +601,14 @@ First, showing the metadata overlay on dark and light images, then a message wit
       direction="incoming"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.pngObjectUrl,
-        contentType: 'image/png',
-        width: 800,
-        height: 1200,
-      }}
+      attachments={[
+        {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+          width: 800,
+          height: 1200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -605,12 +619,14 @@ First, showing the metadata overlay on dark and light images, then a message wit
       status="sent"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.pngObjectUrl,
-        contentType: 'image/png',
-        width: 800,
-        height: 1200,
-      }}
+      attachments={[
+        {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+          width: 800,
+          height: 1200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -621,12 +637,14 @@ First, showing the metadata overlay on dark and light images, then a message wit
       collapseMetadata
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.pngObjectUrl,
-        contentType: 'image/png',
-        width: 800,
-        height: 1200,
-      }}
+      attachments={[
+        {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+          width: 800,
+          height: 1200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -638,12 +656,383 @@ First, showing the metadata overlay on dark and light images, then a message wit
       status="sent"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.pngObjectUrl,
-        contentType: 'image/png',
-        width: 800,
-        height: 1200,
-      }}
+      attachments={[
+        {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+          width: 800,
+          height: 1200,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Multiple images
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Multiple images with caption
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      text="Two images"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      text="Three images"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      text="Four images"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      text="Five images"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      text="Six images"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -663,12 +1052,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       authorColor="pink"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.pngObjectUrl,
-        contentType: 'image/png',
-        width: 800,
-        height: 1200,
-      }}
+      attachments={[
+        {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+          width: 800,
+          height: 1200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -679,12 +1070,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       authorColor="red"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.pngObjectUrl,
-        contentType: 'image/png',
-        width: 800,
-        height: 1200,
-      }}
+      attachments={[
+        {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+          width: 800,
+          height: 1200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -695,12 +1088,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       authorColor="blue"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.pngObjectUrl,
-        contentType: 'image/png',
-        width: 800,
-        height: 1200,
-      }}
+      attachments={[
+        {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+          width: 800,
+          height: 1200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -711,12 +1106,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       authorColor="purple"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.pngObjectUrl,
-        contentType: 'image/png',
-        width: 800,
-        height: 1200,
-      }}
+      attachments={[
+        {
+          url: util.pngObjectUrl,
+          contentType: 'image/png',
+          width: 800,
+          height: 1200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -733,12 +1130,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.portraitYellowObjectUrl,
-        contentType: 'image/gif',
-        width: 20,
-        height: 200,
-      }}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -749,12 +1148,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.portraitYellowObjectUrl,
-        contentType: 'image/gif',
-        width: 20,
-        height: 200,
-      }}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -765,12 +1166,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.portraitYellowObjectUrl,
-        contentType: 'image/gif',
-        width: 20,
-        height: 200,
-      }}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -781,12 +1184,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.portraitYellowObjectUrl,
-        contentType: 'image/gif',
-        width: 20,
-        height: 200,
-      }}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -804,12 +1209,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.portraitYellowObjectUrl,
-        contentType: 'image/gif',
-        width: 20,
-        height: 200,
-      }}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -821,12 +1228,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       text="This is an odd yellow bar. Cool, huh?"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.portraitYellowObjectUrl,
-        contentType: 'image/gif',
-        width: 20,
-        height: 200,
-      }}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -838,12 +1247,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.portraitYellowObjectUrl,
-        contentType: 'image/gif',
-        width: 20,
-        height: 200,
-      }}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -852,16 +1263,60 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       authorColor="green"
       direction="outgoing"
       text="This is an odd yellow bar. Cool, huh?"
+      status="delivered"
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.portraitYellowObjectUrl,
-        contentType: 'image/gif',
-        width: 20,
-        height: 200,
-      }}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      text="All notifications"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now() - 366 * 24 * 60 * 60 * 1000}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+      expirationLength={5 * 60 * 1000}
+      expirationTimestamp={Date.now() + 5 * 60 * 1000}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      text="All notifications"
+      status="delivered"
+      i18n={util.i18n}
+      timestamp={Date.now() - 366 * 24 * 60 * 60 * 1000}
+      attachments={[
+        {
+          url: util.portraitYellowObjectUrl,
+          contentType: 'image/gif',
+          width: 20,
+          height: 200,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+      expirationLength={5 * 60 * 1000}
+      expirationTimestamp={Date.now() + 5 * 60 * 1000}
     />
   </li>
 </util.ConversationContext>
@@ -877,12 +1332,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.landscapePurpleObjectUrl,
-        contentType: 'image/gif',
-        width: 200,
-        height: 50,
-      }}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/gif',
+          width: 200,
+          height: 50,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -893,12 +1350,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       i18n={util.i18n}
       timestamp={Date.now()}
       status="delivered"
-      attachment={{
-        url: util.landscapePurpleObjectUrl,
-        contentType: 'image/gif',
-        width: 200,
-        height: 50,
-      }}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/gif',
+          width: 200,
+          height: 50,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -909,12 +1368,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.landscapePurpleObjectUrl,
-        contentType: 'image/gif',
-        width: 200,
-        height: 50,
-      }}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/gif',
+          width: 200,
+          height: 50,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -925,12 +1386,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.landscapePurpleObjectUrl,
-        contentType: 'image/gif',
-        width: 200,
-        height: 50,
-      }}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/gif',
+          width: 200,
+          height: 50,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -948,12 +1411,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.landscapePurpleObjectUrl,
-        contentType: 'image/gif',
-        width: 200,
-        height: 50,
-      }}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/gif',
+          width: 200,
+          height: 50,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -965,12 +1430,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       i18n={util.i18n}
       timestamp={Date.now()}
       status="delivered"
-      attachment={{
-        url: util.landscapePurpleObjectUrl,
-        contentType: 'image/gif',
-        width: 200,
-        height: 50,
-      }}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/gif',
+          width: 200,
+          height: 50,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -982,12 +1449,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.landscapePurpleObjectUrl,
-        contentType: 'image/gif',
-        width: 200,
-        height: 50,
-      }}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/gif',
+          width: 200,
+          height: 50,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -999,12 +1468,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.landscapePurpleObjectUrl,
-        contentType: 'image/gif',
-        width: 200,
-        height: 50,
-      }}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/gif',
+          width: 200,
+          height: 50,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1022,14 +1493,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        screenshot: {
-          url: util.gifObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.gifObjectUrl,
+          },
+          contentType: 'video/mp4',
+          width: 320,
+          height: 240,
         },
-        contentType: 'video/mp4',
-        width: 320,
-        height: 240,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1041,14 +1514,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        screenshot: {
-          url: util.gifObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.gifObjectUrl,
+          },
+          contentType: 'video/mp4',
+          width: 320,
+          height: 240,
         },
-        contentType: 'video/mp4',
-        width: 320,
-        height: 240,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1060,16 +1535,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        screenshot: {
-          url: util.pngObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.pngObjectUrl,
+            width: 800,
+            height: 1200,
+          },
+          contentType: 'video/mp4',
           width: 800,
           height: 1200,
         },
-        contentType: 'video/mp4',
-        width: 800,
-        height: 1200,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1081,16 +1558,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        screenshot: {
-          url: util.pngObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.pngObjectUrl,
+            width: 800,
+            height: 1200,
+          },
+          contentType: 'video/mp4',
           width: 800,
           height: 1200,
         },
-        contentType: 'video/mp4',
-        width: 800,
-        height: 1200,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1108,16 +1587,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        screenshot: {
-          url: util.pngObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.pngObjectUrl,
+            width: 800,
+            height: 1200,
+          },
+          contentType: 'video/mp4',
           width: 800,
           height: 1200,
         },
-        contentType: 'video/mp4',
-        width: 800,
-        height: 1200,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1128,16 +1609,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       i18n={util.i18n}
       timestamp={Date.now()}
       status="delivered"
-      attachment={{
-        screenshot: {
-          url: util.pngObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.pngObjectUrl,
+            width: 800,
+            height: 1200,
+          },
+          contentType: 'video/mp4',
           width: 800,
           height: 1200,
         },
-        contentType: 'video/mp4',
-        width: 800,
-        height: 1200,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1149,16 +1632,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       i18n={util.i18n}
       timestamp={Date.now()}
       collapseMetadata
-      attachment={{
-        screenshot: {
-          url: util.pngObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.pngObjectUrl,
+            width: 800,
+            height: 1200,
+          },
+          contentType: 'video/mp4',
           width: 800,
           height: 1200,
         },
-        contentType: 'video/mp4',
-        width: 800,
-        height: 1200,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1170,16 +1655,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       i18n={util.i18n}
       timestamp={Date.now()}
       collapseMetadata
-      attachment={{
-        screenshot: {
-          url: util.pngObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.pngObjectUrl,
+            width: 800,
+            height: 1200,
+          },
+          contentType: 'video/mp4',
           width: 800,
           height: 1200,
         },
-        contentType: 'video/mp4',
-        width: 800,
-        height: 1200,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1197,14 +1684,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: null,
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: null,
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1215,14 +1704,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: null,
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: null,
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1234,14 +1725,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: null,
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: null,
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1253,14 +1746,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: null,
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: null,
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1271,16 +1766,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        screenshot: {
-          url: null,
+      attachments={[
+        {
+          screenshot: {
+            url: null,
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1291,16 +1788,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       timestamp={Date.now()}
       i18n={util.i18n}
       status="delivered"
-      attachment={{
-        screenshot: {
-          url: null,
+      attachments={[
+        {
+          screenshot: {
+            url: null,
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1312,16 +1811,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        screenshot: {
-          url: null,
+      attachments={[
+        {
+          screenshot: {
+            url: null,
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1333,16 +1834,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       timestamp={Date.now()}
       i18n={util.i18n}
       status="delivered"
-      attachment={{
-        screenshot: {
-          url: null,
+      attachments={[
+        {
+          screenshot: {
+            url: null,
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1360,14 +1863,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: 'nonexistent',
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: 'nonexistent',
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1379,14 +1884,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: 'nonexistent',
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: 'nonexistent',
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1397,16 +1904,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        screenshot: {
-          url: 'nonexistent',
+      attachments={[
+        {
+          screenshot: {
+            url: 'nonexistent',
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1417,16 +1926,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       timestamp={Date.now()}
       i18n={util.i18n}
       status="delivered"
-      attachment={{
-        screenshot: {
-          url: 'nonexistent',
+      attachments={[
+        {
+          screenshot: {
+            url: 'nonexistent',
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
+          width: 320,
+          height: 240,
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-        width: 320,
-        height: 240,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1444,14 +1955,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        width: 4097,
-        height: 4096,
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          width: 4097,
+          height: 4096,
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1462,14 +1975,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        width: 4096,
-        height: 4097,
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          width: 4096,
+          height: 4097,
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1480,16 +1995,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        height: 4096,
-        width: 4097,
-        screenshot: {
-          url: util.gifObjectUrl,
+      attachments={[
+        {
+          height: 4096,
+          width: 4097,
+          screenshot: {
+            url: util.gifObjectUrl,
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1500,16 +2017,18 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       timestamp={Date.now()}
       i18n={util.i18n}
       status="delivered"
-      attachment={{
-        height: 4097,
-        width: 4096,
-        screenshot: {
-          url: util.gifObjectUrl,
+      attachments={[
+        {
+          height: 4097,
+          width: 4096,
+          screenshot: {
+            url: util.gifObjectUrl,
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1527,12 +2046,14 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1543,13 +2064,15 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        height: 240,
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        fileName: 'image.gif',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          height: 240,
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          fileName: 'image.gif',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1560,17 +2083,19 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="delivered"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        width: 320,
-        screenshot: {
-          url: util.gifObjectUrl,
+      attachments={[
+        {
           width: 320,
-          height: 240,
+          screenshot: {
+            url: util.gifObjectUrl,
+            width: 320,
+            height: 240,
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1581,14 +2106,16 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       timestamp={Date.now()}
       i18n={util.i18n}
       status="delivered"
-      attachment={{
-        screenshot: {
-          url: util.gifObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.gifObjectUrl,
+          },
+          contentType: 'video/mp4',
+          fileName: 'video.mp4',
+          fileSize: '3.05 KB',
         },
-        contentType: 'video/mp4',
-        fileName: 'video.mp4',
-        fileSize: '3.05 KB',
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1606,10 +2133,12 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       direction="incoming"
       timestamp={Date.now()}
       i18n={util.i18n}
-      attachment={{
-        url: util.mp3ObjectUrl,
-        contentType: 'audio/mp3',
-      }}
+      attachments={[
+        {
+          url: util.mp3ObjectUrl,
+          contentType: 'audio/mp3',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1621,10 +2150,12 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       text="This is a nice song"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.mp3ObjectUrl,
-        contentType: 'audio/mp3',
-      }}
+      attachments={[
+        {
+          url: util.mp3ObjectUrl,
+          contentType: 'audio/mp3',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1636,10 +2167,12 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.mp3ObjectUrl,
-        contentType: 'audio/mp3',
-      }}
+      attachments={[
+        {
+          url: util.mp3ObjectUrl,
+          contentType: 'audio/mp3',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1651,10 +2184,12 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.mp3ObjectUrl,
-        contentType: 'audio/mp3',
-      }}
+      attachments={[
+        {
+          url: util.mp3ObjectUrl,
+          contentType: 'audio/mp3',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1671,10 +2206,12 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.mp3ObjectUrl,
-        contentType: 'audio/mp3',
-      }}
+      attachments={[
+        {
+          url: util.mp3ObjectUrl,
+          contentType: 'audio/mp3',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1685,10 +2222,12 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       status="sent"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.mp3ObjectUrl,
-        contentType: 'audio/mp3',
-      }}
+      attachments={[
+        {
+          url: util.mp3ObjectUrl,
+          contentType: 'audio/mp3',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1699,10 +2238,12 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.mp3ObjectUrl,
-        contentType: 'audio/mp3',
-      }}
+      attachments={[
+        {
+          url: util.mp3ObjectUrl,
+          contentType: 'audio/mp3',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1713,10 +2254,12 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
       i18n={util.i18n}
       timestamp={Date.now()}
       collapseMetadata
-      attachment={{
-        url: util.mp3ObjectUrl,
-        contentType: 'audio/mp3',
-      }}
+      attachments={[
+        {
+          url: util.mp3ObjectUrl,
+          contentType: 'audio/mp3',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1738,12 +2281,14 @@ Voice notes are not shown any differently from audio attachments.
       text="My manifesto is now complete!"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'my_manifesto.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1755,12 +2300,14 @@ Voice notes are not shown any differently from audio attachments.
       status="sent"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'my_manifesto.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1772,12 +2319,14 @@ Voice notes are not shown any differently from audio attachments.
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'my_manifesto.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1789,12 +2338,14 @@ Voice notes are not shown any differently from audio attachments.
       i18n={util.i18n}
       timestamp={Date.now()}
       collapseMetadata
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'my_manifesto.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1806,13 +2357,15 @@ Voice notes are not shown any differently from audio attachments.
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName:
-          'reallly_long_filename_because_it_needs_all_the_information.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName:
+            'reallly_long_filename_because_it_needs_all_the_information.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1824,12 +2377,14 @@ Voice notes are not shown any differently from audio attachments.
       i18n={util.i18n}
       timestamp={Date.now()}
       collapseMetadata
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'filename_with_long_extension.the_txt_is_beautiful',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'filename_with_long_extension.the_txt_is_beautiful',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1841,12 +2396,14 @@ Voice notes are not shown any differently from audio attachments.
       i18n={util.i18n}
       timestamp={Date.now()}
       collapseMetadata
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'a_normal_four_letter_extension.jpeg',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'a_normal_four_letter_extension.jpeg',
+          fileSize: '3.05 KB',
+        },
+      ]}
     />
   </li>
 </util.ConversationContext>
@@ -1862,12 +2419,14 @@ Voice notes are not shown any differently from audio attachments.
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'my_manifesto.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1878,12 +2437,14 @@ Voice notes are not shown any differently from audio attachments.
       i18n={util.i18n}
       timestamp={Date.now()}
       status="sent"
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'my_manifesto.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1894,12 +2455,14 @@ Voice notes are not shown any differently from audio attachments.
       collapseMetadata
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'my_manifesto.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1910,12 +2473,14 @@ Voice notes are not shown any differently from audio attachments.
       i18n={util.i18n}
       timestamp={Date.now()}
       collapseMetadata
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'my_manifesto.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>
@@ -1932,12 +2497,14 @@ Voice notes are not shown any differently from audio attachments.
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'blah.exe',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'blah.exe',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={isDangerous =>
         console.log('onClickAttachment - isDangerous:', isDangerous)
       }
@@ -1950,12 +2517,14 @@ Voice notes are not shown any differently from audio attachments.
       i18n={util.i18n}
       timestamp={Date.now()}
       status="sent"
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'blah.exe',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'blah.exe',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={isDangerous =>
         console.log('onClickAttachment - isDangerous:', isDangerous)
       }
@@ -2031,12 +2600,14 @@ Note that the author avatar goes away if `collapseMetadata` is set.
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.gifObjectUrl,
-        contentType: 'image/gif',
-        width: 320,
-        height: 240,
-      }}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
       authorAvatarPath={util.gifObjectUrl}
     />
@@ -2049,16 +2620,18 @@ Note that the author avatar goes away if `collapseMetadata` is set.
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        screenshot: {
-          url: util.pngObjectUrl,
+      attachments={[
+        {
+          screenshot: {
+            url: util.pngObjectUrl,
+            width: 800,
+            height: 1200,
+          },
+          contentType: 'video/mp4',
           width: 800,
           height: 1200,
         },
-        contentType: 'video/mp4',
-        width: 800,
-        height: 1200,
-      }}
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
       authorAvatarPath={util.gifObjectUrl}
     />
@@ -2071,10 +2644,12 @@ Note that the author avatar goes away if `collapseMetadata` is set.
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.mp3ObjectUrl,
-        contentType: 'audio/mp3',
-      }}
+      attachments={[
+        {
+          url: util.mp3ObjectUrl,
+          contentType: 'audio/mp3',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
       authorAvatarPath={util.gifObjectUrl}
     />
@@ -2088,12 +2663,14 @@ Note that the author avatar goes away if `collapseMetadata` is set.
       text="My manifesto is now complete!"
       i18n={util.i18n}
       timestamp={Date.now()}
-      attachment={{
-        url: util.txtObjectUrl,
-        contentType: 'text/plain',
-        fileName: 'my_manifesto.txt',
-        fileSize: '3.05 KB',
-      }}
+      attachments={[
+        {
+          url: util.txtObjectUrl,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
       onClickAttachment={() => console.log('onClickAttachment')}
     />
   </li>

@@ -4,7 +4,10 @@ cache:
   directories:
     - node_modules
 node_js:
-  - '8.9.3'
+  - '10.13.0'
+os:
+  - linux
+dist: trusty
 install:
   - yarn install --frozen-lockfile --network-timeout 1000000
 script:

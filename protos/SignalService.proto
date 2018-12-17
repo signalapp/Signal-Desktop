@@ -33,6 +33,7 @@ message Content {
   optional CallMessage    callMessage    = 3;
   optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
+  optional TypingMessage  typingMessage  = 6;
   optional PreKeyBundleMessage preKeyBundleMessage = 101;
 }
 
@@ -193,6 +194,17 @@ message ReceiptMessage {
   repeated uint64 timestamp = 2;
 }
 
+message TypingMessage {
+    enum Action {
+        STARTED = 0;
+        STOPPED = 1;
+    }
+
+    optional uint64 timestamp = 1;
+    optional Action action    = 2;
+    optional bytes  groupId   = 3;
+}
+
 message Verified {
   enum State {
     DEFAULT    = 0;
@@ -254,6 +266,7 @@ message SyncMessage {
   message Configuration {
     optional bool readReceipts                   = 1;
     optional bool unidentifiedDeliveryIndicators = 2;
+    optional bool typingIndicators               = 3;
   }
 
   optional Sent          sent          = 1;
@@ -282,6 +295,7 @@ message AttachmentPointer {
   optional uint32  flags       = 8;
   optional uint32  width       = 9;
   optional uint32  height      = 10;
+  optional string  caption     = 11;
 }
 
 message GroupContext {
