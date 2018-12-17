@@ -8,7 +8,8 @@
   Signal,
   storage,
   Whisper,
-  ConversationController
+  ConversationController,
+  clipboard
 */
 
 // eslint-disable-next-line func-names
@@ -217,6 +218,14 @@
           },
           onClearNickname: async () => {
             this.model.setNickname(null);
+          },
+          onCopyPublicKey: () => {
+            clipboard.writeText(this.model.id);
+            const toast = new Whisper.MessageToastView({
+              message: i18n('copiedPublicKey'),
+            });
+            toast.$el.appendTo(this.$el);
+            toast.render();
           },
         };
       };

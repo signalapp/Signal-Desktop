@@ -52,6 +52,8 @@ interface Props {
 
   onClearNickname: () => void;
   onChangeNickname: () => void;
+
+  onCopyPublicKey: () => void;
 }
 
 export class ConversationHeader extends React.Component<Props> {
@@ -193,6 +195,7 @@ export class ConversationHeader extends React.Component<Props> {
       hasNickname,
       onClearNickname,
       onChangeNickname,
+      onCopyPublicKey,
     } = this.props;
 
     const disappearingTitle = i18n('disappearingMessages') as any;
@@ -238,6 +241,7 @@ export class ConversationHeader extends React.Component<Props> {
         {!isMe && hasNickname ? (
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
+        <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
       </ContextMenu>
     );
