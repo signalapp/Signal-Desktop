@@ -6,30 +6,32 @@ import React from 'react';
 import * as MIME from '../types/MIME';
 import { Lightbox } from './Lightbox';
 import { Message } from './conversation/media-gallery/types/Message';
+import { AttachmentType } from './conversation/types';
 
 import { Localizer } from '../types/Util';
 
-interface Item {
+export interface MediaItemType {
   objectURL?: string;
-  contentType: MIME.MIMEType | undefined;
+  thumbnailObjectUrl?: string;
+  contentType?: MIME.MIMEType;
+  index: number;
+  attachment: AttachmentType;
+  message: Message;
 }
 
 interface Props {
   close: () => void;
   i18n: Localizer;
-  messages: Array<Message>;
-  onSave?: ({ message }: { message: Message }) => void;
+  media: Array<MediaItemType>;
+  onSave?: (
+    { attachment, message }: { attachment: AttachmentType; message: Message }
+  ) => void;
   selectedIndex: number;
 }
 
 interface State {
   selectedIndex: number;
 }
-
-const messageToItem = (message: Message): Item => ({
-  objectURL: message.objectURL,
-  contentType: message.attachments[0].contentType,
-});
 
 export class LightboxGallery extends React.Component<Props, State> {
   public static defaultProps: Partial<Props> = {
@@ -45,20 +47,19 @@ export class LightboxGallery extends React.Component<Props, State> {
   }
 
   public render() {
-    const { close, messages, onSave, i18n } = this.props;
+    const { close, media, onSave, i18n } = this.props;
     const { selectedIndex } = this.state;
 
-    const selectedMessage: Message = messages[selectedIndex];
-    const selectedItem = messageToItem(selectedMessage);
-
+    const selectedMedia = media[selectedIndex];
     const firstIndex = 0;
+    const lastIndex = media.length - 1;
+
     const onPrevious =
       selectedIndex > firstIndex ? this.handlePrevious : undefined;
-
-    const lastIndex = messages.length - 1;
     const onNext = selectedIndex < lastIndex ? this.handleNext : undefined;
 
-    const objectURL = selectedItem.objectURL || 'images/alert-outline.svg';
+    const objectURL = selectedMedia.objectURL || 'images/alert-outline.svg';
+    const { attachment } = selectedMedia;
 
     return (
       <Lightbox
@@ -67,7 +68,8 @@ export class LightboxGallery extends React.Component<Props, State> {
         onNext={onNext}
         onSave={onSave ? this.handleSave : undefined}
         objectURL={objectURL}
-        contentType={selectedItem.contentType}
+        caption={attachment ? attachment.caption : undefined}
+        contentType={selectedMedia.contentType}
         i18n={i18n}
       />
     );
@@ -83,19 +85,21 @@ export class LightboxGallery extends React.Component<Props, State> {
     this.setState((prevState, props) => ({
       selectedIndex: Math.min(
         prevState.selectedIndex + 1,
-        props.messages.length - 1
+        props.media.length - 1
       ),
     }));
   };
 
   private handleSave = () => {
-    const { messages, onSave } = this.props;
+    const { media, onSave } = this.props;
     if (!onSave) {
       return;
     }
 
     const { selectedIndex } = this.state;
-    const message = messages[selectedIndex];
-    onSave({ message });
+    const mediaItem = media[selectedIndex];
+    const { attachment, message } = mediaItem;
+
+    onSave({ attachment, message });
   };
 }

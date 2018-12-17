@@ -9,7 +9,6 @@ const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Settings = require('./settings');
-const Startup = require('./startup');
 const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
 const Metadata = require('./metadata/SecretSessionCipher');
@@ -58,6 +57,9 @@ const {
 const {
   TimerNotification,
 } = require('../../ts/components/conversation/TimerNotification');
+const {
+  TypingBubble,
+} = require('../../ts/components/conversation/TypingBubble');
 const {
   VerificationNotification,
 } = require('../../ts/components/conversation/VerificationNotification');
@@ -195,6 +197,7 @@ exports.setup = (options = {}) => {
     Types: {
       Message: MediaGalleryMessage,
     },
+    TypingBubble,
     VerificationNotification,
   };
 
@@ -233,7 +236,6 @@ exports.setup = (options = {}) => {
     OS,
     RefreshSenderCertificate,
     Settings,
-    Startup,
     Types,
     Util,
     Views,

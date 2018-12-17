@@ -390,7 +390,7 @@ MessageReceiver.prototype.extend({
     window.log.info('getAllFromCache');
     const count = await textsecure.storage.unprocessed.getCount();
 
-    if (count > 250) {
+    if (count > 1500) {
       await textsecure.storage.unprocessed.removeAll();
       window.log.warn(
         `There were ${count} messages in cache. Deleted all instead of reprocessing`
@@ -719,12 +719,14 @@ MessageReceiver.prototype.extend({
               // Here we take this sender information and attach it back to the envelope
               //   to make the rest of the app work properly.
 
+              const originalSource = envelope.source;
+
               // eslint-disable-next-line no-param-reassign
               envelope.source = sender.getName();
               // eslint-disable-next-line no-param-reassign
               envelope.sourceDevice = sender.getDeviceId();
               // eslint-disable-next-line no-param-reassign
-              envelope.unidentifiedDeliveryReceived = true;
+              envelope.unidentifiedDeliveryReceived = !originalSource;
 
               // Return just the content because that matches the signature of the other
               //   decrypt methods used above.
@@ -734,12 +736,14 @@ MessageReceiver.prototype.extend({
               const { sender } = error || {};
 
               if (sender) {
+                const originalSource = envelope.source;
+
                 // eslint-disable-next-line no-param-reassign
                 envelope.source = sender.getName();
                 // eslint-disable-next-line no-param-reassign
                 envelope.sourceDevice = sender.getDeviceId();
                 // eslint-disable-next-line no-param-reassign
-                envelope.unidentifiedDeliveryReceived = true;
+                envelope.unidentifiedDeliveryReceived = !originalSource;
 
                 throw error;
               }
@@ -966,6 +970,8 @@ MessageReceiver.prototype.extend({
       return this.handleCallMessage(envelope, content.callMessage);
     if (content.receiptMessage)
       return this.handleReceiptMessage(envelope, content.receiptMessage);
+    if (content.typingMessage)
+      return this.handleTypingMessage(envelope, content.typingMessage);
 
     // Trigger conversation friend request event for empty message
     const conversation = window.ConversationController.get(envelope.source);
@@ -1010,6 +1016,43 @@ MessageReceiver.prototype.extend({
       }
     }
     return Promise.all(results);
+  },
+  handleTypingMessage(envelope, typingMessage) {
+    const ev = new Event('typing');
+
+    this.removeFromCache(envelope);
+
+    if (envelope.timestamp && typingMessage.timestamp) {
+      const envelopeTimestamp = envelope.timestamp.toNumber();
+      const typingTimestamp = typingMessage.timestamp.toNumber();
+
+      if (typingTimestamp !== envelopeTimestamp) {
+        window.log.warn(
+          `Typing message envelope timestamp (${envelopeTimestamp}) did not match typing timestamp (${typingTimestamp})`
+        );
+        return null;
+      }
+    }
+
+    ev.sender = envelope.source;
+    ev.senderDevice = envelope.sourceDevice;
+    ev.typing = {
+      typingMessage,
+      timestamp: typingMessage.timestamp
+        ? typingMessage.timestamp.toNumber()
+        : Date.now(),
+      groupId: typingMessage.groupId
+        ? typingMessage.groupId.toString('binary')
+        : null,
+      started:
+        typingMessage.action ===
+        textsecure.protobuf.TypingMessage.Action.STARTED,
+      stopped:
+        typingMessage.action ===
+        textsecure.protobuf.TypingMessage.Action.STOPPED,
+    };
+
+    return this.dispatchEvent(ev);
   },
   handleNullMessage(envelope) {
     window.log.info('null message from', this.getEnvelopeId(envelope));
@@ -1382,7 +1425,15 @@ MessageReceiver.prototype.extend({
       );
     }
 
-    for (let i = 0, max = decrypted.attachments.length; i < max; i += 1) {
+    const attachmentCount = decrypted.attachments.length;
+    const ATTACHMENT_MAX = 32;
+    if (attachmentCount > ATTACHMENT_MAX) {
+      throw new Error(
+        `Too many attachments: ${attachmentCount} included in one message, max is ${ATTACHMENT_MAX}`
+      );
+    }
+
+    for (let i = 0; i < attachmentCount; i += 1) {
       const attachment = decrypted.attachments[i];
       promises.push(this.handleAttachment(attachment));
     }

@@ -28,7 +28,11 @@
       ourNumber,
       { syncMessage: true }
     );
-    window.log.info('SyncRequest created. Sending contact sync message...');
+
+    window.log.info('SyncRequest created. Sending config sync request...');
+    wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));
+
+    window.log.info('SyncRequest now sending contact sync message...');
     wrap(sender.sendRequestContactSyncMessage(sendOptions))
       .then(() => {
         window.log.info('SyncRequest now sending group sync messsage...');

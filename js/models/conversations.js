@@ -123,6 +123,7 @@
       this.messageCollection.on('change:errors', this.handleMessageError, this);
       this.messageCollection.on('send-error', this.onMessageError, this);
 
+      this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
       const debouncedUpdateLastMessage = _.debounce(
         this.updateLastMessage.bind(this),
         200
@@ -161,6 +162,8 @@
       this.unset('lastMessageStatus');
 
       this.setFriendRequestExpiryTimeout();
+      this.typingRefreshTimer = null;
+      this.typingPauseTimer = null;
     },
 
     isMe() {
@@ -179,6 +182,85 @@
       this.trigger('change');
       this.messageCollection.forEach(m => m.trigger('change'));
     },
+
+    bumpTyping() {
+      // We don't send typing messages if the setting is disabled
+      if (!storage.get('typingIndicators')) {
+        return;
+      }
+
+      if (!this.typingRefreshTimer) {
+        const isTyping = true;
+        this.setTypingRefreshTimer();
+        this.sendTypingMessage(isTyping);
+      }
+
+      this.setTypingPauseTimer();
+    },
+
+    setTypingRefreshTimer() {
+      if (this.typingRefreshTimer) {
+        clearTimeout(this.typingRefreshTimer);
+      }
+      this.typingRefreshTimer = setTimeout(
+        this.onTypingRefreshTimeout.bind(this),
+        10 * 1000
+      );
+    },
+
+    onTypingRefreshTimeout() {
+      const isTyping = true;
+      this.sendTypingMessage(isTyping);
+
+      // This timer will continue to reset itself until the pause timer stops it
+      this.setTypingRefreshTimer();
+    },
+
+    setTypingPauseTimer() {
+      if (this.typingPauseTimer) {
+        clearTimeout(this.typingPauseTimer);
+      }
+      this.typingPauseTimer = setTimeout(
+        this.onTypingPauseTimeout.bind(this),
+        3 * 1000
+      );
+    },
+
+    onTypingPauseTimeout() {
+      const isTyping = false;
+      this.sendTypingMessage(isTyping);
+
+      this.clearTypingTimers();
+    },
+
+    clearTypingTimers() {
+      if (this.typingPauseTimer) {
+        clearTimeout(this.typingPauseTimer);
+        this.typingPauseTimer = null;
+      }
+      if (this.typingRefreshTimer) {
+        clearTimeout(this.typingRefreshTimer);
+        this.typingRefreshTimer = null;
+      }
+    },
+
+    sendTypingMessage(isTyping) {
+      const groupId = !this.isPrivate() ? this.id : null;
+      const recipientId = this.isPrivate() ? this.id : null;
+
+      const sendOptions = this.getSendOptions();
+      this.wrapSend(
+        textsecure.messaging.sendTypingMessage(
+          {
+            groupId,
+            isTyping,
+            recipientId,
+          },
+          sendOptions
+        )
+      );
+    },
+
     async cleanup() {
       await window.Signal.Types.Conversation.deleteExternalFiles(
         this.attributes,
@@ -244,6 +326,16 @@
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
+    async onNewMessage(message) {
+      await this.updateLastMessage();
+
+      // Clear typing indicator for a given contact if we receive a message from them
+      const identifier = message.get
+        ? `${message.get('source')}.${message.get('sourceDevice')}`
+        : `${message.source}.${message.sourceDevice}`;
+      this.clearContactTypingTimer(identifier);
+    },
+
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
       if (setToExpire) model.setToExpire();
@@ -285,6 +377,8 @@
       });
     },
     getPropsForListItem() {
+      const typingKeys = Object.keys(this.contactTypingTimers || {});
+
       const result = {
         ...this.format(),
         conversationType: this.isPrivate() ? 'direct' : 'group',
@@ -294,6 +388,8 @@
         isSelected: this.isSelected,
         showFriendRequestIndicator: this.isPendingFriendRequest(),
         isBlocked: this.isBlocked(),
+
+        isTyping: typingKeys.length > 0,
         lastMessage: {
           status: this.lastMessageStatus,
           text: this.lastMessage,
@@ -972,6 +1068,9 @@
       // Input should be blocked if there is a pending friend request
       if (this.isPendingFriendRequest())
         return;
+
+      this.clearTypingTimers();
+
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
@@ -1221,6 +1320,10 @@
     getNumberInfo(options = {}) {
       const { syncMessage, disableMeCheck } = options;
 
+      if (!this.ourNumber) {
+        return null;
+      }
+
       // START: this code has an Expiration date of ~2018/11/21
       // We don't want to enable unidentified delivery for send unless it is
       //   also enabled for our own account.
@@ -1275,10 +1378,6 @@
               ),
         },
       };
-    },
-    // eslint-disable-next-line no-unused-vars
-    async onNewMessage(message) {
-      return this.updateLastMessage();
     },
     async updateLastMessage() {
       if (!this.id) {
@@ -2067,6 +2166,69 @@
         messageSentAt: Date.now(),
         title: i18n(title),
       });
+    },
+
+    notifyTyping(options = {}) {
+      const { isTyping, sender, senderDevice } = options;
+
+      // We don't do anything with typing messages from our other devices
+      if (sender === this.ourNumber) {
+        return;
+      }
+
+      const identifier = `${sender}.${senderDevice}`;
+
+      this.contactTypingTimers = this.contactTypingTimers || {};
+      const record = this.contactTypingTimers[identifier];
+
+      if (record) {
+        clearTimeout(record.timer);
+      }
+
+      // Note: We trigger two events because:
+      //   'typing-update' is a surgical update ConversationView does for in-convo bubble
+      //   'change' causes a re-render of this conversation's list item in the left pane
+
+      if (isTyping) {
+        this.contactTypingTimers[identifier] = this.contactTypingTimers[
+          identifier
+        ] || {
+          timestamp: Date.now(),
+          sender,
+          senderDevice,
+        };
+
+        this.contactTypingTimers[identifier].timer = setTimeout(
+          this.clearContactTypingTimer.bind(this, identifier),
+          15 * 1000
+        );
+        if (!record) {
+          // User was not previously typing before. State change!
+          this.trigger('typing-update');
+          this.trigger('change');
+        }
+      } else {
+        delete this.contactTypingTimers[identifier];
+        if (record) {
+          // User was previously typing, and is no longer. State change!
+          this.trigger('typing-update');
+          this.trigger('change');
+        }
+      }
+    },
+
+    clearContactTypingTimer(identifier) {
+      this.contactTypingTimers = this.contactTypingTimers || {};
+      const record = this.contactTypingTimers[identifier];
+
+      if (record) {
+        clearTimeout(record.timer);
+        delete this.contactTypingTimers[identifier];
+
+        // User was previously typing, but timed out or we received message. State change!
+        this.trigger('typing-update');
+        this.trigger('change');
+      }
     },
   });
 

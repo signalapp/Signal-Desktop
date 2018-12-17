@@ -702,12 +702,16 @@ function initialize({ url, cdnUrl, certificateAuthority, proxyUrl }) {
       messageArray,
       timestamp,
       silent,
+      online,
       { accessKey } = {}
     ) {
       const jsonData = { messages: messageArray, timestamp };
 
       if (silent) {
         jsonData.silent = true;
+      }
+      if (online) {
+        jsonData.online = true;
       }
 
       return _ajax({
@@ -721,11 +725,20 @@ function initialize({ url, cdnUrl, certificateAuthority, proxyUrl }) {
       });
     }
 
-    function sendMessages(destination, messageArray, timestamp, silent) {
+    function sendMessages(
+      destination,
+      messageArray,
+      timestamp,
+      silent,
+      online
+    ) {
       const jsonData = { messages: messageArray, timestamp };
 
       if (silent) {
         jsonData.silent = true;
+      }
+      if (online) {
+        jsonData.online = true;
       }
 
       return _ajax({

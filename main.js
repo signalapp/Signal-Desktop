@@ -1107,9 +1107,14 @@ function getDataFromMainWindow(name, callback) {
 function installSettingsGetter(name) {
   ipc.on(`get-${name}`, event => {
     if (mainWindow && mainWindow.webContents) {
-      getDataFromMainWindow(name, (error, value) =>
-        event.sender.send(`get-success-${name}`, error, value)
-      );
+      getDataFromMainWindow(name, (error, value) => {
+        const contents = event.sender;
+        if (contents.isDestroyed()) {
+          return;
+        }
+
+        contents.send(`get-success-${name}`, error, value);
+      });
     }
   });
 }
@@ -1117,9 +1122,14 @@ function installSettingsGetter(name) {
 function installSettingsSetter(name) {
   ipc.on(`set-${name}`, (event, value) => {
     if (mainWindow && mainWindow.webContents) {
-      ipc.once(`set-success-${name}`, (_event, error) =>
-        event.sender.send(`set-success-${name}`, error)
-      );
+      ipc.once(`set-success-${name}`, (_event, error) => {
+        const contents = event.sender;
+        if (contents.isDestroyed()) {
+          return;
+        }
+
+        contents.send(`set-success-${name}`, error);
+      });
       mainWindow.webContents.send(`set-${name}`, value);
     }
   });

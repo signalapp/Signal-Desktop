@@ -43,11 +43,11 @@ function OutgoingMessage(
   this.failoverNumbers = [];
   this.unidentifiedDeliveries = [];
 
-  const { numberInfo, senderCertificate, messageType } = options;
+  const { numberInfo, senderCertificate, online, messageType } = options;
   this.numberInfo = numberInfo;
   this.senderCertificate = senderCertificate;
-  this.messageType =
-    messageType || 'outgoing';
+  this.online = online;
+  this.messageType = messageType || 'outgoing';
 }
 
 OutgoingMessage.prototype = {

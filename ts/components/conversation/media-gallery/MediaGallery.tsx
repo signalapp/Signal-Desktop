@@ -4,29 +4,29 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import { AttachmentSection } from './AttachmentSection';
-import { AttachmentType } from './types/AttachmentType';
 import { EmptyState } from './EmptyState';
-import { groupMessagesByDate } from './groupMessagesByDate';
+import { groupMediaItemsByDate } from './groupMediaItemsByDate';
 import { ItemClickEvent } from './types/ItemClickEvent';
-import { Message } from './types/Message';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { Localizer } from '../../../types/Util';
 
+import { MediaItemType } from '../../LightboxGallery';
+
 interface Props {
-  documents: Array<Message>;
+  documents: Array<MediaItemType>;
   i18n: Localizer;
-  media: Array<Message>;
+  media: Array<MediaItemType>;
   onItemClick?: (event: ItemClickEvent) => void;
 }
 
 interface State {
-  selectedTab: AttachmentType;
+  selectedTab: 'media' | 'documents';
 }
 
 const MONTH_FORMAT = 'MMMM YYYY';
 
 interface TabSelectEvent {
-  type: AttachmentType;
+  type: 'media' | 'documents';
 }
 
 const Tab = ({
@@ -38,7 +38,7 @@ const Tab = ({
   isSelected: boolean;
   label: string;
   onSelect?: (event: TabSelectEvent) => void;
-  type: AttachmentType;
+  type: 'media' | 'documents';
 }) => {
   const handleClick = onSelect
     ? () => {
@@ -99,10 +99,10 @@ export class MediaGallery extends React.Component<Props, State> {
     const { i18n, media, documents, onItemClick } = this.props;
     const { selectedTab } = this.state;
 
-    const messages = selectedTab === 'media' ? media : documents;
+    const mediaItems = selectedTab === 'media' ? media : documents;
     const type = selectedTab;
 
-    if (!messages || messages.length === 0) {
+    if (!mediaItems || mediaItems.length === 0) {
       const label = (() => {
         switch (type) {
           case 'media':
@@ -120,9 +120,10 @@ export class MediaGallery extends React.Component<Props, State> {
     }
 
     const now = Date.now();
-    const sections = groupMessagesByDate(now, messages).map(section => {
-      const first = section.messages[0];
-      const date = moment(first.received_at);
+    const sections = groupMediaItemsByDate(now, mediaItems).map(section => {
+      const first = section.mediaItems[0];
+      const { message } = first;
+      const date = moment(message.received_at);
       const header =
         section.type === 'yearMonth'
           ? date.format(MONTH_FORMAT)
@@ -134,7 +135,7 @@ export class MediaGallery extends React.Component<Props, State> {
           header={header}
           i18n={i18n}
           type={type}
-          messages={section.messages}
+          mediaItems={section.mediaItems}
           onItemClick={onItemClick}
         />
       );

@@ -1,52 +1,31 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import {
-  isImageTypeSupported,
-  isVideoTypeSupported,
-} from '../../util/GoogleChrome';
-
 import { Avatar } from '../Avatar';
 import { MessageBody } from './MessageBody';
 import { ExpireTimer, getIncrement } from './ExpireTimer';
+import {
+  getGridDimensions,
+  hasImage,
+  hasVideoScreenshot,
+  ImageGrid,
+  isImage,
+  isVideo,
+} from './ImageGrid';
 import { Timestamp } from './Timestamp';
 import { ContactName } from './ContactName';
-import { Quote, QuotedAttachment } from './Quote';
+import { Quote, QuotedAttachmentType } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
+import * as MIME from '../../../ts/types/MIME';
 
+import { AttachmentType } from './types';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { Contact } from '../../types/Contact';
 import { Color, Localizer } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
-import * as MIME from '../../../ts/types/MIME';
-
 interface Trigger {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-}
-
-interface Attachment {
-  contentType: MIME.MIMEType;
-  fileName: string;
-  /** Not included in protobuf, needs to be pulled from flags */
-  isVoiceMessage: boolean;
-  /** For messages not already on disk, this will be a data url */
-  url: string;
-  fileSize?: string;
-  width: number;
-  height: number;
-  screenshot?: {
-    height: number;
-    width: number;
-    url: string;
-    contentType: MIME.MIMEType;
-  };
-  thumbnail?: {
-    height: number;
-    width: number;
-    url: string;
-    contentType: MIME.MIMEType;
-  };
 }
 
 export interface Props {
@@ -70,10 +49,10 @@ export interface Props {
   authorPhoneNumber: string;
   authorColor?: Color;
   conversationType: 'group' | 'direct';
-  attachment?: Attachment;
+  attachments?: Array<AttachmentType>;
   quote?: {
     text: string;
-    attachment?: QuotedAttachment;
+    attachment?: QuotedAttachmentType;
     isFromMe: boolean;
     authorPhoneNumber: string;
     authorProfileName?: string;
@@ -86,7 +65,7 @@ export interface Props {
   isExpired: boolean;
   expirationLength?: number;
   expirationTimestamp?: number;
-  onClickAttachment?: () => void;
+  onClickAttachment?: (attachment: AttachmentType) => void;
   onReply?: () => void;
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
@@ -100,40 +79,27 @@ interface State {
   imageBroken: boolean;
 }
 
-function isImage(attachment?: Attachment) {
+function isAudio(attachments?: Array<AttachmentType>) {
   return (
-    attachment &&
-    attachment.contentType &&
-    isImageTypeSupported(attachment.contentType)
+    attachments &&
+    attachments[0] &&
+    attachments[0].contentType &&
+    MIME.isAudio(attachments[0].contentType)
   );
 }
 
-function hasImage(attachment?: Attachment) {
-  return attachment && attachment.url;
-}
+function canDisplayImage(attachments?: Array<AttachmentType>) {
+  const { height, width } =
+    attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
 
-function isVideo(attachment?: Attachment) {
   return (
-    attachment &&
-    attachment.contentType &&
-    isVideoTypeSupported(attachment.contentType)
+    height &&
+    height > 0 &&
+    height <= 4096 &&
+    width &&
+    width > 0 &&
+    width <= 4096
   );
-}
-
-function hasVideoScreenshot(attachment?: Attachment) {
-  return attachment && attachment.screenshot && attachment.screenshot.url;
-}
-
-function isAudio(attachment?: Attachment) {
-  return (
-    attachment && attachment.contentType && MIME.isAudio(attachment.contentType)
-  );
-}
-
-function canDisplayImage(attachment?: Attachment) {
-  const { height, width } = attachment || { height: 0, width: 0 };
-
-  return height > 0 && height <= 4096 && width > 0 && width <= 4096;
 }
 
 function getExtension({
@@ -159,8 +125,6 @@ function getExtension({
   return null;
 }
 
-const MINIMUM_IMG_HEIGHT = 150;
-const MAXIMUM_IMG_HEIGHT = 300;
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
@@ -255,7 +219,7 @@ export class Message extends React.Component<Props, State> {
 
   public renderMetadata() {
     const {
-      attachment,
+      attachments,
       collapseMetadata,
       direction,
       expirationLength,
@@ -271,13 +235,13 @@ export class Message extends React.Component<Props, State> {
       return null;
     }
 
-    const canDisplayAttachment = canDisplayImage(attachment);
+    const canDisplayAttachment = canDisplayImage(attachments);
     const withImageNoCaption = Boolean(
       !text &&
         canDisplayAttachment &&
         !imageBroken &&
-        ((isImage(attachment) && hasImage(attachment)) ||
-          (isVideo(attachment) && hasVideoScreenshot(attachment)))
+        ((isImage(attachments) && hasImage(attachments)) ||
+          (isVideo(attachments) && hasVideoScreenshot(attachments)))
     );
     const showError = status === 'error' && direction === 'outgoing';
 
@@ -368,124 +332,59 @@ export class Message extends React.Component<Props, State> {
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   public renderAttachment() {
     const {
-      i18n,
-      attachment,
+      attachments,
       text,
       collapseMetadata,
       conversationType,
       direction,
+      i18n,
       quote,
       onClickAttachment,
     } = this.props;
     const { imageBroken } = this.state;
 
-    if (!attachment) {
+    if (!attachments || !attachments[0]) {
       return null;
     }
+    const firstAttachment = attachments[0];
 
-    const withCaption = Boolean(text);
     // For attachments which aren't full-frame
-    const withContentBelow = withCaption || !collapseMetadata;
+    const withContentBelow = Boolean(text);
     const withContentAbove =
-      quote || (conversationType === 'group' && direction === 'incoming');
-    const displayImage = canDisplayImage(attachment);
+      Boolean(quote) ||
+      (conversationType === 'group' && direction === 'incoming');
+    const displayImage = canDisplayImage(attachments);
 
-    if (isImage(attachment) && displayImage && !imageBroken && attachment.url) {
-      // Calculating height to prevent reflow when image loads
-      const imageHeight = Math.max(MINIMUM_IMG_HEIGHT, attachment.height || 0);
-
-      return (
-        <div
-          onClick={onClickAttachment}
-          role="button"
-          className={classNames(
-            'module-message__attachment-container',
-            withCaption
-              ? 'module-message__attachment-container--with-content-below'
-              : null,
-            withContentAbove
-              ? 'module-message__attachment-container--with-content-above'
-              : null
-          )}
-        >
-          <img
-            onError={this.handleImageErrorBound}
-            className="module-message__img-attachment"
-            height={Math.min(MAXIMUM_IMG_HEIGHT, imageHeight)}
-            src={attachment.url}
-            alt={i18n('imageAttachmentAlt')}
-          />
-          <div
-            className={classNames(
-              'module-message__img-border-overlay',
-              withCaption
-                ? 'module-message__img-border-overlay--with-content-below'
-                : null,
-              withContentAbove
-                ? 'module-message__img-border-overlay--with-content-above'
-                : null
-            )}
-          />
-          {!withCaption && !collapseMetadata ? (
-            <div className="module-message__img-overlay" />
-          ) : null}
-        </div>
-      );
-    } else if (
-      isVideo(attachment) &&
+    if (
       displayImage &&
       !imageBroken &&
-      attachment.screenshot &&
-      attachment.screenshot.url
+      ((isImage(attachments) && hasImage(attachments)) ||
+        (isVideo(attachments) && hasVideoScreenshot(attachments)))
     ) {
-      const { screenshot } = attachment;
-      // Calculating height to prevent reflow when image loads
-      const imageHeight = Math.max(
-        MINIMUM_IMG_HEIGHT,
-        attachment.screenshot.height || 0
-      );
-
       return (
         <div
-          onClick={onClickAttachment}
-          role="button"
           className={classNames(
             'module-message__attachment-container',
-            withCaption
-              ? 'module-message__attachment-container--with-content-below'
-              : null,
             withContentAbove
               ? 'module-message__attachment-container--with-content-above'
+              : null,
+            withContentBelow
+              ? 'module-message__attachment-container--with-content-below'
               : null
           )}
         >
-          <img
+          <ImageGrid
+            attachments={attachments}
+            withContentAbove={withContentAbove}
+            withContentBelow={withContentBelow}
+            bottomOverlay={!collapseMetadata}
+            i18n={i18n}
             onError={this.handleImageErrorBound}
-            className="module-message__img-attachment"
-            alt={i18n('videoAttachmentAlt')}
-            height={Math.min(MAXIMUM_IMG_HEIGHT, imageHeight)}
-            src={screenshot.url}
+            onClickAttachment={onClickAttachment}
           />
-          <div
-            className={classNames(
-              'module-message__img-border-overlay',
-              withCaption
-                ? 'module-message__img-border-overlay--with-content-below'
-                : null,
-              withContentAbove
-                ? 'module-message__img-border-overlay--with-content-above'
-                : null
-            )}
-          />
-          {!withCaption && !collapseMetadata ? (
-            <div className="module-message__img-overlay" />
-          ) : null}
-          <div className="module-message__video-overlay__circle">
-            <div className="module-message__video-overlay__play-icon" />
-          </div>
         </div>
       );
-    } else if (isAudio(attachment)) {
+    } else if (isAudio(attachments)) {
       return (
         <audio
           controls={true}
@@ -499,11 +398,11 @@ export class Message extends React.Component<Props, State> {
               : null
           )}
         >
-          <source src={attachment.url} />
+          <source src={firstAttachment.url} />
         </audio>
       );
     } else {
-      const { fileName, fileSize, contentType } = attachment;
+      const { fileName, fileSize, contentType } = firstAttachment;
       const extension = getExtension({ contentType, fileName });
       const isDangerous = isFileDangerous(fileName || '');
 
@@ -735,7 +634,7 @@ export class Message extends React.Component<Props, State> {
 
   public renderMenu(isCorrectSide: boolean, triggerId: string) {
     const {
-      attachment,
+      attachments,
       direction,
       disableMenu,
       onDownload,
@@ -746,23 +645,26 @@ export class Message extends React.Component<Props, State> {
       return null;
     }
 
-    const fileName = attachment ? attachment.fileName : null;
+    const fileName =
+      attachments && attachments[0] ? attachments[0].fileName : null;
     const isDangerous = isFileDangerous(fileName || '');
+    const multipleAttachments = attachments && attachments.length > 1;
 
-    const downloadButton = attachment ? (
-      <div
-        onClick={() => {
-          if (onDownload) {
-            onDownload(isDangerous);
-          }
-        }}
-        role="button"
-        className={classNames(
-          'module-message__buttons__download',
-          `module-message__buttons__download--${direction}`
-        )}
-      />
-    ) : null;
+    const downloadButton =
+      !multipleAttachments && attachments && attachments[0] ? (
+        <div
+          onClick={() => {
+            if (onDownload) {
+              onDownload(isDangerous);
+            }
+          }}
+          role="button"
+          className={classNames(
+            'module-message__buttons__download',
+            `module-message__buttons__download--${direction}`
+          )}
+        />
+      ) : null;
 
     const replyButton = (
       <div
@@ -807,7 +709,7 @@ export class Message extends React.Component<Props, State> {
 
   public renderContextMenu(triggerId: string) {
     const {
-      attachment,
+      attachments,
       direction,
       status,
       onDelete,
@@ -819,12 +721,14 @@ export class Message extends React.Component<Props, State> {
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
-    const fileName = attachment ? attachment.fileName : null;
+    const fileName =
+      attachments && attachments[0] ? attachments[0].fileName : null;
     const isDangerous = isFileDangerous(fileName || '');
+    const multipleAttachments = attachments && attachments.length > 1;
 
     return (
       <ContextMenu id={triggerId}>
-        {attachment ? (
+        {!multipleAttachments && attachments && attachments[0] ? (
           <MenuItem
             attributes={{
               className: 'module-message__context__download',
@@ -878,13 +782,14 @@ export class Message extends React.Component<Props, State> {
 
   public render() {
     const {
+      attachments,
       authorPhoneNumber,
       authorColor,
       direction,
       id,
       timestamp,
     } = this.props;
-    const { expired, expiring } = this.state;
+    const { expired, expiring, imageBroken } = this.state;
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
@@ -894,6 +799,16 @@ export class Message extends React.Component<Props, State> {
       return null;
     }
 
+    const displayImage = canDisplayImage(attachments);
+
+    const showingImage =
+      displayImage &&
+      !imageBroken &&
+      ((isImage(attachments) && hasImage(attachments)) ||
+        (isVideo(attachments) && hasVideoScreenshot(attachments)));
+
+    const { width } = getGridDimensions(attachments) || { width: undefined };
+
     return (
       <div
         className={classNames(
@@ -901,6 +816,9 @@ export class Message extends React.Component<Props, State> {
           `module-message--${direction}`,
           expiring ? 'module-message--expired' : null
         )}
+        style={{
+          width: showingImage ? width : undefined,
+        }}
       >
         {this.renderError(direction === 'incoming')}
         {this.renderMenu(direction === 'outgoing', triggerId)}
