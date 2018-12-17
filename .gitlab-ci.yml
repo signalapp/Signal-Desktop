@@ -51,7 +51,7 @@ windows:
     - call yarn generate
     - call node build\grunt.js
     - call yarn prepare-beta-build
-    - call node_modules\.bin\build --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never
+    - call node_modules\.bin\build --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never --config.directories.output=release
     - call node build\grunt.js test-release:win
   cache:
     paths:
