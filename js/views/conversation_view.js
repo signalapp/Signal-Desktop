@@ -7,6 +7,7 @@
 /* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
+/* global clipboard: false */
 
 // eslint-disable-next-line func-names
 (function () {
@@ -213,6 +214,14 @@
           },
           onClearNickname: async () => {
             this.model.setNickname(null);
+          },
+          onCopyPublicKey: () => {
+            clipboard.writeText(this.model.id);
+            const toast = new Whisper.MessageToastView({
+              message: i18n('copiedPublicKey'),
+            });
+            toast.$el.appendTo(this.$el);
+            toast.render();
           },
         };
       };
