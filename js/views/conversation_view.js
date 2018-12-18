@@ -1456,7 +1456,7 @@
       const colons = `:${emojiData[e.index].short_name}:`;
 
       const textarea = this.$messageField[0];
-      if (textarea.selectionStart || textarea.selectionStart === '0') {
+      if (textarea.selectionStart || textarea.selectionStart === 0) {
         const startPos = textarea.selectionStart;
         const endPos = textarea.selectionEnd;
 
