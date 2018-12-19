@@ -251,6 +251,8 @@ export class ConversationHeader extends React.Component<Props> {
   public render() {
     const { id } = this.props;
 
+    const triggerId = `${id}-${Date.now()}`;
+
     return (
       <div className="module-conversation-header">
         {this.renderBackButton()}
@@ -261,8 +263,8 @@ export class ConversationHeader extends React.Component<Props> {
           </div>
         </div>
         {this.renderExpirationLength()}
-        {this.renderGear(id)}
-        {this.renderMenu(id)}
+        {this.renderGear(triggerId)}
+        {this.renderMenu(triggerId)}
       </div>
     );
   }
