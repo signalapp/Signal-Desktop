@@ -269,8 +269,9 @@ window.LokiAPI = new LokiServer({
 window.mnemonic = require('./libloki/mnemonic');
 const { WorkerInterface } = require('./js/modules/util_worker_interface');
 
+// A Worker with a 3 minute timeout
 const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
-const utilWorker = new WorkerInterface(utilWorkerPath);
+const utilWorker = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
 window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround

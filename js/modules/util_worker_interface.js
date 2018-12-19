@@ -15,8 +15,9 @@ class TimedOutError extends Error {
 }
 
 class WorkerInterface {
-  constructor(path) {
+  constructor(path, timeout = WORKER_TIMEOUT) {
     this._utilWorker = new Worker(path);
+    this.timeout = timeout;
     this._jobs = Object.create(null);
     this._DEBUG = false;
     this._jobCounter = 0;
@@ -112,7 +113,7 @@ class WorkerInterface {
 
       setTimeout(
         () => reject(new TimedOutError(`Worker job ${jobId} (${fnName}) timed out`)),
-        WORKER_TIMEOUT
+        this.timeout
       );
     });
   };

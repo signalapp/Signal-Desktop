@@ -846,7 +846,8 @@
         e.name === 'OutgoingMessageError' ||
         e.name === 'SendMessageNetworkError' ||
         e.name === 'SignedPreKeyRotationError' ||
-        e.name === 'OutgoingIdentityKeyError'
+        e.name === 'OutgoingIdentityKeyError' ||
+        e.name === 'PoWError'
       );
     },
 

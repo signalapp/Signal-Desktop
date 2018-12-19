@@ -127,6 +127,21 @@
   }
   inherit(Error, UnregisteredUserError);
 
+  function PoWError(number, error) {
+     // eslint-disable-next-line prefer-destructuring
+     this.number = number.split('.')[0];
+
+     ReplayableError.call(this, {
+       name: 'PoWError',
+       message: 'Failed to calculate PoW',
+     });
+
+     if (error) {
+       appendStack(this, error);
+     }
+  }
+  inherit(ReplayableError, PoWError);
+
   window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
@@ -135,4 +150,5 @@
   window.textsecure.OutgoingMessageError = OutgoingMessageError;
   window.textsecure.MessageError = MessageError;
   window.textsecure.SignedPreKeyRotationError = SignedPreKeyRotationError;
+  window.textsecure.PoWError = PoWError;
 })();
