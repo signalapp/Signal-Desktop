@@ -5,16 +5,17 @@ const DEV_NONCE_TRIALS = 10;
 const PROD_NONCE_TRIALS = 1000;
 
 const pow = {
-  // Increment Uint8Array nonce by 1 with carrying
-  incrementNonce(nonce) {
+  // Increment Uint8Array nonce by '_increment' with carrying
+  incrementNonce(nonce, _increment = 1) {
     let idx = NONCE_LEN - 1;
     const newNonce = new Uint8Array(nonce);
-    newNonce[idx] += 1;
-    // Nonce will just reset to 0 if all values are 255 causing infinite loop
-    while (newNonce[idx] === 0 && idx > 0) {
+    let increment = _increment;
+    do {
+      const sum = newNonce[idx] + increment;
+      newNonce[idx] = sum % 256;
+      increment = Math.floor(sum / 256);
       idx -= 1;
-      newNonce[idx] += 1;
-    }
+    } while(increment > 0 && idx >= 0);
     return newNonce;
   },
 
@@ -59,7 +60,7 @@ const pow = {
   },
 
   // Return nonce that hashes together with payload lower than the target
-  async calcPoW(timestamp, ttl, pubKey, data, development = false) {
+  async calcPoW(timestamp, ttl, pubKey, data, development = false, _nonceTrials = null, increment = 1, startNonce = 0) {
     const payload = new Uint8Array(
       dcodeIO.ByteBuffer.wrap(
         timestamp.toString() + ttl.toString() + pubKey + data,
@@ -67,10 +68,11 @@ const pow = {
       ).toArrayBuffer()
     );
 
-    const nonceTrials = development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS;
+    const nonceTrials = _nonceTrials || (development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS);
     const target = pow.calcTarget(ttl, payload.length, nonceTrials);
 
     let nonce = new Uint8Array(NONCE_LEN);
+    nonce = pow.incrementNonce(nonce, startNonce); // initial value
     let trialValue = pow.bigIntToUint8Array(
       JSBI.BigInt(Number.MAX_SAFE_INTEGER)
     );
@@ -78,10 +80,13 @@ const pow = {
       await crypto.subtle.digest('SHA-512', payload)
     );
     const innerPayload = new Uint8Array(initialHash.length + NONCE_LEN);
+    innerPayload.set(nonce);
     innerPayload.set(initialHash, NONCE_LEN);
     let resultHash;
+    let nextNonce = nonce;
     while (pow.greaterThan(trialValue, target)) {
-      nonce = pow.incrementNonce(nonce);
+      nonce = nextNonce;
+      nextNonce = pow.incrementNonce(nonce, increment);
       innerPayload.set(nonce);
       // eslint-disable-next-line no-await-in-loop
       resultHash = await crypto.subtle.digest('SHA-512', innerPayload);
