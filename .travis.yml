@@ -37,3 +37,5 @@ matrix:
       os: windows
       env:
         - YARN_GPG=no
+      install:
+        - travis_wait 30 yarn install --frozen-lockfile --network-timeout 1000000
