@@ -877,6 +877,10 @@
     "message": "Delete messages",
     "description": "Menu item for deleting messages, title case."
   },
+  "cloakOnOff": {
+    "message": "Cloak/UnCloak",
+    "description": "Menu item for Cloak On/Off."
+  },
   "deleteConversationConfirmation": {
     "message": "Permanently delete this conversation?",
     "description":

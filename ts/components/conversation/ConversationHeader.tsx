@@ -217,7 +217,7 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
         ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        <MenuItem onClick={onCloak}>{'Cloak/Uncloak'}</MenuItem>
+        <MenuItem onClick={onCloak}>{i18n('cloakOnOff')}</MenuItem>
       </ContextMenu>
     );
   }
