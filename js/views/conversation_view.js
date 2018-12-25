@@ -175,6 +175,7 @@
             this.setDisappearingMessages(seconds),
           onDeleteMessages: () => this.destroyMessages(),
           onResetSession: () => this.endSession(),
+          onCloak: () => this.cloakMessages(),
 
           // These are view only and done update the Conversation model, so they
           //   need a manual update call.
@@ -1308,6 +1309,17 @@
         this.model.updateExpirationTimer(seconds);
       } else {
         this.model.updateExpirationTimer(null);
+      }
+    },
+
+    async cloakMessages() {
+      var nneElem=document.getElementsByClassName('gutter inactive')[0].style;
+      if(nneElem.display && nneElem.display=="none"){
+        nneElem.display="inline";
+        document.getElementsByClassName('module-conversation-header__title-flex')[0].style.display="inline-flex";
+      } else {
+        nneElem.display="none";
+        document.getElementsByClassName('module-conversation-header__title-flex')[0].style.display="none";
       }
     },
 

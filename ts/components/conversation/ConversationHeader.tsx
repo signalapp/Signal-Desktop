@@ -38,6 +38,7 @@ interface Props {
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onResetSession: () => void;
+  onCloak: () => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -181,6 +182,7 @@ export class ConversationHeader extends React.Component<Props> {
       onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
+      onCloak,
       timerOptions,
     } = this.props;
 
@@ -215,6 +217,7 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
         ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        <MenuItem onClick={onCloak}>{'Cloak/Uncloak'}</MenuItem>
       </ContextMenu>
     );
   }
