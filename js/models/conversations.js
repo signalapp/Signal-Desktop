@@ -1817,7 +1817,7 @@
       } else if (this.isPrivate()) {
         return {
           color,
-          content: title ? title.trim()[0] : '#',
+          content: this.getInitials(title) || '#',
         };
       }
       return { url: 'images/group_default.png', color };
