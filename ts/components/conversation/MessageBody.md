@@ -44,3 +44,9 @@
 ```jsx
 <MessageBody text="http://somewhere.com" disableLinks i18n={util.i18n} />
 ```
+
+### Emoji in link
+
+```jsx
+<MessageBody text="http://somewhere.com?s=🔥\nCool, huh?" i18n={util.i18n} />
+```

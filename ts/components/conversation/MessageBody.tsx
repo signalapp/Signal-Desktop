@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getSizeClass } from '../../util/emoji';
+import { getSizeClass, SizeClassType } from '../../util/emoji';
 import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';
@@ -21,8 +21,26 @@ const renderNewLines: RenderTextCallback = ({
   key,
 }) => <AddNewLines key={key} text={textWithNewLines} />;
 
-const renderLinks: RenderTextCallback = ({ text: textWithLinks, key }) => (
-  <Linkify key={key} text={textWithLinks} renderNonLink={renderNewLines} />
+const renderEmoji = ({
+  i18n,
+  text,
+  key,
+  sizeClass,
+  renderNonEmoji,
+}: {
+  i18n: Localizer;
+  text: string;
+  key: number;
+  sizeClass?: SizeClassType;
+  renderNonEmoji: RenderTextCallback;
+}) => (
+  <Emojify
+    i18n={i18n}
+    key={key}
+    text={text}
+    sizeClass={sizeClass}
+    renderNonEmoji={renderNonEmoji}
+  />
 );
 
 /**
@@ -34,14 +52,30 @@ const renderLinks: RenderTextCallback = ({ text: textWithLinks, key }) => (
 export class MessageBody extends React.Component<Props> {
   public render() {
     const { text, disableJumbomoji, disableLinks, i18n } = this.props;
-    const sizeClass = disableJumbomoji ? '' : getSizeClass(text);
+    const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
+
+    if (disableLinks) {
+      return renderEmoji({
+        i18n,
+        text,
+        sizeClass,
+        key: 0,
+        renderNonEmoji: renderNewLines,
+      });
+    }
 
     return (
-      <Emojify
+      <Linkify
         text={text}
-        sizeClass={sizeClass}
-        renderNonEmoji={disableLinks ? renderNewLines : renderLinks}
-        i18n={i18n}
+        renderNonLink={({ key, text: nonLinkText }) => {
+          return renderEmoji({
+            i18n,
+            text: nonLinkText,
+            sizeClass,
+            key,
+            renderNonEmoji: renderNewLines,
+          });
+        }}
       />
     );
   }
