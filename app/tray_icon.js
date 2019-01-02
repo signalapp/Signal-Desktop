@@ -17,6 +17,17 @@ function createTrayIcon(getMainWindow, messages) {
 
   tray = new Tray(iconNoNewMessages);
 
+  tray.forceOnTop = mainWindow => {
+    if (mainWindow) {
+      // On some versions of GNOME the window may not be on top when restored.
+      // This trick should fix it.
+      // Thanks to: https://github.com/Enrico204/Whatsapp-Desktop/commit/6b0dc86b64e481b455f8fce9b4d797e86d000dc1
+      mainWindow.setAlwaysOnTop(true);
+      mainWindow.focus();
+      mainWindow.setAlwaysOnTop(false);
+    }
+  }
+
   tray.toggleWindowVisibility = () => {
     const mainWindow = getMainWindow();
     if (mainWindow) {
@@ -25,13 +36,20 @@ function createTrayIcon(getMainWindow, messages) {
       } else {
         mainWindow.show();
 
-        // On some versions of GNOME the window may not be on top when restored.
-        // This trick should fix it.
-        // Thanks to: https://github.com/Enrico204/Whatsapp-Desktop/commit/6b0dc86b64e481b455f8fce9b4d797e86d000dc1
-        mainWindow.setAlwaysOnTop(true);
-        mainWindow.focus();
-        mainWindow.setAlwaysOnTop(false);
+        tray.forceOnTop(mainWindow);
       }
+    }
+    tray.updateContextMenu();
+  };
+
+  tray.showWindow = () => {
+    const mainWindow = getMainWindow();
+    if (mainWindow) {
+      if (!mainWindow.isVisible()) {
+        mainWindow.show();
+      }
+
+      tray.forceOnTop(mainWindow);
     }
     tray.updateContextMenu();
   };
@@ -70,7 +88,7 @@ function createTrayIcon(getMainWindow, messages) {
     }
   };
 
-  tray.on('click', tray.toggleWindowVisibility);
+  tray.on('click', tray.showWindow);
 
   tray.setToolTip(messages.trayTooltip.message);
   tray.updateContextMenu();
