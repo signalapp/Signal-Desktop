@@ -53,6 +53,6 @@ The form and manner of this distribution makes it eligible for export under the 
 
 ## License
 
-Copyright 2014-2018 Open Whisper Systems
+Copyright 2014-2019 Open Whisper Systems
 
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
