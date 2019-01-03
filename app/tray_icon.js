@@ -26,7 +26,7 @@ function createTrayIcon(getMainWindow, messages) {
       mainWindow.focus();
       mainWindow.setAlwaysOnTop(false);
     }
-  }
+  };
 
   tray.toggleWindowVisibility = () => {
     const mainWindow = getMainWindow();
