@@ -1226,7 +1226,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 216,
+    "lineNumber": 219,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1235,7 +1235,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 222,
+    "lineNumber": 225,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1244,7 +1244,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 230,
+    "lineNumber": 233,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1253,7 +1253,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 236,
+    "lineNumber": 239,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1262,7 +1262,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 242,
+    "lineNumber": 245,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1271,7 +1271,16 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 248,
+    "lineNumber": 251,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-01-04T20:24:04.674Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "js/views/file_input_view.js",
+    "line": "      toast.$el.insertAfter(this.$el);",
+    "lineNumber": 257,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"

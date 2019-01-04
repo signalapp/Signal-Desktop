@@ -42,6 +42,9 @@
   Whisper.MaxAttachmentsToast = Whisper.ToastView.extend({
     template: i18n('maximumAttachments'),
   });
+  Whisper.MaxOneAttachmentToast = Whisper.ToastView.extend({
+    template: i18n('maxOneAttachmentToast'),
+  });
 
   Whisper.FileInputView = Backbone.View.extend({
     tagName: 'span',
@@ -249,6 +252,12 @@
       toast.render();
     },
 
+    showMaxOneAttachmentError() {
+      const toast = new Whisper.MaxOneAttachmentToast();
+      toast.$el.insertAfter(this.$el);
+      toast.render();
+    },
+
     // Housekeeping
 
     addAttachment(attachment) {
@@ -267,6 +276,12 @@
 
       const fileName = file.name;
       const contentType = file.type;
+
+      // TODO: remove this when clients are ready to remove multiple image attachments
+      if (this.attachments.length > 0) {
+        this.showMaxOneAttachmentError();
+        return;
+      }
 
       if (window.Signal.Util.isFileDangerous(fileName)) {
         this.showDangerousError();
