@@ -2576,6 +2576,11 @@
   display: none;
 }
 
+// To limit messages with things forcing them wider, like long attachment names
+.module-message {
+  max-width: 300px;
+}
+
 /* Spec: container > 438px and container < 593px*/
 @media (min-width: 800px) and (max-width: 925px) {
   .module-message {
