@@ -80,7 +80,6 @@ const pow = {
       await crypto.subtle.digest('SHA-512', payload)
     );
     const innerPayload = new Uint8Array(initialHash.length + NONCE_LEN);
-    innerPayload.set(nonce);
     innerPayload.set(initialHash, NONCE_LEN);
     let resultHash;
     let nextNonce = nonce;
