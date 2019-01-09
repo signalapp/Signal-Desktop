@@ -5,10 +5,10 @@ function consolidateLists(lists, threshold = 1){
 
   // calculate list size manually since `Set`
   // does not have a `length` attribute
-  let listSize = 0;
+  let numLists = 0;
   const occurences = {};
   lists.forEach(list => {
-    listSize += 1;
+    numLists += 1;
     list.forEach(item => {
       if (!(item in occurences)) {
         occurences[item] = 1;
@@ -18,7 +18,7 @@ function consolidateLists(lists, threshold = 1){
     });
   });
 
-  const scaledThreshold = listSize * threshold;
+  const scaledThreshold = numLists * threshold;
   return Object.entries(occurences)
     .filter(keyValue => keyValue[1] >= scaledThreshold)
     .map(keyValue => keyValue[0]);
