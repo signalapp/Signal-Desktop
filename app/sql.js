@@ -81,6 +81,8 @@ module.exports = {
   removeSessionsByNumber,
   removeAllSessions,
 
+  getSwarmNodesByPubkey,
+
   getConversationCount,
   saveConversation,
   saveConversations,
@@ -385,6 +387,7 @@ async function updateToSchemaVersion4(currentVersion, instance) {
       type STRING,
       members TEXT,
       name TEXT,
+      swarmNodes TEXT,
       profileName TEXT
     );`
   );
@@ -1025,6 +1028,18 @@ async function removeAllFromTable(table) {
 
 // Conversations
 
+async function getSwarmNodesByPubkey(pubkey) {
+  const row = await db.get('SELECT * FROM conversations WHERE id = $pubkey;', {
+    $pubkey: pubkey,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json).swarmNodes;
+}
+
 async function getConversationCount() {
   const row = await db.get('SELECT count(*) from conversations;');
 
@@ -1037,7 +1052,7 @@ async function getConversationCount() {
 
 async function saveConversation(data) {
   // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, friendRequestStatus, profileName } = data;
+  const { id, active_at, type, members, name, friendRequestStatus, swarmNodes, profileName } = data;
 
   await db.run(
     `INSERT INTO conversations (
@@ -1049,6 +1064,7 @@ async function saveConversation(data) {
     members,
     name,
     friendRequestStatus,
+    swarmNodes,
     profileName
   ) values (
     $id,
@@ -1059,6 +1075,7 @@ async function saveConversation(data) {
     $members,
     $name,
     $friendRequestStatus,
+    $swarmNodes,
     $profileName
   );`,
     {
@@ -1070,6 +1087,7 @@ async function saveConversation(data) {
       $members: members ? members.join(' ') : null,
       $name: name,
       $friendRequestStatus: friendRequestStatus,
+      $swarmNodes: swarmNodes ? swarmNodes.join(' ') : null,
       $profileName: profileName,
     }
   );
@@ -1093,7 +1111,7 @@ async function saveConversations(arrayOfConversations) {
 
 async function updateConversation(data) {
   // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, friendRequestStatus, profileName } = data;
+  const { id, active_at, type, members, name, friendRequestStatus, swarmNodes, profileName } = data;
 
   await db.run(
     `UPDATE conversations SET
@@ -1104,6 +1122,7 @@ async function updateConversation(data) {
     members = $members,
     name = $name,
     friendRequestStatus = $friendRequestStatus,
+    swarmNodes = $swarmNodes,
     profileName = $profileName
   WHERE id = $id;`,
     {
@@ -1115,6 +1134,7 @@ async function updateConversation(data) {
       $members: members ? members.join(' ') : null,
       $name: name,
       $friendRequestStatus: friendRequestStatus,
+      $swarmNodes: swarmNodes ? swarmNodes.join(' ') : null,
       $profileName: profileName,
     }
   );

@@ -108,6 +108,8 @@ module.exports = {
   removeSessionsByNumber,
   removeAllSessions,
 
+  getSwarmNodesByPubkey,
+
   getConversationCount,
   saveConversation,
   saveConversations,
@@ -653,6 +655,10 @@ async function removeAllSessions(id) {
 }
 
 // Conversation
+
+async function getSwarmNodesByPubkey(pubkey) {
+  return channels.getSwarmNodesByPubkey(pubkey);
+}
 
 async function getConversationCount() {
   return channels.getConversationCount();

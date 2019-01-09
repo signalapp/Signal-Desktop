@@ -174,6 +174,7 @@
           return conversation;
         }
 
+        conversation.refreshSwarmNodes();
         try {
           await window.Signal.Data.saveConversation(conversation.attributes, {
             Conversation: Whisper.Conversation,

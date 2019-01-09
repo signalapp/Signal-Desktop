@@ -86,6 +86,8 @@
         friendRequestStatus: FriendRequestStatusEnum.none,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
+        swarmNodes: [],
+        refreshPromise: null,
       };
     },
 
@@ -578,6 +580,22 @@
         default:
           throw new Error('Invalid friend request state');
       }
+    },
+    async refreshSwarmNodes() {
+      // Refresh promise to ensure that we are only doing a single query at a time
+      let refreshPromise = this.get('refreshPromise');
+      if (refreshPromise === null) {
+        refreshPromise = (async () => {
+          const newSwarmNodes = await window.LokiAPI.getSwarmNodes(this.id);
+          this.set({ swarmNodes: _.union(this.get('swarmNodes'), newSwarmNodes) });
+          await window.Signal.Data.updateConversation(this.id, this.attributes, {
+            Conversation: Whisper.Conversation,
+          });
+        })();
+        this.set({ refreshPromise });
+      }
+      await refreshPromise;
+      this.set({ refreshPromise: null });
     },
     async setFriendRequestStatus(newStatus) {
       // Ensure that the new status is a valid FriendStatusEnum value
@@ -1198,7 +1216,10 @@
         options.messageType = message.get('type');
 
         // Add the message sending on another queue so that our UI doesn't get blocked
-        this.queueMessageSend(async () =>
+        this.queueMessageSend(async () => {
+          if (this.get('swarmNodes').length === 0) {
+            await this.refreshSwarmNodes();
+          }
           message.send(
             this.wrapSend(
               sendFunction(
@@ -1213,7 +1234,7 @@
               )
             )
           )
-        );
+        });
 
         return true;
       });

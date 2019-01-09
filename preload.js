@@ -269,6 +269,8 @@ const { LokiServer } = require('./js/modules/loki_message_api');
 
 window.LokiAPI = new LokiServer({
   urls: [config.serverUrl],
+  messageServerPort: config.messageServerPort,
+  swarmServerPort: config.swarmServerPort,
 });
 
 window.mnemonic = require('./libloki/mnemonic');

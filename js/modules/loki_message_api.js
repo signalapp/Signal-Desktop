@@ -5,8 +5,10 @@ const is = require('@sindresorhus/is');
 
 class LokiServer {
 
-  constructor({ urls }) {
+  constructor({ urls, messageServerPort, swarmServerPort }) {
     this.nodes = [];
+    this.messageServerPort = messageServerPort;
+    this.swarmServerPort = swarmServerPort;
     urls.forEach(url => {
       if (!is.string(url)) {
         throw new Error('WebAPI.initialize: Invalid server url');
@@ -15,11 +17,78 @@ class LokiServer {
     });
   }
 
-  async sendMessage(pubKey, data, messageTimeStamp, ttl) {
-    const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
-    // Hardcoded to use a single node/server for now
+  async loadOurSwarm() {
+    const ourKey = window.textsecure.storage.user.getNumber();
+    const nodeAddresses = await this.getSwarmNodes(ourKey);
+    this.ourSwarmNodes = [];
+    nodeAddresses.forEach(url => {
+      this.ourSwarmNodes.push({ url });
+    })
+  }
+
+  async getSwarmNodes(pubKey) {
     const currentNode = this.nodes[0];
 
+    const options = {
+      url: `${currentNode.url}${this.swarmServerPort}/json_rpc`,
+      type: 'POST',
+      responseType: 'json',
+      timeout: undefined,
+    };
+
+    const body = {
+      jsonrpc: '2.0',
+      id: '0',
+      method: 'get_swarm_list_for_messenger_pubkey',
+      params: {
+        pubkey: pubKey,
+      },
+    }
+
+    const fetchOptions = {
+      method: options.type,
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      timeout: options.timeout,
+    };
+
+    let response;
+    try {
+      response = await fetch(options.url, fetchOptions);
+    } catch (e) {
+      log.error(options.type, options.url, 0, 'Error');
+      throw HTTPError('fetch error', 0, e.toString());
+    }
+
+    let result;
+    if (
+      options.responseType === 'json' &&
+      response.headers.get('Content-Type') === 'application/json'
+    ) {
+      result = await response.json();
+    } else if (options.responseType === 'arraybuffer') {
+      result = await response.buffer();
+    } else {
+      result = await response.text();
+    }
+
+    if (response.status >= 0 && response.status < 400) {
+      return result.nodes;
+    }
+    log.error(options.type, options.url, response.status, 'Error');
+    throw HTTPError('sendMessage: error response', response.status, result);
+  }
+
+  async sendMessage(pubKey, data, messageTimeStamp, ttl) {
+    const swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
+    if (!swarmNodes || swarmNodes.length === 0) {
+      // TODO: Refresh the swarm nodes list
+      throw Error('No swarm nodes to query!');
+    }
+
+    const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const timestamp = Math.floor(Date.now() / 1000);
     // Nonce is returned as a base64 string to include in header
     let nonce;
@@ -37,7 +106,7 @@ class LokiServer {
     }
 
     const options = {
-      url: `${currentNode.url}/store`,
+      url: `${swarmNodes[0]}${this.messageServerPort}/store`,
       type: 'POST',
       responseType: undefined,
       timeout: undefined,
@@ -83,11 +152,12 @@ class LokiServer {
   }
 
   async retrieveMessages(pubKey) {
-    // Hardcoded to use a single node/server for now
-    const currentNode = this.nodes[0];
-
+    if (!this.ourSwarmNodes || this.ourSwarmNodes.length === 0) {
+      await this.loadOurSwarm();
+    }
+    const currentNode = this.ourSwarmNodes[0];
     const options = {
-      url: `${currentNode.url}/retrieve`,
+      url: `${currentNode.url}${this.messageServerPort}/retrieve`,
       type: 'GET',
       responseType: 'json',
       timeout: undefined,

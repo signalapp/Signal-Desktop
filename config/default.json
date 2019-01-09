@@ -1,6 +1,8 @@
 {
-  "serverUrl": "http://localhost:8080",
-  "cdnUrl": "http://localhost",
+  "serverUrl": "http://qp994mrc8z7fqmsynzdumd35b5918q599gno46br86e537f7qzzy.snode",
+  "cdnUrl": "http://qp994mrc8z7fqmsynzdumd35b5918q599gno46br86e537f7qzzy.snode",
+  "messageServerPort": ":8080",
+  "swarmServerPort": ":8079",
   "disableAutoUpdate": false,
   "openDevTools": false,
   "buildExpiration": 0,
