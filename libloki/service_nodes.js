@@ -3,7 +3,6 @@
 // eslint-disable-next-line func-names
 (function () {
   window.libloki = window.libloki || {};
-  window.libloki.serviceNodes = window.libloki.serviceNodes || {};
 
   function consolidateLists(lists, threshold = 1){
     if (typeof threshold !== 'number') {
@@ -31,5 +30,7 @@
       .map(keyValue => keyValue[0]);
   }
 
-  window.libloki.serviceNodes.consolidateLists = consolidateLists;
+  window.libloki.serviceNodes = {
+    consolidateLists,
+  };
 })();
