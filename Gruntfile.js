@@ -100,7 +100,10 @@ module.exports = grunt => {
         dest: 'js/libtextsecure.js',
       },
       libloki: {
-        src: ['libloki/libloki-protocol.js'],
+        src: [
+          'libloki/libloki-protocol.js',
+          'libloki/service_nodes.js',
+        ],
         dest: 'js/libloki.js',
       },
       lokitest: {

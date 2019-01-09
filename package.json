@@ -31,7 +31,7 @@
     "test-lib-view": "NODE_ENV=test-lib yarn run start",
     "test-loki-view": "NODE_ENV=test-loki yarn run start",
     "test-electron": "yarn grunt test",
-    "test-node": "mocha --recursive test/app test/modules ts/test libloki/test/node",
+    "test-node": "mocha --recursive test/app test/modules ts/test",
     "test-node-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/app test/modules ts/test",
     "eslint": "eslint .",
     "lint": "yarn format --list-different && yarn lint-windows",
