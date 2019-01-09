@@ -121,7 +121,7 @@ OutgoingMessage.prototype = {
             }
             return builder.processPreKey(device).then(async () => {
               // TODO: only remove the keys that were used above!
-              await window.libloki.removeContactPreKeyBundle(number);
+              await window.libloki.storage.removeContactPreKeyBundle(number);
               return true;
             }
             ).catch(error => {
@@ -288,7 +288,7 @@ OutgoingMessage.prototype = {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
         const ourKey = textsecure.storage.user.getNumber();
         const options = {};
-        const fallBackCipher = new libloki.FallBackSessionCipher(address);
+        const fallBackCipher = new libloki.crypto.FallBackSessionCipher(address);
 
         // Check if we need to attach the preKeys
         let sessionCipher;
@@ -297,7 +297,7 @@ OutgoingMessage.prototype = {
         const isEndSession = flags === textsecure.protobuf.DataMessage.Flags.END_SESSION;
         if (isFriendRequest || isEndSession) {
           // Encrypt them with the fallback
-          const pkb = await libloki.getPreKeyBundleForContact(number);
+          const pkb = await libloki.storage.getPreKeyBundleForContact(number);
           const preKeyBundleMessage = new textsecure.protobuf.PreKeyBundleMessage(pkb);
           this.message.preKeyBundleMessage = preKeyBundleMessage;
           window.log.info('attaching prekeys to outgoing message');

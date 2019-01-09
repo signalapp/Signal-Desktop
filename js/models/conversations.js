@@ -620,7 +620,7 @@
         response: 'declined',
         direction: 'incoming',
       });
-      await window.libloki.removeContactPreKeyBundle(this.id);
+      await window.libloki.storage.removeContactPreKeyBundle(this.id);
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest() {
@@ -630,7 +630,7 @@
           response: 'accepted',
           direction: 'incoming',
         });
-        window.libloki.sendFriendRequestAccepted(this.id);
+        window.libloki.api.sendFriendRequestAccepted(this.id);
       }
     },
     // Our outgoing friend request has been accepted
@@ -1548,7 +1548,7 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      await window.libloki.sendEmptyMessage(this.id);
+      await window.libloki.api.sendEmptyMessage(this.id);
     },
 
     isSessionResetReceived() {
@@ -1582,7 +1582,7 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        await window.libloki.sendEmptyMessage(this.id);
+        await window.libloki.api.sendEmptyMessage(this.id);
       }
       await this.createAndStoreEndSessionMessage({ type: 'incoming', endSessionType: 'done' });
       await this.setSessionResetStatus(SessionResetEnum.none);

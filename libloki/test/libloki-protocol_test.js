@@ -18,7 +18,7 @@ describe('FallBackSessionCipher', () => {
       pubKeyString,
       1
     );
-    fallbackCipher = new libloki.FallBackSessionCipher(address);
+    fallbackCipher = new libloki.crypto.FallBackSessionCipher(address);
   });
 
   it('should encrypt fallback cipher messages as friend requests', async () => {
@@ -53,7 +53,7 @@ describe('LibLoki Protocol', () => {
     const pubKey = libsignal.crypto.getRandomBytes(32);
     const pubKeyString = StringView.arrayBufferToHex(pubKey);
     const preKeyIdBefore = textsecure.storage.get('maxPreKeyId', 1);
-    const newBundle = await libloki.getPreKeyBundleForContact(pubKeyString);
+    const newBundle = await libloki.storage.getPreKeyBundleForContact(pubKeyString);
     const preKeyIdAfter = textsecure.storage.get('maxPreKeyId', 1);
     assert.strictEqual(preKeyIdAfter, preKeyIdBefore + 1);
 
@@ -74,8 +74,8 @@ describe('LibLoki Protocol', () => {
   it('should return the same prekey bundle after creating a contact', async () => {
     const pubKey = libsignal.crypto.getRandomBytes(32);
     const pubKeyString = StringView.arrayBufferToHex(pubKey);
-    const bundle1 = await libloki.getPreKeyBundleForContact(pubKeyString);
-    const bundle2 = await libloki.getPreKeyBundleForContact(pubKeyString);
+    const bundle1 = await libloki.storage.getPreKeyBundleForContact(pubKeyString);
+    const bundle2 = await libloki.storage.getPreKeyBundleForContact(pubKeyString);
     assert.isDefined(bundle1);
     assert.isDefined(bundle2);
     assert.deepEqual(bundle1, bundle2);
@@ -85,7 +85,7 @@ describe('LibLoki Protocol', () => {
     const pubKey = libsignal.crypto.getRandomBytes(32);
     const pubKeyString = StringView.arrayBufferToHex(pubKey);
     const preKeyIdBefore = textsecure.storage.get('maxPreKeyId', 1);
-    const newBundle = await libloki.getPreKeyBundleForContact(pubKeyString);
+    const newBundle = await libloki.storage.getPreKeyBundleForContact(pubKeyString);
     const preKeyIdAfter = textsecure.storage.get('maxPreKeyId', 1);
     assert.strictEqual(preKeyIdAfter, preKeyIdBefore + 1);
 

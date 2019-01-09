@@ -1407,7 +1407,7 @@
               autoAccept = true;
               message.set({ friendStatus: 'accepted' });
               await conversation.onFriendRequestAccepted();
-              window.libloki.sendFriendRequestAccepted(message.get('source'));
+              window.libloki.api.sendFriendRequestAccepted(message.get('source'));
             } else if (!conversation.isFriend()) {
               await conversation.onFriendRequestReceived();
             }
