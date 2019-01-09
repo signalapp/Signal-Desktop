@@ -41,6 +41,6 @@ function stringToArrayBufferBase64(string) {
 function arrayBufferToStringBase64(arrayBuffer) {
   return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
 }
-function calcPoW(timestamp, ttl, pubKey, data, development) {
-  return pow.calcPoW(timestamp, ttl, pubKey, data, development);
+function calcPoW(timestamp, ttl, pubKey, data, development, nonceTrials = undefined, increment = 1, startNonce = 0) {
+  return pow.calcPoW(timestamp, ttl, pubKey, data, development, nonceTrials, increment, startNonce);
 }
