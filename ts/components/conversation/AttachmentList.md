@@ -9,18 +9,19 @@ const attachments = [
     height: 240,
   },
 ];
-
-<AttachmentList
-  attachments={attachments}
-  onClose={() => console.log('onClose')}
-  onClickAttachment={attachment => {
-    console.log('onClickAttachment', attachment);
-  }}
-  onCloseAttachment={attachment => {
-    console.log('onCloseAttachment', attachment);
-  }}
-  i18n={util.i18n}
-/>;
+<util.ConversationContext theme={util.theme}>
+  <AttachmentList
+    attachments={attachments}
+    onClose={() => console.log('onClose')}
+    onClickAttachment={attachment => {
+      console.log('onClickAttachment', attachment);
+    }}
+    onCloseAttachment={attachment => {
+      console.log('onCloseAttachment', attachment);
+    }}
+    i18n={util.i18n}
+  />;
+</util.ConversationContext>;
 ```
 
 ### Four images
@@ -53,7 +54,7 @@ const attachments = [
   },
 ];
 
-<div>
+<util.ConversationContext theme={util.theme}>
   <AttachmentList
     attachments={attachments}
     onClose={() => console.log('onClose')}
@@ -65,7 +66,7 @@ const attachments = [
     }}
     i18n={util.i18n}
   />
-</div>;
+</util.ConversationContext>;
 ```
 
 ### A mix of attachment types
@@ -90,7 +91,7 @@ const attachments = [
   },
 ];
 
-<div>
+<util.ConversationContext theme={util.theme}>
   <AttachmentList
     attachments={attachments}
     onClose={() => console.log('onClose')}
@@ -102,7 +103,7 @@ const attachments = [
     }}
     i18n={util.i18n}
   />
-</div>;
+</util.ConversationContext>;
 ```
 
 ### No attachments provided

@@ -263,7 +263,6 @@ MessageReceiver.prototype.extend({
     // We do the message decryption here, instead of in the ordered pending queue,
     // to avoid exposing the time it took us to process messages through the time-to-ack.
 
-    // TODO: handle different types of requests.
     if (request.path !== '/api/v1/message') {
       window.log.info('got request', request.verb, request.path);
       request.respond(200, 'OK');

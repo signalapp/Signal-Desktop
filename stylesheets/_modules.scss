@@ -784,6 +784,7 @@
   flex: initial;
   min-width: 54px;
   width: 54px;
+  max-height: 54px;
   position: relative;
 
   img {
@@ -2297,7 +2298,7 @@
   height: 20px;
 
   z-index: 2;
-  @include color-svg('../images/x-16.svg', $color-black);
+  @include color-svg('../images/x.svg', $color-black);
 }
 
 .module-attachments__rail {
@@ -2412,10 +2413,10 @@
 
   top: 12px;
   right: 16px;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   z-index: 2;
-  @include color-svg('../images/x-16.svg', $color-white);
+  @include color-svg('../images/x.svg', $color-white);
 }
 
 .module-caption-editor__media-container {
@@ -2487,6 +2488,10 @@
 
   &::placeholder {
     color: $color-white-07;
+  }
+  &:focus {
+    border: 1px solid $color-signal-blue;
+    outline: none;
   }
 }
 

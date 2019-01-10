@@ -1,5 +1,4 @@
 import React from 'react';
-// import classNames from 'classnames';
 
 import {
   isImageTypeSupported,
@@ -28,7 +27,6 @@ export class AttachmentList extends React.Component<Props> {
     const {
       attachments,
       i18n,
-      // onError,
       onClickAttachment,
       onCloseAttachment,
       onClose,
@@ -59,7 +57,9 @@ export class AttachmentList extends React.Component<Props> {
               return (
                 <Image
                   key={getUrl(attachment) || attachment.fileName || index}
-                  alt={`TODO: attachment number ${index}`}
+                  alt={i18n('stagedImageAttachment', [
+                    getUrl(attachment) || attachment.fileName,
+                  ])}
                   i18n={i18n}
                   attachment={attachment}
                   softCorners={true}

@@ -108,8 +108,10 @@ a {
     opacity: 0.5;
     border: none;
     background: transparent;
+    margin-top: 2px;
 
     &:before {
+      margin-top: 4px;
       content: '';
       display: inline-block;
       width: $button-height;

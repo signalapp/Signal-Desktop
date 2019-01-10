@@ -551,6 +551,16 @@
     "description":
       "Shown in toast when user attempts to send .exe file, for example"
   },
+  "stagedImageAttachment": {
+    "message": "Staged image attachment: $path$",
+    "description": "Alt text for staged attachments",
+    "placeholders": {
+      "path": {
+        "content": "$1",
+        "example": "dog.jpg"
+      }
+    }
+  },
   "maxOneAttachmentToast": {
     "message": "The limit is one attachment per message.",
     "description":

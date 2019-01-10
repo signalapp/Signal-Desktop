@@ -6,11 +6,13 @@ const attachment = {
   fileName: 'manifesto.txt',
 };
 
-<StagedGenericAttachment
-  attachment={attachment}
-  i18n={util.i18n}
-  onClose={attachment => console.log('onClose', attachment)}
-/>;
+<util.ConversationContext theme={util.theme}>
+  <StagedGenericAttachment
+    attachment={attachment}
+    i18n={util.i18n}
+    onClose={attachment => console.log('onClose', attachment)}
+  />
+</util.ConversationContext>;
 ```
 
 File with long name
@@ -21,11 +23,13 @@ const attachment = {
   fileName: 'this-is-my-very-important-manifesto-you-must-read-it.txt',
 };
 
-<StagedGenericAttachment
-  attachment={attachment}
-  i18n={util.i18n}
-  onClose={attachment => console.log('onClose', attachment)}
-/>;
+<util.ConversationContext theme={util.theme}>
+  <StagedGenericAttachment
+    attachment={attachment}
+    i18n={util.i18n}
+    onClose={attachment => console.log('onClose', attachment)}
+  />
+</util.ConversationContext>;
 ```
 
 File with long extension
@@ -36,9 +40,11 @@ const attachment = {
   fileName: 'manifesto.reallylongtxt',
 };
 
-<StagedGenericAttachment
-  attachment={attachment}
-  i18n={util.i18n}
-  onClose={attachment => console.log('onClose', attachment)}
-/>;
+<util.ConversationContext theme={util.theme}>
+  <StagedGenericAttachment
+    attachment={attachment}
+    i18n={util.i18n}
+    onClose={attachment => console.log('onClose', attachment)}
+  />
+</util.ConversationContext>;
 ```
