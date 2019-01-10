@@ -281,10 +281,10 @@
       const contentType = file.type;
 
       // TODO: remove this when clients are ready to remove multiple image attachments
-      if (this.attachments.length > 0) {
-        this.showMaxOneAttachmentError();
-        return;
-      }
+      // if (this.attachments.length > 0) {
+      //   this.showMaxOneAttachmentError();
+      //   return;
+      // }
 
       if (window.Signal.Util.isFileDangerous(fileName)) {
         this.showDangerousError();
