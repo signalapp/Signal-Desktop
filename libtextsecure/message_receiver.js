@@ -605,7 +605,7 @@ MessageReceiver.prototype.extend({
       textsecure.storage.protocol
     );
 
-    const fallBackSessionCipher = new libloki.FallBackSessionCipher(
+    const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
       address
     );
 
@@ -1238,7 +1238,7 @@ MessageReceiver.prototype.extend({
       );
     }
 
-    await libloki.saveContactPreKeyBundle({
+    await libloki.storage.saveContactPreKeyBundle({
       pubKey,
       preKeyId,
       signedKeyId,
