@@ -32,5 +32,6 @@ matrix:
       os: osx
     - name: 'Windows'
       os: windows
+      cache: false
       env:
         - YARN_GPG=no
