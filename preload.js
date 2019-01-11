@@ -154,6 +154,16 @@ installSetter('theme-setting', 'setThemeSetting');
 installGetter('hide-menu-bar', 'getHideMenuBar');
 installSetter('hide-menu-bar', 'setHideMenuBar');
 
+// Get the message TTL setting
+window.getMessageTTL = () => {
+  if (window.Events.getMessageTTL) {
+    return window.Events.getMessageTTL();
+  }
+  return null;
+}
+installGetter('message-ttl', 'getMessageTTL');
+installSetter('message-ttl', 'setMessageTTL');
+
 installGetter('read-receipt-setting', 'getReadReceiptSetting');
 installSetter('read-receipt-setting', 'setReadReceiptSetting');
 installGetter('notification-setting', 'getNotificationSetting');

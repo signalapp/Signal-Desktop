@@ -221,6 +221,10 @@
     }
     first = false;
 
+    // The min and max message ttl value
+    const MIN_MESSAGE_TTL = 12;
+    const MAX_MESSAGE_TTL = 96;
+
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
       getDeviceName: () => textsecure.storage.user.getDeviceName(),
@@ -235,6 +239,18 @@
         storage.put('hide-menu-bar', value);
         window.setAutoHideMenuBar(value);
         window.setMenuBarVisibility(!value);
+      },
+
+      getMessageTTL: () => {
+        // Make sure the ttl is between a given range
+        const current = storage.get('message-ttl', 24);
+        return Math.max(MIN_MESSAGE_TTL, Math.min(current, MAX_MESSAGE_TTL));
+      },
+      setMessageTTL: value => {
+        // Make sure the ttl is between a given range and is valid
+        const ttl = (typeof value !== 'number') ? 24 : value;
+        const current = Math.max(MIN_MESSAGE_TTL, Math.min(ttl, MAX_MESSAGE_TTL));
+        storage.put('message-ttl', current);
       },
 
       getReadReceiptSetting: () =>
