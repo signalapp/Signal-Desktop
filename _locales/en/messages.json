@@ -1079,6 +1079,14 @@
     "message": "Enable the sending and receiving of read receipts",
     "description": "Description of the read receipts setting"
   },
+  "messageTTL": {
+    "message": "Message TTL",
+    "description": "Title of the Message TTL setting"
+  },
+  "messageTTLSettingDescription": {
+    "message": "Time to live in hours (min: 12, max: 96)",
+    "description": "Description of the time to live setting"
+  },
   "notificationSettingsDialog": {
     "message": "When messages arrive, display notifications that reveal:",
     "description": "Explain the purpose of the notification settings"

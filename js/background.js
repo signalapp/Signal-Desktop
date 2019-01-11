@@ -248,7 +248,8 @@
       },
       setMessageTTL: value => {
         // Make sure the ttl is between a given range and is valid
-        const ttl = (typeof value !== 'number') ? 24 : value;
+        const intValue = parseInt(value, 10);
+        const ttl = Number.isNaN(intValue) ? 24 :  intValue;
         const current = Math.max(MIN_MESSAGE_TTL, Math.min(ttl, MAX_MESSAGE_TTL));
         storage.put('message-ttl', current);
       },
