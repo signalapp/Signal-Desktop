@@ -2,7 +2,7 @@
 const NONCE_LEN = 8;
 // Modify this value for difficulty scaling
 const DEV_NONCE_TRIALS = 10;
-const PROD_NONCE_TRIALS = 1000;
+const PROD_NONCE_TRIALS = 100;
 
 const pow = {
   // Increment Uint8Array nonce by '_increment' with carrying
