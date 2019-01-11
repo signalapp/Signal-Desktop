@@ -151,6 +151,11 @@
       this.fileInput = new Whisper.FileInputView({
         el: this.$('.attachment-list'),
       });
+      this.listenTo(
+        this.fileInput,
+        'attachments-changed',
+        this.toggleMicrophone
+      );
 
       const getHeaderProps = () => {
         const expireTimer = this.model.get('expireTimer');

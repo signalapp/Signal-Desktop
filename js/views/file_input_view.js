@@ -122,11 +122,13 @@
 
     onCloseAttachment(attachment) {
       this.attachments = _.without(this.attachments, attachment);
+      this.trigger('attachments-changed');
       this.render();
     },
 
     onClose() {
       this.attachments = [];
+      this.trigger('attachments-changed');
       this.render();
     },
 
@@ -267,6 +269,7 @@
 
       this.attachments.push(attachment);
       this.render();
+      this.trigger('attachments-changed');
     },
 
     async maybeAddAttachment(file) {

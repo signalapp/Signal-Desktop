@@ -244,7 +244,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "        wrap(",
-    "lineNumber": 728,
+    "lineNumber": 740,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-18T22:23:00.485Z"
   },
@@ -252,7 +252,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/background.js",
     "line": "      await wrap(",
-    "lineNumber": 1258,
+    "lineNumber": 1270,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-26T22:43:23.229Z"
   },
@@ -704,7 +704,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.conversation-header').append(this.titleView.el);",
-    "lineNumber": 209,
+    "lineNumber": 214,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -713,7 +713,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.conversation-header').append(this.titleView.el);",
-    "lineNumber": 209,
+    "lineNumber": 214,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -722,7 +722,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.discussion-container').append(this.view.el);",
-    "lineNumber": 215,
+    "lineNumber": 220,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -731,7 +731,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.discussion-container').append(this.view.el);",
-    "lineNumber": 215,
+    "lineNumber": 220,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -740,7 +740,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$messageField = this.$('.send-message');",
-    "lineNumber": 218,
+    "lineNumber": 223,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -749,7 +749,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send-message').focus(this.focusBottomBar.bind(this));",
-    "lineNumber": 236,
+    "lineNumber": 241,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -758,7 +758,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$emojiPanelContainer = this.$('.emoji-panel-container');",
-    "lineNumber": 239,
+    "lineNumber": 244,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:26:45.287Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -767,7 +767,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('input.file-input').click();",
-    "lineNumber": 276,
+    "lineNumber": 281,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -776,7 +776,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      const fileField = this.$('input.file-input');",
-    "lineNumber": 279,
+    "lineNumber": 284,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -785,7 +785,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        const container = this.$('.discussion-container');",
-    "lineNumber": 451,
+    "lineNumber": 456,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -794,7 +794,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/conversation_view.js",
     "line": "        container.append(this.banner.el);",
-    "lineNumber": 452,
+    "lineNumber": 457,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -803,7 +803,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.typingBubbleView.$el.appendTo(this.$('.typing-container'));",
-    "lineNumber": 489,
+    "lineNumber": 494,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -812,7 +812,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "      this.typingBubbleView.$el.appendTo(this.$('.typing-container'));",
-    "lineNumber": 489,
+    "lineNumber": 494,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -821,24 +821,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.send-message').val().length > 0 ||",
-    "lineNumber": 498,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-12-15T02:21:20.921Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_view.js",
-    "line": "        this.$('.capture-audio').hide();",
-    "lineNumber": 501,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-12-15T02:21:20.921Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_view.js",
-    "line": "        this.$('.capture-audio').show();",
     "lineNumber": 503,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
@@ -847,8 +829,26 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
+    "line": "        this.$('.capture-audio').hide();",
+    "lineNumber": 506,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/conversation_view.js",
+    "line": "        this.$('.capture-audio').show();",
+    "lineNumber": 508,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-12-15T02:21:20.921Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/conversation_view.js",
     "line": "      if (this.$('.send-message').val().length > 2000) {",
-    "lineNumber": 507,
+    "lineNumber": 512,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -857,7 +857,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.android-length-warning').hide();",
-    "lineNumber": 510,
+    "lineNumber": 515,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -866,7 +866,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 518,
+    "lineNumber": 523,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -875,7 +875,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      view.$el.appendTo(this.$('.capture-audio'));",
-    "lineNumber": 537,
+    "lineNumber": 542,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -884,7 +884,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "      view.$el.appendTo(this.$('.capture-audio'));",
-    "lineNumber": 537,
+    "lineNumber": 542,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -893,7 +893,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send-message').attr('disabled', true);",
-    "lineNumber": 539,
+    "lineNumber": 544,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -902,7 +902,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.bottom-bar form').submit();",
-    "lineNumber": 548,
+    "lineNumber": 553,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -911,7 +911,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send-message').removeAttr('disabled');",
-    "lineNumber": 551,
+    "lineNumber": 556,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -920,7 +920,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.bottom-bar form').removeClass('active');",
-    "lineNumber": 557,
+    "lineNumber": 562,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -929,7 +929,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.bottom-bar form').addClass('active');",
-    "lineNumber": 560,
+    "lineNumber": 565,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -938,7 +938,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        const container = this.$('.discussion-container');",
-    "lineNumber": 648,
+    "lineNumber": 653,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -947,7 +947,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/conversation_view.js",
     "line": "        container.append(this.scrollDownButton.el);",
-    "lineNumber": 649,
+    "lineNumber": 654,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -956,7 +956,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 676,
+    "lineNumber": 681,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -965,7 +965,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "          toast.$el.appendTo(this.$el);",
-    "lineNumber": 709,
+    "lineNumber": 714,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -974,7 +974,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "          toast.$el.appendTo(this.$el);",
-    "lineNumber": 713,
+    "lineNumber": 718,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -983,7 +983,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      const el = this.$(`#${databaseId}`);",
-    "lineNumber": 720,
+    "lineNumber": 725,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -992,7 +992,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 723,
+    "lineNumber": 728,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1001,7 +1001,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        lastSeenEl.insertBefore(this.$(`#${oldestUnread.get('id')}`));",
-    "lineNumber": 900,
+    "lineNumber": 905,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1010,7 +1010,7 @@
     "rule": "jQuery-insertBefore(",
     "path": "js/views/conversation_view.js",
     "line": "        lastSeenEl.insertBefore(this.$(`#${oldestUnread.get('id')}`));",
-    "lineNumber": 900,
+    "lineNumber": 905,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1019,7 +1019,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.bar-container').show();",
-    "lineNumber": 955,
+    "lineNumber": 960,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1028,7 +1028,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "          this.$('.bar-container').hide();",
-    "lineNumber": 967,
+    "lineNumber": 972,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1037,7 +1037,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        const el = this.$(`#${message.id}`);",
-    "lineNumber": 1064,
+    "lineNumber": 1069,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1046,7 +1046,7 @@
     "rule": "jQuery-prepend(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$el.prepend(dialog.el);",
-    "lineNumber": 1137,
+    "lineNumber": 1142,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1055,7 +1055,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 1160,
+    "lineNumber": 1165,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1064,7 +1064,7 @@
     "rule": "jQuery-prepend(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$el.prepend(dialog.el);",
-    "lineNumber": 1188,
+    "lineNumber": 1193,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1073,7 +1073,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      view.$el.insertBefore(this.$('.panel').first());",
-    "lineNumber": 1323,
+    "lineNumber": 1328,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1082,7 +1082,7 @@
     "rule": "jQuery-insertBefore(",
     "path": "js/views/conversation_view.js",
     "line": "      view.$el.insertBefore(this.$('.panel').first());",
-    "lineNumber": 1323,
+    "lineNumber": 1328,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1091,7 +1091,7 @@
     "rule": "jQuery-prepend(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$el.prepend(dialog.el);",
-    "lineNumber": 1401,
+    "lineNumber": 1406,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1100,7 +1100,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send').prepend(this.quoteView.el);",
-    "lineNumber": 1571,
+    "lineNumber": 1576,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1109,7 +1109,7 @@
     "rule": "jQuery-prepend(",
     "path": "js/views/conversation_view.js",
     "line": "      this.$('.send').prepend(this.quoteView.el);",
-    "lineNumber": 1571,
+    "lineNumber": 1576,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1118,7 +1118,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 1595,
+    "lineNumber": 1600,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1127,7 +1127,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.bottom-bar form').submit();",
-    "lineNumber": 1650,
+    "lineNumber": 1655,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1136,7 +1136,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      const $attachmentPreviews = this.$('.attachment-previews');",
-    "lineNumber": 1659,
+    "lineNumber": 1664,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1145,7 +1145,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.panel').css('display') === 'none'",
-    "lineNumber": 1690,
+    "lineNumber": 1695,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1226,7 +1226,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 219,
+    "lineNumber": 221,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1235,7 +1235,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 225,
+    "lineNumber": 227,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1244,7 +1244,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 233,
+    "lineNumber": 235,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1253,7 +1253,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 239,
+    "lineNumber": 241,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1262,7 +1262,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 245,
+    "lineNumber": 247,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1271,7 +1271,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 251,
+    "lineNumber": 253,
     "reasonCategory": "usageTrusted",
     "updated": "2019-01-04T20:24:04.674Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1280,7 +1280,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/file_input_view.js",
     "line": "      toast.$el.insertAfter(this.$el);",
-    "lineNumber": 257,
+    "lineNumber": 259,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T03:04:48.403Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -2343,7 +2343,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 785,
+    "lineNumber": 794,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -2351,7 +2351,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 810,
+    "lineNumber": 819,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
