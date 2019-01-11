@@ -2165,6 +2165,7 @@
         message: i18n(message, conversation.getTitle()),
         messageSentAt: Date.now(),
         title: i18n(title),
+        isFriendRequest: true,
       });
     },
 
