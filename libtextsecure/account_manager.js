@@ -99,6 +99,12 @@
     async deviceNameIsEncrypted() {
       await textsecure.storage.user.setDeviceNameEncrypted();
     },
+    async maybeDeleteSignalingKey() {
+      const key = await textsecure.storage.user.getSignalingKey();
+      if (key) {
+        await this.server.removeSignalingKey();
+      }
+    },
     registerSingleDevice(number, verificationCode) {
       const registerKeys = this.server.registerKeys.bind(this.server);
       const createAccount = this.createAccount.bind(this);
@@ -400,7 +406,6 @@
       options = {}
     ) {
       const { accessKey } = options;
-      const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
       let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
       password = password.substring(0, password.length - 2);
       const registrationId = libsignal.KeyHelper.generateRegistrationId();
@@ -417,7 +422,6 @@
         number,
         verificationCode,
         password,
-        signalingKey,
         registrationId,
         encryptedDeviceName,
         { accessKey }
@@ -441,7 +445,6 @@
 
       await Promise.all([
         textsecure.storage.remove('identityKey'),
-        textsecure.storage.remove('signaling_key'),
         textsecure.storage.remove('password'),
         textsecure.storage.remove('registrationId'),
         textsecure.storage.remove('number_id'),
@@ -464,7 +467,6 @@
       });
 
       await textsecure.storage.put('identityKey', identityKeyPair);
-      await textsecure.storage.put('signaling_key', signalingKey);
       await textsecure.storage.put('password', password);
       await textsecure.storage.put('registrationId', registrationId);
       if (profileKey) {

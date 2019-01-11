@@ -274,8 +274,18 @@ MessageReceiver.prototype.extend({
       return;
     }
 
-    const promise = textsecure.crypto
-      .decryptWebsocketMessage(request.body, this.signalingKey)
+    let promise;
+    const headers = request.headers || [];
+    if (headers.includes('X-Signal-Key: true')) {
+      promise = textsecure.crypto.decryptWebsocketMessage(
+        request.body,
+        this.signalingKey
+      );
+    } else {
+      promise = Promise.resolve(request.body.toArrayBuffer());
+    }
+
+    promise = promise
       .then(plaintext => {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
         // After this point, decoding errors are not the server's

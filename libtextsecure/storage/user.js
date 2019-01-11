@@ -39,5 +39,9 @@
     getDeviceNameEncrypted() {
       return textsecure.storage.get('deviceNameEncrypted');
     },
+
+    getSignalingKey() {
+      return textsecure.storage.get('signaling_key');
+    },
   };
 })();
