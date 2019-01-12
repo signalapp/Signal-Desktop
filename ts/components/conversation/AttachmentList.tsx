@@ -68,7 +68,9 @@ export class AttachmentList extends React.Component<Props> {
                   width={IMAGE_WIDTH}
                   url={getUrl(attachment)}
                   closeButton={true}
-                  onClick={onClickAttachment}
+                  onClick={
+                    attachments.length > 1 ? onClickAttachment : undefined
+                  }
                   onClickClose={onCloseAttachment}
                 />
               );

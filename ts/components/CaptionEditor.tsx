@@ -17,6 +17,44 @@ interface Props {
 }
 
 export class CaptionEditor extends React.Component<Props> {
+  private handleKeyUpBound: () => void;
+  private setFocusBound: () => void;
+  private captureRefBound: () => void;
+  private inputRef: React.Ref<HTMLInputElement> | null;
+
+  constructor(props: Props) {
+    super(props);
+
+    this.handleKeyUpBound = this.handleKeyUp.bind(this);
+    this.setFocusBound = this.setFocus.bind(this);
+    this.captureRefBound = this.captureRef.bind(this);
+    this.inputRef = null;
+  }
+
+  public handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
+    const { close } = this.props;
+
+    if (close && (event.key === 'Escape' || event.key === 'Enter')) {
+      close();
+    }
+  }
+
+  public setFocus() {
+    if (this.inputRef) {
+      // @ts-ignore
+      this.inputRef.focus();
+    }
+  }
+
+  public captureRef(ref: React.Ref<HTMLInputElement>) {
+    this.inputRef = ref;
+
+    // Forcing focus after a delay due to some focus contention with ConversationView
+    setTimeout(() => {
+      this.setFocus();
+    }, 200);
+  }
+
   public renderObject() {
     const { url, i18n, attachment } = this.props;
     const { contentType } = attachment || { contentType: null };
@@ -48,7 +86,11 @@ export class CaptionEditor extends React.Component<Props> {
     const { caption, i18n, close, onChangeCaption } = this.props;
 
     return (
-      <div className="module-caption-editor">
+      <div
+        role="dialog"
+        onClick={this.setFocusBound}
+        className="module-caption-editor"
+      >
         <div
           role="button"
           onClick={close}
@@ -61,6 +103,8 @@ export class CaptionEditor extends React.Component<Props> {
           <div className="module-caption-editor__add-caption-button" />
           <input
             type="text"
+            ref={this.captureRefBound}
+            onKeyUp={close ? this.handleKeyUpBound : undefined}
             value={caption || ''}
             maxLength={200}
             placeholder={i18n('addACaption')}
