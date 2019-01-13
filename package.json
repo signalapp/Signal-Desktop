@@ -206,7 +206,8 @@
         "libnss3",
         "libasound2",
         "libxss1"
-      ]
+      ],
+      "fpm": ["--before-install=preinst.sh"]
     },
     "files": [
       "package.json",
