@@ -12,13 +12,11 @@ describe('Attachment', () => {
     it('should sanitize left-to-right order override character', async () => {
       const input = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\u202Dfig.exe',
         size: 1111,
       };
       const expected = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\uFFFDfig.exe',
         size: 1111,
       };
@@ -30,13 +28,11 @@ describe('Attachment', () => {
     it('should sanitize right-to-left order override character', async () => {
       const input = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\u202Efig.exe',
         size: 1111,
       };
       const expected = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\uFFFDfig.exe',
         size: 1111,
       };
@@ -48,13 +44,11 @@ describe('Attachment', () => {
     it('should sanitize multiple override characters', async () => {
       const input = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\u202e\u202dlol\u202efig.exe',
         size: 1111,
       };
       const expected = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\uFFFD\uFFFDlol\uFFFDfig.exe',
         size: 1111,
       };
@@ -72,7 +66,6 @@ describe('Attachment', () => {
       fileName => {
         const input = {
           contentType: 'image/jpeg',
-          data: null,
           fileName,
           size: 1111,
         };
@@ -131,7 +124,6 @@ describe('Attachment', () => {
     it('should remove existing schema version', () => {
       const input = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'foo.jpg',
         size: 1111,
         schemaVersion: 1,
@@ -139,7 +131,6 @@ describe('Attachment', () => {
 
       const expected = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'foo.jpg',
         size: 1111,
       };

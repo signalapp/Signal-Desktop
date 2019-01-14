@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Emojify } from './Emojify';
 import { Avatar } from '../Avatar';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -15,12 +15,8 @@ interface TimerOption {
   value: number;
 }
 
-interface Trigger {
-  handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-}
-
 interface Props {
-  i18n: Localizer;
+  i18n: LocalizerType;
   isVerified: boolean;
   name?: string;
   id: string;
@@ -46,24 +42,19 @@ interface Props {
 }
 
 export class ConversationHeader extends React.Component<Props> {
-  public captureMenuTriggerBound: (trigger: any) => void;
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
-  public menuTriggerRef: Trigger | null;
+  public menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: Props) {
     super(props);
 
-    this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
+    this.menuTriggerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
-    this.menuTriggerRef = null;
   }
 
-  public captureMenuTrigger(triggerRef: Trigger) {
-    this.menuTriggerRef = triggerRef;
-  }
   public showMenu(event: React.MouseEvent<HTMLDivElement>) {
-    if (this.menuTriggerRef) {
-      this.menuTriggerRef.handleContextClick(event);
+    if (this.menuTriggerRef.current) {
+      this.menuTriggerRef.current.handleContextClick(event);
     }
   }
 
@@ -134,12 +125,14 @@ export class ConversationHeader extends React.Component<Props> {
       profileName,
     } = this.props;
 
+    const conversationType = isGroup ? 'group' : 'direct';
+
     return (
       <span className="module-conversation-header__avatar">
         <Avatar
           avatarPath={avatarPath}
           color={color}
-          conversationType={isGroup ? 'group' : 'direct'}
+          conversationType={conversationType}
           i18n={i18n}
           noteToSelf={isMe}
           name={name}
@@ -176,7 +169,7 @@ export class ConversationHeader extends React.Component<Props> {
     }
 
     return (
-      <ContextMenuTrigger id={triggerId} ref={this.captureMenuTriggerBound}>
+      <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
         <div
           role="button"
           onClick={this.showMenuBound}
@@ -186,7 +179,6 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  /* tslint:disable:jsx-no-lambda react-this-binding-issue */
   public renderMenu(triggerId: string) {
     const {
       i18n,
@@ -235,10 +227,10 @@ export class ConversationHeader extends React.Component<Props> {
       </ContextMenu>
     );
   }
-  /* tslint:enable */
 
   public render() {
     const { id } = this.props;
+    const triggerId = `conversation-${id}`;
 
     return (
       <div className="module-conversation-header">
@@ -250,8 +242,8 @@ export class ConversationHeader extends React.Component<Props> {
           </div>
         </div>
         {this.renderExpirationLength()}
-        {this.renderGear(id)}
-        {this.renderMenu(id)}
+        {this.renderGear(triggerId)}
+        {this.renderMenu(triggerId)}
       </div>
     );
   }

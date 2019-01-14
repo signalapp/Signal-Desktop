@@ -1,12 +1,14 @@
-/* global _: false */
-/* global Backbone: false */
-/* global libphonenumber: false */
-
-/* global ConversationController: false */
-/* global libsignal: false */
-/* global storage: false */
-/* global textsecure: false */
-/* global Whisper: false */
+/* global
+  _,
+  i18n,
+  Backbone,
+  libphonenumber,
+  ConversationController,
+  libsignal,
+  storage,
+  textsecure,
+  Whisper
+*/
 
 /* eslint-disable more/no-then */
 
@@ -138,6 +140,13 @@
 
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
+
+      // Keep props ready
+      const generateProps = () => {
+        this.cachedProps = this.getProps();
+      };
+      this.on('change', generateProps);
+      generateProps();
     },
 
     isMe() {
@@ -292,40 +301,37 @@
     },
 
     format() {
+      return this.cachedProps;
+    },
+    getProps() {
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
       const color = this.getColor();
-
-      return {
-        phoneNumber: format(this.id, {
-          ourRegionCode: regionCode,
-        }),
-        color,
-        avatarPath: this.getAvatarPath(),
-        name: this.getName(),
-        profileName: this.getProfileName(),
-        title: this.getTitle(),
-      };
-    },
-    getPropsForListItem() {
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
       const result = {
-        ...this.format(),
+        id: this.id,
+
+        activeAt: this.get('active_at'),
+        avatarPath: this.getAvatarPath(),
+        color,
+        type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
-        conversationType: this.isPrivate() ? 'direct' : 'group',
-
-        lastUpdated: this.get('timestamp'),
-        unreadCount: this.get('unreadCount') || 0,
-        isSelected: this.isSelected,
-
         isTyping: typingKeys.length > 0,
+        lastUpdated: this.get('timestamp'),
+        name: this.getName(),
+        profileName: this.getProfileName(),
+        timestamp: this.get('timestamp'),
+        title: this.getTitle(),
+        unreadCount: this.get('unreadCount') || 0,
+
+        phoneNumber: format(this.id, {
+          ourRegionCode: regionCode,
+        }),
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
         },
-
-        onClick: () => this.trigger('select', this),
       };
 
       return result;
@@ -572,8 +578,8 @@
     onMemberVerifiedChange() {
       // If the verified state of a member changes, our aggregate state changes.
       // We trigger both events to replicate the behavior of Backbone.Model.set()
-      this.trigger('change:verified');
-      this.trigger('change');
+      this.trigger('change:verified', this);
+      this.trigger('change', this);
     },
     toggleVerified() {
       if (this.isVerified()) {
@@ -1798,7 +1804,7 @@
       if (this.isPrivate()) {
         return this.get('name');
       }
-      return this.get('name') || 'Unknown group';
+      return this.get('name') || i18n('unknownGroup');
     },
 
     getTitle() {
@@ -1990,14 +1996,14 @@
         if (!record) {
           // User was not previously typing before. State change!
           this.trigger('typing-update');
-          this.trigger('change');
+          this.trigger('change', this);
         }
       } else {
         delete this.contactTypingTimers[identifier];
         if (record) {
           // User was previously typing, and is no longer. State change!
           this.trigger('typing-update');
-          this.trigger('change');
+          this.trigger('change', this);
         }
       }
     },
@@ -2012,7 +2018,7 @@
 
         // User was previously typing, but timed out or we received message. State change!
         this.trigger('typing-update');
-        this.trigger('change');
+        this.trigger('change', this);
       }
     },
   });
@@ -2033,21 +2039,6 @@
         )
       );
       this.reset([]);
-    },
-
-    async search(providedQuery) {
-      let query = providedQuery.trim().toLowerCase();
-      query = query.replace(/[+-.()]*/g, '');
-
-      if (query.length === 0) {
-        return;
-      }
-
-      const collection = await window.Signal.Data.searchConversations(query, {
-        ConversationCollection: Whisper.ConversationCollection,
-      });
-
-      this.reset(collection.models);
     },
   });
 

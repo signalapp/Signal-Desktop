@@ -36,3 +36,21 @@ export function parse(
 
   return phoneNumber;
 }
+
+export function normalize(
+  phoneNumber: string,
+  options: { regionCode: string }
+): string | undefined {
+  const { regionCode } = options;
+  try {
+    const parsedNumber = instance.parse(phoneNumber, regionCode);
+
+    if (instance.isValidNumber(parsedNumber)) {
+      return instance.format(parsedNumber, PhoneNumberFormat.E164);
+    }
+
+    return;
+  } catch (error) {
+    return;
+  }
+}

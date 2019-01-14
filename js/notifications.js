@@ -39,10 +39,6 @@
       this.fastUpdate = this.update;
       this.update = _.debounce(this.update, 1000);
     },
-    onClick(conversationId) {
-      const conversation = ConversationController.get(conversationId);
-      this.trigger('click', conversation);
-    },
     update() {
       if (this.lastNotification) {
         this.lastNotification.close();
@@ -148,7 +144,8 @@
         tag: isNotificationGroupingSupported ? 'signal' : undefined,
         silent: !status.shouldPlayNotificationSound,
       });
-      notification.onclick = () => this.onClick(last.conversationId);
+      notification.onclick = () =>
+        this.trigger('click', last.conversationId, last.id);
       this.lastNotification = notification;
 
       // We continue to build up more and more messages for our notifications

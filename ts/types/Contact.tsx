@@ -120,13 +120,13 @@ export function contactSelector(
   };
 }
 
-export function getName(contact: Contact): string | null {
+export function getName(contact: Contact): string | undefined {
   const { name, organization } = contact;
-  const displayName = (name && name.displayName) || null;
-  const givenName = (name && name.givenName) || null;
-  const familyName = (name && name.familyName) || null;
+  const displayName = (name && name.displayName) || undefined;
+  const givenName = (name && name.givenName) || undefined;
+  const familyName = (name && name.familyName) || undefined;
   const backupName =
-    (givenName && familyName && `${givenName} ${familyName}`) || null;
+    (givenName && familyName && `${givenName} ${familyName}`) || undefined;
 
   return displayName || organization || backupName || givenName || familyName;
 }

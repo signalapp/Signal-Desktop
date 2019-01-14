@@ -5,7 +5,7 @@ import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';
 
-import { Localizer, RenderTextCallback } from '../../types/Util';
+import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
 
 interface Props {
   text: string;
@@ -13,10 +13,10 @@ interface Props {
   disableJumbomoji?: boolean;
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
   disableLinks?: boolean;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
-const renderNewLines: RenderTextCallback = ({
+const renderNewLines: RenderTextCallbackType = ({
   text: textWithNewLines,
   key,
 }) => <AddNewLines key={key} text={textWithNewLines} />;
@@ -28,11 +28,11 @@ const renderEmoji = ({
   sizeClass,
   renderNonEmoji,
 }: {
-  i18n: Localizer;
+  i18n: LocalizerType;
   text: string;
   key: number;
   sizeClass?: SizeClassType;
-  renderNonEmoji: RenderTextCallback;
+  renderNonEmoji: RenderTextCallbackType;
 }) => (
   <Emojify
     i18n={i18n}

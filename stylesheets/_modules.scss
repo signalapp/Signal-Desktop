@@ -2096,19 +2096,64 @@
 
 .module-main-header {
   height: $header-height;
-  margin-left: 16px;
+  width: 300px;
+
+  padding-left: 16px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  border-bottom: 1px solid $color-gray-15;
 }
 
-.module-main-header__app-name {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 300;
-  margin-left: 32px;
+.module-main-header__search {
+  margin-left: 12px;
+  position: relative;
+}
+
+.module-main-header__search__input {
+  height: 28px;
+  width: 228px;
+
+  border-radius: 14px;
+  border: solid 1px $color-gray-15;
+
+  padding-left: 30px;
+  padding-right: 30px;
+
   color: $color-gray-90;
+  font-size: 14px;
+
+  &::placeholder {
+    color: $color-gray-45;
+  }
+
+  &:focus {
+    border: solid 1px blue;
+    outline: none;
+  }
+}
+
+.module-main-header__search__icon {
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  height: 16px;
+  width: 16px;
+
+  cursor: text;
+  @include color-svg('../images/search.svg', $color-gray-60);
+}
+
+.module-main-header__search__cancel-icon {
+  position: absolute;
+  right: 8px;
+  top: 7px;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  @include color-svg('../images/x-16.svg', $color-gray-60);
 }
 
 // Module: Image
@@ -2769,6 +2814,216 @@
 }
 .module-spinner__arc--small-incoming {
   background-color: $color-white;
+}
+
+// Module: Highlighted Message Body
+
+.module-message-body__highlight {
+  font-weight: bold;
+}
+
+// Module: Search Results
+
+.module-search-results {
+  overflow-y: scroll;
+  max-height: 100%;
+}
+
+.module-search-results__conversations-header {
+  height: 36px;
+  line-height: 36px;
+
+  margin-left: 16px;
+
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0;
+}
+
+.module-search-results__no-results {
+  margin-top: 27px;
+  width: 100%;
+  text-align: center;
+}
+
+.module-search-results__contacts-header {
+  height: 36px;
+  line-height: 36px;
+
+  margin-left: 16px;
+
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0;
+}
+
+.module-search-results__messages-header {
+  height: 36px;
+  line-height: 36px;
+
+  margin-left: 16px;
+
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0;
+}
+
+// Module: Message Search Result
+
+.module-message-search-result {
+  padding: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  min-height: 64px;
+  max-width: 300px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  cursor: pointer;
+  &:hover {
+    background-color: $color-gray-05;
+  }
+}
+
+.module-message-search-result--is-selected {
+  background-color: $color-gray-05;
+}
+
+.module-message-search-result__text {
+  flex-grow: 1;
+  margin-left: 12px;
+  // parent - 48px (for avatar) - 16px (our right margin)
+  max-width: calc(100% - 64px);
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.module-message-search-result__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-message-search-result__header__from {
+  flex-grow: 1;
+  flex-shrink: 1;
+  font-size: 14px;
+  line-height: 18px;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  color: $color-gray-90;
+}
+
+.module-message-search-result__header__timestamp {
+  flex-shrink: 0;
+  margin-left: 6px;
+
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  text-transform: uppercase;
+
+  color: $color-gray-60;
+}
+
+.module-message-search-result__header__name {
+  font-weight: 300;
+}
+.module-mesages-search-result__header__group {
+  font-weight: 300;
+}
+
+.module-message-search-result__body {
+  margin-top: 1px;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  font-size: 13px;
+
+  color: $color-gray-60;
+
+  max-height: 3.6em;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
+  //   ... as the truncation indicator. That's not a solution that works well for
+  //   all languages. More resources:
+  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
+}
+
+// Module: Left Pane
+
+.module-left-pane {
+  background-color: $color-gray-02;
+  border-right: 1px solid $color-gray-15;
+
+  display: inline-flex;
+  flex-direction: column;
+
+  width: 300px;
+  height: 100%;
+}
+
+.module-left-pane__header {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.module-left-pane__list {
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  overflow-y: scroll;
+}
+
+// Module: Start New Conversation
+
+.module-start-new-conversation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-gray-05;
+  }
+}
+
+.module-start-new-conversation__content {
+  margin-left: 12px;
+}
+
+.module-start-new-conversation__number {
+  font-weight: 300;
+}
+
+.module-start-new-conversation__text {
+  margin-top: 3px;
+  font-style: italic;
+  color: $color-gray-60;
+  font-size: 13px;
 }
 
 // Third-party module: react-contextmenu

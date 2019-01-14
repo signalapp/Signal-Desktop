@@ -162,7 +162,6 @@ describe('Attachment', () => {
 
     it('should return true for legacy Android voice message attachment', () => {
       const attachment: Attachment.Attachment = {
-        fileName: null,
         data: stringToArrayBuffer('voice message'),
         contentType: MIME.AUDIO_MP3,
       };

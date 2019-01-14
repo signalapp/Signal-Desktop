@@ -329,8 +329,11 @@ function isChunkSneaky(chunk) {
 function isLinkSneaky(link) {
   const domain = getDomain(link);
 
-  // This is necesary because getDomain returns domains in punycode form
-  const unicodeDomain = nodeUrl.domainToUnicode(domain);
+  // This is necesary because getDomain returns domains in punycode form. We check whether
+  //   it's available for the StyleGuide.
+  const unicodeDomain = nodeUrl.domainToUnicode
+    ? nodeUrl.domainToUnicode(domain)
+    : domain;
 
   const chunks = unicodeDomain.split('.');
   for (let i = 0, max = chunks.length; i < max; i += 1) {

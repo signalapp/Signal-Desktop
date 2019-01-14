@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Emojify } from './Emojify';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
   phoneNumber: string;
   name?: string;
   profileName?: string;
-  i18n: Localizer;
+  i18n: LocalizerType;
   module?: string;
 }
 

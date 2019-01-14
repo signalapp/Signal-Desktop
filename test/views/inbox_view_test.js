@@ -7,6 +7,11 @@ describe('InboxView', () => {
   before(async () => {
     ConversationController.reset();
     await ConversationController.load();
+    await textsecure.storage.user.setNumberAndDeviceId(
+      '18005554444',
+      1,
+      'Home Office'
+    );
     await ConversationController.getOrCreateAndWait(
       textsecure.storage.user.getNumber(),
       'private'

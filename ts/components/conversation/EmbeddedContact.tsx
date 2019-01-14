@@ -1,16 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Avatar } from '../Avatar';
-import { Spinner } from '../Spinner';
-import { Contact, getName } from '../../types/Contact';
+import { Contact } from '../../types/Contact';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
+import {
+  renderAvatar,
+  renderContactShorthand,
+  renderName,
+} from './_contactUtil';
 
 interface Props {
   contact: Contact;
   hasSignalAccount: boolean;
-  i18n: Localizer;
+  i18n: LocalizerType;
   isIncoming: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
@@ -52,89 +55,4 @@ export class EmbeddedContact extends React.Component<Props> {
       </div>
     );
   }
-}
-
-// Note: putting these below the main component so style guide picks up EmbeddedContact
-
-export function renderAvatar({
-  contact,
-  i18n,
-  size,
-  direction,
-}: {
-  contact: Contact;
-  i18n: Localizer;
-  size: number;
-  direction?: string;
-}) {
-  const { avatar } = contact;
-
-  const avatarPath = avatar && avatar.avatar && avatar.avatar.path;
-  const pending = avatar && avatar.avatar && avatar.avatar.pending;
-  const name = getName(contact) || '';
-
-  if (pending) {
-    return (
-      <div className="module-embedded-contact__spinner-container">
-        <Spinner small={size < 50} direction={direction} />
-      </div>
-    );
-  }
-
-  return (
-    <Avatar
-      avatarPath={avatarPath}
-      color="grey"
-      conversationType="direct"
-      i18n={i18n}
-      name={name}
-      size={size}
-    />
-  );
-}
-
-export function renderName({
-  contact,
-  isIncoming,
-  module,
-}: {
-  contact: Contact;
-  isIncoming: boolean;
-  module: string;
-}) {
-  return (
-    <div
-      className={classNames(
-        `module-${module}__contact-name`,
-        isIncoming ? `module-${module}__contact-name--incoming` : null
-      )}
-    >
-      {getName(contact)}
-    </div>
-  );
-}
-
-export function renderContactShorthand({
-  contact,
-  isIncoming,
-  module,
-}: {
-  contact: Contact;
-  isIncoming: boolean;
-  module: string;
-}) {
-  const { number: phoneNumber, email } = contact;
-  const firstNumber = phoneNumber && phoneNumber[0] && phoneNumber[0].value;
-  const firstEmail = email && email[0] && email[0].value;
-
-  return (
-    <div
-      className={classNames(
-        `module-${module}__contact-method`,
-        isIncoming ? `module-${module}__contact-method--incoming` : null
-      )}
-    >
-      {firstNumber || firstEmail}
-    </div>
-  );
 }
