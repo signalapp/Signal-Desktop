@@ -3165,7 +3165,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3243,
+    "lineNumber": 3232,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
