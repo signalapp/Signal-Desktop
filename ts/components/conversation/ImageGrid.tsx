@@ -50,7 +50,7 @@ export class ImageGrid extends React.Component<Props> {
       return null;
     }
 
-    if (attachments.length === 1) {
+    if (attachments.length === 1 || !areAllAttachmentsVisual(attachments)) {
       const { height, width } = getImageDimensions(attachments[0]);
 
       return (
@@ -324,6 +324,13 @@ export function isImage(attachments?: Array<AttachmentType>) {
   );
 }
 
+export function isImageAttachment(attachment: AttachmentType) {
+  return (
+    attachment &&
+    attachment.contentType &&
+    isImageTypeSupported(attachment.contentType)
+  );
+}
 export function hasImage(attachments?: Array<AttachmentType>) {
   return attachments && attachments[0] && attachments[0].url;
 }
@@ -372,6 +379,22 @@ function getImageDimensions(attachment: AttachmentType): DimensionsType {
     width: targetWidth,
     height: Math.max(Math.min(MAX_HEIGHT, candidateHeight), MIN_HEIGHT),
   };
+}
+
+function areAllAttachmentsVisual(attachments?: Array<AttachmentType>): boolean {
+  if (!attachments) {
+    return false;
+  }
+
+  const max = attachments.length;
+  for (let i = 0; i < max; i += 1) {
+    const attachment = attachments[i];
+    if (!isImageAttachment(attachment) || !isVideoAttachment(attachment)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export function getGridDimensions(
