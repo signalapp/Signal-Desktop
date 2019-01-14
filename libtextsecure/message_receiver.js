@@ -22,7 +22,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
-  this.lokiserver = window.LokiAPI;
+  this.lokiMessageAPI = window.LokiMessageAPI;
 
   if (!options.serverTrustRoot) {
     throw new Error('Server trust root is required!');
@@ -67,7 +67,7 @@ MessageReceiver.prototype.extend({
     }
 
     this.hasConnected = true;
-    this.httpPollingResource = new HttpResource(this.lokiserver, {
+    this.httpPollingResource = new HttpResource(this.lokiMessageAPI, {
       handleRequest: this.handleRequest.bind(this),
     });
     this.httpPollingResource.startPolling((connected) => {

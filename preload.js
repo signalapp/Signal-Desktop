@@ -265,12 +265,18 @@ window.WebAPI = initializeWebAPI({
   proxyUrl: config.proxyUrl,
 });
 
-const { LokiServer } = require('./js/modules/loki_message_api');
+const { LokiSnodeAPI } = require('./js/modules/loki_snode_api');
 
-window.LokiAPI = new LokiServer({
-  urls: [config.serverUrl],
-  messageServerPort: config.messageServerPort,
+window.LokiSnodeAPI = new LokiSnodeAPI({
+  url: config.serverUrl,
   swarmServerPort: config.swarmServerPort,
+});
+
+const { LokiMessageAPI } = require('./js/modules/loki_message_api');
+
+window.LokiMessageAPI = new LokiMessageAPI({
+  url: config.serverUrl,
+  messageServerPort: config.messageServerPort,
 });
 
 window.mnemonic = require('./libloki/mnemonic');

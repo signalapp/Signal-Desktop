@@ -1200,9 +1200,6 @@
 
         // Add the message sending on another queue so that our UI doesn't get blocked
         this.queueMessageSend(async () => {
-          if (this.get('swarmNodes').length === 0) {
-            await window.libloki.replenishSwarm(destination);
-          }
           message.send(
             this.wrapSend(
               sendFunction(
