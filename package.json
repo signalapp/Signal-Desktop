@@ -41,7 +41,7 @@
     "styleguide": "styleguidist server"
   },
   "dependencies": {
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#ed4f4d179ac010c6347b291cbd4c2ebe5c773741",
+    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#36149a4b03ccf11ec18b9205e1bfd9056015cf07",
     "@sindresorhus/is": "0.8.0",
     "backbone": "1.3.3",
     "blob-util": "1.3.0",
