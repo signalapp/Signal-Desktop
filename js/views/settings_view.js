@@ -58,11 +58,16 @@
     },
     events: {
       change: 'change',
+      input: 'input',
     },
     change(e) {
       this.value = e.target.value;
       this.setFn(this.value);
       window.log.info('message-ttl-setting changed to', this.value);
+    },
+    input(e) {
+      this.value = e.target.value;
+      this.$('label').html(`${this.value} Hours`);
     },
     populate() {
       this.$('input').val(this.value);
@@ -202,6 +207,7 @@
         readReceiptSettingDescription: i18n('readReceiptSettingDescription'),
         messageTTL: i18n('messageTTL'),
         messageTTLSettingDescription: i18n('messageTTLSettingDescription'),
+        messageTTLSettingWarning: i18n('messageTTLSettingWarning'),
         spellCheckHeader: i18n('spellCheck'),
         spellCheckDescription: i18n('spellCheckDescription'),
         blockedHeader: 'Blocked Users',

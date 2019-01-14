@@ -1084,8 +1084,12 @@
     "description": "Title of the Message TTL setting"
   },
   "messageTTLSettingDescription": {
-    "message": "Time to live in hours (min: 12, max: 96)",
+    "message": "Time to live (how long the recipient will have to collect their messages)",
     "description": "Description of the time to live setting"
+  },
+  "messageTTLSettingWarning": {
+    "message": "Warning! Lowering the TTL could result in messages being lost if the recipient doesn't collect them in time!",
+    "description": "Warning for the time to live setting"
   },
   "notificationSettingsDialog": {
     "message": "When messages arrive, display notifications that reveal:",
