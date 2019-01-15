@@ -96,7 +96,6 @@ class LokiMessageAPI {
   }
 
   async retrieveMessages(callback) {
-    let ourSwarmNodes = await window.LokiSnodeAPI.getOurSwarmNodes();
     const ourKey = window.textsecure.storage.user.getNumber();
     let completedRequests = 0;
 
@@ -126,9 +125,10 @@ class LokiMessageAPI {
         response = await fetch(options.url, fetchOptions);
       } catch (e) {
         // TODO: Maybe we shouldn't immediately delete?
+        // And differentiate between different connectivity issues
         log.error(options.type, options.url, 0, `Error retrieving messages from ${nodeUrl}`);
         window.LokiSnodeAPI.unreachableNode(ourKey, nodeUrl);
-        throw HTTPError('fetch error', 0, e.toString());
+        return;
       }
 
       let result;
@@ -144,19 +144,20 @@ class LokiMessageAPI {
       }
       completedRequests += 1;
 
-      if (response.status >= 0 && response.status < 400) {
+      if (response.status === 200) {
         if (result.lastHash) {
           window.LokiSnodeAPI.updateLastHash(nodeUrl, result.lastHash);
+          callback(result.messages);
         }
-        return result;
+        return;
       }
+      // Handle error from snode
       log.error(options.type, options.url, response.status, 'Error');
-      throw HTTPError('retrieveMessages: error response', response.status, result);
     }
 
     while (completedRequests < MINIMUM_SUCCESSFUL_REQUESTS) {
       const remainingRequests = MINIMUM_SUCCESSFUL_REQUESTS - completedRequests;
-      ourSwarmNodes = await window.LokiSnodeAPI.getOurSwarmNodes();
+      const ourSwarmNodes = await window.LokiSnodeAPI.getOurSwarmNodes();
       if (Object.keys(ourSwarmNodes).length < remainingRequests) {
         if (completedRequests !== 0) {
           // TODO: Decide how to handle some completed requests but not enough
@@ -164,14 +165,11 @@ class LokiMessageAPI {
         return;
       }
 
-      const requests = await Promise.all(
+      await Promise.all(
         Object.entries(ourSwarmNodes)
           .splice(0, remainingRequests)
-          .map(([nodeUrl, lastHash]) => doRequest(nodeUrl, lastHash).catch(() => null))
+          .map(([nodeUrl, lastHash]) => doRequest(nodeUrl, lastHash))
       );
-      // Requests is now an array of null for failed requests and the json for success
-      requests.filter(v => v !== null && 'messages' in v)
-        .forEach(v => callback(v.messages));
     }
   }
 }
