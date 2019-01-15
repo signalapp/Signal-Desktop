@@ -189,7 +189,7 @@
           onDeleteMessages: () => this.destroyMessages(),
           onResetSession: () => this.endSession(),
 
-          // These are view only and done update the Conversation model, so they
+          // These are view only and don't update the Conversation model, so they
           //   need a manual update call.
           onShowSafetyNumber: () => {
             this.showSafetyNumber();

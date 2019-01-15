@@ -49,6 +49,10 @@ const allSourceFiles = glob.sync(searchPattern, { nodir: true });
 const results: Array<ExceptionType> = [];
 
 const excludedFiles = [
+  // High-traffic files in our project
+  '^js/views/conversation_view.js',
+  '^js/views/file_input_view.js',
+
   // Generated files
   '^js/components.js',
   '^js/libtextsecure.js',
