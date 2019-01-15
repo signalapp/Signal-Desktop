@@ -1,4 +1,4 @@
-/* global , Whisper, storage, ConversationController */
+/* global , Whisper, storage */
 /* global textsecure: false */
 
 /* eslint-disable more/no-then */
@@ -13,24 +13,12 @@
   window.getBlockedNumbers = () => blockedNumbers;
 
   window.BlockedNumberController = {
-    getAll() {
-      try {
-        this.load();
-      } catch (e) {
-        window.log.warn(e);
-      }
-      return blockedNumbers;
-    },
     reset() {
       this.unblockAll();
       blockedNumbers.reset([]);
     },
-    load() {
+    refresh() {
       window.log.info('BlockedNumberController: starting initial fetch');
-
-      if (blockedNumbers.length) {
-        throw new Error('BlockedNumberController: Already loaded!');
-      }
 
       if (!storage) {
         throw new Error('BlockedNumberController: Could not load blocked numbers');
@@ -38,9 +26,7 @@
 
       // Add the numbers to the collection
       const numbers = storage.getBlockedNumbers();
-      blockedNumbers.add(
-        numbers.map(number => ({ number }))
-      );
+      blockedNumbers.reset(numbers.map(number => ({ number })));
     },
     block(number) {
       const ourNumber = textsecure.storage.user.getNumber();
@@ -54,7 +40,7 @@
       storage.addBlockedNumber(number);
 
       // Make sure we don't add duplicates
-      if (blockedNumbers.getNumber(number))
+      if (blockedNumbers.getModel(number))
         return;
 
       blockedNumbers.add({ number });
@@ -63,7 +49,7 @@
       storage.removeBlockedNumber(number);
 
       // Remove the model from our collection
-      const model = blockedNumbers.getNumber(number);
+      const model = blockedNumbers.getModel(number);
       if (model) {
         blockedNumbers.remove(model);
       }
