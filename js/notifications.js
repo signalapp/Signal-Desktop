@@ -102,10 +102,10 @@
         case SettingNames.COUNT:
           title = 'Loki Messenger';
 
-          if (messagesNotificationCount > 0) {
-            message = newMessageCountLabel;
-          } else if (last.isFriendRequest) {
+          if (last.isFriendRequest) {
             message = `Friend request ${last.friendRequestType}`;
+          } else if (messagesNotificationCount > 0) {
+            message = newMessageCountLabel;
           } else {
             message = '-';
           }
