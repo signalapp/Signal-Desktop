@@ -45,12 +45,13 @@ describe('Attachment', () => {
           data: stringToArrayBuffer('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         };
-        const timestamp = new Date(-moment().utcOffset() * 60 * 1000);
+        // Unix timestamp of start of year 2000 to fix odd sudo timezone bug
+        const timestamp = new Date(946684800000 - moment().utcOffset() * 60 * 1000);
         const actual = Attachment.getSuggestedFilename({
           attachment,
           timestamp,
         });
-        const expected = 'signal-attachment-1970-01-01-000000.mov';
+        const expected = 'signal-attachment-2000-01-01-000000.mov';
         assert.strictEqual(actual, expected);
       });
     });
