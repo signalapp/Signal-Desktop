@@ -1542,6 +1542,7 @@
         this.quoteView = null;
       }
       if (!this.quotedMessage) {
+        this.view.restoreBottomOffset();
         this.updateMessageFieldSize({});
         return;
       }
@@ -1565,16 +1566,18 @@
       this.quoteView = new Whisper.ReactWrapperView({
         className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
+        elCallback: el => this.$('.send').prepend(el),
         props: Object.assign({}, props, {
           withContentAbove: true,
           onClose: () => {
             this.setQuoteMessage(null);
           },
         }),
+        onInitialRender: () => {
+          this.view.restoreBottomOffset();
+          this.updateMessageFieldSize({});
+        },
       });
-
-      this.$('.send').prepend(this.quoteView.el);
-      this.updateMessageFieldSize({});
     },
 
     async sendMessage(e) {

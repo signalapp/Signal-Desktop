@@ -12,20 +12,43 @@
   window.Whisper.ReactWrapperView = Backbone.View.extend({
     className: 'react-wrapper',
     initialize(options) {
-      const { Component, props, onClose } = options;
+      const {
+        Component,
+        props,
+        onClose,
+        tagName,
+        className,
+        onInitialRender,
+        elCallback,
+      } = options;
       this.render();
+      if (elCallback) {
+        elCallback(this.el);
+      }
 
-      this.tagName = options.tagName;
-      this.className = options.className;
+      this.tagName = tagName;
+      this.className = className;
       this.Component = Component;
       this.onClose = onClose;
+      this.onInitialRender = onInitialRender;
 
       this.update(props);
+
+      this.hasRendered = false;
     },
     update(props) {
       const updatedProps = this.augmentProps(props);
       const reactElement = React.createElement(this.Component, updatedProps);
-      ReactDOM.render(reactElement, this.el);
+      ReactDOM.render(reactElement, this.el, () => {
+        if (this.hasRendered) {
+          return;
+        }
+
+        this.hasRendered = true;
+        if (this.onInitialRender) {
+          this.onInitialRender();
+        }
+      });
     },
     augmentProps(props) {
       return Object.assign({}, props, {

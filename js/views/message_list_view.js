@@ -70,6 +70,15 @@
     resetScrollPosition() {
       this.$el.scrollTop(this.scrollPosition - this.$el.outerHeight());
     },
+    restoreBottomOffset() {
+      if (_.isNumber(this.bottomOffset)) {
+        // + 10 is necessary to account for padding
+        const height = this.$el.height() + 10;
+
+        const topOfBottomScreen = this.el.scrollHeight - height;
+        this.$el.scrollTop(topOfBottomScreen - this.bottomOffset);
+      }
+    },
     scrollToBottomIfNeeded() {
       // This is counter-intuitive. Our current bottomOffset is reflective of what
       //   we last measured, not necessarily the current state. And this is called

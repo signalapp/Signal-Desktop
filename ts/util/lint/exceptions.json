@@ -1099,26 +1099,26 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
-    "line": "      this.$('.send').prepend(this.quoteView.el);",
-    "lineNumber": 1576,
+    "line": "        elCallback: el => this.$('.send').prepend(el),",
+    "lineNumber": 1569,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-12-15T02:21:20.921Z",
+    "updated": "2019-01-15T03:15:22.532Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-prepend(",
     "path": "js/views/conversation_view.js",
-    "line": "      this.$('.send').prepend(this.quoteView.el);",
-    "lineNumber": 1576,
+    "line": "        elCallback: el => this.$('.send').prepend(el),",
+    "lineNumber": 1569,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-12-15T02:21:20.921Z",
+    "updated": "2019-01-15T03:15:22.532Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-appendTo(",
     "path": "js/views/conversation_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 1600,
+    "lineNumber": 1603,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1127,7 +1127,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.bottom-bar form').submit();",
-    "lineNumber": 1655,
+    "lineNumber": 1658,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1136,7 +1136,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "      const $attachmentPreviews = this.$('.attachment-previews');",
-    "lineNumber": 1664,
+    "lineNumber": 1667,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1145,7 +1145,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_view.js",
     "line": "        this.$('.panel').css('display') === 'none'",
-    "lineNumber": 1695,
+    "lineNumber": 1698,
     "reasonCategory": "usageTrusted",
     "updated": "2018-12-15T02:21:20.921Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1683,7 +1683,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/message_list_view.js",
     "line": "        this.$messages.append(view.el);",
-    "lineNumber": 102,
+    "lineNumber": 111,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-14T18:51:15.180Z",
     "reasonDetail": "view.el is a known DOM element"
@@ -1692,7 +1692,7 @@
     "rule": "jQuery-prepend(",
     "path": "js/views/message_list_view.js",
     "line": "        this.$messages.prepend(view.el);",
-    "lineNumber": 105,
+    "lineNumber": 114,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-14T18:51:15.180Z",
     "reasonDetail": "view.el is a known DOM element"
@@ -1701,7 +1701,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/message_list_view.js",
     "line": "        const next = this.$(`#${this.collection.at(index + 1).id}`);",
-    "lineNumber": 108,
+    "lineNumber": 117,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-14T18:51:15.180Z",
     "reasonDetail": "Message ids are GUIDs, and therefore the resultant string for $() is an id"
@@ -1710,7 +1710,7 @@
     "rule": "jQuery-insertBefore(",
     "path": "js/views/message_list_view.js",
     "line": "          view.$el.insertBefore(next);",
-    "lineNumber": 111,
+    "lineNumber": 120,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-14T18:51:15.180Z",
     "reasonDetail": "next is a known DOM element"
@@ -1719,7 +1719,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/message_list_view.js",
     "line": "          view.$el.insertAfter(prev);",
-    "lineNumber": 113,
+    "lineNumber": 122,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-14T18:51:15.180Z",
     "reasonDetail": "prev is a known DOM element"
@@ -1728,7 +1728,7 @@
     "rule": "jQuery-insertBefore(",
     "path": "js/views/message_list_view.js",
     "line": "                view.$el.insertBefore(elements[i]);",
-    "lineNumber": 122,
+    "lineNumber": 131,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-14T18:51:15.180Z",
     "reasonDetail": "elements[i] is a known DOM element"
@@ -1737,7 +1737,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/message_list_view.js",
     "line": "            this.$messages.append(view.el);",
-    "lineNumber": 127,
+    "lineNumber": 136,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-14T18:51:15.180Z",
     "reasonDetail": "view.el is a known DOM element"
