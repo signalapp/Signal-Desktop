@@ -82,7 +82,7 @@
     initialize() {
       this.on('change:timestamp change:name change:number change:profileName', this.sort);
 
-      this.listenTo(conversations, 'add change:active_at', this.addActive);
+      this.listenTo(conversations, 'add change:active_at change:friendRequestStatus', this.addActive);
       this.listenTo(conversations, 'reset', () => this.reset([]));
 
       this.collator = new Intl.Collator();
