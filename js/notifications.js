@@ -100,8 +100,15 @@
       const last = this.last().toJSON();
       switch (userSetting) {
         case SettingNames.COUNT:
-          title = 'Signal';
-          message = newMessageCountLabel;
+          title = 'Loki Messenger';
+
+          if (messagesNotificationCount > 0) {
+            message = newMessageCountLabel;
+          } else if (last.isFriendRequest) {
+            message = `Friend request ${last.friendRequestType}`;
+          } else {
+            message = '-';
+          }
           break;
         case SettingNames.NAME: {
           const lastMessageTitle = last.title;
