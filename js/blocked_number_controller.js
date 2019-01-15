@@ -22,6 +22,7 @@
       return blockedNumbers;
     },
     reset() {
+      this.unblockAll();
       blockedNumbers.reset([]);
     },
     load() {
@@ -61,18 +62,15 @@
     unblock(number) {
       storage.removeBlockedNumber(number);
 
-      // Make sure we don't add duplicates
+      // Remove the model from our collection
       const model = blockedNumbers.getNumber(number);
       if (model) {
         blockedNumbers.remove(model);
       }
     },
     unblockAll() {
-      const all = blockedNumbers.models;
-      all.forEach(number => {
-        storage.removeBlockedNumber(number);
-        blockedNumbers.remove(number);
-      });
+      const numbers = blockedNumbers.map(m => m.get('number'));
+      numbers.forEach(n => this.unblock(n));
     },
     isBlocked(number) {
       return storage.isBlocked(number);
