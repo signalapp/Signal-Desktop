@@ -2298,7 +2298,7 @@
   height: 20px;
 
   z-index: 2;
-  @include color-svg('../images/x.svg', $color-black);
+  @include color-svg('../images/x-16.svg', $color-black);
 }
 
 .module-attachments__rail {
@@ -2416,7 +2416,7 @@
   width: 30px;
   height: 30px;
   z-index: 2;
-  @include color-svg('../images/x.svg', $color-white);
+  @include color-svg('../images/x-16.svg', $color-white);
 }
 
 .module-caption-editor__media-container {
@@ -2457,8 +2457,8 @@
 .module-caption-editor__bottom-bar {
   flex-grow: 0;
   flex-shrink: 0;
-  height: 3em;
-  padding: 0.5em;
+  height: 52px;
+  padding: 8px;
 
   display: inline-flex;
   flex-direction: row;
@@ -2468,23 +2468,23 @@
   margin-right: auto;
 }
 
-.module-caption-editor__add-caption-button {
-  display: inline-block;
-  margin-left: 6px;
-  height: 24px;
-  width: 24px;
-  margin-right: 6px;
-  @include color-svg('../images/add-caption-24.svg', $color-white);
+.module-caption-editor__input-container {
+  position: relative;
 }
 
 .module-caption-editor__caption-input {
-  height: 2em;
+  height: 36px;
   width: 40em;
-  border: 1px solid $color-white;
-  border-radius: 1em;
+
+  font-size: 14px;
   color: $color-white;
+
+  border: 1px solid $color-white;
+  border-radius: 18px;
   background-color: $color-black;
-  padding: 0.5em;
+  padding: 9px;
+  padding-left: 12px;
+  padding-right: 65px;
 
   &::placeholder {
     color: $color-white-07;
@@ -2493,6 +2493,54 @@
     border: 1px solid $color-signal-blue;
     outline: none;
   }
+}
+
+.module-caption-editor__save-button {
+  position: absolute;
+  background-color: $color-signal-blue;
+  color: $color-white;
+  cursor: pointer;
+
+  height: 28px;
+  border-radius: 15px;
+
+  padding: 5px;
+  padding-left: 12px;
+  padding-right: 12px;
+
+  right: 4px;
+  top: 4px;
+}
+
+// Module: Staged Placeholder Attachment
+
+.module-staged-placeholder-attachment {
+  margin: 1px;
+  border-radius: 4px;
+  border: 1px solid $color-gray-25;
+  height: 120px;
+  width: 120px;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    background: $color-gray-05;
+  }
+}
+
+.module-staged-placeholder-attachment__plus-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  height: 36px;
+  width: 36px;
+
+  @include color-svg('../images/plus-36.svg', $color-gray-45);
 }
 
 // Third-party module: react-contextmenu

@@ -19,8 +19,9 @@ const attachments = [
     onCloseAttachment={attachment => {
       console.log('onCloseAttachment', attachment);
     }}
+    onAddAttachment={() => console.log('onAddAttachment')}
     i18n={util.i18n}
-  />;
+  />
 </util.ConversationContext>;
 ```
 
@@ -64,6 +65,7 @@ const attachments = [
     onCloseAttachment={attachment => {
       console.log('onCloseAttachment', attachment);
     }}
+    onAddAttachment={() => console.log('onAddAttachment')}
     i18n={util.i18n}
   />
 </util.ConversationContext>;
@@ -101,6 +103,7 @@ const attachments = [
     onCloseAttachment={attachment => {
       console.log('onCloseAttachment', attachment);
     }}
+    onAddAttachment={() => console.log('onAddAttachment')}
     i18n={util.i18n}
   />
 </util.ConversationContext>;

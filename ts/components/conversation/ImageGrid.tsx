@@ -389,7 +389,9 @@ function getImageDimensions(attachment: AttachmentType): DimensionsType {
   };
 }
 
-function areAllAttachmentsVisual(attachments?: Array<AttachmentType>): boolean {
+export function areAllAttachmentsVisual(
+  attachments?: Array<AttachmentType>
+): boolean {
   if (!attachments) {
     return false;
   }
@@ -397,7 +399,7 @@ function areAllAttachmentsVisual(attachments?: Array<AttachmentType>): boolean {
   const max = attachments.length;
   for (let i = 0; i < max; i += 1) {
     const attachment = attachments[i];
-    if (!isImageAttachment(attachment) || !isVideoAttachment(attachment)) {
+    if (!isImageAttachment(attachment) && !isVideoAttachment(attachment)) {
       return false;
     }
   }

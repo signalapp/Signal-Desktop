@@ -9,7 +9,8 @@ let caption = null;
     attachment={{
       contentType: 'image/jpeg',
     }}
-    onChangeCaption={caption => console.log('onChangeCaption', caption)}
+    onSave={caption => console.log('onSave', caption)}
+    close={() => console.log('close')}
     i18n={util.i18n}
   />
 </div>;
@@ -29,7 +30,8 @@ let caption =
     }}
     caption={caption}
     contentType="image/jpeg"
-    onChangeCaption={caption => console.log('onChangeCaption', caption)}
+    onSave={caption => console.log('onSave', caption)}
+    close={() => console.log('close')}
     i18n={util.i18n}
   />
 </div>;
@@ -46,7 +48,8 @@ let caption = null;
     attachment={{
       contentType: 'video/mp4',
     }}
-    onChangeCaption={caption => console.log('onChangeCaption', caption)}
+    onSave={caption => console.log('onSave', caption)}
+    close={() => console.log('close')}
     i18n={util.i18n}
   />
 </div>;
@@ -65,7 +68,8 @@ let caption =
       contentType: 'video/mp4',
     }}
     caption={caption}
-    onChangeCaption={caption => console.log('onChangeCaption', caption)}
+    onSave={caption => console.log('onSave', caption)}
+    close={() => console.log('close')}
     i18n={util.i18n}
   />
 </div>;

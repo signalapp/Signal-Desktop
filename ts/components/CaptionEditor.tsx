@@ -12,30 +12,51 @@ interface Props {
   i18n: Localizer;
   url: string;
   caption?: string;
-  onChangeCaption?: (caption: string) => void;
+  onSave?: (caption: string) => void;
   close?: () => void;
 }
 
-export class CaptionEditor extends React.Component<Props> {
-  private handleKeyUpBound: () => void;
+interface State {
+  caption: string;
+}
+
+export class CaptionEditor extends React.Component<Props, State> {
+  private handleKeyUpBound: (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => void;
   private setFocusBound: () => void;
+  // TypeScript doesn't like our React.Ref typing here, so we omit it
   private captureRefBound: () => void;
+  private onChangeBound: () => void;
+  private onSaveBound: () => void;
   private inputRef: React.Ref<HTMLInputElement> | null;
 
   constructor(props: Props) {
     super(props);
 
+    const { caption } = props;
+    this.state = {
+      caption: caption || '',
+    };
+
     this.handleKeyUpBound = this.handleKeyUp.bind(this);
     this.setFocusBound = this.setFocus.bind(this);
     this.captureRefBound = this.captureRef.bind(this);
+    this.onChangeBound = this.onChange.bind(this);
+    this.onSaveBound = this.onSave.bind(this);
     this.inputRef = null;
   }
 
   public handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
-    const { close } = this.props;
+    const { close, onSave } = this.props;
 
-    if (close && (event.key === 'Escape' || event.key === 'Enter')) {
+    if (close && event.key === 'Escape') {
       close();
+    }
+
+    if (onSave && event.key === 'Enter') {
+      const { caption } = this.state;
+      onSave(caption);
     }
   }
 
@@ -53,6 +74,24 @@ export class CaptionEditor extends React.Component<Props> {
     setTimeout(() => {
       this.setFocus();
     }, 200);
+  }
+
+  public onSave() {
+    const { onSave } = this.props;
+    const { caption } = this.state;
+
+    if (onSave) {
+      onSave(caption);
+    }
+  }
+
+  public onChange(event: React.FormEvent<HTMLInputElement>) {
+    // @ts-ignore
+    const { value } = event.target;
+
+    this.setState({
+      caption: value,
+    });
   }
 
   public renderObject() {
@@ -83,7 +122,8 @@ export class CaptionEditor extends React.Component<Props> {
   }
 
   public render() {
-    const { caption, i18n, close, onChangeCaption } = this.props;
+    const { i18n, close } = this.props;
+    const { caption } = this.state;
 
     return (
       <div
@@ -100,21 +140,27 @@ export class CaptionEditor extends React.Component<Props> {
           {this.renderObject()}
         </div>
         <div className="module-caption-editor__bottom-bar">
-          <div className="module-caption-editor__add-caption-button" />
-          <input
-            type="text"
-            ref={this.captureRefBound}
-            onKeyUp={close ? this.handleKeyUpBound : undefined}
-            value={caption || ''}
-            maxLength={200}
-            placeholder={i18n('addACaption')}
-            className="module-caption-editor__caption-input"
-            onChange={event => {
-              if (onChangeCaption) {
-                onChangeCaption(event.target.value);
-              }
-            }}
-          />
+          <div className="module-caption-editor__input-container">
+            <input
+              type="text"
+              ref={this.captureRefBound}
+              value={caption}
+              maxLength={200}
+              placeholder={i18n('addACaption')}
+              className="module-caption-editor__caption-input"
+              onKeyUp={close ? this.handleKeyUpBound : undefined}
+              onChange={this.onChangeBound}
+            />
+            {caption ? (
+              <div
+                role="button"
+                onClick={this.onSaveBound}
+                className="module-caption-editor__save-button"
+              >
+                {i18n('save')}
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
     );

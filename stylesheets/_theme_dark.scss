@@ -1350,6 +1350,20 @@ body.dark-theme {
     color: $color-gray-90;
   }
 
+  // Module: Staged Placeholder Attachment
+
+  .module-staged-placeholder-attachment {
+    border: 1px solid $color-gray-60;
+
+    &:hover {
+      background: $color-gray-75;
+    }
+  }
+
+  .module-staged-placeholder-attachment__plus-icon {
+    @include color-svg('../images/plus-36.svg', $color-gray-60);
+  }
+
   // Third-party module: react-contextmenu
 
   .react-contextmenu {

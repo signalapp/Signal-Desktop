@@ -6,7 +6,9 @@ import {
 } from '../../util/GoogleChrome';
 import { AttachmentType } from './types';
 import { Image } from './Image';
+import { areAllAttachmentsVisual } from './ImageGrid';
 import { StagedGenericAttachment } from './StagedGenericAttachment';
+import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
 import { Localizer } from '../../types/Util';
 
 interface Props {
@@ -15,6 +17,7 @@ interface Props {
   // onError: () => void;
   onClickAttachment: (attachment: AttachmentType) => void;
   onCloseAttachment: (attachment: AttachmentType) => void;
+  onAddAttachment: () => void;
   onClose: () => void;
 }
 
@@ -27,6 +30,7 @@ export class AttachmentList extends React.Component<Props> {
     const {
       attachments,
       i18n,
+      onAddAttachment,
       onClickAttachment,
       onCloseAttachment,
       onClose,
@@ -35,6 +39,8 @@ export class AttachmentList extends React.Component<Props> {
     if (!attachments.length) {
       return null;
     }
+
+    const allVisualAttachments = areAllAttachmentsVisual(attachments);
 
     return (
       <div className="module-attachments">
@@ -85,6 +91,9 @@ export class AttachmentList extends React.Component<Props> {
               />
             );
           })}
+          {allVisualAttachments ? (
+            <StagedPlaceholderAttachment onClick={onAddAttachment} />
+          ) : null}
         </div>
       </div>
     );

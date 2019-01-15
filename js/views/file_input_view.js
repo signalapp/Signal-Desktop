@@ -86,6 +86,7 @@
 
       return {
         attachments,
+        onAddAttachment: this.onAddAttachment.bind(this),
         onClickAttachment: this.onClickAttachment.bind(this),
         onCloseAttachment: this.onCloseAttachment.bind(this),
         onClose: this.onClose.bind(this),
@@ -97,18 +98,15 @@
         url: attachment.videoUrl || attachment.url,
         caption: attachment.caption,
         attachment,
-        onChangeCaption,
+        onSave,
       });
 
-      const update = () => {
-        this.captionEditorView.update(getProps());
-      };
-
-      const onChangeCaption = caption => {
+      const onSave = caption => {
         // eslint-disable-next-line no-param-reassign
         attachment.caption = caption;
+        this.captionEditorView.remove();
+        Signal.Backbone.Views.Lightbox.hide();
         this.render();
-        update();
       };
 
       this.captionEditorView = new Whisper.ReactWrapperView({
@@ -124,6 +122,10 @@
       this.attachments = _.without(this.attachments, attachment);
       this.trigger('attachments-changed');
       this.render();
+    },
+
+    onAddAttachment() {
+      this.trigger('choose-attachment');
     },
 
     onClose() {

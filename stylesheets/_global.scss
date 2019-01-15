@@ -412,15 +412,6 @@ $loading-height: 16px;
   }
 }
 
-input[type='text'],
-input[type='search'],
-textarea {
-  &:active,
-  &:focus {
-    outline: 1px solid $blue;
-  }
-}
-
 .expiredAlert {
   background: #f3f3a7;
   padding: 10px;

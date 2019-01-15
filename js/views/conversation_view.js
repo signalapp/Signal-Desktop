@@ -156,6 +156,11 @@
         'attachments-changed',
         this.toggleMicrophone
       );
+      this.listenTo(
+        this.fileInput,
+        'choose-attachment',
+        this.onChooseAttachment
+      );
 
       const getHeaderProps = () => {
         const expireTimer = this.model.get('expireTimer');
@@ -275,8 +280,10 @@
     },
 
     onChooseAttachment(e) {
-      e.stopPropagation();
-      e.preventDefault();
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
 
       this.$('input.file-input').click();
     },

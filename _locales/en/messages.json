@@ -952,6 +952,11 @@
     "descripton":
       "Used as the placeholder text in the caption editor text field"
   },
+  "save": {
+    "message": "Save",
+    "descripton":
+      "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+  },
   "fileIconAlt": {
     "message": "File icon",
     "description":
