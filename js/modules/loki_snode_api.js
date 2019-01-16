@@ -34,9 +34,18 @@ class LokiSnodeAPI {
     });
   }
 
-  unreachableNode(pubKey, nodeUrl) {
+  async unreachableNode(pubKey, nodeUrl) {
     if (pubKey === window.textsecure.storage.user.getNumber()) {
       delete this.ourSwarmNodes[nodeUrl];
+      return;
+    }
+    const conversation = window.ConversationController.get(pubKey);
+    const swarmNodes = conversation.get('swarmNodes');
+    if (swarmNodes.delete(nodeUrl)) {
+      conversation.set({ swarmNodes });
+      await window.Signal.Data.updateConversation(conversation.id, conversation.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     }
   }
 
@@ -55,17 +64,17 @@ class LokiSnodeAPI {
       !this.ourSwarmNodes ||
       Object.keys(this.ourSwarmNodes).length < MINIMUM_SWARM_NODES
     ) {
+      this.ourSwarmNodes = {};
       // Try refresh our swarm list once
       const ourKey = window.textsecure.storage.user.getNumber();
       const nodeAddresses = await window.LokiSnodeAPI.getSwarmNodes(ourKey);
-
-      this.ourSwarmNodes = {};
-      nodeAddresses.forEach(url => {
-        this.ourSwarmNodes[url] = {};
-      })
-      if (!this.ourSwarmNodes || Object.keys(this.ourSwarmNodes).length === 0) {
+      if (!nodeAddresses || nodeAddresses.length === 0) {
         throw Error('Could not load our swarm')
       }
+
+      nodeAddresses.forEach(url => {
+        this.ourSwarmNodes[url] = {};
+      });
     }
     return this.ourSwarmNodes;
   }
@@ -73,7 +82,7 @@ class LokiSnodeAPI {
   async getSwarmNodesByPubkey(pubKey) {
     const swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
     // TODO: Check if swarm list is below a threshold rather than empty
-    if (swarmNodes && swarmNodes.length !== 0) {
+    if (swarmNodes && swarmNodes.size !== 0) {
       return swarmNodes;
     }
     return this.replenishSwarm(pubKey);
@@ -83,7 +92,7 @@ class LokiSnodeAPI {
     const conversation = window.ConversationController.get(pubKey);
     if (!(pubKey in this.swarmsPendingReplenish)) {
       this.swarmsPendingReplenish[pubKey] = new Promise(async (resolve) => {
-        const newSwarmNodes = await this.getSwarmNodes(pubKey);
+        const newSwarmNodes = new Set(await this.getSwarmNodes(pubKey));
         conversation.set({ swarmNodes: newSwarmNodes });
         await window.Signal.Data.updateConversation(conversation.id, conversation.attributes, {
           Conversation: Whisper.Conversation,
@@ -97,12 +106,14 @@ class LokiSnodeAPI {
   }
 
   async getSwarmNodes(pubKey) {
+    // TODO: Hit multiple random nodes and merge lists?
     const node = await this.getRandomSnodeAddress();
+    // TODO: Confirm final API URL and sensible timeout
     const options = {
       url: `http://${node}${this.swarmServerPort}/json_rpc`,
       type: 'POST',
       responseType: 'json',
-      timeout: undefined,
+      timeout: 5000,
     };
 
     const body = {

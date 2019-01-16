@@ -86,7 +86,7 @@
         friendRequestStatus: FriendRequestStatusEnum.none,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
-        swarmNodes: [],
+        swarmNodes: new Set([]),
       };
     },
 

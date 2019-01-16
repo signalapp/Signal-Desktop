@@ -19,7 +19,7 @@ class LokiMessageAPI {
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl) {
     const swarmNodes = await window.LokiSnodeAPI.getSwarmNodesByPubkey(pubKey)
-    if (!swarmNodes || swarmNodes.length === 0) {
+    if (!swarmNodes || swarmNodes.size === 0) {
       throw Error('No swarm nodes to query!');
     }
 
@@ -39,12 +39,13 @@ class LokiMessageAPI {
       throw err;
     }
 
-    const requests = swarmNodes.map(async node => {
+    const requests = Array.from(swarmNodes).map(async node => {
+      // TODO: Confirm sensible timeout
       const options = {
         url: `${node}${this.messageServerPort}/store`,
         type: 'POST',
         responseType: undefined,
-        timeout: undefined,
+        timeout: 5000,
       };
 
       const fetchOptions = {
@@ -100,11 +101,12 @@ class LokiMessageAPI {
     let completedRequests = 0;
 
     const doRequest = async (nodeUrl, nodeData) => {
+      // TODO: Confirm sensible timeout
       const options = {
         url: `${nodeUrl}${this.messageServerPort}/retrieve`,
         type: 'GET',
         responseType: 'json',
-        timeout: undefined,
+        timeout: 5000,
       };
 
       const headers = {
@@ -159,10 +161,10 @@ class LokiMessageAPI {
       const remainingRequests = MINIMUM_SUCCESSFUL_REQUESTS - completedRequests;
       const ourSwarmNodes = await window.LokiSnodeAPI.getOurSwarmNodes();
       if (Object.keys(ourSwarmNodes).length < remainingRequests) {
+        // This means we don't have enough swarm nodes to meet the minimum threshold
         if (completedRequests !== 0) {
           // TODO: Decide how to handle some completed requests but not enough
         }
-        return;
       }
 
       await Promise.all(
