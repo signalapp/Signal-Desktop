@@ -561,11 +561,6 @@
       }
     }
   },
-  "maxOneAttachmentToast": {
-    "message": "The limit is one attachment per message.",
-    "description":
-      "An error popup when the user has attempted to add an attachment"
-  },
   "oneNonImageAtATimeToast": {
     "message":
       "When including a non-image attachment, the limit is one attachment per message.",

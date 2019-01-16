@@ -288,9 +288,15 @@
     },
     async onChoseAttachment() {
       const fileField = this.$('input.file-input');
-      const file = fileField.prop('files')[0];
-      await this.fileInput.maybeAddAttachment(file);
-      this.toggleMicrophone();
+      const files = fileField.prop('files');
+
+      for (let i = 0, max = files.length; i < max; i += 1) {
+        const file = files[i];
+        // eslint-disable-next-line no-await-in-loop
+        await this.fileInput.maybeAddAttachment(file);
+        this.toggleMicrophone();
+      }
+
       fileField.val(null);
     },
 
