@@ -2166,6 +2166,7 @@
         messageSentAt: Date.now(),
         title: i18n(title),
         isFriendRequest: true,
+        friendRequestType: type,
       });
     },
 
