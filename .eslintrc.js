@@ -39,6 +39,9 @@ module.exports = {
     // consistently place operators at end of line except ternaries
     'operator-linebreak': 'error',
 
+    // Use LF to stay consistent
+    'linebreak-style': ['error', 'unix'],
+
     quotes: [
       'error',
       'single',

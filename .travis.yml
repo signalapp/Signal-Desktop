@@ -36,3 +36,9 @@ matrix:
       cache: false
       env:
         - YARN_GPG=no
+      before_install:
+        - cd ../..
+        - mv $TRAVIS_REPO_SLUG _old
+        - git config --global core.autocrlf false
+        - git clone --depth=50 _old $TRAVIS_REPO_SLUG
+        - cd $TRAVIS_REPO_SLUG
