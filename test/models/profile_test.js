@@ -92,30 +92,12 @@ describe('Profile', () => {
     });
 
     it('trims the display name', async () => {
-      const values = [
-        {
-          current: '  prefix',
-          expected: 'prefix',
-        },
-        {
-          current: 'suffix  ',
-          expected: 'suffix',
-        },
-        {
-          current: 'in   middle',
-          expected: 'in   middle',
-        },
-      ];
-
-      for(let i = 0; i < values.length; i += 1) {
-          const { current, expected } = values[i];
-          await storage.setProfileName(current);
-          const profile = storage.getLocalProfile();
-          const name = {
-            displayName: expected,
-          };
-          assert.deepEqual(name, profile.name);
-      }
+      await storage.setProfileName('  in    middle  ');
+      const profile = storage.getLocalProfile();
+      const name = {
+        displayName: 'in    middle',
+      };
+      assert.deepEqual(name, profile.name);
     });
 
     it('unsets the name property if it is empty', async () => {
