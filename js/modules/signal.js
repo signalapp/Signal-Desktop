@@ -13,6 +13,7 @@ const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
 const Metadata = require('./metadata/SecretSessionCipher');
 const RefreshSenderCertificate = require('./refresh_sender_certificate');
+const LinkPreviews = require('./link_previews');
 
 // Components
 const {
@@ -55,6 +56,9 @@ const {
 const {
   SafetyNumberNotification,
 } = require('../../ts/components/conversation/SafetyNumberNotification');
+const {
+  StagedLinkPreview,
+} = require('../../ts/components/conversation/StagedLinkPreview');
 const {
   TimerNotification,
 } = require('../../ts/components/conversation/TimerNotification');
@@ -120,6 +124,7 @@ function initializeMigrations({
   const attachmentsPath = getPath(userDataPath);
   const readAttachmentData = createReader(attachmentsPath);
   const loadAttachmentData = Type.loadData(readAttachmentData);
+  const loadPreviewData = MessageType.loadPreviewData(readAttachmentData);
   const loadQuoteData = MessageType.loadQuoteData(readAttachmentData);
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
@@ -135,8 +140,9 @@ function initializeMigrations({
     getPlaceholderMigrations,
     getCurrentVersion,
     loadAttachmentData,
-    loadQuoteData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
+    loadPreviewData,
+    loadQuoteData,
     readAttachmentData,
     run,
     upgradeMessageSchema: (message, options = {}) => {
@@ -196,6 +202,7 @@ exports.setup = (options = {}) => {
     Quote,
     ResetSessionNotification,
     SafetyNumberNotification,
+    StagedLinkPreview,
     TimerNotification,
     Types: {
       Message: MediaGalleryMessage,
@@ -226,7 +233,6 @@ exports.setup = (options = {}) => {
   };
 
   return {
-    Metadata,
     Backbone,
     Components,
     Crypto,
@@ -234,6 +240,9 @@ exports.setup = (options = {}) => {
     Database,
     Emoji,
     IndexedDB,
+    LinkPreviews,
+    Metadata,
+    migrateToSQL,
     Migrations,
     Notifications,
     OS,
@@ -243,6 +252,5 @@ exports.setup = (options = {}) => {
     Util,
     Views,
     Workflow,
-    migrateToSQL,
   };
 };

@@ -1371,6 +1371,14 @@ MessageReceiver.prototype.extend({
       promises.push(this.handleAttachment(attachment));
     }
 
+    const previewCount = (decrypted.preview || []).length;
+    for (let i = 0; i < previewCount; i += 1) {
+      const preview = decrypted.preview[i];
+      if (preview.image) {
+        promises.push(this.handleAttachment(preview.image));
+      }
+    }
+
     if (decrypted.contact && decrypted.contact.length) {
       const contacts = decrypted.contact;
 

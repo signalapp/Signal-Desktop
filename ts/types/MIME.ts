@@ -10,6 +10,9 @@ export const VIDEO_MP4 = 'video/mp4' as MIMEType;
 export const VIDEO_QUICKTIME = 'video/quicktime' as MIMEType;
 
 export const isJPEG = (value: MIMEType): boolean => value === 'image/jpeg';
-export const isImage = (value: MIMEType): boolean => value.startsWith('image/');
-export const isVideo = (value: MIMEType): boolean => value.startsWith('video/');
-export const isAudio = (value: MIMEType): boolean => value.startsWith('audio/');
+export const isImage = (value: MIMEType): boolean =>
+  value && value.startsWith('image/');
+export const isVideo = (value: MIMEType): boolean =>
+  value && value.startsWith('video/');
+export const isAudio = (value: MIMEType): boolean =>
+  value && value.startsWith('audio/');
