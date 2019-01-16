@@ -1053,6 +1053,9 @@ installSettingsSetter('theme-setting');
 installSettingsGetter('hide-menu-bar');
 installSettingsSetter('hide-menu-bar');
 
+installSettingsGetter('message-ttl');
+installSettingsSetter('message-ttl');
+
 installSettingsGetter('read-receipt-setting');
 installSettingsSetter('read-receipt-setting');
 installSettingsGetter('notification-setting');

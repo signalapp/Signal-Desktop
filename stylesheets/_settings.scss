@@ -90,4 +90,20 @@
       color: white;
     }
   }
+
+  .message-ttl-setting {
+    .inputs {
+      display: flex;
+      padding-top: 18px;
+    }
+
+    #warning {
+      padding-top: 12px;
+      font-weight: 300;
+      color: red;
+    }
+
+    input { flex: 1; }
+    label { padding-left: 12px; }
+  }
 }

@@ -345,11 +345,11 @@ OutgoingMessage.prototype = {
         const outgoingObject = outgoingObjects[0];
         const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
         let ttl;
-        // TODO: Allow user to set ttl manually
         if (outgoingObject.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
           ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
         } else {
-          ttl = 24 * 60 * 60; // 1 day default for any other message
+          const hours = window.getMessageTTL() || 24; // 1 day default for any other message
+          ttl = hours * 60 * 60;
         }
         await this.transmitMessage(number, socketMessage, this.timestamp, ttl);
         this.successfulNumbers[this.successfulNumbers.length] = number;

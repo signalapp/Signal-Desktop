@@ -50,6 +50,30 @@
     },
   });
 
+  const MessageTTLSettingView = Whisper.View.extend({
+    initialize(options) {
+      this.value = options.value;
+      this.setFn = options.setFn;
+      this.populate();
+    },
+    events: {
+      change: 'change',
+      input: 'input',
+    },
+    change(e) {
+      this.value = e.target.value;
+      this.setFn(this.value);
+      window.log.info('message-ttl-setting changed to', this.value);
+    },
+    input(e) {
+      this.value = e.target.value;
+      this.$('label').html(`${this.value} Hours`);
+    },
+    populate() {
+      this.$('input').val(this.value);
+    },
+  });
+
   const ReadReceiptSettingView = Whisper.View.extend({
     initialize(options) {
       this.value = options.value;
@@ -141,6 +165,11 @@
         value: window.initialData.readReceiptSetting,
         setFn: window.setReadReceiptSetting,
       });
+      new MessageTTLSettingView({
+        el: this.$('.message-ttl-setting'),
+        value: window.initialData.messageTTL,
+        setFn: window.setMessageTTL,
+      });
       const blockedNumberView = new Whisper.BlockedNumberView().render();
       this.$('.blocked-user-setting').append(blockedNumberView.el);
 
@@ -176,6 +205,9 @@
         permissions: i18n('permissions'),
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
         readReceiptSettingDescription: i18n('readReceiptSettingDescription'),
+        messageTTL: i18n('messageTTL'),
+        messageTTLSettingDescription: i18n('messageTTLSettingDescription'),
+        messageTTLSettingWarning: i18n('messageTTLSettingWarning'),
         spellCheckHeader: i18n('spellCheck'),
         spellCheckDescription: i18n('spellCheckDescription'),
         blockedHeader: 'Blocked Users',

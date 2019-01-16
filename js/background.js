@@ -236,6 +236,14 @@
         window.setMenuBarVisibility(!value);
       },
 
+      getMessageTTL: () => storage.get('message-ttl', 24),
+      setMessageTTL: value => {
+        // Make sure the ttl is between a given range and is valid
+        const intValue = parseInt(value, 10);
+        const ttl = Number.isNaN(intValue) ? 24 :  intValue;
+        storage.put('message-ttl', ttl);
+      },
+
       getReadReceiptSetting: () =>
         storage.get('read-receipt-setting'),
       setReadReceiptSetting: value =>
