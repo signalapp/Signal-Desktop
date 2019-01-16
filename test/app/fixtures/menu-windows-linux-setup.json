@@ -21,7 +21,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Signal",
+        "label": "Quit Loki Messenger",
         "role": "quit"
       }
     ]
