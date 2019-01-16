@@ -73,7 +73,6 @@
     'hourglass_full.svg',
     'icon_1024.png',
     'icon_16.png',
-    'icon_250.png',
     'icon_256.png',
     'icon_32.png',
     'icon_48.png',
