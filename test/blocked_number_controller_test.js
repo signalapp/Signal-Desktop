@@ -31,7 +31,10 @@ describe('Blocked Number Controller', () => {
       storage.addBlockedNumber('1');
       storage.addBlockedNumber('2');
       BlockedNumberController.refresh();
-      assert.lengthOf(window.getBlockedNumbers().models, 2);
+
+      const blocked = window.getBlockedNumbers().map(m => m.get('number'));
+      assert.lengthOf(blocked, 2);
+      assert.deepEqual(['1', '2'], blocked.sort());
     });
 
     it('overrides old numbers if we refresh again', () => {
