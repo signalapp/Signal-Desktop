@@ -50,9 +50,9 @@ You can drag and drop images into this text box.
 
 ### Platform info
 
-Signal version:
+Loki Messenger version:
 
-<!-- You can see Signal's version number at Help -> About or File -> About Signal Desktop -->
+<!-- You can see Signal's version number at Help -> About or File -> About Loki Messenger -->
 
 Operating System:
 
