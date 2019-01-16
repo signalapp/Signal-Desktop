@@ -47,7 +47,7 @@
     "description": "Application menu command to show all application windows"
   },
   "appMenuQuit": {
-    "message": "Quit Signal",
+    "message": "Quit Loki Messenger",
     "description": "Application menu command to close the application"
   },
   "editMenuUndo": {
@@ -216,7 +216,7 @@
       "Header shown on the screen at the end of a successful import process"
   },
   "importCompleteStartButton": {
-    "message": "Start using Signal Desktop",
+    "message": "Start using Loki Messenger",
     "description":
       "Button shown at end of successful import process, nothing left but a restart"
   },
@@ -614,12 +614,12 @@
       "Item under the Help menu, takes you to GitHub new issue form (title case)"
   },
   "signalDesktopPreferences": {
-    "message": "Signal Desktop Preferences",
+    "message": "Loki Messenger Preferences",
     "description":
       "Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
-    "message": "About Signal Desktop",
+    "message": "About Loki Messenger",
     "description": "Item under the Help menu, which opens a small about window"
   },
   "speech": {
@@ -640,7 +640,7 @@
     "description": "Command in the tray icon menu, to quit the application"
   },
   "trayTooltip": {
-    "message": "Signal Desktop",
+    "message": "Loki Messenger",
     "description": "Tooltip for the tray icon"
   },
   "searchForPeopleOrGroups": {
@@ -750,7 +750,7 @@
   },
   "audioPermissionNeeded": {
     "message":
-      "To send audio messages, allow Signal Desktop to access your microphone.",
+      "To send audio messages, allow Loki Messenger to access your microphone.",
     "description":
       "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
@@ -952,7 +952,7 @@
     }
   },
   "installWelcome": {
-    "message": "Welcome to Signal Desktop",
+    "message": "Welcome to Loki Messenger",
     "description": "Welcome title on the install page"
   },
   "installTagline": {
@@ -961,12 +961,12 @@
       "Tagline displayed under 'installWelcome' string on the install page"
   },
   "linkYourPhone": {
-    "message": "Link your phone to Signal Desktop",
+    "message": "Link your phone to Loki Messenger",
     "description":
       "Shown on the front page when the application first starst, above the QR code"
   },
   "signalSettings": {
-    "message": "Signal Settings",
+    "message": "Loki Messenger Settings",
     "description":
       "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
   },
@@ -1143,7 +1143,7 @@
   },
   "expiredWarning": {
     "message":
-      "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+      "This version of Loki Messenger has expired. Please upgrade to the latest version to continue messaging.",
     "description":
       "Warning notification that this version of the app has expired"
   },
