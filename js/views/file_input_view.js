@@ -42,9 +42,6 @@
   Whisper.MaxAttachmentsToast = Whisper.ToastView.extend({
     template: i18n('maximumAttachments'),
   });
-  Whisper.MaxOneAttachmentToast = Whisper.ToastView.extend({
-    template: i18n('maxOneAttachmentToast'),
-  });
 
   Whisper.FileInputView = Backbone.View.extend({
     tagName: 'span',
@@ -155,7 +152,7 @@
       this.$el.removeClass('dropoff');
     },
 
-    onDrop(e) {
+    async onDrop(e) {
       if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
         return;
       }
@@ -163,9 +160,13 @@
       e.stopPropagation();
       e.preventDefault();
 
-      // eslint-disable-next-line prefer-destructuring
-      const file = e.originalEvent.dataTransfer.files[0];
-      this.maybeAddAttachment(file);
+      const { files } = e.originalEvent.dataTransfer;
+      for (let i = 0, max = files.length; i < max; i += 1) {
+        const file = files[i];
+        // eslint-disable-next-line no-await-in-loop
+        await this.maybeAddAttachment(file);
+      }
+
       this.$el.removeClass('dropoff');
     },
 
@@ -255,12 +256,6 @@
       toast.render();
     },
 
-    showMaxOneAttachmentError() {
-      const toast = new Whisper.MaxOneAttachmentToast();
-      toast.$el.insertAfter(this.$el);
-      toast.render();
-    },
-
     // Housekeeping
 
     addAttachment(attachment) {
@@ -279,12 +274,6 @@
 
       const fileName = file.name;
       const contentType = file.type;
-
-      // TODO: remove this when clients are ready to remove multiple image attachments
-      // if (this.attachments.length > 0) {
-      //   this.showMaxOneAttachmentError();
-      //   return;
-      // }
 
       if (window.Signal.Util.isFileDangerous(fileName)) {
         this.showDangerousError();
