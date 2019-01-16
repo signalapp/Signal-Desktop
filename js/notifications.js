@@ -107,7 +107,7 @@
           } else if (messagesNotificationCount > 0) {
             message = newMessageCountLabel;
           } else {
-            message = '-';
+            return;
           }
           break;
         case SettingNames.NAME: {
