@@ -92,7 +92,13 @@ class LokiSnodeAPI {
     const conversation = window.ConversationController.get(pubKey);
     if (!(pubKey in this.swarmsPendingReplenish)) {
       this.swarmsPendingReplenish[pubKey] = new Promise(async (resolve) => {
-        const newSwarmNodes = new Set(await this.getSwarmNodes(pubKey));
+        let newSwarmNodes
+        try {
+          newSwarmNodes = new Set(await this.getSwarmNodes(pubKey));
+        } catch (e) {
+          // TODO: Handle these errors sensibly
+          newSwarmNodes = new Set([]);
+        }
         conversation.set({ swarmNodes: newSwarmNodes });
         await window.Signal.Data.updateConversation(conversation.id, conversation.attributes, {
           Conversation: Whisper.Conversation,

@@ -690,7 +690,8 @@ async function saveConversations(data) {
 }
 
 async function getConversationById(id, { Conversation }) {
-  const data = setifyProperty(await channels.getConversationById(id), 'swarmNodes');
+  const rawData = await channels.getConversationById(id)
+  const data = setifyProperty(rawData, 'swarmNodes');
   return new Conversation(data);
 }
 
