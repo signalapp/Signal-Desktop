@@ -20,7 +20,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Preferences…",
+        "message": "Innstillinger…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
@@ -44,7 +44,7 @@
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Redo",
+        "message": "Gjenopprett",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
@@ -60,7 +60,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
+        "message": "Lim inn uten formattering",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -72,11 +72,11 @@
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Start speaking",
+        "message": "Begynn å snakke",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Stop speaking",
+        "message": "Slutt å snakke",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
@@ -92,7 +92,7 @@
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
+        "message": "Bring alle vinduer til front",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
@@ -149,6 +149,10 @@
         "message": "Velg mappe",
         "description": "Button to allow the user to find a folder on disk"
     },
+    "chooseFile": {
+        "message": "Velg fil",
+        "description": "Button to allow the user to find a file on disk"
+    },
     "loadDataHeader": {
         "message": "Last inn din data",
         "description": "Header shown on the first screen in the data import process"
@@ -170,11 +174,11 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "Vær sikker på at du har valgt mappen som inneholder dine lagrede Signal-data. Navnet skal begynne med «Signal Export». Du kan også lagre en ny kopi av dine data fra den gamle Chrome-appen.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "message": "Hvis disse stegene ikke fungerte for deg, send oss en debug-logg (Vis -> Debug-logg) slik at vi kan hjelpe deg med migreringen.",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -250,7 +254,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "Du markerte sikkerhetsnummeret med $name$ som godkjent",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -260,7 +264,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "Du markerte sikkerhetsnummeret med $name$ som ikke godkjent",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -270,7 +274,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "Du markerte sikkerhetsnummeret med $name$ som godkjent på en annen enhet",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -280,7 +284,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "Du markerte sikkerhetsnummeret med $name$ som ikke godkjent på en annen enhet",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -290,11 +294,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "Dine sikkerhetsnumre med disse gruppemedlemmene er endret siden forrige gang du godkjente. Klikk på et gruppemedlem for å se deres nye sikkerhetsnumre.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Ditt sikkerhetsnummer med flere gruppemedlemmer er endret siden forrige gang du godkjente. Dette kan bety at noen prøver å avlytte kommunikasjonen, eller at de bare har reinstallert Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
@@ -308,7 +312,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Sikkerhetsnummeret du prøver å godkjenne har endret seg. Du må bekrefte det nye sikkerhetsnummeret til $name$. Husk at dette kan bety at noen prøver å avlytte kommunikasjonen, eller at $name$ bare har reinstallert Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -318,11 +322,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Dine sikkerhetsnumre for flere gruppemedlemmer er endret i det siste. Dette kan bety at noen prøver å avlytte kommunikasjonen, eller at de bare har reinstallert Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Ditt sikkerhetsnummer med $name$ er endret i det siste. Dette kan bety at noen prøver å avlytte kommunikasjonen, eller at $name$ bare har reinstallert Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -332,7 +336,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "Ditt sikkerhetsnummer med $name$ er endret. Dette kan enten bety at noen avlytter kommunikasjonen deres, eller at $name$ bare har reinstallert Signal. Du kan ha lyst til å bekrefte ditt sikkerhetsnummer med denne kontakten.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -346,7 +350,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "Ditt sikkerhetsnummer med $name$ er endret og er ikke lenger bekreftet. Klikk for å vise nummeret.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -356,7 +360,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "Dine sikkerhetsnumre med flere medlemmer i gruppen er endret, og er ikke lenger bekreftet. Klikk for å vise.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -364,7 +368,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "Noe gikk galt med opplastingen! Fint om du vurderer å legge loggen til feilrapporten manuelt.",
         "description": ""
     },
     "reportIssue": {
@@ -392,7 +396,7 @@
         "description": ""
     },
     "isVerified": {
-        "message": "You have verified your safety number with $name$.",
+        "message": "Du har godkjent ditt sikkerhetsnummer med $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -402,7 +406,7 @@
         }
     },
     "isNotVerified": {
-        "message": "You have not verified your safety number with $name$.",
+        "message": "Du har ikke godkjent ditt sikkerhetsnummer med $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "Feil ved håndtering av innkommende melding",
         "description": ""
     },
     "media": {
@@ -475,20 +479,42 @@
         "message": "Talemelding",
         "description": "Name for a voice message attachment"
     },
-    "unsupportedFileType": {
-        "message": "Filtype ikke støttet.",
-        "description": "Displayed for outgoing unsupported attachment"
-    },
     "dangerousFileType": {
-        "message": "Attachment type not allowed for security reasons",
+        "message": "Vedleggstypen er ikke tillatt av sikkerhetsårsaker",
         "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
+    "stagedImageAttachment": {
+        "message": "Staged image attachment: $path$",
+        "description": "Alt text for staged attachments",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "dog.jpg"
+            }
+        }
+    },
+    "maxOneAttachmentToast": {
+        "message": "Grensen er ett vedlegg per melding.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "oneNonImageAtATimeToast": {
+        "message": "Når du inkluderer et vedlegg som ikke er et bilde, er begrensningen ett vedlegg per melding.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "cannotMixImageAdnNonImageAttachments": {
+        "message": "Du kan ikke blande vedlegg som er bilder med vedlegg som ikke er bilder i samme melding.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "maximumAttachments": {
+        "message": "Du kan ikke legge til flere vedlegg i denne meldingen.",
+        "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
         "message": "Beklager, den valgte filen overskrider begrensninger for meldingsstørrelse.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Unable to load selected attachment.",
+        "message": "Kunne ikke laste valgt vedlegg.",
         "description": ""
     },
     "disconnected": {
@@ -542,7 +568,7 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
+        "message": "Innstillinger for Signal Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -581,8 +607,12 @@
         "message": "Velg en kontakt eller gruppe for å chatte",
         "description": ""
     },
+    "typingAlt": {
+        "message": "Markør som viser at noen holder på å skrive i samtalen.",
+        "description": "Used as the 'title' attibute for the typing animation"
+    },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "Bilde for kontakt $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -620,7 +650,7 @@
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "PO Box",
+        "message": "Postboks",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloadAttachment": {
@@ -640,8 +670,12 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Original message found, but not loaded. Scroll up to load it.",
+        "message": "Originalmelding funnet, men ikke lastet. Rull opp for å laste den.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceNoteMustBeOnlyAttachment": {
+        "message": "En talemelding må være eneste vedlegg i en melding.",
+        "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
         "message": "Du",
@@ -706,7 +740,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only.",
+        "message": "Er du sikker? Om du trykker «slett» vil meldingen fjernes fra kun denne enheten.",
         "description": ""
     },
     "deleteThisMessage": {
@@ -746,7 +780,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "View safety number",
+        "message": "Vis sikkerhetsnummer",
         "description": ""
     },
     "viewAllMedia": {
@@ -792,7 +826,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
+        "message": "Miniatyrbilde i sitert melding",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
@@ -800,19 +834,31 @@
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "Skjermbilde av video vedlagt i melding",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
         "message": "Bilde sendt i samtale",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
+    "imageCaptionIconAlt": {
+        "message": "Ikon som viser at bildet har bildetekst",
+        "description": "Used for the icon layered on top of an image in message bubbles"
+    },
+    "addACaption": {
+        "message": "Legg til bildetekst…",
+        "description": ""
+    },
+    "save": {
+        "message": "Lagre",
+        "description": ""
+    },
     "fileIconAlt": {
         "message": "Filikon",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "emojiAlt": {
-        "message": "Emoji image of '$title$'",
+        "message": "Emoji-bilde av «$title$»",
         "description": "Used in the alt tag of all emoji images",
         "placeholders": {
             "title": {
@@ -890,23 +936,23 @@
         "description": "Description of the media permission description"
     },
     "spellCheck": {
-        "message": "Spell Check",
+        "message": "Stavekontroll",
         "description": "Description of the media permission description"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "Slå på stavekontroll av tekst du skriver i meldingsvinduet",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "Slett data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "Dette vil slette alle data i appen, inkludert alle meldinger og lagret kontoinformasjon.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "Slett data",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
@@ -958,7 +1004,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Most recent from:",
+        "message": "Nyeste fra:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
@@ -966,11 +1012,11 @@
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Most recent:",
+        "message": "Siste:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "Sending feilet",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
@@ -1094,11 +1140,11 @@
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Unblock this group to send a message.",
+        "message": "Opphev blokkeringen av denne gruppen for å sende.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "Du satt utløpstiden for meldingene i samtalen til $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1108,7 +1154,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "Oppdaterte utløpstiden til $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1118,7 +1164,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$oppdaterte utløpstiden til $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1232,11 +1278,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
+        "message": "Utløpstid for meldinger er slått av",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$slo av utløpstid for meldinger",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1246,7 +1292,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
+        "message": "Du slo av utløpstid for meldinger",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1264,11 +1310,11 @@
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "Sikkerhetsnummer er endret",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "Sikkerhetsnummeret til $name$ er endret",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1278,7 +1324,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verify Safety Number",
+        "message": "Bekreft sikkerhetsnummer",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1336,7 +1382,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "Trykk Restart Signal for å fullføre oppgraderingen.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -1348,7 +1394,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ forlot gruppen",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1358,7 +1404,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ forlot gruppen",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1372,7 +1418,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Tittel er nå «$name$»",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1382,7 +1428,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ble med i gruppen",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1392,7 +1438,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ble med i gruppen",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1402,7 +1448,7 @@
         }
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "Vilkår og personvernerklæring",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

@@ -149,6 +149,10 @@
         "message": "Choose folder",
         "description": "Button to allow the user to find a folder on disk"
     },
+    "chooseFile": {
+        "message": "Choose file",
+        "description": "Button to allow the user to find a file on disk"
+    },
     "loadDataHeader": {
         "message": "Load your data",
         "description": "Header shown on the first screen in the data import process"
@@ -475,13 +479,35 @@
         "message": "Voice Message",
         "description": "Name for a voice message attachment"
     },
-    "unsupportedFileType": {
-        "message": "Неподдржан тип на датотека",
-        "description": "Displayed for outgoing unsupported attachment"
-    },
     "dangerousFileType": {
         "message": "Attachment type not allowed for security reasons",
         "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
+    "stagedImageAttachment": {
+        "message": "Staged image attachment: $path$",
+        "description": "Alt text for staged attachments",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "dog.jpg"
+            }
+        }
+    },
+    "maxOneAttachmentToast": {
+        "message": "The limit is one attachment per message.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "oneNonImageAtATimeToast": {
+        "message": "When including a non-image attachment, the limit is one attachment per message.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "cannotMixImageAdnNonImageAttachments": {
+        "message": "You cannot mix non-image and image attachments in one message.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "maximumAttachments": {
+        "message": "You cannot add any more attachments to this message.",
+        "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
         "message": "Извинете, избраната датотека ги надминува рестрикциите за големина.",
@@ -581,6 +607,10 @@
         "message": "Избери контакт или група за разговор",
         "description": ""
     },
+    "typingAlt": {
+        "message": "Typing animation for this conversation",
+        "description": "Used as the 'title' attibute for the typing animation"
+    },
     "contactAvatarAlt": {
         "message": "Avatar for contact $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
@@ -642,6 +672,10 @@
     "messageFoundButNotLoaded": {
         "message": "Original message found, but not loaded. Scroll up to load it.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceNoteMustBeOnlyAttachment": {
+        "message": "A voice note must be the only attachment included in a message.",
+        "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
         "message": "You",
@@ -806,6 +840,18 @@
     "lightboxImageAlt": {
         "message": "Image sent in conversation",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
+    "imageCaptionIconAlt": {
+        "message": "Icon showing that this image has a caption",
+        "description": "Used for the icon layered on top of an image in message bubbles"
+    },
+    "addACaption": {
+        "message": "Add a caption...",
+        "description": ""
+    },
+    "save": {
+        "message": "Зачувај",
+        "description": ""
     },
     "fileIconAlt": {
         "message": "File icon",

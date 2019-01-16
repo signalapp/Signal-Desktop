@@ -149,12 +149,16 @@
         "message": "Trieu una carpeta",
         "description": "Button to allow the user to find a folder on disk"
     },
+    "chooseFile": {
+        "message": "Trieu un fitxer",
+        "description": "Button to allow the user to find a file on disk"
+    },
     "loadDataHeader": {
         "message": "Carregueu les dades",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "message": "Acabeu de passar pel procés d'exportació i els vostres contactes i missatges esperen pacientment a l'ordinador. Seleccioneu la carpeta que conté les dades de Signal desades.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,11 +174,11 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "Assegureu-vos que heu triat el directori correcte que conté les dades de Signal desades. El seu nom hauria de començar amb \"Signal Export\". També podeu desar una còpia nova de les dades des de l'aplicació Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "message": "Si aquests passos no funcionen, envieu un registre de depuració (Visualitza -> Registre de depuració) perquè puguem ajudar-vos a migrar!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -228,11 +232,11 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messageBelow": {
-        "message": "New message below",
+        "message": "Missatge nou a continuació",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
-        "message": "New messages below",
+        "message": "Missatges nous a continuació",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
@@ -250,7 +254,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "Heu marcat el número de seguretat amb $name$ com a verificat.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -260,7 +264,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "Heu marcat el número de seguretat amb $name$ com a no verificat.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -270,7 +274,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "Heu marcat el número de seguretat amb $name$ com a verificat des d'un altre dispositiu.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -280,7 +284,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "Heu marcat el número de seguretat amb $name$ com a no verificat des d'un altre dispositiu.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -290,15 +294,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "Els números de seguretat amb aquests membres de grup han canviat des que els vau verificar l'últim cop. Cliqueu en un membre del grup per veure'n el número de seguretat nou.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Els números de seguretat amb múltiples membres de grup han canviat des que els vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "El número de seguretat amb $name$ ha canviat des que el vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -308,7 +312,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "El número de seguretat que intenteu verificar ha canviat. Si us plau, reviseu el número de seguretat nou amb $name$. Recordeu que aquest canvi podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -318,11 +322,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Els números de seguretat amb múltiples membres de grup han canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "El número de seguretat amb $name$ ha canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -332,7 +336,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "El número de seguretat amb $name$ ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal. Potser hauríeu de verificar el número de seguretat amb aquest contacte.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -346,7 +350,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "El número de seguretat amb $name$ ha canviat i ja no està verificat. Feu clic per veure'l.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -356,15 +360,15 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "Els números de seguretat amb múltiples membres d'aquest grup ha canviat i ja no estan verificats. Feu clic per veure'ls.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Aquest registre es penjarà públicament perquè el vegin els col·laboradors. Podeu examinar-lo i editar-lo abans d'enviar-lo.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "S'ha produït un error amb la càrrega! Considereu afegir manualment el registre a l'error que envieu.",
         "description": ""
     },
     "reportIssue": {
@@ -420,7 +424,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "El número de seguretat amb aquest contacte ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que aquest contacte simplement ha reinstal·lat el Signal. Potser hauríeu de verificar el número de seguretat nou.",
         "description": ""
     },
     "incomingError": {
@@ -475,16 +479,38 @@
         "message": "Missatge de veu",
         "description": "Name for a voice message attachment"
     },
-    "unsupportedFileType": {
-        "message": "Tipus de fitxer no suportat",
-        "description": "Displayed for outgoing unsupported attachment"
-    },
     "dangerousFileType": {
         "message": "Per raons de seguretat, el tipus d'adjunt no es permès ",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "stagedImageAttachment": {
+        "message": "Adjunció d'imatge per etapes: $path$",
+        "description": "Alt text for staged attachments",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "dog.jpg"
+            }
+        }
+    },
+    "maxOneAttachmentToast": {
+        "message": "El límit és un adjunt per missatge.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "oneNonImageAtATimeToast": {
+        "message": "Quan inclogueu un adjunt que no sigui una imatge, el límit és un adjunt per missatge.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "cannotMixImageAdnNonImageAttachments": {
+        "message": "No podeu barrejar adjunts d'imatge i de no imatge en un mateix missatge.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "maximumAttachments": {
+        "message": "No podeu afegir cap altre adjunt a aquest missatge.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Perdoneu, el fitxer seleccionat excedeix les restriccions de mida dels missatges.",
         "description": ""
     },
     "unableToLoadAttachment": {
@@ -550,7 +576,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
-        "message": "Speech",
+        "message": "Discurs",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
@@ -580,6 +606,10 @@
     "selectAContact": {
         "message": "Seleccioneu un contacte o grup per a començar el xat.",
         "description": ""
+    },
+    "typingAlt": {
+        "message": "Animació d'escriptura per a aquesta conversa",
+        "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
         "message": "Avatar per al contacte $name$",
@@ -620,7 +650,7 @@
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "PO Box",
+        "message": "Apartat de correus",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloadAttachment": {
@@ -643,12 +673,16 @@
         "message": "S'ha trobat el missatge original, però no s'ha carregat. Desplaceu-vos amunt per a carregar-lo.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceNoteMustBeOnlyAttachment": {
+        "message": "Una nota de veu ha de ser l'únic adjunt inclòs en un missatge.",
+        "description": "Shown in toast if tries to record a voice note with any staged attachments"
+    },
     "you": {
         "message": "Vós",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "Es respon a $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -658,7 +692,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "Per enviar missatges d'àudio, permeteu que el Signal Desktop tingui accés al micròfon.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -690,7 +724,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Ha fallat l'acció d'enviar a alguns remitents. Comproveu la connexió de xarxa.",
         "description": ""
     },
     "error": {
@@ -754,7 +788,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "Si voleu verificar la seguretat de l'encriptació d'extrem a extrem amb $name$, compareu els números anteriors amb els números del seu dispositiu.",
         "description": "",
         "placeholders": {
             "name": {
@@ -764,7 +798,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "Encara no heu intercanviat cap missatge amb aquest contacte. El vostre número de seguretat amb ells estarà disponible després del primer missatge.",
         "description": ""
     },
     "moreInfo": {
@@ -788,11 +822,11 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Restableix la sessió segura",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
+        "message": "Miniatura d'una imatge d'un missatge citat",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
@@ -800,12 +834,24 @@
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "Captura de pantalla d'un vídeo adjuntat al missatge",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
         "message": "S'ha enviat una imatge a la conversa",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
+    "imageCaptionIconAlt": {
+        "message": "Icona que mostra que aquesta imatge té un títol",
+        "description": "Used for the icon layered on top of an image in message bubbles"
+    },
+    "addACaption": {
+        "message": "Afegiu-hi un títol...",
+        "description": ""
+    },
+    "save": {
+        "message": "Desa",
+        "description": ""
     },
     "fileIconAlt": {
         "message": "Icona del fitxer",
@@ -858,7 +904,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Finish linking phone",
+        "message": "Acaba l'enllaçament del telèfon",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -1098,7 +1144,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "Heu establert el temporitzador dels missatges efímers a $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1108,7 +1154,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "S'ha actualitzat el temporitzador dels missatges efímers a $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1118,7 +1164,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ ha establert el temporitzador dels missatges efímers a $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1236,7 +1282,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$ ha inhabilitat els missatges efímers.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1250,7 +1296,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Temporitzador establert a $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
