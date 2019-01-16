@@ -9,6 +9,7 @@ install:
   - travis_wait 30 yarn install --frozen-lockfile --network-timeout 1000000
 script:
   - yarn generate
+  - yarn lint-windows
   - yarn test
 env:
   global:
