@@ -17,6 +17,10 @@
   };
 
   storage.setProfileName = async newName => {
+    if (typeof newName !== 'string' && newName !== null) {
+      throw Error('Name must be a string!');
+    }
+
     // Update our profiles accordingly'
     const trimmed = newName && newName.trim();
 

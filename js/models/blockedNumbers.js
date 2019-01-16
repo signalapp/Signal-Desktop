@@ -85,7 +85,7 @@
     comparator(m) {
       return m.get('number');
     },
-    getNumber(number) {
+    getModel(number) {
       return this.models.find(m => m.get('number') === number);
     },
   });

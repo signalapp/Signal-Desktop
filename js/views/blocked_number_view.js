@@ -1,4 +1,5 @@
 /* global BlockedNumberController: false */
+/* global getBlockedNumbers: false */
 /* global Whisper: false */
 /* global storage: false */
 /* global i18n: false */
@@ -19,7 +20,8 @@
     },
     initialize() {
       storage.onready(() => {
-        this.collection = BlockedNumberController.getAll();
+        BlockedNumberController.refresh();
+        this.collection = getBlockedNumbers();
         this.listView = new Whisper.BlockedNumberListView({
           collection: this.collection,
         });

@@ -448,7 +448,7 @@
 
     try {
       await ConversationController.load();
-      BlockedNumberController.load();
+      BlockedNumberController.refresh();
     } catch (error) {
       window.log.error(
         'background.js: ConversationController failed to load:',

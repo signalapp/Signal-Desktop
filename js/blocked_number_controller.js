@@ -13,23 +13,12 @@
   window.getBlockedNumbers = () => blockedNumbers;
 
   window.BlockedNumberController = {
-    getAll() {
-      try {
-        this.load();
-      } catch (e) {
-        window.log.warn(e);
-      }
-      return blockedNumbers;
-    },
     reset() {
+      this.unblockAll();
       blockedNumbers.reset([]);
     },
-    load() {
+    refresh() {
       window.log.info('BlockedNumberController: starting initial fetch');
-
-      if (blockedNumbers.length) {
-        throw new Error('BlockedNumberController: Already loaded!');
-      }
 
       if (!storage) {
         throw new Error(
@@ -39,7 +28,7 @@
 
       // Add the numbers to the collection
       const numbers = storage.getBlockedNumbers();
-      blockedNumbers.add(numbers.map(number => ({ number })));
+      blockedNumbers.reset(numbers.map(number => ({ number })));
     },
     block(number) {
       const ourNumber = textsecure.storage.user.getNumber();
@@ -53,25 +42,22 @@
       storage.addBlockedNumber(number);
 
       // Make sure we don't add duplicates
-      if (blockedNumbers.getNumber(number)) return;
+      if (blockedNumbers.getModel(number)) return;
 
       blockedNumbers.add({ number });
     },
     unblock(number) {
       storage.removeBlockedNumber(number);
 
-      // Make sure we don't add duplicates
-      const model = blockedNumbers.getNumber(number);
+      // Remove the model from our collection
+      const model = blockedNumbers.getModel(number);
       if (model) {
         blockedNumbers.remove(model);
       }
     },
     unblockAll() {
-      const all = blockedNumbers.models;
-      all.forEach(number => {
-        storage.removeBlockedNumber(number);
-        blockedNumbers.remove(number);
-      });
+      const numbers = blockedNumbers.map(m => m.get('number'));
+      numbers.forEach(n => this.unblock(n));
     },
     isBlocked(number) {
       return storage.isBlocked(number);
