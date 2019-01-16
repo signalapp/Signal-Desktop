@@ -192,4 +192,4 @@ describe('Conversation', () => {
       assert.isUndefined(collection.get(convo.id), 'got result for "+"');
     });
   });
-})();
+});
