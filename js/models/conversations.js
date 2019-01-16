@@ -11,7 +11,7 @@
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};
@@ -35,6 +35,7 @@
     upgradeMessageSchema,
     loadAttachmentData,
     getAbsoluteAttachmentPath,
+    // eslint-disable-next-line no-unused-vars
     writeNewAttachmentData,
     deleteAttachmentData,
   } = window.Signal.Migrations;
@@ -322,7 +323,9 @@
       if (this.id !== pubKey) return;
 
       // Go through our messages and find the one that we need to update
-      const messages = this.messageCollection.models.filter(m => m.get('sent_at') === timestamp);
+      const messages = this.messageCollection.models.filter(
+        m => m.get('sent_at') === timestamp
+      );
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
@@ -371,8 +374,7 @@
       // Get the pending friend requests that match the direction
       // If no direction is supplied then return all pending friend requests
       return messages.models.filter(m => {
-        if (m.get('friendStatus') !== 'pending')
-          return false;
+        if (m.get('friendStatus') !== 'pending') return false;
         return direction === null || m.get('direction') === direction;
       });
     },
@@ -461,7 +463,7 @@
       if (!this.isPrivate()) {
         throw new Error(
           'You cannot verify a group conversation. ' +
-          'You must verify individual contacts.'
+            'You must verify individual contacts.'
         );
       }
 
@@ -546,18 +548,27 @@
     },
     isPendingFriendRequest() {
       const status = this.get('friendRequestStatus');
-      return status === FriendRequestStatusEnum.requestSent ||
+      return (
+        status === FriendRequestStatusEnum.requestSent ||
         status === FriendRequestStatusEnum.requestReceived ||
-        status === FriendRequestStatusEnum.pendingSend;
+        status === FriendRequestStatusEnum.pendingSend
+      );
     },
     hasSentFriendRequest() {
-      return this.get('friendRequestStatus') === FriendRequestStatusEnum.requestSent;
+      return (
+        this.get('friendRequestStatus') === FriendRequestStatusEnum.requestSent
+      );
     },
     hasReceivedFriendRequest() {
-      return this.get('friendRequestStatus') === FriendRequestStatusEnum.requestReceived;
+      return (
+        this.get('friendRequestStatus') ===
+        FriendRequestStatusEnum.requestReceived
+      );
     },
     isFriend() {
-      return this.get('friendRequestStatus') === FriendRequestStatusEnum.friends;
+      return (
+        this.get('friendRequestStatus') === FriendRequestStatusEnum.friends
+      );
     },
     updateTextInputState() {
       switch (this.get('friendRequestStatus')) {
@@ -581,8 +592,7 @@
     },
     async setFriendRequestStatus(newStatus) {
       // Ensure that the new status is a valid FriendStatusEnum value
-      if (!(newStatus in Object.values(FriendRequestStatusEnum)))
-        return;
+      if (!(newStatus in Object.values(FriendRequestStatusEnum))) return;
       if (this.get('friendRequestStatus') !== newStatus) {
         this.set({ friendRequestStatus: newStatus });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -609,7 +619,9 @@
       );
     },
     async resetPendingSend() {
-      if (this.get('friendRequestStatus') === FriendRequestStatusEnum.pendingSend) {
+      if (
+        this.get('friendRequestStatus') === FriendRequestStatusEnum.pendingSend
+      ) {
         await this.setFriendRequestStatus(FriendRequestStatusEnum.none);
       }
     },
@@ -644,8 +656,7 @@
     },
     async onFriendRequestTimeout() {
       // Unset the timer
-      if (this.unlockTimer)
-        clearTimeout(this.unlockTimer);
+      if (this.unlockTimer) clearTimeout(this.unlockTimer);
 
       this.unlockTimer = null;
 
@@ -744,7 +755,7 @@
       if (!this.isPrivate()) {
         throw new Error(
           'You cannot set a group conversation as trusted. ' +
-          'You must set individual contacts as trusted.'
+            'You must set individual contacts as trusted.'
         );
       }
 
@@ -1054,9 +1065,9 @@
               fileName: fileName || null,
               thumbnail: thumbnail
                 ? {
-                  ...(await loadAttachmentData(thumbnail)),
-                  objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-                }
+                    ...(await loadAttachmentData(thumbnail)),
+                    objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+                  }
                 : null,
             };
           })
@@ -1066,8 +1077,7 @@
 
     async sendMessage(body, attachments, quote) {
       // Input should be blocked if there is a pending friend request
-      if (this.isPendingFriendRequest())
-        return;
+      if (this.isPendingFriendRequest()) return;
 
       this.clearTypingTimers();
 
@@ -1107,7 +1117,9 @@
           });
         } else {
           // Check if we have sent a friend request
-          const outgoingRequests = await this.getPendingFriendRequests('outgoing');
+          const outgoingRequests = await this.getPendingFriendRequests(
+            'outgoing'
+          );
           if (outgoingRequests.length > 0) {
             // Check if the requests have errored, if so then remove them
             // and send the new request if possible
@@ -1127,7 +1139,9 @@
             // because one of them was sent successfully
             if (friendRequestSent) return null;
           }
-          await this.setFriendRequestStatus(FriendRequestStatusEnum.pendingSend);
+          await this.setFriendRequestStatus(
+            FriendRequestStatusEnum.pendingSend
+          );
 
           // Send the friend request!
           messageWithSchema = await upgradeMessageSchema({
@@ -1374,8 +1388,8 @@
             accessKey && sealedSender === SEALED_SENDER.ENABLED
               ? accessKey
               : window.Signal.Crypto.arrayBufferToBase64(
-                window.Signal.Crypto.getRandomBytes(16)
-              ),
+                  window.Signal.Crypto.getRandomBytes(16)
+                ),
         },
       };
     },
@@ -1532,8 +1546,7 @@
     },
     async setSessionResetStatus(newStatus) {
       // Ensure that the new status is a valid SessionResetEnum value
-      if (!(newStatus in Object.values(SessionResetEnum)))
-        return;
+      if (!(newStatus in Object.values(SessionResetEnum))) return;
       if (this.get('sessionResetStatus') !== newStatus) {
         this.set({ sessionResetStatus: newStatus });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -1552,7 +1565,9 @@
     },
 
     isSessionResetReceived() {
-      return this.get('sessionResetStatus') === SessionResetEnum.request_received;
+      return (
+        this.get('sessionResetStatus') === SessionResetEnum.request_received
+      );
     },
 
     isSessionResetOngoing() {
@@ -1584,7 +1599,10 @@
         // send empty message to confirm that we have adopted the new session
         await window.libloki.api.sendEmptyMessage(this.id);
       }
-      await this.createAndStoreEndSessionMessage({ type: 'incoming', endSessionType: 'done' });
+      await this.createAndStoreEndSessionMessage({
+        type: 'incoming',
+        endSessionType: 'done',
+      });
       await this.setSessionResetStatus(SessionResetEnum.none);
     },
 
@@ -1593,13 +1611,22 @@
         // Only create a new message if *we* initiated the session reset.
         // On the receiver side, the actual message containing the END_SESSION flag
         // will ensure the "session reset" message will be added to their conversation.
-        if (this.get('sessionResetStatus') !== SessionResetEnum.request_received) {
+        if (
+          this.get('sessionResetStatus') !== SessionResetEnum.request_received
+        ) {
           await this.onSessionResetInitiated();
-          const message = await this.createAndStoreEndSessionMessage({ type: 'outgoing', endSessionType: 'ongoing' });
+          const message = await this.createAndStoreEndSessionMessage({
+            type: 'outgoing',
+            endSessionType: 'ongoing',
+          });
           const options = this.getSendOptions();
           await message.send(
             this.wrapSend(
-              textsecure.messaging.resetSession(this.id, message.get('sent_at'), options)
+              textsecure.messaging.resetSession(
+                this.id,
+                message.get('sent_at'),
+                options
+              )
             )
           );
           if (message.hasErrors()) {
@@ -1699,7 +1726,7 @@
           } else {
             window.log.warn(
               'Marked a message as read in the database, but ' +
-              'it was not in messageCollection.'
+                'it was not in messageCollection.'
             );
           }
 
@@ -2062,7 +2089,8 @@
       const color = this.getColor();
       const avatar = this.get('avatar') || this.get('profileAvatar');
 
-      const url = avatar && avatar.path ? getAbsoluteAttachmentPath(avatar.path) : avatar;
+      const url =
+        avatar && avatar.path ? getAbsoluteAttachmentPath(avatar.path) : avatar;
 
       if (url) {
         return { url, color };
@@ -2090,7 +2118,7 @@
     notify(message) {
       if (message.isFriendRequest()) {
         if (this.hasSentFriendRequest())
-          return this.notifyFriendRequest(message.get('source'), 'accepted')
+          return this.notifyFriendRequest(message.get('source'), 'accepted');
         return this.notifyFriendRequest(message.get('source'), 'requested');
       }
       if (!message.isIncoming()) return Promise.resolve();
@@ -2126,8 +2154,7 @@
     // Notification for friend request received
     async notifyFriendRequest(source, type) {
       // Data validation
-      if (!source)
-        throw new Error('Invalid source');
+      if (!source) throw new Error('Invalid source');
       if (!['accepted', 'requested'].includes(type))
         throw new Error('Type must be accepted or requested.');
 

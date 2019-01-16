@@ -13,7 +13,7 @@
 */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};
@@ -321,8 +321,7 @@
     },
 
     onChangePlaceholder(type) {
-      if (!this.$messageField)
-        return;
+      if (!this.$messageField) return;
       let placeholder;
       switch (type) {
         case 'friend-request':
@@ -1623,10 +1622,15 @@
       }
 
       const input = this.$messageField;
-      const inputMessage = window.Signal.Emoji.replaceColons(input.val()).trim();
+      const inputMessage = window.Signal.Emoji.replaceColons(
+        input.val()
+      ).trim();
 
       // Limit the message to 2000 characters
-      const message = inputMessage.substring(0, Math.min(2000, inputMessage.length));
+      const message = inputMessage.substring(
+        0,
+        Math.min(2000, inputMessage.length)
+      );
 
       try {
         if (!message.length && !this.fileInput.hasFiles()) {

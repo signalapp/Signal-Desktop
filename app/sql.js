@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
@@ -723,9 +722,12 @@ async function getPreKeyById(id) {
   return getById(PRE_KEYS_TABLE, id);
 }
 async function getPreKeyByRecipient(recipient) {
-  const row = await db.get(`SELECT * FROM ${PRE_KEYS_TABLE} WHERE recipient = $recipient;`, {
-    $recipient: recipient,
-  });
+  const row = await db.get(
+    `SELECT * FROM ${PRE_KEYS_TABLE} WHERE recipient = $recipient;`,
+    {
+      $recipient: recipient,
+    }
+  );
 
   if (!row) {
     return null;
@@ -768,9 +770,12 @@ async function getContactPreKeyById(id) {
   return getById(CONTACT_PRE_KEYS_TABLE, id);
 }
 async function getContactPreKeyByIdentityKey(key) {
-  const row = await db.get(`SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString ORDER BY keyId DESC LIMIT 1;`, {
-    $identityKeyString: key,
-  });
+  const row = await db.get(
+    `SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString ORDER BY keyId DESC LIMIT 1;`,
+    {
+      $identityKeyString: key,
+    }
+  );
 
   if (!row) {
     return null;
@@ -791,9 +796,12 @@ async function bulkAddContactPreKeys(array) {
   return bulkAdd(CONTACT_PRE_KEYS_TABLE, array);
 }
 async function removeContactPreKeyByIdentityKey(key) {
-  await db.run(`DELETE FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
-    $identityKeyString: key,
-  });
+  await db.run(
+    `DELETE FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
+    {
+      $identityKeyString: key,
+    }
+  );
 }
 async function removeAllContactPreKeys() {
   return removeAllFromTable(CONTACT_PRE_KEYS_TABLE);
@@ -824,9 +832,12 @@ async function getContactSignedPreKeyById(id) {
   return getById(CONTACT_SIGNED_PRE_KEYS_TABLE, id);
 }
 async function getContactSignedPreKeyByIdentityKey(key) {
-  const row = await db.get(`SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
-    $identityKeyString: key,
-  });
+  const row = await db.get(
+    `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
+    {
+      $identityKeyString: key,
+    }
+  );
 
   if (!row) {
     return null;
@@ -846,9 +857,12 @@ async function bulkAddContactSignedPreKeys(array) {
   return bulkAdd(CONTACT_SIGNED_PRE_KEYS_TABLE, array);
 }
 async function removeContactSignedPreKeyByIdentityKey(key) {
-  await db.run(`DELETE FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`, {
-    $identityKeyString: key,
-  });
+  await db.run(
+    `DELETE FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
+    {
+      $identityKeyString: key,
+    }
+  );
 }
 async function removeAllContactSignedPreKeys() {
   return removeAllFromTable(CONTACT_SIGNED_PRE_KEYS_TABLE);
@@ -1036,8 +1050,16 @@ async function getConversationCount() {
 }
 
 async function saveConversation(data) {
-  // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, friendRequestStatus, profileName } = data;
+  const {
+    id,
+    // eslint-disable-next-line camelcase
+    active_at,
+    type,
+    members,
+    name,
+    friendRequestStatus,
+    profileName,
+  } = data;
 
   await db.run(
     `INSERT INTO conversations (
@@ -1092,8 +1114,16 @@ async function saveConversations(arrayOfConversations) {
 }
 
 async function updateConversation(data) {
-  // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, friendRequestStatus, profileName } = data;
+  const {
+    id,
+    // eslint-disable-next-line camelcase
+    active_at,
+    type,
+    members,
+    name,
+    friendRequestStatus,
+    profileName,
+  } = data;
 
   await db.run(
     `UPDATE conversations SET
@@ -1353,10 +1383,7 @@ async function saveSeenMessageHashes(arrayOfHashes) {
 }
 
 async function saveSeenMessageHash(data) {
-  const {
-    expiresAt,
-    hash,
-  } = data;
+  const { expiresAt, hash } = data;
   await db.run(
     `INSERT INTO seenMessages (
       expiresAt,
@@ -1364,7 +1391,8 @@ async function saveSeenMessageHash(data) {
     ) values (
       $expiresAt,
       $hash
-    );`, {
+    );`,
+    {
       $expiresAt: expiresAt,
       $hash: hash,
     }
@@ -1476,7 +1504,8 @@ async function getMessagesByConversation(
   conversationId,
   { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' } = {}
 ) {
-  const rows = await db.all(`
+  const rows = await db.all(
+    `
     SELECT json FROM messages WHERE
       conversationId = $conversationId AND
       received_at < $received_at AND
@@ -1509,7 +1538,9 @@ async function getMessagesBySentAt(sentAt) {
 
 async function getSeenMessagesByHashList(hashes) {
   const rows = await db.all(
-    `SELECT * FROM seenMessages WHERE hash IN ( ${hashes.map(() => '?').join(', ')} );`,
+    `SELECT * FROM seenMessages WHERE hash IN ( ${hashes
+      .map(() => '?')
+      .join(', ')} );`,
     hashes
   );
 

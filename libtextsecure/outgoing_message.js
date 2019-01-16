@@ -119,22 +119,24 @@ OutgoingMessage.prototype = {
             if (device.registrationId === 0) {
               window.log.info('device registrationId 0!');
             }
-            return builder.processPreKey(device).then(async () => {
-              // TODO: only remove the keys that were used above!
-              await window.libloki.storage.removeContactPreKeyBundle(number);
-              return true;
-            }
-            ).catch(error => {
-              if (error.message === 'Identity key changed') {
-                // eslint-disable-next-line no-param-reassign
-                error.timestamp = this.timestamp;
-                // eslint-disable-next-line no-param-reassign
-                error.originalMessage = this.message.toArrayBuffer();
-                // eslint-disable-next-line no-param-reassign
-                error.identityKey = device.identityKey;
-              }
-              throw error;
-            });
+            return builder
+              .processPreKey(device)
+              .then(async () => {
+                // TODO: only remove the keys that were used above!
+                await window.libloki.storage.removeContactPreKeyBundle(number);
+                return true;
+              })
+              .catch(error => {
+                if (error.message === 'Identity key changed') {
+                  // eslint-disable-next-line no-param-reassign
+                  error.timestamp = this.timestamp;
+                  // eslint-disable-next-line no-param-reassign
+                  error.originalMessage = this.message.toArrayBuffer();
+                  // eslint-disable-next-line no-param-reassign
+                  error.identityKey = device.identityKey;
+                }
+                throw error;
+              });
           }
 
           return false;
@@ -184,7 +186,12 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
     const pubKey = number;
     try {
-      const result = await this.lokiserver.sendMessage(pubKey, data, timestamp, ttl);
+      const result = await this.lokiserver.sendMessage(
+        pubKey,
+        data,
+        timestamp,
+        ttl
+      );
       return result;
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
@@ -288,17 +295,24 @@ OutgoingMessage.prototype = {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
         const ourKey = textsecure.storage.user.getNumber();
         const options = {};
-        const fallBackCipher = new libloki.crypto.FallBackSessionCipher(address);
+        const fallBackCipher = new libloki.crypto.FallBackSessionCipher(
+          address
+        );
 
         // Check if we need to attach the preKeys
         let sessionCipher;
         const isFriendRequest = this.messageType === 'friend-request';
-        const flags = this.message.dataMessage ? this.message.dataMessage.get_flags() : null;
-        const isEndSession = flags === textsecure.protobuf.DataMessage.Flags.END_SESSION;
+        const flags = this.message.dataMessage
+          ? this.message.dataMessage.get_flags()
+          : null;
+        const isEndSession =
+          flags === textsecure.protobuf.DataMessage.Flags.END_SESSION;
         if (isFriendRequest || isEndSession) {
           // Encrypt them with the fallback
           const pkb = await libloki.storage.getPreKeyBundleForContact(number);
-          const preKeyBundleMessage = new textsecure.protobuf.PreKeyBundleMessage(pkb);
+          const preKeyBundleMessage = new textsecure.protobuf.PreKeyBundleMessage(
+            pkb
+          );
           this.message.preKeyBundleMessage = preKeyBundleMessage;
           window.log.info('attaching prekeys to outgoing message');
         }
@@ -325,10 +339,7 @@ OutgoingMessage.prototype = {
         if (!this.fallBackEncryption) {
           // eslint-disable-next-line no-param-reassign
           ciphertext.body = new Uint8Array(
-            dcodeIO.ByteBuffer.wrap(
-              ciphertext.body,
-              'binary'
-            ).toArrayBuffer()
+            dcodeIO.ByteBuffer.wrap(ciphertext.body, 'binary').toArrayBuffer()
           );
         }
         return {
@@ -345,7 +356,10 @@ OutgoingMessage.prototype = {
         const outgoingObject = outgoingObjects[0];
         const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
         let ttl;
-        if (outgoingObject.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+        if (
+          outgoingObject.type ===
+          textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
+        ) {
           ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
         } else {
           const hours = window.getMessageTTL() || 24; // 1 day default for any other message

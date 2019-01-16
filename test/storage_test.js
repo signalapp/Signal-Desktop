@@ -19,7 +19,8 @@ describe('SignalProtocolStore', () => {
       privKey: libsignal.crypto.getRandomBytes(32),
     };
 
-    storage.put('registrationId', 1337)
+    storage
+      .put('registrationId', 1337)
       .then(() => storage.put('identityKey', identityKey))
       .then(() => storage.fetch())
       .then(done, done);

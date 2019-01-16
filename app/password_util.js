@@ -6,8 +6,9 @@ const ERRORS = {
   CHARACTER: 'Password must only contain letters, numbers and symbols',
 };
 
-const generateHash = (phrase) => phrase && sha512(phrase.trim());
-const matchesHash = (phrase, hash) => phrase && sha512(phrase.trim()) === hash.trim();
+const generateHash = phrase => phrase && sha512(phrase.trim());
+const matchesHash = (phrase, hash) =>
+  phrase && sha512(phrase.trim()) === hash.trim();
 
 const validatePassword = (phrase, i18n) => {
   if (!phrase || typeof phrase !== 'string') {
@@ -20,13 +21,13 @@ const validatePassword = (phrase, i18n) => {
   }
 
   // Restrict characters to letters, numbers and symbols
-  const characterRegex = /^[a-zA-Z0-9-!()._`~@#$%^&*+=[\]{}|<>,;: ]+$/
+  const characterRegex = /^[a-zA-Z0-9-!()._`~@#$%^&*+=[\]{}|<>,;: ]+$/;
   if (!characterRegex.test(trimmed)) {
     return i18n ? i18n('passwordCharacterError') : ERRORS.CHARACTER;
   }
 
   return null;
-}
+};
 
 module.exports = {
   generateHash,

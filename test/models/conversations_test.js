@@ -29,7 +29,10 @@ describe('ConversationCollection', () => {
 });
 
 describe('Conversation', () => {
-  const attributes = { type: 'private', id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' };
+  const attributes = {
+    type: 'private',
+    id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
+  };
   before(async () => {
     const convo = new Whisper.ConversationCollection().add(attributes);
     await window.Signal.Data.saveConversation(convo.attributes, {
@@ -50,7 +53,9 @@ describe('Conversation', () => {
   after(clearDatabase);
 
   it('sorts its contacts in an intl-friendly way', () => {
-    const convo = new Whisper.Conversation({ id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
+    const convo = new Whisper.Conversation({
+      id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
+    });
     convo.contactCollection.add(
       new Whisper.Conversation({
         name: 'C',
@@ -100,7 +105,10 @@ describe('Conversation', () => {
   it('has a title', () => {
     const convos = new Whisper.ConversationCollection();
     let convo = convos.add(attributes);
-    assert.equal(convo.getTitle(), '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab');
+    assert.equal(
+      convo.getTitle(),
+      '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab'
+    );
 
     convo = convos.add({ type: '' });
     assert.equal(convo.getTitle(), 'Unknown group');
@@ -112,7 +120,10 @@ describe('Conversation', () => {
   it('returns the number', () => {
     const convos = new Whisper.ConversationCollection();
     let convo = convos.add(attributes);
-    assert.equal(convo.getNumber(), '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab');
+    assert.equal(
+      convo.getNumber(),
+      '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab'
+    );
 
     convo = convos.add({ type: '' });
     assert.equal(convo.getNumber(), '');
@@ -127,17 +138,39 @@ describe('Conversation', () => {
 
   describe('when set to private', () => {
     it('correctly validates hex numbers', () => {
-      const regularId = new Whisper.Conversation({ type: 'private', id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
-      const invalidId = new Whisper.Conversation({ type: 'private', id: 'j71d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
+      const regularId = new Whisper.Conversation({
+        type: 'private',
+        id:
+          '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
+      });
+      const invalidId = new Whisper.Conversation({
+        type: 'private',
+        id:
+          'j71d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
+      });
       assert.ok(regularId.isValid());
       assert.notOk(invalidId.isValid());
     });
 
     it('correctly validates length', () => {
-      const regularId33 = new Whisper.Conversation({ type: 'private', id: '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
-      const regularId32 = new Whisper.Conversation({ type: 'private', id: '1d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab' });
-      const shortId = new Whisper.Conversation({ type: 'private', id: '771d11d' });
-      const longId = new Whisper.Conversation({ type: 'private', id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94abaa' });
+      const regularId33 = new Whisper.Conversation({
+        type: 'private',
+        id:
+          '051d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
+      });
+      const regularId32 = new Whisper.Conversation({
+        type: 'private',
+        id: '1d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
+      });
+      const shortId = new Whisper.Conversation({
+        type: 'private',
+        id: '771d11d',
+      });
+      const longId = new Whisper.Conversation({
+        type: 'private',
+        id:
+          '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94abaa',
+      });
       assert.ok(regularId33.isValid());
       assert.ok(regularId32.isValid());
       assert.notOk(shortId.isValid());
@@ -152,7 +185,8 @@ describe('Conversation', () => {
 
     beforeEach(async () => {
       convo = new Whisper.ConversationCollection().add({
-        id: '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
+        id:
+          '771d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
         type: 'private',
         name: 'John Doe',
       });
@@ -169,7 +203,10 @@ describe('Conversation', () => {
           const collection = new Whisper.ConversationCollection();
           await collection.search(query);
 
-          assert.isDefined(collection.get(convo.id), `no result for "${query}"`);
+          assert.isDefined(
+            collection.get(convo.id),
+            `no result for "${query}"`
+          );
         })
       );
     }

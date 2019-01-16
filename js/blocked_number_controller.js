@@ -1,4 +1,4 @@
-/* global , Whisper, storage, ConversationController */
+/* global , Whisper, storage */
 /* global textsecure: false */
 
 /* eslint-disable more/no-then */
@@ -32,14 +32,14 @@
       }
 
       if (!storage) {
-        throw new Error('BlockedNumberController: Could not load blocked numbers');
+        throw new Error(
+          'BlockedNumberController: Could not load blocked numbers'
+        );
       }
 
       // Add the numbers to the collection
       const numbers = storage.getBlockedNumbers();
-      blockedNumbers.add(
-        numbers.map(number => ({ number }))
-      );
+      blockedNumbers.add(numbers.map(number => ({ number })));
     },
     block(number) {
       const ourNumber = textsecure.storage.user.getNumber();
@@ -53,8 +53,7 @@
       storage.addBlockedNumber(number);
 
       // Make sure we don't add duplicates
-      if (blockedNumbers.getNumber(number))
-        return;
+      if (blockedNumbers.getNumber(number)) return;
 
       blockedNumbers.add({ number });
     },

@@ -54,7 +54,7 @@ if (window.console) {
   console._log = console.log;
   console.log = log;
   console._trace = console.trace;
-  console._debug = console.debug
+  console._debug = console.debug;
   console._info = console.info;
   console._warn = console.warn;
   console._error = console.error;
@@ -101,7 +101,7 @@ function fetch() {
 }
 
 const publish = debuglogs.upload;
-const development = (window.getEnvironment() !== 'production');
+const development = window.getEnvironment() !== 'production';
 
 // A modern logging interface for the browser
 

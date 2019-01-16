@@ -38,5 +38,4 @@
       this.$('.error').text(string);
     },
   });
-
 })();

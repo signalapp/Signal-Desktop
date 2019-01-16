@@ -89,5 +89,4 @@
       return this.models.find(m => m.get('number') === number);
     },
   });
-
 })();

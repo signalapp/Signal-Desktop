@@ -571,7 +571,6 @@ async function removeAllContactSignedPreKeys() {
   await channels.removeAllContactSignedPreKeys();
 }
 
-
 // Items
 
 const ITEM_KEYS = {
@@ -874,9 +873,7 @@ async function getMessagesByConversation(
   return new MessageCollection(messages);
 }
 
-async function getSeenMessagesByHashList(
-  hashes
-) {
+async function getSeenMessagesByHashList(hashes) {
   const seenMessages = await channels.getSeenMessagesByHashList(hashes);
   return seenMessages;
 }

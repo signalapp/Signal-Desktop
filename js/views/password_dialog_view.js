@@ -50,10 +50,13 @@
       const password = this.$('#password').val();
       const passwordConfirmation = this.$('#password-confirmation').val();
 
-      const pairValidation = this.validatePasswordPair(password, passwordConfirmation);
+      const pairValidation = this.validatePasswordPair(
+        password,
+        passwordConfirmation
+      );
       const hashValidation = await this.validatePasswordHash(password);
 
-      return (pairValidation || hashValidation);
+      return pairValidation || hashValidation;
     },
     async validatePasswordHash(password) {
       // Check if the password matches the hash we have stored
@@ -65,15 +68,20 @@
     },
     validatePasswordPair(password, passwordConfirmation) {
       if (!_.isEmpty(password)) {
-
         // Check if the password is first valid
-        const passwordValidation = passwordUtil.validatePassword(password, i18n);
+        const passwordValidation = passwordUtil.validatePassword(
+          password,
+          i18n
+        );
         if (passwordValidation) {
           return passwordValidation;
         }
 
         // Check if the confirmation password is the same
-        if (!passwordConfirmation || password.trim() !== passwordConfirmation.trim()) {
+        if (
+          !passwordConfirmation ||
+          password.trim() !== passwordConfirmation.trim()
+        ) {
           return i18n('passwordsDoNotMatch');
         }
       }
@@ -161,8 +169,11 @@
       const oldPassword = this.$('#old-password').val();
 
       // Validate the old password
-      if (!_.isEmpty(oldPassword) ) {
-        const oldPasswordValidation = passwordUtil.validatePassword(oldPassword, i18n);
+      if (!_.isEmpty(oldPassword)) {
+        const oldPasswordValidation = passwordUtil.validatePassword(
+          oldPassword,
+          i18n
+        );
         if (oldPasswordValidation) {
           return oldPasswordValidation;
         }
@@ -173,7 +184,10 @@
       const password = this.$('#new-password').val();
       const passwordConfirmation = this.$('#new-password-confirmation').val();
 
-      const pairValidation = this.validatePasswordPair(password, passwordConfirmation);
+      const pairValidation = this.validatePasswordPair(
+        password,
+        passwordConfirmation
+      );
       const hashValidation = await this.validatePasswordHash(oldPassword);
 
       return pairValidation || hashValidation;
@@ -189,7 +203,6 @@
   });
 
   Whisper.getPasswordDialogView = (type, resolve, reject) => {
-
     // This is a differently styled dialog
     if (type === 'change') {
       return new ChangePasswordDialogView({
@@ -201,7 +214,8 @@
     }
 
     // Set and Remove is basically the same UI
-    const title = type === 'remove' ? i18n('removePassword') : i18n('setPassword');
+    const title =
+      type === 'remove' ? i18n('removePassword') : i18n('setPassword');
     const okTitle = type === 'remove' ? i18n('remove') : i18n('set');
     return new PasswordDialogView({
       title,

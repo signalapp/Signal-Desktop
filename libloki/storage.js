@@ -1,7 +1,7 @@
 /* global window, libsignal, textsecure */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   window.libloki = window.libloki || {};
 
   async function getPreKeyBundleForContact(pubKey) {
@@ -107,14 +107,16 @@
   };
 
   store.loadContactPreKey = async pubKey => {
-    const preKey = await window.Signal.Data.getContactPreKeyByIdentityKey(pubKey);
+    const preKey = await window.Signal.Data.getContactPreKeyByIdentityKey(
+      pubKey
+    );
     if (preKey) {
       return {
         id: preKey.id,
         keyId: preKey.keyId,
         publicKey: preKey.publicKey,
         identityKeyString: preKey.identityKeyString,
-      }
+      };
     }
 
     window.log.warn('Failed to fetch contact prekey:', pubKey);
@@ -123,7 +125,10 @@
 
   store.loadContactPreKeys = async filters => {
     const { keyId, identityKeyString } = filters;
-    const keys = await window.Signal.Data.getContactPreKeys(keyId, identityKeyString);
+    const keys = await window.Signal.Data.getContactPreKeys(
+      keyId,
+      identityKeyString
+    );
     if (keys) {
       return keys.map(preKey => ({
         id: preKey.id,
@@ -133,10 +138,7 @@
       }));
     }
 
-    window.log.warn(
-      'Failed to fetch signed prekey with filters',
-      filters
-    );
+    window.log.warn('Failed to fetch signed prekey with filters', filters);
     return undefined;
   };
 
@@ -162,7 +164,9 @@
   };
 
   store.loadContactSignedPreKey = async pubKey => {
-    const preKey = await window.Signal.Data.getContactSignedPreKeyByIdentityKey(pubKey);
+    const preKey = await window.Signal.Data.getContactSignedPreKeyByIdentityKey(
+      pubKey
+    );
     if (preKey) {
       return {
         id: preKey.id,
@@ -180,7 +184,10 @@
 
   store.loadContactSignedPreKeys = async filters => {
     const { keyId, identityKeyString } = filters;
-    const keys = await window.Signal.Data.getContactSignedPreKeys(keyId, identityKeyString);
+    const keys = await window.Signal.Data.getContactSignedPreKeys(
+      keyId,
+      identityKeyString
+    );
     if (keys) {
       return keys.map(preKey => ({
         id: preKey.id,

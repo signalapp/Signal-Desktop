@@ -1,9 +1,9 @@
 /* global window, dcodeIO, textsecure, StringView */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   let server;
-  const development = (window.getEnvironment() !== 'production');
+  const development = window.getEnvironment() !== 'production';
   const pollTime = development ? 100 : 5000;
 
   function stringToArrayBufferBase64(string) {
@@ -42,9 +42,13 @@
     };
   };
 
-  const filterIncomingMessages = async function filterIncomingMessages(messages) {
+  const filterIncomingMessages = async function filterIncomingMessages(
+    messages
+  ) {
     const incomingHashes = messages.map(m => m.hash);
-    const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(incomingHashes);
+    const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(
+      incomingHashes
+    );
     const newMessages = messages.filter(m => !dupHashes.includes(m.hash));
     const newHashes = newMessages.map(m => ({
       expiresAt: m.expiration,
@@ -59,34 +63,42 @@
     let { handleRequest } = opts;
     if (typeof handleRequest !== 'function') {
       handleRequest = request => request.respond(404, 'Not found');
-    };
+    }
     let connected = false;
 
     this.startPolling = async function pollServer(callBack) {
       const myKeys = await textsecure.storage.protocol.getIdentityKeyPair();
-      const pubKey = StringView.arrayBufferToHex(myKeys.pubKey)
+      const pubKey = StringView.arrayBufferToHex(myKeys.pubKey);
       let result;
       try {
         result = await server.retrieveMessages(pubKey);
         connected = true;
       } catch (err) {
         connected = false;
-        setTimeout(() => { pollServer(callBack); }, pollTime);
+        setTimeout(() => {
+          pollServer(callBack);
+        }, pollTime);
         return;
       }
       if (typeof callBack === 'function') {
         callBack(connected);
       }
       if (!result.messages) {
-        setTimeout(() => { pollServer(callBack); }, pollTime);
+        setTimeout(() => {
+          pollServer(callBack);
+        }, pollTime);
         return;
       }
       const newMessages = await filterIncomingMessages(result.messages);
       newMessages.forEach(async message => {
         const { data } = message;
         const dataPlaintext = stringToArrayBufferBase64(data);
-        const messageBuf = textsecure.protobuf.WebSocketMessage.decode(dataPlaintext);
-        if (messageBuf.type === textsecure.protobuf.WebSocketMessage.Type.REQUEST) {
+        const messageBuf = textsecure.protobuf.WebSocketMessage.decode(
+          dataPlaintext
+        );
+        if (
+          messageBuf.type === textsecure.protobuf.WebSocketMessage.Type.REQUEST
+        ) {
           handleRequest(
             new IncomingHttpResponse({
               verb: messageBuf.request.verb,
@@ -97,11 +109,13 @@
           );
         }
       });
-      setTimeout(() => { pollServer(callBack); }, pollTime);
+      setTimeout(() => {
+        pollServer(callBack);
+      }, pollTime);
     };
 
     this.isConnected = function isConnected() {
       return connected;
-    }
+    };
   };
 })();

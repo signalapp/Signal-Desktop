@@ -165,7 +165,13 @@ export class ConversationListItem extends React.Component<Props> {
   }
 
   public render() {
-    const { unreadCount, onClick, isSelected, showFriendRequestIndicator, isBlocked } = this.props;
+    const {
+      unreadCount,
+      onClick,
+      isSelected,
+      showFriendRequestIndicator,
+      isBlocked,
+    } = this.props;
 
     return (
       <div
@@ -175,8 +181,10 @@ export class ConversationListItem extends React.Component<Props> {
           'module-conversation-list-item',
           unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
           isSelected ? 'module-conversation-list-item--is-selected' : null,
-          showFriendRequestIndicator ? 'module-conversation-list-item--has-friend-request' : null,
-          isBlocked ? 'module-conversation-list-item--is-blocked' : null,
+          showFriendRequestIndicator
+            ? 'module-conversation-list-item--has-friend-request'
+            : null,
+          isBlocked ? 'module-conversation-list-item--is-blocked' : null
         )}
       >
         {this.renderAvatar()}

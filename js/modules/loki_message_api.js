@@ -4,7 +4,6 @@ const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
 
 class LokiServer {
-
   constructor({ urls }) {
     this.nodes = [];
     urls.forEach(url => {
@@ -29,7 +28,14 @@ class LokiServer {
         timestamp: messageTimeStamp,
       });
       const development = window.getEnvironment() !== 'production';
-      nonce = await callWorker('calcPoW', timestamp, ttl, pubKey, data64, development);
+      nonce = await callWorker(
+        'calcPoW',
+        timestamp,
+        ttl,
+        pubKey,
+        data64,
+        development
+      );
     } catch (err) {
       // Something went horribly wrong
       // TODO: Handle gracefully
@@ -134,7 +140,11 @@ class LokiServer {
       return result;
     }
     log.error(options.type, options.url, response.status, 'Error');
-    throw HTTPError('retrieveMessages: error response', response.status, result);
+    throw HTTPError(
+      'retrieveMessages: error response',
+      response.status,
+      result
+    );
   }
 }
 

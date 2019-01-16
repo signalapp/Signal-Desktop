@@ -1,7 +1,7 @@
 /* global window, textsecure, log */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   window.libloki = window.libloki || {};
 
   async function sendFriendRequestAccepted(pubKey) {

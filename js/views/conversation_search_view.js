@@ -21,7 +21,10 @@
     },
     render_attributes() {
       // Show the appropriate message based on model validity
-      const message = this.model && this.model.isValid() ? i18n('startConversation') : i18n('invalidNumberError');
+      const message =
+        this.model && this.model.isValid()
+          ? i18n('startConversation')
+          : i18n('invalidNumberError');
       return {
         number: message,
         title: this.model.getNumber(),
@@ -70,7 +73,6 @@
     filterContacts() {
       const query = this.$input.val().trim();
       if (query.length) {
-
         // Update the contact model
         this.new_contact_view.model.set('id', query);
         this.new_contact_view.render().$el.hide();

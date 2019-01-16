@@ -382,7 +382,8 @@
     color: white;
     outline: none;
 
-    &:hover, &:disabled {
+    &:hover,
+    &:disabled {
       background-color: $color-loki-green-dark;
       border-color: $color-loki-green-dark;
     }

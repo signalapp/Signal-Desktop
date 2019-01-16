@@ -26,3 +26,8 @@ test/blanket_mocha.js
 
 # TypeScript generated files
 ts/**/*.js
+
+# Libloki specific files
+libloki/test/components.js
+libloki/mnemonic.js
+libloki/sc_reduce32.js

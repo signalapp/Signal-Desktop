@@ -12,7 +12,7 @@
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   'use strict';
 
   window.Whisper = window.Whisper || {};
@@ -202,8 +202,7 @@
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
-        if (this.isFriendRequest())
-          return `Friend Request: ${description}`;
+        if (this.isFriendRequest()) return `Friend Request: ${description}`;
         return description;
       }
       if (this.get('attachments').length > 0) {
@@ -364,7 +363,7 @@
         onBlockUser,
         onUnblockUser,
         onRetrySend,
-      }
+      };
     },
     findContact(phoneNumber) {
       return ConversationController.get(phoneNumber);
@@ -444,7 +443,8 @@
 
       // Handle friend request statuses
       const isFriendRequest = this.isFriendRequest();
-      const isOutgoingFriendRequest = isFriendRequest && this.get('direction') === 'outgoing';
+      const isOutgoingFriendRequest =
+        isFriendRequest && this.get('direction') === 'outgoing';
       const isOutgoing = this.isOutgoing() || isOutgoingFriendRequest;
 
       // Only return the status on outgoing messages
@@ -562,8 +562,8 @@
         contact.number && contact.number[0] && contact.number[0].value;
       const onSendMessage = firstNumber
         ? () => {
-          this.trigger('open-conversation', firstNumber);
-        }
+            this.trigger('open-conversation', firstNumber);
+          }
         : null;
       const onClick = async () => {
         // First let's be sure that the signal account check is complete.
@@ -602,8 +602,8 @@
         !path && !objectUrl
           ? null
           : Object.assign({}, attachment.thumbnail || {}, {
-            objectUrl: path || objectUrl,
-          });
+              objectUrl: path || objectUrl,
+            });
 
       return Object.assign({}, attachment, {
         isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
@@ -670,15 +670,15 @@
         url: getAbsoluteAttachmentPath(path),
         screenshot: screenshot
           ? {
-            ...screenshot,
-            url: getAbsoluteAttachmentPath(screenshot.path),
-          }
+              ...screenshot,
+              url: getAbsoluteAttachmentPath(screenshot.path),
+            }
           : null,
         thumbnail: thumbnail
           ? {
-            ...thumbnail,
-            url: getAbsoluteAttachmentPath(thumbnail.path),
-          }
+              ...thumbnail,
+              url: getAbsoluteAttachmentPath(thumbnail.path),
+            }
           : null,
       };
     },
@@ -1143,7 +1143,7 @@
       errors = errors.concat(this.get('errors') || []);
 
       if (this.isEndSession) {
-        this.set({ endSessionType: 'failed'});
+        this.set({ endSessionType: 'failed' });
       }
 
       this.set({ errors });
@@ -1407,7 +1407,9 @@
               autoAccept = true;
               message.set({ friendStatus: 'accepted' });
               await conversation.onFriendRequestAccepted();
-              window.libloki.api.sendFriendRequestAccepted(message.get('source'));
+              window.libloki.api.sendFriendRequestAccepted(
+                message.get('source')
+              );
             } else if (!conversation.isFriend()) {
               await conversation.onFriendRequestReceived();
             }
@@ -1445,7 +1447,7 @@
             if (previousUnread !== message.get('unread')) {
               window.log.warn(
                 'Caught race condition on new message read state! ' +
-                'Manually starting timers.'
+                  'Manually starting timers.'
               );
               // We call markRead() even though the message is already
               // marked read because we need to start expiration
@@ -1464,8 +1466,7 @@
             // Need to do this here because the conversation has already changed states
             if (autoAccept)
               await conversation.notifyFriendRequest(source, 'accepted');
-            else
-              await conversation.notify(message);
+            else await conversation.notify(message);
           }
 
           confirm();

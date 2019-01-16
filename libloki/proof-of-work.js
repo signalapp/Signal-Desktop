@@ -15,7 +15,7 @@ const pow = {
       newNonce[idx] = sum % 256;
       increment = Math.floor(sum / 256);
       idx -= 1;
-    } while(increment > 0 && idx >= 0);
+    } while (increment > 0 && idx >= 0);
     return newNonce;
   },
 
@@ -36,10 +36,7 @@ const pow = {
       n = NONCE_LEN - (idx + 1);
       // 256 ** n is the value of one bit in arr[idx], modulus to carry over
       // (bigInt / 256**n) % 256;
-      const denominator = JSBI.exponentiate(
-        JSBI.BigInt('256'),
-        JSBI.BigInt(n)
-      );
+      const denominator = JSBI.exponentiate(JSBI.BigInt('256'), JSBI.BigInt(n));
       const fraction = JSBI.divide(bigInt, denominator);
       const uint8Val = JSBI.remainder(fraction, JSBI.BigInt(256));
       arr[idx] = JSBI.toNumber(uint8Val);
@@ -60,7 +57,16 @@ const pow = {
   },
 
   // Return nonce that hashes together with payload lower than the target
-  async calcPoW(timestamp, ttl, pubKey, data, development = false, _nonceTrials = null, increment = 1, startNonce = 0) {
+  async calcPoW(
+    timestamp,
+    ttl,
+    pubKey,
+    data,
+    development = false,
+    _nonceTrials = null,
+    increment = 1,
+    startNonce = 0
+  ) {
     const payload = new Uint8Array(
       dcodeIO.ByteBuffer.wrap(
         timestamp.toString() + ttl.toString() + pubKey + data,
@@ -68,7 +74,8 @@ const pow = {
       ).toArrayBuffer()
     );
 
-    const nonceTrials = _nonceTrials || (development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS);
+    const nonceTrials =
+      _nonceTrials || (development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS);
     const target = pow.calcTarget(ttl, payload.length, nonceTrials);
 
     let nonce = new Uint8Array(NONCE_LEN);
@@ -98,25 +105,16 @@ const pow = {
 
   calcTarget(ttl, payloadLen, nonceTrials = PROD_NONCE_TRIALS) {
     // payloadLength + NONCE_LEN
-    const totalLen = JSBI.add(
-      JSBI.BigInt(payloadLen),
-      JSBI.BigInt(NONCE_LEN)
-    );
+    const totalLen = JSBI.add(JSBI.BigInt(payloadLen), JSBI.BigInt(NONCE_LEN));
     // ttl * totalLen
-    const ttlMult = JSBI.multiply(
-      JSBI.BigInt(ttl),
-      JSBI.BigInt(totalLen)
-    );
+    const ttlMult = JSBI.multiply(JSBI.BigInt(ttl), JSBI.BigInt(totalLen));
     // 2^16 - 1
     const two16 = JSBI.subtract(
       JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(16)), // 2^16
       JSBI.BigInt(1)
     );
     // ttlMult / two16
-    const innerFrac = JSBI.divide(
-      ttlMult,
-      two16
-    );
+    const innerFrac = JSBI.divide(ttlMult, two16);
     // totalLen + innerFrac
     const lenPlusInnerFrac = JSBI.add(totalLen, innerFrac);
     // nonceTrials * lenPlusInnerFrac

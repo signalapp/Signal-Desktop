@@ -15,21 +15,21 @@ describe('Crypto', () => {
       store.put('identityKey', identityKey);
       const key = libsignal.crypto.getRandomBytes(32);
       const pubKeyString = StringView.arrayBufferToHex(key);
-      address = new libsignal.SignalProtocolAddress(
-        pubKeyString,
-        1
-      );
+      address = new libsignal.SignalProtocolAddress(pubKeyString, 1);
       fallbackCipher = new libloki.crypto.FallBackSessionCipher(address);
     });
 
     it('should encrypt fallback cipher messages as friend requests', async () => {
       const buffer = new ArrayBuffer(10);
       const { type } = await fallbackCipher.encrypt(buffer);
-      assert.strictEqual(type, textsecure.protobuf.Envelope.Type.FRIEND_REQUEST);
+      assert.strictEqual(
+        type,
+        textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
+      );
     });
 
     it('should encrypt and then decrypt a message with the same result', async () => {
-      const arr = new Uint8Array([1,2,3,4,5]);
+      const arr = new Uint8Array([1, 2, 3, 4, 5]);
       const { body } = await fallbackCipher.encrypt(arr.buffer);
       const result = await fallbackCipher.decrypt(body);
       assert.deepEqual(result, arr.buffer);

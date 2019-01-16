@@ -26,11 +26,11 @@ export class MainHeader extends React.Component<Props> {
       name,
       phoneNumber,
       profileName,
-      onClick
+      onClick,
     } = this.props;
 
     return (
-      <div role='button' className="module-main-header" onClick={onClick}>
+      <div role="button" className="module-main-header" onClick={onClick}>
         <Avatar
           avatarPath={avatarPath}
           color={color}

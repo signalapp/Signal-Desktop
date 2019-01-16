@@ -50,16 +50,17 @@ const localeMessages = ipc.sendSync('locale-data');
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
 // Set the password for the database
-window.setPassword = (passPhrase, oldPhrase) => new Promise((resolve, reject) => {
-  ipc.once('set-password-response', (event, error) => {
-    if (error) {
-      return reject(error);
-    }
-    Whisper.events.trigger('password-updated');
-    return resolve();
+window.setPassword = (passPhrase, oldPhrase) =>
+  new Promise((resolve, reject) => {
+    ipc.once('set-password-response', (event, error) => {
+      if (error) {
+        return reject(error);
+      }
+      Whisper.events.trigger('password-updated');
+      return resolve();
+    });
+    ipc.send('set-password', passPhrase, oldPhrase);
   });
-  ipc.send('set-password', passPhrase, oldPhrase);
-});
 
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
@@ -107,7 +108,10 @@ ipc.on('on-unblock-number', (event, number) => {
       const conversation = window.ConversationController.get(number);
       conversation.unblock();
     } catch (e) {
-      window.log.info('IPC on unblock: failed to fetch conversation for number: ', number);
+      window.log.info(
+        'IPC on unblock: failed to fetch conversation for number: ',
+        number
+      );
     }
   }
 });
@@ -155,7 +159,7 @@ installGetter('hide-menu-bar', 'getHideMenuBar');
 installSetter('hide-menu-bar', 'setHideMenuBar');
 
 // Get the message TTL setting
-window.getMessageTTL = () => window.storage.get('message-ttl', 24)
+window.getMessageTTL = () => window.storage.get('message-ttl', 24);
 installGetter('message-ttl', 'getMessageTTL');
 installSetter('message-ttl', 'setMessageTTL');
 
@@ -281,7 +285,7 @@ window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
-  window.nodeSetImmediate(() => { });
+  window.nodeSetImmediate(() => {});
 }, 1000);
 
 const { autoOrientImage } = require('./js/modules/auto_orient_image');
