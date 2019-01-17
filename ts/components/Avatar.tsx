@@ -13,6 +13,7 @@ interface Props {
   phoneNumber?: string;
   profileName?: string;
   size: number;
+  borderColor?: string;
 }
 
 interface State {
@@ -41,7 +42,14 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public renderImage() {
-    const { avatarPath, i18n, name, phoneNumber, profileName } = this.props;
+    const {
+      avatarPath,
+      i18n,
+      name,
+      phoneNumber,
+      profileName,
+      borderColor,
+    } = this.props;
     const { imageBroken } = this.state;
     const hasImage = avatarPath && !imageBroken;
 
@@ -53,8 +61,16 @@ export class Avatar extends React.Component<Props, State> {
       !name && profileName ? ` ~${profileName}` : ''
     }`;
 
+    const borderStyle = borderColor
+      ? {
+          borderColor: borderColor,
+          borderStyle: 'solid',
+        }
+      : undefined;
+
     return (
       <img
+        style={borderStyle}
         onError={this.handleImageErrorBound}
         alt={i18n('contactAvatarAlt', [title])}
         src={avatarPath}
@@ -63,10 +79,17 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public renderNoImage() {
-    const { conversationType, name, size } = this.props;
+    const { conversationType, name, size, borderColor } = this.props;
 
     const initials = getInitials(name);
     const isGroup = conversationType === 'group';
+
+    const borderStyle = borderColor
+      ? {
+          borderColor: borderColor,
+          borderStyle: 'solid',
+        }
+      : undefined;
 
     if (!isGroup && initials) {
       return (
@@ -75,6 +98,7 @@ export class Avatar extends React.Component<Props, State> {
             'module-avatar__label',
             `module-avatar__label--${size}`
           )}
+          style={borderStyle}
         >
           {initials}
         </div>
@@ -88,6 +112,7 @@ export class Avatar extends React.Component<Props, State> {
           `module-avatar__icon--${conversationType}`,
           `module-avatar__icon--${size}`
         )}
+        style={borderStyle}
       />
     );
   }

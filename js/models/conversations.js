@@ -77,6 +77,7 @@
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
         swarmNodes: new Set([]),
+        isOnline: false,
       };
     },
 
@@ -252,6 +253,13 @@
       );
     },
 
+    async setIsOnline(online) {
+      this.set({ isOnline: online });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+    },
+
     async cleanup() {
       await window.Signal.Types.Conversation.deleteExternalFiles(
         this.attributes,
@@ -386,6 +394,7 @@
           status: this.lastMessageStatus,
           text: this.lastMessage,
         },
+        isOnline: this.get('isOnline'),
 
         onClick: () => this.trigger('select', this),
       };

@@ -60,6 +60,7 @@
         const props = this.model.getPropsForListItem();
         delete props.lastMessage;
         delete props.lastUpdated;
+        delete props.isSelected;
 
         return props;
       },
