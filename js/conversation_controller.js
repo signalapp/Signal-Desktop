@@ -174,6 +174,7 @@
           return conversation;
         }
 
+        window.LokiSnodeAPI.replenishSwarm(id);
         try {
           await window.Signal.Data.saveConversation(conversation.attributes, {
             Conversation: Whisper.Conversation,

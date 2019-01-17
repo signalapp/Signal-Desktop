@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
@@ -80,6 +79,8 @@ module.exports = {
   removeSessionById,
   removeSessionsByNumber,
   removeAllSessions,
+
+  getSwarmNodesByPubkey,
 
   getConversationCount,
   saveConversation,
@@ -1024,6 +1025,18 @@ async function removeAllFromTable(table) {
 }
 
 // Conversations
+
+async function getSwarmNodesByPubkey(pubkey) {
+  const row = await db.get('SELECT * FROM conversations WHERE id = $pubkey;', {
+    $pubkey: pubkey,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json).swarmNodes;
+}
 
 async function getConversationCount() {
   const row = await db.get('SELECT count(*) from conversations;');

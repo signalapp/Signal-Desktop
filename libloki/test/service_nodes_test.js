@@ -17,13 +17,22 @@ describe('ServiceNodes', () => {
       );
     });
 
+    it('should throw when provided a non-function selector', () => {
+      [1, 'a', 0xffffffff, { really: 'not a function' }].forEach(x => {
+        assert.throws(() =>
+          libloki.serviceNodes.consolidateLists([], 1, x),
+          'Provided selector is not a function'
+        )
+      });
+    });
+
     it('should return an empty array when the input is an empty array', () => {
-      const result = libloki.serviceNodes.consolidateLists([]);
+      const result = libloki.serviceNodes.consolidateLists([], 1);
       assert.deepEqual(result, []);
     });
 
     it('should return the input when only 1 list is provided', () => {
-      const result = libloki.serviceNodes.consolidateLists([['a', 'b', 'c']]);
+      const result = libloki.serviceNodes.consolidateLists([['a', 'b', 'c']], 1);
       assert.deepEqual(result, ['a', 'b', 'c']);
     });
 
@@ -34,6 +43,25 @@ describe('ServiceNodes', () => {
         ['g', 'h'],
       ], 0);
       assert.deepEqual(result.sort(), ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
+    });
+
+    it('should use the selector to identify the elements', () => {
+      const result = libloki.serviceNodes.consolidateLists([
+        [{ id: 1, val: 'a'}, { id: 2, val: 'b'}, { id: 3, val: 'c'}, { id: 8, val: 'h'}],
+        [{ id: 4, val: 'd'}, { id: 5, val: 'e'}, { id: 6, val: 'f'}, { id: 7, val: 'g'}],
+        [{ id: 7, val: 'g'}, { id: 8, val: 'h'}],
+      ], 0, x => x.id);
+      const expected = [
+        { id: 1, val: 'a'},
+        { id: 2, val: 'b'},
+        { id: 3, val: 'c'},
+        { id: 4, val: 'd'},
+        { id: 5, val: 'e'},
+        { id: 6, val: 'f'},
+        { id: 7, val: 'g'},
+        { id: 8, val: 'h'},
+      ];
+      assert.deepEqual(result.sort((a, b) => a.val > b.val), expected);
     });
 
     it('should return the intersection of all lists when threshold is 1', () => {
