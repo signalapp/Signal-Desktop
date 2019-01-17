@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/signalapp/Signal-Desktop.svg?branch=master)](https://travis-ci.org/signalapp/Signal-Desktop)
-Signal Desktop
-==========================
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/signalapp/Signal-Desktop?branch=master&svg=true)](https://ci.appveyor.com/project/Signal-Desktop/signal-desktop)
+
+# Signal Desktop
 
 Signal Desktop is an Electron application that links with Signal
 on [Android](https://github.com/signalapp/Signal-Android)
@@ -51,6 +52,6 @@ The form and manner of this distribution makes it eligible for export under the 
 
 ## License
 
-Copyright 2014-2018 Open Whisper Systems
+Copyright 2014-2019 Open Whisper Systems
 
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html

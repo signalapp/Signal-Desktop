@@ -31,11 +31,13 @@
 
   float: left;
   width: 300px;
+
   .content {
     overflow-y: scroll;
     max-height: calc(100% - 88px);
   }
 }
+
 .network-status-container {
   .network-status {
     background: url('../images/error_red.svg') no-repeat left 10px center;

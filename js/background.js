@@ -681,6 +681,19 @@
       textsecure.storage.user.getDeviceId() != '1'
     ) {
       window.getSyncRequest();
+
+      try {
+        const manager = window.getAccountManager();
+        await Promise.all([
+          manager.maybeUpdateDeviceName(),
+          manager.maybeDeleteSignalingKey(),
+        ]);
+      } catch (e) {
+        window.log.error(
+          'Problem with account manager updates after starting new version: ',
+          e && e.stack ? e.stack : e
+        );
+      }
     }
 
     const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';

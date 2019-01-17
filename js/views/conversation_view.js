@@ -57,6 +57,11 @@
       return { toastMessage: i18n('messageFoundButNotLoaded') };
     },
   });
+  Whisper.VoiceNoteMustBeOnlyAttachmentToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('voiceNoteMustBeOnlyAttachment') };
+    },
+  });
 
   Whisper.ConversationLoadingScreen = Whisper.View.extend({
     templateName: 'conversation-loading-screen',
@@ -144,8 +149,16 @@
 
       this.window = options.window;
       this.fileInput = new Whisper.FileInputView({
-        el: this.$('form.send'),
-        window: this.window,
+        el: this.$('.attachment-list'),
+      });
+      this.listenTo(
+        this.fileInput,
+        'choose-attachment',
+        this.onChooseAttachment
+      );
+      this.listenTo(this.fileInput, 'staged-attachments-changed', () => {
+        this.view.resetScrollPosition();
+        this.toggleMicrophone();
       });
 
       const getHeaderProps = () => {
@@ -176,7 +189,7 @@
           onDeleteMessages: () => this.destroyMessages(),
           onResetSession: () => this.endSession(),
 
-          // These are view only and done update the Conversation model, so they
+          // These are view only and don't update the Conversation model, so they
           //   need a manual update call.
           onShowSafetyNumber: () => {
             this.showSafetyNumber();
@@ -255,15 +268,43 @@
       'farFromBottom .message-list': 'addScrollDownButton',
       'lazyScroll .message-list': 'onLazyScroll',
       'force-resize': 'forceUpdateMessageFieldSize',
-      dragover: 'sendToFileInput',
-      drop: 'sendToFileInput',
-      dragleave: 'sendToFileInput',
+
+      'click button.paperclip': 'onChooseAttachment',
+      'change input.file-input': 'onChoseAttachment',
+
+      dragover: 'onDragOver',
+      dragleave: 'onDragLeave',
+      drop: 'onDrop',
+      paste: 'onPaste',
     },
-    sendToFileInput(e) {
-      if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
-        return;
+
+    onChooseAttachment(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
       }
-      this.fileInput.$el.trigger(e);
+
+      this.$('input.file-input').click();
+    },
+    async onChoseAttachment() {
+      const fileField = this.$('input.file-input');
+      const file = fileField.prop('files')[0];
+      await this.fileInput.maybeAddAttachment(file);
+      this.toggleMicrophone();
+      fileField.val(null);
+    },
+
+    onDragOver(e) {
+      this.fileInput.onDragOver(e);
+    },
+    onDragLeave(e) {
+      this.fileInput.onDragLeave(e);
+    },
+    onDrop(e) {
+      this.fileInput.onDrop(e);
+    },
+    onPaste(e) {
+      this.fileInput.onPaste(e);
     },
 
     onPrune() {
@@ -483,6 +524,13 @@
     captureAudio(e) {
       e.preventDefault();
 
+      if (this.fileInput.hasFiles()) {
+        const toast = new Whisper.VoiceNoteMustBeOnlyAttachmentToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
+        return;
+      }
+
       // Note - clicking anywhere will close the audio capture panel, due to
       //   the onClick handler in InboxView, which calls its closeRecording method.
 
@@ -503,9 +551,11 @@
       this.$('.microphone').hide();
     },
     handleAudioCapture(blob) {
-      this.fileInput.file = blob;
-      this.fileInput.isVoiceNote = true;
-      this.fileInput.previewImages();
+      this.fileInput.addAttachment({
+        contentType: blob.type,
+        file: blob,
+        isVoiceNote: true,
+      });
       this.$('.bottom-bar form').submit();
     },
     endCaptureAudio() {
@@ -1166,6 +1216,7 @@
         const props = {
           objectURL: getAbsoluteAttachmentPath(path),
           contentType,
+          caption: attachment.caption,
           onSave: () => this.downloadAttachment({ attachment, message }),
         };
         this.lightboxView = new Whisper.ReactWrapperView({
@@ -1433,7 +1484,6 @@
       if (event.key !== 'Escape') {
         return;
       }
-
       this.closeEmojiPanel();
     },
     openEmojiPanel() {
@@ -1441,6 +1491,7 @@
       this.emojiPanel = new EmojiPanel(this.$emojiPanelContainer[0], {
         onClick: this.insertEmoji.bind(this),
       });
+      this.view.resetScrollPosition();
       this.updateMessageFieldSize({});
     },
     closeEmojiPanel() {
@@ -1450,13 +1501,14 @@
 
       this.$emojiPanelContainer.empty().outerHeight(0);
       this.emojiPanel = null;
+      this.view.resetScrollPosition();
       this.updateMessageFieldSize({});
     },
     insertEmoji(e) {
       const colons = `:${emojiData[e.index].short_name}:`;
 
       const textarea = this.$messageField[0];
-      if (textarea.selectionStart || textarea.selectionStart === '0') {
+      if (textarea.selectionStart || textarea.selectionStart === 0) {
         const startPos = textarea.selectionStart;
         const endPos = textarea.selectionEnd;
 
@@ -1497,6 +1549,7 @@
         this.quoteView = null;
       }
       if (!this.quotedMessage) {
+        this.view.restoreBottomOffset();
         this.updateMessageFieldSize({});
         return;
       }
@@ -1520,16 +1573,18 @@
       this.quoteView = new Whisper.ReactWrapperView({
         className: 'quote-wrapper',
         Component: window.Signal.Components.Quote,
+        elCallback: el => this.$('.send').prepend(el),
         props: Object.assign({}, props, {
           withContentAbove: true,
           onClose: () => {
             this.setQuoteMessage(null);
           },
         }),
+        onInitialRender: () => {
+          this.view.restoreBottomOffset();
+          this.updateMessageFieldSize({});
+        },
       });
-
-      this.$('.send').prepend(this.quoteView.el);
-      this.updateMessageFieldSize({});
     },
 
     async sendMessage(e) {
@@ -1576,7 +1631,7 @@
         this.setQuoteMessage(null);
         this.focusMessageFieldAndClearDisabled();
         this.forceUpdateMessageFieldSize(e);
-        this.fileInput.deleteFiles();
+        this.fileInput.clearAttachments();
       } catch (error) {
         window.log.error(
           'Error pulling attached files before send',

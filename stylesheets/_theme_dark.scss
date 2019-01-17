@@ -230,50 +230,6 @@ body.dark-theme {
     }
   }
 
-  .dropoff {
-    outline: solid 1px $blue;
-  }
-
-  .avatar {
-    color: $color-white;
-    background-color: $grey;
-  }
-
-  .group-info-input {
-    background: $color-white;
-
-    .thumbnail:after {
-      border-bottom: 10px solid $grey;
-      border-left: 10px solid transparent;
-    }
-
-    input.name {
-      border: solid 1px #ccc;
-    }
-  }
-
-  .group-member-list,
-  .new-group-update {
-    .members .contact {
-      border-bottom: 1px solid $color-dark-60;
-    }
-  }
-
-  .banner {
-    // what's the right color?
-    background-color: $blue_l;
-    color: black;
-    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-
-    .warning {
-      @include color-svg('../images/warning.svg', black);
-    }
-
-    .dismiss {
-      @include color-svg('../images/x.svg', black);
-    }
-  }
-
   .contact-details {
     .number {
       color: $color-dark-30;
@@ -315,15 +271,6 @@ body.dark-theme {
   .x {
     &:before {
       @include color-svg('../images/x.svg', white);
-    }
-  }
-
-  input[type='text'],
-  input[type='search'],
-  textarea {
-    &:active,
-    &:focus {
-      outline: 1px solid $blue;
     }
   }
 
@@ -714,12 +661,7 @@ body.dark-theme {
   }
 
   .module-message__generic-attachment__icon {
-    // TODO: this will eventually be a different image
     // background: url('../images/file-gradient.svg') no-repeat center;
-  }
-
-  .module-message__generic-attachment__icon__extension {
-    // TODO: probably need color
   }
 
   .module-message__generic-attachment__file-name {
@@ -1012,10 +954,6 @@ body.dark-theme {
     @include color-svg('../images/movie.svg', $color-signal-blue);
   }
 
-  .module-quote__generic-file__icon {
-    // TODO: this will eventually be a different icon
-    // background: url('../images/file-gradient.svg');
-  }
   .module-quote__generic-file__text {
     color: $color-dark-05;
   }
@@ -1368,6 +1306,10 @@ body.dark-theme {
     color: $color-dark-05;
   }
 
+  // Module: Image
+
+  // Module: Image Grid
+
   // Module: Typing Animation
 
   .module-typing-animation__dot {
@@ -1376,6 +1318,50 @@ body.dark-theme {
 
   .module-typing-animation__dot--light {
     background-color: $color-white;
+  }
+
+  // Module: Attachments
+
+  .module-attachments {
+    border-top: 1px solid $color-gray-75;
+  }
+
+  .module-attachments__close-button {
+    @include color-svg('../images/x.svg', $color-gray-45);
+  }
+
+  // Module: Staged Generic Attachment
+
+  .module-staged-generic-attachment {
+    box-shadow: inset 0px 0px 0px 1px $color-gray-45;
+    background-color: $color-gray-75;
+    color: $color-dark-05;
+  }
+
+  .module-staged-generic-attachment__close-button {
+    @include color-svg('../images/x.svg', $color-gray-45);
+  }
+
+  .module-staged-generic-attachment__icon {
+    background: url('../images/file-gradient.svg') no-repeat center;
+  }
+
+  .module-staged-generic-attachment__icon__extension {
+    color: $color-gray-90;
+  }
+
+  // Module: Staged Placeholder Attachment
+
+  .module-staged-placeholder-attachment {
+    border: 1px solid $color-gray-60;
+
+    &:hover {
+      background: $color-gray-75;
+    }
+  }
+
+  .module-staged-placeholder-attachment__plus-icon {
+    @include color-svg('../images/plus-36.svg', $color-gray-60);
   }
 
   // Third-party module: react-contextmenu

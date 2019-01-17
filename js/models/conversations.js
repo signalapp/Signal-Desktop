@@ -1771,6 +1771,21 @@
       }
     },
 
+    getInitials(name) {
+      if (!name) {
+        return null;
+      }
+
+      const cleaned = name.replace(/[^A-Za-z\s]+/g, '').replace(/\s+/g, ' ');
+      const parts = cleaned.split(' ');
+      const initials = parts.map(part => part.trim()[0]);
+      if (!initials.length) {
+        return null;
+      }
+
+      return initials.slice(0, 2).join('');
+    },
+
     isPrivate() {
       return this.get('type') === 'private';
     },
@@ -1802,7 +1817,7 @@
       } else if (this.isPrivate()) {
         return {
           color,
-          content: title ? title.trim()[0] : '#',
+          content: this.getInitials(title) || '#',
         };
       }
       return { url: 'images/group_default.png', color };
