@@ -1,10 +1,10 @@
 /* global window */
 
 // eslint-disable-next-line func-names
-(function () {
+(function() {
   window.libloki = window.libloki || {};
 
-  function consolidateLists(lists, threshold, selector = (x) => x){
+  function consolidateLists(lists, threshold, selector = x => x) {
     if (typeof threshold !== 'number') {
       throw Error('Provided threshold is not a number');
     }

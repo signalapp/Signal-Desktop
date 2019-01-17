@@ -1,4 +1,4 @@
-/* global Whisper, $, getAccountManager, textsecure, i18n, passwordUtil, ConversationController */
+/* global Whisper, $, getAccountManager, textsecure, i18n, passwordUtil */
 
 /* eslint-disable more/no-then */
 
@@ -102,7 +102,7 @@
     async onGenerateMnemonic() {
       const language = this.$('#mnemonic-display-language').val();
       const mnemonic = await this.accountManager.generateMnemonic(language);
-      this.$('#mnemonic-display').text(mnemonic)
+      this.$('#mnemonic-display').text(mnemonic);
     },
     onCopyMnemonic() {
       window.clipboard.writeText(this.$('#mnemonic-display').text());
@@ -178,8 +178,12 @@
       $target.toggleClass('section-toggle-visible');
 
       // Hide the other sections
-      this.$('.section-toggle').not($target).removeClass('section-toggle-visible')
-      this.$('.section-content').not($next).slideUp('fast');
+      this.$('.section-toggle')
+        .not($target)
+        .removeClass('section-toggle-visible');
+      this.$('.section-content')
+        .not($next)
+        .slideUp('fast');
     },
     onPasswordChange() {
       const input = this.$passwordInput.val();
@@ -193,7 +197,9 @@
     },
     validatePassword() {
       const input = this.trim(this.$passwordInput.val());
-      const confirmationInput = this.trim(this.$passwordConfirmationInput.val());
+      const confirmationInput = this.trim(
+        this.$passwordConfirmationInput.val()
+      );
 
       // If user hasn't set a value then skip
       if (!input && !confirmationInput) {
@@ -206,7 +212,7 @@
       }
 
       if (input !== confirmationInput) {
-        return 'Password don\'t match';
+        return "Password don't match";
       }
 
       return null;
@@ -222,7 +228,6 @@
 
         this.$passwordInputError.text(passwordValidation);
         this.$passwordInputError.show();
-
       } else {
         this.$passwordInput.removeClass('error-input');
         this.$passwordConfirmationInput.removeClass('error-input');
@@ -232,7 +237,9 @@
 
         // Show green box around inputs that match
         const input = this.trim(this.$passwordInput.val());
-        const confirmationInput = this.trim(this.$passwordConfirmationInput.val());
+        const confirmationInput = this.trim(
+          this.$passwordConfirmationInput.val()
+        );
         if (input && input === confirmationInput) {
           this.$passwordInput.addClass('match-input');
           this.$passwordConfirmationInput.addClass('match-input');

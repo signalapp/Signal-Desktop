@@ -70,7 +70,7 @@ MessageReceiver.prototype.extend({
     this.httpPollingResource = new HttpResource(this.lokiMessageAPI, {
       handleRequest: this.handleRequest.bind(this),
     });
-    this.httpPollingResource.startPolling((connected) => {
+    this.httpPollingResource.startPolling(connected => {
       // Emulate receiving an 'empty' websocket messages from the server.
       // This is required to update the internal logic that checks
       // if we are connected to the server. Without this, for example,
@@ -328,7 +328,8 @@ MessageReceiver.prototype.extend({
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
       envelope.serverTimestamp =
         envelope.serverTimestamp || item.serverTimestamp;
-      envelope.preKeyBundleMessage = envelope.preKeyBundleMessage || item.preKeyBundleMessage;
+      envelope.preKeyBundleMessage =
+        envelope.preKeyBundleMessage || item.preKeyBundleMessage;
 
       const { decrypted } = item;
       if (decrypted) {
@@ -381,7 +382,7 @@ MessageReceiver.prototype.extend({
     if (envelope.source) {
       return `${envelope.source}.${
         envelope.sourceDevice
-        } ${envelope.timestamp.toNumber()} (${envelope.id})`;
+      } ${envelope.timestamp.toNumber()} (${envelope.id})`;
     }
 
     return envelope.id;
@@ -540,7 +541,9 @@ MessageReceiver.prototype.extend({
   },
   getStatus() {
     if (this.httpPollingResource) {
-      return this.httpPollingResource.isConnected() ? WebSocket.OPEN : WebSocket.CLOSED;
+      return this.httpPollingResource.isConnected()
+        ? WebSocket.OPEN
+        : WebSocket.CLOSED;
     }
     if (this.socket) {
       return this.socket.readyState;
@@ -616,47 +619,57 @@ MessageReceiver.prototype.extend({
 
     let conversation;
     try {
-      conversation = await window.ConversationController.getOrCreateAndWait(envelope.source, 'private');
+      conversation = await window.ConversationController.getOrCreateAndWait(
+        envelope.source,
+        'private'
+      );
     } catch (e) {
       window.log.info('Error getting conversation: ', envelope.source);
     }
     const getCurrentSessionBaseKey = async () => {
       const record = await sessionCipher.getRecord(address.toString());
-      if (!record)
-        return null;
+      if (!record) return null;
       const openSession = record.getOpenSession();
-      if (!openSession)
-        return null;
+      if (!openSession) return null;
       const { baseKey } = openSession.indexInfo;
-      return baseKey
+      return baseKey;
     };
     const captureActiveSession = async () => {
       this.activeSessionBaseKey = await getCurrentSessionBaseKey(sessionCipher);
     };
     const restoreActiveSession = async () => {
       const record = await sessionCipher.getRecord(address.toString());
-      if (!record)
-        return
+      if (!record) return;
       record.archiveCurrentState();
       const sessionToRestore = record.sessions[this.activeSessionBaseKey];
       record.promoteState(sessionToRestore);
       record.updateSessionState(sessionToRestore);
-      await textsecure.storage.protocol.storeSession(address.toString(), record.serialize());
+      await textsecure.storage.protocol.storeSession(
+        address.toString(),
+        record.serialize()
+      );
     };
-    const deleteAllSessionExcept = async (sessionBaseKey) => {
+    const deleteAllSessionExcept = async sessionBaseKey => {
       const record = await sessionCipher.getRecord(address.toString());
-      if (!record)
-        return
+      if (!record) return;
       const sessionToKeep = record.sessions[sessionBaseKey];
-      record.sessions = {}
+      record.sessions = {};
       record.updateSessionState(sessionToKeep);
-      await textsecure.storage.protocol.storeSession(address.toString(), record.serialize());
+      await textsecure.storage.protocol.storeSession(
+        address.toString(),
+        record.serialize()
+      );
     };
     let handleSessionReset;
     if (conversation.isSessionResetOngoing()) {
-      handleSessionReset = async (result) => {
-        const currentSessionBaseKey = await getCurrentSessionBaseKey(sessionCipher);
-        if (this.activeSessionBaseKey && currentSessionBaseKey !== this.activeSessionBaseKey) {
+      handleSessionReset = async result => {
+        const currentSessionBaseKey = await getCurrentSessionBaseKey(
+          sessionCipher
+        );
+        if (
+          this.activeSessionBaseKey &&
+          currentSessionBaseKey !== this.activeSessionBaseKey
+        ) {
           if (conversation.isSessionResetReceived()) {
             await restoreActiveSession();
           } else {
@@ -670,7 +683,7 @@ MessageReceiver.prototype.extend({
         return result;
       };
     } else {
-      handleSessionReset = async (result) => result;
+      handleSessionReset = async result => result;
     }
 
     switch (envelope.type) {
@@ -683,18 +696,17 @@ MessageReceiver.prototype.extend({
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
-        promise = fallBackSessionCipher.decrypt(ciphertext.toArrayBuffer())
+        promise = fallBackSessionCipher
+          .decrypt(ciphertext.toArrayBuffer())
           .then(this.unpad);
         break;
       }
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
         window.log.info('prekey message from', this.getEnvelopeId(envelope));
         promise = captureActiveSession(sessionCipher)
-          .then(() => this.decryptPreKeyWhisperMessage(
-            ciphertext,
-            sessionCipher,
-            address
-          ))
+          .then(() =>
+            this.decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address)
+          )
           .then(handleSessionReset);
         break;
       case textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER:
@@ -840,7 +852,7 @@ MessageReceiver.prototype.extend({
         const isMe = envelope.source === textsecure.storage.user.getNumber();
         const isLeavingGroup = Boolean(
           message.group &&
-          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -883,7 +895,7 @@ MessageReceiver.prototype.extend({
         const conversation = window.ConversationController.get(envelope.source);
         const isLeavingGroup = Boolean(
           message.group &&
-          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
         const friendRequest =
           envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
@@ -900,10 +912,8 @@ MessageReceiver.prototype.extend({
         }
 
         if (friendRequest && isMe) {
-          window.log.info(
-            'refusing to add a friend request to ourselves'
-          );
-          throw new Error('Cannot add a friend request for ourselves!')
+          window.log.info('refusing to add a friend request to ourselves');
+          throw new Error('Cannot add a friend request for ourselves!');
         }
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -1227,10 +1237,7 @@ MessageReceiver.prototype.extend({
       preKeyBundleMessage.signature,
     ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
 
-    const {
-      preKeyId,
-      signedKeyId,
-    } = preKeyBundleMessage;
+    const { preKeyId, signedKeyId } = preKeyBundleMessage;
 
     if (pubKey !== StringView.arrayBufferToHex(identityKey)) {
       throw new Error(
@@ -1312,7 +1319,13 @@ MessageReceiver.prototype.extend({
         if (preKey === undefined || signedPreKey === undefined) {
           return;
         }
-        const device = { identityKey, deviceId, preKey, signedPreKey, registrationId: 0 }
+        const device = {
+          identityKey,
+          deviceId,
+          preKey,
+          signedPreKey,
+          registrationId: 0,
+        };
         const builder = new libsignal.SessionBuilder(
           textsecure.storage.protocol,
           address
@@ -1513,7 +1526,9 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
   );
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
   this.close = messageReceiver.close.bind(messageReceiver);
-  this.savePreKeyBundleMessage = messageReceiver.savePreKeyBundleMessage.bind(messageReceiver);
+  this.savePreKeyBundleMessage = messageReceiver.savePreKeyBundleMessage.bind(
+    messageReceiver
+  );
 
   messageReceiver.connect();
 };

@@ -36,5 +36,5 @@
     render_attributes() {
       return { toastMessage: this.message };
     },
-  })
+  });
 })();

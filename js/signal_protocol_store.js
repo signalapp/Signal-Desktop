@@ -1,5 +1,14 @@
-/* global
-   dcodeIO, Backbone, _, libsignal, textsecure, ConversationController, stringObject, BlockedNumberController */
+/*
+  global
+  dcodeIO,
+  Backbone,
+  _,
+  libsignal,
+  textsecure,
+  ConversationController,
+  stringObject,
+  BlockedNumberController
+*/
 
 /* eslint-disable no-proto */
 
@@ -187,7 +196,10 @@
       const key = await window.Signal.Data.getPreKeyByRecipient(contactPubKey);
 
       if (key) {
-        window.log.info('Successfully fetched prekey for recipient:', contactPubKey);
+        window.log.info(
+          'Successfully fetched prekey for recipient:',
+          contactPubKey
+        );
         return {
           pubKey: key.publicKey,
           privKey: key.privateKey,

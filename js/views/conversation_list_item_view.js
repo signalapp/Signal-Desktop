@@ -42,8 +42,7 @@
         props,
       });
 
-      const update = () =>
-        this.childView.update(this.getProps());
+      const update = () => this.childView.update(this.getProps());
 
       this.listenTo(this.model, 'change', update);
 
@@ -54,14 +53,16 @@
   });
 
   // list of conversations, showing user/group and last message sent
-  Whisper.ConversationContactListItemView = Whisper.ConversationListItemView.extend({
-    getProps() {
-      // We don't want to show a timestamp or a message
-      const props = this.model.getPropsForListItem();
-      delete props.lastMessage;
-      delete props.lastUpdated;
+  Whisper.ConversationContactListItemView = Whisper.ConversationListItemView.extend(
+    {
+      getProps() {
+        // We don't want to show a timestamp or a message
+        const props = this.model.getPropsForListItem();
+        delete props.lastMessage;
+        delete props.lastUpdated;
 
-      return props;
-    },
-  });
+        return props;
+      },
+    }
+  );
 })();

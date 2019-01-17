@@ -20,7 +20,7 @@ describe('InboxView', () => {
     inboxView = new Whisper.InboxView({
       model: {},
       window,
-      initialLoadComplete() { },
+      initialLoadComplete() {},
     }).render();
 
     conversation = new Whisper.Conversation({

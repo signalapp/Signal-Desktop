@@ -974,7 +974,7 @@
 }
 
 .module-message-friend-request__container {
-  flex: 1,
+  flex: 1;
 }
 
 .module-friend-request__buttonContainer {
@@ -994,7 +994,7 @@
   background-color: transparent;
   border: 0;
   overflow: hidden;
-  outline:none;
+  outline: none;
   color: $color-gray-90;
 }
 
@@ -1027,7 +1027,6 @@
 .module-friend-request__title--incoming {
   color: $color-white-08;
 }
-
 
 // Module: Contact Detail
 
@@ -2156,9 +2155,9 @@
   text-align: center;
 
   &:after {
-    -webkit-transition: all .35s;
-    -o-transition: all .35s;
-    transition: all .35s;
+    -webkit-transition: all 0.35s;
+    -o-transition: all 0.35s;
+    transition: all 0.35s;
     width: 3em;
     line-height: 3em;
     height: 3em;
@@ -2170,7 +2169,6 @@
 .main-header-content-toggle-visible::after {
   transform: rotate(180deg);
 }
-
 
 .module-main-header__app-name {
   font-size: 16px;

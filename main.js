@@ -453,11 +453,11 @@ function showPasswordWindow() {
   captureClicks(passwordWindow);
 
   passwordWindow.on('close', e => {
-     // If the application is terminating, just do the default
-     if (
+    // If the application is terminating, just do the default
+    if (
       config.environment === 'test' ||
       config.environment === 'test-lib' ||
-      (windowState.shouldQuit())
+      windowState.shouldQuit()
     ) {
       return;
     }
@@ -965,7 +965,8 @@ ipc.on('update-tray-icon', (event, unreadCount) => {
 
 // Password screen related IPC calls
 ipc.on('password-window-login', async (event, passPhrase) => {
-  const sendResponse = (e) => event.sender.send('password-window-login-response', e);
+  const sendResponse = e =>
+    event.sender.send('password-window-login-response', e);
 
   try {
     await showMainWindow(passPhrase);
@@ -981,7 +982,7 @@ ipc.on('password-window-login', async (event, passPhrase) => {
 });
 
 ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
-  const sendResponse = (e) => event.sender.send('set-password-response', e);
+  const sendResponse = e => event.sender.send('set-password-response', e);
 
   try {
     // Check if the hash we have stored matches the hash of the old passphrase.
@@ -989,7 +990,10 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
     const hashMatches = oldPhrase && passwordUtil.matchesHash(oldPhrase, hash);
     if (hash && !hashMatches) {
       const incorrectOldPassword = locale.messages.invalidOldPassword.message;
-      sendResponse(incorrectOldPassword || 'Failed to set password: Old password provided is invalid');
+      sendResponse(
+        incorrectOldPassword ||
+          'Failed to set password: Old password provided is invalid'
+      );
       return;
     }
 

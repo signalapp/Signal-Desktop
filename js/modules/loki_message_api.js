@@ -4,21 +4,18 @@
 const fetch = require('node-fetch');
 
 // eslint-disable-next-line
-const invert  = p  => new Promise((res, rej) => p.then(rej, res));
+const invert = p => new Promise((res, rej) => p.then(rej, res));
 const firstOf = ps => invert(Promise.all(ps.map(invert)));
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SUCCESSFUL_REQUESTS = 2;
 class LokiMessageAPI {
-
   constructor({ messageServerPort }) {
-    this.messageServerPort = messageServerPort
-      ? `:${messageServerPort}`
-      : '';
+    this.messageServerPort = messageServerPort ? `:${messageServerPort}` : '';
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl) {
-    const swarmNodes = await window.LokiSnodeAPI.getSwarmNodesByPubkey(pubKey)
+    const swarmNodes = await window.LokiSnodeAPI.getSwarmNodesByPubkey(pubKey);
     if (!swarmNodes || swarmNodes.size === 0) {
       throw Error('No swarm nodes to query!');
     }
@@ -33,7 +30,14 @@ class LokiMessageAPI {
         timestamp: messageTimeStamp,
       });
       const development = window.getEnvironment() !== 'production';
-      nonce = await callWorker('calcPoW', timestamp, ttl, pubKey, data64, development);
+      nonce = await callWorker(
+        'calcPoW',
+        timestamp,
+        ttl,
+        pubKey,
+        data64,
+        development
+      );
     } catch (err) {
       // Something went horribly wrong
       throw err;
@@ -84,14 +88,19 @@ class LokiMessageAPI {
       if (response.status >= 0 && response.status < 400) {
         return result;
       }
-      log.error(options.type, options.url, response.status, 'Error sending message');
+      log.error(
+        options.type,
+        options.url,
+        response.status,
+        'Error sending message'
+      );
       throw HTTPError('sendMessage: error response', response.status, result);
     });
     try {
       // TODO: Possibly change this to require more than a single response?
       const result = await firstOf(requests);
       return result;
-    } catch(err) {
+    } catch (err) {
       throw err;
     }
   }
@@ -128,7 +137,12 @@ class LokiMessageAPI {
       } catch (e) {
         // TODO: Maybe we shouldn't immediately delete?
         // And differentiate between different connectivity issues
-        log.error(options.type, options.url, 0, `Error retrieving messages from ${nodeUrl}`);
+        log.error(
+          options.type,
+          options.url,
+          0,
+          `Error retrieving messages from ${nodeUrl}`
+        );
         window.LokiSnodeAPI.unreachableNode(ourKey, nodeUrl);
         return;
       }
@@ -155,7 +169,7 @@ class LokiMessageAPI {
       }
       // Handle error from snode
       log.error(options.type, options.url, response.status, 'Error');
-    }
+    };
 
     while (completedRequests < MINIMUM_SUCCESSFUL_REQUESTS) {
       const remainingRequests = MINIMUM_SUCCESSFUL_REQUESTS - completedRequests;

@@ -95,12 +95,7 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderTitle() {
-    const {
-      phoneNumber,
-      i18n,
-      profileName,
-      isKeysPending,
-    } = this.props;
+    const { phoneNumber, i18n, profileName, isKeysPending } = this.props;
 
     return (
       <div className="module-conversation-header__title">
@@ -236,7 +231,9 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
         ) : null}
         {!isMe ? (
-          <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
+          <MenuItem onClick={onChangeNickname}>
+            {i18n('changeNickname')}
+          </MenuItem>
         ) : null}
         {!isMe && hasNickname ? (
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>

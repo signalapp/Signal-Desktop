@@ -21,7 +21,9 @@
       window.log.info('BlockedNumberController: starting initial fetch');
 
       if (!storage) {
-        throw new Error('BlockedNumberController: Could not load blocked numbers');
+        throw new Error(
+          'BlockedNumberController: Could not load blocked numbers'
+        );
       }
 
       // Add the numbers to the collection
@@ -40,8 +42,7 @@
       storage.addBlockedNumber(number);
 
       // Make sure we don't add duplicates
-      if (blockedNumbers.getModel(number))
-        return;
+      if (blockedNumbers.getModel(number)) return;
 
       blockedNumbers.add({ number });
     },

@@ -80,9 +80,16 @@
 
   const contactCollection = new (Backbone.Collection.extend({
     initialize() {
-      this.on('change:timestamp change:name change:number change:profileName', this.sort);
+      this.on(
+        'change:timestamp change:name change:number change:profileName',
+        this.sort
+      );
 
-      this.listenTo(conversations, 'add change:active_at change:friendRequestStatus', this.addActive);
+      this.listenTo(
+        conversations,
+        'add change:active_at change:friendRequestStatus',
+        this.addActive
+      );
       this.listenTo(conversations, 'reset', () => this.reset([]));
 
       this.collator = new Intl.Collator();
@@ -193,7 +200,9 @@
         return conversation;
       };
 
-      conversation.initialPromise = create().then(() => conversation.updateProfileAvatar());
+      conversation.initialPromise = create().then(() =>
+        conversation.updateProfileAvatar()
+      );
 
       return conversation;
     },
@@ -265,7 +274,9 @@
           await Promise.all(promises);
 
           // Remove any unused images
-          window.profileImages.removeImagesNotInArray(conversations.map(c => c.id));
+          window.profileImages.removeImagesNotInArray(
+            conversations.map(c => c.id)
+          );
 
           window.log.info('ConversationController: done with initial fetch');
         } catch (error) {

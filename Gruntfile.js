@@ -181,7 +181,7 @@ module.exports = grunt => {
         tasks: ['sass'],
       },
       transpile: {
-        files: ['./ts/**/*.ts','./ts/**/*.tsx'],
+        files: ['./ts/**/*.ts', './ts/**/*.tsx'],
         tasks: ['exec:transpile'],
       },
     },
@@ -491,7 +491,11 @@ module.exports = grunt => {
     'locale-patch',
   ]);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('test', ['unit-tests', 'lib-unit-tests', 'loki-unit-tests']);
+  grunt.registerTask('test', [
+    'unit-tests',
+    'lib-unit-tests',
+    'loki-unit-tests',
+  ]);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', [
     'exec:build-protobuf',

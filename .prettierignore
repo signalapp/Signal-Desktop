@@ -19,6 +19,10 @@ ts/protobuf/*.js
 stylesheets/manifest.css
 ts/util/lint/exceptions.json
 
+# Libloki specific files
+libloki/test/test.js
+libloki/test/components.js
+
 # Third-party files
 node_modules/**
 components/**

@@ -92,7 +92,8 @@
   user-select: none;
 }
 
-h4.section-toggle, .section-toggle h4 {
+h4.section-toggle,
+.section-toggle h4 {
   margin-top: 1px;
   margin-bottom: 1px;
 }
@@ -106,10 +107,10 @@ h4.section-toggle, .section-toggle h4 {
   height: 3em;
   line-height: 3;
   text-align: center;
-  -webkit-transition: all .35s;
-  -o-transition: all .35s;
-  transition: all .35s;
-  content: "+";
+  -webkit-transition: all 0.35s;
+  -o-transition: all 0.35s;
+  transition: all 0.35s;
+  content: '+';
 }
 
 .section-toggle-visible::after {
@@ -123,7 +124,7 @@ h4.section-toggle, .section-toggle h4 {
   align-items: center;
 
   h4 {
-    flex: 1,
+    flex: 1;
   }
 
   .section-conversations-unread-counter {

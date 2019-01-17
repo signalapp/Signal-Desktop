@@ -14,9 +14,9 @@
   storage.getLocalProfile = () => {
     const profile = storage.get(PROFILE_ID, null);
     return profile;
-  }
+  };
 
-  storage.setProfileName = async (newName) => {
+  storage.setProfileName = async newName => {
     if (typeof newName !== 'string' && newName !== null) {
       throw Error('Name must be a string!');
     }
@@ -33,13 +33,13 @@
     } else {
       newProfile.name = {
         displayName: trimmed,
-      }
+      };
     }
 
     await storage.saveLocalProfile(newProfile);
-  }
+  };
 
-  storage.saveLocalProfile = async (profile) => {
+  storage.saveLocalProfile = async profile => {
     const storedProfile = storage.get(PROFILE_ID, null);
 
     // Only store the profile if we have a different object
@@ -49,10 +49,10 @@
 
     window.log.info('saving local profile ', profile);
     await storage.put(PROFILE_ID, profile);
-  }
+  };
 
   storage.removeLocalProfile = async () => {
     window.log.info('removing local profile');
     await storage.remove(PROFILE_ID);
-  }
+  };
 })();

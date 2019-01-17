@@ -150,11 +150,7 @@
       );
 
       // Listen to any conversation remove
-      this.listenTo(
-        inboxCollection,
-        'remove',
-        this.closeConversation
-      );
+      this.listenTo(inboxCollection, 'remove', this.closeConversation);
 
       // Friends
       const contactCollection = getContactCollection();
@@ -335,8 +331,14 @@
     },
     updateInboxSectionUnread() {
       const $section = this.$('.section-conversations-unread-counter');
-      const models = (this.inboxListView.collection && this.inboxListView.collection.models) || [];
-      const unreadCount = models.reduce((count, m) => count + Math.max(0, m.get('unreadCount')), 0);
+      const models =
+        (this.inboxListView.collection &&
+          this.inboxListView.collection.models) ||
+        [];
+      const unreadCount = models.reduce(
+        (count, m) => count + Math.max(0, m.get('unreadCount')),
+        0
+      );
       $section.text(unreadCount);
       if (unreadCount > 0) {
         $section.show();
@@ -350,7 +352,7 @@
     getMainHeaderItems() {
       return [
         this._mainHeaderItem('copyPublicKey', () => {
-         const ourNumber = textsecure.storage.user.getNumber();
+          const ourNumber = textsecure.storage.user.getNumber();
           clipboard.writeText(ourNumber);
 
           this.showToastMessageInGutter(i18n('copiedPublicKey'));
@@ -367,17 +369,18 @@
       const hasPassword = await Signal.Data.getPasswordHash();
       const items = this.getMainHeaderItems();
 
-      const showPasswordDialog = (type, resolve) => Whisper.events.trigger('showPasswordDialog', {
-        type,
-        resolve,
-      });
+      const showPasswordDialog = (type, resolve) =>
+        Whisper.events.trigger('showPasswordDialog', {
+          type,
+          resolve,
+        });
 
-      const passwordItem = (textKey, type) => this._mainHeaderItem(
-        textKey,
-        () => showPasswordDialog(type, () => {
-          this.showToastMessageInGutter(i18n(`${textKey}Success`));
-        })
-      );
+      const passwordItem = (textKey, type) =>
+        this._mainHeaderItem(textKey, () =>
+          showPasswordDialog(type, () => {
+            this.showToastMessageInGutter(i18n(`${textKey}Success`));
+          })
+        );
 
       if (hasPassword) {
         items.push(
@@ -385,9 +388,7 @@
           passwordItem('removePassword', 'remove')
         );
       } else {
-        items.push(
-          passwordItem('setPassword', 'set')
-        );
+        items.push(passwordItem('setPassword', 'set'));
       }
 
       this.mainHeaderView.updateItems(items);

@@ -31,7 +31,7 @@ export class FriendRequest extends React.Component<Props> {
       case 'declined':
         return 'friendRequestDeclined';
       case 'expired':
-        return 'friendRequestExpired'
+        return 'friendRequestExpired';
       default:
         throw new Error(`Invalid friend request status: ${friendStatus}`);
     }
@@ -43,7 +43,9 @@ export class FriendRequest extends React.Component<Props> {
 
     return (
       <div>
-        <div className={`module-friend-request__title module-friend-request__title--${direction}`}>
+        <div
+          className={`module-friend-request__title module-friend-request__title--${direction}`}
+        >
           {i18n(id)}
         </div>
         <div dir="auto">
@@ -54,55 +56,69 @@ export class FriendRequest extends React.Component<Props> {
   }
 
   public renderButtons() {
-      const { i18n, friendStatus, direction, status, onAccept, onDecline, onDeleteConversation, onRetrySend, isBlocked, onBlockUser, onUnblockUser } = this.props;
+    const {
+      i18n,
+      friendStatus,
+      direction,
+      status,
+      onAccept,
+      onDecline,
+      onDeleteConversation,
+      onRetrySend,
+      isBlocked,
+      onBlockUser,
+      onUnblockUser,
+    } = this.props;
 
-      if (direction === 'incoming') {
-        if (friendStatus === 'pending') {
-          return (
-              <div
-                className={classNames(
-                  'module-message__metadata',
-                  'module-friend-request__buttonContainer',
-                  `module-friend-request__buttonContainer--${direction}`
-                )}
-              >
-                <button onClick={onAccept}>Accept</button>
-                <button onClick={onDecline}>Decline</button>
-              </div>
-          );
-        } else if (friendStatus === 'declined') {
-          const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
-          const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
-          return (
-            <div
-              className={classNames(
-                'module-message__metadata',
-                'module-friend-request__buttonContainer',
-                `module-friend-request__buttonContainer--${direction}`
-              )}
-            >
-              <button onClick={onDeleteConversation}>Delete Conversation</button>
-              <button onClick={blockHandler}>{blockTitle}</button>
-            </div>
-          );
-        }
-      } else {
-        // Render the retry button if we errored
-        if (status === 'error' && friendStatus === 'pending') {
-          return (
-            <div
-              className={classNames(
-                'module-message__metadata',
-                'module-friend-request__buttonContainer',
-                `module-friend-request__buttonContainer--${direction}`
-              )}
-            >
-              <button onClick={onRetrySend}>Retry Send</button>
-            </div>
-          );
-        }
+    if (direction === 'incoming') {
+      if (friendStatus === 'pending') {
+        return (
+          <div
+            className={classNames(
+              'module-message__metadata',
+              'module-friend-request__buttonContainer',
+              `module-friend-request__buttonContainer--${direction}`
+            )}
+          >
+            <button onClick={onAccept}>Accept</button>
+            <button onClick={onDecline}>Decline</button>
+          </div>
+        );
+      } else if (friendStatus === 'declined') {
+        const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
+        const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
+
+        return (
+          <div
+            className={classNames(
+              'module-message__metadata',
+              'module-friend-request__buttonContainer',
+              `module-friend-request__buttonContainer--${direction}`
+            )}
+          >
+            <button onClick={onDeleteConversation}>Delete Conversation</button>
+            <button onClick={blockHandler}>{blockTitle}</button>
+          </div>
+        );
       }
-      return null;
+    } else {
+      // Render the retry button if we errored
+      if (status === 'error' && friendStatus === 'pending') {
+        return (
+          <div
+            className={classNames(
+              'module-message__metadata',
+              'module-friend-request__buttonContainer',
+              `module-friend-request__buttonContainer--${direction}`
+            )}
+          >
+            <button onClick={onRetrySend}>Retry Send</button>
+          </div>
+        );
+      }
+    }
+
+    return null;
   }
 
   public renderError(isCorrectSide: boolean) {
@@ -127,7 +143,9 @@ export class FriendRequest extends React.Component<Props> {
   // Renders 'sending', 'read' icons
   public renderStatusIndicator() {
     const { direction, status } = this.props;
-    if (direction !== 'outgoing' || status === 'error') return null;
+    if (direction !== 'outgoing' || status === 'error') {
+      return null;
+    }
 
     return (
       <div className="module-message__metadata">
@@ -135,7 +153,7 @@ export class FriendRequest extends React.Component<Props> {
         <div
           className={classNames(
             'module-message__metadata__status-icon',
-            `module-message__metadata__status-icon--${status}`,
+            `module-message__metadata__status-icon--${status}`
           )}
         />
       </div>
@@ -149,27 +167,27 @@ export class FriendRequest extends React.Component<Props> {
       <div
         className={classNames(
           `module-message module-message--${direction}`,
-          'module-message-friend-request',
+          'module-message-friend-request'
         )}
       >
-         {this.renderError(direction === 'incoming')}
+        {this.renderError(direction === 'incoming')}
         <div
           className={classNames(
             'module-message__container',
             `module-message__container--${direction}`,
-            'module-message-friend-request__container',
+            'module-message-friend-request__container'
           )}
         >
-            <div
-              className={classNames(
-                'module-message__text',
-                `module-message__text--${direction}`,
-              )}
-            >
-                {this.renderContents()}
-                {this.renderStatusIndicator()}
-                {this.renderButtons()}
-            </div>
+          <div
+            className={classNames(
+              'module-message__text',
+              `module-message__text--${direction}`
+            )}
+          >
+            {this.renderContents()}
+            {this.renderStatusIndicator()}
+            {this.renderButtons()}
+          </div>
         </div>
         {this.renderError(direction === 'outgoing')}
       </div>

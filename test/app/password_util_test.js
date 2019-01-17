@@ -49,28 +49,22 @@ describe('Password Util', () => {
     });
 
     it('should return an error if password is not a string', () => {
-      const invalid = [
-        0,
-        123456,
-        [],
-        {},
-        null,
-        undefined,
-      ];
+      const invalid = [0, 123456, [], {}, null, undefined];
       invalid.forEach(pass => {
-        assert.strictEqual(passwordUtil.validatePassword(pass), 'Password must be a string');
+        assert.strictEqual(
+          passwordUtil.validatePassword(pass),
+          'Password must be a string'
+        );
       });
     });
 
-    it('should return an error if password is not between 6 and 50 characters',() => {
-      const invalid = [
-        'a',
-        'abcde',
-        '#'.repeat(51),
-        '#'.repeat(100),
-      ];
+    it('should return an error if password is not between 6 and 50 characters', () => {
+      const invalid = ['a', 'abcde', '#'.repeat(51), '#'.repeat(100)];
       invalid.forEach(pass => {
-        assert.strictEqual(passwordUtil.validatePassword(pass), 'Password must be between 6 and 50 characters long');
+        assert.strictEqual(
+          passwordUtil.validatePassword(pass),
+          'Password must be between 6 and 50 characters long'
+        );
       });
     });
 
@@ -87,7 +81,10 @@ describe('Password Util', () => {
         '<@ȦƘΉوۉaҋ<',
       ];
       invalid.forEach(pass => {
-        assert.strictEqual(passwordUtil.validatePassword(pass), 'Password must only contain letters, numbers and symbols');
+        assert.strictEqual(
+          passwordUtil.validatePassword(pass),
+          'Password must only contain letters, numbers and symbols'
+        );
       });
     });
   });

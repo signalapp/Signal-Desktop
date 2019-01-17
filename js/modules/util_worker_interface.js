@@ -9,7 +9,7 @@ class TimedOutError extends Error {
     if (typeof Error.captureStackTrace === 'function') {
       Error.captureStackTrace(this, this.constructor);
     } else {
-      this.stack = (new Error(message)).stack;
+      this.stack = new Error(message).stack;
     }
   }
 }
@@ -46,7 +46,7 @@ class WorkerInterface {
     };
   }
 
-  _makeJob (fnName) {
+  _makeJob(fnName) {
     this._jobCounter += 1;
     const id = this._jobCounter;
 
@@ -59,7 +59,7 @@ class WorkerInterface {
     };
 
     return id;
-  };
+  }
 
   _updateJob(id, data) {
     const { resolve, reject } = data;
@@ -85,7 +85,7 @@ class WorkerInterface {
         return reject(error);
       },
     };
-  };
+  }
 
   _removeJob(id) {
     if (this._DEBUG) {
@@ -97,7 +97,7 @@ class WorkerInterface {
 
   _getJob(id) {
     return this._jobs[id];
-  };
+  }
 
   callWorker(fnName, ...args) {
     const jobId = this._makeJob(fnName);
@@ -112,11 +112,14 @@ class WorkerInterface {
       });
 
       setTimeout(
-        () => reject(new TimedOutError(`Worker job ${jobId} (${fnName}) timed out`)),
+        () =>
+          reject(
+            new TimedOutError(`Worker job ${jobId} (${fnName}) timed out`)
+          ),
         this.timeout
       );
     });
-  };
+  }
 }
 
 module.exports = {

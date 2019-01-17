@@ -15,7 +15,7 @@ describe('Profile', () => {
   describe('getLocalProfile', () => {
     it('returns the local profile', async () => {
       const values = [null, 'hello', { a: 'b' }];
-      for(let i = 0; i < values.length; i += 1) {
+      for (let i = 0; i < values.length; i += 1) {
         await storage.put(PROFILE_ID, values[i]);
         assert.strictEqual(values[i], storage.getLocalProfile());
       }
@@ -25,7 +25,7 @@ describe('Profile', () => {
   describe('saveLocalProfile', () => {
     it('saves a profile', async () => {
       const values = [null, 'hello', { a: 'b' }];
-      for(let i = 0; i < values.length; i += 1) {
+      for (let i = 0; i < values.length; i += 1) {
         await storage.saveLocalProfile(values[i]);
         assert.strictEqual(values[i], storage.get(PROFILE_ID));
       }
@@ -44,20 +44,24 @@ describe('Profile', () => {
 
   describe('setProfileName', () => {
     it('throws if a name is not a string', async () => {
-      const values = [0, { a: 'b'}, [1, 2]];
-      for(let i = 0; i < values.length; i += 1) {
+      const values = [0, { a: 'b' }, [1, 2]];
+      for (let i = 0; i < values.length; i += 1) {
         try {
           await storage.setProfileName(values[i]);
-          assert.fail(`setProfileName did not throw an error for ${typeof values[i]}`);
+          assert.fail(
+            `setProfileName did not throw an error for ${typeof values[i]}`
+          );
         } catch (e) {
-          assert.throws(() => { throw e; }, 'Name must be a string!');
+          assert.throws(() => {
+            throw e;
+          }, 'Name must be a string!');
         }
       }
     });
 
     it('does not throw if we pass a string or null', async () => {
       const values = [null, '1'];
-      for(let i = 0; i < values.length; i += 1) {
+      for (let i = 0; i < values.length; i += 1) {
         try {
           await storage.setProfileName(values[i]);
         } catch (e) {

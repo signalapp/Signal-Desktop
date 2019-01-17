@@ -15,8 +15,7 @@ const hasImage = pubKey => fs.existsSync(getImagePath(pubKey));
 const getImagePath = pubKey => `${PATH}/${pubKey}.png`;
 const getOrCreateImagePath = pubKey => {
   // If the image doesn't exist then create it
-  if (!hasImage(pubKey))
-    return generateImage(pubKey);
+  if (!hasImage(pubKey)) return generateImage(pubKey);
 
   return getImagePath(pubKey);
 };
@@ -25,10 +24,11 @@ const removeImage = pubKey => {
   if (hasImage(pubKey)) {
     fs.unlinkSync(getImagePath(pubKey));
   }
-}
+};
 
 const removeImagesNotInArray = pubKeyArray => {
-  fs.readdirSync(PATH)
+  fs
+    .readdirSync(PATH)
     // Get all files that end with png
     .filter(file => file.includes('.png'))
     // Strip the extension
@@ -37,7 +37,7 @@ const removeImagesNotInArray = pubKeyArray => {
     .filter(i => !pubKeyArray.includes(i))
     // Remove them
     .forEach(i => removeImage(i));
-}
+};
 
 const generateImage = pubKey => {
   const imagePath = getImagePath(pubKey);
@@ -52,8 +52,8 @@ const generateImage = pubKey => {
     background: [0, 0, 0, 0],
   }).toString();
   fs.writeFileSync(imagePath, png, 'base64');
-  return imagePath
-}
+  return imagePath;
+};
 
 module.exports = {
   generateImage,

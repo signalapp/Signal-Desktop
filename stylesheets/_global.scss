@@ -925,7 +925,8 @@ textarea {
     font-size: 14px;
   }
 
-  #generate-mnemonic, #copy-mnemonic {
+  #generate-mnemonic,
+  #copy-mnemonic {
     background: $grey;
   }
 
@@ -936,7 +937,7 @@ textarea {
     line-height: 2.8;
     background: white;
     overflow: hidden;
-    border-radius: .25em;
+    border-radius: 0.25em;
 
     select {
       // Reset select
@@ -954,7 +955,7 @@ textarea {
       width: 100%;
       height: 100%;
       margin: 0;
-      padding: 0 0 0 .5em;
+      padding: 0 0 0 0.5em;
       color: black;
       cursor: pointer;
 
@@ -972,9 +973,9 @@ textarea {
       padding: 0 1em;
       background: $color-dark-85;
       pointer-events: none;
-      -webkit-transition: .25s all ease;
-      -o-transition: .25s all ease;
-      transition: .25s all ease;
+      -webkit-transition: 0.25s all ease;
+      -o-transition: 0.25s all ease;
+      transition: 0.25s all ease;
     }
   }
 

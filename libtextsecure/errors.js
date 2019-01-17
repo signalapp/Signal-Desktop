@@ -128,17 +128,17 @@
   inherit(Error, UnregisteredUserError);
 
   function PoWError(number, error) {
-     // eslint-disable-next-line prefer-destructuring
-     this.number = number.split('.')[0];
+    // eslint-disable-next-line prefer-destructuring
+    this.number = number.split('.')[0];
 
-     ReplayableError.call(this, {
-       name: 'PoWError',
-       message: 'Failed to calculate PoW',
-     });
+    ReplayableError.call(this, {
+      name: 'PoWError',
+      message: 'Failed to calculate PoW',
+    });
 
-     if (error) {
-       appendStack(this, error);
-     }
+    if (error) {
+      appendStack(this, error);
+    }
   }
   inherit(ReplayableError, PoWError);
 

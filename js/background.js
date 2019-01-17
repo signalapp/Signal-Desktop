@@ -12,7 +12,7 @@
 */
 
 // eslint-disable-next-line func-names
-(async function () {
+(async function() {
   'use strict';
 
   // Globally disable drag and drop
@@ -240,12 +240,11 @@
       setMessageTTL: value => {
         // Make sure the ttl is between a given range and is valid
         const intValue = parseInt(value, 10);
-        const ttl = Number.isNaN(intValue) ? 24 :  intValue;
+        const ttl = Number.isNaN(intValue) ? 24 : intValue;
         storage.put('message-ttl', ttl);
       },
 
-      getReadReceiptSetting: () =>
-        storage.get('read-receipt-setting'),
+      getReadReceiptSetting: () => storage.get('read-receipt-setting'),
       setReadReceiptSetting: value =>
         storage.put('read-receipt-setting', value),
       getNotificationSetting: () =>
@@ -331,12 +330,19 @@
 
     window.log.info('Cleanup: starting...');
     const results = await Promise.all([
-      window.Signal.Data.getOutgoingWithoutExpiresAt({ MessageCollection: Whisper.MessageCollection }),
-      window.Signal.Data.getAllUnsentMessages({ MessageCollection: Whisper.MessageCollection }),
+      window.Signal.Data.getOutgoingWithoutExpiresAt({
+        MessageCollection: Whisper.MessageCollection,
+      }),
+      window.Signal.Data.getAllUnsentMessages({
+        MessageCollection: Whisper.MessageCollection,
+      }),
     ]);
 
     // Combine the models
-    const messagesForCleanup = results.reduce((array, current) => array.concat(current.toArray()), []);
+    const messagesForCleanup = results.reduce(
+      (array, current) => array.concat(current.toArray()),
+      []
+    );
 
     window.log.info(
       `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
@@ -350,7 +356,10 @@
         );
 
         // Make sure we only target outgoing messages
-        if (message.isFriendRequest() && message.get('direction') === 'incoming') {
+        if (
+          message.isFriendRequest() &&
+          message.get('direction') === 'incoming'
+        ) {
           return;
         }
 
@@ -392,7 +401,7 @@
     let isMigrationWithIndexComplete = false;
     window.log.info(
       `Starting background data migration. Target version: ${
-      Message.CURRENT_SCHEMA_VERSION
+        Message.CURRENT_SCHEMA_VERSION
       }`
     );
     idleDetector.on('idle', async () => {
@@ -589,7 +598,7 @@
           title: window.i18n('editProfileTitle'),
           message: window.i18n('editProfileDisplayNameWarning'),
           nickname: displayName,
-          onOk: async (newName) => {
+          onOk: async newName => {
             await storage.setProfileName(newName);
 
             // Update the conversation if we have it
@@ -599,7 +608,7 @@
               conversation.setProfile(newProfile);
             }
           },
-        })
+        });
       }
     });
 
@@ -1346,7 +1355,7 @@
         type: 'friend-request',
         friendStatus: 'pending',
         direction: 'incoming',
-      }
+      };
     }
 
     const message = new Whisper.Message(messageData);
@@ -1371,7 +1380,7 @@
     } catch (error) {
       window.log.error(
         `Failed to send delivery receipt to ${data.source} for message ${
-        data.timestamp
+          data.timestamp
         }:`,
         error && error.stack ? error.stack : error
       );

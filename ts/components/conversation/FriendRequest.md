@@ -1,9 +1,10 @@
 ### Friend Requests
 
 #### Parameters
+
 | Name                 | Values                                       |
 | -------------------- | -------------------------------------------- |
-| text                 | string                          |
+| text                 | string                                       |
 | direction            | 'outgoing' \| 'incoming                      |
 | status               | 'sending' \| 'sent' \| 'read' \| 'delivered' |
 | friendStatus         | 'pending' \| 'accepted' \| 'declined'        |
@@ -13,8 +14,8 @@
 | onDeleteConversation | function                                     |
 | onRetrySend          | function                                     |
 
-
 #### Example
+
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>

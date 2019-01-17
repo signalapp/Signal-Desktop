@@ -87,14 +87,18 @@
       let iconUrl;
 
       // The number of notifications excluding friend request
-      const messagesNotificationCount = this.models.filter(n => !n.get('isFriendRequest')).length;
+      const messagesNotificationCount = this.models.filter(
+        n => !n.get('isFriendRequest')
+      ).length;
 
       // NOTE: i18n has more complex rules for pluralization than just
       // distinguishing between zero (0) and other (non-zero),
       // e.g. Russian:
       // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
       const newMessageCountLabel = `${messagesNotificationCount} ${
-        messagesNotificationCount === 1 ? i18n('newMessage') : i18n('newMessages')
+        messagesNotificationCount === 1
+          ? i18n('newMessage')
+          : i18n('newMessages')
       }`;
 
       const last = this.last().toJSON();

@@ -67,12 +67,12 @@
   }
 
   .wordwrap {
-    white-space: pre-wrap;      /* CSS3 */
+    white-space: pre-wrap; /* CSS3 */
     white-space: -moz-pre-wrap; /* Firefox */
-    white-space: -pre-wrap;     /* Opera <7 */
-    white-space: -o-pre-wrap;   /* Opera 7 */
-    word-wrap: break-word;      /* IE */
- }
+    white-space: -pre-wrap; /* Opera <7 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* IE */
+  }
 
   .restart-needed {
     margin-top: 1em;
@@ -103,7 +103,11 @@
       color: red;
     }
 
-    input { flex: 1; }
-    label { padding-left: 12px; }
+    input {
+      flex: 1;
+    }
+    label {
+      padding-left: 12px;
+    }
   }
 }

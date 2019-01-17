@@ -3,7 +3,6 @@
 'use strict';
 
 describe('Blocked Number Controller', () => {
-
   beforeEach(async () => {
     // Purge everything manually
     const numbers = storage.getBlockedNumbers();
@@ -43,18 +42,25 @@ describe('Blocked Number Controller', () => {
 
       storage.addBlockedNumber('1');
       BlockedNumberController.refresh();
-      assert.isNotEmpty(window.getBlockedNumbers().find(m => m.get('number') === '1'));
+      assert.isNotEmpty(
+        window.getBlockedNumbers().find(m => m.get('number') === '1')
+      );
 
       storage.removeBlockedNumber('1');
       storage.addBlockedNumber('2');
       BlockedNumberController.refresh();
-      assert.isNotEmpty(window.getBlockedNumbers().find(m => m.get('number') === '2'));
+      assert.isNotEmpty(
+        window.getBlockedNumbers().find(m => m.get('number') === '2')
+      );
     });
 
     it('throws if storage is invalid', () => {
       const _storage = window.storage;
       window.storage = null;
-      assert.throws(() => BlockedNumberController.refresh(), 'BlockedNumberController: Could not load blocked numbers');
+      assert.throws(
+        () => BlockedNumberController.refresh(),
+        'BlockedNumberController: Could not load blocked numbers'
+      );
       window.storage = _storage;
     });
   });
@@ -71,7 +77,7 @@ describe('Blocked Number Controller', () => {
 
       const numbers = window.getBlockedNumbers().models;
       assert.lengthOf(numbers, 1);
-      assert.strictEqual('1', numbers[0].get('number'))
+      assert.strictEqual('1', numbers[0].get('number'));
       assert.deepEqual(['1'], storage.getBlockedNumbers());
     });
 

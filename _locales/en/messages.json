@@ -1084,11 +1084,13 @@
     "description": "Title of the Message TTL setting"
   },
   "messageTTLSettingDescription": {
-    "message": "Time to live (how long the recipient will have to collect their messages)",
+    "message":
+      "Time to live (how long the recipient will have to collect their messages)",
     "description": "Description of the time to live setting"
   },
   "messageTTLSettingWarning": {
-    "message": "Warning! Lowering the TTL could result in messages being lost if the recipient doesn't collect them in time!",
+    "message":
+      "Warning! Lowering the TTL could result in messages being lost if the recipient doesn't collect them in time!",
     "description": "Warning for the time to live setting"
   },
   "notificationSettingsDialog": {
@@ -1629,23 +1631,28 @@
   },
   "friendRequestPending": {
     "message": "Friend request",
-    "description": "Shown in the conversation history when the user sends or recieves a friend request"
+    "description":
+      "Shown in the conversation history when the user sends or recieves a friend request"
   },
   "friendRequestAccepted": {
     "message": "Friend request accepted",
-    "description": "Shown in the conversation history when the user accepts a friend request"
+    "description":
+      "Shown in the conversation history when the user accepts a friend request"
   },
   "friendRequestDeclined": {
     "message": "Friend request declined",
-    "description": "Shown in the conversation history when the user declines a friend request"
+    "description":
+      "Shown in the conversation history when the user declines a friend request"
   },
   "friendRequestExpired": {
     "message": "Friend request expired",
-    "description": "Shown in the conversation history when the users friend request expires"
+    "description":
+      "Shown in the conversation history when the users friend request expires"
   },
   "friendRequestNotificationTitle": {
     "message": "Friend request",
-    "description": "Shown in a notification title when receiving a friend request"
+    "description":
+      "Shown in a notification title when receiving a friend request"
   },
   "friendRequestNotificationMessage": {
     "message": "$name$ sent you a friend request",
@@ -1660,7 +1667,8 @@
   },
   "friendRequestAcceptedNotificationTitle": {
     "message": "Friend request accepted",
-    "description": "Shown in a notification title when friend request was accepted by the other user"
+    "description":
+      "Shown in a notification title when friend request was accepted by the other user"
   },
   "friendRequestAcceptedNotificationMessage": {
     "message": "$name$ accepted your friend request",
@@ -1681,7 +1689,8 @@
   },
   "settingsUnblockHeader": {
     "message": "Blocked Users",
-    "description": "Shown in the settings page as the heading for the blocked user settings"
+    "description":
+      "Shown in the settings page as the heading for the blocked user settings"
   },
   "editProfileTitle": {
     "message": "Change your own display name",
@@ -1694,7 +1703,8 @@
 
   "copyPublicKey": {
     "message": "Copy public key",
-    "description": "Button action that the user can click to copy their public keys"
+    "description":
+      "Button action that the user can click to copy their public keys"
   },
   "copiedPublicKey": {
     "message": "Copied public key",
@@ -1702,21 +1712,25 @@
   },
   "editDisplayName": {
     "message": "Edit display name",
-    "description": "Button action that the user can click to edit their display name"
+    "description":
+      "Button action that the user can click to edit their display name"
   },
   "showSeed": {
     "message": "Show seed",
-    "description": "Button action that the user can click to view their unique seed"
+    "description":
+      "Button action that the user can click to view their unique seed"
   },
 
   "copiedMnemonic": {
     "message": "Copied seed to clipboard",
-    "description": "A toast message telling the user that the mnemonic seed was copied"
+    "description":
+      "A toast message telling the user that the mnemonic seed was copied"
   },
 
   "passwordViewTitle": {
     "message": "Type in your password",
-    "description": "The title shown when user needs to type in a password to unlock the messenger"
+    "description":
+      "The title shown when user needs to type in a password to unlock the messenger"
   },
   "unlock": {
     "message": "Unlock"
@@ -1765,15 +1779,18 @@
   },
   "passwordLengthError": {
     "message": "Password must be between 6 and 50 characters long",
-    "description": "Error string shown to the user when password doesn't meet length criteria"
+    "description":
+      "Error string shown to the user when password doesn't meet length criteria"
   },
   "passwordTypeError": {
     "message": "Password must be a string",
-    "description": "Error string shown to the user when password is not a string"
+    "description":
+      "Error string shown to the user when password is not a string"
   },
   "passwordCharacterError": {
     "message": "Password must only contain letters, numbers and symbols",
-    "description": "Error string shown to the user when password contains an invalid character"
+    "description":
+      "Error string shown to the user when password contains an invalid character"
   },
   "change": {
     "message": "Change"
@@ -1784,5 +1801,4 @@
   "remove": {
     "message": "Remove"
   }
-
 }

@@ -15,6 +15,8 @@
 */
 
 /* eslint-disable more/no-then */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-await-in-loop */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -70,17 +72,18 @@
         generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;
       }
       return this.queueTask(() =>
-        generateKeypair().then(async identityKeyPair => {
-            return createAccount(identityKeyPair)
-              .then(() => this.saveMnemonic(mnemonic))
-              .then(clearSessionsAndPreKeys)
-              .then(generateKeys)
-              .then(confirmKeys)
-              .then(() => {
-                const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
-                registrationDone(pubKeyString, profileName);
-              });
-          }
+        generateKeypair().then(async identityKeyPair =>
+          createAccount(identityKeyPair)
+            .then(() => this.saveMnemonic(mnemonic))
+            .then(clearSessionsAndPreKeys)
+            .then(generateKeys)
+            .then(confirmKeys)
+            .then(() => {
+              const pubKeyString = StringView.arrayBufferToHex(
+                identityKeyPair.pubKey
+              );
+              registrationDone(pubKeyString, profileName);
+            })
         )
       );
     },
@@ -138,12 +141,13 @@
       log.info('Added mock contact');
     },
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
-      throw new Error('account_manager: registerSecondDevice has not been implemented!');
+      throw new Error(
+        'account_manager: registerSecondDevice has not been implemented!'
+      );
     },
     refreshPreKeys() {
       // const generateKeys = this.generateKeys.bind(this, 0);
       // const registerKeys = this.server.registerKeys.bind(this.server);
-
       // return this.queueTask(() =>
       //   this.server.getMyKeys().then(preKeyCount => {
       //     window.log.info(`prekey count ${preKeyCount}`);
@@ -312,50 +316,51 @@
       password = password.substring(0, password.length - 2);
       const registrationId = libsignal.KeyHelper.generateRegistrationId();
 
-        // update our own identity key, which may have changed
-        // if we're relinking after a reinstall on the master device
-        const pubKeyString = StringView.arrayBufferToHex(
-          identityKeyPair.pubKey
-        );
+      // update our own identity key, which may have changed
+      // if we're relinking after a reinstall on the master device
+      const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
 
       return Promise.resolve().then(async () => {
-          await Promise.all([
-            textsecure.storage.remove('identityKey'),
-            textsecure.storage.remove('signaling_key'),
-            textsecure.storage.remove('password'),
-            textsecure.storage.remove('registrationId'),
-            textsecure.storage.remove('number_id'),
-            textsecure.storage.remove('device_name'),
-            textsecure.storage.remove('userAgent'),
-            textsecure.storage.remove('read-receipts-setting'),
-          ]);
+        await Promise.all([
+          textsecure.storage.remove('identityKey'),
+          textsecure.storage.remove('signaling_key'),
+          textsecure.storage.remove('password'),
+          textsecure.storage.remove('registrationId'),
+          textsecure.storage.remove('number_id'),
+          textsecure.storage.remove('device_name'),
+          textsecure.storage.remove('userAgent'),
+          textsecure.storage.remove('read-receipts-setting'),
+        ]);
 
-          // update our own identity key, which may have changed
-          // if we're relinking after a reinstall on the master device
-          await textsecure.storage.protocol.saveIdentityWithAttributes(pubKeyString, {
+        // update our own identity key, which may have changed
+        // if we're relinking after a reinstall on the master device
+        await textsecure.storage.protocol.saveIdentityWithAttributes(
+          pubKeyString,
+          {
             id: pubKeyString,
             publicKey: identityKeyPair.pubKey,
             firstUse: true,
             timestamp: Date.now(),
             verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
             nonblockingApproval: true,
-          });
-
-          await textsecure.storage.put('identityKey', identityKeyPair);
-          await textsecure.storage.put('signaling_key', signalingKey);
-          await textsecure.storage.put('password', password);
-          await textsecure.storage.put('registrationId', registrationId);
-          if (userAgent) {
-            await textsecure.storage.put('userAgent', userAgent);
           }
+        );
 
-          await textsecure.storage.put(
-            'read-receipt-setting',
-            Boolean(readReceipts)
-          );
+        await textsecure.storage.put('identityKey', identityKeyPair);
+        await textsecure.storage.put('signaling_key', signalingKey);
+        await textsecure.storage.put('password', password);
+        await textsecure.storage.put('registrationId', registrationId);
+        if (userAgent) {
+          await textsecure.storage.put('userAgent', userAgent);
+        }
 
-          await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
-        });
+        await textsecure.storage.put(
+          'read-receipt-setting',
+          Boolean(readReceipts)
+        );
+
+        await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
+      });
     },
     clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;
@@ -462,7 +467,10 @@
       window.log.info('registration done');
 
       // Ensure that we always have a conversation for ourself
-      const conversation = await ConversationController.getOrCreateAndWait(number, 'private');
+      const conversation = await ConversationController.getOrCreateAndWait(
+        number,
+        'private'
+      );
 
       await storage.setProfileName(profileName);
 
