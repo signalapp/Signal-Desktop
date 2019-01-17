@@ -144,6 +144,8 @@ function prepareURL(pathSegments, moreKeys) {
       buildExpiration: config.get('buildExpiration'),
       serverUrl: config.get('serverUrl'),
       cdnUrl: config.get('cdnUrl'),
+      messageServerPort: config.get('messageServerPort'),
+      swarmServerPort: config.get('swarmServerPort'),
       certificateAuthority: config.get('certificateAuthority'),
       environment: config.environment,
       node_version: process.versions.node,

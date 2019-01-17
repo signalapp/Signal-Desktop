@@ -1,24 +1,26 @@
+/* eslint-disable no-await-in-loop */
 /* global log, dcodeIO, window, callWorker */
 
 const fetch = require('node-fetch');
-const is = require('@sindresorhus/is');
 
-class LokiServer {
-  constructor({ urls }) {
-    this.nodes = [];
-    urls.forEach(url => {
-      if (!is.string(url)) {
-        throw new Error('WebAPI.initialize: Invalid server url');
-      }
-      this.nodes.push({ url });
-    });
+// eslint-disable-next-line
+const invert = p => new Promise((res, rej) => p.then(rej, res));
+const firstOf = ps => invert(Promise.all(ps.map(invert)));
+
+// Will be raised (to 3?) when we get more nodes
+const MINIMUM_SUCCESSFUL_REQUESTS = 2;
+class LokiMessageAPI {
+  constructor({ messageServerPort }) {
+    this.messageServerPort = messageServerPort ? `:${messageServerPort}` : '';
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl) {
-    const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
-    // Hardcoded to use a single node/server for now
-    const currentNode = this.nodes[0];
+    const swarmNodes = await window.LokiSnodeAPI.getSwarmNodesByPubkey(pubKey);
+    if (!swarmNodes || swarmNodes.size === 0) {
+      throw Error('No swarm nodes to query!');
+    }
 
+    const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const timestamp = Math.floor(Date.now() / 1000);
     // Nonce is returned as a base64 string to include in header
     let nonce;
@@ -38,113 +40,153 @@ class LokiServer {
       );
     } catch (err) {
       // Something went horribly wrong
-      // TODO: Handle gracefully
       throw err;
     }
 
-    const options = {
-      url: `${currentNode.url}/store`,
-      type: 'POST',
-      responseType: undefined,
-      timeout: undefined,
-    };
+    const requests = Array.from(swarmNodes).map(async node => {
+      // TODO: Confirm sensible timeout
+      const options = {
+        url: `${node}${this.messageServerPort}/store`,
+        type: 'POST',
+        responseType: undefined,
+        timeout: 5000,
+      };
 
-    const fetchOptions = {
-      method: options.type,
-      body: data64,
-      headers: {
-        'X-Loki-pow-nonce': nonce,
-        'X-Loki-timestamp': timestamp.toString(),
-        'X-Loki-ttl': ttl.toString(),
-        'X-Loki-recipient': pubKey,
-      },
-      timeout: options.timeout,
-    };
+      const fetchOptions = {
+        method: options.type,
+        body: data64,
+        headers: {
+          'X-Loki-pow-nonce': nonce,
+          'X-Loki-timestamp': timestamp.toString(),
+          'X-Loki-ttl': ttl.toString(),
+          'X-Loki-recipient': pubKey,
+        },
+        timeout: options.timeout,
+      };
 
-    let response;
+      let response;
+      try {
+        response = await fetch(options.url, fetchOptions);
+      } catch (e) {
+        log.error(options.type, options.url, 0, 'Error sending message');
+        window.LokiSnodeAPI.unreachableNode(pubKey, node);
+        throw HTTPError('fetch error', 0, e.toString());
+      }
+
+      let result;
+      if (
+        options.responseType === 'json' &&
+        response.headers.get('Content-Type') === 'application/json'
+      ) {
+        result = await response.json();
+      } else if (options.responseType === 'arraybuffer') {
+        result = await response.buffer();
+      } else {
+        result = await response.text();
+      }
+
+      if (response.status >= 0 && response.status < 400) {
+        return result;
+      }
+      log.error(
+        options.type,
+        options.url,
+        response.status,
+        'Error sending message'
+      );
+      throw HTTPError('sendMessage: error response', response.status, result);
+    });
     try {
-      response = await fetch(options.url, fetchOptions);
-    } catch (e) {
-      log.error(options.type, options.url, 0, 'Error');
-      throw HTTPError('fetch error', 0, e.toString());
-    }
-
-    let result;
-    if (
-      options.responseType === 'json' &&
-      response.headers.get('Content-Type') === 'application/json'
-    ) {
-      result = await response.json();
-    } else if (options.responseType === 'arraybuffer') {
-      result = await response.buffer();
-    } else {
-      result = await response.text();
-    }
-
-    if (response.status >= 0 && response.status < 400) {
+      // TODO: Possibly change this to require more than a single response?
+      const result = await firstOf(requests);
       return result;
+    } catch (err) {
+      throw err;
     }
-    log.error(options.type, options.url, response.status, 'Error');
-    throw HTTPError('sendMessage: error response', response.status, result);
   }
 
-  async retrieveMessages(pubKey) {
-    // Hardcoded to use a single node/server for now
-    const currentNode = this.nodes[0];
+  async retrieveMessages(callback) {
+    const ourKey = window.textsecure.storage.user.getNumber();
+    let completedRequests = 0;
 
-    const options = {
-      url: `${currentNode.url}/retrieve`,
-      type: 'GET',
-      responseType: 'json',
-      timeout: undefined,
-    };
+    const doRequest = async (nodeUrl, nodeData) => {
+      // TODO: Confirm sensible timeout
+      const options = {
+        url: `${nodeUrl}${this.messageServerPort}/retrieve`,
+        type: 'GET',
+        responseType: 'json',
+        timeout: 5000,
+      };
 
-    const headers = {
-      'X-Loki-recipient': pubKey,
-    };
+      const headers = {
+        'X-Loki-recipient': ourKey,
+      };
 
-    if (currentNode.lastHash) {
-      headers['X-Loki-last-hash'] = currentNode.lastHash;
-    }
-
-    const fetchOptions = {
-      method: options.type,
-      headers,
-      timeout: options.timeout,
-    };
-
-    let response;
-    try {
-      response = await fetch(options.url, fetchOptions);
-    } catch (e) {
-      log.error(options.type, options.url, 0, 'Error');
-      throw HTTPError('fetch error', 0, e.toString());
-    }
-
-    let result;
-    if (
-      options.responseType === 'json' &&
-      response.headers.get('Content-Type') === 'application/json'
-    ) {
-      result = await response.json();
-    } else if (options.responseType === 'arraybuffer') {
-      result = await response.buffer();
-    } else {
-      result = await response.text();
-    }
-
-    if (response.status >= 0 && response.status < 400) {
-      if (result.lastHash) {
-        currentNode.lastHash = result.lastHash;
+      if (nodeData.lastHash) {
+        headers['X-Loki-last-hash'] = nodeData.lastHash;
       }
-      return result;
+
+      const fetchOptions = {
+        method: options.type,
+        headers,
+        timeout: options.timeout,
+      };
+      let response;
+      try {
+        response = await fetch(options.url, fetchOptions);
+      } catch (e) {
+        // TODO: Maybe we shouldn't immediately delete?
+        // And differentiate between different connectivity issues
+        log.error(
+          options.type,
+          options.url,
+          0,
+          `Error retrieving messages from ${nodeUrl}`
+        );
+        window.LokiSnodeAPI.unreachableNode(ourKey, nodeUrl);
+        return;
+      }
+
+      let result;
+      if (
+        options.responseType === 'json' &&
+        response.headers.get('Content-Type') === 'application/json'
+      ) {
+        result = await response.json();
+      } else if (options.responseType === 'arraybuffer') {
+        result = await response.buffer();
+      } else {
+        result = await response.text();
+      }
+      completedRequests += 1;
+
+      if (response.status === 200) {
+        if (result.lastHash) {
+          window.LokiSnodeAPI.updateLastHash(nodeUrl, result.lastHash);
+          callback(result.messages);
+        }
+        return;
+      }
+      // Handle error from snode
+      log.error(options.type, options.url, response.status, 'Error');
+    };
+
+    while (completedRequests < MINIMUM_SUCCESSFUL_REQUESTS) {
+      const remainingRequests = MINIMUM_SUCCESSFUL_REQUESTS - completedRequests;
+      const ourSwarmNodes = await window.LokiSnodeAPI.getOurSwarmNodes();
+      if (Object.keys(ourSwarmNodes).length < remainingRequests) {
+        // This means we don't have enough swarm nodes to meet the minimum threshold
+        if (completedRequests !== 0) {
+          // TODO: Decide how to handle some completed requests but not enough
+        }
+      }
+
+      await Promise.all(
+        Object.entries(ourSwarmNodes)
+          .splice(0, remainingRequests)
+          .map(([nodeUrl, lastHash]) => doRequest(nodeUrl, lastHash))
+      );
     }
-    log.error(options.type, options.url, response.status, 'Error');
-    throw HTTPError(
-      'retrieveMessages: error response',
-      response.status,
-      result
-    );
   }
 }
 
@@ -163,5 +205,5 @@ function HTTPError(message, providedCode, response, stack) {
 }
 
 module.exports = {
-  LokiServer,
+  LokiMessageAPI,
 };

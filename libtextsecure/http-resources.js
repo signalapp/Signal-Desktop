@@ -1,4 +1,4 @@
-/* global window, dcodeIO, textsecure, StringView */
+/* global window, dcodeIO, textsecure */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -66,30 +66,8 @@
     }
     let connected = false;
 
-    this.startPolling = async function pollServer(callBack) {
-      const myKeys = await textsecure.storage.protocol.getIdentityKeyPair();
-      const pubKey = StringView.arrayBufferToHex(myKeys.pubKey);
-      let result;
-      try {
-        result = await server.retrieveMessages(pubKey);
-        connected = true;
-      } catch (err) {
-        connected = false;
-        setTimeout(() => {
-          pollServer(callBack);
-        }, pollTime);
-        return;
-      }
-      if (typeof callBack === 'function') {
-        callBack(connected);
-      }
-      if (!result.messages) {
-        setTimeout(() => {
-          pollServer(callBack);
-        }, pollTime);
-        return;
-      }
-      const newMessages = await filterIncomingMessages(result.messages);
+    const processMessages = async messages => {
+      const newMessages = await filterIncomingMessages(messages);
       newMessages.forEach(async message => {
         const { data } = message;
         const dataPlaintext = stringToArrayBufferBase64(data);
@@ -109,8 +87,18 @@
           );
         }
       });
+    };
+
+    this.startPolling = async function pollServer(callback) {
+      try {
+        await server.retrieveMessages(processMessages);
+        connected = true;
+      } catch (err) {
+        connected = false;
+      }
+      callback(connected);
       setTimeout(() => {
-        pollServer(callBack);
+        pollServer(callback);
       }, pollTime);
     };
 

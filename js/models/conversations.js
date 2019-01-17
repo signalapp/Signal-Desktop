@@ -87,6 +87,7 @@
         friendRequestStatus: FriendRequestStatusEnum.none,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
+        swarmNodes: new Set([]),
       };
     },
 
@@ -1212,7 +1213,7 @@
         options.messageType = message.get('type');
 
         // Add the message sending on another queue so that our UI doesn't get blocked
-        this.queueMessageSend(async () =>
+        this.queueMessageSend(async () => {
           message.send(
             this.wrapSend(
               sendFunction(
@@ -1226,8 +1227,8 @@
                 options
               )
             )
-          )
-        );
+          );
+        });
 
         return true;
       });
