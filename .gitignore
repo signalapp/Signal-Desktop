@@ -31,3 +31,5 @@ ts/protobuf/*.d.ts
 *.log
 
 package-lock\.json
+
+\.idea/
