@@ -70,23 +70,27 @@
       const newMessages = await filterIncomingMessages(messages);
       newMessages.forEach(async message => {
         const { data } = message;
-        const dataPlaintext = stringToArrayBufferBase64(data);
-        const messageBuf = textsecure.protobuf.WebSocketMessage.decode(
-          dataPlaintext
-        );
-        if (
-          messageBuf.type === textsecure.protobuf.WebSocketMessage.Type.REQUEST
-        ) {
-          handleRequest(
-            new IncomingHttpResponse({
-              verb: messageBuf.request.verb,
-              path: messageBuf.request.path,
-              body: messageBuf.request.body,
-              id: messageBuf.request.id,
-            })
-          );
-        }
+        this.handleMessage(data);
       });
+    };
+
+    this.handleMessage = message => {
+      const dataPlaintext = stringToArrayBufferBase64(message);
+      const messageBuf = textsecure.protobuf.WebSocketMessage.decode(
+        dataPlaintext
+      );
+      if (
+        messageBuf.type === textsecure.protobuf.WebSocketMessage.Type.REQUEST
+      ) {
+        handleRequest(
+          new IncomingHttpResponse({
+            verb: messageBuf.request.verb,
+            path: messageBuf.request.path,
+            body: messageBuf.request.body,
+            id: messageBuf.request.id,
+          })
+        );
+      }
     };
 
     this.startPolling = async function pollServer(callback) {
