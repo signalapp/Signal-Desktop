@@ -54,7 +54,7 @@ class LocalLokiServer extends EventEmitter {
         if (err) {
           rej(err);
         } else {
-          res(port);
+          res(this.server.address().port);
         }
       });
     });
@@ -69,6 +69,14 @@ class LocalLokiServer extends EventEmitter {
     }
 
     return Promise.resolve();
+  }
+
+  getPort() {
+    if (this.server.listening) {
+      return this.server.address().port;
+    }
+
+    return null;
   }
 }
 

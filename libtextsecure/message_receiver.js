@@ -84,7 +84,13 @@ MessageReceiver.prototype.extend({
 
     this.localServer.removeAllListeners();
     this.localServer.on('message', this.httpPollingResource.handleMessage);
-    this.localServer.start(8000);
+
+    // Passing 0 as the port will automatically assign an unused port
+    this.localServer
+      .start(0)
+      .then(port =>
+        window.log.info(`Local Server started at https://localhost:${port}`)
+      );
 
     // TODO: Rework this socket stuff to work with online messaging
     const useWebSocket = false;
