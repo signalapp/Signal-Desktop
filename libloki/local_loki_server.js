@@ -23,7 +23,13 @@ class LocalLokiServer extends EventEmitter {
             body.push(chunk);
           })
           .on('end', () => {
-            body = Buffer.concat(body).toString();
+            try {
+              body = Buffer.concat(body).toString();
+            } catch (e) {
+              // Error occurred while converting to string
+              res.statusCode = 500;
+              res.end();
+            }
 
             // Check endpoints here
             if (req.url === '/store') {

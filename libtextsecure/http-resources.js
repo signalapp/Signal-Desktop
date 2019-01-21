@@ -75,21 +75,29 @@
     };
 
     this.handleMessage = message => {
-      const dataPlaintext = stringToArrayBufferBase64(message);
-      const messageBuf = textsecure.protobuf.WebSocketMessage.decode(
-        dataPlaintext
-      );
-      if (
-        messageBuf.type === textsecure.protobuf.WebSocketMessage.Type.REQUEST
-      ) {
-        handleRequest(
-          new IncomingHttpResponse({
-            verb: messageBuf.request.verb,
-            path: messageBuf.request.path,
-            body: messageBuf.request.body,
-            id: messageBuf.request.id,
-          })
+      try {
+        const dataPlaintext = stringToArrayBufferBase64(message);
+        const messageBuf = textsecure.protobuf.WebSocketMessage.decode(
+          dataPlaintext
         );
+        if (
+          messageBuf.type === textsecure.protobuf.WebSocketMessage.Type.REQUEST
+        ) {
+          handleRequest(
+            new IncomingHttpResponse({
+              verb: messageBuf.request.verb,
+              path: messageBuf.request.path,
+              body: messageBuf.request.body,
+              id: messageBuf.request.id,
+            })
+          );
+        }
+      } catch (error) {
+        const info = {
+          message,
+          error: error.message,
+        };
+        window.log.warn('HTTP-Resources Failed to handle message:', info);
       }
     };
 

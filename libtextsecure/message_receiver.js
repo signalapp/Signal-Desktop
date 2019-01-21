@@ -89,7 +89,7 @@ MessageReceiver.prototype.extend({
     this.localServer
       .start(0)
       .then(port =>
-        window.log.info(`Local Server started at https://localhost:${port}`)
+        window.log.info(`Local Server started at localhost:${port}`)
       );
 
     // TODO: Rework this socket stuff to work with online messaging
