@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SUCCESSFUL_REQUESTS = 2;
+
 class LokiMessageAPI {
   constructor({ messageServerPort }) {
     this.messageServerPort = messageServerPort ? `:${messageServerPort}` : '';
@@ -33,7 +34,8 @@ class LokiMessageAPI {
       // Something went horribly wrong
       throw err;
     }
-    let completedRequests = 0;
+    const completedNodes = [];
+    let canResolve = true;
 
     const doRequest = async nodeUrl => {
       // TODO: Confirm sensible timeout
@@ -60,8 +62,15 @@ class LokiMessageAPI {
       try {
         response = await fetch(options.url, fetchOptions);
       } catch (e) {
+        if (e.code === 'ENOTFOUND') {
+          // TODO: Handle the case where lokinet is not working
+          canResolve = false;
+          return;
+        }
         log.error(options.type, options.url, 0, 'Error sending message');
-        window.LokiSnodeAPI.unreachableNode(pubKey, nodeUrl);
+        if (window.LokiSnodeAPI.unreachableNode(pubKey, nodeUrl)) {
+          completedNodes.push(nodeUrl);
+        }
         return;
       }
 
@@ -78,7 +87,7 @@ class LokiMessageAPI {
       }
 
       if (response.status >= 0 && response.status < 400) {
-        completedRequests += 1;
+        completedNodes.push(nodeUrl);
         return;
       }
       log.error(
@@ -91,14 +100,28 @@ class LokiMessageAPI {
     };
 
     let swarmNodes;
-    while (completedRequests < MINIMUM_SUCCESSFUL_REQUESTS) {
+    while (completedNodes.length < MINIMUM_SUCCESSFUL_REQUESTS) {
+      if (!canResolve) {
+        throw new window.textsecure.DNSResolutionError('Sending messages');
+      }
       try {
         swarmNodes = await window.LokiSnodeAPI.getSwarmNodesByPubkey(pubKey);
+        // Filter out the nodes we have already got responses from
+        swarmNodes = Object.keys(swarmNodes)
+          .filter(node => !(node in completedNodes))
+          .reduce(
+            // eslint-disable-next-line no-loop-func
+            (obj, node) => ({
+              ...obj,
+              [node]: swarmNodes[node],
+            }),
+            {}
+          );
       } catch (e) {
         throw new window.textsecure.EmptySwarmError(pubKey, e);
       }
       if (!swarmNodes || swarmNodes.size === 0) {
-        if (completedRequests !== 0) {
+        if (completedNodes.length !== 0) {
           // TODO: Decide how to handle some completed requests but not enough
           return;
         }
@@ -108,7 +131,8 @@ class LokiMessageAPI {
         );
       }
 
-      const remainingRequests = MINIMUM_SUCCESSFUL_REQUESTS - completedRequests;
+      const remainingRequests =
+        MINIMUM_SUCCESSFUL_REQUESTS - completedNodes.length;
       await Promise.all(
         Array.from(swarmNodes)
           .splice(0, remainingRequests)
@@ -119,7 +143,8 @@ class LokiMessageAPI {
 
   async retrieveMessages(callback) {
     const ourKey = window.textsecure.storage.user.getNumber();
-    let completedRequests = 0;
+    const completedNodes = [];
+    let canResolve = true;
 
     const doRequest = async (nodeUrl, nodeData) => {
       // TODO: Confirm sensible timeout
@@ -147,6 +172,11 @@ class LokiMessageAPI {
       try {
         response = await fetch(options.url, fetchOptions);
       } catch (e) {
+        if (e.code === 'ENOTFOUND') {
+          // TODO: Handle the case where lokinet is not working
+          canResolve = false;
+          return;
+        }
         // TODO: Maybe we shouldn't immediately delete?
         // And differentiate between different connectivity issues
         log.error(
@@ -155,7 +185,9 @@ class LokiMessageAPI {
           0,
           `Error retrieving messages from ${nodeUrl}`
         );
-        window.LokiSnodeAPI.unreachableNode(ourKey, nodeUrl);
+        if (window.LokiSnodeAPI.unreachableNode(ourKey, nodeUrl)) {
+          completedNodes.push(nodeUrl);
+        }
         return;
       }
 
@@ -170,7 +202,7 @@ class LokiMessageAPI {
       } else {
         result = await response.text();
       }
-      completedRequests += 1;
+      completedNodes.push(nodeUrl);
 
       if (response.status === 200) {
         if (result.lastHash) {
@@ -183,28 +215,43 @@ class LokiMessageAPI {
       log.error(options.type, options.url, response.status, 'Error');
     };
 
-    while (completedRequests < MINIMUM_SUCCESSFUL_REQUESTS) {
+    while (completedNodes.length < MINIMUM_SUCCESSFUL_REQUESTS) {
+      if (!canResolve) {
+        throw new window.textsecure.DNSResolutionError('Retrieving messages');
+      }
       let ourSwarmNodes;
       try {
         ourSwarmNodes = await window.LokiSnodeAPI.getOurSwarmNodes();
+        // Filter out the nodes we have already got responses from
+        ourSwarmNodes = Object.keys(ourSwarmNodes)
+          .filter(node => !(node in completedNodes))
+          .reduce(
+            // eslint-disable-next-line no-loop-func
+            (obj, node) => ({
+              ...obj,
+              [node]: ourSwarmNodes[node],
+            }),
+            {}
+          );
       } catch (e) {
-        throw window.textsecure.EmptySwarmError(
+        throw new window.textsecure.EmptySwarmError(
           window.textsecure.storage.user.getNumber(),
           e
         );
       }
       if (!ourSwarmNodes || Object.keys(ourSwarmNodes).length === 0) {
-        if (completedRequests !== 0) {
+        if (completedNodes.length !== 0) {
           // TODO: Decide how to handle some completed requests but not enough
           return;
         }
-        throw window.textsecure.EmptySwarmError(
+        throw new window.textsecure.EmptySwarmError(
           window.textsecure.storage.user.getNumber(),
           new Error('Ran out of swarm nodes to query')
         );
       }
 
-      const remainingRequests = MINIMUM_SUCCESSFUL_REQUESTS - completedRequests;
+      const remainingRequests =
+        MINIMUM_SUCCESSFUL_REQUESTS - completedNodes.length;
       await Promise.all(
         Object.entries(ourSwarmNodes)
           .splice(0, remainingRequests)

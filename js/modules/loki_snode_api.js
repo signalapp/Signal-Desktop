@@ -45,7 +45,7 @@ class LokiSnodeAPI {
       if (this.ourSwarmNodes[nodeUrl].failureCount >= FAILURE_THRESHOLD) {
         delete this.ourSwarmNodes[nodeUrl];
       }
-      return;
+      return false;
     }
     if (!this.contactSwarmNodes[nodeUrl]) {
       this.contactSwarmNodes[nodeUrl] = {
@@ -55,7 +55,7 @@ class LokiSnodeAPI {
       this.contactSwarmNodes[nodeUrl].failureCount += 1;
     }
     if (this.contactSwarmNodes[nodeUrl].failureCount < FAILURE_THRESHOLD) {
-      return;
+      return false;
     }
     const conversation = window.ConversationController.get(pubKey);
     const swarmNodes = conversation.get('swarmNodes');
@@ -70,6 +70,7 @@ class LokiSnodeAPI {
       );
       delete this.contactSwarmNodes[nodeUrl];
     }
+    return true;
   }
 
   updateLastHash(nodeUrl, hash) {

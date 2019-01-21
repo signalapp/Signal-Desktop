@@ -157,6 +157,16 @@
   }
   inherit(ReplayableError, PoWError);
 
+  function DNSResolutionError(message) {
+    // eslint-disable-next-line prefer-destructuring
+
+    ReplayableError.call(this, {
+      name: 'DNSResolutionError',
+      message: `Error resolving url: ${message}`,
+    });
+  }
+  inherit(ReplayableError, DNSResolutionError);
+
   window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
@@ -167,4 +177,5 @@
   window.textsecure.SignedPreKeyRotationError = SignedPreKeyRotationError;
   window.textsecure.PoWError = PoWError;
   window.textsecure.EmptySwarmError = EmptySwarmError;
+  window.textsecure.DNSResolutionError = DNSResolutionError;
 })();
