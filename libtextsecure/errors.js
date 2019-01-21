@@ -127,6 +127,21 @@
   }
   inherit(Error, UnregisteredUserError);
 
+  function EmptySwarmError(number, error) {
+    // eslint-disable-next-line prefer-destructuring
+    this.number = number.split('.')[0];
+
+    ReplayableError.call(this, {
+      name: 'EmptySwarmError',
+      message: 'Could not get any swarm nodes to query',
+    });
+
+    if (error) {
+      appendStack(this, error);
+    }
+  }
+  inherit(ReplayableError, PoWError);
+
   function PoWError(number, error) {
     // eslint-disable-next-line prefer-destructuring
     this.number = number.split('.')[0];
@@ -151,4 +166,5 @@
   window.textsecure.MessageError = MessageError;
   window.textsecure.SignedPreKeyRotationError = SignedPreKeyRotationError;
   window.textsecure.PoWError = PoWError;
+  window.textsecure.EmptySwarmError = EmptySwarmError;
 })();
