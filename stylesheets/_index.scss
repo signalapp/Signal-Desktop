@@ -244,6 +244,8 @@ input.search {
 
 .conversation.placeholder {
   text-align: center;
+  user-select: none;
+
   .container {
     position: absolute;
     height: 100%;
