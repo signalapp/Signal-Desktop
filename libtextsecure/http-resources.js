@@ -70,7 +70,13 @@
       const newMessages = await filterIncomingMessages(messages);
       newMessages.forEach(async message => {
         const { data } = message;
-        const dataPlaintext = stringToArrayBufferBase64(data);
+        this.handleMessage(data);
+      });
+    };
+
+    this.handleMessage = message => {
+      try {
+        const dataPlaintext = stringToArrayBufferBase64(message);
         const messageBuf = textsecure.protobuf.WebSocketMessage.decode(
           dataPlaintext
         );
@@ -86,7 +92,13 @@
             })
           );
         }
-      });
+      } catch (error) {
+        const info = {
+          message,
+          error: error.message,
+        };
+        window.log.warn('HTTP-Resources Failed to handle message:', info);
+      }
     };
 
     this.startPolling = async function pollServer(callback) {

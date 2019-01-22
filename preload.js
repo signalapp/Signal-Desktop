@@ -283,6 +283,10 @@ window.LokiMessageAPI = new LokiMessageAPI({
   messageServerPort: config.messageServerPort,
 });
 
+const { LocalLokiServer } = require('./libloki/local_loki_server');
+
+window.LocalLokiServer = LocalLokiServer;
+
 window.mnemonic = require('./libloki/mnemonic');
 const { WorkerInterface } = require('./js/modules/util_worker_interface');
 

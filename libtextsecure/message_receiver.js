@@ -23,6 +23,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.username = username;
   this.password = password;
   this.lokiMessageAPI = window.LokiMessageAPI;
+  this.localServer = new window.LocalLokiServer();
 
   if (!options.serverTrustRoot) {
     throw new Error('Server trust root is required!');
@@ -80,6 +81,17 @@ MessageReceiver.prototype.extend({
         this.onEmpty();
       }
     });
+
+    this.localServer.removeAllListeners();
+    this.localServer.on('message', this.httpPollingResource.handleMessage);
+
+    // Passing 0 as the port will automatically assign an unused port
+    this.localServer
+      .start(0)
+      .then(port =>
+        window.log.info(`Local Server started at localhost:${port}`)
+      );
+
     // TODO: Rework this socket stuff to work with online messaging
     const useWebSocket = false;
     if (useWebSocket) {
@@ -121,6 +133,11 @@ MessageReceiver.prototype.extend({
       this.wsr.removeEventListener('close', this._onClose);
       this.wsr = null;
     }
+
+    if (this.localServer) {
+      this.localServer.removeAllListeners();
+      this.localServer = null;
+    }
   },
   close() {
     window.log.info('MessageReceiver.close()');
@@ -130,6 +147,10 @@ MessageReceiver.prototype.extend({
     //   if the socket doesn't emit one quickly enough.
     if (this.wsr) {
       this.wsr.close(3000, 'called close');
+    }
+
+    if (this.localServer) {
+      this.localServer.close();
     }
 
     return this.drain();
