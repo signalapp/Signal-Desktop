@@ -143,9 +143,9 @@
 
       <div class='bottom-bar' id='footer'>
           <div class='emoji-panel-container'></div>
+          <div class='attachment-list'></div>
           <div class='compose'>
-            <form class='send clearfix'>
-              <div class='attachment-previews'></div>
+            <form class='send clearfix file-input'>
               <div class='flex'>
                 <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
@@ -157,7 +157,7 @@
                 </div>
                 <div class='choose-file hide'>
                     <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    <input type='file' class='file-input'>
+                    <input type='file' class='file-input' multiple='multiple'>
                 </div>
               </div>
             </form>
@@ -735,7 +735,6 @@
   <script type='text/javascript' src='js/views/last_seen_indicator_view.js'></script>
   <script type='text/javascript' src='js/views/scroll_down_button_view.js'></script>
   <script type='text/javascript' src='js/views/toast_view.js'></script>
-  <script type='text/javascript' src='js/views/attachment_preview_view.js'></script>
   <script type='text/javascript' src='js/views/file_input_view.js'></script>
   <script type='text/javascript' src='js/views/list_view.js'></script>
   <script type='text/javascript' src='js/views/conversation_list_item_view.js'></script>

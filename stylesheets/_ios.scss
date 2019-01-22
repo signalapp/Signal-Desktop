@@ -128,6 +128,14 @@
     color: $color-light-60;
   }
 
+  .module-typing-animation__dot {
+    background-color: $color-gray-60;
+  }
+
+  .module-typing-animation__dot--light {
+    background-color: $color-gray-60;
+  }
+
   &.dark-theme {
     // _modules
 

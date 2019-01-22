@@ -1,7 +1,7 @@
 ### In message bubble
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <TypingBubble conversationType="direct" i18n={util.i18n} />
   </li>
@@ -14,7 +14,7 @@
 ### In message bubble, group conversation
 
 ```jsx
-<util.ConversationContext theme={util.theme}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
     <TypingBubble color="red" conversationType="group" i18n={util.i18n} />
   </li>

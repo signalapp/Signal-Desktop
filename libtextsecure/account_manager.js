@@ -4,6 +4,7 @@
   libsignal,
   mnemonic,
   btoa,
+  Signal,
   getString,
   Event,
   dcodeIO,
@@ -50,6 +51,65 @@
     },
     requestSMSVerification(number) {
       // return this.server.requestVerificationSMS(number);
+    },
+    async encryptDeviceName(name, providedIdentityKey) {
+      const identityKey =
+        providedIdentityKey ||
+        (await textsecure.storage.protocol.getIdentityKeyPair());
+      if (!identityKey) {
+        throw new Error(
+          'Identity key was not provided and is not in database!'
+        );
+      }
+      const encrypted = await Signal.Crypto.encryptDeviceName(
+        name,
+        identityKey.pubKey
+      );
+
+      const proto = new textsecure.protobuf.DeviceName();
+      proto.ephemeralPublic = encrypted.ephemeralPublic;
+      proto.syntheticIv = encrypted.syntheticIv;
+      proto.ciphertext = encrypted.ciphertext;
+
+      const arrayBuffer = proto.encode().toArrayBuffer();
+      return Signal.Crypto.arrayBufferToBase64(arrayBuffer);
+    },
+    async decryptDeviceName(base64) {
+      const identityKey = await textsecure.storage.protocol.getIdentityKeyPair();
+
+      const arrayBuffer = Signal.Crypto.base64ToArrayBuffer(base64);
+      const proto = textsecure.protobuf.DeviceName.decode(arrayBuffer);
+      const encrypted = {
+        ephemeralPublic: proto.ephemeralPublic.toArrayBuffer(),
+        syntheticIv: proto.syntheticIv.toArrayBuffer(),
+        ciphertext: proto.ciphertext.toArrayBuffer(),
+      };
+
+      const name = await Signal.Crypto.decryptDeviceName(
+        encrypted,
+        identityKey.privKey
+      );
+
+      return name;
+    },
+    async maybeUpdateDeviceName() {
+      const isNameEncrypted = textsecure.storage.user.getDeviceNameEncrypted();
+      if (isNameEncrypted) {
+        return;
+      }
+      const deviceName = await textsecure.storage.user.getDeviceName();
+      const base64 = await this.encryptDeviceName(deviceName);
+
+      await this.server.updateDeviceName(base64);
+    },
+    async deviceNameIsEncrypted() {
+      await textsecure.storage.user.setDeviceNameEncrypted();
+    },
+    async maybeDeleteSignalingKey() {
+      const key = await textsecure.storage.user.getSignalingKey();
+      if (key) {
+        await this.server.removeSignalingKey();
+      }
     },
     registerSingleDevice(mnemonic, mnemonicLanguage, profileName) {
       const createAccount = this.createAccount.bind(this);
@@ -362,11 +422,11 @@
         await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
       });
     },
-    clearSessionsAndPreKeys() {
+    async clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;
 
       window.log.info('clearing all sessions, prekeys, and signed prekeys');
-      return Promise.all([
+      await Promise.all([
         store.clearPreKeyStore(),
         store.clearContactPreKeysStore(),
         store.clearSignedPreKeysStore(),

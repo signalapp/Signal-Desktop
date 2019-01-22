@@ -267,8 +267,8 @@ module.exports = grunt => {
   grunt.registerTask('getExpireTime', () => {
     grunt.task.requires('gitinfo');
     const gitinfo = grunt.config.get('gitinfo');
-    const commited = gitinfo.local.branch.current.lastCommitTime;
-    const time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
+    const committed = gitinfo.local.branch.current.lastCommitTime;
+    const time = Date.parse(committed) + 1000 * 60 * 60 * 24 * 90;
     grunt.file.write(
       'config/local-production.json',
       `${JSON.stringify({ buildExpiration: time })}\n`
@@ -307,7 +307,7 @@ module.exports = grunt => {
             app.client
               .execute(getMochaResults)
               .then(data => Boolean(data.value)),
-          10000,
+          25000,
           'Expected to find window.mochaResults set!'
         )
       )

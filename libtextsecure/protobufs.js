@@ -36,6 +36,9 @@
   loadProtoBufs('SubProtocol.proto');
   loadProtoBufs('DeviceMessages.proto');
 
+  // Just for encrypting device names
+  loadProtoBufs('DeviceName.proto');
+
   // Metadata-specific protos
   loadProtoBufs('UnidentifiedDelivery.proto');
 })();

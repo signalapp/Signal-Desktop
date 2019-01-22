@@ -332,6 +332,8 @@ function HTTPError(message, providedCode, response, stack) {
 
 const URL_CALLS = {
   accounts: 'v1/accounts',
+  updateDeviceName: 'v1/accounts/name',
+  removeSignalingKey: 'v1/accounts/signaling_key',
   attachment: 'v1/attachments',
   deliveryCert: 'v1/certificate/delivery',
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
@@ -393,6 +395,8 @@ function initialize({ url, cdnUrl, certificateAuthority, proxyUrl }) {
       sendMessages,
       sendMessagesUnauth,
       setSignedPreKey,
+      updateDeviceName,
+      removeSignalingKey,
     };
 
     function _ajax(param) {
@@ -523,14 +527,12 @@ function initialize({ url, cdnUrl, certificateAuthority, proxyUrl }) {
       number,
       code,
       newPassword,
-      signalingKey,
       registrationId,
       deviceName,
       options = {}
     ) {
       const { accessKey } = options;
       const jsonData = {
-        signalingKey: _btoa(_getString(signalingKey)),
         supportsSms: false,
         fetchesMessages: true,
         registrationId,
@@ -573,6 +575,23 @@ function initialize({ url, cdnUrl, certificateAuthority, proxyUrl }) {
       username = `${number}.${response.deviceId || 1}`;
 
       return response;
+    }
+
+    function updateDeviceName(deviceName) {
+      return _ajax({
+        call: 'updateDeviceName',
+        httpType: 'PUT',
+        jsonData: {
+          deviceName,
+        },
+      });
+    }
+
+    function removeSignalingKey() {
+      return _ajax({
+        call: 'removeSignalingKey',
+        httpType: 'DELETE',
+      });
     }
 
     function getDevices() {
