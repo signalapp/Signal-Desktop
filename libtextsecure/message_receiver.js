@@ -725,6 +725,13 @@ MessageReceiver.prototype.extend({
                 return { isMe: true };
               }
 
+              if (this.isBlocked(sender.getName())) {
+                window.log.info(
+                  'Dropping blocked message after sealed sender decryption'
+                );
+                return { isBlocked: true };
+              }
+
               // Here we take this sender information and attach it back to the envelope
               //   to make the rest of the app work properly.
 
@@ -746,6 +753,13 @@ MessageReceiver.prototype.extend({
 
               if (sender) {
                 const originalSource = envelope.source;
+
+                if (this.isBlocked(sender.getName())) {
+                  window.log.info(
+                    'Dropping blocked message with error after sealed sender decryption'
+                  );
+                  return { isBlocked: true };
+                }
 
                 // eslint-disable-next-line no-param-reassign
                 envelope.source = sender.getName();
@@ -769,8 +783,8 @@ MessageReceiver.prototype.extend({
 
     return promise
       .then(plaintext => {
-        const { isMe } = plaintext || {};
-        if (isMe) {
+        const { isMe, isBlocked } = plaintext || {};
+        if (isMe || isBlocked) {
           return this.removeFromCache(envelope);
         }
 
