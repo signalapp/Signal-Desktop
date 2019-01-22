@@ -1275,6 +1275,7 @@
 
 .module-conversation-header__avatar {
   min-width: 28px;
+  user-select: none;
 }
 
 .module-conversation-header__title {
@@ -2554,6 +2555,7 @@
   padding-bottom: 8px;
   border: 1px solid $color-dark-05;
   opacity: 0;
+  user-select: none;
 }
 
 .react-contextmenu--visible {
