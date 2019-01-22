@@ -31,6 +31,7 @@
 
   float: left;
   width: 300px;
+  user-select: none;
 
   .content {
     overflow-y: scroll;
@@ -243,6 +244,8 @@ input.search {
 
 .conversation.placeholder {
   text-align: center;
+  user-select: none;
+
   .container {
     position: absolute;
     height: 100%;

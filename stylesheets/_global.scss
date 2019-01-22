@@ -457,6 +457,7 @@ $loading-height: 16px;
   background-color: white;
   display: flex;
   align-items: center;
+  user-select: none;
 
   .content {
     margin-left: auto;
