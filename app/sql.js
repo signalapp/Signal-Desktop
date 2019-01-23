@@ -173,20 +173,11 @@ async function setupSQLCipher(instance, { key }) {
   await instance.run(`PRAGMA key = "x'${key}'";`);
 }
 
-async function updateToSchemaVersion1(currentVersion, instance) {
-  if (currentVersion >= 1) {
-    return;
-  }
-
-  console.log('updateToSchemaVersion1: starting...');
-
-  await instance.run('BEGIN TRANSACTION;');
-
-  await instance.run(
+const UPDATE_SCHEMA_TRANSACTIONS = {
+  1: [
     `CREATE TABLE messages(
       id STRING PRIMARY KEY ASC,
       json TEXT,
-
       unread INTEGER,
       expires_at INTEGER,
       sent_at INTEGER,
@@ -198,297 +189,165 @@ async function updateToSchemaVersion1(currentVersion, instance) {
       hasAttachments INTEGER,
       hasFileAttachments INTEGER,
       hasVisualMediaAttachments INTEGER
-    );`
-  );
-
-  await instance.run(`CREATE INDEX messages_unread ON messages (
+    );`,
+    `CREATE INDEX messages_unread ON messages (
       unread
-    );`);
-  await instance.run(`CREATE INDEX messages_expires_at ON messages (
-      expires_at
-    );`);
-  await instance.run(`CREATE INDEX messages_receipt ON messages (
+    );`,
+    `CREATE INDEX messages_unread ON messages (
+      unread
+    );`,
+    `CREATE INDEX messages_receipt ON messages (
       sent_at
-    );`);
-  await instance.run(`CREATE INDEX messages_schemaVersion ON messages (
+    );`,
+    `CREATE INDEX messages_schemaVersion ON messages (
       schemaVersion
-    );`);
-
-  await instance.run(`CREATE INDEX messages_conversation ON messages (
+    );`,
+    `CREATE INDEX messages_conversation ON messages (
       conversationId,
       received_at
-    );`);
-
-  await instance.run(`CREATE INDEX messages_duplicate_check ON messages (
+    );`,
+    `CREATE INDEX messages_duplicate_check ON messages (
       source,
       sourceDevice,
       sent_at
-    );`);
-  await instance.run(`CREATE INDEX messages_hasAttachments ON messages (
+    );`,
+    `CREATE INDEX messages_hasAttachments ON messages (
       conversationId,
       hasAttachments,
       received_at
-    );`);
-  await instance.run(`CREATE INDEX messages_hasFileAttachments ON messages (
+    );`,
+    `CREATE INDEX messages_hasFileAttachments ON messages (
       conversationId,
       hasFileAttachments,
       received_at
-    );`);
-  await instance.run(`CREATE INDEX messages_hasVisualMediaAttachments ON messages (
+    );`,
+    `CREATE INDEX messages_hasVisualMediaAttachments ON messages (
       conversationId,
       hasVisualMediaAttachments,
       received_at
-    );`);
-
-  await instance.run(`CREATE TABLE unprocessed(
-    id STRING,
-    timestamp INTEGER,
-    json TEXT
-  );`);
-  await instance.run(`CREATE INDEX unprocessed_id ON unprocessed (
-    id
-  );`);
-  await instance.run(`CREATE INDEX unprocessed_timestamp ON unprocessed (
-    timestamp
-  );`);
-
-  await instance.run('PRAGMA schema_version = 1;');
-  await instance.run('COMMIT TRANSACTION;');
-
-  console.log('updateToSchemaVersion1: success!');
-}
-
-async function updateToSchemaVersion2(currentVersion, instance) {
-  if (currentVersion >= 2) {
-    return;
-  }
-
-  console.log('updateToSchemaVersion2: starting...');
-
-  await instance.run('BEGIN TRANSACTION;');
-
-  await instance.run(
+    );`,
+    `CREATE TABLE unprocessed(
+      id STRING,
+      timestamp INTEGER,
+      json TEXT
+    );`,
+    `CREATE INDEX unprocessed_id ON unprocessed (
+      id
+    );`,
+    `CREATE INDEX unprocessed_timestamp ON unprocessed (
+      timestamp
+    );`,
+  ],
+  2: [
     `ALTER TABLE messages
-     ADD COLUMN expireTimer INTEGER;`
-  );
-
-  await instance.run(
+    ADD COLUMN expireTimer INTEGER;`,
     `ALTER TABLE messages
-     ADD COLUMN expirationStartTimestamp INTEGER;`
-  );
-
-  await instance.run(
+    ADD COLUMN expirationStartTimestamp INTEGER;`,
     `ALTER TABLE messages
-     ADD COLUMN type STRING;`
-  );
-
-  await instance.run(`CREATE INDEX messages_expiring ON messages (
+    ADD COLUMN type STRING;`,
+    `CREATE INDEX messages_expiring ON messages (
       expireTimer,
       expirationStartTimestamp,
       expires_at
-    );`);
-
-  await instance.run(
+    );`,
     `UPDATE messages SET
       expirationStartTimestamp = json_extract(json, '$.expirationStartTimestamp'),
       expireTimer = json_extract(json, '$.expireTimer'),
-      type = json_extract(json, '$.type');`
-  );
-
-  await instance.run('PRAGMA schema_version = 2;');
-  await instance.run('COMMIT TRANSACTION;');
-
-  console.log('updateToSchemaVersion2: success!');
-}
-
-async function updateToSchemaVersion3(currentVersion, instance) {
-  if (currentVersion >= 3) {
-    return;
-  }
-
-  console.log('updateToSchemaVersion3: starting...');
-
-  await instance.run('BEGIN TRANSACTION;');
-
-  await instance.run('DROP INDEX messages_expiring;');
-  await instance.run('DROP INDEX messages_unread;');
-
-  await instance.run(`CREATE INDEX messages_without_timer ON messages (
+      type = json_extract(json, '$.type');`,
+  ],
+  3: [
+    'DROP INDEX messages_expiring;',
+    'DROP INDEX messages_unread;',
+    `CREATE INDEX messages_without_timer ON messages (
       expireTimer,
       expires_at,
       type
-    ) WHERE expires_at IS NULL AND expireTimer IS NOT NULL;`);
-
-  await instance.run(`CREATE INDEX messages_unread ON messages (
+    ) WHERE expires_at IS NULL AND expireTimer IS NOT NULL;`,
+    `CREATE INDEX messages_unread ON messages (
       conversationId,
       unread
-    ) WHERE unread IS NOT NULL;`);
-
-  await instance.run('ANALYZE;');
-  await instance.run('PRAGMA schema_version = 3;');
-  await instance.run('COMMIT TRANSACTION;');
-
-  console.log('updateToSchemaVersion3: success!');
-}
-
-async function updateToSchemaVersion4(currentVersion, instance) {
-  if (currentVersion >= 4) {
-    return;
-  }
-
-  console.log('updateToSchemaVersion4: starting...');
-
-  await instance.run('BEGIN TRANSACTION;');
-
-  await instance.run(
+    ) WHERE unread IS NOT NULL;`,
+    'ANALYZE;',
+  ],
+  4: [
     `CREATE TABLE conversations(
       id STRING PRIMARY KEY ASC,
       json TEXT,
-
       active_at INTEGER,
       type STRING,
       members TEXT,
       name TEXT,
       profileName TEXT
-    );`
-  );
-
-  await instance.run(`CREATE INDEX conversations_active ON conversations (
+    );`,
+    `CREATE INDEX conversations_active ON conversations (
       active_at
-    ) WHERE active_at IS NOT NULL;`);
-
-  await instance.run(`CREATE INDEX conversations_type ON conversations (
+    ) WHERE active_at IS NOT NULL;`,
+    `CREATE INDEX conversations_type ON conversations (
       type
-    ) WHERE type IS NOT NULL;`);
-
-  await instance.run('PRAGMA schema_version = 4;');
-  await instance.run('COMMIT TRANSACTION;');
-
-  console.log('updateToSchemaVersion4: success!');
-}
-
-async function updateToSchemaVersion6(currentVersion, instance) {
-  if (currentVersion >= 6) {
-    return;
-  }
-  console.log('updateToSchemaVersion6: starting...');
-  await instance.run('BEGIN TRANSACTION;');
-
-  // key-value, ids are strings, one extra column
-  await instance.run(
+    ) WHERE type IS NOT NULL;`,
+  ],
+  6: [
+    // key-value, ids are strings, one extra column
     `CREATE TABLE sessions(
       id STRING PRIMARY KEY ASC,
       number STRING,
       json TEXT
-    );`
-  );
-
-  await instance.run(`CREATE INDEX sessions_number ON sessions (
-    number
-  ) WHERE number IS NOT NULL;`);
-
-  // key-value, ids are strings
-  await instance.run(
+    );`,
+    `CREATE INDEX sessions_number ON sessions (
+      number
+    ) WHERE number IS NOT NULL;`,
+    // key-value, ids are strings
     `CREATE TABLE groups(
       id STRING PRIMARY KEY ASC,
       json TEXT
-    );`
-  );
-  await instance.run(
+    );`,
     `CREATE TABLE identityKeys(
       id STRING PRIMARY KEY ASC,
       json TEXT
-    );`
-  );
-  await instance.run(
+    );`,
     `CREATE TABLE items(
       id STRING PRIMARY KEY ASC,
       json TEXT
-    );`
-  );
-
-  // key-value, ids are integers
-  await instance.run(
+    );`,
+    // key-value, ids are integers
     `CREATE TABLE preKeys(
       id INTEGER PRIMARY KEY ASC,
       json TEXT
-    );`
-  );
-  await instance.run(
+    );`,
     `CREATE TABLE signedPreKeys(
       id INTEGER PRIMARY KEY ASC,
       json TEXT
-    );`
-  );
-
-  await instance.run('PRAGMA schema_version = 6;');
-  await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToSchemaVersion6: success!');
-}
-
-async function updateToSchemaVersion7(currentVersion, instance) {
-  if (currentVersion >= 7) {
-    return;
-  }
-  console.log('updateToSchemaVersion7: starting...');
-  await instance.run('BEGIN TRANSACTION;');
-
-  // SQLite has been coercing our STRINGs into numbers, so we force it with TEXT
-  // We create a new table then copy the data into it, since we can't modify columns
-
-  await instance.run('DROP INDEX sessions_number;');
-  await instance.run('ALTER TABLE sessions RENAME TO sessions_old;');
-
-  await instance.run(
+    );`,
+  ],
+  7: [
+    // SQLite has been coercing our STRINGs into numbers, so we force it with TEXT
+    // We create a new table then copy the data into it, since we can't modify columns
+    'DROP INDEX sessions_number;',
+    'ALTER TABLE sessions RENAME TO sessions_old;',
     `CREATE TABLE sessions(
       id TEXT PRIMARY KEY,
       number TEXT,
       json TEXT
-    );`
-  );
-
-  await instance.run(`CREATE INDEX sessions_number ON sessions (
-    number
-  ) WHERE number IS NOT NULL;`);
-
-  await instance.run(`INSERT INTO sessions(id, number, json)
-    SELECT "+" || id, number, json FROM sessions_old;
-  `);
-
-  await instance.run('DROP TABLE sessions_old;');
-
-  await instance.run('PRAGMA schema_version = 7;');
-  await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToSchemaVersion7: success!');
-}
-
-async function updateToSchemaVersion8(currentVersion, instance) {
-  if (currentVersion >= 8) {
-    return;
-  }
-  console.log('updateToSchemaVersion8: starting...');
-  await instance.run('BEGIN TRANSACTION;');
-
-  // First, we pull a new body field out of the message table's json blob
-  await instance.run(
+    );`,
+    `CREATE INDEX sessions_number ON sessions (
+      number
+    ) WHERE number IS NOT NULL;`,
+    `INSERT INTO sessions(id, number, json)
+    SELECT "+" || id, number, json FROM sessions_old;`,
+    'DROP TABLE sessions_old;',
+  ],
+  8: [
+    // First, we pull a new body field out of the message table's json blob
     `ALTER TABLE messages
-     ADD COLUMN body TEXT;`
-  );
-  await instance.run("UPDATE messages SET body = json_extract(json, '$.body')");
-
-  // Then we create our full-text search table and populate it
-  await instance.run(`
-    CREATE VIRTUAL TABLE messages_fts
-    USING fts5(id UNINDEXED, body);
-  `);
-  await instance.run(`
-    INSERT INTO messages_fts(id, body)
-    SELECT id, body FROM messages;
-  `);
-
-  // Then we set up triggers to keep the full-text search table up to date
-  await instance.run(`
-    CREATE TRIGGER messages_on_insert AFTER INSERT ON messages BEGIN
+    ADD COLUMN body TEXT;`,
+    "UPDATE messages SET body = json_extract(json, '$.body')",
+    // Then we create our full-text search table and populate it
+    `CREATE VIRTUAL TABLE messages_fts
+    USING fts5(id UNINDEXED, body);`,
+    `INSERT INTO messages_fts(id, body)
+    SELECT id, body FROM messages;`,
+    // Then we set up triggers to keep the full-text search table up to date
+    `CREATE TRIGGER messages_on_insert AFTER INSERT ON messages BEGIN
       INSERT INTO messages_fts (
         id,
         body
@@ -496,44 +355,54 @@ async function updateToSchemaVersion8(currentVersion, instance) {
         new.id,
         new.body
       );
-    END;
-  `);
-  await instance.run(`
-    CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+    END;`,
+    `CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
       DELETE FROM messages_fts WHERE id = old.id;
-    END;
-  `);
-  await instance.run(`
-    CREATE TRIGGER messages_on_update AFTER UPDATE ON messages BEGIN
+    END;`,
+    `CREATE TRIGGER messages_on_update AFTER UPDATE ON messages BEGIN
       DELETE FROM messages_fts WHERE id = old.id;
-      INSERT INTO messages_fts(
-        id,
-        body
-      ) VALUES (
-        new.id,
-        new.body
-      );
-    END;
-  `);
+        INSERT INTO messages_fts(
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+    END;`,
+    // For formatting search results:
+    //   https://sqlite.org/fts5.html#the_highlight_function
+    //   https://sqlite.org/fts5.html#the_snippet_function
+  ],
+};
 
-  // For formatting search results:
-  //   https://sqlite.org/fts5.html#the_highlight_function
-  //   https://sqlite.org/fts5.html#the_snippet_function
+const updateToSchemaVersionNFactory = n => async (currentVersion, instance) => {
+  if (currentVersion >= n) {
+    return;
+  }
 
-  await instance.run('PRAGMA schema_version = 8;');
-  await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToSchemaVersion8: success!');
-}
+  console.log(`updateToSchemaVersion${n}: starting...`);
+
+  await [
+    'BEGIN TRANSACTION;',
+    ...UPDATE_SCHEMA_TRANSACTIONS[n],
+    `PRAGMA schema_version = ${n};`,
+    'COMMIT TRANSACTION;',
+  ].forEach(async t => {
+    await instance.run(t);
+  });
+
+  console.log(`updateToSchemaVersion${n}: success!`);
+};
 
 const SCHEMA_VERSIONS = [
-  updateToSchemaVersion1,
-  updateToSchemaVersion2,
-  updateToSchemaVersion3,
-  updateToSchemaVersion4,
+  updateToSchemaVersionNFactory(1),
+  updateToSchemaVersionNFactory(2),
+  updateToSchemaVersionNFactory(3),
+  updateToSchemaVersionNFactory(4),
   () => null, // version 5 was dropped
-  updateToSchemaVersion6,
-  updateToSchemaVersion7,
-  updateToSchemaVersion8,
+  updateToSchemaVersionNFactory(6),
+  updateToSchemaVersionNFactory(7),
+  updateToSchemaVersionNFactory(8),
 ];
 
 async function updateSchema(instance) {
