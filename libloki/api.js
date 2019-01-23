@@ -8,6 +8,45 @@
     return sendEmptyMessage(pubKey, true);
   }
 
+  async function broadcastOnlineStatus() {
+    const friendKeys = await window.Signal.Data.getAllFriendIds();
+    friendKeys.forEach(pubKey => {
+      sendOnlineBroadcastMessage(pubKey)
+    });
+  }
+
+  async function sendOnlineBroadcastMessage(pubKey) {
+    const onlineBroadcastMessage = new textsecure.protobuf.OnlineBroadcastMessage({
+      snappAddress: 'testAddress',
+      port: parseInt(window.localServerPort, 10),
+      timestamp: Date.now(),
+    });
+    const content = new textsecure.protobuf.Content({
+      onlineBroadcastMessage,
+    });
+
+    // will be called once the transmission succeeded or failed
+    const callback = res => {
+      if (res.errors.length > 0) {
+        res.errors.forEach(error => log.error(error));
+      } else {
+        log.info('Online broadcast message sent successfully');
+      }
+    };
+    const options = { messageType: 'onlineBroadcast' };
+    // Send a empty message with information about how to contact us directly
+    const outgoingMessage = new textsecure.OutgoingMessage(
+      null, // server
+      Date.now(), // timestamp,
+      [pubKey], // numbers
+      content, // message
+      true, // silent
+      callback, // callback
+      options
+    );
+    await outgoingMessage.sendToNumber(pubKey);
+  }
+
   async function sendEmptyMessage(pubKey, sendContentMessage = false) {
     const options = {};
     // send an empty message.
@@ -52,5 +91,7 @@
   window.libloki.api = {
     sendFriendRequestAccepted,
     sendEmptyMessage,
+    sendOnlineBroadcastMessage,
+    broadcastOnlineStatus,
   };
 })();

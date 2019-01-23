@@ -120,6 +120,7 @@ module.exports = {
   _removeConversations,
 
   getAllConversations,
+  getAllFriendIds,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
@@ -719,6 +720,14 @@ async function removeConversation(id, { Conversation }) {
 // Note: this method will not clean up external files, just delete from SQL
 async function _removeConversations(ids) {
   await channels.removeConversation(ids);
+}
+
+async function getAllFriendIds() {
+  const ids = (await channels.getAllFriendIds()).map(c =>
+    setifyProperty(c, 'swarmNodes')
+  );
+
+  return ids;
 }
 
 async function getAllConversations({ ConversationCollection }) {

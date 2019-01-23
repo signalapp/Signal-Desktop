@@ -90,6 +90,7 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
+  getAllFriendIds,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
@@ -1278,6 +1279,14 @@ async function getConversationById(id) {
 async function getAllConversations() {
   const rows = await db.all('SELECT json FROM conversations ORDER BY id ASC;');
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllFriendIds() {
+  // TODO: Maybe don't have this hardcoded to 4 (friends status in the enum)
+  const rows = await db.all(
+    'SELECT id FROM conversations WHERE friendRequestStatus = 4 ORDER BY id ASC;'
+  );
+  return map(rows, row => row.id);
 }
 
 async function getAllConversationIds() {

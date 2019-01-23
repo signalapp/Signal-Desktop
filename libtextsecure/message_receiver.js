@@ -23,7 +23,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.username = username;
   this.password = password;
   this.lokiMessageAPI = window.LokiMessageAPI;
-  this.localServer = new window.LocalLokiServer();
+  this.localServer = window.LocalLokiServer;
 
   if (!options.serverTrustRoot) {
     throw new Error('Server trust root is required!');
@@ -82,15 +82,13 @@ MessageReceiver.prototype.extend({
       }
     });
 
-    this.localServer.removeAllListeners();
-    this.localServer.on('message', this.httpPollingResource.handleMessage);
-
-    // Passing 0 as the port will automatically assign an unused port
     this.localServer
-      .start(0)
-      .then(port =>
-        window.log.info(`Local Server started at localhost:${port}`)
-      );
+      .start(window.localServerPort)
+      .then(port => {
+        window.log.info(`Local Server started at localhost:${port}`);
+        window.libloki.api.broadcastOnlineStatus();
+        this.localServer.on('message', this.httpPollingResource.handleMessage);
+      });
 
     // TODO: Rework this socket stuff to work with online messaging
     const useWebSocket = false;
@@ -135,7 +133,7 @@ MessageReceiver.prototype.extend({
     }
 
     if (this.localServer) {
-      this.localServer.removeAllListeners();
+      this.localServer.removeListener('message', this.httpPollingResource.handleMessage);
       this.localServer = null;
     }
   },
@@ -713,6 +711,13 @@ MessageReceiver.prototype.extend({
           .then(this.unpad)
           .then(handleSessionReset);
         break;
+      case textsecure.protobuf.Envelope.Type.ONLINE_BROADCAST:
+        window.log.info('Online broadcast message from', this.getEnvelopeId(envelope));
+        promise = captureActiveSession()
+          .then(() => sessionCipher.decryptWhisperMessage(ciphertext))
+          .then(this.unpad)
+          .then(handleSessionReset);
+        break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
         promise = fallBackSessionCipher
@@ -899,6 +904,9 @@ MessageReceiver.prototype.extend({
       })
     );
   },
+  handleOnlineBroadcastMessage(envelope, onlineBroadcastMessage) {
+    return this.removeFromCache(envelope);
+  },
   handleDataMessage(envelope, msg) {
     window.log.info('data message from', this.getEnvelopeId(envelope));
     let p = Promise.resolve();
@@ -1013,6 +1021,8 @@ MessageReceiver.prototype.extend({
         envelope.source,
         content.preKeyBundleMessage
       );
+    if (content.onlineBroadcastMessage)
+      return this.handleOnlineBroadcastMessage(envelope, content.onlineBroadcastMessage);
     if (content.syncMessage)
       return this.handleSyncMessage(envelope, content.syncMessage);
     if (content.dataMessage)

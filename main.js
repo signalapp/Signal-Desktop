@@ -146,6 +146,7 @@ function prepareURL(pathSegments, moreKeys) {
       cdnUrl: config.get('cdnUrl'),
       messageServerPort: config.get('messageServerPort'),
       swarmServerPort: config.get('swarmServerPort'),
+      localServerPort: config.get('localServerPort'),
       certificateAuthority: config.get('certificateAuthority'),
       environment: config.environment,
       node_version: process.versions.node,
