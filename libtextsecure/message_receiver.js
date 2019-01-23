@@ -979,6 +979,8 @@ MessageReceiver.prototype.extend({
       if (!plaintext) {
         window.log.warn('handleContentMessage: plaintext was falsey');
         return null;
+      } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
+        return null;
       }
       return this.innerHandleContentMessage(envelope, plaintext);
     });
