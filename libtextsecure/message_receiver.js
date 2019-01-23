@@ -948,8 +948,17 @@ MessageReceiver.prototype.extend({
             );
             return this.removeFromCache(envelope);
           }
+
           if (!message.body) {
-            return null;
+            // Trigger conversation friend request event for empty message
+            if (conversation && !message.flags) {
+              const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
+              if (isFriendRequestAccept) {
+                await conversation.notifyFriendRequest(envelope.source, 'accepted');
+                this.removeFromCache(envelope);
+                return null;
+              }
+            }
           }
 
           const ev = new Event('message');
@@ -1001,7 +1010,7 @@ MessageReceiver.prototype.extend({
     if (content.syncMessage)
       return this.handleSyncMessage(envelope, content.syncMessage);
     if (content.dataMessage)
-      await this.handleDataMessage(envelope, content.dataMessage);
+      return this.handleDataMessage(envelope, content.dataMessage);
     if (content.nullMessage)
       return this.handleNullMessage(envelope, content.nullMessage);
     if (content.callMessage)
@@ -1010,19 +1019,6 @@ MessageReceiver.prototype.extend({
       return this.handleReceiptMessage(envelope, content.receiptMessage);
     if (content.typingMessage)
       return this.handleTypingMessage(envelope, content.typingMessage);
-
-    // Trigger conversation friend request event
-    if (
-      envelope.type === textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE &&
-      (content.dataMessage === null || content.dataMessage.flags === null)
-    ) {
-      const conversation = window.ConversationController.get(envelope.source);
-      if (conversation) {
-        conversation.onFriendRequestAccepted();
-        conversation.notifyFriendRequest(envelope.source, 'accepted');
-      }
-      this.removeFromCache(envelope);
-    }
 
     return null;
   },
