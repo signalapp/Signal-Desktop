@@ -140,7 +140,7 @@
       appendStack(this, error);
     }
   }
-  inherit(ReplayableError, PoWError);
+  inherit(ReplayableError, EmptySwarmError);
 
   function PoWError(number, error) {
     // eslint-disable-next-line prefer-destructuring
