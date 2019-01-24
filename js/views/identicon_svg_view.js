@@ -51,8 +51,8 @@
     blue: '#336ba3',
     teal: '#067589',
     green: '#3b7845',
-    light_green: '#895d66',
-    blue_grey: '#607d8b',
+    light_green: '#1c8260',
+    blue_grey: '#895d66',
     grey: '#6b6b78',
   };
 })();

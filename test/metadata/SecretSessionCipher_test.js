@@ -148,7 +148,9 @@ InMemorySignalProtocolStore.prototype = {
 };
 
 describe('SecretSessionCipher', () => {
-  it('successfully roundtrips', async () => {
+  it('successfully roundtrips', async function thisNeeded() {
+    this.timeout(4000);
+
     const aliceStore = new InMemorySignalProtocolStore();
     const bobStore = new InMemorySignalProtocolStore();
 
@@ -187,7 +189,9 @@ describe('SecretSessionCipher', () => {
     assert.strictEqual(decryptResult.sender.toString(), '+14151111111.1');
   });
 
-  it('fails when untrusted', async () => {
+  it('fails when untrusted', async function thisNeeded() {
+    this.timeout(4000);
+
     const aliceStore = new InMemorySignalProtocolStore();
     const bobStore = new InMemorySignalProtocolStore();
 
@@ -226,7 +230,9 @@ describe('SecretSessionCipher', () => {
     }
   });
 
-  it('fails when expired', async () => {
+  it('fails when expired', async function thisNeeded() {
+    this.timeout(4000);
+
     const aliceStore = new InMemorySignalProtocolStore();
     const bobStore = new InMemorySignalProtocolStore();
 
@@ -264,7 +270,9 @@ describe('SecretSessionCipher', () => {
     }
   });
 
-  it('fails when wrong identity', async () => {
+  it('fails when wrong identity', async function thisNeeded() {
+    this.timeout(4000);
+
     const aliceStore = new InMemorySignalProtocolStore();
     const bobStore = new InMemorySignalProtocolStore();
 

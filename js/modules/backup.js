@@ -7,22 +7,20 @@
 /* eslint-env browser */
 /* eslint-env node */
 
-/* eslint-disable no-param-reassign, guard-for-in, no-unreachable */
+/* eslint-disable no-param-reassign, guard-for-in */
 
 const fs = require('fs');
 const path = require('path');
 
 const { map, fromPairs } = require('lodash');
+const tar = require('tar');
 const tmp = require('tmp');
 const pify = require('pify');
-const archiver = require('archiver');
 const rimraf = require('rimraf');
 const electronRemote = require('electron').remote;
 
-const Attachment = require('./types/attachment');
 const crypto = require('./crypto');
 
-const decompress = () => null;
 const { dialog, BrowserWindow } = electronRemote;
 
 module.exports = {
@@ -111,100 +109,55 @@ function createOutputStream(writer) {
   };
 }
 
-async function exportContactAndGroupsToFile(db, parent) {
+async function exportContactAndGroupsToFile(parent) {
   const writer = await createFileAndWriter(parent, 'db.json');
-  return exportContactsAndGroups(db, writer);
+  return exportContactsAndGroups(writer);
 }
 
-function exportContactsAndGroups(db, fileWriter) {
-  return new Promise((resolve, reject) => {
-    let storeNames = db.objectStoreNames;
-    storeNames = _.without(
-      storeNames,
-      'messages',
-      'items',
-      'signedPreKeys',
-      'preKeys',
-      'identityKeys',
-      'sessions',
-      'unprocessed'
-    );
+function writeArray(stream, array) {
+  stream.write('[');
 
-    const exportedStoreNames = [];
-    if (storeNames.length === 0) {
-      throw new Error('No stores to export');
+  for (let i = 0, max = array.length; i < max; i += 1) {
+    if (i > 0) {
+      stream.write(',');
     }
-    window.log.info('Exporting from these stores:', storeNames.join(', '));
 
-    const stream = createOutputStream(fileWriter);
+    const item = array[i];
 
-    stream.write('{');
+    // We don't back up avatars; we'll get them in a future contact sync or profile fetch
+    const cleaned = _.omit(item, ['avatar', 'profileAvatar']);
 
-    _.each(storeNames, storeName => {
-      // Both the readwrite permission and the multi-store transaction are required to
-      //   keep this function working. They serve to serialize all of these transactions,
-      //   one per store to be exported.
-      const transaction = db.transaction(storeNames, 'readwrite');
-      transaction.onerror = () => {
-        Whisper.Database.handleDOMException(
-          `exportToJsonFile transaction error (store: ${storeName})`,
-          transaction.error,
-          reject
-        );
-      };
-      transaction.oncomplete = () => {
-        window.log.info('transaction complete');
-      };
+    stream.write(JSON.stringify(stringify(cleaned)));
+  }
 
-      const store = transaction.objectStore(storeName);
-      const request = store.openCursor();
-      let count = 0;
-      request.onerror = () => {
-        Whisper.Database.handleDOMException(
-          `exportToJsonFile request error (store: ${storeNames})`,
-          request.error,
-          reject
-        );
-      };
-      request.onsuccess = async event => {
-        if (count === 0) {
-          window.log.info('cursor opened');
-          stream.write(`"${storeName}": [`);
-        }
+  stream.write(']');
+}
 
-        const cursor = event.target.result;
-        if (cursor) {
-          if (count > 0) {
-            stream.write(',');
-          }
+function getPlainJS(collection) {
+  return collection.map(model => model.attributes);
+}
 
-          // Preventing base64'd images from reaching the disk, making db.json too big
-          const item = _.omit(cursor.value, ['avatar', 'profileAvatar']);
+async function exportContactsAndGroups(fileWriter) {
+  const stream = createOutputStream(fileWriter);
 
-          const jsonString = JSON.stringify(stringify(item));
-          stream.write(jsonString);
-          cursor.continue();
-          count += 1;
-        } else {
-          // no more
-          stream.write(']');
-          window.log.info('Exported', count, 'items from store', storeName);
+  stream.write('{');
 
-          exportedStoreNames.push(storeName);
-          if (exportedStoreNames.length < storeNames.length) {
-            stream.write(',');
-          } else {
-            window.log.info('Exported all stores');
-            stream.write('}');
-
-            await stream.close();
-            window.log.info('Finished writing all stores to disk');
-            resolve();
-          }
-        }
-      };
-    });
+  stream.write('"conversations": ');
+  const conversations = await window.Signal.Data.getAllConversations({
+    ConversationCollection: Whisper.ConversationCollection,
   });
+  window.log.info(`Exporting ${conversations.length} conversations`);
+  writeArray(stream, getPlainJS(conversations));
+
+  stream.write(',');
+
+  stream.write('"groups": ');
+  const groups = await window.Signal.Data.getAllGroups();
+  window.log.info(`Exporting ${groups.length} groups`);
+  writeArray(stream, groups);
+
+  stream.write('}');
+  await stream.close();
 }
 
 async function importNonMessages(parent, options) {
@@ -414,6 +367,14 @@ function readFileAsText(parent, name) {
   });
 }
 
+// Buffer instances are also Uint8Array instances, but they might be a view
+//   https://nodejs.org/docs/latest/api/buffer.html#buffer_buffers_and_typedarray
+const toArrayBuffer = nodeBuffer =>
+  nodeBuffer.buffer.slice(
+    nodeBuffer.byteOffset,
+    nodeBuffer.byteOffset + nodeBuffer.byteLength
+  );
+
 function readFileAsArrayBuffer(targetPath) {
   return new Promise((resolve, reject) => {
     // omitting the encoding to get a buffer back
@@ -422,9 +383,7 @@ function readFileAsArrayBuffer(targetPath) {
         return reject(error);
       }
 
-      // Buffer instances are also Uint8Array instances
-      //   https://nodejs.org/docs/latest/api/buffer.html#buffer_buffers_and_typedarray
-      return resolve(buffer.buffer);
+      return resolve(toArrayBuffer(buffer));
     });
   });
 }
@@ -468,7 +427,7 @@ function _getAnonymousAttachmentFileName(message, index) {
   return `${message.id}-${index}`;
 }
 
-async function readAttachment(dir, attachment, name, options) {
+async function readEncryptedAttachment(dir, attachment, name, options) {
   options = options || {};
   const { key } = options;
 
@@ -485,26 +444,29 @@ async function readAttachment(dir, attachment, name, options) {
   const isEncrypted = !_.isUndefined(key);
 
   if (isEncrypted) {
-    attachment.data = await crypto.decryptSymmetric(key, data);
+    attachment.data = await crypto.decryptAttachment(
+      key,
+      attachment.path,
+      data
+    );
   } else {
     attachment.data = data;
   }
 }
 
-async function writeThumbnail(attachment, options) {
+async function writeQuoteThumbnail(attachment, options) {
+  if (!attachment || !attachment.thumbnail || !attachment.thumbnail.path) {
+    return;
+  }
+
   const { dir, message, index, key, newKey } = options;
   const filename = `${_getAnonymousAttachmentFileName(
     message,
     index
-  )}-thumbnail`;
+  )}-quote-thumbnail`;
   const target = path.join(dir, filename);
-  const { thumbnail } = attachment;
 
-  if (!thumbnail || !thumbnail.data) {
-    return;
-  }
-
-  await writeEncryptedAttachment(target, thumbnail.data, {
+  await writeEncryptedAttachment(target, attachment.thumbnail.path, {
     key,
     newKey,
     filename,
@@ -512,25 +474,13 @@ async function writeThumbnail(attachment, options) {
   });
 }
 
-async function writeThumbnails(rawQuotedAttachments, options) {
+async function writeQuoteThumbnails(quotedAttachments, options) {
   const { name } = options;
 
-  const { loadAttachmentData } = Signal.Migrations;
-  const promises = rawQuotedAttachments.map(async attachment => {
-    if (!attachment || !attachment.thumbnail || !attachment.thumbnail.path) {
-      return attachment;
-    }
-
-    return Object.assign({}, attachment, {
-      thumbnail: await loadAttachmentData(attachment.thumbnail),
-    });
-  });
-
-  const attachments = await Promise.all(promises);
   try {
     await Promise.all(
-      _.map(attachments, (attachment, index) =>
-        writeThumbnail(
+      _.map(quotedAttachments, (attachment, index) =>
+        writeQuoteThumbnail(
           attachment,
           Object.assign({}, options, {
             index,
@@ -550,26 +500,57 @@ async function writeThumbnails(rawQuotedAttachments, options) {
 }
 
 async function writeAttachment(attachment, options) {
+  if (!_.isString(attachment.path)) {
+    throw new Error('writeAttachment: attachment.path was not a string!');
+  }
+
   const { dir, message, index, key, newKey } = options;
   const filename = _getAnonymousAttachmentFileName(message, index);
   const target = path.join(dir, filename);
-  if (!Attachment.hasData(attachment)) {
-    throw new TypeError("'attachment.data' is required");
-  }
 
-  await writeEncryptedAttachment(target, attachment.data, {
+  await writeEncryptedAttachment(target, attachment.path, {
     key,
     newKey,
     filename,
     dir,
   });
+
+  if (attachment.thumbnail && _.isString(attachment.thumbnail.path)) {
+    const thumbnailName = `${_getAnonymousAttachmentFileName(
+      message,
+      index
+    )}-thumbnail`;
+    const thumbnailTarget = path.join(dir, thumbnailName);
+    await writeEncryptedAttachment(thumbnailTarget, attachment.thumbnail.path, {
+      key,
+      newKey,
+      filename: thumbnailName,
+      dir,
+    });
+  }
+
+  if (attachment.screenshot && _.isString(attachment.screenshot.path)) {
+    const screenshotName = `${_getAnonymousAttachmentFileName(
+      message,
+      index
+    )}-screenshot`;
+    const screenshotTarget = path.join(dir, screenshotName);
+    await writeEncryptedAttachment(
+      screenshotTarget,
+      attachment.screenshot.path,
+      {
+        key,
+        newKey,
+        filename: screenshotName,
+        dir,
+      }
+    );
+  }
 }
 
-async function writeAttachments(rawAttachments, options) {
+async function writeAttachments(attachments, options) {
   const { name } = options;
 
-  const { loadAttachmentData } = Signal.Migrations;
-  const attachments = await Promise.all(rawAttachments.map(loadAttachmentData));
   const promises = _.map(attachments, (attachment, index) =>
     writeAttachment(
       attachment,
@@ -591,17 +572,18 @@ async function writeAttachments(rawAttachments, options) {
   }
 }
 
-async function writeAvatar(avatar, options) {
-  const { dir, message, index, key, newKey } = options;
-  const name = _getAnonymousAttachmentFileName(message, index);
-  const filename = `${name}-contact-avatar`;
-
-  const target = path.join(dir, filename);
-  if (!avatar || !avatar.path) {
+async function writeAvatar(contact, options) {
+  const { avatar } = contact || {};
+  if (!avatar || !avatar.avatar || !avatar.avatar.path) {
     return;
   }
 
-  await writeEncryptedAttachment(target, avatar.data, {
+  const { dir, message, index, key, newKey } = options;
+  const name = _getAnonymousAttachmentFileName(message, index);
+  const filename = `${name}-contact-avatar`;
+  const target = path.join(dir, filename);
+
+  await writeEncryptedAttachment(target, avatar.avatar.path, {
     key,
     newKey,
     filename,
@@ -612,23 +594,9 @@ async function writeAvatar(avatar, options) {
 async function writeContactAvatars(contact, options) {
   const { name } = options;
 
-  const { loadAttachmentData } = Signal.Migrations;
-  const promises = contact.map(async item => {
-    if (
-      !item ||
-      !item.avatar ||
-      !item.avatar.avatar ||
-      !item.avatar.avatar.path
-    ) {
-      return null;
-    }
-
-    return loadAttachmentData(item.avatar.avatar);
-  });
-
   try {
     await Promise.all(
-      _.map(await Promise.all(promises), (item, index) =>
+      _.map(contact, (item, index) =>
         writeAvatar(
           item,
           Object.assign({}, options, {
@@ -648,7 +616,7 @@ async function writeContactAvatars(contact, options) {
   }
 }
 
-async function writeEncryptedAttachment(target, data, options = {}) {
+async function writeEncryptedAttachment(target, source, options = {}) {
   const { key, newKey, filename, dir } = options;
 
   if (fs.existsSync(target)) {
@@ -661,7 +629,9 @@ async function writeEncryptedAttachment(target, data, options = {}) {
     }
   }
 
-  const ciphertext = await crypto.encryptSymmetric(key, data);
+  const { readAttachmentData } = Signal.Migrations;
+  const data = await readAttachmentData(source);
+  const ciphertext = await crypto.encryptAttachment(key, source, data);
 
   const writer = await createFileAndWriter(dir, filename);
   const stream = createOutputStream(writer);
@@ -673,9 +643,9 @@ function _sanitizeFileName(filename) {
   return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
 }
 
-async function exportConversation(db, conversation, options) {
-  options = options || {};
+async function exportConversation(conversation, options = {}) {
   const { name, dir, attachmentsDir, key, newKey } = options;
+
   if (!name) {
     throw new Error('Need a name!');
   }
@@ -691,143 +661,111 @@ async function exportConversation(db, conversation, options) {
 
   window.log.info('exporting conversation', name);
   const writer = await createFileAndWriter(dir, 'messages.json');
+  const stream = createOutputStream(writer);
+  stream.write('{"messages":[');
 
-  return new Promise(async (resolve, reject) => {
-    // TODO: need to iterate through message ids, export using window.Signal.Data
-    const transaction = db.transaction('messages', 'readwrite');
-    transaction.onerror = () => {
-      Whisper.Database.handleDOMException(
-        `exportConversation transaction error (conversation: ${name})`,
-        transaction.error,
-        reject
-      );
-    };
-    transaction.oncomplete = () => {
-      // this doesn't really mean anything - we may have attachment processing to do
-    };
+  const CHUNK_SIZE = 50;
+  let count = 0;
+  let complete = false;
 
-    const store = transaction.objectStore('messages');
-    const index = store.index('conversation');
-    const range = window.IDBKeyRange.bound(
-      [conversation.id, 0],
-      [conversation.id, Number.MAX_VALUE]
-    );
+  // We're looping from the most recent to the oldest
+  let lastReceivedAt = Number.MAX_VALUE;
 
-    let promiseChain = Promise.resolve();
-    let count = 0;
-    const request = index.openCursor(range);
-
-    const stream = createOutputStream(writer);
-    stream.write('{"messages":[');
-
-    request.onerror = () => {
-      Whisper.Database.handleDOMException(
-        `exportConversation request error (conversation: ${name})`,
-        request.error,
-        reject
-      );
-    };
-    request.onsuccess = async event => {
-      const cursor = event.target.result;
-      if (cursor) {
-        const message = cursor.value;
-        const { attachments } = message;
-
-        // skip message if it is disappearing, no matter the amount of time left
-        if (message.expireTimer) {
-          cursor.continue();
-          return;
-        }
-
-        if (count !== 0) {
-          stream.write(',');
-        }
-
-        // eliminate attachment data from the JSON, since it will go to disk
-        // Note: this is for legacy messages only, which stored attachment data in the db
-        message.attachments = _.map(attachments, attachment =>
-          _.omit(attachment, ['data'])
-        );
-        // completely drop any attachments in messages cached in error objects
-        // TODO: move to lodash. Sadly, a number of the method signatures have changed!
-        message.errors = _.map(message.errors, error => {
-          if (error && error.args) {
-            error.args = [];
-          }
-          if (error && error.stack) {
-            error.stack = '';
-          }
-          return error;
-        });
-
-        const jsonString = JSON.stringify(stringify(message));
-        stream.write(jsonString);
-
-        if (attachments && attachments.length > 0) {
-          const exportAttachments = () =>
-            writeAttachments(attachments, {
-              dir: attachmentsDir,
-              name,
-              message,
-              key,
-              newKey,
-            });
-
-          // eslint-disable-next-line more/no-then
-          promiseChain = promiseChain.then(exportAttachments);
-        }
-
-        const quoteThumbnails = message.quote && message.quote.attachments;
-        if (quoteThumbnails && quoteThumbnails.length > 0) {
-          const exportQuoteThumbnails = () =>
-            writeThumbnails(quoteThumbnails, {
-              dir: attachmentsDir,
-              name,
-              message,
-              key,
-              newKey,
-            });
-
-          // eslint-disable-next-line more/no-then
-          promiseChain = promiseChain.then(exportQuoteThumbnails);
-        }
-
-        const { contact } = message;
-        if (contact && contact.length > 0) {
-          const exportContactAvatars = () =>
-            writeContactAvatars(contact, {
-              dir: attachmentsDir,
-              name,
-              message,
-              key,
-              newKey,
-            });
-
-          // eslint-disable-next-line more/no-then
-          promiseChain = promiseChain.then(exportContactAvatars);
-        }
-
-        count += 1;
-        cursor.continue();
-      } else {
-        try {
-          await Promise.all([stream.write(']}'), promiseChain, stream.close()]);
-        } catch (error) {
-          window.log.error(
-            'exportConversation: error exporting conversation',
-            name,
-            ':',
-            error && error.stack ? error.stack : error
-          );
-          reject(error);
-          return;
-        }
-
-        window.log.info('done exporting conversation', name);
-        resolve();
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const collection = await window.Signal.Data.getMessagesByConversation(
+      conversation.id,
+      {
+        limit: CHUNK_SIZE,
+        receivedAt: lastReceivedAt,
+        MessageCollection: Whisper.MessageCollection,
       }
-    };
-  });
+    );
+    const messages = getPlainJS(collection);
+
+    for (let i = 0, max = messages.length; i < max; i += 1) {
+      const message = messages[i];
+      if (count > 0) {
+        stream.write(',');
+      }
+
+      count += 1;
+
+      // skip message if it is disappearing, no matter the amount of time left
+      if (message.expireTimer) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      const { attachments } = message;
+      // eliminate attachment data from the JSON, since it will go to disk
+      // Note: this is for legacy messages only, which stored attachment data in the db
+      message.attachments = _.map(attachments, attachment =>
+        _.omit(attachment, ['data'])
+      );
+      // completely drop any attachments in messages cached in error objects
+      // TODO: move to lodash. Sadly, a number of the method signatures have changed!
+      message.errors = _.map(message.errors, error => {
+        if (error && error.args) {
+          error.args = [];
+        }
+        if (error && error.stack) {
+          error.stack = '';
+        }
+        return error;
+      });
+
+      const jsonString = JSON.stringify(stringify(message));
+      stream.write(jsonString);
+
+      if (attachments && attachments.length > 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await writeAttachments(attachments, {
+          dir: attachmentsDir,
+          name,
+          message,
+          key,
+          newKey,
+        });
+      }
+
+      const quoteThumbnails = message.quote && message.quote.attachments;
+      if (quoteThumbnails && quoteThumbnails.length > 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await writeQuoteThumbnails(quoteThumbnails, {
+          dir: attachmentsDir,
+          name,
+          message,
+          key,
+          newKey,
+        });
+      }
+
+      const { contact } = message;
+      if (contact && contact.length > 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await writeContactAvatars(contact, {
+          dir: attachmentsDir,
+          name,
+          message,
+          key,
+          newKey,
+        });
+      }
+    }
+
+    const last = messages.length > 0 ? messages[messages.length - 1] : null;
+    if (last) {
+      lastReceivedAt = last.received_at;
+    }
+
+    if (messages.length < CHUNK_SIZE) {
+      complete = true;
+    }
+  }
+
+  stream.write(']}');
+  await stream.close();
 }
 
 // Goals for directory names:
@@ -857,74 +795,40 @@ function _getConversationLoggingName(conversation) {
   return name;
 }
 
-function exportConversations(db, options) {
+async function exportConversations(options) {
   options = options || {};
   const { messagesDir, attachmentsDir, key, newKey } = options;
 
   if (!messagesDir) {
-    return Promise.reject(new Error('Need a messages directory!'));
+    throw new Error('Need a messages directory!');
   }
   if (!attachmentsDir) {
-    return Promise.reject(new Error('Need an attachments directory!'));
+    throw new Error('Need an attachments directory!');
   }
 
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction('conversations', 'readwrite');
-    transaction.onerror = () => {
-      Whisper.Database.handleDOMException(
-        'exportConversations transaction error',
-        transaction.error,
-        reject
-      );
-    };
-    transaction.oncomplete = () => {
-      // not really very useful - fires at unexpected times
-    };
-
-    let promiseChain = Promise.resolve();
-    const store = transaction.objectStore('conversations');
-    const request = store.openCursor();
-    request.onerror = () => {
-      Whisper.Database.handleDOMException(
-        'exportConversations request error',
-        request.error,
-        reject
-      );
-    };
-    request.onsuccess = async event => {
-      const cursor = event.target.result;
-      if (cursor && cursor.value) {
-        const conversation = cursor.value;
-        const dirName = _getConversationDirName(conversation);
-        const name = _getConversationLoggingName(conversation);
-
-        const process = async () => {
-          const dir = await createDirectory(messagesDir, dirName);
-          return exportConversation(db, conversation, {
-            name,
-            dir,
-            attachmentsDir,
-            key,
-            newKey,
-          });
-        };
-
-        window.log.info('scheduling export for conversation', name);
-        // eslint-disable-next-line more/no-then
-        promiseChain = promiseChain.then(process);
-        cursor.continue();
-      } else {
-        window.log.info('Done scheduling conversation exports');
-        try {
-          await promiseChain;
-        } catch (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      }
-    };
+  const collection = await window.Signal.Data.getAllConversations({
+    ConversationCollection: Whisper.ConversationCollection,
   });
+  const conversations = collection.models;
+
+  for (let i = 0, max = conversations.length; i < max; i += 1) {
+    const conversation = conversations[i];
+    const dirName = _getConversationDirName(conversation);
+    const name = _getConversationLoggingName(conversation);
+
+    // eslint-disable-next-line no-await-in-loop
+    const dir = await createDirectory(messagesDir, dirName);
+    // eslint-disable-next-line no-await-in-loop
+    await exportConversation(conversation, {
+      name,
+      dir,
+      attachmentsDir,
+      key,
+      newKey,
+    });
+  }
+
+  window.log.info('Done exporting conversations!');
 }
 
 function getDirectory(options = {}) {
@@ -968,9 +872,30 @@ async function loadAttachments(dir, getName, options) {
   const { message } = options;
 
   await Promise.all(
-    _.map(message.attachments, (attachment, index) => {
+    _.map(message.attachments, async (attachment, index) => {
       const name = getName(message, index, attachment);
-      return readAttachment(dir, attachment, name, options);
+
+      await readEncryptedAttachment(dir, attachment, name, options);
+
+      if (attachment.thumbnail && _.isString(attachment.thumbnail.path)) {
+        const thumbnailName = `${name}-thumbnail`;
+        await readEncryptedAttachment(
+          dir,
+          attachment.thumbnail,
+          thumbnailName,
+          options
+        );
+      }
+
+      if (attachment.screenshot && _.isString(attachment.screenshot.path)) {
+        const screenshotName = `${name}-screenshot`;
+        await readEncryptedAttachment(
+          dir,
+          attachment.screenshot,
+          screenshotName,
+          options
+        );
+      }
     })
   );
 
@@ -982,8 +907,8 @@ async function loadAttachments(dir, getName, options) {
         return null;
       }
 
-      const name = `${getName(message, index)}-thumbnail`;
-      return readAttachment(dir, thumbnail, name, options);
+      const name = `${getName(message, index)}-quote-thumbnail`;
+      return readEncryptedAttachment(dir, thumbnail, name, options);
     })
   );
 
@@ -996,7 +921,7 @@ async function loadAttachments(dir, getName, options) {
       }
 
       const name = `${getName(message, index)}-contact-avatar`;
-      return readAttachment(dir, avatar, name, options);
+      return readEncryptedAttachment(dir, avatar, name, options);
     })
   );
 
@@ -1179,31 +1104,22 @@ function getDirectoryForExport() {
   return getDirectory();
 }
 
-function createZip(zipDir, targetDir) {
-  return new Promise((resolve, reject) => {
-    const target = path.join(zipDir, 'messages.zip');
-    const output = fs.createWriteStream(target);
-    const archive = archiver('zip', {
+async function compressArchive(file, targetDir) {
+  const items = fs.readdirSync(targetDir);
+  return tar.c(
+    {
+      gzip: true,
+      file,
       cwd: targetDir,
-    });
+    },
+    items
+  );
+}
 
-    output.on('close', () => {
-      resolve(target);
-    });
-
-    archive.on('warning', error => {
-      window.log.warn(`Archive generation warning: ${error.stack}`);
-    });
-    archive.on('error', reject);
-
-    archive.pipe(output);
-
-    // The empty string ensures that the base location of the files added to the zip
-    //   is nothing. If you provide null, you get the absolute path you pulled the files
-    //   from in the first place.
-    archive.directory(targetDir, '');
-
-    archive.finalize();
+async function decompressArchive(file, targetDir) {
+  return tar.x({
+    file,
+    cwd: targetDir,
   });
 }
 
@@ -1211,6 +1127,13 @@ function writeFile(targetPath, contents) {
   return pify(fs.writeFile)(targetPath, contents);
 }
 
+// prettier-ignore
+const UNIQUE_ID = new Uint8Array([
+  1, 3, 4, 5, 6, 7, 8, 11,
+  23, 34, 1, 34, 3, 5, 45, 45,
+  1, 3, 4, 5, 6, 7, 8, 11,
+  23, 34, 1, 34, 3, 5, 45, 45,
+]);
 async function encryptFile(sourcePath, targetPath, options) {
   options = options || {};
 
@@ -1220,8 +1143,8 @@ async function encryptFile(sourcePath, targetPath, options) {
   }
 
   const plaintext = await readFileAsArrayBuffer(sourcePath);
-  const ciphertext = await crypto.encryptSymmetric(key, plaintext);
-  return writeFile(targetPath, ciphertext);
+  const ciphertext = await crypto.encryptFile(key, UNIQUE_ID, plaintext);
+  return writeFile(targetPath, Buffer.from(ciphertext));
 }
 
 async function decryptFile(sourcePath, targetPath, options) {
@@ -1233,7 +1156,7 @@ async function decryptFile(sourcePath, targetPath, options) {
   }
 
   const ciphertext = await readFileAsArrayBuffer(sourcePath);
-  const plaintext = await crypto.decryptSymmetric(key, ciphertext);
+  const plaintext = await crypto.decryptFile(key, UNIQUE_ID, ciphertext);
   return writeFile(targetPath, Buffer.from(plaintext));
 }
 
@@ -1246,9 +1169,9 @@ function deleteAll(pattern) {
   return pify(rimraf)(pattern);
 }
 
-async function exportToDirectory(directory, options) {
-  throw new Error('Encrypted export/import is disabled');
+const ARCHIVE_NAME = 'messages.tar.gz';
 
+async function exportToDirectory(directory, options) {
   options = options || {};
 
   if (!options.key) {
@@ -1261,20 +1184,19 @@ async function exportToDirectory(directory, options) {
     stagingDir = await createTempDir();
     encryptionDir = await createTempDir();
 
-    const db = await Whisper.Database.open();
     const attachmentsDir = await createDirectory(directory, 'attachments');
 
-    await exportContactAndGroupsToFile(db, stagingDir);
+    await exportContactAndGroupsToFile(stagingDir);
     await exportConversations(
-      db,
       Object.assign({}, options, {
         messagesDir: stagingDir,
         attachmentsDir,
       })
     );
 
-    const zip = await createZip(encryptionDir, stagingDir);
-    await encryptFile(zip, path.join(directory, 'messages.zip'), options);
+    const archivePath = path.join(directory, ARCHIVE_NAME);
+    await compressArchive(archivePath, stagingDir);
+    await encryptFile(archivePath, path.join(directory, ARCHIVE_NAME), options);
 
     window.log.info('done backing up!');
     return directory;
@@ -1317,10 +1239,8 @@ async function importFromDirectory(directory, options) {
       groupLookup,
     });
 
-    const zipPath = path.join(directory, 'messages.zip');
-    if (fs.existsSync(zipPath)) {
-      throw new Error('Encrypted export/import is disabled');
-
+    const archivePath = path.join(directory, ARCHIVE_NAME);
+    if (fs.existsSync(archivePath)) {
       // we're in the world of an encrypted, zipped backup
       if (!options.key) {
         throw new Error(
@@ -1336,9 +1256,9 @@ async function importFromDirectory(directory, options) {
 
         const attachmentsDir = path.join(directory, 'attachments');
 
-        const decryptedZip = path.join(decryptionDir, 'messages.zip');
-        await decryptFile(zipPath, decryptedZip, options);
-        await decompress(decryptedZip, stagingDir);
+        const decryptedArchivePath = path.join(decryptionDir, ARCHIVE_NAME);
+        await decryptFile(archivePath, decryptedArchivePath, options);
+        await decompressArchive(decryptedArchivePath, stagingDir);
 
         options = Object.assign({}, options, {
           attachmentsDir,

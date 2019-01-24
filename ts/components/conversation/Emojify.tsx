@@ -8,6 +8,7 @@ import {
   getRegex,
   getReplacementData,
   getTitle,
+  SizeClassType,
 } from '../../util/emoji';
 
 import { Localizer, RenderTextCallback } from '../../types/Util';
@@ -20,7 +21,7 @@ function getImageTag({
   i18n,
 }: {
   match: any;
-  sizeClass: string | undefined;
+  sizeClass?: SizeClassType;
   key: string | number;
   i18n: Localizer;
 }) {
@@ -51,7 +52,7 @@ function getImageTag({
 interface Props {
   text: string;
   /** A class name to be added to the generated emoji images */
-  sizeClass?: '' | 'small' | 'medium' | 'large' | 'jumbo';
+  sizeClass?: SizeClassType;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonEmoji?: RenderTextCallback;
   i18n: Localizer;

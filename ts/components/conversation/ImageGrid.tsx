@@ -24,7 +24,7 @@ interface Props {
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
 const MIN_WIDTH = 200;
-const MIN_HEIGHT = 25;
+const MIN_HEIGHT = 50;
 
 export class ImageGrid extends React.Component<Props> {
   // tslint:disable-next-line max-func-body-length */
@@ -50,7 +50,7 @@ export class ImageGrid extends React.Component<Props> {
       return null;
     }
 
-    if (attachments.length === 1) {
+    if (attachments.length === 1 || !areAllAttachmentsVisual(attachments)) {
       const { height, width } = getImageDimensions(attachments[0]);
 
       return (
@@ -93,7 +93,7 @@ export class ImageGrid extends React.Component<Props> {
             playIconOverlay={isVideoAttachment(attachments[0])}
             height={149}
             width={149}
-            url={getUrl(attachments[0])}
+            url={getThumbnailUrl(attachments[0])}
             onClick={onClickAttachment}
             onError={onError}
           />
@@ -107,7 +107,7 @@ export class ImageGrid extends React.Component<Props> {
             height={149}
             width={149}
             attachment={attachments[1]}
-            url={getUrl(attachments[1])}
+            url={getThumbnailUrl(attachments[1])}
             onClick={onClickAttachment}
             onError={onError}
           />
@@ -141,7 +141,7 @@ export class ImageGrid extends React.Component<Props> {
               width={99}
               attachment={attachments[1]}
               playIconOverlay={isVideoAttachment(attachments[1])}
-              url={getUrl(attachments[1])}
+              url={getThumbnailUrl(attachments[1])}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -154,7 +154,7 @@ export class ImageGrid extends React.Component<Props> {
               width={99}
               attachment={attachments[2]}
               playIconOverlay={isVideoAttachment(attachments[2])}
-              url={getUrl(attachments[2])}
+              url={getThumbnailUrl(attachments[2])}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -176,7 +176,7 @@ export class ImageGrid extends React.Component<Props> {
                 playIconOverlay={isVideoAttachment(attachments[0])}
                 height={149}
                 width={149}
-                url={getUrl(attachments[0])}
+                url={getThumbnailUrl(attachments[0])}
                 onClick={onClickAttachment}
                 onError={onError}
               />
@@ -188,7 +188,7 @@ export class ImageGrid extends React.Component<Props> {
                 height={149}
                 width={149}
                 attachment={attachments[1]}
-                url={getUrl(attachments[1])}
+                url={getThumbnailUrl(attachments[1])}
                 onClick={onClickAttachment}
                 onError={onError}
               />
@@ -203,7 +203,7 @@ export class ImageGrid extends React.Component<Props> {
                 height={149}
                 width={149}
                 attachment={attachments[2]}
-                url={getUrl(attachments[2])}
+                url={getThumbnailUrl(attachments[2])}
                 onClick={onClickAttachment}
                 onError={onError}
               />
@@ -216,7 +216,7 @@ export class ImageGrid extends React.Component<Props> {
                 height={149}
                 width={149}
                 attachment={attachments[3]}
-                url={getUrl(attachments[3])}
+                url={getThumbnailUrl(attachments[3])}
                 onClick={onClickAttachment}
                 onError={onError}
               />
@@ -238,7 +238,7 @@ export class ImageGrid extends React.Component<Props> {
               playIconOverlay={isVideoAttachment(attachments[0])}
               height={149}
               width={149}
-              url={getUrl(attachments[0])}
+              url={getThumbnailUrl(attachments[0])}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -250,7 +250,7 @@ export class ImageGrid extends React.Component<Props> {
               height={149}
               width={149}
               attachment={attachments[1]}
-              url={getUrl(attachments[1])}
+              url={getThumbnailUrl(attachments[1])}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -265,7 +265,7 @@ export class ImageGrid extends React.Component<Props> {
               height={99}
               width={99}
               attachment={attachments[2]}
-              url={getUrl(attachments[2])}
+              url={getThumbnailUrl(attachments[2])}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -277,7 +277,7 @@ export class ImageGrid extends React.Component<Props> {
               height={99}
               width={98}
               attachment={attachments[3]}
-              url={getUrl(attachments[3])}
+              url={getThumbnailUrl(attachments[3])}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -296,7 +296,7 @@ export class ImageGrid extends React.Component<Props> {
                   : undefined
               }
               attachment={attachments[4]}
-              url={getUrl(attachments[4])}
+              url={getThumbnailUrl(attachments[4])}
               onClick={onClickAttachment}
               onError={onError}
             />
@@ -305,6 +305,14 @@ export class ImageGrid extends React.Component<Props> {
       </div>
     );
   }
+}
+
+function getThumbnailUrl(attachment: AttachmentType) {
+  if (attachment.thumbnail) {
+    return attachment.thumbnail.url;
+  }
+
+  return getUrl(attachment);
 }
 
 function getUrl(attachment: AttachmentType) {
@@ -324,6 +332,13 @@ export function isImage(attachments?: Array<AttachmentType>) {
   );
 }
 
+export function isImageAttachment(attachment: AttachmentType) {
+  return (
+    attachment &&
+    attachment.contentType &&
+    isImageTypeSupported(attachment.contentType)
+  );
+}
 export function hasImage(attachments?: Array<AttachmentType>) {
   return attachments && attachments[0] && attachments[0].url;
 }
@@ -372,6 +387,24 @@ function getImageDimensions(attachment: AttachmentType): DimensionsType {
     width: targetWidth,
     height: Math.max(Math.min(MAX_HEIGHT, candidateHeight), MIN_HEIGHT),
   };
+}
+
+export function areAllAttachmentsVisual(
+  attachments?: Array<AttachmentType>
+): boolean {
+  if (!attachments) {
+    return false;
+  }
+
+  const max = attachments.length;
+  for (let i = 0; i < max; i += 1) {
+    const attachment = attachments[i];
+    if (!isImageAttachment(attachment) && !isVideoAttachment(attachment)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export function getGridDimensions(

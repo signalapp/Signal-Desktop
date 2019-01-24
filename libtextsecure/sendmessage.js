@@ -183,15 +183,26 @@ MessageSender.prototype = {
           proto.id = id;
           proto.contentType = attachment.contentType;
           proto.digest = result.digest;
-          if (attachment.fileName) {
-            proto.fileName = attachment.fileName;
-          }
+
           if (attachment.size) {
             proto.size = attachment.size;
+          }
+          if (attachment.fileName) {
+            proto.fileName = attachment.fileName;
           }
           if (attachment.flags) {
             proto.flags = attachment.flags;
           }
+          if (attachment.width) {
+            proto.width = attachment.width;
+          }
+          if (attachment.height) {
+            proto.height = attachment.height;
+          }
+          if (attachment.caption) {
+            proto.caption = attachment.caption;
+          }
+
           return proto;
         })
       );

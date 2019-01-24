@@ -108,8 +108,10 @@ a {
     opacity: 0.5;
     border: none;
     background: transparent;
+    margin-top: 2px;
 
     &:before {
+      margin-top: 4px;
       content: '';
       display: inline-block;
       width: $button-height;
@@ -408,15 +410,6 @@ $loading-height: 16px;
     width: 100%;
     height: 100%;
     @include color-svg('../images/x.svg', white);
-  }
-}
-
-input[type='text'],
-input[type='search'],
-textarea {
-  &:active,
-  &:focus {
-    outline: 1px solid $blue;
   }
 }
 

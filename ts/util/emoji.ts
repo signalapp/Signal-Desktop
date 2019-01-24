@@ -10,6 +10,8 @@ instance.include_title = true;
 instance.replace_mode = 'img';
 instance.supports_css = false; // needed to avoid spans with background-image
 
+export type SizeClassType = '' | 'small' | 'medium' | 'large' | 'jumbo';
+
 export function getRegex(): RegExp {
   return instance.rx_unified;
 }
@@ -56,7 +58,7 @@ function hasNormalCharacters(str: string) {
   return noEmoji.length > 0;
 }
 
-export function getSizeClass(str: string) {
+export function getSizeClass(str: string): SizeClassType {
   if (hasNormalCharacters(str)) {
     return '';
   }

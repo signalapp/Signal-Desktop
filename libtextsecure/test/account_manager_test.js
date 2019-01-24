@@ -1,3 +1,5 @@
+/* global libsignal */
+
 describe('AccountManager', () => {
   let accountManager;
 
@@ -10,9 +12,14 @@ describe('AccountManager', () => {
     let signedPreKeys;
     const DAY = 1000 * 60 * 60 * 24;
 
-    beforeEach(() => {
+    beforeEach(async () => {
+      const identityKey = await libsignal.KeyHelper.generateIdentityKeyPair();
+
       originalProtocolStorage = window.textsecure.storage.protocol;
       window.textsecure.storage.protocol = {
+        getIdentityKeyPair() {
+          return identityKey;
+        },
         loadSignedPreKeys() {
           return Promise.resolve(signedPreKeys);
         },
@@ -20,6 +27,17 @@ describe('AccountManager', () => {
     });
     afterEach(() => {
       window.textsecure.storage.protocol = originalProtocolStorage;
+    });
+
+    describe('encrypted device name', () => {
+      it('roundtrips', async () => {
+        const deviceName = 'v2.5.0 on Ubunto 20.04';
+        const encrypted = await accountManager.encryptDeviceName(deviceName);
+        assert.strictEqual(typeof encrypted, 'string');
+        const decrypted = await accountManager.decryptDeviceName(encrypted);
+
+        assert.strictEqual(decrypted, deviceName);
+      });
     });
 
     it('keeps three confirmed keys even if over a week old', () => {

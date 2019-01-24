@@ -184,15 +184,10 @@
 //   things in the composition area. A margin on an inner div won't be included in that
 //   height calculation.
 .bottom-bar .quote-wrapper {
-  margin-right: 5px;
-  margin-bottom: 6px;
-  margin-top: 3px;
-}
-
-.send .quote-wrapper {
   margin-left: 37px;
   margin-right: 73px;
-  margin-bottom: 5px;
+  margin-top: 3px;
+  margin-bottom: -5px;
 }
 
 .bottom-bar {
@@ -206,6 +201,7 @@
   }
 
   form.send {
+    margin-bottom: 0px;
     background: $color-white;
 
     &.video-attachment {
@@ -282,6 +278,8 @@
     padding: 10px;
     border-radius: 4px;
     background-color: $color-loki-light-gray;
+    margin-top: 3px;
+    margin-bottom: 6px;
     color: $color-light-90;
     border: 1px solid rgba(0, 0, 0, 0.2);
     outline: 0;

@@ -79,52 +79,6 @@ interface State {
   imageBroken: boolean;
 }
 
-function isAudio(attachments?: Array<AttachmentType>) {
-  return (
-    attachments &&
-    attachments[0] &&
-    attachments[0].contentType &&
-    MIME.isAudio(attachments[0].contentType)
-  );
-}
-
-function canDisplayImage(attachments?: Array<AttachmentType>) {
-  const { height, width } =
-    attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
-
-  return (
-    height &&
-    height > 0 &&
-    height <= 4096 &&
-    width &&
-    width > 0 &&
-    width <= 4096
-  );
-}
-
-function getExtension({
-  fileName,
-  contentType,
-}: {
-  fileName: string;
-  contentType: MIME.MIMEType;
-}): string | null {
-  if (fileName && fileName.indexOf('.') >= 0) {
-    const lastPeriod = fileName.lastIndexOf('.');
-    const extension = fileName.slice(lastPeriod + 1);
-    if (extension.length) {
-      return extension;
-    }
-  }
-
-  const slash = contentType.indexOf('/');
-  if (slash >= 0) {
-    return contentType.slice(slash + 1);
-  }
-
-  return null;
-}
-
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
@@ -846,4 +800,50 @@ export class Message extends React.Component<Props, State> {
       </div>
     );
   }
+}
+
+export function getExtension({
+  fileName,
+  contentType,
+}: {
+  fileName: string;
+  contentType: MIME.MIMEType;
+}): string | null {
+  if (fileName && fileName.indexOf('.') >= 0) {
+    const lastPeriod = fileName.lastIndexOf('.');
+    const extension = fileName.slice(lastPeriod + 1);
+    if (extension.length) {
+      return extension;
+    }
+  }
+
+  const slash = contentType.indexOf('/');
+  if (slash >= 0) {
+    return contentType.slice(slash + 1);
+  }
+
+  return null;
+}
+
+function isAudio(attachments?: Array<AttachmentType>) {
+  return (
+    attachments &&
+    attachments[0] &&
+    attachments[0].contentType &&
+    MIME.isAudio(attachments[0].contentType)
+  );
+}
+
+function canDisplayImage(attachments?: Array<AttachmentType>) {
+  const { height, width } =
+    attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
+
+  return (
+    height &&
+    height > 0 &&
+    height <= 4096 &&
+    width &&
+    width > 0 &&
+    width <= 4096
+  );
 }

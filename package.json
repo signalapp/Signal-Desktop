@@ -3,7 +3,7 @@
   "productName": "Loki Messenger",
   "description": "Private messaging from your desktop",
   "repository": "https://github.com/sloki-project/loki-messenger.git",
-  "version": "1.19.0",
+  "version": "1.20.0",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",
@@ -46,9 +46,8 @@
     "pow-metrics": "node metrics_app.js localhost 9000"
   },
   "dependencies": {
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#ed4f4d179ac010c6347b291cbd4c2ebe5c773741",
+    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#36149a4b03ccf11ec18b9205e1bfd9056015cf07",
     "@sindresorhus/is": "0.8.0",
-    "archiver": "2.1.1",
     "backbone": "1.3.3",
     "blob-util": "1.3.0",
     "blueimp-canvas-to-blob": "3.14.0",
@@ -95,6 +94,7 @@
     "rimraf": "2.6.2",
     "semver": "5.4.1",
     "spellchecker": "3.4.4",
+    "tar": "4.4.8",
     "testcheck": "1.0.0-rc.2",
     "tmp": "0.0.33",
     "to-arraybuffer": "1.0.1",
@@ -121,7 +121,7 @@
     "axios": "0.18.0",
     "bower": "1.8.2",
     "chai": "4.1.2",
-    "electron": "3.0.9",
+    "electron": "3.0.14",
     "electron-builder": "20.13.5",
     "electron-icon-maker": "0.0.3",
     "eslint": "4.14.0",

@@ -748,6 +748,7 @@
   font-size: 14px;
   line-height: 18px;
   color: $color-gray-90;
+  text-align: start;
 
   a {
     color: $color-gray-90;
@@ -803,6 +804,7 @@
   flex: initial;
   min-width: 54px;
   width: 54px;
+  max-height: 54px;
   position: relative;
 
   img {
@@ -2194,12 +2196,21 @@
   position: relative;
   display: inline-block;
   margin: 1px;
+  vertical-align: middle;
 }
 
 .module-image__caption-icon {
   position: absolute;
   top: 6px;
   left: 6px;
+}
+
+.module-image__with-click-handler {
+  cursor: pointer;
+}
+
+.module-image--soft-corners {
+  border-radius: 4px;
 }
 
 .module-image--curved-top-left {
@@ -2302,6 +2313,17 @@
   letter-spacing: 0;
 
   text-align: center;
+}
+
+.module-image__close-button {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 16px;
+  height: 16px;
+  z-index: 2;
+  background-image: url('../images/x-shadow-16.svg');
 }
 
 // Module: Image Grid
@@ -2417,6 +2439,272 @@
   flex-grow: 1;
 }
 
+// Module: Attachments
+
+.module-attachments {
+  border-top: 1px solid $color-black-015;
+}
+
+.module-attachments__header {
+  height: 24px;
+  position: relative;
+}
+
+.module-attachments__close-button {
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  right: 16px;
+
+  width: 20px;
+  height: 20px;
+
+  z-index: 2;
+  @include color-svg('../images/x-16.svg', $color-black);
+}
+
+.module-attachments__rail {
+  margin-top: 12px;
+  margin-left: 16px;
+  padding-right: 16px;
+  overflow-x: scroll;
+  max-height: 142px;
+  white-space: nowrap;
+  overflow-y: hidden;
+  margin-bottom: 6px;
+}
+
+// Module: Staged Generic Attachment
+
+.module-staged-generic-attachment {
+  height: 120px;
+  width: 120px;
+  margin: 1px;
+  display: inline-block;
+  position: relative;
+  border-radius: 4px;
+  box-shadow: inset 0px 0px 0px 1px $color-black-015;
+  background-color: $color-gray-05;
+  vertical-align: middle;
+}
+
+.module-staged-generic-attachment__close-button {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 16px;
+  height: 16px;
+  z-index: 2;
+  @include color-svg('../images/x-16.svg', $color-black);
+}
+
+.module-staged-generic-attachment__icon {
+  margin-top: 30px;
+
+  background: url('../images/file-gradient.svg') no-repeat center;
+  height: 44px;
+  width: 56px;
+  margin-left: 32px;
+  margin-right: 32px;
+  margin-bottom: -4px;
+
+  // So we can center the extension text inside this icon
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-staged-generic-attachment__icon__extension {
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.1px;
+  text-transform: uppercase;
+
+  // Along with flow layout in parent item, centers text
+  text-align: center;
+  width: 25px;
+  margin-left: auto;
+  margin-right: auto;
+
+  // We don't have much room for text here, cut it off without ellipse
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+
+  color: $color-gray-90;
+}
+
+.module-staged-generic-attachment__filename {
+  margin: 7px;
+  margin-top: 5px;
+  text-align: center;
+
+  font-family: Roboto;
+  font-size: 14px;
+
+  overflow: hidden;
+  height: 2.4em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+// Module: Caption Editor
+
+.module-caption-editor {
+  background-color: $color-black;
+  z-index: 20;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.module-caption-editor__close-button {
+  z-index: 21;
+  cursor: pointer;
+  position: absolute;
+
+  top: 12px;
+  right: 16px;
+  width: 30px;
+  height: 30px;
+  z-index: 2;
+  @include color-svg('../images/x-16.svg', $color-white);
+}
+
+.module-caption-editor__media-container {
+  flex-grow: 1;
+  flex-shrink: 1;
+  background-color: $color-black;
+  text-align: center;
+  margin: 50px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.module-caption-editor__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.module-caption-editor__video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.module-caption-editor__placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.module-caption-editor__bottom-bar {
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 52px;
+  padding: 8px;
+
+  display: inline-flex;
+  flex-direction: row;
+  align-items: middle;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.module-caption-editor__input-container {
+  position: relative;
+}
+
+.module-caption-editor__caption-input {
+  height: 36px;
+  width: 40em;
+
+  font-size: 14px;
+  color: $color-white;
+
+  border: 1px solid $color-white;
+  border-radius: 18px;
+  background-color: $color-black;
+  padding: 9px;
+  padding-left: 12px;
+  padding-right: 65px;
+
+  &::placeholder {
+    color: $color-white-07;
+  }
+  &:focus {
+    border: 1px solid $color-signal-blue;
+    outline: none;
+  }
+}
+
+.module-caption-editor__save-button {
+  position: absolute;
+  background-color: $color-signal-blue;
+  color: $color-white;
+  cursor: pointer;
+
+  height: 28px;
+  border-radius: 15px;
+
+  padding: 5px;
+  padding-left: 12px;
+  padding-right: 12px;
+
+  right: 4px;
+  top: 4px;
+}
+
+// Module: Staged Placeholder Attachment
+
+.module-staged-placeholder-attachment {
+  margin: 1px;
+  border-radius: 4px;
+  border: 1px solid $color-gray-25;
+  height: 120px;
+  width: 120px;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    background: $color-gray-05;
+  }
+}
+
+.module-staged-placeholder-attachment__plus-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  height: 36px;
+  width: 36px;
+
+  @include color-svg('../images/plus-36.svg', $color-gray-45);
+}
+
 // Third-party module: react-contextmenu
 
 .react-contextmenu {
@@ -2501,6 +2789,11 @@
 }
 .module-message__buttons__reply {
   display: none;
+}
+
+// To limit messages with things forcing them wider, like long attachment names
+.module-message {
+  max-width: 300px;
 }
 
 /* Spec: container > 438px and container < 593px*/

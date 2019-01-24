@@ -31,5 +31,17 @@
     getDeviceName() {
       return textsecure.storage.get('device_name');
     },
+
+    setDeviceNameEncrypted() {
+      return textsecure.storage.put('deviceNameEncrypted', true);
+    },
+
+    getDeviceNameEncrypted() {
+      return textsecure.storage.get('deviceNameEncrypted');
+    },
+
+    getSignalingKey() {
+      return textsecure.storage.get('signaling_key');
+    },
   };
 })();

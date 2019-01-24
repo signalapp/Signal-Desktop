@@ -352,3 +352,35 @@ const attachments = [
   </div>
 </div>;
 ```
+
+### Mixing attachment types
+
+```
+const attachments = [
+  {
+    url: util.pngObjectUrl,
+    contentType: 'image/png',
+    width: 320,
+    height: 240,
+  },
+  {
+    contentType: 'text/plain',
+  },
+  {
+    url: util.pngObjectUrl,
+    contentType: 'image/png',
+    width: 320,
+    height: 240,
+  },
+];
+
+<div>
+  <div>
+    <ImageGrid attachments={attachments} i18n={util.i18n} />
+  </div>
+  <hr />
+  <div>
+    <ImageGrid withContentAbove withContentBelow attachments={attachments} i18n={util.i18n} />
+  </div>
+</div>;
+```

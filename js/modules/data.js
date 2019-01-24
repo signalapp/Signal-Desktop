@@ -52,6 +52,7 @@ module.exports = {
   createOrUpdateGroup,
   getGroupById,
   getAllGroupIds,
+  getAllGroups,
   bulkAddGroups,
   removeGroupById,
   removeAllGroups,
@@ -427,6 +428,10 @@ async function getGroupById(id) {
 async function getAllGroupIds() {
   const ids = await channels.getAllGroupIds();
   return ids;
+}
+async function getAllGroups() {
+  const groups = await channels.getAllGroups();
+  return groups;
 }
 async function bulkAddGroups(array) {
   await channels.bulkAddGroups(array);
