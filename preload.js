@@ -348,6 +348,8 @@ window.Signal.Logs = require('./js/modules/logs');
 require('./js/spell_check');
 
 if (config.environment === 'test') {
+  const isTravis = 'TRAVIS' in process.env && 'CI' in process.env;
+  const isWindows = process.platform === 'win32';
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.test = {
     glob: require('glob'),
@@ -356,6 +358,8 @@ if (config.environment === 'test') {
     path: require('path'),
     basePath: __dirname,
     attachmentsPath: window.Signal.Migrations.attachmentsPath,
+    isTravis,
+    isWindows,
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
 }
