@@ -108,7 +108,7 @@ class LokiSnodeAPI {
   async getSwarmNodesByPubkey(pubKey) {
     const swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
     // TODO: Check if swarm list is below a threshold rather than empty
-    if (swarmNodes && swarmNodes.size !== 0) {
+    if (swarmNodes && swarmNodes.length !== 0) {
       return swarmNodes;
     }
     return this.replenishSwarm(pubKey);
@@ -120,10 +120,10 @@ class LokiSnodeAPI {
       this.swarmsPendingReplenish[pubKey] = new Promise(async resolve => {
         let newSwarmNodes;
         try {
-          newSwarmNodes = new Set(await this.getSwarmNodes(pubKey));
+          newSwarmNodes = await this.getSwarmNodes(pubKey);
         } catch (e) {
           // TODO: Handle these errors sensibly
-          newSwarmNodes = new Set([]);
+          newSwarmNodes = [];
         }
         conversation.set({ swarmNodes: newSwarmNodes });
         await window.Signal.Data.updateConversation(

@@ -106,21 +106,11 @@ class LokiMessageAPI {
       }
       try {
         swarmNodes = await window.LokiSnodeAPI.getSwarmNodesByPubkey(pubKey);
-        // Filter out the nodes we have already got responses from
-        swarmNodes = Object.keys(swarmNodes)
-          .filter(node => !(node in completedNodes))
-          .reduce(
-            // eslint-disable-next-line no-loop-func
-            (obj, node) => ({
-              ...obj,
-              [node]: swarmNodes[node],
-            }),
-            {}
-          );
+        swarmNodes = swarmNodes.filter(node => !(node in completedNodes));
       } catch (e) {
         throw new window.textsecure.EmptySwarmError(pubKey, e);
       }
-      if (!swarmNodes || swarmNodes.size === 0) {
+      if (!swarmNodes || swarmNodes.length === 0) {
         if (completedNodes.length !== 0) {
           // TODO: Decide how to handle some completed requests but not enough
           return;
@@ -134,7 +124,7 @@ class LokiMessageAPI {
       const remainingRequests =
         MINIMUM_SUCCESSFUL_REQUESTS - completedNodes.length;
       await Promise.all(
-        Array.from(swarmNodes)
+        swarmNodes
           .splice(0, remainingRequests)
           .map(nodeUrl => doRequest(nodeUrl))
       );

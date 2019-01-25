@@ -663,18 +663,14 @@ async function removeAllSessions(id) {
 function setifyProperty(data, propertyName) {
   if (!data) return data;
   const returnData = data;
-  if (returnData[propertyName]) {
+  if (returnData[propertyName] && Array.isArray(returnData[propertyName])) {
     returnData[propertyName] = new Set(returnData[propertyName]);
   }
   return returnData;
 }
 
 async function getSwarmNodesByPubkey(pubkey) {
-  let swarmNodes = await channels.getSwarmNodesByPubkey(pubkey);
-  if (Array.isArray(swarmNodes)) {
-    swarmNodes = new Set(swarmNodes);
-  }
-  return swarmNodes;
+  return channels.getSwarmNodesByPubkey(pubkey);
 }
 
 async function getConversationCount() {
@@ -682,11 +678,7 @@ async function getConversationCount() {
 }
 
 async function saveConversation(data) {
-  const storeData = data;
-  if (storeData.swarmNodes) {
-    storeData.swarmNodes = Array.from(storeData.swarmNodes);
-  }
-  await channels.saveConversation(storeData);
+  await channels.saveConversation(data);
 }
 
 async function saveConversations(data) {
@@ -694,8 +686,7 @@ async function saveConversations(data) {
 }
 
 async function getConversationById(id, { Conversation }) {
-  const rawData = await channels.getConversationById(id);
-  const data = setifyProperty(rawData, 'swarmNodes');
+  const data = await channels.getConversationById(id);
   return new Conversation(data);
 }
 
@@ -704,8 +695,10 @@ async function updateConversation(id, data, { Conversation }) {
   if (!existing) {
     throw new Error(`Conversation ${id} does not exist!`);
   }
+  const setData = setifyProperty(data, 'swarmNodes');
+  const setExisting = setifyProperty(existing.attributes, 'swarmNodes');
 
-  const merged = merge({}, existing.attributes, data);
+  const merged = merge({}, setExisting, setData);
   if (merged.swarmNodes instanceof Set) {
     merged.swarmNodes = Array.from(merged.swarmNodes);
   }
@@ -729,9 +722,7 @@ async function _removeConversations(ids) {
 }
 
 async function getAllConversations({ ConversationCollection }) {
-  const conversations = (await channels.getAllConversations()).map(c =>
-    setifyProperty(c, 'swarmNodes')
-  );
+  const conversations = await channels.getAllConversations();
 
   const collection = new ConversationCollection();
   collection.add(conversations);
@@ -744,9 +735,7 @@ async function getAllConversationIds() {
 }
 
 async function getAllPrivateConversations({ ConversationCollection }) {
-  const conversations = (await channels.getAllPrivateConversations()).map(c =>
-    setifyProperty(c, 'swarmNodes')
-  );
+  const conversations = await channels.getAllPrivateConversations();
 
   const collection = new ConversationCollection();
   collection.add(conversations);
@@ -754,9 +743,7 @@ async function getAllPrivateConversations({ ConversationCollection }) {
 }
 
 async function getAllGroupsInvolvingId(id, { ConversationCollection }) {
-  const conversations = (await channels.getAllGroupsInvolvingId(id)).map(c =>
-    setifyProperty(c, 'swarmNodes')
-  );
+  const conversations = await channels.getAllGroupsInvolvingId(id);
 
   const collection = new ConversationCollection();
   collection.add(conversations);
@@ -764,9 +751,7 @@ async function getAllGroupsInvolvingId(id, { ConversationCollection }) {
 }
 
 async function searchConversations(query, { ConversationCollection }) {
-  const conversations = (await channels.searchConversations(query)).map(c =>
-    setifyProperty(c, 'swarmNodes')
-  );
+  const conversations = await channels.searchConversations(query);
 
   const collection = new ConversationCollection();
   collection.add(conversations);
