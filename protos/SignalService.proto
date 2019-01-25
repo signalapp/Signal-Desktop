@@ -40,8 +40,8 @@ message Content {
 }
 
 message OnlineBroadcastMessage {
-  optional string snappAddress    = 1;
-  optional uint32 port            = 2;
+  optional string p2pAddress    = 1;
+  optional uint32 p2pPort       = 2;
 }
 
 message PreKeyBundleMessage {

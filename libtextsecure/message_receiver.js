@@ -82,13 +82,11 @@ MessageReceiver.prototype.extend({
       }
     });
 
-    this.localServer
-      .start(window.localServerPort)
-      .then(port => {
-        window.log.info(`Local Server started at localhost:${port}`);
-        window.libloki.api.broadcastOnlineStatus();
-        this.localServer.on('message', this.httpPollingResource.handleMessage);
-      });
+    this.localServer.start(window.localServerPort).then(port => {
+      window.log.info(`Local Server started at localhost:${port}`);
+      window.libloki.api.broadcastOnlineStatus();
+      this.localServer.on('message', this.httpPollingResource.handleMessage);
+    });
 
     // TODO: Rework this socket stuff to work with online messaging
     const useWebSocket = false;
@@ -133,7 +131,10 @@ MessageReceiver.prototype.extend({
     }
 
     if (this.localServer) {
-      this.localServer.removeListener('message', this.httpPollingResource.handleMessage);
+      this.localServer.removeListener(
+        'message',
+        this.httpPollingResource.handleMessage
+      );
       this.localServer = null;
     }
   },
@@ -712,7 +713,10 @@ MessageReceiver.prototype.extend({
           .then(handleSessionReset);
         break;
       case textsecure.protobuf.Envelope.Type.ONLINE_BROADCAST:
-        window.log.info('Online broadcast message from', this.getEnvelopeId(envelope));
+        window.log.info(
+          'Online broadcast message from',
+          this.getEnvelopeId(envelope)
+        );
         promise = captureActiveSession()
           .then(() => sessionCipher.decryptWhisperMessage(ciphertext))
           .then(this.unpad)
@@ -904,7 +908,13 @@ MessageReceiver.prototype.extend({
       })
     );
   },
-  handleOnlineBroadcastMessage(envelope, onlineBroadcastMessage) {
+  async handleOnlineBroadcastMessage(envelope, onlineBroadcastMessage) {
+    const { p2pAddress, p2pPort } = onlineBroadcastMessage;
+    window.LokiP2pAPI.addContactP2pDetails(
+      envelope.source,
+      p2pAddress,
+      p2pPort
+    );
     return this.removeFromCache(envelope);
   },
   handleDataMessage(envelope, msg) {
@@ -1022,7 +1032,10 @@ MessageReceiver.prototype.extend({
         content.preKeyBundleMessage
       );
     if (content.onlineBroadcastMessage)
-      return this.handleOnlineBroadcastMessage(envelope, content.onlineBroadcastMessage);
+      return this.handleOnlineBroadcastMessage(
+        envelope,
+        content.onlineBroadcastMessage
+      );
     if (content.syncMessage)
       return this.handleSyncMessage(envelope, content.syncMessage);
     if (content.dataMessage)

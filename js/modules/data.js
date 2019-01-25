@@ -120,7 +120,7 @@ module.exports = {
   _removeConversations,
 
   getAllConversations,
-  getAllFriendIds,
+  getPubKeysWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
@@ -722,12 +722,8 @@ async function _removeConversations(ids) {
   await channels.removeConversation(ids);
 }
 
-async function getAllFriendIds() {
-  const ids = (await channels.getAllFriendIds()).map(c =>
-    setifyProperty(c, 'swarmNodes')
-  );
-
-  return ids;
+async function getPubKeysWithFriendStatus(status) {
+  return channels.getPubKeysWithFriendStatus(status);
 }
 
 async function getAllConversations({ ConversationCollection }) {

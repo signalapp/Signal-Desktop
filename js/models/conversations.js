@@ -41,18 +41,8 @@
   } = window.Signal.Migrations;
 
   // Possible conversation friend states
-  const FriendRequestStatusEnum = Object.freeze({
-    // New conversation, no messages sent or received
-    none: 0,
-    // This state is used to lock the input early while sending
-    pendingSend: 1,
-    // Friend request sent, awaiting response
-    requestSent: 2,
-    // Friend request received, awaiting user input
-    requestReceived: 3,
-    // We did it!
-    friends: 4,
-  });
+  const FriendRequestStatusEnum =
+    window.libloki.friends.friendRequestStatusEnum;
 
   // Possible session reset states
   const SessionResetEnum = Object.freeze({
