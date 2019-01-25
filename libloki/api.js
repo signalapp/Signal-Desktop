@@ -18,14 +18,12 @@
   }
 
   async function sendOnlineBroadcastMessage(pubKey) {
-    const onlineBroadcastMessage = new textsecure.protobuf.OnlineBroadcastMessage(
-      {
-        p2pAddress: 'testAddress',
-        p2pPort: parseInt(window.localServerPort, 10),
-      }
-    );
+    const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
+      p2pAddress: 'testAddress',
+      p2pPort: parseInt(window.localServerPort, 10),
+    });
     const content = new textsecure.protobuf.Content({
-      onlineBroadcastMessage,
+      lokiAddressMessage,
     });
 
     // will be called once the transmission succeeded or failed

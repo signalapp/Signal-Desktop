@@ -13,7 +13,6 @@ message Envelope {
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
     FRIEND_REQUEST = 101; // contains prekeys + message and is using simple encryption
-    ONLINE_BROADCAST = 102; // Contains address and port information for p2p messaging
   }
 
   optional Type   type            = 1;
@@ -36,10 +35,10 @@ message Content {
   optional ReceiptMessage receiptMessage = 5;
   optional TypingMessage  typingMessage  = 6;
   optional PreKeyBundleMessage preKeyBundleMessage = 101;
-  optional OnlineBroadcastMessage onlineBroadcastMessage = 102;
+  optional LokiAddressMessage lokiAddressMessage = 102;
 }
 
-message OnlineBroadcastMessage {
+message LokiAddressMessage {
   optional string p2pAddress    = 1;
   optional uint32 p2pPort       = 2;
 }

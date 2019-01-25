@@ -712,16 +712,6 @@ MessageReceiver.prototype.extend({
           .then(this.unpad)
           .then(handleSessionReset);
         break;
-      case textsecure.protobuf.Envelope.Type.ONLINE_BROADCAST:
-        window.log.info(
-          'Online broadcast message from',
-          this.getEnvelopeId(envelope)
-        );
-        promise = captureActiveSession()
-          .then(() => sessionCipher.decryptWhisperMessage(ciphertext))
-          .then(this.unpad)
-          .then(handleSessionReset);
-        break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
         promise = fallBackSessionCipher
@@ -908,8 +898,8 @@ MessageReceiver.prototype.extend({
       })
     );
   },
-  async handleOnlineBroadcastMessage(envelope, onlineBroadcastMessage) {
-    const { p2pAddress, p2pPort } = onlineBroadcastMessage;
+  async handleLokiAddressMessage(envelope, lokiAddressMessage) {
+    const { p2pAddress, p2pPort } = lokiAddressMessage;
     window.LokiP2pAPI.addContactP2pDetails(
       envelope.source,
       p2pAddress,
@@ -1031,10 +1021,10 @@ MessageReceiver.prototype.extend({
         envelope.source,
         content.preKeyBundleMessage
       );
-    if (content.onlineBroadcastMessage)
-      return this.handleOnlineBroadcastMessage(
+    if (content.lokiAddressMessage)
+      return this.handleLokiAddressMessage(
         envelope,
-        content.onlineBroadcastMessage
+        content.lokiAddressMessage
       );
     if (content.syncMessage)
       return this.handleSyncMessage(envelope, content.syncMessage);
