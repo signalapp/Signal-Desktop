@@ -954,11 +954,14 @@ MessageReceiver.prototype.extend({
             if (conversation && !message.flags) {
               const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
               if (isFriendRequestAccept) {
-                await conversation.notifyFriendRequest(envelope.source, 'accepted');
-                this.removeFromCache(envelope);
-                return null;
+                await conversation.notifyFriendRequest(
+                  envelope.source,
+                  'accepted'
+                );
               }
             }
+            this.removeFromCache(envelope);
+            return null;
           }
 
           const ev = new Event('message');
