@@ -662,8 +662,8 @@ async function removeAllSessions(id) {
 
 function setifyProperty(data, propertyName) {
   if (!data) return data;
-  const returnData = data;
-  if (returnData[propertyName] && Array.isArray(returnData[propertyName])) {
+  const returnData = { ...data };
+  if (Array.isArray(returnData[propertyName])) {
     returnData[propertyName] = new Set(returnData[propertyName]);
   }
   return returnData;
