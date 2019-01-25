@@ -653,7 +653,9 @@
         await this.respondToAllPendingFriendRequests({
           response: 'accepted',
         });
+        return true;
       }
+      return false;
     },
     async onFriendRequestTimeout() {
       // Unset the timer
