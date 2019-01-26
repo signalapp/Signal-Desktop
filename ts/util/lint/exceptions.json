@@ -1768,6 +1768,78 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/app-builder-lib/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/app-builder-lib/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/app-builder-lib/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 211,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/app-builder-lib/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/app-builder-lib/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/app-builder-lib/out/frameworks/LibUiFramework.js",
+    "line": "  DIR=$(dirname \"$0\")",
+    "lineNumber": 113,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/app-builder-lib/out/frameworks/LibUiFramework.js",
+    "line": "  DIR=$(dirname \"$0\")",
+    "lineNumber": 127,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/app-builder-lib/out/targets/MsiTarget.js",
+    "line": "        result += `\\n${fileSpace}  <File Name=\"${fileName}\" Source=\"$(var.appDir)${path.sep}${packagePath}\" ReadOnly=\"yes\" KeyPath=\"yes\"`;",
+    "lineNumber": 352,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/app-builder-lib/out/targets/nsis/nsisLicense.js",
+    "line": "    licensePage.push('!insertmacro MUI_PAGE_LICENSE \"$(MUILicense)\"');",
+    "lineNumber": 100,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/archiver/lib/core.js",
     "line": "  this._module.append(source, data, function(err) {",
@@ -2038,67 +2110,83 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 160,
+    "path": "node_modules/builder-util-runtime/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/builder-util-runtime/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/builder-util-runtime/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 178,
+    "line": "function load() {",
+    "lineNumber": 211,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/builder-util-runtime/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/builder-util-runtime/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 162,
+    "lineNumber": 216,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 186,
+    "path": "node_modules/builder-util/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-01-26T01:47:58.953Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/builder-util/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/builder-util/node_modules/debug/src/browser.js",
     "line": "function load() {",
-    "lineNumber": 160,
+    "lineNumber": 211,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 178,
+    "path": "node_modules/builder-util/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/builder-util/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 162,
+    "lineNumber": 216,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 186,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-$(",
@@ -2475,38 +2563,6 @@
     "lineNumber": 31,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-download-tf/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 160,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-download-tf/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 178,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-download-tf/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 153,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-download-tf/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 177,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "eval",
@@ -4045,17 +4101,17 @@
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "function load(input, options) {",
-    "lineNumber": 2537,
+    "lineNumber": 2545,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2560,
+    "lineNumber": 2568,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5829,33 +5885,35 @@
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Most eval() calls are in this format",
-    "lineNumber": 235,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 234,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Parse nested eval() calls using recursion",
-    "lineNumber": 247,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 246,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
-    "lineNumber": 345,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 344,
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2019-01-26T01:47:58.953Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Code called using eval() needs special handling",
-    "lineNumber": 372,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 373,
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2019-01-26T01:47:58.953Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-prepend(",
