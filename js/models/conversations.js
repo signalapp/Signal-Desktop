@@ -339,12 +339,12 @@
         await this.initialPromise;
         const verified = await this.safeGetVerified();
 
+        this.set({ verified });
+
         // we don't await here because we don't need to wait for this to finish
-        window.Signal.Data.updateConversation(
-          this.id,
-          { verified },
-          { Conversation: Whisper.Conversation }
-        );
+        window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
 
         return;
       }
