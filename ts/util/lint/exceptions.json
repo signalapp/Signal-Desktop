@@ -207,7 +207,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
     "line": "        this.send(wrap(promise));",
-    "lineNumber": 810,
+    "lineNumber": 820,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -215,7 +215,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
     "line": "        return wrap(",
-    "lineNumber": 1019,
+    "lineNumber": 1029,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },

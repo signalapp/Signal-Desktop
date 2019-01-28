@@ -711,13 +711,23 @@
       this.set({ errors });
 
       const profileKey = null;
-      const numbers = retries.map(retry => retry.number);
+      let numbers = retries
+        .map(retry => retry.number)
+        .filter(item => Boolean(item));
 
       if (!numbers.length) {
-        window.log.error(
-          'retrySend: Attempted to retry, but no numbers to send to!'
+        window.log.warn(
+          'retrySend: No numbers in error set, using all recipients'
         );
-        return null;
+        const conversation = this.getConversation();
+        if (conversation) {
+          numbers = conversation.getRecipients();
+          this.set({ errors: null });
+        } else {
+          throw new Error(
+            'No numbers in error set, did not find conversation for message'
+          );
+        }
       }
 
       const attachmentsWithData = await Promise.all(
