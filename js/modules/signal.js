@@ -124,8 +124,8 @@ function initializeMigrations({
   const attachmentsPath = getPath(userDataPath);
   const readAttachmentData = createReader(attachmentsPath);
   const loadAttachmentData = Type.loadData(readAttachmentData);
-  const loadPreviewData = MessageType.loadPreviewData(readAttachmentData);
-  const loadQuoteData = MessageType.loadQuoteData(readAttachmentData);
+  const loadPreviewData = MessageType.loadPreviewData(loadAttachmentData);
+  const loadQuoteData = MessageType.loadQuoteData(loadAttachmentData);
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
 

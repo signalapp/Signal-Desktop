@@ -469,14 +469,14 @@ exports.loadPreviewData = loadAttachmentData => {
     }
 
     return Promise.all(
-      preview.map(async () => {
-        if (!preview.image) {
-          return preview;
+      preview.map(async item => {
+        if (!item.image) {
+          return item;
         }
 
         return {
-          ...preview,
-          image: await loadAttachmentData(preview.image),
+          ...item,
+          image: await loadAttachmentData(item.image),
         };
       })
     );
