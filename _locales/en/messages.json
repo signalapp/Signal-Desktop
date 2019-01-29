@@ -1100,7 +1100,7 @@
   },
   "deleteAllDataBody": {
     "message":
-      "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+      "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always register with your seed again, but that will not restore deleted messages.",
     "description":
       "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
@@ -1777,6 +1777,12 @@
   "unlock": {
     "message": "Unlock"
   },
+  "resetDatabase": {
+    "message": "Reset Database",
+    "description":
+      "A button action that the user can click to reset the database"
+  },
+
   "setPassword": {
     "message": "Set Password",
     "description": "Button action that the user can click to set a password"
