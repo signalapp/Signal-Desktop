@@ -1100,7 +1100,7 @@
   },
   "deleteAllDataBody": {
     "message":
-      "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+      "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always register with your seed again, but that will not restore deleted messages.",
     "description":
       "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
