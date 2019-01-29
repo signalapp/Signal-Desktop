@@ -1777,6 +1777,12 @@
   "unlock": {
     "message": "Unlock"
   },
+  "resetDatabase": {
+    "message": "Reset Database",
+    "description":
+      "A button action that the user can click to reset the database"
+  },
+
   "setPassword": {
     "message": "Set Password",
     "description": "Button action that the user can click to set a password"

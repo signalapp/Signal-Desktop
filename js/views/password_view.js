@@ -26,7 +26,7 @@
       return {
         title: i18n('passwordViewTitle'),
         buttonText: i18n('unlock'),
-        resetText: 'Reset Database',
+        resetText: i18n('resetDatabase'),
         showReset: this.errorCount >= MIN_LOGIN_TRIES,
       };
     },
@@ -50,12 +50,11 @@
       this.$('.error').text(string);
     },
     onReset() {
-      const dialog = new Whisper.ConfirmationDialogView({
-        title: 'Are you sure you want to reset the database?',
-        message: 'Warning! You will lose all of your messages and contacts when you reset the database.',
-        okText: 'Reset',
+      const clearDataView = new window.Whisper.ClearDataView(() => {
+        window.resetDatabase();
       });
-      this.$el.append(dialog.el);
+      clearDataView.render();
+      this.$el.append(clearDataView.el);
     },
   });
 })();
