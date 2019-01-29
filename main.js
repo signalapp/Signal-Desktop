@@ -747,6 +747,18 @@ function getDefaultSQLKey() {
   return key;
 }
 
+async function removeDB() {
+  const userDir = await getRealPath(app.getPath('userData'));
+  sql.removeDB(userDir);
+
+  try {
+    userConfig.remove();
+    ephemeralConfig.remove();
+  } catch (e) {
+    console.warn('Remove DB: Failed to remove configs.', e);
+  }
+}
+
 async function showMainWindow(sqlKey) {
   const userDataPath = await getRealPath(app.getPath('userData'));
 
@@ -935,6 +947,12 @@ ipc.on('draw-attention', () => {
 });
 
 ipc.on('restart', () => {
+  app.relaunch();
+  app.quit();
+});
+
+ipc.on('resetDatabase', async () => {
+  await removeDB();
   app.relaunch();
   app.quit();
 });

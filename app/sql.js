@@ -643,6 +643,15 @@ let db;
 let filePath;
 let indexedDBPath;
 
+function _initializePaths(configDir) {
+  indexedDBPath = path.join(configDir, 'IndexedDB');
+
+  const dbDir = path.join(configDir, 'sql');
+  mkdirp.sync(dbDir);
+
+  filePath = path.join(dbDir, 'db.sqlite');
+}
+
 async function initialize({ configDir, key }) {
   if (db) {
     throw new Error('Cannot initialize more than once!');
@@ -655,12 +664,7 @@ async function initialize({ configDir, key }) {
     throw new Error('initialize: key` is required!');
   }
 
-  indexedDBPath = path.join(configDir, 'IndexedDB');
-
-  const dbDir = path.join(configDir, 'sql');
-  mkdirp.sync(dbDir);
-
-  filePath = path.join(dbDir, 'db.sqlite');
+  _initializePaths(configDir);
 
   const sqlInstance = await openDatabase(filePath);
   const promisified = promisify(sqlInstance);
@@ -686,9 +690,13 @@ async function close() {
   await dbRef.close();
 }
 
-async function removeDB() {
+async function removeDB(configDir = null) {
   if (db) {
     throw new Error('removeDB: Cannot erase database when it is open!');
+  }
+
+  if (!filePath && configDir) {
+    _initializePaths(configDir);
   }
 
   rimraf.sync(filePath);

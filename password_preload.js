@@ -26,6 +26,10 @@ window.getAppInstance = () => config.appInstance;
 
 window.passwordUtil = require('./app/password_util');
 
+window.resetDatabase = () => {
+  window.log.info('reset database');
+  ipcRenderer.send('resetDatabase');
+};
 window.onLogin = passPhrase =>
   new Promise((resolve, reject) => {
     ipcRenderer.once('password-window-login-response', (event, error) => {

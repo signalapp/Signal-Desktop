@@ -21,8 +21,9 @@
       'click .cancel': 'onCancel',
       'click .delete-all-data': 'onDeleteAllData',
     },
-    initialize() {
+    initialize(onClear = null) {
       this.step = CLEAR_DATA_STEPS.CHOICE;
+      this.onClear = onClear;
     },
     onCancel() {
       this.remove();
@@ -35,21 +36,25 @@
       await this.clearAllData();
     },
     async clearAllData() {
-      try {
-        await Logs.deleteAll();
+      if (this.onClear) {
+        this.onClear();
+      } else {
+        try {
+          await Logs.deleteAll();
 
-        await window.Signal.Data.removeAll();
-        await window.Signal.Data.close();
-        await window.Signal.Data.removeDB();
+          await window.Signal.Data.removeAll();
+          await window.Signal.Data.close();
+          await window.Signal.Data.removeDB();
 
-        await window.Signal.Data.removeOtherData();
-      } catch (error) {
-        window.log.error(
-          'Something went wrong deleting all data:',
-          error && error.stack ? error.stack : error
-        );
+          await window.Signal.Data.removeOtherData();
+        } catch (error) {
+          window.log.error(
+            'Something went wrong deleting all data:',
+            error && error.stack ? error.stack : error
+          );
+        }
+        window.restart();
       }
-      window.restart();
     },
     render_attributes() {
       return {
