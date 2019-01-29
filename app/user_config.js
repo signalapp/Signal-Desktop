@@ -9,7 +9,7 @@ const config = require('./config');
 if (config.has('storageProfile')) {
   const userData = path.join(
     app.getPath('appData'),
-    `Signal-${config.get('storageProfile')}`
+    `Loki-Messenger-${config.get('storageProfile')}`
   );
 
   app.setPath('userData', userData);
