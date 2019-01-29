@@ -38,6 +38,11 @@ describe('AccountManager', () => {
 
         assert.strictEqual(decrypted, deviceName);
       });
+
+      it('handles null deviceName', async () => {
+        const encrypted = await accountManager.encryptDeviceName(null);
+        assert.strictEqual(encrypted, null);
+      });
     });
 
     it('keeps three confirmed keys even if over a week old', () => {
