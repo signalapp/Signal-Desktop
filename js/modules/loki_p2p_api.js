@@ -13,17 +13,11 @@ class LokiP2pAPI {
   }
 
   getContactP2pDetails(pubKey) {
-    if (this.contactP2pDetails[pubKey]) {
-      return this.contactP2pDetails[pubKey];
-    }
-    return null;
+    return this.contactP2pDetails[pubKey] || null;
   }
 
-  removeContactP2pDetails(pubKey, address, port) {
-    this.contactP2pDetails[pubKey] = {
-      address,
-      port,
-    };
+  removeContactP2pDetails(pubKey) {
+    delete this.contactP2pDetails[pubKey];
   }
 }
 
