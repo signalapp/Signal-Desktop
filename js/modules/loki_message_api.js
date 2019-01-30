@@ -3,6 +3,7 @@
 /* global log, dcodeIO, window, callWorker */
 
 const fetch = require('node-fetch');
+const _ = require('lodash');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SUCCESSFUL_REQUESTS = 2;
@@ -116,7 +117,7 @@ class LokiMessageAPI {
       }
       if (!swarmNodes || swarmNodes.length === 0) {
         swarmNodes = await window.LokiSnodeAPI.getFreshSwarmNodes(pubKey);
-        swarmNodes = swarmNodes.filter(node => !(node in completedNodes));
+        swarmNodes = _.difference(swarmNodes, completedNodes);
         if (!swarmNodes || swarmNodes.length === 0) {
           if (successfulRequests !== 0) {
             // TODO: Decide how to handle some completed requests but not enough
