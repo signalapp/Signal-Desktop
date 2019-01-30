@@ -1282,7 +1282,6 @@ async function getAllConversations() {
 }
 
 async function getPubKeysWithFriendStatus(status) {
-  // TODO: Maybe don't have this hardcoded to 4 (friends status in the enum)
   const rows = await db.all(
     `SELECT id FROM conversations WHERE
       friendRequestStatus = $status
