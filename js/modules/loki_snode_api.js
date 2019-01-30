@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* global log, window, Whisper */
 
 const fetch = require('node-fetch');
@@ -6,6 +7,7 @@ const dns = require('dns');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SWARM_NODES = 1;
+const FAILURE_THRESHOLD = 3;
 
 class LokiSnodeAPI {
   constructor({ url, swarmServerPort }) {
@@ -16,6 +18,7 @@ class LokiSnodeAPI {
     this.swarmServerPort = swarmServerPort ? `:${swarmServerPort}` : '';
     this.swarmsPendingReplenish = {};
     this.ourSwarmNodes = {};
+    this.contactSwarmNodes = {};
   }
 
   getRandomSnodeAddress() {
@@ -33,8 +36,27 @@ class LokiSnodeAPI {
 
   async unreachableNode(pubKey, nodeUrl) {
     if (pubKey === window.textsecure.storage.user.getNumber()) {
-      delete this.ourSwarmNodes[nodeUrl];
-      return;
+      if (!this.ourSwarmNodes[nodeUrl]) {
+        this.ourSwarmNodes[nodeUrl] = {
+          failureCount: 1,
+        };
+      } else {
+        this.ourSwarmNodes[nodeUrl].failureCount += 1;
+      }
+      if (this.ourSwarmNodes[nodeUrl].failureCount >= FAILURE_THRESHOLD) {
+        delete this.ourSwarmNodes[nodeUrl];
+      }
+      return false;
+    }
+    if (!this.contactSwarmNodes[nodeUrl]) {
+      this.contactSwarmNodes[nodeUrl] = {
+        failureCount: 1,
+      };
+    } else {
+      this.contactSwarmNodes[nodeUrl].failureCount += 1;
+    }
+    if (this.contactSwarmNodes[nodeUrl].failureCount < FAILURE_THRESHOLD) {
+      return false;
     }
     const conversation = window.ConversationController.get(pubKey);
     const swarmNodes = conversation.get('swarmNodes');
@@ -47,7 +69,9 @@ class LokiSnodeAPI {
           Conversation: Whisper.Conversation,
         }
       );
+      delete this.contactSwarmNodes[nodeUrl];
     }
+    return true;
   }
 
   updateLastHash(nodeUrl, hash) {
@@ -74,7 +98,9 @@ class LokiSnodeAPI {
       }
 
       nodeAddresses.forEach(url => {
-        this.ourSwarmNodes[url] = {};
+        this.ourSwarmNodes[url] = {
+          failureCount: 0,
+        };
       });
     }
     return this.ourSwarmNodes;
@@ -82,32 +108,34 @@ class LokiSnodeAPI {
 
   async getSwarmNodesByPubkey(pubKey) {
     const swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
-    // TODO: Check if swarm list is below a threshold rather than empty
-    if (swarmNodes && swarmNodes.size !== 0) {
+    if (swarmNodes) {
       return swarmNodes;
     }
-    return this.replenishSwarm(pubKey);
+    return [];
   }
 
-  async replenishSwarm(pubKey) {
+  async saveSwarmNodes(pubKey, swarmNodes) {
     const conversation = window.ConversationController.get(pubKey);
+    conversation.set({ swarmNodes });
+    await window.Signal.Data.updateConversation(
+      conversation.id,
+      conversation.attributes,
+      {
+        Conversation: Whisper.Conversation,
+      }
+    );
+  }
+
+  async getFreshSwarmNodes(pubKey) {
     if (!(pubKey in this.swarmsPendingReplenish)) {
       this.swarmsPendingReplenish[pubKey] = new Promise(async resolve => {
         let newSwarmNodes;
         try {
-          newSwarmNodes = new Set(await this.getSwarmNodes(pubKey));
+          newSwarmNodes = await this.getSwarmNodes(pubKey);
         } catch (e) {
           // TODO: Handle these errors sensibly
-          newSwarmNodes = new Set([]);
+          newSwarmNodes = [];
         }
-        conversation.set({ swarmNodes: newSwarmNodes });
-        await window.Signal.Data.updateConversation(
-          conversation.id,
-          conversation.attributes,
-          {
-            Conversation: Whisper.Conversation,
-          }
-        );
         resolve(newSwarmNodes);
       });
     }
@@ -124,7 +152,7 @@ class LokiSnodeAPI {
       url: `http://${node}${this.swarmServerPort}/json_rpc`,
       type: 'POST',
       responseType: 'json',
-      timeout: 5000,
+      timeout: 10000,
     };
 
     const body = {
@@ -155,7 +183,7 @@ class LokiSnodeAPI {
         0,
         `Error getting swarm nodes for ${pubKey}`
       );
-      throw HTTPError('fetch error', 0, e.toString());
+      throw HTTPError('getSwarmNodes fetch error', 0, e.toString());
     }
 
     let result;
@@ -179,7 +207,7 @@ class LokiSnodeAPI {
       response.status,
       `Error getting swarm nodes for ${pubKey}`
     );
-    throw HTTPError('sendMessage: error response', response.status, result);
+    throw HTTPError('getSwarmNodes: error response', response.status, result);
   }
 }
 

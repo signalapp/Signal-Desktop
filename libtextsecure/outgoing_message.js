@@ -186,13 +186,7 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
     const pubKey = number;
     try {
-      const result = await this.lokiMessageAPI.sendMessage(
-        pubKey,
-        data,
-        timestamp,
-        ttl
-      );
-      return result;
+      await this.lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl);
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
         // 409 and 410 should bubble and be handled by doSendMessage
