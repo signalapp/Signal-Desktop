@@ -10,6 +10,7 @@ export interface AttachmentType {
   url: string;
   size?: number;
   fileSize?: string;
+  pending?: boolean;
   width?: number;
   height?: number;
   screenshot?: {

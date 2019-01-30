@@ -801,20 +801,25 @@
       const media = _.flatten(
         rawMedia.map(message => {
           const { attachments } = message;
-          return (attachments || []).map((attachment, index) => {
-            const { thumbnail } = attachment;
+          return (attachments || [])
+            .filter(
+              attachment =>
+                attachment.thumbnail && !attachment.pending && !attachment.error
+            )
+            .map((attachment, index) => {
+              const { thumbnail } = attachment;
 
-            return {
-              objectURL: getAbsoluteAttachmentPath(attachment.path),
-              thumbnailObjectUrl: thumbnail
-                ? getAbsoluteAttachmentPath(thumbnail.path)
-                : null,
-              contentType: attachment.contentType,
-              index,
-              attachment,
-              message,
-            };
-          });
+              return {
+                objectURL: getAbsoluteAttachmentPath(attachment.path),
+                thumbnailObjectUrl: thumbnail
+                  ? getAbsoluteAttachmentPath(thumbnail.path)
+                  : null,
+                contentType: attachment.contentType,
+                index,
+                attachment,
+                message,
+              };
+            });
         })
       );
 
@@ -1240,7 +1245,19 @@
       }
 
       const attachments = message.get('attachments') || [];
-      if (attachments.length === 1) {
+
+      const media = attachments
+        .filter(item => item.thumbnail && !item.pending && !item.error)
+        .map((item, index) => ({
+          objectURL: getAbsoluteAttachmentPath(item.path),
+          path: item.path,
+          contentType: item.contentType,
+          index,
+          message,
+          attachment: item,
+        }));
+
+      if (media.length === 1) {
         const props = {
           objectURL: getAbsoluteAttachmentPath(path),
           contentType,
@@ -1258,16 +1275,9 @@
       }
 
       const selectedIndex = _.findIndex(
-        attachments,
+        media,
         item => attachment.path === item.path
       );
-      const media = attachments.map((item, index) => ({
-        objectURL: getAbsoluteAttachmentPath(item.path),
-        contentType: item.contentType,
-        index,
-        message,
-        attachment: item,
-      }));
 
       const onSave = async (options = {}) => {
         Signal.Types.Attachment.save({

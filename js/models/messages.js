@@ -19,13 +19,11 @@
 
   const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
   const {
-    deleteAttachmentData,
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
     loadAttachmentData,
     loadQuoteData,
     loadPreviewData,
-    writeNewAttachmentData,
   } = window.Signal.Migrations;
 
   window.AccountCache = Object.create(null);
@@ -423,9 +421,9 @@
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
         conversationType: isGroup ? 'group' : 'direct',
-        attachments: attachments.map(attachment =>
-          this.getPropsForAttachment(attachment)
-        ),
+        attachments: attachments
+          .filter(attachment => !attachment.error)
+          .map(attachment => this.getPropsForAttachment(attachment)),
         previews: this.getPropsForPreview(),
         quote: this.getPropsForQuote(),
         authorAvatarPath,
@@ -586,7 +584,7 @@
         return null;
       }
 
-      const { path, flags, size, screenshot, thumbnail } = attachment;
+      const { path, pending, flags, size, screenshot, thumbnail } = attachment;
 
       return {
         ...attachment,
@@ -595,7 +593,8 @@
           flags &&
           // eslint-disable-next-line no-bitwise
           flags & textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
-        url: getAbsoluteAttachmentPath(path),
+        pending,
+        url: path ? getAbsoluteAttachmentPath(path) : null,
         screenshot: screenshot
           ? {
               ...screenshot,
@@ -1155,6 +1154,116 @@
       );
       return !!error;
     },
+    async queueAttachmentDownloads() {
+      const messageId = this.id;
+      let count = 0;
+
+      const attachments = await Promise.all(
+        (this.get('attachments') || []).map((attachment, index) => {
+          count += 1;
+          return window.Signal.AttachmentDownloads.addJob(attachment, {
+            messageId,
+            type: 'attachment',
+            index,
+          });
+        })
+      );
+
+      const preview = await Promise.all(
+        (this.get('preview') || []).map(async (item, index) => {
+          if (!item.image) {
+            return item;
+          }
+
+          count += 1;
+          return {
+            ...item,
+            image: await window.Signal.AttachmentDownloads.addJob(item.image, {
+              messageId,
+              type: 'preview',
+              index,
+            }),
+          };
+        })
+      );
+
+      const contact = await Promise.all(
+        (this.get('contact') || []).map(async (item, index) => {
+          if (!item.avatar || !item.avatar.avatar) {
+            return item;
+          }
+
+          count += 1;
+          return {
+            ...item,
+            avatar: {
+              ...item.avatar,
+              avatar: await window.Signal.AttachmentDownloads.addJob(
+                item.avatar.avatar,
+                {
+                  messageId,
+                  type: 'contact',
+                  index,
+                }
+              ),
+            },
+          };
+        })
+      );
+
+      let quote = this.get('quote');
+      if (quote && quote.attachments && quote.attachments.length) {
+        quote = {
+          ...quote,
+          attachments: await Promise.all(
+            (quote.attachments || []).map(async (item, index) => {
+              // If we already have a path, then we copied this image from the quoted
+              //    message and we don't need to download the attachment.
+              if (!item.thumbnail || item.thumbnail.path) {
+                return item;
+              }
+
+              count += 1;
+              return {
+                ...item,
+                thumbnail: await window.Signal.AttachmentDownloads.addJob(
+                  item.thumbnail,
+                  {
+                    messageId,
+                    type: 'quote',
+                    index,
+                  }
+                ),
+              };
+            })
+          ),
+        };
+      }
+
+      let group = this.get('group');
+      if (group && group.avatar) {
+        group = {
+          ...group,
+          avatar: await window.Signal.AttachmentDownloads.addJob(group.avatar, {
+            messageId,
+            type: 'group-avatar',
+            index: 0,
+          }),
+        };
+      }
+
+      if (count > 0) {
+        this.set({ attachments, preview, contact, quote, group });
+
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+
+        return true;
+      }
+
+      return false;
+    },
     handleDataMessage(dataMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
@@ -1193,18 +1302,6 @@
                   conversation.get('members')
                 ),
               };
-
-              // Update this group conversations's avatar on disk if it has changed.
-              if (dataMessage.group.avatar) {
-                attributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
-                  attributes,
-                  dataMessage.group.avatar.data,
-                  {
-                    writeNewAttachmentData,
-                    deleteAttachmentData,
-                  }
-                );
-              }
 
               groupUpdate =
                 conversation.changedAttributes(
@@ -1419,6 +1516,11 @@
             Message: Whisper.Message,
           });
           message.set({ id });
+
+          // Note that this can save the message again, if jobs were queued. We need to
+          //   call it after we have an id for this message, because the jobs refer back
+          //   to their source message.
+          await message.queueAttachmentDownloads();
 
           await window.Signal.Data.updateConversation(
             conversationId,

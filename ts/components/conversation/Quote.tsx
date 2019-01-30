@@ -26,6 +26,10 @@ interface Props {
   referencedMessageNotFound: boolean;
 }
 
+interface State {
+  imageBroken: boolean;
+}
+
 export interface QuotedAttachmentType {
   contentType: MIME.MIMEType;
   fileName: string;
@@ -85,7 +89,27 @@ function getTypeLabel({
   return null;
 }
 
-export class Quote extends React.Component<Props> {
+export class Quote extends React.Component<Props, State> {
+  public handleImageErrorBound: () => void;
+
+  public constructor(props: Props) {
+    super(props);
+
+    this.handleImageErrorBound = this.handleImageError.bind(this);
+
+    this.state = {
+      imageBroken: false,
+    };
+  }
+
+  public handleImageError() {
+    // tslint:disable-next-line no-console
+    console.log('Message: Image failed to load; failing over to placeholder');
+    this.setState({
+      imageBroken: true,
+    });
+  }
+
   public renderImage(url: string, i18n: Localizer, icon?: string) {
     const iconElement = icon ? (
       <div className="module-quote__icon-container__inner">
@@ -102,7 +126,11 @@ export class Quote extends React.Component<Props> {
 
     return (
       <div className="module-quote__icon-container">
-        <img src={url} alt={i18n('quoteThumbnailAlt')} />
+        <img
+          src={url}
+          alt={i18n('quoteThumbnailAlt')}
+          onError={this.handleImageErrorBound}
+        />
         {iconElement}
       </div>
     );
@@ -159,6 +187,8 @@ export class Quote extends React.Component<Props> {
 
   public renderIconContainer() {
     const { attachment, i18n } = this.props;
+    const { imageBroken } = this.state;
+
     if (!attachment) {
       return null;
     }
@@ -167,12 +197,12 @@ export class Quote extends React.Component<Props> {
     const objectUrl = getObjectUrl(thumbnail);
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
-      return objectUrl
+      return objectUrl && !imageBroken
         ? this.renderImage(objectUrl, i18n, 'play')
         : this.renderIcon('movie');
     }
     if (GoogleChrome.isImageTypeSupported(contentType)) {
-      return objectUrl
+      return objectUrl && !imageBroken
         ? this.renderImage(objectUrl, i18n)
         : this.renderIcon('image');
     }

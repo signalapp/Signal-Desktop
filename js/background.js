@@ -602,6 +602,7 @@
     if (messageReceiver) {
       messageReceiver.close();
     }
+    window.Signal.AttachmentDownloads.stop();
   }
 
   let connectCount = 0;
@@ -665,6 +666,11 @@
     messageReceiver.addEventListener('progress', onProgress);
     messageReceiver.addEventListener('configuration', onConfiguration);
     messageReceiver.addEventListener('typing', onTyping);
+
+    window.Signal.AttachmentDownloads.start({
+      getMessageReceiver: () => messageReceiver,
+      logger: window.log,
+    });
 
     window.textsecure.messaging = new textsecure.MessageSender(
       USERNAME,
@@ -1138,7 +1144,10 @@
       const { thumbnail } = queryFirst;
 
       if (thumbnail && thumbnail.path) {
-        firstAttachment.thumbnail = thumbnail;
+        firstAttachment.thumbnail = {
+          ...thumbnail,
+          copied: true,
+        };
       }
     }
 
@@ -1148,7 +1157,10 @@
       const { image } = queryFirst;
 
       if (image && image.path) {
-        firstAttachment.thumbnail = image;
+        firstAttachment.thumbnail = {
+          ...image,
+          copied: true,
+        };
       }
     }
 

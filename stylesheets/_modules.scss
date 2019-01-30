@@ -204,7 +204,6 @@
   // Entirely to ensure that images are centered if they aren't full width of bubble
   text-align: center;
   position: relative;
-  cursor: pointer;
 
   margin-left: -12px;
   margin-right: -12px;
@@ -251,6 +250,7 @@
 .module-message__generic-attachment {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .module-message__generic-attachment--with-content-below {
@@ -263,6 +263,10 @@
 
 .module-message__generic-attachment__icon-container {
   position: relative;
+}
+.module-message__generic-attachment__spinner-container {
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .module-message__generic-attachment__icon {
@@ -967,7 +971,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  align-items: stretch;
+  align-items: center;
 }
 
 .module-embedded-contact--with-content-above {
@@ -976,6 +980,11 @@
 
 .module-embedded-contact--with-content-below {
   padding-bottom: 4px;
+}
+
+.module-embedded-contact__spinner-container {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .module-embedded-contact__text-container {
@@ -2157,6 +2166,13 @@
   background-color: $color-black-02;
 }
 
+.module-image__loading-placeholder {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: $color-black-015;
+}
+
 .module-image__image {
   object-fit: cover;
   // redundant with attachment-container, but we get cursor flashing on move otherwise
@@ -2679,6 +2695,80 @@
   width: 16px;
 
   @include color-svg('../images/x-16.svg', $color-gray-60);
+}
+
+// Module: Spinner
+
+.module-spinner__container {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  height: 56px;
+  width: 56px;
+}
+
+.module-spinner__circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @include color-svg('../images/spinner-track-56.svg', $color-gray-15);
+  z-index: 2;
+  height: 56px;
+  width: 56px;
+}
+.module-spinner__arc {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @include color-svg('../images/spinner-56.svg', $color-gray-60);
+  z-index: 3;
+  height: 56px;
+  width: 56px;
+
+  animation: spinner-arc-animation 1000ms linear infinite;
+}
+
+@keyframes spinner-arc-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.module-spinner__container--small {
+  height: 24px;
+  width: 24px;
+}
+
+.module-spinner__circle--small {
+  @include color-svg('../images/spinner-track-24.svg', $color-gray-15);
+  height: 24px;
+  width: 24px;
+}
+.module-spinner__arc--small {
+  @include color-svg('../images/spinner-24.svg', $color-gray-60);
+  height: 24px;
+  width: 24px;
+}
+
+.module-spinner__circle--incoming {
+  background-color: $color-gray-75;
+}
+.module-spinner__arc--incoming {
+  background-color: $color-gray-15;
+}
+.module-spinner__circle--small-incoming {
+  background-color: $color-gray-75;
+}
+.module-spinner__arc--small-incoming {
+  background-color: $color-gray-15;
 }
 
 // Third-party module: react-contextmenu
