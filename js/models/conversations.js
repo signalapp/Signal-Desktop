@@ -41,8 +41,7 @@
   } = window.Signal.Migrations;
 
   // Possible conversation friend states
-  const FriendRequestStatusEnum =
-    window.libloki.friends.friendRequestStatusEnum;
+  const FriendRequestStatusEnum = window.friends.friendRequestStatusEnum;
 
   // Possible session reset states
   const SessionResetEnum = Object.freeze({

@@ -10,7 +10,7 @@
 
   async function broadcastOnlineStatus() {
     const friendKeys = await window.Signal.Data.getPubKeysWithFriendStatus(
-      friendRequestStatusEnum.friends
+      window.friends.friendRequestStatusEnum.friends
     );
     friendKeys.forEach(pubKey => {
       sendOnlineBroadcastMessage(pubKey);
@@ -90,28 +90,10 @@
     }
   }
 
-  // Possible conversation friend states
-  const friendRequestStatusEnum = Object.freeze({
-    // New conversation, no messages sent or received
-    none: 0,
-    // This state is used to lock the input early while sending
-    pendingSend: 1,
-    // Friend request sent, awaiting response
-    requestSent: 2,
-    // Friend request received, awaiting user input
-    requestReceived: 3,
-    // We did it!
-    friends: 4,
-  });
-
   window.libloki.api = {
     sendFriendRequestAccepted,
     sendEmptyMessage,
     sendOnlineBroadcastMessage,
     broadcastOnlineStatus,
-  };
-
-  window.libloki.friends = {
-    friendRequestStatusEnum,
   };
 })();
