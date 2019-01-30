@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* global log, window, Whisper */
 
 const fetch = require('node-fetch');
@@ -107,15 +108,25 @@ class LokiSnodeAPI {
 
   async getSwarmNodesByPubkey(pubKey) {
     const swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
-    // TODO: Check if swarm list is below a threshold rather than empty
-    if (swarmNodes && swarmNodes.length !== 0) {
+    if (swarmNodes) {
       return swarmNodes;
     }
-    return this.replenishSwarm(pubKey);
+    return [];
   }
 
-  async replenishSwarm(pubKey) {
+  async saveSwarmNodes(pubKey, swarmNodes) {
     const conversation = window.ConversationController.get(pubKey);
+    conversation.set({ swarmNodes });
+    await window.Signal.Data.updateConversation(
+      conversation.id,
+      conversation.attributes,
+      {
+        Conversation: Whisper.Conversation,
+      }
+    );
+  }
+
+  async getFreshSwarmNodes(pubKey) {
     if (!(pubKey in this.swarmsPendingReplenish)) {
       this.swarmsPendingReplenish[pubKey] = new Promise(async resolve => {
         let newSwarmNodes;
@@ -125,14 +136,6 @@ class LokiSnodeAPI {
           // TODO: Handle these errors sensibly
           newSwarmNodes = [];
         }
-        conversation.set({ swarmNodes: newSwarmNodes });
-        await window.Signal.Data.updateConversation(
-          conversation.id,
-          conversation.attributes,
-          {
-            Conversation: Whisper.Conversation,
-          }
-        );
         resolve(newSwarmNodes);
       });
     }
@@ -149,7 +152,7 @@ class LokiSnodeAPI {
       url: `http://${node}${this.swarmServerPort}/json_rpc`,
       type: 'POST',
       responseType: 'json',
-      timeout: 5000,
+      timeout: 10000,
     };
 
     const body = {

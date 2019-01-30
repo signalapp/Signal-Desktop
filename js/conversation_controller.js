@@ -181,8 +181,10 @@
           return conversation;
         }
 
-        window.LokiSnodeAPI.replenishSwarm(id);
         try {
+          conversation.attributes.swarmNodes = await window.LokiSnodeAPI.getFreshSwarmNodes(
+            id
+          );
           await window.Signal.Data.saveConversation(conversation.attributes, {
             Conversation: Whisper.Conversation,
           });
