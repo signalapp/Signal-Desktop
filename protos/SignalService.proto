@@ -35,6 +35,12 @@ message Content {
   optional ReceiptMessage receiptMessage = 5;
   optional TypingMessage  typingMessage  = 6;
   optional PreKeyBundleMessage preKeyBundleMessage = 101;
+  optional LokiAddressMessage lokiAddressMessage = 102;
+}
+
+message LokiAddressMessage {
+  optional string p2pAddress    = 1;
+  optional uint32 p2pPort       = 2;
 }
 
 message PreKeyBundleMessage {

@@ -1,6 +1,7 @@
 {
   "serverUrl": "random.snode",
   "cdnUrl": "random.snode",
+  "localServerPort": "8081",
   "messageServerPort": "8080",
   "swarmServerPort": "8079",
   "disableAutoUpdate": false,

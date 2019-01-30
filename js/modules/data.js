@@ -110,6 +110,7 @@ module.exports = {
   removeAllSessions,
 
   getSwarmNodesByPubkey,
+  saveSwarmNodesForPubKey,
 
   getConversationCount,
   saveConversation,
@@ -120,6 +121,7 @@ module.exports = {
   _removeConversations,
 
   getAllConversations,
+  getPubKeysWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
@@ -673,6 +675,14 @@ async function getSwarmNodesByPubkey(pubkey) {
   return channels.getSwarmNodesByPubkey(pubkey);
 }
 
+async function saveSwarmNodesForPubKey(pubKey, swarmNodes, { Conversation }) {
+  const conversation = await getConversationById(pubKey, { Conversation });
+  conversation.set({ swarmNodes });
+  await updateConversation(conversation.id, conversation.attributes, {
+    Conversation,
+  });
+}
+
 async function getConversationCount() {
   return channels.getConversationCount();
 }
@@ -719,6 +729,10 @@ async function removeConversation(id, { Conversation }) {
 // Note: this method will not clean up external files, just delete from SQL
 async function _removeConversations(ids) {
   await channels.removeConversation(ids);
+}
+
+async function getPubKeysWithFriendStatus(status) {
+  return channels.getPubKeysWithFriendStatus(status);
 }
 
 async function getAllConversations({ ConversationCollection }) {

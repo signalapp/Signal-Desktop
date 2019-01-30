@@ -8,6 +8,53 @@
     return sendEmptyMessage(pubKey, true);
   }
 
+  async function broadcastOnlineStatus() {
+    const friendKeys = await window.Signal.Data.getPubKeysWithFriendStatus(
+      window.friends.friendRequestStatusEnum.friends
+    );
+    await Promise.all(
+      friendKeys.map(async pubKey => {
+        try {
+          await sendOnlineBroadcastMessage(pubKey);
+        } catch (e) {
+          log.warn(`Failed to send online broadcast message to ${pubKey}`);
+        }
+      })
+    );
+  }
+
+  async function sendOnlineBroadcastMessage(pubKey) {
+    // TODO: Make this actually get a loki address rather than junk string
+    const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
+      p2pAddress: 'testAddress',
+      p2pPort: parseInt(window.localServerPort, 10),
+    });
+    const content = new textsecure.protobuf.Content({
+      lokiAddressMessage,
+    });
+
+    // will be called once the transmission succeeded or failed
+    const callback = res => {
+      if (res.errors.length > 0) {
+        res.errors.forEach(error => log.error(error));
+      } else {
+        log.info('Online broadcast message sent successfully');
+      }
+    };
+    const options = { messageType: 'onlineBroadcast' };
+    // Send a empty message with information about how to contact us directly
+    const outgoingMessage = new textsecure.OutgoingMessage(
+      null, // server
+      Date.now(), // timestamp,
+      [pubKey], // numbers
+      content, // message
+      true, // silent
+      callback, // callback
+      options
+    );
+    await outgoingMessage.sendToNumber(pubKey);
+  }
+
   async function sendEmptyMessage(pubKey, sendContentMessage = false) {
     const options = {};
     // send an empty message.
@@ -52,5 +99,7 @@
   window.libloki.api = {
     sendFriendRequestAccepted,
     sendEmptyMessage,
+    sendOnlineBroadcastMessage,
+    broadcastOnlineStatus,
   };
 })();

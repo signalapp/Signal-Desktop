@@ -90,6 +90,7 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
+  getPubKeysWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
@@ -1127,7 +1128,7 @@ async function getSwarmNodesByPubkey(pubkey) {
   });
 
   if (!row) {
-    return null;
+    return [];
   }
 
   return jsonToObject(row.json).swarmNodes;
@@ -1278,6 +1279,18 @@ async function getConversationById(id) {
 async function getAllConversations() {
   const rows = await db.all('SELECT json FROM conversations ORDER BY id ASC;');
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getPubKeysWithFriendStatus(status) {
+  const rows = await db.all(
+    `SELECT id FROM conversations WHERE
+      friendRequestStatus = $status
+    ORDER BY id ASC;`,
+    {
+      $status: status,
+    }
+  );
+  return map(rows, row => row.id);
 }
 
 async function getAllConversationIds() {

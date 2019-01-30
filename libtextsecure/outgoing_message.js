@@ -336,8 +336,19 @@ OutgoingMessage.prototype = {
             dcodeIO.ByteBuffer.wrap(ciphertext.body, 'binary').toArrayBuffer()
           );
         }
+        let ttl;
+        if (this.messageType === 'friend-request') {
+          ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
+        } else if (this.messageType === 'onlineBroadcast') {
+          ttl = 10 * 60; // 10 minutes for online broadcast message
+        } else {
+          const hours = window.getMessageTTL() || 24; // 1 day default for any other message
+          ttl = hours * 60 * 60;
+        }
+
         return {
           type: ciphertext.type, // FallBackSessionCipher sets this to FRIEND_REQUEST
+          ttl,
           ourKey,
           sourceDevice: 1,
           destinationRegistrationId: ciphertext.registrationId,
@@ -349,17 +360,12 @@ OutgoingMessage.prototype = {
         // TODO: handle multiple devices/messages per transmit
         const outgoingObject = outgoingObjects[0];
         const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
-        let ttl;
-        if (
-          outgoingObject.type ===
-          textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
-        ) {
-          ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
-        } else {
-          const hours = window.getMessageTTL() || 24; // 1 day default for any other message
-          ttl = hours * 60 * 60;
-        }
-        await this.transmitMessage(number, socketMessage, this.timestamp, ttl);
+        await this.transmitMessage(
+          number,
+          socketMessage,
+          this.timestamp,
+          outgoingObject.ttl
+        );
         this.successfulNumbers[this.successfulNumbers.length] = number;
         this.numberCompleted();
       })

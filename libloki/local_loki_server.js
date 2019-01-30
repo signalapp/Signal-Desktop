@@ -68,6 +68,7 @@ class LocalLokiServer extends EventEmitter {
 
   // Async wrapper for http server close
   close() {
+    this.removeAllListeners();
     if (this.server) {
       return new Promise(res => {
         this.server.close(() => res());

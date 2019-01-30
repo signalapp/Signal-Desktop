@@ -106,24 +106,11 @@ class LokiSnodeAPI {
     return this.ourSwarmNodes;
   }
 
-  async getSwarmNodesByPubkey(pubKey) {
-    const swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
-    if (swarmNodes) {
-      return swarmNodes;
-    }
-    return [];
-  }
-
-  async saveSwarmNodes(pubKey, swarmNodes) {
-    const conversation = window.ConversationController.get(pubKey);
-    conversation.set({ swarmNodes });
-    await window.Signal.Data.updateConversation(
-      conversation.id,
-      conversation.attributes,
-      {
-        Conversation: Whisper.Conversation,
-      }
-    );
+  async refreshSwarmNodesForPubKey(pubKey) {
+    const newNodes = await this.getFreshSwarmNodes(pubKey);
+    await window.Signal.Data.saveSwarmNodesForPubKey(pubKey, newNodes, {
+      Conversation: Whisper.Conversation,
+    });
   }
 
   async getFreshSwarmNodes(pubKey) {
