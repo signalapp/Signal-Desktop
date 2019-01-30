@@ -18,6 +18,7 @@
   }
 
   async function sendOnlineBroadcastMessage(pubKey) {
+    // TODO: Make this actually get a loki address rather than junk string
     const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
       p2pAddress: 'testAddress',
       p2pPort: parseInt(window.localServerPort, 10),

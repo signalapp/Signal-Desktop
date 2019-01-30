@@ -108,10 +108,7 @@ class LokiSnodeAPI {
 
   async getSwarmNodesByPubkey(pubKey) {
     const swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
-    if (swarmNodes) {
-      return swarmNodes;
-    }
-    return [];
+    return swarmNodes;
   }
 
   async saveSwarmNodes(pubKey, swarmNodes) {

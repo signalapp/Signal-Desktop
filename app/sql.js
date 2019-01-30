@@ -1128,7 +1128,7 @@ async function getSwarmNodesByPubkey(pubkey) {
   });
 
   if (!row) {
-    return null;
+    return [];
   }
 
   return jsonToObject(row.json).swarmNodes;

@@ -105,20 +105,15 @@ class LokiMessageAPI {
       throw HTTPError('sendMessage: error response', response.status, result);
     };
 
-    let swarmNodes;
-    try {
-      swarmNodes = await window.LokiSnodeAPI.getSwarmNodesByPubkey(pubKey);
-    } catch (e) {
-      throw new window.textsecure.EmptySwarmError(pubKey, e);
-    }
+    let swarmNodes = await window.LokiSnodeAPI.getSwarmNodesByPubkey(pubKey);
     while (successfulRequests < MINIMUM_SUCCESSFUL_REQUESTS) {
       if (!canResolve) {
         throw new window.textsecure.DNSResolutionError('Sending messages');
       }
-      if (!swarmNodes || swarmNodes.length === 0) {
+      if (swarmNodes.length === 0) {
         swarmNodes = await window.LokiSnodeAPI.getFreshSwarmNodes(pubKey);
         swarmNodes = _.difference(swarmNodes, completedNodes);
-        if (!swarmNodes || swarmNodes.length === 0) {
+        if (swarmNodes.length === 0) {
           if (successfulRequests !== 0) {
             // TODO: Decide how to handle some completed requests but not enough
             return;
