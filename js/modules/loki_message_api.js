@@ -123,11 +123,9 @@ class LokiMessageAPI {
             new Error('Ran out of swarm nodes to query')
           );
         }
-        await window.Signal.Data.saveSwarmNodesForPubkey(
-          pubKey,
-          swarmNodes,
-          { Conversation: Whisper.Conversation }
-        );
+        await window.Signal.Data.saveSwarmNodesForPubKey(pubKey, swarmNodes, {
+          Conversation: Whisper.Conversation,
+        });
       }
       const remainingRequests =
         MINIMUM_SUCCESSFUL_REQUESTS - completedNodes.length;

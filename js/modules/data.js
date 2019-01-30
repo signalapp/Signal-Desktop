@@ -678,11 +678,9 @@ async function getSwarmNodesByPubkey(pubkey) {
 async function saveSwarmNodesForPubKey(pubKey, swarmNodes, { Conversation }) {
   const conversation = await getConversationById(pubKey, { Conversation });
   conversation.set({ swarmNodes });
-  await updateConversation(
-    conversation.id,
-    conversation.attributes,
-    { Conversation }
-  );
+  await updateConversation(conversation.id, conversation.attributes, {
+    Conversation,
+  });
 }
 
 async function getConversationCount() {

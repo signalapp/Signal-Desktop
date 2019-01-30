@@ -106,6 +106,13 @@ class LokiSnodeAPI {
     return this.ourSwarmNodes;
   }
 
+  async refreshSwarmNodesForPubKey(pubKey) {
+    const newNodes = await this.getFreshSwarmNodes(pubKey);
+    await window.Signal.Data.saveSwarmNodesForPubKey(pubKey, newNodes, {
+      Conversation: Whisper.Conversation,
+    });
+  }
+
   async getFreshSwarmNodes(pubKey) {
     if (!(pubKey in this.swarmsPendingReplenish)) {
       this.swarmsPendingReplenish[pubKey] = new Promise(async resolve => {
