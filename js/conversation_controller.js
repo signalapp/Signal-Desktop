@@ -182,9 +182,8 @@
         }
 
         try {
-          conversation.attributes.swarmNodes = await window.LokiSnodeAPI.getFreshSwarmNodes(
-            id
-          );
+          const swarmNodes =  await window.LokiSnodeAPI.getFreshSwarmNodes(id);
+          conversation.set({ swarmNodes});
           await window.Signal.Data.saveConversation(conversation.attributes, {
             Conversation: Whisper.Conversation,
           });
