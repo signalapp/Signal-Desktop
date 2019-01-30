@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
-/* global log, dcodeIO, window, callWorker */
+/* global log, dcodeIO, window, callWorker, Whisper */
 
 const fetch = require('node-fetch');
 const _ = require('lodash');
@@ -105,7 +105,7 @@ class LokiMessageAPI {
       throw HTTPError('sendMessage: error response', response.status, result);
     };
 
-    let swarmNodes = await window.LokiSnodeAPI.getSwarmNodesByPubkey(pubKey);
+    let swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
     while (successfulRequests < MINIMUM_SUCCESSFUL_REQUESTS) {
       if (!canResolve) {
         throw new window.textsecure.DNSResolutionError('Sending messages');
@@ -123,7 +123,11 @@ class LokiMessageAPI {
             new Error('Ran out of swarm nodes to query')
           );
         }
-        await window.LokiSnodeAPI.saveSwarmNodes(pubKey, swarmNodes);
+        await window.Signal.Data.saveSwarmNodesForPubkey(
+          pubKey,
+          swarmNodes,
+          { Conversation: Whisper.Conversation }
+        );
       }
       const remainingRequests =
         MINIMUM_SUCCESSFUL_REQUESTS - completedNodes.length;

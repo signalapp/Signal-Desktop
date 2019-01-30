@@ -12,9 +12,13 @@
     const friendKeys = await window.Signal.Data.getPubKeysWithFriendStatus(
       window.friends.friendRequestStatusEnum.friends
     );
-    friendKeys.forEach(pubKey => {
-      sendOnlineBroadcastMessage(pubKey);
-    });
+    await Promise.all(friendKeys.map(async pubKey => {
+      try {
+        await sendOnlineBroadcastMessage(pubKey);
+      } catch(e) {
+        log.warn(`Failed to send online broadcast message to ${pubKey}`);
+      }
+    }));
   }
 
   async function sendOnlineBroadcastMessage(pubKey) {
