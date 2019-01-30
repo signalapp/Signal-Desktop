@@ -1,5 +1,3 @@
-// const fetch = require('node-fetch');
-
 class LokiP2pAPI {
   constructor() {
     this.contactP2pDetails = {};
