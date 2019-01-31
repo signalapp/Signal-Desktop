@@ -122,7 +122,4 @@ class WorkerInterface {
   }
 }
 
-module.exports = {
-  WorkerInterface,
-  TimedOutError,
-};
+module.exports = WorkerInterface;
