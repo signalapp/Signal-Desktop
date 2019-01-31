@@ -779,8 +779,10 @@
           media
             .filter(
               attachment =>
-                (attachment && attachment.thumbnail) || attachment.message
+                attachment &&
+                (attachment.image || (!attachment.pending && !attachment.error))
             )
+            .slice(0, 1)
             .map(async attachment => {
               const { fileName } = attachment;
 

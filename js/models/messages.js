@@ -1182,7 +1182,7 @@
               urls.includes(item.url) &&
               window.Signal.LinkPreviews.isLinkInWhitelist(item.url)
           );
-          if (preview.length > incomingPreview.length) {
+          if (preview.length < incomingPreview.length) {
             window.log.info(
               `${message.idForLogging()}: Eliminated ${preview.length -
                 incomingPreview.length} previews with invalid urls'`
