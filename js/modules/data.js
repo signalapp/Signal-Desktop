@@ -788,7 +788,7 @@ async function cleanSeenMessages() {
 }
 
 async function saveSeenMessageHashes(data) {
-  await channels.saveSeenMessageHashes(_cleanData(data));
+  return channels.saveSeenMessageHashes(_cleanData(data));
 }
 
 async function saveSeenMessageHash(data) {

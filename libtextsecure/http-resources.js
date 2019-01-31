@@ -45,16 +45,13 @@
   const filterIncomingMessages = async function filterIncomingMessages(
     messages
   ) {
-    const incomingHashes = messages.map(m => m.hash);
-    const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(
-      incomingHashes
-    );
-    const newMessages = messages.filter(m => !dupHashes.includes(m.hash));
-    const newHashes = newMessages.map(m => ({
+    const incomingHashes = messages.map(m => ({
       expiresAt: m.expiration,
       hash: m.hash,
     }));
-    await window.Signal.Data.saveSeenMessageHashes(newHashes);
+    let newHashes = await window.Signal.Data.saveSeenMessageHashes(incomingHashes);
+    newHashes = newHashes.map(h => h.hash);
+    const newMessages = messages.filter(m => newHashes.includes(m.hash));
     return newMessages;
   };
 
