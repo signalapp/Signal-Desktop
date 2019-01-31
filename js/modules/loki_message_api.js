@@ -22,7 +22,7 @@ class NotFoundError extends Error {
 
 // A small wrapper around node-fetch which deserializes response
 const fetch = async (url, options = {}) => {
-  const timeout = 10000;
+  const timeout = options.timeout || 10000;
   const method = options.method || 'GET';
 
   try {
@@ -92,6 +92,11 @@ class LokiMessageAPI {
 
     let swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
 
+    const nodeComplete = nodeUrl => {
+      completedNodes.push(nodeUrl);
+      swarmNodes = swarmNodes.filter(node => node !== nodeUrl);
+    };
+
     const doRequest = async nodeUrl => {
       const url = `${nodeUrl}${this.messageServerPort}/store`;
       const fetchOptions = {
@@ -108,8 +113,7 @@ class LokiMessageAPI {
       try {
         await fetch(url, fetchOptions);
 
-        completedNodes.push(nodeUrl);
-        swarmNodes = swarmNodes.filter(node => node !== nodeUrl);
+        nodeComplete(nodeUrl);
         successfulRequests += 1;
       } catch (e) {
         if (e instanceof NotFoundError) {
@@ -120,11 +124,13 @@ class LokiMessageAPI {
             e.response.status,
             'Error sending message'
           );
+
+          // We mark the node as complete as we could still reach it
+          nodeComplete(nodeUrl);
         } else {
           log.error('Loki SendMessages:', e);
           if (window.LokiSnodeAPI.unreachableNode(pubKey, nodeUrl)) {
-            completedNodes.push(nodeUrl);
-            swarmNodes = swarmNodes.filter(node => node !== nodeUrl);
+            nodeComplete(nodeUrl);
           }
         }
       }
@@ -176,6 +182,11 @@ class LokiMessageAPI {
       throw new window.textsecure.EmptySwarmError(ourKey, e);
     }
 
+    const nodeComplete = nodeUrl => {
+      completedNodes.push(nodeUrl);
+      delete ourSwarmNodes[nodeUrl];
+    };
+
     const doRequest = async (nodeUrl, nodeData) => {
       const url = `${nodeUrl}${this.messageServerPort}/retrieve`;
       const headers = {
@@ -191,8 +202,7 @@ class LokiMessageAPI {
           headers,
         });
 
-        completedNodes.push(nodeUrl);
-        delete ourSwarmNodes[nodeUrl];
+        nodeComplete(nodeUrl);
 
         if (result.lastHash) {
           window.LokiSnodeAPI.updateLastHash(nodeUrl, result.lastHash);
@@ -208,11 +218,13 @@ class LokiMessageAPI {
             e.response.status,
             `Error retrieving messages from ${nodeUrl}`
           );
+
+          // We mark the node as complete as we could still reach it
+          nodeComplete(nodeUrl);
         } else {
           log.error('Loki RetrieveMessages:', e);
           if (window.LokiSnodeAPI.unreachableNode(ourKey, nodeUrl)) {
-            completedNodes.push(nodeUrl);
-            delete ourSwarmNodes[nodeUrl];
+            nodeComplete(nodeUrl);
           }
         }
       }

@@ -15,6 +15,7 @@
 /* global localLokiServer: false */
 /* global localServerPort: false */
 /* global lokiMessageAPI: false */
+/* global lokiP2pAPI: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -900,11 +901,7 @@ MessageReceiver.prototype.extend({
   },
   async handleLokiAddressMessage(envelope, lokiAddressMessage) {
     const { p2pAddress, p2pPort } = lokiAddressMessage;
-    window.lokiP2pAPI.addContactP2pDetails(
-      envelope.source,
-      p2pAddress,
-      p2pPort
-    );
+    lokiP2pAPI.addContactP2pDetails(envelope.source, p2pAddress, p2pPort);
     return this.removeFromCache(envelope);
   },
   handleDataMessage(envelope, msg) {
