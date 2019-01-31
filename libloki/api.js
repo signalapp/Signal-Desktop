@@ -23,10 +23,9 @@
     );
   }
 
-  async function sendOnlineBroadcastMessage(pubKey) {
-    // TODO: Make this actually get a loki address rather than junk string
+  async function sendOnlineBroadcastMessage(pubKey, forceP2p = false) {
     const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
-      p2pAddress: 'testAddress',
+      p2pAddress: 'http://localhost',
       p2pPort: parseInt(window.localServerPort, 10),
     });
     const content = new textsecure.protobuf.Content({
@@ -41,7 +40,7 @@
         log.info('Online broadcast message sent successfully');
       }
     };
-    const options = { messageType: 'onlineBroadcast' };
+    const options = { messageType: 'onlineBroadcast', forceP2p };
     // Send a empty message with information about how to contact us directly
     const outgoingMessage = new textsecure.OutgoingMessage(
       null, // server

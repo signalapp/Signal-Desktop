@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
-/* global log, dcodeIO, window, callWorker, Whisper */
+/* global log, dcodeIO, window, callWorker, Whisper, lokiP2pAPI */
 
 const nodeFetch = require('node-fetch');
 const _ = require('lodash');
@@ -27,9 +27,9 @@ const fetch = async (url, options = {}) => {
 
   try {
     const response = await nodeFetch(url, {
+      ...options,
       timeout,
       method,
-      ...options,
     });
 
     if (!response.ok) {
@@ -63,9 +63,28 @@ class LokiMessageAPI {
     this.messageServerPort = messageServerPort ? `:${messageServerPort}` : '';
   }
 
-  async sendMessage(pubKey, data, messageTimeStamp, ttl) {
+  async sendMessage(pubKey, data, messageTimeStamp, ttl, forceP2p = false) {
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const timestamp = Math.floor(Date.now() / 1000);
+    const p2pDetails = lokiP2pAPI.getContactP2pDetails(pubKey);
+    if (p2pDetails && (forceP2p || p2pDetails.isOnline)) {
+      try {
+        const port = p2pDetails.port ? `:${p2pDetails.port}` : '';
+        const url = `${p2pDetails.address}${port}/store`;
+        const fetchOptions = {
+          method: 'POST',
+          body: data64,
+        };
+
+        await fetch(url, fetchOptions);
+        lokiP2pAPI.setContactOnline(pubKey);
+        return;
+      } catch (e) {
+        log.warn('Failed to send P2P message, falling back to storage', e);
+        lokiP2pAPI.setContactOffline(pubKey);
+      }
+    }
+
     // Nonce is returned as a base64 string to include in header
     let nonce;
     try {

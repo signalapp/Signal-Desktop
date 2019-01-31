@@ -87,7 +87,7 @@ MessageReceiver.prototype.extend({
     localLokiServer.start(localServerPort).then(port => {
       window.log.info(`Local Server started at localhost:${port}`);
       libloki.api.broadcastOnlineStatus();
-      localLokiServer.on('message', this.httpPollingResource.handleMessage);
+      localLokiServer.on('message', this.handleP2pMessage.bind(this));
     });
 
     // TODO: Rework this socket stuff to work with online messaging
@@ -119,6 +119,9 @@ MessageReceiver.prototype.extend({
     //   all cached envelopes are processed.
     this.incoming = [this.pending];
   },
+  handleP2pMessage(message) {
+    this.httpPollingResource.handleMessage(message, true);
+  },
   shutdown() {
     if (this.socket) {
       this.socket.onclose = null;
@@ -135,7 +138,7 @@ MessageReceiver.prototype.extend({
     if (localLokiServer) {
       localLokiServer.removeListener(
         'message',
-        this.httpPollingResource.handleMessage
+        this.handleP2pMessage.bind(this)
       );
     }
   },
@@ -194,7 +197,7 @@ MessageReceiver.prototype.extend({
     //     return this.dispatchAndWait(event);
     //   });
   },
-  handleRequest(request) {
+  handleRequest(request, isP2p = false) {
     this.incoming = this.incoming || [];
     const lastPromise = _.last(this.incoming);
 
@@ -214,6 +217,9 @@ MessageReceiver.prototype.extend({
     const promise = Promise.resolve(request.body.toArrayBuffer()) // textsecure.crypto
       .then(plaintext => {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
+        if (isP2p) {
+          lokiP2pAPI.setContactOnline(envelope.source);
+        }
         // After this point, decoding errors are not the server's
         //   fault, and we should handle them gracefully and tell the
         //   user they received an invalid message
@@ -223,6 +229,7 @@ MessageReceiver.prototype.extend({
         }
 
         envelope.id = envelope.serverGuid || window.getGuid();
+        envelope.isP2p = isP2p;
         envelope.serverTimestamp = envelope.serverTimestamp
           ? envelope.serverTimestamp.toNumber()
           : null;
@@ -901,7 +908,12 @@ MessageReceiver.prototype.extend({
   },
   async handleLokiAddressMessage(envelope, lokiAddressMessage) {
     const { p2pAddress, p2pPort } = lokiAddressMessage;
-    lokiP2pAPI.addContactP2pDetails(envelope.source, p2pAddress, p2pPort);
+    lokiP2pAPI.addContactP2pDetails(
+      envelope.source,
+      p2pAddress,
+      p2pPort,
+      envelope.isP2p
+    );
     return this.removeFromCache(envelope);
   },
   handleDataMessage(envelope, msg) {

@@ -642,6 +642,7 @@
         await this.respondToAllPendingFriendRequests({
           response: 'accepted',
         });
+        window.libloki.api.sendOnlineBroadcastMessage(this.id);
         return true;
       }
       return false;
