@@ -16,34 +16,16 @@ class LokiP2pAPI extends EventEmitter {
         ? 60 * 1000 // 1 minute
         : 2 * 60 * 1000; // 2 minutes
 
-    if (!this.contactP2pDetails[pubKey]) {
-      // If this is the first time we are getting this contacts details
-      // then we try to ping them straight away
-      this.contactP2pDetails[pubKey] = {
-        address,
-        port,
-        timerDuration,
-        isOnline: false,
-        pingTimer: null,
-      };
-      this.pingContact(pubKey);
-      return;
+    if (this.contactP2pDetails[pubKey] && this.contactP2pDetails[pubKey].pingTimer) {
+      clearTimeout(this.contactP2pDetails[pubKey].pingTimer);
     }
-
-    clearTimeout(this.contactP2pDetails[pubKey].pingTimer);
-    if (
-      this.contactP2pDetails[pubKey].address !== address ||
-      this.contactP2pDetails[pubKey].port !== port
-    ) {
-      // If this contact has changed their details
-      // then we try to ping them straight away
-      this.contactP2pDetails[pubKey].address = address;
-      this.contactP2pDetails[pubKey].port = port;
-      this.contactP2pDetails[pubKey].isOnline = false;
-      this.pingContact(pubKey);
-      return;
-    }
-
+    this.contactP2pDetails[pubKey] = {
+      address,
+      port,
+      timerDuration,
+      isOnline: false,
+      pingTimer: null,
+    };
     if (resetTimer) {
       // If this contact is simply sharing the same details with us
       // then we just reset our timer
