@@ -42,11 +42,13 @@ function OutgoingMessage(
   this.failoverNumbers = [];
   this.unidentifiedDeliveries = [];
 
-  const { numberInfo, senderCertificate, online, messageType } = options || {};
+  const { numberInfo, senderCertificate, online, messageType, forceP2p } =
+    options || {};
   this.numberInfo = numberInfo;
   this.senderCertificate = senderCertificate;
   this.online = online;
   this.messageType = messageType || 'outgoing';
+  this.forceP2p = forceP2p || false;
 }
 
 OutgoingMessage.prototype = {
@@ -185,7 +187,13 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
     const pubKey = number;
     try {
-      await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl);
+      await lokiMessageAPI.sendMessage(
+        pubKey,
+        data,
+        timestamp,
+        ttl,
+        this.forceP2p
+      );
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
         // 409 and 410 should bubble and be handled by doSendMessage
