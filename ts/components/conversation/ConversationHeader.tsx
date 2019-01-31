@@ -84,7 +84,22 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderTitle() {
-    const { name, phoneNumber, i18n, profileName, isVerified } = this.props;
+    const {
+      name,
+      phoneNumber,
+      i18n,
+      isMe,
+      profileName,
+      isVerified,
+    } = this.props;
+
+    if (isMe) {
+      return (
+        <div className="module-conversation-header__title">
+          {i18n('noteToSelf')}
+        </div>
+      );
+    }
 
     return (
       <div className="module-conversation-header__title">
@@ -113,6 +128,7 @@ export class ConversationHeader extends React.Component<Props> {
       color,
       i18n,
       isGroup,
+      isMe,
       name,
       phoneNumber,
       profileName,
@@ -125,6 +141,7 @@ export class ConversationHeader extends React.Component<Props> {
           color={color}
           conversationType={isGroup ? 'group' : 'direct'}
           i18n={i18n}
+          noteToSelf={isMe}
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}

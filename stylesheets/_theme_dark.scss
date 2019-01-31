@@ -1098,6 +1098,10 @@ body.dark-theme {
     color: $color-dark-05;
   }
 
+  .module-conversation-header__note-to-self {
+    color: $color-dark-05;
+  }
+
   .module-conversation-header__title__verified-icon {
     @include color-svg('../images/verified-check.svg', $color-dark-05);
   }
@@ -1262,11 +1266,15 @@ body.dark-theme {
   }
 
   .module-avatar__icon--group {
-    @include color-svg('../images/profile-group.svg', $color-gray-05);
+    background-color: $color-gray-05;
   }
 
   .module-avatar__icon--direct {
-    @include color-svg('../images/profile-individual.svg', $color-gray-05);
+    background-color: $color-gray-05;
+  }
+
+  .module-avatar__icon--note-to-self {
+    background-color: $color-gray-05;
   }
 
   .module-avatar--no-image {

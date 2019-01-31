@@ -312,6 +312,7 @@
 
       const result = {
         ...this.format(),
+        isMe: this.isMe(),
         conversationType: this.isPrivate() ? 'direct' : 'group',
 
         lastUpdated: this.get('timestamp'),
@@ -908,6 +909,25 @@
           return null;
         }
 
+        const attachmentsWithData = await Promise.all(
+          messageWithSchema.attachments.map(loadAttachmentData)
+        );
+
+        // Special-case the self-send case - we send only a sync message
+        if (this.isMe()) {
+          const dataMessage = await textsecure.messaging.getMessageProto(
+            destination,
+            body,
+            attachmentsWithData,
+            quote,
+            preview,
+            now,
+            expireTimer,
+            profileKey
+          );
+          return message.sendSyncMessageOnly(dataMessage);
+        }
+
         const conversationType = this.get('type');
         const sendFunction = (() => {
           switch (conversationType) {
@@ -921,10 +941,6 @@
               );
           }
         })();
-
-        const attachmentsWithData = await Promise.all(
-          messageWithSchema.attachments.map(loadAttachmentData)
-        );
 
         const options = this.getSendOptions();
         return message.send(

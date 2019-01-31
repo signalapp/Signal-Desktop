@@ -736,10 +736,25 @@
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
 
-      const conversation = this.getConversation();
-      const options = conversation.getSendOptions();
+      // Special-case the self-send case - we send only a sync message
+      if (numbers.length === 1 && numbers[0] === this.OUR_NUMBER) {
+        const [number] = numbers;
+        const dataMessage = await textsecure.messaging.getMessageProto(
+          number,
+          this.get('body'),
+          attachmentsWithData,
+          quoteWithData,
+          previewWithData,
+          this.get('sent_at'),
+          this.get('expireTimer'),
+          profileKey
+        );
+        return this.sendSyncMessageOnly(dataMessage);
+      }
 
       let promise;
+      const conversation = this.getConversation();
+      const options = conversation.getSendOptions();
 
       if (conversation.isPrivate()) {
         const [number] = numbers;
@@ -794,18 +809,21 @@
     //   One caller today: ConversationView.forceSend()
     async resend(number) {
       const error = this.removeOutgoingErrors(number);
-      if (error) {
-        const profileKey = null;
-        const attachmentsWithData = await Promise.all(
-          (this.get('attachments') || []).map(loadAttachmentData)
-        );
-        const quoteWithData = await loadQuoteData(this.get('quote'));
-        const previewWithData = await loadPreviewData(this.get('preview'));
+      if (!error) {
+        window.log.warn('resend: requested number was not present in errors');
+        return null;
+      }
 
-        const { wrap, sendOptions } = ConversationController.prepareForSend(
-          number
-        );
-        const promise = textsecure.messaging.sendMessageToNumber(
+      const profileKey = null;
+      const attachmentsWithData = await Promise.all(
+        (this.get('attachments') || []).map(loadAttachmentData)
+      );
+      const quoteWithData = await loadQuoteData(this.get('quote'));
+      const previewWithData = await loadPreviewData(this.get('preview'));
+
+      // Special-case the self-send case - we send only a sync message
+      if (number === this.OUR_NUMBER) {
+        const dataMessage = await textsecure.messaging.getMessageProto(
           number,
           this.get('body'),
           attachmentsWithData,
@@ -813,12 +831,27 @@
           previewWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
-          profileKey,
-          sendOptions
+          profileKey
         );
-
-        this.send(wrap(promise));
+        return this.sendSyncMessageOnly(dataMessage);
       }
+
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        number
+      );
+      const promise = textsecure.messaging.sendMessageToNumber(
+        number,
+        this.get('body'),
+        attachmentsWithData,
+        quoteWithData,
+        previewWithData,
+        this.get('sent_at'),
+        this.get('expireTimer'),
+        profileKey,
+        sendOptions
+      );
+
+      return this.send(wrap(promise));
     },
     removeOutgoingErrors(number) {
       const errors = _.partition(
@@ -912,7 +945,7 @@
           this.trigger('done');
 
           // This is used by sendSyncMessage, then set to null
-          if (result.dataMessage) {
+          if (!this.get('synced') && result.dataMessage) {
             this.set({ dataMessage: result.dataMessage });
           }
 
@@ -1013,6 +1046,35 @@
       return false;
     },
 
+    async sendSyncMessageOnly(dataMessage) {
+      this.set({ dataMessage });
+
+      try {
+        await this.sendSyncMessage();
+        this.set({
+          delivered_to: [this.OUR_NUMBER],
+          read_by: [this.OUR_NUMBER],
+        });
+      } catch (result) {
+        const errors = (result && result.errors) || [
+          new Error('Unknown error'),
+        ];
+        this.set({ errors });
+      } finally {
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+        this.trigger('done');
+
+        const errors = this.get('errors');
+        if (errors) {
+          this.trigger('send-error', errors);
+        } else {
+          this.trigger('sent');
+        }
+      }
+    },
+
     sendSyncMessage() {
       const ourNumber = textsecure.storage.user.getNumber();
       const { wrap, sendOptions } = ConversationController.prepareForSend(
@@ -1021,7 +1083,7 @@
       );
 
       this.syncPromise = this.syncPromise || Promise.resolve();
-      this.syncPromise = this.syncPromise.then(() => {
+      const next = () => {
         const dataMessage = this.get('dataMessage');
         if (this.get('synced') || !dataMessage) {
           return Promise.resolve();
@@ -1036,16 +1098,20 @@
             this.get('unidentifiedDeliveries'),
             sendOptions
           )
-        ).then(() => {
+        ).then(result => {
           this.set({
             synced: true,
             dataMessage: null,
           });
           return window.Signal.Data.saveMessage(this.attributes, {
             Message: Whisper.Message,
-          });
+          }).then(() => result);
         });
-      });
+      };
+
+      this.syncPromise = this.syncPromise.then(next, next);
+
+      return this.syncPromise;
     },
 
     async saveErrors(providedErrors) {
@@ -1309,6 +1375,14 @@
               const readBy = reads.map(receipt => receipt.get('reader'));
               message.set({
                 read_by: _.union(message.get('read_by'), readBy),
+              });
+            }
+
+            // A sync'd message to ourself is automatically considered read and delivered
+            if (conversation.isMe()) {
+              message.set({
+                read_by: conversation.getRecipients(),
+                delivered_to: conversation.getRecipients(),
               });
             }
 

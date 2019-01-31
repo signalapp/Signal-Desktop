@@ -206,8 +206,8 @@
   {
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
-    "line": "        this.send(wrap(promise));",
-    "lineNumber": 820,
+    "line": "      return this.send(wrap(promise));",
+    "lineNumber": 854,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -215,7 +215,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
     "line": "        return wrap(",
-    "lineNumber": 1029,
+    "lineNumber": 1091,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -527,7 +527,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_search_view.js",
     "line": "      this.$new_contact = this.$('.new-contact');",
-    "lineNumber": 42,
+    "lineNumber": 40,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -536,7 +536,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/conversation_search_view.js",
     "line": "      this.$el.append(this.typeahead_view.el);",
-    "lineNumber": 59,
+    "lineNumber": 57,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -545,7 +545,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_search_view.js",
     "line": "        this.new_contact_view.$('.number').text(i18n('invalidNumberError'));",
-    "lineNumber": 111,
+    "lineNumber": 119,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -554,7 +554,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/conversation_search_view.js",
     "line": "        this.hintView.$el.insertAfter(this.$input);",
-    "lineNumber": 147,
+    "lineNumber": 155,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"

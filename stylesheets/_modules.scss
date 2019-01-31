@@ -1348,7 +1348,7 @@
 }
 
 .module-conversation-header__title {
-  margin-left: 8px;
+  margin-left: 6px;
 
   min-width: 0;
   font-size: 16px;
@@ -1356,8 +1356,8 @@
   font-weight: 300;
   color: $color-gray-90;
 
-  // width of avatar (28px) and our 8px left margin
-  max-width: calc(100% - 36px);
+  // width of avatar (28px) and our 6px left margin
+  max-width: calc(100% - 34px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2034,6 +2034,12 @@
 .module-avatar__icon--80 {
   height: 42px;
   width: 42px;
+}
+
+.module-avatar__icon--note-to-self {
+  width: 70%;
+  height: 70%;
+  @include color-svg('../images/note-28.svg', $color-white);
 }
 
 .module-avatar--no-image {
