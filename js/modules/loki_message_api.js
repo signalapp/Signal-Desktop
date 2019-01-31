@@ -257,6 +257,4 @@ class LokiMessageAPI {
   }
 }
 
-module.exports = {
-  LokiMessageAPI,
-};
+module.exports = LokiMessageAPI;

@@ -87,4 +87,4 @@ class LocalLokiServer extends EventEmitter {
   }
 }
 
-exports.LocalLokiServer = LocalLokiServer;
+module.exports = LocalLokiServer;

@@ -212,6 +212,4 @@ function HTTPError(message, providedCode, response, stack) {
   return e;
 }
 
-module.exports = {
-  LokiSnodeAPI,
-};
+module.exports = LokiSnodeAPI;

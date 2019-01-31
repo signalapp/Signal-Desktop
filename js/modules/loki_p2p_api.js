@@ -19,6 +19,4 @@ class LokiP2pAPI {
   }
 }
 
-module.exports = {
-  LokiP2pAPI,
-};
+module.exports = LokiP2pAPI;

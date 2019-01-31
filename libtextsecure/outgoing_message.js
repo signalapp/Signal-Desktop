@@ -34,8 +34,6 @@ function OutgoingMessage(
   this.callback = callback;
   this.silent = silent;
 
-  this.lokiMessageAPI = window.LokiMessageAPI;
-
   this.numbersCompleted = 0;
   this.errors = [];
   this.successfulNumbers = [];
@@ -186,7 +184,7 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
     const pubKey = number;
     try {
-      await this.lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl);
+      await window.lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl);
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
         // 409 and 410 should bubble and be handled by doSendMessage

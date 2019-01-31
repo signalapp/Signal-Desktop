@@ -12,6 +12,9 @@
 /* global ContactBuffer: false */
 /* global GroupBuffer: false */
 /* global WebSocketResource: false */
+/* global localLokiServer: false */
+/* global localServerPort: false */
+/* global lokiMessageAPI: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -22,8 +25,6 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
-  this.lokiMessageAPI = window.LokiMessageAPI;
-  this.localServer = window.LocalLokiServer;
 
   if (!options.serverTrustRoot) {
     throw new Error('Server trust root is required!');
@@ -68,7 +69,7 @@ MessageReceiver.prototype.extend({
     }
 
     this.hasConnected = true;
-    this.httpPollingResource = new HttpResource(this.lokiMessageAPI, {
+    this.httpPollingResource = new HttpResource(lokiMessageAPI, {
       handleRequest: this.handleRequest.bind(this),
     });
     this.httpPollingResource.startPolling(connected => {
@@ -82,10 +83,10 @@ MessageReceiver.prototype.extend({
       }
     });
 
-    this.localServer.start(window.localServerPort).then(port => {
+    localLokiServer.start(localServerPort).then(port => {
       window.log.info(`Local Server started at localhost:${port}`);
-      window.libloki.api.broadcastOnlineStatus();
-      this.localServer.on('message', this.httpPollingResource.handleMessage);
+      libloki.api.broadcastOnlineStatus();
+      localLokiServer.on('message', this.httpPollingResource.handleMessage);
     });
 
     // TODO: Rework this socket stuff to work with online messaging
@@ -130,12 +131,11 @@ MessageReceiver.prototype.extend({
       this.wsr = null;
     }
 
-    if (this.localServer) {
-      this.localServer.removeListener(
+    if (localLokiServer) {
+      localLokiServer.removeListener(
         'message',
         this.httpPollingResource.handleMessage
       );
-      this.localServer = null;
     }
   },
   close() {
@@ -148,8 +148,8 @@ MessageReceiver.prototype.extend({
       this.wsr.close(3000, 'called close');
     }
 
-    if (this.localServer) {
-      this.localServer.close();
+    if (localLokiServer) {
+      localLokiServer.close();
     }
 
     return this.drain();
@@ -900,7 +900,7 @@ MessageReceiver.prototype.extend({
   },
   async handleLokiAddressMessage(envelope, lokiAddressMessage) {
     const { p2pAddress, p2pPort } = lokiAddressMessage;
-    window.LokiP2pAPI.addContactP2pDetails(
+    window.lokiP2pAPI.addContactP2pDetails(
       envelope.source,
       p2pAddress,
       p2pPort

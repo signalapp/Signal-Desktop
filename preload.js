@@ -269,31 +269,31 @@ window.WebAPI = initializeWebAPI({
   proxyUrl: config.proxyUrl,
 });
 
-const { LokiSnodeAPI } = require('./js/modules/loki_snode_api');
+const LokiSnodeAPI = require('./js/modules/loki_snode_api');
 
 window.LokiSnodeAPI = new LokiSnodeAPI({
   url: config.serverUrl,
   swarmServerPort: config.swarmServerPort,
 });
 
-const { LokiP2pAPI } = require('./js/modules/loki_p2p_api');
+const LokiP2pAPI = require('./js/modules/loki_p2p_api');
 
-window.LokiP2pAPI = new LokiP2pAPI();
+window.lokiP2pAPI = new LokiP2pAPI();
 
-const { LokiMessageAPI } = require('./js/modules/loki_message_api');
+const LokiMessageAPI = require('./js/modules/loki_message_api');
 
-window.LokiMessageAPI = new LokiMessageAPI({
+window.lokiMessageAPI = new LokiMessageAPI({
   url: config.serverUrl,
   messageServerPort: config.messageServerPort,
 });
 
-const { LocalLokiServer } = require('./libloki/local_loki_server');
+const LocalLokiServer = require('./libloki/local_loki_server');
 
 window.localServerPort = config.localServerPort;
-window.LocalLokiServer = new LocalLokiServer();
+window.localLokiServer = new LocalLokiServer();
 
 window.mnemonic = require('./libloki/mnemonic');
-const { WorkerInterface } = require('./js/modules/util_worker_interface');
+const WorkerInterface = require('./js/modules/util_worker_interface');
 
 // A Worker with a 3 minute timeout
 const utilWorkerPath = path.join(app.getAppPath(), 'js', 'util_worker.js');
