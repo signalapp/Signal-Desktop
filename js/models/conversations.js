@@ -156,6 +156,9 @@
       this.setFriendRequestExpiryTimeout();
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
+
+      // Online status handling
+      this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
     },
 
     isMe() {
@@ -251,13 +254,6 @@
           sendOptions
         )
       );
-    },
-
-    async setIsOnline(online) {
-      this.set({ isOnline: online });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
     },
 
     async cleanup() {

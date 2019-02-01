@@ -66,6 +66,10 @@ class LokiP2pAPI extends EventEmitter {
     );
   }
 
+  isOnline(pubKey) {
+    return !!(this.contactP2pDetails[pubKey] && this.contactP2pDetails[pubKey].isOnline);
+  }
+
   pingContact(pubKey) {
     if (!this.contactP2pDetails[pubKey]) {
       return;
