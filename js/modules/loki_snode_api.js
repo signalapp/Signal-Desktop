@@ -103,7 +103,7 @@ class LokiSnodeAPI {
         };
       });
     }
-    return this.ourSwarmNodes;
+    return {...this.ourSwarmNodes};
   }
 
   async refreshSwarmNodesForPubKey(pubKey) {
