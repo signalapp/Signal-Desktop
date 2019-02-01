@@ -270,13 +270,14 @@
           this._initialFetchComplete = true;
           const promises = [];
           conversations.forEach(conversation => {
-            // TODO This needs to be synchronous (one after the other)
-            promises.concat([
-              conversation.updateLastMessage(),
-              conversation.updateProfile(),
-              conversation.updateProfileAvatar(),
-              conversation.resetPendingSend(),
-            ]);
+            promises.push(async () => {
+              // We need to await each one as
+              //  we don't want to simultaneously call writes on the sql database
+              await conversation.updateLastMessage();
+              await conversation.updateProfile();
+              await conversation.updateProfileAvatar();
+              await conversation.resetPendingSend();
+            });
           });
           await Promise.all(promises);
 
