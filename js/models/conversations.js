@@ -7,6 +7,7 @@
 /* global storage: false */
 /* global textsecure: false */
 /* global Whisper: false */
+/* global lokiP2pAPI: false */
 
 /* eslint-disable more/no-then */
 
@@ -77,6 +78,7 @@
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
         swarmNodes: new Set([]),
+        isOnline: false,
       };
     },
 
@@ -155,6 +157,9 @@
       this.setFriendRequestExpiryTimeout();
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
+
+      // Online status handling
+      this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
     },
 
     isMe() {
@@ -386,6 +391,7 @@
           status: this.lastMessageStatus,
           text: this.lastMessage,
         },
+        isOnline: this.get('isOnline'),
 
         onClick: () => this.trigger('select', this),
       };

@@ -28,6 +28,7 @@ interface Props {
   };
   showFriendRequestIndicator?: boolean;
   isBlocked: boolean;
+  isOnline: boolean;
 
   i18n: Localizer;
   onClick?: () => void;
@@ -43,6 +44,7 @@ export class ConversationListItem extends React.Component<Props> {
       name,
       phoneNumber,
       profileName,
+      isOnline,
     } = this.props;
 
     return (
@@ -56,6 +58,7 @@ export class ConversationListItem extends React.Component<Props> {
           phoneNumber={phoneNumber}
           profileName={profileName}
           size={48}
+          borderColor={isOnline ? '#1c8260' : '#3d3e44'}
         />
         {this.renderUnread()}
       </div>

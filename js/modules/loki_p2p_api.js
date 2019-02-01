@@ -16,7 +16,10 @@ class LokiP2pAPI extends EventEmitter {
         ? 60 * 1000 // 1 minute
         : 2 * 60 * 1000; // 2 minutes
 
-    if (this.contactP2pDetails[pubKey] && this.contactP2pDetails[pubKey].pingTimer) {
+    if (
+      this.contactP2pDetails[pubKey] &&
+      this.contactP2pDetails[pubKey].pingTimer
+    ) {
       clearTimeout(this.contactP2pDetails[pubKey].pingTimer);
     }
     this.contactP2pDetails[pubKey] = {
@@ -63,6 +66,12 @@ class LokiP2pAPI extends EventEmitter {
       this.pingContact.bind(this),
       this.contactP2pDetails[pubKey].timerDuration,
       pubKey
+    );
+  }
+
+  isOnline(pubKey) {
+    return !!(
+      this.contactP2pDetails[pubKey] && this.contactP2pDetails[pubKey].isOnline
     );
   }
 

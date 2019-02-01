@@ -11,6 +11,7 @@ const {
   map,
   merge,
   set,
+  omit,
 } = require('lodash');
 
 const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
@@ -688,11 +689,13 @@ async function getConversationCount() {
 }
 
 async function saveConversation(data) {
-  await channels.saveConversation(data);
+  const cleaned = omit(data, 'isOnline');
+  await channels.saveConversation(cleaned);
 }
 
 async function saveConversations(data) {
-  await channels.saveConversations(data);
+  const cleaned = data.map(d => omit(d, 'isOnline'));
+  await channels.saveConversations(cleaned);
 }
 
 async function getConversationById(id, { Conversation }) {
@@ -712,7 +715,10 @@ async function updateConversation(id, data, { Conversation }) {
   if (merged.swarmNodes instanceof Set) {
     merged.swarmNodes = Array.from(merged.swarmNodes);
   }
-  await channels.updateConversation(merged);
+
+  // Don't save the online status of the object
+  const cleaned = omit(merged, 'isOnline');
+  await channels.updateConversation(cleaned);
 }
 
 async function removeConversation(id, { Conversation }) {

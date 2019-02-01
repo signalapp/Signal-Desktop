@@ -1767,6 +1767,10 @@
   .module-avatar {
     background-color: $color-dark-85;
   }
+
+  .module-contact-name {
+    margin-right: 0px;
+  }
 }
 
 .module-conversation-list-item--has-unread {
@@ -1822,12 +1826,10 @@
 .module-conversation-list-item__content {
   flex-grow: 1;
   margin-left: 12px;
-  // parent - 48px (for avatar) - 16px (our right margin)
-  max-width: calc(100% - 64px);
-
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  overflow: hidden;
 }
 
 .module-conversation-list-item__header {

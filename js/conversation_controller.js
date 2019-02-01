@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage */
+/* global _, Whisper, Backbone, storage, lokiP2pAPI */
 
 /* eslint-disable more/no-then */
 
@@ -248,6 +248,14 @@
     async load() {
       window.log.info('ConversationController: starting initial fetch');
 
+      // We setup online and offline listeners here because we want
+      //  to minimize the amount of listeners we have to avoid memory leaks
+      if (!this.p2pListenersSet) {
+        lokiP2pAPI.on('online', this._handleOnline.bind(this));
+        lokiP2pAPI.on('offline', this._handleOffline.bind(this));
+        this.p2pListenersSet = true;
+      }
+
       if (conversations.length) {
         throw new Error('ConversationController: Already loaded!');
       }
@@ -268,7 +276,6 @@
               conversation.updateProfile(),
               conversation.updateProfileAvatar(),
               conversation.resetPendingSend(),
-              conversation.updateProfile(),
             ]);
           });
           await Promise.all(promises);
@@ -291,6 +298,18 @@
       this._initialPromise = load();
 
       return this._initialPromise;
+    },
+    _handleOnline(pubKey) {
+      try {
+        const conversation = this.get(pubKey);
+        conversation.set({ isOnline: true });
+      } catch (e) {} // eslint-disable-line
+    },
+    _handleOffline(pubKey) {
+      try {
+        const conversation = this.get(pubKey);
+        conversation.set({ isOnline: false });
+      } catch (e) {} // eslint-disable-line
     },
   };
 })();
