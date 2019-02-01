@@ -7,6 +7,7 @@
 /* global storage: false */
 /* global textsecure: false */
 /* global Whisper: false */
+/* global lokiP2pAPI: false */
 
 /* eslint-disable more/no-then */
 
