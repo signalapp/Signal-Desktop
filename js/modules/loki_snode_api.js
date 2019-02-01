@@ -92,7 +92,7 @@ class LokiSnodeAPI {
       this.ourSwarmNodes = {};
       // Try refresh our swarm list once
       const ourKey = window.textsecure.storage.user.getNumber();
-      const nodeAddresses = await window.LokiSnodeAPI.getSwarmNodes(ourKey);
+      const nodeAddresses = await this.getSwarmNodes(ourKey);
       if (!nodeAddresses || nodeAddresses.length === 0) {
         throw Error('Could not load our swarm');
       }
