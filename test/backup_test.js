@@ -555,6 +555,7 @@ describe('Backup', () => {
           'friendRequestStatus',
           'unlockTimestamp',
           'sessionResetStatus',
+          'isOnline',
         ];
         const conversationFromDB = conversationCollection.at(0).attributes;
         console.log({ conversationFromDB, conversation });
