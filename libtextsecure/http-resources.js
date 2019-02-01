@@ -49,7 +49,9 @@
       expiresAt: m.expiration,
       hash: m.hash,
     }));
-    let newHashes = await window.Signal.Data.saveSeenMessageHashes(incomingHashes);
+    let newHashes = await window.Signal.Data.saveSeenMessageHashes(
+      incomingHashes
+    );
     newHashes = newHashes.map(h => h.hash);
     const newMessages = messages.filter(m => newHashes.includes(m.hash));
     return newMessages;
