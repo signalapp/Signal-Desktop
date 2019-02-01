@@ -689,7 +689,7 @@ async function getConversationCount() {
 }
 
 async function saveConversation(data) {
-  const cleaned = omit(data, 'isOnine');
+  const cleaned = omit(data, 'isOnline');
   await channels.saveConversation(cleaned);
 }
 

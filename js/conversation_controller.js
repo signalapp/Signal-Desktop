@@ -253,6 +253,7 @@
       if (!this.p2pListenersSet) {
         lokiP2pAPI.on('online', this._handleOnline.bind(this));
         lokiP2pAPI.on('offline', this._handleOffline.bind(this));
+        this.p2pListenersSet = true;
       }
 
       if (conversations.length) {
@@ -270,14 +271,12 @@
           this._initialFetchComplete = true;
           const promises = [];
           conversations.forEach(conversation => {
-            promises.push(async () => {
-              // We need to await each one as
-              //  we don't want to simultaneously call writes on the sql database
-              await conversation.updateLastMessage();
-              await conversation.updateProfile();
-              await conversation.updateProfileAvatar();
-              await conversation.resetPendingSend();
-            });
+            promises.concat([
+              conversation.updateLastMessage(),
+              conversation.updateProfile(),
+              conversation.updateProfileAvatar(),
+              conversation.resetPendingSend(),
+            ]);
           });
           await Promise.all(promises);
 
