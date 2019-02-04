@@ -68,8 +68,8 @@
     const jobQueue = new window.JobQueue();
 
     const processMessages = async messages => {
-      const newMessages = await jobQueue.add(
-        () => filterIncomingMessages(messages)
+      const newMessages = await jobQueue.add(() =>
+        filterIncomingMessages(messages)
       );
       newMessages.forEach(async message => {
         const { data } = message;
