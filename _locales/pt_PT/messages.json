@@ -483,8 +483,32 @@
         "message": "Tipo de ficheiro deste anexo não é permitido por razões de segurança",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "A carregar a pré-visualização...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Pré-visualização da hiperligação do esboço da miniatura $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Pré-visualização da hiperligação da miniatura $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Staged image attachment: $path$",
+        "message": "Esboço do anexo de imagem: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -493,16 +517,12 @@
             }
         }
     },
-    "maxOneAttachmentToast": {
-        "message": "O limite é 1 anexo por mensagem.",
-        "description": "An error popup when the user has attempted to add an attachment"
-    },
     "oneNonImageAtATimeToast": {
-        "message": "Ao incluir um anexo não imagem, o limite é 1 anexo por mensagem.",
+        "message": "Se o anexo não é uma imagem, apenas pode enviar um anexo por mensagem.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "Não pode misturar um anexo imagem com um não imagem numa só mensagem.",
+        "message": "Não pode misturar imagens com outro tipo de anexos numa só mensagem.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
@@ -935,9 +955,17 @@
         "message": "Permitir acesso à câmara e ao microfone",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Verificação Ortográfica",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Geral",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Enviar pré-visualização de hiperligações",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "As pré-visualizações são suportadas em hiperligações do Imgur, Instagram, Reddit, e YouTube.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Active a verificação ortográfica para o texto introduzido",

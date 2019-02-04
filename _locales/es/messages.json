@@ -483,8 +483,32 @@
         "message": "Tipo de adjunto no permitido por razones se seguridad",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "Cargando previsualización ...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Preparando miniatura de visualización de enlace para $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Miniatura de previsualización para $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Adjunto de imágenes organizadas: $path$",
+        "message": "Preparando adjunto múltiple: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "El límite es un adjunto por mensaje.",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "Al incluír un adjunto que no es una imagen, el límite es un adjunto por mensaje.",
@@ -935,9 +955,17 @@
         "message": "Permitir acesso a cámara y micrófono",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Comprobar ortografía",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "General",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Enviar previsualización",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Al activar, las previsualizaciones de enlaces de Imgur, Instagram, Reddit y YouTube se envian automáticamente.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Comprobar la ortografía al escribir el mensaje",

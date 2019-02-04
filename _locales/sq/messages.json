@@ -483,8 +483,32 @@
         "message": "Lloj bashkëngjitjeje i palejuar për arsye sigurie",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "Po ngarkohet Paraparja…",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Paraparje lidhjeje miniature skice për $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Paraparje lidhjeje miniature për $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Staged image attachment: $path$",
+        "message": "Bashkëngjitje figure skice: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "Kufiri është një bashkëngjitje për mesazh.",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "Kur përfshihet një bashkëngjitje që s’është figurë, kufiri është një bashkëngjitje për mesazh.",
@@ -935,9 +955,17 @@
         "message": "Lejo përdorim të kamerës dhe mikrofonit",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Kontroll Drejtshkrimi",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Përgjithshëm",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Dërgo Paraparje Lidhjesh",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Paraparjet mbulohen për lidhje Imgur, Instagram, Reddit, dhe YouTube.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Aktivizo kontroll drejtshkrimi të tekstit të dhënë te kutia e hartimit të mesazheve",

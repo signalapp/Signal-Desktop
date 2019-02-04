@@ -483,8 +483,32 @@
         "message": "Priedo tipas saugumo sumetimais yra neleidžiamas",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "Įkeliama peržiūra...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Juodraštinė miniatiūrinė nuorodos peržiūra, skirta $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Miniatiūrinė nuorodos peržiūra, skirta $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Paruoštas paveikslo priedas: $path$",
+        "message": "Juodraštinis paveikslo priedas: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "Yra vieno priedo vienoje žinutėje apribojimas.",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "Įtraukiant ne paveikslų priedus, vienoje žinutėje galimas tik vienas priedas.",
@@ -935,9 +955,17 @@
         "message": "Leisti prieigą prie kameros ir mikrofono",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Rašybos tikrinimas",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Bendra",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Siųsti nuorodų peržiūras",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Peržiūros yra palaikomos Imgur, Instagram, Reddit, ir YouTube nuorodoms.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Įjungti rašybos tikrinimą tekstui, kuris įvedamas į žinutės rašymo langelį",

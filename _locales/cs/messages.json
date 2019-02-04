@@ -60,7 +60,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
+        "message": "Vložit a aplikovat styl",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -88,7 +88,7 @@
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Zoom",
+        "message": "Lupa",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
@@ -96,7 +96,7 @@
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Actual Size",
+        "message": "Běžná velikost",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
@@ -116,15 +116,15 @@
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Set Up with Import",
+        "message": "Nastavit importem",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
+        "message": "Nastavit jako nové zařízení",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Set Up as Standalone Device",
+        "message": "Nastavit jako samostatné zařízení",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
@@ -150,7 +150,7 @@
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Choose file",
+        "message": "Vybrat soubor",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
@@ -244,7 +244,7 @@
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ Nepřečtených Zpráv",
+        "message": "$count$ nepřečtených zpráv",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -420,7 +420,7 @@
         "description": ""
     },
     "newIdentity": {
-        "message": "Nové bezpečnostní číslo",
+        "message": "Nový bezpečnostní kód",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
@@ -472,19 +472,43 @@
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Nepojmenovaný Soubor",
+        "message": "Nepojmenovaný soubor",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Hlasová Zpráva",
+        "message": "Hlasová zpráva",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
         "message": "Tento typ přílohy není povolen z bezpečnostních důvodů",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "Načítám náhled...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Draft thumbnail link preview for $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Thumbnail link preview for $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Staged image attachment: $path$",
+        "message": "Draft image attachment: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "The limit is one attachment per message.",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "When including a non-image attachment, the limit is one attachment per message.",
@@ -544,11 +564,11 @@
         }
     },
     "submitDebugLog": {
-        "message": "Ladící Log",
+        "message": "Ladící log",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Ladící Log",
+        "message": "Ladící log",
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
@@ -650,7 +670,7 @@
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "PO Box",
+        "message": "P. O. BOX",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloadAttachment": {
@@ -806,7 +826,7 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "Odeslat znovu",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
@@ -846,7 +866,7 @@
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Add a caption...",
+        "message": "Přidat titulek...",
         "description": ""
     },
     "save": {
@@ -876,15 +896,15 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
+        "message": "Propojit telefon s Signal v počítači",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Signal Settings",
+        "message": "Nastavení Signal",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Linked Devices",
+        "message": "Propojená zařízení",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
@@ -892,23 +912,23 @@
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Link New Device",
+        "message": "Propojit nové zařízení",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Device name",
+        "message": "Název zařízení",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Choose this device's name",
+        "message": "Zvolte název tohoto zařízení",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Finish linking phone",
+        "message": "Dokončuji propojení s telefonem",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Syncing contacts and groups",
+        "message": "Synchronizuji kontakty a skupiny",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -928,23 +948,31 @@
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Permissions",
+        "message": "Oprávnění",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
+        "message": "Umožnit přístup ke kameře a mikrofonu",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Spell Check",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Obecné",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Odeslat náhledy odkazu",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Náhledy jsou podporovány pro odkazy na Imgur, Instagram, Reddit, a YouTube.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Enable spell check of text entered in message composition box",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "Vymazat data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -952,11 +980,11 @@
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "Vymazat data",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "Vymazat všechna data?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
@@ -964,11 +992,11 @@
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Delete all data",
+        "message": "Vymazat všechna data",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "Odpojuji a mažu všechny data",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
@@ -1016,7 +1044,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "Odeslání selhalo",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
@@ -1088,7 +1116,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgoShort": {
-        "message": "$hours$ hr",
+        "message": "$hours$ hod.",
         "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "hours": {
@@ -1098,7 +1126,7 @@
         }
     },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "Před $hours$ hod.",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1108,7 +1136,7 @@
         }
     },
     "minutesAgoShort": {
-        "message": "$minutes$ min",
+        "message": "$minutes$ min.",
         "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "minutes": {
@@ -1118,7 +1146,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "Před $minutes$ min.",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1140,7 +1168,7 @@
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Unblock this group to send a message.",
+        "message": "Odblokujte tuto skupinu pro odeslání zprávy.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
@@ -1154,7 +1182,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "Nastaven časovač pro zmizení zpráv na $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1198,11 +1226,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutes",
+        "message": "5 minut",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutes",
+        "message": "30 minut",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
@@ -1210,11 +1238,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 hours",
+        "message": "6 hodin",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 hours",
+        "message": "12 hodin",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
@@ -1278,11 +1306,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
+        "message": "Zmizení zpráv vypnuto",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$ vypnul zmizení zpráv",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1292,7 +1320,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
+        "message": "Vypnul jste zmizení zpráv",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1310,11 +1338,11 @@
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "Bezpečnostní kód se změnil",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "Bezpečností kód s $name$ se změnil",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1324,7 +1352,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verify Safety Number",
+        "message": "Ověřit bezpečností kód",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1338,19 +1366,19 @@
         }
     },
     "themeLight": {
-        "message": "Light",
+        "message": "Světlý",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "Tmavý",
         "description": "Label text for dark theme"
     },
     "hideMenuBar": {
-        "message": "Hide menu bar",
+        "message": "Schovat lištu menu",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Start conversation…",
+        "message": "Zahájit konverzaci...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
@@ -1382,11 +1410,11 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "Stiskněte na Restartovat Signal pro aplikování změn",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
+        "message": "Restartovat Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -1394,7 +1422,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ opustil skupinu",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1404,7 +1432,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ opustil skupinu",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1414,11 +1442,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "Skupina aktualizována",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Titulek je nyní '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1428,7 +1456,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ se připojil ke skupině",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1438,7 +1466,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ se připojil ke skupině",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1448,7 +1476,7 @@
         }
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "Smluvní podmínky a zásady ochrany osobních údajů",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

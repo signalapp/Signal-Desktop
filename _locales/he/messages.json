@@ -483,8 +483,32 @@
         "message": "סוג הצרופה אינו מותר מסיבות אבטחה",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "טוען קדם־תצוגה...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "טיוטה של קדם־תצוגה של קישור עבור $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "קדם־תצוגה של קישור עבור $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Staged image attachment: $path$",
+        "message": "טיוטה של צרופת תמונה: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "המגבלה היא צרופה אחת להודעה.",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "בעת הכללת צרופת אי־תמונה, המגבלה היא צרופה אחת להודעה.",
@@ -935,9 +955,17 @@
         "message": "התר גישה אל מצלמה ומיקרופון",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "בדיקת איות",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "כללי",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "שלח קדם־תצוגות של קישורים",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "קדם־תצוגות נתמכות עבור קישורים של Imgur, Instagram, Reddit ו־YouTube.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "אפשר בדיקת איות של מלל המוכנס בתיבת חיבור הודעה",

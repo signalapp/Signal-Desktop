@@ -483,8 +483,32 @@
         "message": "Tento typ súboru je z bezpečnostných dôvodov zakázaný",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "Loading Preview...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Draft thumbnail link preview for $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Thumbnail link preview for $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Staged image attachment: $path$",
+        "message": "Draft image attachment: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "Jedna správa môže obsahovať najviac jednu prílohu.",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "When including a non-image attachment, the limit is one attachment per message.",
@@ -846,7 +866,7 @@
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Add a caption...",
+        "message": "Pridaj popis...",
         "description": ""
     },
     "save": {
@@ -935,9 +955,17 @@
         "message": "Povoliť prústup ku kamere a mikrofónu",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Kontrola pravopisu",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Všeobecné",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Send Link Previews",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Previews are supported for Imgur, Instagram, Reddit, and YouTube links.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Povoliť kontrolu pravopisu textu zadaného do textového poľa",

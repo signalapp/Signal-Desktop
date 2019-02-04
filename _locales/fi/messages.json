@@ -483,8 +483,32 @@
         "message": "Turvallisuussyistä tätä tiedostotyyppiä ei voida liittää.",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "Ladataan esikatselua...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Linkin $domain$esikatselukuvan luonnos",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Linkin $domain$ esikatselukuva",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Liitetty kuvatiedosto: $path$",
+        "message": "Kuvaliitteen $path$ luonnos",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "Raja on yksi liitetiedosto per viesti",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "Muille kuin kuvatiedostoille raja on yksi liitetiedosto per viesti.",
@@ -935,9 +955,17 @@
         "message": "Myönnä kameran ja mikrofonin käyttöoikeus",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Oikeinkirjoituksen tarkistus",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Yleistä",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Lähetä esikatselukuva linkeistä",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Esikatselu tukee sivustoja Imgur, Instagram, Reddit ja YouTube.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Ota käyttöön viestilaatikkoon kirjoitetun tekstin oikeinkirjoituksen tarkistus",

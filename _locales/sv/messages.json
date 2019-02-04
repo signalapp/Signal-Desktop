@@ -48,7 +48,7 @@
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Klistra",
+        "message": "Klipp ut",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
@@ -128,7 +128,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
-        "message": "Laddar...",
+        "message": "Läser in...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -154,7 +154,7 @@
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Ladda din data",
+        "message": "Läs in din data",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
@@ -170,7 +170,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Laddar kontakter och meddelanden",
+        "message": "Läser in kontakter och meddelanden",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
@@ -206,7 +206,7 @@
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Laddar meddelanden. $count$ hittills...",
+        "message": "Läser in meddelanden. $count$ hittills...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -368,7 +368,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Något gick fel med uppladdningen! Vänligen överväg att manuellt lägga till loggen till rapporten du skriver.",
+        "message": "Något gick fel med sändningen! Vänligen överväg att manuellt lägga till loggen till rapporten du skriver.",
         "description": ""
     },
     "reportIssue": {
@@ -388,7 +388,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Markera som verifierad",
+        "message": "Märk som verifierat",
         "description": ""
     },
     "unverify": {
@@ -416,7 +416,7 @@
         }
     },
     "verified": {
-        "message": "Verifierad",
+        "message": "Verifierat",
         "description": ""
     },
     "newIdentity": {
@@ -483,8 +483,32 @@
         "message": "Bilagor av denna typ tillåts inte på grund av säkerhetsskäl",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "Läser in förhandsvisning...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Utkast av länkförhandsvisning i miniatyrbild för $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Länkförhandsvisning i miniatyrbild för $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Bifogad bildfil: $path$",
+        "message": "Utkast till bildbilaga: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "Begränsningen är en bilaga per meddelande.",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "När man inkluderar bilagor som inte är bilder, är begränsningen en bilaga per meddelande.",
@@ -514,7 +534,7 @@
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Kunde inte ladda vald bilaga",
+        "message": "Kunde inte läsa in vald bilaga",
         "description": ""
     },
     "disconnected": {
@@ -638,7 +658,7 @@
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "email",
+        "message": "e-post",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
@@ -654,7 +674,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloadAttachment": {
-        "message": "Ladda ner bifogad fil",
+        "message": "Hämta bifogad fil",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
@@ -670,7 +690,7 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Originalmeddelande hittades, men laddades inte. Skrolla upp för att ladda det.",
+        "message": "Originalmeddelande hittades, men lästes inte in. Skrolla upp för att läsa in det.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -826,7 +846,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Tumnagel av bild för citerat meddelande",
+        "message": "Miniatyr av bild för citerat meddelande",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
@@ -935,9 +955,17 @@
         "message": "Tillåt åtkomst till kameran och mikrofonen",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Stavningskontroll",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Generell",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Skicka länkförhandsvisningar",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Förhandsvisningar stöds för Imgur-, Instagram-, Reddit- och YouTube-länkar.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Slå på stavningskontroll för text skrivet i meddelandefältet",
@@ -1032,7 +1060,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Den här versionen av Signal-Desktop har utgått. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
+        "message": "Den här versionen av Signal Desktop har utgått. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
         "description": "Warning notification that this version of the app has expired"
     },
     "androidMessageLengthWarning": {
@@ -1056,7 +1084,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importera alla grupper och kontakter från Signal-appen på din mobil.",
+        "message": "Importera alla grupper och kontakter från Signal på din mobil.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1088,7 +1116,7 @@
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgoShort": {
-        "message": "$hours$ t",
+        "message": "$hours$ h",
         "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "hours": {
@@ -1258,15 +1286,15 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1t",
+        "message": "1h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6t",
+        "message": "6h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12t",
+        "message": "12h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {

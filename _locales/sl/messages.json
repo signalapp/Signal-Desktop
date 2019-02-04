@@ -483,6 +483,30 @@
         "message": "Ta vrsta priponke iz varnostnih razlogov ni dovoljena",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "Nalagam predogled ...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Osnutek predogledne sličice povezave na: $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Predogledna sličica povezave na: $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
         "message": "Osnutek slikovne priponke: $path$",
         "description": "Alt text for staged attachments",
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "Omejitev je ena priponka na sporočilo.",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "Neslikovne datoteke so omejene na eno priponko na sporočilo.",
@@ -935,9 +955,17 @@
         "message": "Dovoli dostop do kamere in mikrofona",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Črkovalnik",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Splošno",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Pošiljanje povezav s predogledom",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Predogled je na voljo za povezave na Imgur, Instagram, Reddit in YouTube",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Vklop črkovalnika v okencu za vnašanje sporočila",

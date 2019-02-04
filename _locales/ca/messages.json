@@ -483,8 +483,32 @@
         "message": "Per raons de seguretat, el tipus d'adjunt no es permès ",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
+    "loadingPreview": {
+        "message": "Carregant la previsualització...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Previsualització de l'esborrany de la vista en miniatura de l'enllaç $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Previsualització de la vista en miniatura de l'enllaç $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
     "stagedImageAttachment": {
-        "message": "Adjunció d'imatge per etapes: $path$",
+        "message": "Esborrany de la imatge adjuntada: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -492,10 +516,6 @@
                 "example": "dog.jpg"
             }
         }
-    },
-    "maxOneAttachmentToast": {
-        "message": "El límit és un adjunt per missatge.",
-        "description": "An error popup when the user has attempted to add an attachment"
     },
     "oneNonImageAtATimeToast": {
         "message": "Quan inclogueu un adjunt que no sigui una imatge, el límit és un adjunt per missatge.",
@@ -935,9 +955,17 @@
         "message": "Permet l'accés a la càmera i el micròfon",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Comprovació ortogràfica",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "General",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Envia previsualitzacions d'enllaços",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Previsualitzacions estan disponibles per enllaços de Imgur, Reddit i Youtube.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Activa la comprovació ortogràfica del text introduït en el quadre d'edició de missatges",
