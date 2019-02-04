@@ -233,7 +233,8 @@
             break;
           case WebSocket.OPEN:
             clearInterval(this.interval);
-            // if we've connected, we can wait for real empty event
+            // Default to connected, but lokinet is slow so we pretend empty event
+            this.onEmpty();
             this.interval = null;
             break;
           case WebSocket.CLOSING:
