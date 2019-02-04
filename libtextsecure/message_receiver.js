@@ -908,7 +908,7 @@ MessageReceiver.prototype.extend({
   },
   async handleLokiAddressMessage(envelope, lokiAddressMessage) {
     const { p2pAddress, p2pPort } = lokiAddressMessage;
-    lokiP2pAPI.addContactP2pDetails(
+    lokiP2pAPI.updateContactP2pDetails(
       envelope.source,
       p2pAddress,
       p2pPort,
