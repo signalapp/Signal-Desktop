@@ -8,7 +8,7 @@ class LokiP2pAPI extends EventEmitter {
     this.contactP2pDetails = {};
   }
 
-  addContactP2pDetails(pubKey, address, port, resetTimer = false) {
+  updateContactP2pDetails(pubKey, address, port, fromP2p = false) {
     // Stagger the timers so the friends don't ping each other at the same time
     this.ourKey = this.ourKey || window.textsecure.storage.user.getNumber();
     const timerDuration =
@@ -16,12 +16,10 @@ class LokiP2pAPI extends EventEmitter {
         ? 60 * 1000 // 1 minute
         : 2 * 60 * 1000; // 2 minutes
 
-    if (
-      this.contactP2pDetails[pubKey] &&
-      this.contactP2pDetails[pubKey].pingTimer
-    ) {
+    if (this.contactP2pDetails[pubKey]) {
       clearTimeout(this.contactP2pDetails[pubKey].pingTimer);
     }
+
     this.contactP2pDetails[pubKey] = {
       address,
       port,
@@ -29,16 +27,12 @@ class LokiP2pAPI extends EventEmitter {
       isOnline: false,
       pingTimer: null,
     };
-    if (resetTimer) {
-      // If this contact is simply sharing the same details with us
-      // then we just reset our timer
-      this.contactP2pDetails[pubKey].pingTimer = setTimeout(
-        this.pingContact.bind(this),
-        this.contactP2pDetails[pubKey].timerDuration,
-        pubKey
-      );
+
+    if (fromP2p) {
+      this.setContactOnline(pubKey);
       return;
     }
+
     this.pingContact(pubKey);
   }
 
