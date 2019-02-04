@@ -38,6 +38,10 @@ body {
   background: $color-white;
 }
 
+audio {
+  max-width: 100%;
+}
+
 .dark-overlay {
   position: absolute;
   top: 0;
