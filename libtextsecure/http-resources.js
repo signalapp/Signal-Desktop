@@ -65,9 +65,12 @@
       handleRequest = request => request.respond(404, 'Not found');
     }
     let connected = false;
+    const jobQueue = new window.JobQueue();
 
     const processMessages = async messages => {
-      const newMessages = await filterIncomingMessages(messages);
+      const newMessages = await jobQueue.add(() =>
+        filterIncomingMessages(messages)
+      );
       newMessages.forEach(async message => {
         const { data } = message;
         this.handleMessage(data);

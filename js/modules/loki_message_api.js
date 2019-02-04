@@ -282,7 +282,7 @@ class LokiMessageAPI {
       await Promise.all(
         Object.entries(ourSwarmNodes)
           .splice(0, remainingRequests)
-          .map(([nodeUrl, lastHash]) => doRequest(nodeUrl, lastHash))
+          .map(([nodeUrl, nodeData]) => doRequest(nodeUrl, nodeData))
       );
     }
   }
