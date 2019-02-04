@@ -60,12 +60,14 @@ module.exports = {
   bulkAddIdentityKeys,
   removeIdentityKeyById,
   removeAllIdentityKeys,
+  getAllIdentityKeys,
 
   createOrUpdatePreKey,
   getPreKeyById,
   bulkAddPreKeys,
   removePreKeyById,
   removeAllPreKeys,
+  getAllPreKeys,
 
   createOrUpdateSignedPreKey,
   getSignedPreKeyById,
@@ -88,6 +90,7 @@ module.exports = {
   removeSessionById,
   removeSessionsByNumber,
   removeAllSessions,
+  getAllSessions,
 
   getConversationCount,
   saveConversation,
@@ -440,6 +443,10 @@ async function removeIdentityKeyById(id) {
 async function removeAllIdentityKeys() {
   await channels.removeAllIdentityKeys();
 }
+async function getAllIdentityKeys() {
+  const keys = await channels.getAllIdentityKeys();
+  return keys.map(key => keysToArrayBuffer(IDENTITY_KEY_KEYS, key));
+}
 
 // Pre Keys
 
@@ -461,6 +468,10 @@ async function removePreKeyById(id) {
 async function removeAllPreKeys() {
   await channels.removeAllPreKeys();
 }
+async function getAllPreKeys() {
+  const keys = await channels.getAllPreKeys();
+  return keys.map(key => keysToArrayBuffer(PRE_KEY_KEYS, key));
+}
 
 // Signed Pre Keys
 
@@ -475,7 +486,7 @@ async function getSignedPreKeyById(id) {
 }
 async function getAllSignedPreKeys() {
   const keys = await channels.getAllSignedPreKeys();
-  return keys;
+  return keys.map(key => keysToArrayBuffer(PRE_KEY_KEYS, key));
 }
 async function bulkAddSignedPreKeys(array) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
@@ -566,6 +577,10 @@ async function removeSessionsByNumber(number) {
 }
 async function removeAllSessions(id) {
   await channels.removeAllSessions(id);
+}
+async function getAllSessions(id) {
+  const sessions = await channels.getAllSessions(id);
+  return sessions;
 }
 
 // Conversation

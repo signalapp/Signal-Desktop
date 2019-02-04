@@ -67,7 +67,7 @@ export class Image extends React.Component<Props> {
       <div
         role={canClick ? 'button' : undefined}
         onClick={() => {
-          if (canClick) {
+          if (canClick && onClick) {
             onClick(attachment);
           }
         }}

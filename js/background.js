@@ -414,7 +414,10 @@
     window.Events.setThemeSetting(newThemeSetting);
 
     try {
-      await ConversationController.load();
+      await Promise.all([
+        ConversationController.load(),
+        textsecure.storage.protocol.hydrateCaches(),
+      ]);
     } catch (error) {
       window.log.error(
         'background.js: ConversationController failed to load:',

@@ -29,12 +29,14 @@ module.exports = {
   bulkAddIdentityKeys,
   removeIdentityKeyById,
   removeAllIdentityKeys,
+  getAllIdentityKeys,
 
   createOrUpdatePreKey,
   getPreKeyById,
   bulkAddPreKeys,
   removePreKeyById,
   removeAllPreKeys,
+  getAllPreKeys,
 
   createOrUpdateSignedPreKey,
   getSignedPreKeyById,
@@ -57,6 +59,7 @@ module.exports = {
   removeSessionById,
   removeSessionsByNumber,
   removeAllSessions,
+  getAllSessions,
 
   getConversationCount,
   saveConversation,
@@ -701,6 +704,9 @@ async function removeIdentityKeyById(id) {
 async function removeAllIdentityKeys() {
   return removeAllFromTable(IDENTITY_KEYS_TABLE);
 }
+async function getAllIdentityKeys() {
+  return getAllFromTable(IDENTITY_KEYS_TABLE);
+}
 
 const PRE_KEYS_TABLE = 'preKeys';
 async function createOrUpdatePreKey(data) {
@@ -717,6 +723,9 @@ async function removePreKeyById(id) {
 }
 async function removeAllPreKeys() {
   return removeAllFromTable(PRE_KEYS_TABLE);
+}
+async function getAllPreKeys() {
+  return getAllFromTable(PRE_KEYS_TABLE);
 }
 
 const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
@@ -815,6 +824,9 @@ async function removeSessionsByNumber(number) {
 async function removeAllSessions() {
   return removeAllFromTable(SESSIONS_TABLE);
 }
+async function getAllSessions() {
+  return getAllFromTable(SESSIONS_TABLE);
+}
 
 async function createOrUpdate(table, data) {
   const { id } = data;
@@ -882,6 +894,11 @@ async function removeById(table, id) {
 
 async function removeAllFromTable(table) {
   await db.run(`DELETE FROM ${table};`);
+}
+
+async function getAllFromTable(table) {
+  const rows = await db.all(`SELECT json FROM ${table};`);
+  return rows.map(row => jsonToObject(row.json));
 }
 
 // Conversations
