@@ -45,15 +45,16 @@
   const filterIncomingMessages = async function filterIncomingMessages(
     messages
   ) {
-    const incomingHashes = messages.map(m => ({
+    const incomingHashes = messages.map(m => m.hash);
+    const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(
+      incomingHashes
+    );
+    const newMessages = messages.filter(m => !dupHashes.includes(m.hash));
+    const newHashes = newMessages.map(m => ({
       expiresAt: m.expiration,
       hash: m.hash,
     }));
-    let newHashes = await window.Signal.Data.saveSeenMessageHashes(
-      incomingHashes
-    );
-    newHashes = newHashes.map(h => h.hash);
-    const newMessages = messages.filter(m => newHashes.includes(m.hash));
+    await window.Signal.Data.saveSeenMessageHashes(newHashes);
     return newMessages;
   };
 
@@ -64,9 +65,12 @@
       handleRequest = request => request.respond(404, 'Not found');
     }
     let connected = false;
+    const jobQueue = new window.JobQueue();
 
     const processMessages = async messages => {
-      const newMessages = await filterIncomingMessages(messages);
+      const newMessages = await jobQueue.add(
+        () => filterIncomingMessages(messages)
+      );
       newMessages.forEach(async message => {
         const { data } = message;
         this.handleMessage(data);

@@ -1534,22 +1534,18 @@ async function saveMessage(data, { forceSave } = {}) {
   return toCreate.id;
 }
 
-async function saveSeenMessageHashes(incomingHashes) {
+async function saveSeenMessageHashes(arrayOfHashes) {
   let promise;
-  const hashList = incomingHashes.map(h => h.hash);
-  const dupHashes = await getSeenMessagesByHashList(hashList);
-  const newHashes = incomingHashes.filter(h => !dupHashes.includes(h.hash));
 
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
-      ...map(newHashes, hashData => saveSeenMessageHash(hashData)),
+      ...map(arrayOfHashes, hashData => saveSeenMessageHash(hashData)),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
 
   await promise;
-  return newHashes;
 }
 
 async function saveSeenMessageHash(data) {
