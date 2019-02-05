@@ -162,7 +162,7 @@
       // Online status handling
       this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
 
-      this.jobQueue = new JobQueue();
+      this.messageSendQueue = new JobQueue();
     },
 
     isMe() {
@@ -1018,7 +1018,7 @@
         `conversation ${this.idForLogging()}`
       );
 
-      return this.jobQueue.add(taskWithTimeout);
+      return this.messageSendQueue.add(taskWithTimeout);
     },
 
     getRecipients() {
