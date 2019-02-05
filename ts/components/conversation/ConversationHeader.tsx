@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
-import { Localizer } from '../../types/Util';
+import { Colors, Localizer } from '../../types/Util';
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -33,6 +33,7 @@ interface Props {
   isBlocked: boolean;
   isMe: boolean;
   isGroup: boolean;
+  isOnline?: boolean;
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
@@ -118,7 +119,10 @@ export class ConversationHeader extends React.Component<Props> {
       name,
       phoneNumber,
       profileName,
+      isOnline,
     } = this.props;
+
+    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE_LIGHT;
 
     return (
       <span className="module-conversation-header__avatar">
@@ -131,6 +135,8 @@ export class ConversationHeader extends React.Component<Props> {
           phoneNumber={phoneNumber}
           profileName={profileName}
           size={28}
+          borderColor={borderColor}
+          borderWidth={2}
         />
       </span>
     );

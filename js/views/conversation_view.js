@@ -185,6 +185,7 @@
           isMe: this.model.isMe(),
           isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),
+          isOnline: this.model.isOnline(),
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({

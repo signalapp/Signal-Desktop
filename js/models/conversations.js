@@ -165,6 +165,10 @@
       this.messageSendQueue = new JobQueue();
     },
 
+    isOnline() {
+      return this.isMe() || this.get('isOnline');
+    },
+
     isMe() {
       return this.id === this.ourNumber;
     },
@@ -394,7 +398,7 @@
           status: this.lastMessageStatus,
           text: this.lastMessage,
         },
-        isOnline: this.get('isOnline'),
+        isOnline: this.isOnline(),
 
         onClick: () => this.trigger('select', this),
       };
