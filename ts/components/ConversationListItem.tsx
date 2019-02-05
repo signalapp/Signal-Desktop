@@ -7,7 +7,7 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { Localizer } from '../types/Util';
+import { Colors, Localizer } from '../types/Util';
 
 interface Props {
   phoneNumber: string;
@@ -47,6 +47,8 @@ export class ConversationListItem extends React.Component<Props> {
       isOnline,
     } = this.props;
 
+    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
+
     return (
       <div className="module-conversation-list-item__avatar-container">
         <Avatar
@@ -58,7 +60,7 @@ export class ConversationListItem extends React.Component<Props> {
           phoneNumber={phoneNumber}
           profileName={profileName}
           size={48}
-          borderColor={isOnline ? '#1c8260' : '#3d3e44'}
+          borderColor={borderColor}
         />
         {this.renderUnread()}
       </div>

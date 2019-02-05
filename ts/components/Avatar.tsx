@@ -14,6 +14,7 @@ interface Props {
   profileName?: string;
   size: number;
   borderColor?: string;
+  borderWidth?: number;
 }
 
 interface State {
@@ -49,6 +50,7 @@ export class Avatar extends React.Component<Props, State> {
       phoneNumber,
       profileName,
       borderColor,
+      borderWidth,
     } = this.props;
     const { imageBroken } = this.state;
     const hasImage = avatarPath && !imageBroken;
@@ -61,12 +63,7 @@ export class Avatar extends React.Component<Props, State> {
       !name && profileName ? ` ~${profileName}` : ''
     }`;
 
-    const borderStyle = borderColor
-      ? {
-          borderColor: borderColor,
-          borderStyle: 'solid',
-        }
-      : undefined;
+    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
 
     return (
       <img
@@ -79,17 +76,18 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public renderNoImage() {
-    const { conversationType, name, size, borderColor } = this.props;
+    const {
+      conversationType,
+      name,
+      size,
+      borderColor,
+      borderWidth,
+    } = this.props;
 
     const initials = getInitials(name);
     const isGroup = conversationType === 'group';
 
-    const borderStyle = borderColor
-      ? {
-          borderColor: borderColor,
-          borderStyle: 'solid',
-        }
-      : undefined;
+    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
 
     if (!isGroup && initials) {
       return (
@@ -139,5 +137,17 @@ export class Avatar extends React.Component<Props, State> {
         {hasImage ? this.renderImage() : this.renderNoImage()}
       </div>
     );
+  }
+
+  private getBorderStyle(color?: string, width?: number) {
+    const borderWidth = typeof width === 'number' ? width : 3;
+
+    return color
+      ? {
+          borderColor: color,
+          borderStyle: 'solid',
+          borderWidth: borderWidth,
+        }
+      : undefined;
   }
 }
