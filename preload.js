@@ -276,9 +276,7 @@ window.LokiSnodeAPI = new LokiSnodeAPI({
   swarmServerPort: config.swarmServerPort,
 });
 
-const LokiP2pAPI = require('./js/modules/loki_p2p_api');
-
-window.lokiP2pAPI = new LokiP2pAPI();
+window.LokiP2pAPI = require('./js/modules/loki_p2p_api');
 
 const LokiMessageAPI = require('./js/modules/loki_message_api');
 
