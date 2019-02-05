@@ -64,7 +64,7 @@
     if (typeof handleRequest !== 'function') {
       handleRequest = request => request.respond(404, 'Not found');
     }
-    let connected = false;
+    let connected = true;
     const jobQueue = new window.JobQueue();
 
     const processMessages = async messages => {
