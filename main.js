@@ -210,6 +210,10 @@ function createWindow() {
       minWidth: MIN_WIDTH,
       minHeight: MIN_HEIGHT,
       autoHideMenuBar: false,
+      backgroundColor:
+        config.environment === 'test' || config.environment === 'test-lib'
+          ? '#ffffff' // Tests should always be rendered on a white background
+          : '#2090EA',
       webPreferences: {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
