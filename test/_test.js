@@ -79,3 +79,5 @@ before(async () => {
 window.clearDatabase = async () => {
   await window.Signal.Data.removeAll();
 };
+
+window.lokiP2pAPI = new window.LokiP2pAPI('ourKey');
