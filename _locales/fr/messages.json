@@ -149,12 +149,16 @@
         "message": "Sélectionner un dossier",
         "description": "Button to allow the user to find a folder on disk"
     },
+    "chooseFile": {
+        "message": "Choisir un fichier",
+        "description": "Button to allow the user to find a file on disk"
+    },
     "loadDataHeader": {
         "message": "Chargez vos données",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Vous venez de passer par le processus d’exportation, et vos contacts et messages attendent patiemment sur votre ordinateur. Sélectionnez le dossier contenant vos données de Signal enregistrées.",
+        "message": "Vous venez de passer par le processus d’exportation, et vos contacts et messages attendent patiemment sur votre ordinateur. Sélectionnez le dossier contenant vos données relatives à Signal enregistrées.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +174,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Assurez-vous d’avoir sélectionné le bon répertoire contenant vos données Signal enregistrées. Son nom devrait commencer par « Signal Export ». Vous pouvez également enregistrer une nouvelle copie de vos données à partir de l’application Chrome.",
+        "message": "Assurez-vous d’avoir sélectionné le bon répertoire contenant vos données relatives à Signal enregistrées. Son nom devrait commencer par « Signal Export ». Vous pouvez également enregistrer une nouvelle copie de vos données à partir de l’application Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -475,13 +479,55 @@
         "message": "Message vocal",
         "description": "Name for a voice message attachment"
     },
-    "unsupportedFileType": {
-        "message": "Le type de fichier n’est pas pris en charge",
-        "description": "Displayed for outgoing unsupported attachment"
-    },
     "dangerousFileType": {
         "message": "Le type de fichier joint n’est pas autorisé pour des raisons de sécurité",
         "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
+    "loadingPreview": {
+        "message": "Loading Preview...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "Draft thumbnail link preview for $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "Thumbnail link preview for $domain$",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "stagedImageAttachment": {
+        "message": "Draft image attachment: $path$",
+        "description": "Alt text for staged attachments",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "dog.jpg"
+            }
+        }
+    },
+    "oneNonImageAtATimeToast": {
+        "message": "When including a non-image attachment, the limit is one attachment per message.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "cannotMixImageAdnNonImageAttachments": {
+        "message": "You cannot mix non-image and image attachments in one message.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "maximumAttachments": {
+        "message": "Vous ne pouvez pas ajouter d’autres fichiers joints à ce message.",
+        "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
         "message": "Désolé, le fichier sélectionné dépasse la limite de taille des messages.",
@@ -581,6 +627,10 @@
         "message": "Sélectionnez un contact ou un groupe pour lancer une conversation.",
         "description": ""
     },
+    "typingAlt": {
+        "message": "Animation de saisie pour cette conversation",
+        "description": "Used as the 'title' attibute for the typing animation"
+    },
     "contactAvatarAlt": {
         "message": "Avatar pour le contact $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
@@ -643,6 +693,10 @@
         "message": "Le message original a été trouvé, mais n’a pas été chargé. Faites défiler vers le haut pour le charger.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceNoteMustBeOnlyAttachment": {
+        "message": "A voice note must be the only attachment included in a message.",
+        "description": "Shown in toast if tries to record a voice note with any staged attachments"
+    },
     "you": {
         "message": "Vous",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
@@ -670,7 +724,7 @@
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Contenu audio",
+        "message": "Audio",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
@@ -706,7 +760,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Êtes-vous certain ? Cliquer sur Supprimer effacera définitivement ce message de cet appareil seulement.",
+        "message": "Êtes-vous certain ? Cliquer sur Supprimer éliminera définitivement ce message de cet appareil seulement.",
         "description": ""
     },
     "deleteThisMessage": {
@@ -807,6 +861,18 @@
         "message": "Image envoyée dans la conversation",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
+    "imageCaptionIconAlt": {
+        "message": "Icône qui indique que cette image a une légende",
+        "description": "Used for the icon layered on top of an image in message bubbles"
+    },
+    "addACaption": {
+        "message": "Ajouter un légende…",
+        "description": ""
+    },
+    "save": {
+        "message": "Enregistrer",
+        "description": ""
+    },
     "fileIconAlt": {
         "message": "Icône de fichier",
         "description": "Used in the media gallery documents tab to visually represent a file"
@@ -889,9 +955,17 @@
         "message": "Autoriser l’accès à la caméra et au micro",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Correcteur orthographique",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Général",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Envoyer des aperçus de liens.",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Les aperçus sont pris en charge pour les liens Imgur, Instagram, Reddit et YouTube.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Activer la vérification de l’orthographe du texte saisi dans la fenêtre de rédaction des messages",
@@ -1086,7 +1160,7 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "J MMM",
+        "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "unblockToSend": {

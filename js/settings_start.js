@@ -32,10 +32,21 @@ const getInitialData = async () => ({
 window.initialRequest = getInitialData();
 
 // eslint-disable-next-line more/no-then
-window.initialRequest.then(data => {
-  'use strict';
+window.initialRequest.then(
+  data => {
+    'use strict';
 
-  window.initialData = data;
-  window.view = new Whisper.SettingsView();
-  window.view.$el.appendTo($body);
-});
+    window.initialData = data;
+    window.view = new Whisper.SettingsView();
+    window.view.$el.appendTo($body);
+  },
+  error => {
+    'use strict';
+
+    window.log.error(
+      'settings.initialRequest error:',
+      error && error.stack ? error.stack : error
+    );
+    window.closeSettings();
+  }
+);

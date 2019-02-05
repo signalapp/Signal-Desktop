@@ -148,8 +148,10 @@
         clearDataExplanation: i18n('clearDataExplanation'),
         permissions: i18n('permissions'),
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
-        spellCheckHeader: i18n('spellCheck'),
+        generalHeader: i18n('general'),
         spellCheckDescription: i18n('spellCheckDescription'),
+        sendLinkPreviews: i18n('sendLinkPreviews'),
+        linkPreviewsDescription: i18n('linkPreviewsDescription'),
       };
     },
     onClose() {

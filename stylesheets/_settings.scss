@@ -1,4 +1,6 @@
 .settings {
+  user-select: none;
+
   &.modal {
     padding: 0;
     background-color: transparent;
@@ -53,5 +55,13 @@
       background-color: red;
       color: white;
     }
+  }
+
+  .send-link-previews-setting {
+    margin-top: 0.75em;
+  }
+  .description {
+    margin-top: 0.3em;
+    margin-left: 1.5em;
   }
 }

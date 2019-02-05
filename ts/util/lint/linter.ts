@@ -52,6 +52,7 @@ const excludedFiles = [
   // High-traffic files in our project
   '^js/views/conversation_view.js',
   '^js/views/file_input_view.js',
+  '^js/background.js',
 
   // Generated files
   '^js/components.js',
@@ -84,6 +85,7 @@ const excludedFiles = [
   '^node_modules/body-parser/*',
   '^node_modules/bower/*',
   '^node_modules/buble/*',
+  '^node_modules/cacache/*',
   '^node_modules/chai/*',
   '^node_modules/cli-table2/*',
   '^node_modules/codemirror/*',
