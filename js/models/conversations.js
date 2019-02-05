@@ -8,6 +8,7 @@
 /* global textsecure: false */
 /* global Whisper: false */
 /* global lokiP2pAPI: false */
+/* global JobQueue: false */
 
 /* eslint-disable more/no-then */
 
@@ -160,6 +161,8 @@
 
       // Online status handling
       this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
+
+      this.messageSendQueue = new JobQueue();
     },
 
     isMe() {
@@ -1010,23 +1013,12 @@
     },
 
     queueMessageSend(callback) {
-      const previous = this.pendingSend || Promise.resolve();
-
       const taskWithTimeout = textsecure.createTaskWithTimeout(
         callback,
         `conversation ${this.idForLogging()}`
       );
 
-      this.pendingSend = previous.then(taskWithTimeout, taskWithTimeout);
-      const current = this.pendingSend;
-
-      current.then(() => {
-        if (this.pendingSend === current) {
-          delete this.pendingSend;
-        }
-      });
-
-      return current;
+      return this.messageSendQueue.add(taskWithTimeout);
     },
 
     getRecipients() {
