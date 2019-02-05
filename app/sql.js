@@ -94,6 +94,8 @@ module.exports = {
   getUnprocessedCount,
   getAllUnprocessed,
   saveUnprocessed,
+  updateUnprocessedAttempts,
+  updateUnprocessedWithData,
   getUnprocessedById,
   saveUnprocesseds,
   removeUnprocessed,
@@ -563,6 +565,66 @@ async function updateToSchemaVersion9(currentVersion, instance) {
   console.log('updateToSchemaVersion9: success!');
 }
 
+async function updateToSchemaVersion10(currentVersion, instance) {
+  if (currentVersion >= 10) {
+    return;
+  }
+  console.log('updateToSchemaVersion10: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run('DROP INDEX unprocessed_id;');
+  await instance.run('DROP INDEX unprocessed_timestamp;');
+  await instance.run('ALTER TABLE unprocessed RENAME TO unprocessed_old;');
+
+  await instance.run(`CREATE TABLE unprocessed(
+    id STRING,
+    timestamp INTEGER,
+    version INTEGER,
+    attempts INTEGER,
+    envelope TEXT,
+    decrypted TEXT,
+    source TEXT,
+    sourceDevice TEXT,
+    serverTimestamp INTEGER
+  );`);
+
+  await instance.run(`CREATE INDEX unprocessed_id ON unprocessed (
+    id
+  );`);
+  await instance.run(`CREATE INDEX unprocessed_timestamp ON unprocessed (
+    timestamp
+  );`);
+
+  await instance.run(`INSERT INTO unprocessed (
+    id,
+    timestamp,
+    version,
+    attempts,
+    envelope,
+    decrypted,
+    source,
+    sourceDevice,
+    serverTimestamp
+  ) SELECT
+    id,
+    timestamp,
+    json_extract(json, '$.version'),
+    json_extract(json, '$.attempts'),
+    json_extract(json, '$.envelope'),
+    json_extract(json, '$.decrypted'),
+    json_extract(json, '$.source'),
+    json_extract(json, '$.sourceDevice'),
+    json_extract(json, '$.serverTimestamp')
+  FROM unprocessed_old;
+  `);
+
+  await instance.run('DROP TABLE unprocessed_old;');
+
+  await instance.run('PRAGMA schema_version = 10;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion10: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -573,6 +635,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion7,
   updateToSchemaVersion8,
   updateToSchemaVersion9,
+  updateToSchemaVersion10,
 ];
 
 async function updateSchema(instance) {
@@ -1424,23 +1487,32 @@ async function getNextExpiringMessage() {
 }
 
 async function saveUnprocessed(data, { forceSave } = {}) {
-  const { id, timestamp } = data;
+  const { id, timestamp, version, attempts, envelope } = data;
+  if (!id) {
+    throw new Error('saveUnprocessed: id was falsey');
+  }
 
   if (forceSave) {
     await db.run(
       `INSERT INTO unprocessed (
         id,
         timestamp,
-        json
+        version,
+        attempts,
+        envelope
       ) values (
         $id,
         $timestamp,
-        $json
+        $version,
+        $attempts,
+        $envelope
       );`,
       {
         $id: id,
         $timestamp: timestamp,
-        $json: objectToJSON(data),
+        $version: version,
+        $attempts: attempts,
+        $envelope: envelope,
       }
     );
 
@@ -1449,13 +1521,17 @@ async function saveUnprocessed(data, { forceSave } = {}) {
 
   await db.run(
     `UPDATE unprocessed SET
-      json = $json,
-      timestamp = $timestamp
+      timestamp = $timestamp,
+      version = $version,
+      attempts = $attempts,
+      envelope = $envelope
     WHERE id = $id;`,
     {
       $id: id,
       $timestamp: timestamp,
-      $json: objectToJSON(data),
+      $version: version,
+      $attempts: attempts,
+      $envelope: envelope,
     }
   );
 
@@ -1478,16 +1554,38 @@ async function saveUnprocesseds(arrayOfUnprocessed, { forceSave } = {}) {
   await promise;
 }
 
+async function updateUnprocessedAttempts(id, attempts) {
+  await db.run('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;', {
+    $id: id,
+    $attempts: attempts,
+  });
+}
+async function updateUnprocessedWithData(id, data = {}) {
+  const { source, sourceDevice, serverTimestamp, decrypted } = data;
+
+  await db.run(
+    `UPDATE unprocessed SET
+      source = $source,
+      sourceDevice = $sourceDevice,
+      serverTimestamp = $serverTimestamp,
+      decrypted = $decrypted
+    WHERE id = $id;`,
+    {
+      $id: id,
+      $source: source,
+      $sourceDevice: sourceDevice,
+      $serverTimestamp: serverTimestamp,
+      $decrypted: decrypted,
+    }
+  );
+}
+
 async function getUnprocessedById(id) {
-  const row = await db.get('SELECT json FROM unprocessed WHERE id = $id;', {
+  const row = await db.get('SELECT * FROM unprocessed WHERE id = $id;', {
     $id: id,
   });
 
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
+  return row;
 }
 
 async function getUnprocessedCount() {
@@ -1502,10 +1600,10 @@ async function getUnprocessedCount() {
 
 async function getAllUnprocessed() {
   const rows = await db.all(
-    'SELECT json FROM unprocessed ORDER BY timestamp ASC;'
+    'SELECT * FROM unprocessed ORDER BY timestamp ASC;'
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows;
 }
 
 async function removeUnprocessed(id) {

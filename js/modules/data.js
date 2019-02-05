@@ -131,6 +131,8 @@ module.exports = {
   getUnprocessedById,
   saveUnprocessed,
   saveUnprocesseds,
+  updateUnprocessedAttempts,
+  updateUnprocessedWithData,
   removeUnprocessed,
   removeAllUnprocessed,
 
@@ -848,13 +850,8 @@ async function getAllUnprocessed() {
   return channels.getAllUnprocessed();
 }
 
-async function getUnprocessedById(id, { Unprocessed }) {
-  const unprocessed = await channels.getUnprocessedById(id);
-  if (!unprocessed) {
-    return null;
-  }
-
-  return new Unprocessed(unprocessed);
+async function getUnprocessedById(id) {
+  return channels.getUnprocessedById(id);
 }
 
 async function saveUnprocessed(data, { forceSave } = {}) {
@@ -866,6 +863,13 @@ async function saveUnprocesseds(arrayOfUnprocessed, { forceSave } = {}) {
   await channels.saveUnprocesseds(_cleanData(arrayOfUnprocessed), {
     forceSave,
   });
+}
+
+async function updateUnprocessedAttempts(id, attempts) {
+  await channels.updateUnprocessedAttempts(id, attempts);
+}
+async function updateUnprocessedWithData(id, data) {
+  await channels.updateUnprocessedWithData(id, data);
 }
 
 async function removeUnprocessed(id) {

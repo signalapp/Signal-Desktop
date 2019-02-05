@@ -994,36 +994,36 @@ describe('SignalProtocolStore', () => {
       assert.strictEqual(items.length, 0);
     });
 
-    it('adds two and gets them back', async () => {
+    it('adds three and gets them back', async () => {
       await Promise.all([
-        store.addUnprocessed({ id: 2, name: 'second', timestamp: 2 }),
-        store.addUnprocessed({ id: 3, name: 'third', timestamp: 3 }),
-        store.addUnprocessed({ id: 1, name: 'first', timestamp: 1 }),
+        store.addUnprocessed({ id: 2, envelope: 'second', timestamp: 2 }),
+        store.addUnprocessed({ id: 3, envelope: 'third', timestamp: 3 }),
+        store.addUnprocessed({ id: 1, envelope: 'first', timestamp: 1 }),
       ]);
 
       const items = await store.getAllUnprocessed();
       assert.strictEqual(items.length, 3);
 
       // they are in the proper order because the collection comparator is 'timestamp'
-      assert.strictEqual(items[0].name, 'first');
-      assert.strictEqual(items[1].name, 'second');
-      assert.strictEqual(items[2].name, 'third');
+      assert.strictEqual(items[0].envelope, 'first');
+      assert.strictEqual(items[1].envelope, 'second');
+      assert.strictEqual(items[2].envelope, 'third');
     });
 
     it('saveUnprocessed successfully updates item', async () => {
       const id = 1;
-      await store.addUnprocessed({ id, name: 'first', timestamp: 1 });
-      await store.saveUnprocessed({ id, name: 'updated', timestamp: 1 });
+      await store.addUnprocessed({ id, envelope: 'first', timestamp: 1 });
+      await store.updateUnprocessedWithData(id, { decrypted: 'updated' });
 
       const items = await store.getAllUnprocessed();
       assert.strictEqual(items.length, 1);
-      assert.strictEqual(items[0].name, 'updated');
+      assert.strictEqual(items[0].decrypted, 'updated');
       assert.strictEqual(items[0].timestamp, 1);
     });
 
     it('removeUnprocessed successfully deletes item', async () => {
       const id = 1;
-      await store.addUnprocessed({ id, name: 'first', timestamp: 1 });
+      await store.addUnprocessed({ id, envelope: 'first', timestamp: 1 });
       await store.removeUnprocessed(id);
 
       const items = await store.getAllUnprocessed();

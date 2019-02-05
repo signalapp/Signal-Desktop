@@ -98,7 +98,6 @@
     return result === 0;
   }
 
-  const Unprocessed = Backbone.Model.extend();
   const IdentityRecord = Backbone.Model.extend({
     storeName: 'identityKeys',
     validAttributes: [
@@ -872,21 +871,23 @@
       return window.Signal.Data.getAllUnprocessed();
     },
     getUnprocessedById(id) {
-      return window.Signal.Data.getUnprocessedById(id, { Unprocessed });
+      return window.Signal.Data.getUnprocessedById(id);
     },
     addUnprocessed(data) {
       // We need to pass forceSave because the data has an id already, which will cause
       //   an update instead of an insert.
       return window.Signal.Data.saveUnprocessed(data, {
         forceSave: true,
-        Unprocessed,
       });
     },
-    saveUnprocessed(data) {
-      return window.Signal.Data.saveUnprocessed(data, { Unprocessed });
+    updateUnprocessedAttempts(id, attempts) {
+      return window.Signal.Data.updateUnprocessedAttempts(id, attempts);
+    },
+    updateUnprocessedWithData(id, data) {
+      return window.Signal.Data.updateUnprocessedWithData(id, data);
     },
     removeUnprocessed(id) {
-      return window.Signal.Data.removeUnprocessed(id, { Unprocessed });
+      return window.Signal.Data.removeUnprocessed(id);
     },
     removeAllUnprocessed() {
       return window.Signal.Data.removeAllUnprocessed();
