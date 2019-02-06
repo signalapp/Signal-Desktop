@@ -44,8 +44,7 @@ describe('LocalLokiServer', () => {
     const timer = setTimeout(() => {
       promise = Promise.resolve();
     }, 5000);
-    this.lokiP2pAPI.on('pingContact', (pubKey, forceP2p) => {
-      assert.isTrue(forceP2p);
+    this.lokiP2pAPI.on('pingContact', pubKey => {
       clearTimeout(timer);
       promise = Promise.resolve(pubKey);
     });

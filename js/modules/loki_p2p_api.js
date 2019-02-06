@@ -80,7 +80,7 @@ class LokiP2pAPI extends EventEmitter {
     if (!this.contactP2pDetails[pubKey]) {
       return;
     }
-    this.emit('pingContact', pubKey, true);
+    this.emit('pingContact', pubKey);
   }
 }
 
