@@ -14,21 +14,17 @@ describe('LocalLokiServer', () => {
     this.lokiP2pAPI.reset();
   });
 
-  it("Should not emit a pingContact event if that contact doesn't exits", async () => {
+  it("Should not emit a pingContact event if that contact doesn't exits", () => {
     this.lokiP2pAPI.on('pingContact', () => {
       assert.fail();
     });
     this.lokiP2pAPI.pingContact('not stored');
   });
 
-  it('Should emit an online event if the contact is online', async () => {
-    let promise;
-    const timer = setTimeout(() => {
-      promise = Promise.resolve();
-    }, 5000);
+  it('Should emit an online event if the contact is online', done => {
     this.lokiP2pAPI.on('online', pubKey => {
-      clearTimeout(timer);
-      promise = Promise.resolve(pubKey);
+      assert.strictEqual(pubKey, usedKey);
+      done();
     });
     this.lokiP2pAPI.updateContactP2pDetails(
       usedKey,
@@ -36,17 +32,12 @@ describe('LocalLokiServer', () => {
       usedPort,
       true
     );
-    assert.strictEqual(await promise, usedKey);
-  });
+  }).timeout(1000);
 
-  it("Should send a pingContact event if the contact isn't online", async () => {
-    let promise;
-    const timer = setTimeout(() => {
-      promise = Promise.resolve();
-    }, 5000);
+  it("Should send a pingContact event if the contact isn't online", done => {
     this.lokiP2pAPI.on('pingContact', pubKey => {
-      clearTimeout(timer);
-      promise = Promise.resolve(pubKey);
+      assert.strictEqual(pubKey, usedKey);
+      done();
     });
     this.lokiP2pAPI.updateContactP2pDetails(
       usedKey,
@@ -54,31 +45,21 @@ describe('LocalLokiServer', () => {
       usedPort,
       false
     );
-    assert.strictEqual(await promise, usedKey);
-  });
+  }).timeout(1000);
 
-  it('Should store a contacts p2p details', async () => {
-    let promise;
-    const timer = setTimeout(() => {
-      promise = Promise.resolve();
-    }, 5000);
-    this.lokiP2pAPI.on('online', pubKey => {
-      clearTimeout(timer);
-      promise = Promise.resolve(pubKey);
-    });
+  it('Should store a contacts p2p details', () => {
     this.lokiP2pAPI.updateContactP2pDetails(
       usedKey,
       usedAddress,
       usedPort,
       true
     );
-    await promise;
     const p2pDetails = this.lokiP2pAPI.getContactP2pDetails(usedKey);
     assert.strictEqual(usedAddress, p2pDetails.address);
     assert.strictEqual(usedPort, p2pDetails.port);
   });
 
-  it('Should say if a contact is online', async () => {
+  it('Should say if a contact is online', () => {
     this.lokiP2pAPI.updateContactP2pDetails(
       usedKey,
       usedAddress,
@@ -95,7 +76,7 @@ describe('LocalLokiServer', () => {
     assert.isFalse(this.lokiP2pAPI.isOnline(usedKey));
   });
 
-  it('Should set a contact as offline', async () => {
+  it('Should set a contact as offline', () => {
     this.lokiP2pAPI.updateContactP2pDetails(
       usedKey,
       usedAddress,
