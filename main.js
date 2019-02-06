@@ -63,7 +63,8 @@ const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 //   data directory has been set.
 const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
-const autoUpdate = require('./app/auto_update');
+// TODO: remove or restore when appropriate
+// const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
@@ -799,7 +800,8 @@ async function showMainWindow(sqlKey) {
 
   ready = true;
 
-  autoUpdate.initialize(getMainWindow, locale.messages);
+  // TODO: remove or restore when appropriate
+  // autoUpdate.initialize(getMainWindow, locale.messages);
 
   createWindow();
 
