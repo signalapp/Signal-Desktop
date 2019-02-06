@@ -64,6 +64,7 @@
         null, // messageText
         [], // attachments
         null, // quote
+        [], // preview
         Date.now(), // timestamp
         null, // expireTimer
         null, // profileKey
