@@ -109,7 +109,7 @@
 
       this.close();
 
-      if (error && error.name === 'PermissionDeniedError') {
+      if (error && error.name === 'NotAllowedError') {
         window.log.warn(
           'RecorderView.onError: Microphone access is not allowed!'
         );

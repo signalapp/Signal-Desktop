@@ -7,6 +7,7 @@
   i18n,
   Signal,
   storage,
+  textsecure,
   Whisper,
   ConversationController,
   clipboard
@@ -135,6 +136,9 @@
         'show-message-detail',
         this.showMessageDetail
       );
+      this.listenTo(this.model.messageCollection, 'navigate-to', url => {
+        window.location = url;
+      });
 
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),
@@ -143,6 +147,10 @@
       this.throttledGetProfiles = _.throttle(
         this.model.getProfiles.bind(this.model),
         1000 * 60 * 5 // five minutes
+      );
+      this.debouncedMaybeGrabLinkPreview = _.debounce(
+        this.maybeGrabLinkPreview.bind(this),
+        200
       );
 
       this.render();
@@ -163,8 +171,11 @@
         this.onChooseAttachment
       );
       this.listenTo(this.fileInput, 'staged-attachments-changed', () => {
-        this.view.resetScrollPosition();
+        this.view.restoreBottomOffset();
         this.toggleMicrophone();
+        if (this.fileInput.hasFiles()) {
+          this.removeLinkPreview();
+        }
       });
 
       const getHeaderProps = () => {
@@ -289,7 +300,7 @@
       'submit .send': 'checkUnverifiedSendMessage',
       'input .send-message': 'updateMessageFieldSize',
       'keydown .send-message': 'updateMessageFieldSize',
-      'keyup .send-message': 'maybeBumpTyping',
+      'keyup .send-message': 'onKeyUp',
       click: 'onClick',
       'click .bottom-bar': 'focusMessageField',
       'click .capture-audio .microphone': 'captureAudio',
@@ -840,7 +851,7 @@
         const message = rawMedia[i];
         const { schemaVersion } = message;
 
-        if (schemaVersion < Message.CURRENT_SCHEMA_VERSION) {
+        if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
           // Yep, we really do want to wait for each of these
           // eslint-disable-next-line no-await-in-loop
           rawMedia[i] = await upgradeMessageSchema(message);
@@ -1197,7 +1208,10 @@
 
     forceSend({ contact, message }) {
       const dialog = new Whisper.ConfirmationDialogView({
-        message: i18n('identityKeyErrorOnSend'),
+        message: i18n('identityKeyErrorOnSend', [
+          contact.getTitle(),
+          contact.getTitle(),
+        ]),
         okText: i18n('sendAnyway'),
         resolve: async () => {
           await contact.updateVerified();
@@ -1703,10 +1717,16 @@
         const sendDelta = Date.now() - this.sendStart;
         window.log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
-        this.model.sendMessage(message, attachments, this.quote);
+        this.model.sendMessage(
+          message,
+          attachments,
+          this.quote,
+          this.getLinkPreview()
+        );
 
         input.val('');
         this.setQuoteMessage(null);
+        this.resetLinkPreview();
         this.focusMessageFieldAndClearDisabled();
         this.forceUpdateMessageFieldSize(e);
         this.fileInput.clearAttachments();
@@ -1718,6 +1738,311 @@
       } finally {
         this.focusMessageFieldAndClearDisabled();
       }
+    },
+
+    onKeyUp() {
+      this.maybeBumpTyping();
+      this.debouncedMaybeGrabLinkPreview();
+    },
+
+    maybeGrabLinkPreview() {
+      // Don't generate link previews if user has turned them off
+      if (!storage.get('linkPreviews', false)) {
+        return;
+      }
+      // Do nothing if we're offline
+      if (!textsecure.messaging) {
+        return;
+      }
+      // If we have attachments, don't add link preview
+      if (this.fileInput.hasFiles()) {
+        return;
+      }
+      // If we're behind a user-configured proxy, we don't support link previews
+      if (window.isBehindProxy()) {
+        return;
+      }
+
+      const messageText = this.$messageField.val().trim();
+
+      if (!messageText) {
+        this.resetLinkPreview();
+        return;
+      }
+      if (this.disableLinkPreviews) {
+        return;
+      }
+
+      const links = window.Signal.LinkPreviews.findLinks(messageText);
+      const { currentlyMatchedLink } = this;
+      if (links.includes(currentlyMatchedLink)) {
+        return;
+      }
+
+      this.currentlyMatchedLink = null;
+      this.excludedPreviewUrls = this.excludedPreviewUrls || [];
+
+      const link = links.find(
+        item =>
+          window.Signal.LinkPreviews.isLinkInWhitelist(item) &&
+          !this.excludedPreviewUrls.includes(item)
+      );
+      if (!link) {
+        this.removeLinkPreview();
+        return;
+      }
+
+      this.currentlyMatchedLink = link;
+      this.addLinkPreview(link);
+    },
+
+    resetLinkPreview() {
+      this.disableLinkPreviews = false;
+      this.excludedPreviewUrls = [];
+      this.removeLinkPreview();
+    },
+
+    removeLinkPreview() {
+      (this.preview || []).forEach(item => {
+        if (item.url) {
+          URL.revokeObjectURL(item.url);
+        }
+      });
+      this.preview = null;
+      this.previewLoading = null;
+      this.currentlyMatchedLink = false;
+      this.renderLinkPreview();
+    },
+
+    async makeChunkedRequest(url) {
+      const PARALLELISM = 3;
+      const size = await textsecure.messaging.getProxiedSize(url);
+      const chunks = await Signal.LinkPreviews.getChunkPattern(size);
+
+      let results = [];
+      const jobs = chunks.map(chunk => async () => {
+        const { start, end } = chunk;
+
+        const result = await textsecure.messaging.makeProxiedRequest(url, {
+          start,
+          end,
+          returnArrayBuffer: true,
+        });
+
+        return {
+          ...chunk,
+          ...result,
+        };
+      });
+
+      while (jobs.length > 0) {
+        const activeJobs = [];
+        for (let i = 0, max = PARALLELISM; i < max; i += 1) {
+          if (!jobs.length) {
+            break;
+          }
+
+          const job = jobs.shift();
+          activeJobs.push(job());
+        }
+
+        // eslint-disable-next-line no-await-in-loop
+        results = results.concat(await Promise.all(activeJobs));
+      }
+
+      if (!results.length) {
+        throw new Error('No responses received');
+      }
+
+      const { contentType } = results[0];
+      const data = Signal.LinkPreviews.assembleChunks(results);
+
+      return {
+        contentType,
+        data,
+      };
+    },
+
+    async getPreview(url) {
+      let html;
+      try {
+        html = await textsecure.messaging.makeProxiedRequest(url);
+      } catch (error) {
+        if (error.code >= 300) {
+          return null;
+        }
+      }
+
+      const title = window.Signal.LinkPreviews.getTitleMetaTag(html);
+      const imageUrl = window.Signal.LinkPreviews.getImageMetaTag(html);
+
+      let image;
+      let objectUrl;
+      try {
+        if (imageUrl) {
+          if (!Signal.LinkPreviews.isMediaLinkInWhitelist(imageUrl)) {
+            const primaryDomain = Signal.LinkPreviews.getDomain(url);
+            const imageDomain = Signal.LinkPreviews.getDomain(imageUrl);
+            throw new Error(
+              `imageUrl for domain ${primaryDomain} did not match media whitelist. Domain: ${imageDomain}`
+            );
+          }
+
+          const data = await this.makeChunkedRequest(imageUrl);
+
+          // Ensure that this file is either small enough or is resized to meet our
+          //   requirements for attachments
+          const withBlob = await this.fileInput.autoScale({
+            contentType: data.contentType,
+            file: new Blob([data.data], {
+              type: data.contentType,
+            }),
+          });
+
+          const attachment = await this.fileInput.readFile(withBlob);
+          objectUrl = URL.createObjectURL(withBlob.file);
+
+          const dimensions = await Signal.Types.VisualAttachment.getImageDimensions(
+            {
+              objectUrl,
+              logger: window.log,
+            }
+          );
+
+          image = {
+            ...attachment,
+            ...dimensions,
+            contentType: withBlob.file.type,
+          };
+        }
+      } catch (error) {
+        // We still want to show the preview if we failed to get an image
+        window.log.error(
+          'getPreview failed to get image for link preview:',
+          error.message
+        );
+      } finally {
+        if (objectUrl) {
+          URL.revokeObjectURL(objectUrl);
+        }
+      }
+
+      return {
+        title,
+        url,
+        image,
+      };
+    },
+
+    async addLinkPreview(url) {
+      (this.preview || []).forEach(item => {
+        if (item.url) {
+          URL.revokeObjectURL(item.url);
+        }
+      });
+      this.preview = null;
+
+      this.currentlyMatchedLink = url;
+      this.previewLoading = this.getPreview(url);
+      const promise = this.previewLoading;
+      this.renderLinkPreview();
+
+      try {
+        const result = await promise;
+
+        if (
+          url !== this.currentlyMatchedLink ||
+          promise !== this.previewLoading
+        ) {
+          // another request was started, or this was canceled
+          return;
+        }
+
+        // If we couldn't pull down the initial URL
+        if (!result) {
+          this.excludedPreviewUrls.push(url);
+          this.removeLinkPreview();
+          return;
+        }
+
+        if (result.image) {
+          const blob = new Blob([result.image.data], {
+            type: result.image.contentType,
+          });
+          result.image.url = URL.createObjectURL(blob);
+        } else if (!result.title) {
+          // A link preview isn't worth showing unless we have either a title or an image
+          this.removeLinkPreview();
+          return;
+        }
+
+        this.preview = [result];
+        this.renderLinkPreview();
+      } catch (error) {
+        window.log.error(
+          'Problem loading link preview, disabling.',
+          error && error.stack ? error.stack : error
+        );
+        this.disableLinkPreviews = true;
+        this.removeLinkPreview();
+      }
+    },
+
+    renderLinkPreview() {
+      if (this.previewView) {
+        this.previewView.remove();
+        this.previewView = null;
+      }
+      if (!this.currentlyMatchedLink) {
+        this.view.restoreBottomOffset();
+        this.updateMessageFieldSize({});
+        return;
+      }
+
+      const first = (this.preview && this.preview[0]) || null;
+      const props = {
+        ...first,
+        domain: first && window.Signal.LinkPreviews.getDomain(first.url),
+        isLoaded: Boolean(first),
+        onClose: () => {
+          this.disableLinkPreviews = true;
+          this.removeLinkPreview();
+        },
+      };
+
+      this.previewView = new Whisper.ReactWrapperView({
+        className: 'preview-wrapper',
+        Component: window.Signal.Components.StagedLinkPreview,
+        elCallback: el => this.$('.send').prepend(el),
+        props,
+        onInitialRender: () => {
+          this.view.restoreBottomOffset();
+          this.updateMessageFieldSize({});
+        },
+      });
+    },
+
+    getLinkPreview() {
+      // Don't generate link previews if user has turned them off
+      if (!storage.get('linkPreviews', false)) {
+        return [];
+      }
+
+      if (!this.preview) {
+        return [];
+      }
+
+      return this.preview.map(item => {
+        if (item.image) {
+          // We eliminate the ObjectURL here, unneeded for send or save
+          return {
+            ...item,
+            image: _.omit(item.image, 'url'),
+          };
+        }
+
+        return item;
+      });
     },
 
     // Called whenever the user changes the message composition field. But only

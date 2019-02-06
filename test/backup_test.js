@@ -392,6 +392,15 @@ describe('Backup', () => {
               return attachment;
             })
           ),
+          preview: await Promise.all(
+            (message.preview || []).map(async item => {
+              if (item.image) {
+                await wrappedLoadAttachment(item.image);
+              }
+
+              return item;
+            })
+          ),
         });
       }
 
@@ -400,8 +409,9 @@ describe('Backup', () => {
         // Seven total:
         //   - Five from image/video attachments
         //   - One from embedded contact avatar
-        //   - Another from embedded quoted attachment thumbnail
-        const ATTACHMENT_COUNT = 7;
+        //   - One from embedded quoted attachment thumbnail
+        //   - One from a link preview image
+        const ATTACHMENT_COUNT = 8;
         const MESSAGE_COUNT = 1;
         const CONVERSATION_COUNT = 1;
 
@@ -464,6 +474,17 @@ describe('Backup', () => {
                   contentType: 'image/png',
                   data: FIXTURES.png,
                 },
+              },
+            },
+          ],
+          preview: [
+            {
+              url: 'https://www.instagram.com/p/BsOGulcndj-/',
+              title:
+                'EGG GANG 🌍 on Instagram: “Let’s set a world record together and get the most liked post on Instagram. Beating the current world record held by Kylie Jenner (18…”',
+              image: {
+                contentType: 'image/jpeg',
+                data: FIXTURES.jpg,
               },
             },
           ],

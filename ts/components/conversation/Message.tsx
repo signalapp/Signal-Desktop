@@ -6,12 +6,15 @@ import { MessageBody } from './MessageBody';
 import { ExpireTimer, getIncrement } from './ExpireTimer';
 import {
   getGridDimensions,
+  getImageDimensions,
   hasImage,
   hasVideoScreenshot,
   ImageGrid,
   isImage,
+  isImageAttachment,
   isVideo,
 } from './ImageGrid';
+import { Image } from './Image';
 import { Timestamp } from './Timestamp';
 import { ContactName } from './ContactName';
 import { Quote, QuotedAttachmentType } from './Quote';
@@ -26,6 +29,16 @@ import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 interface Trigger {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+}
+
+// Same as MIN_WIDTH in ImageGrid.tsx
+const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
+
+interface LinkPreviewType {
+  title: string;
+  domain: string;
+  url: string;
+  image?: AttachmentType;
 }
 
 export interface Props {
@@ -61,11 +74,13 @@ export interface Props {
     onClick?: () => void;
     referencedMessageNotFound: boolean;
   };
+  previews: Array<LinkPreviewType>;
   authorAvatarPath?: string;
   isExpired: boolean;
   expirationLength?: number;
   expirationTimestamp?: number;
   onClickAttachment?: (attachment: AttachmentType) => void;
+  onClickLinkPreview?: (url: string) => void;
   onReply?: () => void;
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
@@ -173,7 +188,6 @@ export class Message extends React.Component<Props, State> {
 
   public renderMetadata() {
     const {
-      attachments,
       collapseMetadata,
       direction,
       expirationLength,
@@ -183,20 +197,13 @@ export class Message extends React.Component<Props, State> {
       text,
       timestamp,
     } = this.props;
-    const { imageBroken } = this.state;
 
     if (collapseMetadata) {
       return null;
     }
 
-    const canDisplayAttachment = canDisplayImage(attachments);
-    const withImageNoCaption = Boolean(
-      !text &&
-        canDisplayAttachment &&
-        !imageBroken &&
-        ((isImage(attachments) && hasImage(attachments)) ||
-          (isVideo(attachments) && hasVideoScreenshot(attachments)))
-    );
+    const isShowingImage = this.isShowingImage();
+    const withImageNoCaption = Boolean(!text && isShowingImage);
     const showError = status === 'error' && direction === 'outgoing';
 
     return (
@@ -407,6 +414,107 @@ export class Message extends React.Component<Props, State> {
         </div>
       );
     }
+  }
+
+  // tslint:disable-next-line cyclomatic-complexity
+  public renderPreview() {
+    const {
+      attachments,
+      conversationType,
+      direction,
+      i18n,
+      onClickLinkPreview,
+      previews,
+      quote,
+    } = this.props;
+
+    // Attachments take precedence over Link Previews
+    if (attachments && attachments.length) {
+      return null;
+    }
+
+    if (!previews || previews.length < 1) {
+      return null;
+    }
+
+    const first = previews[0];
+    if (!first) {
+      return null;
+    }
+
+    const withContentAbove =
+      Boolean(quote) ||
+      (conversationType === 'group' && direction === 'incoming');
+
+    const previewHasImage = first.image && isImageAttachment(first.image);
+    const width = first.image && first.image.width;
+    const isFullSizeImage = width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
+
+    return (
+      <div
+        role="button"
+        className={classNames(
+          'module-message__link-preview',
+          withContentAbove
+            ? 'module-message__link-preview--with-content-above'
+            : null
+        )}
+        onClick={() => {
+          if (onClickLinkPreview) {
+            onClickLinkPreview(first.url);
+          }
+        }}
+      >
+        {first.image && previewHasImage && isFullSizeImage ? (
+          <ImageGrid
+            attachments={[first.image]}
+            withContentAbove={withContentAbove}
+            withContentBelow={true}
+            onError={this.handleImageErrorBound}
+            i18n={i18n}
+          />
+        ) : null}
+        <div
+          className={classNames(
+            'module-message__link-preview__content',
+            withContentAbove || isFullSizeImage
+              ? 'module-message__link-preview__content--with-content-above'
+              : null
+          )}
+        >
+          {first.image && previewHasImage && !isFullSizeImage ? (
+            <div className="module-message__link-preview__icon_container">
+              <Image
+                smallCurveTopLeft={!withContentAbove}
+                softCorners={true}
+                alt={i18n('previewThumbnail', [first.domain])}
+                height={72}
+                width={72}
+                url={first.image.url}
+                attachment={first.image}
+                onError={this.handleImageErrorBound}
+                i18n={i18n}
+              />
+            </div>
+          ) : null}
+          <div
+            className={classNames(
+              'module-message__link-preview__text',
+              previewHasImage && !isFullSizeImage
+                ? 'module-message__link-preview__text--with-icon'
+                : null
+            )}
+          >
+            <div className="module-message__link-preview__title">
+              {first.title}
+            </div>
+            <div className="module-message__link-preview__location">
+              {first.domain}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   public renderQuote() {
@@ -734,16 +842,80 @@ export class Message extends React.Component<Props, State> {
     );
   }
 
+  public getWidth(): Number | undefined {
+    const { attachments, previews } = this.props;
+
+    if (attachments && attachments.length) {
+      const dimensions = getGridDimensions(attachments);
+      if (dimensions) {
+        return dimensions.width;
+      }
+    }
+
+    if (previews && previews.length) {
+      const first = previews[0];
+
+      if (!first || !first.image) {
+        return;
+      }
+      const { width } = first.image;
+
+      if (
+        isImageAttachment(first.image) &&
+        width &&
+        width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH
+      ) {
+        const dimensions = getImageDimensions(first.image);
+        if (dimensions) {
+          return dimensions.width;
+        }
+      }
+    }
+
+    return;
+  }
+
+  public isShowingImage() {
+    const { attachments, previews } = this.props;
+    const { imageBroken } = this.state;
+
+    if (imageBroken) {
+      return false;
+    }
+
+    if (attachments && attachments.length) {
+      const displayImage = canDisplayImage(attachments);
+
+      return (
+        displayImage &&
+        ((isImage(attachments) && hasImage(attachments)) ||
+          (isVideo(attachments) && hasVideoScreenshot(attachments)))
+      );
+    }
+
+    if (previews && previews.length) {
+      const first = previews[0];
+      const { image } = first;
+
+      if (!image) {
+        return false;
+      }
+
+      return isImageAttachment(image);
+    }
+
+    return false;
+  }
+
   public render() {
     const {
-      attachments,
       authorPhoneNumber,
       authorColor,
       direction,
       id,
       timestamp,
     } = this.props;
-    const { expired, expiring, imageBroken } = this.state;
+    const { expired, expiring } = this.state;
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
@@ -753,15 +925,8 @@ export class Message extends React.Component<Props, State> {
       return null;
     }
 
-    const displayImage = canDisplayImage(attachments);
-
-    const showingImage =
-      displayImage &&
-      !imageBroken &&
-      ((isImage(attachments) && hasImage(attachments)) ||
-        (isVideo(attachments) && hasVideoScreenshot(attachments)));
-
-    const { width } = getGridDimensions(attachments) || { width: undefined };
+    const width = this.getWidth();
+    const isShowingImage = this.isShowingImage();
 
     return (
       <div
@@ -770,9 +935,6 @@ export class Message extends React.Component<Props, State> {
           `module-message--${direction}`,
           expiring ? 'module-message--expired' : null
         )}
-        style={{
-          width: showingImage ? width : undefined,
-        }}
       >
         {this.renderError(direction === 'incoming')}
         {this.renderMenu(direction === 'outgoing', triggerId)}
@@ -784,10 +946,14 @@ export class Message extends React.Component<Props, State> {
               ? `module-message__container--incoming-${authorColor}`
               : null
           )}
+          style={{
+            width: isShowingImage ? width : undefined,
+          }}
         >
           {this.renderAuthor()}
           {this.renderQuote()}
           {this.renderAttachment()}
+          {this.renderPreview()}
           {this.renderEmbeddedContact()}
           {this.renderText()}
           {this.renderMetadata()}

@@ -63,7 +63,8 @@ const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 //   data directory has been set.
 const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
-const autoUpdate = require('./app/auto_update');
+// TODO: remove or restore when appropriate
+// const autoUpdate = require('./app/auto_update');
 const createTrayIcon = require('./app/tray_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
@@ -153,6 +154,7 @@ function prepareURL(pathSegments, moreKeys) {
       hostname: os.hostname(),
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
+      contentProxyUrl: config.contentProxyUrl,
       importMode: importMode ? true : undefined, // for stringify()
       serverTrustRoot: config.get('serverTrustRoot'),
       ...moreKeys,
@@ -711,12 +713,12 @@ app.on('ready', async () => {
     loggingSetupError = error;
   }
 
+  if (loggingSetupError) {
+    console.error('Problem setting up logging', loggingSetupError.stack);
+  }
+
   logger = logging.getLogger();
   logger.info('app ready');
-
-  if (loggingSetupError) {
-    logger.error('Problem setting up logging', loggingSetupError.stack);
-  }
 
   if (!locale) {
     const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
@@ -798,7 +800,8 @@ async function showMainWindow(sqlKey) {
 
   ready = true;
 
-  autoUpdate.initialize(getMainWindow, locale.messages);
+  // TODO: remove or restore when appropriate
+  // autoUpdate.initialize(getMainWindow, locale.messages);
 
   createWindow();
 

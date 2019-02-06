@@ -72,6 +72,7 @@ describe('Message', () => {
           },
         ],
         contact: [],
+        preview: [],
       };
 
       const writeExistingAttachmentData = attachment => {
@@ -119,6 +120,7 @@ describe('Message', () => {
           ],
         },
         contact: [],
+        preview: [],
       };
 
       const writeExistingAttachmentData = attachment => {
@@ -169,6 +171,7 @@ describe('Message', () => {
             },
           },
         ],
+        preview: [],
       };
 
       const writeExistingAttachmentData = attachment => {

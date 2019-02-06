@@ -20,6 +20,9 @@ interface Props {
   curveBottomRight?: boolean;
   curveTopLeft?: boolean;
   curveTopRight?: boolean;
+
+  smallCurveTopLeft?: boolean;
+
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
   softCorners?: boolean;
@@ -50,6 +53,7 @@ export class Image extends React.Component<Props> {
       onError,
       overlayText,
       playIconOverlay,
+      smallCurveTopLeft,
       softCorners,
       url,
       width,
@@ -72,6 +76,7 @@ export class Image extends React.Component<Props> {
           curveBottomRight ? 'module-image--curved-bottom-right' : null,
           curveTopLeft ? 'module-image--curved-top-left' : null,
           curveTopRight ? 'module-image--curved-top-right' : null,
+          smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
           softCorners ? 'module-image--soft-corners' : null
         )}
       >
@@ -97,6 +102,7 @@ export class Image extends React.Component<Props> {
             curveTopRight ? 'module-image--curved-top-right' : null,
             curveBottomLeft ? 'module-image--curved-bottom-left' : null,
             curveBottomRight ? 'module-image--curved-bottom-right' : null,
+            smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
             softCorners ? 'module-image--soft-corners' : null,
             darkOverlay ? 'module-image__border-overlay--dark' : null
           )}

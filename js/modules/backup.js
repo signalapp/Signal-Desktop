@@ -616,6 +616,50 @@ async function writeContactAvatars(contact, options) {
   }
 }
 
+async function writePreviewImage(preview, options) {
+  const { image } = preview || {};
+  if (!image || !image.path) {
+    return;
+  }
+
+  const { dir, message, index, key, newKey } = options;
+  const name = _getAnonymousAttachmentFileName(message, index);
+  const filename = `${name}-preview`;
+  const target = path.join(dir, filename);
+
+  await writeEncryptedAttachment(target, image.path, {
+    key,
+    newKey,
+    filename,
+    dir,
+  });
+}
+
+async function writePreviews(preview, options) {
+  const { name } = options;
+
+  try {
+    await Promise.all(
+      _.map(preview, (item, index) =>
+        writePreviewImage(
+          item,
+          Object.assign({}, options, {
+            index,
+          })
+        )
+      )
+    );
+  } catch (error) {
+    window.log.error(
+      'writePreviews: error exporting conversation',
+      name,
+      ':',
+      error && error.stack ? error.stack : error
+    );
+    throw error;
+  }
+}
+
 async function writeEncryptedAttachment(target, source, options = {}) {
   const { key, newKey, filename, dir } = options;
 
@@ -745,6 +789,18 @@ async function exportConversation(conversation, options = {}) {
       if (contact && contact.length > 0) {
         // eslint-disable-next-line no-await-in-loop
         await writeContactAvatars(contact, {
+          dir: attachmentsDir,
+          name,
+          message,
+          key,
+          newKey,
+        });
+      }
+
+      const { preview } = message;
+      if (preview && preview.length > 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await writePreviews(preview, {
           dir: attachmentsDir,
           name,
           message,
@@ -925,7 +981,18 @@ async function loadAttachments(dir, getName, options) {
     })
   );
 
-  // TODO: Handle video screenshots, and image/video thumbnails
+  const { preview } = message;
+  await Promise.all(
+    _.map(preview, (item, index) => {
+      const image = item && item.image;
+      if (!image) {
+        return null;
+      }
+
+      const name = `${getName(message, index)}-preview`;
+      return readEncryptedAttachment(dir, image, name, options);
+    })
+  );
 }
 
 function saveMessage(message) {
@@ -1013,8 +1080,9 @@ async function importConversation(dir, options) {
       message.quote.attachments &&
       message.quote.attachments.length > 0;
     const hasContacts = message.contact && message.contact.length;
+    const hasPreviews = message.preview && message.preview.length;
 
-    if (hasAttachments || hasQuotedAttachments || hasContacts) {
+    if (hasAttachments || hasQuotedAttachments || hasContacts || hasPreviews) {
       const importMessage = async () => {
         const getName = attachmentsDir
           ? _getAnonymousAttachmentFileName

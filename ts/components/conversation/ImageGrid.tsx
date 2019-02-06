@@ -11,8 +11,8 @@ import { Localizer } from '../../types/Util';
 
 interface Props {
   attachments: Array<AttachmentType>;
-  withContentAbove: boolean;
-  withContentBelow: boolean;
+  withContentAbove?: boolean;
+  withContentBelow?: boolean;
   bottomOverlay?: boolean;
 
   i18n: Localizer;
@@ -370,7 +370,7 @@ type DimensionsType = {
   width: number;
 };
 
-function getImageDimensions(attachment: AttachmentType): DimensionsType {
+export function getImageDimensions(attachment: AttachmentType): DimensionsType {
   const { height, width } = attachment;
   if (!height || !width) {
     return {

@@ -29,6 +29,7 @@ window.getExpiration = () => config.buildExpiration;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
+window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -219,16 +220,20 @@ ipc.on('get-ready-for-shutdown', async () => {
 function installGetter(name, functionName) {
   ipc.on(`get-${name}`, async () => {
     const getFn = window.Events[functionName];
-    if (getFn) {
-      // eslint-disable-next-line no-param-reassign
-      try {
-        ipc.send(`get-success-${name}`, null, await getFn());
-      } catch (error) {
-        ipc.send(
-          `get-success-${name}`,
-          error && error.stack ? error.stack : error
-        );
-      }
+    if (!getFn) {
+      ipc.send(
+        `get-success-${name}`,
+        `installGetter: ${functionName} not found for event ${name}`
+      );
+      return;
+    }
+    try {
+      ipc.send(`get-success-${name}`, null, await getFn());
+    } catch (error) {
+      ipc.send(
+        `get-success-${name}`,
+        error && error.stack ? error.stack : error
+      );
     }
   });
 }
@@ -236,13 +241,21 @@ function installGetter(name, functionName) {
 function installSetter(name, functionName) {
   ipc.on(`set-${name}`, async (_event, value) => {
     const setFn = window.Events[functionName];
-    if (setFn) {
-      try {
-        await setFn(value);
-        ipc.send(`set-success-${name}`);
-      } catch (error) {
-        ipc.send(`set-success-${name}`, error);
-      }
+    if (!setFn) {
+      ipc.send(
+        `set-success-${name}`,
+        `installSetter: ${functionName} not found for event ${name}`
+      );
+      return;
+    }
+    try {
+      await setFn(value);
+      ipc.send(`set-success-${name}`);
+    } catch (error) {
+      ipc.send(
+        `set-success-${name}`,
+        error && error.stack ? error.stack : error
+      );
     }
   });
 }
@@ -266,6 +279,7 @@ window.WebAPI = initializeWebAPI({
   url: config.serverUrl,
   cdnUrl: config.cdnUrl,
   certificateAuthority: config.certificateAuthority,
+  contentProxyUrl: config.contentProxyUrl,
   proxyUrl: config.proxyUrl,
 });
 

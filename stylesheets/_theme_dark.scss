@@ -318,14 +318,6 @@ body.dark-theme {
     }
   }
 
-  .app-loading-screen {
-    background-color: $color-gray-95;
-
-    .dot {
-      border: 3px solid $blue;
-    }
-  }
-
   .full-screen-flow {
     color: black;
     a {
@@ -713,6 +705,24 @@ body.dark-theme {
 
   .module-message__generic-attachment__file-size--incoming {
     color: $color-white;
+  }
+
+  .module-message__link-preview__content {
+    background-color: $color-gray-95;
+    border: 1px solid $color-gray-60;
+  }
+
+  .module-message__link-preview__content--with-content-above {
+    border-top: none;
+    border-bottom: none;
+  }
+
+  .module-message__link-preview__title {
+    color: $color-gray-05;
+  }
+
+  .module-message__link-preview__location {
+    color: $color-gray-25;
   }
 
   .module-message__author {
@@ -1355,6 +1365,10 @@ body.dark-theme {
 
   // Module: Image
 
+  .module-image__border-overlay {
+    box-shadow: inset 0px 0px 0px 1px $color-white-015;
+  }
+
   // Module: Image Grid
 
   // Module: Typing Animation
@@ -1409,6 +1423,21 @@ body.dark-theme {
 
   .module-staged-placeholder-attachment__plus-icon {
     @include color-svg('../images/plus-36.svg', $color-gray-60);
+  }
+
+  // Module: Staged Link Preview
+
+  .module-staged-link-preview__loading {
+    color: $color-gray-25;
+  }
+  .module-staged-link-preview__title {
+    color: $color-gray-05;
+  }
+  .module-staged-link-preview__location {
+    color: $color-gray-25;
+  }
+  .module-staged-link-preview__close-button {
+    @include color-svg('../images/x-16.svg', $color-gray-25);
   }
 
   // Third-party module: react-contextmenu

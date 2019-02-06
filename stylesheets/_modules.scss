@@ -215,8 +215,6 @@
   background-color: $color-conversation-blue_grey;
 }
 
-// START
-
 .module-message__attachment-container {
   // Entirely to ensure that images are centered if they aren't full width of bubble
   text-align: center;
@@ -370,6 +368,77 @@
 
 .module-message__generic-attachment__file-size--incoming {
   color: $color-white;
+}
+
+.module-message__generic-attachment__file-size--incoming {
+  color: $color-white;
+}
+
+.module-message__link-preview {
+  cursor: pointer;
+  margin-left: -12px;
+  margin-right: -12px;
+  margin-top: -10px;
+  margin-bottom: 5px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.module-message__link-preview--with-content-above {
+  margin-top: 4px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.module-message__link-preview__content {
+  padding: 8px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  background-color: $color-white;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  border: 1px solid $color-black-015;
+}
+
+.module-message__link-preview__content--with-content-above {
+  border-top: none;
+  border-bottom: none;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.module-message__link-preview__icon_container {
+  margin: -2px;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.module-message__link-preview__text--with-icon {
+  margin-top: 5px;
+}
+
+.module-message__link-preview__title {
+  color: $color-gray-90;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.15px;
+  line-height: 22px;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.module-message__link-preview__location {
+  margin-top: 4px;
+  color: $color-gray-60;
+  font-size: 12px;
+  height: 16px;
+  letter-spacing: 0.4px;
+  line-height: 16px;
+  text-transform: uppercase;
 }
 
 .module-message__author {
@@ -1355,6 +1424,7 @@
 
 .module-conversation-header__avatar {
   min-width: 28px;
+  user-select: none;
 }
 
 .module-conversation-header__title {
@@ -2227,6 +2297,9 @@
 .module-image--curved-bottom-right {
   border-bottom-right-radius: 16px;
 }
+.module-image--small-curved-top-left {
+  border-top-left-radius: 10px;
+}
 
 .module-image__border-overlay {
   position: absolute;
@@ -2707,6 +2780,65 @@
   @include color-svg('../images/plus-36.svg', $color-gray-45);
 }
 
+// Module: Staged Link Preview
+
+.module-staged-link-preview {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  min-height: 65px;
+}
+
+.module-staged-link-preview--is-loading {
+  align-items: center;
+}
+.module-staged-link-preview__loading {
+  color: $color-gray-60;
+  font-size: 14px;
+  text-align: center;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.module-staged-link-preview__icon-container {
+  margin-right: 8px;
+}
+.module-staged-link-preview__content {
+  margin-right: 20px;
+}
+.module-staged-link-preview__title {
+  color: $color-gray-90;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.module-staged-link-preview__location {
+  margin-top: 4px;
+  color: $color-gray-60;
+  font-size: 11px;
+  height: 16px;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+}
+.module-staged-link-preview__close-button {
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+  height: 16px;
+  width: 16px;
+
+  @include color-svg('../images/x-16.svg', $color-gray-60);
+}
+
 // Third-party module: react-contextmenu
 
 .react-contextmenu {
@@ -2718,6 +2850,7 @@
   padding-bottom: 8px;
   border: 1px solid $color-dark-05;
   opacity: 0;
+  user-select: none;
 }
 
 .react-contextmenu--visible {
@@ -2794,7 +2927,7 @@
 }
 
 // To limit messages with things forcing them wider, like long attachment names
-.module-message {
+.module-message__container {
   max-width: 300px;
 }
 
@@ -2802,6 +2935,9 @@
 @media (min-width: 800px) and (max-width: 925px) {
   .module-message {
     max-width: 374px;
+  }
+  .module-message__container {
+    max-width: 100%;
   }
 
   .module-message-friend-request {
@@ -2839,6 +2975,9 @@
 @media (min-width: 926px) {
   .module-message {
     max-width: 66%;
+  }
+  .module-message__container {
+    max-width: 100%;
   }
 
   .module-message-friend-request {
