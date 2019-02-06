@@ -37,7 +37,7 @@ window.initialRequest = getInitialData();
 window.initialRequest.then(
   data => {
     'use strict';
-                           
+
     storage.fetch();
 
     window.initialData = data;
