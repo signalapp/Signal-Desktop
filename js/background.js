@@ -219,6 +219,13 @@
       return;
     }
     first = false;
+    window.lokiP2pAPI = new window.LokiP2pAPI(
+      textsecure.storage.user.getNumber()
+    );
+    window.lokiP2pAPI.on('pingContact', pubKey => {
+      const forceP2p = true;
+      window.libloki.api.sendOnlineBroadcastMessage(pubKey, forceP2p);
+    });
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {

@@ -1,16 +1,23 @@
-/* global setTimeout, clearTimeout, window */
+/* global setTimeout, clearTimeout */
 
 const EventEmitter = require('events');
 
 class LokiP2pAPI extends EventEmitter {
-  constructor() {
+  constructor(ourKey) {
     super();
     this.contactP2pDetails = {};
+    this.ourKey = ourKey;
   }
 
-  updateContactP2pDetails(pubKey, address, port, fromP2p = false) {
+  reset() {
+    Object.keys(this.contactP2pDetails).forEach(key => {
+      clearTimeout(this.contactP2pDetails[key].pingTimer);
+      delete this.contactP2pDetails[key];
+    });
+  }
+
+  updateContactP2pDetails(pubKey, address, port, isOnline = false) {
     // Stagger the timers so the friends don't ping each other at the same time
-    this.ourKey = this.ourKey || window.textsecure.storage.user.getNumber();
     const timerDuration =
       pubKey < this.ourKey
         ? 60 * 1000 // 1 minute
@@ -28,7 +35,7 @@ class LokiP2pAPI extends EventEmitter {
       pingTimer: null,
     };
 
-    if (fromP2p) {
+    if (isOnline) {
       this.setContactOnline(pubKey);
       return;
     }
@@ -73,7 +80,7 @@ class LokiP2pAPI extends EventEmitter {
     if (!this.contactP2pDetails[pubKey]) {
       return;
     }
-    window.libloki.api.sendOnlineBroadcastMessage(pubKey, true);
+    this.emit('pingContact', pubKey);
   }
 }
 
