@@ -312,7 +312,7 @@
       dragleave: 'onDragLeave',
       // TODO(Loki): restore when we support attachments
       // drop: 'onDrop',
-      paste: 'onPaste',
+      // paste: 'onPaste',
     },
 
     onChooseAttachment(e) {
