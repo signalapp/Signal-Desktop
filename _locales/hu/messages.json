@@ -149,6 +149,10 @@
         "message": "Mappa kiválasztása",
         "description": "Button to allow the user to find a folder on disk"
     },
+    "chooseFile": {
+        "message": "Fájl kiválasztása",
+        "description": "Button to allow the user to find a file on disk"
+    },
     "loadDataHeader": {
         "message": "Adataid betöltése",
         "description": "Header shown on the first screen in the data import process"
@@ -475,13 +479,55 @@
         "message": "Hangüzenet",
         "description": "Name for a voice message attachment"
     },
-    "unsupportedFileType": {
-        "message": "Nem támogatott fájltípus",
-        "description": "Displayed for outgoing unsupported attachment"
-    },
     "dangerousFileType": {
         "message": "A csatolmánytípus biztonsági okokból nincs engedélyezve",
         "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
+    "loadingPreview": {
+        "message": "Előnézet betöltése...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "A $domain$ hivatkozás előnézeti képének vázlata",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "A $domain$ hivatkozás előnézeti képe",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "stagedImageAttachment": {
+        "message": "Képcsatolmány vázlat: $path$",
+        "description": "Alt text for staged attachments",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "dog.jpg"
+            }
+        }
+    },
+    "oneNonImageAtATimeToast": {
+        "message": "Nem-kép csatolmány esetén üzenetenként egy melléklet csatolható.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "cannotMixImageAdnNonImageAttachments": {
+        "message": "Nem keverheted a nem-kép és kép típusú csatolmányokat üzeneten belül.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "maximumAttachments": {
+        "message": "Ehhez az üzenethez nem adhatsz hozzá több csatolmányt.",
+        "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
         "message": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét.",
@@ -581,6 +627,10 @@
         "message": "Válassz ki egy kontaktot vagy csoportot a beszélgetés elkezdéséhez!",
         "description": ""
     },
+    "typingAlt": {
+        "message": "Gépelési animáció ehhez a beszélgetéshez",
+        "description": "Used as the 'title' attibute for the typing animation"
+    },
     "contactAvatarAlt": {
         "message": "$name$ profilképe",
         "description": "Used in the alt tag for the image avatar of a contact",
@@ -642,6 +692,10 @@
     "messageFoundButNotLoaded": {
         "message": "Az eredeti üzenet ugyan fellelhető, de még nincs betöltve. Görgess fel a betöltéséhez!",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceNoteMustBeOnlyAttachment": {
+        "message": "Hangüzeneten kívül más melléklet nem csatolható az üzenethez.",
+        "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
         "message": "Te",
@@ -807,6 +861,18 @@
         "message": "Beszélgetés során küldött fotó",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
+    "imageCaptionIconAlt": {
+        "message": "Ikon, amely azt jelzi, hogy a kép feliratot tartalmaz",
+        "description": "Used for the icon layered on top of an image in message bubbles"
+    },
+    "addACaption": {
+        "message": "Felirat hozzáadása...",
+        "description": ""
+    },
+    "save": {
+        "message": "Mentés",
+        "description": ""
+    },
     "fileIconAlt": {
         "message": "Fájl ikon",
         "description": "Used in the media gallery documents tab to visually represent a file"
@@ -889,9 +955,17 @@
         "message": "Hozzáférés a kamerához és a mikrofonhoz",
         "description": "Description of the media permission description"
     },
-    "spellCheck": {
-        "message": "Helyesírás-ellenőrzés",
-        "description": "Description of the media permission description"
+    "general": {
+        "message": "Általános",
+        "description": "Header for general options on the settings screen"
+    },
+    "sendLinkPreviews": {
+        "message": "Hivatkozások előnézeti képének küldése",
+        "description": "Option to control creation and send of link previews in setting screen"
+    },
+    "linkPreviewsDescription": {
+        "message": "Az előnézeti képek az Imgur, Instagram, Reddit és YouTube szolgáltatásokhoz érhetőek el.",
+        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Az üzenetíró dobozba gépelt szöveg helyesírás-ellenőrzésének engedélyezése",

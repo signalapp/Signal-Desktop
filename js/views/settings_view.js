@@ -204,6 +204,7 @@
         clearDataExplanation: i18n('clearDataExplanation'),
         permissions: i18n('permissions'),
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
+        generalHeader: i18n('general'),
         readReceiptSettingDescription: i18n('readReceiptSettingDescription'),
         messageTTL: i18n('messageTTL'),
         messageTTLSettingDescription: i18n('messageTTLSettingDescription'),
@@ -211,6 +212,8 @@
         spellCheckHeader: i18n('spellCheck'),
         spellCheckDescription: i18n('spellCheckDescription'),
         blockedHeader: 'Blocked Users',
+        sendLinkPreviews: i18n('sendLinkPreviews'),
+        linkPreviewsDescription: i18n('linkPreviewsDescription'),
       };
     },
     onClose() {

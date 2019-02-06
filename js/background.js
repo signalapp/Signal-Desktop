@@ -900,6 +900,7 @@
       readReceipts,
       typingIndicators,
       unidentifiedDeliveryIndicators,
+      linkPreviews,
     } = configuration;
 
     storage.put('read-receipt-setting', readReceipts);
@@ -916,6 +917,10 @@
 
     if (typingIndicators === true || typingIndicators === false) {
       storage.put('typingIndicators', typingIndicators);
+    }
+
+    if (linkPreviews === true || linkPreviews === false) {
+      storage.put('linkPreviews', linkPreviews);
     }
 
     ev.confirm();
@@ -1212,7 +1217,9 @@
     }
 
     try {
-      if (queryMessage.get('schemaVersion') < Message.CURRENT_SCHEMA_VERSION) {
+      if (
+        queryMessage.get('schemaVersion') < Message.VERSION_NEEDED_FOR_DISPLAY
+      ) {
         const upgradedMessage = await upgradeMessageSchema(
           queryMessage.attributes
         );
@@ -1231,15 +1238,23 @@
 
     const queryAttachments = queryMessage.get('attachments') || [];
 
-    if (queryAttachments.length === 0) {
-      return message;
+    if (queryAttachments.length > 0) {
+      const queryFirst = queryAttachments[0];
+      const { thumbnail } = queryFirst;
+
+      if (thumbnail && thumbnail.path) {
+        firstAttachment.thumbnail = thumbnail;
+      }
     }
 
-    const queryFirst = queryAttachments[0];
-    const { thumbnail } = queryFirst;
+    const queryPreview = queryMessage.get('preview') || [];
+    if (queryPreview.length > 0) {
+      const queryFirst = queryPreview[0];
+      const { image } = queryFirst;
 
-    if (thumbnail && thumbnail.path) {
-      firstAttachment.thumbnail = thumbnail;
+      if (image && image.path) {
+        firstAttachment.thumbnail = image;
+      }
     }
 
     return message;

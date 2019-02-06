@@ -202,12 +202,21 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
-      direction="incoming"
+      direction="outgoing"
       status="error"
       authorColor="purple"
-      timestamp={Date.now()}
+      timestamp={Date.now() - 56}
       text="Error!"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       i18n={util.i18n}
+      onRetrySend={() => console.log('onRetrySend')}
     />
   </li>
   <li>
@@ -263,11 +272,48 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </li>
   <li>
     <Message
+      direction="outgoing"
+      status="error"
+      authorColor="purple"
+      timestamp={Date.now() - 57}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      text="🔥"
+      i18n={util.i18n}
+      onRetrySend={() => console.log('onRetrySend')}
+    />
+  </li>
+  <li>
+    <Message
       direction="incoming"
       status="error"
       authorColor="purple"
       timestamp={Date.now()}
       text="🔥"
+      i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      status="error"
+      authorColor="purple"
+      timestamp={Date.now()}
+      text="🔥"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
       i18n={util.i18n}
     />
   </li>
@@ -2533,6 +2579,313 @@ Voice notes are not shown any differently from audio attachments.
 </util.ConversationContext>
 ```
 
+#### Link previews, full-size image
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            url: util.pngObjectUrl,
+            contentType: 'image/png',
+            width: 800,
+            height: 1200,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            url: util.pngObjectUrl,
+            contentType: 'image/png',
+            width: 800,
+            height: 1200,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            url: util.pngObjectUrl,
+            contentType: 'image/png',
+            width: 800,
+            height: 1200,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            url: util.pngObjectUrl,
+            contentType: 'image/png',
+            width: 800,
+            height: 1200,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Link previews, small image
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            url: util.pngObjectUrl,
+            contentType: 'image/png',
+            width: 160,
+            height: 120,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            url: util.pngObjectUrl,
+            contentType: 'image/png',
+            width: 160,
+            height: 120,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title:
+            'This is a really sweet post with a really long name. Gotta restrict that to just two lines, you know how that goes...',
+          domain: 'instagram.com',
+          image: {
+            url: util.pngObjectUrl,
+            contentType: 'image/png',
+            width: 160,
+            height: 120,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title:
+            'This is a really sweet post with a really long name. Gotta restrict that to just two lines, you know how that goes...',
+          domain: 'instagram.com',
+          image: {
+            url: util.pngObjectUrl,
+            contentType: 'image/png',
+            width: 160,
+            height: 120,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Link previews, no image
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title:
+            'This is a really sweet post with a really long name. Gotta restrict that to just two lines, you know how that goes...',
+          domain: 'instagram.com',
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title:
+            'This is a really sweet post with a really long name. Gotta restrict that to just two lines, you know how that goes...',
+          domain: 'instagram.com',
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+</util.ConversationContext>
+```
+
 ### In a group conversation
 
 Note that the author avatar goes away if `collapseMetadata` is set.
@@ -2711,6 +3064,48 @@ Note that the author avatar goes away if `collapseMetadata` is set.
       authorColor="teal"
       text="Contact and color, but no avatar"
       i18n={util.i18n}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      authorName="Mr. Fire"
+      conversationType="group"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            url: util.gifObjectUrl,
+            contentType: 'image/gif',
+            width: 320,
+            height: 240,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      authorName="Mr. Fire"
+      conversationType="group"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
     />
   </li>
   <li>

@@ -33,6 +33,7 @@
   flex-direction: column;
   float: left;
   width: 300px;
+  user-select: none;
   position: relative;
 
   .tool-bar {
@@ -358,6 +359,8 @@ input.search {
 
 .conversation.placeholder {
   text-align: center;
+  user-select: none;
+
   .container {
     position: absolute;
     height: 100%;

@@ -38,6 +38,10 @@ body {
   background: $color-white;
 }
 
+audio {
+  max-width: 100%;
+}
+
 .dark-overlay {
   position: absolute;
   top: 0;
@@ -455,9 +459,11 @@ $loading-height: 16px;
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: white;
+  background-color: $color-signal-blue;
+  color: $color-white;
   display: flex;
   align-items: center;
+  user-select: none;
 
   .content {
     margin-left: auto;
@@ -478,7 +484,7 @@ $loading-height: 16px;
   .dot {
     width: 14px;
     height: 14px;
-    border: 3px solid $blue;
+    border: 3px solid $color-white;
     border-radius: 50%;
     float: left;
     margin: 0 6px;

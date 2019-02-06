@@ -420,12 +420,12 @@
         await this.initialPromise;
         const verified = await this.safeGetVerified();
 
+        this.set({ verified });
+
         // we don't await here because we don't need to wait for this to finish
-        window.Signal.Data.updateConversation(
-          this.id,
-          { verified },
-          { Conversation: Whisper.Conversation }
-        );
+        window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
 
         return;
       }
@@ -1037,6 +1037,7 @@
       const { getName } = Contact;
       const contact = quotedMessage.getContact();
       const attachments = quotedMessage.get('attachments');
+      const preview = quotedMessage.get('preview');
 
       const body = quotedMessage.get('body');
       const embeddedContact = quotedMessage.get('contact');
@@ -1045,32 +1046,47 @@
           ? getName(embeddedContact[0])
           : '';
 
+      const media =
+        attachments && attachments.length ? attachments : preview || [];
+
       return {
         author: contact.id,
         id: quotedMessage.get('sent_at'),
         text: body || embeddedContactName,
         attachments: await Promise.all(
-          (attachments || []).map(async attachment => {
-            const { contentType, fileName, thumbnail } = attachment;
+          media
+            .filter(
+              attachment =>
+                attachment &&
+                (attachment.image || (!attachment.pending && !attachment.error))
+            )
+            .slice(0, 1)
+            .map(async attachment => {
+              const { fileName } = attachment;
 
-            return {
-              contentType,
-              // Our protos library complains about this field being undefined, so we
-              //   force it to null
-              fileName: fileName || null,
-              thumbnail: thumbnail
-                ? {
-                    ...(await loadAttachmentData(thumbnail)),
-                    objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-                  }
-                : null,
-            };
-          })
+              const thumbnail = attachment.thumbnail || attachment.image;
+              const contentType =
+                attachment.contentType ||
+                (attachment.image && attachment.image.contentType);
+
+              return {
+                contentType,
+                // Our protos library complains about this field being undefined, so we
+                //   force it to null
+                fileName: fileName || null,
+                thumbnail: thumbnail
+                  ? {
+                      ...(await loadAttachmentData(thumbnail)),
+                      objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+                    }
+                  : null,
+              };
+            })
         ),
       };
     },
 
-    async sendMessage(body, attachments, quote) {
+    async sendMessage(body, attachments, quote, preview) {
       // Input should be blocked if there is a pending friend request
       if (this.isPendingFriendRequest()) return;
 
@@ -1104,6 +1120,7 @@
             body,
             conversationId: destination,
             quote,
+            preview,
             attachments,
             sent_at: now,
             received_at: now,
@@ -1215,6 +1232,7 @@
                 body,
                 attachmentsWithData,
                 quote,
+                preview,
                 now,
                 expireTimer,
                 profileKey,
@@ -1914,7 +1932,7 @@
         const { attributes } = message;
         const { schemaVersion } = attributes;
 
-        if (schemaVersion < Message.CURRENT_SCHEMA_VERSION) {
+        if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
           // Yep, we really do want to wait for each of these
           // eslint-disable-next-line no-await-in-loop
           const upgradedMessage = await upgradeMessageSchema(attributes);
