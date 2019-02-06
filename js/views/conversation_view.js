@@ -310,7 +310,8 @@
 
       dragover: 'onDragOver',
       dragleave: 'onDragLeave',
-      drop: 'onDrop',
+      // TODO(Loki): restore when we support attachments
+      // drop: 'onDrop',
       paste: 'onPaste',
     },
 
