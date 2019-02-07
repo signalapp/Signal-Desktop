@@ -730,9 +730,18 @@ MessageReceiver.prototype.extend({
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
         window.log.info('prekey message from', this.getEnvelopeId(envelope));
         promise = captureActiveSession(sessionCipher)
-          .then(() =>
-            this.decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address)
-          )
+          .then(async () => {
+            const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);
+            await window.libloki.storage.verifyFriendRequestAcceptPreKey(
+              envelope.source,
+              buffer
+            );
+            return this.decryptPreKeyWhisperMessage(
+              ciphertext,
+              sessionCipher,
+              address
+            );
+          })
           .then(handleSessionReset);
         break;
       case textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER:

@@ -85,10 +85,39 @@
     ]);
   }
 
+  async function verifyFriendRequestAcceptPreKey(pubKey, buffer) {
+    const storedPreKey = await textsecure.storage.protocol.loadPreKeyForContact(
+      pubKey
+    );
+    if (!storedPreKey) {
+      throw new Error(
+        'Received a friend request from a pubkey for which no prekey bundle was created'
+      );
+    }
+    // need to pop the version
+    // eslint-disable-next-line no-unused-vars
+    const version = buffer.readUint8();
+    const preKeyProto = window.textsecure.protobuf.PreKeyWhisperMessage.decode(
+      buffer
+    );
+    if (!preKeyProto) {
+      throw new Error(
+        'Could not decode PreKeyWhisperMessage while attempting to match the preKeyId'
+      );
+    }
+    const { preKeyId } = preKeyProto;
+    if (storedPreKey.keyId !== preKeyId) {
+      throw new Error(
+        'Received a preKeyWhisperMessage (friend request accept) from an unknown source'
+      );
+    }
+  }
+
   window.libloki.storage = {
     getPreKeyBundleForContact,
     saveContactPreKeyBundle,
     removeContactPreKeyBundle,
+    verifyFriendRequestAcceptPreKey,
   };
 
   // Libloki protocol store
