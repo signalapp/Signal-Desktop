@@ -144,6 +144,7 @@ function prepareURL(pathSegments, moreKeys) {
       version: app.getVersion(),
       buildExpiration: config.get('buildExpiration'),
       serverUrl: config.get('serverUrl'),
+      localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
       messageServerPort: config.get('messageServerPort'),
       swarmServerPort: config.get('swarmServerPort'),

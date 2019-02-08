@@ -9,29 +9,38 @@ const dns = require('dns');
 const MINIMUM_SWARM_NODES = 1;
 const FAILURE_THRESHOLD = 3;
 
+const resolveCname = url =>
+  new Promise((resolve, reject) => {
+    dns.resolveCname(url, (err, address) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(address[0]);
+      }
+    });
+  });
+
 class LokiSnodeAPI {
-  constructor({ url, swarmServerPort }) {
-    if (!is.string(url)) {
+  constructor({ serverUrl, localUrl, swarmServerPort }) {
+    if (!is.string(serverUrl)) {
       throw new Error('WebAPI.initialize: Invalid server url');
     }
-    this.url = url;
+    this.serverUrl = serverUrl;
+    this.localUrl = localUrl;
     this.swarmServerPort = swarmServerPort ? `:${swarmServerPort}` : '';
     this.swarmsPendingReplenish = {};
     this.ourSwarmNodes = {};
     this.contactSwarmNodes = {};
   }
 
+  async getMySnodeAddress() {
+    /* resolve our local loki address */
+    return resolveCname(this.localUrl);
+  }
+
   getRandomSnodeAddress() {
     /* resolve random snode */
-    return new Promise((resolve, reject) => {
-      dns.resolveCname(this.url, (err, address) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(address[0]);
-        }
-      });
-    });
+    return resolveCname(this.serverUrl);
   }
 
   async unreachableNode(pubKey, nodeUrl) {
