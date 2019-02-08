@@ -256,8 +256,7 @@
         storage.put('read-receipt-setting', value),
 
       getLinkPreviewSetting: () => storage.get('linkPreviews', false),
-      setLinkPreviewSetting: value =>
-        storage.put('linkPreviews', value),
+      setLinkPreviewSetting: value => storage.put('linkPreviews', value),
 
       getNotificationSetting: () =>
         storage.get('notification-setting', 'message'),

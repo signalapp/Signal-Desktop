@@ -140,13 +140,9 @@
 
       try {
         const result = await Signal.LinkPreviews.helper.getPreview(firstLink);
-        if (!result) {
-          this.updatingPreview = false;
-          return;
-        }
 
-        if (!result.image && !result.title) {
-          // A link preview isn't worth showing unless we have either a title or an image
+        // A link preview isn't worth showing unless we have either a title or an image
+        if (!result || !(result.image || result.title)) {
           this.updatingPreview = false;
           return;
         }
