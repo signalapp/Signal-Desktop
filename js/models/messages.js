@@ -139,6 +139,8 @@
           return;
         }
 
+        // We don't want to save the base64 url in the message as it will increase the size of it
+        // Rather we fetch the base64 later
         this.set({ preview: [result] });
       } catch (e) {
         window.log.warn(`Failed to load previews for message: ${this.id}`);

@@ -89,8 +89,8 @@
       }
     }
 
-    const title = window.Signal.LinkPreviews.getTitleMetaTag(html);
-    const imageUrl = window.Signal.LinkPreviews.getImageMetaTag(html);
+    const title = Signal.LinkPreviews.getTitleMetaTag(html);
+    const imageUrl = Signal.LinkPreviews.getImageMetaTag(html);
 
     let image;
     let objectUrl;
