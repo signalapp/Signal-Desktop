@@ -8,6 +8,7 @@
 /* global Signal: false */
 /* global textsecure: false */
 /* global Whisper: false */
+/* global dcodeIO: false */
 
 /* eslint-disable more/no-then */
 
@@ -84,6 +85,8 @@
       this.on('unload', this.unload);
       this.on('expired', this.onExpired);
       this.setToExpire();
+
+      this.updatePreviews();
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -108,6 +111,40 @@
       const flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
+    },
+    async updatePreviews() {
+      if (this.updatingPreview) return;
+
+      // Only update the preview if we don't have any set
+      const preview = this.get('preview');
+      if (!_.isEmpty(preview)) return;
+
+      // Make sure we have links we can preview
+      const links = Signal.LinkPreviews.findLinks(this.get('body'));
+      const firstLink = links.find(link => Signal.LinkPreviews.isLinkInWhitelist(link));
+      if (!firstLink) return;
+
+      this.updatingPreview = true;
+
+      try {
+        const result = await Signal.LinkPreviews.helper.getPreview(firstLink);
+        if (!result) {
+          this.updatingPreview = false;
+          return;
+        }
+
+        if (!result.image && !result.title) {
+          // A link preview isn't worth showing unless we have either a title or an image
+          this.updatingPreview = false;
+          return;
+        }
+
+        this.set({ preview: [result] });
+      } catch (e) {
+        window.log.warn(`Failed to load previews for message: ${this.id}`);
+      } finally {
+        this.updatingPreview = false;
+      }
     },
     getEndSessionTranslationKey() {
       const sessionType = this.get('endSessionType');
@@ -616,11 +653,34 @@
     getPropsForPreview() {
       const previews = this.get('preview') || [];
 
-      return previews.map(preview => ({
-        ...preview,
-        domain: window.Signal.LinkPreviews.getDomain(preview.url),
-        image: preview.image ? this.getPropsForAttachment(preview.image) : null,
-      }));
+      return previews.map(preview => {
+        let image = {};
+
+        // Try set the image from the attachment otherwise just pass in the object
+        if (preview.image) {
+          try {
+            const attachmentProps = this.getPropsForAttachment(preview.image);
+            if (attachmentProps.url) {
+              image = attachmentProps;
+            }
+          } catch (e) {
+            // Only set the image if we have a url to display
+            const url = Signal.LinkPreviews.helper.getBase64Image(preview);
+            if (preview.image.url || url) {
+              image = {
+                ...preview.image,
+                url: preview.image.url || url,
+              }
+            }
+          }
+        }
+
+        return {
+          ...preview,
+          domain: window.Signal.LinkPreviews.getDomain(preview.url),
+          image,
+        };
+      });
     },
     getPropsForQuote() {
       const quote = this.get('quote');
