@@ -8,7 +8,6 @@
 /* global Signal: false */
 /* global textsecure: false */
 /* global Whisper: false */
-/* global dcodeIO: false */
 
 /* eslint-disable more/no-then */
 
@@ -113,16 +112,29 @@
       return !!(this.get('flags') & flag);
     },
     async updatePreviews() {
-      if (this.updatingPreview) return;
+      // Don't generate link previews if user has turned them off
+      if (!storage.get('linkPreviews', false)) {
+        return;
+      }
+
+      if (this.updatingPreview) {
+        return;
+      }
 
       // Only update the preview if we don't have any set
       const preview = this.get('preview');
-      if (!_.isEmpty(preview)) return;
+      if (!_.isEmpty(preview)) {
+        return;
+      }
 
       // Make sure we have links we can preview
       const links = Signal.LinkPreviews.findLinks(this.get('body'));
-      const firstLink = links.find(link => Signal.LinkPreviews.isLinkInWhitelist(link));
-      if (!firstLink) return;
+      const firstLink = links.find(link =>
+        Signal.LinkPreviews.isLinkInWhitelist(link)
+      );
+      if (!firstLink) {
+        return;
+      }
 
       this.updatingPreview = true;
 
@@ -139,8 +151,8 @@
           return;
         }
 
-        // We don't want to save the base64 url in the message as it will increase the size of it
-        // Rather we fetch the base64 later
+        // We don't want to save the base64 url in the message as
+        // it will increase the size of it, Rather we fetch the base64 later
         this.set({ preview: [result] });
       } catch (e) {
         window.log.warn(`Failed to load previews for message: ${this.id}`);
@@ -653,6 +665,11 @@
       });
     },
     getPropsForPreview() {
+      // Don't generate link previews if user has turned them off
+      if (!storage.get('linkPreviews', false)) {
+        return null;
+      }
+
       const previews = this.get('preview') || [];
 
       return previews.map(preview => {
@@ -672,7 +689,7 @@
               image = {
                 ...preview.image,
                 url: preview.image.url || url,
-              }
+              };
             }
           }
         }
@@ -1368,6 +1385,9 @@
             preview,
             schemaVersion: dataMessage.schemaVersion,
           });
+
+          // Update the previews if we need to
+          message.updatePreviews();
 
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(

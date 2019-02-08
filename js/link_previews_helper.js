@@ -21,13 +21,17 @@
     if (base64ImageCache[url]) return base64ImageCache[url];
 
     // Set the cache and return the value
-    const contentType = image.contentType || 'image/jpeg';
-    const base64 = dcodeIO.ByteBuffer.wrap(image.data).toString('base64');
+    try {
+      const contentType = image.contentType || 'image/jpeg';
+      const base64 = dcodeIO.ByteBuffer.wrap(image.data).toString('base64');
 
-    const data = `data:${contentType};base64, ${base64}`;
-    base64ImageCache[url] = data;
+      const data = `data:${contentType};base64, ${base64}`;
+      base64ImageCache[url] = data;
 
-    return data;
+      return data;
+    } catch (e) {
+      return null;
+    }
   }
 
   async function makeChunkedRequest(url) {
@@ -147,5 +151,5 @@
   window.Signal.LinkPreviews.helper = {
     getPreview,
     getBase64Image,
-  }
+  };
 })();
