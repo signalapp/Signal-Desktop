@@ -98,11 +98,16 @@
         <input type='checkbox' name='spell-check-setting' id='spell-check-setting' />
         <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
       </div>
-      <div class='link-preview-setting'>
-        <input type='checkbox' name='link-preview-setting' id='link-preview-setting' />
-        <label for='link-preview-setting'>{{ linkPreviewsDescription }}</label>
-      </div>
+
     <hr>
+    <h3>{{ linkPreviews }}</h3>
+    <div>{{ linkPreviewsDescription }}<div>
+    </br>
+    <div class='link-preview-setting'>
+      <input type='checkbox' name='link-preview-setting' id='link-preview-setting' />
+      <label for='link-preview-setting'>{{ linkPreviewsSettingDescription }}</label>
+    </div>
+  <hr>
     <div class='permissions-setting'>
       <h3>{{ permissions }}</h3>
       <div class='media-permissions'>

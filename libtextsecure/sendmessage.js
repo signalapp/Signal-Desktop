@@ -308,10 +308,11 @@ MessageSender.prototype = {
     const silent = false;
 
     // Remove this when we add support for attachments
-    message.attachmentPointers = null;
-    message.preview = null;
+    message.attachments = [];
+    message.attachmentPointers = [];
+    message.preview = [];
     if (message.quote) {
-      message.quote.attachments = null;
+      message.quote.attachments = [];
     }
 
     return Promise.all([
