@@ -155,6 +155,12 @@
         value: window.initialData.hideMenuBar,
         setFn: window.setHideMenuBar,
       });
+      new CheckboxView({
+        el: this.$('.link-preview-setting'),
+        name: 'link-preview-setting',
+        value: window.initialData.linkPreviewSetting,
+        setFn: window.setLinkPreviewSetting,
+      });
       new MediaPermissionsSettingView({
         el: this.$('.media-permissions'),
         value: window.initialData.mediaPermissions,

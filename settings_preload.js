@@ -52,6 +52,9 @@ window.setNotificationSetting = makeSetter('notification-setting');
 window.getAudioNotification = makeGetter('audio-notification');
 window.setAudioNotification = makeSetter('audio-notification');
 
+window.getLinkPreviewSetting = makeGetter('link-preview-setting');
+window.setLinkPreviewSetting = makeSetter('link-preview-setting');
+
 window.getMediaPermissions = makeGetter('media-permissions');
 window.setMediaPermissions = makeSetter('media-permissions');
 
