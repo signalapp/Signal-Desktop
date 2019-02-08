@@ -731,15 +731,17 @@ MessageReceiver.prototype.extend({
         window.log.info('prekey message from', this.getEnvelopeId(envelope));
         promise = captureActiveSession(sessionCipher)
           .then(async () => {
-            try {
-              const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);
-              await window.libloki.storage.verifyFriendRequestAcceptPreKey(
-                envelope.source,
-                buffer
-              );
-            } catch (e) {
-              await this.removeFromCache(envelope);
-              throw e;
+            if (!this.activeSessionBaseKey) {
+              try {
+                const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);
+                await window.libloki.storage.verifyFriendRequestAcceptPreKey(
+                  envelope.source,
+                  buffer
+                );
+              } catch (e) {
+                await this.removeFromCache(envelope);
+                throw e;
+              }
             }
             return this.decryptPreKeyWhisperMessage(
               ciphertext,
