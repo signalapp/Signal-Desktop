@@ -18,8 +18,12 @@ function autoUpdateDisabled() {
   );
 }
 
-function checkForUpdates() {
-  autoUpdater.checkForUpdates();
+async function checkForUpdates() {
+  try {
+    await autoUpdater.checkForUpdates();
+  } catch (error) {
+    console.log('checkForUpdates error:', error.stack);
+  }
 }
 
 let showingDialog = false;
@@ -58,7 +62,7 @@ function showUpdateDialog(mainWindow, messages) {
 }
 
 function onError(error) {
-  console.log('Got an error while updating: ', error.stack);
+  console.log('Got an error while updating:', error.stack);
 }
 
 function initialize(getMainWindow, messages) {
