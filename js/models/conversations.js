@@ -755,41 +755,20 @@
       return _.without(this.get('members'), me);
     },
 
-    async makeQuote(quotedMessage) {
-      const { getName } = Contact;
-      const contact = quotedMessage.getContact();
-      const attachments = quotedMessage.get('attachments');
-      const preview = quotedMessage.get('preview');
-
-      const body = quotedMessage.get('body');
-      const embeddedContact = quotedMessage.get('contact');
-      const embeddedContactName =
-        embeddedContact && embeddedContact.length > 0
-          ? getName(embeddedContact[0])
-          : '';
-
-      const media =
-        attachments && attachments.length ? attachments : preview || [];
-
-      return {
-        author: contact.id,
-        id: quotedMessage.get('sent_at'),
-        text: body || embeddedContactName,
-        attachments: await Promise.all(
-          media
+    async getQuoteAttachment(attachments, preview) {
+      if (attachments && attachments.length) {
+        return Promise.all(
+          attachments
             .filter(
               attachment =>
                 attachment &&
-                (attachment.image || (!attachment.pending && !attachment.error))
+                attachment.contentType &&
+                !attachment.pending &&
+                !attachment.error
             )
             .slice(0, 1)
             .map(async attachment => {
-              const { fileName } = attachment;
-
-              const thumbnail = attachment.thumbnail || attachment.image;
-              const contentType =
-                attachment.contentType ||
-                (attachment.image && attachment.image.contentType);
+              const { fileName, thumbnail, contentType } = attachment;
 
               return {
                 contentType,
@@ -804,7 +783,55 @@
                   : null,
               };
             })
-        ),
+        );
+      }
+
+      if (preview && preview.length) {
+        return Promise.all(
+          preview
+            .filter(item => item && item.image)
+            .slice(0, 1)
+            .map(async attachment => {
+              const { image } = attachment;
+              const { contentType } = image;
+
+              return {
+                contentType,
+                // Our protos library complains about this field being undefined, so we
+                //   force it to null
+                fileName: null,
+                thumbnail: image
+                  ? {
+                      ...(await loadAttachmentData(image)),
+                      objectUrl: getAbsoluteAttachmentPath(image.path),
+                    }
+                  : null,
+              };
+            })
+        );
+      }
+
+      return [];
+    },
+
+    async makeQuote(quotedMessage) {
+      const { getName } = Contact;
+      const contact = quotedMessage.getContact();
+      const attachments = quotedMessage.get('attachments');
+      const preview = quotedMessage.get('preview');
+
+      const body = quotedMessage.get('body');
+      const embeddedContact = quotedMessage.get('contact');
+      const embeddedContactName =
+        embeddedContact && embeddedContact.length > 0
+          ? getName(embeddedContact[0])
+          : '';
+
+      return {
+        author: contact.id,
+        id: quotedMessage.get('sent_at'),
+        text: body || embeddedContactName,
+        attachments: await this.getQuoteAttachment(attachments, preview),
       };
     },
 
