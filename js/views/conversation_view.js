@@ -1700,6 +1700,7 @@
       }
 
       const messageText = this.$messageField.val().trim();
+      const caretLocation = this.$messageField.get(0).selectionStart;
 
       if (!messageText) {
         this.resetLinkPreview();
@@ -1709,7 +1710,10 @@
         return;
       }
 
-      const links = window.Signal.LinkPreviews.findLinks(messageText);
+      const links = window.Signal.LinkPreviews.findLinks(
+        messageText,
+        caretLocation
+      );
       const { currentlyMatchedLink } = this;
       if (links.includes(currentlyMatchedLink)) {
         return;
