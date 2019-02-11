@@ -79,29 +79,26 @@ class LokiSnodeAPI {
   }
 
   async getSwarmNodesForPubKey(pubKey) {
-    let conversation;
-    let swarmNodes;
     try {
-      conversation = ConversationController.get(pubKey);
-      swarmNodes = [...conversation.get('swarmNodes')];
+      const conversation = ConversationController.get(pubKey);
+      const swarmNodes = [...conversation.get('swarmNodes')];
+      return swarmNodes;
     } catch (e) {
       throw new window.textsecure.ReplayableError({
         message: 'Could not get conversation',
       });
     }
-    return swarmNodes;
   }
 
   async updateSwarmNodes(pubKey, newNodes) {
-    let conversation;
     try {
-      conversation = ConversationController.get(pubKey);
+      const conversation = ConversationController.get(pubKey);
+      await conversation.updateSwarmNodes(newNodes);
     } catch (e) {
       throw new window.textsecure.ReplayableError({
         message: 'Could not get conversation',
       });
     }
-    await conversation.updateSwarmNodes(newNodes);
   }
 
   async getOurSwarmNodes() {
@@ -128,12 +125,7 @@ class LokiSnodeAPI {
 
   async refreshSwarmNodesForPubKey(pubKey) {
     const newNodes = await this.getFreshSwarmNodes(pubKey);
-    try {
-      const conversation = ConversationController.get(pubKey);
-      await conversation.updateSwarmNodes(newNodes);
-    } catch (e) {
-      throw e;
-    }
+    this.updateSwarmNodes(pubKey, newNodes);
   }
 
   async getFreshSwarmNodes(pubKey) {
