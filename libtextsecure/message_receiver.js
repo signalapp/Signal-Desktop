@@ -229,6 +229,8 @@ MessageReceiver.prototype.extend({
     const job = () => appJobPromise;
 
     this.appPromise = promise.then(job, job);
+
+    return Promise.resolve();
   },
   onclose(ev) {
     window.log.info(
@@ -868,7 +870,7 @@ MessageReceiver.prototype.extend({
       p = this.handleEndSession(destination);
     }
     return p.then(() =>
-      this.processDecrypted(envelope, msg, this.number).then(message => {
+      this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
         const isMe = envelope.source === textsecure.storage.user.getNumber();
@@ -910,7 +912,7 @@ MessageReceiver.prototype.extend({
       p = this.handleEndSession(envelope.source);
     }
     return p.then(() =>
-      this.processDecrypted(envelope, msg, envelope.source).then(message => {
+      this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
         const isMe = envelope.source === textsecure.storage.user.getNumber();
@@ -1168,39 +1170,13 @@ MessageReceiver.prototype.extend({
       let groupDetails = groupBuffer.next();
       const promises = [];
       while (groupDetails !== undefined) {
-        const getGroupDetails = details => {
-          // eslint-disable-next-line no-param-reassign
-          details.id = details.id.toBinary();
-          if (details.active) {
-            return textsecure.storage.groups
-              .getGroup(details.id)
-              .then(existingGroup => {
-                if (existingGroup === undefined) {
-                  return textsecure.storage.groups.createNewGroup(
-                    details.members,
-                    details.id
-                  );
-                }
-                return textsecure.storage.groups.updateNumbers(
-                  details.id,
-                  details.members
-                );
-              })
-              .then(() => details);
-          }
-          return Promise.resolve(details);
-        };
-
-        const promise = getGroupDetails(groupDetails)
-          .then(details => {
-            const ev = new Event('group');
-            ev.confirm = this.removeFromCache.bind(this, envelope);
-            ev.groupDetails = details;
-            return this.dispatchAndWait(ev);
-          })
-          .catch(e => {
-            window.log.error('error processing group', e);
-          });
+        groupDetails.id = groupDetails.id.toBinary();
+        const ev = new Event('group');
+        ev.confirm = this.removeFromCache.bind(this, envelope);
+        ev.groupDetails = groupDetails;
+        const promise = this.dispatchAndWait(ev).catch(e => {
+          window.log.error('error processing group', e);
+        });
         groupDetails = groupBuffer.next();
         promises.push(promise);
       }
@@ -1275,7 +1251,7 @@ MessageReceiver.prototype.extend({
       })
     );
   },
-  processDecrypted(envelope, decrypted, source) {
+  processDecrypted(envelope, decrypted) {
     /* eslint-disable no-bitwise, no-param-reassign */
     const FLAGS = textsecure.protobuf.DataMessage.Flags;
 
@@ -1311,63 +1287,24 @@ MessageReceiver.prototype.extend({
     if (decrypted.group !== null) {
       decrypted.group.id = decrypted.group.id.toBinary();
 
-      const storageGroups = textsecure.storage.groups;
-
-      promises.push(
-        storageGroups.getNumbers(decrypted.group.id).then(existingGroup => {
-          if (existingGroup === undefined) {
-            if (
-              decrypted.group.type !==
-              textsecure.protobuf.GroupContext.Type.UPDATE
-            ) {
-              decrypted.group.members = [source];
-              window.log.warn('Got message for unknown group');
-            }
-            return textsecure.storage.groups.createNewGroup(
-              decrypted.group.members,
-              decrypted.group.id
-            );
-          }
-          const fromIndex = existingGroup.indexOf(source);
-
-          if (fromIndex < 0) {
-            // TODO: This could be indication of a race...
-            window.log.warn(
-              'Sender was not a member of the group they were sending from'
-            );
-          }
-
-          switch (decrypted.group.type) {
-            case textsecure.protobuf.GroupContext.Type.UPDATE:
-              decrypted.body = null;
-              decrypted.attachments = [];
-              return textsecure.storage.groups.updateNumbers(
-                decrypted.group.id,
-                decrypted.group.members
-              );
-            case textsecure.protobuf.GroupContext.Type.QUIT:
-              decrypted.body = null;
-              decrypted.attachments = [];
-              if (source === this.number) {
-                return textsecure.storage.groups.deleteGroup(
-                  decrypted.group.id
-                );
-              }
-              return textsecure.storage.groups.removeNumber(
-                decrypted.group.id,
-                source
-              );
-            case textsecure.protobuf.GroupContext.Type.DELIVER:
-              decrypted.group.name = null;
-              decrypted.group.members = [];
-              decrypted.group.avatar = null;
-              return Promise.resolve();
-            default:
-              this.removeFromCache(envelope);
-              throw new Error('Unknown group message type');
-          }
-        })
-      );
+      switch (decrypted.group.type) {
+        case textsecure.protobuf.GroupContext.Type.UPDATE:
+          decrypted.body = null;
+          decrypted.attachments = [];
+          break;
+        case textsecure.protobuf.GroupContext.Type.QUIT:
+          decrypted.body = null;
+          decrypted.attachments = [];
+          break;
+        case textsecure.protobuf.GroupContext.Type.DELIVER:
+          decrypted.group.name = null;
+          decrypted.group.members = [];
+          decrypted.group.avatar = null;
+          break;
+        default:
+          this.removeFromCache(envelope);
+          throw new Error('Unknown group message type');
+      }
     }
 
     const attachmentCount = decrypted.attachments.length;

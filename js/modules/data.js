@@ -47,14 +47,6 @@ module.exports = {
   removeDB,
   removeIndexedDBFiles,
 
-  createOrUpdateGroup,
-  getGroupById,
-  getAllGroupIds,
-  getAllGroups,
-  bulkAddGroups,
-  removeGroupById,
-  removeAllGroups,
-
   createOrUpdateIdentityKey,
   getIdentityKeyById,
   bulkAddIdentityKeys,
@@ -393,33 +385,6 @@ async function removeDB() {
 
 async function removeIndexedDBFiles() {
   await channels.removeIndexedDBFiles();
-}
-
-// Groups
-
-async function createOrUpdateGroup(data) {
-  await channels.createOrUpdateGroup(data);
-}
-async function getGroupById(id) {
-  const group = await channels.getGroupById(id);
-  return group;
-}
-async function getAllGroupIds() {
-  const ids = await channels.getAllGroupIds();
-  return ids;
-}
-async function getAllGroups() {
-  const groups = await channels.getAllGroups();
-  return groups;
-}
-async function bulkAddGroups(array) {
-  await channels.bulkAddGroups(array);
-}
-async function removeGroupById(id) {
-  await channels.removeGroupById(id);
-}
-async function removeAllGroups() {
-  await channels.removeAllGroups();
 }
 
 // Identity Keys

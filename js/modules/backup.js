@@ -109,9 +109,9 @@ function createOutputStream(writer) {
   };
 }
 
-async function exportContactAndGroupsToFile(parent) {
+async function exportConversationListToFile(parent) {
   const writer = await createFileAndWriter(parent, 'db.json');
-  return exportContactsAndGroups(writer);
+  return exportConversationList(writer);
 }
 
 function writeArray(stream, array) {
@@ -137,7 +137,7 @@ function getPlainJS(collection) {
   return collection.map(model => model.attributes);
 }
 
-async function exportContactsAndGroups(fileWriter) {
+async function exportConversationList(fileWriter) {
   const stream = createOutputStream(fileWriter);
 
   stream.write('{');
@@ -148,13 +148,6 @@ async function exportContactsAndGroups(fileWriter) {
   });
   window.log.info(`Exporting ${conversations.length} conversations`);
   writeArray(stream, getPlainJS(conversations));
-
-  stream.write(',');
-
-  stream.write('"groups": ');
-  const groups = await window.Signal.Data.getAllGroups();
-  window.log.info(`Exporting ${groups.length} groups`);
-  writeArray(stream, groups);
 
   stream.write('}');
   await stream.close();
@@ -167,7 +160,7 @@ async function importNonMessages(parent, options) {
 }
 
 function eliminateClientConfigInBackup(data, targetPath) {
-  const cleaned = _.pick(data, 'conversations', 'groups');
+  const cleaned = _.pick(data, 'conversations');
   window.log.info('Writing configuration-free backup file back to disk');
   try {
     fs.writeFileSync(targetPath, JSON.stringify(cleaned));
@@ -223,10 +216,8 @@ async function importFromJsonString(jsonString, targetPath, options) {
   _.defaults(options, {
     forceLightImport: false,
     conversationLookup: {},
-    groupLookup: {},
   });
 
-  const { groupLookup } = options;
   const result = {
     fullImport: true,
   };
@@ -251,7 +242,7 @@ async function importFromJsonString(jsonString, targetPath, options) {
 
   // We mutate the on-disk backup to prevent the user from importing client
   //   configuration more than once - that causes lots of encryption errors.
-  //   This of course preserves the true data: conversations and groups.
+  //   This of course preserves the true data: conversations.
   eliminateClientConfigInBackup(importObject, targetPath);
 
   const storeNames = _.keys(importObject);
@@ -262,12 +253,12 @@ async function importFromJsonString(jsonString, targetPath, options) {
   const remainingStoreNames = _.without(
     storeNames,
     'conversations',
-    'unprocessed'
+    'unprocessed',
+    'groups' // in old data sets, but no longer included in database schema
   );
   await importConversationsFromJSON(conversations, options);
 
   const SAVE_FUNCTIONS = {
-    groups: window.Signal.Data.createOrUpdateGroup,
     identityKeys: window.Signal.Data.createOrUpdateIdentityKey,
     items: window.Signal.Data.createOrUpdateItem,
     preKeys: window.Signal.Data.createOrUpdatePreKey,
@@ -292,29 +283,17 @@ async function importFromJsonString(jsonString, targetPath, options) {
         return;
       }
 
-      let skipCount = 0;
-
       for (let i = 0, max = toImport.length; i < max; i += 1) {
         const toAdd = unstringify(toImport[i]);
-
-        const haveGroupAlready =
-          storeName === 'groups' && groupLookup[getGroupKey(toAdd)];
-
-        if (haveGroupAlready) {
-          skipCount += 1;
-        } else {
-          // eslint-disable-next-line no-await-in-loop
-          await save(toAdd);
-        }
+        // eslint-disable-next-line no-await-in-loop
+        await save(toAdd);
       }
 
       window.log.info(
         'Done importing to store',
         storeName,
         'Total count:',
-        toImport.length,
-        'Skipped:',
-        skipCount
+        toImport.length
       );
     })
   );
@@ -1160,14 +1139,6 @@ async function loadConversationLookup() {
   return fromPairs(map(array, item => [getConversationKey(item), true]));
 }
 
-function getGroupKey(group) {
-  return group.id;
-}
-async function loadGroupsLookup() {
-  const array = await window.Signal.Data.getAllGroupIds();
-  return fromPairs(map(array, item => [getGroupKey(item), true]));
-}
-
 function getDirectoryForExport() {
   return getDirectory();
 }
@@ -1254,7 +1225,7 @@ async function exportToDirectory(directory, options) {
 
     const attachmentsDir = await createDirectory(directory, 'attachments');
 
-    await exportContactAndGroupsToFile(stagingDir);
+    await exportConversationListToFile(stagingDir);
     await exportConversations(
       Object.assign({}, options, {
         messagesDir: stagingDir,
@@ -1298,13 +1269,11 @@ async function importFromDirectory(directory, options) {
     const lookups = await Promise.all([
       loadMessagesLookup(),
       loadConversationLookup(),
-      loadGroupsLookup(),
     ]);
-    const [messageLookup, conversationLookup, groupLookup] = lookups;
+    const [messageLookup, conversationLookup] = lookups;
     options = Object.assign({}, options, {
       messageLookup,
       conversationLookup,
-      groupLookup,
     });
 
     const archivePath = path.join(directory, ARCHIVE_NAME);

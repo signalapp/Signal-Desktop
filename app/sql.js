@@ -16,14 +16,6 @@ module.exports = {
   removeDB,
   removeIndexedDBFiles,
 
-  createOrUpdateGroup,
-  getGroupById,
-  getAllGroupIds,
-  getAllGroups,
-  bulkAddGroups,
-  removeGroupById,
-  removeAllGroups,
-
   createOrUpdateIdentityKey,
   getIdentityKeyById,
   bulkAddIdentityKeys,
@@ -625,6 +617,20 @@ async function updateToSchemaVersion10(currentVersion, instance) {
   console.log('updateToSchemaVersion10: success!');
 }
 
+async function updateToSchemaVersion11(currentVersion, instance) {
+  if (currentVersion >= 11) {
+    return;
+  }
+  console.log('updateToSchemaVersion11: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run('DROP TABLE groups;');
+
+  await instance.run('PRAGMA schema_version = 11;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion11: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -636,6 +642,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion8,
   updateToSchemaVersion9,
   updateToSchemaVersion10,
+  updateToSchemaVersion11,
 ];
 
 async function updateSchema(instance) {
@@ -724,31 +731,6 @@ async function removeIndexedDBFiles() {
   const pattern = path.join(indexedDBPath, '*.leveldb');
   rimraf.sync(pattern);
   indexedDBPath = null;
-}
-
-const GROUPS_TABLE = 'groups';
-async function createOrUpdateGroup(data) {
-  return createOrUpdate(GROUPS_TABLE, data);
-}
-async function getGroupById(id) {
-  return getById(GROUPS_TABLE, id);
-}
-async function getAllGroupIds() {
-  const rows = await db.all('SELECT id FROM groups ORDER BY id ASC;');
-  return map(rows, row => row.id);
-}
-async function getAllGroups() {
-  const rows = await db.all('SELECT json FROM groups ORDER BY id ASC;');
-  return map(rows, row => jsonToObject(row.json));
-}
-async function bulkAddGroups(array) {
-  return bulkAdd(GROUPS_TABLE, array);
-}
-async function removeGroupById(id) {
-  return removeById(GROUPS_TABLE, id);
-}
-async function removeAllGroups() {
-  return removeAllFromTable(GROUPS_TABLE);
 }
 
 const IDENTITY_KEYS_TABLE = 'identityKeys';
@@ -1701,7 +1683,6 @@ async function removeAll() {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
       db.run('DELETE FROM conversations;'),
-      db.run('DELETE FROM groups;'),
       db.run('DELETE FROM identityKeys;'),
       db.run('DELETE FROM items;'),
       db.run('DELETE FROM messages;'),

@@ -828,41 +828,6 @@
       await textsecure.storage.protocol.removeAllSessions(number);
     },
 
-    // Groups
-
-    async getGroup(groupId) {
-      if (groupId === null || groupId === undefined) {
-        throw new Error('Tried to get group for undefined/null id');
-      }
-
-      const group = await window.Signal.Data.getGroupById(groupId);
-      if (group) {
-        return group.data;
-      }
-
-      return undefined;
-    },
-    async putGroup(groupId, group) {
-      if (groupId === null || groupId === undefined) {
-        throw new Error('Tried to put group key for undefined/null id');
-      }
-      if (group === null || group === undefined) {
-        throw new Error('Tried to put undefined/null group object');
-      }
-      const data = {
-        id: groupId,
-        data: group,
-      };
-      await window.Signal.Data.createOrUpdateGroup(data);
-    },
-    async removeGroup(groupId) {
-      if (groupId === null || groupId === undefined) {
-        throw new Error('Tried to remove group key for undefined/null id');
-      }
-
-      await window.Signal.Data.removeGroupById(groupId);
-    },
-
     // Not yet processed messages - for resiliency
     getUnprocessedCount() {
       return window.Signal.Data.getUnprocessedCount();

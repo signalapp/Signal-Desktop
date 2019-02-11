@@ -706,21 +706,35 @@
         this.isReplayableError.bind(this)
       );
 
-      // Remove the errors that aren't replayable
+      // Put the errors back which aren't replayable
       this.set({ errors });
 
-      const profileKey = null;
-      let numbers = retries
+      const conversation = this.getConversation();
+      const intendedRecipients = this.get('recipients') || [];
+      const currentRecipients = conversation.getRecipients();
+
+      const profileKey = conversation.get('profileSharing')
+        ? storage.get('profileKey')
+        : null;
+
+      const errorNumbers = retries
         .map(retry => retry.number)
         .filter(item => Boolean(item));
+      let numbers = _.intersection(
+        errorNumbers,
+        intendedRecipients,
+        currentRecipients
+      );
 
       if (!numbers.length) {
         window.log.warn(
           'retrySend: No numbers in error set, using all recipients'
         );
-        const conversation = this.getConversation();
+
         if (conversation) {
-          numbers = conversation.getRecipients();
+          numbers = _.intersection(currentRecipients, intendedRecipients);
+          // We clear all errors here to start with a fresh slate, since we are starting
+          //   from scratch on this message with a fresh set of recipients
           this.set({ errors: null });
         } else {
           throw new Error(
@@ -752,7 +766,6 @@
       }
 
       let promise;
-      const conversation = this.getConversation();
       const options = conversation.getSendOptions();
 
       if (conversation.isPrivate()) {
