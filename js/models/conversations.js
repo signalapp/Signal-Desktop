@@ -78,7 +78,7 @@
         friendRequestStatus: FriendRequestStatusEnum.none,
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
-        swarmNodes: new Set([]),
+        swarmNodes: [],
         isOnline: false,
       };
     },
@@ -1405,6 +1405,12 @@
                 ),
         },
       };
+    },
+    async updateSwarmNodes(swarmNodes) {
+      this.set({ swarmNodes });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     },
     async updateLastMessage() {
       if (!this.id) {

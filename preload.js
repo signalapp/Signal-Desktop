@@ -288,7 +288,7 @@ window.WebAPI = initializeWebAPI({
 
 const LokiSnodeAPI = require('./js/modules/loki_snode_api');
 
-window.LokiSnodeAPI = new LokiSnodeAPI({
+window.lokiSnodeAPI = new LokiSnodeAPI({
   url: config.serverUrl,
   swarmServerPort: config.swarmServerPort,
 });

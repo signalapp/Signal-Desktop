@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global log, window, Whisper */
+/* global log, window, ConversationController */
 
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
@@ -58,17 +58,11 @@ class LokiSnodeAPI {
     if (this.contactSwarmNodes[nodeUrl].failureCount < FAILURE_THRESHOLD) {
       return false;
     }
-    const conversation = window.ConversationController.get(pubKey);
-    const swarmNodes = conversation.get('swarmNodes');
-    if (swarmNodes.delete(nodeUrl)) {
-      conversation.set({ swarmNodes });
-      await window.Signal.Data.updateConversation(
-        conversation.id,
-        conversation.attributes,
-        {
-          Conversation: Whisper.Conversation,
-        }
-      );
+    const conversation = ConversationController.get(pubKey);
+    const swarmNodes = [...conversation.get('swarmNodes')];
+    if (nodeUrl in swarmNodes) {
+      const filteredNodes = swarmNodes.filter(node => node !== nodeUrl);
+      await conversation.updateSwarmNodes(filteredNodes);
       delete this.contactSwarmNodes[nodeUrl];
     }
     return true;
@@ -81,6 +75,29 @@ class LokiSnodeAPI {
       };
     } else {
       this.ourSwarmNodes[nodeUrl].lastHash = hash;
+    }
+  }
+
+  async getSwarmNodesForPubKey(pubKey) {
+    try {
+      const conversation = ConversationController.get(pubKey);
+      const swarmNodes = [...conversation.get('swarmNodes')];
+      return swarmNodes;
+    } catch (e) {
+      throw new window.textsecure.ReplayableError({
+        message: 'Could not get conversation',
+      });
+    }
+  }
+
+  async updateSwarmNodes(pubKey, newNodes) {
+    try {
+      const conversation = ConversationController.get(pubKey);
+      await conversation.updateSwarmNodes(newNodes);
+    } catch (e) {
+      throw new window.textsecure.ReplayableError({
+        message: 'Could not get conversation',
+      });
     }
   }
 
@@ -108,9 +125,7 @@ class LokiSnodeAPI {
 
   async refreshSwarmNodesForPubKey(pubKey) {
     const newNodes = await this.getFreshSwarmNodes(pubKey);
-    await window.Signal.Data.saveSwarmNodesForPubKey(pubKey, newNodes, {
-      Conversation: Whisper.Conversation,
-    });
+    this.updateSwarmNodes(pubKey, newNodes);
   }
 
   async getFreshSwarmNodes(pubKey) {
@@ -121,6 +136,7 @@ class LokiSnodeAPI {
           newSwarmNodes = await this.getSwarmNodes(pubKey);
         } catch (e) {
           // TODO: Handle these errors sensibly
+          log.error('Failed to get new swarm nodes');
           newSwarmNodes = [];
         }
         resolve(newSwarmNodes);
