@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
-/* global log, dcodeIO, window, callWorker, Whisper, lokiP2pAPI */
+/* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI */
 
 const nodeFetch = require('node-fetch');
 const _ = require('lodash');
@@ -109,7 +109,7 @@ class LokiMessageAPI {
     let successfulRequests = 0;
     let canResolve = true;
 
-    let swarmNodes = await window.Signal.Data.getSwarmNodesByPubkey(pubKey);
+    let swarmNodes = await lokiSnodeAPI.getSwarmNodesForPubKey(pubKey);
 
     const nodeComplete = nodeUrl => {
       completedNodes.push(nodeUrl);
@@ -148,7 +148,7 @@ class LokiMessageAPI {
           nodeComplete(nodeUrl);
         } else {
           log.error('Loki SendMessages:', e);
-          if (window.LokiSnodeAPI.unreachableNode(pubKey, nodeUrl)) {
+          if (lokiSnodeAPI.unreachableNode(pubKey, nodeUrl)) {
             nodeComplete(nodeUrl);
           }
         }
@@ -160,7 +160,7 @@ class LokiMessageAPI {
         throw new window.textsecure.DNSResolutionError('Sending messages');
       }
       if (swarmNodes.length === 0) {
-        const freshNodes = await window.LokiSnodeAPI.getFreshSwarmNodes(pubKey);
+        const freshNodes = await lokiSnodeAPI.getFreshSwarmNodes(pubKey);
         swarmNodes = _.difference(freshNodes, completedNodes);
         if (swarmNodes.length === 0) {
           if (successfulRequests !== 0) {
@@ -172,13 +172,11 @@ class LokiMessageAPI {
             new Error('Ran out of swarm nodes to query')
           );
         }
-        await window.Signal.Data.saveSwarmNodesForPubKey(pubKey, swarmNodes, {
-          Conversation: Whisper.Conversation,
-        });
+        lokiSnodeAPI.updateSwarmNodes(pubKey, swarmNodes);
       }
 
       const remainingRequests =
-        MINIMUM_SUCCESSFUL_REQUESTS - completedNodes.length;
+        MINIMUM_SUCCESSFUL_REQUESTS - successfulRequests;
 
       await Promise.all(
         swarmNodes
@@ -196,7 +194,7 @@ class LokiMessageAPI {
 
     let ourSwarmNodes;
     try {
-      ourSwarmNodes = await window.LokiSnodeAPI.getOurSwarmNodes();
+      ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
     } catch (e) {
       throw new window.textsecure.EmptySwarmError(ourKey, e);
     }
@@ -224,7 +222,7 @@ class LokiMessageAPI {
         nodeComplete(nodeUrl);
 
         if (result.lastHash) {
-          window.LokiSnodeAPI.updateLastHash(nodeUrl, result.lastHash);
+          lokiSnodeAPI.updateLastHash(nodeUrl, result.lastHash);
           callback(result.messages);
         }
         successfulRequests += 1;
@@ -242,7 +240,7 @@ class LokiMessageAPI {
           nodeComplete(nodeUrl);
         } else {
           log.error('Loki RetrieveMessages:', e);
-          if (window.LokiSnodeAPI.unreachableNode(ourKey, nodeUrl)) {
+          if (lokiSnodeAPI.unreachableNode(ourKey, nodeUrl)) {
             nodeComplete(nodeUrl);
           }
         }
@@ -255,7 +253,7 @@ class LokiMessageAPI {
       }
       if (Object.keys(ourSwarmNodes).length === 0) {
         try {
-          ourSwarmNodes = await window.LokiSnodeAPI.getOurSwarmNodes();
+          ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
           // Filter out the nodes we have already got responses from
           completedNodes.forEach(nodeUrl => delete ourSwarmNodes[nodeUrl]);
         } catch (e) {
@@ -277,7 +275,7 @@ class LokiMessageAPI {
       }
 
       const remainingRequests =
-        MINIMUM_SUCCESSFUL_REQUESTS - completedNodes.length;
+        MINIMUM_SUCCESSFUL_REQUESTS - successfulRequests;
 
       await Promise.all(
         Object.entries(ourSwarmNodes)

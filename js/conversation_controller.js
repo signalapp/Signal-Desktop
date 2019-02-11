@@ -185,7 +185,6 @@
           await window.Signal.Data.saveConversation(conversation.attributes, {
             Conversation: Whisper.Conversation,
           });
-          window.LokiSnodeAPI.refreshSwarmNodesForPubKey(id);
         } catch (error) {
           window.log.error(
             'Conversation save failed! ',
@@ -200,9 +199,10 @@
         return conversation;
       };
 
-      conversation.initialPromise = create().then(() =>
-        conversation.updateProfileAvatar()
-      );
+      conversation.initialPromise = create().then(async () => {
+        window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id);
+        conversation.updateProfileAvatar();
+      });
 
       return conversation;
     },

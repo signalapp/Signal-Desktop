@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global log, window, Whisper */
+/* global log, window, ConversationController */
 
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
@@ -58,17 +58,10 @@ class LokiSnodeAPI {
     if (this.contactSwarmNodes[nodeUrl].failureCount < FAILURE_THRESHOLD) {
       return false;
     }
-    const conversation = window.ConversationController.get(pubKey);
+    const conversation = ConversationController.get(pubKey);
     const swarmNodes = conversation.get('swarmNodes');
     if (swarmNodes.delete(nodeUrl)) {
-      conversation.set({ swarmNodes });
-      await window.Signal.Data.updateConversation(
-        conversation.id,
-        conversation.attributes,
-        {
-          Conversation: Whisper.Conversation,
-        }
-      );
+      await conversation.updateSwarmNodes(swarmNodes);
       delete this.contactSwarmNodes[nodeUrl];
     }
     return true;
@@ -82,6 +75,32 @@ class LokiSnodeAPI {
     } else {
       this.ourSwarmNodes[nodeUrl].lastHash = hash;
     }
+  }
+
+  async getSwarmNodesForPubKey(pubKey) {
+    let conversation;
+    let swarmNodes;
+    try {
+      conversation = ConversationController.get(pubKey);
+      swarmNodes = conversation.get('swarmNodes');
+    } catch (e) {
+      throw new window.textsecure.ReplayableError({
+        message: 'Could not get conversation',
+      });
+    }
+    return swarmNodes;
+  }
+
+  async updateSwarmNodes(pubKey, newNodes) {
+    let conversation;
+    try {
+      conversation = ConversationController.get(pubKey);
+    } catch (e) {
+      throw new window.textsecure.ReplayableError({
+        message: 'Could not get conversation',
+      });
+    }
+    await conversation.updateSwarmNodes(newNodes);
   }
 
   async getOurSwarmNodes() {
@@ -108,9 +127,12 @@ class LokiSnodeAPI {
 
   async refreshSwarmNodesForPubKey(pubKey) {
     const newNodes = await this.getFreshSwarmNodes(pubKey);
-    await window.Signal.Data.saveSwarmNodesForPubKey(pubKey, newNodes, {
-      Conversation: Whisper.Conversation,
-    });
+    try {
+      const conversation = ConversationController.get(pubKey);
+      await conversation.updateSwarmNodes(newNodes);
+    } catch (e) {
+      throw e;
+    }
   }
 
   async getFreshSwarmNodes(pubKey) {
