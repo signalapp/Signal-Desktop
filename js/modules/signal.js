@@ -169,6 +169,8 @@ function initializeMigrations({
       logger,
     }),
     writeNewAttachmentData: createWriterForNew(attachmentsPath),
+    writeAttachment: ({ data, path }) =>
+      createWriterForExisting(attachmentsPath)({ data, path }),
   };
 }
 

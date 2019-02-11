@@ -17,7 +17,12 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
+  const {
+    Message: TypedMessage,
+    Contact,
+    PhoneNumber,
+    Attachment,
+  } = Signal.Types;
   const {
     deleteAttachmentData,
     deleteExternalMessageFiles,
@@ -26,6 +31,7 @@
     loadQuoteData,
     loadPreviewData,
     writeNewAttachmentData,
+    writeAttachment,
   } = window.Signal.Migrations;
 
   window.AccountCache = Object.create(null);
@@ -85,7 +91,7 @@
       this.on('expired', this.onExpired);
       this.setToExpire();
 
-      this.updatePreviews();
+      this.updatePreview();
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -111,7 +117,7 @@
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
     },
-    async updatePreviews() {
+    async updatePreview() {
       // Don't generate link previews if user has turned them off
       if (!storage.get('linkPreviews', false)) {
         return;
@@ -141,15 +147,36 @@
       try {
         const result = await Signal.LinkPreviews.helper.getPreview(firstLink);
 
+        const { image, title, hash } = result;
+
         // A link preview isn't worth showing unless we have either a title or an image
-        if (!result || !(result.image || result.title)) {
+        if (!result || !(image || title)) {
           this.updatingPreview = false;
           return;
         }
 
-        // We don't want to save the base64 url in the message as
-        // it will increase the size of it, Rather we fetch the base64 later
+        // Save the image to disk
+        const { data } = image;
+        const extension = Attachment.getFileExtension(image);
+        if (data && extension) {
+          try {
+            const filePath = await writeAttachment({
+              data,
+              path: `previews/${hash}.${extension}`,
+            });
+
+            // return the image without the data
+            result.image = _.omit({ ...image, path: filePath }, 'data');
+          } catch (e) {
+            window.log.warn('Failed to write preview to disk', e);
+          }
+        }
+
+        // Save it!!
         this.set({ preview: [result] });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
       } catch (e) {
         window.log.warn(`Failed to load previews for message: ${this.id}`);
       } finally {
@@ -669,25 +696,13 @@
       const previews = this.get('preview') || [];
 
       return previews.map(preview => {
-        let image = {};
-
-        // Try set the image from the attachment otherwise just pass in the object
-        if (preview.image) {
-          try {
-            const attachmentProps = this.getPropsForAttachment(preview.image);
-            if (attachmentProps.url) {
-              image = attachmentProps;
-            }
-          } catch (e) {
-            // Only set the image if we have a url to display
-            const url = Signal.LinkPreviews.helper.getBase64Image(preview);
-            if (preview.image.url || url) {
-              image = {
-                ...preview.image,
-                url: preview.image.url || url,
-              };
-            }
+        let image = null;
+        try {
+          if (preview.image) {
+            image = this.getPropsForAttachment(preview.image);
           }
+        } catch (e) {
+          window.log.info('Failed to show preview');
         }
 
         return {
@@ -1383,7 +1398,7 @@
           });
 
           // Update the previews if we need to
-          message.updatePreviews();
+          message.updatePreview();
 
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(

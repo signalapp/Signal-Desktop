@@ -1,8 +1,9 @@
 /* global
   Signal,
   textsecure,
-  dcodeIO,
 */
+
+/* eslint-disable no-bitwise */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -10,29 +11,6 @@
 
   window.Signal = window.Signal || {};
   window.Signal.LinkPreviews = window.Signal.LinkPreviews || {};
-
-  const base64ImageCache = {};
-
-  function getBase64Image(preview) {
-    const { url, image } = preview;
-    if (!url || !image || !image.data) return null;
-
-    // Return the cached value
-    if (base64ImageCache[url]) return base64ImageCache[url];
-
-    // Set the cache and return the value
-    try {
-      const contentType = image.contentType || 'image/jpeg';
-      const base64 = dcodeIO.ByteBuffer.wrap(image.data).toString('base64');
-
-      const data = `data:${contentType};base64, ${base64}`;
-      base64ImageCache[url] = data;
-
-      return data;
-    } catch (e) {
-      return null;
-    }
-  }
 
   async function makeChunkedRequest(url) {
     const PARALLELISM = 3;
@@ -81,6 +59,19 @@
       contentType,
       data,
     };
+  }
+
+  function hashCode(string) {
+    let hash = 0;
+    if (string.length === 0) {
+      return hash;
+    }
+    for (let i = 0; i < string.length; i += 1) {
+      const char = string.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash &= hash; // Convert to 32bit integer
+    }
+    return hash;
   }
 
   async function getPreview(url) {
@@ -145,11 +136,11 @@
       title,
       url,
       image,
+      hash: hashCode(url),
     };
   }
 
   window.Signal.LinkPreviews.helper = {
     getPreview,
-    getBase64Image,
   };
 })();
