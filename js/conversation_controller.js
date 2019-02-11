@@ -199,9 +199,10 @@
         return conversation;
       };
 
-      conversation.initialPromise = create().then(async () => {
-        window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id);
-        conversation.updateProfileAvatar();
+      conversation.initialPromise = create();
+      conversation.initialPromise.then(async () => {
+        await window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id);
+        await conversation.updateProfileAvatar();
       });
 
       return conversation;

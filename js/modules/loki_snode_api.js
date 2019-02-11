@@ -59,9 +59,10 @@ class LokiSnodeAPI {
       return false;
     }
     const conversation = ConversationController.get(pubKey);
-    const swarmNodes = conversation.get('swarmNodes');
-    if (swarmNodes.delete(nodeUrl)) {
-      await conversation.updateSwarmNodes(swarmNodes);
+    const swarmNodes = [...conversation.get('swarmNodes')];
+    if (nodeUrl in swarmNodes) {
+      const filteredNodes = swarmNodes.filter(node => node !== nodeUrl);
+      await conversation.updateSwarmNodes(filteredNodes);
       delete this.contactSwarmNodes[nodeUrl];
     }
     return true;
@@ -82,7 +83,7 @@ class LokiSnodeAPI {
     let swarmNodes;
     try {
       conversation = ConversationController.get(pubKey);
-      swarmNodes = conversation.get('swarmNodes');
+      swarmNodes = [...conversation.get('swarmNodes')];
     } catch (e) {
       throw new window.textsecure.ReplayableError({
         message: 'Could not get conversation',
@@ -143,6 +144,7 @@ class LokiSnodeAPI {
           newSwarmNodes = await this.getSwarmNodes(pubKey);
         } catch (e) {
           // TODO: Handle these errors sensibly
+          log.error('Failed to get new swarm nodes');
           newSwarmNodes = [];
         }
         resolve(newSwarmNodes);

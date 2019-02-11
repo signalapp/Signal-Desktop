@@ -111,7 +111,6 @@ module.exports = {
   removeAllSessions,
 
   getSwarmNodesByPubkey,
-  saveSwarmNodesForPubKey,
 
   getConversationCount,
   saveConversation,
@@ -674,14 +673,6 @@ function setifyProperty(data, propertyName) {
 
 async function getSwarmNodesByPubkey(pubkey) {
   return channels.getSwarmNodesByPubkey(pubkey);
-}
-
-async function saveSwarmNodesForPubKey(pubKey, swarmNodes, { Conversation }) {
-  const conversation = await getConversationById(pubKey, { Conversation });
-  conversation.set({ swarmNodes });
-  await updateConversation(conversation.id, conversation.attributes, {
-    Conversation,
-  });
 }
 
 async function getConversationCount() {

@@ -106,6 +106,7 @@ class LokiMessageAPI {
       throw err;
     }
     const completedNodes = [];
+    const failedNodes = [];
     let successfulRequests = 0;
     let canResolve = true;
 
@@ -150,6 +151,7 @@ class LokiMessageAPI {
           log.error('Loki SendMessages:', e);
           if (lokiSnodeAPI.unreachableNode(pubKey, nodeUrl)) {
             nodeComplete(nodeUrl);
+            failedNodes.push(nodeUrl);
           }
         }
       }
@@ -161,6 +163,8 @@ class LokiMessageAPI {
       }
       if (swarmNodes.length === 0) {
         const freshNodes = await lokiSnodeAPI.getFreshSwarmNodes(pubKey);
+        const goodNodes = _.difference(freshNodes, failedNodes);
+        await lokiSnodeAPI.updateSwarmNodes(pubKey, goodNodes);
         swarmNodes = _.difference(freshNodes, completedNodes);
         if (swarmNodes.length === 0) {
           if (successfulRequests !== 0) {
@@ -172,7 +176,6 @@ class LokiMessageAPI {
             new Error('Ran out of swarm nodes to query')
           );
         }
-        lokiSnodeAPI.updateSwarmNodes(pubKey, swarmNodes);
       }
 
       const remainingRequests =
