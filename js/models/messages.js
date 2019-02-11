@@ -159,10 +159,11 @@
         const { data } = image;
         const extension = Attachment.getFileExtension(image);
         if (data && extension) {
+          const hash32 = hash.substring(0, 32);
           try {
             const filePath = await writeAttachment({
               data,
-              path: `previews/${hash}.${extension}`,
+              path: `previews/${hash32}.${extension}`,
             });
 
             // return the image without the data

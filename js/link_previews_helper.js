@@ -1,6 +1,7 @@
 /* global
   Signal,
   textsecure,
+  StringView
 */
 
 /* eslint-disable no-bitwise */
@@ -61,17 +62,10 @@
     };
   }
 
-  function hashCode(string) {
-    let hash = 0;
-    if (string.length === 0) {
-      return hash;
-    }
-    for (let i = 0; i < string.length; i += 1) {
-      const char = string.charCodeAt(i);
-      hash = (hash << 5) - hash + char;
-      hash &= hash; // Convert to 32bit integer
-    }
-    return hash;
+  async function sha256(string) {
+    const arraybuffer = new TextEncoder('utf-8').encode(string);
+    const digest = await window.crypto.subtle.digest('SHA-256', arraybuffer);
+    return StringView.arrayBufferToHex(digest);
   }
 
   async function getPreview(url) {
@@ -132,11 +126,13 @@
       }
     }
 
+    const hash = await sha256(url);
+
     return {
       title,
       url,
       image,
-      hash: hashCode(url),
+      hash,
     };
   }
 
