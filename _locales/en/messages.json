@@ -1102,6 +1102,22 @@
     "message": "General",
     "description": "Header for general options on the settings screen"
   },
+  "linkPreviews": {
+    "message": "Link Previews",
+    "description":
+      "Option to control creation and send of link previews in setting screen"
+  },
+  "linkPreviewsDescription": {
+    "message":
+      "Previews are supported for Imgur, Instagram, Reddit, and YouTube links.",
+    "description":
+      "Additional detail provided for Link Previews option in settings screen"
+  },
+  "linkPreviewsSettingDescription": {
+    "message":
+      "Enable local link previews (Restart for changes to take effect).",
+    "description": "Description shown for the Link Preview option "
+  },
   "spellCheckDescription": {
     "message": "Enable spell check of text entered in message composition box",
     "description": "Description of the media permission description"

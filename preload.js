@@ -171,6 +171,9 @@ installSetter('notification-setting', 'setNotificationSetting');
 installGetter('audio-notification', 'getAudioNotification');
 installSetter('audio-notification', 'setAudioNotification');
 
+installGetter('link-preview-setting', 'getLinkPreviewSetting');
+installSetter('link-preview-setting', 'setLinkPreviewSetting');
+
 installGetter('spell-check', 'getSpellCheck');
 installSetter('spell-check', 'setSpellCheck');
 

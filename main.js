@@ -1091,6 +1091,9 @@ installSettingsSetter('notification-setting');
 installSettingsGetter('audio-notification');
 installSettingsSetter('audio-notification');
 
+installSettingsGetter('link-preview-setting');
+installSettingsSetter('link-preview-setting');
+
 installSettingsGetter('spell-check');
 installSettingsSetter('spell-check');
 

@@ -17,7 +17,12 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
+  const {
+    Message: TypedMessage,
+    Contact,
+    PhoneNumber,
+    Attachment,
+  } = Signal.Types;
   const {
     deleteAttachmentData,
     deleteExternalMessageFiles,
@@ -26,6 +31,7 @@
     loadQuoteData,
     loadPreviewData,
     writeNewAttachmentData,
+    writeAttachment,
   } = window.Signal.Migrations;
 
   window.AccountCache = Object.create(null);
@@ -84,6 +90,8 @@
       this.on('unload', this.unload);
       this.on('expired', this.onExpired);
       this.setToExpire();
+
+      this.updatePreview();
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -108,6 +116,73 @@
       const flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
+    },
+    async updatePreview() {
+      // Don't generate link previews if user has turned them off
+      if (!storage.get('linkPreviews', false)) {
+        return;
+      }
+
+      if (this.updatingPreview) {
+        return;
+      }
+
+      // Only update the preview if we don't have any set
+      const preview = this.get('preview');
+      if (!_.isEmpty(preview)) {
+        return;
+      }
+
+      // Make sure we have links we can preview
+      const links = Signal.LinkPreviews.findLinks(this.get('body'));
+      const firstLink = links.find(link =>
+        Signal.LinkPreviews.isLinkInWhitelist(link)
+      );
+      if (!firstLink) {
+        return;
+      }
+
+      this.updatingPreview = true;
+
+      try {
+        const result = await Signal.LinkPreviews.helper.getPreview(firstLink);
+
+        const { image, title, hash } = result;
+
+        // A link preview isn't worth showing unless we have either a title or an image
+        if (!result || !(image || title)) {
+          this.updatingPreview = false;
+          return;
+        }
+
+        // Save the image to disk
+        const { data } = image;
+        const extension = Attachment.getFileExtension(image);
+        if (data && extension) {
+          const hash32 = hash.substring(0, 32);
+          try {
+            const filePath = await writeAttachment({
+              data,
+              path: `previews/${hash32}.${extension}`,
+            });
+
+            // return the image without the data
+            result.image = _.omit({ ...image, path: filePath }, 'data');
+          } catch (e) {
+            window.log.warn('Failed to write preview to disk', e);
+          }
+        }
+
+        // Save it!!
+        this.set({ preview: [result] });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+      } catch (e) {
+        window.log.warn(`Failed to load previews for message: ${this.id}`);
+      } finally {
+        this.updatingPreview = false;
+      }
     },
     getEndSessionTranslationKey() {
       const sessionType = this.get('endSessionType');
@@ -614,13 +689,29 @@
       });
     },
     getPropsForPreview() {
+      // Don't generate link previews if user has turned them off
+      if (!storage.get('linkPreviews', false)) {
+        return null;
+      }
+
       const previews = this.get('preview') || [];
 
-      return previews.map(preview => ({
-        ...preview,
-        domain: window.Signal.LinkPreviews.getDomain(preview.url),
-        image: preview.image ? this.getPropsForAttachment(preview.image) : null,
-      }));
+      return previews.map(preview => {
+        let image = null;
+        try {
+          if (preview.image) {
+            image = this.getPropsForAttachment(preview.image);
+          }
+        } catch (e) {
+          window.log.info('Failed to show preview');
+        }
+
+        return {
+          ...preview,
+          domain: window.Signal.LinkPreviews.getDomain(preview.url),
+          image,
+        };
+      });
     },
     getPropsForQuote() {
       const quote = this.get('quote');
@@ -1306,6 +1397,9 @@
             preview,
             schemaVersion: dataMessage.schemaVersion,
           });
+
+          // Update the previews if we need to
+          message.updatePreview();
 
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(

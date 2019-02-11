@@ -155,6 +155,12 @@
         value: window.initialData.hideMenuBar,
         setFn: window.setHideMenuBar,
       });
+      new CheckboxView({
+        el: this.$('.link-preview-setting'),
+        name: 'link-preview-setting',
+        value: window.initialData.linkPreviewSetting,
+        setFn: window.setLinkPreviewSetting,
+      });
       new MediaPermissionsSettingView({
         el: this.$('.media-permissions'),
         value: window.initialData.mediaPermissions,
@@ -212,8 +218,9 @@
         spellCheckHeader: i18n('spellCheck'),
         spellCheckDescription: i18n('spellCheckDescription'),
         blockedHeader: 'Blocked Users',
-        sendLinkPreviews: i18n('sendLinkPreviews'),
+        linkPreviews: i18n('linkPreviews'),
         linkPreviewsDescription: i18n('linkPreviewsDescription'),
+        linkPreviewsSettingDescription: i18n('linkPreviewsSettingDescription'),
       };
     },
     onClose() {
