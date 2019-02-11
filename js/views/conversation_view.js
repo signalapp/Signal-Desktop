@@ -209,8 +209,8 @@
             await this.showAllMedia();
             this.updateHeader();
           },
-          onShowGroupMembers: () => {
-            this.showMembers();
+          onShowGroupMembers: async () => {
+            await this.showMembers();
             this.updateHeader();
           },
           onGoBack: () => {
@@ -1127,13 +1127,21 @@
       }
     },
 
-    showMembers(e, providedMembers, options = {}) {
+    async showMembers(e, providedMembers, options = {}) {
       _.defaults(options, { needVerify: false });
 
-      const members = providedMembers || this.model.contactCollection;
+      const fromConversation = this.model.isPrivate()
+        ? [this.model.id]
+        : await textsecure.storage.groups.getNumbers(this.model.id);
+      const members =
+        providedMembers ||
+        fromConversation.map(id => ConversationController.get(id));
+
+      const model = this.model.getContactCollection();
+      model.reset(members);
 
       const view = new Whisper.GroupMemberList({
-        model: members,
+        model,
         // we pass this in to allow nested panels
         listenBack: this.listenBack.bind(this),
         needVerify: options.needVerify,

@@ -74,6 +74,17 @@
       this.trigger('messageError', message, errors);
     },
 
+    getContactCollection() {
+      const collection = new Backbone.Collection();
+      const collator = new Intl.Collator();
+      collection.comparator = (left, right) => {
+        const leftLower = left.getTitle().toLowerCase();
+        const rightLower = right.getTitle().toLowerCase();
+        return collator.compare(leftLower, rightLower);
+      };
+      return collection;
+    },
+
     initialize() {
       this.ourNumber = textsecure.storage.user.getNumber();
       this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
@@ -82,13 +93,7 @@
       //   our first save to the database. Or first fetch from the database.
       this.initialPromise = Promise.resolve();
 
-      this.contactCollection = new Backbone.Collection();
-      const collator = new Intl.Collator();
-      this.contactCollection.comparator = (left, right) => {
-        const leftLower = left.getTitle().toLowerCase();
-        const rightLower = right.getTitle().toLowerCase();
-        return collator.compare(leftLower, rightLower);
-      };
+      this.contactCollection = this.getContactCollection();
       this.messageCollection = new Whisper.MessageCollection([], {
         conversation: this,
       });
