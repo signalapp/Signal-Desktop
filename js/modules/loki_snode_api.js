@@ -9,6 +9,17 @@ const dns = require('dns');
 const MINIMUM_SWARM_NODES = 1;
 const FAILURE_THRESHOLD = 3;
 
+const resolve4 = url =>
+  new Promise((resolve, reject) => {
+    dns.resolve4(url, (err, ip) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(ip);
+      }
+    });
+  });
+
 const resolveCname = url =>
   new Promise((resolve, reject) => {
     dns.resolveCname(url, (err, address) => {
@@ -33,7 +44,12 @@ class LokiSnodeAPI {
     this.contactSwarmNodes = {};
   }
 
-  async getMySnodeAddress() {
+  async getMyLokiIp() {
+    const address = await resolveCname(this.localUrl);
+    return resolve4(address);
+  }
+
+  async getMyLokiAddress() {
     /* resolve our local loki address */
     return resolveCname(this.localUrl);
   }

@@ -24,7 +24,7 @@
   }
 
   async function sendOnlineBroadcastMessage(pubKey, forceP2p = false) {
-    const myLokiAddress = await window.lokiSnodeAPI.getMySnodeAddress();
+    const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
     const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
       p2pAddress: `http://${myLokiAddress}`,
       p2pPort: parseInt(window.localServerPort, 10),

@@ -83,11 +83,12 @@ MessageReceiver.prototype.extend({
         this.onEmpty();
       }
     });
-
-    localLokiServer.start(localServerPort).then(port => {
-      window.log.info(`Local Server started at localhost:${port}`);
-      libloki.api.broadcastOnlineStatus();
-      localLokiServer.on('message', this.handleP2pMessage.bind(this));
+    window.lokiSnodeAPI.getMyLokiIp().then(myLokiIp => {
+      localLokiServer.start(localServerPort, myLokiIp).then(port => {
+        window.log.info(`Local Server started at localhost:${port}`);
+        libloki.api.broadcastOnlineStatus();
+        localLokiServer.on('message', this.handleP2pMessage.bind(this));
+      });
     });
 
     // TODO: Rework this socket stuff to work with online messaging

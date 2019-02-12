@@ -50,13 +50,13 @@ class LocalLokiServer extends EventEmitter {
     });
   }
 
-  async start(port) {
+  async start(port, ip) {
     // Close the old server
     await this.close();
 
     // Start a listening on new server
     return new Promise((res, rej) => {
-      this.server.listen(port, err => {
+      this.server.listen(port, ip, err => {
         if (err) {
           rej(err);
         } else {
