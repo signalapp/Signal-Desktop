@@ -209,8 +209,8 @@
             await this.showAllMedia();
             this.updateHeader();
           },
-          onShowGroupMembers: () => {
-            this.showMembers();
+          onShowGroupMembers: async () => {
+            await this.showMembers();
             this.updateHeader();
           },
           onGoBack: () => {
@@ -1127,13 +1127,21 @@
       }
     },
 
-    showMembers(e, providedMembers, options = {}) {
+    async showMembers(e, providedMembers, options = {}) {
       _.defaults(options, { needVerify: false });
 
-      const members = providedMembers || this.model.contactCollection;
+      const fromConversation = this.model.isPrivate()
+        ? [this.model.id]
+        : await textsecure.storage.groups.getNumbers(this.model.id);
+      const members =
+        providedMembers ||
+        fromConversation.map(id => ConversationController.get(id));
+
+      const model = this.model.getContactCollection();
+      model.reset(members);
 
       const view = new Whisper.GroupMemberList({
-        model: members,
+        model,
         // we pass this in to allow nested panels
         listenBack: this.listenBack.bind(this),
         needVerify: options.needVerify,
@@ -1692,6 +1700,7 @@
       }
 
       const messageText = this.$messageField.val().trim();
+      const caretLocation = this.$messageField.get(0).selectionStart;
 
       if (!messageText) {
         this.resetLinkPreview();
@@ -1701,7 +1710,10 @@
         return;
       }
 
-      const links = window.Signal.LinkPreviews.findLinks(messageText);
+      const links = window.Signal.LinkPreviews.findLinks(
+        messageText,
+        caretLocation
+      );
       const { currentlyMatchedLink } = this;
       if (links.includes(currentlyMatchedLink)) {
         return;

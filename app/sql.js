@@ -636,7 +636,7 @@ async function getAllGroupIds() {
   return map(rows, row => row.id);
 }
 async function getAllGroups() {
-  const rows = await db.all('SELECT id FROM groups ORDER BY id ASC;');
+  const rows = await db.all('SELECT json FROM groups ORDER BY id ASC;');
   return map(rows, row => jsonToObject(row.json));
 }
 async function bulkAddGroups(array) {

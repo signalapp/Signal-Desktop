@@ -555,7 +555,7 @@ MessageReceiver.prototype.extend({
     return textsecure.storage.unprocessed.remove(id);
   },
   queueDecryptedEnvelope(envelope, plaintext) {
-    const { id } = envelope;
+    const id = this.getEnvelopeId(envelope);
     window.log.info('queueing decrypted envelope', id);
 
     const task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);

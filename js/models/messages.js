@@ -633,7 +633,7 @@
       //   back to the conversation's current recipients
       const phoneNumbers = this.isIncoming()
         ? [this.get('source')]
-        : this.get('recipients') || this.conversation.getRecipients();
+        : this.get('sent_to') || this.conversation.getRecipients();
 
       // This will make the error message for outgoing key errors a bit nicer
       const allErrors = (this.get('errors') || []).map(error => {
