@@ -49,6 +49,7 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 1.  Install `gcc`
 1.  Install `g++`
 1.  Install `make`
+1.  Depending on your distro, you might need to install `hunspell` and `hunspell-<lan>` (e.g. `hunspell-en-au`)
 
 ### All platforms
 
