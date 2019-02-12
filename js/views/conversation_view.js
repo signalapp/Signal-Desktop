@@ -773,9 +773,9 @@
 
       // Look for message in memory first, which would tell us if we could scroll to it
       const targetMessage = this.model.messageCollection.find(item => {
-        const messageAuthor = item.getContact().id;
+        const messageAuthor = item.getContact();
 
-        if (author !== messageAuthor) {
+        if (!messageAuthor || author !== messageAuthor.id) {
           return false;
         }
         if (id !== item.get('sent_at')) {

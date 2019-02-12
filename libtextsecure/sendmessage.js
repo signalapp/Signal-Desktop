@@ -109,7 +109,7 @@ Message.prototype = {
         const item = new textsecure.protobuf.DataMessage.Preview();
         item.title = preview.title;
         item.url = preview.url;
-        item.image = preview.image;
+        item.image = preview.image || null;
         return item;
       });
     }

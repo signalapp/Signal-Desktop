@@ -25294,13 +25294,20 @@ var origCurve25519 = Internal.curve25519_async;
 
 Internal.startWorker = function(url) {
     Internal.stopWorker(); // there can be only one
+
     Internal.curve25519_async = new Curve25519Worker(url);
+    Internal.Curve.async = Internal.wrapCurve25519(Internal.curve25519_async);
+    libsignal.Curve.async = Internal.wrapCurve(Internal.Curve.async);
 };
 
 Internal.stopWorker = function() {
     if (Internal.curve25519_async instanceof Curve25519Worker) {
         var worker = Internal.curve25519_async.worker;
+
         Internal.curve25519_async = origCurve25519;
+        Internal.Curve.async = Internal.wrapCurve25519(Internal.curve25519_async);
+        libsignal.Curve.async = Internal.wrapCurve(Internal.Curve.async);
+
         worker.terminate();
     }
 };
@@ -35158,6 +35165,7 @@ Curve25519Worker.prototype = {
         };
     }
 
+    Internal.wrapCurve25519 = wrapCurve25519;
     Internal.Curve       = wrapCurve25519(Internal.curve25519);
     Internal.Curve.async = wrapCurve25519(Internal.curve25519_async);
 
@@ -35185,6 +35193,7 @@ Curve25519Worker.prototype = {
         };
     }
 
+    Internal.wrapCurve = wrapCurve;
     libsignal.Curve       = wrapCurve(Internal.Curve);
     libsignal.Curve.async = wrapCurve(Internal.Curve.async);
 
