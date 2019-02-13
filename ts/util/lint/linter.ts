@@ -85,7 +85,6 @@ const excludedFiles = [
   '^node_modules/body-parser/*',
   '^node_modules/bower/*',
   '^node_modules/buble/*',
-  '^node_modules/cacache/*',
   '^node_modules/chai/*',
   '^node_modules/cli-table2/*',
   '^node_modules/codemirror/*',
