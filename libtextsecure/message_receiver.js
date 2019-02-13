@@ -801,19 +801,18 @@ MessageReceiver.prototype.extend({
       .then(plaintext => {
         const { isMe, isBlocked } = plaintext || {};
         if (isMe || isBlocked) {
-          return this.removeFromCache(envelope);
+          this.removeFromCache(envelope);
+          return null;
         }
 
-        return this.updateCache(envelope, plaintext).then(
-          () => plaintext,
-          error => {
-            window.log.error(
-              'decrypt failed to save decrypted message contents to cache:',
-              error && error.stack ? error.stack : error
-            );
-            return plaintext;
-          }
-        );
+        this.updateCache(envelope, plaintext).catch(error => {
+          window.log.error(
+            'decrypt failed to save decrypted message contents to cache:',
+            error && error.stack ? error.stack : error
+          );
+        });
+
+        return plaintext;
       })
       .catch(error => {
         let errorToThrow = error;
