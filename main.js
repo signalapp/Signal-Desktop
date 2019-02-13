@@ -370,7 +370,9 @@ function createWindow() {
     }
 
     await requestShutdown();
-    mainWindow.readyForShutdown = true;
+    if (mainWindow) {
+      mainWindow.readyForShutdown = true;
+    }
     app.quit();
   });
 
