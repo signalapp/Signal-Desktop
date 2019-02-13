@@ -207,7 +207,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
     "line": "      return this.send(wrap(promise));",
-    "lineNumber": 854,
+    "lineNumber": 853,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -215,7 +215,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
     "line": "        return wrap(",
-    "lineNumber": 1091,
+    "lineNumber": 1090,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -341,7 +341,7 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 848,
+    "lineNumber": 867,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -1099,78 +1099,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "        el: this.$('.group-avatar'),",
-    "lineNumber": 18,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.recipients_view.$el.insertBefore(this.$('.container'));",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.recipients_view.$el.insertBefore(this.$('.container'));",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.scrollable').append(this.member_list_view.el);",
-    "lineNumber": 37,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.scrollable').append(this.member_list_view.el);",
-    "lineNumber": 37,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.results').hide();",
-    "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.results').show();",
-    "lineNumber": 49,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "        name: this.$('.name').val(),",
-    "lineNumber": 68,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-10-02T21:36:01.167Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/views/phone-input-view.js",
     "line": "      this.$('input.number').intlTelInput();",
     "lineNumber": 14,
@@ -1213,51 +1141,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$input = this.$('input.search');",
-    "lineNumber": 69,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$new_contact = this.$('.new-contact');",
-    "lineNumber": 70,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "        el: this.$('.recipients'),",
-    "lineNumber": 80,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$('.contacts').append(this.typeahead_view.el);",
-    "lineNumber": 95,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$('.contacts').append(this.typeahead_view.el);",
-    "lineNumber": 95,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
@@ -1689,7 +1572,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 808,
+    "lineNumber": 821,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1697,7 +1580,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 833,
+    "lineNumber": 846,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
