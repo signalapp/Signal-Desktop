@@ -223,8 +223,8 @@
       textsecure.storage.user.getNumber()
     );
     window.lokiP2pAPI.on('pingContact', pubKey => {
-      const forceP2p = true;
-      window.libloki.api.sendOnlineBroadcastMessage(pubKey, forceP2p);
+      const isPing = true;
+      window.libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
     });
 
     // These make key operations available to IPC handlers created in preload.js

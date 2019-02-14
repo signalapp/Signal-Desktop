@@ -63,11 +63,11 @@ class LokiMessageAPI {
     this.messageServerPort = messageServerPort ? `:${messageServerPort}` : '';
   }
 
-  async sendMessage(pubKey, data, messageTimeStamp, ttl, forceP2p = false) {
+  async sendMessage(pubKey, data, messageTimeStamp, ttl, isPing = false) {
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const timestamp = Math.floor(Date.now() / 1000);
     const p2pDetails = lokiP2pAPI.getContactP2pDetails(pubKey);
-    if (p2pDetails && (forceP2p || p2pDetails.isOnline)) {
+    if (p2pDetails && (isPing || p2pDetails.isOnline)) {
       try {
         const port = p2pDetails.port ? `:${p2pDetails.port}` : '';
         const url = `${p2pDetails.address}${port}/store`;

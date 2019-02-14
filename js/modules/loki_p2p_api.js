@@ -16,7 +16,7 @@ class LokiP2pAPI extends EventEmitter {
     });
   }
 
-  updateContactP2pDetails(pubKey, address, port, isOnline = false) {
+  updateContactP2pDetails(pubKey, address, port, isPing = false) {
     // Stagger the timers so the friends don't ping each other at the same time
     const timerDuration =
       pubKey < this.ourKey
@@ -35,7 +35,7 @@ class LokiP2pAPI extends EventEmitter {
       pingTimer: null,
     };
 
-    if (isOnline) {
+    if (isPing) {
       this.setContactOnline(pubKey);
       return;
     }

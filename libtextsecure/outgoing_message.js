@@ -42,13 +42,13 @@ function OutgoingMessage(
   this.failoverNumbers = [];
   this.unidentifiedDeliveries = [];
 
-  const { numberInfo, senderCertificate, online, messageType, forceP2p } =
+  const { numberInfo, senderCertificate, online, messageType, isPing } =
     options || {};
   this.numberInfo = numberInfo;
   this.senderCertificate = senderCertificate;
   this.online = online;
   this.messageType = messageType || 'outgoing';
-  this.forceP2p = forceP2p || false;
+  this.isPing = isPing || false;
 }
 
 OutgoingMessage.prototype = {
@@ -192,7 +192,7 @@ OutgoingMessage.prototype = {
         data,
         timestamp,
         ttl,
-        this.forceP2p
+        this.isPing
       );
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
@@ -347,7 +347,7 @@ OutgoingMessage.prototype = {
         if (this.messageType === 'friend-request') {
           ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
         } else if (this.messageType === 'onlineBroadcast') {
-          ttl = 10 * 60; // 10 minutes for online broadcast message
+          ttl = 60; // 1 minute for online broadcast message
         } else {
           const hours = window.getMessageTTL() || 24; // 1 day default for any other message
           ttl = hours * 60 * 60;
