@@ -79,6 +79,8 @@ export interface Props {
   isExpired: boolean;
   expirationLength?: number;
   expirationTimestamp?: number;
+  isP2p?: boolean;
+
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
   onReply?: () => void;
@@ -196,6 +198,7 @@ export class Message extends React.Component<Props, State> {
       status,
       text,
       timestamp,
+      isP2p,
     } = this.props;
 
     if (collapseMetadata) {
@@ -237,6 +240,14 @@ export class Message extends React.Component<Props, State> {
             module="module-message__metadata__date"
           />
         )}
+        {isP2p ? (
+          <span className={classNames(
+            'module-message__metadata__p2p',
+            `module-message__metadata__p2p--${direction}`,
+          )}>
+            &nbsp;•&nbsp;P2P
+          </span>
+        ) : null}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
             direction={direction}
@@ -944,7 +955,7 @@ export class Message extends React.Component<Props, State> {
             `module-message__container--${direction}`,
             direction === 'incoming'
               ? `module-message__container--incoming-${authorColor}`
-              : null
+              : null,
           )}
           style={{
             width: isShowingImage ? width : undefined,

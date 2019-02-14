@@ -591,6 +591,8 @@
         isExpired: this.hasExpired,
         expirationLength,
         expirationTimestamp,
+        isP2p: !!this.get('isP2p'),
+
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
@@ -1088,6 +1090,17 @@
 
       this.set({
         calculatingPoW: true,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    async setIsP2p(isP2p) {
+      if (_.isEqual(this.get('isP2p'), isP2p)) return;
+
+      this.set({
+        isP2p: !!isP2p,
       });
 
       await window.Signal.Data.saveMessage(this.attributes, {

@@ -321,14 +321,24 @@
       removeMessage();
     },
 
-    async onCalculatingPoW(pubKey, timestamp) {
-      if (this.id !== pubKey) return;
+    // Get messages with the given timestamp
+    _getMessagesWithTimestamp(pubKey, timestamp) {
+      if (this.id !== pubKey) return [];
 
       // Go through our messages and find the one that we need to update
-      const messages = this.messageCollection.models.filter(
+      return this.messageCollection.models.filter(
         m => m.get('sent_at') === timestamp
       );
+    },
+
+    async onCalculatingPoW(pubKey, timestamp) {
+      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
+    },
+
+    async onP2pMessageSent(pubKey, timestamp) {
+      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
+      await Promise.all(messages.map(m => m.setIsP2p(true)));
     },
 
     async onNewMessage(message) {

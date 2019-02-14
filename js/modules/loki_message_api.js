@@ -66,8 +66,15 @@ class LokiMessageAPI {
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, isPing = false) {
-    const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const timestamp = Math.floor(Date.now() / 1000);
+
+    // Data required to identify a message in a conversation
+    const messageEventData = {
+      pubKey,
+      timestamp: messageTimeStamp,
+    };
+
+    const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const p2pDetails = lokiP2pAPI.getContactP2pDetails(pubKey);
     const body = {
       method: 'store',
@@ -86,6 +93,7 @@ class LokiMessageAPI {
 
         await fetch(url, fetchOptions);
         lokiP2pAPI.setContactOnline(pubKey);
+        window.Whisper.events.trigger('p2pMessageSent', messageEventData);
         return;
       } catch (e) {
         log.warn('Failed to send P2P message, falling back to storage', e);
@@ -100,10 +108,7 @@ class LokiMessageAPI {
     // Nonce is returned as a base64 string to include in header
     let nonce;
     try {
-      window.Whisper.events.trigger('calculatingPoW', {
-        pubKey,
-        timestamp: messageTimeStamp,
-      });
+      window.Whisper.events.trigger('calculatingPoW', messageEventData);
       const development = window.getEnvironment() !== 'production';
       nonce = await callWorker(
         'calcPoW',
