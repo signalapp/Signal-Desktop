@@ -1352,7 +1352,7 @@
 }
 
 .module-conversation-header__avatar {
-  min-width: 28px;
+  min-width: 26px;
   user-select: none;
 }
 
@@ -1365,8 +1365,8 @@
   font-weight: 300;
   color: $color-gray-90;
 
-  // width of avatar (28px) and our 6px left margin
-  max-width: calc(100% - 34px);
+  // width of avatar (26px) and our 6px left margin
+  max-width: calc(100% - 32px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
