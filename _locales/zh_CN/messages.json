@@ -484,11 +484,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Loading Preview...",
+        "message": "加载预览中...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Draft thumbnail link preview for $domain$",
+        "message": "待发送的$domain$链接预览",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -498,7 +498,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Thumbnail link preview for $domain$",
+        "message": "$domain$的链接预览缩略图",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -508,7 +508,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "待发送的图片附件：$path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -958,14 +958,6 @@
     "general": {
         "message": "通用",
         "description": "Header for general options on the settings screen"
-    },
-    "sendLinkPreviews": {
-        "message": "Send Link Previews",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Previews are supported for Imgur, Instagram, Reddit, and YouTube links.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "启用输入框拼写检查",

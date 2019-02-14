@@ -959,14 +959,6 @@
         "message": "一般",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "傳送連結預覽",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "預覽功能支援 Imgur、Instagram、 Reddit 及 YouTube 的連結。",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "在訊息撰寫時啟用文字輸入的拼字檢查",
         "description": "Description of the media permission description"

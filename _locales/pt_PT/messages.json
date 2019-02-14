@@ -959,14 +959,6 @@
         "message": "Geral",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Enviar pré-visualização de hiperligações",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "As pré-visualizações são suportadas em hiperligações do Imgur, Instagram, Reddit, e YouTube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Active a verificação ortográfica para o texto introduzido",
         "description": "Description of the media permission description"

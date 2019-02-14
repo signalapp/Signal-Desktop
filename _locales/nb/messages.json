@@ -484,11 +484,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Loading Preview...",
+        "message": "Laster forhåndsvisning...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Draft thumbnail link preview for $domain$",
+        "message": "Utkast miniatyrbilde til linkforhåndsvisning for $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -498,7 +498,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Thumbnail link preview for $domain$",
+        "message": "Miniatyrbilde til linkforhåndsvisning for $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -508,7 +508,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "Utkast av vedlagt bildefil: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -958,14 +958,6 @@
     "general": {
         "message": "Generelt",
         "description": "Header for general options on the settings screen"
-    },
-    "sendLinkPreviews": {
-        "message": "Send Link Previews",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Previews are supported for Imgur, Instagram, Reddit, and YouTube links.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Slå på stavekontroll av tekst du skriver i meldingsvinduet",
