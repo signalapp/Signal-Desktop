@@ -632,7 +632,7 @@
       //   back to the conversation's current recipients
       const phoneNumbers = this.isIncoming()
         ? [this.get('source')]
-        : this.get('sent_to') || this.conversation.getRecipients();
+        : this.get('sent_to') || this.getConversation().getRecipients();
 
       // This will make the error message for outgoing key errors a bit nicer
       const allErrors = (this.get('errors') || []).map(error => {
@@ -1062,8 +1062,15 @@
       this.set({ dataMessage });
 
       try {
-        await this.sendSyncMessage();
+        const result = await this.sendSyncMessage();
         this.set({
+          // These are the same as a normal send
+          sent_to: [this.OUR_NUMBER],
+          sent: true,
+          expirationStartTimestamp: Date.now(),
+          unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
+
+          // These are unique to a Note to Self message - immediately read/delivered
           delivered_to: [this.OUR_NUMBER],
           read_by: [this.OUR_NUMBER],
         });

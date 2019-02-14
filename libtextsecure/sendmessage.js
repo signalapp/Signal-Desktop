@@ -846,7 +846,7 @@ MessageSender.prototype = {
         )
       );
 
-    const sendToContact = deleteAllSessions(number)
+    const sendToContactPromise = deleteAllSessions(number)
       .catch(logError('resetSession/deleteAllSessions1 error:'))
       .then(() => {
         window.log.info(
@@ -866,8 +866,14 @@ MessageSender.prototype = {
         )
       );
 
+    const myNumber = textsecure.storage.user.getNumber();
+    // We already sent the reset session to our other devices in the code above!
+    if (number === myNumber) {
+      return sendToContactPromise;
+    }
+
     const buffer = proto.toArrayBuffer();
-    const sendSync = this.sendSyncMessage(
+    const sendSyncPromise = this.sendSyncMessage(
       buffer,
       timestamp,
       number,
@@ -877,7 +883,7 @@ MessageSender.prototype = {
       options
     ).catch(logError('resetSession/sendSync error:'));
 
-    return Promise.all([sendToContact, sendSync]);
+    return Promise.all([sendToContactPromise, sendSyncPromise]);
   },
 
   sendMessageToGroup(
