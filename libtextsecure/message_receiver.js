@@ -1216,13 +1216,21 @@ MessageReceiver.prototype.extend({
   },
   async downloadAttachment(attachment) {
     const encrypted = await this.server.getAttachment(attachment.id);
-    const { key, digest } = attachment;
+    const { key, digest, size } = attachment;
 
     const data = await textsecure.crypto.decryptAttachment(
       encrypted,
       window.Signal.Crypto.base64ToArrayBuffer(key),
       window.Signal.Crypto.base64ToArrayBuffer(digest)
     );
+
+    if (!size || size !== data.byteLength) {
+      throw new Error(
+        `downloadAttachment: Size ${size} did not match downloaded attachment size ${
+          data.byteLength
+        }`
+      );
+    }
 
     return {
       ..._.omit(attachment, 'digest', 'key'),
