@@ -23,23 +23,47 @@ class LokiP2pAPI extends EventEmitter {
         ? 60 * 1000 // 1 minute
         : 2 * 60 * 1000; // 2 minutes
 
-    if (this.contactP2pDetails[pubKey]) {
-      clearTimeout(this.contactP2pDetails[pubKey].pingTimer);
+    if (!this.contactP2pDetails[pubKey]) {
+      // We didn't have this contact's details
+      this.contactP2pDetails[pubKey] = {
+        address,
+        port,
+        timerDuration,
+        pingTimer: null,
+        isOnline: false,
+      };
+      // Try ping
+      this.pingContact(pubKey);
+      return;
     }
 
-    this.contactP2pDetails[pubKey] = {
-      address,
-      port,
-      timerDuration,
-      isOnline: false,
-      pingTimer: null,
-    };
+    // We already had this contact's details
+    const baseDetails = { ...this.contactP2pDetails[pubKey] };
 
     if (isPing) {
+      // Received a ping
+      // Update details in case they are new and mark online
+      this.contactP2pDetails[pubKey].address = address;
+      this.contactP2pDetails[pubKey].port = port;
       this.setContactOnline(pubKey);
       return;
     }
 
+    // Received a storage broadcast message
+    if (
+      baseDetails.isOnline ||
+      baseDetails.address !== address ||
+      baseDetails.port !== port
+    ) {
+      // Had the contact marked as online and details we had were the same
+      // Do nothing
+      return;
+    }
+
+    // Had the contact marked as offline or got new details
+    this.contactP2pDetails[pubKey].address = address;
+    this.contactP2pDetails[pubKey].port = port;
+    this.setContactOffline(pubKey);
     this.pingContact(pubKey);
   }
 
@@ -77,7 +101,11 @@ class LokiP2pAPI extends EventEmitter {
   }
 
   pingContact(pubKey) {
-    if (!this.contactP2pDetails[pubKey]) {
+    if (
+      !this.contactP2pDetails[pubKey] ||
+      this.contactP2pDetails[pubKey].isOnline
+    ) {
+      // Don't ping if we don't have their details or they are already online
       return;
     }
     this.emit('pingContact', pubKey);

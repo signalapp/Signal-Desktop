@@ -82,6 +82,10 @@ class LokiMessageAPI {
       } catch (e) {
         log.warn('Failed to send P2P message, falling back to storage', e);
         lokiP2pAPI.setContactOffline(pubKey);
+        if (isPing) {
+          // If this was just a ping, we don't bother sending to storage server
+          return;
+        }
       }
     }
 
