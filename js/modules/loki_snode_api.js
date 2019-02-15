@@ -68,10 +68,11 @@ class LokiSnodeAPI {
       } else {
         this.ourSwarmNodes[nodeUrl].failureCount += 1;
       }
-      if (this.ourSwarmNodes[nodeUrl].failureCount >= FAILURE_THRESHOLD) {
-        delete this.ourSwarmNodes[nodeUrl];
+      if (this.ourSwarmNodes[nodeUrl].failureCount < FAILURE_THRESHOLD) {
+        return false;
       }
-      return false;
+      delete this.ourSwarmNodes[nodeUrl];
+      return true;
     }
     if (!this.contactSwarmNodes[nodeUrl]) {
       this.contactSwarmNodes[nodeUrl] = {
@@ -85,7 +86,7 @@ class LokiSnodeAPI {
     }
     const conversation = ConversationController.get(pubKey);
     const swarmNodes = [...conversation.get('swarmNodes')];
-    if (nodeUrl in swarmNodes) {
+    if (swarmNodes.includes(nodeUrl)) {
       const filteredNodes = swarmNodes.filter(node => node !== nodeUrl);
       await conversation.updateSwarmNodes(filteredNodes);
       delete this.contactSwarmNodes[nodeUrl];
@@ -161,7 +162,7 @@ class LokiSnodeAPI {
           newSwarmNodes = await this.getSwarmNodes(pubKey);
         } catch (e) {
           // TODO: Handle these errors sensibly
-          log.error('Failed to get new swarm nodes');
+          log.error(e);
           newSwarmNodes = [];
         }
         resolve(newSwarmNodes);
@@ -205,12 +206,6 @@ class LokiSnodeAPI {
     try {
       response = await fetch(options.url, fetchOptions);
     } catch (e) {
-      log.error(
-        options.type,
-        options.url,
-        0,
-        `Error getting swarm nodes for ${pubKey}`
-      );
       throw HTTPError('getSwarmNodes fetch error', 0, e.toString());
     }
 
@@ -229,12 +224,6 @@ class LokiSnodeAPI {
     if (response.status >= 0 && response.status < 400) {
       return result.nodes;
     }
-    log.error(
-      options.type,
-      options.url,
-      response.status,
-      `Error getting swarm nodes for ${pubKey}`
-    );
     throw HTTPError('getSwarmNodes: error response', response.status, result);
   }
 }

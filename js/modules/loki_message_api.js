@@ -143,6 +143,7 @@ class LokiMessageAPI {
         nodeComplete(nodeUrl);
         successfulRequests += 1;
       } catch (e) {
+        log.warn('Send message error:', e);
         if (e instanceof NotFoundError) {
           canResolve = false;
         } else if (e instanceof HTTPError) {
@@ -155,8 +156,12 @@ class LokiMessageAPI {
           // We mark the node as complete as we could still reach it
           nodeComplete(nodeUrl);
         } else {
-          log.error('Loki SendMessages:', e);
-          if (lokiSnodeAPI.unreachableNode(pubKey, nodeUrl)) {
+          const removeNode = await lokiSnodeAPI.unreachableNode(
+            pubKey,
+            nodeUrl
+          );
+          if (removeNode) {
+            log.error('Loki SendMessages:', e);
             nodeComplete(nodeUrl);
             failedNodes.push(nodeUrl);
           }
@@ -242,6 +247,7 @@ class LokiMessageAPI {
         }
         successfulRequests += 1;
       } catch (e) {
+        log.warn('Retrieve message error:', e);
         if (e instanceof NotFoundError) {
           canResolve = false;
         } else if (e instanceof HTTPError) {
@@ -254,8 +260,12 @@ class LokiMessageAPI {
           // We mark the node as complete as we could still reach it
           nodeComplete(nodeUrl);
         } else {
-          log.error('Loki RetrieveMessages:', e);
-          if (lokiSnodeAPI.unreachableNode(ourKey, nodeUrl)) {
+          const removeNode = await lokiSnodeAPI.unreachableNode(
+            ourKey,
+            nodeUrl
+          );
+          if (removeNode) {
+            log.error('Loki RetrieveMessages:', e);
             nodeComplete(nodeUrl);
           }
         }
