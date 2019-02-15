@@ -58,7 +58,8 @@
       "components/qrcode/**/*.js",
       "node_modules/intl-tel-input/build/js/intlTelInput.js",
       "components/autosize/**/*.js",
-      "components/webaudiorecorder/lib/WebAudioRecorder.js"
+      "components/webaudiorecorder/lib/WebAudioRecorder.js",
+      "components/multibase/dist/index.js"
     ],
     "libtextsecure": [
       "components/long/**/*.js",
@@ -68,7 +69,8 @@
     "libloki": [
       "components/long/**/*.js",
       "components/bytebuffer/**/*.js",
-      "components/JSBI/dist/jsbi.mjs"
+      "components/JSBI/dist/jsbi.mjs",
+      "components/multibase/dist/index.js"
     ]
   }
 }
