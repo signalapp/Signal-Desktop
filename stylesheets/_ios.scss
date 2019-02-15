@@ -133,29 +133,29 @@
   }
 
   .module-spinner__circle--incoming {
-    background-color: $color-gray-15;
+    background-color: $color-white-04;
   }
   .module-spinner__arc--incoming {
     background-color: $color-gray-60;
   }
   .module-spinner__circle--small-incoming {
-    background-color: $color-gray-15;
+    background-color: $color-white-04;
   }
   .module-spinner__arc--small-incoming {
     background-color: $color-gray-60;
   }
 
   .module-spinner__circle--outgoing {
-    background-color: $color-gray-45;
+    background-color: $color-white-04;
   }
   .module-spinner__arc--outgoing {
-    background-color: $color-gray-05;
+    background-color: $color-white;
   }
   .module-spinner__circle--small-outgoing {
-    background-color: $color-gray-45;
+    background-color: $color-white-04;
   }
   .module-spinner__arc--small-outgoing {
-    background-color: $color-gray-05;
+    background-color: $color-white;
   }
 
   &.dark-theme {
@@ -323,26 +323,26 @@
     }
 
     .module-spinner__circle--incoming {
-      background-color: $color-gray-45;
+      background-color: $color-white-04;
     }
     .module-spinner__arc--incoming {
       background-color: $color-gray-25;
     }
     .module-spinner__circle--small-incoming {
-      background-color: $color-gray-45;
+      background-color: $color-white-04;
     }
     .module-spinner__arc--small-incoming {
       background-color: $color-gray-25;
     }
 
     .module-spinner__circle--outgoing {
-      background-color: $color-gray-45;
+      background-color: $color-white-04;
     }
     .module-spinner__arc--outgoing {
       background-color: $color-gray-05;
     }
     .module-spinner__circle--small-outgoing {
-      background-color: $color-gray-45;
+      background-color: $color-white-04;
     }
     .module-spinner__arc--small-outgoing {
       background-color: $color-gray-05;

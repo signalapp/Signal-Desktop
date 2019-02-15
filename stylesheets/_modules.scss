@@ -2712,7 +2712,7 @@
   top: 0;
   left: 0;
 
-  @include color-svg('../images/spinner-track-56.svg', $color-gray-15);
+  @include color-svg('../images/spinner-track-56.svg', $color-white-04);
   z-index: 2;
   height: 56px;
   width: 56px;
@@ -2748,7 +2748,7 @@
 }
 
 .module-spinner__circle--small {
-  @include color-svg('../images/spinner-track-24.svg', $color-gray-15);
+  @include color-svg('../images/spinner-track-24.svg', $color-white-04);
   height: 24px;
   width: 24px;
 }
@@ -2759,16 +2759,16 @@
 }
 
 .module-spinner__circle--incoming {
-  background-color: $color-gray-75;
+  background-color: $color-white-04;
 }
 .module-spinner__arc--incoming {
-  background-color: $color-gray-15;
+  background-color: $color-white;
 }
 .module-spinner__circle--small-incoming {
-  background-color: $color-gray-75;
+  background-color: $color-white-04;
 }
 .module-spinner__arc--small-incoming {
-  background-color: $color-gray-15;
+  background-color: $color-white;
 }
 
 // Third-party module: react-contextmenu
