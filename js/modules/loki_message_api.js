@@ -118,15 +118,22 @@ class LokiMessageAPI {
     };
 
     const doRequest = async nodeUrl => {
-      const url = `${nodeUrl}${this.messageServerPort}/store`;
+      const url = `${nodeUrl}${this.messageServerPort}/v1/storage_rpc`;
+      const body = {
+        method: 'store',
+        args: {
+          pubKey,
+          ttl: ttl.toString(),
+          nonce,
+          timestamp: timestamp.toString(),
+          data: data64,
+        },
+      };
       const fetchOptions = {
         method: 'POST',
-        body: data64,
+        body,
         headers: {
-          'X-Loki-pow-nonce': nonce,
-          'X-Loki-timestamp': timestamp.toString(),
-          'X-Loki-ttl': ttl.toString(),
-          'X-Loki-recipient': pubKey,
+          'X-Loki-EphemKey:': 'not implemented yet',
         },
       };
 
@@ -140,7 +147,7 @@ class LokiMessageAPI {
           canResolve = false;
         } else if (e instanceof HTTPError) {
           log.error(
-            `POST ${e.response.url}`,
+            `POST ${e.response.url} (store)`,
             e.response.status,
             'Error sending message'
           );
@@ -208,19 +215,24 @@ class LokiMessageAPI {
     };
 
     const doRequest = async (nodeUrl, nodeData) => {
-      const url = `${nodeUrl}${this.messageServerPort}/retrieve`;
-      const headers = {
-        'X-Loki-recipient': ourKey,
+      const url = `${nodeUrl}${this.messageServerPort}/v1/storage_rpc`;
+      const body = {
+        method: 'retrieve',
+        args: {
+          pubKey: ourKey,
+          lastHash: nodeData.lastHash,
+        },
       };
-
-      if (nodeData.lastHash) {
-        headers['X-Loki-last-hash'] = nodeData.lastHash;
-      }
-
+      const headers = {
+        'X-Loki-EphemKey:': 'not implemented yet',
+      };
+      const fetchOptions = {
+        method: 'POST',
+        body,
+        headers,
+      };
       try {
-        const result = await fetch(url, {
-          headers,
-        });
+        const result = await fetch(url, fetchOptions);
 
         nodeComplete(nodeUrl);
 
@@ -234,7 +246,7 @@ class LokiMessageAPI {
           canResolve = false;
         } else if (e instanceof HTTPError) {
           log.error(
-            `GET ${e.response.url}`,
+            `POST ${e.response.url} (retrieve)`,
             e.response.status,
             `Error retrieving messages from ${nodeUrl}`
           );
