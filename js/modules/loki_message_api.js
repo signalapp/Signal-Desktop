@@ -57,6 +57,28 @@ const fetch = async (url, options = {}) => {
   }
 };
 
+// Wrapper for a JSON RPC request
+const rpc = (address, port, method, params, options = {}) => {
+  const headers = options.headers || {};
+  const url = `${address}${port}${endpointBase}`;
+  const body = {
+    method,
+    params,
+  };
+
+  const fetchOptions = {
+    method: 'POST',
+    ...options,
+    body: JSON.stringify(body),
+    headers: {
+      'X-Loki-EphemKey': 'not implemented yet',
+      ...headers,
+    },
+  };
+
+  return fetch(url, fetchOptions);
+};
+
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SUCCESSFUL_REQUESTS = 2;
 
@@ -69,22 +91,13 @@ class LokiMessageAPI {
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const timestamp = Math.floor(Date.now() / 1000);
     const p2pDetails = lokiP2pAPI.getContactP2pDetails(pubKey);
-    const body = {
-      method: 'store',
-      params: {
-        data: data64,
-      },
-    };
     if (p2pDetails && (isPing || p2pDetails.isOnline)) {
       try {
         const port = p2pDetails.port ? `:${p2pDetails.port}` : '';
-        const url = `${p2pDetails.address}${port}${endpointBase}`;
-        const fetchOptions = {
-          method: 'POST',
-          body: JSON.stringify(body),
-        };
 
-        await fetch(url, fetchOptions);
+        await rpc(p2pDetails.address, port, 'store', {
+          data: data64,
+        });
         lokiP2pAPI.setContactOnline(pubKey);
         return;
       } catch (e) {
@@ -117,16 +130,6 @@ class LokiMessageAPI {
       // Something went horribly wrong
       throw err;
     }
-    const storageParams = {
-      pubKey,
-      ttl: ttl.toString(),
-      nonce,
-      timestamp: timestamp.toString(),
-    };
-    body.params = {
-      ...body.params,
-      ...storageParams,
-    };
 
     const completedNodes = [];
     const failedNodes = [];
@@ -141,17 +144,16 @@ class LokiMessageAPI {
     };
 
     const doRequest = async nodeUrl => {
-      const url = `${nodeUrl}${this.messageServerPort}${endpointBase}`;
-      const fetchOptions = {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-          'X-Loki-EphemKey': 'not implemented yet',
-        },
+      const params = {
+        pubKey,
+        ttl: ttl.toString(),
+        nonce,
+        timestamp: timestamp.toString(),
+        data: data64,
       };
 
       try {
-        await fetch(url, fetchOptions);
+        await rpc(nodeUrl, this.messageServerPort, 'store', params);
 
         nodeComplete(nodeUrl);
         successfulRequests += 1;
@@ -233,24 +235,18 @@ class LokiMessageAPI {
     };
 
     const doRequest = async (nodeUrl, nodeData) => {
-      const url = `${nodeUrl}${this.messageServerPort}${endpointBase}`;
-      const body = {
-        method: 'retrieve',
-        params: {
-          pubKey: ourKey,
-          lastHash: nodeData.lastHash,
-        },
+      const params = {
+        pubKey: ourKey,
+        lastHash: nodeData.lastHash,
       };
-      const headers = {
-        'X-Loki-EphemKey': 'not implemented yet',
-      };
-      const fetchOptions = {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers,
-      };
+
       try {
-        const result = await fetch(url, fetchOptions);
+        const result = await rpc(
+          nodeUrl,
+          this.messageServerPort,
+          'retrieve',
+          params
+        );
 
         nodeComplete(nodeUrl);
 
