@@ -34,6 +34,10 @@ class LokiP2pAPI extends EventEmitter {
         pingTimer: null,
         isOnline: false,
       };
+      if (isPing) {
+        this.setContactOnline(pubKey);
+        return;
+      }
       // Try ping
       this.pingContact(pubKey);
       return;
