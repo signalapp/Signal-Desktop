@@ -121,7 +121,7 @@ class LokiMessageAPI {
       const url = `${nodeUrl}${this.messageServerPort}/v1/storage_rpc`;
       const body = {
         method: 'store',
-        args: {
+        params: {
           pubKey,
           ttl: ttl.toString(),
           nonce,
@@ -218,7 +218,7 @@ class LokiMessageAPI {
       const url = `${nodeUrl}${this.messageServerPort}/v1/storage_rpc`;
       const body = {
         method: 'retrieve',
-        args: {
+        params: {
           pubKey: ourKey,
           lastHash: nodeData.lastHash,
         },
