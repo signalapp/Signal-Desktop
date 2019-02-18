@@ -133,7 +133,7 @@ class LokiMessageAPI {
         method: 'POST',
         body,
         headers: {
-          'X-Loki-EphemKey:': 'not implemented yet',
+          'X-Loki-EphemKey': 'not implemented yet',
         },
       };
 
@@ -224,7 +224,7 @@ class LokiMessageAPI {
         },
       };
       const headers = {
-        'X-Loki-EphemKey:': 'not implemented yet',
+        'X-Loki-EphemKey': 'not implemented yet',
       };
       const fetchOptions = {
         method: 'POST',
