@@ -56,7 +56,7 @@ class LokiP2pAPI extends EventEmitter {
       baseDetails.port !== port
     ) {
       // Had the contact marked as online and details we had were the same
-      // Do nothing
+      this.pingContact(pubKey);
       return;
     }
 
@@ -69,6 +69,14 @@ class LokiP2pAPI extends EventEmitter {
 
   getContactP2pDetails(pubKey) {
     return this.contactP2pDetails[pubKey] || null;
+  }
+
+  isContactOnline(pubKey) {
+    const contactDetails = this.contactP2pDetails[pubKey];
+    if (!contactDetails || !contactDetails.isOnline) {
+      return false;
+    }
+    return contactDetails.isOnline;
   }
 
   setContactOffline(pubKey) {
@@ -101,11 +109,8 @@ class LokiP2pAPI extends EventEmitter {
   }
 
   pingContact(pubKey) {
-    if (
-      !this.contactP2pDetails[pubKey] ||
-      this.contactP2pDetails[pubKey].isOnline
-    ) {
-      // Don't ping if we don't have their details or they are already online
+    if (!this.contactP2pDetails[pubKey]) {
+      // Don't ping if we don't have their details
       return;
     }
     this.emit('pingContact', pubKey);
