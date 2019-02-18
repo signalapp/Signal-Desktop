@@ -218,6 +218,9 @@ MessageReceiver.prototype.extend({
     const promise = Promise.resolve(request.body.toArrayBuffer()) // textsecure.crypto
       .then(plaintext => {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
+        if (isP2p) {
+          lokiP2pAPI.setContactOnline(envelope.source);
+        }
         // After this point, decoding errors are not the server's
         //   fault, and we should handle them gracefully and tell the
         //   user they received an invalid message
@@ -945,9 +948,7 @@ MessageReceiver.prototype.extend({
     return this.removeFromCache(envelope);
   },
   handleDataMessage(envelope, msg) {
-    if (envelope.isP2p) {
-      lokiP2pAPI.setContactOnline(envelope.source);
-    } else {
+    if (!envelope.isP2p) {
       const timestamp = envelope.timestamp.toNumber();
       const now = Date.now();
       const ageInSeconds = (now - timestamp) / 1000;

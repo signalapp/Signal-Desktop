@@ -2,6 +2,8 @@
 
 const EventEmitter = require('events');
 
+const offlinePingTime = 2 * 60 * 1000; // 2 minutes
+
 class LokiP2pAPI extends EventEmitter {
   constructor(ourKey) {
     super();
@@ -85,6 +87,11 @@ class LokiP2pAPI extends EventEmitter {
       return;
     }
     clearTimeout(this.contactP2pDetails[pubKey].pingTimer);
+    this.contactP2pDetails[pubKey].pingTimer = setTimeout(
+      this.pingContact.bind(this),
+      offlinePingTime,
+      pubKey
+    );
     this.contactP2pDetails[pubKey].isOnline = false;
   }
 
