@@ -639,6 +639,7 @@
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest() {
+      if (this.unlockTimer) clearTimeout(this.unlockTimer);
       if (this.hasReceivedFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
         await this.respondToAllPendingFriendRequests({
@@ -650,6 +651,7 @@
     },
     // Our outgoing friend request has been accepted
     async onFriendRequestAccepted() {
+      if (this.unlockTimer) clearTimeout(this.unlockTimer);
       if (this.hasSentFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
         await this.respondToAllPendingFriendRequests({
@@ -663,8 +665,8 @@
     async onFriendRequestTimeout() {
       // Unset the timer
       if (this.unlockTimer) clearTimeout(this.unlockTimer);
-
       this.unlockTimer = null;
+      if (this.isFriend()) return;
 
       // Set the unlock timestamp to null
       if (this.get('unlockTimestamp')) {
@@ -715,6 +717,7 @@
       await this.setFriendRequestStatus(FriendRequestStatusEnum.requestSent);
     },
     setFriendRequestExpiryTimeout() {
+      if (this.isFriend()) return;
       const unlockTimestamp = this.get('unlockTimestamp');
       if (unlockTimestamp && !this.unlockTimer) {
         const delta = Math.max(unlockTimestamp - Date.now(), 0);
