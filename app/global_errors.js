@@ -3,6 +3,7 @@ const electron = require('electron');
 const Errors = require('../js/modules/types/errors');
 
 const { app, dialog, clipboard } = electron;
+const { redactAll } = require('../js/modules/privacy');
 
 // We're using hard-coded strings in this file because it needs to be ready
 //   to report errors before we do anything in the app. Also, we expect users to directly
@@ -23,7 +24,7 @@ function handleError(prefix, error) {
     });
 
     if (buttonIndex === 1) {
-      clipboard.writeText(`${prefix}\n${error.stack}`);
+      clipboard.writeText(`${prefix}\n${redactAll(error.stack)}`);
     }
   } else {
     dialog.showErrorBox(prefix, error.stack);

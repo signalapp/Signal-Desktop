@@ -1204,7 +1204,6 @@ function createTempDir() {
 }
 
 function deleteAll(pattern) {
-  window.log.info(`Deleting ${pattern}`);
   return pify(rimraf)(pattern);
 }
 

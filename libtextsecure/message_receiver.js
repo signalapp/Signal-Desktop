@@ -588,9 +588,7 @@ MessageReceiver.prototype.extend({
 
     return promise.catch(error => {
       window.log.error(
-        'queueDecryptedEnvelope error handling envelope',
-        id,
-        ':',
+        `queueDecryptedEnvelope error handling envelope ${id}:`,
         error && error.stack ? error.stack : error
       );
     });
