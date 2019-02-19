@@ -1211,6 +1211,11 @@ function deleteAll(pattern) {
 const ARCHIVE_NAME = 'messages.tar.gz';
 
 async function exportToDirectory(directory, options) {
+  const env = window.getEnvironment();
+  if (env !== 'test') {
+    throw new Error('export is only supported in test mode');
+  }
+
   options = options || {};
 
   if (!options.key) {
@@ -1278,6 +1283,11 @@ async function importFromDirectory(directory, options) {
 
     const archivePath = path.join(directory, ARCHIVE_NAME);
     if (fs.existsSync(archivePath)) {
+      const env = window.getEnvironment();
+      if (env !== 'test') {
+        throw new Error('import is only supported in test mode');
+      }
+
       // we're in the world of an encrypted, zipped backup
       if (!options.key) {
         throw new Error(
