@@ -274,6 +274,19 @@
       },
 
       shutdown: async () => {
+        // Stop background processing
+        window.Signal.AttachmentDownloads.stop();
+        if (idleDetector) {
+          idleDetector.stop();
+        }
+
+        // Stop processing incoming messages
+        if (messageReceiver) {
+          await messageReceiver.stopProcessing();
+          messageReceiver = null;
+        }
+
+        // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
       },
     };
@@ -428,16 +441,6 @@
     }
   });
 
-  Whisper.events.on('shutdown', async () => {
-    if (idleDetector) {
-      idleDetector.stop();
-    }
-    if (messageReceiver) {
-      await messageReceiver.close();
-    }
-    Whisper.events.trigger('shutdown-complete');
-  });
-
   Whisper.events.on('setupWithImport', () => {
     const { appView } = window.owsDesktopApp;
     if (appView) {
@@ -548,13 +551,6 @@
 
   window.getSyncRequest = () =>
     new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
-
-  Whisper.events.on('start-shutdown', async () => {
-    if (messageReceiver) {
-      await messageReceiver.close();
-    }
-    Whisper.events.trigger('shutdown-complete');
-  });
 
   let disconnectTimer = null;
   function onOffline() {
@@ -1326,6 +1322,11 @@
       (error.code === 401 || error.code === 403)
     ) {
       Whisper.events.trigger('unauthorized');
+
+      if (messageReceiver) {
+        await messageReceiver.stopProcessing();
+        messageReceiver = null;
+      }
 
       window.log.warn(
         'Client is no longer authorized; deleting local configuration'
