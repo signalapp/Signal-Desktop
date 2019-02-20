@@ -1,7 +1,7 @@
 {
   "serverUrl": "https://textsecure-service-staging.whispersystems.org",
   "cdnUrl": "https://cdn-staging.signal.org",
-  "contentProxyUrl": "contentproxy.signal.org",
+  "contentProxyUrl": "http://contentproxy.signal.org:443",
   "disableAutoUpdate": false,
   "openDevTools": false,
   "buildExpiration": 0,
