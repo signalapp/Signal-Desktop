@@ -1328,6 +1328,8 @@
         messageReceiver = null;
       }
 
+      onEmpty();
+
       window.log.warn(
         'Client is no longer authorized; deleting local configuration'
       );

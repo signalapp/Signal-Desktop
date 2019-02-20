@@ -651,6 +651,8 @@ app.on('ready', async () => {
     locale = loadLocale({ appLocale, logger });
   }
 
+  GlobalErrors.updateLocale(locale.messages);
+
   let key = userConfig.get('key');
   if (!key) {
     console.log(
@@ -660,7 +662,15 @@ app.on('ready', async () => {
     key = crypto.randomBytes(32).toString('hex');
     userConfig.set('key', key);
   }
-  await sql.initialize({ configDir: userDataPath, key });
+  const success = await sql.initialize({
+    configDir: userDataPath,
+    key,
+    messages: locale.messages,
+  });
+  if (!success) {
+    console.log('sql.initialize was unsuccessful; returning early');
+    return;
+  }
   await sqlChannels.initialize();
 
   try {
@@ -773,6 +783,7 @@ app.on('before-quit', () => {
     readyForShutdown: mainWindow ? mainWindow.readyForShutdown : null,
     shouldQuit: windowState.shouldQuit(),
   });
+
   windowState.markShouldQuit();
 });
 
