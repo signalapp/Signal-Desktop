@@ -17,13 +17,14 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
+  const { Message: TypedMessage, Contact, PhoneNumber, Errors } = Signal.Types;
   const {
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
     loadAttachmentData,
     loadQuoteData,
     loadPreviewData,
+    upgradeMessageSchema,
   } = window.Signal.Migrations;
 
   window.AccountCache = Object.create(null);
@@ -1284,7 +1285,99 @@
 
       return false;
     },
-    handleDataMessage(dataMessage, confirm) {
+
+    async copyFromQuotedMessage(message) {
+      const { quote } = message;
+      if (!quote) {
+        return message;
+      }
+
+      const { attachments, id, author } = quote;
+      const firstAttachment = attachments[0];
+
+      const collection = await window.Signal.Data.getMessagesBySentAt(id, {
+        MessageCollection: Whisper.MessageCollection,
+      });
+      const queryMessage = collection.find(item => {
+        const messageAuthor = item.getContact();
+
+        return messageAuthor && author === messageAuthor.id;
+      });
+
+      if (!queryMessage) {
+        quote.referencedMessageNotFound = true;
+        return message;
+      }
+
+      quote.text = queryMessage.get('body');
+      if (firstAttachment) {
+        firstAttachment.thumbnail = null;
+      }
+
+      if (
+        !firstAttachment ||
+        (!window.Signal.Util.GoogleChrome.isImageTypeSupported(
+          firstAttachment.contentType
+        ) &&
+          !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
+            firstAttachment.contentType
+          ))
+      ) {
+        return message;
+      }
+
+      try {
+        if (
+          queryMessage.get('schemaVersion') <
+          TypedMessage.VERSION_NEEDED_FOR_DISPLAY
+        ) {
+          const upgradedMessage = await upgradeMessageSchema(
+            queryMessage.attributes
+          );
+          queryMessage.set(upgradedMessage);
+          await window.Signal.Data.saveMessage(upgradedMessage, {
+            Message: Whisper.Message,
+          });
+        }
+      } catch (error) {
+        window.log.error(
+          'Problem upgrading message quoted message from database',
+          Errors.toLogFormat(error)
+        );
+        return message;
+      }
+
+      const queryAttachments = queryMessage.get('attachments') || [];
+
+      if (queryAttachments.length > 0) {
+        const queryFirst = queryAttachments[0];
+        const { thumbnail } = queryFirst;
+
+        if (thumbnail && thumbnail.path) {
+          firstAttachment.thumbnail = {
+            ...thumbnail,
+            copied: true,
+          };
+        }
+      }
+
+      const queryPreview = queryMessage.get('preview') || [];
+      if (queryPreview.length > 0) {
+        const queryFirst = queryPreview[0];
+        const { image } = queryFirst;
+
+        if (image && image.path) {
+          firstAttachment.thumbnail = {
+            ...image,
+            copied: true,
+          };
+        }
+      }
+
+      return message;
+    },
+
+    handleDataMessage(initialMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
       //   2. on a sent message sync'd from another device
@@ -1294,13 +1387,18 @@
       const source = message.get('source');
       const type = message.get('type');
       let conversationId = message.get('conversationId');
-      if (dataMessage.group) {
-        conversationId = dataMessage.group.id;
+      if (initialMessage.group) {
+        conversationId = initialMessage.group.id;
       }
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
       return conversation.queueJob(async () => {
+        const withQuoteReference = await this.copyFromQuotedMessage(
+          initialMessage
+        );
+        const dataMessage = await upgradeMessageSchema(withQuoteReference);
+
         try {
           const now = new Date().getTime();
           let attributes = {
