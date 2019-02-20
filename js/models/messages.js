@@ -629,11 +629,15 @@
         return accumulator;
       }, Object.create(null));
 
+      // We include numbers we didn't successfully send to so we can display errors.
       // Older messages don't have the recipients included on the message, so we fall
       //   back to the conversation's current recipients
       const phoneNumbers = this.isIncoming()
         ? [this.get('source')]
-        : this.get('sent_to') || this.getConversation().getRecipients();
+        : _.union(
+            this.get('sent_to') || [],
+            this.get('recipients') || this.getConversation().getRecipients()
+          );
 
       // This will make the error message for outgoing key errors a bit nicer
       const allErrors = (this.get('errors') || []).map(error => {
