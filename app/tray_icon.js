@@ -1,5 +1,6 @@
 const path = require('path');
 
+const fs = require('fs');
 const { app, Menu, Tray } = require('electron');
 
 let trayContextMenu = null;
@@ -78,14 +79,20 @@ function createTrayIcon(getMainWindow, messages) {
   };
 
   tray.updateIcon = unreadCount => {
+    let image;
+
     if (unreadCount > 0) {
       const filename = `${String(unreadCount >= 10 ? 10 : unreadCount)}.png`;
-      tray.setImage(
-        path.join(__dirname, '..', 'images', 'alert', iconSize, filename)
-      );
+      image = path.join(__dirname, '..', 'images', 'alert', iconSize, filename);
     } else {
-      tray.setImage(iconNoNewMessages);
+      image = iconNoNewMessages;
     }
+
+    if (!fs.existsSync(image)) {
+      console.log('tray.updateIcon: Image for tray update does not exist!');
+      return;
+    }
+    tray.setImage(image);
   };
 
   tray.on('click', tray.showWindow);
