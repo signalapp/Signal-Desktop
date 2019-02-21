@@ -237,6 +237,7 @@ function updateForMac(template, messages, options) {
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
+    label: messages.signalDesktop.message,
     submenu: [
       {
         label: messages.aboutSignalDesktop.message,

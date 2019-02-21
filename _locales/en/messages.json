@@ -706,7 +706,7 @@
     "message": "Quit",
     "description": "Command in the tray icon menu, to quit the application"
   },
-  "trayTooltip": {
+  "signalDesktop": {
     "message": "Signal Desktop",
     "description": "Tooltip for the tray icon"
   },

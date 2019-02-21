@@ -2386,49 +2386,65 @@
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 1834,
+    "lineNumber": 2031,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-02-22T01:08:09.603Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3232,
+    "lineNumber": 3431,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-02-22T01:08:09.603Z"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/index.d.ts",
+    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
     "line": "        wrap(oldStream: ReadableStream): this;",
-    "lineNumber": 437,
+    "lineNumber": 573,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T21:02:15.849Z"
+    "updated": "2019-02-22T01:08:09.603Z"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/index.d.ts",
+    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
     "line": "        static wrap(code: string): string;",
-    "lineNumber": 792,
+    "lineNumber": 976,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T20:45:24.002Z"
+    "updated": "2019-02-22T01:08:09.603Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
+    "line": "         * Default: an async wrapper for the JavaScript `eval()` function. An `eval` function can",
+    "lineNumber": 31,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-02-22T01:08:09.603Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
+    "line": "         * for the JavaScript `eval()` function.",
+    "lineNumber": 180,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-02-22T01:08:09.603Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/electron/node_modules/@types/node/stream.d.ts",
+    "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
+    "lineNumber": 32,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-02-22T01:08:09.603Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/electron/node_modules/@types/node/index.d.ts",
+    "path": "node_modules/electron/node_modules/@types/node/url.d.ts",
     "line": "        append(name: string, value: string): void;",
-    "lineNumber": 2355,
+    "lineNumber": 90,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T21:02:15.849Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/index.d.ts",
-    "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
-    "lineNumber": 5277,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T20:45:24.002Z"
+    "updated": "2019-02-22T01:08:09.603Z"
   },
   {
     "rule": "jQuery-$(",

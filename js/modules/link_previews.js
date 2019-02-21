@@ -2,7 +2,7 @@
 
 const { isNumber, compact } = require('lodash');
 const he = require('he');
-const punycode = require('punycode');
+const nodeUrl = require('url');
 const LinkifyIt = require('linkify-it');
 
 const linkify = LinkifyIt();
@@ -330,8 +330,7 @@ function isLinkSneaky(link) {
   const domain = getDomain(link);
 
   // This is necesary because getDomain returns domains in punycode form
-  // We'd like to use require('url').domainToUnicode() but it's a no-op in a BrowserWindow
-  const unicodeDomain = punycode.toUnicode(domain);
+  const unicodeDomain = nodeUrl.domainToUnicode(domain);
 
   const chunks = unicodeDomain.split('.');
   for (let i = 0, max = chunks.length; i < max; i += 1) {
