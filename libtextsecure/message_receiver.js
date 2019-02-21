@@ -85,7 +85,7 @@ MessageReceiver.prototype.extend({
     });
     window.lokiSnodeAPI.getMyLokiIp().then(myLokiIp => {
       localLokiServer.start(localServerPort, myLokiIp).then(port => {
-        window.log.info(`Local Server started at localhost:${port}`);
+        window.log.info(`Local Server started at ${myLokiIp}:${port}`);
         libloki.api.broadcastOnlineStatus();
         localLokiServer.on('message', this.handleP2pMessage.bind(this));
       });
