@@ -32,9 +32,14 @@ class LocalLokiServer extends EventEmitter {
             }
 
             // Check endpoints here
-            if (req.url === '/store') {
-              // body is a base64 encoded string
-              this.emit('message', body);
+            if (req.url === '/v1/storage_rpc') {
+              const bodyObject = JSON.parse(body);
+              if (bodyObject.method !== 'store') {
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.end('Invalid endpoint!');
+                return;
+              }
+              this.emit('message', bodyObject.params.data);
               res.statusCode = 200;
               res.end();
             } else {
