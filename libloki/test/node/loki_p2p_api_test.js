@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 const LokiP2pAPI = require('../../../js/modules/loki_p2p_api');
 
-describe('LocalLokiServer', () => {
+describe('LokiP2pAPI', () => {
   const usedKey = 'aPubKey';
   const usedAddress = 'anAddress';
   const usedPort = 'aPort';
@@ -64,16 +64,16 @@ describe('LocalLokiServer', () => {
       usedKey,
       usedAddress,
       usedPort,
-      true
+      false
     );
-    assert.isTrue(this.lokiP2pAPI.isOnline(usedKey));
+    assert.isFalse(this.lokiP2pAPI.isOnline(usedKey));
     this.lokiP2pAPI.updateContactP2pDetails(
       usedKey,
       usedAddress,
       usedPort,
-      false
+      true
     );
-    assert.isFalse(this.lokiP2pAPI.isOnline(usedKey));
+    assert.isTrue(this.lokiP2pAPI.isOnline(usedKey));
   });
 
   it('Should set a contact as offline', () => {

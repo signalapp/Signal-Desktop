@@ -23,7 +23,7 @@
     );
   }
 
-  async function sendOnlineBroadcastMessage(pubKey, forceP2p = false) {
+  async function sendOnlineBroadcastMessage(pubKey, isPing = false) {
     const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
     const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
       p2pAddress: `http://${myLokiAddress}`,
@@ -41,7 +41,7 @@
         log.info('Online broadcast message sent successfully');
       }
     };
-    const options = { messageType: 'onlineBroadcast', forceP2p };
+    const options = { messageType: 'onlineBroadcast', isPing };
     // Send a empty message with information about how to contact us directly
     const outgoingMessage = new textsecure.OutgoingMessage(
       null, // server

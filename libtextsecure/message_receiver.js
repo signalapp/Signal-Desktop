@@ -948,6 +948,14 @@ MessageReceiver.prototype.extend({
     return this.removeFromCache(envelope);
   },
   handleDataMessage(envelope, msg) {
+    if (!envelope.isP2p) {
+      const timestamp = envelope.timestamp.toNumber();
+      const now = Date.now();
+      const ageInSeconds = (now - timestamp) / 1000;
+      if (ageInSeconds <= 120) {
+        lokiP2pAPI.pingContact(envelope.source);
+      }
+    }
     window.log.info('data message from', this.getEnvelopeId(envelope));
     let p = Promise.resolve();
     // eslint-disable-next-line no-bitwise
