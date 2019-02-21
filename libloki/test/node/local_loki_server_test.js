@@ -56,6 +56,12 @@ describe('LocalLokiServer', () => {
     it('should pass the POSTed data to the callback', async () => {
       const server = new LocalLokiServer();
       await server.start(8001);
+      const messageData = {
+        method: 'store',
+        params: {
+          data: 'This is data',
+        },
+      };
 
       const promise = new Promise(res => {
         server.on('message', message => {
@@ -66,7 +72,7 @@ describe('LocalLokiServer', () => {
       });
 
       try {
-        await axios.post('http://localhost:8001/store', 'This is data');
+        await axios.post('http://localhost:8001/v1/storage_rpc', messageData);
       } catch (error) {
         assert.isNotOk(error, 'Error occured');
       }

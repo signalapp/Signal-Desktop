@@ -5,6 +5,8 @@
 const nodeFetch = require('node-fetch');
 const _ = require('lodash');
 
+const endpointBase = '/v1/storage_rpc';
+
 class HTTPError extends Error {
   constructor(response) {
     super(response.statusText);
@@ -67,13 +69,19 @@ class LokiMessageAPI {
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const timestamp = Math.floor(Date.now() / 1000);
     const p2pDetails = lokiP2pAPI.getContactP2pDetails(pubKey);
+    const body = {
+      method: 'store',
+      params: {
+        data: data64,
+      },
+    };
     if (p2pDetails && (isPing || p2pDetails.isOnline)) {
       try {
         const port = p2pDetails.port ? `:${p2pDetails.port}` : '';
-        const url = `${p2pDetails.address}${port}/store`;
+        const url = `${p2pDetails.address}${port}${endpointBase}`;
         const fetchOptions = {
           method: 'POST',
-          body: data64,
+          body: JSON.stringify(body),
         };
 
         await fetch(url, fetchOptions);
@@ -109,6 +117,17 @@ class LokiMessageAPI {
       // Something went horribly wrong
       throw err;
     }
+    const storageParams = {
+      pubKey,
+      ttl: ttl.toString(),
+      nonce,
+      timestamp: timestamp.toString(),
+    };
+    body.params = {
+      ...body.params,
+      ...storageParams,
+    };
+
     const completedNodes = [];
     const failedNodes = [];
     let successfulRequests = 0;
@@ -122,17 +141,7 @@ class LokiMessageAPI {
     };
 
     const doRequest = async nodeUrl => {
-      const url = `${nodeUrl}${this.messageServerPort}/v1/storage_rpc`;
-      const body = {
-        method: 'store',
-        params: {
-          pubKey,
-          ttl: ttl.toString(),
-          nonce,
-          timestamp: timestamp.toString(),
-          data: data64,
-        },
-      };
+      const url = `${nodeUrl}${this.messageServerPort}${endpointBase}`;
       const fetchOptions = {
         method: 'POST',
         body: JSON.stringify(body),
@@ -224,7 +233,7 @@ class LokiMessageAPI {
     };
 
     const doRequest = async (nodeUrl, nodeData) => {
-      const url = `${nodeUrl}${this.messageServerPort}/v1/storage_rpc`;
+      const url = `${nodeUrl}${this.messageServerPort}${endpointBase}`;
       const body = {
         method: 'retrieve',
         params: {
