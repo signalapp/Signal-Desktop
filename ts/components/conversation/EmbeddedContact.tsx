@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Avatar } from '../Avatar';
+import { Spinner } from '../Spinner';
 import { Contact, getName } from '../../types/Contact';
 
 import { Localizer } from '../../types/Util';
@@ -27,6 +28,7 @@ export class EmbeddedContact extends React.Component<Props> {
       withContentBelow,
     } = this.props;
     const module = 'embedded-contact';
+    const direction = isIncoming ? 'incoming' : 'outgoing';
 
     return (
       <div
@@ -42,7 +44,7 @@ export class EmbeddedContact extends React.Component<Props> {
         role="button"
         onClick={onClick}
       >
-        {renderAvatar({ contact, i18n, size: 48 })}
+        {renderAvatar({ contact, i18n, size: 48, direction })}
         <div className="module-embedded-contact__text-container">
           {renderName({ contact, isIncoming, module })}
           {renderContactShorthand({ contact, isIncoming, module })}
@@ -58,15 +60,26 @@ export function renderAvatar({
   contact,
   i18n,
   size,
+  direction,
 }: {
   contact: Contact;
   i18n: Localizer;
   size: number;
+  direction?: string;
 }) {
   const { avatar } = contact;
 
   const avatarPath = avatar && avatar.avatar && avatar.avatar.path;
+  const pending = avatar && avatar.avatar && avatar.avatar.pending;
   const name = getName(contact) || '';
+
+  if (pending) {
+    return (
+      <div className="module-embedded-contact__spinner-container">
+        <Spinner small={size < 50} direction={direction} />
+      </div>
+    );
+  }
 
   return (
     <Avatar

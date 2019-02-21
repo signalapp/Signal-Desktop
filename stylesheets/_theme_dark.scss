@@ -1098,6 +1098,10 @@ body.dark-theme {
     color: $color-dark-05;
   }
 
+  .module-conversation-header__note-to-self {
+    color: $color-dark-05;
+  }
+
   .module-conversation-header__title__verified-icon {
     @include color-svg('../images/verified-check.svg', $color-dark-05);
   }
@@ -1262,11 +1266,15 @@ body.dark-theme {
   }
 
   .module-avatar__icon--group {
-    @include color-svg('../images/profile-group.svg', $color-gray-05);
+    background-color: $color-gray-05;
   }
 
   .module-avatar__icon--direct {
-    @include color-svg('../images/profile-individual.svg', $color-gray-05);
+    background-color: $color-gray-05;
+  }
+
+  .module-avatar__icon--note-to-self {
+    background-color: $color-gray-05;
   }
 
   .module-avatar--no-image {
@@ -1318,8 +1326,16 @@ body.dark-theme {
 
   // Module: Image
 
+  .module-image {
+    background-color: $color-black;
+  }
+
   .module-image__border-overlay {
     box-shadow: inset 0px 0px 0px 1px $color-white-015;
+  }
+
+  .module-image__loading-placeholder {
+    background-color: $color-white-015;
   }
 
   // Module: Image Grid
@@ -1391,6 +1407,47 @@ body.dark-theme {
   }
   .module-staged-link-preview__close-button {
     @include color-svg('../images/x-16.svg', $color-gray-25);
+  }
+
+  // Module: Spinner
+
+  .module-spinner__circle {
+    background-color: $color-white-04;
+  }
+  .module-spinner__arc {
+    background-color: $color-gray-05;
+  }
+  .module-spinner__circle--small {
+    background-color: $color-white-04;
+  }
+  .module-spinner__arc--small {
+    background-color: $color-gray-05;
+  }
+
+  .module-spinner__circle--incoming {
+    background-color: $color-white-04;
+  }
+  .module-spinner__arc--incoming {
+    background-color: $color-gray-05;
+  }
+  .module-spinner__circle--small-incoming {
+    background-color: $color-white-04;
+  }
+  .module-spinner__arc--small-incoming {
+    background-color: $color-gray-05;
+  }
+
+  .module-spinner__circle--outgoing {
+    background-color: $color-white-04;
+  }
+  .module-spinner__arc--outgoing {
+    background-color: $color-gray-05;
+  }
+  .module-spinner__circle--small-outgoing {
+    background-color: $color-white-04;
+  }
+  .module-spinner__arc--small-outgoing {
+    background-color: $color-gray-05;
   }
 
   // Third-party module: react-contextmenu

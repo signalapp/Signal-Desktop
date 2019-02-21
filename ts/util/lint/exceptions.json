@@ -206,8 +206,8 @@
   {
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
-    "line": "        this.send(wrap(promise));",
-    "lineNumber": 820,
+    "line": "      return this.send(wrap(promise));",
+    "lineNumber": 871,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -215,7 +215,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/messages.js",
     "line": "        return wrap(",
-    "lineNumber": 1029,
+    "lineNumber": 1115,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -341,7 +341,7 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 848,
+    "lineNumber": 868,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -527,7 +527,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_search_view.js",
     "line": "      this.$new_contact = this.$('.new-contact');",
-    "lineNumber": 42,
+    "lineNumber": 40,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -536,7 +536,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/conversation_search_view.js",
     "line": "      this.$el.append(this.typeahead_view.el);",
-    "lineNumber": 59,
+    "lineNumber": 57,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -545,7 +545,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/conversation_search_view.js",
     "line": "        this.new_contact_view.$('.number').text(i18n('invalidNumberError'));",
-    "lineNumber": 111,
+    "lineNumber": 119,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -554,7 +554,7 @@
     "rule": "jQuery-insertAfter(",
     "path": "js/views/conversation_search_view.js",
     "line": "        this.hintView.$el.insertAfter(this.$input);",
-    "lineNumber": 147,
+    "lineNumber": 155,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -1099,78 +1099,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "        el: this.$('.group-avatar'),",
-    "lineNumber": 18,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.recipients_view.$el.insertBefore(this.$('.container'));",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.recipients_view.$el.insertBefore(this.$('.container'));",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.scrollable').append(this.member_list_view.el);",
-    "lineNumber": 37,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.scrollable').append(this.member_list_view.el);",
-    "lineNumber": 37,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.results').hide();",
-    "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.results').show();",
-    "lineNumber": 49,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "        name: this.$('.name').val(),",
-    "lineNumber": 68,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-10-02T21:36:01.167Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/views/phone-input-view.js",
     "line": "      this.$('input.number').intlTelInput();",
     "lineNumber": 14,
@@ -1213,51 +1141,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$input = this.$('input.search');",
-    "lineNumber": 69,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$new_contact = this.$('.new-contact');",
-    "lineNumber": 70,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "        el: this.$('.recipients'),",
-    "lineNumber": 80,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$('.contacts').append(this.typeahead_view.el);",
-    "lineNumber": 95,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$('.contacts').append(this.typeahead_view.el);",
-    "lineNumber": 95,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
@@ -1689,7 +1572,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 808,
+    "lineNumber": 833,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1697,7 +1580,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 833,
+    "lineNumber": 858,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1757,78 +1640,6 @@
     "lineNumber": 204,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/app-builder-lib/out/frameworks/LibUiFramework.js",
-    "line": "  DIR=$(dirname \"$0\")",
-    "lineNumber": 113,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/app-builder-lib/out/frameworks/LibUiFramework.js",
-    "line": "  DIR=$(dirname \"$0\")",
-    "lineNumber": 127,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/app-builder-lib/out/targets/MsiTarget.js",
-    "line": "        result += `\\n${fileSpace}  <File Name=\"${fileName}\" Source=\"$(var.appDir)${path.sep}${packagePath}\" ReadOnly=\"yes\" KeyPath=\"yes\"`;",
-    "lineNumber": 352,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/app-builder-lib/out/targets/nsis/nsisLicense.js",
-    "line": "    licensePage.push('!insertmacro MUI_PAGE_LICENSE \"$(MUILicense)\"');",
-    "lineNumber": 100,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-append(",
@@ -2101,83 +1912,67 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
+    "path": "node_modules/builder-util-runtime/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/builder-util-runtime/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/builder-util-runtime/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 216,
+    "lineNumber": 162,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
+    "path": "node_modules/builder-util-runtime/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/builder-util/node_modules/debug/src/browser.js",
     "line": "function load() {",
-    "lineNumber": 211,
+    "lineNumber": 160,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
+    "path": "node_modules/builder-util/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/builder-util/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 216,
+    "lineNumber": 162,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/builder-util/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-$(",
@@ -2554,6 +2349,38 @@
     "lineNumber": 31,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download-tf/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download-tf/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download-tf/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 153,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download-tf/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 177,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "eval",
@@ -4092,17 +3919,17 @@
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "function load(input, options) {",
-    "lineNumber": 2545,
+    "lineNumber": 2537,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2568,
+    "lineNumber": 2560,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5876,35 +5703,33 @@
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Most eval() calls are in this format",
-    "lineNumber": 234,
-    "reasonCategory": "exampleCode",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "lineNumber": 235,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Parse nested eval() calls using recursion",
-    "lineNumber": 246,
-    "reasonCategory": "exampleCode",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "lineNumber": 247,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
-    "lineNumber": 344,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2019-01-26T01:47:58.953Z",
-    "reasonDetail": "<optional>"
+    "lineNumber": 345,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Code called using eval() needs special handling",
-    "lineNumber": 373,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2019-01-26T01:47:58.953Z",
-    "reasonDetail": "<optional>"
+    "lineNumber": 372,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-prepend(",

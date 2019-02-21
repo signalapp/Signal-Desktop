@@ -767,119 +767,140 @@
       const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
 
       const conversationId = this.model.get('id');
-      const rawMedia = await Signal.Data.getMessagesWithVisualMediaAttachments(
-        conversationId,
-        {
-          limit: DEFAULT_MEDIA_FETCH_COUNT,
-          MessageCollection: Whisper.MessageCollection,
-        }
-      );
-      const rawDocuments = await Signal.Data.getMessagesWithFileAttachments(
-        conversationId,
-        {
-          limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
-          MessageCollection: Whisper.MessageCollection,
-        }
-      );
 
-      // First we upgrade these messages to ensure that they have thumbnails
-      for (let max = rawMedia.length, i = 0; i < max; i += 1) {
-        const message = rawMedia[i];
-        const { schemaVersion } = message;
-
-        if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
-          // Yep, we really do want to wait for each of these
-          // eslint-disable-next-line no-await-in-loop
-          rawMedia[i] = await upgradeMessageSchema(message);
-          // eslint-disable-next-line no-await-in-loop
-          await window.Signal.Data.saveMessage(rawMedia[i], {
-            Message: Whisper.Message,
-          });
-        }
-      }
-
-      const media = _.flatten(
-        rawMedia.map(message => {
-          const { attachments } = message;
-          return (attachments || []).map((attachment, index) => {
-            const { thumbnail } = attachment;
-
-            return {
-              objectURL: getAbsoluteAttachmentPath(attachment.path),
-              thumbnailObjectUrl: thumbnail
-                ? getAbsoluteAttachmentPath(thumbnail.path)
-                : null,
-              contentType: attachment.contentType,
-              index,
-              attachment,
-              message,
-            };
-          });
-        })
-      );
-
-      // Unlike visual media, only one non-image attachment is supported
-      const documents = rawDocuments.map(message => {
-        const attachments = message.attachments || [];
-        const attachment = attachments[0];
-        return {
-          contentType: attachment.contentType,
-          index: 0,
-          attachment,
-          message,
-        };
-      });
-
-      const saveAttachment = async ({ attachment, message } = {}) => {
-        const timestamp = message.received_at;
-        Signal.Types.Attachment.save({
-          attachment,
-          document,
-          getAbsolutePath: getAbsoluteAttachmentPath,
-          timestamp,
-        });
-      };
-
-      const onItemClick = async ({ message, attachment, type }) => {
-        switch (type) {
-          case 'documents': {
-            saveAttachment({ message, attachment });
-            break;
+      const getProps = async () => {
+        const rawMedia = await Signal.Data.getMessagesWithVisualMediaAttachments(
+          conversationId,
+          {
+            limit: DEFAULT_MEDIA_FETCH_COUNT,
+            MessageCollection: Whisper.MessageCollection,
           }
+        );
+        const rawDocuments = await Signal.Data.getMessagesWithFileAttachments(
+          conversationId,
+          {
+            limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
+            MessageCollection: Whisper.MessageCollection,
+          }
+        );
 
-          case 'media': {
-            const selectedIndex = media.findIndex(
-              mediaMessage => mediaMessage.attachment.path === attachment.path
-            );
-            this.lightboxGalleryView = new Whisper.ReactWrapperView({
-              className: 'lightbox-wrapper',
-              Component: Signal.Components.LightboxGallery,
-              props: {
-                media,
-                onSave: saveAttachment,
-                selectedIndex,
-              },
-              onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+        // First we upgrade these messages to ensure that they have thumbnails
+        for (let max = rawMedia.length, i = 0; i < max; i += 1) {
+          const message = rawMedia[i];
+          const { schemaVersion } = message;
+
+          if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
+            // Yep, we really do want to wait for each of these
+            // eslint-disable-next-line no-await-in-loop
+            rawMedia[i] = await upgradeMessageSchema(message);
+            // eslint-disable-next-line no-await-in-loop
+            await window.Signal.Data.saveMessage(rawMedia[i], {
+              Message: Whisper.Message,
             });
-            Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
-            break;
           }
-
-          default:
-            throw new TypeError(`Unknown attachment type: '${type}'`);
         }
+
+        const media = _.flatten(
+          rawMedia.map(message => {
+            const { attachments } = message;
+            return (attachments || [])
+              .filter(
+                attachment =>
+                  attachment.thumbnail &&
+                  !attachment.pending &&
+                  !attachment.error
+              )
+              .map((attachment, index) => {
+                const { thumbnail } = attachment;
+
+                return {
+                  objectURL: getAbsoluteAttachmentPath(attachment.path),
+                  thumbnailObjectUrl: thumbnail
+                    ? getAbsoluteAttachmentPath(thumbnail.path)
+                    : null,
+                  contentType: attachment.contentType,
+                  index,
+                  attachment,
+                  message,
+                };
+              });
+          })
+        );
+
+        // Unlike visual media, only one non-image attachment is supported
+        const documents = rawDocuments.map(message => {
+          const attachments = message.attachments || [];
+          const attachment = attachments[0];
+          return {
+            contentType: attachment.contentType,
+            index: 0,
+            attachment,
+            message,
+          };
+        });
+
+        const saveAttachment = async ({ attachment, message } = {}) => {
+          const timestamp = message.received_at;
+          Signal.Types.Attachment.save({
+            attachment,
+            document,
+            getAbsolutePath: getAbsoluteAttachmentPath,
+            timestamp,
+          });
+        };
+
+        const onItemClick = async ({ message, attachment, type }) => {
+          switch (type) {
+            case 'documents': {
+              saveAttachment({ message, attachment });
+              break;
+            }
+
+            case 'media': {
+              const selectedIndex = media.findIndex(
+                mediaMessage => mediaMessage.attachment.path === attachment.path
+              );
+              this.lightboxGalleryView = new Whisper.ReactWrapperView({
+                className: 'lightbox-wrapper',
+                Component: Signal.Components.LightboxGallery,
+                props: {
+                  media,
+                  onSave: saveAttachment,
+                  selectedIndex,
+                },
+                onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+              });
+              Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
+              break;
+            }
+
+            default:
+              throw new TypeError(`Unknown attachment type: '${type}'`);
+          }
+        };
+
+        return {
+          documents,
+          media,
+          onItemClick,
+        };
       };
 
       const view = new Whisper.ReactWrapperView({
         className: 'panel-wrapper',
         Component: Signal.Components.MediaGallery,
-        props: {
-          documents,
-          media,
-          onItemClick,
+        props: await getProps(),
+        onClose: () => {
+          this.stopListening(this.model.messageCollection, 'remove', update);
+          this.resetPanel();
         },
-        onClose: () => this.resetPanel(),
       });
+
+      const update = async () => {
+        view.update(await getProps());
+      };
+
+      this.listenTo(this.model.messageCollection, 'remove', update);
 
       this.listenBack(view);
     },
@@ -1130,16 +1151,7 @@
     async showMembers(e, providedMembers, options = {}) {
       _.defaults(options, { needVerify: false });
 
-      const fromConversation = this.model.isPrivate()
-        ? [this.model.id]
-        : await textsecure.storage.groups.getNumbers(this.model.id);
-      const members =
-        providedMembers ||
-        fromConversation.map(id => ConversationController.get(id));
-
-      const model = this.model.getContactCollection();
-      model.reset(members);
-
+      const model = providedMembers || this.model.contactCollection;
       const view = new Whisper.GroupMemberList({
         model,
         // we pass this in to allow nested panels
@@ -1240,7 +1252,19 @@
       }
 
       const attachments = message.get('attachments') || [];
-      if (attachments.length === 1) {
+
+      const media = attachments
+        .filter(item => item.thumbnail && !item.pending && !item.error)
+        .map((item, index) => ({
+          objectURL: getAbsoluteAttachmentPath(item.path),
+          path: item.path,
+          contentType: item.contentType,
+          index,
+          message,
+          attachment: item,
+        }));
+
+      if (media.length === 1) {
         const props = {
           objectURL: getAbsoluteAttachmentPath(path),
           contentType,
@@ -1258,16 +1282,9 @@
       }
 
       const selectedIndex = _.findIndex(
-        attachments,
+        media,
         item => attachment.path === item.path
       );
-      const media = attachments.map((item, index) => ({
-        objectURL: getAbsoluteAttachmentPath(item.path),
-        contentType: item.contentType,
-        index,
-        message,
-        attachment: item,
-      }));
 
       const onSave = async (options = {}) => {
         Signal.Types.Attachment.save({
@@ -1293,20 +1310,23 @@
     },
 
     showMessageDetail(message) {
+      const onClose = () => {
+        this.stopListening(message, 'change', update);
+        this.resetPanel();
+        this.updateHeader();
+      };
+
       const props = message.getPropsForMessageDetail();
       const view = new Whisper.ReactWrapperView({
         className: 'message-detail-wrapper',
         Component: Signal.Components.MessageDetail,
         props,
-        onClose: () => {
-          this.stopListening(message, 'change', update);
-          this.resetPanel();
-          this.updateHeader();
-        },
+        onClose,
       });
 
       const update = () => view.update(message.getPropsForMessageDetail());
       this.listenTo(message, 'change', update);
+      this.listenTo(message, 'expired', onClose);
       // We could listen to all involved contacts, but we'll call that overkill
 
       this.listenBack(view);

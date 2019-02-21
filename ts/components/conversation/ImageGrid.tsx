@@ -340,7 +340,11 @@ export function isImageAttachment(attachment: AttachmentType) {
   );
 }
 export function hasImage(attachments?: Array<AttachmentType>) {
-  return attachments && attachments[0] && attachments[0].url;
+  return (
+    attachments &&
+    attachments[0] &&
+    (attachments[0].url || attachments[0].pending)
+  );
 }
 
 export function isVideo(attachments?: Array<AttachmentType>) {

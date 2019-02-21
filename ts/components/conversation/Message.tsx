@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Avatar } from '../Avatar';
+import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
 import { ExpireTimer, getIncrement } from './ExpireTimer';
 import {
@@ -345,7 +346,7 @@ export class Message extends React.Component<Props, State> {
           />
         </div>
       );
-    } else if (isAudio(attachments)) {
+    } else if (!firstAttachment.pending && isAudio(attachments)) {
       return (
         <audio
           controls={true}
@@ -358,12 +359,13 @@ export class Message extends React.Component<Props, State> {
               ? 'module-message__audio-attachment--with-content-above'
               : null
           )}
+          key={firstAttachment.url}
         >
           <source src={firstAttachment.url} />
         </audio>
       );
     } else {
-      const { fileName, fileSize, contentType } = firstAttachment;
+      const { pending, fileName, fileSize, contentType } = firstAttachment;
       const extension = getExtension({ contentType, fileName });
       const isDangerous = isFileDangerous(fileName || '');
 
@@ -379,20 +381,26 @@ export class Message extends React.Component<Props, State> {
               : null
           )}
         >
-          <div className="module-message__generic-attachment__icon-container">
-            <div className="module-message__generic-attachment__icon">
-              {extension ? (
-                <div className="module-message__generic-attachment__icon__extension">
-                  {extension}
+          {pending ? (
+            <div className="module-message__generic-attachment__spinner-container">
+              <Spinner small={true} direction={direction} />
+            </div>
+          ) : (
+            <div className="module-message__generic-attachment__icon-container">
+              <div className="module-message__generic-attachment__icon">
+                {extension ? (
+                  <div className="module-message__generic-attachment__icon__extension">
+                    {extension}
+                  </div>
+                ) : null}
+              </div>
+              {isDangerous ? (
+                <div className="module-message__generic-attachment__icon-dangerous-container">
+                  <div className="module-message__generic-attachment__icon-dangerous" />
                 </div>
               ) : null}
             </div>
-            {isDangerous ? (
-              <div className="module-message__generic-attachment__icon-dangerous-container">
-                <div className="module-message__generic-attachment__icon-dangerous" />
-              </div>
-            ) : null}
-          </div>
+          )}
           <div className="module-message__generic-attachment__text">
             <div
               className={classNames(
@@ -711,9 +719,10 @@ export class Message extends React.Component<Props, State> {
       attachments && attachments[0] ? attachments[0].fileName : null;
     const isDangerous = isFileDangerous(fileName || '');
     const multipleAttachments = attachments && attachments.length > 1;
+    const firstAttachment = attachments && attachments[0];
 
     const downloadButton =
-      !multipleAttachments && attachments && attachments[0] ? (
+      !multipleAttachments && firstAttachment && !firstAttachment.pending ? (
         <div
           onClick={() => {
             if (onDownload) {
@@ -981,6 +990,10 @@ export function getExtension({
     if (extension.length) {
       return extension;
     }
+  }
+
+  if (!contentType) {
+    return null;
   }
 
   const slash = contentType.indexOf('/');

@@ -959,14 +959,6 @@
         "message": "Splošno",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Pošiljanje povezav s predogledom",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Predogled je na voljo za povezave na Imgur, Instagram, Reddit in YouTube",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Vklop črkovalnika v okencu za vnašanje sporočila",
         "description": "Description of the media permission description"

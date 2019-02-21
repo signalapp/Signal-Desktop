@@ -959,14 +959,6 @@
         "message": "Общие",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Отправлять предпросмотр ссылки",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Предварительный просмотр поддерживается для ссылок Imgur, Instagram, Reddit и YouTube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Включить проверку орфографии текста, введенного в поле создания сообщения",
         "description": "Description of the media permission description"

@@ -38,6 +38,27 @@
 </util.LeftPaneContext>
 ```
 
+#### Conversation with yourself
+
+```jsx
+<util.LeftPaneContext theme={util.theme}>
+  <ConversationListItem
+    isMe={true}
+    phoneNumber="(202) 555-0011"
+    conversationType={'direct'}
+    name="Mr. Fire🔥"
+    color="green"
+    lastUpdated={Date.now() - 5 * 60 * 1000}
+    lastMessage={{
+      text: 'Just a second',
+      status: 'read',
+    }}
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+</util.LeftPaneContext>
+```
+
 #### All types of status
 
 ```jsx

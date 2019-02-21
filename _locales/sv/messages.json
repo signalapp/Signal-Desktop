@@ -616,7 +616,7 @@
         "description": "Tooltip for the tray icon"
     },
     "searchForPeopleOrGroups": {
-        "message": "Skriv in namn eller nummer",
+        "message": "Ange namn eller nummer",
         "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
@@ -959,16 +959,8 @@
         "message": "Generell",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Skicka länkförhandsvisningar",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Förhandsvisningar stöds för Imgur-, Instagram-, Reddit- och YouTube-länkar.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
-        "message": "Slå på stavningskontroll för text skrivet i meddelandefältet",
+        "message": "Slå på stavningskontroll för text som anges i meddelandefältet",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
@@ -1146,7 +1138,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ minuter sen",
+        "message": "$minutes$ minuter sedan",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1366,11 +1358,11 @@
         }
     },
     "themeLight": {
-        "message": "Ljus",
+        "message": "Ljust",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Mörk",
+        "message": "Mörkt",
         "description": "Label text for dark theme"
     },
     "hideMenuBar": {
@@ -1382,7 +1374,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
-        "message": "Skriv in ett telefonnummer för att lägga till en kontakt.",
+        "message": "Ange ett telefonnummer för att lägga till en kontakt.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {

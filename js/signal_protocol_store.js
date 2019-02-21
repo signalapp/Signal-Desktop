@@ -98,7 +98,6 @@
     return result === 0;
   }
 
-  const Unprocessed = Backbone.Model.extend();
   const IdentityRecord = Backbone.Model.extend({
     storeName: 'identityKeys',
     validAttributes: [
@@ -150,8 +149,51 @@
 
   function SignalProtocolStore() {}
 
+  async function _hydrateCache(object, field, items, idField) {
+    const cache = Object.create(null);
+    for (let i = 0, max = items.length; i < max; i += 1) {
+      const item = items[i];
+      const id = item[idField];
+
+      cache[id] = item;
+    }
+
+    window.log.info(`SignalProtocolStore: Finished caching ${field} data`);
+    // eslint-disable-next-line no-param-reassign
+    object[field] = cache;
+  }
+
   SignalProtocolStore.prototype = {
     constructor: SignalProtocolStore,
+    async hydrateCaches() {
+      await Promise.all([
+        _hydrateCache(
+          this,
+          'identityKeys',
+          await window.Signal.Data.getAllIdentityKeys(),
+          'id'
+        ),
+        _hydrateCache(
+          this,
+          'sessions',
+          await window.Signal.Data.getAllSessions(),
+          'id'
+        ),
+        _hydrateCache(
+          this,
+          'preKeys',
+          await window.Signal.Data.getAllPreKeys(),
+          'id'
+        ),
+        _hydrateCache(
+          this,
+          'signedPreKeys',
+          await window.Signal.Data.getAllSignedPreKeys(),
+          'id'
+        ),
+      ]);
+    },
+
     async getIdentityKeyPair() {
       const item = await window.Signal.Data.getItemById('identityKey');
       if (item) {
@@ -169,9 +211,10 @@
       return undefined;
     },
 
-    /* Returns a prekeypair object or undefined */
+    // PreKeys
+
     async loadPreKey(keyId) {
-      const key = await window.Signal.Data.getPreKeyById(keyId);
+      const key = this.preKeys[keyId];
       if (key) {
         window.log.info('Successfully fetched prekey:', keyId);
         return {
@@ -190,6 +233,7 @@
         privateKey: keyPair.privKey,
       };
 
+      this.preKeys[keyId] = data;
       await window.Signal.Data.createOrUpdatePreKey(data);
     },
     async removePreKey(keyId) {
@@ -202,15 +246,18 @@
         );
       }
 
+      delete this.preKeys[keyId];
       await window.Signal.Data.removePreKeyById(keyId);
     },
     async clearPreKeyStore() {
+      this.preKeys = Object.create(null);
       await window.Signal.Data.removeAllPreKeys();
     },
 
-    /* Returns a signed keypair object or undefined */
+    // Signed PreKeys
+
     async loadSignedPreKey(keyId) {
-      const key = await window.Signal.Data.getSignedPreKeyById(keyId);
+      const key = this.signedPreKeys[keyId];
       if (key) {
         window.log.info('Successfully fetched signed prekey:', key.id);
         return {
@@ -230,7 +277,7 @@
         throw new Error('loadSignedPreKeys takes no arguments');
       }
 
-      const keys = await window.Signal.Data.getAllSignedPreKeys();
+      const keys = Object.values(this.signedPreKeys);
       return keys.map(prekey => ({
         pubKey: prekey.publicKey,
         privKey: prekey.privateKey,
@@ -240,28 +287,34 @@
       }));
     },
     async storeSignedPreKey(keyId, keyPair, confirmed) {
-      const key = {
+      const data = {
         id: keyId,
         publicKey: keyPair.pubKey,
         privateKey: keyPair.privKey,
         created_at: Date.now(),
         confirmed: Boolean(confirmed),
       };
-      await window.Signal.Data.createOrUpdateSignedPreKey(key);
+
+      this.signedPreKeys[keyId] = data;
+      await window.Signal.Data.createOrUpdateSignedPreKey(data);
     },
     async removeSignedPreKey(keyId) {
+      delete this.signedPreKeys[keyId];
       await window.Signal.Data.removeSignedPreKeyById(keyId);
     },
     async clearSignedPreKeysStore() {
+      this.signedPreKeys = Object.create(null);
       await window.Signal.Data.removeAllSignedPreKeys();
     },
+
+    // Sessions
 
     async loadSession(encodedNumber) {
       if (encodedNumber === null || encodedNumber === undefined) {
         throw new Error('Tried to get session for undefined/null number');
       }
 
-      const session = await window.Signal.Data.getSessionById(encodedNumber);
+      const session = this.sessions[encodedNumber];
       if (session) {
         return session.record;
       }
@@ -283,6 +336,7 @@
         record,
       };
 
+      this.sessions[encodedNumber] = data;
       await window.Signal.Data.createOrUpdateSession(data);
     },
     async getDeviceIds(number) {
@@ -290,11 +344,13 @@
         throw new Error('Tried to get device ids for undefined/null number');
       }
 
-      const sessions = await window.Signal.Data.getSessionsByNumber(number);
+      const allSessions = Object.values(this.sessions);
+      const sessions = allSessions.filter(session => session.number === number);
       return _.pluck(sessions, 'deviceId');
     },
     async removeSession(encodedNumber) {
       window.log.info('deleting session for ', encodedNumber);
+      delete this.sessions[encodedNumber];
       await window.Signal.Data.removeSessionById(encodedNumber);
     },
     async removeAllSessions(number) {
@@ -302,6 +358,13 @@
         throw new Error('Tried to remove sessions for undefined/null number');
       }
 
+      const allSessions = Object.values(this.sessions);
+      for (let i = 0, max = allSessions.length; i < max; i += 1) {
+        const session = allSessions[i];
+        if (session.number === number) {
+          delete this.sessions[session.id];
+        }
+      }
       await window.Signal.Data.removeSessionsByNumber(number);
     },
     async archiveSiblingSessions(identifier) {
@@ -341,8 +404,12 @@
       );
     },
     async clearSessionStore() {
+      this.sessions = Object.create(null);
       window.Signal.Data.removeAllSessions();
     },
+
+    // Identity Keys
+
     async isTrustedIdentity(identifier, publicKey, direction) {
       if (identifier === null || identifier === undefined) {
         throw new Error('Tried to get identity key for undefined/null key');
@@ -350,9 +417,7 @@
       const number = textsecure.utils.unencodeNumber(identifier)[0];
       const isOurNumber = number === textsecure.storage.user.getNumber();
 
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
+      const identityRecord = this.identityKeys[number];
 
       if (isOurNumber) {
         const existing = identityRecord ? identityRecord.publicKey : null;
@@ -402,15 +467,18 @@
         throw new Error('Tried to get identity key for undefined/null key');
       }
       const number = textsecure.utils.unencodeNumber(identifier)[0];
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
+      const identityRecord = this.identityKeys[number];
 
       if (identityRecord) {
         return identityRecord.publicKey;
       }
 
       return undefined;
+    },
+    async _saveIdentityKey(data) {
+      const { id } = data;
+      this.identityKeys[id] = data;
+      await window.Signal.Data.createOrUpdateIdentityKey(data);
     },
     async saveIdentity(identifier, publicKey, nonblockingApproval) {
       if (identifier === null || identifier === undefined) {
@@ -426,14 +494,12 @@
       }
 
       const number = textsecure.utils.unencodeNumber(identifier)[0];
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
+      const identityRecord = this.identityKeys[number];
 
       if (!identityRecord || !identityRecord.publicKey) {
         // Lookup failed, or the current key was removed, so save this one.
         window.log.info('Saving new identity...');
-        await window.Signal.Data.createOrUpdateIdentityKey({
+        await this._saveIdentityKey({
           id: number,
           publicKey,
           firstUse: true,
@@ -459,7 +525,7 @@
           verifiedStatus = VerifiedStatus.DEFAULT;
         }
 
-        await window.Signal.Data.createOrUpdateIdentityKey({
+        await this._saveIdentityKey({
           id: number,
           publicKey,
           firstUse: false,
@@ -483,7 +549,7 @@
         window.log.info('Setting approval status...');
 
         identityRecord.nonblockingApproval = nonblockingApproval;
-        await window.Signal.Data.createOrUpdateIdentityKey(identityRecord);
+        await this._saveIdentityKey(identityRecord);
 
         return false;
       }
@@ -503,9 +569,7 @@
       }
 
       const number = textsecure.utils.unencodeNumber(identifier)[0];
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
+      const identityRecord = this.identityKeys[number];
 
       const updates = {
         id: number,
@@ -515,7 +579,7 @@
 
       const model = new IdentityRecord(updates);
       if (model.isValid()) {
-        await window.Signal.Data.createOrUpdateIdentityKey(updates);
+        await this._saveIdentityKey(updates);
       } else {
         throw model.validationError;
       }
@@ -529,16 +593,14 @@
       }
 
       const number = textsecure.utils.unencodeNumber(identifier)[0];
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
+      const identityRecord = this.identityKeys[number];
 
       if (!identityRecord) {
         throw new Error(`No identity record for ${number}`);
       }
 
       identityRecord.nonblockingApproval = nonblockingApproval;
-      await window.Signal.Data.createOrUpdateIdentityKey(identityRecord);
+      await this._saveIdentityKey(identityRecord);
     },
     async setVerified(number, verifiedStatus, publicKey) {
       if (number === null || number === undefined) {
@@ -551,9 +613,7 @@
         throw new Error('Invalid public key');
       }
 
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
+      const identityRecord = this.identityKeys[number];
       if (!identityRecord) {
         throw new Error(`No identity record for ${number}`);
       }
@@ -566,7 +626,7 @@
 
         const model = new IdentityRecord(identityRecord);
         if (model.isValid()) {
-          await window.Signal.Data.createOrUpdateIdentityKey(identityRecord);
+          await this._saveIdentityKey(identityRecord);
         } else {
           throw identityRecord.validationError;
         }
@@ -579,10 +639,7 @@
         throw new Error('Tried to set verified for undefined/null key');
       }
 
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
-
+      const identityRecord = this.identityKeys[number];
       if (!identityRecord) {
         throw new Error(`No identity record for ${number}`);
       }
@@ -616,9 +673,7 @@
         throw new Error('Invalid public key');
       }
 
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
+      const identityRecord = this.identityKeys[number];
       const isPresent = Boolean(identityRecord);
       let isEqual = false;
 
@@ -683,9 +738,7 @@
         throw new Error('Invalid public key');
       }
 
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
+      const identityRecord = this.identityKeys[number];
 
       const isPresent = Boolean(identityRecord);
       let isEqual = false;
@@ -754,10 +807,7 @@
         throw new Error('Tried to set verified for undefined/null key');
       }
 
-      const identityRecord = await window.Signal.Data.getIdentityKeyById(
-        number
-      );
-
+      const identityRecord = this.identityKeys[number];
       if (!identityRecord) {
         throw new Error(`No identity record for ${number}`);
       }
@@ -773,42 +823,9 @@
       return false;
     },
     async removeIdentityKey(number) {
+      delete this.identityKeys[number];
       await window.Signal.Data.removeIdentityKeyById(number);
-      return textsecure.storage.protocol.removeAllSessions(number);
-    },
-
-    // Groups
-    async getGroup(groupId) {
-      if (groupId === null || groupId === undefined) {
-        throw new Error('Tried to get group for undefined/null id');
-      }
-
-      const group = await window.Signal.Data.getGroupById(groupId);
-      if (group) {
-        return group.data;
-      }
-
-      return undefined;
-    },
-    async putGroup(groupId, group) {
-      if (groupId === null || groupId === undefined) {
-        throw new Error('Tried to put group key for undefined/null id');
-      }
-      if (group === null || group === undefined) {
-        throw new Error('Tried to put undefined/null group object');
-      }
-      const data = {
-        id: groupId,
-        data: group,
-      };
-      await window.Signal.Data.createOrUpdateGroup(data);
-    },
-    async removeGroup(groupId) {
-      if (groupId === null || groupId === undefined) {
-        throw new Error('Tried to remove group key for undefined/null id');
-      }
-
-      await window.Signal.Data.removeGroupById(groupId);
+      await textsecure.storage.protocol.removeAllSessions(number);
     },
 
     // Not yet processed messages - for resiliency
@@ -819,27 +836,30 @@
       return window.Signal.Data.getAllUnprocessed();
     },
     getUnprocessedById(id) {
-      return window.Signal.Data.getUnprocessedById(id, { Unprocessed });
+      return window.Signal.Data.getUnprocessedById(id);
     },
     addUnprocessed(data) {
       // We need to pass forceSave because the data has an id already, which will cause
       //   an update instead of an insert.
       return window.Signal.Data.saveUnprocessed(data, {
         forceSave: true,
-        Unprocessed,
       });
     },
-    saveUnprocessed(data) {
-      return window.Signal.Data.saveUnprocessed(data, { Unprocessed });
+    updateUnprocessedAttempts(id, attempts) {
+      return window.Signal.Data.updateUnprocessedAttempts(id, attempts);
+    },
+    updateUnprocessedWithData(id, data) {
+      return window.Signal.Data.updateUnprocessedWithData(id, data);
     },
     removeUnprocessed(id) {
-      return window.Signal.Data.removeUnprocessed(id, { Unprocessed });
+      return window.Signal.Data.removeUnprocessed(id);
     },
     removeAllUnprocessed() {
       return window.Signal.Data.removeAllUnprocessed();
     },
     async removeAllData() {
       await window.Signal.Data.removeAll();
+      await this.hydrateCaches();
 
       window.storage.reset();
       await window.storage.fetch();
@@ -849,6 +869,7 @@
     },
     async removeAllConfiguration() {
       await window.Signal.Data.removeAllConfiguration();
+      await this.hydrateCaches();
 
       window.storage.reset();
       await window.storage.fetch();

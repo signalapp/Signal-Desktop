@@ -74,10 +74,6 @@ window.restart = () => {
   ipc.send('restart');
 };
 
-window.setMediaPermissions = enabled =>
-  ipc.send('set-media-permissions', enabled);
-window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
-
 window.closeAbout = () => ipc.send('close-about');
 
 window.updateTrayIcon = unreadCount =>

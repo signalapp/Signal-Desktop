@@ -959,14 +959,6 @@
         "message": "Yleistä",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Lähetä esikatselukuva linkeistä",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Esikatselu tukee sivustoja Imgur, Instagram, Reddit ja YouTube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Ota käyttöön viestilaatikkoon kirjoitetun tekstin oikeinkirjoituksen tarkistus",
         "description": "Description of the media permission description"
