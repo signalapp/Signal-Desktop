@@ -151,23 +151,23 @@ function mn_decode(str, wordset_name) {
 var mn_words = {
   english: {
     prefix_len: 3,
-    words: require('../mnemonic_languages/english'),
+    words: require('../../mnemonic_languages/english'),
   },
   electrum: {
     prefix_len: 0,
-    words: require('../mnemonic_languages/electrum'),
+    words: require('../../mnemonic_languages/electrum'),
   },
   spanish: {
     prefix_len: 4,
-    words: require('../mnemonic_languages/spanish'),
+    words: require('../../mnemonic_languages/spanish'),
   },
   portuguese: {
     prefix_len: 4,
-    words: require('../mnemonic_languages/portuguese'),
+    words: require('../../mnemonic_languages/portuguese'),
   },
   japanese: {
     prefix_len: 3,
-    words: require('../mnemonic_languages/japanese'),
+    words: require('../../mnemonic_languages/japanese'),
   },
 };
 
