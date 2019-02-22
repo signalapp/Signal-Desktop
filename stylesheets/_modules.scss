@@ -506,18 +506,24 @@
   padding-right: 24px;
 }
 
-.module-message__metadata__date {
+.module-message__metadata__date,
+.module-message__metadata__p2p {
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
   color: $color-gray-60;
   text-transform: uppercase;
 }
-.module-message__metadata__date--incoming {
+.module-message__metadata__date--incoming,
+.module-message__metadata__p2p--incoming {
   color: $color-white-08;
 }
 .module-message__metadata__date--with-image-no-caption {
   color: $color-white;
+}
+
+.module-message__metadata__p2p {
+  font-weight: bold;
 }
 
 .module-message__metadata__spacer {

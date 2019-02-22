@@ -1027,6 +1027,7 @@ MessageReceiver.prototype.extend({
             timestamp: envelope.timestamp.toNumber(),
             receivedAt: envelope.receivedAt,
             unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
+            isP2p: envelope.isP2p,
             message,
           };
           return this.dispatchAndWait(ev);

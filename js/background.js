@@ -652,6 +652,15 @@
       }
     });
 
+    Whisper.events.on('p2pMessageSent', ({ pubKey, timestamp }) => {
+      try {
+        const conversation = ConversationController.get(pubKey);
+        conversation.onP2pMessageSent(pubKey, timestamp);
+      } catch (e) {
+        window.log.error('Error setting p2p on message');
+      }
+    });
+
     Whisper.events.on('password-updated', () => {
       if (appView && appView.inboxView) {
         appView.inboxView.trigger('password-updated');
@@ -1386,6 +1395,7 @@
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
+      isP2p: data.isP2p,
     };
 
     if (data.friendRequest) {
