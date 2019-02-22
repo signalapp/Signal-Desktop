@@ -458,11 +458,10 @@
       const nbsp = '\xa0';
       const regex = /(\S)( +)(\S+\s*)$/;
       return text.replace(regex, (match, start, spaces, end) => {
-        const newSpaces = _.reduce(
-          spaces,
-          accumulator => accumulator + nbsp,
-          ''
-        );
+        const newSpaces =
+          end.length < 12
+            ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
+            : spaces;
         return `${start}${newSpaces}${end}`;
       });
     },
