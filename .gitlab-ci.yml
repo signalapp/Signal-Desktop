@@ -58,4 +58,4 @@ windows:
       - node_modules/
   artifacts:
     paths:
-      - dist/
+      - release/
