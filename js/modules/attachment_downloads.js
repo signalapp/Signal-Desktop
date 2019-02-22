@@ -310,6 +310,8 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
     return;
   }
 
+  const logPrefix = `${message.idForLogging()} (type: ${type}, index: ${index})`;
+
   if (type === 'attachment') {
     const attachments = message.get('attachments');
     if (!attachments || attachments.length <= index) {
@@ -317,7 +319,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
         `_addAttachmentToMessage: attachments didn't exist or ${index} was too large`
       );
     }
-    _replaceAttachment(attachments, index, attachment);
+    _replaceAttachment(attachments, index, attachment, logPrefix);
     return;
   }
 
@@ -332,7 +334,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
     if (!item) {
       throw new Error(`_addAttachmentToMessage: preview ${index} was falsey`);
     }
-    _replaceAttachment(item, 'image', attachment);
+    _replaceAttachment(item, 'image', attachment, logPrefix);
     return;
   }
 
@@ -345,7 +347,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
     }
     const item = contact[index];
     if (item && item.avatar && item.avatar.avatar) {
-      _replaceAttachment(item.avatar, 'avatar', attachment);
+      _replaceAttachment(item.avatar, 'avatar', attachment, logPrefix);
     } else {
       logger.warn(
         `_addAttachmentToMessage: Couldn't update contact with avatar attachment for message ${message.idForLogging()}`
@@ -373,7 +375,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
         `_addAttachmentToMessage: attachment ${index} was falsey`
       );
     }
-    _replaceAttachment(item, 'thumbnail', attachment);
+    _replaceAttachment(item, 'thumbnail', attachment, logPrefix);
     return;
   }
 
@@ -388,7 +390,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
       await Signal.Migrations.deleteAttachmentData(existingAvatar.path);
     }
 
-    _replaceAttachment(group, 'avatar', attachment);
+    _replaceAttachment(group, 'avatar', attachment, logPrefix);
     return;
   }
 
@@ -397,11 +399,11 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
   );
 }
 
-function _replaceAttachment(object, key, newAttachment) {
+function _replaceAttachment(object, key, newAttachment, logPrefix) {
   const oldAttachment = object[key];
   if (oldAttachment && oldAttachment.path) {
     logger.warn(
-      '_replaceAttachment: Old attachment already had path, not replacing'
+      `_replaceAttachment: ${logPrefix} - old attachment already had path, not replacing`
     );
   }
 
