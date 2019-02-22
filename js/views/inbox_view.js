@@ -165,10 +165,6 @@
         .find('.network-status-container')
         .append(this.networkStatusView.render().el);
 
-      extension.windows.onClosed(() => {
-        this.inboxListView.stopListening();
-      });
-
       if (extension.expired()) {
         const banner = new Whisper.ExpiredAlertBanner().render();
         banner.$el.prependTo(this.$el);
