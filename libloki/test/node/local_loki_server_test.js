@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { assert } = require('chai');
-const LocalLokiServer = require('../../local_loki_server');
+const LocalLokiServer = require('../../modules/local_loki_server');
 
 describe('LocalLokiServer', () => {
   before(async () => {

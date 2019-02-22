@@ -303,12 +303,12 @@ window.lokiMessageAPI = new LokiMessageAPI({
   messageServerPort: config.messageServerPort,
 });
 
-const LocalLokiServer = require('./libloki/local_loki_server');
+const LocalLokiServer = require('./libloki/modules/local_loki_server');
 
 window.localServerPort = config.localServerPort;
 window.localLokiServer = new LocalLokiServer();
 
-window.mnemonic = require('./libloki/mnemonic');
+window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
 
 // A Worker with a 3 minute timeout
