@@ -6,11 +6,11 @@ Loki Messenger allows for truly decentralized and end to end and private encrypt
 
 ## Summary
 
-Loki messenger integrates directly with Loki Service Nodes, which are a set of distributed, decentralized and Sybil resistant nodes. Service Nodes act as both federated servers which store messages offline, and a set of nodes which allow for mixnet functionality obfuscating users IP Addresses. For a full understanding of how Loki messenger works, read the [Loki whitepaper](https://loki.network/wp-content/uploads/2018/08/LokiWhitepaperV3_1.pdf)
+Loki messenger integrates directly with Loki Service Nodes, which are a set of distributed, decentralized and Sybil resistant nodes. Service Nodes act as both federated servers which store messages offline, and a set of nodes which allow for onion routing functionality obfuscating users IP Addresses. For a full understanding of how Loki messenger works, read the [Loki whitepaper](https://loki.network/wp-content/uploads/2018/08/LokiWhitepaperV3_1.pdf)
 
 **Online Messages**
 
-If Alice and Bob are both online they can simply resolve each others public keys, to introduction sets, this functionality is handled by interfacing with Lokinet. With the appropriate introduction sets Alice and Bob can create a path and using onion routing pass messages through the Loki network without giving away personally identifiable information like their IP address.
+If Alice and Bob are both online they can simply resolve each others public keys, to introduction sets, this functionality is handled by interfacing with [Lokinet](https://github.com/loki-project/loki-network). With the appropriate introduction sets Alice and Bob can create a path and using onion routing pass messages through the Loki network without giving away personally identifiable information like their IP address.
 
 **Offline messages**
 
