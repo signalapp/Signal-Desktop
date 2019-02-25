@@ -4,6 +4,7 @@
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
 const dns = require('dns');
+const process = require('process');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SWARM_NODES = 1;
@@ -42,6 +43,10 @@ class LokiSnodeAPI {
     this.swarmsPendingReplenish = {};
     this.ourSwarmNodes = {};
     this.contactSwarmNodes = {};
+    // When we package lokinet with messenger we can ensure this ip is correct
+    if (process.platform === 'win32') {
+      dns.setServers(['127.0.0.1']);
+    }
   }
 
   async getMyLokiIp() {
