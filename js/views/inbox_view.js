@@ -206,11 +206,8 @@
             this.onEmpty();
             break;
           default:
-            window.log.error(
-              'Whisper.InboxView::startConnectionListener:',
-              'Unknown web socket status:',
-              status
-            );
+            // We also replicate empty here
+            this.onEmpty();
             break;
         }
       }, 1000);
