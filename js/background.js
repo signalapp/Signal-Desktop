@@ -330,47 +330,6 @@
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
 
-    window.log.info('Cleanup: starting...');
-    const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(
-      {
-        MessageCollection: Whisper.MessageCollection,
-      }
-    );
-    window.log.info(
-      `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
-    );
-    await Promise.all(
-      messagesForCleanup.map(async message => {
-        const delivered = message.get('delivered');
-        const sentAt = message.get('sent_at');
-        const expirationStartTimestamp = message.get(
-          'expirationStartTimestamp'
-        );
-
-        if (message.hasErrors()) {
-          return;
-        }
-
-        if (delivered) {
-          window.log.info(
-            `Cleanup: Starting timer for delivered message ${sentAt}`
-          );
-          message.set(
-            'expirationStartTimestamp',
-            expirationStartTimestamp || sentAt
-          );
-          await message.setToExpire();
-          return;
-        }
-
-        window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
-        await window.Signal.Data.removeMessage(message.id, {
-          Message: Whisper.Message,
-        });
-      })
-    );
-    window.log.info('Cleanup: complete');
-
     if (newVersion) {
       await window.Signal.Data.cleanupOrphanedAttachments();
     }
@@ -464,6 +423,51 @@
 
   async function start() {
     window.dispatchEvent(new Event('storage_ready'));
+
+    window.log.info('Cleanup: starting...');
+    const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(
+      {
+        MessageCollection: Whisper.MessageCollection,
+      }
+    );
+    window.log.info(
+      `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
+    );
+    await Promise.all(
+      messagesForCleanup.map(async message => {
+        const delivered = message.get('delivered');
+        const sentAt = message.get('sent_at');
+        const expirationStartTimestamp = message.get(
+          'expirationStartTimestamp'
+        );
+
+        if (message.hasErrors()) {
+          return;
+        }
+
+        if (delivered) {
+          window.log.info(
+            `Cleanup: Starting timer for delivered message ${sentAt}`
+          );
+          message.set(
+            'expirationStartTimestamp',
+            expirationStartTimestamp || sentAt
+          );
+          await message.setToExpire();
+          return;
+        }
+
+        window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
+        await window.Signal.Data.removeMessage(message.id, {
+          Message: Whisper.Message,
+        });
+        const conversation = message.getConversation();
+        if (conversation) {
+          await conversation.updateLastMessage();
+        }
+      })
+    );
+    window.log.info('Cleanup: complete');
 
     window.log.info('listening for registration events');
     Whisper.events.on('registration_done', () => {
