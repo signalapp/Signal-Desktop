@@ -98,8 +98,14 @@ describe('Snode Channel', () => {
         senderPubKey,
         snodePrivKey
       );
-      const encryptedArrayBuffer = dcodeIO.ByteBuffer.wrap(encrypted, 'base64').toArrayBuffer();
-      const decrypted = await libloki.crypto.DHDecrypt(symmetricKey, encryptedArrayBuffer);
+      const encryptedArrayBuffer = dcodeIO.ByteBuffer.wrap(
+        encrypted,
+        'base64'
+      ).toArrayBuffer();
+      const decrypted = await libloki.crypto.DHDecrypt(
+        symmetricKey,
+        encryptedArrayBuffer
+      );
       const textDecoder = new TextDecoder();
       const messageReceived = textDecoder.decode(decrypted);
       assert.strictEqual(messageSent, messageReceived);
@@ -124,7 +130,9 @@ describe('Snode Channel', () => {
         snodePrivKey
       );
       const encrypted = await libloki.crypto.DHEncrypt(symmetricKey, data);
-      const encryptedBase64 = dcodeIO.ByteBuffer.wrap(encrypted).toString('base64');
+      const encryptedBase64 = dcodeIO.ByteBuffer.wrap(encrypted).toString(
+        'base64'
+      );
       // message received by Loki Messenger
       const decrypted = await channel.decrypt(snode.address, encryptedBase64);
       assert.strictEqual(messageSent, decrypted);

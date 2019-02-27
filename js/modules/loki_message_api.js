@@ -74,7 +74,7 @@ const fetch = async (url, options = {}) => {
         }
         try {
           result = JSON.parse(result);
-        } catch(e) {
+        } catch (e) {
           log.warn(`Could not parse string to json ${result}`, e);
         }
       }
