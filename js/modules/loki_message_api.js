@@ -1,11 +1,13 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
-/* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI */
+/* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI, libloki */
 
 const nodeFetch = require('node-fetch');
 const _ = require('lodash');
+const { parse } = require('url');
 
 const endpointBase = '/v1/storage_rpc';
+const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
 
 class HTTPError extends Error {
   constructor(response) {
@@ -27,6 +29,25 @@ const fetch = async (url, options = {}) => {
   const timeout = options.timeout || 10000;
   const method = options.method || 'GET';
 
+  const address = parse(url).hostname;
+  const doEncryptChannel =
+    address.endsWith('.snode') &&
+    options.headers &&
+    LOKI_EPHEMKEY_HEADER in options.headers;
+  if (doEncryptChannel) {
+    try {
+      // eslint-disable-next-line no-param-reassign
+      options.body = await libloki.crypto.snodeCipher.encrypt(
+        address,
+        options.body
+      );
+      // eslint-disable-next-line no-param-reassign
+      options.headers['Content-Type'] = 'text/plain';
+    } catch (e) {
+      log.warn(`Could not encrypt channel for ${address}: `, e);
+    }
+  }
+
   try {
     const response = await nodeFetch(url, {
       ...options,
@@ -45,6 +66,18 @@ const fetch = async (url, options = {}) => {
       result = await response.buffer();
     } else {
       result = await response.text();
+      if (doEncryptChannel) {
+        try {
+          result = await libloki.crypto.snodeCipher.decrypt(address, result);
+        } catch (e) {
+          log.warn(`Could not decrypt response from ${address}`, e);
+        }
+        try {
+          result = JSON.parse(result);
+        } catch(e) {
+          log.warn(`Could not parse string to json ${result}`, e);
+        }
+      }
     }
 
     return result;
@@ -151,7 +184,7 @@ class LokiMessageAPI {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
-          'X-Loki-EphemKey': 'not implemented yet',
+          [LOKI_EPHEMKEY_HEADER]: libloki.crypto.snodeCipher.getChannelPublicKeyHex(),
         },
       };
 
@@ -247,7 +280,7 @@ class LokiMessageAPI {
         },
       };
       const headers = {
-        'X-Loki-EphemKey': 'not implemented yet',
+        [LOKI_EPHEMKEY_HEADER]: libloki.crypto.snodeCipher.getChannelPublicKeyHex(),
       };
       const fetchOptions = {
         method: 'POST',
