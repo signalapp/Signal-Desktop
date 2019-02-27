@@ -1,16 +1,21 @@
-/* global libloki, Multibase, libsignal, StringView */
+/* global libloki, Multibase, libsignal, StringView, dcodeIO */
 
 'use strict';
 
-function generateSnodeKeysAndAddress() {
-  const keyPair = libsignal.Curve.generateKeyPair();
-  // Signal protocol prepends with "0x05"
-  keyPair.pubKey = keyPair.pubKey.slice(1);
+async function generateSnodeKeysAndAddress() {
+  // snode identitys is a ed25519 keypair
+  const sodium = await window.getSodium();
+  const ed25519KeyPair = sodium.crypto_sign_keypair();
+  const keyPair = {
+    pubKey: ed25519KeyPair.publicKey,
+    privKey: ed25519KeyPair.privateKey,
+  };
+  // snode address is the pubkey in base32z
   let address = Multibase.encode(
     'base32z',
     Multibase.Buffer.from(keyPair.pubKey)
   ).toString();
-  // first letter is the encoding code
+  // remove first letter, which is the encoding code
   address = address.substring(1);
   return { keyPair, address };
 }
@@ -25,11 +30,11 @@ describe('Snode Channel', () => {
     });
   });
 
-  describe('#decodeSnodeAddressToBuffer', () => {
-    it('should decode a base32z encoded .snode address', () => {
-      const { keyPair, address } = generateSnodeKeysAndAddress();
+  describe('#decodeSnodeAddressToPubKey', () => {
+    it('should decode a base32z encoded .snode address', async () => {
+      const { keyPair, address } = await generateSnodeKeysAndAddress();
 
-      const buffer = libloki.crypto._decodeSnodeAddressToBuffer(
+      const buffer = libloki.crypto._decodeSnodeAddressToPubKey(
         `http://${address}.snode`
       );
 
@@ -55,15 +60,15 @@ describe('Snode Channel', () => {
       assert.strictEqual(channel.getChannelPublicKeyHex(), pubKeyHex);
     });
 
-    it('should cache something by snode address', () => {
-      const { address } = generateSnodeKeysAndAddress();
+    it('should cache something by snode address', async () => {
+      const { address } = await generateSnodeKeysAndAddress();
 
       const channel = new libloki.crypto._LokiSnodeChannel();
       // cache should be empty
       assert.strictEqual(Object.keys(channel._cache).length, 0);
 
       // push to cache
-      channel._getSymmetricKey(address);
+      await channel._getSymmetricKey(address);
 
       assert.strictEqual(Object.keys(channel._cache).length, 1);
       assert.strictEqual(Object.keys(channel._cache)[0], address);
@@ -71,7 +76,7 @@ describe('Snode Channel', () => {
 
     it('should encrypt data correctly', async () => {
       // message sent by Loki Messenger
-      const snode = generateSnodeKeysAndAddress();
+      const snode = await generateSnodeKeysAndAddress();
       const messageSent = 'I am Groot';
       const textEncoder = new TextEncoder();
       const data = textEncoder.encode(messageSent);
@@ -79,17 +84,22 @@ describe('Snode Channel', () => {
       const channel = new libloki.crypto._LokiSnodeChannel();
       const encrypted = await channel.encrypt(snode.address, data);
 
-      assert.isTrue(encrypted instanceof Uint8Array);
+      assert.strictEqual(typeof encrypted, 'string');
 
       // message received by storage server
       const senderPubKey = StringView.hexToArrayBuffer(
         channel.getChannelPublicKeyHex()
       );
+      const sodium = await window.getSodium();
+      const snodePrivKey = sodium.crypto_sign_ed25519_sk_to_curve25519(
+        snode.keyPair.privKey
+      ).buffer;
       const symmetricKey = libsignal.Curve.calculateAgreement(
         senderPubKey,
-        snode.keyPair.privKey
+        snodePrivKey
       );
-      const decrypted = await libloki.crypto.DHDecrypt(symmetricKey, encrypted);
+      const encryptedArrayBuffer = dcodeIO.ByteBuffer.wrap(encrypted, 'base64').toArrayBuffer();
+      const decrypted = await libloki.crypto.DHDecrypt(symmetricKey, encryptedArrayBuffer);
       const textDecoder = new TextDecoder();
       const messageReceived = textDecoder.decode(decrypted);
       assert.strictEqual(messageSent, messageReceived);
@@ -98,24 +108,26 @@ describe('Snode Channel', () => {
     it('should decrypt data correctly', async () => {
       const channel = new libloki.crypto._LokiSnodeChannel();
       // message sent by storage server
-      const snode = generateSnodeKeysAndAddress();
+      const snode = await generateSnodeKeysAndAddress();
       const messageSent = 'You are Groot';
       const textEncoder = new TextEncoder();
       const data = textEncoder.encode(messageSent);
       const senderPubKey = StringView.hexToArrayBuffer(
         channel.getChannelPublicKeyHex()
       );
+      const sodium = await window.getSodium();
+      const snodePrivKey = sodium.crypto_sign_ed25519_sk_to_curve25519(
+        snode.keyPair.privKey
+      ).buffer;
       const symmetricKey = libsignal.Curve.calculateAgreement(
         senderPubKey,
-        snode.keyPair.privKey
+        snodePrivKey
       );
       const encrypted = await libloki.crypto.DHEncrypt(symmetricKey, data);
-
+      const encryptedBase64 = dcodeIO.ByteBuffer.wrap(encrypted).toString('base64');
       // message received by Loki Messenger
-      const decrypted = await channel.decrypt(snode.address, encrypted);
-      const textDecoder = new TextDecoder();
-      const messageReceived = textDecoder.decode(decrypted);
-      assert.strictEqual(messageSent, messageReceived);
+      const decrypted = await channel.decrypt(snode.address, encryptedBase64);
+      assert.strictEqual(messageSent, decrypted);
     });
   });
 });
