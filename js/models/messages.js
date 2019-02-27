@@ -1066,12 +1066,15 @@
       this.set({ dataMessage });
 
       try {
-        const result = await this.sendSyncMessage();
         this.set({
-          // These are the same as a normal send
+          // These are the same as a normal send()
           sent_to: [this.OUR_NUMBER],
           sent: true,
           expirationStartTimestamp: Date.now(),
+        });
+        const result = await this.sendSyncMessage();
+        this.set({
+          // We have to do this afterward, since we didn't have a previous send!
           unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
 
           // These are unique to a Note to Self message - immediately read/delivered
