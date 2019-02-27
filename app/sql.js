@@ -696,25 +696,25 @@ async function initialize({ configDir, key, messages }) {
 
   filePath = path.join(dbDir, 'db.sqlite');
 
-  const sqlInstance = await openDatabase(filePath);
-  const promisified = promisify(sqlInstance);
-
-  // promisified.on('trace', async statement => {
-  //   if (!db || statement.startsWith('--')) {
-  //     console._log(statement);
-  //     return;
-  //   }
-  //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
-  //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
-  // });
-
-  await setupSQLCipher(promisified, { key });
-  await updateSchema(promisified);
-
-  db = promisified;
-
-  // test database
   try {
+    const sqlInstance = await openDatabase(filePath);
+    const promisified = promisify(sqlInstance);
+
+    // promisified.on('trace', async statement => {
+    //   if (!db || statement.startsWith('--')) {
+    //     console._log(statement);
+    //     return;
+    //   }
+    //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
+    //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
+    // });
+
+    await setupSQLCipher(promisified, { key });
+    await updateSchema(promisified);
+
+    db = promisified;
+
+    // test database
     await getMessageCount();
   } catch (error) {
     console.log('Database startup error:', error.stack);
