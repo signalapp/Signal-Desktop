@@ -90,7 +90,7 @@
     "protobufjs": "~6.8.6",
     "proxy-agent": "3.0.3",
     "react": "16.2.0",
-    "react-contextmenu": "2.9.2",
+    "react-contextmenu": "2.10.0",
     "react-dom": "16.2.0",
     "read-last-lines": "1.3.0",
     "rimraf": "2.6.2",
