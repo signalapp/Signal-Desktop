@@ -1,6 +1,14 @@
 const http = require('http');
 const EventEmitter = require('events');
 
+const STATUS = {
+  OK: 200,
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404,
+  METHOD_NOT_ALLOWED: 405,
+  INTERNAL_SERVER_ERROR: 500,
+};
+
 class LocalLokiServer extends EventEmitter {
   /**
    * Creates an instance of LocalLokiServer.
@@ -11,47 +19,54 @@ class LocalLokiServer extends EventEmitter {
     this.server = http.createServer((req, res) => {
       let body = [];
 
-      // Check endpoints
-      if (req.method === 'POST') {
-        req
-          .on('error', () => {
-            // Internal server error
-            res.statusCode = 500;
-            res.end();
-          })
-          .on('data', chunk => {
-            body.push(chunk);
-          })
-          .on('end', () => {
-            try {
-              body = Buffer.concat(body).toString();
-            } catch (e) {
-              // Error occurred while converting to string
-              res.statusCode = 500;
-              res.end();
-            }
+      const sendResponse = (statusCode, message = null) => {
+        const headers = message && {
+          'Content-Type': 'text/plain',
+        };
+        res.writeHead(statusCode, headers);
+        res.end(message);
+      };
 
-            // Check endpoints here
-            if (req.url === '/v1/storage_rpc') {
+      if (req.method !== 'POST') {
+        sendResponse(STATUS.METHOD_NOT_ALLOWED);
+        return;
+      }
+
+      // Check endpoints
+      req
+        .on('error', () => {
+          // Internal server error
+          sendResponse(STATUS.INTERNAL_SERVER_ERROR);
+        })
+        .on('data', chunk => {
+          body.push(chunk);
+        })
+        .on('end', () => {
+          try {
+            body = Buffer.concat(body).toString();
+          } catch (e) {
+            // Internal server error: failed to convert body to string
+            sendResponse(STATUS.INTERNAL_SERVER_ERROR);
+          }
+
+          // Check endpoints here
+          if (req.url === '/v1/storage_rpc') {
+            try {
               const bodyObject = JSON.parse(body);
               if (bodyObject.method !== 'store') {
-                res.writeHead(404, { 'Content-Type': 'text/plain' });
-                res.end('Invalid endpoint!');
+                sendResponse(STATUS.NOT_FOUND, 'Invalid endpoint!');
                 return;
               }
               this.emit('message', bodyObject.params.data);
-              res.statusCode = 200;
-              res.end();
-            } else {
-              res.writeHead(404, { 'Content-Type': 'text/plain' });
-              res.end('Invalid endpoint!');
+              sendResponse(STATUS.OK);
+            } catch (e) {
+              // Bad Request: Failed to decode json
+              sendResponse(STATUS.BAD_REQUEST, 'Failed to decode JSON');
             }
-          });
-      } else {
-        // Method Not Allowed
-        res.statusCode = 405;
-        res.end();
-      }
+          } else {
+            sendResponse(STATUS.NOT_FOUND, 'Invalid endpoint!');
+          }
+        });
     });
   }
 
