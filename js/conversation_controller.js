@@ -224,7 +224,13 @@
 
           this._initialFetchComplete = true;
           await Promise.all(
-            conversations.map(conversation => conversation.updateLastMessage())
+            conversations.map(conversation => {
+              if (!conversation.get('lastMessage')) {
+                return conversation.updateLastMessage();
+              }
+
+              return null;
+            })
           );
           window.log.info('ConversationController: done with initial fetch');
         } catch (error) {
