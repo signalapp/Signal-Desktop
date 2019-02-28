@@ -71,6 +71,7 @@
     },
     populate() {
       this.$('input').val(this.value);
+      this.$('label').html(`${this.value} Hours`);
     },
   });
 
