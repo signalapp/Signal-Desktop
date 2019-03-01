@@ -167,6 +167,22 @@
   }
   inherit(ReplayableError, DNSResolutionError);
 
+  function LokiIpError(message, resolutionError) {
+    this.name = 'LokiIpError';
+    this.message = message;
+    this.error = resolutionError;
+
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+
+    appendStack(this, resolutionError);
+  }
+
   window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
@@ -178,4 +194,5 @@
   window.textsecure.PoWError = PoWError;
   window.textsecure.EmptySwarmError = EmptySwarmError;
   window.textsecure.DNSResolutionError = DNSResolutionError;
+  window.textsecure.LokiIpError = LokiIpError;
 })();

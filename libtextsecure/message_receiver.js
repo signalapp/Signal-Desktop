@@ -83,13 +83,8 @@ MessageReceiver.prototype.extend({
         this.onEmpty();
       }
     });
-    window.lokiSnodeAPI.getMyLokiIp().then(myLokiIp => {
-      localLokiServer.start(localServerPort, myLokiIp).then(port => {
-        window.log.info(`Local Server started at ${myLokiIp}:${port}`);
-        libloki.api.broadcastOnlineStatus();
-        localLokiServer.on('message', this.handleP2pMessage.bind(this));
-      });
-    });
+    localLokiServer.on('message', this.handleP2pMessage.bind(this));
+    this.startLocalServer();
 
     // TODO: Rework this socket stuff to work with online messaging
     const useWebSocket = false;
@@ -119,6 +114,28 @@ MessageReceiver.prototype.extend({
     // Ensures that an immediate 'empty' event from the websocket will fire only after
     //   all cached envelopes are processed.
     this.incoming = [this.pending];
+  },
+  async startLocalServer() {
+    try {
+      const myLokiIp = await window.lokiSnodeAPI.getMyLokiIp();
+      const myServerPort = await localLokiServer.start(
+        localServerPort,
+        myLokiIp
+      );
+      window.log.info(`Local Server started at ${myLokiIp}:${myServerPort}`);
+      libloki.api.broadcastOnlineStatus();
+    } catch (e) {
+      if (e instanceof textsecure.LokiIpError) {
+        window.log.warn(
+          'Failed to get my loki address to bind server to, will retry in 30 seconds'
+        );
+      } else {
+        window.log.warn(
+          'Failed to start local loki server, will retry in 30 seconds'
+        );
+      }
+      setTimeout(this.startLocalServer.bind(this), 30 * 1000);
+    }
   },
   handleP2pMessage(message) {
     this.httpPollingResource.handleMessage(message, true);
