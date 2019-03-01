@@ -1,7 +1,12 @@
 /* global $: false */
 
 // Add version
-$('.version').text(`v${window.getVersion()}`);
+const version = window.getVersion();
+$('.version').text(`v${version}`);
+
+if (/beta/.test(version)) {
+  $('.commitHash').text(window.getCommitHash());
+}
 
 // Add debugging metadata - environment if not production, app instance name
 const states = [];
