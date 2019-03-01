@@ -653,10 +653,6 @@
     "message": "Go to Release Notes",
     "description": ""
   },
-  "goToForums": {
-    "message": "Go to Forums",
-    "description": "Item under the Help menu, takes you to the forums"
-  },
   "goToSupportPage": {
     "message": "Go to Support Page",
     "description": "Item under the Help menu, takes you to the support page"
