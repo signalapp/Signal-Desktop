@@ -50,8 +50,15 @@ class LokiSnodeAPI {
   }
 
   async getMyLokiIp() {
-    const address = await resolveCname(this.localUrl);
-    return resolve4(address);
+    try {
+      const address = await resolveCname(this.localUrl);
+      return resolve4(address);
+    } catch (e) {
+      throw new window.textsecure.LokiIpError(
+        'Failed to resolve localhost.loki',
+        e
+      );
+    }
   }
 
   async getMyLokiAddress() {
