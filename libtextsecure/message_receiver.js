@@ -83,6 +83,7 @@ MessageReceiver.prototype.extend({
         this.onEmpty();
       }
     });
+    localLokiServer.on('message', this.handleP2pMessage.bind(this));
     this.startLocalServer();
 
     // TODO: Rework this socket stuff to work with online messaging
@@ -115,14 +116,14 @@ MessageReceiver.prototype.extend({
     this.incoming = [this.pending];
   },
   async startLocalServer() {
-    let myLokiIp;
-    let myServerPort;
     try {
-      myLokiIp = await window.lokiSnodeAPI.getMyLokiIp();
-      myServerPort = await localLokiServer.start(localServerPort, myLokiIp);
+      const myLokiIp = await window.lokiSnodeAPI.getMyLokiIp();
+      const myServerPort = await localLokiServer.start(
+        localServerPort,
+        myLokiIp
+      );
       window.log.info(`Local Server started at ${myLokiIp}:${myServerPort}`);
       libloki.api.broadcastOnlineStatus();
-      localLokiServer.on('message', this.handleP2pMessage.bind(this));
     } catch (e) {
       if (e instanceof textsecure.LokiIpError) {
         window.log.warn(
