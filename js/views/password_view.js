@@ -15,6 +15,7 @@
     className: 'password full-screen-flow standalone-fullscreen',
     templateName: 'password',
     events: {
+      keyup: 'onKeyup',
       'click #unlock-button': 'onLogin',
       'click #reset-button': 'onReset',
     },
@@ -29,6 +30,16 @@
         resetText: i18n('resetDatabase'),
         showReset: this.errorCount >= MIN_LOGIN_TRIES,
       };
+    },
+    onKeyup(event) {
+      switch (event.key) {
+        case 'Enter':
+          this.onLogin();
+          break;
+        default:
+          return;
+      }
+      event.preventDefault();
     },
     async onLogin() {
       const passPhrase = this.$('#passPhrase').val();
