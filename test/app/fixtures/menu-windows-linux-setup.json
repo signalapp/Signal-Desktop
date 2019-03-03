@@ -126,10 +126,6 @@
         "type": "separator"
       },
       {
-        "label": "Go to Forums",
-        "click": null
-      },
-      {
         "label": "Go to Support Page",
         "click": null
       },

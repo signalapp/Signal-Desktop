@@ -392,22 +392,18 @@ function createWindow() {
 
 function openReleaseNotes() {
   shell.openExternal(
-    `https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`
+    `https://github.com/loki-project/loki-messenger/releases/tag/v${app.getVersion()}`
   );
 }
 
 function openNewBugForm() {
-  shell.openExternal('https://github.com/signalapp/Signal-Desktop/issues/new');
+  shell.openExternal('https://github.com/loki-project/loki-messenger/issues/new');
 }
 
 function openSupportPage() {
   shell.openExternal(
-    'https://support.signal.org/hc/en-us/categories/202319038-Desktop'
+    'https://loki-project.github.io/loki-docs/LokiServices/Messenger/'
   );
-}
-
-function openForums() {
-  shell.openExternal('https://community.signalusers.org/');
 }
 
 function setupWithImport() {
@@ -826,7 +822,6 @@ function setupMenu(options) {
     openReleaseNotes,
     openNewBugForm,
     openSupportPage,
-    openForums,
     platform,
     setupWithImport,
     setupAsNewDevice,

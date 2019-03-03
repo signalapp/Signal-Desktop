@@ -46,7 +46,6 @@ describe('SignalMenu', () => {
                 },
               };
               const options = {
-                openForums: null,
                 openNewBugForm: null,
                 openReleaseNotes: null,
                 openSupportPage: null,
