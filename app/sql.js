@@ -679,13 +679,21 @@ async function initialize({ configDir, key }) {
   //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
   // });
 
-  await setupSQLCipher(promisified, { key });
-  await updateSchema(promisified);
+  try {
+    await setupSQLCipher(promisified, { key });
+    await updateSchema(promisified);
+  } catch (e) {
+    await promisified.close();
+    throw e;
+  }
 
   db = promisified;
 }
 
 async function close() {
+  if (!db) {
+    return;
+  }
   const dbRef = db;
   db = null;
   await dbRef.close();

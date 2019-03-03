@@ -751,7 +751,7 @@ function getDefaultSQLKey() {
 
 async function removeDB() {
   const userDir = await getRealPath(app.getPath('userData'));
-  sql.removeDB(userDir);
+  await sql.removeDB(userDir);
 
   try {
     userConfig.remove();
