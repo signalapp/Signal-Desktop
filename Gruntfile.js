@@ -265,15 +265,35 @@ module.exports = grunt => {
     });
   });
 
+  function updateLocalConfig(update) {
+    const environment = process.env.SIGNAL_ENV || 'development';
+    const configPath = `config/local-${environment}.json`;
+    let localConfig;
+    try {
+      localConfig = grunt.file.readJSON(configPath);
+    } catch (e) {
+      //
+    }
+    localConfig = {
+      ...localConfig,
+      ...update,
+    };
+    grunt.file.write(configPath, `${JSON.stringify(localConfig)}\n`);
+  }
+
   grunt.registerTask('getExpireTime', () => {
     grunt.task.requires('gitinfo');
     const gitinfo = grunt.config.get('gitinfo');
     const committed = gitinfo.local.branch.current.lastCommitTime;
     const time = Date.parse(committed) + 1000 * 60 * 60 * 24 * 90;
-    grunt.file.write(
-      'config/local-production.json',
-      `${JSON.stringify({ buildExpiration: time })}\n`
-    );
+    updateLocalConfig({ buildExpiration: time });
+  });
+
+  grunt.registerTask('getCommitHash', () => {
+    grunt.task.requires('gitinfo');
+    const gitinfo = grunt.config.get('gitinfo');
+    const hash = gitinfo.local.branch.current.SHA;
+    updateLocalConfig({ commitHash: hash });
   });
 
   grunt.registerTask('clean-release', () => {
@@ -505,5 +525,6 @@ module.exports = grunt => {
     'copy:deps',
     'sass',
     'date',
+    'getCommitHash',
   ]);
 };

@@ -143,6 +143,7 @@ function prepareURL(pathSegments, moreKeys) {
       locale: locale.name,
       version: app.getVersion(),
       buildExpiration: config.get('buildExpiration'),
+      commitHash: config.get('commitHash'),
       serverUrl: config.get('serverUrl'),
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),

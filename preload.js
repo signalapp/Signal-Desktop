@@ -26,6 +26,7 @@ window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
 window.isImportMode = () => config.importMode;
 window.getExpiration = () => config.buildExpiration;
+window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
