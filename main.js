@@ -398,7 +398,9 @@ function openReleaseNotes() {
 }
 
 function openNewBugForm() {
-  shell.openExternal('https://github.com/loki-project/loki-messenger/issues/new');
+  shell.openExternal(
+    'https://github.com/loki-project/loki-messenger/issues/new'
+  );
 }
 
 function openSupportPage() {
