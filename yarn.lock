@@ -758,13 +758,6 @@ balanced-match@^0.4.1, balanced-match@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
 
-base-x@3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.4.tgz#94c1788736da065edb1d68808869e357c977fa77"
-  integrity sha512-UYOadoSIkEI/VrRGSG6qp93rp2WdokiAiNYDfGW5qURAY8GiAQkvMbwNNSDYiVJopqv4gCna7xqf4rrNGp+5AA==
-  dependencies:
-    safe-buffer "^5.0.1"
-
 base64-js@^1.0.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.2.0.tgz#a39992d723584811982be5e290bb6a53d86700f1"
@@ -5081,6 +5074,18 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+libsodium-wrappers@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/libsodium-wrappers/-/libsodium-wrappers-0.7.4.tgz#cdb3ce6553e4864c0a68070c4313583489bd765d"
+  integrity sha512-axKkW01L0q+urLeE7UMSZKWwk4LrRbi6s5pjKBAvbgDBYnsSaolK1oN/Syilm1dqJFkJQNi6qodwOp8dzSoc9Q==
+  dependencies:
+    libsodium "0.7.4"
+
+libsodium@0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/libsodium/-/libsodium-0.7.4.tgz#a5bccd65e3a13b34147ea109be3c65d89f90b074"
+  integrity sha512-fTU3vUdrxQzhPAAjmTSqKk4LzYbR0OtcYjp1P92AlH50JIxXZFEIXWh1yryCmU6RLGfwS2IzBdZjbmpYf/TlyQ==
+
 lie@*:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/lie/-/lie-3.2.0.tgz#4f13f2f8bbb027d383db338c43043545791aa8dc"
@@ -5723,13 +5728,6 @@ ms@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
-
-multibase@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/multibase/-/multibase-0.6.0.tgz#0216e350614c7456da5e8e5b20d3fcd4c9104f56"
-  integrity sha512-R9bNLQhbD7MsitPm1NeY7w9sDgu6d7cuj25snAWH7k5PSNPSwIQQBpcpj8jx1W96dLbdigZqmUWOdQRMnAmgjA==
-  dependencies:
-    base-x "3.0.4"
 
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"

@@ -1,4 +1,13 @@
-/* global window, libsignal, textsecure, StringView, Multibase */
+/* global
+  window,
+  libsignal,
+  textsecure,
+  StringView,
+  Multibase,
+  TextEncoder,
+  TextDecoder,
+  dcodeIO
+*/
 
 // eslint-disable-next-line func-names
 (function() {
@@ -81,7 +90,7 @@
     return ab;
   }
 
-  function decodeSnodeAddressToBuffer(snodeAddress) {
+  function decodeSnodeAddressToPubKey(snodeAddress) {
     const snodeAddressClean = snodeAddress
       .replace('.snode', '')
       .replace('http://', '');
@@ -99,12 +108,16 @@
       this._cache = {};
     }
 
-    _getSymmetricKey(snodeAddress) {
+    async _getSymmetricKey(snodeAddress) {
       if (snodeAddress in this._cache) {
         return this._cache[snodeAddress];
       }
-      const buffer = decodeSnodeAddressToBuffer(snodeAddress);
-      const snodePubKeyArrayBuffer = bufferToArrayBuffer(buffer);
+      const ed25519PubKey = decodeSnodeAddressToPubKey(snodeAddress);
+      const sodium = await window.getSodium();
+      const curve25519PubKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
+        ed25519PubKey
+      );
+      const snodePubKeyArrayBuffer = bufferToArrayBuffer(curve25519PubKey);
       const symmetricKey = libsignal.Curve.calculateAgreement(
         snodePubKeyArrayBuffer,
         this._ephemeralKeyPair.privKey
@@ -117,18 +130,30 @@
       return this._ephemeralPubKeyHex;
     }
 
-    async decrypt(snodeAddress, ivAndCipherText) {
-      const symmetricKey = this._getSymmetricKey(snodeAddress);
+    async decrypt(snodeAddress, ivAndCipherTextBase64) {
+      const ivAndCipherText = dcodeIO.ByteBuffer.wrap(
+        ivAndCipherTextBase64,
+        'base64'
+      ).toArrayBuffer();
+      const symmetricKey = await this._getSymmetricKey(snodeAddress);
       try {
-        return await DHDecrypt(symmetricKey, ivAndCipherText);
+        const decrypted = await DHDecrypt(symmetricKey, ivAndCipherText);
+        const decoder = new TextDecoder();
+        return decoder.decode(decrypted);
       } catch (e) {
         return ivAndCipherText;
       }
     }
 
     async encrypt(snodeAddress, plainText) {
-      const symmetricKey = this._getSymmetricKey(snodeAddress);
-      return DHEncrypt(symmetricKey, plainText);
+      if (typeof plainText === 'string') {
+        const textEncoder = new TextEncoder();
+        // eslint-disable-next-line no-param-reassign
+        plainText = textEncoder.encode(plainText);
+      }
+      const symmetricKey = await this._getSymmetricKey(snodeAddress);
+      const cipherText = await DHEncrypt(symmetricKey, plainText);
+      return dcodeIO.ByteBuffer.wrap(cipherText).toString('base64');
     }
   }
 
@@ -142,6 +167,6 @@
     snodeCipher,
     // for testing
     _LokiSnodeChannel: LokiSnodeChannel,
-    _decodeSnodeAddressToBuffer: decodeSnodeAddressToBuffer,
+    _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,
   };
 })();
