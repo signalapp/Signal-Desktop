@@ -161,6 +161,7 @@ installGetter('hide-menu-bar', 'getHideMenuBar');
 installSetter('hide-menu-bar', 'setHideMenuBar');
 
 // Get the message TTL setting
+window.getMessageTTL = () => window.storage.get('message-ttl', 24);
 installGetter('message-ttl', 'getMessageTTL');
 installSetter('message-ttl', 'setMessageTTL');
 
