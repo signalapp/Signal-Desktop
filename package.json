@@ -6,8 +6,8 @@
   "version": "0.0.0-beta1",
   "license": "GPL-3.0",
   "author": {
-    "name": "Open Whisper Systems",
-    "email": "support@signal.org"
+    "name": "Loki Project",
+    "email": "team@loki.network"
   },
   "main": "main.js",
   "scripts": {
@@ -182,7 +182,7 @@
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "artifactName": "${name}-win-${version}.${ext}",
-      "publisherName": "Signal (Quiet Riddle Ventures, LLC)",
+      "publisherName": "Loki Project",
       "icon": "build/icons/win/icon.ico",
       "publish": [
         {
