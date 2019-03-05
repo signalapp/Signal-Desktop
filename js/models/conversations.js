@@ -373,7 +373,7 @@
       };
     },
     // This goes through all our message history and finds a friend request
-    async getPendingFriendRequests(direction = null) {
+    async getFriendRequests(direction = null, status = ['pending']) {
       // Theoretically all our messages could be friend requests,
       // thus we have to unfortunately go through each one :(
       const messages = await window.Signal.Data.getMessagesByConversation(
@@ -383,12 +383,19 @@
           MessageCollection: Whisper.MessageCollection,
         }
       );
+      if (typeof status === 'string') {
+        // eslint-disable-next-line no-param-reassign
+        status = [status];
+      }
       // Get the pending friend requests that match the direction
       // If no direction is supplied then return all pending friend requests
       return messages.models.filter(m => {
-        if (m.get('friendStatus') !== 'pending') return false;
+        if (status.indexOf(m.get('friendStatus')) < 0) return false;
         return direction === null || m.get('direction') === direction;
       });
+    },
+    async getPendingFriendRequests(direction = null) {
+      return this.getFriendRequests(direction, ['pending']);
     },
     getPropsForListItem() {
       const typingKeys = Object.keys(this.contactTypingTimers || {});
@@ -568,8 +575,10 @@
       );
     },
     hasSentFriendRequest() {
+      const status = this.get('friendRequestStatus');
       return (
-        this.get('friendRequestStatus') === FriendRequestStatusEnum.requestSent
+        status === FriendRequestStatusEnum.requestSent ||
+        status === FriendRequestStatusEnum.requestExpired
       );
     },
     hasReceivedFriendRequest() {
@@ -586,6 +595,7 @@
     updateTextInputState() {
       switch (this.get('friendRequestStatus')) {
         case FriendRequestStatusEnum.none:
+        case FriendRequestStatusEnum.requestExpired:
           this.trigger('disable:input', false);
           this.trigger('change:placeholder', 'friend-request');
           return;
@@ -614,11 +624,11 @@
         this.updateTextInputState();
       }
     },
-    async respondToAllPendingFriendRequests(options) {
-      const { response, direction = null } = options;
+    async respondToAllFriendRequests(options) {
+      const { response, status, direction = null } = options;
       // Ignore if no response supplied
       if (!response) return;
-      const pending = await this.getPendingFriendRequests(direction);
+      const pending = await this.getFriendRequests(direction, status);
       await Promise.all(
         pending.map(async request => {
           if (request.hasErrors()) return;
@@ -630,6 +640,12 @@
           this.trigger('updateMessage', request);
         })
       );
+    },
+    async respondToAllPendingFriendRequests(options) {
+      return this.respondToAllFriendRequests({
+        ...options,
+        status: 'pending',
+      });
     },
     async resetPendingSend() {
       if (
@@ -655,6 +671,7 @@
         await this.respondToAllPendingFriendRequests({
           response: 'accepted',
           direction: 'incoming',
+          status: ['pending', 'expired'],
         });
         window.libloki.api.sendFriendRequestAccepted(this.id);
       }
@@ -664,8 +681,9 @@
       if (this.unlockTimer) clearTimeout(this.unlockTimer);
       if (this.hasSentFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
-        await this.respondToAllPendingFriendRequests({
+        await this.respondToAllFriendRequests({
           response: 'accepted',
+          status: ['pending', 'expired'],
         });
         window.libloki.api.sendOnlineBroadcastMessage(this.id);
         return true;
@@ -691,7 +709,7 @@
         response: 'expired',
         direction: 'outgoing',
       });
-      await this.setFriendRequestStatus(FriendRequestStatusEnum.none);
+      await this.setFriendRequestStatus(FriendRequestStatusEnum.requestExpired);
     },
     async onFriendRequestReceived() {
       if (this.isFriendRequestStatusNone()) {
