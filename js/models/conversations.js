@@ -668,7 +668,7 @@
       if (this.unlockTimer) clearTimeout(this.unlockTimer);
       if (this.hasReceivedFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
-        await this.respondToAllPendingFriendRequests({
+        await this.respondToAllFriendRequests({
           response: 'accepted',
           direction: 'incoming',
           status: ['pending', 'expired'],
