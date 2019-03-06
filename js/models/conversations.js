@@ -390,7 +390,7 @@
       // Get the pending friend requests that match the direction
       // If no direction is supplied then return all pending friend requests
       return messages.models.filter(m => {
-        if (status.indexOf(m.get('friendStatus')) < 0) return false;
+        if (!status.includes(m.get('friendStatus')) return false;
         return direction === null || m.get('direction') === direction;
       });
     },
