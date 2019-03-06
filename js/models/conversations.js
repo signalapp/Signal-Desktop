@@ -155,7 +155,6 @@
       this.unset('lastMessage');
       this.unset('lastMessageStatus');
 
-      this.setFriendRequestExpiryTimeout();
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
 
@@ -722,6 +721,9 @@
         const ms = 60 * 60 * 1000 * hourLockDuration;
 
         this.set({ unlockTimestamp: Date.now() + ms });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
         this.setFriendRequestExpiryTimeout();
       }
       await this.setFriendRequestStatus(FriendRequestStatusEnum.requestSent);

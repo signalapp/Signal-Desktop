@@ -277,6 +277,7 @@
               conversation.updateProfile(),
               conversation.updateProfileAvatar(),
               conversation.resetPendingSend(),
+              conversation.setFriendRequestExpiryTimeout(),
             ]);
           });
           await Promise.all(promises);
