@@ -14,6 +14,8 @@
     requestReceived: 3,
     // We did it!
     friends: 4,
+    // Friend Request sent but timed out
+    requestExpired: 5,
   });
 
   window.friends = {
