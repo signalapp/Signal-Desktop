@@ -18,6 +18,7 @@ Note the five items in gear menu, and the second-level menu with disappearing me
     console.log('onSetDisappearingMessages', seconds)
   }
   onDeleteMessages={() => console.log('onDeleteMessages')}
+  onDeleteContact={() => console.log('onDeleteContact')}
   onResetSession={() => console.log('onResetSession')}
   onShowSafetyNumber={() => console.log('onShowSafetyNumber')}
   onShowAllMedia={() => console.log('onShowAllMedia')}
@@ -93,6 +94,7 @@ Note the five items in gear menu, and the second-level menu with disappearing me
     console.log('onSetDisappearingMessages', seconds)
   }
   onDeleteMessages={() => console.log('onDeleteMessages')}
+  onDeleteContact={() => console.log('onDeleteContact')}
   onResetSession={() => console.log('onResetSession')}
   onShowSafetyNumber={() => console.log('onShowSafetyNumber')}
   onShowAllMedia={() => console.log('onShowAllMedia')}
@@ -116,6 +118,7 @@ Note that the menu should includes 'Show Members' instead of 'Show Safety Number
     console.log('onSetDisappearingMessages', seconds)
   }
   onDeleteMessages={() => console.log('onDeleteMessages')}
+  onDeleteContact={() => console.log('onDeleteContact')}
   onResetSession={() => console.log('onResetSession')}
   onShowSafetyNumber={() => console.log('onShowSafetyNumber')}
   onShowAllMedia={() => console.log('onShowAllMedia')}

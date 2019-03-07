@@ -8,6 +8,7 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { Colors, Localizer } from '../types/Util';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 interface Props {
   phoneNumber: string;
@@ -32,6 +33,10 @@ interface Props {
 
   i18n: Localizer;
   onClick?: () => void;
+  onDeleteMessages?: () => void;
+  onDeleteContact?: () => void;
+  onBlockContact?: () => void;
+  onUnblockContact?: () => void;
 }
 
 export class ConversationListItem extends React.Component<Props> {
@@ -127,6 +132,29 @@ export class ConversationListItem extends React.Component<Props> {
     );
   }
 
+  public renderContextMenu(triggerId: string) {
+    const {
+      i18n,
+      isBlocked,
+      onDeleteContact,
+      onDeleteMessages,
+      onBlockContact,
+      onUnblockContact,
+    } = this.props;
+
+    return (
+      <ContextMenu id={triggerId}>
+        {isBlocked ? (
+          <MenuItem onClick={onUnblockContact}>{i18n('unblockUser')}</MenuItem>
+        ) : (
+          <MenuItem onClick={onBlockContact}>{i18n('blockUser')}</MenuItem>
+        )}
+        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+      </ContextMenu>
+    );
+  }
+
   public renderMessage() {
     const { lastMessage, isTyping, unreadCount, i18n } = this.props;
 
@@ -171,6 +199,7 @@ export class ConversationListItem extends React.Component<Props> {
 
   public render() {
     const {
+      phoneNumber,
       unreadCount,
       onClick,
       isSelected,
@@ -178,25 +207,34 @@ export class ConversationListItem extends React.Component<Props> {
       isBlocked,
     } = this.props;
 
+    const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
+
     return (
-      <div
-        role="button"
-        onClick={onClick}
-        className={classNames(
-          'module-conversation-list-item',
-          unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
-          isSelected ? 'module-conversation-list-item--is-selected' : null,
-          showFriendRequestIndicator
-            ? 'module-conversation-list-item--has-friend-request'
-            : null,
-          isBlocked ? 'module-conversation-list-item--is-blocked' : null
-        )}
-      >
-        {this.renderAvatar()}
-        <div className="module-conversation-list-item__content">
-          {this.renderHeader()}
-          {this.renderMessage()}
-        </div>
+      <div>
+        <ContextMenuTrigger id={triggerId}>
+          <div
+            role="button"
+            onClick={onClick}
+            className={classNames(
+              'module-conversation-list-item',
+              unreadCount > 0
+                ? 'module-conversation-list-item--has-unread'
+                : null,
+              isSelected ? 'module-conversation-list-item--is-selected' : null,
+              showFriendRequestIndicator
+                ? 'module-conversation-list-item--has-friend-request'
+                : null,
+              isBlocked ? 'module-conversation-list-item--is-blocked' : null
+            )}
+          >
+            {this.renderAvatar()}
+            <div className="module-conversation-list-item__content">
+              {this.renderHeader()}
+              {this.renderMessage()}
+            </div>
+          </div>
+        </ContextMenuTrigger>
+        {this.renderContextMenu(triggerId)}
       </div>
     );
   }

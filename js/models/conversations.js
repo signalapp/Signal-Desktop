@@ -417,6 +417,8 @@
         isOnline: this.isOnline(),
 
         onClick: () => this.trigger('select', this),
+        onBlockContact: () => this.block(),
+        onUnblockContact: () => this.unblock(),
       };
 
       return result;

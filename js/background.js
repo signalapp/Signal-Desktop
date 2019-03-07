@@ -623,6 +623,12 @@
       }
     });
 
+    Whisper.events.on('showConfirmationDialog', options => {
+      if (appView) {
+        appView.showConfirmationDialog(options);
+      }
+    });
+
     Whisper.events.on('showNicknameDialog', options => {
       if (appView) {
         appView.showNicknameDialog(options);

@@ -41,6 +41,7 @@ interface Props {
 
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
+  onDeleteContact: () => void;
   onResetSession: () => void;
 
   onShowSafetyNumber: () => void;
@@ -185,6 +186,7 @@ export class ConversationHeader extends React.Component<Props> {
       isMe,
       isGroup,
       onDeleteMessages,
+      onDeleteContact,
       onResetSession,
       onSetDisappearingMessages,
       onShowAllMedia,
@@ -246,6 +248,7 @@ export class ConversationHeader extends React.Component<Props> {
         ) : null}
         <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
       </ContextMenu>
     );
   }

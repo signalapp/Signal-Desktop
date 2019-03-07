@@ -176,6 +176,15 @@
         });
       }
     },
+    showConfirmationDialog({ title, message, onOk, onCancel }) {
+      const dialog = new Whisper.ConfirmationDialogView({
+        title,
+        message,
+        resolve: onOk,
+        reject: onCancel,
+      });
+      this.el.append(dialog.el);
+    },
     showNicknameDialog({ pubKey, title, message, nickname, onOk, onCancel }) {
       const _title = title || `Change nickname for ${pubKey}`;
       const dialog = new Whisper.NicknameDialogView({
