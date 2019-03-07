@@ -32,11 +32,7 @@
         onDeleteContact: () => {
           Whisper.events.trigger('showConfirmationDialog', {
             message: i18n('deleteContactConfirmation'),
-            onOk: () =>
-              ConversationController.deleteContact(
-                this.model.id,
-                this.model.get('type')
-              ),
+            onOk: () => ConversationController.deleteContact(this.model.id),
           });
         },
         onDeleteMessages: () => {

@@ -115,6 +115,9 @@
   window.getContactCollection = () => contactCollection;
 
   window.ConversationController = {
+    getCollection() {
+      return conversations;
+    },
     markAsSelected(toSelect) {
       conversations.each(conversation => {
         const current = conversation.isSelected || false;
@@ -209,15 +212,9 @@
 
       return conversation;
     },
-    async deleteContact(id, type) {
+    async deleteContact(id) {
       if (typeof id !== 'string') {
         throw new TypeError("'id' must be a string");
-      }
-
-      if (type !== 'private' && type !== 'group') {
-        throw new TypeError(
-          `'type' must be 'private' or 'group'; got: '${type}'`
-        );
       }
 
       if (!this._initialFetchComplete) {
@@ -230,7 +227,6 @@
       if (!conversation) {
         return;
       }
-      conversations.remove(conversation);
       await conversation.destroyMessages();
       const deviceIds = await textsecure.storage.protocol.getDeviceIds(id);
       await Promise.all(
@@ -246,6 +242,7 @@
       await window.Signal.Data.removeConversation(id, {
         Conversation: Whisper.Conversation,
       });
+      conversations.remove(conversation);
     },
     getOrCreateAndWait(id, type) {
       return this._initialPromise.then(() => {
