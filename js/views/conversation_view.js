@@ -10,7 +10,6 @@
   textsecure,
   Whisper,
   ConversationController,
-  clipboard
 */
 
 // eslint-disable-next-line func-names
@@ -208,7 +207,7 @@
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
           onDeleteMessages: () => this.destroyMessages(),
-          onDeleteContact: () => this.deleteContact(),
+          onDeleteContact: () => this.model.deleteContact(),
           onResetSession: () => this.endSession(),
 
           // These are view only and don't update the Conversation model, so they
@@ -236,22 +235,13 @@
             this.model.unblock();
           },
           onChangeNickname: () => {
-            window.Whisper.events.trigger('showNicknameDialog', {
-              pubKey: this.model.id,
-              nickname: this.model.getNickname(),
-              onOk: newName => this.model.setNickname(newName),
-            });
+            this.model.changeNickname()
           },
           onClearNickname: async () => {
             this.model.setNickname(null);
           },
           onCopyPublicKey: () => {
-            clipboard.writeText(this.model.id);
-            const toast = new Whisper.MessageToastView({
-              message: i18n('copiedPublicKey'),
-            });
-            toast.$el.appendTo(this.$el);
-            toast.render();
+            this.model.copyPublicKey()
           },
         };
       };
@@ -1448,31 +1438,14 @@
       }
     },
 
-    async deleteContact() {
+    destroyMessages() {
       Whisper.events.trigger('showConfirmationDialog', {
-        message: i18n('deleteContactConfirmation'),
-        onOk: () => {
-          ConversationController.deleteContact(this.model.id);
+        message: i18n('deleteConversationConfirmation'),
+        onOk: async () => {
+          await this.model.destroyMessages();
           this.remove();
         },
       });
-    },
-
-    async destroyMessages() {
-      try {
-        await this.confirm(i18n('deleteConversationConfirmation'));
-        try {
-          await this.model.destroyMessages();
-          this.remove();
-        } catch (error) {
-          window.log.error(
-            'destroyMessages: Failed to successfully delete conversation',
-            error && error.stack ? error.stack : error
-          );
-        }
-      } catch (error) {
-        // nothing to see here, user canceled out of dialog
-      }
     },
 
     showSendConfirmationDialog(e, contacts) {

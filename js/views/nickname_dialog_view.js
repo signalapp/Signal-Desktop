@@ -90,8 +90,8 @@
       }
       event.preventDefault();
     },
-    focusCancel() {
-      this.$('.cancel').focus();
+    focusInput() {
+      this.$input.focus();
     },
   });
 })();

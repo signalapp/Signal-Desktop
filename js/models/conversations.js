@@ -2,6 +2,7 @@
 /* global Backbone: false */
 /* global BlockedNumberController: false */
 /* global ConversationController: false */
+/* global clipboard: false */
 /* global i18n: false */
 /* global profileImages: false */
 /* global storage: false */
@@ -415,10 +416,17 @@
           text: this.lastMessage,
         },
         isOnline: this.isOnline(),
+        isMe: this.isMe(),
+        hasNickname: !!this.getNickname(),
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
         onUnblockContact: () => this.unblock(),
+        onChangeNickname: () => this.changeNickname(),
+        onClearNickname: async () => this.setNickname(null),
+        onCopyPublicKey: () => this.copyPublicKey(),
+        onDeleteContact: () => this.deleteContact(),
+        onDeleteMessages: () => this.deleteMessages(),
       };
 
       return result;
@@ -2041,6 +2049,35 @@
         });
 
         this.contactCollection.reset(contacts);
+      });
+    },
+
+    copyPublicKey() {
+      clipboard.writeText(this.id);
+      window.Whisper.events.trigger('showToast', {
+        message: i18n('copiedPublicKey'),
+      });
+    },
+
+    changeNickname() {
+      window.Whisper.events.trigger('showNicknameDialog', {
+        pubKey: this.id,
+        nickname: this.getNickname(),
+        onOk: newName => this.setNickname(newName),
+      });
+    },
+
+    deleteContact() {
+      Whisper.events.trigger('showConfirmationDialog', {
+        message: i18n('deleteContactConfirmation'),
+        onOk: () => ConversationController.deleteContact(this.id),
+      });
+    },
+
+    deleteMessages() {
+      Whisper.events.trigger('showConfirmationDialog', {
+        message: i18n('deleteConversationConfirmation'),
+        onOk: () => this.destroyMessages(),
       });
     },
 

@@ -44,6 +44,22 @@
         $el.remove();
       }
     },
+    showToast({ message }) {
+      const toast = new Whisper.MessageToastView({
+        message,
+      });
+      toast.$el.appendTo(this.$el);
+      toast.render();
+    },
+    showConfirmationDialog({ title, message, onOk, onCancel }) {
+      const dialog = new Whisper.ConfirmationDialogView({
+        title,
+        message,
+        resolve: onOk,
+        reject: onCancel,
+      });
+      this.el.append(dialog.el);
+    },
   });
 
   Whisper.FontSizeView = Whisper.View.extend({

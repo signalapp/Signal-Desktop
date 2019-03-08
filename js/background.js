@@ -623,9 +623,15 @@
       }
     });
 
+    Whisper.events.on('showToast', options => {
+      if (appView && appView.inboxView && appView.inboxView.conversation_stack) {
+        appView.inboxView.conversation_stack.showToast(options);
+      }
+    });
+
     Whisper.events.on('showConfirmationDialog', options => {
-      if (appView) {
-        appView.showConfirmationDialog(options);
+      if (appView && appView.inboxView && appView.inboxView.conversation_stack) {
+        appView.inboxView.conversation_stack.showConfirmationDialog(options);
       }
     });
 

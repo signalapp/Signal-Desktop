@@ -1,4 +1,4 @@
-/* global Whisper, Signal, Backbone, ConversationController, i18n */
+/* global Whisper, Signal, Backbone */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -26,23 +26,7 @@
     },
 
     getProps() {
-      const modelProps = this.model.getPropsForListItem();
-      const props = {
-        ...modelProps,
-        onDeleteContact: () => {
-          Whisper.events.trigger('showConfirmationDialog', {
-            message: i18n('deleteContactConfirmation'),
-            onOk: () => ConversationController.deleteContact(this.model.id),
-          });
-        },
-        onDeleteMessages: () => {
-          Whisper.events.trigger('showConfirmationDialog', {
-            message: i18n('deleteConversationConfirmation'),
-            onOk: () => this.model.destroyMessages(),
-          });
-        },
-      };
-      return props;
+      return this.model.getPropsForListItem();
     },
 
     render() {

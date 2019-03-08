@@ -248,7 +248,9 @@ export class ConversationHeader extends React.Component<Props> {
         ) : null}
         <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+        {!isMe ? (
+          <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+        ) : null}
       </ContextMenu>
     );
   }
