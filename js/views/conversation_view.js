@@ -1294,8 +1294,9 @@
         Signal.Types.Attachment.save({
           attachment: options.attachment,
           document,
+          index: options.index + 1,
           getAbsolutePath: getAbsoluteAttachmentPath,
-          timestamp: options.message.received_at,
+          timestamp: options.message.get('sent_at'),
         });
       };
 

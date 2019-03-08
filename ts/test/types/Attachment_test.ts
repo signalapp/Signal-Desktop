@@ -53,6 +53,22 @@ describe('Attachment', () => {
         assert.strictEqual(actual, expected);
       });
     });
+    context('for attachment with index', () => {
+      it('should generate a filename based on timestamp', () => {
+        const attachment: Attachment.Attachment = {
+          data: stringToArrayBuffer('foo'),
+          contentType: MIME.VIDEO_QUICKTIME,
+        };
+        const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
+        const actual = Attachment.getSuggestedFilename({
+          attachment,
+          timestamp,
+          index: 3,
+        });
+        const expected = 'signal-attachment-1970-01-01-000000_003.mov';
+        assert.strictEqual(actual, expected);
+      });
+    });
   });
 
   describe('isVisualMedia', () => {

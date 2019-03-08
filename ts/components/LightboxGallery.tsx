@@ -24,7 +24,7 @@ interface Props {
   i18n: Localizer;
   media: Array<MediaItemType>;
   onSave?: (
-    { attachment, message }: { attachment: AttachmentType; message: Message }
+    options: { attachment: AttachmentType; message: Message; index: number }
   ) => void;
   selectedIndex: number;
 }
@@ -98,8 +98,8 @@ export class LightboxGallery extends React.Component<Props, State> {
 
     const { selectedIndex } = this.state;
     const mediaItem = media[selectedIndex];
-    const { attachment, message } = mediaItem;
+    const { attachment, message, index } = mediaItem;
 
-    onSave({ attachment, message });
+    onSave({ attachment, message, index });
   };
 }
