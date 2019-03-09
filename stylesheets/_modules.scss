@@ -2989,8 +2989,10 @@
 .module-left-pane__list {
   flex-grow: 1;
   flex-shrink: 1;
+}
 
-  overflow-y: scroll;
+.module-left-pane__virtual-list {
+  outline: none;
 }
 
 // Module: Start New Conversation

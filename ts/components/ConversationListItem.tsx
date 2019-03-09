@@ -32,6 +32,7 @@ export type PropsData = {
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
+  style?: Object;
   onClick?: (id: string) => void;
 };
 
@@ -176,7 +177,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { unreadCount, onClick, id, isSelected } = this.props;
+    const { unreadCount, onClick, id, isSelected, style } = this.props;
 
     return (
       <div
@@ -186,6 +187,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             onClick(id);
           }
         }}
+        style={style}
         className={classNames(
           'module-conversation-list-item',
           unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
