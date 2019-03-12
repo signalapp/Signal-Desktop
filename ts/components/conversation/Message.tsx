@@ -819,11 +819,7 @@ export class Message extends React.Component<Props, State> {
             {i18n('downloadAttachment')}
           </MenuItem>
         ) : null}
-        <MenuItem
-          onClick={onCopyText}
-        >
-          {i18n('copyMessage')}
-        </MenuItem>
+        <MenuItem onClick={onCopyText}>{i18n('copyMessage')}</MenuItem>
         <MenuItem
           attributes={{
             className: 'module-message__context__reply',

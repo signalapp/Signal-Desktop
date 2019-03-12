@@ -1808,7 +1808,8 @@
   },
   "copiedMessage": {
     "message": "Copied message text",
-    "description": "A toast message telling the user that the message text was copied"
+    "description":
+      "A toast message telling the user that the message text was copied"
   },
   "editDisplayName": {
     "message": "Edit display name",

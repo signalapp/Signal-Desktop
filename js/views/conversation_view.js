@@ -235,13 +235,13 @@
             this.model.unblock();
           },
           onChangeNickname: () => {
-            this.model.changeNickname()
+            this.model.changeNickname();
           },
           onClearNickname: async () => {
             this.model.setNickname(null);
           },
           onCopyPublicKey: () => {
-            this.model.copyPublicKey()
+            this.model.copyPublicKey();
           },
         };
       };
