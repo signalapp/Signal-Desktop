@@ -205,9 +205,11 @@
       };
 
       conversation.initialPromise = create();
-      conversation.initialPromise.then(async () => {
-        await window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id);
-        await conversation.updateProfileAvatar();
+      conversation.initialPromise.then(() => {
+        Promise.all([
+          conversation.updateProfileAvatar(),
+          window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id),
+        ]);
       });
 
       return conversation;
