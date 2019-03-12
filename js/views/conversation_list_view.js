@@ -1,4 +1,4 @@
-/* global Whisper, getInboxCollection, $ */
+/* global Whisper, getInboxCollection, getContactCollection, $ */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -9,6 +9,9 @@
   Whisper.ConversationListView = Whisper.ListView.extend({
     tagName: 'div',
     itemView: Whisper.ConversationListItemView,
+    getCollection() {
+      return getInboxCollection();
+    },
     updateLocation(conversation) {
       const $el = this.$(`.${conversation.cid}`);
 
@@ -28,7 +31,7 @@
       }
 
       const $allConversations = this.$('.conversation-list-item');
-      const inboxCollection = getInboxCollection();
+      const inboxCollection = this.getCollection();
       const index = inboxCollection.indexOf(conversation);
 
       const elIndex = $allConversations.index($el);
@@ -66,7 +69,10 @@
     },
   });
 
-  Whisper.ConversationContactListView = Whisper.ListView.extend({
+  Whisper.ConversationContactListView = Whisper.ConversationListView.extend({
     itemView: Whisper.ConversationContactListItemView,
+    getCollection() {
+      return getContactCollection();
+    },
   });
 })();

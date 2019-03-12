@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage, lokiP2pAPI */
+/* global _, Whisper, Backbone, storage, lokiP2pAPI, textsecure, libsignal */
 
 /* eslint-disable more/no-then */
 
@@ -15,6 +15,7 @@
 
       this.listenTo(conversations, 'add change:active_at', this.addActive);
       this.listenTo(conversations, 'reset', () => this.reset([]));
+      this.listenTo(conversations, 'remove', this.remove);
 
       this.on(
         'add remove change:unreadCount',
@@ -90,6 +91,7 @@
         'add change:active_at change:friendRequestStatus',
         this.addActive
       );
+      this.listenTo(conversations, 'remove', this.remove);
       this.listenTo(conversations, 'reset', () => this.reset([]));
 
       this.collator = new Intl.Collator();
@@ -113,6 +115,9 @@
   window.getContactCollection = () => contactCollection;
 
   window.ConversationController = {
+    getCollection() {
+      return conversations;
+    },
     markAsSelected(toSelect) {
       conversations.each(conversation => {
         const current = conversation.isSelected || false;
@@ -206,6 +211,38 @@
       });
 
       return conversation;
+    },
+    async deleteContact(id) {
+      if (typeof id !== 'string') {
+        throw new TypeError("'id' must be a string");
+      }
+
+      if (!this._initialFetchComplete) {
+        throw new Error(
+          'ConversationController.get() needs complete initial fetch'
+        );
+      }
+
+      const conversation = conversations.get(id);
+      if (!conversation) {
+        return;
+      }
+      await conversation.destroyMessages();
+      const deviceIds = await textsecure.storage.protocol.getDeviceIds(id);
+      await Promise.all(
+        deviceIds.map(deviceId => {
+          const address = new libsignal.SignalProtocolAddress(id, deviceId);
+          const sessionCipher = new libsignal.SessionCipher(
+            textsecure.storage.protocol,
+            address
+          );
+          return sessionCipher.deleteAllSessionsForDevice();
+        })
+      );
+      await window.Signal.Data.removeConversation(id, {
+        Conversation: Whisper.Conversation,
+      });
+      conversations.remove(conversation);
     },
     getOrCreateAndWait(id, type) {
       return this._initialPromise.then(() => {

@@ -208,6 +208,7 @@
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
           onDeleteMessages: () => this.destroyMessages(),
+          onDeleteContact: () => this.deleteContact(),
           onResetSession: () => this.endSession(),
 
           // These are view only and don't update the Conversation model, so they
@@ -1445,6 +1446,16 @@
       } else {
         this.model.updateExpirationTimer(null);
       }
+    },
+
+    async deleteContact() {
+      Whisper.events.trigger('showConfirmationDialog', {
+        message: i18n('deleteContactConfirmation'),
+        onOk: () => {
+          ConversationController.deleteContact(this.model.id);
+          this.remove();
+        },
+      });
     },
 
     async destroyMessages() {

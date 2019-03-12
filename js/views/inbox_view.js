@@ -180,6 +180,12 @@
         input: this.$('input.search'),
       });
 
+      this.searchView.listenTo(
+        ConversationController.getCollection(),
+        'remove',
+        this.searchView.filterContacts
+      );
+
       this.searchView.$el.hide();
 
       this.listenTo(this.searchView, 'hide', function toggleVisibility() {
