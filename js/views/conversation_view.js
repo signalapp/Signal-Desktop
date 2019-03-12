@@ -237,7 +237,7 @@
           onChangeNickname: () => {
             this.model.changeNickname();
           },
-          onClearNickname: async () => {
+          onClearNickname: () => {
             this.model.setNickname(null);
           },
           onCopyPublicKey: () => {

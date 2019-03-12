@@ -423,7 +423,7 @@
         onBlockContact: () => this.block(),
         onUnblockContact: () => this.unblock(),
         onChangeNickname: () => this.changeNickname(),
-        onClearNickname: async () => this.setNickname(null),
+        onClearNickname: () => this.setNickname(null),
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
