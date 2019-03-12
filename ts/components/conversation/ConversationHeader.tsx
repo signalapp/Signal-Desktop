@@ -16,17 +16,19 @@ interface TimerOption {
 }
 
 interface Props {
-  i18n: LocalizerType;
-  isVerified: boolean;
-  name?: string;
   id: string;
+  name?: string;
+
   phoneNumber: string;
   profileName?: string;
   color: string;
-
   avatarPath?: string;
+
+  isVerified: boolean;
   isMe: boolean;
   isGroup: boolean;
+  isArchived: boolean;
+
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
@@ -39,6 +41,11 @@ interface Props {
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
   onGoBack: () => void;
+
+  onArchive: () => void;
+  onMoveToInbox: () => void;
+
+  i18n: LocalizerType;
 }
 
 export class ConversationHeader extends React.Component<Props> {
@@ -184,12 +191,15 @@ export class ConversationHeader extends React.Component<Props> {
       i18n,
       isMe,
       isGroup,
+      isArchived,
       onDeleteMessages,
       onResetSession,
       onSetDisappearingMessages,
       onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
+      onArchive,
+      onMoveToInbox,
       timerOptions,
     } = this.props;
 
@@ -223,6 +233,13 @@ export class ConversationHeader extends React.Component<Props> {
         {!isGroup ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
         ) : null}
+        {isArchived ? (
+          <MenuItem onClick={onMoveToInbox}>
+            {i18n('moveConversationToInbox')}
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+        )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
       </ContextMenu>
     );

@@ -129,8 +129,14 @@ window.searchResults.messages = [
 <util.LeftPaneContext theme={util.theme} style={{ height: '200px' }}>
   <LeftPane
     searchResults={window.searchResults}
-    openConversation={result => console.log('openConversation', result)}
-    openMessage={result => console.log('onClickMessage', result)}
+    startNewConversation={(query, options) =>
+      console.log('startNewConversation', query, options)
+    }
+    openConversationInternal={(id, messageId) =>
+      console.log('openConversation', id, messageId)
+    }
+    showArchivedConversations={() => console.log('showArchivedConversations')}
+    showInbox={() => console.log('showInbox')}
     renderMainHeader={() => (
       <MainHeader
         searchTerm="Hi there!"
@@ -151,8 +157,74 @@ window.searchResults.messages = [
 <util.LeftPaneContext theme={util.theme} style={{ height: '200px' }}>
   <LeftPane
     conversations={window.searchResults.conversations}
-    openConversation={result => console.log('openConversation', result)}
-    openMessage={result => console.log('onClickMessage', result)}
+    archivedConversations={[]}
+    startNewConversation={(query, options) =>
+      console.log('startNewConversation', query, options)
+    }
+    openConversationInternal={(id, messageId) =>
+      console.log('openConversation', id, messageId)
+    }
+    showArchivedConversations={() => console.log('showArchivedConversations')}
+    showInbox={() => console.log('showInbox')}
+    renderMainHeader={() => (
+      <MainHeader
+        searchTerm="Hi there!"
+        search={result => console.log('search', result)}
+        updateSearch={result => console.log('updateSearch', result)}
+        clearSearch={result => console.log('clearSearch', result)}
+        i18n={util.i18n}
+      />
+    )}
+    i18n={util.i18n}
+  />
+</util.LeftPaneContext>
+```
+
+#### Showing inbox, with some archived
+
+```jsx
+<util.LeftPaneContext theme={util.theme} style={{ height: '200px' }}>
+  <LeftPane
+    conversations={window.searchResults.conversations.slice(0, 2)}
+    archivedConversations={window.searchResults.conversations.slice(2)}
+    startNewConversation={(query, options) =>
+      console.log('startNewConversation', query, options)
+    }
+    openConversationInternal={(id, messageId) =>
+      console.log('openConversation', id, messageId)
+    }
+    showArchivedConversations={() => console.log('showArchivedConversations')}
+    showInbox={() => console.log('showInbox')}
+    renderMainHeader={() => (
+      <MainHeader
+        searchTerm="Hi there!"
+        search={result => console.log('search', result)}
+        updateSearch={result => console.log('updateSearch', result)}
+        clearSearch={result => console.log('clearSearch', result)}
+        i18n={util.i18n}
+      />
+    )}
+    i18n={util.i18n}
+  />
+</util.LeftPaneContext>
+```
+
+#### Showing archived conversations
+
+```jsx
+<util.LeftPaneContext theme={util.theme} style={{ height: '200px' }}>
+  <LeftPane
+    conversations={window.searchResults.conversations.slice(0, 2)}
+    archivedConversations={window.searchResults.conversations.slice(2)}
+    showArchived={true}
+    startNewConversation={(query, options) =>
+      console.log('startNewConversation', query, options)
+    }
+    openConversationInternal={(id, messageId) =>
+      console.log('openConversation', id, messageId)
+    }
+    showArchivedConversations={() => console.log('showArchivedConversations')}
+    showInbox={() => console.log('showInbox')}
     renderMainHeader={() => (
       <MainHeader
         searchTerm="Hi there!"

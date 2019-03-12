@@ -1,7 +1,6 @@
 /* global Signal:false */
 /* global Backbone: false */
 
-/* global ConversationController: false */
 /* global drawAttention: false */
 /* global i18n: false */
 /* global isFocused: false */

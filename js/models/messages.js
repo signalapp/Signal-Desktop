@@ -1645,10 +1645,10 @@
                 c.onReadMessage(message);
               }
             } else {
-              conversation.set(
-                'unreadCount',
-                conversation.get('unreadCount') + 1
-              );
+              conversation.set({
+                unreadCount: conversation.get('unreadCount') + 1,
+                isArchived: false,
+              });
             }
           }
 

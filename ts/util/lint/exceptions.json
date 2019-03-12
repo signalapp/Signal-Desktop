@@ -164,7 +164,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "    async load() {",
-    "lineNumber": 179,
+    "lineNumber": 177,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
@@ -172,7 +172,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 214,
+    "lineNumber": 212,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
@@ -562,7 +562,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 89,
+    "lineNumber": 88,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -571,7 +571,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 93,
+    "lineNumber": 92,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -580,7 +580,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 164,
+    "lineNumber": 166,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -589,7 +589,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 164,
+    "lineNumber": 166,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -598,7 +598,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 205,
+    "lineNumber": 207,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -607,7 +607,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 209,
+    "lineNumber": 211,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -616,15 +616,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 213,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "      this.$('.conversation:first .menu').trigger('close');",
     "lineNumber": 215,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
@@ -633,8 +624,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
+    "line": "      this.$('.conversation:first .menu').trigger('close');",
+    "lineNumber": 217,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-08T23:49:08.796Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 230,
+    "lineNumber": 236,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -643,7 +643,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 233,
+    "lineNumber": 239,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -5466,6 +5466,24 @@
   },
   {
     "rule": "React-createRef",
+    "path": "ts/components/LeftPane.js",
+    "line": "        this.listRef = react_1.default.createRef();",
+    "lineNumber": 13,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-12T23:33:50.889Z",
+    "reasonDetail": "Used only to scroll to top on archive/inbox switch"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/LeftPane.tsx",
+    "line": "  public listRef: React.RefObject<any> = React.createRef();",
+    "lineNumber": 46,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-12T23:33:50.889Z",
+    "reasonDetail": "Used only to scroll to top on archive/inbox switch"
+  },
+  {
+    "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.videoRef = react_1.default.createRef();",
     "lineNumber": 180,
@@ -5513,7 +5531,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 51,
+    "lineNumber": 58,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to trigger menu display"
