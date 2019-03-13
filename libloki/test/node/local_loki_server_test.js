@@ -64,8 +64,10 @@ describe('LocalLokiServer', () => {
       };
 
       const promise = new Promise(res => {
-        server.on('message', message => {
+        server.on('message', eventData => {
+          const { message, onSuccess } = eventData;
           assert.equal(message, 'This is data');
+          onSuccess();
           server.close();
           res();
         });
