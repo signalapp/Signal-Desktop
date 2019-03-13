@@ -49,6 +49,7 @@ interface LinkPreviewType {
 export interface Props {
   disableMenu?: boolean;
   text?: string;
+  textPending?: boolean;
   id?: string;
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
@@ -196,6 +197,7 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       status,
       text,
+      textPending,
       timestamp,
     } = this.props;
 
@@ -247,7 +249,12 @@ export class Message extends React.PureComponent<Props, State> {
           />
         ) : null}
         <span className="module-message__metadata__spacer" />
-        {direction === 'outgoing' && status !== 'error' ? (
+        {textPending ? (
+          <div className="module-message__metadata__spinner-container">
+            <Spinner size="mini" direction={direction} />
+          </div>
+        ) : null}
+        {!textPending && direction === 'outgoing' && status !== 'error' ? (
           <div
             className={classNames(
               'module-message__metadata__status-icon',
@@ -383,7 +390,7 @@ export class Message extends React.PureComponent<Props, State> {
         >
           {pending ? (
             <div className="module-message__generic-attachment__spinner-container">
-              <Spinner small={true} direction={direction} />
+              <Spinner size="small" direction={direction} />
             </div>
           ) : (
             <div className="module-message__generic-attachment__icon-container">
@@ -647,7 +654,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderText() {
-    const { text, i18n, direction, status } = this.props;
+    const { text, textPending, i18n, direction, status } = this.props;
 
     const contents =
       direction === 'incoming' && status === 'error'
@@ -669,7 +676,11 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
       >
-        <MessageBody text={contents || ''} i18n={i18n} />
+        <MessageBody
+          text={contents || ''}
+          i18n={i18n}
+          textPending={textPending}
+        />
       </div>
     );
   }

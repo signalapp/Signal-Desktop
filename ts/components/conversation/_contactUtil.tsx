@@ -25,11 +25,12 @@ export function renderAvatar({
   const avatarPath = avatar && avatar.avatar && avatar.avatar.path;
   const pending = avatar && avatar.avatar && avatar.avatar.pending;
   const name = getName(contact) || '';
+  const spinnerSize = size < 50 ? 'small' : 'normal';
 
   if (pending) {
     return (
       <div className="module-embedded-contact__spinner-container">
-        <Spinner small={size < 50} direction={direction} />
+        <Spinner size={spinnerSize} direction={direction} />
       </div>
     );
   }

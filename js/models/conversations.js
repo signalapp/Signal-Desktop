@@ -921,12 +921,21 @@
           messageWithSchema.attachments.map(loadAttachmentData)
         );
 
+        const {
+          body: messageBody,
+          attachments: finalAttachments,
+        } = Whisper.Message.getLongMessageAttachment({
+          body,
+          attachments: attachmentsWithData,
+          now,
+        });
+
         // Special-case the self-send case - we send only a sync message
         if (this.isMe()) {
           const dataMessage = await textsecure.messaging.getMessageProto(
             destination,
-            body,
-            attachmentsWithData,
+            messageBody,
+            finalAttachments,
             quote,
             preview,
             now,
@@ -945,8 +954,8 @@
             case Message.PRIVATE:
               return textsecure.messaging.sendMessageToNumber(
                 destination,
-                body,
-                attachmentsWithData,
+                messageBody,
+                finalAttachments,
                 quote,
                 preview,
                 now,
@@ -958,8 +967,8 @@
               return textsecure.messaging.sendMessageToGroup(
                 destination,
                 groupNumbers,
-                body,
-                attachmentsWithData,
+                messageBody,
+                finalAttachments,
                 quote,
                 preview,
                 now,

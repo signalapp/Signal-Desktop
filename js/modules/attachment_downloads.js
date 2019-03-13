@@ -11,6 +11,7 @@ const {
   saveMessage,
   setAttachmentDownloadJobPending,
 } = require('./data');
+const { stringFromBytes } = require('./crypto');
 
 module.exports = {
   start,
@@ -311,6 +312,19 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
   }
 
   const logPrefix = `${message.idForLogging()} (type: ${type}, index: ${index})`;
+
+  if (type === 'long-message') {
+    try {
+      const { data } = await Signal.Migrations.loadAttachmentData(attachment);
+      message.set({
+        body: attachment.isError ? message.get('body') : stringFromBytes(data),
+        bodyPending: false,
+      });
+    } finally {
+      Signal.Migrations.deleteAttachmentData(attachment.path);
+    }
+    return;
+  }
 
   if (type === 'attachment') {
     const attachments = message.get('attachments');

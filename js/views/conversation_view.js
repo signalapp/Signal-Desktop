@@ -80,7 +80,6 @@
     render_attributes() {
       return {
         'send-message': i18n('sendMessage'),
-        'android-length-warning': i18n('androidMessageLengthWarning'),
       };
     },
     initialize(options) {
@@ -540,13 +539,6 @@
         this.$('.capture-audio').hide();
       } else {
         this.$('.capture-audio').show();
-      }
-    },
-    toggleLengthWarning() {
-      if (this.$('.send-message').val().length > 2000) {
-        this.$('.android-length-warning').show();
-      } else {
-        this.$('.android-length-warning').hide();
       }
     },
     captureAudio(e) {
@@ -2047,7 +2039,6 @@
         return;
       }
       this.toggleMicrophone();
-      this.toggleLengthWarning();
 
       this.view.measureScrollPosition();
       window.autosize(this.$messageField);

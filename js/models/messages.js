@@ -26,6 +26,7 @@
     loadPreviewData,
     upgradeMessageSchema,
   } = window.Signal.Migrations;
+  const { bytesFromString } = window.Signal.Crypto;
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
@@ -480,6 +481,7 @@
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
+        textPending: this.get('bodyPending'),
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
@@ -821,6 +823,12 @@
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
+      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+        body: this.get('body'),
+        attachments: attachmentsWithData,
+        now: this.get('sent_at'),
+      });
+
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
 
@@ -829,8 +837,8 @@
         const [number] = numbers;
         const dataMessage = await textsecure.messaging.getMessageProto(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
@@ -847,8 +855,8 @@
         const [number] = numbers;
         promise = textsecure.messaging.sendMessageToNumber(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
@@ -863,9 +871,9 @@
         promise = textsecure.messaging.sendMessage(
           {
             recipients: numbers,
-            body: this.get('body'),
+            body,
             timestamp: this.get('sent_at'),
-            attachments: attachmentsWithData,
+            attachments,
             quote: quoteWithData,
             preview: previewWithData,
             needsSync: !this.get('synced'),
@@ -905,6 +913,12 @@
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
+      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+        body: this.get('body'),
+        attachments: attachmentsWithData,
+        now: this.get('sent_at'),
+      });
+
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
 
@@ -912,8 +926,8 @@
       if (number === this.OUR_NUMBER) {
         const dataMessage = await textsecure.messaging.getMessageProto(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
@@ -928,8 +942,8 @@
       );
       const promise = textsecure.messaging.sendMessageToNumber(
         number,
-        this.get('body'),
-        attachmentsWithData,
+        body,
+        attachments,
         quoteWithData,
         previewWithData,
         this.get('sent_at'),
@@ -1255,9 +1269,34 @@
     async queueAttachmentDownloads() {
       const messageId = this.id;
       let count = 0;
+      let bodyPending;
+
+      const [longMessageAttachments, normalAttachments] = _.partition(
+        this.get('attachments') || [],
+        attachment =>
+          attachment.contentType === Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
+      );
+
+      if (longMessageAttachments.length > 1) {
+        window.log.error(
+          `Received more than one long message attachment in message ${this.idForLogging()}`
+        );
+      }
+      if (longMessageAttachments.length > 0) {
+        count += 1;
+        bodyPending = true;
+        await window.Signal.AttachmentDownloads.addJob(
+          longMessageAttachments[0],
+          {
+            messageId,
+            type: 'long-message',
+            index: 0,
+          }
+        );
+      }
 
       const attachments = await Promise.all(
-        (this.get('attachments') || []).map((attachment, index) => {
+        normalAttachments.map((attachment, index) => {
           count += 1;
           return window.Signal.AttachmentDownloads.addJob(attachment, {
             messageId,
@@ -1351,7 +1390,7 @@
       }
 
       if (count > 0) {
-        this.set({ attachments, preview, contact, quote, group });
+        this.set({ bodyPending, attachments, preview, contact, quote, group });
 
         await window.Signal.Data.saveMessage(this.attributes, {
           Message: Whisper.Message,
@@ -1836,6 +1875,39 @@
       }
     },
   });
+
+  // Receive will be enabled before we enable send
+  Whisper.Message.LONG_MESSAGE_SEND_DISABLED = true;
+  Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
+
+  Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
+    if (Whisper.Message.LONG_MESSAGE_SEND_DISABLED) {
+      return {
+        body,
+        attachments,
+      };
+    }
+
+    if (body.length <= 2048) {
+      return {
+        body,
+        attachments,
+      };
+    }
+
+    const data = bytesFromString(body);
+    const attachment = {
+      contentType: Whisper.Message.LONG_MESSAGE_CONTENT_TYPE,
+      fileName: `long-message-${now}.txt`,
+      data,
+      size: data.byteLength,
+    };
+
+    return {
+      body: body.slice(0, 2048),
+      attachments: [attachment, ...attachments],
+    };
+  };
 
   Whisper.Message.refreshExpirationTimer = () =>
     Whisper.ExpiringMessagesListener.update();
