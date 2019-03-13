@@ -83,6 +83,7 @@ export interface Props {
 
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
+  onCopyText?: () => void;
   onReply?: () => void;
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
@@ -785,6 +786,7 @@ export class Message extends React.Component<Props, State> {
   public renderContextMenu(triggerId: string) {
     const {
       attachments,
+      onCopyText,
       direction,
       status,
       onDelete,
@@ -817,6 +819,7 @@ export class Message extends React.Component<Props, State> {
             {i18n('downloadAttachment')}
           </MenuItem>
         ) : null}
+        <MenuItem onClick={onCopyText}>{i18n('copyMessage')}</MenuItem>
         <MenuItem
           attributes={{
             className: 'module-message__context__reply',
@@ -933,6 +936,7 @@ export class Message extends React.Component<Props, State> {
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
     const triggerId = String(id || `${authorPhoneNumber}-${timestamp}`);
+    const rightClickTriggerId = `${authorPhoneNumber}-ctx-${timestamp}`;
 
     if (expired) {
       return null;
@@ -942,40 +946,45 @@ export class Message extends React.Component<Props, State> {
     const isShowingImage = this.isShowingImage();
 
     return (
-      <div
-        className={classNames(
-          'module-message',
-          `module-message--${direction}`,
-          expiring ? 'module-message--expired' : null
-        )}
-      >
-        {this.renderError(direction === 'incoming')}
-        {this.renderMenu(direction === 'outgoing', triggerId)}
-        <div
-          className={classNames(
-            'module-message__container',
-            `module-message__container--${direction}`,
-            direction === 'incoming'
-              ? `module-message__container--incoming-${authorColor}`
-              : null
-          )}
-          style={{
-            width: isShowingImage ? width : undefined,
-          }}
-        >
-          {this.renderAuthor()}
-          {this.renderQuote()}
-          {this.renderAttachment()}
-          {this.renderPreview()}
-          {this.renderEmbeddedContact()}
-          {this.renderText()}
-          {this.renderMetadata()}
-          {this.renderSendMessageButton()}
-          {this.renderAvatar()}
-        </div>
-        {this.renderError(direction === 'outgoing')}
-        {this.renderMenu(direction === 'incoming', triggerId)}
-        {this.renderContextMenu(triggerId)}
+      <div>
+        <ContextMenuTrigger id={rightClickTriggerId}>
+          <div
+            className={classNames(
+              'module-message',
+              `module-message--${direction}`,
+              expiring ? 'module-message--expired' : null
+            )}
+          >
+            {this.renderError(direction === 'incoming')}
+            {this.renderMenu(direction === 'outgoing', triggerId)}
+            <div
+              className={classNames(
+                'module-message__container',
+                `module-message__container--${direction}`,
+                direction === 'incoming'
+                  ? `module-message__container--incoming-${authorColor}`
+                  : null
+              )}
+              style={{
+                width: isShowingImage ? width : undefined,
+              }}
+            >
+              {this.renderAuthor()}
+              {this.renderQuote()}
+              {this.renderAttachment()}
+              {this.renderPreview()}
+              {this.renderEmbeddedContact()}
+              {this.renderText()}
+              {this.renderMetadata()}
+              {this.renderSendMessageButton()}
+              {this.renderAvatar()}
+            </div>
+            {this.renderError(direction === 'outgoing')}
+            {this.renderMenu(direction === 'incoming', triggerId)}
+            {this.renderContextMenu(triggerId)}
+            {this.renderContextMenu(rightClickTriggerId)}
+          </div>
+        </ContextMenuTrigger>
       </div>
     );
   }

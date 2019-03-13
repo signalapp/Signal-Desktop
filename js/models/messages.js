@@ -3,6 +3,7 @@
 /* global storage: false */
 /* global filesize: false */
 /* global ConversationController: false */
+/* global clipboard: false */
 /* global getAccountManager: false */
 /* global i18n: false */
 /* global Signal: false */
@@ -593,6 +594,7 @@
         expirationTimestamp,
         isP2p: !!this.get('isP2p'),
 
+        onCopyText: () => this.copyText(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
@@ -870,6 +872,13 @@
         errors,
         contacts: sortedContacts,
       };
+    },
+
+    copyText() {
+      clipboard.writeText(this.get('body'));
+      window.Whisper.events.trigger('showToast', {
+        message: i18n('copiedMessage'),
+      });
     },
 
     // One caller today: event handler for the 'Retry Send' entry in triple-dot menu

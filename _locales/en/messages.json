@@ -1801,6 +1801,16 @@
     "message": "Copied public key",
     "description": "A toast message telling the user that the key was copied"
   },
+  "copyMessage": {
+    "message": "Copy message text",
+    "description":
+      "Button action that the user can click to copy their public keys"
+  },
+  "copiedMessage": {
+    "message": "Copied message text",
+    "description":
+      "A toast message telling the user that the message text was copied"
+  },
   "editDisplayName": {
     "message": "Edit display name",
     "description":

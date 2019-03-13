@@ -30,12 +30,17 @@ interface Props {
   showFriendRequestIndicator?: boolean;
   isBlocked: boolean;
   isOnline: boolean;
+  isMe: boolean;
+  hasNickname: boolean;
 
   i18n: Localizer;
   onClick?: () => void;
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
   onBlockContact?: () => void;
+  onChangeNickname?: () => void;
+  onClearNickname?: () => void;
+  onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
 }
 
@@ -136,21 +141,38 @@ export class ConversationListItem extends React.Component<Props> {
     const {
       i18n,
       isBlocked,
+      isMe,
+      hasNickname,
       onDeleteContact,
       onDeleteMessages,
       onBlockContact,
+      onChangeNickname,
+      onClearNickname,
+      onCopyPublicKey,
       onUnblockContact,
     } = this.props;
 
+    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
+    const blockHandler = isBlocked ? onUnblockContact : onBlockContact;
+
     return (
       <ContextMenu id={triggerId}>
-        {isBlocked ? (
-          <MenuItem onClick={onUnblockContact}>{i18n('unblockUser')}</MenuItem>
-        ) : (
-          <MenuItem onClick={onBlockContact}>{i18n('blockUser')}</MenuItem>
-        )}
+        {!isMe ? (
+          <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+        ) : null}
+        {!isMe ? (
+          <MenuItem onClick={onChangeNickname}>
+            {i18n('changeNickname')}
+          </MenuItem>
+        ) : null}
+        {!isMe && hasNickname ? (
+          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
+        ) : null}
+        <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+        {!isMe ? (
+          <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+        ) : null}
       </ContextMenu>
     );
   }
