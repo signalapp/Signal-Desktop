@@ -772,7 +772,8 @@ MessageSender.prototype = {
     preview,
     timestamp,
     expireTimer,
-    profileKey
+    profileKey,
+    flags
   ) {
     const attributes = {
       recipients: [number],
@@ -783,6 +784,7 @@ MessageSender.prototype = {
       preview,
       expireTimer,
       profileKey,
+      flags,
     };
 
     const message = new Message(attributes);
