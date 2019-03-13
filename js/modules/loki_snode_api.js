@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global log, window, ConversationController */
+/* global window, ConversationController */
 
 const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
@@ -148,9 +148,6 @@ class LokiSnodeAPI {
       // Try refresh our swarm list once
       const ourKey = window.textsecure.storage.user.getNumber();
       const nodeAddresses = await this.getSwarmNodes(ourKey);
-      if (!nodeAddresses || nodeAddresses.length === 0) {
-        throw Error('Could not load our swarm');
-      }
 
       nodeAddresses.forEach(url => {
         this.ourSwarmNodes[url] = {
@@ -174,7 +171,6 @@ class LokiSnodeAPI {
           newSwarmNodes = await this.getSwarmNodes(pubKey);
         } catch (e) {
           // TODO: Handle these errors sensibly
-          log.error(e);
           newSwarmNodes = [];
         }
         resolve(newSwarmNodes);
@@ -218,7 +214,10 @@ class LokiSnodeAPI {
     try {
       response = await fetch(options.url, fetchOptions);
     } catch (e) {
-      throw HTTPError('getSwarmNodes fetch error', 0, e.toString());
+      throw new window.textsecure.EmptySwarmError(
+        pubKey,
+        'Could not retrieve swarm nodes'
+      );
     }
 
     let result;
@@ -233,25 +232,15 @@ class LokiSnodeAPI {
       result = await response.text();
     }
 
-    if (response.status >= 0 && response.status < 400) {
-      return result.nodes;
+    if (response.status !== 200 || !result.nodes || result.nodes === []) {
+      throw new window.textsecure.EmptySwarmError(
+        pubKey,
+        'Could not retrieve swarm nodes'
+      );
     }
-    throw HTTPError('getSwarmNodes: error response', response.status, result);
-  }
-}
 
-function HTTPError(message, providedCode, response, stack) {
-  const code = providedCode > 999 || providedCode < 100 ? -1 : providedCode;
-  const e = new Error(`${message}; code: ${code}`);
-  e.name = 'HTTPError';
-  e.code = code;
-  if (stack) {
-    e.stack += `\nOriginal stack:\n${stack}`;
+    return result.nodes;
   }
-  if (response) {
-    e.response = response;
-  }
-  return e;
 }
 
 module.exports = LokiSnodeAPI;
