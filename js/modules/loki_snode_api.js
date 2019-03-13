@@ -232,7 +232,9 @@ class LokiSnodeAPI {
       result = await response.text();
     }
 
-    if (response.status !== 200 || !result.nodes || result.nodes === []) {
+    // TODO: Handle wrong swarm error from snode
+
+    if (!response.ok || !result.nodes || result.nodes === []) {
       throw new window.textsecure.EmptySwarmError(
         pubKey,
         'Could not retrieve swarm nodes'
