@@ -2090,6 +2090,46 @@
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T02:42:07.830Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T02:42:07.830Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 211,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T02:42:07.830Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T02:42:07.830Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T02:42:07.830Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/dotenv-expand/lib/main.js",
     "line": "    var matches = env.match(/\\$([a-zA-Z0-9_]+)|\\${([a-zA-Z0-9_]+)}/g) || []",
@@ -2112,6 +2152,22 @@
     "lineNumber": 31,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/electron-updater/node_modules/bluebird-lst/index.d.ts",
+    "line": "    multiArgs?: boolean;",
+    "lineNumber": 985,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T02:42:07.830Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/electron-updater/node_modules/bluebird-lst/index.d.ts",
+    "line": "    multiArgs?: boolean;",
+    "lineNumber": 989,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T02:42:07.830Z"
   },
   {
     "rule": "jQuery-load(",
@@ -5135,613 +5191,6 @@
     "lineNumber": 240,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird-lst/index.d.ts",
-    "line": "    multiArgs?: boolean;",
-    "lineNumber": 985,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird-lst/index.d.ts",
-    "line": "    multiArgs?: boolean;",
-    "lineNumber": 989,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "function nodebackForPromise(promise, multiArgs) {",
-    "lineNumber": 2118,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "        } else if (!multiArgs) {",
-    "lineNumber": 2125,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
-    "lineNumber": 2315,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
-    "lineNumber": 2317,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    eval(obj);",
-    "lineNumber": 3623,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2019-03-13T01:27:05.473Z",
-    "reasonDetail": "Bluebird is not loaded in our browser context"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.core.min.js",
-    "lineNumber": 31,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        var spawn = new PromiseSpawn$(undefined, undefined, yieldHandler,",
-    "lineNumber": 2247,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 2460,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, -2);",
-    "lineNumber": 2475,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function nodebackForPromise(promise, multiArgs) {",
-    "lineNumber": 2706,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        } else if (!multiArgs) {",
-    "lineNumber": 2713,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
-    "lineNumber": 2963,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
-    "lineNumber": 2965,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function(callback, receiver, originalName, fn, _, multiArgs) {",
-    "lineNumber": 3866,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "            var nodeback = nodebackForPromise(promise, \" + multiArgs + \");   \\n\\",
-    "lineNumber": 3917,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {",
-    "lineNumber": 3958,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        var fn = nodebackForPromise(promise, multiArgs);",
-    "lineNumber": 3971,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function promisifyAll(obj, suffix, filter, promisifier, multiArgs) {",
-    "lineNumber": 3988,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                makeNodePromisified(key, THIS, key, fn, suffix, multiArgs);",
-    "lineNumber": 3999,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                                           fn, suffix, multiArgs);",
-    "lineNumber": 4003,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function promisify(callback, receiver, multiArgs) {",
-    "lineNumber": 4013,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                                callback, null, multiArgs);",
-    "lineNumber": 4015,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 4027,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var ret = promisify(fn, receiver, multiArgs);",
-    "lineNumber": 4028,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 4038,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                multiArgs);",
-    "lineNumber": 4056,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "            promisifyAll(value, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 4057,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    return promisifyAll(target, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 4061,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(entries);",
-    "lineNumber": 4122,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, isMap ? -6 : -3);",
-    "lineNumber": 4124,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 4325,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 4342,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._resultCancelled$();",
-    "lineNumber": 4380,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 4557,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 4606,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 4621,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        this.constructor$(fn, promise, context);",
-    "lineNumber": 5124,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    eval(obj);",
-    "lineNumber": 5465,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2019-03-13T01:27:05.473Z",
-    "reasonDetail": "Temp-file is used during build and test only"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 31,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/assert.js",
-    "line": "        this.constructor$(a);",
-    "lineNumber": 5,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/generators.js",
-    "line": "        var spawn = new PromiseSpawn$(undefined, undefined, yieldHandler,",
-    "lineNumber": 197,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/map.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/map.js",
-    "line": "    this._init$(undefined, -2);",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/nodeback.js",
-    "line": "function nodebackForPromise(promise, multiArgs) {",
-    "lineNumber": 34,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/nodeback.js",
-    "line": "        } else if (!multiArgs) {",
-    "lineNumber": 41,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promise.js",
-    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
-    "lineNumber": 178,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promise.js",
-    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
-    "lineNumber": 180,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "function(callback, receiver, originalName, fn, _, multiArgs) {",
-    "lineNumber": 116,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "            var nodeback = nodebackForPromise(promise, \" + multiArgs + \");   \\n\\",
-    "lineNumber": 167,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {",
-    "lineNumber": 208,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "        var fn = nodebackForPromise(promise, multiArgs);",
-    "lineNumber": 221,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "function promisifyAll(obj, suffix, filter, promisifier, multiArgs) {",
-    "lineNumber": 238,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "                makeNodePromisified(key, THIS, key, fn, suffix, multiArgs);",
-    "lineNumber": 249,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "                                           fn, suffix, multiArgs);",
-    "lineNumber": 253,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "function promisify(callback, receiver, multiArgs) {",
-    "lineNumber": 263,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "                                callback, null, multiArgs);",
-    "lineNumber": 265,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 277,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "    var ret = promisify(fn, receiver, multiArgs);",
-    "lineNumber": 278,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 288,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "                multiArgs);",
-    "lineNumber": 306,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "            promisifyAll(value, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 307,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/promisify.js",
-    "line": "    return promisifyAll(target, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 311,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/props.js",
-    "line": "    this.constructor$(entries);",
-    "lineNumber": 56,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/props.js",
-    "line": "    this._init$(undefined, isMap ? -6 : -3);",
-    "lineNumber": 58,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/reduce.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 13,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/reduce.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/reduce.js",
-    "line": "    this._resultCancelled$();",
-    "lineNumber": 68,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/settle.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/some.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/some.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 27,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/using.js",
-    "line": "        this.constructor$(fn, promise, context);",
-    "lineNumber": 92,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/temp-file/node_modules/bluebird/js/release/util.js",
-    "line": "    eval(obj);",
-    "lineNumber": 205,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2019-03-13T01:27:05.473Z",
-    "reasonDetail": "temp-file is used in build/test scenarios only"
   },
   {
     "rule": "eval",
