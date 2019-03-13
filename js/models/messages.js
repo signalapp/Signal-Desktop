@@ -272,9 +272,12 @@
       this.hasExpired = true;
     },
     getPropsForTimerNotification() {
-      const { expireTimer, fromSync, source } = this.get(
-        'expirationTimerUpdate'
-      );
+      const timerUpdate = this.get('expirationTimerUpdate');
+      if (!timerUpdate) {
+        return null;
+      }
+
+      const { expireTimer, fromSync, source } = timerUpdate;
       const timespan = Whisper.ExpirationTimerOptions.getName(expireTimer || 0);
       const disabled = !expireTimer;
 

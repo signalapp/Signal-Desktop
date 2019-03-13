@@ -27,11 +27,11 @@ function Message(options) {
   this.expireTimer = options.expireTimer;
   this.profileKey = options.profileKey;
 
-  if (!(this.recipients instanceof Array) || this.recipients.length < 1) {
+  if (!(this.recipients instanceof Array)) {
     throw new Error('Invalid recipient list');
   }
 
-  if (!this.group && this.recipients.length > 1) {
+  if (!this.group && this.recipients.length !== 1) {
     throw new Error('Invalid recipient list for non-group');
   }
 
@@ -739,6 +739,7 @@ MessageSender.prototype = {
         failoverNumbers: [],
         errors: [],
         unidentifiedDeliveries: [],
+        dataMessage: proto.toArrayBuffer(),
       });
     }
 
@@ -787,6 +788,10 @@ MessageSender.prototype = {
       flags,
     };
 
+    return this.getMessageProtoObj(attributes);
+  },
+
+  async getMessageProtoObj(attributes) {
     const message = new Message(attributes);
     await Promise.all([
       this.uploadAttachments(message),
@@ -893,7 +898,7 @@ MessageSender.prototype = {
     return Promise.all([sendToContactPromise, sendSyncPromise]);
   },
 
-  sendMessageToGroup(
+  async sendMessageToGroup(
     groupId,
     groupNumbers,
     messageText,
@@ -907,33 +912,33 @@ MessageSender.prototype = {
   ) {
     const me = textsecure.storage.user.getNumber();
     const numbers = groupNumbers.filter(number => number !== me);
+    const attrs = {
+      recipients: numbers,
+      body: messageText,
+      timestamp,
+      attachments,
+      quote,
+      preview,
+      needsSync: true,
+      expireTimer,
+      profileKey,
+      group: {
+        id: groupId,
+        type: textsecure.protobuf.GroupContext.Type.DELIVER,
+      },
+    };
+
     if (numbers.length === 0) {
       return Promise.resolve({
         successfulNumbers: [],
         failoverNumbers: [],
         errors: [],
         unidentifiedDeliveries: [],
+        dataMessage: await this.getMessageProtoObj(attrs),
       });
     }
 
-    return this.sendMessage(
-      {
-        recipients: numbers,
-        body: messageText,
-        timestamp,
-        attachments,
-        quote,
-        preview,
-        needsSync: true,
-        expireTimer,
-        profileKey,
-        group: {
-          id: groupId,
-          type: textsecure.protobuf.GroupContext.Type.DELIVER,
-        },
-      },
-      options
-    );
+    return this.sendMessage(attrs, options);
   },
 
   createGroup(targetNumbers, id, name, avatar, options) {
@@ -1016,7 +1021,7 @@ MessageSender.prototype = {
     proto.group.type = textsecure.protobuf.GroupContext.Type.QUIT;
     return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
   },
-  sendExpirationTimerUpdateToGroup(
+  async sendExpirationTimerUpdateToGroup(
     groupId,
     groupNumbers,
     expireTimer,
@@ -1026,30 +1031,30 @@ MessageSender.prototype = {
   ) {
     const me = textsecure.storage.user.getNumber();
     const numbers = groupNumbers.filter(number => number !== me);
+    const attrs = {
+      recipients: numbers,
+      timestamp,
+      needsSync: true,
+      expireTimer,
+      profileKey,
+      flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+      group: {
+        id: groupId,
+        type: textsecure.protobuf.GroupContext.Type.DELIVER,
+      },
+    };
+
     if (numbers.length === 0) {
       return Promise.resolve({
         successfulNumbers: [],
         failoverNumbers: [],
         errors: [],
         unidentifiedDeliveries: [],
+        dataMessage: await this.getMessageProtoObj(attrs),
       });
     }
 
-    return this.sendMessage(
-      {
-        recipients: numbers,
-        timestamp,
-        needsSync: true,
-        expireTimer,
-        profileKey,
-        flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-        group: {
-          id: groupId,
-          type: textsecure.protobuf.GroupContext.Type.DELIVER,
-        },
-      },
-      options
-    );
+    return this.sendMessage(attrs, options);
   },
   sendExpirationTimerUpdateToNumber(
     number,
