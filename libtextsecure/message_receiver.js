@@ -137,8 +137,13 @@ MessageReceiver.prototype.extend({
       setTimeout(this.startLocalServer.bind(this), 30 * 1000);
     }
   },
-  handleP2pMessage(message) {
-    this.httpPollingResource.handleMessage(message, true);
+  handleP2pMessage({ message, onSuccess, onFailure }) {
+    const options = {
+      isP2p: true,
+      onSuccess,
+      onFailure,
+    };
+    this.httpPollingResource.handleMessage(message, options);
   },
   shutdown() {
     if (this.socket) {
@@ -215,7 +220,8 @@ MessageReceiver.prototype.extend({
     //     return this.dispatchAndWait(event);
     //   });
   },
-  handleRequest(request, isP2p = false) {
+  handleRequest(request, options) {
+    const { isP2p, onSuccess, onFailure } = options;
     this.incoming = this.incoming || [];
     const lastPromise = _.last(this.incoming);
 
@@ -258,7 +264,7 @@ MessageReceiver.prototype.extend({
 
             // To ensure that we queue in the same order we receive messages
             await lastPromise;
-            this.queueEnvelope(envelope);
+            this.queueEnvelope(envelope, onSuccess, onFailure);
           },
           error => {
             request.respond(500, 'Failed to cache message');
@@ -534,7 +540,7 @@ MessageReceiver.prototype.extend({
       );
     });
   },
-  queueEnvelope(envelope) {
+  queueEnvelope(envelope, onSuccess = null, onFailure = null) {
     const id = this.getEnvelopeId(envelope);
     window.log.info('queueing envelope', id);
 
@@ -544,6 +550,11 @@ MessageReceiver.prototype.extend({
       `queueEnvelope ${id}`
     );
     const promise = this.addToQueue(taskWithTimeout);
+    promise.then(() => {
+      if (onSuccess) {
+        onSuccess();
+      }
+    });
 
     return promise.catch(error => {
       window.log.error(
@@ -552,6 +563,9 @@ MessageReceiver.prototype.extend({
         ':',
         error && error.stack ? error.stack : error
       );
+      if (onFailure) {
+        onFailure();
+      }
     });
   },
   // Same as handleEnvelope, just without the decryption step. Necessary for handling

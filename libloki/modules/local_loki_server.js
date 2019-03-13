@@ -57,8 +57,11 @@ class LocalLokiServer extends EventEmitter {
                 sendResponse(STATUS.NOT_FOUND, 'Invalid endpoint!');
                 return;
               }
-              this.emit('message', bodyObject.params.data);
-              sendResponse(STATUS.OK);
+              this.emit('message', {
+                message: bodyObject.params.data,
+                onSuccess: () => sendResponse(STATUS.OK),
+                onFailure: () => sendResponse(STATUS.NOT_FOUND),
+              });
             } catch (e) {
               // Bad Request: Failed to decode json
               sendResponse(STATUS.BAD_REQUEST, 'Failed to decode JSON');
