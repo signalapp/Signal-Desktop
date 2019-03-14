@@ -137,15 +137,13 @@
 
       drawAttention();
 
-      const notification = new Notification(title, {
+      this.lastNotification = new Notification(title, {
         body: message,
         icon: iconUrl,
-        tag: isNotificationGroupingSupported ? 'signal' : undefined,
         silent: !status.shouldPlayNotificationSound,
       });
-      notification.onclick = () =>
+      this.lastNotification.onclick = () =>
         this.trigger('click', last.conversationId, last.id);
-      this.lastNotification = notification;
 
       // We continue to build up more and more messages for our notifications
       // until the user comes back to our app or closes the app. Then we’ll
