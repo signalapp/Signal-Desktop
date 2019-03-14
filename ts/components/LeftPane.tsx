@@ -43,26 +43,6 @@ type RowRendererParamsType = {
 };
 
 export class LeftPane extends React.Component<Props> {
-  public listRef: React.RefObject<any> = React.createRef();
-
-  public scrollToTop() {
-    if (this.listRef && this.listRef.current) {
-      const { current } = this.listRef;
-      current.scrollToRow(0);
-    }
-  }
-
-  public componentDidUpdate(prevProps: Props) {
-    const { showArchived, searchResults } = this.props;
-
-    const isNotShowingSearchResults = !searchResults;
-    const hasArchiveViewChanged = showArchived !== prevProps.showArchived;
-
-    if (isNotShowingSearchResults && hasArchiveViewChanged) {
-      this.scrollToTop();
-    }
-  }
-
   public renderRow = ({
     index,
     key,
@@ -135,7 +115,7 @@ export class LeftPane extends React.Component<Props> {
     );
   }
 
-  public renderList(): JSX.Element {
+  public renderList(): JSX.Element | Array<JSX.Element | null> {
     const {
       archivedConversations,
       i18n,
@@ -168,21 +148,27 @@ export class LeftPane extends React.Component<Props> {
       ? archivedConversations.length
       : conversations.length + (archivedConversations.length ? 1 : 0);
 
+    const archived = showArchived ? (
+      <div className="module-left-pane__archive-helper-text" key={0}>
+        {i18n('archiveHelperText')}
+      </div>
+    ) : null;
+
+    // We ensure that the listKey differs between inbox and archive views, which ensures
+    //   that AutoSizer properly detects the new size of its slot in the flexbox. The
+    //   archive explainer text at the top of the archive view causes problems otherwise.
+    //   It also ensures that we scroll to the top when switching views.
+    const listKey = showArchived ? 1 : 0;
+
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
     //   on startup and scroll.
-    return (
-      <div className="module-left-pane__list">
-        {showArchived ? (
-          <div className="module-left-pane__archive-helper-text">
-            {i18n('archiveHelperText')}
-          </div>
-        ) : null}
+    const list = (
+      <div className="module-left-pane__list" key={listKey}>
         <AutoSizer>
           {({ height, width }) => (
             <List
               className="module-left-pane__virtual-list"
-              ref={this.listRef}
               conversations={conversations}
               height={height}
               rowCount={length}
@@ -194,6 +180,8 @@ export class LeftPane extends React.Component<Props> {
         </AutoSizer>
       </div>
     );
+
+    return [archived, list];
   }
 
   public renderArchivedHeader(): JSX.Element {

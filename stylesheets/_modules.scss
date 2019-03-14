@@ -3028,16 +3028,19 @@
   font-weight: 300px;
 }
 
-.module-left-pane__list {
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-
 .module-left-pane__archive-helper-text {
+  flex-grow: 0;
+  flex-shrink: 0;
+
   padding: 1em;
   font-size: 12px;
   color: $color-gray-60;
   background-color: $color-gray-05;
+}
+
+.module-left-pane__list {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .module-left-pane__virtual-list {

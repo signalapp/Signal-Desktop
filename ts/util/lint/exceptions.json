@@ -5442,24 +5442,6 @@
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/LeftPane.js",
-    "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 13,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-12T23:33:50.889Z",
-    "reasonDetail": "Used only to scroll to top on archive/inbox switch"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/LeftPane.tsx",
-    "line": "  public listRef: React.RefObject<any> = React.createRef();",
-    "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-12T23:33:50.889Z",
-    "reasonDetail": "Used only to scroll to top on archive/inbox switch"
-  },
-  {
-    "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.videoRef = react_1.default.createRef();",
     "lineNumber": 180,
