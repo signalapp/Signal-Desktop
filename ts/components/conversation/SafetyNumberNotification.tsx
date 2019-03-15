@@ -5,22 +5,31 @@ import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
-interface Contact {
+interface ContactType {
+  id: string;
   phoneNumber: string;
   profileName?: string;
   name?: string;
 }
 
-interface Props {
+type PropsData = {
   isGroup: boolean;
-  contact: Contact;
+  contact: ContactType;
+};
+
+type PropsHousekeeping = {
   i18n: LocalizerType;
-  onVerify: () => void;
-}
+};
+
+export type PropsActions = {
+  showIdentity: (id: string) => void;
+};
+
+type Props = PropsData & PropsHousekeeping & PropsActions;
 
 export class SafetyNumberNotification extends React.Component<Props> {
   public render() {
-    const { contact, isGroup, i18n, onVerify } = this.props;
+    const { contact, isGroup, i18n, showIdentity } = this.props;
     const changeKey = isGroup
       ? 'safetyNumberChangedGroup'
       : 'safetyNumberChanged';
@@ -50,7 +59,9 @@ export class SafetyNumberNotification extends React.Component<Props> {
         </div>
         <div
           role="button"
-          onClick={onVerify}
+          onClick={() => {
+            showIdentity(contact.id);
+          }}
           className="module-verification-notification__button"
         >
           {i18n('verifyNewNumber')}

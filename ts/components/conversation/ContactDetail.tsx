@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   AddressType,
-  Contact,
+  ContactFormType,
   ContactType,
   Email,
   Phone,
@@ -19,7 +19,7 @@ import {
 import { LocalizerType } from '../../types/Util';
 
 interface Props {
-  contact: Contact;
+  contact: ContactType;
   hasSignalAccount: boolean;
   i18n: LocalizerType;
   onSendMessage: () => void;
@@ -27,13 +27,13 @@ interface Props {
 
 function getLabelForEmail(method: Email, i18n: LocalizerType): string {
   switch (method.type) {
-    case ContactType.CUSTOM:
+    case ContactFormType.CUSTOM:
       return method.label || i18n('email');
-    case ContactType.HOME:
+    case ContactFormType.HOME:
       return i18n('home');
-    case ContactType.MOBILE:
+    case ContactFormType.MOBILE:
       return i18n('mobile');
-    case ContactType.WORK:
+    case ContactFormType.WORK:
       return i18n('work');
     default:
       throw missingCaseError(method.type);
@@ -42,13 +42,13 @@ function getLabelForEmail(method: Email, i18n: LocalizerType): string {
 
 function getLabelForPhone(method: Phone, i18n: LocalizerType): string {
   switch (method.type) {
-    case ContactType.CUSTOM:
+    case ContactFormType.CUSTOM:
       return method.label || i18n('phone');
-    case ContactType.HOME:
+    case ContactFormType.HOME:
       return i18n('home');
-    case ContactType.MOBILE:
+    case ContactFormType.MOBILE:
       return i18n('mobile');
-    case ContactType.WORK:
+    case ContactFormType.WORK:
       return i18n('work');
     default:
       throw missingCaseError(method.type);

@@ -5,7 +5,7 @@ import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
 
 import { LocalizerType } from '../../types/Util';
-import { Contact, getName } from '../../types/Contact';
+import { ContactType, getName } from '../../types/Contact';
 
 // This file starts with _ to keep it from showing up in the StyleGuide.
 
@@ -15,7 +15,7 @@ export function renderAvatar({
   size,
   direction,
 }: {
-  contact: Contact;
+  contact: ContactType;
   i18n: LocalizerType;
   size: number;
   direction?: string;
@@ -52,7 +52,7 @@ export function renderName({
   isIncoming,
   module,
 }: {
-  contact: Contact;
+  contact: ContactType;
   isIncoming: boolean;
   module: string;
 }) {
@@ -73,7 +73,7 @@ export function renderContactShorthand({
   isIncoming,
   module,
 }: {
-  contact: Contact;
+  contact: ContactType;
   isIncoming: boolean;
   module: string;
 }) {

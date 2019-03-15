@@ -114,6 +114,7 @@
         'reply',
         this.setQuoteMessage
       );
+      this.listenTo(this.model.messageCollection, 'retry', this.retrySend);
       this.listenTo(
         this.model.messageCollection,
         'show-contact-detail',
@@ -705,8 +706,16 @@
       }
     },
 
+    async retrySend(messageId) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(`retrySend: Did not find message for id ${messageId}`);
+      }
+      await message.retrySend();
+    },
+
     async scrollToMessage(options = {}) {
-      const { author, id, referencedMessageNotFound } = options;
+      const { author, sentAt, referencedMessageNotFound } = options;
 
       // For simplicity's sake, we show the 'not found' toast no matter what if we were
       //   not able to find the referenced message when the quote was received.
@@ -724,7 +733,7 @@
         if (!messageAuthor || author !== messageAuthor.id) {
           return false;
         }
-        if (id !== item.get('sent_at')) {
+        if (sentAt !== item.get('sent_at')) {
           return false;
         }
 
@@ -734,13 +743,16 @@
       // If there's no message already in memory, we won't be scrolling. So we'll gather
       //   some more information then show an informative toast to the user.
       if (!targetMessage) {
-        const collection = await window.Signal.Data.getMessagesBySentAt(id, {
-          MessageCollection: Whisper.MessageCollection,
-        });
+        const collection = await window.Signal.Data.getMessagesBySentAt(
+          sentAt,
+          {
+            MessageCollection: Whisper.MessageCollection,
+          }
+        );
+
         const found = Boolean(
           collection.find(item => {
             const messageAuthor = item.getContact();
-
             return messageAuthor && author === messageAuthor.id;
           })
         );
@@ -765,7 +777,7 @@
         toast.render();
 
         window.log.info(
-          `Error: had target message ${id} in messageCollection, but it was not in DOM`
+          `Error: had target message ${targetMessage.idForLogging()} in messageCollection, but it was not in DOM`
         );
         return;
       }
@@ -1202,23 +1214,25 @@
       dialog.focusCancel();
     },
 
-    showSafetyNumber(providedModel) {
-      let model = providedModel;
+    showSafetyNumber(id) {
+      let conversation;
 
-      if (!model && this.model.isPrivate()) {
+      if (!id && this.model.isPrivate()) {
         // eslint-disable-next-line prefer-destructuring
-        model = this.model;
+        conversation = this.model;
+      } else {
+        conversation = ConversationController.get(id);
       }
-      if (model) {
+      if (conversation) {
         const view = new Whisper.KeyVerificationPanelView({
-          model,
+          model: conversation,
         });
         this.listenBack(view);
         this.updateHeader();
       }
     },
 
-    downloadAttachment({ attachment, message, isDangerous }) {
+    downloadAttachment({ attachment, timestamp, isDangerous }) {
       if (isDangerous) {
         const toast = new Whisper.DangerousFileTypeToast();
         toast.$el.appendTo(this.$el);
@@ -1230,11 +1244,18 @@
         attachment,
         document,
         getAbsolutePath: getAbsoluteAttachmentPath,
-        timestamp: message.get('sent_at'),
+        timestamp,
       });
     },
 
-    deleteMessage(message) {
+    deleteMessage(messageId) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `deleteMessage: Did not find message for id ${messageId}`
+        );
+      }
+
       const dialog = new Whisper.ConfirmationDialogView({
         message: i18n('deleteWarning'),
         okText: i18n('delete'),
@@ -1253,7 +1274,13 @@
       dialog.focusCancel();
     },
 
-    showLightbox({ attachment, message }) {
+    showLightbox({ attachment, messageId }) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `showLightbox: did not find message for id ${messageId}`
+        );
+      }
       const { contentType, path } = attachment;
 
       if (
@@ -1333,7 +1360,14 @@
       Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
-    showMessageDetail(message) {
+    showMessageDetail(messageId) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `showMessageDetail: Did not find message for id ${messageId}`
+        );
+      }
+
       const onClose = () => {
         this.stopListening(message, 'change', update);
         this.resetPanel();
@@ -1358,24 +1392,16 @@
       view.render();
     },
 
-    showContactDetail({ contact, hasSignalAccount }) {
-      const regionCode = storage.get('regionCode');
-      const { contactSelector } = Signal.Types.Contact;
-
+    showContactDetail({ contact, signalAccount }) {
       const view = new Whisper.ReactWrapperView({
         Component: Signal.Components.ContactDetail,
         className: 'contact-detail-pane panel',
         props: {
-          contact: contactSelector(contact, {
-            regionCode,
-            getAbsoluteAttachmentPath,
-          }),
-          hasSignalAccount,
+          contact,
+          signalAccount,
           onSendMessage: () => {
-            const number =
-              contact.number && contact.number[0] && contact.number[0].value;
-            if (number) {
-              this.openConversation(number);
+            if (signalAccount) {
+              this.openConversation(signalAccount);
             }
           },
         },
@@ -1592,20 +1618,25 @@
       this.focusMessageField();
     },
 
-    async setQuoteMessage(message) {
+    async setQuoteMessage(messageId) {
       this.quote = null;
-      this.quotedMessage = message;
+      this.quotedMessage = null;
 
       if (this.quoteHolder) {
         this.quoteHolder.unload();
         this.quoteHolder = null;
       }
 
+      const message = this.model.messageCollection.get(messageId);
       if (message) {
-        const quote = await this.model.makeQuote(this.quotedMessage);
-        this.quote = quote;
+        this.quotedMessage = message;
 
-        this.focusMessageFieldAndClearDisabled();
+        if (message) {
+          const quote = await this.model.makeQuote(this.quotedMessage);
+          this.quote = quote;
+
+          this.focusMessageFieldAndClearDisabled();
+        }
       }
 
       this.renderQuotedMessage();

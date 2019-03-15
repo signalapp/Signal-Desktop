@@ -2,13 +2,14 @@
 import Attachments from '../../app/attachments';
 import { format as formatPhoneNumber } from '../types/PhoneNumber';
 
-export interface Contact {
+export interface ContactType {
   name?: Name;
   number?: Array<Phone>;
   email?: Array<Email>;
   address?: Array<PostalAddress>;
   avatar?: Avatar;
   organization?: string;
+  signalAccount?: string;
 }
 
 interface Name {
@@ -20,7 +21,7 @@ interface Name {
   displayName?: string;
 }
 
-export enum ContactType {
+export enum ContactFormType {
   HOME = 1,
   MOBILE = 2,
   WORK = 3,
@@ -35,13 +36,13 @@ export enum AddressType {
 
 export interface Phone {
   value: string;
-  type: ContactType;
+  type: ContactFormType;
   label?: string;
 }
 
 export interface Email {
   value: string;
-  type: ContactType;
+  type: ContactFormType;
   label?: string;
 }
 
@@ -69,22 +70,14 @@ interface Attachment {
 }
 
 export function contactSelector(
-  contact: Contact,
+  contact: ContactType,
   options: {
     regionCode: string;
-    hasSignalAccount: boolean;
+    signalAccount?: string;
     getAbsoluteAttachmentPath: (path: string) => string;
-    onSendMessage: () => void;
-    onClick: () => void;
   }
 ) {
-  const {
-    getAbsoluteAttachmentPath,
-    hasSignalAccount,
-    onClick,
-    onSendMessage,
-    regionCode,
-  } = options;
+  const { getAbsoluteAttachmentPath, signalAccount, regionCode } = options;
 
   let { avatar } = contact;
   if (avatar && avatar.avatar) {
@@ -105,9 +98,7 @@ export function contactSelector(
 
   return {
     ...contact,
-    hasSignalAccount,
-    onSendMessage,
-    onClick,
+    signalAccount,
     avatar,
     number:
       contact.number &&
@@ -120,7 +111,7 @@ export function contactSelector(
   };
 }
 
-export function getName(contact: Contact): string | undefined {
+export function getName(contact: ContactType): string | undefined {
   const { name, organization } = contact;
   const displayName = (name && name.displayName) || undefined;
   const givenName = (name && name.givenName) || undefined;

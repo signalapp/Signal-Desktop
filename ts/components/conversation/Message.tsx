@@ -25,7 +25,7 @@ import {
   isVideo,
 } from '../../../ts/types/Attachment';
 import { AttachmentType } from '../../types/Attachment';
-import { Contact } from '../../types/Contact';
+import { ContactType } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
@@ -46,22 +46,14 @@ interface LinkPreviewType {
   image?: AttachmentType;
 }
 
-export interface Props {
-  disableMenu?: boolean;
+type PropsData = {
+  id: string;
   text?: string;
   textPending?: boolean;
-  id?: string;
-  collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
   timestamp: number;
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
-  // What if changed this over to a single contact like quote, and put the events on it?
-  contact?: Contact & {
-    hasSignalAccount: boolean;
-    onSendMessage?: () => void;
-    onClick?: () => void;
-  };
-  i18n: LocalizerType;
+  contact?: ContactType;
   authorName?: string;
   authorProfileName?: string;
   /** Note: this should be formatted for display */
@@ -73,11 +65,12 @@ export interface Props {
     text: string;
     attachment?: QuotedAttachmentType;
     isFromMe: boolean;
+    sentAt: number;
+    authorId: string;
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
     authorColor?: ColorType;
-    onClick?: () => void;
     referencedMessageNotFound: boolean;
   };
   previews: Array<LinkPreviewType>;
@@ -85,14 +78,48 @@ export interface Props {
   isExpired: boolean;
   expirationLength?: number;
   expirationTimestamp?: number;
-  onClickAttachment?: (attachment: AttachmentType) => void;
-  onClickLinkPreview?: (url: string) => void;
-  onReply?: () => void;
-  onRetrySend?: () => void;
-  onDownload?: (isDangerous: boolean) => void;
-  onDelete?: () => void;
-  onShowDetail: () => void;
-}
+};
+
+type PropsHousekeeping = {
+  i18n: LocalizerType;
+  disableMenu?: boolean;
+  disableScroll?: boolean;
+  collapseMetadata?: boolean;
+};
+
+export type PropsActions = {
+  replyToMessage: (id: string) => void;
+  retrySend: (id: string) => void;
+  deleteMessage: (id: string) => void;
+  showMessageDetail: (id: string) => void;
+
+  openConversation: (conversationId: string, messageId?: string) => void;
+  showContactDetail: (
+    options: { contact: ContactType; signalAccount?: string }
+  ) => void;
+
+  showVisualAttachment: (
+    options: { attachment: AttachmentType; messageId: string }
+  ) => void;
+  downloadAttachment: (
+    options: {
+      attachment: AttachmentType;
+      timestamp: number;
+      isDangerous: boolean;
+    }
+  ) => void;
+
+  openLink: (url: string) => void;
+  scrollToMessage: (
+    options: {
+      author: string;
+      sentAt: number;
+      referencedMessageNotFound: boolean;
+    }
+  ) => void;
+};
+
+export type Props = PropsData & PropsHousekeeping & PropsActions;
 
 interface State {
   expiring: boolean;
@@ -301,6 +328,7 @@ export class Message extends React.PureComponent<Props, State> {
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   public renderAttachment() {
     const {
+      id,
       attachments,
       text,
       collapseMetadata,
@@ -308,7 +336,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       quote,
-      onClickAttachment,
+      showVisualAttachment,
     } = this.props;
     const { imageBroken } = this.state;
 
@@ -349,7 +377,9 @@ export class Message extends React.PureComponent<Props, State> {
             bottomOverlay={!collapseMetadata}
             i18n={i18n}
             onError={this.handleImageErrorBound}
-            onClickAttachment={onClickAttachment}
+            onClick={attachment => {
+              showVisualAttachment({ attachment, messageId: id });
+            }}
           />
         </div>
       );
@@ -438,7 +468,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       i18n,
-      onClickLinkPreview,
+      openLink,
       previews,
       quote,
     } = this.props;
@@ -475,9 +505,7 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
         onClick={() => {
-          if (onClickLinkPreview) {
-            onClickLinkPreview(first.url);
-          }
+          openLink(first.url);
         }}
       >
         {first.image && previewHasImage && isFullSizeImage ? (
@@ -537,8 +565,10 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       authorColor,
       direction,
+      disableScroll,
       i18n,
       quote,
+      scrollToMessage,
     } = this.props;
 
     if (!quote) {
@@ -550,10 +580,21 @@ export class Message extends React.PureComponent<Props, State> {
     const quoteColor =
       direction === 'incoming' ? authorColor : quote.authorColor;
 
+    const { referencedMessageNotFound } = quote;
+    const clickHandler = disableScroll
+      ? undefined
+      : () => {
+          scrollToMessage({
+            author: quote.authorId,
+            sentAt: quote.sentAt,
+            referencedMessageNotFound,
+          });
+        };
+
     return (
       <Quote
         i18n={i18n}
-        onClick={quote.onClick}
+        onClick={clickHandler}
         text={quote.text}
         attachment={quote.attachment}
         isIncoming={direction === 'incoming'}
@@ -561,7 +602,7 @@ export class Message extends React.PureComponent<Props, State> {
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
         authorColor={quoteColor}
-        referencedMessageNotFound={quote.referencedMessageNotFound}
+        referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
       />
@@ -575,6 +616,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       i18n,
+      showContactDetail,
       text,
     } = this.props;
     if (!contact) {
@@ -589,10 +631,11 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <EmbeddedContact
         contact={contact}
-        hasSignalAccount={contact.hasSignalAccount}
         isIncoming={direction === 'incoming'}
         i18n={i18n}
-        onClick={contact.onClick}
+        onClick={() => {
+          showContactDetail({ contact, signalAccount: contact.signalAccount });
+        }}
         withContentAbove={withContentAbove}
         withContentBelow={withContentBelow}
       />
@@ -600,15 +643,19 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderSendMessageButton() {
-    const { contact, i18n } = this.props;
-    if (!contact || !contact.hasSignalAccount) {
+    const { contact, openConversation, i18n } = this.props;
+    if (!contact || !contact.signalAccount) {
       return null;
     }
 
     return (
       <div
         role="button"
-        onClick={contact.onSendMessage}
+        onClick={() => {
+          if (contact.signalAccount) {
+            openConversation(contact.signalAccount);
+          }
+        }}
         className="module-message__send-message-button"
       >
         {i18n('sendMessageToContact')}
@@ -718,8 +765,10 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       direction,
       disableMenu,
-      onDownload,
-      onReply,
+      downloadAttachment,
+      id,
+      replyToMessage,
+      timestamp,
     } = this.props;
 
     if (!isCorrectSide || disableMenu) {
@@ -736,9 +785,11 @@ export class Message extends React.PureComponent<Props, State> {
       !multipleAttachments && firstAttachment && !firstAttachment.pending ? (
         <div
           onClick={() => {
-            if (onDownload) {
-              onDownload(isDangerous);
-            }
+            downloadAttachment({
+              isDangerous,
+              attachment: firstAttachment,
+              timestamp,
+            });
           }}
           role="button"
           className={classNames(
@@ -750,7 +801,9 @@ export class Message extends React.PureComponent<Props, State> {
 
     const replyButton = (
       <div
-        onClick={onReply}
+        onClick={() => {
+          replyToMessage(id);
+        }}
         role="button"
         className={classNames(
           'module-message__buttons__reply',
@@ -793,13 +846,15 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       direction,
-      status,
-      onDelete,
-      onDownload,
-      onReply,
-      onRetrySend,
-      onShowDetail,
+      downloadAttachment,
       i18n,
+      id,
+      deleteMessage,
+      showMessageDetail,
+      replyToMessage,
+      retrySend,
+      status,
+      timestamp,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
@@ -816,9 +871,11 @@ export class Message extends React.PureComponent<Props, State> {
               className: 'module-message__context__download',
             }}
             onClick={() => {
-              if (onDownload) {
-                onDownload(isDangerous);
-              }
+              downloadAttachment({
+                attachment: attachments[0],
+                timestamp,
+                isDangerous,
+              });
             }}
           >
             {i18n('downloadAttachment')}
@@ -828,7 +885,9 @@ export class Message extends React.PureComponent<Props, State> {
           attributes={{
             className: 'module-message__context__reply',
           }}
-          onClick={onReply}
+          onClick={() => {
+            replyToMessage(id);
+          }}
         >
           {i18n('replyToMessage')}
         </MenuItem>
@@ -836,7 +895,9 @@ export class Message extends React.PureComponent<Props, State> {
           attributes={{
             className: 'module-message__context__more-info',
           }}
-          onClick={onShowDetail}
+          onClick={() => {
+            showMessageDetail(id);
+          }}
         >
           {i18n('moreInfo')}
         </MenuItem>
@@ -845,7 +906,9 @@ export class Message extends React.PureComponent<Props, State> {
             attributes={{
               className: 'module-message__context__retry-send',
             }}
-            onClick={onRetrySend}
+            onClick={() => {
+              retrySend(id);
+            }}
           >
             {i18n('retrySend')}
           </MenuItem>
@@ -854,7 +917,9 @@ export class Message extends React.PureComponent<Props, State> {
           attributes={{
             className: 'module-message__context__delete-message',
           }}
-          onClick={onDelete}
+          onClick={() => {
+            deleteMessage(id);
+          }}
         >
           {i18n('deleteMessage')}
         </MenuItem>

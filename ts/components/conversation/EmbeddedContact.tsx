@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Contact } from '../../types/Contact';
+import { ContactType } from '../../types/Contact';
 
 import { LocalizerType } from '../../types/Util';
 import {
@@ -11,8 +11,7 @@ import {
 } from './_contactUtil';
 
 interface Props {
-  contact: Contact;
-  hasSignalAccount: boolean;
+  contact: ContactType;
   i18n: LocalizerType;
   isIncoming: boolean;
   withContentAbove: boolean;

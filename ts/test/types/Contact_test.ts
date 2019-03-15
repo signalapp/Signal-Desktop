@@ -63,10 +63,8 @@ describe('Contact', () => {
   });
   describe('contactSelector', () => {
     const regionCode = '1';
-    const hasSignalAccount = true;
+    const signalAccount = '+1202555000';
     const getAbsoluteAttachmentPath = (path: string) => `absolute:${path}`;
-    const onSendMessage = () => null;
-    const onClick = () => null;
 
     it('eliminates avatar if it has had an attachment download error', () => {
       const contact = {
@@ -91,17 +89,13 @@ describe('Contact', () => {
         },
         organization: 'Somewhere, Inc.',
         avatar: undefined,
-        hasSignalAccount,
-        onSendMessage,
-        onClick,
+        signalAccount,
         number: undefined,
       };
       const actual = contactSelector(contact, {
         regionCode,
-        hasSignalAccount,
+        signalAccount,
         getAbsoluteAttachmentPath,
-        onSendMessage,
-        onClick,
       });
       assert.deepEqual(actual, expected);
     });
@@ -135,17 +129,13 @@ describe('Contact', () => {
             path: undefined,
           },
         },
-        hasSignalAccount,
-        onSendMessage,
-        onClick,
+        signalAccount,
         number: undefined,
       };
       const actual = contactSelector(contact, {
         regionCode,
-        hasSignalAccount,
+        signalAccount,
         getAbsoluteAttachmentPath,
-        onSendMessage,
-        onClick,
       });
       assert.deepEqual(actual, expected);
     });
@@ -178,17 +168,13 @@ describe('Contact', () => {
             path: 'absolute:somewhere',
           },
         },
-        hasSignalAccount,
-        onSendMessage,
-        onClick,
+        signalAccount,
         number: undefined,
       };
       const actual = contactSelector(contact, {
         regionCode,
-        hasSignalAccount,
+        signalAccount,
         getAbsoluteAttachmentPath,
-        onSendMessage,
-        onClick,
       });
       assert.deepEqual(actual, expected);
     });
