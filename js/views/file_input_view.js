@@ -116,8 +116,9 @@
       Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
     },
 
-    onCloseAttachment(attachment) {
+    async onCloseAttachment(attachment) {
       this.attachments = _.without(this.attachments, attachment);
+      await window.Signal.Migrations.deleteTempAttachmentData(attachment.file.name);
       this.render();
     },
 
@@ -126,6 +127,7 @@
     },
 
     onClose() {
+      debugger;
       this.attachments = [];
       this.render();
     },
@@ -202,13 +204,15 @@
     },
 
     clearAttachments() {
-      this.attachments.forEach(attachment => {
+      this.attachments.forEach(async attachment => {
         if (attachment.url) {
           URL.revokeObjectURL(attachment.url);
         }
         if (attachment.videoUrl) {
           URL.revokeObjectURL(attachment.videoUrl);
         }
+
+        await window.Signal.Migrations.deleteTempAttachmentData(attachment.file.name);
       });
 
       this.attachments = [];
@@ -267,13 +271,21 @@
       this.render();
     },
 
-    async maybeAddAttachment(file) {
-      if (!file) {
+    async readFileAsArrayBuffer(file) {
+      return new Promise((resolve) => {
+        const fileReader = new FileReader();
+        fileReader.onload = () => resolve(fileReader.result);
+        fileReader.readAsArrayBuffer(file);
+      });
+    },
+
+    async maybeAddAttachment(originalFile) {
+      if (!originalFile) {
         return;
       }
 
-      const fileName = file.name;
-      const contentType = file.type;
+      const fileName = originalFile.name;
+      const contentType = originalFile.type;
 
       if (window.Signal.Util.isFileDangerous(fileName)) {
         this.showDangerousError();
@@ -300,6 +312,11 @@
         this.showCannotMixError();
         return;
       }
+
+      // Save temporary copy of file to disk.
+      const arrayBuffer = await this.readFileAsArrayBuffer(originalFile);
+      const payload = await Signal.Migrations.writeTempAttachmentData(arrayBuffer);
+      const file = new File([payload.arrayBuffer], payload.filename, {type: originalFile.type});
 
       const renderVideoPreview = async () => {
         const objectUrl = URL.createObjectURL(file);

@@ -112,9 +112,12 @@ function initializeMigrations({
   }
   const {
     getPath,
+    getTempPath,
     createReader,
     createAbsolutePathGetter,
     createWriterForNew,
+    createWriterForTempAttachment,
+    createDeleterForTempAttachment,
     createWriterForExisting,
   } = Attachments;
   const {
@@ -126,6 +129,7 @@ function initializeMigrations({
   } = VisualType;
 
   const attachmentsPath = getPath(userDataPath);
+  const attachmentsTempPath = getTempPath(userDataPath);
   const readAttachmentData = createReader(attachmentsPath);
   const loadAttachmentData = Type.loadData(readAttachmentData);
   const loadPreviewData = MessageType.loadPreviewData(loadAttachmentData);
@@ -133,9 +137,14 @@ function initializeMigrations({
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
   const writeNewAttachmentData = createWriterForNew(attachmentsPath);
+  const writeTempAttachmentData = createWriterForTempAttachment(attachmentsTempPath);
+  const deleteTempAttachmentData = createDeleterForTempAttachment(attachmentsTempPath);
 
   return {
     attachmentsPath,
+    attachmentsTempPath,
+    writeTempAttachmentData,
+    deleteTempAttachmentData,
     deleteAttachmentData: deleteOnDisk,
     deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
       deleteAttachmentData: Type.deleteData(deleteOnDisk),

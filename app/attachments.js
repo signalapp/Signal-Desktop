@@ -5,9 +5,11 @@ const pify = require('pify');
 const glob = require('glob');
 const fse = require('fs-extra');
 const toArrayBuffer = require('to-arraybuffer');
+const uuidv4 = require('uuid/v4');
 const { map, isArrayBuffer, isString } = require('lodash');
 
 const PATH = 'attachments.noindex';
+const TEMPPATH = 'attachments.temp';
 
 exports.getAllAttachments = async userDataPath => {
   const dir = exports.getPath(userDataPath);
@@ -166,4 +168,64 @@ exports.createAbsolutePathGetter = rootPath => relativePath => {
     throw new Error('Invalid relative path');
   }
   return normalized;
+};
+
+//      getTempPath :: AbsolutePath -> AbsolutePath
+exports.getTempPath = userDataPath => {
+  if (!isString(userDataPath)) {
+    throw new TypeError("'userDataPath' must be a string");
+  }
+  return path.join(userDataPath, TEMPPATH);
+};
+
+//      createWriterForTempAttachment :: AttachmentsPath -> ArrayBuffer -> Ext ->
+//                            { Filename , ArrayBuffer }
+exports.createWriterForTempAttachment = root => {
+  if (!isString(root)) {
+    throw new TypeError("'root' must be a path");
+  }
+
+  return async (arrayBuffer) => {
+    fse.ensureDirSync(root);
+
+    const buffer = Buffer.from( new Uint8Array(arrayBuffer) );
+    const filename = `${uuidv4()}`;
+    const tempFilePath = path.join(root, filename);
+
+    fse.writeFileSync(tempFilePath, buffer);
+
+    const newBuffer = fse.readFileSync(tempFilePath);
+    const returnArrayBuffer = new ArrayBuffer(newBuffer.length);
+    const view = new Uint8Array(returnArrayBuffer);
+
+    newBuffer.forEach((value, index) => {
+      view[index] = value;
+    });
+
+    return { filename, arrayBuffer: returnArrayBuffer };
+  };
+};
+
+//      createDeleterForTempAttachment :: AttachmentsPath -> null
+exports.createDeleterForTempAttachment = root => {
+  if (!isString(root)) {
+    throw new TypeError("'root' must be a path");
+  }
+
+  return async filename => {
+    fse.ensureDirSync(root);
+
+    if(filename) {
+      const tempFilePath = path.join(root, filename);
+      fse.removeSync(tempFilePath);
+    }
+    else {
+      const dirList = fse.readdirSync(root);
+
+      dirList.forEach(name => {
+        const tempFilePath = path.join(root, name);
+        fse.removeSync(tempFilePath);
+      });
+    }
+  }
 };

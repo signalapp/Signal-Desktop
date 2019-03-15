@@ -294,6 +294,9 @@
 
         // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
+
+        // Clear out any existing temporary attachment data.
+        await window.Signal.Migrations.deleteTempAttachmentData();
       },
     };
 
@@ -557,6 +560,9 @@
         });
       }
     });
+
+    // Clear out any existing temporary attachment data.
+    await window.Signal.Migrations.deleteTempAttachmentData();
   }
 
   window.getSyncRequest = () =>
