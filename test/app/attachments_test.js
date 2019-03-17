@@ -246,4 +246,86 @@ describe('Attachments', () => {
       throw new Error('Expected an error');
     });
   });
+
+  describe('getTempPath', () => {
+    let tempRootDirectory = null;
+    before(() => {
+      tempRootDirectory = tmp.dirSync().name;
+    });
+
+    after(async () => {
+      await fse.remove(tempRootDirectory);
+    });
+
+    it('returns the absolute path to the temp attachments path', () => {
+      const root = tempRootDirectory;
+      const tempPathResult = Attachments.getTempPath(root);
+      const expectedPathResult = path.join(
+        root,
+        'attachments.temp'
+      );
+
+      assert.equal(tempPathResult, expectedPathResult);
+    });
+  });
+
+  describe('createWriterForTempAttachment', () => {
+    let tempRootDirectory = null;
+    before(async () => {
+      tempRootDirectory = tmp.dirSync().name;
+    });
+
+    after(async () => {
+      await fse.remove(tempRootDirectory);
+      await fse.remove(path.join(tempRootDirectory, 'original-attachments'));
+      await fse.remove(path.join(tempRootDirectory, 'attachments.temp'));
+    });
+
+    it('creates a temp file on disk', async () => {
+      // Setup.
+      const filename = 'myFile.jpg';
+      const root = tempRootDirectory;
+      const originalFilePath = path.join(tempRootDirectory, 'original-attachments')
+      const tempPathResult = Attachments.getTempPath(root);
+      const input = stringToArrayBuffer('test string');
+      const inputBuffer = Buffer.from(input);
+      await fse.writeFile(originalFilePath, inputBuffer);
+      const mockFile = {
+        path: originalFilePath,
+        name: filename,
+      };
+
+      // Test.
+      const payload = await Attachments.createWriterForTempAttachment(tempPathResult)(mockFile);
+      const tempFilePath = path.join(root, 'attachments.temp', payload.filename)
+      const existsFile = fse.existsSync(tempFilePath);
+      assert.isTrue(existsFile);
+    });
+  });
+
+  describe('createDeleterForTempAttachment', () => {
+    let tempRootDirectory = null;
+    before(async () => {
+      tempRootDirectory = tmp.dirSync().name;
+    });
+
+    after(async () => {
+      await fse.remove(tempRootDirectory);
+    });
+
+    it('deletes a temp file from disk', async () => {
+      // Setup.
+      const filename = 'myFile.jpg';
+      const tempFilePathFull = path.join(tempRootDirectory, 'attachments.temp', filename);
+      const input = stringToArrayBuffer('test string');
+      const inputBuffer = Buffer.from(input);
+      await fse.ensureFile(tempFilePathFull);
+      await fse.writeFile(tempFilePathFull, inputBuffer);
+
+      // Test.
+      await Attachments.createDeleterForTempAttachment(path.join(tempRootDirectory, 'attachments.temp'))(filename);
+      const existsFile = fse.existsSync(tempFilePathFull);
+      assert.isFalse(existsFile);
+    });
+  });
 });
