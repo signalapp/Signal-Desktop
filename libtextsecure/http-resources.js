@@ -77,7 +77,7 @@
       });
     };
 
-    this.handleMessage = (message, isP2p = false) => {
+    this.handleMessage = (message, options = {}) => {
       try {
         const dataPlaintext = stringToArrayBufferBase64(message);
         const messageBuf = textsecure.protobuf.WebSocketMessage.decode(
@@ -93,7 +93,7 @@
               body: messageBuf.request.body,
               id: messageBuf.request.id,
             }),
-            isP2p
+            options
           );
         }
       } catch (error) {
