@@ -22,6 +22,15 @@
     MESSAGE: 'message',
   };
 
+  function filter(text) {
+    return (text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
   Whisper.Notifications = new (Backbone.Collection.extend({
     initialize() {
       this.isEnabled = false;
@@ -138,7 +147,7 @@
       drawAttention();
 
       this.lastNotification = new Notification(title, {
-        body: message,
+        body: window.platform === 'linux' ? filter(message) : message,
         icon: iconUrl,
         silent: !status.shouldPlayNotificationSound,
       });
