@@ -14,6 +14,7 @@ interface Props {
 }
 
 const SUPPORTED_PROTOCOLS = /^(http|https):/i;
+const HAS_AT = /@/;
 
 export class Linkify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
@@ -50,7 +51,11 @@ export class Linkify extends React.Component<Props> {
         }
 
         const { url, text: originalText } = match;
-        if (SUPPORTED_PROTOCOLS.test(url) && !isLinkSneaky(url)) {
+        if (
+          SUPPORTED_PROTOCOLS.test(url) &&
+          !isLinkSneaky(url) &&
+          !HAS_AT.test(url)
+        ) {
           results.push(
             <a key={count++} href={url}>
               {originalText}
