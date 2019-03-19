@@ -778,46 +778,26 @@
         return null;
       }
 
-      const [retries, errors] = _.partition(
-        this.get('errors'),
-        this.isReplayableError.bind(this)
-      );
-
-      // Put the errors back which aren't replayable
-      this.set({ errors });
+      this.set({ errors: null });
 
       const conversation = this.getConversation();
       const intendedRecipients = this.get('recipients') || [];
+      const successfulRecipients = this.get('sent_to') || [];
       const currentRecipients = conversation.getRecipients();
 
       const profileKey = conversation.get('profileSharing')
         ? storage.get('profileKey')
         : null;
 
-      const errorNumbers = retries
-        .map(retry => retry.number)
-        .filter(item => Boolean(item));
-      let numbers = _.intersection(
-        errorNumbers,
-        intendedRecipients,
-        currentRecipients
-      );
+      let recipients = _.intersection(intendedRecipients, currentRecipients);
+      recipients = _.without(recipients, successfulRecipients);
 
-      if (!numbers.length) {
-        window.log.warn(
-          'retrySend: No numbers in error set, using all recipients'
-        );
+      if (!recipients.length) {
+        window.log.warn('retrySend: Nobody to send to!');
 
-        if (conversation) {
-          numbers = _.intersection(currentRecipients, intendedRecipients);
-          // We clear all errors here to start with a fresh slate, since we are starting
-          //   from scratch on this message with a fresh set of recipients
-          this.set({ errors: null });
-        } else {
-          throw new Error(
-            'No numbers in error set, did not find conversation for message'
-          );
-        }
+        return window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
       }
 
       const attachmentsWithData = await Promise.all(
@@ -833,8 +813,8 @@
       const previewWithData = await loadPreviewData(this.get('preview'));
 
       // Special-case the self-send case - we send only a sync message
-      if (numbers.length === 1 && numbers[0] === this.OUR_NUMBER) {
-        const [number] = numbers;
+      if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
+        const [number] = recipients;
         const dataMessage = await textsecure.messaging.getMessageProto(
           number,
           body,
@@ -852,7 +832,7 @@
       const options = conversation.getSendOptions();
 
       if (conversation.isPrivate()) {
-        const [number] = numbers;
+        const [number] = recipients;
         promise = textsecure.messaging.sendMessageToNumber(
           number,
           body,
@@ -870,7 +850,7 @@
 
         promise = textsecure.messaging.sendMessage(
           {
-            recipients: numbers,
+            recipients,
             body,
             timestamp: this.get('sent_at'),
             attachments,
