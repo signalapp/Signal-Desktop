@@ -7413,10 +7413,10 @@ react-codemirror2@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-codemirror2/-/react-codemirror2-4.2.1.tgz#4ad3c5c60ebbcb34880f961721b51527324ec021"
 
-react-contextmenu@2.9.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.9.2.tgz#7076075f09e4cad023a1252da347d9e6782d003a"
-  integrity sha512-DdcO6iLBIJuDVsRpJLG/9N6ine0OVZhuQvnSPCEihfcyJFz+SHU9pQo+w9LWi2PdUxFbFV52BwAuutQkAYJxaA==
+react-contextmenu@2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.11.0.tgz#ec57614e6d687ceaec5c0ba97d56a302c9551d17"
+  integrity sha512-vT9QV9p/9h1BSIvmajRVG3KsgjuBnISpEQp0F1QYsUPFMe3VOKV2l7IiD8yrNUyXYZKrWMqI0YKsaBwGSRVgJg==
   dependencies:
     classnames "^2.2.5"
     object-assign "^4.1.0"

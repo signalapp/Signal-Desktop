@@ -221,7 +221,7 @@
           },
 
           onArchive: () => {
-            this.unload();
+            this.unload('archive');
             this.model.setArchived(true);
           },
           onMoveToInbox: () => {
