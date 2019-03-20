@@ -7,15 +7,20 @@ import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
-interface Props {
+export type PropsData = {
   type: 'fromOther' | 'fromMe' | 'fromSync';
   phoneNumber: string;
   profileName?: string;
   name?: string;
   disabled: boolean;
   timespan: string;
+};
+
+type PropsHousekeeping = {
   i18n: LocalizerType;
-}
+};
+
+type Props = PropsData & PropsHousekeeping;
 
 export class TimerNotification extends React.Component<Props> {
   public renderContents() {

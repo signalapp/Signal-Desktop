@@ -12,7 +12,7 @@ import { makeLookup } from '../../util/makeLookup';
 import {
   ConversationType,
   MessageExpiredActionType,
-  MessageType,
+  MessageSearchResultType,
   RemoveAllConversationsActionType,
   SelectedConversationChangedActionType,
 } from './conversations';
@@ -23,10 +23,10 @@ export type SearchStateType = {
   query: string;
   normalizedPhoneNumber?: string;
   // We need to store messages here, because they aren't anywhere else in state
-  messages: Array<MessageType>;
+  messages: Array<MessageSearchResultType>;
   selectedMessage?: string;
   messageLookup: {
-    [key: string]: MessageType;
+    [key: string]: MessageSearchResultType;
   };
   // For conversations we store just the id, and pull conversation props in the selector
   conversations: Array<string>;
@@ -38,7 +38,7 @@ export type SearchStateType = {
 type SearchResultsPayloadType = {
   query: string;
   normalizedPhoneNumber?: string;
-  messages: Array<MessageType>;
+  messages: Array<MessageSearchResultType>;
   conversations: Array<string>;
   contacts: Array<string>;
 };
@@ -146,7 +146,7 @@ function startNewConversation(
 
 // Helper functions for search
 
-// const getMessageProps = (messages: Array<MessageType>) => {
+// const getMessageProps = (messages: Array<MessageSearchResultType>) => {
 //   if (!messages || !messages.length) {
 //     return [];
 //   }

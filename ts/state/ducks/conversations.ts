@@ -5,7 +5,7 @@ import { NoopActionType } from './noop';
 
 // State
 
-export type MessageType = {
+export type MessageSearchResultType = {
   id: string;
   conversationId: string;
   receivedAt: number;
@@ -52,11 +52,29 @@ export type ConversationType = {
 export type ConversationLookupType = {
   [key: string]: ConversationType;
 };
+export type MessageType = {
+  id: string;
+};
+export type MessageLookupType = {
+  [key: string]: MessageType;
+};
+export type ConversationMessageType = {
+  // And perhaps this could be part of our ConversationType? What if we moved all the selectors as part of this set of changes?
+  // We have the infrastructure for it now...
+  messages: Array<string>;
+};
+export type MessagesByConversationType = {
+  [key: string]: ConversationMessageType;
+};
 
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
   showArchived: boolean;
+
+  // Note: it's very important that both of these locations are always kept up to date
+  messagesLookup: MessageLookupType;
+  messagesByConversation: MessagesByConversationType;
 };
 
 // Actions
@@ -232,6 +250,8 @@ function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
     showArchived: false,
+    messagesLookup: {},
+    messagesByConversation: {},
   };
 }
 

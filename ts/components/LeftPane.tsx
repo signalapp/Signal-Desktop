@@ -70,13 +70,17 @@ export class LeftPane extends React.Component<Props> {
       : conversations[index];
 
     return (
-      <ConversationListItem
+      <div
         key={key}
+        className="module-left-pane__conversation-container"
         style={style}
-        {...conversation}
-        onClick={openConversationInternal}
-        i18n={i18n}
-      />
+      >
+        <ConversationListItem
+          {...conversation}
+          onClick={openConversationInternal}
+          i18n={i18n}
+        />
+      </div>
     );
   };
 

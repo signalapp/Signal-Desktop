@@ -3105,6 +3105,20 @@
   font-size: 13px;
 }
 
+// Module: Timeline
+
+.module-timeline {
+  height: 100%;
+}
+
+.module-timeline__message-container {
+  padding-top: 10px;
+}
+
+.ReactVirtualized__List {
+  outline: none;
+}
+
 // Third-party module: react-contextmenu
 
 .react-contextmenu {

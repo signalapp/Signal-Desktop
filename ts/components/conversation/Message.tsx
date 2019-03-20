@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 import { Avatar } from '../Avatar';
@@ -46,7 +47,7 @@ interface LinkPreviewType {
   image?: AttachmentType;
 }
 
-type PropsData = {
+export type PropsData = {
   id: string;
   text?: string;
   textPending?: boolean;
@@ -863,7 +864,7 @@ export class Message extends React.PureComponent<Props, State> {
     const isDangerous = isFileDangerous(fileName || '');
     const multipleAttachments = attachments && attachments.length > 1;
 
-    return (
+    const menu = (
       <ContextMenu id={triggerId}>
         {!multipleAttachments && attachments && attachments[0] ? (
           <MenuItem
@@ -925,6 +926,8 @@ export class Message extends React.PureComponent<Props, State> {
         </MenuItem>
       </ContextMenu>
     );
+
+    return ReactDOM.createPortal(menu, document.body);
   }
 
   public getWidth(): number | undefined {

@@ -1187,7 +1187,15 @@
       this.listenBack(view);
     },
 
-    forceSend({ contact, message }) {
+    forceSend({ contactId, messageId }) {
+      const contact = ConversationController.get(contactId);
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `deleteMessage: Did not find message for id ${messageId}`
+        );
+      }
+
       const dialog = new Whisper.ConfirmationDialogView({
         message: i18n('identityKeyErrorOnSend', [
           contact.getTitle(),

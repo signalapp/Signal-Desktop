@@ -12,7 +12,7 @@ interface ContactType {
   name?: string;
 }
 
-type PropsData = {
+export type PropsData = {
   isGroup: boolean;
   contact: ContactType;
 };

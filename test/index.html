@@ -7,15 +7,8 @@
   <link rel="stylesheet" href="../stylesheets/manifest.css" />
 </head>
 <body>
-  <div id="mocha">
-  </div>
-  <div id="tests">
-  </div>
-  <div id="render-light-theme" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
-  </div>
-  <div id="render-dark-theme" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
-  </div>
-  </div>
+  <div id="mocha"></div>
+  <div id="tests"></div>
 
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
@@ -493,14 +486,12 @@
   <script type='text/javascript' src='../js/views/file_input_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/list_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/contact_list_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/timestamp_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/message_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/key_verification_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/message_list_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/group_member_list_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/recorder_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/conversation_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/hint_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/inbox_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/network_status_view.js'></script>
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>
@@ -515,12 +506,10 @@
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
   <script type="text/javascript" src="views/timestamp_view_test.js"></script>
   <script type="text/javascript" src="views/list_view_test.js"></script>
-  <script type="text/javascript" src="views/inbox_view_test.js"></script>
   <script type="text/javascript" src="views/network_status_view_test.js"></script>
   <script type="text/javascript" src="views/last_seen_indicator_view_test.js"></script>
   <script type='text/javascript' src='views/scroll_down_button_view_test.js'></script>
 
-  <script type="text/javascript" src="models/conversations_test.js"></script>
   <script type="text/javascript" src="models/messages_test.js"></script>
 
   <script type="text/javascript" src="libphonenumber_util_test.js"></script>
@@ -533,9 +522,6 @@
   <script type="text/javascript" src="database_test.js"></script>
   <script type="text/javascript" src="i18n_test.js"></script>
   <script type="text/javascript" src="spellcheck_test.js"></script>
-
-  <script type="text/javascript" src="fixtures.js"></script>
-  <script type="text/javascript" src="fixtures_test.js"></script>
 
   <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
   <!--   NOTE: blanket doesn't support modern syntax and will choke until we find a replacement. :0( -->

@@ -43,37 +43,38 @@
     },
     getRenderInfo() {
       const { Components } = window.Signal;
+      const { type, data: props } = this.model.props;
 
-      if (this.model.propsForTimerNotification) {
+      if (type === 'timerNotification') {
         return {
           Component: Components.TimerNotification,
-          props: this.model.propsForTimerNotification,
+          props,
         };
-      } else if (this.model.propsForSafetyNumberNotification) {
+      } else if (type === 'safetyNumberNotification') {
         return {
           Component: Components.SafetyNumberNotification,
-          props: this.model.propsForSafetyNumberNotification,
+          props,
         };
-      } else if (this.model.propsForVerificationNotification) {
+      } else if (type === 'verificationNotification') {
         return {
           Component: Components.VerificationNotification,
-          props: this.model.propsForVerificationNotification,
+          props,
         };
-      } else if (this.model.propsForResetSessionNotification) {
-        return {
-          Component: Components.ResetSessionNotification,
-          props: this.model.propsForResetSessionNotification,
-        };
-      } else if (this.model.propsForGroupNotification) {
+      } else if (type === 'groupNotification') {
         return {
           Component: Components.GroupNotification,
-          props: this.model.propsForGroupNotification,
+          props,
+        };
+      } else if (type === 'resetSessionNotification') {
+        return {
+          Component: Components.ResetSessionNotification,
+          props,
         };
       }
 
       return {
         Component: Components.Message,
-        props: this.model.propsForMessage,
+        props,
       };
     },
     render() {

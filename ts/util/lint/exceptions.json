@@ -896,7 +896,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/message_view.js",
     "line": "      this.$el.append(this.childView.el);",
-    "lineNumber": 122,
+    "lineNumber": 123,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -6250,5 +6250,14 @@
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to trigger menu display"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Timeline.js",
+    "line": "        this.listRef = react_1.default.createRef();",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-04-17T18:44:33.207Z",
+    "reasonDetail": "Necessary to interact with child react-virtualized/List"
   }
 ]
