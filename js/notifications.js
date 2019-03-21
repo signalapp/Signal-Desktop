@@ -1,7 +1,6 @@
 /* global Signal:false */
 /* global Backbone: false */
 
-/* global ConversationController: false */
 /* global drawAttention: false */
 /* global i18n: false */
 /* global isFocused: false */
@@ -23,6 +22,15 @@
     MESSAGE: 'message',
   };
 
+  function filter(text) {
+    return (text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
   Whisper.Notifications = new (Backbone.Collection.extend({
     initialize() {
       this.isEnabled = false;
@@ -38,10 +46,6 @@
       //   read sync, which might have a number of messages referenced inside of it.
       this.fastUpdate = this.update;
       this.update = _.debounce(this.update, 1000);
-    },
-    onClick(conversationId) {
-      const conversation = ConversationController.get(conversationId);
-      this.trigger('click', conversation);
     },
     update() {
       if (this.lastNotification) {
@@ -142,14 +146,13 @@
 
       drawAttention();
 
-      const notification = new Notification(title, {
-        body: message,
+      this.lastNotification = new Notification(title, {
+        body: window.platform === 'linux' ? filter(message) : message,
         icon: iconUrl,
-        tag: isNotificationGroupingSupported ? 'signal' : undefined,
         silent: !status.shouldPlayNotificationSound,
       });
-      notification.onclick = () => this.onClick(last.conversationId);
-      this.lastNotification = notification;
+      this.lastNotification.onclick = () =>
+        this.trigger('click', last.conversationId, last.id);
 
       // We continue to build up more and more messages for our notifications
       // until the user comes back to our app or closes the app. Then we’ll

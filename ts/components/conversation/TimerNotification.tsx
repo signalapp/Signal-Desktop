@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
@@ -14,7 +14,7 @@ interface Props {
   name?: string;
   disabled: boolean;
   timespan: string;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class TimerNotification extends React.Component<Props> {
@@ -28,15 +28,16 @@ export class TimerNotification extends React.Component<Props> {
       type,
       disabled,
     } = this.props;
+    const changeKey = disabled
+      ? 'disabledDisappearingMessages'
+      : 'theyChangedTheTimer';
 
     switch (type) {
       case 'fromOther':
         return (
           <Intl
             i18n={i18n}
-            id={
-              disabled ? 'disabledDisappearingMessages' : 'theyChangedTheTimer'
-            }
+            id={changeKey}
             components={[
               <ContactName
                 i18n={i18n}

@@ -2,43 +2,37 @@ import React from 'react';
 import classNames from 'classnames';
 
 interface Props {
-  small?: boolean;
+  size: 'small' | 'mini' | 'normal';
   direction?: string;
 }
 
 export class Spinner extends React.Component<Props> {
   public render() {
-    const { small, direction } = this.props;
+    const { size, direction } = this.props;
 
     return (
       <div
         className={classNames(
           'module-spinner__container',
+          `module-spinner__container--${size}`,
           direction ? `module-spinner__container--${direction}` : null,
-          small ? 'module-spinner__container--small' : null,
-          small && direction
-            ? `module-spinner__container--small-${direction}`
-            : null
+          direction ? `module-spinner__container--${size}-${direction}` : null
         )}
       >
         <div
           className={classNames(
             'module-spinner__circle',
+            `module-spinner__circle--${size}`,
             direction ? `module-spinner__circle--${direction}` : null,
-            small ? 'module-spinner__circle--small' : null,
-            small && direction
-              ? `module-spinner__circle--small-${direction}`
-              : null
+            direction ? `module-spinner__circle--${size}-${direction}` : null
           )}
         />
         <div
           className={classNames(
             'module-spinner__arc',
+            `module-spinner__arc--${size}`,
             direction ? `module-spinner__arc--${direction}` : null,
-            small ? 'module-spinner__arc--small' : null,
-            small && direction
-              ? `module-spinner__arc--small-${direction}`
-              : null
+            direction ? `module-spinner__arc--${size}-${direction}` : null
           )}
         />
       </div>

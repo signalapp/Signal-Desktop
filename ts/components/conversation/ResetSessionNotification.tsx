@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class ResetSessionNotification extends React.Component<Props> {

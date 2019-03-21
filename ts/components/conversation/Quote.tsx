@@ -7,7 +7,7 @@ import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
-import { Color, Localizer } from '../../types/Util';
+import { ColorType, LocalizerType } from '../../types/Util';
 import { ContactName } from './ContactName';
 
 interface Props {
@@ -15,8 +15,8 @@ interface Props {
   authorPhoneNumber: string;
   authorProfileName?: string;
   authorName?: string;
-  authorColor?: Color;
-  i18n: Localizer;
+  authorColor?: ColorType;
+  i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
   withContentAbove: boolean;
@@ -56,12 +56,12 @@ function validateQuote(quote: Props): boolean {
   return false;
 }
 
-function getObjectUrl(thumbnail: Attachment | undefined): string | null {
+function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
   if (thumbnail && thumbnail.objectUrl) {
     return thumbnail.objectUrl;
   }
 
-  return null;
+  return;
 }
 
 function getTypeLabel({
@@ -69,10 +69,10 @@ function getTypeLabel({
   contentType,
   isVoiceMessage,
 }: {
-  i18n: Localizer;
+  i18n: LocalizerType;
   contentType: MIME.MIMEType;
   isVoiceMessage: boolean;
-}): string | null {
+}): string | undefined {
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
     return i18n('video');
   }
@@ -86,7 +86,7 @@ function getTypeLabel({
     return i18n('audio');
   }
 
-  return null;
+  return;
 }
 
 export class Quote extends React.Component<Props, State> {
@@ -110,7 +110,7 @@ export class Quote extends React.Component<Props, State> {
     });
   }
 
-  public renderImage(url: string, i18n: Localizer, icon?: string) {
+  public renderImage(url: string, i18n: LocalizerType, icon?: string) {
     const iconElement = icon ? (
       <div className="module-quote__icon-container__inner">
         <div className="module-quote__icon-container__circle-background">

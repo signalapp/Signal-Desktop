@@ -5,6 +5,7 @@ const {
   getTitleMetaTag,
   getImageMetaTag,
   isLinkInWhitelist,
+  isLinkSneaky,
   isMediaLinkInWhitelist,
 } = require('../../js/modules/link_previews');
 
@@ -303,6 +304,32 @@ describe('Link previews', () => {
 
       const actual = findLinks(text, caretLocation);
       assert.deepEqual(expected, actual);
+    });
+  });
+
+  describe('#isLinkSneaky', () => {
+    it('returns false for all-latin domain', () => {
+      const link = 'https://www.amazon.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, false);
+    });
+
+    it('returns true for Latin + Cyrillic domain', () => {
+      const link = 'https://www.aмazon.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
+    });
+
+    it('returns true for Latin + Greek domain', () => {
+      const link = 'https://www.αpple.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
+    });
+
+    it('returns true for Latin + High Greek domain', () => {
+      const link = `https://www.apple${String.fromCodePoint(0x101a0)}.com`;
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
     });
   });
 });

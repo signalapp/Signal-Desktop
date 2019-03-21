@@ -36155,7 +36155,11 @@ SessionCipher.prototype = {
     // using each one at a time. Stop and return the result if we get
     // a valid result
     if (sessionList.length === 0) {
-        return Promise.reject(errors[0]);
+        var error = errors[0];
+        if (!error) {
+          error = new Error('decryptWithSessionList: list is empty, but no errors in array');
+        }
+        return Promise.reject(error);
     }
 
     var session = sessionList.pop();

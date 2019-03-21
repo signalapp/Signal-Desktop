@@ -96,7 +96,10 @@ module.exports = {
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
+
   searchConversations,
+  searchMessages,
+  searchMessagesInConversation,
 
   getMessageCount,
   saveMessage,
@@ -624,12 +627,27 @@ async function getAllGroupsInvolvingId(id, { ConversationCollection }) {
   return collection;
 }
 
-async function searchConversations(query, { ConversationCollection }) {
+async function searchConversations(query) {
   const conversations = await channels.searchConversations(query);
+  return conversations;
+}
 
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
+async function searchMessages(query, { limit } = {}) {
+  const messages = await channels.searchMessages(query, { limit });
+  return messages;
+}
+
+async function searchMessagesInConversation(
+  query,
+  conversationId,
+  { limit } = {}
+) {
+  const messages = await channels.searchMessagesInConversation(
+    query,
+    conversationId,
+    { limit }
+  );
+  return messages;
 }
 
 // Message

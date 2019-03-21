@@ -97,7 +97,7 @@ function createTrayIcon(getMainWindow, messages) {
 
   tray.on('click', tray.showWindow);
 
-  tray.setToolTip(messages.trayTooltip.message);
+  tray.setToolTip(messages.signalDesktop.message);
   tray.updateContextMenu();
 
   return tray;

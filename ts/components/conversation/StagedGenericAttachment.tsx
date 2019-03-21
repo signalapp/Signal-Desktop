@@ -1,21 +1,19 @@
 import React from 'react';
 
-import { getExtension } from './Message';
-
-import { Localizer } from '../../types/Util';
-import { AttachmentType } from './types';
+import { AttachmentType, getExtensionForDisplay } from '../../types/Attachment';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
   attachment: AttachmentType;
   onClose: (attachment: AttachmentType) => void;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class StagedGenericAttachment extends React.Component<Props> {
   public render() {
     const { attachment, onClose } = this.props;
     const { fileName, contentType } = attachment;
-    const extension = getExtension({ contentType, fileName });
+    const extension = getExtensionForDisplay({ contentType, fileName });
 
     return (
       <div className="module-staged-generic-attachment">

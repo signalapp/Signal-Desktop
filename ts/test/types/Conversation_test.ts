@@ -10,17 +10,9 @@ import {
 describe('Conversation', () => {
   describe('createLastMessageUpdate', () => {
     it('should reset last message if conversation has no messages', () => {
-      const input = {
-        currentLastMessageText: null,
-        currentTimestamp: null,
-        lastMessage: null,
-        lastMessageStatus: null,
-        lastMessageNotificationText: null,
-      };
+      const input = {};
       const expected = {
         lastMessage: '',
-        lastMessageStatus: null,
-        timestamp: null,
       };
 
       const actual = Conversation.createLastMessageUpdate(input);
@@ -56,7 +48,6 @@ describe('Conversation', () => {
         const input = {
           currentLastMessageText: 'bingo',
           currentTimestamp: 555,
-          lastMessageStatus: null,
           lastMessage: {
             type: 'verified-change',
             conversationId: 'foo',
@@ -67,7 +58,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'bingo',
-          lastMessageStatus: null,
+          lastMessageStatus: undefined,
           timestamp: 555,
         };
 
@@ -81,7 +72,6 @@ describe('Conversation', () => {
         const input = {
           currentLastMessageText: 'I am expired',
           currentTimestamp: 555,
-          lastMessageStatus: null,
           lastMessage: {
             type: 'incoming',
             conversationId: 'foo',
@@ -97,7 +87,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'Last message before expired',
-          lastMessageStatus: null,
+          lastMessageStatus: undefined,
           timestamp: 555,
         };
 

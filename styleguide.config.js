@@ -9,22 +9,22 @@ module.exports = {
     {
       name: 'Components',
       description: '',
-      components: 'ts/components/*.tsx',
+      components: 'ts/components/[^_]*.tsx',
     },
     {
       name: 'Conversation',
       description: 'Everything necessary to render a conversation',
-      components: 'ts/components/conversation/*.tsx',
+      components: 'ts/components/conversation/[^_]*.tsx',
     },
     {
       name: 'Media Gallery',
       description: 'Display media and documents in a conversation',
-      components: 'ts/components/conversation/media-gallery/*.tsx',
+      components: 'ts/components/conversation/media-gallery/[^_]*.tsx',
     },
     {
       name: 'Utility',
       description: 'Utility components used across the application',
-      components: 'ts/components/utility/*.tsx',
+      components: 'ts/components/utility/[^_]*.tsx',
     },
     {
       name: 'Test',

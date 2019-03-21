@@ -26,6 +26,7 @@
     loadPreviewData,
     upgradeMessageSchema,
   } = window.Signal.Migrations;
+  const { bytesFromString } = window.Signal.Crypto;
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
@@ -83,6 +84,42 @@
       this.on('unload', this.unload);
       this.on('expired', this.onExpired);
       this.setToExpire();
+
+      // Keep props ready
+      const generateProps = () => {
+        if (this.isExpirationTimerUpdate()) {
+          this.propsForTimerNotification = this.getPropsForTimerNotification();
+        } else if (this.isKeyChange()) {
+          this.propsForSafetyNumberNotification = this.getPropsForSafetyNumberNotification();
+        } else if (this.isVerifiedChange()) {
+          this.propsForVerificationNotification = this.getPropsForVerificationNotification();
+        } else if (this.isEndSession()) {
+          this.propsForResetSessionNotification = this.getPropsForResetSessionNotification();
+        } else if (this.isGroupUpdate()) {
+          this.propsForGroupNotification = this.getPropsForGroupNotification();
+        } else {
+          this.propsForSearchResult = this.getPropsForSearchResult();
+          this.propsForMessage = this.getPropsForMessage();
+        }
+      };
+      this.on('change', generateProps);
+
+      const applicableConversationChanges =
+        'change:color change:name change:number change:profileName change:profileAvatar';
+
+      const conversation = this.getConversation();
+      const fromContact = this.getIncomingContact();
+
+      this.listenTo(conversation, applicableConversationChanges, generateProps);
+      if (fromContact) {
+        this.listenTo(
+          fromContact,
+          applicableConversationChanges,
+          generateProps
+        );
+      }
+
+      generateProps();
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -236,9 +273,12 @@
       this.hasExpired = true;
     },
     getPropsForTimerNotification() {
-      const { expireTimer, fromSync, source } = this.get(
-        'expirationTimerUpdate'
-      );
+      const timerUpdate = this.get('expirationTimerUpdate');
+      if (!timerUpdate) {
+        return null;
+      }
+
+      const { expireTimer, fromSync, source } = timerUpdate;
       const timespan = Whisper.ExpirationTimerOptions.getName(expireTimer || 0);
       const disabled = !expireTimer;
 
@@ -387,7 +427,36 @@
 
       return 'sending';
     },
-    getPropsForMessage() {
+    getPropsForSearchResult() {
+      const fromNumber = this.getSource();
+      const from = this.findAndFormatContact(fromNumber);
+      if (fromNumber === this.OUR_NUMBER) {
+        from.isMe = true;
+      }
+
+      const toNumber = this.get('conversationId');
+      let to = this.findAndFormatContact(toNumber);
+      if (toNumber === this.OUR_NUMBER) {
+        to.isMe = true;
+      } else if (fromNumber === toNumber) {
+        to = {
+          isMe: true,
+        };
+      }
+
+      return {
+        from,
+        to,
+
+        isSelected: this.isSelected,
+
+        id: this.id,
+        conversationId: this.get('conversationId'),
+        receivedAt: this.get('received_at'),
+        snippet: this.get('snippet'),
+      };
+    },
+    getPropsForMessage(options) {
       const phoneNumber = this.getSource();
       const contact = this.findAndFormatContact(phoneNumber);
       const contactModel = this.findContact(phoneNumber);
@@ -412,6 +481,7 @@
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
+        textPending: this.get('bodyPending'),
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
@@ -426,7 +496,7 @@
           .filter(attachment => !attachment.error)
           .map(attachment => this.getPropsForAttachment(attachment)),
         previews: this.getPropsForPreview(),
-        quote: this.getPropsForQuote(),
+        quote: this.getPropsForQuote(options),
         authorAvatarPath,
         isExpired: this.hasExpired,
         expirationLength,
@@ -458,11 +528,10 @@
       const nbsp = '\xa0';
       const regex = /(\S)( +)(\S+\s*)$/;
       return text.replace(regex, (match, start, spaces, end) => {
-        const newSpaces = _.reduce(
-          spaces,
-          accumulator => accumulator + nbsp,
-          ''
-        );
+        const newSpaces =
+          end.length < 12
+            ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
+            : spaces;
         return `${start}${newSpaces}${end}`;
       });
     },
@@ -496,7 +565,7 @@
       // Would be nice to do this before render, on initial load of message
       if (!window.isSignalAccountCheckComplete(firstNumber)) {
         window.checkForSignalAccount(firstNumber).then(() => {
-          this.trigger('change');
+          this.trigger('change', this);
         });
       }
 
@@ -537,7 +606,8 @@
         image: preview.image ? this.getPropsForAttachment(preview.image) : null,
       }));
     },
-    getPropsForQuote() {
+    getPropsForQuote(options = {}) {
+      const { noClick } = options;
       const quote = this.get('quote');
       if (!quote) {
         return null;
@@ -556,13 +626,15 @@
       const authorProfileName = contact ? contact.getProfileName() : null;
       const authorName = contact ? contact.getName() : null;
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
-      const onClick = () => {
-        this.trigger('scroll-to-message', {
-          author,
-          id,
-          referencedMessageNotFound,
-        });
-      };
+      const onClick = noClick
+        ? null
+        : () => {
+            this.trigger('scroll-to-message', {
+              author,
+              id,
+              referencedMessageNotFound,
+            });
+          };
 
       const firstAttachment = quote.attachments && quote.attachments[0];
 
@@ -689,7 +761,7 @@
         sentAt: this.get('sent_at'),
         receivedAt: this.get('received_at'),
         message: {
-          ...this.getPropsForMessage(),
+          ...this.getPropsForMessage({ noClick: true }),
           disableMenu: true,
           // To ensure that group avatar doesn't show up
           conversationType: 'direct',
@@ -751,6 +823,12 @@
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
+      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+        body: this.get('body'),
+        attachments: attachmentsWithData,
+        now: this.get('sent_at'),
+      });
+
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
 
@@ -759,8 +837,8 @@
         const [number] = numbers;
         const dataMessage = await textsecure.messaging.getMessageProto(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
@@ -777,8 +855,8 @@
         const [number] = numbers;
         promise = textsecure.messaging.sendMessageToNumber(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
@@ -793,9 +871,9 @@
         promise = textsecure.messaging.sendMessage(
           {
             recipients: numbers,
-            body: this.get('body'),
+            body,
             timestamp: this.get('sent_at'),
-            attachments: attachmentsWithData,
+            attachments,
             quote: quoteWithData,
             preview: previewWithData,
             needsSync: !this.get('synced'),
@@ -835,6 +913,12 @@
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
+      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+        body: this.get('body'),
+        attachments: attachmentsWithData,
+        now: this.get('sent_at'),
+      });
+
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
 
@@ -842,8 +926,8 @@
       if (number === this.OUR_NUMBER) {
         const dataMessage = await textsecure.messaging.getMessageProto(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
@@ -858,8 +942,8 @@
       );
       const promise = textsecure.messaging.sendMessageToNumber(
         number,
-        this.get('body'),
-        attachmentsWithData,
+        body,
+        attachments,
         quoteWithData,
         previewWithData,
         this.get('sent_at'),
@@ -1067,12 +1151,15 @@
       this.set({ dataMessage });
 
       try {
-        const result = await this.sendSyncMessage();
         this.set({
-          // These are the same as a normal send
+          // These are the same as a normal send()
           sent_to: [this.OUR_NUMBER],
           sent: true,
           expirationStartTimestamp: Date.now(),
+        });
+        const result = await this.sendSyncMessage();
+        this.set({
+          // We have to do this afterward, since we didn't have a previous send!
           unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
 
           // These are unique to a Note to Self message - immediately read/delivered
@@ -1182,9 +1269,34 @@
     async queueAttachmentDownloads() {
       const messageId = this.id;
       let count = 0;
+      let bodyPending;
+
+      const [longMessageAttachments, normalAttachments] = _.partition(
+        this.get('attachments') || [],
+        attachment =>
+          attachment.contentType === Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
+      );
+
+      if (longMessageAttachments.length > 1) {
+        window.log.error(
+          `Received more than one long message attachment in message ${this.idForLogging()}`
+        );
+      }
+      if (longMessageAttachments.length > 0) {
+        count += 1;
+        bodyPending = true;
+        await window.Signal.AttachmentDownloads.addJob(
+          longMessageAttachments[0],
+          {
+            messageId,
+            type: 'long-message',
+            index: 0,
+          }
+        );
+      }
 
       const attachments = await Promise.all(
-        (this.get('attachments') || []).map((attachment, index) => {
+        normalAttachments.map((attachment, index) => {
           count += 1;
           return window.Signal.AttachmentDownloads.addJob(attachment, {
             messageId,
@@ -1278,7 +1390,7 @@
       }
 
       if (count > 0) {
-        this.set({ attachments, preview, contact, quote, group });
+        this.set({ bodyPending, attachments, preview, contact, quote, group });
 
         await window.Signal.Data.saveMessage(this.attributes, {
           Message: Whisper.Message,
@@ -1578,10 +1690,10 @@
                 c.onReadMessage(message);
               }
             } else {
-              conversation.set(
-                'unreadCount',
-                conversation.get('unreadCount') + 1
-              );
+              conversation.set({
+                unreadCount: conversation.get('unreadCount') + 1,
+                isArchived: false,
+              });
             }
           }
 
@@ -1763,6 +1875,39 @@
       }
     },
   });
+
+  // Receive will be enabled before we enable send
+  Whisper.Message.LONG_MESSAGE_SEND_DISABLED = true;
+  Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
+
+  Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
+    if (Whisper.Message.LONG_MESSAGE_SEND_DISABLED) {
+      return {
+        body,
+        attachments,
+      };
+    }
+
+    if (body.length <= 2048) {
+      return {
+        body,
+        attachments,
+      };
+    }
+
+    const data = bytesFromString(body);
+    const attachment = {
+      contentType: Whisper.Message.LONG_MESSAGE_CONTENT_TYPE,
+      fileName: `long-message-${now}.txt`,
+      data,
+      size: data.byteLength,
+    };
+
+    return {
+      body: body.slice(0, 2048),
+      attachments: [attachment, ...attachments],
+    };
+  };
 
   Whisper.Message.refreshExpirationTimer = () =>
     Whisper.ExpiringMessagesListener.update();

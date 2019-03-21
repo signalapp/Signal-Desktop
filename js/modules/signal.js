@@ -1,5 +1,6 @@
 // The idea with this file is to make it webpackable for the style guide
 
+const { bindActionCreators } = require('redux');
 const Backbone = require('../../ts/backbone');
 const Crypto = require('./crypto');
 const Data = require('./data');
@@ -30,9 +31,6 @@ const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
 const {
-  ConversationListItem,
-} = require('../../ts/components/ConversationListItem');
-const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
@@ -44,7 +42,6 @@ const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
-const { MainHeader } = require('../../ts/components/MainHeader');
 const { Message } = require('../../ts/components/conversation/Message');
 const { MessageBody } = require('../../ts/components/conversation/MessageBody');
 const {
@@ -69,6 +66,12 @@ const {
 const {
   VerificationNotification,
 } = require('../../ts/components/conversation/VerificationNotification');
+
+// State
+const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
+const { createStore } = require('../../ts/state/createStore');
+const conversationsDuck = require('../../ts/state/ducks/conversations');
+const userDuck = require('../../ts/state/ducks/user');
 
 // Migrations
 const {
@@ -201,13 +204,11 @@ exports.setup = (options = {}) => {
     ContactListItem,
     ContactName,
     ConversationHeader,
-    ConversationListItem,
     EmbeddedContact,
     Emojify,
     GroupNotification,
     Lightbox,
     LightboxGallery,
-    MainHeader,
     MediaGallery,
     Message,
     MessageBody,
@@ -222,6 +223,20 @@ exports.setup = (options = {}) => {
     },
     TypingBubble,
     VerificationNotification,
+  };
+
+  const Roots = {
+    createLeftPane,
+  };
+  const Ducks = {
+    conversations: conversationsDuck,
+    user: userDuck,
+  };
+  const State = {
+    bindActionCreators,
+    createStore,
+    Roots,
+    Ducks,
   };
 
   const Types = {
@@ -262,6 +277,7 @@ exports.setup = (options = {}) => {
     OS,
     RefreshSenderCertificate,
     Settings,
+    State,
     Types,
     Util,
     Views,

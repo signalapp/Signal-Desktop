@@ -171,10 +171,10 @@
         view.onProgress(count);
       }
     },
-    openConversation(conversation) {
-      if (conversation) {
+    openConversation(id, messageId) {
+      if (id) {
         this.openInbox().then(() => {
-          this.inboxView.openConversation(conversation);
+          this.inboxView.openConversation(id, messageId);
         });
       }
     },

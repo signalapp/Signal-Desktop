@@ -50,6 +50,7 @@ const results: Array<ExceptionType> = [];
 
 const excludedFiles = [
   // High-traffic files in our project
+  '^js/models/messages.js',
   '^js/views/conversation_view.js',
   '^js/views/file_input_view.js',
   '^js/background.js',
@@ -73,11 +74,16 @@ const excludedFiles = [
   '^libtextsecure/test/*',
   '^test/*',
 
+  // Modules we trust
+  '^node_modules/react/*',
+  '^node_modules/react-dom/*',
+
   // Modules used only in test/development scenarios
   '^node_modules/@types/*',
   '^node_modules/ajv/*',
   '^node_modules/amdefine/*',
   '^node_modules/anymatch/*',
+  '^node_modules/app-builder-lib/*',
   '^node_modules/asn1\\.js/*',
   '^node_modules/autoprefixer/*',
   '^node_modules/babel*',
@@ -85,6 +91,8 @@ const excludedFiles = [
   '^node_modules/body-parser/*',
   '^node_modules/bower/*',
   '^node_modules/buble/*',
+  '^node_modules/builder-util/*',
+  '^node_modules/builder-util-runtime/*',
   '^node_modules/chai/*',
   '^node_modules/cli-table2/*',
   '^node_modules/codemirror/*',
@@ -226,6 +234,7 @@ forEach(allSourceFiles, file => {
 
       const exception = exceptionsLookup[exceptionKey];
       if (exception && (!exception.line || exception.line === line)) {
+        // tslint:disable-next-line no-dynamic-delete
         delete exceptionsLookup[exceptionKey];
 
         return;

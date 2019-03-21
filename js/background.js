@@ -177,6 +177,12 @@
       const PASSWORD = storage.get('password');
       accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
       accountManager.addEventListener('registration', () => {
+        const user = {
+          regionCode: window.storage.get('regionCode'),
+          ourNumber: textsecure.storage.user.getNumber(),
+        };
+        Whisper.events.trigger('userChanged', user);
+
         Whisper.Registration.markDone();
         window.log.info('dispatching registration event');
         Whisper.events.trigger('registration_done');
@@ -330,47 +336,6 @@
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
 
-    window.log.info('Cleanup: starting...');
-    const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(
-      {
-        MessageCollection: Whisper.MessageCollection,
-      }
-    );
-    window.log.info(
-      `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
-    );
-    await Promise.all(
-      messagesForCleanup.map(async message => {
-        const delivered = message.get('delivered');
-        const sentAt = message.get('sent_at');
-        const expirationStartTimestamp = message.get(
-          'expirationStartTimestamp'
-        );
-
-        if (message.hasErrors()) {
-          return;
-        }
-
-        if (delivered) {
-          window.log.info(
-            `Cleanup: Starting timer for delivered message ${sentAt}`
-          );
-          message.set(
-            'expirationStartTimestamp',
-            expirationStartTimestamp || sentAt
-          );
-          await message.setToExpire();
-          return;
-        }
-
-        window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
-        await window.Signal.Data.removeMessage(message.id, {
-          Message: Whisper.Message,
-        });
-      })
-    );
-    window.log.info('Cleanup: complete');
-
     if (newVersion) {
       await window.Signal.Data.cleanupOrphanedAttachments();
     }
@@ -465,6 +430,51 @@
   async function start() {
     window.dispatchEvent(new Event('storage_ready'));
 
+    window.log.info('Cleanup: starting...');
+    const messagesForCleanup = await window.Signal.Data.getOutgoingWithoutExpiresAt(
+      {
+        MessageCollection: Whisper.MessageCollection,
+      }
+    );
+    window.log.info(
+      `Cleanup: Found ${messagesForCleanup.length} messages for cleanup`
+    );
+    await Promise.all(
+      messagesForCleanup.map(async message => {
+        const delivered = message.get('delivered');
+        const sentAt = message.get('sent_at');
+        const expirationStartTimestamp = message.get(
+          'expirationStartTimestamp'
+        );
+
+        if (message.hasErrors()) {
+          return;
+        }
+
+        if (delivered) {
+          window.log.info(
+            `Cleanup: Starting timer for delivered message ${sentAt}`
+          );
+          message.set(
+            'expirationStartTimestamp',
+            expirationStartTimestamp || sentAt
+          );
+          await message.setToExpire();
+          return;
+        }
+
+        window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
+        await window.Signal.Data.removeMessage(message.id, {
+          Message: Whisper.Message,
+        });
+        const conversation = message.getConversation();
+        if (conversation) {
+          await conversation.updateLastMessage();
+        }
+      })
+    );
+    window.log.info('Cleanup: complete');
+
     window.log.info('listening for registration events');
     Whisper.events.on('registration_done', () => {
       window.log.info('handling registration event');
@@ -531,16 +541,16 @@
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
-    Whisper.events.on('showConversation', conversation => {
+    Whisper.events.on('showConversation', (id, messageId) => {
       if (appView) {
-        appView.openConversation(conversation);
+        appView.openConversation(id, messageId);
       }
     });
 
-    Whisper.Notifications.on('click', conversation => {
+    Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
-      if (conversation) {
-        appView.openConversation(conversation);
+      if (id) {
+        appView.openConversation(id, messageId);
       } else {
         appView.openInbox({
           initialLoadComplete,

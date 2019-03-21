@@ -11,7 +11,7 @@ import {
   SizeClassType,
 } from '../../util/emoji';
 
-import { Localizer, RenderTextCallback } from '../../types/Util';
+import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
 
 // Some of this logic taken from emoji-js/replacement
 function getImageTag({
@@ -23,7 +23,7 @@ function getImageTag({
   match: any;
   sizeClass?: SizeClassType;
   key: string | number;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }) {
   const result = getReplacementData(match[0], match[1], match[2]);
 
@@ -54,8 +54,8 @@ interface Props {
   /** A class name to be added to the generated emoji images */
   sizeClass?: SizeClassType;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
-  renderNonEmoji?: RenderTextCallback;
-  i18n: Localizer;
+  renderNonEmoji?: RenderTextCallbackType;
+  i18n: LocalizerType;
 }
 
 export class Emojify extends React.Component<Props> {

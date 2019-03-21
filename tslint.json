@@ -4,7 +4,8 @@
   "jsRules": {},
   "rules": {
     // prettier is handling this
-    "align": [false],
+    "align": false,
+    "newline-per-chained-call": false,
     "array-type": [true, "generic"],
 
     // Preferred by Prettier:
@@ -82,6 +83,12 @@
 
     // React components and namespaces are Pascal case
     "variable-name": [true, "allow-pascal-case"],
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ],
 
     // Maybe will turn on:
 
@@ -104,6 +111,9 @@
 
     // Probably won't turn on:
 
+    "possible-timing-attack": false,
+    // We use null
+    "no-null-keyword": false,
     // We want to import a capitalized React, for example
     "import-name": false,
     // We have the styleguide for better docs

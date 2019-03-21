@@ -80,7 +80,6 @@
     render_attributes() {
       return {
         'send-message': i18n('sendMessage'),
-        'android-length-warning': i18n('androidMessageLengthWarning'),
       };
     },
     initialize(options) {
@@ -185,9 +184,12 @@
           profileName: this.model.getProfileName(),
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
+
           isVerified: this.model.isVerified(),
           isMe: this.model.isMe(),
           isGroup: !this.model.isPrivate(),
+          isArchived: this.model.get('isArchived'),
+
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
@@ -216,6 +218,14 @@
           onGoBack: () => {
             this.resetPanel();
             this.updateHeader();
+          },
+
+          onArchive: () => {
+            this.unload();
+            this.model.setArchived(true);
+          },
+          onMoveToInbox: () => {
+            this.model.setArchived(false);
           },
         };
       };
@@ -529,13 +539,6 @@
         this.$('.capture-audio').hide();
       } else {
         this.$('.capture-audio').show();
-      }
-    },
-    toggleLengthWarning() {
-      if (this.$('.send-message').val().length > 2000) {
-        this.$('.android-length-warning').show();
-      } else {
-        this.$('.android-length-warning').hide();
       }
     },
     captureAudio(e) {
@@ -1275,8 +1278,12 @@
           className: 'lightbox-wrapper',
           Component: Signal.Components.Lightbox,
           props,
-          onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+          onClose: () => {
+            Signal.Backbone.Views.Lightbox.hide();
+            this.stopListening(message);
+          },
         });
+        this.listenTo(message, 'expired', () => this.lightboxView.remove());
         Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
         return;
       }
@@ -1290,8 +1297,9 @@
         Signal.Types.Attachment.save({
           attachment: options.attachment,
           document,
+          index: options.index + 1,
           getAbsolutePath: getAbsoluteAttachmentPath,
-          timestamp: options.message.received_at,
+          timestamp: options.message.get('sent_at'),
         });
       };
 
@@ -1304,8 +1312,14 @@
         className: 'lightbox-wrapper',
         Component: Signal.Components.LightboxGallery,
         props,
-        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+        onClose: () => {
+          Signal.Backbone.Views.Lightbox.hide();
+          this.stopListening(message);
+        },
       });
+      this.listenTo(message, 'expired', () =>
+        this.lightboxGalleryView.remove()
+      );
       Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
@@ -1366,11 +1380,7 @@
     },
 
     async openConversation(number) {
-      const conversation = await window.ConversationController.getOrCreateAndWait(
-        number,
-        'private'
-      );
-      window.Whisper.events.trigger('showConversation', conversation);
+      window.Whisper.events.trigger('showConversation', number);
     },
 
     listenBack(view) {
@@ -2029,7 +2039,6 @@
         return;
       }
       this.toggleMicrophone();
-      this.toggleLengthWarning();
 
       this.view.measureScrollPosition();
       window.autosize(this.$messageField);

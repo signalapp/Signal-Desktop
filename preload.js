@@ -19,6 +19,7 @@ if (config.appInstance) {
   title += ` - ${config.appInstance}`;
 }
 
+window.platform = process.platform;
 window.getTitle = () => title;
 window.getEnvironment = () => config.environment;
 window.getAppInstance = () => config.appInstance;

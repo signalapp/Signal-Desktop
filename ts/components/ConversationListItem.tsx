@@ -7,14 +7,15 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { Localizer } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 
-interface Props {
+export type PropsData = {
+  id: string;
   phoneNumber: string;
+  color?: string;
   profileName?: string;
   name?: string;
-  color?: string;
-  conversationType: 'group' | 'direct';
+  type: 'group' | 'direct';
   avatarPath?: string;
   isMe: boolean;
 
@@ -27,17 +28,22 @@ interface Props {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
   };
+};
 
-  i18n: Localizer;
-  onClick?: () => void;
-}
+type PropsHousekeeping = {
+  i18n: LocalizerType;
+  style?: Object;
+  onClick?: (id: string) => void;
+};
 
-export class ConversationListItem extends React.Component<Props> {
+type Props = PropsData & PropsHousekeeping;
+
+export class ConversationListItem extends React.PureComponent<Props> {
   public renderAvatar() {
     const {
       avatarPath,
       color,
-      conversationType,
+      type,
       i18n,
       isMe,
       name,
@@ -51,7 +57,7 @@ export class ConversationListItem extends React.Component<Props> {
           avatarPath={avatarPath}
           color={color}
           noteToSelf={isMe}
-          conversationType={conversationType}
+          conversationType={type}
           i18n={i18n}
           name={name}
           phoneNumber={phoneNumber}
@@ -130,10 +136,10 @@ export class ConversationListItem extends React.Component<Props> {
 
   public renderMessage() {
     const { lastMessage, isTyping, unreadCount, i18n } = this.props;
-
     if (!lastMessage && !isTyping) {
       return null;
     }
+    const text = lastMessage && lastMessage.text ? lastMessage.text : '';
 
     return (
       <div className="module-conversation-list-item__message">
@@ -149,7 +155,7 @@ export class ConversationListItem extends React.Component<Props> {
             <TypingAnimation i18n={i18n} />
           ) : (
             <MessageBody
-              text={lastMessage && lastMessage.text ? lastMessage.text : ''}
+              text={text}
               disableJumbomoji={true}
               disableLinks={true}
               i18n={i18n}
@@ -171,12 +177,17 @@ export class ConversationListItem extends React.Component<Props> {
   }
 
   public render() {
-    const { unreadCount, onClick, isSelected } = this.props;
+    const { unreadCount, onClick, id, isSelected, style } = this.props;
 
     return (
       <div
         role="button"
-        onClick={onClick}
+        onClick={() => {
+          if (onClick) {
+            onClick(id);
+          }
+        }}
+        style={style}
         className={classNames(
           'module-conversation-list-item',
           unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,

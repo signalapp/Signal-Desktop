@@ -489,10 +489,9 @@
         response.deviceId || 1,
         deviceName
       );
-      await textsecure.storage.put(
-        'regionCode',
-        libphonenumber.util.getRegionCodeForNumber(number)
-      );
+
+      const regionCode = libphonenumber.util.getRegionCodeForNumber(number);
+      await textsecure.storage.put('regionCode', regionCode);
     },
     async clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;

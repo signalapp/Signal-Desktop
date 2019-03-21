@@ -1,9 +1,9 @@
 import { Message } from './Message';
 
 interface ConversationLastMessageUpdate {
-  lastMessage: string | null;
-  lastMessageStatus: string | null;
-  timestamp: number | null;
+  lastMessage: string;
+  lastMessageStatus?: string;
+  timestamp?: number;
 }
 
 export const createLastMessageUpdate = ({
@@ -13,26 +13,26 @@ export const createLastMessageUpdate = ({
   lastMessageStatus,
   lastMessageNotificationText,
 }: {
-  currentLastMessageText: string | null;
-  currentTimestamp: number | null;
-  lastMessage: Message | null;
-  lastMessageStatus: string | null;
-  lastMessageNotificationText: string | null;
+  currentLastMessageText?: string;
+  currentTimestamp?: number;
+  lastMessage?: Message;
+  lastMessageStatus?: string;
+  lastMessageNotificationText?: string;
 }): ConversationLastMessageUpdate => {
-  if (lastMessage === null) {
+  if (!lastMessage) {
     return {
       lastMessage: '',
-      lastMessageStatus: null,
-      timestamp: null,
     };
   }
 
   const { type, expirationTimerUpdate } = lastMessage;
   const isVerifiedChangeMessage = type === 'verified-change';
-  const isExpireTimerUpdateFromSync =
-    expirationTimerUpdate && expirationTimerUpdate.fromSync;
-  const shouldUpdateTimestamp =
-    !isVerifiedChangeMessage && !isExpireTimerUpdateFromSync;
+  const isExpireTimerUpdateFromSync = Boolean(
+    expirationTimerUpdate && expirationTimerUpdate.fromSync
+  );
+  const shouldUpdateTimestamp = Boolean(
+    !isVerifiedChangeMessage && !isExpireTimerUpdateFromSync
+  );
 
   const newTimestamp = shouldUpdateTimestamp
     ? lastMessage.sent_at
@@ -44,7 +44,7 @@ export const createLastMessageUpdate = ({
     : currentLastMessageText;
 
   return {
-    lastMessage: newLastMessageText,
+    lastMessage: newLastMessageText || '',
     lastMessageStatus,
     timestamp: newTimestamp,
   };
