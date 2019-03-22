@@ -170,5 +170,11 @@
     "expression": "\\bmultiArgs\\b",
     "reason": "Potential arbitrary code execution, piped to eval",
     "excludedModules": ["node_modules/thenify"]
+  },
+  {
+    "name": "bluebird-toFastProperties",
+    "expression": "\\btoFastProperties\\b",
+    "reason": "Whatever is provided is sent straight to eval()",
+    "excludedModules": []
   }
 ]
