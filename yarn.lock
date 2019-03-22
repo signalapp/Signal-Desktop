@@ -14,9 +14,9 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@journeyapps/sqlcipher@https://github.com/scottnonnenberg-signal/node-sqlcipher.git#36149a4b03ccf11ec18b9205e1bfd9056015cf07":
+"@journeyapps/sqlcipher@https://github.com/scottnonnenberg-signal/node-sqlcipher.git#14704fc921140494c4af13f8887a4e74767c8192":
   version "3.2.1"
-  resolved "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#36149a4b03ccf11ec18b9205e1bfd9056015cf07"
+  resolved "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#14704fc921140494c4af13f8887a4e74767c8192"
   dependencies:
     nan "^2.10.0"
     node-pre-gyp "^0.10.0"
