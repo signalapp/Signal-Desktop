@@ -5,13 +5,6 @@
 const _ = require('lodash');
 const { rpc } = require('./loki_fetch');
 
-class NotFoundError extends Error {
-  constructor() {
-    super('ENOTFOUND');
-    this.name = 'NotFoundError';
-  }
-}
-
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SUCCESSFUL_REQUESTS = 2;
 
@@ -103,7 +96,7 @@ class LokiMessageAPI {
         successfulRequests += 1;
       } catch (e) {
         log.warn('Loki send message:', e);
-        if (e instanceof NotFoundError) {
+        if (e instanceof textsecure.NotFoundError) {
           canResolve = false;
         } else if (e instanceof textsecure.HTTPError) {
           // We mark the node as complete as we could still reach it
@@ -193,7 +186,7 @@ class LokiMessageAPI {
         successfulRequests += 1;
       } catch (e) {
         log.warn('Loki retrieve messages:', e);
-        if (e instanceof NotFoundError) {
+        if (e instanceof textsecure.NotFoundError) {
           canResolve = false;
         } else if (e instanceof textsecure.HTTPError) {
           // We mark the node as complete as we could still reach it

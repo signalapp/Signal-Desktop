@@ -65,6 +65,9 @@ const fetch = async (url, options = {}) => {
 
     return result;
   } catch (e) {
+    if (e.code === 'ENOTFOUND') {
+      throw new textsecure.NotFoundError('Failed to resolve address', e);
+    }
     throw e;
   }
 };

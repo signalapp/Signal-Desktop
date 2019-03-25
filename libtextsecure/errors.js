@@ -179,6 +179,22 @@
     appendStack(this, resolutionError);
   }
 
+  function NotFoundError(message, error) {
+    this.name = 'NotFoundError';
+    this.message = message;
+    this.error = error;
+
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+
+    appendStack(this, error);
+  }
+
   function HTTPError(message, response) {
     this.name = 'HTTPError';
     this.message = `${response.status} Error: ${message}`;
@@ -206,4 +222,5 @@
   window.textsecure.DNSResolutionError = DNSResolutionError;
   window.textsecure.LokiIpError = LokiIpError;
   window.textsecure.HTTPError = HTTPError;
+  window.textsecure.NotFoundError = NotFoundError;
 })();
