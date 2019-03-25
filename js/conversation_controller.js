@@ -55,6 +55,7 @@
   }))();
 
   window.getInboxCollection = () => inboxCollection;
+  window.getConversations = () => conversations;
 
   window.ConversationController = {
     get(id) {
