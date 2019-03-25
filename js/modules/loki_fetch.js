@@ -39,7 +39,7 @@ const fetch = async (url, options = {}) => {
     });
 
     if (!response.ok) {
-      throw new textsecure.HTTPError(response);
+      throw new textsecure.HTTPError('Loki_fetch error', response);
     }
 
     let result;

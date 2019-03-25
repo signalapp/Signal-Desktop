@@ -97,7 +97,7 @@ class LokiMessageAPI {
       };
 
       try {
-        await rpc(nodeUrl, this.snodeServerPort, 'store', params);
+        await rpc(`http://${nodeUrl}`, this.snodeServerPort, 'store', params);
 
         nodeComplete(nodeUrl);
         successfulRequests += 1;
@@ -150,7 +150,7 @@ class LokiMessageAPI {
       await Promise.all(
         swarmNodes
           .splice(0, remainingRequests)
-          .map(nodeUrl => doRequest(`http://${nodeUrl}`))
+          .map(nodeUrl => doRequest(nodeUrl))
       );
     }
     log.info(`Successful storage message to ${pubKey}`);
@@ -177,7 +177,7 @@ class LokiMessageAPI {
 
       try {
         const result = await rpc(
-          nodeUrl,
+          `http://${nodeUrl}`,
           this.snodeServerPort,
           'retrieve',
           params
@@ -186,7 +186,7 @@ class LokiMessageAPI {
         nodeComplete(nodeUrl);
 
         if (Array.isArray(result.messages) && result.messages.length) {
-          const lastHash = [...result.messages].pop();
+          const lastHash = [...result.messages].pop().hash;
           lokiSnodeAPI.updateLastHash(nodeUrl, lastHash);
           callback(result.messages);
         }
@@ -238,9 +238,7 @@ class LokiMessageAPI {
       await Promise.all(
         Object.entries(ourSwarmNodes)
           .splice(0, remainingRequests)
-          .map(([nodeUrl, nodeData]) =>
-            doRequest(`http://${nodeUrl}`, nodeData)
-          )
+          .map(([nodeUrl, nodeData]) => doRequest(nodeUrl, nodeData))
       );
     }
   }
