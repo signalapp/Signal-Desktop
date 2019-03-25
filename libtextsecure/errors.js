@@ -179,6 +179,20 @@
     appendStack(this, resolutionError);
   }
 
+  function HTTPError(message, response) {
+    this.name = 'HTTPError';
+    this.message = `${response.status} Error: ${message}`;
+    this.response = response;
+
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+  }
+
   window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
@@ -191,4 +205,5 @@
   window.textsecure.EmptySwarmError = EmptySwarmError;
   window.textsecure.DNSResolutionError = DNSResolutionError;
   window.textsecure.LokiIpError = LokiIpError;
+  window.textsecure.HTTPError = HTTPError;
 })();

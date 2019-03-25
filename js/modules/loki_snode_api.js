@@ -1,10 +1,10 @@
 /* eslint-disable class-methods-use-this */
 /* global window, ConversationController */
 
-const fetch = require('node-fetch');
 const is = require('@sindresorhus/is');
 const dns = require('dns');
 const process = require('process');
+const { rpc } = require('./loki_fetch');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SWARM_NODES = 1;
@@ -33,13 +33,13 @@ const resolveCname = url =>
   });
 
 class LokiSnodeAPI {
-  constructor({ serverUrl, localUrl, swarmServerPort }) {
+  constructor({ serverUrl, localUrl, snodeServerPort }) {
     if (!is.string(serverUrl)) {
       throw new Error('WebAPI.initialize: Invalid server url');
     }
     this.serverUrl = serverUrl;
     this.localUrl = localUrl;
-    this.swarmServerPort = swarmServerPort ? `:${swarmServerPort}` : '';
+    this.snodeServerPort = snodeServerPort ? `:${snodeServerPort}` : '';
     this.swarmsPendingReplenish = {};
     this.ourSwarmNodes = {};
     this.contactSwarmNodes = {};
@@ -183,65 +183,17 @@ class LokiSnodeAPI {
 
   async getSwarmNodes(pubKey) {
     // TODO: Hit multiple random nodes and merge lists?
-    const node = await this.getRandomSnodeAddress();
-    // TODO: Confirm final API URL and sensible timeout
-    const options = {
-      url: `http://${node}${this.swarmServerPort}/json_rpc`,
-      type: 'POST',
-      responseType: 'json',
-      timeout: 10000,
-    };
+    const nodeUrl = await this.getRandomSnodeAddress();
 
-    const body = {
-      jsonrpc: '2.0',
-      id: '0',
-      method: 'get_swarm_list_for_messenger_pubkey',
-      params: {
-        pubkey: pubKey,
-      },
-    };
-
-    const fetchOptions = {
-      method: options.type,
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      timeout: options.timeout,
-    };
-
-    let response;
-    try {
-      response = await fetch(options.url, fetchOptions);
-    } catch (e) {
-      throw new window.textsecure.EmptySwarmError(
+    const result = await rpc(
+      `http://${nodeUrl}`,
+      this.snodeServerPort,
+      'get_snodes_for_pubkey',
+      {
         pubKey,
-        'Could not retrieve swarm nodes'
-      );
-    }
-
-    let result;
-    if (
-      options.responseType === 'json' &&
-      response.headers.get('Content-Type') === 'application/json'
-    ) {
-      result = await response.json();
-    } else if (options.responseType === 'arraybuffer') {
-      result = await response.buffer();
-    } else {
-      result = await response.text();
-    }
-
-    // TODO: Handle wrong swarm error from snode
-
-    if (!response.ok || !result.nodes || result.nodes === []) {
-      throw new window.textsecure.EmptySwarmError(
-        pubKey,
-        'Could not retrieve swarm nodes'
-      );
-    }
-
-    return result.nodes;
+      }
+    );
+    return result.snodes;
   }
 }
 
