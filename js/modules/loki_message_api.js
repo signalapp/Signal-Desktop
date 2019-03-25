@@ -138,14 +138,20 @@ class LokiMessageAPI {
         });
         lokiP2pAPI.setContactOnline(pubKey);
         window.Whisper.events.trigger('p2pMessageSent', messageEventData);
+        if (isPing) {
+          log.info(`Successfully pinged ${pubKey}`);
+        } else {
+          log.info(`Successful p2p message to ${pubKey}`);
+        }
         return;
       } catch (e) {
-        log.warn('Failed to send P2P message, falling back to storage', e);
         lokiP2pAPI.setContactOffline(pubKey);
         if (isPing) {
           // If this was just a ping, we don't bother sending to storage server
+          log.warn('Ping failed, contact marked offline', e);
           return;
         }
+        log.warn('Failed to send P2P message, falling back to storage', e);
       }
     }
 
@@ -194,16 +200,10 @@ class LokiMessageAPI {
         nodeComplete(nodeUrl);
         successfulRequests += 1;
       } catch (e) {
-        log.warn('Send message error:', e);
+        log.warn('Loki send message:', e);
         if (e instanceof NotFoundError) {
           canResolve = false;
         } else if (e instanceof HTTPError) {
-          log.error(
-            `POST ${e.response.url} (store)`,
-            e.response.status,
-            'Error sending message'
-          );
-
           // We mark the node as complete as we could still reach it
           nodeComplete(nodeUrl);
         } else {
@@ -212,7 +212,7 @@ class LokiMessageAPI {
             nodeUrl
           );
           if (removeNode) {
-            log.error('Loki SendMessages:', e);
+            log.error('Loki send message:', e);
             nodeComplete(nodeUrl);
             failedNodes.push(nodeUrl);
           }
@@ -232,11 +232,12 @@ class LokiMessageAPI {
         if (swarmNodes.length === 0) {
           if (successfulRequests !== 0) {
             // TODO: Decide how to handle some completed requests but not enough
+            log.warn(`Partially successful storage message to ${pubKey}`);
             return;
           }
           throw new window.textsecure.EmptySwarmError(
             pubKey,
-            new Error('Ran out of swarm nodes to query')
+            'Ran out of swarm nodes to query'
           );
         }
       }
@@ -250,6 +251,7 @@ class LokiMessageAPI {
           .map(nodeUrl => doRequest(nodeUrl))
       );
     }
+    log.info(`Successful storage message to ${pubKey}`);
   }
 
   async retrieveMessages(callback) {
@@ -258,12 +260,7 @@ class LokiMessageAPI {
     let canResolve = true;
     let successfulRequests = 0;
 
-    let ourSwarmNodes;
-    try {
-      ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
-    } catch (e) {
-      throw new window.textsecure.EmptySwarmError(ourKey, e);
-    }
+    let ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
 
     const nodeComplete = nodeUrl => {
       completedNodes.push(nodeUrl);
@@ -292,16 +289,10 @@ class LokiMessageAPI {
         }
         successfulRequests += 1;
       } catch (e) {
-        log.warn('Retrieve message error:', e);
+        log.warn('Loki retrieve messages:', e);
         if (e instanceof NotFoundError) {
           canResolve = false;
         } else if (e instanceof HTTPError) {
-          log.error(
-            `POST ${e.response.url} (retrieve)`,
-            e.response.status,
-            `Error retrieving messages from ${nodeUrl}`
-          );
-
           // We mark the node as complete as we could still reach it
           nodeComplete(nodeUrl);
         } else {
@@ -310,7 +301,7 @@ class LokiMessageAPI {
             nodeUrl
           );
           if (removeNode) {
-            log.error('Loki RetrieveMessages:', e);
+            log.error('Loki retrieve messages:', e);
             nodeComplete(nodeUrl);
           }
         }
@@ -322,24 +313,18 @@ class LokiMessageAPI {
         throw new window.textsecure.DNSResolutionError('Retrieving messages');
       }
       if (Object.keys(ourSwarmNodes).length === 0) {
-        try {
-          ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
-          // Filter out the nodes we have already got responses from
-          completedNodes.forEach(nodeUrl => delete ourSwarmNodes[nodeUrl]);
-        } catch (e) {
-          throw new window.textsecure.EmptySwarmError(
-            window.textsecure.storage.user.getNumber(),
-            e
-          );
-        }
+        ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
+        // Filter out the nodes we have already got responses from
+        completedNodes.forEach(nodeUrl => delete ourSwarmNodes[nodeUrl]);
+
         if (Object.keys(ourSwarmNodes).length === 0) {
           if (successfulRequests !== 0) {
             // TODO: Decide how to handle some completed requests but not enough
             return;
           }
           throw new window.textsecure.EmptySwarmError(
-            window.textsecure.storage.user.getNumber(),
-            new Error('Ran out of swarm nodes to query')
+            ourKey,
+            'Ran out of swarm nodes to query'
           );
         }
       }

@@ -33,14 +33,6 @@
       lokiAddressMessage,
     });
 
-    // will be called once the transmission succeeded or failed
-    const callback = res => {
-      if (res.errors.length > 0) {
-        res.errors.forEach(error => log.error(error));
-      } else {
-        log.info('Online broadcast message sent successfully');
-      }
-    };
     const options = { messageType: 'onlineBroadcast', isPing };
     // Send a empty message with information about how to contact us directly
     const outgoingMessage = new textsecure.OutgoingMessage(
@@ -49,7 +41,7 @@
       [pubKey], // numbers
       content, // message
       true, // silent
-      callback, // callback
+      () => null, // callback
       options
     );
     await outgoingMessage.sendToNumber(pubKey);
