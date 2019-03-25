@@ -1857,17 +1857,9 @@
   });
 
   // Receive will be enabled before we enable send
-  Whisper.Message.LONG_MESSAGE_SEND_DISABLED = true;
   Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
 
   Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
-    if (Whisper.Message.LONG_MESSAGE_SEND_DISABLED) {
-      return {
-        body,
-        attachments,
-      };
-    }
-
     if (body.length <= 2048) {
       return {
         body,
