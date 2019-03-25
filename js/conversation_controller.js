@@ -57,6 +57,7 @@
   }))();
 
   window.getInboxCollection = () => inboxCollection;
+  window.getConversations = () => conversations;
 
   const contactCollection = new (Backbone.Collection.extend({
     initialize() {
