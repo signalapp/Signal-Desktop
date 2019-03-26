@@ -1,4 +1,8 @@
-/* global Backbone, Whisper */
+/* global
+  Backbone,
+  Whisper,
+  MessageController
+*/
 
 /* eslint-disable more/no-then */
 
@@ -30,19 +34,19 @@
           }
         );
 
-        const message = messages.find(
+        const found = messages.find(
           item =>
             item.isIncoming() && item.get('source') === receipt.get('sender')
         );
-        const notificationForMessage = message
-          ? Whisper.Notifications.findWhere({ messageId: message.id })
+        const notificationForMessage = found
+          ? Whisper.Notifications.findWhere({ messageId: found.id })
           : null;
         const removedNotification = Whisper.Notifications.remove(
           notificationForMessage
         );
         const receiptSender = receipt.get('sender');
         const receiptTimestamp = receipt.get('timestamp');
-        const wasMessageFound = Boolean(message);
+        const wasMessageFound = Boolean(found);
         const wasNotificationFound = Boolean(notificationForMessage);
         const wasNotificationRemoved = Boolean(removedNotification);
         window.log.info('Receive read sync:', {
@@ -53,10 +57,11 @@
           wasNotificationRemoved,
         });
 
-        if (!message) {
+        if (!found) {
           return;
         }
 
+        const message = MessageController.register(found.id, found);
         const readAt = receipt.get('read_at');
 
         // If message is unread, we mark it read. Otherwise, we update the expiration

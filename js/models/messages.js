@@ -1,13 +1,16 @@
-/* global _: false */
-/* global Backbone: false */
-/* global storage: false */
-/* global filesize: false */
-/* global ConversationController: false */
-/* global getAccountManager: false */
-/* global i18n: false */
-/* global Signal: false */
-/* global textsecure: false */
-/* global Whisper: false */
+/* global
+  _,
+  Backbone,
+  storage,
+  filesize,
+  ConversationController,
+  MessageController,
+  getAccountManager,
+  i18n,
+  Signal,
+  textsecure,
+  Whisper
+*/
 
 /* eslint-disable more/no-then */
 
@@ -261,6 +264,7 @@
       this.cleanup();
     },
     async cleanup() {
+      MessageController.unregister(this.id);
       this.unload();
       await deleteExternalMessageFiles(this.attributes);
     },
@@ -1394,17 +1398,18 @@
       const collection = await window.Signal.Data.getMessagesBySentAt(id, {
         MessageCollection: Whisper.MessageCollection,
       });
-      const queryMessage = collection.find(item => {
+      const found = collection.find(item => {
         const messageAuthor = item.getContact();
 
         return messageAuthor && author === messageAuthor.id;
       });
 
-      if (!queryMessage) {
+      if (!found) {
         quote.referencedMessageNotFound = true;
         return message;
       }
 
+      const queryMessage = MessageController.register(found.id, found);
       quote.text = queryMessage.get('body');
       if (firstAttachment) {
         firstAttachment.thumbnail = null;
@@ -1730,6 +1735,7 @@
             Message: Whisper.Message,
           });
           message.set({ id });
+          MessageController.register(message.id, message);
 
           // Note that this can save the message again, if jobs were queued. We need to
           //   call it after we have an id for this message, because the jobs refer back
@@ -1933,7 +1939,9 @@
         }
       );
 
-      const models = messages.filter(message => Boolean(message.id));
+      const models = messages
+        .filter(message => Boolean(message.id))
+        .map(message => MessageController.register(message.id, message));
       const eliminated = messages.length - models.length;
       if (eliminated > 0) {
         window.log.warn(

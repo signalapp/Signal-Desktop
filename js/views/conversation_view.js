@@ -729,13 +729,15 @@
         const collection = await window.Signal.Data.getMessagesBySentAt(id, {
           MessageCollection: Whisper.MessageCollection,
         });
-        const messageFromDatabase = collection.find(item => {
-          const messageAuthor = item.getContact();
+        const found = Boolean(
+          collection.find(item => {
+            const messageAuthor = item.getContact();
 
-          return messageAuthor && author === messageAuthor.id;
-        });
+            return messageAuthor && author === messageAuthor.id;
+          })
+        );
 
-        if (messageFromDatabase) {
+        if (found) {
           const toast = new Whisper.FoundButNotLoadedToast();
           toast.$el.appendTo(this.$el);
           toast.render();
