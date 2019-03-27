@@ -38,6 +38,26 @@ const fetch = async (url, options = {}) => {
       method,
     });
 
+    if (response.status === 421) {
+      let newSwarm = await response.text();
+      if (doEncryptChannel) {
+        try {
+          newSwarm = await libloki.crypto.snodeCipher.decrypt(
+            address,
+            newSwarm
+          );
+        } catch (e) {
+          log.warn(`Could not decrypt response from ${address}`, e);
+        }
+        try {
+          newSwarm = newSwarm === '' ? {} : JSON.parse(newSwarm);
+        } catch (e) {
+          log.warn(`Could not parse string to json ${newSwarm}`, e);
+        }
+      }
+      throw new textsecure.WrongSwarmError(newSwarm);
+    }
+
     if (!response.ok) {
       throw new textsecure.HTTPError('Loki_rpc error', response);
     }

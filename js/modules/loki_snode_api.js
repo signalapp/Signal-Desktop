@@ -139,6 +139,15 @@ class LokiSnodeAPI {
     }
   }
 
+  updateOurSwarmNodes(newNodes) {
+    this.ourSwarmNodes = {};
+    newNodes.forEach(url => {
+      this.ourSwarmNodes[url] = {
+        failureCount: 0,
+      };
+    });
+  }
+
   async getOurSwarmNodes() {
     if (
       !this.ourSwarmNodes ||

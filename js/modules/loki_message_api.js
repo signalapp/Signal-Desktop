@@ -96,7 +96,11 @@ class LokiMessageAPI {
         successfulRequests += 1;
       } catch (e) {
         log.warn('Loki send message:', e);
-        if (e instanceof textsecure.NotFoundError) {
+        if (e instanceof textsecure.WrongSwarmError) {
+          const { newSwarm } = e;
+          await lokiSnodeAPI.updateSwarmNodes(pubKey, newSwarm);
+          completedNodes.push(nodeUrl);
+        } else if (e instanceof textsecure.NotFoundError) {
           canResolve = false;
         } else if (e instanceof textsecure.HTTPError) {
           // We mark the node as complete as we could still reach it
@@ -186,7 +190,11 @@ class LokiMessageAPI {
         successfulRequests += 1;
       } catch (e) {
         log.warn('Loki retrieve messages:', e);
-        if (e instanceof textsecure.NotFoundError) {
+        if (e instanceof textsecure.WrongSwarmError) {
+          const { newSwarm } = e;
+          lokiSnodeAPI.updateOurSwarmNodes(newSwarm);
+          completedNodes.push(nodeUrl);
+        } else if (e instanceof textsecure.NotFoundError) {
           canResolve = false;
         } else if (e instanceof textsecure.HTTPError) {
           // We mark the node as complete as we could still reach it
