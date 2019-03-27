@@ -4,7 +4,7 @@
 const is = require('@sindresorhus/is');
 const dns = require('dns');
 const process = require('process');
-const { rpc } = require('./loki_fetch');
+const { rpc } = require('./loki_rpc');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SWARM_NODES = 1;

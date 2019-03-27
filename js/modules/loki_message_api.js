@@ -3,7 +3,7 @@
 /* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI, textsecure */
 
 const _ = require('lodash');
-const { rpc } = require('./loki_fetch');
+const { rpc } = require('./loki_rpc');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SUCCESSFUL_REQUESTS = 2;

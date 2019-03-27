@@ -39,7 +39,7 @@ const fetch = async (url, options = {}) => {
     });
 
     if (!response.ok) {
-      throw new textsecure.HTTPError('Loki_fetch error', response);
+      throw new textsecure.HTTPError('Loki_rpc error', response);
     }
 
     let result;
