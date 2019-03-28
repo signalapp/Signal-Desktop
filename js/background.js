@@ -777,6 +777,8 @@
   function onEmpty() {
     initialLoadComplete = true;
 
+    window.readyForUpdates();
+
     let interval = setInterval(() => {
       const view = window.owsDesktopApp.appView;
       if (view) {

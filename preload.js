@@ -76,6 +76,7 @@ window.restart = () => {
 };
 
 window.closeAbout = () => ipc.send('close-about');
+window.readyForUpdates = () => ipc.send('ready-for-updates');
 
 window.updateTrayIcon = unreadCount =>
   ipc.send('update-tray-icon', unreadCount);

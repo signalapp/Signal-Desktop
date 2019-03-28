@@ -2816,86 +2816,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "node_modules/dmg-builder/node_modules/app-builder-lib/out/ProtonFramework.js",
-    "line": "DIR=$(dirname \"$0\")",
-    "lineNumber": 209,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/dmg-builder/node_modules/app-builder-lib/out/ProtonFramework.js",
-    "line": "DIR=$(dirname \"$0\")",
-    "lineNumber": 223,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/dmg-builder/node_modules/app-builder-lib/out/targets/MsiTarget.js",
-    "line": "        result += `\\n${fileSpace}  <File Name=\"${fileName}\" Source=\"$(var.appDir)${path.sep}${packagePath}\" ReadOnly=\"yes\" KeyPath=\"yes\"`;",
-    "lineNumber": 350,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/dmg-builder/node_modules/app-builder-lib/out/targets/nsis/nsisLicense.js",
-    "line": "    licensePage.push('!insertmacro MUI_PAGE_LICENSE \"$(MUILicense)\"');",
-    "lineNumber": 100,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T02:42:07.830Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T02:42:07.830Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T02:42:07.830Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T02:42:07.830Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T02:42:07.830Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/dmg-builder/node_modules/mime/src/test.js",
-    "line": "  after(function() {",
-    "lineNumber": 133,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "node_modules/dotenv-expand/lib/main.js",
     "line": "    var matches = env.match(/\\$([a-zA-Z0-9_]+)|\\${([a-zA-Z0-9_]+)}/g) || []",
     "lineNumber": 5,
@@ -2919,46 +2839,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-updater/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-updater/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-updater/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-updater/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-updater/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
@@ -2973,6 +2853,54 @@
     "lineNumber": 3433,
     "reasonCategory": "falseMatch",
     "updated": "2019-02-22T01:08:09.603Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
+    "line": "        wrap(oldStream: ReadableStream): this;",
+    "lineNumber": 573,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2019-04-03T00:52:04.925Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
+    "line": "        static wrap(code: string): string;",
+    "lineNumber": 976,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2019-04-03T00:52:04.925Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
+    "line": "         * Default: an async wrapper for the JavaScript `eval()` function. An `eval` function can",
+    "lineNumber": 31,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-04-03T00:52:04.925Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
+    "line": "         * for the JavaScript `eval()` function.",
+    "lineNumber": 180,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-04-03T00:52:04.925Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/electron/node_modules/@types/node/stream.d.ts",
+    "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
+    "lineNumber": 32,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2019-04-03T00:52:04.925Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/electron/node_modules/@types/node/url.d.ts",
+    "line": "        append(name: string, value: string): void;",
+    "lineNumber": 90,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-$(",
@@ -4463,17 +4391,17 @@
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "function load(input, options) {",
-    "lineNumber": 2545,
+    "lineNumber": 2557,
     "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2568,
+    "lineNumber": 2580,
     "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-$(",
@@ -4486,17 +4414,17 @@
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/lib/js-yaml/loader.js",
     "line": "function load(input, options) {",
-    "lineNumber": 1568,
+    "lineNumber": 1580,
     "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/lib/js-yaml/loader.js",
     "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 1591,
+    "lineNumber": 1603,
     "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-$(",

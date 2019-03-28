@@ -21,6 +21,7 @@ ts/util/lint/exceptions.json
 # Third-party files
 node_modules/**
 components/**
+js/curve/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
 js/libsignal-protocol-worker.js

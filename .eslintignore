@@ -4,6 +4,7 @@ coverage/**
 dist/**
 
 # Generated files
+js/curve/*
 js/components.js
 js/libtextsecure.js
 js/util_worker.js

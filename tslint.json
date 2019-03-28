@@ -90,6 +90,11 @@
       "allow-pascal-case"
     ],
 
+    "function-name": [true, { "function-regex": "^_?[a-z][\\w\\d]+$" }],
+
+    // Adding select dev dependencies here for now, may turn on all in the future
+    "no-implicit-dependencies": [true, ["dashdash", "electron"]],
+
     // Maybe will turn on:
 
     // We're not trying to be comprehensive with JSDoc right now. We have the style guide.
