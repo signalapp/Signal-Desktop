@@ -2692,10 +2692,10 @@ electron-updater@3.2.0:
     semver "^5.6.0"
     source-map-support "^0.5.9"
 
-electron@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-4.1.1.tgz#dc9343ba829cabbf01364761e72796f766704184"
-  integrity sha512-ABIEXTw55eiCW30a6F8fWLHL0QeH+yK3JgZpvTZZWLnkO5/SmG38avMxRhKOUQstRpYb+EEpE8IAM2DVOaTvtw==
+electron@4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-4.1.2.tgz#dc8be0f219c73d60a97675d6d3c5b040c4f50513"
+  integrity sha512-QWz298CaH2jLyFVje01sj4fSEdXJj+oKVw2jNUovrhZE5jmFE4cr/KqZ7iHX00DG6AwmDF4W1Xrv0V+aQOkieQ==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
