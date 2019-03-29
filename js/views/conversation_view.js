@@ -88,6 +88,7 @@
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
+      this.listenTo(this.model, 'unload', () => this.unload('model trigger'));
       this.listenTo(this.model, 'typing-update', this.renderTypingBubble);
       this.listenTo(
         this.model.messageCollection,
