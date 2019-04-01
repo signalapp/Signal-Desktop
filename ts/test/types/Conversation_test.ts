@@ -13,6 +13,8 @@ describe('Conversation', () => {
       const input = {};
       const expected = {
         lastMessage: '',
+        lastMessageStatus: null,
+        timestamp: null,
       };
 
       const actual = Conversation.createLastMessageUpdate(input);
@@ -58,7 +60,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'bingo',
-          lastMessageStatus: undefined,
+          lastMessageStatus: null,
           timestamp: 555,
         };
 
@@ -87,7 +89,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'Last message before expired',
-          lastMessageStatus: undefined,
+          lastMessageStatus: null,
           timestamp: 555,
         };
 

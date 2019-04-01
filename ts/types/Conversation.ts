@@ -2,8 +2,8 @@ import { Message } from './Message';
 
 interface ConversationLastMessageUpdate {
   lastMessage: string;
-  lastMessageStatus?: string;
-  timestamp?: number;
+  lastMessageStatus: string | null;
+  timestamp: number | null;
 }
 
 export const createLastMessageUpdate = ({
@@ -22,6 +22,8 @@ export const createLastMessageUpdate = ({
   if (!lastMessage) {
     return {
       lastMessage: '',
+      lastMessageStatus: null,
+      timestamp: null,
     };
   }
 
@@ -45,7 +47,7 @@ export const createLastMessageUpdate = ({
 
   return {
     lastMessage: newLastMessageText || '',
-    lastMessageStatus,
-    timestamp: newTimestamp,
+    lastMessageStatus: lastMessageStatus || null,
+    timestamp: newTimestamp || null,
   };
 };
