@@ -83,16 +83,43 @@ export class ConversationListItem extends React.PureComponent<Props> {
     return null;
   }
 
+  public renderTimestamp() {
+    const {
+      lastUpdated,
+      unreadCount,
+      i18n
+    } = this.props;
+
+    return (
+      <div
+      className={classNames(
+        'module-conversation-list-item__header__date',
+        unreadCount > 0
+          ? 'module-conversation-list-item__header__date--has-unread'
+          : null
+      )}
+    >
+      <Timestamp
+        timestamp={lastUpdated}
+        extended={false}
+        module="module-conversation-list-item__header__timestamp"
+        i18n={i18n}
+      />
+    </div>
+    );
+  }
+
   public renderHeader() {
     const {
       unreadCount,
       i18n,
       isMe,
-      lastUpdated,
+      lastMessage,
       name,
       phoneNumber,
       profileName,
     } = this.props;
+    const lastMessageText = lastMessage && lastMessage.text ? lastMessage.text : '';
 
     return (
       <div className="module-conversation-list-item__header">
@@ -115,22 +142,27 @@ export class ConversationListItem extends React.PureComponent<Props> {
             />
           )}
         </div>
-        <div
-          className={classNames(
-            'module-conversation-list-item__header__date',
-            unreadCount > 0
-              ? 'module-conversation-list-item__header__date--has-unread'
-              : null
-          )}
-        >
-          <Timestamp
-            timestamp={lastUpdated}
-            extended={false}
-            module="module-conversation-list-item__header__timestamp"
-            i18n={i18n}
-          />
-        </div>
+          { lastMessageText !== '' ? this.renderTimestamp() : null}
       </div>
+    );
+  }
+
+  public renderStatus() {
+    const {
+      lastMessage,
+    } = this.props;
+
+    const status = (lastMessage && lastMessage.status) ? lastMessage.status : null;
+
+    return (
+      <div
+        className={classNames(
+          'module-conversation-list-item__message__status-icon',
+          `module-conversation-list-item__message__status-icon--${
+            status
+          }`
+        )}
+      />
     );
   }
 
@@ -162,16 +194,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             />
           )}
         </div>
-        {lastMessage && lastMessage.status ? (
-          <div
-            className={classNames(
-              'module-conversation-list-item__message__status-icon',
-              `module-conversation-list-item__message__status-icon--${
-                lastMessage.status
-              }`
-            )}
-          />
-        ) : null}
+        {lastMessage && lastMessage.text ? this.renderStatus() : null}
       </div>
     );
   }
