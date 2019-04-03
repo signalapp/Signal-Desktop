@@ -655,49 +655,63 @@
         <div class='step-body'>
           <div class='header'>Create your Loki Messenger Account</div>
 
-          <div class='display-name-input'>
-            <div class='input-header'>Enter a name that will be shown to all your contacts</div>
-            <input class='form-control' type='text' id='display-name' placeholder='Display Name (optional)' autocomplete='off' spellcheck='false' maxlength='25'>
-          </div>
-          <div class='password-inputs'>
-              <div class='input-header'>Type an optional password for added security</div>
-              <input class='form-control' type='password' id='password' placeholder='Password (optional)' autocomplete='off' spellcheck='false'>
-              <input class='form-control' type='password' id='password-confirmation' placeholder='Retype your password' autocomplete='off' spellcheck='false'>
-              <div class='error'></div>
+          <!-- Registration -->
+          <div class='page'>
+            <h4 class='section-toggle'>Restore using seed</h4>
+            <div class='standalone-mnemonic section-content'>
+              <div class='standalone-mnemonic-inputs'>
+                <input class='form-control' type='text' id='mnemonic' placeholder='Mnemonic Seed' autocomplete='off' spellcheck='false' />
+              </div>
+              <div class='restore standalone-register-language'>
+                <span>Language:</span>
+                <div class='select-container'>
+                  <select id='mnemonic-language'></select>
+                </div>
+              </div>
+              <a class='button' id='register-mnemonic'>Restore</a>
+              <div id='error' class='collapse'></div>
+              <div id=status></div>
+            </div>
+            <h4 class='section-toggle section-toggle-visible'>Register a new account</h4>
+            <div class='standalone-register section-content'>
+              <div class='standalone-register-warning'>
+                Please save the seed below in a safe location.
+                </br>
+                They can be used to restore your account if you lose access or migrate to a new device.
+              </div>
+              <div class='standalone-register-language'>
+                <span>Language:</span>
+                <div class='select-container'>
+                  <select id='mnemonic-display-language'></select>
+                </div>
+              </div>
+              <div id='mnemonic-display' />
+              <div class='standalone-register-buttons'>
+                <a class='button grey' id='generate-mnemonic'>Generate Seed</a>
+                <a class='button grey' id='copy-mnemonic'>Copy Seed</a>
+                <a class='button' id='register' data-loading-text='Please wait...'>Register</a>
+              </div>
+            </div>
           </div>
 
-          <h4 class='section-toggle'>Restore using seed</h4>
-          <div class='standalone-mnemonic section-content'>
-            <div class='standalone-mnemonic-inputs'>
-              <input class='form-control' type='text' id='mnemonic' placeholder='Mnemonic Seed' autocomplete='off' spellcheck='false' />
-              <div class='select-container'>
-                <select id='mnemonic-language'></select>
-              </div>
+          <!-- Profile -->
+          <div class='page'>
+            <div class='display-name-input'>
+              <div class='input-header'>Enter a name that will be shown to all your contacts</div>
+              <input class='form-control' type='text' id='display-name' placeholder='Display Name (optional)' autocomplete='off' spellcheck='false' maxlength='25'>
             </div>
-            <a class='button' id='register-mnemonic'>Restore</a>
-            <div id='error' class='collapse'></div>
-            <div id=status></div>
-          </div>
-          <h4 class='section-toggle section-toggle-visible'>Register a new account</h4>
-          <div class='standalone-register section-content'>
-            <div class='standalone-register-warning'>
-              Please save the seed below in a safe location.
-              </br>
-              They can be used to restore your account if you lose access or migrate to a new device.
+            <div class='password-inputs'>
+                <div class='input-header'>Type an optional password for added security</div>
+                <input class='form-control' type='password' id='password' placeholder='Password (optional)' autocomplete='off' spellcheck='false'>
+                <input class='form-control' type='password' id='password-confirmation' placeholder='Retype your password' autocomplete='off' spellcheck='false'>
+                <div class='error'></div>
             </div>
-            <div class='standalone-register-language'>
-              <span>Language:</span>
-              <div class='select-container'>
-                <select id='mnemonic-display-language'></select>
-              </div>
-            </div>
-            <div id='mnemonic-display' />
-            <div class='standalone-register-buttons'>
-              <a class='button' id='generate-mnemonic'>Generate Seed</a>
-              <a class='button' id='copy-mnemonic'>Copy Seed</a>
-              <a class='button' id='register' data-loading-text='Please wait...'>Register</a>
+            <div class='buttons'>
+              <a class='button grey' id='back-button'>Back</a>
+              <a class='button' id='save-button' data-loading-text='Please wait...'>Save</a>
             </div>
           </div>
+
         </div>
       </div>
     </div>

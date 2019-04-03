@@ -11,7 +11,7 @@ const matchesHash = (phrase, hash) =>
   phrase && sha512(phrase.trim()) === hash.trim();
 
 const validatePassword = (phrase, i18n) => {
-  if (!phrase || typeof phrase !== 'string') {
+  if (typeof phrase !== 'string') {
     return i18n ? i18n('passwordTypeError') : ERRORS.TYPE;
   }
 

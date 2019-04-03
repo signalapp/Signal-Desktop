@@ -1,4 +1,4 @@
-/* global Whisper, $, getAccountManager, textsecure, i18n, passwordUtil */
+/* global Whisper, $, getAccountManager, textsecure, i18n, passwordUtil, _ */
 
 /* eslint-disable more/no-then */
 
@@ -38,8 +38,11 @@
 
       this.$passwordInput = this.$('#password');
       this.$passwordConfirmationInput = this.$('#password-confirmation');
-      this.$passwordConfirmationInput.hide();
       this.$passwordInputError = this.$('.password-inputs .error');
+
+      this.registrationParams = {};
+      this.$pages = this.$('.page');
+      this.showRegisterPage();
 
       this.onValidatePassword();
     },
@@ -50,13 +53,39 @@
       'change #code': 'onChangeCode',
       'click #register': 'registerWithoutMnemonic',
       'click #register-mnemonic': 'registerWithMnemonic',
+      'click #back-button': 'onBack',
+      'click #save-button': 'onSaveProfile',
       'change #mnemonic': 'onChangeMnemonic',
       'click #generate-mnemonic': 'onGenerateMnemonic',
       'change #mnemonic-display-language': 'onGenerateMnemonic',
       'click #copy-mnemonic': 'onCopyMnemonic',
       'click .section-toggle': 'toggleSection',
-      'keyup #password': 'onPasswordChange',
+      'keyup #password': 'onValidatePassword',
       'keyup #password-confirmation': 'onValidatePassword',
+    },
+    async showPage(pageIndex) {
+      // eslint-disable-next-line func-names
+      this.$pages.each(function(index) {
+        if (index !== pageIndex) {
+          $(this).hide();
+        } else {
+          $(this).show();
+        }
+      });
+    },
+    async showRegisterPage() {
+      this.registrationParams = {};
+      this.showPage(0);
+    },
+    async showProfilePage(mnemonic, language) {
+      this.registrationParams = {
+        mnemonic,
+        language,
+      };
+      this.$passwordInput.val('');
+      this.$passwordConfirmationInput.val('');
+      this.onValidatePassword();
+      this.showPage(1);
     },
     async register(mnemonic, language) {
       // Make sure the password is valid
@@ -85,7 +114,7 @@
     registerWithoutMnemonic() {
       const mnemonic = this.$('#mnemonic-display').text();
       const language = this.$('#mnemonic-display-language').val();
-      this.register(mnemonic, language);
+      this.showProfilePage(mnemonic, language);
     },
     registerWithMnemonic() {
       const mnemonic = this.$('#mnemonic').val();
@@ -93,8 +122,20 @@
       if (!mnemonic) {
         this.log('Please provide a mnemonic word list');
       } else {
-        this.register(mnemonic, language);
+        this.showProfilePage(mnemonic, language);
       }
+    },
+    onSaveProfile() {
+      if (_.isEmpty(this.registrationParams)) {
+        this.onBack();
+        return;
+      }
+
+      const { mnemonic, language } = this.registrationParams;
+      this.register(mnemonic, language);
+    },
+    onBack() {
+      this.showRegisterPage();
     },
     onChangeMnemonic() {
       this.$('#status').html('');
@@ -184,16 +225,6 @@
       this.$('.section-content')
         .not($next)
         .slideUp('fast');
-    },
-    onPasswordChange() {
-      const input = this.$passwordInput.val();
-      if (!input || input.length === 0) {
-        this.$passwordConfirmationInput.val('');
-        this.$passwordConfirmationInput.hide();
-      } else {
-        this.$passwordConfirmationInput.show();
-      }
-      this.onValidatePassword();
     },
     validatePassword() {
       const input = this.trim(this.$passwordInput.val());
