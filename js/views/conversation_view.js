@@ -1428,7 +1428,7 @@
         await this.confirm(i18n('deleteConversationConfirmation'));
         try {
           await this.model.destroyMessages();
-          this.remove();
+          this.unload('delete messages');
         } catch (error) {
           window.log.error(
             'destroyMessages: Failed to successfully delete conversation',
