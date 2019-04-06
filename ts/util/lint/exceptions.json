@@ -2815,6 +2815,46 @@
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 211,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/dotenv-expand/lib/main.js",
     "line": "    var matches = env.match(/\\$([a-zA-Z0-9_]+)|\\${([a-zA-Z0-9_]+)}/g) || []",

@@ -132,7 +132,7 @@
     "chai": "4.1.2",
     "dashdash": "1.14.1",
     "electron": "4.1.2",
-    "electron-builder": "20.40.0",
+    "electron-builder": "20.39.0",
     "electron-icon-maker": "0.0.3",
     "eslint": "4.14.0",
     "eslint-config-airbnb-base": "12.1.0",
