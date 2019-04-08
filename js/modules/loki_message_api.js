@@ -1,121 +1,16 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
-/* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI, libloki */
+/* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI, textsecure */
 
-const nodeFetch = require('node-fetch');
 const _ = require('lodash');
-const { parse } = require('url');
-
-const endpointBase = '/v1/storage_rpc';
-const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
-
-class HTTPError extends Error {
-  constructor(response) {
-    super(response.statusText);
-    this.name = 'HTTPError';
-    this.response = response;
-  }
-}
-
-class NotFoundError extends Error {
-  constructor() {
-    super('ENOTFOUND');
-    this.name = 'NotFoundError';
-  }
-}
-
-// A small wrapper around node-fetch which deserializes response
-const fetch = async (url, options = {}) => {
-  const timeout = options.timeout || 10000;
-  const method = options.method || 'GET';
-
-  const address = parse(url).hostname;
-  const doEncryptChannel = address.endsWith('.snode');
-  if (doEncryptChannel) {
-    try {
-      // eslint-disable-next-line no-param-reassign
-      options.body = await libloki.crypto.snodeCipher.encrypt(
-        address,
-        options.body
-      );
-      // eslint-disable-next-line no-param-reassign
-      options.headers = {
-        ...options.headers,
-        'Content-Type': 'text/plain',
-        [LOKI_EPHEMKEY_HEADER]: libloki.crypto.snodeCipher.getChannelPublicKeyHex(),
-      };
-    } catch (e) {
-      log.warn(`Could not encrypt channel for ${address}: `, e);
-    }
-  }
-
-  try {
-    const response = await nodeFetch(url, {
-      ...options,
-      timeout,
-      method,
-    });
-
-    if (!response.ok) {
-      throw new HTTPError(response);
-    }
-
-    let result;
-    if (response.headers.get('Content-Type') === 'application/json') {
-      result = await response.json();
-    } else if (options.responseType === 'arraybuffer') {
-      result = await response.buffer();
-    } else {
-      result = await response.text();
-      if (doEncryptChannel) {
-        try {
-          result = await libloki.crypto.snodeCipher.decrypt(address, result);
-        } catch (e) {
-          log.warn(`Could not decrypt response from ${address}`, e);
-        }
-        try {
-          result = JSON.parse(result);
-        } catch (e) {
-          log.warn(`Could not parse string to json ${result}`, e);
-        }
-      }
-    }
-
-    return result;
-  } catch (e) {
-    if (e.code === 'ENOTFOUND') {
-      throw new NotFoundError();
-    }
-
-    throw e;
-  }
-};
-
-// Wrapper for a JSON RPC request
-const rpc = (address, port, method, params, options = {}) => {
-  const headers = options.headers || {};
-  const url = `${address}${port}${endpointBase}`;
-  const body = {
-    method,
-    params,
-  };
-
-  const fetchOptions = {
-    method: 'POST',
-    ...options,
-    body: JSON.stringify(body),
-    headers,
-  };
-
-  return fetch(url, fetchOptions);
-};
+const { rpc } = require('./loki_rpc');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SUCCESSFUL_REQUESTS = 2;
 
 class LokiMessageAPI {
-  constructor({ messageServerPort }) {
-    this.messageServerPort = messageServerPort ? `:${messageServerPort}` : '';
+  constructor({ snodeServerPort }) {
+    this.snodeServerPort = snodeServerPort ? `:${snodeServerPort}` : '';
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, isPing = false) {
@@ -195,15 +90,19 @@ class LokiMessageAPI {
       };
 
       try {
-        await rpc(nodeUrl, this.messageServerPort, 'store', params);
+        await rpc(`http://${nodeUrl}`, this.snodeServerPort, 'store', params);
 
         nodeComplete(nodeUrl);
         successfulRequests += 1;
       } catch (e) {
         log.warn('Loki send message:', e);
-        if (e instanceof NotFoundError) {
+        if (e instanceof textsecure.WrongSwarmError) {
+          const { newSwarm } = e;
+          await lokiSnodeAPI.updateSwarmNodes(pubKey, newSwarm);
+          completedNodes.push(nodeUrl);
+        } else if (e instanceof textsecure.NotFoundError) {
           canResolve = false;
-        } else if (e instanceof HTTPError) {
+        } else if (e instanceof textsecure.HTTPError) {
           // We mark the node as complete as we could still reach it
           nodeComplete(nodeUrl);
         } else {
@@ -270,29 +169,34 @@ class LokiMessageAPI {
     const doRequest = async (nodeUrl, nodeData) => {
       const params = {
         pubKey: ourKey,
-        lastHash: nodeData.lastHash,
+        lastHash: nodeData.lastHash || '',
       };
 
       try {
         const result = await rpc(
-          nodeUrl,
-          this.messageServerPort,
+          `http://${nodeUrl}`,
+          this.snodeServerPort,
           'retrieve',
           params
         );
 
         nodeComplete(nodeUrl);
 
-        if (result.lastHash) {
-          lokiSnodeAPI.updateLastHash(nodeUrl, result.lastHash);
+        if (Array.isArray(result.messages) && result.messages.length) {
+          const lastHash = _.last(result.messages).hash;
+          lokiSnodeAPI.updateLastHash(nodeUrl, lastHash);
           callback(result.messages);
         }
         successfulRequests += 1;
       } catch (e) {
         log.warn('Loki retrieve messages:', e);
-        if (e instanceof NotFoundError) {
+        if (e instanceof textsecure.WrongSwarmError) {
+          const { newSwarm } = e;
+          lokiSnodeAPI.updateOurSwarmNodes(newSwarm);
+          completedNodes.push(nodeUrl);
+        } else if (e instanceof textsecure.NotFoundError) {
           canResolve = false;
-        } else if (e instanceof HTTPError) {
+        } else if (e instanceof textsecure.HTTPError) {
           // We mark the node as complete as we could still reach it
           nodeComplete(nodeUrl);
         } else {

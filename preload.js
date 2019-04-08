@@ -292,7 +292,7 @@ const LokiSnodeAPI = require('./js/modules/loki_snode_api');
 window.lokiSnodeAPI = new LokiSnodeAPI({
   serverUrl: config.serverUrl,
   localUrl: config.localUrl,
-  swarmServerPort: config.swarmServerPort,
+  snodeServerPort: config.snodeServerPort,
 });
 
 window.LokiP2pAPI = require('./js/modules/loki_p2p_api');
@@ -301,7 +301,7 @@ const LokiMessageAPI = require('./js/modules/loki_message_api');
 
 window.lokiMessageAPI = new LokiMessageAPI({
   url: config.serverUrl,
-  messageServerPort: config.messageServerPort,
+  snodeServerPort: config.snodeServerPort,
 });
 
 const LocalLokiServer = require('./libloki/modules/local_loki_server');
