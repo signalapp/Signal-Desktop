@@ -26,7 +26,7 @@ export class ContactName extends React.Component<Props> {
     ) : null;
 
     return (
-      <span className={prefix}>
+      <span className={prefix} dir="auto">
         <Emojify text={title} i18n={i18n} />
         {shouldShowProfile ? ' ' : null}
         {profileElement}
