@@ -39,7 +39,8 @@
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js",
     "open-coverage": "open coverage/lcov-report/index.html",
-    "styleguide": "styleguidist server"
+    "styleguide": "styleguidist server",
+    "ready": "yarn clean-transpile && yarn grunt && yarn lint && yarn test-node && yarn test-electron && yarn lint-deps"
   },
   "dependencies": {
     "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#2e28733b61640556b0272a3bfc78b0357daf71e6",
