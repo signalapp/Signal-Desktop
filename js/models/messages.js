@@ -1495,6 +1495,9 @@
 
       const conversation = ConversationController.get(conversationId);
       return conversation.queueJob(async () => {
+        window.log.info(
+          `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
+        );
         const withQuoteReference = await this.copyFromQuotedMessage(
           initialMessage
         );
