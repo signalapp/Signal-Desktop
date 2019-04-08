@@ -872,8 +872,7 @@ $loading-height: 16px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 1em 8px;
-    margin-top: 0;
+    margin: 0 8px;
 
     input {
       flex: 1;
@@ -914,6 +913,10 @@ $loading-height: 16px;
     justify-content: center;
     margin-top: 2em;
 
+    &.restore {
+      margin-bottom: 2em;
+    }
+
     span {
       margin-right: 8px;
     }
@@ -924,15 +927,18 @@ $loading-height: 16px;
     font-size: 14px;
   }
 
-  #generate-mnemonic,
-  #copy-mnemonic {
+  .button.grey {
     background: $grey;
+  }
+
+  .buttons {
+    margin-top: 24px;
   }
 
   .select-container {
     position: relative;
     display: block;
-    width: 10em;
+    width: 9em;
     line-height: 2.8;
     background: white;
     overflow: hidden;
@@ -957,6 +963,7 @@ $loading-height: 16px;
       padding: 0 0 0 0.5em;
       color: black;
       cursor: pointer;
+      font-size: 14px;
 
       ::-ms-expand {
         display: none;
@@ -979,6 +986,11 @@ $loading-height: 16px;
   }
 
   .password-inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     input {
       margin-bottom: 0.5em;
     }
