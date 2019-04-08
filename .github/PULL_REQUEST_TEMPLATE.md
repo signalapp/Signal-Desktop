@@ -17,7 +17,7 @@ Remember, you can preview this before saving it.
 * [ ] My contribution is **not** related to translations. _Please submit translation changes via our [Signal Desktop Transifex project](https://www.transifex.com/signalapp/signal-desktop/)._
 * [ ] My commits are in nice logical chunks with [good commit messages](http://chris.beams.io/posts/git-commit/)
 * [ ] My changes are [rebased](https://medium.freecodecamp.org/git-rebase-and-the-golden-rule-explained-70715eccc372) on the latest [`development`](https://github.com/signalapp/Signal-Desktop/tree/development) branch
-* [ ] My changes pass 100% of [local tests](https://github.com/signalapp/Signal-Desktop/blob/master/CONTRIBUTING.md#tests)
+* [ ] A `yarn ready` run passes successfully ([more about tests here](https://github.com/signalapp/Signal-Desktop/blob/master/CONTRIBUTING.md#tests))
 * [ ] My changes are ready to be shipped to users
 
 ### Description
