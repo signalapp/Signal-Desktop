@@ -183,7 +183,7 @@ class LokiMessageAPI {
         nodeComplete(nodeUrl);
 
         if (Array.isArray(result.messages) && result.messages.length) {
-          const lastHash = [...result.messages].pop().hash;
+          const lastHash = _.last(result.messages).hash;
           lokiSnodeAPI.updateLastHash(nodeUrl, lastHash);
           callback(result.messages);
         }
