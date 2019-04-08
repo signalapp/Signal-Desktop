@@ -115,6 +115,7 @@
         "role": "resetzoom"
       },
       {
+        "accelerator": "Command+=",
         "label": "Zoom In",
         "role": "zoomin"
       },
