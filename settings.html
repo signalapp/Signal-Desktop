@@ -54,10 +54,12 @@
       </div>
     </div>
     <br />
+    {{ #isHideMenuBarSupported }}
     <div class='menu-bar-setting'>
       <input type='checkbox' name='hide-menu-bar' id='hide-menu-bar'/>
       <label for='hide-menu-bar'>{{ hideMenuBar }}</label>
     </div>
+    {{ /isHideMenuBarSupported }}
     <hr>
     <div class='notification-settings'>
       <h3>{{ notifications }}</h3>
