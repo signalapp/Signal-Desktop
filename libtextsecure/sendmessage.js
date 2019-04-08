@@ -1086,12 +1086,10 @@ MessageSender.prototype = {
 window.textsecure = window.textsecure || {};
 
 textsecure.MessageSender = function MessageSenderWrapper(
-  url,
   username,
   password,
-  cdnUrl
 ) {
-  const sender = new MessageSender(url, username, password, cdnUrl);
+  const sender = new MessageSender(username, password);
 
   this.sendExpirationTimerUpdateToNumber = sender.sendExpirationTimerUpdateToNumber.bind(
     sender
