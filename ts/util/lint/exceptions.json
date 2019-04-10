@@ -2879,6 +2879,22 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/electron-context-menu/index.js",
+    "line": "\t\t\tconst result = options.prepend(props, win);",
+    "lineNumber": 122,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-10T19:08:25.356Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/electron-context-menu/index.js",
+    "line": "\t\t\tconst result = options.append(props, win);",
+    "lineNumber": 130,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-10T19:08:25.356Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",

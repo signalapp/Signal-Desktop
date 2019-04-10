@@ -288,13 +288,12 @@ const contextMenu = require('electron-context-menu');
 
 contextMenu({
   showInspectElement: false,
-  shouldShowMenu: (event, params) => {
-    if(!params.isEditable && params.mediaType === 'none' && ( params.linkURL.length !== 0 || params.selectionText.length !== 0 )) {
-      return params.linkURL || params.selectionText;
-    }
-
-    return false;
-  },
+  shouldShowMenu: (event, params) =>
+    Boolean(
+      !params.isEditable &&
+        params.mediaType === 'none' &&
+        (params.linkURL || params.selectionText)
+    ),
 });
 
 // We pull this in last, because the native module involved appears to be sensitive to
