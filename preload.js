@@ -285,10 +285,17 @@ window.Signal.Logs = require('./js/modules/logs');
 
 // Add right-click listener for selected text and urls
 const contextMenu = require('electron-context-menu');
+
 contextMenu({
   showInspectElement: false,
-  shouldShowMenu: (event, params) => ( !params.isEditable && ( params.linkURL || params.selectionText || params.mediaType === "none" ) )
-  });
+  shouldShowMenu: (event, params) => {
+    if(!params.isEditable && params.mediaType === 'none' && ( params.linkURL.length !== 0 || params.selectionText.length !== 0 )) {
+      return params.linkURL || params.selectionText;
+    }
+
+    return false;
+  },
+});
 
 // We pull this in last, because the native module involved appears to be sensitive to
 //   /tmp mounted as noexec on Linux.
