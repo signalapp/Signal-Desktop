@@ -31,9 +31,9 @@ function _createFileHandler({ userDataPath, installPath, isWindows }) {
     // finally we do case-insensitive checks on windows
     const properCasing = isWindows ? realPath.toLowerCase() : realPath;
 
-    if (!path.isAbsolute(properCasing)) {
+    if (!path.isAbsolute(realPath)) {
       console.log(
-        `Warning: denying request to non-absolute path '${properCasing}'`
+        `Warning: denying request to non-absolute path '${realPath}'`
       );
       return callback();
     }
@@ -47,13 +47,13 @@ function _createFileHandler({ userDataPath, installPath, isWindows }) {
       )
     ) {
       console.log(
-        `Warning: denying request to path '${properCasing}' (userDataPath: '${userDataPath}', installPath: '${installPath}')`
+        `Warning: denying request to path '${realPath}' (userDataPath: '${userDataPath}', installPath: '${installPath}')`
       );
       return callback();
     }
 
     return callback({
-      path: properCasing,
+      path: realPath,
     });
   };
 }
