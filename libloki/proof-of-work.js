@@ -77,7 +77,7 @@ const pow = {
     const nonceTrials =
       _nonceTrials || (development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS);
     // ttl always calculated from hour values, so this floor is redundant
-    const target = pow.calcTarget(Math.floor(ttl/1000), payload.length, nonceTrials);
+    const target = pow.calcTarget(ttl, payload.length, nonceTrials);
 
     let nonce = new Uint8Array(NONCE_LEN);
     nonce = pow.incrementNonce(nonce, startNonce); // initial value
@@ -107,8 +107,10 @@ const pow = {
   calcTarget(ttl, payloadLen, nonceTrials = PROD_NONCE_TRIALS) {
     // payloadLength + NONCE_LEN
     const totalLen = JSBI.add(JSBI.BigInt(payloadLen), JSBI.BigInt(NONCE_LEN));
+    // ttl converted to seconds
+    const ttlSeconds = JSBI.divide(JSBI.BigInt(ttl), JSBI.BigInt(1000));
     // ttl * totalLen
-    const ttlMult = JSBI.multiply(JSBI.BigInt(ttl), JSBI.BigInt(totalLen));
+    const ttlMult = JSBI.multiply(ttlSeconds, JSBI.BigInt(totalLen));
     // 2^16 - 1
     const two16 = JSBI.subtract(
       JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(16)), // 2^16
