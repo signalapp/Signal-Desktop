@@ -12,7 +12,8 @@ const fetch = async (url, options = {}) => {
   const method = options.method || 'GET';
 
   const address = parse(url).hostname;
-  const doEncryptChannel = address.endsWith('.snode');
+  // const doEncryptChannel = address.endsWith('.snode');
+  const doEncryptChannel = false; // ENCRYPTION DISABLED
   if (doEncryptChannel) {
     try {
       // eslint-disable-next-line no-param-reassign
