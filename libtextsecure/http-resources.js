@@ -3,8 +3,7 @@
 // eslint-disable-next-line func-names
 (function() {
   let server;
-  const development = window.getEnvironment() !== 'production';
-  const pollTime = development ? 100 : 5000;
+  const POLL_TIME = 100;
 
   function stringToArrayBufferBase64(string) {
     return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
@@ -115,7 +114,7 @@
       callback(connected);
       setTimeout(() => {
         pollServer(callback);
-      }, pollTime);
+      }, POLL_TIME);
     };
 
     this.isConnected = function isConnected() {
