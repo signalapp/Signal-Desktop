@@ -76,7 +76,8 @@ const pow = {
 
     const nonceTrials =
       _nonceTrials || (development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS);
-    const target = pow.calcTarget(ttl, payload.length, nonceTrials);
+    // ttl always calculated from hour values, so this floor is redundant
+    const target = pow.calcTarget(Math.floor(ttl/1000), payload.length, nonceTrials);
 
     let nonce = new Uint8Array(NONCE_LEN);
     nonce = pow.incrementNonce(nonce, startNonce); // initial value

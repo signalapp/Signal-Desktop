@@ -25,7 +25,7 @@ async function run(messageLength, numWorkers = 1, nonceTrials = 100, ttl = 72) {
       jobId,
       'calcPoW',
       timestamp,
-      ttl * 60 * 60,
+      ttl * 60 * 60 * 1000,
       pubKey,
       data,
       false,
