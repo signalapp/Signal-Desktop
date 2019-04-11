@@ -76,7 +76,6 @@ const pow = {
 
     const nonceTrials =
       _nonceTrials || (development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS);
-    // ttl always calculated from hour values, so this floor is redundant
     const target = pow.calcTarget(ttl, payload.length, nonceTrials);
 
     let nonce = new Uint8Array(NONCE_LEN);
