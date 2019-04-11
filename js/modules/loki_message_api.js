@@ -14,7 +14,7 @@ class LokiMessageAPI {
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, isPing = false) {
-    const timestamp = Math.floor(Date.now() / 1000);
+    const timestamp = Date.now();
 
     // Data required to identify a message in a conversation
     const messageEventData = {

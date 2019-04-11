@@ -46,7 +46,7 @@ describe('Proof of Work', () => {
     it('should calculate a correct difficulty target', () => {
       // These values will need to be updated if we adjust the difficulty settings
       let payloadLen = 625;
-      const ttl = 86400;
+      const ttl = 86400000;
       let expectedTarget = new Uint8Array([0, 4, 119, 164, 35, 224, 222, 64]);
 
       let actualTarget = calcTarget(ttl, payloadLen, 10);

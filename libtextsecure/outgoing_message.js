@@ -184,7 +184,7 @@ OutgoingMessage.prototype = {
   },
 
   // Default ttl to 24 hours if no value provided
-  async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60) {
+  async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60 * 1000) {
     const pubKey = number;
     try {
       await lokiMessageAPI.sendMessage(
@@ -345,12 +345,12 @@ OutgoingMessage.prototype = {
         }
         let ttl;
         if (this.messageType === 'friend-request') {
-          ttl = 4 * 24 * 60 * 60; // 4 days for friend request message
+          ttl = 4 * 24 * 60 * 60 * 1000; // 4 days for friend request message
         } else if (this.messageType === 'onlineBroadcast') {
-          ttl = 60; // 1 minute for online broadcast message
+          ttl = 60 * 1000; // 1 minute for online broadcast message
         } else {
           const hours = window.getMessageTTL() || 24; // 1 day default for any other message
-          ttl = hours * 60 * 60;
+          ttl = hours * 60 * 60 * 1000;
         }
 
         return {

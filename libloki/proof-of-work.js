@@ -106,8 +106,10 @@ const pow = {
   calcTarget(ttl, payloadLen, nonceTrials = PROD_NONCE_TRIALS) {
     // payloadLength + NONCE_LEN
     const totalLen = JSBI.add(JSBI.BigInt(payloadLen), JSBI.BigInt(NONCE_LEN));
+    // ttl converted to seconds
+    const ttlSeconds = JSBI.divide(JSBI.BigInt(ttl), JSBI.BigInt(1000));
     // ttl * totalLen
-    const ttlMult = JSBI.multiply(JSBI.BigInt(ttl), JSBI.BigInt(totalLen));
+    const ttlMult = JSBI.multiply(ttlSeconds, JSBI.BigInt(totalLen));
     // 2^16 - 1
     const two16 = JSBI.subtract(
       JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(16)), // 2^16
