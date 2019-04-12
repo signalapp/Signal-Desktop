@@ -846,6 +846,9 @@
   "copySeed": {
     "message": "Copy Seed"
   },
+  "confirm": {
+    "message": "Confirm"
+  },
   "failedToSend": {
     "message":
       "Failed to send to some recipients. Check your network connection."
