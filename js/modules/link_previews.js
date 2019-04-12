@@ -34,6 +34,9 @@ const SUPPORTED_DOMAINS = [
   'instagram.com',
   'www.instagram.com',
   'm.instagram.com',
+  'pinterest.com',
+  'www.pinterest.com',
+  'pin.it',
 ];
 function isLinkInWhitelist(link) {
   try {
@@ -58,7 +61,7 @@ function isLinkInWhitelist(link) {
   }
 }
 
-const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg.com|cdninstagram.com|redd.it|imgur.com|fbcdn.net)$/i;
+const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg.com|cdninstagram.com|redd.it|imgur.com|fbcdn.net|pinimg.com)$/i;
 function isMediaLinkInWhitelist(link) {
   try {
     const url = new URL(link);

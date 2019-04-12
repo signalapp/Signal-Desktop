@@ -37,6 +37,12 @@ describe('Link previews', () => {
         isLinkInWhitelist('https://m.instagram.com/blah'),
         true
       );
+      assert.strictEqual(isLinkInWhitelist('https://pinterest.com/blah'), true);
+      assert.strictEqual(
+        isLinkInWhitelist('https://www.pinterest.com/blah'),
+        true
+      );
+      assert.strictEqual(isLinkInWhitelist('https://pin.it/blah'), true);
     });
 
     it('returns false for subdomains', () => {
@@ -109,6 +115,10 @@ describe('Link previews', () => {
         isMediaLinkInWhitelist('https://i.imgur.com/something'),
         true
       );
+      assert.strictEqual(
+        isMediaLinkInWhitelist('https://pinimg.com/something'),
+        true
+      );
     });
 
     it('returns false for insecure protocol', () => {
@@ -128,6 +138,10 @@ describe('Link previews', () => {
       );
       assert.strictEqual(
         isMediaLinkInWhitelist('http://i.imgur.com/something'),
+        false
+      );
+      assert.strictEqual(
+        isMediaLinkInWhitelist('https://pinimg.com/something'),
         false
       );
     });
