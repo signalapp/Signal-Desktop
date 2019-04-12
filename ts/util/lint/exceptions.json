@@ -3404,28 +3404,10 @@
     "updated": "2018-09-19T18:06:35.446Z"
   },
   {
-    "rule": "jQuery-globalEval(",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "    goog.globalEval(b);",
-    "lineNumber": 238,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "Part of their google closure 'debug loader'"
-  },
-  {
-    "rule": "DOM-document.write(",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  goog.global.document.write('<script type=\"text/javascript\" src=\"' + a + '\">\\x3c/script>');",
-    "lineNumber": 243,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "Part of their google closure 'debug loader'"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      var a = !eval('\"use strict\";let x = 1; function f() { return typeof x; };f() == \"number\";');",
-    "lineNumber": 333,
+    "lineNumber": 232,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Hard-coded string used for testing capabilities."
@@ -3434,7 +3416,7 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "  eval(a);",
-    "lineNumber": 368,
+    "lineNumber": 267,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Used to load dependencies; parent function loadModuleFromSource_ is used in one place only."
@@ -3442,26 +3424,26 @@
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "      eval(f + \"\\n//# sourceURL=\" + e);",
-    "lineNumber": 411,
+    "line": "        eval(g + \"\\n//# sourceURL=\" + f);",
+    "lineNumber": 298,
     "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
+    "updated": "2019-04-12T00:50:12.124Z",
     "reasonDetail": "Used for google closure compiler transpilation scenarios"
   },
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "        if (goog.global.eval(\"var _evalTest_ = 1;\"), \"undefined\" != typeof goog.global._evalTest_) {",
-    "lineNumber": 555,
+    "line": "          goog.global.eval(\"var _evalTest_ = 1;\");",
+    "lineNumber": 444,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "Hard-coded string used for testing capabilities."
+    "updated": "2019-04-12T00:50:12.124Z",
+    "reasonDetail": "Hard-coded string used for testing capabilities"
   },
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "        goog.global.eval(a);",
-    "lineNumber": 566,
+    "lineNumber": 458,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "More transpilation logic"
@@ -3470,7 +3452,7 @@
     "rule": "jQuery-$(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "  b && (a = a.replace(/\\{\\$([^}]+)}/g, function(a, d) {",
-    "lineNumber": 606,
+    "lineNumber": 498,
     "reasonCategory": "falseMatch",
     "updated": "2018-11-27T01:31:13.384Z"
   },
@@ -3478,16 +3460,34 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      return !!eval(a);",
-    "lineNumber": 719,
+    "lineNumber": 640,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "More transpilation logic"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "        d.load(f);",
+    "lineNumber": 796,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2019-04-12T00:50:12.124Z",
+    "reasonDetail": "Part of their google closure 'debug loader'"
+  },
+  {
+    "rule": "jQuery-globalEval(",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "        goog.globalEval(c);",
+    "lineNumber": 991,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2019-04-12T00:50:12.124Z",
+    "reasonDetail": "Part of their google closure 'debug loader'"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "    e || (d.innerHTML = a + \" \", e = d.firstChild.nodeValue.slice(0, -1));",
-    "lineNumber": 949,
+    "lineNumber": 2045,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "An odd technique of unescaping content by putting it into the dom"

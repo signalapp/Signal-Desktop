@@ -64,7 +64,7 @@
     "form-data": "2.3.2",
     "fs-extra": "5.0.0",
     "glob": "7.1.2",
-    "google-libphonenumber": "3.0.7",
+    "google-libphonenumber": "3.2.2",
     "got": "8.2.0",
     "he": "1.2.0",
     "intl-tel-input": "12.1.15",

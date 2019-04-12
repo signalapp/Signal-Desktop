@@ -3894,10 +3894,10 @@ glogg@^1.0.1:
   dependencies:
     sparkles "^1.0.0"
 
-google-libphonenumber@3.0.7:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.0.7.tgz#a90918816536545a2264bf5d494cb3118f195dcc"
-  integrity sha512-81aKaP6jF3+L+MTcjMfjBCwy6isZkMo/eqvmcONYChRyqQRPCexWBitj5iw6FcZLCU1Z/z+hIhCnPaomNBfjuw==
+google-libphonenumber@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.2.tgz#3d9d7ba727e99a50812f21b0ed313723b76c5c54"
+  integrity sha512-ubjGeosYPeusjYbUHy76lCniGTTI0k1rIFc+uKBX+jHQLDmWOSUtlFUxaeoLJ+Y+PAMM6dWp+C1HjHx5BI8kEw==
 
 got@8.2.0:
   version "8.2.0"
