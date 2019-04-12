@@ -1378,6 +1378,10 @@
     "description":
       "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
+  "messageBodyTooLong": {
+    "message": "Message body is too long.",
+    "description": "Shown if the user tries to send more than 64kb of text"
+  },
   "unblockToSend": {
     "message": "Unblock this contact to send a message.",
     "description": "Brief message shown when trying to message a blocked number"

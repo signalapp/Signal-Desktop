@@ -64,6 +64,13 @@
     },
   });
 
+  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
+  Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('messageBodyTooLong') };
+    },
+  });
+
   Whisper.ConversationLoadingScreen = Whisper.View.extend({
     templateName: 'conversation-loading-screen',
     className: 'conversation-loading-screen',
@@ -1653,6 +1660,9 @@
       this.closeEmojiPanel();
       this.model.clearTypingTimers();
 
+      const input = this.$messageField;
+      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
+
       let toast;
       if (extension.expired()) {
         toast = new Whisper.ExpiredToast();
@@ -1666,6 +1676,9 @@
       if (!this.model.isPrivate() && this.model.get('left')) {
         toast = new Whisper.LeftGroupToast();
       }
+      if (message.length > MAX_MESSAGE_BODY_LENGTH) {
+        toast = new Whisper.MessageBodyTooLongToast();
+      }
 
       if (toast) {
         toast.$el.appendTo(this.$el);
@@ -1673,9 +1686,6 @@
         this.focusMessageFieldAndClearDisabled();
         return;
       }
-
-      const input = this.$messageField;
-      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
 
       try {
         if (!message.length && !this.fileInput.hasFiles()) {
