@@ -1157,7 +1157,6 @@
         ? lastMessageModel.getMessagePropStatus()
         : null;
       const lastMessageUpdate = Conversation.createLastMessageUpdate({
-        currentLastMessageText: this.get('lastMessage') || null,
         currentTimestamp: this.get('timestamp') || null,
         lastMessage: lastMessageJSON,
         lastMessageStatus: lastMessageStatusModel,

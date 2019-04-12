@@ -7,13 +7,11 @@ interface ConversationLastMessageUpdate {
 }
 
 export const createLastMessageUpdate = ({
-  currentLastMessageText,
   currentTimestamp,
   lastMessage,
   lastMessageStatus,
   lastMessageNotificationText,
 }: {
-  currentLastMessageText?: string;
   currentTimestamp?: number;
   lastMessage?: Message;
   lastMessageStatus?: string;
@@ -32,10 +30,10 @@ export const createLastMessageUpdate = ({
   const isExpireTimerUpdateFromSync = Boolean(
     expirationTimerUpdate && expirationTimerUpdate.fromSync
   );
+
   const shouldUpdateTimestamp = Boolean(
     !isVerifiedChangeMessage && !isExpireTimerUpdateFromSync
   );
-
   const newTimestamp = shouldUpdateTimestamp
     ? lastMessage.sent_at
     : currentTimestamp;
@@ -43,7 +41,7 @@ export const createLastMessageUpdate = ({
   const shouldUpdateLastMessageText = !isVerifiedChangeMessage;
   const newLastMessageText = shouldUpdateLastMessageText
     ? lastMessageNotificationText
-    : currentLastMessageText;
+    : '';
 
   return {
     lastMessage: newLastMessageText || '',
