@@ -5,6 +5,7 @@ const electron = require('electron');
 const semver = require('semver');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
+const { JobQueue } = require('./js/modules/job_queue');
 
 const { app } = electron.remote;
 const { clipboard } = electron;
@@ -31,6 +32,7 @@ window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
+window.JobQueue = JobQueue;
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
