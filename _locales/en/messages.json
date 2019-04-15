@@ -1826,7 +1826,8 @@
   },
 
   "seedViewTitle": {
-    "message": "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
+    "message":
+      "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
     "description": "The title shown when the user views their seeds"
   },
 

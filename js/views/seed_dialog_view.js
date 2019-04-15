@@ -20,7 +20,7 @@
       this.showSeedView(false);
       this.initPasswordHash();
 
-      this.$('#password').bind('keyup', (event) => this.onKeyup(event));
+      this.$('#password').bind('keyup', event => this.onKeyup(event));
     },
     events: {
       'click .ok': 'close',
@@ -52,7 +52,7 @@
       } else {
         this.$('.seed').html('');
         passwordView.show();
-        this.$('#password').focus()
+        this.$('#password').focus();
         seedView.hide();
       }
     },
