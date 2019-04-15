@@ -21,4 +21,4 @@ class JobQueue {
 
 module.exports = {
   JobQueue,
-}
+};

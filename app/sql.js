@@ -1753,7 +1753,6 @@ async function getLastHashBySnode(snode) {
     $snode: snode,
   });
 
-
   if (!row) {
     return null;
   }

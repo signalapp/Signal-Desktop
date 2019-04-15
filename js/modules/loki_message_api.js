@@ -210,7 +210,11 @@ class LokiMessageAPI {
 
         if (Array.isArray(result.messages) && result.messages.length) {
           const lastMessage = _.last(result.messages);
-          lokiSnodeAPI.updateLastHash(nodeUrl, lastMessage.hash, lastMessage.expiration);
+          lokiSnodeAPI.updateLastHash(
+            nodeUrl,
+            lastMessage.hash,
+            lastMessage.expiration
+          );
           const filteredMessages = await this.jobQueue.add(() =>
             filterIncomingMessages(result.messages)
           );
