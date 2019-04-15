@@ -921,13 +921,11 @@ async function getMessagesByConversation(
 }
 
 async function getLastHashBySnode(snode) {
-  const lastHash = await channels.getLastHashBySnode(snode);
-  return lastHash;
+  return channels.getLastHashBySnode(snode);
 }
 
 async function getSeenMessagesByHashList(hashes) {
-  const seenMessages = await channels.getSeenMessagesByHashList(hashes);
-  return seenMessages;
+  return channels.getSeenMessagesByHashList(hashes);
 }
 
 async function removeAllMessagesInConversation(
