@@ -169,11 +169,11 @@ class LokiMessageAPI {
         incomingHashes
       );
       const newMessages = messages.filter(m => !dupHashes.includes(m.hash));
-      const newHashes = newMessages.map(m => ({
-        expiresAt: m.expiration,
-        hash: m.hash,
-      }));
-      if (newHashes.length) {
+      if (newMessages.length) {
+        const newHashes = newMessages.map(m => ({
+          expiresAt: m.expiration,
+          hash: m.hash,
+        }));
         await window.Signal.Data.saveSeenMessageHashes(newHashes);
       }
       return newMessages;
