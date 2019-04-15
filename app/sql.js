@@ -426,15 +426,15 @@ async function updateToSchemaVersion6(currentVersion, instance) {
 
   await instance.run(
     `CREATE TABLE lastHashes(
-      snode STRING PRIMARY KEY,
-      hash STRING,
+      snode TEXT PRIMARY KEY,
+      hash TEXT,
       expiresAt INTEGER
     );`
   );
 
   await instance.run(
     `CREATE TABLE seenMessages(
-      hash STRING PRIMARY KEY,
+      hash TEXT PRIMARY KEY,
       expiresAt INTEGER
     );`
   );
