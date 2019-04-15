@@ -73,7 +73,7 @@ MessageReceiver.prototype.extend({
     this.httpPollingResource = new HttpResource(lokiMessageAPI, {
       handleRequest: this.handleRequest.bind(this),
     });
-    this.httpPollingResource.startPolling(connected => {
+    this.httpPollingResource.pollServer(connected => {
       // Emulate receiving an 'empty' websocket messages from the server.
       // This is required to update the internal logic that checks
       // if we are connected to the server. Without this, for example,

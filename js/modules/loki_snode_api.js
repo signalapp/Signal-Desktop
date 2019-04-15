@@ -106,13 +106,15 @@ class LokiSnodeAPI {
     return true;
   }
 
-  updateLastHash(nodeUrl, hash) {
+  async updateLastHash(nodeUrl, lastHash, expiresAt) {
+    await window.Signal.Data.updateLastHash({ nodeUrl, lastHash, expiresAt });
     if (!this.ourSwarmNodes[nodeUrl]) {
       this.ourSwarmNodes[nodeUrl] = {
-        lastHash: hash,
+        failureCount: 0,
+        lastHash,
       };
     } else {
-      this.ourSwarmNodes[nodeUrl].lastHash = hash;
+      this.ourSwarmNodes[nodeUrl].lastHash = lastHash;
     }
   }
 
@@ -139,13 +141,16 @@ class LokiSnodeAPI {
     }
   }
 
-  updateOurSwarmNodes(newNodes) {
+  async updateOurSwarmNodes(newNodes) {
     this.ourSwarmNodes = {};
-    newNodes.forEach(url => {
+    const ps = newNodes.map(async url => {
+      const lastHash = await window.Signal.Data.getLastHashBySnode(url);
       this.ourSwarmNodes[url] = {
         failureCount: 0,
+        lastHash,
       };
     });
+    await Promise.all(ps);
   }
 
   async getOurSwarmNodes() {
@@ -153,16 +158,9 @@ class LokiSnodeAPI {
       !this.ourSwarmNodes ||
       Object.keys(this.ourSwarmNodes).length < MINIMUM_SWARM_NODES
     ) {
-      this.ourSwarmNodes = {};
-      // Try refresh our swarm list once
       const ourKey = window.textsecure.storage.user.getNumber();
       const nodeAddresses = await this.getSwarmNodes(ourKey);
-
-      nodeAddresses.forEach(url => {
-        this.ourSwarmNodes[url] = {
-          failureCount: 0,
-        };
-      });
+      await this.updateOurSwarmNodes(nodeAddresses);
     }
     return { ...this.ourSwarmNodes };
   }

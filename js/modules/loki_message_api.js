@@ -12,6 +12,7 @@ const LOKI_LONGPOLL_HEADER = 'X-Loki-Long-Poll';
 class LokiMessageAPI {
   constructor({ snodeServerPort }) {
     this.snodeServerPort = snodeServerPort ? `:${snodeServerPort}` : '';
+    this.jobQueue = new window.JobQueue();
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, isPing = false) {
@@ -162,6 +163,22 @@ class LokiMessageAPI {
 
     let ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
 
+    const filterIncomingMessages = async messages => {
+      const incomingHashes = messages.map(m => m.hash);
+      const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(
+        incomingHashes
+      );
+      const newMessages = messages.filter(m => !dupHashes.includes(m.hash));
+      const newHashes = newMessages.map(m => ({
+        expiresAt: m.expiration,
+        hash: m.hash,
+      }));
+      if (newHashes.length) {
+        await window.Signal.Data.saveSeenMessageHashes(newHashes);
+      }
+      return newMessages;
+    };
+
     const nodeComplete = nodeUrl => {
       completedNodes.push(nodeUrl);
       delete ourSwarmNodes[nodeUrl];
@@ -189,18 +206,23 @@ class LokiMessageAPI {
         );
 
         nodeComplete(nodeUrl);
+        successfulRequests += 1;
 
         if (Array.isArray(result.messages) && result.messages.length) {
-          const lastHash = _.last(result.messages).hash;
-          lokiSnodeAPI.updateLastHash(nodeUrl, lastHash);
-          callback(result.messages);
+          const lastMessage = _.last(result.messages);
+          lokiSnodeAPI.updateLastHash(nodeUrl, lastMessage.hash, lastMessage.expiration);
+          const filteredMessages = await this.jobQueue.add(() =>
+            filterIncomingMessages(result.messages)
+          );
+          if (filteredMessages.length) {
+            callback(filteredMessages);
+          }
         }
-        successfulRequests += 1;
       } catch (e) {
         log.warn('Loki retrieve messages:', e);
         if (e instanceof textsecure.WrongSwarmError) {
           const { newSwarm } = e;
-          lokiSnodeAPI.updateOurSwarmNodes(newSwarm);
+          await lokiSnodeAPI.updateOurSwarmNodes(newSwarm);
           completedNodes.push(nodeUrl);
         } else if (e instanceof textsecure.NotFoundError) {
           canResolve = false;
