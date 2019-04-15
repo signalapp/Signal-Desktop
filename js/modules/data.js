@@ -130,7 +130,9 @@ module.exports = {
   getMessageCount,
   saveMessage,
   cleanSeenMessages,
+  cleanLastHashes,
   saveSeenMessageHash,
+  updateLastHash,
   saveSeenMessageHashes,
   saveLegacyMessage,
   saveMessages,
@@ -151,6 +153,7 @@ module.exports = {
   getNextExpiringMessage,
   getMessagesByConversation,
   getSeenMessagesByHashList,
+  getLastHashBySnode,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -778,8 +781,16 @@ async function cleanSeenMessages() {
   await channels.cleanSeenMessages();
 }
 
+async function cleanLastHashes() {
+  await channels.cleanLastHashes();
+}
+
 async function saveSeenMessageHashes(data) {
   await channels.saveSeenMessageHashes(_cleanData(data));
+}
+
+async function updateLastHash(data) {
+  await channels.updateLastHash(_cleanData(data));
 }
 
 async function saveSeenMessageHash(data) {
@@ -907,6 +918,11 @@ async function getMessagesByConversation(
   });
 
   return new MessageCollection(messages);
+}
+
+async function getLastHashBySnode(snode) {
+  const lastHash = await channels.getLastHashBySnode(snode);
+  return lastHash;
 }
 
 async function getSeenMessagesByHashList(hashes) {
