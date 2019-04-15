@@ -1825,6 +1825,11 @@
       "Button action that the user can click to view their unique seed"
   },
 
+  "seedViewTitle": {
+    "message": "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
+    "description": "The title shown when the user views their seeds"
+  },
+
   "copiedMnemonic": {
     "message": "Copied seed to clipboard",
     "description":

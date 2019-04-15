@@ -238,7 +238,7 @@
       <!-- Password -->
       <div class="passwordView">
         <div class='title'>
-          Please type in your password
+          {{ passwordViewTitle }}
         </div>
         <div class='fields'>
             <input class='form-control' type='password' id='password' placeholder='Password' autocomplete='off' spellcheck='false'>
@@ -253,9 +253,7 @@
       <!-- Seed -->
       <div class="seedView" style="display: none;">
         <div class='title'>
-          Please save the seed below in a safe location.
-          </br>
-          They can be used to restore your account if you lose access or migrate to a new device.
+          {{ seedViewTitle }}
         </div>
         <div class='seed'></div>
         <div class='buttons'>

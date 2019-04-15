@@ -19,6 +19,8 @@
       this.render();
       this.showSeedView(false);
       this.initPasswordHash();
+
+      this.$('#password').bind('keyup', (event) => this.onKeyup(event));
     },
     events: {
       'click .ok': 'close',
@@ -27,6 +29,8 @@
     },
     render_attributes() {
       return {
+        passwordViewTitle: i18n('passwordViewTitle'),
+        seedViewTitle: i18n('seedViewTitle'),
         ok: this.okText,
         copyText: this.copyText,
         confirm: this.confirmText,
@@ -48,6 +52,7 @@
       } else {
         this.$('.seed').html('');
         passwordView.show();
+        this.$('#password').focus()
         seedView.hide();
       }
     },
@@ -75,6 +80,19 @@
       });
       toast.$el.appendTo(this.$el);
       toast.render();
+    },
+    onKeyup(event) {
+      switch (event.key) {
+        case 'Enter':
+          this.confirmPassword();
+          break;
+        case 'Escape':
+        case 'Esc':
+          this.close();
+          break;
+        default:
+          break;
+      }
     },
   });
 })();
