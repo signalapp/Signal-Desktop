@@ -7,6 +7,7 @@ const { rpc } = require('./loki_rpc');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SUCCESSFUL_REQUESTS = 2;
+const LOKI_LONGPOLL_HEADER = 'X-Loki-Long-Poll';
 
 class LokiMessageAPI {
   constructor({ snodeServerPort }) {
@@ -171,13 +172,20 @@ class LokiMessageAPI {
         pubKey: ourKey,
         lastHash: nodeData.lastHash || '',
       };
+      const options = {
+        timeout: 40000,
+        headers: {
+          [LOKI_LONGPOLL_HEADER]: true,
+        },
+      };
 
       try {
         const result = await rpc(
           `http://${nodeUrl}`,
           this.snodeServerPort,
           'retrieve',
-          params
+          params,
+          options
         );
 
         nodeComplete(nodeUrl);
