@@ -501,13 +501,14 @@
     }
   });
 
-  function manageSeenMessages() {
+  function manageExpiringData() {
     window.Signal.Data.cleanSeenMessages();
-    setTimeout(manageSeenMessages, 1000 * 60 * 60);
+    window.Signal.Data.cleanLastHashes();
+    setTimeout(manageExpiringData, 1000 * 60 * 60);
   }
 
   async function start() {
-    manageSeenMessages();
+    manageExpiringData();
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('listening for registration events');

@@ -41,22 +41,6 @@
     };
   };
 
-  const filterIncomingMessages = async function filterIncomingMessages(
-    messages
-  ) {
-    const incomingHashes = messages.map(m => m.hash);
-    const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(
-      incomingHashes
-    );
-    const newMessages = messages.filter(m => !dupHashes.includes(m.hash));
-    const newHashes = newMessages.map(m => ({
-      expiresAt: m.expiration,
-      hash: m.hash,
-    }));
-    await window.Signal.Data.saveSeenMessageHashes(newHashes);
-    return newMessages;
-  };
-
   window.HttpResource = function HttpResource(_server, opts = {}) {
     server = _server;
     let { handleRequest } = opts;
@@ -64,17 +48,6 @@
       handleRequest = request => request.respond(404, 'Not found');
     }
     let connected = true;
-    const jobQueue = new window.JobQueue();
-
-    const processMessages = async messages => {
-      const newMessages = await jobQueue.add(() =>
-        filterIncomingMessages(messages)
-      );
-      newMessages.forEach(async message => {
-        const { data } = message;
-        this.handleMessage(data);
-      });
-    };
 
     this.handleMessage = (message, options = {}) => {
       try {
@@ -104,16 +77,21 @@
       }
     };
 
-    this.startPolling = async function pollServer(callback) {
+    this.pollServer = async callback => {
       try {
-        await server.retrieveMessages(processMessages);
+        await server.retrieveMessages(messages => {
+          messages.forEach(message => {
+            const { data } = message;
+            this.handleMessage(data);
+          });
+        });
         connected = true;
       } catch (err) {
         connected = false;
       }
       callback(connected);
       setTimeout(() => {
-        pollServer(callback);
+        this.pollServer(callback);
       }, POLL_TIME);
     };
 

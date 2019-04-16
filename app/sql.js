@@ -102,8 +102,10 @@ module.exports = {
   getMessageCount,
   saveMessage,
   cleanSeenMessages,
+  cleanLastHashes,
   saveSeenMessageHashes,
   saveSeenMessageHash,
+  updateLastHash,
   saveMessages,
   removeMessage,
   getUnreadByConversation,
@@ -114,6 +116,7 @@ module.exports = {
   getAllUnsentMessages,
   getMessagesBySentAt,
   getSeenMessagesByHashList,
+  getLastHashBySnode,
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
@@ -422,8 +425,16 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   );
 
   await instance.run(
+    `CREATE TABLE lastHashes(
+      snode TEXT PRIMARY KEY,
+      hash TEXT,
+      expiresAt INTEGER
+    );`
+  );
+
+  await instance.run(
     `CREATE TABLE seenMessages(
-      hash STRING PRIMARY KEY,
+      hash TEXT PRIMARY KEY,
       expiresAt INTEGER
     );`
   );
@@ -1556,6 +1567,27 @@ async function saveSeenMessageHashes(arrayOfHashes) {
   await promise;
 }
 
+async function updateLastHash(data) {
+  const { snode, hash, expiresAt } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO lastHashes (
+      snode,
+      hash,
+      expiresAt
+    ) values (
+      $snode,
+      $hash,
+      $expiresAt
+    )`,
+    {
+      $snode: snode,
+      $hash: hash,
+      $expiresAt: expiresAt,
+    }
+  );
+}
+
 async function saveSeenMessageHash(data) {
   const { expiresAt, hash } = data;
   await db.run(
@@ -1571,6 +1603,12 @@ async function saveSeenMessageHash(data) {
       $hash: hash,
     }
   );
+}
+
+async function cleanLastHashes() {
+  await db.run('DELETE FROM lastHashes WHERE expiresAt <= $now;', {
+    $now: Date.now(),
+  });
 }
 
 async function cleanSeenMessages() {
@@ -1708,6 +1746,18 @@ async function getMessagesBySentAt(sentAt) {
   );
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getLastHashBySnode(snode) {
+  const row = await db.get('SELECT * FROM lastHashes WHERE snode = $snode;', {
+    $snode: snode,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return row.lastHash;
 }
 
 async function getSeenMessagesByHashList(hashes) {
