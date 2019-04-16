@@ -2,18 +2,16 @@ import { Message } from './Message';
 
 interface ConversationLastMessageUpdate {
   lastMessage: string;
-  lastMessageStatus?: string;
-  timestamp?: number;
+  lastMessageStatus: string | null;
+  timestamp: number | null;
 }
 
 export const createLastMessageUpdate = ({
-  currentLastMessageText,
   currentTimestamp,
   lastMessage,
   lastMessageStatus,
   lastMessageNotificationText,
 }: {
-  currentLastMessageText?: string;
   currentTimestamp?: number;
   lastMessage?: Message;
   lastMessageStatus?: string;
@@ -22,6 +20,8 @@ export const createLastMessageUpdate = ({
   if (!lastMessage) {
     return {
       lastMessage: '',
+      lastMessageStatus: null,
+      timestamp: null,
     };
   }
 
@@ -30,10 +30,10 @@ export const createLastMessageUpdate = ({
   const isExpireTimerUpdateFromSync = Boolean(
     expirationTimerUpdate && expirationTimerUpdate.fromSync
   );
+
   const shouldUpdateTimestamp = Boolean(
     !isVerifiedChangeMessage && !isExpireTimerUpdateFromSync
   );
-
   const newTimestamp = shouldUpdateTimestamp
     ? lastMessage.sent_at
     : currentTimestamp;
@@ -41,11 +41,11 @@ export const createLastMessageUpdate = ({
   const shouldUpdateLastMessageText = !isVerifiedChangeMessage;
   const newLastMessageText = shouldUpdateLastMessageText
     ? lastMessageNotificationText
-    : currentLastMessageText;
+    : '';
 
   return {
     lastMessage: newLastMessageText || '',
-    lastMessageStatus,
-    timestamp: newTimestamp,
+    lastMessageStatus: lastMessageStatus || null,
+    timestamp: newTimestamp || null,
   };
 };

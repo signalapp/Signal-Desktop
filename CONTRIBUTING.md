@@ -10,11 +10,6 @@ It's a good idea to gauge interest in your intended work by finding the current 
 for it or creating a new one yourself. You can use also that issue as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
 
-You're most likely to have your pull request accepted easily if it addresses bugs already
-in the [Next Steps project](https://github.com/signalapp/Signal-Desktop/projects/1),
-especially if they are near the top of the Backlog column. Those are what we'll be looking
-at next, so it would be great if you helped us out!
-
 Once you've spent a little bit of time planning your solution, it's a good idea to go
 back to the issue and talk about your approach. We'd be happy to provide feedback. [An
 ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ounce-of-prevention-is-worth-a-pound-of-cure)
@@ -86,9 +81,12 @@ yarn grunt dev # runs until you stop it, re-generating built assets on file chan
 By default the application will connect to the **staging** servers, which means that you
 **will not** be able to link it with your primary mobile device.
 
-Fear not! You don't have to link the app with your phone. During setup in development
-mode, you'll be presented with a 'Standalone' button which goes through the registration
-process like you would on a phone. But you won't be linked to any other devices.
+Fear not! You don't have to link the app with your phone. On the QR code screen, you can
+select 'Set Up as Standalone Device' from the File menu, which goes through the
+registration process like you would on a phone.
+
+Note: you won't be linked to a primary phone, which will make testing certain things very
+difficult (contacts, profiles, and groups are all solely managed on your phone).
 
 ## The staging environment
 
@@ -172,6 +170,8 @@ the report with `yarn open-coverage`.
 
 So you wanna make a pull request? Please observe the following guidelines.
 
+* First, make sure that your `yarn ready` run passes - it's very similar to what our
+  Continuous Integration servers do to test the app.
 * Please do not submit pull requests for translation fixes. Anyone can update
   the translations in
   [Transifex](https://www.transifex.com/projects/p/signal-desktop).

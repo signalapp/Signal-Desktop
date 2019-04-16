@@ -905,6 +905,22 @@
     "description":
       "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
   },
+  "cannotUpdate": {
+    "message": "Cannot Update",
+    "description": "Shown as the title of our update error dialogs on windows"
+  },
+  "cannotUpdateDetail": {
+    "message":
+      "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+    "description":
+      "Shown if a general error happened while trying to install update package"
+  },
+  "readOnlyVolume": {
+    "message":
+      "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+    "description":
+      "Shown on MacOS if running on a read-only volume and we cannot update"
+  },
   "ok": {
     "message": "OK"
   },
@@ -1361,6 +1377,10 @@
     "message": "MMM D",
     "description":
       "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+  },
+  "messageBodyTooLong": {
+    "message": "Message body is too long.",
+    "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
     "message": "Unblock this contact to send a message.",

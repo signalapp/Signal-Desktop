@@ -1,4 +1,4 @@
-/* global Whisper, Signal, setTimeout, clearTimeout */
+/* global Whisper, Signal, setTimeout, clearTimeout, MessageController */
 
 const { isFunction, isNumber, omit } = require('lodash');
 const getGuid = require('uuid/v4');
@@ -37,7 +37,6 @@ let timeout;
 let getMessageReceiver;
 let logger;
 const _activeAttachmentDownloadJobs = {};
-const _messageCache = {};
 
 async function start(options = {}) {
   ({ getMessageReceiver, logger } = options);
@@ -149,12 +148,15 @@ async function _runJob(job) {
       );
     }
 
-    message = await _getMessage(messageId);
-    if (!message) {
+    const found = await getMessageById(messageId, {
+      Message: Whisper.Message,
+    });
+    if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
-      await _finishJob(message, id);
+      await _finishJob(null, id);
       return;
     }
+    message = MessageController.register(found.id, found);
 
     const pending = true;
     await setAttachmentDownloadJobPending(id, pending);
@@ -230,46 +232,6 @@ async function _runJob(job) {
     delete _activeAttachmentDownloadJobs[id];
     _maybeStartJob();
   }
-}
-
-async function _getMessage(id) {
-  let item = _messageCache[id];
-  if (item) {
-    const fiveMinutesAgo = Date.now() - 5 * MINUTE;
-    if (item.timestamp >= fiveMinutesAgo) {
-      return item.message;
-    }
-
-    delete _messageCache[id];
-  }
-
-  let message = await getMessageById(id, {
-    Message: Whisper.Message,
-  });
-  if (!message) {
-    return message;
-  }
-
-  // Once more, checking for race conditions
-  item = _messageCache[id];
-  if (item) {
-    const fiveMinutesAgo = Date.now() - 5 * MINUTE;
-    if (item.timestamp >= fiveMinutesAgo) {
-      return item.message;
-    }
-  }
-
-  const conversation = message.getConversation();
-  if (conversation && conversation.messageCollection.get(id)) {
-    message = conversation.get(id);
-  }
-
-  _messageCache[id] = {
-    timestamp: Date.now(),
-    message,
-  };
-
-  return message;
 }
 
 async function _finishJob(message, id) {

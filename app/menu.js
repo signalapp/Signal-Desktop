@@ -85,6 +85,7 @@ exports.createTemplate = (options, messages) => {
           label: messages.viewMenuResetZoom.message,
         },
         {
+          accelerator: platform === 'darwin' ? 'Command+=' : 'Control+Plus',
           role: 'zoomin',
           label: messages.viewMenuZoomIn.message,
         },

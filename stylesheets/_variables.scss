@@ -22,8 +22,13 @@
   font-weight: bold;
 }
 
-$roboto: Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-$roboto-light: Roboto-Light, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+$roboto: Roboto, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
+  'Source Han Sans CN', 'Hiragino Sans GB', 'Hiragino Kaku Gothic',
+  'Microsoft Yahei UI', Helvetica, Arial, sans-serif;
+$roboto-light: Roboto-Light, 'Helvetica Neue', 'Source Sans Pro Light',
+  'Source Han Sans SC Light', 'Source Han Sans CN Light',
+  'Hiragino Sans GB Light', 'Hiragino Kaku Gothic Light',
+  'Microsoft Yahei UI Light', Helvetica, Arial, sans-serif;
 
 // New colors
 

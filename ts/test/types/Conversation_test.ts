@@ -13,6 +13,8 @@ describe('Conversation', () => {
       const input = {};
       const expected = {
         lastMessage: '',
+        lastMessageStatus: null,
+        timestamp: null,
       };
 
       const actual = Conversation.createLastMessageUpdate(input);
@@ -22,7 +24,6 @@ describe('Conversation', () => {
     context('for regular message', () => {
       it('should update last message text and timestamp', () => {
         const input = {
-          currentLastMessageText: 'Existing message',
           currentTimestamp: 555,
           lastMessageStatus: 'read',
           lastMessage: {
@@ -46,7 +47,6 @@ describe('Conversation', () => {
     context('for verified change message', () => {
       it('should skip update', () => {
         const input = {
-          currentLastMessageText: 'bingo',
           currentTimestamp: 555,
           lastMessage: {
             type: 'verified-change',
@@ -57,8 +57,8 @@ describe('Conversation', () => {
           lastMessageNotificationText: 'Verified Changed',
         };
         const expected = {
-          lastMessage: 'bingo',
-          lastMessageStatus: undefined,
+          lastMessage: '',
+          lastMessageStatus: null,
           timestamp: 555,
         };
 
@@ -70,7 +70,6 @@ describe('Conversation', () => {
     context('for expire timer update from sync', () => {
       it('should update message but not timestamp (to prevent bump to top)', () => {
         const input = {
-          currentLastMessageText: 'I am expired',
           currentTimestamp: 555,
           lastMessage: {
             type: 'incoming',
@@ -87,7 +86,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'Last message before expired',
-          lastMessageStatus: undefined,
+          lastMessageStatus: null,
           timestamp: 555,
         };
 

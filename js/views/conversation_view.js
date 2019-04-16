@@ -64,6 +64,13 @@
     },
   });
 
+  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
+  Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('messageBodyTooLong') };
+    },
+  });
+
   Whisper.ConversationLoadingScreen = Whisper.View.extend({
     templateName: 'conversation-loading-screen',
     className: 'conversation-loading-screen',
@@ -88,6 +95,7 @@
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
+      this.listenTo(this.model, 'unload', () => this.unload('model trigger'));
       this.listenTo(this.model, 'typing-update', this.renderTypingBubble);
       this.listenTo(
         this.model.messageCollection,
@@ -729,13 +737,15 @@
         const collection = await window.Signal.Data.getMessagesBySentAt(id, {
           MessageCollection: Whisper.MessageCollection,
         });
-        const messageFromDatabase = collection.find(item => {
-          const messageAuthor = item.getContact();
+        const found = Boolean(
+          collection.find(item => {
+            const messageAuthor = item.getContact();
 
-          return messageAuthor && author === messageAuthor.id;
-        });
+            return messageAuthor && author === messageAuthor.id;
+          })
+        );
 
-        if (messageFromDatabase) {
+        if (found) {
           const toast = new Whisper.FoundButNotLoadedToast();
           toast.$el.appendTo(this.$el);
           toast.render();
@@ -1425,7 +1435,7 @@
         await this.confirm(i18n('deleteConversationConfirmation'));
         try {
           await this.model.destroyMessages();
-          this.remove();
+          this.unload('delete messages');
         } catch (error) {
           window.log.error(
             'destroyMessages: Failed to successfully delete conversation',
@@ -1650,6 +1660,9 @@
       this.closeEmojiPanel();
       this.model.clearTypingTimers();
 
+      const input = this.$messageField;
+      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
+
       let toast;
       if (extension.expired()) {
         toast = new Whisper.ExpiredToast();
@@ -1663,6 +1676,9 @@
       if (!this.model.isPrivate() && this.model.get('left')) {
         toast = new Whisper.LeftGroupToast();
       }
+      if (message.length > MAX_MESSAGE_BODY_LENGTH) {
+        toast = new Whisper.MessageBodyTooLongToast();
+      }
 
       if (toast) {
         toast.$el.appendTo(this.$el);
@@ -1670,9 +1686,6 @@
         this.focusMessageFieldAndClearDisabled();
         return;
       }
-
-      const input = this.$messageField;
-      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
 
       try {
         if (!message.length && !this.fileInput.hasFiles()) {

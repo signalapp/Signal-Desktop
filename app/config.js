@@ -23,6 +23,7 @@ if (environment === 'production') {
   process.env.NODE_APP_INSTANCE = '';
   process.env.ALLOW_CONFIG_MUTATIONS = '';
   process.env.SUPPRESS_NO_CONFIG_WARNING = '';
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
 }
 
 // We load config after we've made our modifications to NODE_ENV
