@@ -235,15 +235,31 @@
   </script>
   <script type='text/x-tmpl-mustache' id='seed-dialog'>
     <div class="content">
-      <div class='title'>
-        Please save the seed below in a safe location.
-        </br>
-        They can be used to restore your account if you lose access or migrate to a new device.
+      <!-- Password -->
+      <div class="passwordView">
+        <div class='title'>
+          {{ passwordViewTitle }}
+        </div>
+        <div class='fields'>
+            <input class='form-control' type='password' id='password' placeholder='Password' autocomplete='off' spellcheck='false'>
+            <span class='error'></span>
+        </div>
+        <div class='buttons'>
+          <button class='ok' tabindex='2'>{{ cancel }}</button>
+          <button class='confirm' tabindex='1'>{{ confirm }}</button>
+        </div>
       </div>
-      <div class='seed'>{{ seed }}</div>
-      <div class='buttons'>
-        <button class='ok' tabindex='1'>{{ ok }}</button>
-        <button class='copy-seed' tabindex='2'>{{ copyText }}</button>
+
+      <!-- Seed -->
+      <div class="seedView" style="display: none;">
+        <div class='title'>
+          {{ seedViewTitle }}
+        </div>
+        <div class='seed'></div>
+        <div class='buttons'>
+          <button class='copy-seed' tabindex='2'>{{ copyText }}</button>
+          <button class='ok' tabindex='1'>{{ ok }}</button>
+        </div>
       </div>
     </div>
   </script>

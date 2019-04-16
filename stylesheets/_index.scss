@@ -75,6 +75,7 @@
     height: 70px;
     background: $color-loki-extra-dark-gray;
     img {
+      object-fit: cover;
       max-width: 60%;
       max-height: 60%;
     }
