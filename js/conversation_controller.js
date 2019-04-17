@@ -311,8 +311,11 @@
           this._initialFetchComplete = true;
           const promises = [];
           conversations.forEach(conversation => {
+            if (!conversation.get('lastMessage')) {
+              promises.push(conversation.updateLastMessage());
+            }
+
             promises.concat([
-              conversation.updateLastMessage(),
               conversation.updateProfile(),
               conversation.updateProfileAvatar(),
               conversation.resetPendingSend(),

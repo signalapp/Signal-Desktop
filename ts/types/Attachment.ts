@@ -1,5 +1,6 @@
 import is from '@sindresorhus/is';
 import moment from 'moment';
+import { padStart } from 'lodash';
 
 import * as MIME from './MIME';
 import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
@@ -82,11 +83,13 @@ export const isVoiceMessage = (attachment: Attachment): boolean => {
 export const save = ({
   attachment,
   document,
+  index,
   getAbsolutePath,
   timestamp,
 }: {
   attachment: Attachment;
   document: Document;
+  index: number;
   getAbsolutePath: (relativePath: string) => string;
   timestamp?: number;
 }): void => {
@@ -97,7 +100,7 @@ export const save = ({
         data: attachment.data,
         type: MIME.APPLICATION_OCTET_STREAM,
       });
-  const filename = getSuggestedFilename({ attachment, timestamp });
+  const filename = getSuggestedFilename({ attachment, timestamp, index });
   saveURLAsFile({ url, filename, document });
   if (isObjectURLRequired) {
     URL.revokeObjectURL(url);
@@ -107,9 +110,11 @@ export const save = ({
 export const getSuggestedFilename = ({
   attachment,
   timestamp,
+  index,
 }: {
   attachment: Attachment;
   timestamp?: number | Date;
+  index?: number;
 }): string => {
   if (attachment.fileName) {
     return attachment.fileName;
@@ -121,8 +126,9 @@ export const getSuggestedFilename = ({
     : '';
   const fileType = getFileExtension(attachment);
   const extension = fileType ? `.${fileType}` : '';
+  const indexSuffix = index ? `_${padStart(index.toString(), 3, '0')}` : '';
 
-  return `${prefix}${suffix}${extension}`;
+  return `${prefix}${suffix}${indexSuffix}${extension}`;
 };
 
 export const getFileExtension = (attachment: Attachment): string | null => {

@@ -749,7 +749,12 @@ MessageSender.prototype = {
     const me = textsecure.storage.user.getNumber();
     const numbers = providedNumbers.filter(number => number !== me);
     if (numbers.length === 0) {
-      return Promise.reject(new Error('No other members in the group'));
+      return Promise.resolve({
+        successfulNumbers: [],
+        failoverNumbers: [],
+        errors: [],
+        unidentifiedDeliveries: [],
+      });
     }
 
     return new Promise((resolve, reject) => {

@@ -1331,8 +1331,12 @@
           className: 'lightbox-wrapper',
           Component: Signal.Components.Lightbox,
           props,
-          onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+          onClose: () => {
+            Signal.Backbone.Views.Lightbox.hide();
+            this.stopListening(message);
+          },
         });
+        this.listenTo(message, 'expired', () => this.lightboxView.remove());
         Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
         return;
       }
@@ -1346,8 +1350,9 @@
         Signal.Types.Attachment.save({
           attachment: options.attachment,
           document,
+          index: options.index + 1,
           getAbsolutePath: getAbsoluteAttachmentPath,
-          timestamp: options.message.received_at,
+          timestamp: options.message.get('sent_at'),
         });
       };
 
@@ -1360,8 +1365,14 @@
         className: 'lightbox-wrapper',
         Component: Signal.Components.LightboxGallery,
         props,
-        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+        onClose: () => {
+          Signal.Backbone.Views.Lightbox.hide();
+          this.stopListening(message);
+        },
       });
+      this.listenTo(message, 'expired', () =>
+        this.lightboxGalleryView.remove()
+      );
       Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 

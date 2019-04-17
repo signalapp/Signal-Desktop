@@ -101,21 +101,25 @@ function showWindow() {
 
 if (!process.mas) {
   console.log('making app single instance');
-  const shouldQuit = app.makeSingleInstance(() => {
-    // Someone tried to run a second instance, we should focus our window
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) {
-        mainWindow.restore();
-      }
-
-      showWindow();
+  const gotLock = app.requestSingleInstanceLock();
+  if (!gotLock) {
+    // Don't allow second instance if we are in prod
+    if (appInstance === 0) {
+      console.log('quitting; we are the second instance');
+      app.exit();
     }
-    return true;
-  });
+  } else {
+    app.on('second-instance', () => {
+      // Someone tried to run a second instance, we should focus our window
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+          mainWindow.restore();
+        }
 
-  if (appInstance === 0 && shouldQuit) {
-    console.log('quitting; we are the second instance');
-    app.exit();
+        showWindow();
+      }
+      return true;
+    });
   }
 }
 
@@ -220,7 +224,7 @@ function createWindow() {
       webPreferences: {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
-        // sandbox: true,
+        contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
       },
@@ -515,8 +519,8 @@ function showAbout() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'about_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -561,8 +565,8 @@ async function showSettingsWindow() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'settings_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -606,8 +610,8 @@ async function showDebugLogWindow() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'debug_log_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -654,8 +658,8 @@ async function showPermissionsPopupWindow() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'permissions_popup_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -707,17 +711,7 @@ app.on('ready', async () => {
 
   installPermissionsHandler({ session, userConfig });
 
-  let loggingSetupError;
-  try {
-    await logging.initialize();
-  } catch (error) {
-    loggingSetupError = error;
-  }
-
-  if (loggingSetupError) {
-    console.error('Problem setting up logging', loggingSetupError.stack);
-  }
-
+  await logging.initialize();
   logger = logging.getLogger();
   logger.info('app ready');
 

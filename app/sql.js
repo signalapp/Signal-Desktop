@@ -802,30 +802,30 @@ async function initialize({ configDir, key, messages }) {
 
   _initializePaths(configDir);
 
-  const sqlInstance = await openDatabase(filePath);
-  const promisified = promisify(sqlInstance);
-
-  // promisified.on('trace', async statement => {
-  //   if (!db || statement.startsWith('--')) {
-  //     console._log(statement);
-  //     return;
-  //   }
-  //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
-  //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
-  // });
-
   try {
-    await setupSQLCipher(promisified, { key });
-    await updateSchema(promisified);
-  } catch (e) {
-    await promisified.close();
-    throw e;
-  }
+    const sqlInstance = await openDatabase(filePath);
+    const promisified = promisify(sqlInstance);
 
-  db = promisified;
+    // promisified.on('trace', async statement => {
+    //   if (!db || statement.startsWith('--')) {
+    //     console._log(statement);
+    //     return;
+    //   }
+    //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
+    //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
+    // });
 
-  // test database
-  try {
+    try {
+      await setupSQLCipher(promisified, { key });
+      await updateSchema(promisified);
+    } catch (e) {
+      await promisified.close();
+      throw e;
+    }
+
+    db = promisified;
+
+    // test database
     await getMessageCount();
   } catch (error) {
     console.log('Database startup error:', error.stack);

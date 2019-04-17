@@ -623,11 +623,10 @@
       const nbsp = '\xa0';
       const regex = /(\S)( +)(\S+\s*)$/;
       return text.replace(regex, (match, start, spaces, end) => {
-        const newSpaces = _.reduce(
-          spaces,
-          accumulator => accumulator + nbsp,
-          ''
-        );
+        const newSpaces =
+          end.length < 12
+            ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
+            : spaces;
         return `${start}${newSpaces}${end}`;
       });
     },
@@ -1280,12 +1279,15 @@
       this.set({ dataMessage });
 
       try {
-        const result = await this.sendSyncMessage();
         this.set({
-          // These are the same as a normal send
+          // These are the same as a normal send()
           sent_to: [this.OUR_NUMBER],
           sent: true,
           expirationStartTimestamp: Date.now(),
+        });
+        const result = await this.sendSyncMessage();
+        this.set({
+          // We have to do this afterward, since we didn't have a previous send!
           unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
 
           // These are unique to a Note to Self message - immediately read/delivered

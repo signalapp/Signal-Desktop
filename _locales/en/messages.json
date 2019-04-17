@@ -702,9 +702,8 @@
     "message": "Quit",
     "description": "Command in the tray icon menu, to quit the application"
   },
-  "trayTooltip": {
-    "message": "Loki Messenger",
-    "description": "Tooltip for the tray icon"
+  "lokiMessenger": {
+    "message": "Loki Messenger"
   },
   "searchForPeopleOrGroups": {
     "message": "Enter name or public key",

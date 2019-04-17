@@ -53,16 +53,15 @@
     augmentProps(props) {
       return Object.assign({}, props, {
         close: () => {
-          if (this.onClose) {
-            this.onClose();
-            return;
-          }
           this.remove();
         },
         i18n,
       });
     },
     remove() {
+      if (this.onClose) {
+        this.onClose();
+      }
       ReactDOM.unmountComponentAtNode(this.el);
       Backbone.View.prototype.remove.call(this);
     },
