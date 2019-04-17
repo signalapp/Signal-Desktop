@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import { ConversationLookupType } from '../../../state/ducks/conversations';
 import {
   _getConversationComparator,
-  _getLeftPaneList,
+  _getLeftPaneLists,
 } from '../../../state/selectors/conversations';
 
 describe('state/selectors/conversations', () => {
@@ -11,13 +11,14 @@ describe('state/selectors/conversations', () => {
     it('sorts conversations based on timestamp then by intl-friendly title', () => {
       const i18n = (key: string) => key;
       const regionCode = 'US';
-      const conversations: ConversationLookupType = {
+      const data: ConversationLookupType = {
         id1: {
           id: 'id1',
           activeAt: Date.now(),
           name: 'No timestamp',
           timestamp: 0,
           phoneNumber: 'notused',
+          isArchived: false,
 
           type: 'direct',
           isMe: false,
@@ -32,6 +33,7 @@ describe('state/selectors/conversations', () => {
           name: 'B',
           timestamp: 20,
           phoneNumber: 'notused',
+          isArchived: false,
 
           type: 'direct',
           isMe: false,
@@ -46,6 +48,7 @@ describe('state/selectors/conversations', () => {
           name: 'C',
           timestamp: 20,
           phoneNumber: 'notused',
+          isArchived: false,
 
           type: 'direct',
           isMe: false,
@@ -60,6 +63,7 @@ describe('state/selectors/conversations', () => {
           name: 'Á',
           timestamp: 20,
           phoneNumber: 'notused',
+          isArchived: false,
 
           type: 'direct',
           isMe: false,
@@ -74,6 +78,7 @@ describe('state/selectors/conversations', () => {
           name: 'First!',
           timestamp: 30,
           phoneNumber: 'notused',
+          isArchived: false,
 
           type: 'direct',
           isMe: false,
@@ -84,13 +89,13 @@ describe('state/selectors/conversations', () => {
         },
       };
       const comparator = _getConversationComparator(i18n, regionCode);
-      const list = _getLeftPaneList(conversations, comparator);
+      const { conversations } = _getLeftPaneLists(data, comparator);
 
-      assert.strictEqual(list[0].name, 'First!');
-      assert.strictEqual(list[1].name, 'Á');
-      assert.strictEqual(list[2].name, 'B');
-      assert.strictEqual(list[3].name, 'C');
-      assert.strictEqual(list[4].name, 'No timestamp');
+      assert.strictEqual(conversations[0].name, 'First!');
+      assert.strictEqual(conversations[1].name, 'Á');
+      assert.strictEqual(conversations[2].name, 'B');
+      assert.strictEqual(conversations[3].name, 'C');
+      assert.strictEqual(conversations[4].name, 'No timestamp');
     });
   });
 });

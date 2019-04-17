@@ -190,12 +190,15 @@
           profileName: this.model.getProfileName(),
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
+
           isVerified: this.model.isVerified(),
           isKeysPending: !this.model.isFriend(),
           isMe: this.model.isMe(),
           isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),
           isOnline: this.model.isOnline(),
+          isArchived: this.model.get('isArchived'),
+
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
@@ -242,6 +245,13 @@
           },
           onCopyPublicKey: () => {
             this.model.copyPublicKey();
+          },
+          onArchive: () => {
+            this.unload();
+            this.model.setArchived(true);
+          },
+          onMoveToInbox: () => {
+            this.model.setArchived(false);
           },
         };
       };

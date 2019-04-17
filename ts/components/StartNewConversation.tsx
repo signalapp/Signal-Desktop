@@ -7,7 +7,7 @@ import { LocalizerType } from '../types/Util';
 export interface Props {
   phoneNumber: string;
   i18n: LocalizerType;
-  onClick: (id: string) => void;
+  onClick: () => void;
 }
 
 export class StartNewConversation extends React.PureComponent<Props> {
@@ -18,9 +18,7 @@ export class StartNewConversation extends React.PureComponent<Props> {
       <div
         role="button"
         className="module-start-new-conversation"
-        onClick={() => {
-          onClick(phoneNumber);
-        }}
+        onClick={onClick}
       >
         <Avatar
           color="grey"

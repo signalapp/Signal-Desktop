@@ -38,6 +38,7 @@ export type PropsData = {
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
+  style?: Object;
   onClick?: (id: string) => void;
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
@@ -241,6 +242,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       isSelected,
       showFriendRequestIndicator,
       isBlocked,
+      style
     } = this.props;
 
     const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
@@ -255,6 +257,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 onClick(id);
               }
             }}
+            style={style}
             className={classNames(
               'module-conversation-list-item',
               unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,

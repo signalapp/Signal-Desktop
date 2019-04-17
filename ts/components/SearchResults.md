@@ -113,7 +113,9 @@ window.searchResults.messages = [
     i18n={util.i18n}
     onClickMessage={id => console.log('onClickMessage', id)}
     onClickConversation={id => console.log('onClickConversation', id)}
-    onStartNewConversation={() => console.log('onStartNewConversation')}
+    onStartNewConversation={(query, options) =>
+      console.log('onStartNewConversation', query, options)
+    }
   />
 </util.LeftPaneContext>;
 ```
@@ -131,7 +133,9 @@ window.searchResults.messages = [
     i18n={util.i18n}
     onClickMessage={id => console.log('onClickMessage', id)}
     onClickConversation={id => console.log('onClickConversation', id)}
-    onStartNewConversation={() => console.log('onStartNewConversation')}
+    onStartNewConversation={(query, options) =>
+      console.log('onStartNewConversation', query, options)
+    }
   />
 </util.LeftPaneContext>
 ```
@@ -147,7 +151,9 @@ window.searchResults.messages = [
     i18n={util.i18n}
     onClickMessage={id => console.log('onClickMessage', id)}
     onClickConversation={id => console.log('onClickConversation', id)}
-    onStartNewConversation={() => console.log('onStartNewConversation')}
+    onStartNewConversation={(query, options) =>
+      console.log('onStartNewConversation', query, options)
+    }
   />
 </util.LeftPaneContext>
 ```
@@ -163,7 +169,9 @@ window.searchResults.messages = [
     i18n={util.i18n}
     onClickMessage={id => console.log('onClickMessage', id)}
     onClickConversation={id => console.log('onClickConversation', id)}
-    onStartNewConversation={() => console.log('onStartNewConversation')}
+    onStartNewConversation={(query, options) =>
+      console.log('onStartNewConversation', query, options)
+    }
   />
 </util.LeftPaneContext>
 ```

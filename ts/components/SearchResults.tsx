@@ -16,6 +16,7 @@ export type PropsData = {
   conversations: Array<ConversationListItemPropsType>;
   hideMessagesHeader: boolean;
   messages: Array<MessageSearchResultPropsType>;
+  regionCode: string;
   searchTerm: string;
   showStartNewConversation: boolean;
 };
@@ -23,12 +24,21 @@ export type PropsData = {
 type PropsHousekeeping = {
   i18n: LocalizerType;
   openConversation: (id: string, messageId?: string) => void;
-  startNewConversation: (id: string) => void;
+  startNewConversation: (
+    query: string,
+    options: { regionCode: string }
+  ) => void;
 };
 
 type Props = PropsData & PropsHousekeeping;
 
 export class SearchResults extends React.Component<Props> {
+  public handleStartNewConversation = () => {
+    const { regionCode, searchTerm, startNewConversation } = this.props;
+
+    startNewConversation(searchTerm, { regionCode });
+  };
+
   public render() {
     const {
       conversations,
@@ -37,7 +47,6 @@ export class SearchResults extends React.Component<Props> {
       i18n,
       messages,
       openConversation,
-      startNewConversation,
       searchTerm,
       showStartNewConversation,
     } = this.props;
@@ -62,7 +71,7 @@ export class SearchResults extends React.Component<Props> {
           <StartNewConversation
             phoneNumber={searchTerm}
             i18n={i18n}
-            onClick={startNewConversation}
+            onClick={this.handleStartNewConversation}
           />
         ) : null}
         {haveConversations ? (

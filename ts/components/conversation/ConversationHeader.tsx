@@ -16,29 +16,35 @@ interface TimerOption {
 }
 
 interface Props {
-  i18n: LocalizerType;
-  isVerified: boolean;
-  isKeysPending: boolean;
-  name?: string;
   id: string;
+  name?: string;
+
   phoneNumber: string;
   profileName?: string;
   color: string;
-
   avatarPath?: string;
-  isBlocked: boolean;
+
+  isVerified: boolean;
   isMe: boolean;
   isGroup: boolean;
-  isOnline?: boolean;
+  isArchived: boolean;
+
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
   hasNickname?: boolean;
 
+  isBlocked: boolean;
+  isKeysPending: boolean;
+  isOnline?: boolean;
+
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onDeleteContact: () => void;
   onResetSession: () => void;
+
+  onArchive: () => void;
+  onMoveToInbox: () => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -52,6 +58,8 @@ interface Props {
   onChangeNickname: () => void;
 
   onCopyPublicKey: () => void;
+
+  i18n: LocalizerType;
 }
 
 export class ConversationHeader extends React.Component<Props> {
@@ -186,6 +194,7 @@ export class ConversationHeader extends React.Component<Props> {
       isBlocked,
       isMe,
       isGroup,
+      isArchived,
       onDeleteMessages,
       onDeleteContact,
       onResetSession,
@@ -193,6 +202,8 @@ export class ConversationHeader extends React.Component<Props> {
       onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
+      onArchive,
+      onMoveToInbox,
       timerOptions,
       onBlockUser,
       onUnblockUser,
@@ -248,6 +259,13 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
         <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        {isArchived ? (
+          <MenuItem onClick={onMoveToInbox}>
+            {i18n('moveConversationToInbox')}
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+        )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {!isMe ? (
           <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>

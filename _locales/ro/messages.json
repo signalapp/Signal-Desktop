@@ -1,4 +1,16 @@
 {
+    "copyErrorAndQuit": {
+        "message": "Copiază eroare și închide aplicația",
+        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    },
+    "databaseError": {
+        "message": "Eroare de bază de date",
+        "description": "Shown in a popup if the database cannot start up properly"
+    },
+    "deleteAndRestart": {
+        "message": "Șterg toate datele și repornește",
+        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+    },
     "mainMenuFile": {
         "message": "&Fișier",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -526,7 +538,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "You cannot add any more attachments to this message.",
+        "message": "Nu mai poți adăuga alte atașamente la acest mesaj.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -1364,6 +1376,10 @@
     "themeDark": {
         "message": "Închisă",
         "description": "Label text for dark theme"
+    },
+    "noteToSelf": {
+        "message": "Notă personală",
+        "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
         "message": "Ascunde bara de meniu",

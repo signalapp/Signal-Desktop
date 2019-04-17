@@ -2,13 +2,15 @@ import { compact } from 'lodash';
 import { createSelector } from 'reselect';
 
 import { StateType } from '../reducer';
-import { SearchStateType } from '../ducks/search';
 
+import { SearchStateType } from '../ducks/search';
 import {
   getConversationLookup,
   getSelectedConversation,
 } from './conversations';
 import { ConversationLookupType } from '../ducks/conversations';
+
+import { getRegionCode } from './user';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 
@@ -34,12 +36,14 @@ export const isSearching = createSelector(
 export const getSearchResults = createSelector(
   [
     getSearch,
+    getRegionCode,
     getConversationLookup,
     getSelectedConversation,
     getSelectedMessage,
   ],
   (
     state: SearchStateType,
+    regionCode: string,
     lookup: ConversationLookupType,
     selectedConversation?: string,
     selectedMessage?: string
@@ -84,6 +88,7 @@ export const getSearchResults = createSelector(
 
         return message;
       }),
+      regionCode: regionCode,
       searchTerm: state.query,
       showStartNewConversation: Boolean(
         state.normalizedPhoneNumber && !lookup[state.normalizedPhoneNumber]

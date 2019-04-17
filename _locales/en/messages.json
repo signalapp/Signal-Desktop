@@ -187,6 +187,27 @@
       }
     }
   },
+  "archivedConversations": {
+    "message": "Archived Conversations",
+    "description":
+      "Shown in place of the search box when showing archived conversation list"
+  },
+  "archiveHelperText": {
+    "message":
+      "These conversations are archived and will only appear in the Inbox if new messages are received.",
+    "description":
+      "Shown at the top of the archived converations list in the left pane"
+  },
+  "archiveConversation": {
+    "message": "Archive Conversation",
+    "description":
+      "Shown in menu for conversation, and moves conversation out of main conversation list"
+  },
+  "moveConversationToInbox": {
+    "message": "Move Converstion to Inbox",
+    "description":
+      "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
+  },
   "chooseDirectory": {
     "message": "Choose folder",
     "description": "Button to allow the user to find a folder on disk"

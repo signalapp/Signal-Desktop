@@ -1,4 +1,16 @@
 {
+    "copyErrorAndQuit": {
+        "message": "Fehler kopieren und beenden",
+        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    },
+    "databaseError": {
+        "message": "Datenbankfehler",
+        "description": "Shown in a popup if the database cannot start up properly"
+    },
+    "deleteAndRestart": {
+        "message": "Alle Daten löschen und neu starten",
+        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+    },
     "mainMenuFile": {
         "message": "&Datei",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -736,7 +748,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "ok": {
-        "message": "O. K.",
+        "message": "Okay",
         "description": ""
     },
     "cancel": {
@@ -1364,6 +1376,10 @@
     "themeDark": {
         "message": "Dunkel",
         "description": "Label text for dark theme"
+    },
+    "noteToSelf": {
+        "message": "Notiz an mich",
+        "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
         "message": "Menüleiste ausblenden",

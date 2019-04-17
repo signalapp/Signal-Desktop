@@ -21,7 +21,7 @@ export class ContactName extends React.Component<Props> {
     const shouldShowProfile = Boolean(profileName && !name);
     const profileElement = shouldShowProfile ? (
       <span className={`${prefix}__profile-name`}>
-        <Emojify text={profileName || ''} i18n={i18n} />
+        ~<Emojify text={profileName || ''} i18n={i18n} />
       </span>
     ) : null;
 

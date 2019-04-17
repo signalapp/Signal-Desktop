@@ -60,7 +60,7 @@ interface Props {
 
 export class Emojify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
-    renderNonEmoji: ({ text }) => text,
+    renderNonEmoji: ({ text }) => text || '',
   };
 
   public render() {
@@ -71,7 +71,7 @@ export class Emojify extends React.Component<Props> {
     // We have to do this, because renderNonEmoji is not required in our Props object,
     //  but it is always provided via defaultProps.
     if (!renderNonEmoji) {
-      return;
+      return null;
     }
 
     let match = regex.exec(text);

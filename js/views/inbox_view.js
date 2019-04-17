@@ -265,7 +265,7 @@
       $target.toggleClass('section-toggle-visible');
     },
     async openConversation(id, messageId) {
-      const conversation = await window.ConversationController.getOrCreateAndWait(
+      const conversation = await ConversationController.getOrCreateAndWait(
         id,
         'private'
       );
@@ -294,21 +294,22 @@
       this.$('.conversation:first .recorder').trigger('close');
     },
     updateInboxSectionUnread() {
-      const $section = this.$('.section-conversations-unread-counter');
-      const models =
-        (this.inboxListView.collection &&
-          this.inboxListView.collection.models) ||
-        [];
-      const unreadCount = models.reduce(
-        (count, m) => count + Math.max(0, m.get('unreadCount')),
-        0
-      );
-      $section.text(unreadCount);
-      if (unreadCount > 0) {
-        $section.show();
-      } else {
-        $section.hide();
-      }
+      // FIXME: Fix this for new react views
+      // const $section = this.$('.section-conversations-unread-counter');
+      // const models =
+      //   (this.inboxListView.collection &&
+      //     this.inboxListView.collection.models) ||
+      //   [];
+      // const unreadCount = models.reduce(
+      //   (count, m) => count + Math.max(0, m.get('unreadCount')),
+      //   0
+      // );
+      // $section.text(unreadCount);
+      // if (unreadCount > 0) {
+      //   $section.show();
+      // } else {
+      //   $section.hide();
+      // }
     },
     onClick(e) {
       this.closeRecording(e);

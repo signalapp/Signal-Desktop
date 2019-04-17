@@ -1,4 +1,3 @@
-import { compact } from 'lodash';
 import { createSelector } from 'reselect';
 import { format } from '../../types/PhoneNumber';
 
@@ -26,6 +25,13 @@ export const getSelectedConversation = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {
     return state.selectedConversation;
+  }
+);
+
+export const getShowArchived = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => {
+    return Boolean(state.showArchived);
   }
 );
 
@@ -83,37 +89,49 @@ export const getConversationComparator = createSelector(
   _getConversationComparator
 );
 
-export const _getLeftPaneList = (
+export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
   comparator: (left: ConversationType, right: ConversationType) => number,
   selectedConversation?: string
-): Array<ConversationType> => {
+): {
+  conversations: Array<ConversationType>;
+  archivedConversations: Array<ConversationType>;
+} => {
   const values = Object.values(lookup);
-  const filtered = compact(
-    values.map(conversation => {
-      if (!conversation.activeAt) {
-        return null;
-      }
+  const sorted = values.sort(comparator);
 
-      if (selectedConversation === conversation.id) {
-        return {
-          ...conversation,
-          isSelected: true,
-        };
-      }
+  const conversations: Array<ConversationType> = [];
+  const archivedConversations: Array<ConversationType> = [];
 
-      return conversation;
-    })
-  );
+  const max = sorted.length;
+  for (let i = 0; i < max; i += 1) {
+    let conversation = sorted[i];
+    if (!conversation.activeAt) {
+      continue;
+    }
 
-  return filtered.sort(comparator);
+    if (selectedConversation === conversation.id) {
+      conversation = {
+        ...conversation,
+        isSelected: true,
+      };
+    }
+
+    if (conversation.isArchived) {
+      archivedConversations.push(conversation);
+    } else {
+      conversations.push(conversation);
+    }
+  }
+
+  return { conversations, archivedConversations };
 };
 
-export const getLeftPaneList = createSelector(
+export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
   getSelectedConversation,
-  _getLeftPaneList
+  _getLeftPaneLists
 );
 
 export const getMe = createSelector(

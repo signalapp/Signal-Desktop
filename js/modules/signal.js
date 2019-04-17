@@ -42,6 +42,7 @@ const {
 } = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
+const { MainHeader } = require('../../ts/components/MainHeader');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
@@ -215,6 +216,7 @@ exports.setup = (options = {}) => {
     GroupNotification,
     Lightbox,
     LightboxGallery,
+    MainHeader,
     MediaGallery,
     Message,
     MessageBody,
