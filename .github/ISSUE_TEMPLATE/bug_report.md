@@ -17,6 +17,6 @@ Steps to reproduce the behavior:
 If applicable, add screenshots or log files to help explain your problem.
 
 **Other information (please complete the following information):**
- - Device: [e.g. IPhone, Android, PC]
- - OS: [e.g. Ubuntu 16.04, Android Pie, Windows 10]
+ - Device: [e.g. PC, Mac]
+ - OS: [e.g. Ubuntu 16.04, Windows 10]
  - Loki messenger Version or Git commit hash:
