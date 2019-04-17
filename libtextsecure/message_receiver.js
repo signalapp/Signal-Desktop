@@ -1021,74 +1021,71 @@ MessageReceiver.prototype.extend({
     }
     return p.then(() =>
       this.processDecrypted(envelope, msg).then(async message => {
-          const groupId = message.group && message.group.id;
-          const isBlocked = this.isGroupBlocked(groupId);
-          const isMe = envelope.source === textsecure.storage.user.getNumber();
-          const conversation = window.ConversationController.get(
-            envelope.source
-          );
-          const isLeavingGroup = Boolean(
-            message.group &&
-              message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
-          );
-          const friendRequest =
-            envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
+        const groupId = message.group && message.group.id;
+        const isBlocked = this.isGroupBlocked(groupId);
+        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const conversation = window.ConversationController.get(envelope.source);
+        const isLeavingGroup = Boolean(
+          message.group &&
+            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+        );
+        const friendRequest =
+          envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
 
-          // Check if we need to update any profile names
-          if (!isMe && conversation) {
-            let profile = null;
-            if (message.profile) {
-              profile = JSON.parse(message.profile.encodeJSON());
-            }
-
-            // Update the conversation
-            await conversation.setProfile(profile);
+        // Check if we need to update any profile names
+        if (!isMe && conversation) {
+          let profile = null;
+          if (message.profile) {
+            profile = JSON.parse(message.profile.encodeJSON());
           }
 
-          if (friendRequest && isMe) {
-            window.log.info('refusing to add a friend request to ourselves');
-            throw new Error('Cannot add a friend request for ourselves!');
-          }
-
-          if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
-            window.log.warn(
-              `Message ${this.getEnvelopeId(
-                envelope
-              )} ignored; destined for blocked group`
-            );
-            return this.removeFromCache(envelope);
-          }
-
-          if (!message.body) {
-            // Trigger conversation friend request event for empty message
-            if (conversation && !message.flags) {
-              const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
-              if (isFriendRequestAccept) {
-                await conversation.notifyFriendRequest(
-                  envelope.source,
-                  'accepted'
-                );
-              }
-            }
-            this.removeFromCache(envelope);
-            return null;
-          }
-
-          const ev = new Event('message');
-          ev.confirm = this.removeFromCache.bind(this, envelope);
-          ev.data = {
-            friendRequest,
-            source: envelope.source,
-            sourceDevice: envelope.sourceDevice,
-            timestamp: envelope.timestamp.toNumber(),
-            receivedAt: envelope.receivedAt,
-            unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
-            isP2p: envelope.isP2p,
-            message,
-          };
-          return this.dispatchAndWait(ev);
+          // Update the conversation
+          await conversation.setProfile(profile);
         }
-      )
+
+        if (friendRequest && isMe) {
+          window.log.info('refusing to add a friend request to ourselves');
+          throw new Error('Cannot add a friend request for ourselves!');
+        }
+
+        if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+          window.log.warn(
+            `Message ${this.getEnvelopeId(
+              envelope
+            )} ignored; destined for blocked group`
+          );
+          return this.removeFromCache(envelope);
+        }
+
+        if (!message.body) {
+          // Trigger conversation friend request event for empty message
+          if (conversation && !message.flags) {
+            const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
+            if (isFriendRequestAccept) {
+              await conversation.notifyFriendRequest(
+                envelope.source,
+                'accepted'
+              );
+            }
+          }
+          this.removeFromCache(envelope);
+          return null;
+        }
+
+        const ev = new Event('message');
+        ev.confirm = this.removeFromCache.bind(this, envelope);
+        ev.data = {
+          friendRequest,
+          source: envelope.source,
+          sourceDevice: envelope.sourceDevice,
+          timestamp: envelope.timestamp.toNumber(),
+          receivedAt: envelope.receivedAt,
+          unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
+          isP2p: envelope.isP2p,
+          message,
+        };
+        return this.dispatchAndWait(ev);
+      })
     );
   },
   handleLegacyMessage(envelope) {

@@ -8,7 +8,15 @@ const { remove: removeUserConfig } = require('./user_config');
 
 const pify = require('pify');
 const uuidv4 = require('uuid/v4');
-const { map, isString, fromPairs, forEach, last, isEmpty, isObject } = require('lodash');
+const {
+  map,
+  isString,
+  fromPairs,
+  forEach,
+  last,
+  isEmpty,
+  isObject,
+} = require('lodash');
 
 // To get long stack traces
 //   https://github.com/mapbox/node-sqlite3/wiki/API#sqlite3verbose

@@ -31,7 +31,6 @@ interface Props {
   showFriendRequestIndicator?: boolean;
   isBlocked: boolean;
   isOnline: boolean;
-  isMe: boolean;
   hasNickname: boolean;
 
   i18n: Localizer;

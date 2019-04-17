@@ -23,7 +23,7 @@
     Contact,
     PhoneNumber,
     Attachment,
-    Errors
+    Errors,
   } = Signal.Types;
 
   const {

@@ -1342,7 +1342,7 @@
 
         // Add the message sending on another queue so that our UI doesn't get blocked
         this.queueMessageSend(async () => {
-          message.send(this.wrapSend(promise))
+          message.send(this.wrapSend(promise));
         });
 
         return true;
