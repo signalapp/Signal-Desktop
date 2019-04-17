@@ -1,5 +1,4 @@
 /* global
-  $,
   ConversationController,
   extension,
   getConversations,
@@ -8,6 +7,7 @@
   Whisper,
   textsecure,
   Signal
+
 */
 
 // eslint-disable-next-line func-names
@@ -150,23 +150,23 @@
       // In the future this listener will be added by the conversation view itself. But
       //   because we currently have multiple converations open at once, we install just
       //   one global handler.
-      $(document).on('keydown', event => {
-        const { ctrlKey, key } = event;
+      // $(document).on('keydown', event => {
+      //   const { ctrlKey, key } = event;
 
-        // We can add Command-E as the Mac shortcut when we add it to our Electron menus:
-        //   https://stackoverflow.com/questions/27380018/when-cmd-key-is-kept-pressed-keyup-is-not-triggered-for-any-other-key
-        // For now, it will stay as CTRL-E only
-        if (key === 'e' && ctrlKey) {
-          const state = this.store.getState();
-          const selectedId = state.conversations.selectedConversation;
-          const conversation = ConversationController.get(selectedId);
+      // We can add Command-E as the Mac shortcut when we add it to our Electron menus:
+      //   https://stackoverflow.com/questions/27380018/when-cmd-key-is-kept-pressed-keyup-is-not-triggered-for-any-other-key
+      // For now, it will stay as CTRL-E only
+      //   if (key === 'e' && ctrlKey) {
+      //     const state = this.store.getState();
+      //     const selectedId = state.conversations.selectedConversation;
+      //     const conversation = ConversationController.get(selectedId);
 
-          if (conversation && !conversation.get('isArchived')) {
-            conversation.setArchived(true);
-            conversation.trigger('unload');
-          }
-        }
-      });
+      //     if (conversation && !conversation.get('isArchived')) {
+      //       conversation.setArchived(true);
+      //       conversation.trigger('unload');
+      //     }
+      //   }
+      // });
 
       this.listenTo(convoCollection, 'remove', conversation => {
         const { id } = conversation || {};
