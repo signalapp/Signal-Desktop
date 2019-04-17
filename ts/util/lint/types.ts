@@ -46,10 +46,10 @@ export const REASONS = [
 
 export type RuleType = {
   name: string;
-  expression: string | null;
+  expression?: string;
   reason: string;
   regex: RegExp;
-  excludedModules: Array<string> | null;
+  excludedModules?: Array<string>;
 };
 
 export type ExceptionType = {

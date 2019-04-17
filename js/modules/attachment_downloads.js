@@ -282,9 +282,9 @@ async function _finishJob(message, id) {
 
       if (fromConversation && message !== fromConversation) {
         fromConversation.set(message.attributes);
-        fromConversation.trigger('change');
+        fromConversation.trigger('change', fromConversation);
       } else {
-        message.trigger('change');
+        message.trigger('change', message);
       }
     }
   }

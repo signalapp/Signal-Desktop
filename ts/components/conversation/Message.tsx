@@ -4,28 +4,32 @@ import classNames from 'classnames';
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
-import { ExpireTimer, getIncrement } from './ExpireTimer';
-import {
-  getGridDimensions,
-  getImageDimensions,
-  hasImage,
-  hasVideoScreenshot,
-  ImageGrid,
-  isImage,
-  isImageAttachment,
-  isVideo,
-} from './ImageGrid';
+import { ExpireTimer } from './ExpireTimer';
+import { ImageGrid } from './ImageGrid';
 import { Image } from './Image';
 import { Timestamp } from './Timestamp';
 import { ContactName } from './ContactName';
 import { Quote, QuotedAttachmentType } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
-import * as MIME from '../../../ts/types/MIME';
 
-import { AttachmentType } from './types';
-import { isFileDangerous } from '../../util/isFileDangerous';
+import {
+  canDisplayImage,
+  getExtensionForDisplay,
+  getGridDimensions,
+  getImageDimensions,
+  hasImage,
+  hasVideoScreenshot,
+  isAudio,
+  isImage,
+  isImageAttachment,
+  isVideo,
+} from '../../../ts/types/Attachment';
+import { AttachmentType } from '../../types/Attachment';
 import { Contact } from '../../types/Contact';
-import { Color, Localizer } from '../../types/Util';
+
+import { getIncrement } from '../../util/timer';
+import { isFileDangerous } from '../../util/isFileDangerous';
+import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 interface Trigger {
@@ -56,12 +60,12 @@ export interface Props {
     onSendMessage?: () => void;
     onClick?: () => void;
   };
-  i18n: Localizer;
+  i18n: LocalizerType;
   authorName?: string;
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
-  authorColor?: Color;
+  authorColor?: ColorType;
   conversationType: 'group' | 'direct';
   attachments?: Array<AttachmentType>;
   quote?: {
@@ -71,7 +75,7 @@ export interface Props {
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
-    authorColor?: Color;
+    authorColor?: ColorType;
     onClick?: () => void;
     referencedMessageNotFound: boolean;
   };
@@ -101,12 +105,12 @@ interface State {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-export class Message extends React.Component<Props, State> {
+export class Message extends React.PureComponent<Props, State> {
   public captureMenuTriggerBound: (trigger: any) => void;
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
   public handleImageErrorBound: () => void;
 
-  public menuTriggerRef: Trigger | null;
+  public menuTriggerRef: Trigger | undefined;
   public expirationCheckInterval: any;
   public expiredTimeout: any;
 
@@ -116,10 +120,6 @@ export class Message extends React.Component<Props, State> {
     this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
     this.showMenuBound = this.showMenu.bind(this);
     this.handleImageErrorBound = this.handleImageError.bind(this);
-
-    this.menuTriggerRef = null;
-    this.expirationCheckInterval = null;
-    this.expiredTimeout = null;
 
     this.state = {
       expiring: false,
@@ -380,7 +380,7 @@ export class Message extends React.Component<Props, State> {
       );
     } else {
       const { pending, fileName, fileSize, contentType } = firstAttachment;
-      const extension = getExtension({ contentType, fileName });
+      const extension = getExtensionForDisplay({ contentType, fileName });
       const isDangerous = isFileDangerous(fileName || '');
 
       return (
@@ -867,7 +867,7 @@ export class Message extends React.Component<Props, State> {
     );
   }
 
-  public getWidth(): Number | undefined {
+  public getWidth(): number | undefined {
     const { attachments, previews } = this.props;
 
     if (attachments && attachments.length) {
@@ -997,54 +997,4 @@ export class Message extends React.Component<Props, State> {
       </div>
     );
   }
-}
-
-export function getExtension({
-  fileName,
-  contentType,
-}: {
-  fileName: string;
-  contentType: MIME.MIMEType;
-}): string | null {
-  if (fileName && fileName.indexOf('.') >= 0) {
-    const lastPeriod = fileName.lastIndexOf('.');
-    const extension = fileName.slice(lastPeriod + 1);
-    if (extension.length) {
-      return extension;
-    }
-  }
-
-  if (!contentType) {
-    return null;
-  }
-
-  const slash = contentType.indexOf('/');
-  if (slash >= 0) {
-    return contentType.slice(slash + 1);
-  }
-
-  return null;
-}
-
-function isAudio(attachments?: Array<AttachmentType>) {
-  return (
-    attachments &&
-    attachments[0] &&
-    attachments[0].contentType &&
-    MIME.isAudio(attachments[0].contentType)
-  );
-}
-
-function canDisplayImage(attachments?: Array<AttachmentType>) {
-  const { height, width } =
-    attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
-
-  return (
-    height &&
-    height > 0 &&
-    height <= 4096 &&
-    width &&
-    width > 0 &&
-    width <= 4096
-  );
 }

@@ -1433,11 +1433,7 @@
     },
 
     async openConversation(number) {
-      const conversation = await window.ConversationController.getOrCreateAndWait(
-        number,
-        'private'
-      );
-      window.Whisper.events.trigger('showConversation', conversation);
+      window.Whisper.events.trigger('showConversation', number);
     },
 
     listenBack(view) {

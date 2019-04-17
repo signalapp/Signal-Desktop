@@ -1488,7 +1488,7 @@ async function getAllGroupsInvolvingId(id) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function searchConversations(query) {
+async function searchConversations(query, { limit } = {}) {
   const rows = await db.all(
     `SELECT json FROM conversations WHERE
       (
@@ -1496,11 +1496,13 @@ async function searchConversations(query) {
         name LIKE $name OR
         profileName LIKE $profileName
       )
-     ORDER BY id ASC;`,
+     ORDER BY id ASC
+     LIMIT $limit`,
     {
       $id: `%${query}%`,
       $name: `%${query}%`,
       $profileName: `%${query}%`,
+      $limit: limit || 50,
     }
   );
 

@@ -7,15 +7,16 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { Colors, Localizer } from '../types/Util';
+import { Colors, LocalizerType } from '../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
-interface Props {
+export type PropsData = {
+  id: string;
   phoneNumber: string;
+  color?: string;
   profileName?: string;
   name?: string;
-  color?: string;
-  conversationType: 'group' | 'direct';
+  type: 'group' | 'direct';
   avatarPath?: string;
   isMe: boolean;
 
@@ -28,13 +29,16 @@ interface Props {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
   };
-  showFriendRequestIndicator?: boolean;
-  isBlocked: boolean;
-  isOnline: boolean;
-  hasNickname: boolean;
 
-  i18n: Localizer;
-  onClick?: () => void;
+  showFriendRequestIndicator?: boolean;
+  isBlocked?: boolean;
+  isOnline?: boolean;
+  hasNickname?: boolean;
+};
+
+type PropsHousekeeping = {
+  i18n: LocalizerType;
+  onClick?: (id: string) => void;
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
   onBlockContact?: () => void;
@@ -42,14 +46,16 @@ interface Props {
   onClearNickname?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
-}
+};
 
-export class ConversationListItem extends React.Component<Props> {
+type Props = PropsData & PropsHousekeeping;
+
+export class ConversationListItem extends React.PureComponent<Props> {
   public renderAvatar() {
     const {
       avatarPath,
       color,
-      conversationType,
+      type,
       i18n,
       isMe,
       name,
@@ -66,7 +72,7 @@ export class ConversationListItem extends React.Component<Props> {
           avatarPath={avatarPath}
           color={color}
           noteToSelf={isMe}
-          conversationType={conversationType}
+          conversationType={type}
           i18n={i18n}
           name={name}
           phoneNumber={phoneNumber}
@@ -186,10 +192,10 @@ export class ConversationListItem extends React.Component<Props> {
 
   public renderMessage() {
     const { lastMessage, isTyping, unreadCount, i18n } = this.props;
-
     if (!lastMessage && !isTyping) {
       return null;
     }
+    const text = lastMessage && lastMessage.text ? lastMessage.text : '';
 
     return (
       <div className="module-conversation-list-item__message">
@@ -205,7 +211,7 @@ export class ConversationListItem extends React.Component<Props> {
             <TypingAnimation i18n={i18n} />
           ) : (
             <MessageBody
-              text={lastMessage && lastMessage.text ? lastMessage.text : ''}
+              text={text}
               disableJumbomoji={true}
               disableLinks={true}
               i18n={i18n}
@@ -231,6 +237,7 @@ export class ConversationListItem extends React.Component<Props> {
       phoneNumber,
       unreadCount,
       onClick,
+      id,
       isSelected,
       showFriendRequestIndicator,
       isBlocked,
@@ -243,17 +250,19 @@ export class ConversationListItem extends React.Component<Props> {
         <ContextMenuTrigger id={triggerId}>
           <div
             role="button"
-            onClick={onClick}
+            onClick={() => {
+              if (onClick) {
+                onClick(id);
+              }
+            }}
             className={classNames(
               'module-conversation-list-item',
-              unreadCount > 0
-                ? 'module-conversation-list-item--has-unread'
-                : null,
+              unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
               isSelected ? 'module-conversation-list-item--is-selected' : null,
               showFriendRequestIndicator
                 ? 'module-conversation-list-item--has-friend-request'
                 : null,
-              isBlocked ? 'module-conversation-list-item--is-blocked' : null
+                isBlocked ? 'module-conversation-list-item--is-blocked' : null
             )}
           >
             {this.renderAvatar()}

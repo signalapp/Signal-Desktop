@@ -2,7 +2,7 @@ import React from 'react';
 
 import LinkifyIt from 'linkify-it';
 
-import { RenderTextCallback } from '../../types/Util';
+import { RenderTextCallbackType } from '../../types/Util';
 import { isLinkSneaky } from '../../../js/modules/link_previews';
 
 const linkify = LinkifyIt();
@@ -10,7 +10,7 @@ const linkify = LinkifyIt();
 interface Props {
   text: string;
   /** Allows you to customize now non-links are rendered. Simplest is just a <span>. */
-  renderNonLink?: RenderTextCallback;
+  renderNonLink?: RenderTextCallbackType;
 }
 
 const SUPPORTED_PROTOCOLS = /^(http|https):/i;

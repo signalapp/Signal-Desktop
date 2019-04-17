@@ -22,25 +22,6 @@
         _.debounce(this.updateUnreadCount.bind(this), 1000)
       );
       this.startPruning();
-
-      this.collator = new Intl.Collator();
-    },
-    comparator(m1, m2) {
-      const timestamp1 = m1.get('timestamp');
-      const timestamp2 = m2.get('timestamp');
-      if (timestamp1 && !timestamp2) {
-        return -1;
-      }
-      if (timestamp2 && !timestamp1) {
-        return 1;
-      }
-      if (timestamp1 && timestamp2 && timestamp1 !== timestamp2) {
-        return timestamp2 - timestamp1;
-      }
-
-      const title1 = m1.getTitle().toLowerCase();
-      const title2 = m2.getTitle().toLowerCase();
-      return this.collator.compare(title1, title2);
     },
     addActive(model) {
       if (model.get('active_at')) {
@@ -115,21 +96,6 @@
   window.getContactCollection = () => contactCollection;
 
   window.ConversationController = {
-    getCollection() {
-      return conversations;
-    },
-    markAsSelected(toSelect) {
-      conversations.each(conversation => {
-        const current = conversation.isSelected || false;
-        const newValue = conversation.id === toSelect.id;
-
-        // eslint-disable-next-line no-param-reassign
-        conversation.isSelected = newValue;
-        if (current !== newValue) {
-          conversation.trigger('change');
-        }
-      });
-    },
     get(id) {
       if (!this._initialFetchComplete) {
         throw new Error(

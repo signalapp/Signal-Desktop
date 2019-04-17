@@ -44,41 +44,41 @@
     getRenderInfo() {
       const { Components } = window.Signal;
 
-      if (this.model.isExpirationTimerUpdate()) {
+      if (this.model.propsForTimerNotification) {
         return {
           Component: Components.TimerNotification,
-          props: this.model.getPropsForTimerNotification(),
+          props: this.model.propsForTimerNotification,
         };
-      } else if (this.model.isKeyChange()) {
+      } else if (this.model.propsForSafetyNumberNotification) {
         return {
           Component: Components.SafetyNumberNotification,
-          props: this.model.getPropsForSafetyNumberNotification(),
+          props: this.model.propsForSafetyNumberNotification,
         };
-      } else if (this.model.isVerifiedChange()) {
+      } else if (this.model.propsForVerificationNotification) {
         return {
           Component: Components.VerificationNotification,
-          props: this.model.getPropsForVerificationNotification(),
+          props: this.model.propsForVerificationNotification,
         };
-      } else if (this.model.isEndSession()) {
+      } else if (this.model.propsForResetSessionNotification) {
         return {
           Component: Components.ResetSessionNotification,
-          props: this.model.getPropsForResetSessionNotification(),
+          props: this.model.propsForResetSessionNotification,
         };
-      } else if (this.model.isGroupUpdate()) {
+      } else if (this.model.propsForGroupNotification) {
         return {
           Component: Components.GroupNotification,
-          props: this.model.getPropsForGroupNotification(),
+          props: this.model.propsForGroupNotification,
         };
-      } else if (this.model.isFriendRequest()) {
+      } else if (this.model.propsForFriendRequest) {
         return {
           Component: Components.FriendRequest,
-          props: this.model.getPropsForFriendRequest(),
+          props: this.model.propsForFriendRequest,
         };
       }
 
       return {
         Component: Components.Message,
-        props: this.model.getPropsForMessage(),
+        props: this.model.propsForMessage,
       };
     },
     render() {

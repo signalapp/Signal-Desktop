@@ -373,57 +373,54 @@
         });
       });
     },
-    createAccount(identityKeyPair, userAgent, readReceipts) {
+    async createAccount(identityKeyPair, userAgent, readReceipts) {
       const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
       let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
       password = password.substring(0, password.length - 2);
       const registrationId = libsignal.KeyHelper.generateRegistrationId();
 
+      await Promise.all([
+        textsecure.storage.remove('identityKey'),
+        textsecure.storage.remove('signaling_key'),
+        textsecure.storage.remove('password'),
+        textsecure.storage.remove('registrationId'),
+        textsecure.storage.remove('number_id'),
+        textsecure.storage.remove('device_name'),
+        textsecure.storage.remove('userAgent'),
+        textsecure.storage.remove('read-receipts-setting'),
+        textsecure.storage.remove('regionCode'),
+      ]);
+
       // update our own identity key, which may have changed
       // if we're relinking after a reinstall on the master device
       const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
-
-      return Promise.resolve().then(async () => {
-        await Promise.all([
-          textsecure.storage.remove('identityKey'),
-          textsecure.storage.remove('signaling_key'),
-          textsecure.storage.remove('password'),
-          textsecure.storage.remove('registrationId'),
-          textsecure.storage.remove('number_id'),
-          textsecure.storage.remove('device_name'),
-          textsecure.storage.remove('userAgent'),
-          textsecure.storage.remove('read-receipts-setting'),
-        ]);
-
-        // update our own identity key, which may have changed
-        // if we're relinking after a reinstall on the master device
-        await textsecure.storage.protocol.saveIdentityWithAttributes(
-          pubKeyString,
-          {
-            id: pubKeyString,
-            publicKey: identityKeyPair.pubKey,
-            firstUse: true,
-            timestamp: Date.now(),
-            verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
-            nonblockingApproval: true,
-          }
-        );
-
-        await textsecure.storage.put('identityKey', identityKeyPair);
-        await textsecure.storage.put('signaling_key', signalingKey);
-        await textsecure.storage.put('password', password);
-        await textsecure.storage.put('registrationId', registrationId);
-        if (userAgent) {
-          await textsecure.storage.put('userAgent', userAgent);
+      await textsecure.storage.protocol.saveIdentityWithAttributes(
+        pubKeyString,
+        {
+          id: pubKeyString,
+          publicKey: identityKeyPair.pubKey,
+          firstUse: true,
+          timestamp: Date.now(),
+          verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
+          nonblockingApproval: true,
         }
+      );
 
-        await textsecure.storage.put(
-          'read-receipt-setting',
-          Boolean(readReceipts)
-        );
+      await textsecure.storage.put('identityKey', identityKeyPair);
+      await textsecure.storage.put('signaling_key', signalingKey);
+      await textsecure.storage.put('password', password);
+      await textsecure.storage.put('registrationId', registrationId);
+      if (userAgent) {
+        await textsecure.storage.put('userAgent', userAgent);
+      }
 
-        await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
-      });
+      await textsecure.storage.put(
+        'read-receipt-setting',
+        Boolean(readReceipts)
+      );
+
+      await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
+      await textsecure.storage.put('regionCode', null);
     },
     async clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;

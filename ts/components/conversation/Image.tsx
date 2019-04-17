@@ -2,8 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Spinner } from '../Spinner';
-import { Localizer } from '../../types/Util';
-import { AttachmentType } from './types';
+import { LocalizerType } from '../../types/Util';
+import { AttachmentType } from '../../types/Attachment';
 
 interface Props {
   alt: string;
@@ -28,7 +28,7 @@ interface Props {
   playIconOverlay?: boolean;
   softCorners?: boolean;
 
-  i18n: Localizer;
+  i18n: LocalizerType;
   onClick?: (attachment: AttachmentType) => void;
   onClickClose?: (attachment: AttachmentType) => void;
   onError?: () => void;
@@ -62,10 +62,11 @@ export class Image extends React.Component<Props> {
 
     const { caption, pending } = attachment || { caption: null, pending: true };
     const canClick = onClick && !pending;
+    const role = canClick ? 'button' : undefined;
 
     return (
       <div
-        role={canClick ? 'button' : undefined}
+        role={role}
         onClick={() => {
           if (canClick && onClick) {
             onClick(attachment);

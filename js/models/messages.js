@@ -94,6 +94,44 @@
       this.setToExpire();
 
       this.updatePreview();
+
+      // Keep props ready
+      const generateProps = () => {
+        if (this.isExpirationTimerUpdate()) {
+          this.propsForTimerNotification = this.getPropsForTimerNotification();
+        } else if (this.isKeyChange()) {
+          this.propsForSafetyNumberNotification = this.getPropsForSafetyNumberNotification();
+        } else if (this.isVerifiedChange()) {
+          this.propsForVerificationNotification = this.getPropsForVerificationNotification();
+        } else if (this.isEndSession()) {
+          this.propsForResetSessionNotification = this.getPropsForResetSessionNotification();
+        } else if (this.isGroupUpdate()) {
+          this.propsForGroupNotification = this.getPropsForGroupNotification();
+        } else if (this.isFriendRequest()) {
+          this.propsForFriendRequest = this.getPropsForFriendRequest();
+        } else {
+          this.propsForSearchResult = this.getPropsForSearchResult();
+          this.propsForMessage = this.getPropsForMessage();
+        }
+      };
+      this.on('change', generateProps);
+
+      const applicableConversationChanges =
+        'change:color change:name change:number change:profileName change:profileAvatar';
+
+      const conversation = this.getConversation();
+      const fromContact = this.getIncomingContact();
+
+      this.listenTo(conversation, applicableConversationChanges, generateProps);
+      if (fromContact) {
+        this.listenTo(
+          fromContact,
+          applicableConversationChanges,
+          generateProps
+        );
+      }
+
+      generateProps();
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -549,6 +587,35 @@
 
       return 'sending';
     },
+    getPropsForSearchResult() {
+      const fromNumber = this.getSource();
+      const from = this.findAndFormatContact(fromNumber);
+      if (fromNumber === this.OUR_NUMBER) {
+        from.isMe = true;
+      }
+
+      const toNumber = this.get('conversationId');
+      let to = this.findAndFormatContact(toNumber);
+      if (toNumber === this.OUR_NUMBER) {
+        to.isMe = true;
+      } else if (fromNumber === toNumber) {
+        to = {
+          isMe: true,
+        };
+      }
+
+      return {
+        from,
+        to,
+
+        isSelected: this.isSelected,
+
+        id: this.id,
+        conversationId: this.get('conversationId'),
+        receivedAt: this.get('received_at'),
+        snippet: this.get('snippet'),
+      };
+    },
     getPropsForMessage() {
       const phoneNumber = this.getSource();
       const contact = this.findAndFormatContact(phoneNumber);
@@ -660,7 +727,7 @@
       // Would be nice to do this before render, on initial load of message
       if (!window.isSignalAccountCheckComplete(firstNumber)) {
         window.checkForSignalAccount(firstNumber).then(() => {
-          this.trigger('change');
+          this.trigger('change', this);
         });
       }
 

@@ -201,6 +201,7 @@ body.dark-theme {
 
   button.emoji {
     &:before {
+      margin-top: 4px;
       @include color-svg('../images/smile.svg', $color-dark-30);
     }
   }
@@ -1367,8 +1368,32 @@ body.dark-theme {
 
   // Module: Main Header
 
-  .module-main-header__app-name {
-    color: $color-dark-05;
+  .module-main-header {
+    border-bottom: 1px solid $color-gray-75;
+  }
+
+  .module-main-header__search__input {
+    background-color: $color-gray-95;
+    border-radius: 14px;
+    border: solid 1px $color-gray-75;
+    color: $color-gray-05;
+
+    &::placeholder {
+      color: $color-gray-45;
+    }
+
+    &:focus {
+      border: solid 1px blue;
+      outline: none;
+    }
+  }
+
+  .module-main-header__search__icon {
+    @include color-svg('../images/search.svg', $color-gray-25);
+  }
+
+  .module-main-header__search__cancel-icon {
+    @include color-svg('../images/x.svg', $color-gray-25);
   }
 
   // Module: Image
@@ -1495,6 +1520,100 @@ body.dark-theme {
   }
   .module-spinner__arc--small-outgoing {
     background-color: $color-gray-05;
+  }
+
+  // Module: Caption Editor
+
+  .module-caption-editor {
+    background-color: $color-black;
+  }
+
+  .module-caption-editor__close-button {
+    @include color-svg('../images/x.svg', $color-white);
+  }
+
+  .module-caption-editor__media-container {
+    background-color: $color-black;
+  }
+
+  .module-caption-editor__caption-input {
+    border: 1px solid $color-white;
+    color: $color-white;
+    background-color: $color-black;
+
+    &::placeholder {
+      color: $color-white-07;
+    }
+    &:focus {
+      border: 1px solid $color-signal-blue;
+      outline: none;
+    }
+  }
+
+  .module-caption-editor__save-button {
+    background-color: $color-signal-blue;
+    color: $color-white;
+  }
+
+  // Module: Highlighted Message Body
+
+  // Module: Search Results
+
+  .module-search-results__conversations-header {
+    color: $color-gray-05;
+  }
+  .module-search-results__contacts-header {
+    color: $color-gray-05;
+  }
+  .module-search-results__messages-header {
+    color: $color-gray-05;
+  }
+
+  // Module: Message Search Result
+
+  .module-message-search-result {
+    &:hover {
+      background-color: $color-dark-70;
+    }
+  }
+
+  .module-message-search-result--is-selected {
+    background-color: $color-dark-70;
+  }
+
+  .module-message-search-result__header__from {
+    color: $color-gray-05;
+  }
+
+  .module-message-search-result__header__timestamp {
+    color: $color-gray-25;
+  }
+
+  .module-message-search-result__body {
+    color: $color-gray-05;
+  }
+
+  // Module: Left Pane
+
+  .module-left-pane {
+    background-color: $color-dark-85;
+    border-right: 1px solid $color-gray-75;
+  }
+
+  // Module: Start New Conversation
+
+  .module-start-new-conversation {
+    &:hover {
+      background-color: $color-dark-70;
+    }
+  }
+
+  .module-start-new-conversation__number {
+    color: $color-gray-05;
+  }
+
+  .module-start-new-conversation__text {
+    color: $color-gray-45;
   }
 
   // Third-party module: react-contextmenu

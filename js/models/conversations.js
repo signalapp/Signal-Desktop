@@ -1,15 +1,17 @@
-/* global _: false */
-/* global Backbone: false */
-/* global BlockedNumberController: false */
-/* global ConversationController: false */
-/* global clipboard: false */
-/* global i18n: false */
-/* global profileImages: false */
-/* global storage: false */
-/* global textsecure: false */
-/* global Whisper: false */
-/* global lokiP2pAPI: false */
-/* global JobQueue: false */
+/* global
+  _,
+  i18n,
+  Backbone,
+  ConversationController,
+  storage,
+  textsecure,
+  Whisper,
+  profileImages,
+  clipboard,
+  BlockedNumberController,
+  lokiP2pAPI,
+  JobQueue
+*/
 
 /* eslint-disable more/no-then */
 
@@ -166,6 +168,13 @@
       this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
 
       this.messageSendQueue = new JobQueue();
+
+      // Keep props ready
+      const generateProps = () => {
+        this.cachedProps = this.getProps();
+      };
+      this.on('change', generateProps);
+      generateProps();
     },
 
     isOnline() {
@@ -356,27 +365,6 @@
       this.clearContactTypingTimer(identifier);
     },
 
-    addSingleMessage(message, setToExpire = true) {
-      const model = this.messageCollection.add(message, { merge: true });
-      if (setToExpire) model.setToExpire();
-      return model;
-    },
-    format() {
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-      const color = this.getColor();
-
-      return {
-        phoneNumber: format(this.id, {
-          ourRegionCode: regionCode,
-        }),
-        color,
-        avatarPath: this.getAvatarPath(),
-        name: this.getName(),
-        profileName: this.getProfileName(),
-        title: this.getTitle(),
-      };
-    },
     // This goes through all our message history and finds a friend request
     async getFriendRequests(direction = null, status = ['pending']) {
       // Theoretically all our messages could be friend requests,
@@ -402,21 +390,42 @@
     async getPendingFriendRequests(direction = null) {
       return this.getFriendRequests(direction, ['pending']);
     },
-    getPropsForListItem() {
+
+    addSingleMessage(message, setToExpire = true) {
+      const model = this.messageCollection.add(message, { merge: true });
+      if (setToExpire) model.setToExpire();
+      return model;
+    },
+    format() {
+      return this.cachedProps;
+    },
+    getProps() {
+      const { format } = PhoneNumber;
+      const regionCode = storage.get('regionCode');
+      const color = this.getColor();
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
       const result = {
-        ...this.format(),
-        isMe: this.isMe(),
-        conversationType: this.isPrivate() ? 'direct' : 'group',
+        id: this.id,
 
+        activeAt: this.get('active_at'),
+        avatarPath: this.getAvatarPath(),
+        color,
+        type: this.isPrivate() ? 'direct' : 'group',
+        isMe: this.isMe(),
+        isTyping: typingKeys.length > 0,
         lastUpdated: this.get('timestamp'),
+        name: this.getName(),
+        profileName: this.getProfileName(),
+        timestamp: this.get('timestamp'),
+        title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
-        isSelected: this.isSelected,
         showFriendRequestIndicator: this.isPendingFriendRequest(),
         isBlocked: this.isBlocked(),
 
-        isTyping: typingKeys.length > 0,
+        phoneNumber: format(this.id, {
+          ourRegionCode: regionCode,
+        }),
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
@@ -872,8 +881,8 @@
     onMemberVerifiedChange() {
       // If the verified state of a member changes, our aggregate state changes.
       // We trigger both events to replicate the behavior of Backbone.Model.set()
-      this.trigger('change:verified');
-      this.trigger('change');
+      this.trigger('change:verified', this);
+      this.trigger('change', this);
     },
     toggleVerified() {
       if (this.isVerified()) {
@@ -2175,7 +2184,7 @@
       if (this.isPrivate()) {
         return this.get('name');
       }
-      return this.get('name') || 'Unknown group';
+      return this.get('name') || i18n('unknownGroup');
     },
 
     getTitle() {
@@ -2407,14 +2416,14 @@
         if (!record) {
           // User was not previously typing before. State change!
           this.trigger('typing-update');
-          this.trigger('change');
+          this.trigger('change', this);
         }
       } else {
         delete this.contactTypingTimers[identifier];
         if (record) {
           // User was previously typing, and is no longer. State change!
           this.trigger('typing-update');
-          this.trigger('change');
+          this.trigger('change', this);
         }
       }
     },
@@ -2429,7 +2438,7 @@
 
         // User was previously typing, but timed out or we received message. State change!
         this.trigger('typing-update');
-        this.trigger('change');
+        this.trigger('change', this);
       }
     },
   });
@@ -2450,21 +2459,6 @@
         )
       );
       this.reset([]);
-    },
-
-    async search(providedQuery) {
-      let query = providedQuery.trim().toLowerCase();
-      query = query.replace(/[+-.()]*/g, '');
-
-      if (query.length === 0) {
-        return;
-      }
-
-      const collection = await window.Signal.Data.searchConversations(query, {
-        ConversationCollection: Whisper.ConversationCollection,
-      });
-
-      this.reset(collection.models);
     },
   });
 

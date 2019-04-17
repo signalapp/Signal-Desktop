@@ -29,6 +29,12 @@
             Message: Whisper.Message,
           });
 
+          Whisper.events.trigger(
+            'messageExpired',
+            message.id,
+            message.conversationId
+          );
+
           const conversation = message.getConversation();
           if (conversation) {
             conversation.trigger('expired', message);

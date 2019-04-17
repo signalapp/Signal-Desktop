@@ -5,13 +5,13 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../../util/GoogleChrome';
-import { Localizer } from '../../../types/Util';
+import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 
 interface Props {
   mediaItem: MediaItemType;
   onClick?: () => void;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 interface State {
@@ -19,7 +19,7 @@ interface State {
 }
 
 export class MediaGridItem extends React.Component<Props, State> {
-  private onImageErrorBound: () => void;
+  private readonly onImageErrorBound: () => void;
 
   constructor(props: Props) {
     super(props);

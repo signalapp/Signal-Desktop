@@ -4,7 +4,7 @@ import { compact, flatten } from 'lodash';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
@@ -23,7 +23,7 @@ interface Change {
 
 interface Props {
   changes: Array<Change>;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class GroupNotification extends React.Component<Props> {
@@ -61,15 +61,10 @@ export class GroupNotification extends React.Component<Props> {
           throw new Error('Group update is missing contacts');
         }
 
-        return (
-          <Intl
-            i18n={i18n}
-            id={
-              contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup'
-            }
-            components={[people]}
-          />
-        );
+        const joinKey =
+          contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
+
+        return <Intl i18n={i18n} id={joinKey} components={[people]} />;
       case 'remove':
         if (isMe) {
           return i18n('youLeftTheGroup');
@@ -79,13 +74,10 @@ export class GroupNotification extends React.Component<Props> {
           throw new Error('Group update is missing contacts');
         }
 
-        return (
-          <Intl
-            i18n={i18n}
-            id={contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup'}
-            components={[people]}
-          />
-        );
+        const leftKey =
+          contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
+
+        return <Intl i18n={i18n} id={leftKey} components={[people]} />;
       case 'general':
         return i18n('updatedTheGroup');
       default:

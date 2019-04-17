@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
@@ -17,7 +17,7 @@ interface Props {
   type: 'markVerified' | 'markNotVerified';
   isLocal: boolean;
   contact: Contact;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class VerificationNotification extends React.Component<Props> {

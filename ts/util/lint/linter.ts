@@ -74,6 +74,10 @@ const excludedFiles = [
   '^libtextsecure/test/*',
   '^test/*',
 
+  // Modules we trust
+  '^node_modules/react/*',
+  '^node_modules/react-dom/*',
+
   // Modules used only in test/development scenarios
   '^node_modules/@types/*',
   '^node_modules/ajv/*',
@@ -227,6 +231,7 @@ forEach(allSourceFiles, file => {
 
       const exception = exceptionsLookup[exceptionKey];
       if (exception && (!exception.line || exception.line === line)) {
+        // tslint:disable-next-line no-dynamic-delete
         delete exceptionsLookup[exceptionKey];
 
         return;

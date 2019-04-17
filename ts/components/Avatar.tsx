@@ -2,13 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { getInitials } from '../util/getInitials';
-import { Localizer } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 
 interface Props {
   avatarPath?: string;
   color?: string;
   conversationType: 'group' | 'direct';
-  i18n: Localizer;
+  i18n: LocalizerType;
   noteToSelf?: boolean;
   name?: string;
   phoneNumber?: string;
@@ -54,9 +54,8 @@ export class Avatar extends React.Component<Props, State> {
       borderWidth,
     } = this.props;
     const { imageBroken } = this.state;
-    const hasImage = avatarPath && !imageBroken;
 
-    if (!hasImage) {
+    if (!avatarPath || imageBroken) {
       return null;
     }
 

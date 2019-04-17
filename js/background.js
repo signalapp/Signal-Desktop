@@ -177,6 +177,12 @@
       const PASSWORD = storage.get('password');
       accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
       accountManager.addEventListener('registration', () => {
+        const user = {
+          regionCode: window.storage.get('regionCode'),
+          ourNumber: textsecure.storage.user.getNumber(),
+        };
+        Whisper.events.trigger('userChanged', user);
+
         Whisper.Registration.markDone();
         window.log.info('dispatching registration event');
         Whisper.events.trigger('registration_done');
@@ -587,9 +593,9 @@
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
-    Whisper.events.on('showConversation', conversation => {
+    Whisper.events.on('showConversation', (id, messageId) => {
       if (appView) {
-        appView.openConversation(conversation);
+        appView.openConversation(id, messageId);
       }
     });
 
@@ -600,10 +606,10 @@
       });
     });
 
-    Whisper.Notifications.on('click', conversation => {
+    Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
-      if (conversation) {
-        appView.openConversation(conversation);
+      if (id) {
+        appView.openConversation(id, messageId);
       } else {
         appView.openInbox({
           initialLoadComplete,
