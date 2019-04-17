@@ -305,6 +305,19 @@ describe('Link previews', () => {
       const actual = findLinks(text, caretLocation);
       assert.deepEqual(expected, actual);
     });
+
+    it('includes links with "special" characters', () => {
+      const text =
+        'Check out this link: https://en.wikipedia.org/wiki/@\nAnd this one too: https://en.wikipedia.org/wiki/:';
+
+      const expected = [
+        'https://en.wikipedia.org/wiki/@',
+        'https://en.wikipedia.org/wiki/:',
+      ];
+
+      const actual = findLinks(text);
+      assert.deepEqual(expected, actual);
+    });
   });
 
   describe('#isLinkSneaky', () => {
