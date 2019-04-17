@@ -376,7 +376,7 @@
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Alles klar!",
+        "message": "Verstanden",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
@@ -959,14 +959,6 @@
         "message": "Allgemein",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Link-Vorschauen senden",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Vorschauen werden unterstützt für Links von Imgur, Instagram, Reddit und YouTube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Rechtschreibprüfung für im Nachrichteneingabefeld eingegebenen Text aktivieren",
         "description": "Description of the media permission description"
@@ -1410,7 +1402,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Zum Durchführen der Aktualisierungen klicke auf »Signal neu starten«.",
+        "message": "Zum Aktualisieren klicke auf »Signal neu starten«.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {

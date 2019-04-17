@@ -959,14 +959,6 @@
         "message": "General",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Enviar previsualización",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Al activar, las previsualizaciones de enlaces de Imgur, Instagram, Reddit y YouTube se envian automáticamente.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Comprobar la ortografía al escribir el mensaje",
         "description": "Description of the media permission description"

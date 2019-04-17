@@ -12,6 +12,8 @@ const readFirstLine = require('firstline');
 const readLastLines = require('read-last-lines').read;
 const rimraf = require('rimraf');
 
+const { redactAll } = require('../js/modules/privacy');
+
 const { app, ipcMain: ipc } = electron;
 const LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'];
 let logger;
@@ -247,7 +249,7 @@ function logAtLevel(level, ...args) {
 
       return item;
     });
-    logger[level](str.join(' '));
+    logger[level](redactAll(str.join(' ')));
   } else {
     console._log(...args);
   }

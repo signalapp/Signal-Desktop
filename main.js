@@ -766,7 +766,11 @@ async function removeDB() {
 async function showMainWindow(sqlKey) {
   const userDataPath = await getRealPath(app.getPath('userData'));
 
-  await sql.initialize({ configDir: userDataPath, key: sqlKey });
+  await sql.initialize({
+    configDir: userDataPath,
+    key: sqlKey,
+    messages: locale.messages,
+  });
   await sqlChannels.initialize();
 
   try {
@@ -879,6 +883,7 @@ app.on('before-quit', () => {
     readyForShutdown: mainWindow ? mainWindow.readyForShutdown : null,
     shouldQuit: windowState.shouldQuit(),
   });
+
   windowState.markShouldQuit();
 });
 

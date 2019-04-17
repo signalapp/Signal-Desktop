@@ -959,14 +959,6 @@
         "message": "一般",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "リンクプレビューを送る",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "次のサービスのプレビューに対応しています: Imgur, Instagram, Reddit, YouTube",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "メッセージボックスに入力されたテキストのスペルチェックを有効にする",
         "description": "Description of the media permission description"

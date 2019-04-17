@@ -47,22 +47,14 @@ module.exports = {
   close,
   removeDB,
   removeIndexedDBFiles,
-
   getPasswordHash,
-
-  createOrUpdateGroup,
-  getGroupById,
-  getAllGroupIds,
-  getAllGroups,
-  bulkAddGroups,
-  removeGroupById,
-  removeAllGroups,
 
   createOrUpdateIdentityKey,
   getIdentityKeyById,
   bulkAddIdentityKeys,
   removeIdentityKeyById,
   removeAllIdentityKeys,
+  getAllIdentityKeys,
 
   createOrUpdatePreKey,
   getPreKeyById,
@@ -70,6 +62,7 @@ module.exports = {
   bulkAddPreKeys,
   removePreKeyById,
   removeAllPreKeys,
+  getAllPreKeys,
 
   createOrUpdateSignedPreKey,
   getSignedPreKeyById,
@@ -109,6 +102,7 @@ module.exports = {
   removeSessionById,
   removeSessionsByNumber,
   removeAllSessions,
+  getAllSessions,
 
   getSwarmNodesByPubkey,
 
@@ -160,8 +154,17 @@ module.exports = {
   getUnprocessedById,
   saveUnprocessed,
   saveUnprocesseds,
+  updateUnprocessedAttempts,
+  updateUnprocessedWithData,
   removeUnprocessed,
   removeAllUnprocessed,
+
+  getNextAttachmentDownloadJobs,
+  saveAttachmentDownloadJob,
+  resetAttachmentDownloadPending,
+  setAttachmentDownloadJobPending,
+  removeAttachmentDownloadJob,
+  removeAllAttachmentDownloadJobs,
 
   removeAll,
   removeAllConfiguration,
@@ -421,33 +424,6 @@ async function getPasswordHash() {
   return channels.getPasswordHash();
 }
 
-// Groups
-
-async function createOrUpdateGroup(data) {
-  await channels.createOrUpdateGroup(data);
-}
-async function getGroupById(id) {
-  const group = await channels.getGroupById(id);
-  return group;
-}
-async function getAllGroupIds() {
-  const ids = await channels.getAllGroupIds();
-  return ids;
-}
-async function getAllGroups() {
-  const groups = await channels.getAllGroups();
-  return groups;
-}
-async function bulkAddGroups(array) {
-  await channels.bulkAddGroups(array);
-}
-async function removeGroupById(id) {
-  await channels.removeGroupById(id);
-}
-async function removeAllGroups() {
-  await channels.removeAllGroups();
-}
-
 // Identity Keys
 
 const IDENTITY_KEY_KEYS = ['publicKey'];
@@ -470,6 +446,10 @@ async function removeIdentityKeyById(id) {
 }
 async function removeAllIdentityKeys() {
   await channels.removeAllIdentityKeys();
+}
+async function getAllIdentityKeys() {
+  const keys = await channels.getAllIdentityKeys();
+  return keys.map(key => keysToArrayBuffer(IDENTITY_KEY_KEYS, key));
 }
 
 // Pre Keys
@@ -496,6 +476,10 @@ async function removePreKeyById(id) {
 async function removeAllPreKeys() {
   await channels.removeAllPreKeys();
 }
+async function getAllPreKeys() {
+  const keys = await channels.getAllPreKeys();
+  return keys.map(key => keysToArrayBuffer(PRE_KEY_KEYS, key));
+}
 
 // Signed Pre Keys
 
@@ -510,7 +494,7 @@ async function getSignedPreKeyById(id) {
 }
 async function getAllSignedPreKeys() {
   const keys = await channels.getAllSignedPreKeys();
-  return keys;
+  return keys.map(key => keysToArrayBuffer(PRE_KEY_KEYS, key));
 }
 async function bulkAddSignedPreKeys(array) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
@@ -661,6 +645,10 @@ async function removeSessionsByNumber(number) {
 }
 async function removeAllSessions(id) {
   await channels.removeAllSessions(id);
+}
+async function getAllSessions(id) {
+  const sessions = await channels.getAllSessions(id);
+  return sessions;
 }
 
 // Conversation
@@ -988,13 +976,8 @@ async function getAllUnprocessed() {
   return channels.getAllUnprocessed();
 }
 
-async function getUnprocessedById(id, { Unprocessed }) {
-  const unprocessed = await channels.getUnprocessedById(id);
-  if (!unprocessed) {
-    return null;
-  }
-
-  return new Unprocessed(unprocessed);
+async function getUnprocessedById(id) {
+  return channels.getUnprocessedById(id);
 }
 
 async function saveUnprocessed(data, { forceSave } = {}) {
@@ -1008,12 +991,40 @@ async function saveUnprocesseds(arrayOfUnprocessed, { forceSave } = {}) {
   });
 }
 
+async function updateUnprocessedAttempts(id, attempts) {
+  await channels.updateUnprocessedAttempts(id, attempts);
+}
+async function updateUnprocessedWithData(id, data) {
+  await channels.updateUnprocessedWithData(id, data);
+}
+
 async function removeUnprocessed(id) {
   await channels.removeUnprocessed(id);
 }
 
 async function removeAllUnprocessed() {
   await channels.removeAllUnprocessed();
+}
+
+// Attachment downloads
+
+async function getNextAttachmentDownloadJobs(limit) {
+  return channels.getNextAttachmentDownloadJobs(limit);
+}
+async function saveAttachmentDownloadJob(job) {
+  await channels.saveAttachmentDownloadJob(job);
+}
+async function setAttachmentDownloadJobPending(id, pending) {
+  await channels.setAttachmentDownloadJobPending(id, pending);
+}
+async function resetAttachmentDownloadPending() {
+  await channels.resetAttachmentDownloadPending();
+}
+async function removeAttachmentDownloadJob(id) {
+  await channels.removeAttachmentDownloadJob(id);
+}
+async function removeAllAttachmentDownloadJobs() {
+  await channels.removeAllAttachmentDownloadJobs();
 }
 
 // Other

@@ -134,8 +134,7 @@ exports._withSchemaVersion = ({ schemaVersion, upgrade }) => {
       logger.warn(
         'WARNING: Message._withSchemaVersion: Unexpected version:',
         `Expected message to have version ${expectedVersion},`,
-        `but got ${message.schemaVersion}.`,
-        message
+        `but got ${message.schemaVersion}.`
       );
       return message;
     }
@@ -203,17 +202,11 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
   if (!context || !isObject(context.logger)) {
     throw new Error('_mapQuotedAttachments: context must have logger object');
   }
-  const { logger } = context;
 
   const upgradeWithContext = async attachment => {
     const { thumbnail } = attachment;
     if (!thumbnail) {
       return attachment;
-    }
-
-    if (!thumbnail.data && !thumbnail.path) {
-      logger.warn('Quoted attachment did not have thumbnail data; removing it');
-      return omit(attachment, ['thumbnail']);
     }
 
     const upgradedThumbnail = await upgradeAttachment(thumbnail, context);
@@ -247,17 +240,11 @@ exports._mapPreviewAttachments = upgradeAttachment => async (
   if (!context || !isObject(context.logger)) {
     throw new Error('_mapPreviewAttachments: context must have logger object');
   }
-  const { logger } = context;
 
   const upgradeWithContext = async preview => {
     const { image } = preview;
     if (!image) {
       return preview;
-    }
-
-    if (!image.data && !image.path) {
-      logger.warn('Preview did not have image data; removing it');
-      return omit(preview, ['image']);
     }
 
     const upgradedImage = await upgradeAttachment(image, context);
@@ -413,6 +400,68 @@ exports.upgradeSchema = async (
   return message;
 };
 
+// Runs on attachments outside of the schema upgrade process, since attachments are
+//   downloaded out of band.
+exports.processNewAttachment = async (
+  attachment,
+  {
+    writeNewAttachmentData,
+    getAbsoluteAttachmentPath,
+    makeObjectUrl,
+    revokeObjectUrl,
+    getImageDimensions,
+    makeImageThumbnail,
+    makeVideoScreenshot,
+    logger,
+  } = {}
+) => {
+  if (!isFunction(writeNewAttachmentData)) {
+    throw new TypeError('context.writeNewAttachmentData is required');
+  }
+  if (!isFunction(getAbsoluteAttachmentPath)) {
+    throw new TypeError('context.getAbsoluteAttachmentPath is required');
+  }
+  if (!isFunction(makeObjectUrl)) {
+    throw new TypeError('context.makeObjectUrl is required');
+  }
+  if (!isFunction(revokeObjectUrl)) {
+    throw new TypeError('context.revokeObjectUrl is required');
+  }
+  if (!isFunction(getImageDimensions)) {
+    throw new TypeError('context.getImageDimensions is required');
+  }
+  if (!isFunction(makeImageThumbnail)) {
+    throw new TypeError('context.makeImageThumbnail is required');
+  }
+  if (!isFunction(makeVideoScreenshot)) {
+    throw new TypeError('context.makeVideoScreenshot is required');
+  }
+  if (!isObject(logger)) {
+    throw new TypeError('context.logger is required');
+  }
+
+  const rotatedAttachment = await Attachment.autoOrientJPEG(attachment);
+  const onDiskAttachment = await Attachment.migrateDataToFileSystem(
+    rotatedAttachment,
+    { writeNewAttachmentData }
+  );
+  const finalAttachment = await Attachment.captureDimensionsAndScreenshot(
+    onDiskAttachment,
+    {
+      writeNewAttachmentData,
+      getAbsoluteAttachmentPath,
+      makeObjectUrl,
+      revokeObjectUrl,
+      getImageDimensions,
+      makeImageThumbnail,
+      makeVideoScreenshot,
+      logger,
+    }
+  );
+
+  return finalAttachment;
+};
+
 exports.createAttachmentLoader = loadAttachmentData => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError(
@@ -508,7 +557,10 @@ exports.deleteAllExternalFiles = ({ deleteAttachmentData, deleteOnDisk }) => {
         quote.attachments.map(async attachment => {
           const { thumbnail } = attachment;
 
-          if (thumbnail && thumbnail.path) {
+          // To prevent spoofing, we copy the original image from the quoted message.
+          //   If so, it will have a 'copied' field. We don't want to delete it if it has
+          //   that field set to true.
+          if (thumbnail && thumbnail.path && !thumbnail.copied) {
             await deleteOnDisk(thumbnail.path);
           }
         })

@@ -1,5 +1,6 @@
 /* global URL */
 
+const { isNumber, compact } = require('lodash');
 const he = require('he');
 const LinkifyIt = require('linkify-it');
 
@@ -96,9 +97,28 @@ function getImageMetaTag(html) {
   return _getMetaTag(html, META_IMAGE);
 }
 
-function findLinks(text) {
+function findLinks(text, caretLocation) {
+  const haveCaretLocation = isNumber(caretLocation);
+  const textLength = text ? text.length : 0;
+
   const matches = linkify.match(text || '') || [];
-  return matches.map(match => match.text);
+  return compact(
+    matches.map(match => {
+      if (!haveCaretLocation) {
+        return match.text;
+      }
+
+      if (match.lastIndex === textLength && caretLocation === textLength) {
+        return match.text;
+      }
+
+      if (match.index > caretLocation || match.lastIndex < caretLocation) {
+        return match.text;
+      }
+
+      return null;
+    })
+  );
 }
 
 function getDomain(url) {

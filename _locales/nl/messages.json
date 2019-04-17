@@ -64,7 +64,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Verwijderen",
+        "message": "Wissen",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
@@ -254,7 +254,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "Je hebt aangegeven dat je veiligheidsnummer met $name$is geverifieerd ",
+        "message": "Je hebt het veiligheidsnummer met $name$ als geverifieerd gemarkeerd",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -264,7 +264,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Je hebt het veiligheidsnummer met $name$ als niet geverifiëerd aangegeven",
+        "message": "Je hebt het veiligheidsnummer met $name$ als niet geverifieerd gemarkeerd",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -274,7 +274,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Je hebt het veiligheidsnummer met $name$ geverifiëerd vanaf een ander apparaat",
+        "message": "Je hebt het veiligheidsnummer met $name$ vanaf een ander apparaat als geverifieerd gemarkeerd",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -284,7 +284,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Je hebt het veiligheidsnummer met $name$ als niet geverifiëerd aangegeven vanaf een ander apparaat",
+        "message": "Je hebt het veiligheidsnummer met $name$ vanaf een ander apparaat als niet geverifieerd gemarkeerd",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -294,15 +294,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Je veiligheidsnummers met deze groepsleden zijn veranderd sinds de laatste verificatie. Klik op een groepslid om je nieuwe veiligheidsnummer met hen te bekijken.",
+        "message": "Je veiligheidsnummers met deze groepsleden zijn veranderd sinds de laatste verificatie. Klik op een groepslid om je nieuwe veiligheidsnummer met hem te bekijken.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Je veiligheidsnummers met meerdere groepsleden zijn veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat ze Signal opnieuw hebben geïnstalleerd.",
+        "message": "Je veiligheidsnummers met meerdere groepsleden zijn veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat sommige groepsleden Signal opnieuw hebben geïnstalleerd.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Je veiligheidsnummer met $name$ is veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ opnieuw heeft geïnstalleerd.",
+        "message": "Je veiligheidsnummer met $name$ is veranderd sinds de laatste verificatie. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -322,7 +322,7 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Je veiligheidsnummers met meerdere groepsleden zijn onlangs veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat ze Signal opnieuw hebben geïnstalleerd.",
+        "message": "Je veiligheidsnummers met meerdere groepsleden zijn recentelijk veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat sommige groepsleden Signal opnieuw hebben geïnstalleerd.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
@@ -336,7 +336,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Je veiligheidsnummer met $name$ is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd. Je verifieert best je nieuwe veiligheidsnummer met dit contact.",
+        "message": "Je veiligheidsnummer met $name$ is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat $name$ Signal opnieuw heeft geïnstalleerd. Het wordt aanbevolen je nieuwe veiligheidsnummer met dit contactpersoon te verifiëren.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -350,7 +350,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Je veiligheidsnummer met $name$ is veranderd en niet meer geverifieerd. Klik om het te tonen.",
+        "message": "Je veiligheidsnummer met $name$ is veranderd en het is daarom niet langer geverifieerd. Klik om het te tonen.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -360,7 +360,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Je veiligheidsnummers met meerdere leden van deze groep zijn veranderd en bijgevolg niet meer geverifieerd. Klik om deze te tonen.",
+        "message": "Je veiligheidsnummers met meerdere leden van deze groep zijn veranderd en ze zijn daarom niet langer geverifieerd. Klik om de veiligheidsnummers te tonen.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -424,7 +424,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Je veiligheidsnummer met dit contact is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat je contact Signal opnieuw heeft geïnstalleerd. Je verifieert best het nieuwe veiligheidsnummer hieronder.",
+        "message": "Je veiligheidsnummer met deze contactpersoon is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat je contactpersoon Signal opnieuw heeft geïnstalleerd. Het wordt aanbevolen om het nieuwe veiligheidsnummer hieronder met deze persoon te verifiëren.",
         "description": ""
     },
     "incomingError": {
@@ -702,7 +702,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Antwoord op $name$",
+        "message": "Reageert op $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -736,7 +736,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "ok": {
-        "message": "Oké",
+        "message": "Begrepen",
         "description": ""
     },
     "cancel": {
@@ -756,15 +756,15 @@
         "description": ""
     },
     "delete": {
-        "message": "Verwijderen",
+        "message": "Wissen",
         "description": ""
     },
     "deleteWarning": {
-        "message": "Weet je het zeker? Door op ‘Verwijderen’ te klikken, wordt dit bericht voorgoed van enkel dit apparaat verwijderd.",
+        "message": "Weet je het zeker? Door op ‘Wissen’ te klikken, wordt dit bericht voorgoed van enkel dit apparaat gewist.",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Dit bericht verwijderen",
+        "message": "Dit bericht wissen",
         "description": ""
     },
     "from": {
@@ -818,7 +818,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Je hebt nog geen berichten uitgewisseld met dit contact. Je veiligheidsnummer met hen zal beschikbaar zijn na het eerste bericht.",
+        "message": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Je veiligheidsnummer met hem zal beschikbaar zijn na het eerste bericht.",
         "description": ""
     },
     "moreInfo": {
@@ -826,19 +826,19 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Opnieuw proberen verzenden",
+        "message": "Opnieuw proberen te verzenden",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Bericht verwijderen",
+        "message": "Bericht wissen",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Berichten verwijderen",
+        "message": "Berichten wissen",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Dit gesprek voorgoed verwijderen?",
+        "message": "Dit gesprek voorgoed wissen?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
@@ -959,16 +959,8 @@
         "message": "Algemeen",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Voorbeeldweergaven verzenden",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Voorbeelden worden ondersteund voor koppelingen naar Imgur, Instagram, Reddit en YouTube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
-        "message": "Gebruik een spellingscontrole voor de tekst in het berichtinvoerveld",
+        "message": "Gebruik spellingscontrole voor de tekst in het berichtinvoerveld",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
@@ -984,15 +976,15 @@
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Alle gegevens verwijderen?",
+        "message": "Alle gegevens wissen?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Je staat op het punt alle opgeslagen accountgegevens van deze toepassing te verwijderen, inclusief alle contacten en alle berichten. Je kan altijd opnieuw koppelen met je mobiele apparaat, maar je verwijderde berichten kunnen niet hersteld worden.",
+        "message": "Je staat op het punt alle opgeslagen accountgegevens van deze toepassing te wissen, inclusief alle contacten en alle berichten. Je kan altijd opnieuw koppelen met je mobiele apparaat, maar je gewiste berichten kunnen niet hersteld worden.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Alle gegevens verwijderen",
+        "message": "Alle gegevens wissen",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
@@ -1422,7 +1414,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$heeft de groep verlaten",
+        "message": "$name$ heeft de groep verlaten",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1456,7 +1448,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$is lid geworden van de groep",
+        "message": "$name$ is lid geworden van de groep",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {

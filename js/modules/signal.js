@@ -14,6 +14,7 @@ const { migrateToSQL } = require('./migrate_to_sql');
 const Metadata = require('./metadata/SecretSessionCipher');
 const RefreshSenderCertificate = require('./refresh_sender_certificate');
 const LinkPreviews = require('./link_previews');
+const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
 const {
@@ -131,6 +132,7 @@ function initializeMigrations({
   const loadQuoteData = MessageType.loadQuoteData(loadAttachmentData);
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
+  const writeNewAttachmentData = createWriterForNew(attachmentsPath);
 
   return {
     attachmentsPath,
@@ -148,11 +150,22 @@ function initializeMigrations({
     loadQuoteData,
     readAttachmentData,
     run,
+    processNewAttachment: attachment =>
+      MessageType.processNewAttachment(attachment, {
+        writeNewAttachmentData,
+        getAbsoluteAttachmentPath,
+        makeObjectUrl,
+        revokeObjectUrl,
+        getImageDimensions,
+        makeImageThumbnail,
+        makeVideoScreenshot,
+        logger,
+      }),
     upgradeMessageSchema: (message, options = {}) => {
       const { maxVersion } = options;
 
       return MessageType.upgradeSchema(message, {
-        writeNewAttachmentData: createWriterForNew(attachmentsPath),
+        writeNewAttachmentData,
         getRegionCode,
         getAbsoluteAttachmentPath,
         makeObjectUrl,
@@ -239,6 +252,7 @@ exports.setup = (options = {}) => {
   };
 
   return {
+    AttachmentDownloads,
     Backbone,
     Components,
     Crypto,

@@ -959,14 +959,6 @@
         "message": "Generale",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Invia anteprime link",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Le anteprime sono supportate per i link di Imgur, Instagram, Reddit e YouTube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Abilita il controllo ortografico del testo inserito nella casella di composizione",
         "description": "Description of the media permission description"

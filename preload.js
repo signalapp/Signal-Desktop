@@ -91,10 +91,6 @@ window.restart = () => {
   ipc.send('restart');
 };
 
-window.setMediaPermissions = enabled =>
-  ipc.send('set-media-permissions', enabled);
-window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
-
 // Events for updating block number states across different windows.
 // In this case we need these to update the blocked number
 //  collection on the main window from the settings window.

@@ -1166,6 +1166,111 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 </util.ConversationContext>
 ```
 
+#### Pending images
+
+```
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      text="Hey there!"
+      i18n={util.i18n}
+      attachments={[
+        {
+          pending: true,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      status="sent"
+      timestamp={Date.now()}
+      text="Hey there!"
+      i18n={util.i18n}
+      attachments={[
+        {
+          pending: true,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      text="Three images"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          pending: true,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      status="delivered"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      text="Three images"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          pending: true,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  </util.ConversationContext>
+```
+
 #### Image with portrait aspect ratio
 
 ```jsx
@@ -2533,6 +2638,84 @@ Voice notes are not shown any differently from audio attachments.
 </util.ConversationContext>
 ```
 
+#### Other file type pending
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      text="My manifesto is now complete!"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      attachments={[
+        {
+          pending: true,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      text="My manifesto is now complete!"
+      status="sent"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      attachments={[
+        {
+          pending: true,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      attachments={[
+        {
+          pending: true,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      attachments={[
+        {
+          pending: true,
+          contentType: 'text/plain',
+          fileName: 'my_manifesto.txt',
+          fileSize: '3.05 KB',
+        },
+      ]}
+      onClickAttachment={() => console.log('onClickAttachment')}
+    />
+  </li>
+</util.ConversationContext>
+```
+
 #### Dangerous file type
 
 ```jsx
@@ -2787,6 +2970,103 @@ Voice notes are not shown any differently from audio attachments.
           domain: 'instagram.com',
           image: {
             url: util.pngObjectUrl,
+            contentType: 'image/png',
+            width: 160,
+            height: 120,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Link previews with pending image
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            pending: true,
+            contentType: 'image/png',
+            width: 800,
+            height: 1200,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            pending: true,
+            contentType: 'image/png',
+            width: 800,
+            height: 1200,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            pending: true,
+            contentType: 'image/png',
+            width: 160,
+            height: 120,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      text="Pretty sweet link: https://instagram.com/something"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          domain: 'instagram.com',
+          image: {
+            pending: true,
             contentType: 'image/png',
             width: 160,
             height: 120,

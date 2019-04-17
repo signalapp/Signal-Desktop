@@ -63,7 +63,9 @@ interface Avatar {
 }
 
 interface Attachment {
-  path: string;
+  path?: string;
+  error?: boolean;
+  pending?: boolean;
 }
 
 export function contactSelector(
@@ -85,14 +87,20 @@ export function contactSelector(
   } = options;
 
   let { avatar } = contact;
-  if (avatar && avatar.avatar && avatar.avatar.path) {
-    avatar = {
-      ...avatar,
-      avatar: {
-        ...avatar.avatar,
-        path: getAbsoluteAttachmentPath(avatar.avatar.path),
-      },
-    };
+  if (avatar && avatar.avatar) {
+    if (avatar.avatar.error) {
+      avatar = undefined;
+    } else {
+      avatar = {
+        ...avatar,
+        avatar: {
+          ...avatar.avatar,
+          path: avatar.avatar.path
+            ? getAbsoluteAttachmentPath(avatar.avatar.path)
+            : undefined,
+        },
+      };
+    }
   }
 
   return {

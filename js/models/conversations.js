@@ -96,6 +96,17 @@
       this.trigger('messageError', message, errors);
     },
 
+    getContactCollection() {
+      const collection = new Backbone.Collection();
+      const collator = new Intl.Collator();
+      collection.comparator = (left, right) => {
+        const leftLower = left.getTitle().toLowerCase();
+        const rightLower = right.getTitle().toLowerCase();
+        return collator.compare(leftLower, rightLower);
+      };
+      return collection;
+    },
+
     initialize() {
       this.ourNumber = textsecure.storage.user.getNumber();
       this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
@@ -104,13 +115,7 @@
       //   our first save to the database. Or first fetch from the database.
       this.initialPromise = Promise.resolve();
 
-      this.contactCollection = new Backbone.Collection();
-      const collator = new Intl.Collator();
-      this.contactCollection.comparator = (left, right) => {
-        const leftLower = left.getTitle().toLowerCase();
-        const rightLower = right.getTitle().toLowerCase();
-        return collator.compare(leftLower, rightLower);
-      };
+      this.contactCollection = this.getContactCollection();
       this.messageCollection = new Whisper.MessageCollection([], {
         conversation: this,
       });
@@ -250,14 +255,16 @@
     sendTypingMessage(isTyping) {
       const groupId = !this.isPrivate() ? this.id : null;
       const recipientId = this.isPrivate() ? this.id : null;
+      const groupNumbers = this.getRecipients();
 
       const sendOptions = this.getSendOptions();
       this.wrapSend(
         textsecure.messaging.sendTypingMessage(
           {
-            groupId,
             isTyping,
             recipientId,
+            groupId,
+            groupNumbers,
           },
           sendOptions
         )
@@ -402,6 +409,7 @@
 
       const result = {
         ...this.format(),
+        isMe: this.isMe(),
         conversationType: this.isPrivate() ? 'direct' : 'group',
 
         lastUpdated: this.get('timestamp'),
@@ -1076,41 +1084,20 @@
       return _.without(this.get('members'), me);
     },
 
-    async makeQuote(quotedMessage) {
-      const { getName } = Contact;
-      const contact = quotedMessage.getContact();
-      const attachments = quotedMessage.get('attachments');
-      const preview = quotedMessage.get('preview');
-
-      const body = quotedMessage.get('body');
-      const embeddedContact = quotedMessage.get('contact');
-      const embeddedContactName =
-        embeddedContact && embeddedContact.length > 0
-          ? getName(embeddedContact[0])
-          : '';
-
-      const media =
-        attachments && attachments.length ? attachments : preview || [];
-
-      return {
-        author: contact.id,
-        id: quotedMessage.get('sent_at'),
-        text: body || embeddedContactName,
-        attachments: await Promise.all(
-          media
+    async getQuoteAttachment(attachments, preview) {
+      if (attachments && attachments.length) {
+        return Promise.all(
+          attachments
             .filter(
               attachment =>
                 attachment &&
-                (attachment.image || (!attachment.pending && !attachment.error))
+                attachment.contentType &&
+                !attachment.pending &&
+                !attachment.error
             )
             .slice(0, 1)
             .map(async attachment => {
-              const { fileName } = attachment;
-
-              const thumbnail = attachment.thumbnail || attachment.image;
-              const contentType =
-                attachment.contentType ||
-                (attachment.image && attachment.image.contentType);
+              const { fileName, thumbnail, contentType } = attachment;
 
               return {
                 contentType,
@@ -1125,7 +1112,55 @@
                   : null,
               };
             })
-        ),
+        );
+      }
+
+      if (preview && preview.length) {
+        return Promise.all(
+          preview
+            .filter(item => item && item.image)
+            .slice(0, 1)
+            .map(async attachment => {
+              const { image } = attachment;
+              const { contentType } = image;
+
+              return {
+                contentType,
+                // Our protos library complains about this field being undefined, so we
+                //   force it to null
+                fileName: null,
+                thumbnail: image
+                  ? {
+                      ...(await loadAttachmentData(image)),
+                      objectUrl: getAbsoluteAttachmentPath(image.path),
+                    }
+                  : null,
+              };
+            })
+        );
+      }
+
+      return [];
+    },
+
+    async makeQuote(quotedMessage) {
+      const { getName } = Contact;
+      const contact = quotedMessage.getContact();
+      const attachments = quotedMessage.get('attachments');
+      const preview = quotedMessage.get('preview');
+
+      const body = quotedMessage.get('body');
+      const embeddedContact = quotedMessage.get('contact');
+      const embeddedContactName =
+        embeddedContact && embeddedContact.length > 0
+          ? getName(embeddedContact[0])
+          : '';
+
+      return {
+        author: contact.id,
+        id: quotedMessage.get('sent_at'),
+        text: body || embeddedContactName,
+        attachments: await this.getQuoteAttachment(attachments, preview),
       };
     },
 
@@ -1245,32 +1280,36 @@
           return null;
         }
 
-        const conversationType = this.get('type');
-        const sendFunction = (() => {
-          switch (conversationType) {
-            case Message.PRIVATE:
-              return textsecure.messaging.sendMessageToNumber;
-            case Message.GROUP:
-              return textsecure.messaging.sendMessageToGroup;
-            default:
-              throw new TypeError(
-                `Invalid conversation type: '${conversationType}'`
-              );
-          }
-        })();
-
         const attachmentsWithData = await Promise.all(
           messageWithSchema.attachments.map(loadAttachmentData)
         );
 
+        // Special-case the self-send case - we send only a sync message
+        if (this.isMe()) {
+          const dataMessage = await textsecure.messaging.getMessageProto(
+            destination,
+            body,
+            attachmentsWithData,
+            quote,
+            preview,
+            now,
+            expireTimer,
+            profileKey
+          );
+          return message.sendSyncMessageOnly(dataMessage);
+        }
+
+        const conversationType = this.get('type');
+
         const options = this.getSendOptions();
         options.messageType = message.get('type');
 
-        // Add the message sending on another queue so that our UI doesn't get blocked
-        this.queueMessageSend(async () => {
-          message.send(
-            this.wrapSend(
-              sendFunction(
+        const groupNumbers = this.getRecipients();
+
+        const promise = (() => {
+          switch (conversationType) {
+            case Message.PRIVATE:
+              return textsecure.messaging.sendMessageToNumber(
                 destination,
                 body,
                 attachmentsWithData,
@@ -1280,9 +1319,30 @@
                 expireTimer,
                 profileKey,
                 options
-              )
-            )
-          );
+              );
+            case Message.GROUP:
+              return textsecure.messaging.sendMessageToGroup(
+                destination,
+                groupNumbers,
+                body,
+                attachmentsWithData,
+                quote,
+                preview,
+                now,
+                expireTimer,
+                profileKey,
+                options
+              );
+            default:
+              throw new TypeError(
+                `Invalid conversation type: '${conversationType}'`
+              );
+          }
+        })();
+
+        // Add the message sending on another queue so that our UI doesn't get blocked
+        this.queueMessageSend(async () => {
+          message.send(this.wrapSend(promise))
         });
 
         return true;
@@ -1578,25 +1638,45 @@
         return message;
       }
 
-      let sendFunc;
-      if (this.get('type') === 'private') {
-        sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
-      } else {
-        sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
-      }
       let profileKey;
       if (this.get('profileSharing')) {
         profileKey = storage.get('profileKey');
       }
-
       const sendOptions = this.getSendOptions();
-      const promise = sendFunc(
-        this.get('id'),
-        this.get('expireTimer'),
-        message.get('sent_at'),
-        profileKey,
-        sendOptions
-      );
+      let promise;
+
+      if (this.isMe()) {
+        const dataMessage = await textsecure.messaging.getMessageProto(
+          this.get('id'),
+          null,
+          [],
+          null,
+          [],
+          message.get('sent_at'),
+          expireTimer,
+          profileKey
+        );
+        return message.sendSyncMessageOnly(dataMessage);
+      }
+
+      if (this.get('type') === 'private') {
+        promise = textsecure.messaging.sendExpirationTimerUpdateToNumber(
+          this.get('id'),
+          expireTimer,
+          message.get('sent_at'),
+          profileKey,
+          sendOptions
+        );
+      } else {
+        promise = textsecure.messaging.sendExpirationTimerUpdateToGroup(
+          this.get('id'),
+          this.getRecipients(),
+          expireTimer,
+          message.get('sent_at'),
+          profileKey,
+          sendOptions
+        );
+      }
 
       await message.send(this.wrapSend(promise));
 
@@ -1738,6 +1818,7 @@
     async leaveGroup() {
       const now = Date.now();
       if (this.get('type') === 'group') {
+        const groupNumbers = this.getRecipients();
         this.set({ left: true });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
@@ -1758,7 +1839,9 @@
 
         const options = this.getSendOptions();
         message.send(
-          this.wrapSend(textsecure.messaging.leaveGroup(this.id, options))
+          this.wrapSend(
+            textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
+          )
         );
       }
     },

@@ -959,14 +959,6 @@
         "message": "כללי",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "שלח קדם־תצוגות של קישורים",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "קדם־תצוגות נתמכות עבור קישורים של Imgur, Instagram, Reddit ו־YouTube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "אפשר בדיקת איות של מלל המוכנס בתיבת חיבור הודעה",
         "description": "Description of the media permission description"

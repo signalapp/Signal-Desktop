@@ -145,6 +145,11 @@ MessageReceiver.prototype.extend({
     };
     this.httpPollingResource.handleMessage(message, options);
   },
+  stopProcessing() {
+    window.log.info('MessageReceiver: stopProcessing requested');
+    this.stoppingProcessing = true;
+    return this.close();
+  },
   shutdown() {
     if (this.socket) {
       this.socket.onclose = null;
@@ -188,7 +193,13 @@ MessageReceiver.prototype.extend({
     window.log.error('websocket error');
   },
   dispatchAndWait(event) {
-    return Promise.all(this.dispatchEvent(event));
+    const promise = this.appPromise || Promise.resolve();
+    const appJobPromise = Promise.all(this.dispatchEvent(event));
+    const job = () => appJobPromise;
+
+    this.appPromise = promise.then(job, job);
+
+    return Promise.resolve();
   },
   onclose(ev) {
     window.log.info(
@@ -312,22 +323,34 @@ MessageReceiver.prototype.extend({
     const { incoming } = this;
     this.incoming = [];
 
-    const dispatchEmpty = () => {
+    const emitEmpty = () => {
+      window.log.info("MessageReceiver: emitting 'empty' event");
       const ev = new Event('empty');
-      return this.dispatchAndWait(ev);
+      this.dispatchAndWait(ev);
     };
 
-    const queueDispatch = () => {
+    const waitForApplication = async () => {
+      window.log.info(
+        "MessageReceiver: finished processing messages after 'empty', now waiting for application"
+      );
+      const promise = this.appPromise || Promise.resolve();
+      this.appPromise = Promise.resolve();
+
+      // We don't await here because we don't this to gate future message processing
+      promise.then(emitEmpty, emitEmpty);
+    };
+
+    const waitForEmptyQueue = () => {
       // resetting count to zero so everything queued after this starts over again
       this.count = 0;
 
-      this.addToQueue(dispatchEmpty);
+      this.addToQueue(waitForApplication);
     };
 
     // We first wait for all recently-received messages (this.incoming) to be queued,
-    //   then we add a task to emit the 'empty' event to the queue, so all message
-    //   processing is complete by the time it runs.
-    Promise.all(incoming).then(queueDispatch, queueDispatch);
+    //   then we queue a task to wait for the application to finish its processing, then
+    //   finally we emit the 'empty' event to the queue.
+    Promise.all(incoming).then(waitForEmptyQueue, waitForEmptyQueue);
   },
   drain() {
     const { incoming } = this;
@@ -464,7 +487,10 @@ MessageReceiver.prototype.extend({
             );
             await textsecure.storage.unprocessed.remove(item.id);
           } else {
-            await textsecure.storage.unprocessed.save({ ...item, attempts });
+            await textsecure.storage.unprocessed.updateAttempts(
+              item.id,
+              attempts
+            );
           }
         } catch (error) {
           window.log.error(
@@ -498,30 +524,26 @@ MessageReceiver.prototype.extend({
       return null;
     }
 
-    if (item.get('version') === 2) {
-      item.set({
-        source: envelope.source,
-        sourceDevice: envelope.sourceDevice,
-        serverTimestamp: envelope.serverTimestamp,
-        decrypted: await MessageReceiver.arrayBufferToStringBase64(plaintext),
-      });
+    item.source = envelope.source;
+    item.sourceDevice = envelope.sourceDevice;
+    item.serverTimestamp = envelope.serverTimestamp;
+
+    if (item.version === 2) {
+      item.decrypted = await MessageReceiver.arrayBufferToStringBase64(
+        plaintext
+      );
     } else {
-      item.set({
-        source: envelope.source,
-        sourceDevice: envelope.sourceDevice,
-        serverTimestamp: envelope.serverTimestamp,
-        decrypted: await MessageReceiver.arrayBufferToString(plaintext),
-      });
+      item.decrypted = await MessageReceiver.arrayBufferToString(plaintext);
     }
 
-    return textsecure.storage.unprocessed.save(item.attributes);
+    return textsecure.storage.unprocessed.addDecryptedData(item.id, item);
   },
   removeFromCache(envelope) {
     const { id } = envelope;
     return textsecure.storage.unprocessed.remove(id);
   },
   queueDecryptedEnvelope(envelope, plaintext) {
-    const { id } = envelope;
+    const id = this.getEnvelopeId(envelope);
     window.log.info('queueing decrypted envelope', id);
 
     const task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
@@ -533,9 +555,7 @@ MessageReceiver.prototype.extend({
 
     return promise.catch(error => {
       window.log.error(
-        'queueDecryptedEnvelope error handling envelope',
-        id,
-        ':',
+        `queueDecryptedEnvelope error handling envelope ${id}:`,
         error && error.stack ? error.stack : error
       );
     });
@@ -572,6 +592,9 @@ MessageReceiver.prototype.extend({
   //   messages which were successfully decrypted, but application logic didn't finish
   //   processing.
   handleDecryptedEnvelope(envelope, plaintext) {
+    if (this.stoppingProcessing) {
+      return Promise.resolve();
+    }
     // No decryption is required for delivery receipts, so the decrypted field of
     //   the Unprocessed model will never be set
 
@@ -584,6 +607,10 @@ MessageReceiver.prototype.extend({
     throw new Error('Received message with no content and no legacyMessage');
   },
   handleEnvelope(envelope) {
+    if (this.stoppingProcessing) {
+      return Promise.resolve();
+    }
+
     if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
       return this.onDeliveryReceipt(envelope);
     }
@@ -862,19 +889,18 @@ MessageReceiver.prototype.extend({
       .then(plaintext => {
         const { isMe, isBlocked } = plaintext || {};
         if (isMe || isBlocked) {
-          return this.removeFromCache(envelope);
+          this.removeFromCache(envelope);
+          return null;
         }
 
-        return this.updateCache(envelope, plaintext).then(
-          () => plaintext,
-          error => {
-            window.log.error(
-              'decrypt failed to save decrypted message contents to cache:',
-              error && error.stack ? error.stack : error
-            );
-            return plaintext;
-          }
-        );
+        this.updateCache(envelope, plaintext).catch(error => {
+          window.log.error(
+            'decrypt failed to save decrypted message contents to cache:',
+            error && error.stack ? error.stack : error
+          );
+        });
+
+        return plaintext;
       })
       .catch(error => {
         let errorToThrow = error;
@@ -934,7 +960,7 @@ MessageReceiver.prototype.extend({
       p = this.handleEndSession(destination);
     }
     return p.then(() =>
-      this.processDecrypted(envelope, msg, this.number).then(message => {
+      this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
         const isMe = envelope.source === textsecure.storage.user.getNumber();
@@ -994,8 +1020,7 @@ MessageReceiver.prototype.extend({
       p = this.handleEndSession(envelope.source);
     }
     return p.then(() =>
-      this.processDecrypted(envelope, msg, envelope.source).then(
-        async message => {
+      this.processDecrypted(envelope, msg).then(async message => {
           const groupId = message.group && message.group.id;
           const isBlocked = this.isGroupBlocked(groupId);
           const isMe = envelope.source === textsecure.storage.user.getNumber();
@@ -1271,8 +1296,11 @@ MessageReceiver.prototype.extend({
   },
   handleContacts(envelope, contacts) {
     window.log.info('contact sync');
-    const attachmentPointer = contacts.blob;
-    return this.handleAttachment(attachmentPointer).then(() => {
+    const { blob } = contacts;
+
+    // Note: we do not return here because we don't want to block the next message on
+    //   this attachment download and a lot of processing of that attachment.
+    this.handleAttachment(blob).then(attachmentPointer => {
       const results = [];
       const contactBuffer = new ContactBuffer(attachmentPointer.data);
       let contactDetails = contactBuffer.next();
@@ -1295,45 +1323,22 @@ MessageReceiver.prototype.extend({
   },
   handleGroups(envelope, groups) {
     window.log.info('group sync');
-    const attachmentPointer = groups.blob;
-    return this.handleAttachment(attachmentPointer).then(() => {
+    const { blob } = groups;
+
+    // Note: we do not return here because we don't want to block the next message on
+    //   this attachment download and a lot of processing of that attachment.
+    this.handleAttachment(blob).then(attachmentPointer => {
       const groupBuffer = new GroupBuffer(attachmentPointer.data);
       let groupDetails = groupBuffer.next();
       const promises = [];
       while (groupDetails !== undefined) {
-        const getGroupDetails = details => {
-          // eslint-disable-next-line no-param-reassign
-          details.id = details.id.toBinary();
-          if (details.active) {
-            return textsecure.storage.groups
-              .getGroup(details.id)
-              .then(existingGroup => {
-                if (existingGroup === undefined) {
-                  return textsecure.storage.groups.createNewGroup(
-                    details.members,
-                    details.id
-                  );
-                }
-                return textsecure.storage.groups.updateNumbers(
-                  details.id,
-                  details.members
-                );
-              })
-              .then(() => details);
-          }
-          return Promise.resolve(details);
-        };
-
-        const promise = getGroupDetails(groupDetails)
-          .then(details => {
-            const ev = new Event('group');
-            ev.confirm = this.removeFromCache.bind(this, envelope);
-            ev.groupDetails = details;
-            return this.dispatchAndWait(ev);
-          })
-          .catch(e => {
-            window.log.error('error processing group', e);
-          });
+        groupDetails.id = groupDetails.id.toBinary();
+        const ev = new Event('group');
+        ev.confirm = this.removeFromCache.bind(this, envelope);
+        ev.groupDetails = groupDetails;
+        const promise = this.dispatchAndWait(ev).catch(e => {
+          window.log.error('error processing group', e);
+        });
         groupDetails = groupBuffer.next();
         promises.push(promise);
       }
@@ -1389,34 +1394,46 @@ MessageReceiver.prototype.extend({
   isGroupBlocked(groupId) {
     return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
   },
-  handleAttachment(attachment) {
-    window.log.info('Not handling attachments.');
+  cleanAttachment(attachment) {
+    return {
+      ..._.omit(attachment, 'thumbnail'),
+      id: attachment.id.toString(),
+      key: attachment.key ? attachment.key.toString('base64') : null,
+      digest: attachment.digest ? attachment.digest.toString('base64') : null,
+    };
+  },
+  async downloadAttachment(attachment) {
+    window.log.info('Not downloading attachments.');
     return Promise.reject();
-    // eslint-disable-next-line no-param-reassign
-    attachment.id = attachment.id.toString();
-    // eslint-disable-next-line no-param-reassign
-    attachment.key = attachment.key.toArrayBuffer();
-    if (attachment.digest) {
-      // eslint-disable-next-line no-param-reassign
-      attachment.digest = attachment.digest.toArrayBuffer();
-    }
-    function decryptAttachment(encrypted) {
-      return textsecure.crypto.decryptAttachment(
-        encrypted,
-        attachment.key,
-        attachment.digest
+
+    const encrypted = await this.server.getAttachment(attachment.id);
+    const { key, digest, size } = attachment;
+
+    const data = await textsecure.crypto.decryptAttachment(
+      encrypted,
+      window.Signal.Crypto.base64ToArrayBuffer(key),
+      window.Signal.Crypto.base64ToArrayBuffer(digest)
+    );
+
+    if (!size || size !== data.byteLength) {
+      throw new Error(
+        `downloadAttachment: Size ${size} did not match downloaded attachment size ${
+          data.byteLength
+        }`
       );
     }
 
-    function updateAttachment(data) {
-      // eslint-disable-next-line no-param-reassign
-      attachment.data = data;
-    }
+    return {
+      ..._.omit(attachment, 'digest', 'key'),
+      data,
+    };
+  },
+  handleAttachment(attachment) {
+    window.log.info('Not handling attachments.');
+    return Promise.reject();
 
-    return this.server
-      .getAttachment(attachment.id)
-      .then(decryptAttachment)
-      .then(updateAttachment);
+    const cleaned = this.cleanAttachment(attachment);
+    return this.downloadAttachment(cleaned);
   },
   async handleEndSession(number) {
     window.log.info('got end session');
@@ -1464,7 +1481,7 @@ MessageReceiver.prototype.extend({
     );
     await conversation.onSessionResetReceived();
   },
-  processDecrypted(envelope, decrypted, source) {
+  processDecrypted(envelope, decrypted) {
     /* eslint-disable no-bitwise, no-param-reassign */
     const FLAGS = textsecure.protobuf.DataMessage.Flags;
 
@@ -1500,71 +1517,24 @@ MessageReceiver.prototype.extend({
     if (decrypted.group !== null) {
       decrypted.group.id = decrypted.group.id.toBinary();
 
-      if (
-        decrypted.group.type === textsecure.protobuf.GroupContext.Type.UPDATE
-      ) {
-        if (decrypted.group.avatar !== null) {
-          promises.push(this.handleAttachment(decrypted.group.avatar));
-        }
+      switch (decrypted.group.type) {
+        case textsecure.protobuf.GroupContext.Type.UPDATE:
+          decrypted.body = null;
+          decrypted.attachments = [];
+          break;
+        case textsecure.protobuf.GroupContext.Type.QUIT:
+          decrypted.body = null;
+          decrypted.attachments = [];
+          break;
+        case textsecure.protobuf.GroupContext.Type.DELIVER:
+          decrypted.group.name = null;
+          decrypted.group.members = [];
+          decrypted.group.avatar = null;
+          break;
+        default:
+          this.removeFromCache(envelope);
+          throw new Error('Unknown group message type');
       }
-
-      const storageGroups = textsecure.storage.groups;
-
-      promises.push(
-        storageGroups.getNumbers(decrypted.group.id).then(existingGroup => {
-          if (existingGroup === undefined) {
-            if (
-              decrypted.group.type !==
-              textsecure.protobuf.GroupContext.Type.UPDATE
-            ) {
-              decrypted.group.members = [source];
-              window.log.warn('Got message for unknown group');
-            }
-            return textsecure.storage.groups.createNewGroup(
-              decrypted.group.members,
-              decrypted.group.id
-            );
-          }
-          const fromIndex = existingGroup.indexOf(source);
-
-          if (fromIndex < 0) {
-            // TODO: This could be indication of a race...
-            window.log.warn(
-              'Sender was not a member of the group they were sending from'
-            );
-          }
-
-          switch (decrypted.group.type) {
-            case textsecure.protobuf.GroupContext.Type.UPDATE:
-              decrypted.body = null;
-              decrypted.attachments = [];
-              return textsecure.storage.groups.updateNumbers(
-                decrypted.group.id,
-                decrypted.group.members
-              );
-            case textsecure.protobuf.GroupContext.Type.QUIT:
-              decrypted.body = null;
-              decrypted.attachments = [];
-              if (source === this.number) {
-                return textsecure.storage.groups.deleteGroup(
-                  decrypted.group.id
-                );
-              }
-              return textsecure.storage.groups.removeNumber(
-                decrypted.group.id,
-                source
-              );
-            case textsecure.protobuf.GroupContext.Type.DELIVER:
-              decrypted.group.name = null;
-              decrypted.group.members = [];
-              decrypted.group.avatar = null;
-              return Promise.resolve();
-            default:
-              this.removeFromCache(envelope);
-              throw new Error('Unknown group message type');
-          }
-        })
-      );
     }
 
     const attachmentCount = decrypted.attachments.length;
@@ -1575,65 +1545,67 @@ MessageReceiver.prototype.extend({
       );
     }
 
-    for (let i = 0; i < attachmentCount; i += 1) {
-      const attachment = decrypted.attachments[i];
-      promises.push(this.handleAttachment(attachment));
-    }
+    // Here we go from binary to string/base64 in all AttachmentPointer digest/key fields
 
-    const previewCount = (decrypted.preview || []).length;
-    for (let i = 0; i < previewCount; i += 1) {
-      const preview = decrypted.preview[i];
-      if (preview.image) {
-        promises.push(this.handleAttachment(preview.image));
+    if (
+      decrypted.group &&
+      decrypted.group.type === textsecure.protobuf.GroupContext.Type.UPDATE
+    ) {
+      if (decrypted.group.avatar !== null) {
+        decrypted.group.avatar = this.cleanAttachment(decrypted.group.avatar);
       }
     }
 
-    if (decrypted.contact && decrypted.contact.length) {
-      const contacts = decrypted.contact;
+    decrypted.attachments = (decrypted.attachments || []).map(
+      this.cleanAttachment.bind(this)
+    );
+    decrypted.preview = (decrypted.preview || []).map(item => {
+      const { image } = item;
 
-      for (let i = 0, max = contacts.length; i < max; i += 1) {
-        const contact = contacts[i];
-        const { avatar } = contact;
-
-        if (avatar && avatar.avatar) {
-          // We don't want the failure of a thumbnail download to fail the handling of
-          //   this message entirely, like we do for full attachments.
-          promises.push(
-            this.handleAttachment(avatar.avatar).catch(error => {
-              window.log.error(
-                'Problem loading avatar for contact',
-                error && error.stack ? error.stack : error
-              );
-            })
-          );
-        }
+      if (!image) {
+        return item;
       }
-    }
+
+      return {
+        ...item,
+        image: this.cleanAttachment(image),
+      };
+    });
+    decrypted.contact = (decrypted.contact || []).map(item => {
+      const { avatar } = item;
+
+      if (!avatar || !avatar.avatar) {
+        return item;
+      }
+
+      return {
+        ...item,
+        avatar: {
+          ...item.avatar,
+          avatar: this.cleanAttachment(item.avatar.avatar),
+        },
+      };
+    });
 
     if (decrypted.quote && decrypted.quote.id) {
       decrypted.quote.id = decrypted.quote.id.toNumber();
     }
 
-    if (decrypted.quote && decrypted.quote.attachments) {
-      const { attachments } = decrypted.quote;
+    if (decrypted.quote) {
+      decrypted.quote.attachments = (decrypted.quote.attachments || []).map(
+        item => {
+          const { thumbnail } = item;
 
-      for (let i = 0, max = attachments.length; i < max; i += 1) {
-        const attachment = attachments[i];
-        const { thumbnail } = attachment;
+          if (!thumbnail) {
+            return item;
+          }
 
-        if (thumbnail) {
-          // We don't want the failure of a thumbnail download to fail the handling of
-          //   this message entirely, like we do for full attachments.
-          promises.push(
-            this.handleAttachment(thumbnail).catch(error => {
-              window.log.error(
-                'Problem loading thumbnail for quote',
-                error && error.stack ? error.stack : error
-              );
-            })
-          );
+          return {
+            ...item,
+            thumbnail: this.cleanAttachment(item.thumbnail),
+          };
         }
-      }
+      );
     }
 
     return Promise.all(promises).then(() => decrypted);
@@ -1666,6 +1638,11 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
   this.savePreKeyBundleMessage = messageReceiver.savePreKeyBundleMessage.bind(
     messageReceiver
   );
+
+  this.downloadAttachment = messageReceiver.downloadAttachment.bind(
+    messageReceiver
+  );
+  this.stopProcessing = messageReceiver.stopProcessing.bind(messageReceiver);
 
   messageReceiver.connect();
 };

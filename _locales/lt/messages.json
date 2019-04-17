@@ -959,14 +959,6 @@
         "message": "Bendra",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Siųsti nuorodų peržiūras",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Peržiūros yra palaikomos Imgur, Instagram, Reddit, ir YouTube nuorodoms.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Įjungti rašybos tikrinimą tekstui, kuris įvedamas į žinutės rašymo langelį",
         "description": "Description of the media permission description"

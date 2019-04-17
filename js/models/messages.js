@@ -23,16 +23,17 @@
     Contact,
     PhoneNumber,
     Attachment,
+    Errors
   } = Signal.Types;
+
   const {
-    deleteAttachmentData,
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
     loadAttachmentData,
     loadQuoteData,
     loadPreviewData,
-    writeNewAttachmentData,
     writeAttachment,
+    upgradeMessageSchema,
   } = window.Signal.Migrations;
 
   window.AccountCache = Object.create(null);
@@ -583,9 +584,9 @@
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
         conversationType: isGroup ? 'group' : 'direct',
-        attachments: attachments.map(attachment =>
-          this.getPropsForAttachment(attachment)
-        ),
+        attachments: attachments
+          .filter(attachment => !attachment.error)
+          .map(attachment => this.getPropsForAttachment(attachment)),
         previews: this.getPropsForPreview(),
         quote: this.getPropsForQuote(),
         authorAvatarPath,
@@ -765,7 +766,7 @@
         return null;
       }
 
-      const { path, flags, size, screenshot, thumbnail } = attachment;
+      const { path, pending, flags, size, screenshot, thumbnail } = attachment;
 
       return {
         ...attachment,
@@ -774,7 +775,8 @@
           flags &&
           // eslint-disable-next-line no-bitwise
           flags & textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
-        url: getAbsoluteAttachmentPath(path),
+        pending,
+        url: path ? getAbsoluteAttachmentPath(path) : null,
         screenshot: screenshot
           ? {
               ...screenshot,
@@ -808,11 +810,15 @@
         return accumulator;
       }, Object.create(null));
 
+      // We include numbers we didn't successfully send to so we can display errors.
       // Older messages don't have the recipients included on the message, so we fall
       //   back to the conversation's current recipients
       const phoneNumbers = this.isIncoming()
         ? [this.get('source')]
-        : this.get('recipients') || this.conversation.getRecipients();
+        : _.union(
+            this.get('sent_to') || [],
+            this.get('recipients') || this.getConversation().getRecipients()
+          );
 
       // This will make the error message for outgoing key errors a bit nicer
       const allErrors = (this.get('errors') || []).map(error => {
@@ -893,21 +899,35 @@
         this.isReplayableError.bind(this)
       );
 
-      // Remove the errors that aren't replayable
+      // Put the errors back which aren't replayable
       this.set({ errors });
 
-      const profileKey = null;
-      let numbers = retries
+      const conversation = this.getConversation();
+      const intendedRecipients = this.get('recipients') || [];
+      const currentRecipients = conversation.getRecipients();
+
+      const profileKey = conversation.get('profileSharing')
+        ? storage.get('profileKey')
+        : null;
+
+      const errorNumbers = retries
         .map(retry => retry.number)
         .filter(item => Boolean(item));
+      let numbers = _.intersection(
+        errorNumbers,
+        intendedRecipients,
+        currentRecipients
+      );
 
       if (!numbers.length) {
         window.log.warn(
           'retrySend: No numbers in error set, using all recipients'
         );
-        const conversation = this.getConversation();
+
         if (conversation) {
-          numbers = conversation.getRecipients();
+          numbers = _.intersection(currentRecipients, intendedRecipients);
+          // We clear all errors here to start with a fresh slate, since we are starting
+          //   from scratch on this message with a fresh set of recipients
           this.set({ errors: null });
         } else {
           throw new Error(
@@ -922,11 +942,25 @@
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
 
-      const conversation = this.getConversation();
-      const options = conversation.getSendOptions();
-      options.messageType = this.get('type');
+      // Special-case the self-send case - we send only a sync message
+      if (numbers.length === 1 && numbers[0] === this.OUR_NUMBER) {
+        const [number] = numbers;
+        const dataMessage = await textsecure.messaging.getMessageProto(
+          number,
+          this.get('body'),
+          attachmentsWithData,
+          quoteWithData,
+          previewWithData,
+          this.get('sent_at'),
+          this.get('expireTimer'),
+          profileKey
+        );
+        return this.sendSyncMessageOnly(dataMessage);
+      }
 
       let promise;
+      const options = conversation.getSendOptions();
+      options.messageType = this.get('type');
 
       if (conversation.isPrivate()) {
         const [number] = numbers;
@@ -984,18 +1018,21 @@
     //   One caller today: ConversationView.forceSend()
     async resend(number) {
       const error = this.removeOutgoingErrors(number);
-      if (error) {
-        const profileKey = null;
-        const attachmentsWithData = await Promise.all(
-          (this.get('attachments') || []).map(loadAttachmentData)
-        );
-        const quoteWithData = await loadQuoteData(this.get('quote'));
-        const previewWithData = await loadPreviewData(this.get('preview'));
+      if (!error) {
+        window.log.warn('resend: requested number was not present in errors');
+        return null;
+      }
 
-        const { wrap, sendOptions } = ConversationController.prepareForSend(
-          number
-        );
-        const promise = textsecure.messaging.sendMessageToNumber(
+      const profileKey = null;
+      const attachmentsWithData = await Promise.all(
+        (this.get('attachments') || []).map(loadAttachmentData)
+      );
+      const quoteWithData = await loadQuoteData(this.get('quote'));
+      const previewWithData = await loadPreviewData(this.get('preview'));
+
+      // Special-case the self-send case - we send only a sync message
+      if (number === this.OUR_NUMBER) {
+        const dataMessage = await textsecure.messaging.getMessageProto(
           number,
           this.get('body'),
           attachmentsWithData,
@@ -1003,12 +1040,27 @@
           previewWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
-          profileKey,
-          sendOptions
+          profileKey
         );
-
-        this.send(wrap(promise));
+        return this.sendSyncMessageOnly(dataMessage);
       }
+
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        number
+      );
+      const promise = textsecure.messaging.sendMessageToNumber(
+        number,
+        this.get('body'),
+        attachmentsWithData,
+        quoteWithData,
+        previewWithData,
+        this.get('sent_at'),
+        this.get('expireTimer'),
+        profileKey,
+        sendOptions
+      );
+
+      return this.send(wrap(promise));
     },
     removeOutgoingErrors(number) {
       const errors = _.partition(
@@ -1123,7 +1175,7 @@
           this.trigger('done');
 
           // This is used by sendSyncMessage, then set to null
-          if (result.dataMessage) {
+          if (!this.get('synced') && result.dataMessage) {
             this.set({ dataMessage: result.dataMessage });
           }
 
@@ -1224,6 +1276,42 @@
       return false;
     },
 
+    async sendSyncMessageOnly(dataMessage) {
+      this.set({ dataMessage });
+
+      try {
+        const result = await this.sendSyncMessage();
+        this.set({
+          // These are the same as a normal send
+          sent_to: [this.OUR_NUMBER],
+          sent: true,
+          expirationStartTimestamp: Date.now(),
+          unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
+
+          // These are unique to a Note to Self message - immediately read/delivered
+          delivered_to: [this.OUR_NUMBER],
+          read_by: [this.OUR_NUMBER],
+        });
+      } catch (result) {
+        const errors = (result && result.errors) || [
+          new Error('Unknown error'),
+        ];
+        this.set({ errors });
+      } finally {
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+        this.trigger('done');
+
+        const errors = this.get('errors');
+        if (errors) {
+          this.trigger('send-error', errors);
+        } else {
+          this.trigger('sent');
+        }
+      }
+    },
+
     sendSyncMessage() {
       const ourNumber = textsecure.storage.user.getNumber();
       const { wrap, sendOptions } = ConversationController.prepareForSend(
@@ -1232,7 +1320,7 @@
       );
 
       this.syncPromise = this.syncPromise || Promise.resolve();
-      this.syncPromise = this.syncPromise.then(() => {
+      const next = () => {
         const dataMessage = this.get('dataMessage');
         if (this.get('synced') || !dataMessage) {
           return Promise.resolve();
@@ -1247,16 +1335,20 @@
             this.get('unidentifiedDeliveries'),
             sendOptions
           )
-        ).then(() => {
+        ).then(result => {
           this.set({
             synced: true,
             dataMessage: null,
           });
           return window.Signal.Data.saveMessage(this.attributes, {
             Message: Whisper.Message,
-          });
+          }).then(() => result);
         });
-      });
+      };
+
+      this.syncPromise = this.syncPromise.then(next, next);
+
+      return this.syncPromise;
     },
 
     async saveErrors(providedErrors) {
@@ -1304,7 +1396,209 @@
       );
       return !!error;
     },
-    handleDataMessage(dataMessage, confirm) {
+    async queueAttachmentDownloads() {
+      const messageId = this.id;
+      let count = 0;
+
+      const attachments = await Promise.all(
+        (this.get('attachments') || []).map((attachment, index) => {
+          count += 1;
+          return window.Signal.AttachmentDownloads.addJob(attachment, {
+            messageId,
+            type: 'attachment',
+            index,
+          });
+        })
+      );
+
+      const preview = await Promise.all(
+        (this.get('preview') || []).map(async (item, index) => {
+          if (!item.image) {
+            return item;
+          }
+
+          count += 1;
+          return {
+            ...item,
+            image: await window.Signal.AttachmentDownloads.addJob(item.image, {
+              messageId,
+              type: 'preview',
+              index,
+            }),
+          };
+        })
+      );
+
+      const contact = await Promise.all(
+        (this.get('contact') || []).map(async (item, index) => {
+          if (!item.avatar || !item.avatar.avatar) {
+            return item;
+          }
+
+          count += 1;
+          return {
+            ...item,
+            avatar: {
+              ...item.avatar,
+              avatar: await window.Signal.AttachmentDownloads.addJob(
+                item.avatar.avatar,
+                {
+                  messageId,
+                  type: 'contact',
+                  index,
+                }
+              ),
+            },
+          };
+        })
+      );
+
+      let quote = this.get('quote');
+      if (quote && quote.attachments && quote.attachments.length) {
+        quote = {
+          ...quote,
+          attachments: await Promise.all(
+            (quote.attachments || []).map(async (item, index) => {
+              // If we already have a path, then we copied this image from the quoted
+              //    message and we don't need to download the attachment.
+              if (!item.thumbnail || item.thumbnail.path) {
+                return item;
+              }
+
+              count += 1;
+              return {
+                ...item,
+                thumbnail: await window.Signal.AttachmentDownloads.addJob(
+                  item.thumbnail,
+                  {
+                    messageId,
+                    type: 'quote',
+                    index,
+                  }
+                ),
+              };
+            })
+          ),
+        };
+      }
+
+      let group = this.get('group');
+      if (group && group.avatar) {
+        group = {
+          ...group,
+          avatar: await window.Signal.AttachmentDownloads.addJob(group.avatar, {
+            messageId,
+            type: 'group-avatar',
+            index: 0,
+          }),
+        };
+      }
+
+      if (count > 0) {
+        this.set({ attachments, preview, contact, quote, group });
+
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+
+        return true;
+      }
+
+      return false;
+    },
+
+    async copyFromQuotedMessage(message) {
+      const { quote } = message;
+      if (!quote) {
+        return message;
+      }
+
+      const { attachments, id, author } = quote;
+      const firstAttachment = attachments[0];
+
+      const collection = await window.Signal.Data.getMessagesBySentAt(id, {
+        MessageCollection: Whisper.MessageCollection,
+      });
+      const queryMessage = collection.find(item => {
+        const messageAuthor = item.getContact();
+
+        return messageAuthor && author === messageAuthor.id;
+      });
+
+      if (!queryMessage) {
+        quote.referencedMessageNotFound = true;
+        return message;
+      }
+
+      quote.text = queryMessage.get('body');
+      if (firstAttachment) {
+        firstAttachment.thumbnail = null;
+      }
+
+      if (
+        !firstAttachment ||
+        (!window.Signal.Util.GoogleChrome.isImageTypeSupported(
+          firstAttachment.contentType
+        ) &&
+          !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
+            firstAttachment.contentType
+          ))
+      ) {
+        return message;
+      }
+
+      try {
+        if (
+          queryMessage.get('schemaVersion') <
+          TypedMessage.VERSION_NEEDED_FOR_DISPLAY
+        ) {
+          const upgradedMessage = await upgradeMessageSchema(
+            queryMessage.attributes
+          );
+          queryMessage.set(upgradedMessage);
+          await window.Signal.Data.saveMessage(upgradedMessage, {
+            Message: Whisper.Message,
+          });
+        }
+      } catch (error) {
+        window.log.error(
+          'Problem upgrading message quoted message from database',
+          Errors.toLogFormat(error)
+        );
+        return message;
+      }
+
+      const queryAttachments = queryMessage.get('attachments') || [];
+
+      if (queryAttachments.length > 0) {
+        const queryFirst = queryAttachments[0];
+        const { thumbnail } = queryFirst;
+
+        if (thumbnail && thumbnail.path) {
+          firstAttachment.thumbnail = {
+            ...thumbnail,
+            copied: true,
+          };
+        }
+      }
+
+      const queryPreview = queryMessage.get('preview') || [];
+      if (queryPreview.length > 0) {
+        const queryFirst = queryPreview[0];
+        const { image } = queryFirst;
+
+        if (image && image.path) {
+          firstAttachment.thumbnail = {
+            ...image,
+            copied: true,
+          };
+        }
+      }
+
+      return message;
+    },
+
+    handleDataMessage(initialMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
       //   2. on a sent message sync'd from another device
@@ -1314,13 +1608,18 @@
       const source = message.get('source');
       const type = message.get('type');
       let conversationId = message.get('conversationId');
-      if (dataMessage.group) {
-        conversationId = dataMessage.group.id;
+      if (initialMessage.group) {
+        conversationId = initialMessage.group.id;
       }
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
       return conversation.queueJob(async () => {
+        const withQuoteReference = await this.copyFromQuotedMessage(
+          initialMessage
+        );
+        const dataMessage = await upgradeMessageSchema(withQuoteReference);
+
         try {
           const now = new Date().getTime();
           let attributes = {
@@ -1342,18 +1641,6 @@
                   conversation.get('members')
                 ),
               };
-
-              // Update this group conversations's avatar on disk if it has changed.
-              if (dataMessage.group.avatar) {
-                attributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
-                  attributes,
-                  dataMessage.group.avatar.data,
-                  {
-                    writeNewAttachmentData,
-                    deleteAttachmentData,
-                  }
-                );
-              }
 
               groupUpdate =
                 conversation.changedAttributes(
@@ -1536,6 +1823,14 @@
               });
             }
 
+            // A sync'd message to ourself is automatically considered read and delivered
+            if (conversation.isMe()) {
+              message.set({
+                read_by: conversation.getRecipients(),
+                delivered_to: conversation.getRecipients(),
+              });
+            }
+
             message.set({ recipients: conversation.getRecipients() });
           }
 
@@ -1585,6 +1880,11 @@
             Message: Whisper.Message,
           });
           message.set({ id });
+
+          // Note that this can save the message again, if jobs were queued. We need to
+          //   call it after we have an id for this message, because the jobs refer back
+          //   to their source message.
+          await message.queueAttachmentDownloads();
 
           await window.Signal.Data.updateConversation(
             conversationId,

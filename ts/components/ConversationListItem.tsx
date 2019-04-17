@@ -17,6 +17,7 @@ interface Props {
   color?: string;
   conversationType: 'group' | 'direct';
   avatarPath?: string;
+  isMe: boolean;
 
   lastUpdated: number;
   unreadCount: number;
@@ -51,6 +52,7 @@ export class ConversationListItem extends React.Component<Props> {
       color,
       conversationType,
       i18n,
+      isMe,
       name,
       phoneNumber,
       profileName,
@@ -64,6 +66,7 @@ export class ConversationListItem extends React.Component<Props> {
         <Avatar
           avatarPath={avatarPath}
           color={color}
+          noteToSelf={isMe}
           conversationType={conversationType}
           i18n={i18n}
           name={name}
@@ -95,6 +98,7 @@ export class ConversationListItem extends React.Component<Props> {
     const {
       unreadCount,
       i18n,
+      isMe,
       lastUpdated,
       name,
       phoneNumber,
@@ -111,12 +115,16 @@ export class ConversationListItem extends React.Component<Props> {
               : null
           )}
         >
-          <ContactName
-            phoneNumber={phoneNumber}
-            name={name}
-            profileName={profileName}
-            i18n={i18n}
-          />
+          {isMe ? (
+            i18n('noteToSelf')
+          ) : (
+            <ContactName
+              phoneNumber={phoneNumber}
+              name={name}
+              profileName={profileName}
+              i18n={i18n}
+            />
+          )}
         </div>
         <div
           className={classNames(

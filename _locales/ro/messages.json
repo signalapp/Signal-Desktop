@@ -959,14 +959,6 @@
         "message": "General",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Trimite previzualizarea link-urilor",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Previzualizarea este suportată pentru link-uri Imgur, Instagram, Reddit și YouTube",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Enable spell check of text entered in message composition box",
         "description": "Description of the media permission description"

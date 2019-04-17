@@ -959,16 +959,8 @@
         "message": "Obecné",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Odeslat náhledy odkazu",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Náhledy jsou podporovány pro odkazy na Imgur, Instagram, Reddit, a YouTube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "Kontrolovat pravopis při psaní zpráv",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {

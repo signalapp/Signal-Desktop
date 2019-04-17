@@ -9,6 +9,7 @@ interface Props {
   color?: string;
   conversationType: 'group' | 'direct';
   i18n: Localizer;
+  noteToSelf?: boolean;
   name?: string;
   phoneNumber?: string;
   profileName?: string;
@@ -79,6 +80,7 @@ export class Avatar extends React.Component<Props, State> {
     const {
       conversationType,
       name,
+      noteToSelf,
       size,
       borderColor,
       borderWidth,
@@ -86,6 +88,18 @@ export class Avatar extends React.Component<Props, State> {
 
     const initials = getInitials(name);
     const isGroup = conversationType === 'group';
+
+    if (noteToSelf) {
+      return (
+        <div
+          className={classNames(
+            'module-avatar__icon',
+            'module-avatar__icon--note-to-self',
+            `module-avatar__icon--${size}`
+          )}
+        />
+      );
+    }
 
     const borderStyle = this.getBorderStyle(borderColor, borderWidth);
 
@@ -116,10 +130,10 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public render() {
-    const { avatarPath, color, size } = this.props;
+    const { avatarPath, color, size, noteToSelf } = this.props;
     const { imageBroken } = this.state;
 
-    const hasImage = avatarPath && !imageBroken;
+    const hasImage = !noteToSelf && avatarPath && !imageBroken;
 
     if (size !== 28 && size !== 36 && size !== 48 && size !== 80) {
       throw new Error(`Size ${size} is not supported!`);

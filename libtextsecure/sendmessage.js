@@ -575,7 +575,7 @@ MessageSender.prototype = {
 
   async sendTypingMessage(options = {}, sendOptions = {}) {
     const ACTION_ENUM = textsecure.protobuf.TypingMessage.Action;
-    const { recipientId, groupId, isTyping, timestamp } = options;
+    const { recipientId, groupId, groupNumbers, isTyping, timestamp } = options;
 
     // We don't want to send typing messages to our other devices, but we will
     //   in the group case.
@@ -589,7 +589,7 @@ MessageSender.prototype = {
     }
 
     const recipients = groupId
-      ? _.without(await textsecure.storage.groups.getNumbers(groupId), myNumber)
+      ? _.without(groupNumbers, myNumber)
       : [recipientId];
     const groupIdBuffer = groupId
       ? window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(groupId)
@@ -774,6 +774,37 @@ MessageSender.prototype = {
     });
   },
 
+  async getMessageProto(
+    number,
+    body,
+    attachments,
+    quote,
+    preview,
+    timestamp,
+    expireTimer,
+    profileKey
+  ) {
+    const attributes = {
+      recipients: [number],
+      body,
+      timestamp,
+      attachments,
+      quote,
+      preview,
+      expireTimer,
+      profileKey,
+    };
+
+    const message = new Message(attributes);
+    await Promise.all([
+      this.uploadAttachments(message),
+      this.uploadThumbnails(message),
+      this.uploadLinkPreviews(message),
+    ]);
+
+    return message.toArrayBuffer();
+  },
+
   sendMessageToNumber(
     number,
     messageText,
@@ -843,7 +874,7 @@ MessageSender.prototype = {
         )
       );
 
-    const sendToContact = deleteAllSessions(number)
+    const sendToContactPromise = deleteAllSessions(number)
       .catch(logError('resetSession/deleteAllSessions1 error:'))
       .then(() => {
         window.log.info(
@@ -863,8 +894,14 @@ MessageSender.prototype = {
         )
       );
 
+    const myNumber = textsecure.storage.user.getNumber();
+    // We already sent the reset session to our other devices in the code above!
+    if (number === myNumber) {
+      return sendToContactPromise;
+    }
+
     const buffer = proto.toArrayBuffer();
-    const sendSync = this.sendSyncMessage(
+    const sendSyncPromise = this.sendSyncMessage(
       buffer,
       timestamp,
       number,
@@ -874,12 +911,13 @@ MessageSender.prototype = {
       options
     ).catch(logError('resetSession/sendSync error:'));
 
-    return Promise.all([sendToContact, sendSync]);
+    return Promise.all([sendToContact, sendSyncPromise]);
     */
   },
 
   sendMessageToGroup(
     groupId,
+    groupNumbers,
     messageText,
     attachments,
     quote,
@@ -889,59 +927,50 @@ MessageSender.prototype = {
     profileKey,
     options
   ) {
-    return textsecure.storage.groups.getNumbers(groupId).then(targetNumbers => {
-      if (targetNumbers === undefined) {
-        return Promise.reject(new Error('Unknown Group'));
-      }
+    const me = textsecure.storage.user.getNumber();
+    const numbers = groupNumbers.filter(number => number !== me);
+    if (numbers.length === 0) {
+      return Promise.reject(new Error('No other members in the group'));
+    }
 
-      const me = textsecure.storage.user.getNumber();
-      const numbers = targetNumbers.filter(number => number !== me);
-      if (numbers.length === 0) {
-        return Promise.reject(new Error('No other members in the group'));
-      }
-
-      return this.sendMessage(
-        {
-          recipients: numbers,
-          body: messageText,
-          timestamp,
-          attachments,
-          quote,
-          preview,
-          needsSync: true,
-          expireTimer,
-          profileKey,
-          group: {
-            id: groupId,
-            type: textsecure.protobuf.GroupContext.Type.DELIVER,
-          },
+    return this.sendMessage(
+      {
+        recipients: numbers,
+        body: messageText,
+        timestamp,
+        attachments,
+        quote,
+        preview,
+        needsSync: true,
+        expireTimer,
+        profileKey,
+        group: {
+          id: groupId,
+          type: textsecure.protobuf.GroupContext.Type.DELIVER,
         },
-        options
-      );
-    });
+      },
+      options
+    );
   },
 
-  createGroup(targetNumbers, name, avatar, options) {
+  createGroup(targetNumbers, id, name, avatar, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
+    proto.group.id = stringToArrayBuffer(id);
 
-    return textsecure.storage.groups
-      .createNewGroup(targetNumbers)
-      .then(group => {
-        proto.group.id = stringToArrayBuffer(group.id);
-        const { numbers } = group;
+    proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
+    proto.group.members = targetNumbers;
+    proto.group.name = name;
 
-        proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
-        proto.group.members = numbers;
-        proto.group.name = name;
-
-        return this.makeAttachmentPointer(avatar).then(attachment => {
-          proto.group.avatar = attachment;
-          return this.sendGroupProto(numbers, proto, Date.now(), options).then(
-            () => proto.group.id
-          );
-        });
-      });
+    return this.makeAttachmentPointer(avatar).then(attachment => {
+      proto.group.avatar = attachment;
+      return this.sendGroupProto(
+        targetNumbers,
+        proto,
+        Date.now(),
+        options
+      ).then(() => proto.group.id);
+    });
   },
 
   updateGroup(groupId, name, avatar, targetNumbers, options) {
@@ -951,121 +980,87 @@ MessageSender.prototype = {
     proto.group.id = stringToArrayBuffer(groupId);
     proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
     proto.group.name = name;
+    proto.group.members = targetNumbers;
 
-    return textsecure.storage.groups
-      .addNumbers(groupId, targetNumbers)
-      .then(numbers => {
-        if (numbers === undefined) {
-          return Promise.reject(new Error('Unknown Group'));
-        }
-        proto.group.members = numbers;
-
-        return this.makeAttachmentPointer(avatar).then(attachment => {
-          proto.group.avatar = attachment;
-          return this.sendGroupProto(numbers, proto, Date.now(), options).then(
-            () => proto.group.id
-          );
-        });
-      });
+    return this.makeAttachmentPointer(avatar).then(attachment => {
+      proto.group.avatar = attachment;
+      return this.sendGroupProto(
+        targetNumbers,
+        proto,
+        Date.now(),
+        options
+      ).then(() => proto.group.id);
+    });
   },
 
-  addNumberToGroup(groupId, number, options) {
+  addNumberToGroup(groupId, newNumbers, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
     proto.group.id = stringToArrayBuffer(groupId);
     proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
-
-    return textsecure.storage.groups
-      .addNumbers(groupId, [number])
-      .then(numbers => {
-        if (numbers === undefined)
-          return Promise.reject(new Error('Unknown Group'));
-        proto.group.members = numbers;
-
-        return this.sendGroupProto(numbers, proto, Date.now(), options);
-      });
+    proto.group.members = newNumbers;
+    return this.sendGroupProto(newNumbers, proto, Date.now(), options);
   },
 
-  setGroupName(groupId, name, options) {
+  setGroupName(groupId, name, groupNumbers, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
     proto.group.id = stringToArrayBuffer(groupId);
     proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
     proto.group.name = name;
+    proto.group.members = groupNumbers;
 
-    return textsecure.storage.groups.getNumbers(groupId).then(numbers => {
-      if (numbers === undefined)
-        return Promise.reject(new Error('Unknown Group'));
-      proto.group.members = numbers;
-
-      return this.sendGroupProto(numbers, proto, Date.now(), options);
-    });
+    return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
   },
 
-  setGroupAvatar(groupId, avatar, options) {
+  setGroupAvatar(groupId, avatar, groupNumbers, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
     proto.group.id = stringToArrayBuffer(groupId);
     proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
+    proto.group.members = groupNumbers;
 
-    return textsecure.storage.groups.getNumbers(groupId).then(numbers => {
-      if (numbers === undefined)
-        return Promise.reject(new Error('Unknown Group'));
-      proto.group.members = numbers;
-
-      return this.makeAttachmentPointer(avatar).then(attachment => {
-        proto.group.avatar = attachment;
-        return this.sendGroupProto(numbers, proto, Date.now(), options);
-      });
+    return this.makeAttachmentPointer(avatar).then(attachment => {
+      proto.group.avatar = attachment;
+      return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
     });
   },
 
-  leaveGroup(groupId, options) {
+  leaveGroup(groupId, groupNumbers, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
     proto.group.id = stringToArrayBuffer(groupId);
     proto.group.type = textsecure.protobuf.GroupContext.Type.QUIT;
-
-    return textsecure.storage.groups.getNumbers(groupId).then(numbers => {
-      if (numbers === undefined)
-        return Promise.reject(new Error('Unknown Group'));
-      return textsecure.storage.groups
-        .deleteGroup(groupId)
-        .then(() => this.sendGroupProto(numbers, proto, Date.now(), options));
-    });
+    return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
   },
   sendExpirationTimerUpdateToGroup(
     groupId,
+    groupNumbers,
     expireTimer,
     timestamp,
     profileKey,
     options
   ) {
-    return textsecure.storage.groups.getNumbers(groupId).then(targetNumbers => {
-      if (targetNumbers === undefined)
-        return Promise.reject(new Error('Unknown Group'));
-
-      const me = textsecure.storage.user.getNumber();
-      const numbers = targetNumbers.filter(number => number !== me);
-      if (numbers.length === 0) {
-        return Promise.reject(new Error('No other members in the group'));
-      }
-      return this.sendMessage(
-        {
-          recipients: numbers,
-          timestamp,
-          needsSync: true,
-          expireTimer,
-          profileKey,
-          flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-          group: {
-            id: groupId,
-            type: textsecure.protobuf.GroupContext.Type.DELIVER,
-          },
+    const me = textsecure.storage.user.getNumber();
+    const numbers = groupNumbers.filter(number => number !== me);
+    if (numbers.length === 0) {
+      return Promise.reject(new Error('No other members in the group'));
+    }
+    return this.sendMessage(
+      {
+        recipients: numbers,
+        timestamp,
+        needsSync: true,
+        expireTimer,
+        profileKey,
+        flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+        group: {
+          id: groupId,
+          type: textsecure.protobuf.GroupContext.Type.DELIVER,
         },
-        options
-      );
-    });
+      },
+      options
+    );
   },
   sendExpirationTimerUpdateToNumber(
     number,
@@ -1139,6 +1134,7 @@ textsecure.MessageSender = function MessageSenderWrapper(
   this.sendReadReceipts = sender.sendReadReceipts.bind(sender);
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
   this.getProxiedSize = sender.getProxiedSize.bind(sender);
+  this.getMessageProto = sender.getMessageProto.bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

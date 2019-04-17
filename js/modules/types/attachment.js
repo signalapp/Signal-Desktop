@@ -56,6 +56,11 @@ exports.autoOrientJPEG = async attachment => {
     return attachment;
   }
 
+  // If we haven't downloaded the attachment yet, we won't have the data
+  if (!attachment.data) {
+    return attachment;
+  }
+
   const dataBlob = await arrayBufferToBlob(
     attachment.data,
     attachment.contentType
@@ -232,6 +237,11 @@ exports.captureDimensionsAndScreenshot = async (
     !GoogleChrome.isImageTypeSupported(contentType) &&
     !GoogleChrome.isVideoTypeSupported(contentType)
   ) {
+    return attachment;
+  }
+
+  // If the attachment hasn't been downloaded yet, we won't have a path
+  if (!attachment.path) {
     return attachment;
   }
 

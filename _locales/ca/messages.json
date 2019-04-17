@@ -702,7 +702,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Es respon a $name$",
+        "message": "Resposta per a $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -958,14 +958,6 @@
     "general": {
         "message": "General",
         "description": "Header for general options on the settings screen"
-    },
-    "sendLinkPreviews": {
-        "message": "Envia previsualitzacions d'enllaços",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Previsualitzacions estan disponibles per enllaços de Imgur, Reddit i Youtube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Activa la comprovació ortogràfica del text introduït en el quadre d'edició de missatges",

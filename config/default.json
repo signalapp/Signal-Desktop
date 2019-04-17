@@ -2,6 +2,7 @@
   "serverUrl": "random.snode",
   "localUrl": "localhost.loki",
   "cdnUrl": "random.snode",
+  "contentProxyUrl": "random.snode",
   "localServerPort": "8081",
   "snodeServerPort": "8080",
   "disableAutoUpdate": false,

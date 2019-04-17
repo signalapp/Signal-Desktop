@@ -959,14 +959,6 @@
         "message": "Általános",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Hivatkozások előnézeti képének küldése",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Az előnézeti képek az Imgur, Instagram, Reddit és YouTube szolgáltatásokhoz érhetőek el.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Az üzenetíró dobozba gépelt szöveg helyesírás-ellenőrzésének engedélyezése",
         "description": "Description of the media permission description"
