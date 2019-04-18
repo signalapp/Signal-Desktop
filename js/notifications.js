@@ -22,6 +22,15 @@
     MESSAGE: 'message',
   };
 
+  function filter(text) {
+    return (text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
   Whisper.Notifications = new (Backbone.Collection.extend({
     initialize() {
       this.isEnabled = false;
@@ -151,15 +160,13 @@
 
       drawAttention();
 
-      const notification = new Notification(title, {
-        body: message,
+      this.lastNotification = new Notification(title, {
+        body: window.platform === 'linux' ? filter(message) : message,
         icon: iconUrl,
-        tag: isNotificationGroupingSupported ? 'signal' : undefined,
         silent: !status.shouldPlayNotificationSound,
       });
-      notification.onclick = () =>
+      this.lastNotification.onclick = () =>
         this.trigger('click', last.conversationId, last.id);
-      this.lastNotification = notification;
 
       // We continue to build up more and more messages for our notifications
       // until the user comes back to our app or closes the app. Then we’ll

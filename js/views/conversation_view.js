@@ -81,7 +81,6 @@
       return {
         'disable-inputs': false,
         'send-message': i18n('sendMessage'),
-        'android-length-warning': i18n('androidMessageLengthWarning'),
       };
     },
     initialize(options) {
@@ -247,7 +246,7 @@
             this.model.copyPublicKey();
           },
           onArchive: () => {
-            this.unload();
+            this.unload('archive');
             this.model.setArchived(true);
           },
           onMoveToInbox: () => {
@@ -596,13 +595,6 @@
         this.$('.capture-audio').show();
       }
       */
-    },
-    toggleLengthWarning() {
-      if (this.$('.send-message').val().length > 2000) {
-        this.$('.android-length-warning').show();
-      } else {
-        this.$('.android-length-warning').hide();
-      }
     },
     captureAudio(e) {
       e.preventDefault();
@@ -2103,7 +2095,6 @@
         return;
       }
       this.toggleMicrophone();
-      this.toggleLengthWarning();
 
       this.view.measureScrollPosition();
       window.autosize(this.$messageField);

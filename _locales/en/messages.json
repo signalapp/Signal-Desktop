@@ -204,7 +204,7 @@
       "Shown in menu for conversation, and moves conversation out of main conversation list"
   },
   "moveConversationToInbox": {
-    "message": "Move Converstion to Inbox",
+    "message": "Move Conversation to Inbox",
     "description":
       "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
   },
@@ -817,6 +817,11 @@
     "description":
       "When rendering an address, used to provide context to a post office box"
   },
+  "downloading": {
+    "message": "Downloading",
+    "description":
+      "Shown in the message bubble while a long message attachment is being downloaded"
+  },
   "downloadAttachment": {
     "message": "Download Attachment",
     "description":
@@ -1315,12 +1320,6 @@
       "This version of Loki Messenger has expired. Please upgrade to the latest version to continue messaging.",
     "description":
       "Warning notification that this version of the app has expired"
-  },
-  "androidMessageLengthWarning": {
-    "message":
-      "Android clients will only receive the first 2000 characters of this message.",
-    "description":
-      "Warning that long messages could not get received completely by Android clients."
   },
   "upgrade": {
     "message": "Upgrade",

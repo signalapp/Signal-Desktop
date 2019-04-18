@@ -9,6 +9,7 @@ import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
 
 interface Props {
   text: string;
+  textPending?: boolean;
   /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
   disableJumbomoji?: boolean;
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
@@ -50,23 +51,48 @@ const renderEmoji = ({
  * them for you.
  */
 export class MessageBody extends React.Component<Props> {
-  public render() {
-    const { text, disableJumbomoji, disableLinks, i18n } = this.props;
-    const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
-
-    if (disableLinks) {
-      return renderEmoji({
-        i18n,
-        text,
-        sizeClass,
-        key: 0,
-        renderNonEmoji: renderNewLines,
-      });
-    }
+  public addDownloading(jsx: JSX.Element): JSX.Element {
+    const { i18n, textPending } = this.props;
 
     return (
+      <span>
+        {jsx}
+        {textPending ? (
+          <span className="module-message-body__highlight">
+            {' '}
+            {i18n('downloading')}
+          </span>
+        ) : null}
+      </span>
+    );
+  }
+
+  public render() {
+    const {
+      text,
+      textPending,
+      disableJumbomoji,
+      disableLinks,
+      i18n,
+    } = this.props;
+    const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
+    const textWithPending = textPending ? `${text}...` : text;
+
+    if (disableLinks) {
+      return this.addDownloading(
+        renderEmoji({
+          i18n,
+          text: textWithPending,
+          sizeClass,
+          key: 0,
+          renderNonEmoji: renderNewLines,
+        })
+      );
+    }
+
+    return this.addDownloading(
       <Linkify
-        text={text}
+        text={textWithPending}
         renderNonLink={({ key, text: nonLinkText }) => {
           return renderEmoji({
             i18n,
