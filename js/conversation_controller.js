@@ -59,41 +59,6 @@
   window.getInboxCollection = () => inboxCollection;
   window.getConversations = () => conversations;
 
-  const contactCollection = new (Backbone.Collection.extend({
-    initialize() {
-      this.on(
-        'change:timestamp change:name change:number change:profileName',
-        this.sort
-      );
-
-      this.listenTo(
-        conversations,
-        'add change:active_at change:friendRequestStatus',
-        this.addActive
-      );
-      this.listenTo(conversations, 'remove', this.remove);
-      this.listenTo(conversations, 'reset', () => this.reset([]));
-
-      this.collator = new Intl.Collator();
-    },
-    comparator(m1, m2) {
-      const title1 = m1.getTitle().toLowerCase();
-      const title2 = m2.getTitle().toLowerCase();
-      return this.collator.compare(title1, title2);
-    },
-    addActive(model) {
-      // We only want models which we are friends with
-      if (model.isFriend() && !model.isMe()) {
-        this.add(model);
-        model.updateLastMessage();
-      } else {
-        this.remove(model);
-      }
-    },
-  }))();
-
-  window.getContactCollection = () => contactCollection;
-
   window.ConversationController = {
     get(id) {
       if (!this._initialFetchComplete) {

@@ -68,7 +68,7 @@ export const getSearchResults = createSelector(
         state.conversations.map(id => {
           const value = lookup[id];
 
-          const friend = value && value.isFriend ? { ...value} : null;
+          const friend = value && value.isFriend ? { ...value } : null;
 
           if (friend && id === selectedConversation) {
             return {

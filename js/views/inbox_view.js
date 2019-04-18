@@ -1,5 +1,6 @@
 /* global
   extension,
+  ConversationController
   getConversations,
   getInboxCollection,
   i18n,

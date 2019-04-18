@@ -34,12 +34,15 @@ export function normalize(
 function isValidNumber(number: string) {
   // Check if it's hex
   const isHex = number.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
-  if (!isHex) return false;
+  if (!isHex) {
+    return false;
+  }
 
   // Check if the pubkey length is 33 and leading with 05 or of length 32
   const len = number.length;
-  if ((len !== 33 * 2 || !/^05/.test(number)) && len !== 32 * 2)
+  if ((len !== 33 * 2 || !/^05/.test(number)) && len !== 32 * 2) {
     return false;
+  }
 
   return true;
 }

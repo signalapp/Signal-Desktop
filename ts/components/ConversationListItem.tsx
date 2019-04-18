@@ -242,7 +242,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       isSelected,
       showFriendRequestIndicator,
       isBlocked,
-      style
+      style,
     } = this.props;
 
     const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
@@ -260,12 +260,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
             style={style}
             className={classNames(
               'module-conversation-list-item',
-              unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
+              unreadCount > 0
+                ? 'module-conversation-list-item--has-unread'
+                : null,
               isSelected ? 'module-conversation-list-item--is-selected' : null,
               showFriendRequestIndicator
                 ? 'module-conversation-list-item--has-friend-request'
                 : null,
-                isBlocked ? 'module-conversation-list-item--is-blocked' : null
+              isBlocked ? 'module-conversation-list-item--is-blocked' : null
             )}
           >
             {this.renderAvatar()}
