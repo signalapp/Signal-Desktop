@@ -1,5 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+import { Portal } from 'react-portal';
 
 import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
@@ -8,7 +11,6 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { Colors, LocalizerType } from '../types/Util';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 export type PropsData = {
   id: string;
@@ -34,6 +36,7 @@ export type PropsData = {
   isBlocked?: boolean;
   isOnline?: boolean;
   hasNickname?: boolean;
+  isFriendItem?: boolean;
 };
 
 type PropsHousekeeping = {
@@ -109,6 +112,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       name,
       phoneNumber,
       profileName,
+      isFriendItem,
     } = this.props;
 
     return (
@@ -132,21 +136,23 @@ export class ConversationListItem extends React.PureComponent<Props> {
             />
           )}
         </div>
-        <div
-          className={classNames(
-            'module-conversation-list-item__header__date',
-            unreadCount > 0
-              ? 'module-conversation-list-item__header__date--has-unread'
-              : null
-          )}
-        >
-          <Timestamp
-            timestamp={lastUpdated}
-            extended={false}
-            module="module-conversation-list-item__header__timestamp"
-            i18n={i18n}
-          />
-        </div>
+        {!isFriendItem && (
+          <div
+            className={classNames(
+              'module-conversation-list-item__header__date',
+              unreadCount > 0
+                ? 'module-conversation-list-item__header__date--has-unread'
+                : null
+            )}
+          >
+            <Timestamp
+              timestamp={lastUpdated}
+              extended={false}
+              module="module-conversation-list-item__header__timestamp"
+              i18n={i18n}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -192,11 +198,26 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderMessage() {
-    const { lastMessage, isTyping, unreadCount, i18n } = this.props;
+    const {
+      lastMessage,
+      isTyping,
+      unreadCount,
+      i18n,
+      isFriendItem,
+    } = this.props;
+
+    if (isFriendItem) {
+      return null;
+    }
+
     if (!lastMessage && !isTyping) {
       return null;
     }
     const text = lastMessage && lastMessage.text ? lastMessage.text : '';
+
+    if (isEmpty(text)) {
+      return null;
+    }
 
     return (
       <div className="module-conversation-list-item__message">
@@ -277,7 +298,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             </div>
           </div>
         </ContextMenuTrigger>
-        {this.renderContextMenu(triggerId)}
+        <Portal>{this.renderContextMenu(triggerId)}</Portal>
       </div>
     );
   }

@@ -749,6 +749,10 @@
     "message": "Conversations",
     "description": "Shown to separate the types of search results"
   },
+  "friendsHeader": {
+    "message": "Friends",
+    "description": "Shown to separate the types of search results"
+  },
   "contactsHeader": {
     "message": "Contacts",
     "description": "Shown to separate the types of search results"
@@ -2000,5 +2004,23 @@
   },
   "remove": {
     "message": "Remove"
+  },
+  "invalidHexId": {
+    "message": "Invalid Hex ID",
+    "description":
+      "Error string shown when user type an invalid pubkey hex string"
+  },
+  "invalidPubkeyFormat": {
+    "message": "Invalid Pubkey Format",
+    "description": "Error string shown when user types an invalid pubkey format"
+  },
+
+  "conversationsTab": {
+    "message": "Conversations",
+    "description": "conversation tab title"
+  },
+  "friendsTab": {
+    "message": "Friends",
+    "description": "friend tab title"
   }
 }

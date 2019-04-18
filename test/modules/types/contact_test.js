@@ -42,6 +42,7 @@ describe('Contact', () => {
       assert.deepEqual(result, message.contact[0]);
     });
 
+    // LOKI: Phone number stays the same
     it('turns phone numbers to e164 format', async () => {
       const upgradeAttachment = sinon
         .stub()
@@ -71,7 +72,7 @@ describe('Contact', () => {
         number: [
           {
             type: 1,
-            value: '+12025550099',
+            value: '(202) 555-0099',
           },
         ],
       };

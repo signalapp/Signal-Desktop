@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { AutoSizer, List } from 'react-virtualized';
 
 import {
@@ -13,6 +14,7 @@ import { LocalizerType } from '../types/Util';
 
 export interface Props {
   conversations?: Array<ConversationListItemPropsType>;
+  friends?: Array<ConversationListItemPropsType>;
   archivedConversations?: Array<ConversationListItemPropsType>;
   searchResults?: SearchResultsProps;
   showArchived?: boolean;
@@ -42,7 +44,52 @@ type RowRendererParamsType = {
   style: Object;
 };
 
-export class LeftPane extends React.Component<Props> {
+export class LeftPane extends React.Component<Props, any> {
+  public state = {
+    currentTab: 'conversations',
+  };
+
+  public getCurrentConversations():
+    | Array<ConversationListItemPropsType>
+    | undefined {
+    const { conversations, friends } = this.props;
+    const { currentTab } = this.state;
+
+    return currentTab === 'conversations' ? conversations : friends;
+  }
+
+  public renderTabs(): JSX.Element {
+    const { i18n } = this.props;
+    const { currentTab } = this.state;
+    const tabs = [
+      {
+        id: 'conversations',
+        name: i18n('conversationsTab'),
+      },
+      {
+        id: 'friends',
+        name: i18n('friendsTab'),
+      },
+    ];
+
+    return (
+      <div className="module-left-pane__tabs" key="tabs">
+        {tabs.map(tab => (
+          <div
+            role="button"
+            className={classNames('tab', tab.id === currentTab && 'selected')}
+            key={tab.id}
+            onClick={() => {
+              this.setState({ currentTab: tab.id });
+            }}
+          >
+            {tab.name}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   public renderRow = ({
     index,
     key,
@@ -50,11 +97,15 @@ export class LeftPane extends React.Component<Props> {
   }: RowRendererParamsType): JSX.Element => {
     const {
       archivedConversations,
-      conversations,
       i18n,
       openConversationInternal,
       showArchived,
     } = this.props;
+
+    const { currentTab } = this.state;
+
+    const conversations = this.getCurrentConversations();
+
     if (!conversations || !archivedConversations) {
       throw new Error(
         'renderRow: Tried to render without conversations or archivedConversations'
@@ -76,6 +127,7 @@ export class LeftPane extends React.Component<Props> {
         {...conversation}
         onClick={openConversationInternal}
         i18n={i18n}
+        isFriendItem={currentTab !== 'conversations'}
       />
     );
   };
@@ -119,7 +171,6 @@ export class LeftPane extends React.Component<Props> {
     const {
       archivedConversations,
       i18n,
-      conversations,
       openConversationInternal,
       startNewConversation,
       searchResults,
@@ -136,6 +187,8 @@ export class LeftPane extends React.Component<Props> {
         />
       );
     }
+
+    const conversations = this.getCurrentConversations();
 
     if (!conversations || !archivedConversations) {
       throw new Error(
@@ -181,7 +234,7 @@ export class LeftPane extends React.Component<Props> {
       </div>
     );
 
-    return [archived, list];
+    return [this.renderTabs(), archived, list];
   }
 
   public renderArchivedHeader(): JSX.Element {

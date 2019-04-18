@@ -50,8 +50,6 @@ export const getSearchResults = createSelector(
   ) => {
     return {
       contacts: compact(
-        /*
-        LOKI: Unsure what signal does with this
         state.contacts.map(id => {
           const value = lookup[id];
 
@@ -63,21 +61,6 @@ export const getSearchResults = createSelector(
           }
 
           return value;
-        })
-        */
-        state.conversations.map(id => {
-          const value = lookup[id];
-
-          const friend = value && value.isFriend ? { ...value } : null;
-
-          if (friend && id === selectedConversation) {
-            return {
-              ...friend,
-              isSelected: true,
-            };
-          }
-
-          return friend;
         })
       ),
       conversations: compact(
@@ -94,6 +77,22 @@ export const getSearchResults = createSelector(
           return value;
         })
       ),
+      friends: compact(
+        state.conversations.map(id => {
+          const value = lookup[id];
+
+          const friend = value && value.isFriend ? { ...value } : null;
+
+          if (friend && id === selectedConversation) {
+            return {
+              ...friend,
+              isSelected: true,
+            };
+          }
+
+          return friend;
+        })
+      ),
       hideMessagesHeader: false,
       messages: state.messages.map(message => {
         if (message.id === selectedMessage) {
@@ -107,9 +106,9 @@ export const getSearchResults = createSelector(
       }),
       regionCode: regionCode,
       searchTerm: state.query,
-      showStartNewConversation: Boolean(
-        state.normalizedPhoneNumber && !lookup[state.normalizedPhoneNumber]
-      ),
+
+      // We only want to show the start conversation if we don't have the query in our lookup
+      showStartNewConversation: !lookup[state.query],
     };
   }
 );

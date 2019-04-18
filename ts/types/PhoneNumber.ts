@@ -1,3 +1,5 @@
+import { LocalizerType } from './Util';
+
 export function format(
   phoneNumber: string,
   _options: {
@@ -31,18 +33,30 @@ export function normalize(
   }
 }
 
-function isValidNumber(number: string) {
+function validate(number: string) {
   // Check if it's hex
   const isHex = number.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
   if (!isHex) {
-    return false;
+    return 'invalidHexId';
   }
 
   // Check if the pubkey length is 33 and leading with 05 or of length 32
   const len = number.length;
   if ((len !== 33 * 2 || !/^05/.test(number)) && len !== 32 * 2) {
-    return false;
+    return 'invalidPubkeyFormat';
   }
 
-  return true;
+  return null;
+}
+
+function isValidNumber(number: string) {
+  const error = validate(number);
+
+  return !error;
+}
+
+export function validateNumber(number: string, i18n: LocalizerType) {
+  const error = validate(number);
+
+  return error && i18n(error);
 }

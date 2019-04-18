@@ -13,6 +13,7 @@ import { LocalizerType } from '../types/Util';
 
 export type PropsData = {
   contacts: Array<ConversationListItemPropsType>;
+  friends: Array<ConversationListItemPropsType>;
   conversations: Array<ConversationListItemPropsType>;
   hideMessagesHeader: boolean;
   messages: Array<MessageSearchResultPropsType>;
@@ -49,16 +50,19 @@ export class SearchResults extends React.Component<Props> {
       openConversation,
       searchTerm,
       showStartNewConversation,
+      friends,
     } = this.props;
 
     const haveConversations = conversations && conversations.length;
     const haveContacts = contacts && contacts.length;
+    const haveFriends = friends && friends.length;
     const haveMessages = messages && messages.length;
     const noResults =
       !showStartNewConversation &&
       !haveConversations &&
       !haveContacts &&
-      !haveMessages;
+      !haveMessages &&
+      !haveFriends;
 
     return (
       <div className="module-search-results">
@@ -89,21 +93,12 @@ export class SearchResults extends React.Component<Props> {
             ))}
           </div>
         ) : null}
-        {haveContacts ? (
-          <div className="module-search-results__contacts">
-            <div className="module-search-results__contacts-header">
-              {i18n('contactsHeader')}
-            </div>
-            {contacts.map(contact => (
-              <ConversationListItem
-                key={contact.phoneNumber}
-                {...contact}
-                onClick={openConversation}
-                i18n={i18n}
-              />
-            ))}
-          </div>
-        ) : null}
+        {haveFriends
+          ? this.renderContacts(i18n('friendsHeader'), friends, true)
+          : null}
+        {haveContacts
+          ? this.renderContacts(i18n('contactsHeader'), contacts)
+          : null}
         {haveMessages ? (
           <div className="module-search-results__messages">
             {hideMessagesHeader ? null : (
@@ -121,6 +116,29 @@ export class SearchResults extends React.Component<Props> {
             ))}
           </div>
         ) : null}
+      </div>
+    );
+  }
+
+  private renderContacts(
+    header: string,
+    items: Array<ConversationListItemPropsType>,
+    friends?: boolean
+  ) {
+    const { i18n, openConversation } = this.props;
+
+    return (
+      <div className="module-search-results__contacts">
+        <div className="module-search-results__contacts-header">{header}</div>
+        {items.map(contact => (
+          <ConversationListItem
+            key={contact.phoneNumber}
+            isFriendItem={friends}
+            {...contact}
+            onClick={openConversation}
+            i18n={i18n}
+          />
+        ))}
       </div>
     );
   }

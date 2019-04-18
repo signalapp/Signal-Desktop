@@ -7,8 +7,7 @@
   i18n,
   Whisper,
   textsecure,
-  Signal,
-  clipboard
+  Signal
 */
 
 // eslint-disable-next-line func-names
@@ -87,13 +86,6 @@
       this.render();
       this.$el.attr('tabindex', '1');
 
-      this.mainHeaderView = new Whisper.MainHeaderView({
-        el: this.$('.main-header-placeholder'),
-        items: this.getMainHeaderItems(),
-      });
-      this.onPasswordUpdated();
-      this.on('password-updated', () => this.onPasswordUpdated());
-
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
         model: { window: options.window },
@@ -145,7 +137,6 @@
         conversation => conversation.cachedProps
       );
 
-      // FIXME: Add our contacts here as well? getContactCollection
       const initialState = {
         conversations: {
           conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
@@ -337,57 +328,6 @@
     },
     onClick(e) {
       this.closeRecording(e);
-    },
-    getMainHeaderItems() {
-      return [
-        this._mainHeaderItem('copyPublicKey', () => {
-          const ourNumber = textsecure.storage.user.getNumber();
-          clipboard.writeText(ourNumber);
-
-          this.showToastMessageInGutter(i18n('copiedPublicKey'));
-        }),
-        this._mainHeaderItem('editDisplayName', () => {
-          window.Whisper.events.trigger('onEditProfile');
-        }),
-        this._mainHeaderItem('showSeed', () => {
-          window.Whisper.events.trigger('showSeedDialog');
-        }),
-      ];
-    },
-    async onPasswordUpdated() {
-      const hasPassword = await Signal.Data.getPasswordHash();
-      const items = this.getMainHeaderItems();
-
-      const showPasswordDialog = (type, resolve) =>
-        Whisper.events.trigger('showPasswordDialog', {
-          type,
-          resolve,
-        });
-
-      const passwordItem = (textKey, type) =>
-        this._mainHeaderItem(textKey, () =>
-          showPasswordDialog(type, () => {
-            this.showToastMessageInGutter(i18n(`${textKey}Success`));
-          })
-        );
-
-      if (hasPassword) {
-        items.push(
-          passwordItem('changePassword', 'change'),
-          passwordItem('removePassword', 'remove')
-        );
-      } else {
-        items.push(passwordItem('setPassword', 'set'));
-      }
-
-      this.mainHeaderView.updateItems(items);
-    },
-    _mainHeaderItem(textKey, onClick) {
-      return {
-        id: textKey,
-        text: i18n(textKey),
-        onClick,
-      };
     },
     showToastMessageInGutter(message) {
       const toast = new Whisper.MessageToastView({
