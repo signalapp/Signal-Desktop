@@ -402,9 +402,92 @@
         error && error.stack ? error.stack : error
       );
     } finally {
+      initializeRedux();
       start();
     }
   });
+
+  function initializeRedux() {
+    // Here we set up a full redux store with initial state for our LeftPane Root
+    const convoCollection = window.getConversations();
+    const conversations = convoCollection.map(
+      conversation => conversation.cachedProps
+    );
+    const initialState = {
+      conversations: {
+        conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
+      },
+      user: {
+        regionCode: window.storage.get('regionCode'),
+        ourNumber: textsecure.storage.user.getNumber(),
+        i18n: window.i18n,
+      },
+    };
+
+    const store = Signal.State.createStore(initialState);
+    window.reduxStore = store;
+
+    const actions = {};
+    window.reduxActions = actions;
+
+    // Binding these actions to our redux store and exposing them allows us to update
+    //   redux when things change in the backbone world.
+    actions.conversations = Signal.State.bindActionCreators(
+      Signal.State.Ducks.conversations.actions,
+      store.dispatch
+    );
+    actions.user = Signal.State.bindActionCreators(
+      Signal.State.Ducks.user.actions,
+      store.dispatch
+    );
+
+    const {
+      conversationAdded,
+      conversationChanged,
+      conversationRemoved,
+      removeAllConversations,
+      messageExpired,
+    } = actions.conversations;
+    const { userChanged } = actions.user;
+
+    convoCollection.on('remove', conversation => {
+      const { id } = conversation || {};
+      conversationRemoved(id);
+    });
+    convoCollection.on('add', conversation => {
+      const { id, cachedProps } = conversation || {};
+      conversationAdded(id, cachedProps);
+    });
+    convoCollection.on('change', conversation => {
+      const { id, cachedProps } = conversation || {};
+      conversationChanged(id, cachedProps);
+    });
+    convoCollection.on('reset', removeAllConversations);
+
+    Whisper.events.on('messageExpired', messageExpired);
+    Whisper.events.on('userChanged', userChanged);
+
+    // In the future this listener will be added by the conversation view itself. But
+    //   because we currently have multiple converations open at once, we install just
+    //   one global handler.
+    // $(document).on('keydown', event => {
+    //   const { ctrlKey, key } = event;
+
+    // We can add Command-E as the Mac shortcut when we add it to our Electron menus:
+    //   https://stackoverflow.com/questions/27380018/when-cmd-key-is-kept-pressed-keyup-is-not-triggered-for-any-other-key
+    // For now, it will stay as CTRL-E only
+    //   if (key === 'e' && ctrlKey) {
+    //     const state = store.getState();
+    //     const selectedId = state.conversations.selectedConversation;
+    //     const conversation = ConversationController.get(selectedId);
+
+    //     if (conversation && !conversation.get('isArchived')) {
+    //       conversation.setArchived(true);
+    //       conversation.trigger('unload');
+    //     }
+    //   }
+    // });
+  }
 
   Whisper.events.on('setupWithImport', () => {
     const { appView } = window.owsDesktopApp;
