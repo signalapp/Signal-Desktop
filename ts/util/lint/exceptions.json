@@ -563,7 +563,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      $(document).on('keydown', event => {",
+    "line": "      // $(document).on('keydown', event => {",
     "lineNumber": 153,
     "reasonCategory": "usageTrusted",
     "updated": "2019-04-03T00:43:09.315Z",

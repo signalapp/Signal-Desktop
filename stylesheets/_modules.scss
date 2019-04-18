@@ -3010,7 +3010,7 @@
 // Module: Search Results
 
 .module-search-results {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 100%;
   color: white;
 }
@@ -3250,9 +3250,7 @@
   flex-direction: row;
   align-items: center;
 
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 16px;
+  padding: 8px 16px;
 
   cursor: pointer;
 
@@ -3262,10 +3260,13 @@
 }
 
 .module-start-new-conversation__content {
+  overflow: hidden;
   margin-left: 12px;
 }
 
 .module-start-new-conversation__number {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
   font-weight: 300;
 }
 
