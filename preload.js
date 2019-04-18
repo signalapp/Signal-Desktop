@@ -118,6 +118,7 @@ ipc.on('on-unblock-number', (event, number) => {
 });
 
 window.closeAbout = () => ipc.send('close-about');
+window.readyForUpdates = () => ipc.send('ready-for-updates');
 
 window.updateTrayIcon = unreadCount =>
   ipc.send('update-tray-icon', unreadCount);
@@ -374,6 +375,19 @@ window.Signal = Signal.setup({
 window.Signal.Backup = require('./js/modules/backup');
 window.Signal.Debug = require('./js/modules/debug');
 window.Signal.Logs = require('./js/modules/logs');
+
+// Add right-click listener for selected text and urls
+const contextMenu = require('electron-context-menu');
+
+contextMenu({
+  showInspectElement: false,
+  shouldShowMenu: (event, params) =>
+    Boolean(
+      !params.isEditable &&
+        params.mediaType === 'none' &&
+        (params.linkURL || params.selectionText)
+    ),
+});
 
 // We pull this in last, because the native module involved appears to be sensitive to
 //   /tmp mounted as noexec on Linux.

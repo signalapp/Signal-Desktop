@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 import { join, relative } from 'path';
 
 // @ts-ignore
-import glob from 'glob';
+import * as glob from 'glob';
 import { forEach, some, values } from 'lodash';
 
 import { ExceptionType, REASONS, RuleType } from './types';
@@ -57,6 +57,7 @@ const excludedFiles = [
 
   // Generated files
   '^js/components.js',
+  '^js/curve/',
   '^js/libtextsecure.js',
   '^js/libloki.js',
   '^js/util_worker.js',

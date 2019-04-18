@@ -1,14 +1,17 @@
-/* global _: false */
-/* global Backbone: false */
-/* global storage: false */
-/* global filesize: false */
-/* global ConversationController: false */
-/* global clipboard: false */
-/* global getAccountManager: false */
-/* global i18n: false */
-/* global Signal: false */
-/* global textsecure: false */
-/* global Whisper: false */
+/* global
+  _,
+  Backbone,
+  storage,
+  filesize,
+  ConversationController,
+  MessageController,
+  getAccountManager,
+  i18n,
+  Signal,
+  textsecure,
+  Whisper,
+  clipboard
+*/
 
 /* eslint-disable more/no-then */
 
@@ -355,6 +358,7 @@
       this.cleanup();
     },
     async cleanup() {
+      MessageController.unregister(this.id);
       this.unload();
       await deleteExternalMessageFiles(this.attributes);
     },
@@ -968,46 +972,26 @@
         return null;
       }
 
-      const [retries, errors] = _.partition(
-        this.get('errors'),
-        this.isReplayableError.bind(this)
-      );
-
-      // Put the errors back which aren't replayable
-      this.set({ errors });
+      this.set({ errors: null });
 
       const conversation = this.getConversation();
       const intendedRecipients = this.get('recipients') || [];
+      const successfulRecipients = this.get('sent_to') || [];
       const currentRecipients = conversation.getRecipients();
 
       const profileKey = conversation.get('profileSharing')
         ? storage.get('profileKey')
         : null;
 
-      const errorNumbers = retries
-        .map(retry => retry.number)
-        .filter(item => Boolean(item));
-      let numbers = _.intersection(
-        errorNumbers,
-        intendedRecipients,
-        currentRecipients
-      );
+      let recipients = _.intersection(intendedRecipients, currentRecipients);
+      recipients = _.without(recipients, successfulRecipients);
 
-      if (!numbers.length) {
-        window.log.warn(
-          'retrySend: No numbers in error set, using all recipients'
-        );
+      if (!recipients.length) {
+        window.log.warn('retrySend: Nobody to send to!');
 
-        if (conversation) {
-          numbers = _.intersection(currentRecipients, intendedRecipients);
-          // We clear all errors here to start with a fresh slate, since we are starting
-          //   from scratch on this message with a fresh set of recipients
-          this.set({ errors: null });
-        } else {
-          throw new Error(
-            'No numbers in error set, did not find conversation for message'
-          );
-        }
+        return window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
       }
 
       const attachmentsWithData = await Promise.all(
@@ -1023,8 +1007,8 @@
       const previewWithData = await loadPreviewData(this.get('preview'));
 
       // Special-case the self-send case - we send only a sync message
-      if (numbers.length === 1 && numbers[0] === this.OUR_NUMBER) {
-        const [number] = numbers;
+      if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
+        const [number] = recipients;
         const dataMessage = await textsecure.messaging.getMessageProto(
           number,
           body,
@@ -1043,7 +1027,7 @@
       options.messageType = this.get('type');
 
       if (conversation.isPrivate()) {
-        const [number] = numbers;
+        const [number] = recipients;
         promise = textsecure.messaging.sendMessageToNumber(
           number,
           body,
@@ -1061,7 +1045,7 @@
 
         promise = textsecure.messaging.sendMessage(
           {
-            recipients: numbers,
+            recipients,
             body,
             timestamp: this.get('sent_at'),
             attachments,
@@ -1633,17 +1617,18 @@
       const collection = await window.Signal.Data.getMessagesBySentAt(id, {
         MessageCollection: Whisper.MessageCollection,
       });
-      const queryMessage = collection.find(item => {
+      const found = collection.find(item => {
         const messageAuthor = item.getContact();
 
         return messageAuthor && author === messageAuthor.id;
       });
 
-      if (!queryMessage) {
+      if (!found) {
         quote.referencedMessageNotFound = true;
         return message;
       }
 
+      const queryMessage = MessageController.register(found.id, found);
       quote.text = queryMessage.get('body');
       if (firstAttachment) {
         firstAttachment.thumbnail = null;
@@ -1729,6 +1714,9 @@
 
       const conversation = ConversationController.get(conversationId);
       return conversation.queueJob(async () => {
+        window.log.info(
+          `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
+        );
         const withQuoteReference = await this.copyFromQuotedMessage(
           initialMessage
         );
@@ -1994,6 +1982,7 @@
             Message: Whisper.Message,
           });
           message.set({ id });
+          MessageController.register(message.id, message);
 
           // Note that this can save the message again, if jobs were queued. We need to
           //   call it after we have an id for this message, because the jobs refer back
@@ -2124,17 +2113,9 @@
   });
 
   // Receive will be enabled before we enable send
-  Whisper.Message.LONG_MESSAGE_SEND_DISABLED = true;
   Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
 
   Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
-    if (Whisper.Message.LONG_MESSAGE_SEND_DISABLED) {
-      return {
-        body,
-        attachments,
-      };
-    }
-
     if (body.length <= 2048) {
       return {
         body,
@@ -2208,7 +2189,9 @@
         }
       );
 
-      const models = messages.filter(message => Boolean(message.id));
+      const models = messages
+        .filter(message => Boolean(message.id))
+        .map(message => MessageController.register(message.id, message));
       const eliminated = messages.length - models.length;
       if (eliminated > 0) {
         window.log.warn(
