@@ -2997,6 +2997,7 @@
 .module-search-results {
   overflow-y: scroll;
   max-height: 100%;
+  color: white;
 }
 
 .module-search-results__conversations-header {
@@ -3141,8 +3142,8 @@
 // Module: Left Pane
 
 .module-left-pane {
-  background-color: $color-gray-02;
-  border-right: 1px solid $color-gray-15;
+  background-color: $color-dark-85;
+  border-right: 1px solid $color-dark-90;
 
   display: inline-flex;
   flex-direction: column;
