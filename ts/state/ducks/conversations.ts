@@ -48,6 +48,7 @@ export type ConversationType = {
   unreadCount: number;
   isSelected: boolean;
   isTyping: boolean;
+  isFriend?: boolean;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;

@@ -96,16 +96,23 @@ export const _getLeftPaneLists = (
 ): {
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
+  contacts: Array<ConversationType>;
 } => {
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
 
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
+  const contacts: Array<ConversationType> = [];
 
   const max = sorted.length;
   for (let i = 0; i < max; i += 1) {
     let conversation = sorted[i];
+
+    if (conversation.isFriend) {
+      contacts.push(conversation);
+    }
+
     if (!conversation.activeAt) {
       continue;
     }
@@ -124,7 +131,7 @@ export const _getLeftPaneLists = (
     }
   }
 
-  return { conversations, archivedConversations };
+  return { conversations, archivedConversations, contacts };
 };
 
 export const getLeftPaneLists = createSelector(

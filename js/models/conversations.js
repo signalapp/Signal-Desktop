@@ -433,6 +433,7 @@
         },
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
+        isFriend: this.isFriend(),
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),

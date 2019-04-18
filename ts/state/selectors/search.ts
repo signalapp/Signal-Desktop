@@ -50,6 +50,8 @@ export const getSearchResults = createSelector(
   ) => {
     return {
       contacts: compact(
+        /*
+        LOKI: Unsure what signal does with this
         state.contacts.map(id => {
           const value = lookup[id];
 
@@ -61,6 +63,21 @@ export const getSearchResults = createSelector(
           }
 
           return value;
+        })
+        */
+        state.conversations.map(id => {
+          const value = lookup[id];
+
+          const friend = value && value.isFriend ? { ...value} : null;
+
+          if (friend && id === selectedConversation) {
+            return {
+              ...friend,
+              isSelected: true,
+            };
+          }
+
+          return friend;
         })
       ),
       conversations: compact(
