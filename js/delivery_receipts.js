@@ -38,7 +38,7 @@
         item => !item.isIncoming() && source === item.get('conversationId')
       );
       if (message) {
-        return message;
+        return MessageController.register(message.id, message);
       }
 
       const groups = await window.Signal.Data.getAllGroupsInvolvingId(source, {
