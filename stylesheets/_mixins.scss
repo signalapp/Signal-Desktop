@@ -28,3 +28,13 @@
     @include color-svg($svg, black);
   }
 }
+
+@mixin light-theme() {
+  @content;
+}
+
+@mixin dark-theme() {
+  body.dark-theme & {
+    @content;
+  }
+}
