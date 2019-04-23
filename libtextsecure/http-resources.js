@@ -83,18 +83,15 @@
       // This blocking call will return only when all attempts
       // at reaching snodes are exhausted or a DNS error occured
       try {
-        await server.startLongPolling(
-          NUM_CONCURRENT_CONNECTIONS,
-          messages => {
-            connected = true;
-            callback(connected);
-            messages.forEach(message => {
-              const { data } = message;
-              this.handleMessage(data);
-            });
-          }
-        );
-      } catch(e) {
+        await server.startLongPolling(NUM_CONCURRENT_CONNECTIONS, messages => {
+          connected = true;
+          callback(connected);
+          messages.forEach(message => {
+            const { data } = message;
+            this.handleMessage(data);
+          });
+        });
+      } catch (e) {
         // we'll try again anyway
       }
 
