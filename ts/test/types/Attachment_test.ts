@@ -45,10 +45,7 @@ describe('Attachment', () => {
           data: stringToArrayBuffer('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         };
-        // Unix timestamp of start of year 2000 to fix odd sudo timezone bug
-        const timestamp = new Date(
-          946684800000 - moment().utcOffset() * 60 * 1000
-        );
+        const timestamp = moment('2000-01-01').toDate();
         const actual = Attachment.getSuggestedFilename({
           attachment,
           timestamp,
