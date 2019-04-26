@@ -209,7 +209,7 @@ class LokiMessageAPI {
 
   async openConnection(callback) {
     const ourKey = window.textsecure.storage.user.getNumber();
-    while (this.ourSwarmNodes.length > 0) {
+    while (!_.isEmpty(this.ourSwarmNodes)) {
       const url = Object.keys(this.ourSwarmNodes)[0];
       const nodeData = this.ourSwarmNodes[url];
       delete this.ourSwarmNodes[url];
