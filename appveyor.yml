@@ -19,8 +19,6 @@ build_script:
 
 test_script:
   - node build\grunt.js test
-  - set NODE_ENV=production
-  - node build\grunt.js test-release:win
 
 environment:
   SIGNAL_ENV: production
