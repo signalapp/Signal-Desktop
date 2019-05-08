@@ -155,60 +155,80 @@ function MessageSender(username, password) {
   this.pendingMessages = {};
 }
 
+const DISABLE_PADDING = true;
+
 MessageSender.prototype = {
   constructor: MessageSender,
 
-  //  makeAttachmentPointer :: Attachment -> Promise AttachmentPointerProto
-  makeAttachmentPointer(attachment) {
+  _getAttachmentSizeBucket(size) {
+    return Math.max(
+      541,
+      Math.floor(1.05 ** Math.ceil(Math.log(size) / Math.log(1.05)))
+    );
+  },
+
+  getPaddedAttachment(data) {
+    if (DISABLE_PADDING) {
+      return data;
+    }
+
+    const size = data.byteLength;
+    const paddedSize = this._getAttachmentSizeBucket(size);
+    const padding = window.Signal.Crypto.getZeroes(paddedSize - size);
+
+    return window.Signal.Crypto.concatenateBytes(data, padding);
+  },
+
+  async makeAttachmentPointer(attachment) {
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
     }
 
-    if (
-      !(attachment.data instanceof ArrayBuffer) &&
-      !ArrayBuffer.isView(attachment.data)
-    ) {
-      return Promise.reject(
-        new TypeError(
-          `\`attachment.data\` must be an \`ArrayBuffer\` or \`ArrayBufferView\`; got: ${typeof attachment.data}`
-        )
+    const { data, size } = attachment;
+    if (!(data instanceof ArrayBuffer) && !ArrayBuffer.isView(data)) {
+      throw new Error(
+        `makeAttachmentPointer: data was a '${typeof data}' instead of ArrayBuffer/ArrayBufferView`
+      );
+    }
+    if (data.byteLength !== size) {
+      throw new Error(
+        `makeAttachmentPointer: Size ${size} did not match data.byteLength ${
+          data.byteLength
+        }`
       );
     }
 
-    const proto = new textsecure.protobuf.AttachmentPointer();
-    proto.key = libsignal.crypto.getRandomBytes(64);
-
+    const padded = this.getPaddedAttachment(data);
+    const key = libsignal.crypto.getRandomBytes(64);
     const iv = libsignal.crypto.getRandomBytes(16);
-    return textsecure.crypto
-      .encryptAttachment(attachment.data, proto.key, iv)
-      .then(result =>
-        this.server.putAttachment(result.ciphertext).then(id => {
-          proto.id = id;
-          proto.contentType = attachment.contentType;
-          proto.digest = result.digest;
 
-          if (attachment.size) {
-            proto.size = attachment.size;
-          }
-          if (attachment.fileName) {
-            proto.fileName = attachment.fileName;
-          }
-          if (attachment.flags) {
-            proto.flags = attachment.flags;
-          }
-          if (attachment.width) {
-            proto.width = attachment.width;
-          }
-          if (attachment.height) {
-            proto.height = attachment.height;
-          }
-          if (attachment.caption) {
-            proto.caption = attachment.caption;
-          }
+    const result = await textsecure.crypto.encryptAttachment(padded, key, iv);
+    const id = await this.server.putAttachment(result.ciphertext);
 
-          return proto;
-        })
-      );
+    const proto = new textsecure.protobuf.AttachmentPointer();
+    proto.id = id;
+    proto.contentType = attachment.contentType;
+    proto.key = key;
+    proto.size = attachment.size;
+    proto.digest = result.digest;
+
+    if (attachment.fileName) {
+      proto.fileName = attachment.fileName;
+    }
+    if (attachment.flags) {
+      proto.flags = attachment.flags;
+    }
+    if (attachment.width) {
+      proto.width = attachment.width;
+    }
+    if (attachment.height) {
+      proto.height = attachment.height;
+    }
+    if (attachment.caption) {
+      proto.caption = attachment.caption;
+    }
+
+    return proto;
   },
 
   queueJobForNumber(number, runJob) {
@@ -1124,6 +1144,8 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
   this.getProxiedSize = sender.getProxiedSize.bind(sender);
   this.getMessageProto = sender.getMessageProto.bind(sender);
+
+  this._getAttachmentSizeBucket = sender._getAttachmentSizeBucket.bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

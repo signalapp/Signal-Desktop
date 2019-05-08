@@ -207,22 +207,6 @@
     "rule": "jQuery-wrap(",
     "path": "js/modules/crypto.js",
     "line": "  return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');",
-    "lineNumber": 38,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();",
-    "lineNumber": 41,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();",
     "lineNumber": 45,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
@@ -230,8 +214,24 @@
   {
     "rule": "jQuery-wrap(",
     "path": "js/modules/crypto.js",
+    "line": "  return dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();",
+    "lineNumber": 48,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-10-05T23:12:28.961Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "js/modules/crypto.js",
+    "line": "  return dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();",
+    "lineNumber": 52,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-10-05T23:12:28.961Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "js/modules/crypto.js",
     "line": "  return dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();",
-    "lineNumber": 49,
+    "lineNumber": 56,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },
@@ -239,7 +239,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/modules/crypto.js",
     "line": "  return dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');",
-    "lineNumber": 52,
+    "lineNumber": 59,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
   },

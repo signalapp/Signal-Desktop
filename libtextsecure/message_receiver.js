@@ -1234,17 +1234,19 @@ MessageReceiver.prototype.extend({
       window.Signal.Crypto.base64ToArrayBuffer(digest)
     );
 
-    if (!size || size !== data.byteLength) {
+    if (!size) {
       throw new Error(
-        `downloadAttachment: Size ${size} did not match downloaded attachment size ${
+        `downloadAttachment: Size was not provided, actual size was ${
           data.byteLength
         }`
       );
     }
 
+    const typedArray = window.Signal.Crypto.getFirstBytes(data, size);
+
     return {
       ..._.omit(attachment, 'digest', 'key'),
-      data,
+      data: window.Signal.Crypto.typedArrayToArrayBuffer(typedArray),
     };
   },
   handleAttachment(attachment) {

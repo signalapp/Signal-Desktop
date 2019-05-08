@@ -5,6 +5,7 @@
 
 module.exports = {
   arrayBufferToBase64,
+  typedArrayToArrayBuffer,
   base64ToArrayBuffer,
   bytesFromString,
   concatenateBytes,
@@ -22,6 +23,7 @@ module.exports = {
   encryptSymmetric,
   fromEncodedBinaryToArrayBuffer,
   getAccessKeyVerifier,
+  getFirstBytes,
   getRandomBytes,
   getViewOfArrayBuffer,
   getZeroes,
@@ -33,6 +35,11 @@ module.exports = {
   trimBytes,
   verifyAccessKey,
 };
+
+function typedArrayToArrayBuffer(typedArray) {
+  const { buffer, byteOffset, byteLength } = typedArray;
+  return buffer.slice(byteOffset, byteLength + byteOffset);
+}
 
 function arrayBufferToBase64(arrayBuffer) {
   return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
@@ -63,7 +70,7 @@ async function encryptDeviceName(deviceName, identityPublic) {
   );
 
   const key1 = await hmacSha256(masterSecret, bytesFromString('auth'));
-  const syntheticIv = _getFirstBytes(await hmacSha256(key1, plaintext), 16);
+  const syntheticIv = getFirstBytes(await hmacSha256(key1, plaintext), 16);
 
   const key2 = await hmacSha256(masterSecret, bytesFromString('cipher'));
   const cipherKey = await hmacSha256(key2, syntheticIv);
@@ -94,7 +101,7 @@ async function decryptDeviceName(
   const plaintext = await decryptAesCtr(cipherKey, ciphertext, counter);
 
   const key1 = await hmacSha256(masterSecret, bytesFromString('auth'));
-  const ourSyntheticIv = _getFirstBytes(await hmacSha256(key1, plaintext), 16);
+  const ourSyntheticIv = getFirstBytes(await hmacSha256(key1, plaintext), 16);
 
   if (!constantTimeEqual(ourSyntheticIv, syntheticIv)) {
     throw new Error('decryptDeviceName: synthetic IV did not match');
@@ -133,7 +140,7 @@ async function encryptFile(staticPublicKey, uniqueId, plaintext) {
 }
 
 async function decryptFile(staticPrivateKey, uniqueId, data) {
-  const ephemeralPublicKey = _getFirstBytes(data, PUB_KEY_LENGTH);
+  const ephemeralPublicKey = getFirstBytes(data, PUB_KEY_LENGTH);
   const ciphertext = _getBytes(data, PUB_KEY_LENGTH, data.byteLength);
   const agreement = await libsignal.Curve.async.calculateAgreement(
     ephemeralPublicKey,
@@ -149,7 +156,7 @@ async function deriveAccessKey(profileKey) {
   const iv = getZeroes(12);
   const plaintext = getZeroes(16);
   const accessKey = await _encrypt_aes_gcm(profileKey, iv, plaintext);
-  return _getFirstBytes(accessKey, 16);
+  return getFirstBytes(accessKey, 16);
 }
 
 async function getAccessKeyVerifier(accessKey) {
@@ -185,7 +192,7 @@ async function encryptSymmetric(key, plaintext) {
     iv,
     plaintext
   );
-  const mac = _getFirstBytes(await hmacSha256(macKey, cipherText), MAC_LENGTH);
+  const mac = getFirstBytes(await hmacSha256(macKey, cipherText), MAC_LENGTH);
 
   return concatenateBytes(nonce, cipherText, mac);
 }
@@ -193,7 +200,7 @@ async function encryptSymmetric(key, plaintext) {
 async function decryptSymmetric(key, data) {
   const iv = getZeroes(IV_LENGTH);
 
-  const nonce = _getFirstBytes(data, NONCE_LENGTH);
+  const nonce = getFirstBytes(data, NONCE_LENGTH);
   const cipherText = _getBytes(
     data,
     NONCE_LENGTH,
@@ -204,7 +211,7 @@ async function decryptSymmetric(key, data) {
   const cipherKey = await hmacSha256(key, nonce);
   const macKey = await hmacSha256(key, cipherKey);
 
-  const ourMac = _getFirstBytes(
+  const ourMac = getFirstBytes(
     await hmacSha256(macKey, cipherText),
     MAC_LENGTH
   );
@@ -379,7 +386,7 @@ function intsToByteHighAndLow(highValue, lowValue) {
 }
 
 function trimBytes(buffer, length) {
-  return _getFirstBytes(buffer, length);
+  return getFirstBytes(buffer, length);
 }
 
 function getViewOfArrayBuffer(buffer, start, finish) {
@@ -437,12 +444,12 @@ function splitBytes(buffer, ...lengths) {
   return results;
 }
 
-// Internal-only
-
-function _getFirstBytes(data, n) {
+function getFirstBytes(data, n) {
   const source = new Uint8Array(data);
   return source.subarray(0, n);
 }
+
+// Internal-only
 
 function _getBytes(data, start, n) {
   const source = new Uint8Array(data);
