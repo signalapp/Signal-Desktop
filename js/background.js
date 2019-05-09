@@ -3,6 +3,7 @@
   _,
   Backbone,
   ConversationController,
+  MessageController,
   getAccountManager,
   Signal,
   storage,
@@ -1134,40 +1135,6 @@
       ? getGroupDescriptor(message.group)
       : { type: Message.PRIVATE, id: source };
 
-  function createMessageHandler({
-    createMessage,
-    getMessageDescriptor,
-    handleProfileUpdate,
-  }) {
-    return async event => {
-      const { data, confirm } = event;
-
-      const messageDescriptor = getMessageDescriptor(data);
-
-      const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
-      // eslint-disable-next-line no-bitwise
-      const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
-      if (isProfileUpdate) {
-        return handleProfileUpdate({ data, confirm, messageDescriptor });
-      }
-
-      const message = await createMessage(data);
-      const isDuplicate = await isMessageDuplicate(message);
-      if (isDuplicate) {
-        window.log.warn('Received duplicate message', message.idForLogging());
-        return event.confirm();
-      }
-
-      await ConversationController.getOrCreateAndWait(
-        messageDescriptor.id,
-        messageDescriptor.type
-      );
-      return message.handleDataMessage(data.message, event.confirm, {
-        initialLoadComplete,
-      });
-    };
-  }
-
   // Received:
   async function handleMessageReceivedProfileUpdate({
     data,
@@ -1186,11 +1153,37 @@
     return confirm();
   }
 
-  const onMessageReceived = createMessageHandler({
-    handleProfileUpdate: handleMessageReceivedProfileUpdate,
-    getMessageDescriptor: getDescriptorForReceived,
-    createMessage: initIncomingMessage,
-  });
+  async function onMessageReceived(event) {
+    const { data, confirm } = event;
+
+    const messageDescriptor = getDescriptorForReceived(data);
+
+    const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
+    // eslint-disable-next-line no-bitwise
+    const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
+    if (isProfileUpdate) {
+      return handleMessageReceivedProfileUpdate({
+        data,
+        confirm,
+        messageDescriptor,
+      });
+    }
+
+    const message = await initIncomingMessage(data);
+    const isDuplicate = await isMessageDuplicate(message);
+    if (isDuplicate) {
+      window.log.warn('Received duplicate message', message.idForLogging());
+      return event.confirm();
+    }
+
+    await ConversationController.getOrCreateAndWait(
+      messageDescriptor.id,
+      messageDescriptor.type
+    );
+    return message.handleDataMessage(data.message, event.confirm, {
+      initialLoadComplete,
+    });
+  }
 
   // Sent:
   async function handleMessageSentProfileUpdate({
@@ -1251,24 +1244,91 @@
     });
   }
 
-  const onSentMessage = createMessageHandler({
-    handleProfileUpdate: handleMessageSentProfileUpdate,
-    getMessageDescriptor: getDescriptorForSent,
-    createMessage: createSentMessage,
-  });
+  async function onSentMessage(event) {
+    const { data, confirm } = event;
 
-  async function isMessageDuplicate(message) {
+    const messageDescriptor = getDescriptorForSent(data);
+
+    const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
+    // eslint-disable-next-line no-bitwise
+    const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
+    if (isProfileUpdate) {
+      await handleMessageSentProfileUpdate({
+        data,
+        confirm,
+        messageDescriptor,
+      });
+      return;
+    }
+
+    const message = await createSentMessage(data);
+    const existing = await getExistingMessage(message);
+    const isUpdate = Boolean(data.isRecipientUpdate);
+
+    if (isUpdate && existing) {
+      event.confirm();
+
+      let sentTo = [];
+      let unidentifiedDeliveries = [];
+      if (Array.isArray(data.unidentifiedStatus)) {
+        sentTo = data.unidentifiedStatus.map(item => item.destination);
+
+        const unidentified = _.filter(data.unidentifiedStatus, item =>
+          Boolean(item.unidentified)
+        );
+        unidentifiedDeliveries = unidentified.map(item => item.destination);
+      }
+
+      existing.set({
+        sent_to: _.union(existing.get('sent_to'), sentTo),
+        unidentifiedDeliveries: _.union(
+          existing.get('unidentifiedDeliveries'),
+          unidentifiedDeliveries
+        ),
+      });
+      await window.Signal.Data.saveMessage(existing.attributes, {
+        Message: Whisper.Message,
+      });
+    } else if (isUpdate) {
+      window.log.warn(
+        `onSentMessage: Received update transcript, but no existing entry for message ${message.idForLogging()}. Dropping.`
+      );
+    } else if (existing) {
+      window.log.warn(
+        `onSentMessage: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
+      );
+    } else {
+      await ConversationController.getOrCreateAndWait(
+        messageDescriptor.id,
+        messageDescriptor.type
+      );
+      await message.handleDataMessage(data.message, event.confirm, {
+        initialLoadComplete,
+      });
+    }
+  }
+
+  async function getExistingMessage(message) {
     try {
       const { attributes } = message;
       const result = await window.Signal.Data.getMessageBySender(attributes, {
         Message: Whisper.Message,
       });
 
-      return Boolean(result);
+      if (result) {
+        return MessageController.register(result.id, result);
+      }
+
+      return null;
     } catch (error) {
-      window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
+      window.log.error('getExistingMessage error:', Errors.toLogFormat(error));
       return false;
     }
+  }
+
+  async function isMessageDuplicate(message) {
+    const result = await getExistingMessage(message);
+    return Boolean(result);
   }
 
   async function initIncomingMessage(data, options = {}) {

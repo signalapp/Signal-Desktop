@@ -865,12 +865,14 @@ MessageReceiver.prototype.extend({
       throw e;
     }
   },
-  handleSentMessage(envelope, sentContainer, msg) {
+  handleSentMessage(envelope, sentContainer) {
     const {
       destination,
       timestamp,
+      message: msg,
       expirationStartTimestamp,
       unidentifiedStatus,
+      isRecipientUpdate,
     } = sentContainer;
 
     let p = Promise.resolve();
@@ -905,6 +907,7 @@ MessageReceiver.prototype.extend({
           device: envelope.sourceDevice,
           unidentifiedStatus,
           message,
+          isRecipientUpdate,
         };
         if (expirationStartTimestamp) {
           ev.data.expirationStartTimestamp = expirationStartTimestamp.toNumber();
@@ -1090,7 +1093,7 @@ MessageReceiver.prototype.extend({
         'from',
         this.getEnvelopeId(envelope)
       );
-      return this.handleSentMessage(envelope, sentMessage, sentMessage.message);
+      return this.handleSentMessage(envelope, sentMessage);
     } else if (syncMessage.contacts) {
       return this.handleContacts(envelope, syncMessage.contacts);
     } else if (syncMessage.groups) {

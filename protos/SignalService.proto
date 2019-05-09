@@ -224,6 +224,7 @@ message SyncMessage {
     optional DataMessage                message                  = 3;
     optional uint64                     expirationStartTimestamp = 4;
     repeated UnidentifiedDeliveryStatus unidentifiedStatus       = 5;
+    optional bool                       isRecipientUpdate        = 6 [default = false];
   }
 
   message Contacts {
