@@ -8,7 +8,7 @@ const endpointBase = '/v1/storage_rpc';
 
 // A small wrapper around node-fetch which deserializes response
 const fetch = async (url, options = {}) => {
-  const timeout = options.timeout || 5000;
+  const timeout = options.timeout || 10000;
   const method = options.method || 'GET';
 
   const address = parse(url).hostname;

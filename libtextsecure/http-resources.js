@@ -3,7 +3,8 @@
 // eslint-disable-next-line func-names
 (function() {
   let server;
-  const POLL_TIME = 100;
+  const SUCCESS_POLL_TIME = 100;
+  const FAIL_POLL_TIME = 2000;
 
   function stringToArrayBufferBase64(string) {
     return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
@@ -89,10 +90,11 @@
       } catch (err) {
         connected = false;
       }
+      const pollTime = connected ? SUCCESS_POLL_TIME : FAIL_POLL_TIME;
       callback(connected);
       setTimeout(() => {
         this.pollServer(callback);
-      }, POLL_TIME);
+      }, pollTime);
     };
 
     this.isConnected = function isConnected() {
