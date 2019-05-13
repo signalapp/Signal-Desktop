@@ -88,7 +88,7 @@
         });
         connected = true;
       } catch (err) {
-        window.log.err('Polling error: ', err);
+        window.log.error('Polling error: ', err);
         connected = false;
       }
       const pollTime = connected ? SUCCESS_POLL_TIME : FAIL_POLL_TIME;
