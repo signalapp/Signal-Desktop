@@ -996,8 +996,17 @@
     }
 
     const conversation = ConversationController.get(groupId || sender);
+    const ourNumber = textsecure.storage.user.getNumber();
 
     if (conversation) {
+      // We drop typing notifications in groups we're not a part of
+      if (!conversation.isPrivate() && !conversation.hasMember(ourNumber)) {
+        window.log.warn(
+          `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
+        );
+        return;
+      }
+
       conversation.notifyTyping({
         isTyping: started,
         sender,
@@ -1276,10 +1285,31 @@
       return event.confirm();
     }
 
+    const ourNumber = textsecure.storage.user.getNumber();
+    const isGroupUpdate =
+      data.message.group &&
+      data.message.group.type !== textsecure.protobuf.GroupContext.Type.DELIVER;
+    const conversation = ConversationController.get(messageDescriptor.id);
+
+    // We drop messages for groups we already know about, which we're not a part of,
+    //   except for group updates
+    if (
+      conversation &&
+      !conversation.isPrivate() &&
+      !conversation.hasMember(ourNumber) &&
+      !isGroupUpdate
+    ) {
+      window.log.warn(
+        `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
+      );
+      return event.confirm();
+    }
+
     await ConversationController.getOrCreateAndWait(
       messageDescriptor.id,
       messageDescriptor.type
     );
+
     return message.handleDataMessage(data.message, event.confirm, {
       initialLoadComplete,
     });
