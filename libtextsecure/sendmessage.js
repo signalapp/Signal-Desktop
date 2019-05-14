@@ -98,10 +98,13 @@ Message.prototype = {
       return this.dataMessage;
     }
     const proto = new textsecure.protobuf.DataMessage();
+
+    proto.timestamp = this.timestamp;
+    proto.attachments = this.attachmentPointers;
+
     if (this.body) {
       proto.body = this.body;
     }
-    proto.attachments = this.attachmentPointers;
     if (this.flags) {
       proto.flags = this.flags;
     }
@@ -154,7 +157,6 @@ Message.prototype = {
     if (this.expireTimer) {
       proto.expireTimer = this.expireTimer;
     }
-
     if (this.profileKey) {
       proto.profileKey = this.profileKey;
     }
@@ -535,7 +537,7 @@ MessageSender.prototype = {
     return this.sendIndividualProto(
       myNumber,
       contentMessage,
-      Date.now(),
+      timestamp,
       silent,
       options
     );

@@ -1304,6 +1304,15 @@ MessageReceiver.prototype.extend({
     // Note that messages may (generally) only perform one action and we ignore remaining
     //   fields after the first action.
 
+    const TIMESTAMP_VALIDATION = false;
+    if (TIMESTAMP_VALIDATION && envelope.timestamp !== decrypted.timestamp) {
+      throw new Error(
+        `Timestamp ${
+          decrypted.timestamp
+        } in DataMessage did not match envelope timestamp ${envelope.timestamp}`
+      );
+    }
+
     if (decrypted.flags == null) {
       decrypted.flags = 0;
     }
