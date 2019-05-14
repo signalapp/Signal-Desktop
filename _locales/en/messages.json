@@ -1512,17 +1512,17 @@
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_1_minute_abbreviated": {
-    "message": "1m",
+    "message": "1min",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_5_minutes_abbreviated": {
-    "message": "5m",
+    "message": "5min",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_30_minutes_abbreviated": {
-    "message": "30m",
+    "message": "30min",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
