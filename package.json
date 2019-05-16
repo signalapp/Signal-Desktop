@@ -181,6 +181,7 @@
     "mac": {
       "artifactName": "${name}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
+      "darkModeSupport": true,
       "icon": "build/icons/mac/icon.icns",
       "publish": [
         {

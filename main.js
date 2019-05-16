@@ -507,7 +507,6 @@ async function showSettingsWindow() {
     return;
   }
 
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
   const size = mainWindow.getSize();
   const options = {
     width: Math.min(500, size[0]),
@@ -532,7 +531,7 @@ async function showSettingsWindow() {
 
   captureClicks(settingsWindow);
 
-  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html'], { theme }));
+  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html']));
 
   settingsWindow.on('closed', () => {
     removeDarkOverlay();

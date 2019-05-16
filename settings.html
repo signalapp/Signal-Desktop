@@ -44,6 +44,12 @@
     <hr>
     <div class='theme-settings'>
       <h3>{{ theme }}</h3>
+      {{#hasSystemTheme}}
+        <div>
+          <input type='radio' name='theme' id='theme-setting-system' value='system'>
+          <label for='theme-setting-system'>{{ themeSystem }}</label>
+        </div>
+      {{/hasSystemTheme}}
       <div>
         <input type='radio' name='theme' id='theme-setting-light' value='light'>
         <label for='theme-setting-light'>{{ themeLight }}</label>

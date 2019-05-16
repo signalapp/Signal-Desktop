@@ -208,6 +208,7 @@
     switch (theme) {
       case 'dark':
       case 'light':
+      case 'system':
         return theme;
       case 'android-dark':
         return 'dark';
@@ -231,7 +232,11 @@
     window.Events = {
       getDeviceName: () => textsecure.storage.user.getDeviceName(),
 
-      getThemeSetting: () => storage.get('theme-setting', 'light'),
+      getThemeSetting: () =>
+        storage.get(
+          'theme-setting',
+          window.platform === 'darwin' ? 'system' : 'light'
+        ),
       setThemeSetting: value => {
         storage.put('theme-setting', value);
         onChangeTheme();
@@ -326,6 +331,19 @@
         `New version detected: ${currentVersion}; previous: ${lastVersion}`
       );
 
+      const themeSetting = window.Events.getThemeSetting();
+      const newThemeSetting = mapOldThemeToNew(themeSetting);
+
+      if (
+        window.isBeforeVersion(lastVersion, 'v1.25.0') &&
+        window.platform === 'darwin' &&
+        newThemeSetting === window.systemTheme
+      ) {
+        window.Events.setThemeSetting('system');
+      } else {
+        window.Events.setThemeSetting(newThemeSetting);
+      }
+
       if (window.isBeforeVersion(lastVersion, 'v1.25.0')) {
         // Stickers flags
         await Promise.all([
@@ -334,6 +352,7 @@
         ]);
       }
 
+      // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
         await window.Signal.Logs.deleteAll();
         window.restart();
@@ -410,10 +429,6 @@
       }
     };
     startSpellCheck();
-
-    const themeSetting = window.Events.getThemeSetting();
-    const newThemeSetting = mapOldThemeToNew(themeSetting);
-    window.Events.setThemeSetting(newThemeSetting);
 
     try {
       await Promise.all([

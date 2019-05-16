@@ -1625,6 +1625,10 @@
     "message": "Dark",
     "description": "Label text for dark theme"
   },
+  "themeSystem": {
+    "message": "System",
+    "description": "Label text for system theme"
+  },
   "noteToSelf": {
     "message": "Note to Self",
     "description": "Name for the conversation with your own phone number"

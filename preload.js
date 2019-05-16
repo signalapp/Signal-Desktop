@@ -7,6 +7,7 @@ const semver = require('semver');
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
 const { app } = electron.remote;
+const { systemPreferences } = electron.remote.require('electron');
 
 window.PROTO_ROOT = 'protos';
 const config = require('url').parse(window.location.toString(), true).query;
@@ -30,6 +31,25 @@ window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
+
+function setSystemTheme() {
+  window.systemTheme = systemPreferences.isDarkMode() ? 'dark' : 'light';
+}
+
+setSystemTheme();
+
+window.subscribeToSystemThemeChange = fn => {
+  if (!systemPreferences.subscribeNotification) {
+    return;
+  }
+  systemPreferences.subscribeNotification(
+    'AppleInterfaceThemeChangedNotification',
+    () => {
+      setSystemTheme();
+      fn();
+    }
+  );
+};
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
