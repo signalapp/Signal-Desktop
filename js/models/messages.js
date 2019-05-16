@@ -1567,7 +1567,24 @@
 
           let autoAccept = false;
           if (message.get('type') === 'friend-request') {
-            if (conversation.hasSentFriendRequest()) {
+            /*
+            Here is the before and after state diagram for the operation before.
+
+            None -> RequestReceived
+            PendingSend -> RequestReceived
+            RequestReceived -> RequestReceived
+            Sent -> Friends
+            Expired -> Friends
+            Friends -> Friends
+
+            The cases where we auto accept are the following:
+              - We sent the user a friend request and that user sent us a friend request.
+              - We are friends with the user, and that user just sent us a friend request.
+            */
+            if (
+              conversation.hasSentFriendRequest() ||
+              conversation.isFriend()
+            ) {
               // Automatically accept incoming friend requests if we have send one already
               autoAccept = true;
               message.set({ friendStatus: 'accepted' });
@@ -1575,7 +1592,7 @@
               window.libloki.api.sendFriendRequestAccepted(
                 message.get('source')
               );
-            } else if (!conversation.isFriend()) {
+            } else {
               await conversation.onFriendRequestReceived();
             }
           } else {
