@@ -7,6 +7,7 @@ module.exports = {
   arrayBufferToBase64,
   typedArrayToArrayBuffer,
   base64ToArrayBuffer,
+  bytesFromHexString,
   bytesFromString,
   concatenateBytes,
   constantTimeEqual,
@@ -16,6 +17,7 @@ module.exports = {
   decryptFile,
   decryptSymmetric,
   deriveAccessKey,
+  deriveStickerPackKey,
   encryptAesCtr,
   encryptDeviceName,
   encryptAttachment,
@@ -25,8 +27,10 @@ module.exports = {
   getAccessKeyVerifier,
   getFirstBytes,
   getRandomBytes,
+  getRandomValue,
   getViewOfArrayBuffer,
   getZeroes,
+  hexFromBytes,
   highBitsToInt,
   hmacSha256,
   intsToByteHighAndLow,
@@ -57,6 +61,25 @@ function bytesFromString(string) {
 }
 function stringFromBytes(buffer) {
   return dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');
+}
+function hexFromBytes(buffer) {
+  return dcodeIO.ByteBuffer.wrap(buffer).toString('hex');
+}
+function bytesFromHexString(string) {
+  return dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();
+}
+
+async function deriveStickerPackKey(packKey) {
+  const salt = getZeroes(32);
+  const info = bytesFromString('Sticker Pack');
+
+  const [part1, part2] = await libsignal.HKDF.deriveSecrets(
+    packKey,
+    salt,
+    info
+  );
+
+  return concatenateBytes(part1, part2);
 }
 
 // High-level Operations
@@ -364,6 +387,16 @@ function getRandomBytes(n) {
   const bytes = new Uint8Array(n);
   window.crypto.getRandomValues(bytes);
   return bytes;
+}
+
+function getRandomValue(low, high) {
+  const diff = high - low;
+  const bytes = new Uint32Array(1);
+  window.crypto.getRandomValues(bytes);
+
+  // Because high and low are inclusive
+  const mod = diff + 1;
+  return bytes[0] % mod + low;
 }
 
 function getZeroes(n) {

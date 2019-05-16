@@ -104,6 +104,9 @@
       );
       this.listenTo(this.model.messageCollection, 'force-send', this.forceSend);
       this.listenTo(this.model.messageCollection, 'delete', this.deleteMessage);
+      this.listenTo(this.model.messageCollection, 'height-changed', () =>
+        this.view.scrollToBottomIfNeeded()
+      );
       this.listenTo(
         this.model.messageCollection,
         'scroll-to-message',
@@ -276,15 +279,18 @@
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
       this.$emojiPanelContainer = this.$('.emoji-panel-container');
+
+      this.setupStickerPickerButton();
     },
 
     events: {
       keydown: 'onKeyDown',
-      'submit .send': 'checkUnverifiedSendMessage',
+      'submit .send': 'clickSend',
       'input .send-message': 'updateMessageFieldSize',
       'keydown .send-message': 'updateMessageFieldSize',
       'keyup .send-message': 'onKeyUp',
       click: 'onClick',
+      'click .sticker-button-placeholder': 'onClickStickerButtonPlaceholder',
       'click .bottom-bar': 'focusMessageField',
       'click .capture-audio .microphone': 'captureAudio',
       'click .module-scroll-down': 'scrollToBottom',
@@ -306,6 +312,28 @@
       dragleave: 'onDragLeave',
       drop: 'onDrop',
       paste: 'onPaste',
+    },
+
+    setupStickerPickerButton() {
+      const props = {
+        onClickAddPack: () => this.showStickerManager(),
+        onPickSticker: (packId, stickerId) =>
+          this.sendStickerMessage({ packId, stickerId }),
+      };
+
+      this.stickerButtonView = new Whisper.ReactWrapperView({
+        className: 'sticker-button-wrapper',
+        JSX: Signal.State.Roots.createStickerButton(window.reduxStore, props),
+      });
+
+      // Finally, add it to the DOM
+      this.$('.sticker-button-placeholder').append(this.stickerButtonView.el);
+    },
+
+    // We need this, or clicking the sticker button will submit the form and send any
+    //   mid-composition message content.
+    onClickStickerButtonPlaceholder(e) {
+      e.preventDefault();
     },
 
     onChooseAttachment(e) {
@@ -366,6 +394,13 @@
 
       this.fileInput.remove();
       this.titleView.remove();
+      if (this.stickerButtonView) {
+        this.stickerButtonView.remove();
+      }
+
+      if (this.stickerPreviewModalView) {
+        this.stickerPreviewModalView.remove();
+      }
 
       if (this.captureAudioView) {
         this.captureAudioView.remove();
@@ -1282,6 +1317,26 @@
       dialog.focusCancel();
     },
 
+    showStickerPackPreview(packId) {
+      const props = {
+        packId,
+        onClose: () => {
+          this.stickerPreviewModalView.remove();
+        },
+      };
+
+      this.stickerPreviewModalView = new Whisper.ReactWrapperView({
+        className: 'sticker-preview-modal-wrapper',
+        JSX: Signal.State.Roots.createStickerPreviewModal(
+          window.reduxStore,
+          props
+        ),
+        onClose: () => {
+          this.stickerPreviewModalView = null;
+        },
+      });
+    },
+
     showLightbox({ attachment, messageId }) {
       const message = this.model.messageCollection.get(messageId);
       if (!message) {
@@ -1289,6 +1344,13 @@
           `showLightbox: did not find message for id ${messageId}`
         );
       }
+      const sticker = message.get('sticker');
+      if (sticker) {
+        const { packId } = sticker;
+        this.showStickerPackPreview(packId);
+        return;
+      }
+
       const { contentType, path } = attachment;
 
       if (
@@ -1400,6 +1462,21 @@
       view.render();
     },
 
+    showStickerManager() {
+      const view = new Whisper.ReactWrapperView({
+        className: ['sticker-manager-wrapper', 'panel'].join(' '),
+        JSX: Signal.State.Roots.createStickerManager(window.reduxStore),
+        onClose: () => {
+          this.resetPanel();
+          this.updateHeader();
+        },
+      });
+
+      this.listenBack(view);
+      this.updateHeader();
+      view.render();
+    },
+
     showContactDetail({ contact, signalAccount }) {
       const view = new Whisper.ReactWrapperView({
         Component: Signal.Components.ContactDetail,
@@ -1449,6 +1526,8 @@
 
       if (this.panels.length === 0) {
         this.$el.trigger('force-resize');
+        // Make sure poppers are positioned properly
+        window.dispatchEvent(new Event('resize'));
       }
     },
 
@@ -1482,97 +1561,119 @@
       }
     },
 
-    showSendConfirmationDialog(e, contacts) {
-      let message;
-      const isUnverified = this.model.isUnverified();
+    showSendAnywayDialog(contacts) {
+      return new Promise(resolve => {
+        let message;
+        const isUnverified = this.model.isUnverified();
 
-      if (contacts.length > 1) {
-        if (isUnverified) {
-          message = i18n('changedSinceVerifiedMultiple');
+        if (contacts.length > 1) {
+          if (isUnverified) {
+            message = i18n('changedSinceVerifiedMultiple');
+          } else {
+            message = i18n('changedRecentlyMultiple');
+          }
         } else {
-          message = i18n('changedRecentlyMultiple');
+          const contactName = contacts.at(0).getTitle();
+          if (isUnverified) {
+            message = i18n('changedSinceVerified', [contactName, contactName]);
+          } else {
+            message = i18n('changedRecently', [contactName, contactName]);
+          }
         }
-      } else {
-        const contactName = contacts.at(0).getTitle();
-        if (isUnverified) {
-          message = i18n('changedSinceVerified', [contactName, contactName]);
-        } else {
-          message = i18n('changedRecently', [contactName, contactName]);
-        }
-      }
 
-      const dialog = new Whisper.ConfirmationDialogView({
-        message,
-        okText: i18n('sendAnyway'),
-        resolve: () => {
-          this.checkUnverifiedSendMessage(e, { force: true });
-        },
-        reject: () => {
-          this.focusMessageFieldAndClearDisabled();
-        },
+        const dialog = new Whisper.ConfirmationDialogView({
+          message,
+          okText: i18n('sendAnyway'),
+          resolve: () => resolve(true),
+          reject: () => resolve(false),
+        });
+
+        this.$el.prepend(dialog.el);
+        dialog.focusCancel();
       });
-
-      this.$el.prepend(dialog.el);
-      dialog.focusCancel();
     },
 
-    async checkUnverifiedSendMessage(e, options = {}) {
+    async clickSend(e, options) {
       e.preventDefault();
+
       this.sendStart = Date.now();
       this.$messageField.attr('disabled', true);
 
-      _.defaults(options, { force: false });
-
-      // This will go to the trust store for the latest identity key information,
-      //   and may result in the display of a new banner for this conversation.
       try {
-        await this.model.updateVerified();
-        const contacts = this.model.getUnverified();
-        if (!contacts.length) {
-          this.checkUntrustedSendMessage(e, options);
+        const contacts = await this.getUntrustedContacts(options);
+
+        if (contacts && contacts.length) {
+          const sendAnyway = await this.showSendAnywayDialog(contacts);
+          if (sendAnyway) {
+            this.clickSend(e, { force: true });
+            return;
+          }
+
+          this.focusMessageFieldAndClearDisabled();
           return;
         }
 
-        if (options.force) {
-          await this.markAllAsVerifiedDefault(contacts);
-          this.checkUnverifiedSendMessage(e, options);
-          return;
-        }
-
-        this.showSendConfirmationDialog(e, contacts);
+        this.sendMessage(e);
       } catch (error) {
         this.focusMessageFieldAndClearDisabled();
         window.log.error(
-          'checkUnverifiedSendMessage error:',
+          'clickSend error:',
           error && error.stack ? error.stack : error
         );
       }
     },
 
-    async checkUntrustedSendMessage(e, options = {}) {
-      _.defaults(options, { force: false });
-
+    async sendStickerMessage(options = {}) {
       try {
-        const contacts = await this.model.getUntrusted();
-        if (!contacts.length) {
-          this.sendMessage(e);
+        const contacts = await this.getUntrustedContacts(options);
+
+        if (contacts && contacts.length) {
+          const sendAnyway = await this.showSendAnywayDialog(contacts);
+          if (sendAnyway) {
+            this.sendStickerMessage({ ...options, force: true });
+          }
+
           return;
         }
 
-        if (options.force) {
-          await this.markAllAsApproved(contacts);
-          this.sendMessage(e);
-          return;
-        }
-
-        this.showSendConfirmationDialog(e, contacts);
+        const { packId, stickerId } = options;
+        this.model.sendStickerMessage(packId, stickerId);
       } catch (error) {
-        this.focusMessageFieldAndClearDisabled();
         window.log.error(
-          'checkUntrustedSendMessage error:',
+          'clickSend error:',
           error && error.stack ? error.stack : error
         );
       }
+    },
+
+    async getUntrustedContacts(options = {}) {
+      // This will go to the trust store for the latest identity key information,
+      //   and may result in the display of a new banner for this conversation.
+      await this.model.updateVerified();
+      const unverifiedContacts = this.model.getUnverified();
+
+      if (options.force) {
+        if (unverifiedContacts.length) {
+          await this.markAllAsVerifiedDefault(unverifiedContacts);
+          // We only want force to break us through one layer of checks
+          // eslint-disable-next-line no-param-reassign
+          options.force = false;
+        }
+      } else if (unverifiedContacts.length) {
+        return unverifiedContacts;
+      }
+
+      const untrustedContacts = await this.model.getUntrusted();
+
+      if (options.force) {
+        if (untrustedContacts.length) {
+          await this.markAllAsApproved(untrustedContacts);
+        }
+      } else if (untrustedContacts.length) {
+        return untrustedContacts;
+      }
+
+      return null;
     },
 
     toggleEmojiPanel(e) {
@@ -1839,14 +1940,29 @@
 
     async makeChunkedRequest(url) {
       const PARALLELISM = 3;
-      const size = await textsecure.messaging.getProxiedSize(url);
-      const chunks = await Signal.LinkPreviews.getChunkPattern(size);
+      const first = await textsecure.messaging.makeProxiedRequest(url, {
+        start: 0,
+        end: Signal.Crypto.getRandomValue(1023, 2047),
+        returnArrayBuffer: true,
+      });
+      const { totalSize, result } = first;
+      const initialOffset = result.data.byteLength;
+      const firstChunk = {
+        start: 0,
+        end: initialOffset,
+        ...result,
+      };
+
+      const chunks = await Signal.LinkPreviews.getChunkPattern(
+        totalSize,
+        initialOffset
+      );
 
       let results = [];
       const jobs = chunks.map(chunk => async () => {
         const { start, end } = chunk;
 
-        const result = await textsecure.messaging.makeProxiedRequest(url, {
+        const jobResult = await textsecure.messaging.makeProxiedRequest(url, {
           start,
           end,
           returnArrayBuffer: true,
@@ -1854,7 +1970,7 @@
 
         return {
           ...chunk,
-          ...result,
+          ...jobResult.result,
         };
       });
 
@@ -1878,7 +1994,9 @@
       }
 
       const { contentType } = results[0];
-      const data = Signal.LinkPreviews.assembleChunks(results);
+      const data = Signal.LinkPreviews.assembleChunks(
+        [firstChunk].concat(results)
+      );
 
       return {
         contentType,
@@ -1886,7 +2004,58 @@
       };
     },
 
+    async getStickerPackPreview(url) {
+      const isPackValid = pack =>
+        pack && (pack.status === 'advertised' || pack.status === 'installed');
+
+      try {
+        const { id, key } = window.Signal.Stickers.getDataFromLink(url);
+        const keyBytes = window.Signal.Crypto.bytesFromHexString(key);
+        const keyBase64 = window.Signal.Crypto.arrayBufferToBase64(keyBytes);
+
+        const existing = window.Signal.Stickers.getStickerPack(id);
+        if (!isPackValid(existing)) {
+          await window.Signal.Stickers.downloadStickerPack(id, keyBase64);
+        }
+
+        const pack = window.Signal.Stickers.getStickerPack(id);
+        if (!isPackValid(pack)) {
+          return null;
+        }
+        if (pack.key !== keyBase64) {
+          return null;
+        }
+
+        const { title, coverStickerId } = pack;
+        const sticker = pack.stickers[coverStickerId];
+        const data = await window.Signal.Migrations.readStickerData(
+          sticker.path
+        );
+
+        return {
+          title,
+          url,
+          image: {
+            ...sticker,
+            data,
+            size: data.byteLength,
+            contentType: 'image/webp',
+          },
+        };
+      } catch (error) {
+        window.log.error(
+          'getStickerPackPreview error:',
+          error && error.stack ? error.stack : error
+        );
+        return null;
+      }
+    },
+
     async getPreview(url) {
+      if (window.Signal.LinkPreviews.isStickerPack(url)) {
+        return this.getStickerPackPreview(url);
+      }
+
       let html;
       try {
         html = await textsecure.messaging.makeProxiedRequest(url);

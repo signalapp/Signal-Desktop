@@ -140,11 +140,12 @@ async function deleteExternalFiles(conversation, options = {}) {
 }
 
 module.exports = {
-  deleteExternalFiles,
-  migrateConversation,
-  maybeUpdateAvatar,
-  maybeUpdateProfileAvatar,
-  createLastMessageUpdate,
   arrayBufferToBase64,
   base64ToArrayBuffer,
+  computeHash,
+  createLastMessageUpdate,
+  deleteExternalFiles,
+  maybeUpdateAvatar,
+  maybeUpdateProfileAvatar,
+  migrateConversation,
 };

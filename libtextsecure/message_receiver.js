@@ -1110,6 +1110,11 @@ MessageReceiver.prototype.extend({
       return this.handleVerified(envelope, syncMessage.verified);
     } else if (syncMessage.configuration) {
       return this.handleConfiguration(envelope, syncMessage.configuration);
+    } else if (syncMessage.stickerPackOperation) {
+      return this.handleStickerPackOperation(
+        envelope,
+        syncMessage.stickerPackOperation
+      );
     }
     throw new Error('Got empty SyncMessage');
   },
@@ -1118,6 +1123,19 @@ MessageReceiver.prototype.extend({
     const ev = new Event('configuration');
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.configuration = configuration;
+    return this.dispatchAndWait(ev);
+  },
+  handleStickerPackOperation(envelope, operations) {
+    const ENUM = textsecure.protobuf.SyncMessage.StickerPackOperation.Type;
+    window.log.info('got sticker pack operation sync message');
+    const ev = new Event('sticker-pack');
+    ev.confirm = this.removeFromCache.bind(this, envelope);
+    ev.stickerPacks = operations.map(operation => ({
+      id: operation.packId ? operation.packId.toString('hex') : null,
+      key: operation.packKey ? operation.packKey.toString('base64') : null,
+      isInstall: operation.type === ENUM.INSTALL,
+      isRemove: operation.type === ENUM.REMOVE,
+    }));
     return this.dispatchAndWait(ev);
   },
   handleVerified(envelope, verified) {
@@ -1230,6 +1248,10 @@ MessageReceiver.prototype.extend({
   async downloadAttachment(attachment) {
     const encrypted = await this.server.getAttachment(attachment.id);
     const { key, digest, size } = attachment;
+
+    if (!digest) {
+      throw new Error('Failure: Ask sender to update Signal and resend.');
+    }
 
     const data = await textsecure.crypto.decryptAttachment(
       encrypted,
@@ -1398,6 +1420,19 @@ MessageReceiver.prototype.extend({
           };
         }
       );
+    }
+
+    const { sticker } = decrypted;
+    if (sticker) {
+      if (sticker.packId) {
+        sticker.packId = sticker.packId.toString('hex');
+      }
+      if (sticker.packKey) {
+        sticker.packKey = sticker.packKey.toString('base64');
+      }
+      if (sticker.data) {
+        sticker.data = this.cleanAttachment(sticker.data);
+      }
     }
 
     return Promise.all(promises).then(() => decrypted);

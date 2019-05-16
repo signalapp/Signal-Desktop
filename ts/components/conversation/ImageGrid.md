@@ -384,3 +384,26 @@ const attachments = [
   </div>
 </div>;
 ```
+
+### Sticker
+
+```
+const attachments = [
+  {
+    url: util.squareStickerObjectUrl,
+    contentType: 'image/webp',
+    width: 512,
+    height: 512,
+  },
+];
+
+<div>
+  <div>
+    <ImageGrid isSticker={true} stickerSize={128} attachments={attachments} i18n={util.i18n} />
+  </div>
+  <hr />
+  <div>
+    <ImageGrid isSticker={true} stickerSize={128} withContentAbove withContentBelow attachments={attachments} i18n={util.i18n} />
+  </div>
+</div>;
+```

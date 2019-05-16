@@ -27,8 +27,16 @@
     loadAttachmentData,
     loadQuoteData,
     loadPreviewData,
+    loadStickerData,
     upgradeMessageSchema,
   } = window.Signal.Migrations;
+  const {
+    copyStickerToAttachments,
+    deletePackReference,
+    downloadStickerPack,
+    getStickerPackStatus,
+  } = window.Signal.Stickers;
+  const { addStickerPackReference } = window.Signal.Data;
   const { bytesFromString } = window.Signal.Crypto;
 
   window.AccountCache = Object.create(null);
@@ -389,6 +397,29 @@
       // It doesn't need anything right now!
       return {};
     },
+    getAttachmentsForMessage() {
+      const sticker = this.get('sticker');
+      if (sticker && sticker.data) {
+        const { data } = sticker;
+
+        // We don't show anything if we're still loading a sticker
+        if (data.pending || !data.path) {
+          return [];
+        }
+
+        return [
+          {
+            ...data,
+            url: getAbsoluteAttachmentPath(data.path),
+          },
+        ];
+      }
+
+      const attachments = this.get('attachments') || [];
+      return attachments
+        .filter(attachment => !attachment.error)
+        .map(attachment => this.getPropsForAttachment(attachment));
+    },
     getPropsForMessage() {
       const phoneNumber = this.getSource();
       const contact = this.findAndFormatContact(phoneNumber);
@@ -408,12 +439,13 @@
 
       const conversation = this.getConversation();
       const isGroup = conversation && !conversation.isPrivate();
-      const attachments = this.get('attachments') || [];
+      const sticker = this.get('sticker');
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
         textPending: this.get('bodyPending'),
         id: this.id,
+        isSticker: Boolean(sticker),
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
         status: this.getMessagePropStatus(),
@@ -423,9 +455,7 @@
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
         conversationType: isGroup ? 'group' : 'direct',
-        attachments: attachments
-          .filter(attachment => !attachment.error)
-          .map(attachment => this.getPropsForAttachment(attachment)),
+        attachments: this.getAttachmentsForMessage(),
         previews: this.getPropsForPreview(),
         quote: this.getPropsForQuote(),
         authorAvatarPath,
@@ -584,6 +614,7 @@
 
       return previews.map(preview => ({
         ...preview,
+        isStickerPack: window.Signal.LinkPreviews.isStickerPack(preview.url),
         domain: window.Signal.LinkPreviews.getDomain(preview.url),
         image: preview.image ? this.getPropsForAttachment(preview.image) : null,
       }));
@@ -708,6 +739,9 @@
       if (this.get('attachments').length > 0) {
         return i18n('mediaMessage');
       }
+      if (this.get('sticker')) {
+        return i18n('message--getNotificationText--stickers');
+      }
       if (this.isExpirationTimerUpdate()) {
         const { expireTimer } = this.get('expirationTimerUpdate');
         if (!expireTimer) {
@@ -775,6 +809,16 @@
       MessageController.unregister(this.id);
       this.unload();
       await deleteExternalMessageFiles(this.attributes);
+
+      const sticker = this.get('sticker');
+      if (!sticker) {
+        return;
+      }
+
+      const { packId } = sticker;
+      if (packId) {
+        await deletePackReference(this.id, packId);
+      }
     },
     unload() {
       if (this.quotedMessage) {
@@ -968,6 +1012,7 @@
 
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
+      const stickerWithData = await loadStickerData(this.get('sticker'));
 
       // Special-case the self-send case - we send only a sync message
       if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
@@ -978,6 +1023,7 @@
           attachments,
           quoteWithData,
           previewWithData,
+          stickerWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
           profileKey
@@ -996,6 +1042,7 @@
           attachments,
           quoteWithData,
           previewWithData,
+          stickerWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
           profileKey,
@@ -1013,6 +1060,7 @@
             attachments,
             quote: quoteWithData,
             preview: previewWithData,
+            sticker: stickerWithData,
             needsSync: !this.get('synced'),
             expireTimer: this.get('expireTimer'),
             profileKey,
@@ -1058,6 +1106,7 @@
 
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
+      const stickerWithData = await loadStickerData(this.get('sticker'));
 
       // Special-case the self-send case - we send only a sync message
       if (number === this.OUR_NUMBER) {
@@ -1067,6 +1116,7 @@
           attachments,
           quoteWithData,
           previewWithData,
+          stickerWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
           profileKey
@@ -1083,6 +1133,7 @@
         attachments,
         quoteWithData,
         previewWithData,
+        stickerWithData,
         this.get('sent_at'),
         this.get('expireTimer'),
         profileKey,
@@ -1405,8 +1456,62 @@
         };
       }
 
+      let sticker = this.get('sticker');
+      if (sticker) {
+        count += 1;
+        const { packId, stickerId, packKey } = sticker;
+
+        const status = getStickerPackStatus(packId);
+        let data;
+
+        if (status && status !== 'pending' && status !== 'error') {
+          try {
+            const copiedSticker = await copyStickerToAttachments(
+              packId,
+              stickerId
+            );
+            data = {
+              ...copiedSticker,
+              contentType: 'image/webp',
+            };
+          } catch (error) {
+            window.log.error(
+              `Problem copying sticker (${packId}, ${stickerId}) to attachments:`,
+              error && error.stack ? error.stack : error
+            );
+          }
+        }
+        if (!data) {
+          data = await window.Signal.AttachmentDownloads.addJob(sticker.data, {
+            messageId,
+            type: 'sticker',
+            index: 0,
+          });
+        }
+        if (!status) {
+          // kick off the download without waiting
+          downloadStickerPack(packId, packKey, { messageId });
+        } else {
+          await addStickerPackReference(messageId, packId);
+        }
+
+        sticker = {
+          ...sticker,
+          packId,
+          data,
+        };
+      }
+
       if (count > 0) {
-        this.set({ bodyPending, attachments, preview, contact, quote, group });
+        this.set({
+          bodyPending,
+          attachments,
+          preview,
+          contact,
+          quote,
+          group,
+          sticker,
+        });
 
         await window.Signal.Data.saveMessage(this.attributes, {
           Message: Whisper.Message,
@@ -1481,7 +1586,6 @@
       }
 
       const queryAttachments = queryMessage.get('attachments') || [];
-
       if (queryAttachments.length > 0) {
         const queryFirst = queryAttachments[0];
         const { thumbnail } = queryFirst;
@@ -1505,6 +1609,14 @@
             copied: true,
           };
         }
+      }
+
+      const sticker = queryMessage.get('sticker');
+      if (sticker && sticker.data && sticker.data.path) {
+        firstAttachment.thumbnail = {
+          ...sticker.data,
+          copied: true,
+        };
       }
 
       return message;
@@ -1617,9 +1729,10 @@
             hasAttachments: dataMessage.hasAttachments,
             hasFileAttachments: dataMessage.hasFileAttachments,
             hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
-            quote: dataMessage.quote,
             preview,
+            quote: dataMessage.quote,
             schemaVersion: dataMessage.schemaVersion,
+            sticker: dataMessage.sticker,
           });
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(
@@ -1841,7 +1954,7 @@
   Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
 
   Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
-    if (body.length <= 2048) {
+    if (!body || body.length <= 2048) {
       return {
         body,
         attachments,

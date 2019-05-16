@@ -1,25 +1,48 @@
 import { combineReducers } from 'redux';
 
-import { reducer as search, SearchStateType } from './ducks/search';
 import {
+  ConversationActionType,
   ConversationsStateType,
   reducer as conversations,
 } from './ducks/conversations';
+import {
+  ItemsActionType,
+  ItemsStateType,
+  reducer as items,
+} from './ducks/items';
+import {
+  reducer as search,
+  SEARCH_TYPES as SearchActionType,
+  SearchStateType,
+} from './ducks/search';
+import {
+  reducer as stickers,
+  StickersActionType,
+  StickersStateType,
+} from './ducks/stickers';
 import { reducer as user, UserStateType } from './ducks/user';
 
 export type StateType = {
-  search: SearchStateType;
   conversations: ConversationsStateType;
+  items: ItemsStateType;
+  search: SearchStateType;
+  stickers: StickersStateType;
   user: UserStateType;
 };
 
+export type ActionsType =
+  | ItemsActionType
+  | ConversationActionType
+  | StickersActionType
+  | SearchActionType;
+
 export const reducers = {
-  search,
   conversations,
+  items,
+  search,
+  stickers,
   user,
 };
 
-// Making this work would require that our reducer signature supported AnyAction, not
-//   our restricted actions
-// @ts-ignore
-export const reducer = combineReducers(reducers);
+// @ts-ignore: AnyAction breaks strong type checking inside reducers
+export const reducer = combineReducers<StateType, ActionsType>(reducers);

@@ -13,6 +13,12 @@
 
   window.Whisper = window.Whisper || {};
 
+  Whisper.StickerPackInstallFailedToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('stickers--toast--InstallFailed') };
+    },
+  });
+
   Whisper.ConversationStack = Whisper.View.extend({
     className: 'conversation-stack',
     open(conversation) {
@@ -36,6 +42,8 @@
         $el.prependTo(this.el);
       }
       conversation.trigger('opened');
+      // Make sure poppers are positioned properly
+      window.dispatchEvent(new Event('resize'));
     },
   });
 
@@ -91,6 +99,12 @@
         banner.$el.prependTo(this.$el);
         this.$el.addClass('expired');
       }
+
+      Whisper.events.on('pack-install-failed', () => {
+        const toast = new Whisper.StickerPackInstallFailedToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
+      });
 
       this.setupLeftPane();
     },

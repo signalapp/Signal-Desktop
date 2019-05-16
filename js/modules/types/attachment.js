@@ -179,7 +179,7 @@ exports.loadData = readAttachmentData => {
     }
 
     const data = await readAttachmentData(attachment.path);
-    return Object.assign({}, attachment, { data });
+    return Object.assign({}, attachment, { data, size: data.byteLength });
   };
 };
 

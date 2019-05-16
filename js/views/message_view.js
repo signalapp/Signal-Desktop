@@ -16,6 +16,12 @@
       this.listenTo(this.model, 'destroy', this.onDestroy);
       this.listenTo(this.model, 'unload', this.onUnload);
       this.listenTo(this.model, 'expired', this.onExpired);
+
+      this.updateHiddenSticker();
+    },
+    updateHiddenSticker() {
+      const sticker = this.model.get('sticker');
+      this.isHiddenSticker = sticker && (!sticker.data || !sticker.data.path);
     },
     onChange() {
       this.addId();
@@ -94,7 +100,17 @@
 
       const update = () => {
         const info = this.getRenderInfo();
-        this.childView.update(info.props);
+        this.childView.update(info.props, () => {
+          if (!this.isHiddenSticker) {
+            return;
+          }
+
+          this.updateHiddenSticker();
+
+          if (!this.isHiddenSticker) {
+            this.model.trigger('height-changed');
+          }
+        });
       };
 
       this.listenTo(this.model, 'change', update);

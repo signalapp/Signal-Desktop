@@ -1,3 +1,4 @@
+import { AnyAction } from 'redux';
 import { omit, reject } from 'lodash';
 
 import { normalize } from '../../types/PhoneNumber';
@@ -63,6 +64,7 @@ type ClearSearchActionType = {
 };
 
 export type SEARCH_TYPES =
+  | AnyAction
   | SearchResultsFulfilledActionType
   | UpdateSearchTermActionType
   | ClearSearchActionType
@@ -218,13 +220,9 @@ function getEmptyState(): SearchStateType {
 }
 
 export function reducer(
-  state: SearchStateType | undefined,
+  state: SearchStateType = getEmptyState(),
   action: SEARCH_TYPES
 ): SearchStateType {
-  if (!state) {
-    return getEmptyState();
-  }
-
   if (action.type === 'SEARCH_CLEAR') {
     return getEmptyState();
   }

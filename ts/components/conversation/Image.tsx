@@ -15,6 +15,8 @@ interface Props {
 
   overlayText?: string;
 
+  noBorder?: boolean;
+  noBackground?: boolean;
   bottomOverlay?: boolean;
   closeButton?: boolean;
   curveBottomLeft?: boolean;
@@ -49,6 +51,8 @@ export class Image extends React.Component<Props> {
       darkOverlay,
       height,
       i18n,
+      noBackground,
+      noBorder,
       onClick,
       onClickClose,
       onError,
@@ -74,6 +78,7 @@ export class Image extends React.Component<Props> {
         }}
         className={classNames(
           'module-image',
+          !noBackground ? 'module-image--with-background' : null,
           canClick ? 'module-image__with-click-handler' : null,
           curveBottomLeft ? 'module-image--curved-bottom-left' : null,
           curveBottomRight ? 'module-image--curved-bottom-right' : null,
@@ -113,18 +118,20 @@ export class Image extends React.Component<Props> {
             alt={i18n('imageCaptionIconAlt')}
           />
         ) : null}
-        <div
-          className={classNames(
-            'module-image__border-overlay',
-            curveTopLeft ? 'module-image--curved-top-left' : null,
-            curveTopRight ? 'module-image--curved-top-right' : null,
-            curveBottomLeft ? 'module-image--curved-bottom-left' : null,
-            curveBottomRight ? 'module-image--curved-bottom-right' : null,
-            smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
-            softCorners ? 'module-image--soft-corners' : null,
-            darkOverlay ? 'module-image__border-overlay--dark' : null
-          )}
-        />
+        {!noBorder ? (
+          <div
+            className={classNames(
+              'module-image__border-overlay',
+              curveTopLeft ? 'module-image--curved-top-left' : null,
+              curveTopRight ? 'module-image--curved-top-right' : null,
+              curveBottomLeft ? 'module-image--curved-bottom-left' : null,
+              curveBottomRight ? 'module-image--curved-bottom-right' : null,
+              smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
+              softCorners ? 'module-image--soft-corners' : null,
+              darkOverlay ? 'module-image__border-overlay--dark' : null
+            )}
+          />
+        ) : null}
         {closeButton ? (
           <div
             role="button"

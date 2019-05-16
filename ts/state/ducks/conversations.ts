@@ -1,3 +1,4 @@
+import { AnyAction } from 'redux';
 import { omit } from 'lodash';
 
 import { trigger } from '../../shims/events';
@@ -127,6 +128,7 @@ type ShowArchivedConversationsActionType = {
 };
 
 export type ConversationActionType =
+  | AnyAction
   | ConversationAddedActionType
   | ConversationChangedActionType
   | ConversationRemovedActionType
@@ -256,13 +258,9 @@ function getEmptyState(): ConversationsStateType {
 }
 
 export function reducer(
-  state: ConversationsStateType,
+  state: ConversationsStateType = getEmptyState(),
   action: ConversationActionType
 ): ConversationsStateType {
-  if (!state) {
-    return getEmptyState();
-  }
-
   if (action.type === 'CONVERSATION_ADDED') {
     const { payload } = action;
     const { id, data } = payload;

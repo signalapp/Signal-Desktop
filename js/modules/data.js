@@ -27,6 +27,7 @@ const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
+const ERASE_STICKERS_KEY = 'erase-stickers';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
 const _jobs = Object.create(null);
@@ -137,6 +138,17 @@ module.exports = {
   setAttachmentDownloadJobPending,
   removeAttachmentDownloadJob,
   removeAllAttachmentDownloadJobs,
+
+  createOrUpdateStickerPack,
+  updateStickerPackStatus,
+  createOrUpdateSticker,
+  updateStickerLastUsed,
+  addStickerPackReference,
+  deleteStickerPackReference,
+  deleteStickerPack,
+  getAllStickerPacks,
+  getAllStickers,
+  getRecentStickers,
 
   removeAll,
   removeAllConfiguration,
@@ -884,6 +896,44 @@ async function removeAllAttachmentDownloadJobs() {
   await channels.removeAllAttachmentDownloadJobs();
 }
 
+// Stickers
+
+async function createOrUpdateStickerPack(pack) {
+  await channels.createOrUpdateStickerPack(pack);
+}
+async function updateStickerPackStatus(packId, status, options) {
+  await channels.updateStickerPackStatus(packId, status, options);
+}
+async function createOrUpdateSticker(sticker) {
+  await channels.createOrUpdateSticker(sticker);
+}
+async function updateStickerLastUsed(packId, stickerId, timestamp) {
+  await channels.updateStickerLastUsed(packId, stickerId, timestamp);
+}
+async function addStickerPackReference(messageId, packId) {
+  await channels.addStickerPackReference(messageId, packId);
+}
+async function deleteStickerPackReference(messageId, packId) {
+  const paths = await channels.deleteStickerPackReference(messageId, packId);
+  return paths;
+}
+async function deleteStickerPack(packId) {
+  const paths = await channels.deleteStickerPack(packId);
+  return paths;
+}
+async function getAllStickerPacks() {
+  const packs = await channels.getAllStickerPacks();
+  return packs;
+}
+async function getAllStickers() {
+  const stickers = await channels.getAllStickers();
+  return stickers;
+}
+async function getRecentStickers() {
+  const recentStickers = await channels.getRecentStickers();
+  return recentStickers;
+}
+
 // Other
 
 async function removeAll() {
@@ -903,6 +953,7 @@ async function removeOtherData() {
   await Promise.all([
     callChannel(ERASE_SQL_KEY),
     callChannel(ERASE_ATTACHMENTS_KEY),
+    callChannel(ERASE_STICKERS_KEY),
   ]);
 }
 

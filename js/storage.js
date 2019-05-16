@@ -1,3 +1,4 @@
+/* global _ */
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
@@ -24,6 +25,10 @@
 
     items[key] = data;
     await window.Signal.Data.createOrUpdateItem(data);
+
+    if (_.has(window, ['reduxActions', 'items', 'putItemExternal'])) {
+      window.reduxActions.items.putItemExternal(key, value);
+    }
   }
 
   function get(key, defaultValue) {
@@ -46,6 +51,10 @@
 
     delete items[key];
     await window.Signal.Data.removeItemById(key);
+
+    if (_.has(window, ['reduxActions', 'items', 'removeItemExternal'])) {
+      window.reduxActions.items.removeItemExternal(key);
+    }
   }
 
   function onready(callback) {
@@ -77,6 +86,10 @@
     callListeners();
   }
 
+  function getItemsState() {
+    return _.clone(items);
+  }
+
   function reset() {
     ready = false;
     items = Object.create(null);
@@ -86,6 +99,7 @@
     fetch,
     put,
     get,
+    getItemsState,
     remove,
     onready,
     reset,

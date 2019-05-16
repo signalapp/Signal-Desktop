@@ -34,7 +34,11 @@
 }
 
 @mixin dark-theme() {
-  body.dark-theme & {
+  .dark-theme & {
     @content;
   }
+}
+
+@mixin popper-shadow() {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 8px 20px 0 rgba(0, 0, 0, 0.33);
 }

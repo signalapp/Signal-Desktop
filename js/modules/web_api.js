@@ -4,8 +4,9 @@ const ProxyAgent = require('proxy-agent');
 const { Agent } = require('https');
 
 const is = require('@sindresorhus/is');
+const { redactPackId } = require('./stickers');
 
-/* global Buffer, setTimeout, log, _, getGuid */
+/* global Signal, Buffer, setTimeout, log, _, getGuid */
 
 /* eslint-disable more/no-then, no-bitwise, no-nested-ternary */
 
@@ -175,16 +176,12 @@ function getContentType(response) {
 function _promiseAjax(providedUrl, options) {
   return new Promise((resolve, reject) => {
     const url = providedUrl || `${options.host}/${options.path}`;
-    if (options.disableLogs) {
-      log.info(
-        `${options.type} [REDACTED_URL]${
-          options.unauthenticated ? ' (unauth)' : ''
-        }`
-      );
+
+    const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
+    if (options.redactUrl) {
+      log.info(`${options.type} ${options.redactUrl(url)}${unauthLabel}`);
     } else {
-      log.info(
-        `${options.type} ${url}${options.unauthenticated ? ' (unauth)' : ''}`
-      );
+      log.info(`${options.type} ${url}${unauthLabel}`);
     }
 
     const timeout =
@@ -282,10 +279,10 @@ function _promiseAjax(providedUrl, options) {
           if (options.responseType === 'json') {
             if (options.validateResponse) {
               if (!_validateResponse(result, options.validateResponse)) {
-                if (options.disableLogs) {
+                if (options.redactUrl) {
                   log.info(
                     options.type,
-                    '[REDACTED_URL]',
+                    options.redactUrl(url),
                     response.status,
                     'Error'
                   );
@@ -304,10 +301,10 @@ function _promiseAjax(providedUrl, options) {
             }
           }
           if (response.status >= 0 && response.status < 400) {
-            if (options.disableLogs) {
+            if (options.redactUrl) {
               log.info(
                 options.type,
-                '[REDACTED_URL]',
+                options.redactUrl(url),
                 response.status,
                 'Success'
               );
@@ -324,8 +321,13 @@ function _promiseAjax(providedUrl, options) {
             return resolve(result, response.status);
           }
 
-          if (options.disableLogs) {
-            log.info(options.type, '[REDACTED_URL]', response.status, 'Error');
+          if (options.redactUrl) {
+            log.info(
+              options.type,
+              options.redactUrl(url),
+              response.status,
+              'Error'
+            );
           } else {
             log.error(options.type, url, response.status, 'Error');
           }
@@ -340,8 +342,8 @@ function _promiseAjax(providedUrl, options) {
         });
       })
       .catch(e => {
-        if (options.disableLogs) {
-          log.error(options.type, '[REDACTED_URL]', 0, 'Error');
+        if (options.redactUrl) {
+          log.error(options.type, options.redactUrl(url), 0, 'Error');
         } else {
           log.error(options.type, url, 0, 'Error');
         }
@@ -435,6 +437,7 @@ function initialize({
   function connect({ username: initialUsername, password: initialPassword }) {
     let username = initialUsername;
     let password = initialPassword;
+    const PARSE_RANGE_HEADER = /\/(\d+)$/;
 
     // Thanks, function hoisting!
     return {
@@ -449,8 +452,9 @@ function initialize({
       getProfile,
       getProfileUnauth,
       getProvisioningSocket,
-      getProxiedSize,
       getSenderCertificate,
+      getSticker,
+      getStickerPackManifest,
       makeProxiedRequest,
       putAttachment,
       registerKeys,
@@ -834,6 +838,33 @@ function initialize({
       });
     }
 
+    function redactStickerUrl(stickerUrl) {
+      return stickerUrl.replace(
+        /(\/stickers\/)([^/]+)(\/)/,
+        (match, begin, packId, end) => `${begin}${redactPackId(packId)}${end}`
+      );
+    }
+
+    function getSticker(packId, stickerId) {
+      return _outerAjax(`${cdnUrl}/stickers/${packId}/full/${stickerId}`, {
+        certificateAuthority,
+        proxyUrl,
+        responseType: 'arraybuffer',
+        type: 'GET',
+        redactUrl: redactStickerUrl,
+      });
+    }
+
+    function getStickerPackManifest(packId) {
+      return _outerAjax(`${cdnUrl}/stickers/${packId}/manifest.proto`, {
+        certificateAuthority,
+        proxyUrl,
+        responseType: 'arraybuffer',
+        type: 'GET',
+        redactUrl: redactStickerUrl,
+      });
+    }
+
     async function getAttachment(id) {
       // This is going to the CDN, not the service, so we use _outerAjax
       return _outerAjax(`${cdnUrl}/attachments/${id}`, {
@@ -918,45 +949,64 @@ function initialize({
       return attachmentIdString;
     }
 
-    // eslint-disable-next-line no-shadow
-    async function getProxiedSize(url) {
-      const result = await _outerAjax(url, {
-        processData: false,
-        responseType: 'arraybufferwithdetails',
-        proxyUrl: contentProxyUrl,
-        type: 'HEAD',
-        disableLogs: true,
-      });
+    function getHeaderPadding() {
+      const length = Signal.Crypto.getRandomValue(1, 64);
+      let characters = '';
 
-      const { response } = result;
-      if (!response.headers || !response.headers.get) {
-        throw new Error('getProxiedSize: Problem retrieving header value');
+      for (let i = 0, max = length; i < max; i += 1) {
+        characters += String.fromCharCode(
+          Signal.Crypto.getRandomValue(65, 122)
+        );
       }
 
-      const size = response.headers.get('content-length');
-      return parseInt(size, 10);
+      return characters;
     }
 
     // eslint-disable-next-line no-shadow
-    function makeProxiedRequest(url, options = {}) {
+    async function makeProxiedRequest(url, options = {}) {
       const { returnArrayBuffer, start, end } = options;
-      let headers;
+      const headers = {
+        'X-SignalPadding': getHeaderPadding(),
+      };
 
       if (_.isNumber(start) && _.isNumber(end)) {
-        headers = {
-          Range: `bytes=${start}-${end}`,
-        };
+        headers.Range = `bytes=${start}-${end}`;
       }
 
-      return _outerAjax(url, {
+      const result = await _outerAjax(url, {
         processData: false,
         responseType: returnArrayBuffer ? 'arraybufferwithdetails' : null,
         proxyUrl: contentProxyUrl,
         type: 'GET',
         redirect: 'follow',
-        disableLogs: true,
+        redactUrl: () => '[REDACTED_URL]',
         headers,
       });
+
+      if (!returnArrayBuffer) {
+        return result;
+      }
+
+      const { response } = result;
+      if (!response.headers || !response.headers.get) {
+        throw new Error('makeProxiedRequest: Problem retrieving header value');
+      }
+
+      const range = response.headers.get('content-range');
+      const match = PARSE_RANGE_HEADER.exec(range);
+
+      if (!match || !match[1]) {
+        throw new Error(
+          `makeProxiedRequest: Unable to parse total size from ${range}`
+        );
+      }
+
+      const totalSize = parseInt(match[1], 10);
+
+      return {
+        totalSize,
+        result,
+      };
     }
 
     function getMessageSocket() {

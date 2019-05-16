@@ -296,6 +296,24 @@
         // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
       },
+
+      installStickerPack: async (id, key) => {
+        const status = window.Signal.Stickers.getStickerPackStatus(id);
+
+        if (status === 'installed') {
+          return;
+        }
+
+        if (status === 'advertised') {
+          await window.reduxActions.stickers.installStickerPack(id, key, {
+            fromSync: true,
+          });
+        } else {
+          await window.Signal.Stickers.downloadStickerPack(id, key, {
+            finalStatus: 'installed',
+          });
+        }
+      },
     };
 
     const currentVersion = window.getVersion();
@@ -303,18 +321,23 @@
     newVersion = !lastVersion || currentVersion !== lastVersion;
     await storage.put('version', currentVersion);
 
-    if (newVersion) {
-      if (
-        lastVersion &&
-        window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')
-      ) {
-        await window.Signal.Logs.deleteAll();
-        window.restart();
-      }
-
+    if (newVersion && lastVersion) {
       window.log.info(
         `New version detected: ${currentVersion}; previous: ${lastVersion}`
       );
+
+      if (window.isBeforeVersion(lastVersion, 'v1.25.0')) {
+        // Stickers flags
+        await Promise.all([
+          storage.put('showStickersIntroduction', true),
+          storage.put('showStickerPickerHint', true),
+        ]);
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
+        await window.Signal.Logs.deleteAll();
+        window.restart();
+      }
     }
 
     if (isIndexedDBPresent) {
@@ -395,6 +418,7 @@
     try {
       await Promise.all([
         ConversationController.load(),
+        Signal.Stickers.load(),
         textsecure.storage.protocol.hydrateCaches(),
       ]);
     } catch (error) {
@@ -418,7 +442,11 @@
       conversations: {
         conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
       },
+      items: storage.getItemsState(),
+      stickers: Signal.Stickers.getInitialState(),
       user: {
+        attachmentsPath: window.baseAttachmentsPath,
+        stickersPath: window.baseStickersPath,
         regionCode: window.storage.get('regionCode'),
         ourNumber: textsecure.storage.user.getNumber(),
         i18n: window.i18n,
@@ -437,8 +465,16 @@
       Signal.State.Ducks.conversations.actions,
       store.dispatch
     );
+    actions.items = Signal.State.bindActionCreators(
+      Signal.State.Ducks.items.actions,
+      store.dispatch
+    );
     actions.user = Signal.State.bindActionCreators(
       Signal.State.Ducks.user.actions,
+      store.dispatch
+    );
+    actions.stickers = Signal.State.bindActionCreators(
+      Signal.State.Ducks.stickers.actions,
       store.dispatch
     );
 
@@ -759,6 +795,7 @@
     messageReceiver.addEventListener('progress', onProgress);
     messageReceiver.addEventListener('configuration', onConfiguration);
     messageReceiver.addEventListener('typing', onTyping);
+    messageReceiver.addEventListener('sticker-pack', onStickerPack);
 
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,
@@ -769,6 +806,10 @@
       USERNAME,
       PASSWORD
     );
+
+    if (connectCount === 1) {
+      window.Signal.Stickers.downloadQueuedPacks();
+    }
 
     // On startup after upgrading to a new version, request a contact sync
     //   (but only if we're not the primary device)
@@ -831,11 +872,34 @@
         Whisper.events.trigger('contactsync');
       });
 
+      const ourNumber = textsecure.storage.user.getNumber();
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        ourNumber,
+        { syncMessage: true }
+      );
+
+      const installedStickerPacks = window.Signal.Stickers.getInstalledStickerPacks();
+      if (installedStickerPacks.length) {
+        const operations = installedStickerPacks.map(pack => ({
+          packId: pack.id,
+          packKey: pack.key,
+          installed: true,
+        }));
+
+        wrap(
+          window.textsecure.messaging.sendStickerPackSync(
+            operations,
+            sendOptions
+          )
+        ).catch(error => {
+          window.log.error(
+            'Failed to send installed sticker packs via sync message',
+            error && error.stack ? error.stack : error
+          );
+        });
+      }
+
       if (Whisper.Import.isComplete()) {
-        const { wrap, sendOptions } = ConversationController.prepareForSend(
-          textsecure.storage.user.getNumber(),
-          { syncMessage: true }
-        );
         wrap(
           textsecure.messaging.sendRequestConfigurationSyncMessage(sendOptions)
         ).catch(error => {
@@ -940,6 +1004,42 @@
         senderDevice,
       });
     }
+  }
+
+  async function onStickerPack(ev) {
+    const packs = ev.stickerPacks || [];
+
+    packs.forEach(pack => {
+      const { id, key, isInstall, isRemove } = pack || {};
+
+      if (!id || !key || (!isInstall && !isRemove)) {
+        window.log.warn(
+          'Received malformed sticker pack operation sync message'
+        );
+        return;
+      }
+
+      const status = window.Signal.Stickers.getStickerPackStatus(id);
+
+      if (status === 'installed' && isRemove) {
+        window.reduxActions.stickers.uninstallStickerPack(id, key, {
+          fromSync: true,
+        });
+      } else if (isInstall) {
+        if (status === 'advertised') {
+          window.reduxActions.stickers.installStickerPack(id, key, {
+            fromSync: true,
+          });
+        } else {
+          window.Signal.Stickers.downloadStickerPack(id, key, {
+            finalStatus: 'installed',
+            fromSync: true,
+          });
+        }
+      }
+    });
+
+    ev.confirm();
   }
 
   async function onContactReceived(ev) {

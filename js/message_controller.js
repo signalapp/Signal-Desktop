@@ -12,6 +12,10 @@
   const HOUR = MINUTE * 60;
 
   function register(id, message) {
+    if (!id || !message) {
+      return message;
+    }
+
     const existing = messageLookup[id];
     if (existing) {
       messageLookup[id] = {

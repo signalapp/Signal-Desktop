@@ -695,6 +695,10 @@ body.dark-theme {
     color: $color-white;
   }
 
+  .module-message__author_with_sticker {
+    color: $color-gray-05;
+  }
+
   .module-message__text {
     color: $color-dark-05;
     a {
@@ -1351,7 +1355,7 @@ body.dark-theme {
 
   // Module: Image
 
-  .module-image {
+  .module-image--with-background {
     background-color: $color-black;
   }
 

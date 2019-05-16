@@ -150,6 +150,14 @@ ipc.on('delete-all-data', () => {
   }
 });
 
+ipc.on('add-sticker-pack', (_event, info) => {
+  const { packId, packKey } = info;
+  const { installStickerPack } = window.Events;
+  if (installStickerPack) {
+    installStickerPack(packId, packKey);
+  }
+});
+
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};
   if (!shutdown) {
@@ -271,9 +279,12 @@ window.moment.updateLocale(locale, {
 });
 window.moment.locale(locale);
 
+const userDataPath = app.getPath('userData');
+window.baseAttachmentsPath = Attachments.getPath(userDataPath);
+window.baseStickersPath = Attachments.getStickersPath(userDataPath);
 window.Signal = Signal.setup({
   Attachments,
-  userDataPath: app.getPath('userData'),
+  userDataPath,
   getRegionCode: () => window.storage.get('regionCode'),
   logger: window.log,
 });

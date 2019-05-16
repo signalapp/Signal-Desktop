@@ -35,12 +35,14 @@
     PhoneNumber,
   } = window.Signal.Types;
   const {
-    upgradeMessageSchema,
-    loadAttachmentData,
-    getAbsoluteAttachmentPath,
-    writeNewAttachmentData,
     deleteAttachmentData,
+    getAbsoluteAttachmentPath,
+    loadAttachmentData,
+    readStickerData,
+    upgradeMessageSchema,
+    writeNewAttachmentData,
   } = window.Signal.Migrations;
+  const { addStickerPackReference } = window.Signal.Data;
 
   const COLORS = [
     'red',
@@ -761,7 +763,7 @@
       return _.without(this.get('members'), me);
     },
 
-    async getQuoteAttachment(attachments, preview) {
+    async getQuoteAttachment(attachments, preview, sticker) {
       if (attachments && attachments.length) {
         return Promise.all(
           attachments
@@ -817,6 +819,23 @@
         );
       }
 
+      if (sticker && sticker.data && sticker.data.path) {
+        const { path, contentType } = sticker.data;
+
+        return [
+          {
+            contentType,
+            // Our protos library complains about this field being undefined, so we
+            //   force it to null
+            fileName: null,
+            thumbnail: {
+              ...(await loadAttachmentData(sticker.data)),
+              objectUrl: getAbsoluteAttachmentPath(path),
+            },
+          },
+        ];
+      }
+
       return [];
     },
 
@@ -825,6 +844,7 @@
       const contact = quotedMessage.getContact();
       const attachments = quotedMessage.get('attachments');
       const preview = quotedMessage.get('preview');
+      const sticker = quotedMessage.get('sticker');
 
       const body = quotedMessage.get('body');
       const embeddedContact = quotedMessage.get('contact');
@@ -837,11 +857,46 @@
         author: contact.id,
         id: quotedMessage.get('sent_at'),
         text: body || embeddedContactName,
-        attachments: await this.getQuoteAttachment(attachments, preview),
+        attachments: await this.getQuoteAttachment(
+          attachments,
+          preview,
+          sticker
+        ),
       };
     },
 
-    sendMessage(body, attachments, quote, preview) {
+    async sendStickerMessage(packId, stickerId) {
+      const packData = window.Signal.Stickers.getStickerPack(packId);
+      const stickerData = window.Signal.Stickers.getSticker(packId, stickerId);
+      if (!stickerData || !packData) {
+        window.log.warn(
+          `Attempted to send nonexistent (${packId}, ${stickerId}) sticker!`
+        );
+        return;
+      }
+
+      const { key } = packData;
+      const { path, width, height } = stickerData;
+      const arrayBuffer = await readStickerData(path);
+
+      const sticker = {
+        packId,
+        stickerId,
+        packKey: key,
+        data: {
+          size: arrayBuffer.byteLength,
+          data: arrayBuffer,
+          contentType: 'image/webp',
+          width,
+          height,
+        },
+      };
+
+      this.sendMessage(null, [], null, [], sticker);
+      window.reduxActions.stickers.useSticker(packId, stickerId);
+    },
+
+    sendMessage(body, attachments, quote, preview, sticker) {
       this.clearTypingTimers();
 
       const destination = this.id;
@@ -863,6 +918,7 @@
           now
         );
 
+        // Here we move attachments to disk
         const messageWithSchema = await upgradeMessageSchema({
           type: 'outgoing',
           body,
@@ -874,6 +930,7 @@
           received_at: now,
           expireTimer,
           recipients,
+          sticker,
         });
 
         if (this.isPrivate()) {
@@ -885,6 +942,9 @@
         };
 
         const model = this.addSingleMessage(attributes);
+        if (sticker) {
+          await addStickerPackReference(model.id, sticker.packId);
+        }
         const message = MessageController.register(model.id, model);
         await window.Signal.Data.saveMessage(message.attributes, {
           forceSave: true,
@@ -935,6 +995,7 @@
             finalAttachments,
             quote,
             preview,
+            sticker,
             now,
             expireTimer,
             profileKey
@@ -955,6 +1016,7 @@
                 finalAttachments,
                 quote,
                 preview,
+                sticker,
                 now,
                 expireTimer,
                 profileKey,
@@ -968,6 +1030,7 @@
                 finalAttachments,
                 quote,
                 preview,
+                sticker,
                 now,
                 expireTimer,
                 profileKey,
@@ -1271,6 +1334,7 @@
           [],
           null,
           [],
+          null,
           message.get('sent_at'),
           expireTimer,
           profileKey,

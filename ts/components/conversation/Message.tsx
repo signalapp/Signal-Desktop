@@ -39,11 +39,13 @@ interface Trigger {
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
+const STICKER_SIZE = 128;
 
 interface LinkPreviewType {
   title: string;
   domain: string;
   url: string;
+  isStickerPack: boolean;
   image?: AttachmentType;
 }
 
@@ -51,6 +53,7 @@ export type PropsData = {
   id: string;
   text?: string;
   textPending?: boolean;
+  isSticker: boolean;
   direction: 'incoming' | 'outgoing';
   timestamp: number;
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
@@ -223,6 +226,7 @@ export class Message extends React.PureComponent<Props, State> {
       expirationLength,
       expirationTimestamp,
       i18n,
+      isSticker,
       status,
       text,
       textPending,
@@ -234,8 +238,9 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const isShowingImage = this.isShowingImage();
-    const withImageNoCaption = Boolean(!text && isShowingImage);
+    const withImageNoCaption = Boolean(!isSticker && !text && isShowingImage);
     const showError = status === 'error' && direction === 'outgoing';
+    const metadataDirection = isSticker ? undefined : direction;
 
     return (
       <div
@@ -250,7 +255,10 @@ export class Message extends React.PureComponent<Props, State> {
           <span
             className={classNames(
               'module-message__metadata__date',
-              `module-message__metadata__date--${direction}`,
+              isSticker ? 'module-message__metadata__date--with-sticker' : null,
+              !isSticker
+                ? `module-message__metadata__date--${direction}`
+                : null,
               withImageNoCaption
                 ? 'module-message__metadata__date--with-image-no-caption'
                 : null
@@ -263,17 +271,19 @@ export class Message extends React.PureComponent<Props, State> {
             i18n={i18n}
             timestamp={timestamp}
             extended={true}
-            direction={direction}
+            direction={metadataDirection}
             withImageNoCaption={withImageNoCaption}
+            withSticker={isSticker}
             module="module-message__metadata__date"
           />
         )}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
-            direction={direction}
+            direction={metadataDirection}
             expirationLength={expirationLength}
             expirationTimestamp={expirationTimestamp}
             withImageNoCaption={withImageNoCaption}
+            withSticker={isSticker}
           />
         ) : null}
         <span className="module-message__metadata__spacer" />
@@ -287,6 +297,9 @@ export class Message extends React.PureComponent<Props, State> {
             className={classNames(
               'module-message__metadata__status-icon',
               `module-message__metadata__status-icon--${status}`,
+              isSticker
+                ? 'module-message__metadata__status-icon--with-sticker'
+                : null,
               withImageNoCaption
                 ? 'module-message__metadata__status-icon--with-image-no-caption'
                 : null
@@ -302,10 +315,16 @@ export class Message extends React.PureComponent<Props, State> {
       authorName,
       authorPhoneNumber,
       authorProfileName,
+      collapseMetadata,
       conversationType,
       direction,
       i18n,
+      isSticker,
     } = this.props;
+
+    if (collapseMetadata) {
+      return;
+    }
 
     const title = authorName ? authorName : authorPhoneNumber;
 
@@ -313,13 +332,16 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const suffix = isSticker ? '_with_sticker' : '';
+    const moduleName = `module-message__author${suffix}`;
+
     return (
-      <div className="module-message__author">
+      <div className={moduleName}>
         <ContactName
           phoneNumber={authorPhoneNumber}
           name={authorName}
           profileName={authorProfileName}
-          module="module-message__author"
+          module={moduleName}
           i18n={i18n}
         />
       </div>
@@ -329,15 +351,16 @@ export class Message extends React.PureComponent<Props, State> {
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   public renderAttachment() {
     const {
-      id,
       attachments,
-      text,
       collapseMetadata,
       conversationType,
       direction,
       i18n,
+      id,
       quote,
       showVisualAttachment,
+      isSticker,
+      text,
     } = this.props;
     const { imageBroken } = this.state;
 
@@ -359,23 +382,31 @@ export class Message extends React.PureComponent<Props, State> {
       ((isImage(attachments) && hasImage(attachments)) ||
         (isVideo(attachments) && hasVideoScreenshot(attachments)))
     ) {
+      const prefix = isSticker ? 'sticker' : 'attachment';
+      const bottomOverlay = !isSticker && !collapseMetadata;
+
       return (
         <div
           className={classNames(
-            'module-message__attachment-container',
+            `module-message__${prefix}-container`,
             withContentAbove
-              ? 'module-message__attachment-container--with-content-above'
+              ? `module-message__${prefix}-container--with-content-above`
               : null,
             withContentBelow
               ? 'module-message__attachment-container--with-content-below'
+              : null,
+            isSticker && !collapseMetadata
+              ? 'module-message__sticker-container--with-content-below'
               : null
           )}
         >
           <ImageGrid
             attachments={attachments}
-            withContentAbove={withContentAbove}
-            withContentBelow={withContentBelow}
-            bottomOverlay={!collapseMetadata}
+            withContentAbove={isSticker || withContentAbove}
+            withContentBelow={isSticker || withContentBelow}
+            isSticker={isSticker}
+            stickerSize={STICKER_SIZE}
+            bottomOverlay={bottomOverlay}
             i18n={i18n}
             onError={this.handleImageErrorBound}
             onClick={attachment => {
@@ -494,7 +525,10 @@ export class Message extends React.PureComponent<Props, State> {
 
     const previewHasImage = first.image && isImageAttachment(first.image);
     const width = first.image && first.image.width;
-    const isFullSizeImage = width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
+    const isFullSizeImage =
+      !first.isStickerPack &&
+      width &&
+      width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
 
     return (
       <div
@@ -768,6 +802,7 @@ export class Message extends React.PureComponent<Props, State> {
       disableMenu,
       downloadAttachment,
       id,
+      isSticker,
       replyToMessage,
       timestamp,
     } = this.props;
@@ -783,7 +818,10 @@ export class Message extends React.PureComponent<Props, State> {
     const firstAttachment = attachments && attachments[0];
 
     const downloadButton =
-      !multipleAttachments && firstAttachment && !firstAttachment.pending ? (
+      !isSticker &&
+      !multipleAttachments &&
+      firstAttachment &&
+      !firstAttachment.pending ? (
         <div
           onClick={() => {
             downloadAttachment({
@@ -850,6 +888,7 @@ export class Message extends React.PureComponent<Props, State> {
       downloadAttachment,
       i18n,
       id,
+      isSticker,
       deleteMessage,
       showMessageDetail,
       replyToMessage,
@@ -866,7 +905,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const menu = (
       <ContextMenu id={triggerId}>
-        {!multipleAttachments && attachments && attachments[0] ? (
+        {!isSticker && !multipleAttachments && attachments && attachments[0] ? (
           <MenuItem
             attributes={{
               className: 'module-message__context__download',
@@ -931,9 +970,14 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public getWidth(): number | undefined {
-    const { attachments, previews } = this.props;
+    const { attachments, isSticker, previews } = this.props;
 
     if (attachments && attachments.length) {
+      if (isSticker) {
+        // Padding is 8px, on both sides
+        return STICKER_SIZE + 8 * 2;
+      }
+
       const dimensions = getGridDimensions(attachments);
       if (dimensions) {
         return dimensions.width;
@@ -949,6 +993,7 @@ export class Message extends React.PureComponent<Props, State> {
       const { width } = first.image;
 
       if (
+        !first.isStickerPack &&
         isImageAttachment(first.image) &&
         width &&
         width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH
@@ -999,17 +1044,23 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       authorPhoneNumber,
       authorColor,
+      attachments,
       direction,
       id,
+      isSticker,
       timestamp,
     } = this.props;
-    const { expired, expiring } = this.state;
+    const { expired, expiring, imageBroken } = this.state;
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
     const triggerId = String(id || `${authorPhoneNumber}-${timestamp}`);
 
     if (expired) {
+      return null;
+    }
+
+    if (isSticker && (imageBroken || !attachments || !attachments.length)) {
       return null;
     }
 
@@ -1029,8 +1080,9 @@ export class Message extends React.PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message__container',
-            `module-message__container--${direction}`,
-            direction === 'incoming'
+            isSticker ? 'module-message__container--with-sticker' : null,
+            !isSticker ? `module-message__container--${direction}` : null,
+            !isSticker && direction === 'incoming'
               ? `module-message__container--incoming-${authorColor}`
               : null
           )}

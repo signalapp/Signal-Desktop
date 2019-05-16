@@ -5,6 +5,7 @@ const url = require('url');
 const os = require('os');
 const fs = require('fs');
 const crypto = require('crypto');
+const qs = require('qs');
 
 const _ = require('lodash');
 const pify = require('pify');
@@ -398,13 +399,16 @@ ipc.on('show-window', () => {
   showWindow();
 });
 
-let updatesStarted = false;
-ipc.on('ready-for-updates', async () => {
-  if (updatesStarted) {
-    return;
+ipc.once('ready-for-updates', async () => {
+  // First, install requested sticker pack
+  if (process.argv.length > 1) {
+    const [incomingUrl] = process.argv;
+    if (incomingUrl.startsWith('sgnl://')) {
+      handleSgnlLink(incomingUrl);
+    }
   }
-  updatesStarted = true;
 
+  // Second, start checking for app updates
   try {
     await updater.start(getMainWindow, locale.messages, logger);
   } catch (error) {
@@ -714,6 +718,13 @@ app.on('ready', async () => {
       userDataPath,
       attachments: orphanedAttachments,
     });
+
+    const allStickers = await attachments.getAllStickers(userDataPath);
+    const orphanedStickers = await sql.removeKnownStickers(allStickers);
+    await attachments.deleteAllStickers({
+      userDataPath,
+      stickers: orphanedStickers,
+    });
   }
 
   await attachmentChannel.initialize({
@@ -838,6 +849,12 @@ app.on('web-contents-created', (createEvent, contents) => {
   contents.on('new-window', newEvent => {
     newEvent.preventDefault();
   });
+});
+
+app.setAsDefaultProtocolClient('sgnl');
+app.on('open-url', (event, incomingUrl) => {
+  event.preventDefault();
+  handleSgnlLink(incomingUrl);
 });
 
 ipc.on('set-badge-count', (event, count) => {
@@ -1010,4 +1027,16 @@ function installSettingsSetter(name) {
       mainWindow.webContents.send(`set-${name}`, value);
     }
   });
+}
+
+function handleSgnlLink(incomingUrl) {
+  const { host: command, query } = url.parse(incomingUrl);
+  const args = qs.parse(query);
+  if (command === 'addstickers' && mainWindow && mainWindow.webContents) {
+    const { pack_id: packId, pack_key: packKeyHex } = args;
+    const packKey = Buffer.from(packKeyHex, 'hex').toString('base64');
+    mainWindow.webContents.send('add-sticker-pack', { packId, packKey });
+  } else {
+    console.error('Unhandled sgnl link');
+  }
 }

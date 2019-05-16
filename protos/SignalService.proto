@@ -162,6 +162,13 @@ message DataMessage {
     optional AttachmentPointer image = 3;
   }
 
+  message Sticker {
+    optional bytes packId           = 1;
+    optional bytes packKey          = 2;
+    optional uint32 stickerId       = 3;
+    optional AttachmentPointer data = 4;
+  }
+
   optional string             body        = 1;
   repeated AttachmentPointer  attachments = 2;
   optional GroupContext       group       = 3;
@@ -172,6 +179,7 @@ message DataMessage {
   optional Quote              quote       = 8;
   repeated Contact            contact     = 9;
   repeated Preview            preview     = 10;
+  optional Sticker            sticker     = 11;
 }
 
 message NullMessage {
@@ -265,15 +273,26 @@ message SyncMessage {
     optional bool linkPreviews                   = 4;
   }
 
-  optional Sent          sent          = 1;
-  optional Contacts      contacts      = 2;
-  optional Groups        groups        = 3;
-  optional Request       request       = 4;
-  repeated Read          read          = 5;
-  optional Blocked       blocked       = 6;
-  optional Verified      verified      = 7;
-  optional Configuration configuration = 9;
-  optional bytes         padding       = 8;
+  message StickerPackOperation {
+    enum Type {
+      INSTALL = 0;
+      REMOVE  = 1;
+    }
+    optional bytes packId  = 1;
+    optional bytes packKey = 2;
+    optional Type  type    = 3;
+  }
+
+  optional Sent                 sent                 = 1;
+  optional Contacts             contacts             = 2;
+  optional Groups               groups               = 3;
+  optional Request              request              = 4;
+  repeated Read                 read                 = 5;
+  optional Blocked              blocked              = 6;
+  optional Verified             verified             = 7;
+  optional Configuration        configuration        = 9;
+  optional bytes                padding              = 8;
+  repeated StickerPackOperation stickerPackOperation = 10;
 }
 
 message AttachmentPointer {

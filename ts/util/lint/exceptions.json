@@ -204,46 +204,6 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');",
-    "lineNumber": 45,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();",
-    "lineNumber": 48,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();",
-    "lineNumber": 52,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();",
-    "lineNumber": 56,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');",
-    "lineNumber": 59,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "js/modules/debuglogs.js",
     "line": "  form.append('key', fields.key);",
@@ -266,6 +226,14 @@
     "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "js/modules/stickers.js",
+    "line": "async function load() {",
+    "lineNumber": 53,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T17:48:30.675Z"
   },
   {
     "rule": "jQuery-$(",
@@ -501,7 +469,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        let $el = this.$(`#${id}`);",
-    "lineNumber": 27,
+    "lineNumber": 33,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -510,7 +478,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        $el.prependTo(this.el);",
-    "lineNumber": 36,
+    "lineNumber": 42,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -519,7 +487,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        this.$('.message').text(message);",
-    "lineNumber": 48,
+    "lineNumber": 56,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -528,7 +496,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 65,
+    "lineNumber": 73,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -537,7 +505,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 72,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -546,7 +514,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 87,
+    "lineNumber": 95,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -555,16 +523,25 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 91,
+    "lineNumber": 99,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
+    "reasonDetail": "Interacting with already-existing DOM nodes"
+  },
+  {
+    "rule": "jQuery-appendTo(",
+    "path": "js/views/inbox_view.js",
+    "line": "        toast.$el.appendTo(this.$el);",
+    "lineNumber": 105,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-05-10T00:25:51.515Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 111,
+    "lineNumber": 125,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -573,7 +550,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 111,
+    "lineNumber": 125,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -582,7 +559,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 152,
+    "lineNumber": 166,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -591,7 +568,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 156,
+    "lineNumber": 170,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -600,7 +577,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 160,
+    "lineNumber": 174,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -609,7 +586,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 162,
+    "lineNumber": 176,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -618,7 +595,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 182,
+    "lineNumber": 196,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -627,7 +604,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 185,
+    "lineNumber": 199,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -887,7 +864,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/message_view.js",
     "line": "      this.$el.append(this.childView.el);",
-    "lineNumber": 123,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -1335,7 +1312,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/crypto.js",
     "line": "      const data = dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 205,
+    "lineNumber": 206,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1343,7 +1320,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/crypto.js",
     "line": "        return dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 219,
+    "lineNumber": 220,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1378,6 +1355,22 @@
     "lineNumber": 858,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/sendmessage.js",
+    "line": "  return dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();",
+    "lineNumber": 17,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T17:48:30.675Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/sendmessage.js",
+    "line": "  return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T17:48:30.675Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -1825,7 +1818,7 @@
     "lineNumber": 31,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "<optional>"
+    "reasonDetail": "It's usage of bluebird that's the problem, not bluebird itself with this rule"
   },
   {
     "rule": "thenify-multiArgs",
@@ -1897,7 +1890,7 @@
     "lineNumber": 3519,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "<optional>"
+    "reasonDetail": "Usage of bluebird is the problem with this rule, not bluebird itself"
   },
   {
     "rule": "thenify-multiArgs",
@@ -2509,143 +2502,105 @@
   {
     "rule": "jQuery-$(",
     "path": "node_modules/core-js/build/index.js",
-    "line": "              if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
-    "lineNumber": 36,
+    "line": "            if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
+    "lineNumber": 43,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "node_modules/core-js/build/index.js",
     "line": "  function in$(x, xs){",
-    "lineNumber": 99,
+    "lineNumber": 93,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(tag);",
-    "lineNumber": 391,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
+    "lineNumber": 1082,
+    "reasonCategory": "falseMatch"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(wks(name));",
-    "lineNumber": 408,
+    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 1135,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/core.js",
-    "line": "\t      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
-    "lineNumber": 3893,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/core.js",
     "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 7226,
+    "lineNumber": 4496,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/core.min.js",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(tag);",
-    "lineNumber": 379,
+    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
+    "lineNumber": 1033,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(wks(name));",
-    "lineNumber": 396,
+    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 1086,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/library.js",
     "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 6749,
+    "lineNumber": 4136,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/library.min.js",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(tag);",
-    "lineNumber": 377,
+    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
+    "lineNumber": 1068,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(wks(name));",
-    "lineNumber": 394,
+    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 1121,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/shim.js",
-    "line": "\t      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
-    "lineNumber": 3879,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/shim.js",
     "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 7212,
+    "lineNumber": 4482,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/shim.min.js",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(tag);",
+    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
     "lineNumber": 142,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(wks(name));",
-    "lineNumber": 159,
+    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 195,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -2653,31 +2608,23 @@
     "line": "  setTimeout:  wrap(global.setTimeout),",
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/modules/es6.regexp.split.js",
-    "line": "      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
-    "lineNumber": 36,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:26:59.689Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(tag);",
+    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
     "lineNumber": 142,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(wks(name));",
-    "lineNumber": 159,
+    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 195,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -2685,7 +2632,78 @@
     "line": "  setTimeout:  wrap(global.setTimeout),",
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:26:59.689Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "function createNodesFromMarkup(markup, handleScript) {",
+    "lineNumber": 51,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
+    "lineNumber": 53,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
+    "lineNumber": 58,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = markup;",
+    "lineNumber": 65,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
+    "lineNumber": 70,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "module.exports = createNodesFromMarkup;",
+    "lineNumber": 81,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<link />';",
+    "lineNumber": 83,
+    "reasonCategory": "falseMatch"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
+    "lineNumber": 85,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-prepend(",
@@ -3168,143 +3186,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "nodeName is limited to set of safe tag names."
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/fbjs/node_modules/core-js/build/index.js",
-    "line": "            if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
-    "lineNumber": 43,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/fbjs/node_modules/core-js/build/index.js",
-    "line": "  function in$(x, xs){",
-    "lineNumber": 93,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1082,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/core.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1135,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/core.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4496,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1033,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/library.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1086,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/library.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4136,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1068,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/shim.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1121,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/shim.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4482,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 142,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 195,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/library/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 18,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 142,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/modules/es6.symbol.js",
-    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 195,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 18,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "jQuery-load(",
@@ -5124,6 +5005,27 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/popper.js/dist/esm/popper.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/popper.js/dist/popper.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/popper.js/dist/umd/popper.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/progress-stream/node_modules/through2/test.js",
     "line": "  bufs.append(crypto.randomBytes(10))",
@@ -6250,5 +6152,21 @@
     "reasonCategory": "usageTrusted",
     "updated": "2019-04-17T18:44:33.207Z",
     "reasonDetail": "Necessary to interact with child react-virtualized/List"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "ts/shims/textsecure.js",
+    "line": "    wrap(textsecure.messaging.sendStickerPackSync([",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-05-02T20:44:56.470Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "ts/shims/textsecure.ts",
+    "line": "  wrap(",
+    "lineNumber": 60,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-05-02T20:44:56.470Z"
   }
 ]

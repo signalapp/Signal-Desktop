@@ -9,6 +9,7 @@ const Emoji = require('../../ts/util/emoji');
 const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
+const Stickers = require('./stickers');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
@@ -69,8 +70,20 @@ const {
 
 // State
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
+const {
+  createStickerButton,
+} = require('../../ts/state/roots/createStickerButton');
+const {
+  createStickerManager,
+} = require('../../ts/state/roots/createStickerManager');
+const {
+  createStickerPreviewModal,
+} = require('../../ts/state/roots/createStickerPreviewModal');
+
 const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
+const itemsDuck = require('../../ts/state/ducks/items');
+const stickersDuck = require('../../ts/state/ducks/stickers');
 const userDuck = require('../../ts/state/ducks/user');
 
 // Migrations
@@ -112,6 +125,7 @@ function initializeMigrations({
   }
   const {
     getPath,
+    getStickersPath,
     createReader,
     createAbsolutePathGetter,
     createWriterForNew,
@@ -130,25 +144,40 @@ function initializeMigrations({
   const loadAttachmentData = Type.loadData(readAttachmentData);
   const loadPreviewData = MessageType.loadPreviewData(loadAttachmentData);
   const loadQuoteData = MessageType.loadQuoteData(loadAttachmentData);
+  const loadStickerData = MessageType.loadStickerData(loadAttachmentData);
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
   const writeNewAttachmentData = createWriterForNew(attachmentsPath);
+  const copyIntoAttachmentsDirectory = Attachments.copyIntoAttachmentsDirectory(
+    attachmentsPath
+  );
+
+  const stickersPath = getStickersPath(userDataPath);
+  const writeNewStickerData = createWriterForNew(stickersPath);
+  const getAbsoluteStickerPath = createAbsolutePathGetter(stickersPath);
+  const deleteSticker = Attachments.createDeleter(stickersPath);
+  const readStickerData = createReader(stickersPath);
 
   return {
     attachmentsPath,
+    copyIntoAttachmentsDirectory,
     deleteAttachmentData: deleteOnDisk,
     deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
       deleteAttachmentData: Type.deleteData(deleteOnDisk),
       deleteOnDisk,
     }),
+    deleteSticker,
     getAbsoluteAttachmentPath,
+    getAbsoluteStickerPath,
     getPlaceholderMigrations,
     getCurrentVersion,
     loadAttachmentData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
     loadPreviewData,
     loadQuoteData,
+    loadStickerData,
     readAttachmentData,
+    readStickerData,
     run,
     processNewAttachment: attachment =>
       MessageType.processNewAttachment(attachment, {
@@ -159,6 +188,13 @@ function initializeMigrations({
         getImageDimensions,
         makeImageThumbnail,
         makeVideoScreenshot,
+        logger,
+      }),
+    processNewSticker: stickerData =>
+      MessageType.processNewSticker(stickerData, {
+        writeNewStickerData,
+        getAbsoluteStickerPath,
+        getImageDimensions,
         logger,
       }),
     upgradeMessageSchema: (message, options = {}) => {
@@ -227,10 +263,15 @@ exports.setup = (options = {}) => {
 
   const Roots = {
     createLeftPane,
+    createStickerButton,
+    createStickerManager,
+    createStickerPreviewModal,
   };
   const Ducks = {
     conversations: conversationsDuck,
+    items: itemsDuck,
     user: userDuck,
+    stickers: stickersDuck,
   };
   const State = {
     bindActionCreators,
@@ -278,6 +319,7 @@ exports.setup = (options = {}) => {
     RefreshSenderCertificate,
     Settings,
     State,
+    Stickers,
     Types,
     Util,
     Views,
