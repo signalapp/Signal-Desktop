@@ -1,5 +1,4 @@
-/* global Whisper: false */
-/* global window: false */
+/* global Whisper, window */
 
 const electron = require('electron');
 const semver = require('semver');
@@ -8,6 +7,12 @@ const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
 const { app } = electron.remote;
 const { systemPreferences } = electron.remote.require('electron');
+
+// Waiting for clients to implement changes on receive side
+window.ENABLE_STICKER_SEND = false;
+window.TIMESTAMP_VALIDATION = false;
+window.PAD_ALL_ATTACHMENTS = false;
+window.SEND_RECIPIENT_UPDATES = false;
 
 window.PROTO_ROOT = 'protos';
 const config = require('url').parse(window.location.toString(), true).query;

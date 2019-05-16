@@ -866,6 +866,10 @@
     },
 
     async sendStickerMessage(packId, stickerId) {
+      if (!window.ENABLE_STICKER_SEND) {
+        return;
+      }
+
       const packData = window.Signal.Stickers.getStickerPack(packId);
       const stickerData = window.Signal.Stickers.getSticker(packId, stickerId);
       if (!stickerData || !packData) {

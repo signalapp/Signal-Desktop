@@ -185,7 +185,7 @@ MessageSender.prototype = {
   },
 
   getPaddedAttachment(data, shouldPad) {
-    if (!shouldPad) {
+    if (!window.PAD_ALL_ATTACHMENTS && !shouldPad) {
       return data;
     }
 
