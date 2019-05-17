@@ -85,7 +85,7 @@
 
       this.listenTo(inboxCollection, 'messageError', () => {
         if (this.networkStatusView) {
-          this.networkStatusView.render();
+          this.networkStatusView.update();
         }
       });
 
