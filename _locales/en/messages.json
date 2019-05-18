@@ -167,17 +167,17 @@
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
   "loading": {
-    "message": "Loading...",
+    "message": "Loading…",
     "description":
       "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Optimizing application...",
+    "message": "Optimizing application…",
     "description":
       "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Optimizing messages... $status$ complete.",
+    "message": "Optimizing messages… $status$ complete.",
     "description":
       "Message shown on the loading screen while we are doing application optimizations",
     "placeholders": {
@@ -275,12 +275,12 @@
       "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Upgrading database. This may take some time...",
+    "message": "Upgrading database. This may take some time…",
     "description":
       "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Loading messages. $count$ so far...",
+    "message": "Loading messages. $count$ so far…",
     "description":
       "Message shown on the loading screen when we're catching up on the backlog of messages",
     "placeholders": {
@@ -592,7 +592,7 @@
       "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Loading Preview...",
+    "message": "Loading Preview…",
     "description":
       "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
@@ -1001,7 +1001,7 @@
       "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "moreInfo": {
-    "message": "More Info...",
+    "message": "More Info…",
     "description":
       "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
@@ -1053,7 +1053,7 @@
       "Used for the icon layered on top of an image in message bubbles"
   },
   "addACaption": {
-    "message": "Add a caption...",
+    "message": "Add a caption…",
     "descripton":
       "Used as the placeholder text in the caption editor text field"
   },
@@ -1302,7 +1302,7 @@
       "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Importing...",
+    "message": "Importing…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
