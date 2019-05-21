@@ -15,6 +15,7 @@ window.platform = process.platform;
 window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);
 
+
 function setSystemTheme() {
   window.systemTheme = systemPreferences.isDarkMode() ? 'dark' : 'light';
 }
@@ -58,6 +59,9 @@ window.setHideMenuBar = makeSetter('hide-menu-bar');
 
 window.getSpellCheck = makeGetter('spell-check');
 window.setSpellCheck = makeSetter('spell-check');
+
+window.getAutoLaunch = makeGetter('auto-launch');
+window.setAutoLaunch = makeSetter('auto-launch');
 
 window.getNotificationSetting = makeGetter('notification-setting');
 window.setNotificationSetting = makeSetter('notification-setting');

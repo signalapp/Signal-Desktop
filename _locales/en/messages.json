@@ -1161,7 +1161,11 @@
   },
   "spellCheckDescription": {
     "message": "Enable spell check of text entered in message composition box",
-    "description": "Description of the media permission description"
+    "description": "Description of the spell check setting"
+  },
+  "autoLaunchDescription": {
+    "message": "Launch Signal automatically when you login to your computer",
+    "description": "Description for the automatic launch setting"
   },
   "clearDataHeader": {
     "message": "Clear Data",

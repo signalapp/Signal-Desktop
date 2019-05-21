@@ -38,6 +38,7 @@ const getInitialData = async () => ({
   audioNotification: await window.getAudioNotification(),
 
   spellCheck: await window.getSpellCheck(),
+  autoLaunch: await window.getAutoLaunch(),
 
   mediaPermissions: await window.getMediaPermissions(),
 

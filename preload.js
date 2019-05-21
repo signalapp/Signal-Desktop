@@ -2,6 +2,7 @@
 
 const electron = require('electron');
 const semver = require('semver');
+const AutoLaunch = require('auto-launch');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
@@ -24,6 +25,10 @@ if (config.environment !== 'production') {
 if (config.appInstance) {
   title += ` - ${config.appInstance}`;
 }
+
+window.signalAutoLauncher = new AutoLaunch({
+  name: 'Signal',
+});
 
 window.platform = process.platform;
 window.getTitle = () => title;
@@ -150,6 +155,9 @@ installSetter('audio-notification', 'setAudioNotification');
 
 installGetter('spell-check', 'getSpellCheck');
 installSetter('spell-check', 'setSpellCheck');
+
+installGetter('auto-launch', 'getAutoLaunch');
+installSetter('auto-launch', 'setAutoLaunch');
 
 window.getMediaPermissions = () =>
   new Promise((resolve, reject) => {

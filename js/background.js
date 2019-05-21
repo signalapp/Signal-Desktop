@@ -261,6 +261,15 @@
         startSpellCheck();
       },
 
+      getAutoLaunch: () => window.signalAutoLauncher.isEnabled().catch(err => window.log.error(err)),
+      setAutoLaunch: value => {
+        if(value) {
+            window.signalAutoLauncher.enable();
+        }
+        else {
+            window.signalAutoLauncher.disable();
+        }
+      },
       // eslint-disable-next-line eqeqeq
       isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
       getSyncRequest: () =>

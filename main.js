@@ -962,6 +962,9 @@ installSettingsSetter('audio-notification');
 installSettingsGetter('spell-check');
 installSettingsSetter('spell-check');
 
+installSettingsGetter('auto-launch');
+installSettingsSetter('auto-launch');
+
 // This one is different because its single source of truth is userConfig, not IndexedDB
 ipc.on('get-media-permissions', event => {
   event.sender.send(

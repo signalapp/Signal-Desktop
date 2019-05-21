@@ -108,6 +108,12 @@
         value: window.initialData.spellCheck,
         setFn: window.setSpellCheck,
       });
+      new CheckboxView({
+        el: this.$('.auto-launch-setting'),
+        name: 'auto-launch-setting',
+        value: window.initialData.autoLaunch,
+        setFn: window.setAutoLaunch,
+      });
       if (Settings.isHideMenuBarSupported()) {
         new CheckboxView({
           el: this.$('.menu-bar-setting'),
@@ -157,6 +163,7 @@
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
         generalHeader: i18n('general'),
         spellCheckDescription: i18n('spellCheckDescription'),
+        autoLaunchDescription: i18n('autoLaunchDescription'),
         sendLinkPreviews: i18n('sendLinkPreviews'),
         linkPreviewsDescription: i18n('linkPreviewsDescription'),
       };
