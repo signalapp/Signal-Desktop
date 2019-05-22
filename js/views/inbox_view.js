@@ -1,8 +1,12 @@
 /* global ConversationController: false */
 /* global extension: false */
 /* global getInboxCollection: false */
+/* global getContactCollection: false */
 /* global i18n: false */
 /* global Whisper: false */
+/* global textsecure: false */
+/* global clipboard: false */
+/* global Signal: false */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -33,6 +37,28 @@
         $el.prependTo(this.el);
       }
       conversation.trigger('opened');
+    },
+    close(conversation) {
+      const $el = this.$(`#conversation-${conversation.cid}`);
+      if ($el && $el.length > 0) {
+        $el.remove();
+      }
+    },
+    showToast({ message }) {
+      const toast = new Whisper.MessageToastView({
+        message,
+      });
+      toast.$el.appendTo(this.$el);
+      toast.render();
+    },
+    showConfirmationDialog({ title, message, onOk, onCancel }) {
+      const dialog = new Whisper.ConfirmationDialogView({
+        title,
+        message,
+        resolve: onOk,
+        reject: onCancel,
+      });
+      this.el.append(dialog.el);
     },
   });
 
@@ -93,6 +119,13 @@
       // eslint-disable-next-line no-new
       new Whisper.FontSizeView({ el: this.$el });
 
+      this.mainHeaderView = new Whisper.MainHeaderView({
+        el: this.$('.main-header-placeholder'),
+        items: this.getMainHeaderItems(),
+      });
+      this.onPasswordUpdated();
+      this.on('password-updated', () => this.onPasswordUpdated());
+
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
         model: { window: options.window },
@@ -105,6 +138,7 @@
         this.startConnectionListener();
       }
 
+      // Inbox
       const inboxCollection = getInboxCollection();
 
       this.listenTo(inboxCollection, 'messageError', () => {
@@ -121,29 +155,62 @@
 
       this.inboxListView.listenTo(
         inboxCollection,
-        'add change:timestamp change:name change:number',
+        'add change:timestamp change:name change:number change:profileName',
         this.inboxListView.updateLocation
       );
+
       this.inboxListView.listenTo(
         inboxCollection,
-        'remove',
-        this.inboxListView.removeItem
+        'add change:unreadCount',
+        () => this.updateInboxSectionUnread()
       );
 
+      // Listen to any conversation remove
+      this.listenTo(inboxCollection, 'remove', this.closeConversation);
+
+      // Friends
+      const contactCollection = getContactCollection();
+
+      this.listenTo(contactCollection, 'select', this.openConversation);
+
+      this.contactListView = new Whisper.ConversationContactListView({
+        el: this.$('.friends'),
+        collection: contactCollection,
+      }).render();
+
+      this.contactListView.listenTo(
+        contactCollection,
+        'add change:timestamp change:name change:number change:profileName',
+        this.contactListView.updateLocation
+      );
+
+      this.listenTo(
+        contactCollection,
+        'remove',
+        this.contactListView.removeItem
+      );
+
+      // Search
       this.searchView = new Whisper.ConversationSearchView({
         el: this.$('.search-results'),
         input: this.$('input.search'),
       });
 
+      this.searchView.listenTo(
+        ConversationController.getCollection(),
+        'remove',
+        this.searchView.filterContacts
+      );
+
       this.searchView.$el.hide();
 
       this.listenTo(this.searchView, 'hide', function toggleVisibility() {
         this.searchView.$el.hide();
-        this.inboxListView.$el.show();
+        this.$('.conversations-list').show();
       });
       this.listenTo(this.searchView, 'show', function toggleVisibility() {
         this.searchView.$el.show();
-        this.inboxListView.$el.hide();
+        this.$('.conversations-list').hide();
       });
       this.listenTo(this.searchView, 'open', this.openConversation);
 
@@ -154,6 +221,7 @@
 
       extension.windows.onClosed(() => {
         this.inboxListView.stopListening();
+        this.contactListView.stopListening();
       });
 
       if (extension.expired()) {
@@ -161,17 +229,22 @@
         banner.$el.prependTo(this.$el);
         this.$el.addClass('expired');
       }
+
+      this.updateInboxSectionUnread();
     },
-    render_attributes: {
-      welcomeToSignal: i18n('welcomeToSignal'),
-      selectAContact: i18n('selectAContact'),
-      searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
-      settings: i18n('settings'),
+    render_attributes() {
+      return {
+        welcomeToSignal: i18n('welcomeToSignal'),
+        selectAContact: i18n('selectAContact'),
+        searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
+        settings: i18n('settings'),
+      };
     },
     events: {
       click: 'onClick',
       'click #header': 'focusHeader',
       'click .conversation': 'focusConversation',
+      'click .section-toggle': 'toggleSection',
       'input input.search': 'filterContacts',
     },
     startConnectionListener() {
@@ -182,7 +255,8 @@
             break;
           case WebSocket.OPEN:
             clearInterval(this.interval);
-            // if we've connected, we can wait for real empty event
+            // Default to connected, but lokinet is slow so we pretend empty event
+            this.onEmpty();
             this.interval = null;
             break;
           case WebSocket.CLOSING:
@@ -246,14 +320,30 @@
         input.removeClass('active');
       }
     },
+    toggleSection(e) {
+      // Expand or collapse this panel
+      const $target = this.$(e.currentTarget);
+      const $next = $target.next();
+
+      // Toggle section visibility
+      $next.slideToggle('fast');
+      $target.toggleClass('section-toggle-visible');
+    },
     openConversation(conversation) {
       this.searchView.hideHints();
       if (conversation) {
+        conversation.updateProfile();
         ConversationController.markAsSelected(conversation);
         this.conversation_stack.open(
           ConversationController.get(conversation.id)
         );
         this.focusConversation();
+      }
+    },
+    closeConversation(conversation) {
+      if (conversation) {
+        this.inboxListView.removeItem(conversation);
+        this.conversation_stack.close(conversation);
       }
     },
     closeRecording(e) {
@@ -262,8 +352,83 @@
       }
       this.$('.conversation:first .recorder').trigger('close');
     },
+    updateInboxSectionUnread() {
+      const $section = this.$('.section-conversations-unread-counter');
+      const models =
+        (this.inboxListView.collection &&
+          this.inboxListView.collection.models) ||
+        [];
+      const unreadCount = models.reduce(
+        (count, m) => count + Math.max(0, m.get('unreadCount')),
+        0
+      );
+      $section.text(unreadCount);
+      if (unreadCount > 0) {
+        $section.show();
+      } else {
+        $section.hide();
+      }
+    },
     onClick(e) {
       this.closeRecording(e);
+    },
+    getMainHeaderItems() {
+      return [
+        this._mainHeaderItem('copyPublicKey', () => {
+          const ourNumber = textsecure.storage.user.getNumber();
+          clipboard.writeText(ourNumber);
+
+          this.showToastMessageInGutter(i18n('copiedPublicKey'));
+        }),
+        this._mainHeaderItem('editDisplayName', () => {
+          window.Whisper.events.trigger('onEditProfile');
+        }),
+        this._mainHeaderItem('showSeed', () => {
+          window.Whisper.events.trigger('showSeedDialog');
+        }),
+      ];
+    },
+    async onPasswordUpdated() {
+      const hasPassword = await Signal.Data.getPasswordHash();
+      const items = this.getMainHeaderItems();
+
+      const showPasswordDialog = (type, resolve) =>
+        Whisper.events.trigger('showPasswordDialog', {
+          type,
+          resolve,
+        });
+
+      const passwordItem = (textKey, type) =>
+        this._mainHeaderItem(textKey, () =>
+          showPasswordDialog(type, () => {
+            this.showToastMessageInGutter(i18n(`${textKey}Success`));
+          })
+        );
+
+      if (hasPassword) {
+        items.push(
+          passwordItem('changePassword', 'change'),
+          passwordItem('removePassword', 'remove')
+        );
+      } else {
+        items.push(passwordItem('setPassword', 'set'));
+      }
+
+      this.mainHeaderView.updateItems(items);
+    },
+    _mainHeaderItem(textKey, onClick) {
+      return {
+        id: textKey,
+        text: i18n(textKey),
+        onClick,
+      };
+    },
+    showToastMessageInGutter(message) {
+      const toast = new Whisper.MessageToastView({
+        message,
+      });
+      toast.$el.appendTo(this.$('.gutter'));
+      toast.render();
     },
   });
 

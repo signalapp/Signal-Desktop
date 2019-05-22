@@ -1,9 +1,20 @@
-/* global window, setTimeout */
+/* global window, setTimeout, IDBKeyRange */
 
 const electron = require('electron');
-const { forEach, isFunction, isObject } = require('lodash');
 
-const { deferredToPromise } = require('./deferred_to_promise');
+const {
+  cloneDeep,
+  forEach,
+  get,
+  isFunction,
+  isObject,
+  map,
+  merge,
+  set,
+  omit,
+} = require('lodash');
+
+const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
 const MessageType = require('./types/message');
 
 const { ipcRenderer } = electron;
@@ -12,20 +23,19 @@ const { ipcRenderer } = electron;
 //   any warnings that might be sent to the console in that case.
 ipcRenderer.setMaxListeners(0);
 
-// calls to search for when finding functions to convert:
-//   .fetch(
-//   .save(
-//   .destroy(
-
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
 const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
+const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
 const _jobs = Object.create(null);
 const _DEBUG = false;
 let _jobCounter = 0;
+let _shuttingDown = false;
+let _shutdownCallback = null;
+let _shutdownPromise = null;
 
 const channels = {};
 
@@ -33,11 +43,97 @@ module.exports = {
   _jobs,
   _cleanData,
 
+  shutdown,
   close,
   removeDB,
+  removeIndexedDBFiles,
+
+  getPasswordHash,
+
+  createOrUpdateGroup,
+  getGroupById,
+  getAllGroupIds,
+  getAllGroups,
+  bulkAddGroups,
+  removeGroupById,
+  removeAllGroups,
+
+  createOrUpdateIdentityKey,
+  getIdentityKeyById,
+  bulkAddIdentityKeys,
+  removeIdentityKeyById,
+  removeAllIdentityKeys,
+
+  createOrUpdatePreKey,
+  getPreKeyById,
+  getPreKeyByRecipient,
+  bulkAddPreKeys,
+  removePreKeyById,
+  removeAllPreKeys,
+
+  createOrUpdateSignedPreKey,
+  getSignedPreKeyById,
+  getAllSignedPreKeys,
+  bulkAddSignedPreKeys,
+  removeSignedPreKeyById,
+  removeAllSignedPreKeys,
+
+  createOrUpdateContactPreKey,
+  getContactPreKeyById,
+  getContactPreKeyByIdentityKey,
+  getContactPreKeys,
+  getAllContactPreKeys,
+  bulkAddContactPreKeys,
+  removeContactPreKeyByIdentityKey,
+  removeAllContactPreKeys,
+
+  createOrUpdateContactSignedPreKey,
+  getContactSignedPreKeyById,
+  getContactSignedPreKeyByIdentityKey,
+  getContactSignedPreKeys,
+  bulkAddContactSignedPreKeys,
+  removeContactSignedPreKeyByIdentityKey,
+  removeAllContactSignedPreKeys,
+
+  createOrUpdateItem,
+  getItemById,
+  getAllItems,
+  bulkAddItems,
+  removeItemById,
+  removeAllItems,
+
+  createOrUpdateSession,
+  getSessionById,
+  getSessionsByNumber,
+  bulkAddSessions,
+  removeSessionById,
+  removeSessionsByNumber,
+  removeAllSessions,
+
+  getSwarmNodesByPubkey,
+
+  getConversationCount,
+  saveConversation,
+  saveConversations,
+  getConversationById,
+  updateConversation,
+  removeConversation,
+  _removeConversations,
+
+  getAllConversations,
+  getPubKeysWithFriendStatus,
+  getAllConversationIds,
+  getAllPrivateConversations,
+  getAllGroupsInvolvingId,
+  searchConversations,
 
   getMessageCount,
   saveMessage,
+  cleanSeenMessages,
+  cleanLastHashes,
+  saveSeenMessageHash,
+  updateLastHash,
+  saveSeenMessageHashes,
   saveLegacyMessage,
   saveMessages,
   removeMessage,
@@ -48,13 +144,18 @@ module.exports = {
 
   getMessageBySender,
   getMessageById,
+  getAllMessages,
+  getAllUnsentMessages,
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getSeenMessagesByHashList,
+  getLastHashBySnode,
 
+  getUnprocessedCount,
   getAllUnprocessed,
   getUnprocessedById,
   saveUnprocessed,
@@ -63,7 +164,10 @@ module.exports = {
   removeAllUnprocessed,
 
   removeAll,
+  removeAllConfiguration,
+
   removeOtherData,
+  cleanupOrphanedAttachments,
 
   // Returning plain JSON
   getMessagesNeedingUpgrade,
@@ -105,12 +209,50 @@ function _cleanData(data) {
   return data;
 }
 
+async function _shutdown() {
+  if (_shutdownPromise) {
+    return _shutdownPromise;
+  }
+
+  _shuttingDown = true;
+
+  const jobKeys = Object.keys(_jobs);
+  window.log.info(
+    `data.shutdown: starting process. ${jobKeys.length} jobs outstanding`
+  );
+
+  // No outstanding jobs, return immediately
+  if (jobKeys.length === 0) {
+    return null;
+  }
+
+  // Outstanding jobs; we need to wait until the last one is done
+  _shutdownPromise = new Promise((resolve, reject) => {
+    _shutdownCallback = error => {
+      window.log.info('data.shutdown: process complete');
+      if (error) {
+        return reject(error);
+      }
+
+      return resolve();
+    };
+  });
+
+  return _shutdownPromise;
+}
+
 function _makeJob(fnName) {
+  if (_shuttingDown && fnName !== 'close') {
+    throw new Error(
+      `Rejecting SQL channel job (${fnName}); application is shutting down`
+    );
+  }
+
   _jobCounter += 1;
   const id = _jobCounter;
 
   if (_DEBUG) {
-    window.log.info(`SQL channel job ${id} (${fnName}) started`);
+    window.log.debug(`SQL channel job ${id} (${fnName}) started`);
   }
   _jobs[id] = {
     fnName,
@@ -130,15 +272,18 @@ function _updateJob(id, data) {
     resolve: value => {
       _removeJob(id);
       const end = Date.now();
-      window.log.info(
-        `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
-      );
+      const delta = end - start;
+      if (delta > 10) {
+        window.log.debug(
+          `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
+        );
+      }
       return resolve(value);
     },
     reject: error => {
       _removeJob(id);
       const end = Date.now();
-      window.log.info(
+      window.log.warn(
         `SQL channel job ${id} (${fnName}) failed in ${end - start}ms`
       );
       return reject(error);
@@ -149,8 +294,16 @@ function _updateJob(id, data) {
 function _removeJob(id) {
   if (_DEBUG) {
     _jobs[id].complete = true;
-  } else {
-    delete _jobs[id];
+    return;
+  }
+
+  delete _jobs[id];
+
+  if (_shutdownCallback) {
+    const keys = Object.keys(_jobs);
+    if (keys.length === 0) {
+      _shutdownCallback();
+    }
   }
 }
 
@@ -164,7 +317,7 @@ ipcRenderer.on(
     const job = _getJob(jobId);
     if (!job) {
       throw new Error(
-        `Received job reply to job ${jobId}, but did not have it in our registry!`
+        `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
       );
     }
 
@@ -172,7 +325,9 @@ ipcRenderer.on(
 
     if (errorForDisplay) {
       return reject(
-        new Error(`Error calling channel ${fnName}: ${errorForDisplay}`)
+        new Error(
+          `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
+        )
       );
     }
 
@@ -194,7 +349,8 @@ function makeChannel(fnName) {
       });
 
       setTimeout(
-        () => reject(new Error(`Request to ${fnName} timed out`)),
+        () =>
+          reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
         DATABASE_UPDATE_TIMEOUT
       );
     });
@@ -207,6 +363,44 @@ forEach(module.exports, fn => {
   }
 });
 
+function keysToArrayBuffer(keys, data) {
+  const updated = cloneDeep(data);
+  for (let i = 0, max = keys.length; i < max; i += 1) {
+    const key = keys[i];
+    const value = get(data, key);
+
+    if (value) {
+      set(updated, key, base64ToArrayBuffer(value));
+    }
+  }
+
+  return updated;
+}
+
+function keysFromArrayBuffer(keys, data) {
+  const updated = cloneDeep(data);
+  for (let i = 0, max = keys.length; i < max; i += 1) {
+    const key = keys[i];
+    const value = get(data, key);
+
+    if (value) {
+      set(updated, key, arrayBufferToBase64(value));
+    }
+  }
+
+  return updated;
+}
+
+// Top-level calls
+
+async function shutdown() {
+  // Stop accepting new SQL jobs, flush outstanding queue
+  await _shutdown();
+
+  // Close database
+  await close();
+}
+
 // Note: will need to restart the app after calling this, to set up afresh
 async function close() {
   await channels.close();
@@ -217,8 +411,390 @@ async function removeDB() {
   await channels.removeDB();
 }
 
+async function removeIndexedDBFiles() {
+  await channels.removeIndexedDBFiles();
+}
+
+// Password hash
+
+async function getPasswordHash() {
+  return channels.getPasswordHash();
+}
+
+// Groups
+
+async function createOrUpdateGroup(data) {
+  await channels.createOrUpdateGroup(data);
+}
+async function getGroupById(id) {
+  const group = await channels.getGroupById(id);
+  return group;
+}
+async function getAllGroupIds() {
+  const ids = await channels.getAllGroupIds();
+  return ids;
+}
+async function getAllGroups() {
+  const groups = await channels.getAllGroups();
+  return groups;
+}
+async function bulkAddGroups(array) {
+  await channels.bulkAddGroups(array);
+}
+async function removeGroupById(id) {
+  await channels.removeGroupById(id);
+}
+async function removeAllGroups() {
+  await channels.removeAllGroups();
+}
+
+// Identity Keys
+
+const IDENTITY_KEY_KEYS = ['publicKey'];
+async function createOrUpdateIdentityKey(data) {
+  const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, data);
+  await channels.createOrUpdateIdentityKey(updated);
+}
+async function getIdentityKeyById(id) {
+  const data = await channels.getIdentityKeyById(id);
+  return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
+}
+async function bulkAddIdentityKeys(array) {
+  const updated = map(array, data =>
+    keysFromArrayBuffer(IDENTITY_KEY_KEYS, data)
+  );
+  await channels.bulkAddIdentityKeys(updated);
+}
+async function removeIdentityKeyById(id) {
+  await channels.removeIdentityKeyById(id);
+}
+async function removeAllIdentityKeys() {
+  await channels.removeAllIdentityKeys();
+}
+
+// Pre Keys
+
+async function createOrUpdatePreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdatePreKey(updated);
+}
+async function getPreKeyById(id) {
+  const data = await channels.getPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getPreKeyByRecipient(recipient) {
+  const data = await channels.getPreKeyByRecipient(recipient);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function bulkAddPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddPreKeys(updated);
+}
+async function removePreKeyById(id) {
+  await channels.removePreKeyById(id);
+}
+async function removeAllPreKeys() {
+  await channels.removeAllPreKeys();
+}
+
+// Signed Pre Keys
+
+const PRE_KEY_KEYS = ['privateKey', 'publicKey', 'signature'];
+async function createOrUpdateSignedPreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdateSignedPreKey(updated);
+}
+async function getSignedPreKeyById(id) {
+  const data = await channels.getSignedPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getAllSignedPreKeys() {
+  const keys = await channels.getAllSignedPreKeys();
+  return keys;
+}
+async function bulkAddSignedPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddSignedPreKeys(updated);
+}
+async function removeSignedPreKeyById(id) {
+  await channels.removeSignedPreKeyById(id);
+}
+async function removeAllSignedPreKeys() {
+  await channels.removeAllSignedPreKeys();
+}
+
+// Contact Pre Key
+async function createOrUpdateContactPreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdateContactPreKey(updated);
+}
+async function getContactPreKeyById(id) {
+  const data = await channels.getContactPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactPreKeyByIdentityKey(key) {
+  const data = await channels.getContactPreKeyByIdentityKey(key);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactPreKeys(keyId, identityKeyString) {
+  const keys = await channels.getContactPreKeys(keyId, identityKeyString);
+  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, k));
+}
+async function getAllContactPreKeys() {
+  const keys = await channels.getAllContactPreKeys();
+  return keys;
+}
+async function bulkAddContactPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddContactPreKeys(updated);
+}
+async function removeContactPreKeyByIdentityKey(id) {
+  await channels.removeContactPreKeyByIdentityKey(id);
+}
+async function removeAllContactPreKeys() {
+  await channels.removeAllContactPreKeys();
+}
+
+// Contact Signed Pre Key
+async function createOrUpdateContactSignedPreKey(data) {
+  const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
+  await channels.createOrUpdateContactSignedPreKey(updated);
+}
+async function getContactSignedPreKeyById(id) {
+  const data = await channels.getContactSignedPreKeyById(id);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactSignedPreKeyByIdentityKey(key) {
+  const data = await channels.getContactSignedPreKeyByIdentityKey(key);
+  return keysToArrayBuffer(PRE_KEY_KEYS, data);
+}
+async function getContactSignedPreKeys(keyId, identityKeyString) {
+  const keys = await channels.getContactSignedPreKeys(keyId, identityKeyString);
+  return keys.map(k => keysToArrayBuffer(PRE_KEY_KEYS, k));
+}
+async function bulkAddContactSignedPreKeys(array) {
+  const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
+  await channels.bulkAddContactSignedPreKeys(updated);
+}
+async function removeContactSignedPreKeyByIdentityKey(id) {
+  await channels.removeContactSignedPreKeyByIdentityKey(id);
+}
+async function removeAllContactSignedPreKeys() {
+  await channels.removeAllContactSignedPreKeys();
+}
+
+// Items
+
+const ITEM_KEYS = {
+  identityKey: ['value.pubKey', 'value.privKey'],
+  senderCertificate: [
+    'value.certificate',
+    'value.signature',
+    'value.serialized',
+  ],
+  signaling_key: ['value'],
+  profileKey: ['value'],
+};
+async function createOrUpdateItem(data) {
+  const { id } = data;
+  if (!id) {
+    throw new Error(
+      'createOrUpdateItem: Provided data did not have a truthy id'
+    );
+  }
+
+  const keys = ITEM_KEYS[id];
+  const updated = Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
+
+  await channels.createOrUpdateItem(updated);
+}
+async function getItemById(id) {
+  const keys = ITEM_KEYS[id];
+  const data = await channels.getItemById(id);
+
+  return Array.isArray(keys) ? keysToArrayBuffer(keys, data) : data;
+}
+async function getAllItems() {
+  const items = await channels.getAllItems();
+  return map(items, item => {
+    const { id } = item;
+    const keys = ITEM_KEYS[id];
+    return Array.isArray(keys) ? keysToArrayBuffer(keys, item) : item;
+  });
+}
+async function bulkAddItems(array) {
+  const updated = map(array, data => {
+    const { id } = data;
+    const keys = ITEM_KEYS[id];
+    return Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
+  });
+  await channels.bulkAddItems(updated);
+}
+async function removeItemById(id) {
+  await channels.removeItemById(id);
+}
+async function removeAllItems() {
+  await channels.removeAllItems();
+}
+
+// Sessions
+
+async function createOrUpdateSession(data) {
+  await channels.createOrUpdateSession(data);
+}
+async function getSessionById(id) {
+  const session = await channels.getSessionById(id);
+  return session;
+}
+async function getSessionsByNumber(number) {
+  const sessions = await channels.getSessionsByNumber(number);
+  return sessions;
+}
+async function bulkAddSessions(array) {
+  await channels.bulkAddSessions(array);
+}
+async function removeSessionById(id) {
+  await channels.removeSessionById(id);
+}
+async function removeSessionsByNumber(number) {
+  await channels.removeSessionsByNumber(number);
+}
+async function removeAllSessions(id) {
+  await channels.removeAllSessions(id);
+}
+
+// Conversation
+
+function setifyProperty(data, propertyName) {
+  if (!data) return data;
+  const returnData = { ...data };
+  if (Array.isArray(returnData[propertyName])) {
+    returnData[propertyName] = new Set(returnData[propertyName]);
+  }
+  return returnData;
+}
+
+async function getSwarmNodesByPubkey(pubkey) {
+  return channels.getSwarmNodesByPubkey(pubkey);
+}
+
+async function getConversationCount() {
+  return channels.getConversationCount();
+}
+
+async function saveConversation(data) {
+  const cleaned = omit(data, 'isOnline');
+  await channels.saveConversation(cleaned);
+}
+
+async function saveConversations(data) {
+  const cleaned = data.map(d => omit(d, 'isOnline'));
+  await channels.saveConversations(cleaned);
+}
+
+async function getConversationById(id, { Conversation }) {
+  const data = await channels.getConversationById(id);
+  return new Conversation(data);
+}
+
+async function updateConversation(id, data, { Conversation }) {
+  const existing = await getConversationById(id, { Conversation });
+  if (!existing) {
+    throw new Error(`Conversation ${id} does not exist!`);
+  }
+  const setData = setifyProperty(data, 'swarmNodes');
+  const setExisting = setifyProperty(existing.attributes, 'swarmNodes');
+
+  const merged = merge({}, setExisting, setData);
+  if (merged.swarmNodes instanceof Set) {
+    merged.swarmNodes = Array.from(merged.swarmNodes);
+  }
+
+  // Don't save the online status of the object
+  const cleaned = omit(merged, 'isOnline');
+  await channels.updateConversation(cleaned);
+}
+
+async function removeConversation(id, { Conversation }) {
+  const existing = await getConversationById(id, { Conversation });
+
+  // Note: It's important to have a fully database-hydrated model to delete here because
+  //   it needs to delete all associated on-disk files along with the database delete.
+  if (existing) {
+    await channels.removeConversation(id);
+    await existing.cleanup();
+  }
+}
+
+// Note: this method will not clean up external files, just delete from SQL
+async function _removeConversations(ids) {
+  await channels.removeConversation(ids);
+}
+
+async function getPubKeysWithFriendStatus(status) {
+  return channels.getPubKeysWithFriendStatus(status);
+}
+
+async function getAllConversations({ ConversationCollection }) {
+  const conversations = await channels.getAllConversations();
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
+async function getAllConversationIds() {
+  const ids = await channels.getAllConversationIds();
+  return ids;
+}
+
+async function getAllPrivateConversations({ ConversationCollection }) {
+  const conversations = await channels.getAllPrivateConversations();
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
+async function getAllGroupsInvolvingId(id, { ConversationCollection }) {
+  const conversations = await channels.getAllGroupsInvolvingId(id);
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
+async function searchConversations(query, { ConversationCollection }) {
+  const conversations = await channels.searchConversations(query);
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
+// Message
 async function getMessageCount() {
   return channels.getMessageCount();
+}
+
+async function cleanSeenMessages() {
+  await channels.cleanSeenMessages();
+}
+
+async function cleanLastHashes() {
+  await channels.cleanLastHashes();
+}
+
+async function saveSeenMessageHashes(data) {
+  await channels.saveSeenMessageHashes(_cleanData(data));
+}
+
+async function updateLastHash(data) {
+  await channels.updateLastHash(_cleanData(data));
+}
+
+async function saveSeenMessageHash(data) {
+  await channels.saveSeenMessageHash(_cleanData(data));
 }
 
 async function saveMessage(data, { forceSave, Message } = {}) {
@@ -227,10 +803,41 @@ async function saveMessage(data, { forceSave, Message } = {}) {
   return id;
 }
 
-async function saveLegacyMessage(data, { Message }) {
-  const message = new Message(data);
-  await deferredToPromise(message.save());
-  return message.id;
+async function saveLegacyMessage(data) {
+  const db = await window.Whisper.Database.open();
+  try {
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction('messages', 'readwrite');
+
+      transaction.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'saveLegacyMessage transaction error',
+          transaction.error,
+          reject
+        );
+      };
+      transaction.oncomplete = resolve;
+
+      const store = transaction.objectStore('messages');
+
+      if (!data.id) {
+        // eslint-disable-next-line no-param-reassign
+        data.id = window.getGuid();
+      }
+
+      const request = store.put(data, data.id);
+      request.onsuccess = resolve;
+      request.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'saveLegacyMessage request error',
+          request.error,
+          reject
+        );
+      };
+    });
+  } finally {
+    db.close();
+  }
 }
 
 async function saveMessages(arrayOfMessages, { forceSave } = {}) {
@@ -244,8 +851,7 @@ async function removeMessage(id, { Message }) {
   //   it needs to delete all associated on-disk files along with the database delete.
   if (message) {
     await channels.removeMessage(id);
-    const model = new Message(message);
-    await model.cleanup();
+    await message.cleanup();
   }
 }
 
@@ -261,6 +867,17 @@ async function getMessageById(id, { Message }) {
   }
 
   return new Message(message);
+}
+
+// For testing only
+async function getAllMessages({ MessageCollection }) {
+  const messages = await channels.getAllMessages();
+  return new MessageCollection(messages);
+}
+
+async function getAllUnsentMessages({ MessageCollection }) {
+  const messages = await channels.getAllUnsentMessages();
+  return new MessageCollection(messages);
 }
 
 async function getAllMessageIds() {
@@ -292,14 +909,23 @@ async function getUnreadByConversation(conversationId, { MessageCollection }) {
 
 async function getMessagesByConversation(
   conversationId,
-  { limit = 100, receivedAt = Number.MAX_VALUE, MessageCollection }
+  { limit = 100, receivedAt = Number.MAX_VALUE, MessageCollection, type = '%' }
 ) {
   const messages = await channels.getMessagesByConversation(conversationId, {
     limit,
     receivedAt,
+    type,
   });
 
   return new MessageCollection(messages);
+}
+
+async function getLastHashBySnode(snode) {
+  return channels.getLastHashBySnode(snode);
+}
+
+async function getSeenMessagesByHashList(hashes) {
+  return channels.getSeenMessagesByHashList(hashes);
 }
 
 async function removeAllMessagesInConversation(
@@ -352,6 +978,12 @@ async function getNextExpiringMessage({ MessageCollection }) {
   return new MessageCollection(messages);
 }
 
+// Unprocessed
+
+async function getUnprocessedCount() {
+  return channels.getUnprocessedCount();
+}
+
 async function getAllUnprocessed() {
   return channels.getAllUnprocessed();
 }
@@ -384,8 +1016,18 @@ async function removeAllUnprocessed() {
   await channels.removeAllUnprocessed();
 }
 
+// Other
+
 async function removeAll() {
   await channels.removeAll();
+}
+
+async function removeAllConfiguration() {
+  await channels.removeAllConfiguration();
+}
+
+async function cleanupOrphanedAttachments() {
+  await callChannel(CLEANUP_ORPHANED_ATTACHMENTS_KEY);
 }
 
 // Note: will need to restart the app after calling this, to set up afresh
@@ -409,33 +1051,66 @@ async function callChannel(name) {
 
     setTimeout(
       () => reject(new Error(`callChannel call to ${name} timed out`)),
-      5000
+      DATABASE_UPDATE_TIMEOUT
     );
   });
 }
 
-// Functions below here return JSON
+// Functions below here return plain JSON instead of Backbone Models
 
 async function getLegacyMessagesNeedingUpgrade(
   limit,
-  { MessageCollection, maxVersion = MessageType.CURRENT_SCHEMA_VERSION }
+  { maxVersion = MessageType.CURRENT_SCHEMA_VERSION }
 ) {
-  const messages = new MessageCollection();
+  const db = await window.Whisper.Database.open();
+  try {
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction('messages', 'readonly');
+      const messages = [];
 
-  await deferredToPromise(
-    messages.fetch({
-      limit,
-      index: {
-        name: 'schemaVersion',
-        upper: maxVersion,
-        excludeUpper: true,
-        order: 'desc',
-      },
-    })
-  );
+      transaction.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'getLegacyMessagesNeedingUpgrade transaction error',
+          transaction.error,
+          reject
+        );
+      };
+      transaction.oncomplete = () => {
+        resolve(messages);
+      };
 
-  const models = messages.models || [];
-  return models.map(model => model.toJSON());
+      const store = transaction.objectStore('messages');
+      const index = store.index('schemaVersion');
+      const range = IDBKeyRange.upperBound(maxVersion, true);
+
+      const request = index.openCursor(range);
+      let count = 0;
+
+      request.onsuccess = event => {
+        const cursor = event.target.result;
+
+        if (cursor) {
+          count += 1;
+          messages.push(cursor.value);
+
+          if (count >= limit) {
+            return;
+          }
+
+          cursor.continue();
+        }
+      };
+      request.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'getLegacyMessagesNeedingUpgrade request error',
+          request.error,
+          reject
+        );
+      };
+    });
+  } finally {
+    db.close();
+  }
 }
 
 async function getMessagesNeedingUpgrade(

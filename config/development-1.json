@@ -1,0 +1,6 @@
+{
+  "storageProfile": "development1",
+  "localServerPort": "8082",
+  "disableAutoUpdate": true,
+  "openDevTools": true
+}

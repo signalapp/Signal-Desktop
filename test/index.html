@@ -18,7 +18,7 @@
   </div>
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
-      <img src='/images/icon_128.png'>
+      <img src='/images/loki/loki_icon_128.png'>
       <div class='container'>
         <span class='dot'></span>
         <span class='dot'></span>
@@ -28,7 +28,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='conversation-loading-screen'>
     <div class='content'>
-      <img src='/images/icon_128.png'>
+      <img src='/images/loki/loki_icon_128.png'>
       <div class='container'>
         <span class='dot'></span>
         <span class='dot'></span>
@@ -57,7 +57,7 @@
       <div class='conversation placeholder'>
         <div class='conversation-header'></div>
         <div class='content'>
-          <img src='/images/icon_128.png' />
+          <img src='/images/loki/loki_icon_128.png' />
           <h3>{{ welcomeToSignal }}</h3>
           <p>{{ selectAContact }}</p>
         </div>
@@ -126,6 +126,17 @@
       <button class='finish'><span class='icon'></span></button>
       <span class='time'>0:00</span>
       <button class='close'><span class='icon'></span></button>
+  </script>
+  <script type='text/x-tmpl-mustache' id='nickname-dialog'>
+    <div class='content'>
+      <div class='message'>{{ message }}</div>
+      <input type='text' name='name' class='name' placeholder='Type a name' value='{{ name }}'>
+      <div class='buttons'>
+        <button class='clear' tabindex='3'>{{ clear }}</button>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
     <div class="content">
@@ -318,6 +329,16 @@
       </div>
     {{/action }}
   </script>
+  <script type='text/x-tmpl-mustache' id='main-header-placeholder'>
+    <div class='main-header-title-wrapper'>
+      <div class='main-header-content-toggle'/>
+    </div>
+    <div class='main-header-content-wrapper'>
+      {{ #items }}
+        <div role='button' id='{{ id }}'>{{ text }}</div>
+      {{ /items }}
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='file-view'>
     <div class='icon'></div>
     <div class='text'>
@@ -339,12 +360,15 @@
   <script type="text/javascript" src="../js/storage.js" data-cover></script>
   <script type="text/javascript" src="../js/signal_protocol_store.js" data-cover></script>
   <script type="text/javascript" src="../js/libtextsecure.js" data-cover></script>
+  <script type="text/javascript" src="../js/libloki.js" data-cover></script>
 
   <script type="text/javascript" src="../js/libphonenumber-util.js"></script>
+  <script type='text/javascript' src='../js/models/profile.js' data-cover></script>
   <script type="text/javascript" src="../js/models/messages.js" data-cover></script>
   <script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
   <script type="text/javascript" src="../js/models/blockedNumbers.js" data-cover></script>
   <script type="text/javascript" src="../js/conversation_controller.js" data-cover></script>
+  <script type='text/javascript' src='../js/blocked_number_controller.js'></script>
   <script type="text/javascript" src="../js/keychange_listener.js" data-cover></script>
   <script type='text/javascript' src='../js/expiring_messages.js' data-cover></script>
   <script type='text/javascript' src='../js/notifications.js' data-cover></script>
@@ -362,6 +386,7 @@
   <script type='text/javascript' src='../js/views/conversation_list_item_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/conversation_list_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/contact_list_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/main_header_view.js'></script>
   <script type='text/javascript' src='../js/views/new_group_update_view.js' data-cover></script>
   <script type="text/javascript" src="../js/views/group_update_view.js"></script>
   <script type='text/javascript' src='../js/views/attachment_view.js' data-cover></script>
@@ -374,14 +399,20 @@
   <script type='text/javascript' src='../js/views/conversation_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/conversation_search_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/hint_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/main_header_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/inbox_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/network_status_view.js'></script>
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/nickname_dialog_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/password_dialog_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/seed_dialog_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/identicon_svg_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/last_seen_indicator_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/scroll_down_button_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/banner_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/clear_data_view.js'></script>
+
+  <!-- <script type="text/javascript" src="metadata/SecretSessionCipher_test.js"></script> -->
 
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
   <script type="text/javascript" src="views/group_update_view_test.js"></script>
@@ -396,8 +427,10 @@
 
   <script type="text/javascript" src="models/conversations_test.js"></script>
   <script type="text/javascript" src="models/messages_test.js"></script>
+  <script type="text/javascript" src="models/profile_test.js"></script>
 
   <script type="text/javascript" src="libphonenumber_util_test.js"></script>
+  <script type="text/javascript" src="blocked_number_controller_test.js"></script>
   <script type="text/javascript" src="conversation_controller_test.js"></script>
   <script type="text/javascript" src="storage_test.js"></script>
   <script type="text/javascript" src="keychange_listener_test.js"></script>

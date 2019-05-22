@@ -38,6 +38,10 @@ body {
   background: $color-white;
 }
 
+audio {
+  max-width: 100%;
+}
+
 .dark-overlay {
   position: absolute;
   top: 0;
@@ -60,23 +64,6 @@ body {
 
 .hide {
   display: none;
-}
-
-.title-bar {
-  color: $color-light-90;
-
-  height: $header-height;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.logo {
-  margin-left: 16px;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 300;
-  color: $color-light-90;
 }
 
 button {
@@ -125,8 +112,10 @@ a {
     opacity: 0.5;
     border: none;
     background: transparent;
+    margin-top: 2px;
 
     &:before {
+      margin-top: 4px;
       content: '';
       display: inline-block;
       width: $button-height;
@@ -275,6 +264,7 @@ $new-contact-left-margin: 16px;
 
 // Still used for the contact search view
 .contact-details {
+  color: $color-gray-05;
   $left-margin: 12px;
 
   vertical-align: middle;
@@ -304,7 +294,7 @@ $new-contact-left-margin: 16px;
   }
 
   .number {
-    color: $color-light-60;
+    color: $color-dark-30;
     font-size: $font-size-small;
   }
 
@@ -427,15 +417,6 @@ $loading-height: 16px;
   }
 }
 
-input[type='text'],
-input[type='search'],
-textarea {
-  &:active,
-  &:focus {
-    outline: 1px solid $blue;
-  }
-}
-
 .expiredAlert {
   background: #f3f3a7;
   padding: 10px;
@@ -479,8 +460,10 @@ textarea {
   top: 0;
   bottom: 0;
   background-color: white;
+  color: $color-white;
   display: flex;
   align-items: center;
+  user-select: none;
 
   .content {
     margin-left: auto;
@@ -501,7 +484,7 @@ textarea {
   .dot {
     width: 14px;
     height: 14px;
-    border: 3px solid $blue;
+    border: 3px solid $color-white;
     border-radius: 50%;
     float: left;
     margin: 0 6px;
@@ -549,7 +532,7 @@ textarea {
 
   font-size: 10pt;
   input {
-    margin-top: 1em;
+    margin-bottom: 1em;
     font-size: 12pt;
     font-family: roboto-light;
     border: 2px solid $blue;
@@ -653,9 +636,12 @@ textarea {
     width: 100%;
   }
   .step {
-    height: 100%;
-    width: 100%;
-    padding: 70px 0 50px;
+    display: flex;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100%;
+    margin: auto;
+    padding: 10px 0;
   }
   .step-body {
     margin-left: auto;
@@ -669,6 +655,7 @@ textarea {
     justify-content: center;
     flex-direction: column;
     height: 100%;
+    width: 100%;
   }
 
   .banner-image {
@@ -735,14 +722,12 @@ textarea {
     border: none;
     min-width: 300px;
     padding: 0.75em;
-    margin-top: 1em;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
     color: white;
     background: $blue;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
+    user-select: none;
     font-size: 12pt;
+    margin-top: 4px;
 
     &.neutral {
       color: black;
@@ -814,6 +799,234 @@ textarea {
     }
     .body {
       float: left;
+    }
+  }
+}
+
+.standalone-fullscreen {
+  background: $color-dark-85;
+  overflow-y: auto;
+}
+
+.standalone {
+  color: $color-dark-05;
+  height: auto;
+  padding: 0;
+  background: inherit;
+
+  ::-webkit-scrollbar-track {
+    background: $color-dark-85;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid $color-dark-85;
+  }
+
+  .step-body {
+    width: 80%;
+    min-width: 100px;
+    max-width: none;
+  }
+
+  .section-toggle {
+    background: $color-dark-75;
+
+    &:first-of-type {
+      border-radius: 8px 8px 0 0;
+    }
+
+    &:last-of-type {
+      border-radius: 0 0 8px 8px;
+    }
+  }
+
+  .section-toggle-visible:last-of-type {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .section-content {
+    padding: 1em 0;
+    background-color: $color-dark-72;
+
+    &:last-of-type {
+      border-radius: 0 0 8px 8px;
+    }
+  }
+
+  #display-name {
+    font-weight: bold;
+    font-size: 25px;
+    border-radius: 100px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  #status {
+    margin-top: 12px;
+  }
+
+  .standalone-mnemonic-inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 8px;
+
+    input {
+      flex: 1;
+      margin: 0;
+      margin-right: 12px;
+    }
+  }
+
+  input {
+    border: 1px solid $color-light-60;
+    border-radius: 4px;
+
+    &:focus {
+      outline: solid 1px $blue;
+    }
+  }
+
+  .button {
+    background: $color-loki-green-gradient;
+    border-radius: 100px;
+  }
+
+  #mnemonic-display {
+    margin: 2em 8px;
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  .standalone-register-warning {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0px 8px;
+  }
+
+  .standalone-register-language {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
+
+    &.restore {
+      margin-bottom: 2em;
+    }
+
+    span {
+      margin-right: 8px;
+    }
+  }
+
+  .input-header {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .button.grey {
+    background: $grey;
+  }
+
+  .buttons {
+    margin-top: 24px;
+  }
+
+  .select-container {
+    position: relative;
+    display: block;
+    width: 9em;
+    line-height: 2.8;
+    background: white;
+    overflow: hidden;
+    border-radius: 0.25em;
+
+    select {
+      // Reset select
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      appearance: none;
+      outline: 0;
+      box-shadow: none;
+      border: 0 !important;
+      background: white;
+      background-image: none;
+
+      // Our own stlying
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0 0 0 0.5em;
+      color: black;
+      cursor: pointer;
+      font-size: 14px;
+
+      ::-ms-expand {
+        display: none;
+      }
+    }
+
+    &:after {
+      content: '\25BC';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0 1em;
+      background: $color-dark-85;
+      pointer-events: none;
+      -webkit-transition: 0.25s all ease;
+      -o-transition: 0.25s all ease;
+      transition: 0.25s all ease;
+    }
+  }
+
+  .password-inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    input {
+      margin-bottom: 0.5em;
+    }
+
+    .error {
+      margin-bottom: 1em;
+    }
+
+    .error-input {
+      border: 3px solid $color-vermilion;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .match-input {
+      border: 3px solid $color-loki-green;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  @media (min-height: 750px) and (min-width: 700px) {
+    .input-header {
+      font-size: 18px;
+    }
+
+    .standalone-register-warning {
+      font-size: 20px;
+    }
+
+    #mnemonic-display {
+      font-size: 20px;
     }
   }
 }

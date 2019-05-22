@@ -136,13 +136,13 @@
 .message-list {
   list-style: none;
 
+  .message-wrapper {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
   li {
     margin-bottom: 10px;
-
-    .message-wrapper {
-      margin-left: 16px;
-      margin-right: 16px;
-    }
 
     &::after {
       visibility: hidden;
@@ -158,10 +158,14 @@
 .group {
   .message-container,
   .message-list {
-    li .message-wrapper {
+    .message-wrapper {
       margin-left: 44px;
     }
   }
+}
+
+.typing-bubble-wrapper {
+  margin-bottom: 20px;
 }
 
 .contact-detail-pane {
@@ -172,21 +176,25 @@
 
 .bottom-bar .module-quote {
   margin: 0;
+
+  border-left-style: none;
 }
 
 // We need to use the wrapper because the conversation view calculates the height of all
 //   things in the composition area. A margin on an inner div won't be included in that
 //   height calculation.
 .bottom-bar .quote-wrapper {
-  margin-right: 5px;
-  margin-bottom: 6px;
-  margin-top: 3px;
-}
-
-.send .quote-wrapper {
   margin-left: 37px;
   margin-right: 73px;
-  margin-bottom: 5px;
+  margin-top: 3px;
+  margin-bottom: -5px;
+}
+
+.bottom-bar .preview-wrapper {
+  margin-top: 3px;
+  margin-left: 37px;
+  margin-right: 73px;
+  margin-bottom: 2px;
 }
 
 .bottom-bar {
@@ -200,6 +208,7 @@
   }
 
   form.send {
+    margin-bottom: 0px;
     background: $color-white;
 
     &.video-attachment {
@@ -257,6 +266,9 @@
   .flex {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    margin-right: 6px;
+    margin-bottom: 6px;
 
     .send-message {
       flex-grow: 1;
@@ -271,9 +283,10 @@
     display: block;
     max-height: 100px;
     padding: 10px;
+    border-radius: 4px;
+    background-color: $color-loki-light-gray;
+    margin-top: 3px;
     margin-bottom: 6px;
-    border-radius: 20px;
-    background-color: $color-light-02;
     color: $color-light-90;
     border: 1px solid rgba(0, 0, 0, 0.2);
     outline: 0;
@@ -283,7 +296,7 @@
     font-family: inherit;
 
     &[disabled='disabled'] {
-      background: transparent;
+      background: $color-light-35;
     }
   }
   .capture-audio {
@@ -314,7 +327,7 @@
   line-height: 18px;
   letter-spacing: 0;
 
-  background-color: $color-light-60;
+  background-color: $color-gray-75;
   color: $color-white;
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
 }
@@ -346,6 +359,94 @@
         }
       }
     }
+  }
+}
+
+.loki-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .content {
+    max-width: 75%;
+    min-width: 60%;
+    padding: 1em;
+    background: white;
+    border-radius: $border-radius;
+    overflow: auto;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  button {
+    float: right;
+    margin-left: 10px;
+    background-color: $color-loki-green;
+    border-radius: 100px;
+    padding: 5px 15px;
+    border: 1px solid $color-loki-green;
+    color: white;
+    outline: none;
+
+    &:hover,
+    &:disabled {
+      background-color: $color-loki-green-dark;
+      border-color: $color-loki-green-dark;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 0;
+    outline: none;
+    border-radius: 4px;
+    background-color: $color-loki-light-gray;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  h4 {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    white-space: -moz-pre-wrap; /* Mozilla */
+    white-space: -hp-pre-wrap; /* HP printers */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: pre-wrap; /* CSS 2.1 */
+    white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+    word-wrap: break-word; /* IE */
+    word-break: break-all;
+  }
+}
+
+.nickname-dialog {
+  .message {
+    font-style: italic;
+    color: $grey;
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+}
+
+.seed-dialog {
+  .title {
+    font-weight: bold;
+  }
+
+  .fields {
+    margin-top: 20px;
+  }
+
+  .seed {
+    padding: 20px 0;
+    font-style: oblique;
   }
 }
 

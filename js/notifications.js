@@ -86,26 +86,40 @@
       let message;
       let iconUrl;
 
+      // The number of notifications excluding friend request
+      const messagesNotificationCount = this.models.filter(
+        n => !n.get('isFriendRequest')
+      ).length;
+
       // NOTE: i18n has more complex rules for pluralization than just
       // distinguishing between zero (0) and other (non-zero),
       // e.g. Russian:
       // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
-      const newMessageCountLabel = `${numNotifications} ${
-        numNotifications === 1 ? i18n('newMessage') : i18n('newMessages')
+      const newMessageCountLabel = `${messagesNotificationCount} ${
+        messagesNotificationCount === 1
+          ? i18n('newMessage')
+          : i18n('newMessages')
       }`;
 
       const last = this.last().toJSON();
       switch (userSetting) {
         case SettingNames.COUNT:
-          title = 'Signal';
-          message = newMessageCountLabel;
+          title = 'Loki Messenger';
+
+          if (last.isFriendRequest) {
+            message = `Friend request ${last.friendRequestType}`;
+          } else if (messagesNotificationCount > 0) {
+            message = newMessageCountLabel;
+          } else {
+            return;
+          }
           break;
         case SettingNames.NAME: {
           const lastMessageTitle = last.title;
           title = newMessageCountLabel;
           // eslint-disable-next-line prefer-destructuring
           iconUrl = last.iconUrl;
-          if (numNotifications === 1) {
+          if (last.isFriendRequest || messagesNotificationCount === 1) {
             message = `${i18n('notificationFrom')} ${lastMessageTitle}`;
           } else {
             message = `${i18n(
@@ -115,7 +129,7 @@
           break;
         }
         case SettingNames.MESSAGE:
-          if (numNotifications === 1) {
+          if (last.isFriendRequest || messagesNotificationCount === 1) {
             // eslint-disable-next-line prefer-destructuring
             title = last.title;
             // eslint-disable-next-line prefer-destructuring

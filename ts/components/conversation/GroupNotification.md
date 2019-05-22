@@ -126,12 +126,6 @@
       {
         type: 'remove',
         isMe: true,
-        contacts: [
-          {
-            phoneNumber: '(202) 555-1000',
-            profileName: 'Mr. Fire',
-          },
-        ],
       },
     ]}
     i18n={util.i18n}

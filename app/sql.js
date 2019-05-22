@@ -4,7 +4,7 @@ const rimraf = require('rimraf');
 const sql = require('@journeyapps/sqlcipher');
 const pify = require('pify');
 const uuidv4 = require('uuid/v4');
-const { map, isString, fromPairs, forEach, last } = require('lodash');
+const { map, isString, fromPairs, forEach, last, isEmpty } = require('lodash');
 
 // To get long stack traces
 //   https://github.com/mapbox/node-sqlite3/wiki/API#sqlite3verbose
@@ -14,21 +14,115 @@ module.exports = {
   initialize,
   close,
   removeDB,
+  removeIndexedDBFiles,
+  setSQLPassword,
+
+  getPasswordHash,
+  savePasswordHash,
+  removePasswordHash,
+
+  createOrUpdateGroup,
+  getGroupById,
+  getAllGroupIds,
+  getAllGroups,
+  bulkAddGroups,
+  removeGroupById,
+  removeAllGroups,
+
+  createOrUpdateIdentityKey,
+  getIdentityKeyById,
+  bulkAddIdentityKeys,
+  removeIdentityKeyById,
+  removeAllIdentityKeys,
+
+  createOrUpdatePreKey,
+  getPreKeyById,
+  getPreKeyByRecipient,
+  bulkAddPreKeys,
+  removePreKeyById,
+  removeAllPreKeys,
+
+  createOrUpdateSignedPreKey,
+  getSignedPreKeyById,
+  getAllSignedPreKeys,
+  bulkAddSignedPreKeys,
+  removeSignedPreKeyById,
+  removeAllSignedPreKeys,
+
+  createOrUpdateContactPreKey,
+  getContactPreKeyById,
+  getContactPreKeyByIdentityKey,
+  getContactPreKeys,
+  getAllContactPreKeys,
+  bulkAddContactPreKeys,
+  removeContactPreKeyByIdentityKey,
+  removeAllContactPreKeys,
+
+  createOrUpdateContactSignedPreKey,
+  getContactSignedPreKeyById,
+  getContactSignedPreKeyByIdentityKey,
+  getContactSignedPreKeys,
+  bulkAddContactSignedPreKeys,
+  removeContactSignedPreKeyByIdentityKey,
+  removeAllContactSignedPreKeys,
+
+  createOrUpdateItem,
+  getItemById,
+  getAllItems,
+  bulkAddItems,
+  removeItemById,
+  removeAllItems,
+
+  createOrUpdateSession,
+  getSessionById,
+  getSessionsByNumber,
+  bulkAddSessions,
+  removeSessionById,
+  removeSessionsByNumber,
+  removeAllSessions,
+
+  getSwarmNodesByPubkey,
+
+  getConversationCount,
+  saveConversation,
+  saveConversations,
+  getConversationById,
+  updateConversation,
+  removeConversation,
+  getAllConversations,
+  getPubKeysWithFriendStatus,
+  getAllConversationIds,
+  getAllPrivateConversations,
+  getAllGroupsInvolvingId,
+
+  searchConversations,
+  searchMessages,
+  searchMessagesInConversation,
 
   getMessageCount,
   saveMessage,
+  cleanSeenMessages,
+  cleanLastHashes,
+  saveSeenMessageHashes,
+  saveSeenMessageHash,
+  updateLastHash,
   saveMessages,
   removeMessage,
   getUnreadByConversation,
   getMessageBySender,
   getMessageById,
+  getAllMessages,
   getAllMessageIds,
+  getAllUnsentMessages,
   getMessagesBySentAt,
+  getSeenMessagesByHashList,
+  getLastHashBySnode,
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
 
+  getUnprocessedCount,
   getAllUnprocessed,
   saveUnprocessed,
   getUnprocessedById,
@@ -37,6 +131,7 @@ module.exports = {
   removeAllUnprocessed,
 
   removeAll,
+  removeAllConfiguration,
 
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
@@ -101,15 +196,25 @@ async function getSQLCipherVersion(instance) {
   }
 }
 
-const INVALID_KEY = /[^0-9A-Fa-f]/;
+const HEX_KEY = /[^0-9A-Fa-f]/;
 async function setupSQLCipher(instance, { key }) {
-  const match = INVALID_KEY.exec(key);
-  if (match) {
-    throw new Error(`setupSQLCipher: key '${key}' is not valid`);
-  }
+  // If the key isn't hex then we need to derive a hex key from it
+  const deriveKey = HEX_KEY.test(key);
 
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-  await instance.run(`PRAGMA key = "x'${key}'";`);
+  const value = deriveKey ? `'${key}'` : `"x'${key}'"`;
+  await instance.run(`PRAGMA key = ${value};`);
+}
+
+async function setSQLPassword(password) {
+  if (!db) {
+    throw new Error('setSQLPassword: db is not initialized');
+  }
+
+  // If the password isn't hex then we need to derive a key from it
+  const deriveKey = HEX_KEY.test(password);
+  const value = deriveKey ? `'${password}'` : `"x'${password}'"`;
+  await db.run(`PRAGMA rekey = ${value};`);
 }
 
 async function updateToSchemaVersion1(currentVersion, instance) {
@@ -128,6 +233,7 @@ async function updateToSchemaVersion1(currentVersion, instance) {
 
       unread INTEGER,
       expires_at INTEGER,
+      sent BOOLEAN,
       sent_at INTEGER,
       schemaVersion INTEGER,
       conversationId STRING,
@@ -270,10 +376,258 @@ async function updateToSchemaVersion3(currentVersion, instance) {
   console.log('updateToSchemaVersion3: success!');
 }
 
+async function updateToSchemaVersion4(currentVersion, instance) {
+  if (currentVersion >= 4) {
+    return;
+  }
+
+  console.log('updateToSchemaVersion4: starting...');
+
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `CREATE TABLE conversations(
+      id STRING PRIMARY KEY ASC,
+      json TEXT,
+
+      active_at INTEGER,
+      type STRING,
+      members TEXT,
+      name TEXT,
+      profileName TEXT
+    );`
+  );
+
+  await instance.run(`CREATE INDEX conversations_active ON conversations (
+      active_at
+    ) WHERE active_at IS NOT NULL;`);
+
+  await instance.run(`CREATE INDEX conversations_type ON conversations (
+      type
+    ) WHERE type IS NOT NULL;`);
+
+  await instance.run('PRAGMA schema_version = 4;');
+  await instance.run('COMMIT TRANSACTION;');
+
+  console.log('updateToSchemaVersion4: success!');
+}
+
+async function updateToSchemaVersion6(currentVersion, instance) {
+  if (currentVersion >= 6) {
+    return;
+  }
+  console.log('updateToSchemaVersion6: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `ALTER TABLE conversations
+     ADD COLUMN friendRequestStatus INTEGER;`
+  );
+
+  await instance.run(
+    `CREATE TABLE lastHashes(
+      snode TEXT PRIMARY KEY,
+      hash TEXT,
+      expiresAt INTEGER
+    );`
+  );
+
+  await instance.run(
+    `CREATE TABLE seenMessages(
+      hash TEXT PRIMARY KEY,
+      expiresAt INTEGER
+    );`
+  );
+
+  // key-value, ids are strings, one extra column
+  await instance.run(
+    `CREATE TABLE sessions(
+      id STRING PRIMARY KEY ASC,
+      number STRING,
+      json TEXT
+    );`
+  );
+
+  await instance.run(`CREATE INDEX sessions_number ON sessions (
+    number
+  ) WHERE number IS NOT NULL;`);
+
+  // key-value, ids are strings
+  await instance.run(
+    `CREATE TABLE groups(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );`
+  );
+  await instance.run(
+    `CREATE TABLE identityKeys(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );`
+  );
+  await instance.run(
+    `CREATE TABLE items(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );`
+  );
+
+  // key-value, ids are integers
+  await instance.run(
+    `CREATE TABLE preKeys(
+      id INTEGER PRIMARY KEY ASC,
+      recipient STRING,
+      json TEXT
+    );`
+  );
+  await instance.run(
+    `CREATE TABLE signedPreKeys(
+      id INTEGER PRIMARY KEY ASC,
+      json TEXT
+    );`
+  );
+
+  await instance.run(
+    `CREATE TABLE contactPreKeys(
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      identityKeyString VARCHAR(255),
+      keyId INTEGER,
+      json TEXT
+    );`
+  );
+
+  await instance.run(`CREATE UNIQUE INDEX contact_prekey_identity_key_string_keyid ON contactPreKeys (
+    identityKeyString,
+    keyId
+  );`);
+
+  await instance.run(
+    `CREATE TABLE contactSignedPreKeys(
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      identityKeyString VARCHAR(255),
+      keyId INTEGER,
+      json TEXT
+    );`
+  );
+
+  await instance.run(`CREATE UNIQUE INDEX contact_signed_prekey_identity_key_string_keyid ON contactSignedPreKeys (
+    identityKeyString,
+    keyId
+  );`);
+
+  await instance.run('PRAGMA schema_version = 6;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion6: success!');
+}
+
+async function updateToSchemaVersion7(currentVersion, instance) {
+  if (currentVersion >= 7) {
+    return;
+  }
+  console.log('updateToSchemaVersion7: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // SQLite has been coercing our STRINGs into numbers, so we force it with TEXT
+  // We create a new table then copy the data into it, since we can't modify columns
+
+  await instance.run('DROP INDEX sessions_number;');
+  await instance.run('ALTER TABLE sessions RENAME TO sessions_old;');
+
+  await instance.run(
+    `CREATE TABLE sessions(
+      id TEXT PRIMARY KEY,
+      number TEXT,
+      json TEXT
+    );`
+  );
+
+  await instance.run(`CREATE INDEX sessions_number ON sessions (
+    number
+  ) WHERE number IS NOT NULL;`);
+
+  await instance.run(`INSERT INTO sessions(id, number, json)
+    SELECT "+" || id, number, json FROM sessions_old;
+  `);
+
+  await instance.run('DROP TABLE sessions_old;');
+
+  await instance.run('PRAGMA schema_version = 7;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion7: success!');
+}
+
+async function updateToSchemaVersion8(currentVersion, instance) {
+  if (currentVersion >= 8) {
+    return;
+  }
+  console.log('updateToSchemaVersion8: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // First, we pull a new body field out of the message table's json blob
+  await instance.run(
+    `ALTER TABLE messages
+     ADD COLUMN body TEXT;`
+  );
+  await instance.run("UPDATE messages SET body = json_extract(json, '$.body')");
+
+  // Then we create our full-text search table and populate it
+  await instance.run(`
+    CREATE VIRTUAL TABLE messages_fts
+    USING fts5(id UNINDEXED, body);
+  `);
+  await instance.run(`
+    INSERT INTO messages_fts(id, body)
+    SELECT id, body FROM messages;
+  `);
+
+  // Then we set up triggers to keep the full-text search table up to date
+  await instance.run(`
+    CREATE TRIGGER messages_on_insert AFTER INSERT ON messages BEGIN
+      INSERT INTO messages_fts (
+        id,
+        body
+      ) VALUES (
+        new.id,
+        new.body
+      );
+    END;
+  `);
+  await instance.run(`
+    CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+      DELETE FROM messages_fts WHERE id = old.id;
+    END;
+  `);
+  await instance.run(`
+    CREATE TRIGGER messages_on_update AFTER UPDATE ON messages BEGIN
+      DELETE FROM messages_fts WHERE id = old.id;
+      INSERT INTO messages_fts(
+        id,
+        body
+      ) VALUES (
+        new.id,
+        new.body
+      );
+    END;
+  `);
+
+  // For formatting search results:
+  //   https://sqlite.org/fts5.html#the_highlight_function
+  //   https://sqlite.org/fts5.html#the_snippet_function
+
+  await instance.run('PRAGMA schema_version = 8;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion8: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
   updateToSchemaVersion3,
+  updateToSchemaVersion4,
+  () => null, // version 5 was dropped
+  updateToSchemaVersion6,
+  updateToSchemaVersion7,
+  updateToSchemaVersion8,
 ];
 
 async function updateSchema(instance) {
@@ -299,6 +653,16 @@ async function updateSchema(instance) {
 
 let db;
 let filePath;
+let indexedDBPath;
+
+function _initializePaths(configDir) {
+  indexedDBPath = path.join(configDir, 'IndexedDB');
+
+  const dbDir = path.join(configDir, 'sql');
+  mkdirp.sync(dbDir);
+
+  filePath = path.join(dbDir, 'db.sqlite');
+}
 
 async function initialize({ configDir, key }) {
   if (db) {
@@ -312,15 +676,13 @@ async function initialize({ configDir, key }) {
     throw new Error('initialize: key` is required!');
   }
 
-  const dbDir = path.join(configDir, 'sql');
-  mkdirp.sync(dbDir);
+  _initializePaths(configDir);
 
-  filePath = path.join(dbDir, 'db.sqlite');
   const sqlInstance = await openDatabase(filePath);
   const promisified = promisify(sqlInstance);
 
   // promisified.on('trace', async statement => {
-  //   if (!db) {
+  //   if (!db || statement.startsWith('--')) {
   //     console._log(statement);
   //     return;
   //   }
@@ -328,24 +690,726 @@ async function initialize({ configDir, key }) {
   //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
   // });
 
-  await setupSQLCipher(promisified, { key });
-  await updateSchema(promisified);
+  try {
+    await setupSQLCipher(promisified, { key });
+    await updateSchema(promisified);
+  } catch (e) {
+    await promisified.close();
+    throw e;
+  }
 
   db = promisified;
 }
 
 async function close() {
+  if (!db) {
+    return;
+  }
   const dbRef = db;
   db = null;
   await dbRef.close();
 }
 
-async function removeDB() {
+async function removeDB(configDir = null) {
   if (db) {
     throw new Error('removeDB: Cannot erase database when it is open!');
   }
 
+  if (!filePath && configDir) {
+    _initializePaths(configDir);
+  }
+
   rimraf.sync(filePath);
+}
+
+async function removeIndexedDBFiles() {
+  if (!indexedDBPath) {
+    throw new Error(
+      'removeIndexedDBFiles: Need to initialize and set indexedDBPath first!'
+    );
+  }
+
+  const pattern = path.join(indexedDBPath, '*.leveldb');
+  rimraf.sync(pattern);
+  indexedDBPath = null;
+}
+
+// Password hash
+const PASS_HASH_ID = 'passHash';
+async function getPasswordHash() {
+  const item = await getItemById(PASS_HASH_ID);
+  return item && item.value;
+}
+async function savePasswordHash(hash) {
+  if (isEmpty(hash)) {
+    return removePasswordHash();
+  }
+
+  const data = { id: PASS_HASH_ID, value: hash };
+  return createOrUpdateItem(data);
+}
+async function removePasswordHash() {
+  return removeItemById(PASS_HASH_ID);
+}
+
+// Groups
+
+const GROUPS_TABLE = 'groups';
+async function createOrUpdateGroup(data) {
+  return createOrUpdate(GROUPS_TABLE, data);
+}
+async function getGroupById(id) {
+  return getById(GROUPS_TABLE, id);
+}
+async function getAllGroupIds() {
+  const rows = await db.all('SELECT id FROM groups ORDER BY id ASC;');
+  return map(rows, row => row.id);
+}
+async function getAllGroups() {
+  const rows = await db.all('SELECT id FROM groups ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddGroups(array) {
+  return bulkAdd(GROUPS_TABLE, array);
+}
+async function removeGroupById(id) {
+  return removeById(GROUPS_TABLE, id);
+}
+async function removeAllGroups() {
+  return removeAllFromTable(GROUPS_TABLE);
+}
+
+const IDENTITY_KEYS_TABLE = 'identityKeys';
+async function createOrUpdateIdentityKey(data) {
+  return createOrUpdate(IDENTITY_KEYS_TABLE, data);
+}
+async function getIdentityKeyById(id) {
+  return getById(IDENTITY_KEYS_TABLE, id);
+}
+async function bulkAddIdentityKeys(array) {
+  return bulkAdd(IDENTITY_KEYS_TABLE, array);
+}
+async function removeIdentityKeyById(id) {
+  return removeById(IDENTITY_KEYS_TABLE, id);
+}
+async function removeAllIdentityKeys() {
+  return removeAllFromTable(IDENTITY_KEYS_TABLE);
+}
+
+const PRE_KEYS_TABLE = 'preKeys';
+async function createOrUpdatePreKey(data) {
+  const { id, recipient } = data;
+  if (!id) {
+    throw new Error('createOrUpdate: Provided data did not have a truthy id');
+  }
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${PRE_KEYS_TABLE} (
+      id,
+      recipient,
+      json
+    ) values (
+      $id,
+      $recipient,
+      $json
+    )`,
+    {
+      $id: id,
+      $recipient: recipient || '',
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getPreKeyById(id) {
+  return getById(PRE_KEYS_TABLE, id);
+}
+async function getPreKeyByRecipient(recipient) {
+  const row = await db.get(
+    `SELECT * FROM ${PRE_KEYS_TABLE} WHERE recipient = $recipient;`,
+    {
+      $recipient: recipient,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function bulkAddPreKeys(array) {
+  return bulkAdd(PRE_KEYS_TABLE, array);
+}
+async function removePreKeyById(id) {
+  return removeById(PRE_KEYS_TABLE, id);
+}
+async function removeAllPreKeys() {
+  return removeAllFromTable(PRE_KEYS_TABLE);
+}
+
+const CONTACT_PRE_KEYS_TABLE = 'contactPreKeys';
+async function createOrUpdateContactPreKey(data) {
+  const { keyId, identityKeyString } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${CONTACT_PRE_KEYS_TABLE} (
+      keyId,
+      identityKeyString,
+      json
+    ) values (
+      $keyId,
+      $identityKeyString,
+      $json
+    )`,
+    {
+      $keyId: keyId,
+      $identityKeyString: identityKeyString || '',
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getContactPreKeyById(id) {
+  return getById(CONTACT_PRE_KEYS_TABLE, id);
+}
+async function getContactPreKeyByIdentityKey(key) {
+  const row = await db.get(
+    `SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString ORDER BY keyId DESC LIMIT 1;`,
+    {
+      $identityKeyString: key,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function getContactPreKeys(keyId, identityKeyString) {
+  const query = `SELECT * FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString AND keyId = $keyId;`;
+  const rows = await db.all(query, {
+    $keyId: keyId,
+    $identityKeyString: identityKeyString,
+  });
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function bulkAddContactPreKeys(array) {
+  return bulkAdd(CONTACT_PRE_KEYS_TABLE, array);
+}
+async function removeContactPreKeyByIdentityKey(key) {
+  await db.run(
+    `DELETE FROM ${CONTACT_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
+    {
+      $identityKeyString: key,
+    }
+  );
+}
+async function removeAllContactPreKeys() {
+  return removeAllFromTable(CONTACT_PRE_KEYS_TABLE);
+}
+
+const CONTACT_SIGNED_PRE_KEYS_TABLE = 'contactSignedPreKeys';
+async function createOrUpdateContactSignedPreKey(data) {
+  const { keyId, identityKeyString } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${CONTACT_SIGNED_PRE_KEYS_TABLE} (
+      keyId,
+      identityKeyString,
+      json
+    ) values (
+      $keyId,
+      $identityKeyString,
+      $json
+    )`,
+    {
+      $keyId: keyId,
+      $identityKeyString: identityKeyString || '',
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getContactSignedPreKeyById(id) {
+  return getById(CONTACT_SIGNED_PRE_KEYS_TABLE, id);
+}
+async function getContactSignedPreKeyByIdentityKey(key) {
+  const row = await db.get(
+    `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
+    {
+      $identityKeyString: key,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function getContactSignedPreKeys(keyId, identityKeyString) {
+  const query = `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString AND keyId = $keyId;`;
+  const rows = await db.all(query, {
+    $keyId: keyId,
+    $identityKeyString: identityKeyString,
+  });
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddContactSignedPreKeys(array) {
+  return bulkAdd(CONTACT_SIGNED_PRE_KEYS_TABLE, array);
+}
+async function removeContactSignedPreKeyByIdentityKey(key) {
+  await db.run(
+    `DELETE FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
+    {
+      $identityKeyString: key,
+    }
+  );
+}
+async function removeAllContactSignedPreKeys() {
+  return removeAllFromTable(CONTACT_SIGNED_PRE_KEYS_TABLE);
+}
+
+const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
+async function createOrUpdateSignedPreKey(data) {
+  return createOrUpdate(SIGNED_PRE_KEYS_TABLE, data);
+}
+async function getSignedPreKeyById(id) {
+  return getById(SIGNED_PRE_KEYS_TABLE, id);
+}
+async function getAllSignedPreKeys() {
+  const rows = await db.all('SELECT json FROM signedPreKeys ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+async function getAllContactPreKeys() {
+  const rows = await db.all('SELECT json FROM contactPreKeys ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddSignedPreKeys(array) {
+  return bulkAdd(SIGNED_PRE_KEYS_TABLE, array);
+}
+async function removeSignedPreKeyById(id) {
+  return removeById(SIGNED_PRE_KEYS_TABLE, id);
+}
+async function removeAllSignedPreKeys() {
+  return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
+}
+
+const ITEMS_TABLE = 'items';
+async function createOrUpdateItem(data) {
+  return createOrUpdate(ITEMS_TABLE, data);
+}
+async function getItemById(id) {
+  return getById(ITEMS_TABLE, id);
+}
+async function getAllItems() {
+  const rows = await db.all('SELECT json FROM items ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddItems(array) {
+  return bulkAdd(ITEMS_TABLE, array);
+}
+async function removeItemById(id) {
+  return removeById(ITEMS_TABLE, id);
+}
+async function removeAllItems() {
+  return removeAllFromTable(ITEMS_TABLE);
+}
+
+const SESSIONS_TABLE = 'sessions';
+async function createOrUpdateSession(data) {
+  const { id, number } = data;
+  if (!id) {
+    throw new Error(
+      'createOrUpdateSession: Provided data did not have a truthy id'
+    );
+  }
+  if (!number) {
+    throw new Error(
+      'createOrUpdateSession: Provided data did not have a truthy number'
+    );
+  }
+
+  await db.run(
+    `INSERT OR REPLACE INTO sessions (
+      id,
+      number,
+      json
+    ) values (
+      $id,
+      $number,
+      $json
+    )`,
+    {
+      $id: id,
+      $number: number,
+      $json: objectToJSON(data),
+    }
+  );
+}
+async function getSessionById(id) {
+  return getById(SESSIONS_TABLE, id);
+}
+async function getSessionsByNumber(number) {
+  const rows = await db.all('SELECT * FROM sessions WHERE number = $number;', {
+    $number: number,
+  });
+  return map(rows, row => jsonToObject(row.json));
+}
+async function bulkAddSessions(array) {
+  return bulkAdd(SESSIONS_TABLE, array);
+}
+async function removeSessionById(id) {
+  return removeById(SESSIONS_TABLE, id);
+}
+async function removeSessionsByNumber(number) {
+  await db.run('DELETE FROM sessions WHERE number = $number;', {
+    $number: number,
+  });
+}
+async function removeAllSessions() {
+  return removeAllFromTable(SESSIONS_TABLE);
+}
+
+async function createOrUpdate(table, data) {
+  const { id } = data;
+  if (!id) {
+    throw new Error('createOrUpdate: Provided data did not have a truthy id');
+  }
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${table} (
+      id,
+      json
+    ) values (
+      $id,
+      $json
+    )`,
+    {
+      $id: id,
+      $json: objectToJSON(data),
+    }
+  );
+}
+
+async function bulkAdd(table, array) {
+  let promise;
+
+  db.serialize(() => {
+    promise = Promise.all([
+      db.run('BEGIN TRANSACTION;'),
+      ...map(array, data => createOrUpdate(table, data)),
+      db.run('COMMIT TRANSACTION;'),
+    ]);
+  });
+
+  await promise;
+}
+
+async function getById(table, id) {
+  const row = await db.get(`SELECT * FROM ${table} WHERE id = $id;`, {
+    $id: id,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+
+async function removeById(table, id) {
+  if (!Array.isArray(id)) {
+    await db.run(`DELETE FROM ${table} WHERE id = $id;`, { $id: id });
+    return;
+  }
+
+  if (!id.length) {
+    throw new Error('removeById: No ids to delete!');
+  }
+
+  // Our node interface doesn't seem to allow you to replace one single ? with an array
+  await db.run(
+    `DELETE FROM ${table} WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
+    id
+  );
+}
+
+async function removeAllFromTable(table) {
+  await db.run(`DELETE FROM ${table};`);
+}
+
+// Conversations
+
+async function getSwarmNodesByPubkey(pubkey) {
+  const row = await db.get('SELECT * FROM conversations WHERE id = $pubkey;', {
+    $pubkey: pubkey,
+  });
+
+  if (!row) {
+    return [];
+  }
+
+  return jsonToObject(row.json).swarmNodes;
+}
+
+async function getConversationCount() {
+  const row = await db.get('SELECT count(*) from conversations;');
+
+  if (!row) {
+    throw new Error('getMessageCount: Unable to get count of conversations');
+  }
+
+  return row['count(*)'];
+}
+
+async function saveConversation(data) {
+  const {
+    id,
+    // eslint-disable-next-line camelcase
+    active_at,
+    type,
+    members,
+    name,
+    friendRequestStatus,
+    profileName,
+  } = data;
+
+  await db.run(
+    `INSERT INTO conversations (
+    id,
+    json,
+
+    active_at,
+    type,
+    members,
+    name,
+    friendRequestStatus,
+    profileName
+  ) values (
+    $id,
+    $json,
+
+    $active_at,
+    $type,
+    $members,
+    $name,
+    $friendRequestStatus,
+    $profileName
+  );`,
+    {
+      $id: id,
+      $json: objectToJSON(data),
+
+      $active_at: active_at,
+      $type: type,
+      $members: members ? members.join(' ') : null,
+      $name: name,
+      $friendRequestStatus: friendRequestStatus,
+      $profileName: profileName,
+    }
+  );
+}
+
+async function saveConversations(arrayOfConversations) {
+  let promise;
+
+  db.serialize(() => {
+    promise = Promise.all([
+      db.run('BEGIN TRANSACTION;'),
+      ...map(arrayOfConversations, conversation =>
+        saveConversation(conversation)
+      ),
+      db.run('COMMIT TRANSACTION;'),
+    ]);
+  });
+
+  await promise;
+}
+
+async function updateConversation(data) {
+  const {
+    id,
+    // eslint-disable-next-line camelcase
+    active_at,
+    type,
+    members,
+    name,
+    friendRequestStatus,
+    profileName,
+  } = data;
+
+  await db.run(
+    `UPDATE conversations SET
+    json = $json,
+
+    active_at = $active_at,
+    type = $type,
+    members = $members,
+    name = $name,
+    friendRequestStatus = $friendRequestStatus,
+    profileName = $profileName
+  WHERE id = $id;`,
+    {
+      $id: id,
+      $json: objectToJSON(data),
+
+      $active_at: active_at,
+      $type: type,
+      $members: members ? members.join(' ') : null,
+      $name: name,
+      $friendRequestStatus: friendRequestStatus,
+      $profileName: profileName,
+    }
+  );
+}
+
+async function removeConversation(id) {
+  if (!Array.isArray(id)) {
+    await db.run('DELETE FROM conversations WHERE id = $id;', { $id: id });
+    return;
+  }
+
+  if (!id.length) {
+    throw new Error('removeConversation: No ids to delete!');
+  }
+
+  // Our node interface doesn't seem to allow you to replace one single ? with an array
+  await db.run(
+    `DELETE FROM conversations WHERE id IN ( ${id
+      .map(() => '?')
+      .join(', ')} );`,
+    id
+  );
+}
+
+async function getConversationById(id) {
+  const row = await db.get('SELECT * FROM conversations WHERE id = $id;', {
+    $id: id,
+  });
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+
+async function getAllConversations() {
+  const rows = await db.all('SELECT json FROM conversations ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getPubKeysWithFriendStatus(status) {
+  const rows = await db.all(
+    `SELECT id FROM conversations WHERE
+      friendRequestStatus = $status
+    ORDER BY id ASC;`,
+    {
+      $status: status,
+    }
+  );
+  return map(rows, row => row.id);
+}
+
+async function getAllConversationIds() {
+  const rows = await db.all('SELECT id FROM conversations ORDER BY id ASC;');
+  return map(rows, row => row.id);
+}
+
+async function getAllPrivateConversations() {
+  const rows = await db.all(
+    `SELECT json FROM conversations WHERE
+      type = 'private'
+     ORDER BY id ASC;`
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllGroupsInvolvingId(id) {
+  const rows = await db.all(
+    `SELECT json FROM conversations WHERE
+      type = 'group' AND
+      members LIKE $id
+     ORDER BY id ASC;`,
+    {
+      $id: `%${id}%`,
+    }
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function searchConversations(query) {
+  const rows = await db.all(
+    `SELECT json FROM conversations WHERE
+      (
+        id LIKE $id OR
+        name LIKE $name OR
+        profileName LIKE $profileName
+      )
+     ORDER BY id ASC;`,
+    {
+      $id: `%${query}%`,
+      $name: `%${query}%`,
+      $profileName: `%${query}%`,
+    }
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function searchMessages(query, { limit } = {}) {
+  const rows = await db.all(
+    `SELECT
+      messages.json,
+      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+    FROM messages_fts
+    INNER JOIN messages on messages_fts.id = messages.id
+    WHERE
+      messages_fts match $query
+    ORDER BY messages.received_at DESC
+    LIMIT $limit;`,
+    {
+      $query: query,
+      $limit: limit || 100,
+    }
+  );
+
+  return map(rows, row => ({
+    ...jsonToObject(row.json),
+    snippet: row.snippet,
+  }));
+}
+
+async function searchMessagesInConversation(
+  query,
+  conversationId,
+  { limit } = {}
+) {
+  const rows = await db.all(
+    `SELECT
+      messages.json,
+      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+    FROM messages_fts
+    INNER JOIN messages on messages_fts.id = messages.id
+    WHERE
+      messages_fts match $query AND
+      messages.conversationId = $conversationId
+    ORDER BY messages.received_at DESC
+    LIMIT $limit;`,
+    {
+      $query: query,
+      $conversationId: conversationId,
+      $limit: limit || 100,
+    }
+  );
+
+  return map(rows, row => ({
+    ...jsonToObject(row.json),
+    snippet: row.snippet,
+  }));
 }
 
 async function getMessageCount() {
@@ -360,6 +1424,7 @@ async function getMessageCount() {
 
 async function saveMessage(data, { forceSave } = {}) {
   const {
+    body,
     conversationId,
     // eslint-disable-next-line camelcase
     expires_at,
@@ -370,6 +1435,7 @@ async function saveMessage(data, { forceSave } = {}) {
     // eslint-disable-next-line camelcase
     received_at,
     schemaVersion,
+    sent,
     // eslint-disable-next-line camelcase
     sent_at,
     source,
@@ -384,6 +1450,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $id: id,
     $json: objectToJSON(data),
 
+    $body: body,
     $conversationId: conversationId,
     $expirationStartTimestamp: expirationStartTimestamp,
     $expires_at: expires_at,
@@ -393,10 +1460,11 @@ async function saveMessage(data, { forceSave } = {}) {
     $hasVisualMediaAttachments: hasVisualMediaAttachments,
     $received_at: received_at,
     $schemaVersion: schemaVersion,
+    $sent: sent,
     $sent_at: sent_at,
     $source: source,
     $sourceDevice: sourceDevice,
-    $type: type,
+    $type: type || '',
     $unread: unread,
   };
 
@@ -404,6 +1472,7 @@ async function saveMessage(data, { forceSave } = {}) {
     await db.run(
       `UPDATE messages SET
         json = $json,
+        body = $body,
         conversationId = $conversationId,
         expirationStartTimestamp = $expirationStartTimestamp,
         expires_at = $expires_at,
@@ -414,6 +1483,7 @@ async function saveMessage(data, { forceSave } = {}) {
         id = $id,
         received_at = $received_at,
         schemaVersion = $schemaVersion,
+        sent = $sent,
         sent_at = $sent_at,
         source = $source,
         sourceDevice = $sourceDevice,
@@ -436,6 +1506,7 @@ async function saveMessage(data, { forceSave } = {}) {
     id,
     json,
 
+    body,
     conversationId,
     expirationStartTimestamp,
     expires_at,
@@ -445,6 +1516,7 @@ async function saveMessage(data, { forceSave } = {}) {
     hasVisualMediaAttachments,
     received_at,
     schemaVersion,
+    sent,
     sent_at,
     source,
     sourceDevice,
@@ -454,6 +1526,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $id,
     $json,
 
+    $body,
     $conversationId,
     $expirationStartTimestamp,
     $expires_at,
@@ -463,6 +1536,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $hasVisualMediaAttachments,
     $received_at,
     $schemaVersion,
+    $sent,
     $sent_at,
     $source,
     $sourceDevice,
@@ -477,6 +1551,70 @@ async function saveMessage(data, { forceSave } = {}) {
   );
 
   return toCreate.id;
+}
+
+async function saveSeenMessageHashes(arrayOfHashes) {
+  let promise;
+
+  db.serialize(() => {
+    promise = Promise.all([
+      db.run('BEGIN TRANSACTION;'),
+      ...map(arrayOfHashes, hashData => saveSeenMessageHash(hashData)),
+      db.run('COMMIT TRANSACTION;'),
+    ]);
+  });
+
+  await promise;
+}
+
+async function updateLastHash(data) {
+  const { snode, hash, expiresAt } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO lastHashes (
+      snode,
+      hash,
+      expiresAt
+    ) values (
+      $snode,
+      $hash,
+      $expiresAt
+    )`,
+    {
+      $snode: snode,
+      $hash: hash,
+      $expiresAt: expiresAt,
+    }
+  );
+}
+
+async function saveSeenMessageHash(data) {
+  const { expiresAt, hash } = data;
+  await db.run(
+    `INSERT INTO seenMessages (
+      expiresAt,
+      hash
+    ) values (
+      $expiresAt,
+      $hash
+    );`,
+    {
+      $expiresAt: expiresAt,
+      $hash: hash,
+    }
+  );
+}
+
+async function cleanLastHashes() {
+  await db.run('DELETE FROM lastHashes WHERE expiresAt <= $now;', {
+    $now: Date.now(),
+  });
+}
+
+async function cleanSeenMessages() {
+  await db.run('DELETE FROM seenMessages WHERE expiresAt <= $now;', {
+    $now: Date.now(),
+  });
 }
 
 async function saveMessages(arrayOfMessages, { forceSave } = {}) {
@@ -522,6 +1660,11 @@ async function getMessageById(id) {
   return jsonToObject(row.json);
 }
 
+async function getAllMessages() {
+  const rows = await db.all('SELECT json FROM messages ORDER BY id ASC;');
+  return map(rows, row => jsonToObject(row.json));
+}
+
 async function getAllMessageIds() {
   const rows = await db.all('SELECT id FROM messages ORDER BY id ASC;');
   return map(rows, row => row.id);
@@ -544,6 +1687,16 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
   return map(rows, row => jsonToObject(row.json));
 }
 
+async function getAllUnsentMessages() {
+  const rows = await db.all(`
+    SELECT json FROM messages WHERE
+      type IN ('outgoing', 'friend-request') AND
+      NOT sent
+    ORDER BY sent_at DESC;
+  `);
+  return map(rows, row => jsonToObject(row.json));
+}
+
 async function getUnreadByConversation(conversationId) {
   const rows = await db.all(
     `SELECT json FROM messages WHERE
@@ -556,34 +1709,29 @@ async function getUnreadByConversation(conversationId) {
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
 async function getMessagesByConversation(
   conversationId,
-  { limit = 100, receivedAt = Number.MAX_VALUE } = {}
+  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' } = {}
 ) {
   const rows = await db.all(
-    `SELECT json FROM messages WHERE
-       conversationId = $conversationId AND
-       received_at < $received_at
-     ORDER BY received_at DESC
-     LIMIT $limit;`,
+    `
+    SELECT json FROM messages WHERE
+      conversationId = $conversationId AND
+      received_at < $received_at AND
+      type LIKE $type
+    ORDER BY received_at DESC
+    LIMIT $limit;
+    `,
     {
       $conversationId: conversationId,
       $received_at: receivedAt,
       $limit: limit,
+      $type: type,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -597,11 +1745,30 @@ async function getMessagesBySentAt(sentAt) {
     }
   );
 
-  if (!rows) {
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getLastHashBySnode(snode) {
+  const row = await db.get('SELECT * FROM lastHashes WHERE snode = $snode;', {
+    $snode: snode,
+  });
+
+  if (!row) {
     return null;
   }
 
-  return map(rows, row => jsonToObject(row.json));
+  return row.lastHash;
+}
+
+async function getSeenMessagesByHashList(hashes) {
+  const rows = await db.all(
+    `SELECT * FROM seenMessages WHERE hash IN ( ${hashes
+      .map(() => '?')
+      .join(', ')} );`,
+    hashes
+  );
+
+  return map(rows, row => row.hash);
 }
 
 async function getExpiredMessages() {
@@ -617,10 +1784,6 @@ async function getExpiredMessages() {
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -634,10 +1797,6 @@ async function getOutgoingWithoutExpiresAt() {
     ORDER BY expires_at ASC;
   `);
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -648,10 +1807,6 @@ async function getNextExpiringMessage() {
     ORDER BY expires_at ASC
     LIMIT 1;
   `);
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -723,14 +1878,20 @@ async function getUnprocessedById(id) {
   return jsonToObject(row.json);
 }
 
+async function getUnprocessedCount() {
+  const row = await db.get('SELECT count(*) from unprocessed;');
+
+  if (!row) {
+    throw new Error('getMessageCount: Unable to get count of unprocessed');
+  }
+
+  return row['count(*)'];
+}
+
 async function getAllUnprocessed() {
   const rows = await db.all(
     'SELECT json FROM unprocessed ORDER BY timestamp ASC;'
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -756,14 +1917,46 @@ async function removeAllUnprocessed() {
   await db.run('DELETE FROM unprocessed;');
 }
 
+// All data in database
 async function removeAll() {
   let promise;
 
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
+      db.run('DELETE FROM conversations;'),
+      db.run('DELETE FROM groups;'),
+      db.run('DELETE FROM identityKeys;'),
+      db.run('DELETE FROM items;'),
       db.run('DELETE FROM messages;'),
+      db.run('DELETE FROM preKeys;'),
+      db.run('DELETE FROM sessions;'),
+      db.run('DELETE FROM signedPreKeys;'),
       db.run('DELETE FROM unprocessed;'),
+      db.run('DELETE FROM contactPreKeys;'),
+      db.run('DELETE FROM contactSignedPreKeys;'),
+      db.run('COMMIT TRANSACTION;'),
+    ]);
+  });
+
+  await promise;
+}
+
+// Anything that isn't user-visible data
+async function removeAllConfiguration() {
+  let promise;
+
+  db.serialize(() => {
+    promise = Promise.all([
+      db.run('BEGIN TRANSACTION;'),
+      db.run('DELETE FROM identityKeys;'),
+      db.run('DELETE FROM items;'),
+      db.run('DELETE FROM preKeys;'),
+      db.run('DELETE FROM sessions;'),
+      db.run('DELETE FROM signedPreKeys;'),
+      db.run('DELETE FROM unprocessed;'),
+      db.run('DELETE FROM contactPreKeys;'),
+      db.run('DELETE FROM contactSignedPreKeys;'),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
@@ -781,10 +1974,6 @@ async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
       $limit: limit,
     }
   );
-
-  if (!rows) {
-    return null;
-  }
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -805,10 +1994,6 @@ async function getMessagesWithVisualMediaAttachments(
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
@@ -825,15 +2010,11 @@ async function getMessagesWithFileAttachments(conversationId, { limit }) {
     }
   );
 
-  if (!rows) {
-    return null;
-  }
-
   return map(rows, row => jsonToObject(row.json));
 }
 
 function getExternalFilesForMessage(message) {
-  const { attachments, contact, quote } = message;
+  const { attachments, contact, quote, preview } = message;
   const files = [];
 
   forEach(attachments, attachment => {
@@ -869,6 +2050,31 @@ function getExternalFilesForMessage(message) {
         files.push(avatar.avatar.path);
       }
     });
+  }
+
+  if (preview && preview.length) {
+    forEach(preview, item => {
+      const { image } = item;
+
+      if (image && image.path) {
+        files.push(image.path);
+      }
+    });
+  }
+
+  return files;
+}
+
+function getExternalFilesForConversation(conversation) {
+  const { avatar, profileAvatar } = conversation;
+  const files = [];
+
+  if (avatar && avatar.path) {
+    files.push(avatar.path);
+  }
+
+  if (profileAvatar && profileAvatar.path) {
+    files.push(profileAvatar.path);
   }
 
   return files;
@@ -917,6 +2123,48 @@ async function removeKnownAttachments(allAttachments) {
   }
 
   console.log(`removeKnownAttachments: Done processing ${count} messages`);
+
+  complete = false;
+  count = 0;
+  // Though conversations.id is a string, this ensures that, when coerced, this
+  //   value is still a string but it's smaller than every other string.
+  id = 0;
+
+  const conversationTotal = await getConversationCount();
+  console.log(
+    `removeKnownAttachments: About to iterate through ${conversationTotal} conversations`
+  );
+
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const rows = await db.all(
+      `SELECT json FROM conversations
+       WHERE id > $id
+       ORDER BY id ASC
+       LIMIT $chunkSize;`,
+      {
+        $id: id,
+        $chunkSize: chunkSize,
+      }
+    );
+
+    const conversations = map(rows, row => jsonToObject(row.json));
+    forEach(conversations, conversation => {
+      const externalFiles = getExternalFilesForConversation(conversation);
+      forEach(externalFiles, file => {
+        delete lookup[file];
+      });
+    });
+
+    const lastMessage = last(conversations);
+    if (lastMessage) {
+      ({ id } = lastMessage);
+    }
+    complete = conversations.length < chunkSize;
+    count += conversations.length;
+  }
+
+  console.log(`removeKnownAttachments: Done processing ${count} conversations`);
 
   return Object.keys(lookup);
 }

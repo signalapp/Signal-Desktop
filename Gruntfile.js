@@ -7,6 +7,7 @@ const spectron = require('spectron');
 const asar = require('asar');
 const fs = require('fs');
 const assert = require('assert');
+const sass = require('node-sass');
 
 /* eslint-disable more/no-then, no-console  */
 
@@ -24,6 +25,12 @@ module.exports = grunt => {
     libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
   }
 
+  const liblokicomponents = [];
+  // eslint-disable-next-line guard-for-in, no-restricted-syntax
+  for (const i in bower.concat.libloki) {
+    liblokicomponents.push(bower.concat.libloki[i]);
+  }
+
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.initConfig({
@@ -33,9 +40,23 @@ module.exports = grunt => {
         src: components,
         dest: 'js/components.js',
       },
+      util_worker: {
+        src: [
+          'components/bytebuffer/dist/ByteBufferAB.js',
+          'components/JSBI/dist/jsbi.mjs',
+          'libloki/proof-of-work.js',
+          'components/long/dist/Long.js',
+          'js/util_worker_tasks.js',
+        ],
+        dest: 'js/util_worker.js',
+      },
       libtextsecurecomponents: {
         src: libtextsecurecomponents,
         dest: 'libtextsecure/components.js',
+      },
+      liblokicomponents: {
+        src: liblokicomponents,
+        dest: 'libloki/test/components.js',
       },
       test: {
         src: [
@@ -67,6 +88,7 @@ module.exports = grunt => {
           'libtextsecure/event_target.js',
           'libtextsecure/account_manager.js',
           'libtextsecure/websocket-resources.js',
+          'libtextsecure/http-resources.js',
           'libtextsecure/message_receiver.js',
           'libtextsecure/outgoing_message.js',
           'libtextsecure/sendmessage.js',
@@ -76,6 +98,24 @@ module.exports = grunt => {
           'libtextsecure/task_with_timeout.js',
         ],
         dest: 'js/libtextsecure.js',
+      },
+      libloki: {
+        src: [
+          'libloki/api.js',
+          'libloki/friends.js',
+          'libloki/crypto.js',
+          'libloki/service_nodes.js',
+          'libloki/storage.js',
+        ],
+        dest: 'js/libloki.js',
+      },
+      lokitest: {
+        src: [
+          'node_modules/mocha/mocha.js',
+          'node_modules/chai/chai.js',
+          'libloki/test/_test.js',
+        ],
+        dest: 'libloki/test/test.js',
       },
       libtextsecuretest: {
         src: [
@@ -90,6 +130,7 @@ module.exports = grunt => {
     },
     sass: {
       options: {
+        implementation: sass,
         sourceMap: true,
         importer: importOnce,
       },
@@ -118,6 +159,20 @@ module.exports = grunt => {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
         tasks: ['concat:libtextsecure'],
       },
+      utilworker: {
+        files: [
+          'components/bytebuffer/dist/ByteBufferAB.js',
+          'components/JSBI/dist/jsbi.mjs',
+          'libloki/proof-of-work.js',
+          'components/long/dist/Long.js',
+          'js/util_worker_tasks.js',
+        ],
+        tasks: ['concat:util_worker'],
+      },
+      libloki: {
+        files: ['./libloki/*.js'],
+        tasks: ['concat:libloki'],
+      },
       protobuf: {
         files: ['./protos/SignalService.proto'],
         tasks: ['exec:build-protobuf'],
@@ -127,11 +182,14 @@ module.exports = grunt => {
         tasks: ['sass'],
       },
       transpile: {
-        files: ['./ts/**/*.ts'],
+        files: ['./ts/**/*.ts', './ts/**/*.tsx'],
         tasks: ['exec:transpile'],
       },
     },
     exec: {
+      'tx-pull-new': {
+        cmd: 'tx pull -a --minimum-perc=80',
+      },
       'tx-pull': {
         cmd: 'tx pull',
       },
@@ -207,15 +265,35 @@ module.exports = grunt => {
     });
   });
 
+  function updateLocalConfig(update) {
+    const environment = process.env.SIGNAL_ENV || 'development';
+    const configPath = `config/local-${environment}.json`;
+    let localConfig;
+    try {
+      localConfig = grunt.file.readJSON(configPath);
+    } catch (e) {
+      //
+    }
+    localConfig = {
+      ...localConfig,
+      ...update,
+    };
+    grunt.file.write(configPath, `${JSON.stringify(localConfig)}\n`);
+  }
+
   grunt.registerTask('getExpireTime', () => {
     grunt.task.requires('gitinfo');
     const gitinfo = grunt.config.get('gitinfo');
-    const commited = gitinfo.local.branch.current.lastCommitTime;
-    const time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
-    grunt.file.write(
-      'config/local-production.json',
-      `${JSON.stringify({ buildExpiration: time })}\n`
-    );
+    const committed = gitinfo.local.branch.current.lastCommitTime;
+    const time = Date.parse(committed) + 1000 * 60 * 60 * 24 * 90;
+    updateLocalConfig({ buildExpiration: time });
+  });
+
+  grunt.registerTask('getCommitHash', () => {
+    grunt.task.requires('gitinfo');
+    const gitinfo = grunt.config.get('gitinfo');
+    const hash = gitinfo.local.branch.current.SHA;
+    updateLocalConfig({ commitHash: hash });
   });
 
   grunt.registerTask('clean-release', () => {
@@ -250,7 +328,7 @@ module.exports = grunt => {
             app.client
               .execute(getMochaResults)
               .then(data => Boolean(data.value)),
-          10000,
+          25000,
           'Expected to find window.mochaResults set!'
         )
       )
@@ -333,11 +411,22 @@ module.exports = grunt => {
     }
   );
 
+  grunt.registerTask(
+    'loki-unit-tests',
+    'Run loki unit tests w/Electron',
+    function thisNeeded() {
+      const environment = grunt.option('env') || 'test-loki';
+      const done = this.async();
+
+      runTests(environment, done);
+    }
+  );
+
   grunt.registerMultiTask(
     'test-release',
     'Test packaged releases',
     function thisNeeded() {
-      const dir = grunt.option('dir') || 'dist';
+      const dir = grunt.option('dir') || 'release';
       const environment = grunt.option('env') || 'production';
       const config = this.data;
       const archive = [dir, config.archive].join('/');
@@ -390,9 +479,12 @@ module.exports = grunt => {
           app.client.getTitle()
         )
         .then(title => {
-          // Verify the window's title
-          assert.equal(title, packageJson.productName);
-          console.log('title ok');
+          // TODO: restore once fixed on win
+          if (this.target !== 'win') {
+            // Verify the window's title
+            assert.equal(title, packageJson.productName);
+            console.log('title ok');
+          }
         })
         .then(() => {
           assert(
@@ -414,9 +506,17 @@ module.exports = grunt => {
     }
   );
 
-  grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
+  grunt.registerTask('tx', [
+    'exec:tx-pull-new',
+    'exec:tx-pull',
+    'locale-patch',
+  ]);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
+  grunt.registerTask('test', [
+    'unit-tests',
+    'lib-unit-tests',
+    'loki-unit-tests',
+  ]);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', [
     'exec:build-protobuf',
@@ -425,5 +525,6 @@ module.exports = grunt => {
     'copy:deps',
     'sass',
     'date',
+    'getCommitHash',
   ]);
 };

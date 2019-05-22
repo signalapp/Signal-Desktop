@@ -11,14 +11,15 @@
 @import 'recorder';
 @import 'emoji';
 @import 'settings';
+@import 'password';
 
 // Build the main view
 @import 'index';
 @import 'conversation';
 
 // Themes
-@import 'theme_dark';
 @import 'ios';
+@import 'theme_dark';
 
 // New CSS
 @import 'modules';

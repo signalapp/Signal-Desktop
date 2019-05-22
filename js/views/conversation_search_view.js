@@ -20,8 +20,13 @@
       this.listenTo(this.model, 'change', this.render); // auto update
     },
     render_attributes() {
+      // Show the appropriate message based on model validity
+      const message =
+        this.model && this.model.isValid()
+          ? i18n('startConversation')
+          : i18n('invalidNumberError');
       return {
-        number: i18n('startConversation'),
+        number: message,
         title: this.model.getNumber(),
         avatar: this.model.getAvatar(),
       };
@@ -68,14 +73,12 @@
     filterContacts() {
       const query = this.$input.val().trim();
       if (query.length) {
-        if (this.maybeNumber(query)) {
-          this.new_contact_view.model.set('id', query);
-          this.new_contact_view.render().$el.show();
-          this.new_contact_view.validate();
-          this.hideHints();
-        } else {
-          this.new_contact_view.$el.hide();
-        }
+        // Update the contact model
+        this.new_contact_view.model.set('id', query);
+        this.new_contact_view.render().$el.hide();
+        this.new_contact_view.validate();
+        this.hideHints();
+
         // NOTE: Temporarily allow `then` until we convert the entire file
         // to `async` / `await`:
         /* eslint-disable more/no-then */
@@ -84,6 +87,13 @@
             this.typeahead_view.collection.reset(
               this.typeahead.filter(isSearchable)
             );
+
+            // This will allow us to show the last message when searching
+            this.typeahead_view.collection.forEach(c => c.updateLastMessage());
+
+            // Show the new contact view if we already have results
+            if (this.typeahead_view.collection.length === 0)
+              this.new_contact_view.$el.show();
           })
         );
         /* eslint-enable more/no-then */
@@ -108,7 +118,6 @@
     async createConversation() {
       const isValidNumber = this.new_contact_view.model.isValid();
       if (!isValidNumber) {
-        this.new_contact_view.$('.number').text(i18n('invalidNumberError'));
         this.$input.focus();
         return;
       }
@@ -134,24 +143,8 @@
       this.hideHints();
       this.new_contact_view.$el.hide();
       this.$input.val('').focus();
-      if (this.showAllContacts) {
-        // NOTE: Temporarily allow `then` until we convert the entire file
-        // to `async` / `await`:
-        // eslint-disable-next-line more/no-then
-        this.typeahead.fetchAlphabetical().then(() => {
-          if (this.typeahead.length > 0) {
-            this.typeahead_view.collection.reset(
-              this.typeahead.filter(isSearchable)
-            );
-          } else {
-            this.showHints();
-          }
-        });
-        this.trigger('show');
-      } else {
-        this.typeahead_view.collection.reset([]);
-        this.trigger('hide');
-      }
+      this.typeahead_view.collection.reset([]);
+      this.trigger('hide');
     },
 
     showHints() {
@@ -170,10 +163,6 @@
         this.hintView.remove();
         this.hintView = null;
       }
-    },
-
-    maybeNumber(number) {
-      return number.replace(/[\s-.()]*/g, '').match(/^\+?[0-9]*$/);
     },
   });
 })();

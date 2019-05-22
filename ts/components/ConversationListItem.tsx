@@ -1,33 +1,47 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
-import { Localizer } from '../types/Util';
+import { TypingAnimation } from './conversation/TypingAnimation';
+
+import { Colors, Localizer } from '../types/Util';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 interface Props {
   phoneNumber: string;
   profileName?: string;
   name?: string;
   color?: string;
+  conversationType: 'group' | 'direct';
   avatarPath?: string;
 
   lastUpdated: number;
   unreadCount: number;
   isSelected: boolean;
 
+  isTyping: boolean;
   lastMessage?: {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
   };
+  showFriendRequestIndicator?: boolean;
+  isBlocked: boolean;
+  isOnline: boolean;
+  isMe: boolean;
+  hasNickname: boolean;
 
   i18n: Localizer;
   onClick?: () => void;
-}
-
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
+  onDeleteMessages?: () => void;
+  onDeleteContact?: () => void;
+  onBlockContact?: () => void;
+  onChangeNickname?: () => void;
+  onClearNickname?: () => void;
+  onCopyPublicKey?: () => void;
+  onUnblockContact?: () => void;
 }
 
 export class ConversationListItem extends React.Component<Props> {
@@ -35,39 +49,46 @@ export class ConversationListItem extends React.Component<Props> {
     const {
       avatarPath,
       color,
+      conversationType,
       i18n,
       name,
       phoneNumber,
       profileName,
+      isOnline,
     } = this.props;
 
-    if (!avatarPath) {
-      const initial = getInitial(name || '');
+    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
 
+    return (
+      <div className="module-conversation-list-item__avatar-container">
+        <Avatar
+          avatarPath={avatarPath}
+          color={color}
+          conversationType={conversationType}
+          i18n={i18n}
+          name={name}
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          size={48}
+          borderColor={borderColor}
+        />
+        {this.renderUnread()}
+      </div>
+    );
+  }
+
+  public renderUnread() {
+    const { unreadCount } = this.props;
+
+    if (unreadCount > 0) {
       return (
-        <div
-          className={classNames(
-            'module-conversation-list-item__avatar',
-            'module-conversation-list-item__default-avatar',
-            `module-conversation-list-item__default-avatar--${color}`
-          )}
-        >
-          {initial}
+        <div className="module-conversation-list-item__unread-count">
+          {unreadCount}
         </div>
       );
     }
 
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
-
-    return (
-      <img
-        className="module-conversation-list-item__avatar"
-        alt={i18n('contactAvatarAlt', [title])}
-        src={avatarPath}
-      />
-    );
+    return null;
   }
 
   public renderHeader() {
@@ -116,24 +137,50 @@ export class ConversationListItem extends React.Component<Props> {
     );
   }
 
-  public renderUnread() {
-    const { unreadCount } = this.props;
+  public renderContextMenu(triggerId: string) {
+    const {
+      i18n,
+      isBlocked,
+      isMe,
+      hasNickname,
+      onDeleteContact,
+      onDeleteMessages,
+      onBlockContact,
+      onChangeNickname,
+      onClearNickname,
+      onCopyPublicKey,
+      onUnblockContact,
+    } = this.props;
 
-    if (unreadCount > 0) {
-      return (
-        <div className="module-conversation-list-item__unread-count">
-          {unreadCount}
-        </div>
-      );
-    }
+    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
+    const blockHandler = isBlocked ? onUnblockContact : onBlockContact;
 
-    return null;
+    return (
+      <ContextMenu id={triggerId}>
+        {!isMe ? (
+          <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+        ) : null}
+        {!isMe ? (
+          <MenuItem onClick={onChangeNickname}>
+            {i18n('changeNickname')}
+          </MenuItem>
+        ) : null}
+        {!isMe && hasNickname ? (
+          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
+        ) : null}
+        <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        {!isMe ? (
+          <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+        ) : null}
+      </ContextMenu>
+    );
   }
 
   public renderMessage() {
-    const { lastMessage, unreadCount, i18n } = this.props;
+    const { lastMessage, isTyping, unreadCount, i18n } = this.props;
 
-    if (!lastMessage) {
+    if (!lastMessage && !isTyping) {
       return null;
     }
 
@@ -147,14 +194,18 @@ export class ConversationListItem extends React.Component<Props> {
               : null
           )}
         >
-          <MessageBody
-            text={lastMessage.text || ''}
-            disableJumbomoji={true}
-            disableLinks={true}
-            i18n={i18n}
-          />
+          {isTyping ? (
+            <TypingAnimation i18n={i18n} />
+          ) : (
+            <MessageBody
+              text={lastMessage && lastMessage.text ? lastMessage.text : ''}
+              disableJumbomoji={true}
+              disableLinks={true}
+              i18n={i18n}
+            />
+          )}
         </div>
-        {lastMessage.status ? (
+        {lastMessage && lastMessage.status ? (
           <div
             className={classNames(
               'module-conversation-list-item__message__status-icon',
@@ -164,29 +215,48 @@ export class ConversationListItem extends React.Component<Props> {
             )}
           />
         ) : null}
-        {this.renderUnread()}
       </div>
     );
   }
 
   public render() {
-    const { unreadCount, onClick, isSelected } = this.props;
+    const {
+      phoneNumber,
+      unreadCount,
+      onClick,
+      isSelected,
+      showFriendRequestIndicator,
+      isBlocked,
+    } = this.props;
+
+    const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
 
     return (
-      <div
-        role="button"
-        onClick={onClick}
-        className={classNames(
-          'module-conversation-list-item',
-          unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
-          isSelected ? 'module-conversation-list-item--is-selected' : null
-        )}
-      >
-        {this.renderAvatar()}
-        <div className="module-conversation-list-item__content">
-          {this.renderHeader()}
-          {this.renderMessage()}
-        </div>
+      <div>
+        <ContextMenuTrigger id={triggerId}>
+          <div
+            role="button"
+            onClick={onClick}
+            className={classNames(
+              'module-conversation-list-item',
+              unreadCount > 0
+                ? 'module-conversation-list-item--has-unread'
+                : null,
+              isSelected ? 'module-conversation-list-item--is-selected' : null,
+              showFriendRequestIndicator
+                ? 'module-conversation-list-item--has-friend-request'
+                : null,
+              isBlocked ? 'module-conversation-list-item--is-blocked' : null
+            )}
+          >
+            {this.renderAvatar()}
+            <div className="module-conversation-list-item__content">
+              {this.renderHeader()}
+              {this.renderMessage()}
+            </div>
+          </div>
+        </ContextMenuTrigger>
+        {this.renderContextMenu(triggerId)}
       </div>
     );
   }

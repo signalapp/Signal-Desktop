@@ -1,4 +1,4 @@
-/* global $, Whisper */
+/* global $, Whisper, storage */
 
 $(document).on('keyup', e => {
   'use strict';
@@ -18,6 +18,9 @@ const getInitialData = async () => ({
   themeSetting: await window.getThemeSetting(),
   hideMenuBar: await window.getHideMenuBar(),
 
+  messageTTL: await window.getMessageTTL(),
+  readReceiptSetting: await window.getReadReceiptSetting(),
+  linkPreviewSetting: await window.getLinkPreviewSetting(),
   notificationSetting: await window.getNotificationSetting(),
   audioNotification: await window.getAudioNotification(),
 
@@ -32,10 +35,23 @@ const getInitialData = async () => ({
 window.initialRequest = getInitialData();
 
 // eslint-disable-next-line more/no-then
-window.initialRequest.then(data => {
-  'use strict';
+window.initialRequest.then(
+  data => {
+    'use strict';
 
-  window.initialData = data;
-  window.view = new Whisper.SettingsView();
-  window.view.$el.appendTo($body);
-});
+    storage.fetch();
+
+    window.initialData = data;
+    window.view = new Whisper.SettingsView();
+    window.view.$el.appendTo($body);
+  },
+  error => {
+    'use strict';
+
+    window.log.error(
+      'settings.initialRequest error:',
+      error && error.stack ? error.stack : error
+    );
+    window.closeSettings();
+  }
+);

@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { Avatar } from '../Avatar';
 import { Contact, getName } from '../../types/Contact';
 
 import { Localizer } from '../../types/Util';
@@ -41,7 +42,7 @@ export class EmbeddedContact extends React.Component<Props> {
         role="button"
         onClick={onClick}
       >
-        {renderAvatar({ contact, i18n, module })}
+        {renderAvatar({ contact, i18n, size: 48 })}
         <div className="module-embedded-contact__text-container">
           {renderName({ contact, isIncoming, module })}
           {renderContactShorthand({ contact, isIncoming, module })}
@@ -53,40 +54,29 @@ export class EmbeddedContact extends React.Component<Props> {
 
 // Note: putting these below the main component so style guide picks up EmbeddedContact
 
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
-}
-
 export function renderAvatar({
   contact,
   i18n,
-  module,
+  size,
 }: {
   contact: Contact;
   i18n: Localizer;
-  module: string;
+  size: number;
 }) {
   const { avatar } = contact;
 
-  const path = avatar && avatar.avatar && avatar.avatar.path;
+  const avatarPath = avatar && avatar.avatar && avatar.avatar.path;
   const name = getName(contact) || '';
 
-  if (!path) {
-    const initials = getInitial(name);
-
-    return (
-      <div className={`module-${module}__image-container`}>
-        <div className={`module-${module}__image-container__default-avatar`}>
-          {initials}
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className={`module-${module}__image-container`}>
-      <img src={path} alt={i18n('contactAvatarAlt', [name])} />
-    </div>
+    <Avatar
+      avatarPath={avatarPath}
+      color="grey"
+      conversationType="direct"
+      i18n={i18n}
+      name={name}
+      size={size}
+    />
   );
 }
 

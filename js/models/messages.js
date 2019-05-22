@@ -3,12 +3,12 @@
 /* global storage: false */
 /* global filesize: false */
 /* global ConversationController: false */
+/* global clipboard: false */
 /* global getAccountManager: false */
 /* global i18n: false */
 /* global Signal: false */
 /* global textsecure: false */
 /* global Whisper: false */
-/* global wrapDeferred: false */
 
 /* eslint-disable more/no-then */
 
@@ -18,12 +18,21 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
   const {
+    Message: TypedMessage,
+    Contact,
+    PhoneNumber,
+    Attachment,
+  } = Signal.Types;
+  const {
+    deleteAttachmentData,
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
     loadAttachmentData,
     loadQuoteData,
+    loadPreviewData,
+    writeNewAttachmentData,
+    writeAttachment,
   } = window.Signal.Migrations;
 
   window.AccountCache = Object.create(null);
@@ -64,9 +73,6 @@
   window.hasSignalAccount = number => window.AccountCache[number];
 
   window.Whisper.Message = Backbone.Model.extend({
-    // Keeping this for legacy upgrade pre-migrate to SQLCipher
-    database: Whisper.Database,
-    storeName: 'messages',
     initialize(attributes) {
       if (_.isObject(attributes)) {
         this.set(
@@ -83,7 +89,10 @@
       this.on('change:expirationStartTimestamp', this.setToExpire);
       this.on('change:expireTimer', this.setToExpire);
       this.on('unload', this.unload);
+      this.on('expired', this.onExpired);
       this.setToExpire();
+
+      this.updatePreview();
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -94,6 +103,7 @@
       return {
         timestamp: new Date().getTime(),
         attachments: [],
+        sent: false,
       };
     },
     validate(attributes) {
@@ -107,6 +117,82 @@
       const flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
+    },
+    async updatePreview() {
+      // Don't generate link previews if user has turned them off
+      if (!storage.get('linkPreviews', false)) {
+        return;
+      }
+
+      if (this.updatingPreview) {
+        return;
+      }
+
+      // Only update the preview if we don't have any set
+      const preview = this.get('preview');
+      if (!_.isEmpty(preview)) {
+        return;
+      }
+
+      // Make sure we have links we can preview
+      const links = Signal.LinkPreviews.findLinks(this.get('body'));
+      const firstLink = links.find(link =>
+        Signal.LinkPreviews.isLinkInWhitelist(link)
+      );
+      if (!firstLink) {
+        return;
+      }
+
+      this.updatingPreview = true;
+
+      try {
+        const result = await Signal.LinkPreviews.helper.getPreview(firstLink);
+
+        const { image, title, hash } = result;
+
+        // A link preview isn't worth showing unless we have either a title or an image
+        if (!result || !(image || title)) {
+          this.updatingPreview = false;
+          return;
+        }
+
+        // Save the image to disk
+        const { data } = image;
+        const extension = Attachment.getFileExtension(image);
+        if (data && extension) {
+          const hash32 = hash.substring(0, 32);
+          try {
+            const filePath = await writeAttachment({
+              data,
+              path: `previews/${hash32}.${extension}`,
+            });
+
+            // return the image without the data
+            result.image = _.omit({ ...image, path: filePath }, 'data');
+          } catch (e) {
+            window.log.warn('Failed to write preview to disk', e);
+          }
+        }
+
+        // Save it!!
+        this.set({ preview: [result] });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+      } catch (e) {
+        window.log.warn(`Failed to load previews for message: ${this.id}`);
+      } finally {
+        this.updatingPreview = false;
+      }
+    },
+    getEndSessionTranslationKey() {
+      const sessionType = this.get('endSessionType');
+      if (sessionType === 'ongoing') {
+        return 'sessionResetOngoing';
+      } else if (sessionType === 'failed') {
+        return 'sessionResetFailed';
+      }
+      return 'sessionEnded';
     },
     isExpirationTimerUpdate() {
       const flag =
@@ -174,7 +260,7 @@
         return messages.join(', ');
       }
       if (this.isEndSession()) {
-        return i18n('sessionEnded');
+        return i18n(this.getEndSessionTranslationKey());
       }
       if (this.isIncoming() && this.hasErrors()) {
         return i18n('incomingError');
@@ -187,9 +273,13 @@
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
+    isFriendRequest() {
+      return this.get('type') === 'friend-request';
+    },
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
+        if (this.isFriendRequest()) return `Friend Request: ${description}`;
         return description;
       }
       if (this.get('attachments').length > 0) {
@@ -233,7 +323,9 @@
         this.quotedMessage = null;
       }
     },
-
+    onExpired() {
+      this.hasExpired = true;
+    },
     getPropsForTimerNotification() {
       const { expireTimer, fromSync, source } = this.get(
         'expirationTimerUpdate'
@@ -287,8 +379,68 @@
       };
     },
     getPropsForResetSessionNotification() {
-      // It doesn't need anything right now!
-      return {};
+      return {
+        sessionResetMessageKey: this.getEndSessionTranslationKey(),
+      };
+    },
+
+    async acceptFriendRequest() {
+      if (this.get('friendStatus') !== 'pending') return;
+      const conversation = this.getConversation();
+
+      this.set({ friendStatus: 'accepted' });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      conversation.onAcceptFriendRequest();
+    },
+    async declineFriendRequest() {
+      if (this.get('friendStatus') !== 'pending') return;
+      const conversation = this.getConversation();
+
+      this.set({ friendStatus: 'declined' });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      conversation.onDeclineFriendRequest();
+    },
+    getPropsForFriendRequest() {
+      const friendStatus = this.get('friendStatus') || 'pending';
+      const direction = this.get('direction') || 'incoming';
+      const conversation = this.getConversation();
+
+      const onAccept = () => this.acceptFriendRequest();
+      const onDecline = () => this.declineFriendRequest();
+      const onRetrySend = () => this.retrySend();
+
+      const onDeleteConversation = async () => {
+        // Delete the whole conversation
+        window.Whisper.events.trigger('deleteConversation', conversation);
+      };
+
+      const onBlockUser = () => {
+        conversation.block();
+        this.trigger('change');
+      };
+
+      const onUnblockUser = () => {
+        conversation.unblock();
+        this.trigger('change');
+      };
+
+      return {
+        text: this.createNonBreakingLastSeparator(this.get('body')),
+        status: this.getMessagePropStatus(),
+        direction,
+        friendStatus,
+        isBlocked: conversation.isBlocked(),
+        onAccept,
+        onDecline,
+        onDeleteConversation,
+        onBlockUser,
+        onUnblockUser,
+        onRetrySend,
+      };
     },
     findContact(phoneNumber) {
       return ConversationController.get(phoneNumber);
@@ -298,7 +450,6 @@
       const regionCode = storage.get('regionCode');
 
       const contactModel = this.findContact(phoneNumber);
-      const avatar = contactModel ? contactModel.getAvatar() : null;
       const color = contactModel ? contactModel.getColor() : null;
 
       return {
@@ -306,7 +457,7 @@
           ourRegionCode: regionCode,
         }),
         color,
-        avatarPath: avatar ? avatar.url : null,
+        avatarPath: contactModel ? contactModel.getAvatarPath() : null,
         name: contactModel ? contactModel.getName() : null,
         profileName: contactModel ? contactModel.getProfileName() : null,
         title: contactModel ? contactModel.getTitle() : null,
@@ -366,12 +517,20 @@
       if (this.hasErrors()) {
         return 'error';
       }
-      if (!this.isOutgoing()) {
+
+      // Handle friend request statuses
+      const isFriendRequest = this.isFriendRequest();
+      const isOutgoingFriendRequest =
+        isFriendRequest && this.get('direction') === 'outgoing';
+      const isOutgoing = this.isOutgoing() || isOutgoingFriendRequest;
+
+      // Only return the status on outgoing messages
+      if (!isOutgoing) {
         return null;
       }
 
       const readBy = this.get('read_by') || [];
-      if (readBy.length > 0) {
+      if (storage.get('read-receipt-setting') && readBy.length > 0) {
         return 'read';
       }
       const delivered = this.get('delivered');
@@ -384,6 +543,8 @@
       if (sent || sentTo.length > 0) {
         return 'sent';
       }
+      const calculatingPoW = this.get('calculatingPoW');
+      if (calculatingPoW) return 'pow';
 
       return 'sending';
     },
@@ -393,8 +554,9 @@
       const contactModel = this.findContact(phoneNumber);
 
       const authorColor = contactModel ? contactModel.getColor() : null;
-      const authorAvatar = contactModel ? contactModel.getAvatar() : null;
-      const authorAvatarPath = authorAvatar ? authorAvatar.url : null;
+      const authorAvatarPath = contactModel
+        ? contactModel.getAvatarPath()
+        : null;
 
       const expirationLength = this.get('expireTimer') * 1000;
       const expireTimerStart = this.get('expirationStartTimestamp');
@@ -406,8 +568,8 @@
       const conversation = this.getConversation();
       const isGroup = conversation && !conversation.isPrivate();
 
-      const attachments = this.get('attachments');
-      const firstAttachment = attachments && attachments[0];
+      const attachments = this.get('attachments') || [];
+      const firstAttachment = attachments[0];
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
@@ -416,30 +578,39 @@
         timestamp: this.get('sent_at'),
         status: this.getMessagePropStatus(),
         contact: this.getPropsForEmbeddedContact(),
+        authorColor,
         authorName: contact.name,
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
-        authorColor,
         conversationType: isGroup ? 'group' : 'direct',
-        attachment: this.getPropsForAttachment(firstAttachment),
+        attachments: attachments.map(attachment =>
+          this.getPropsForAttachment(attachment)
+        ),
+        previews: this.getPropsForPreview(),
         quote: this.getPropsForQuote(),
         authorAvatarPath,
+        isExpired: this.hasExpired,
         expirationLength,
         expirationTimestamp,
+        isP2p: !!this.get('isP2p'),
+
+        onCopyText: () => this.copyText(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
         onDelete: () => this.trigger('delete', this),
-        onClickAttachment: () =>
+        onClickLinkPreview: url => this.trigger('navigate-to', url),
+        onClickAttachment: attachment =>
           this.trigger('show-lightbox', {
-            attachment: firstAttachment,
+            attachment,
             message: this,
           }),
 
-        onDownload: () =>
+        onDownload: isDangerous =>
           this.trigger('download', {
             attachment: firstAttachment,
             message: this,
+            isDangerous,
           }),
       };
     },
@@ -521,19 +692,49 @@
         thumbnail: thumbnailWithObjectUrl,
       });
     },
+    getPropsForPreview() {
+      // Don't generate link previews if user has turned them off
+      if (!storage.get('linkPreviews', false)) {
+        return null;
+      }
+
+      const previews = this.get('preview') || [];
+
+      return previews.map(preview => {
+        let image = null;
+        try {
+          if (preview.image) {
+            image = this.getPropsForAttachment(preview.image);
+          }
+        } catch (e) {
+          window.log.info('Failed to show preview');
+        }
+
+        return {
+          ...preview,
+          domain: window.Signal.LinkPreviews.getDomain(preview.url),
+          image,
+        };
+      });
+    },
     getPropsForQuote() {
       const quote = this.get('quote');
       if (!quote) {
         return null;
       }
 
+      const { format } = PhoneNumber;
+      const regionCode = storage.get('regionCode');
+
       const { author, id, referencedMessageNotFound } = quote;
       const contact = author && ConversationController.get(author);
+      const authorColor = contact ? contact.getColor() : 'grey';
 
-      const authorPhoneNumber = author;
+      const authorPhoneNumber = format(author, {
+        ourRegionCode: regionCode,
+      });
       const authorProfileName = contact ? contact.getProfileName() : null;
       const authorName = contact ? contact.getName() : null;
-      const authorColor = contact ? contact.getColor() : 'grey';
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
       const onClick = () => {
         this.trigger('scroll-to-message', {
@@ -588,9 +789,24 @@
           : null,
       };
     },
+    isUnidentifiedDelivery(contactId, lookup) {
+      if (this.isIncoming()) {
+        return this.get('unidentifiedDeliveryReceived');
+      }
+
+      return Boolean(lookup[contactId]);
+    },
     getPropsForMessageDetail() {
       const newIdentity = i18n('newIdentity');
       const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
+
+      const unidentifiedLookup = (
+        this.get('unidentifiedDeliveries') || []
+      ).reduce((accumulator, item) => {
+        // eslint-disable-next-line no-param-reassign
+        accumulator[item] = true;
+        return accumulator;
+      }, Object.create(null));
 
       // Older messages don't have the recipients included on the message, so we fall
       //   back to the conversation's current recipients
@@ -617,12 +833,16 @@
         const isOutgoingKeyError = Boolean(
           _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
         );
+        const isUnidentifiedDelivery =
+          storage.get('unidentifiedDeliveryIndicators') &&
+          this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
         return {
           ...this.findAndFormatContact(id),
           status: this.getStatus(id),
           errors: errorsForContact,
           isOutgoingKeyError,
+          isUnidentifiedDelivery,
           onSendAnyway: () =>
             this.trigger('force-send', {
               contact: this.findContact(id),
@@ -654,6 +874,13 @@
       };
     },
 
+    copyText() {
+      clipboard.writeText(this.get('body'));
+      window.Whisper.events.trigger('showToast', {
+        message: i18n('copiedMessage'),
+      });
+    },
+
     // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
     async retrySend() {
       if (!textsecure.messaging) {
@@ -670,55 +897,75 @@
       this.set({ errors });
 
       const profileKey = null;
-      const numbers = retries.map(retry => retry.number);
+      let numbers = retries
+        .map(retry => retry.number)
+        .filter(item => Boolean(item));
 
       if (!numbers.length) {
-        window.log.error(
-          'retrySend: Attempted to retry, but no numbers to send to!'
+        window.log.warn(
+          'retrySend: No numbers in error set, using all recipients'
         );
-        return null;
+        const conversation = this.getConversation();
+        if (conversation) {
+          numbers = conversation.getRecipients();
+          this.set({ errors: null });
+        } else {
+          throw new Error(
+            'No numbers in error set, did not find conversation for message'
+          );
+        }
       }
 
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
       const quoteWithData = await loadQuoteData(this.get('quote'));
+      const previewWithData = await loadPreviewData(this.get('preview'));
 
       const conversation = this.getConversation();
+      const options = conversation.getSendOptions();
+      options.messageType = this.get('type');
+
       let promise;
 
       if (conversation.isPrivate()) {
         const [number] = numbers;
-
         promise = textsecure.messaging.sendMessageToNumber(
           number,
           this.get('body'),
           attachmentsWithData,
           quoteWithData,
+          previewWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
-          profileKey
+          profileKey,
+          options
         );
       } else {
         // Because this is a partial group send, we manually construct the request like
         //   sendMessageToGroup does.
-        promise = textsecure.messaging.sendMessage({
-          recipients: numbers,
-          body: this.get('body'),
-          timestamp: this.get('sent_at'),
-          attachments: attachmentsWithData,
-          quote: quoteWithData,
-          needsSync: !this.get('synced'),
-          expireTimer: this.get('expireTimer'),
-          profileKey,
-          group: {
-            id: this.get('conversationId'),
-            type: textsecure.protobuf.GroupContext.Type.DELIVER,
+
+        promise = textsecure.messaging.sendMessage(
+          {
+            recipients: numbers,
+            body: this.get('body'),
+            timestamp: this.get('sent_at'),
+            attachments: attachmentsWithData,
+            quote: quoteWithData,
+            preview: previewWithData,
+            needsSync: !this.get('synced'),
+            expireTimer: this.get('expireTimer'),
+            profileKey,
+            group: {
+              id: this.get('conversationId'),
+              type: textsecure.protobuf.GroupContext.Type.DELIVER,
+            },
           },
-        });
+          options
+        );
       }
 
-      return this.send(promise);
+      return this.send(conversation.wrapSend(promise));
     },
     isReplayableError(e) {
       return (
@@ -726,7 +973,10 @@
         e.name === 'OutgoingMessageError' ||
         e.name === 'SendMessageNetworkError' ||
         e.name === 'SignedPreKeyRotationError' ||
-        e.name === 'OutgoingIdentityKeyError'
+        e.name === 'OutgoingIdentityKeyError' ||
+        e.name === 'DNSResolutionError' ||
+        e.name === 'EmptySwarmError' ||
+        e.name === 'PoWError'
       );
     },
 
@@ -740,18 +990,24 @@
           (this.get('attachments') || []).map(loadAttachmentData)
         );
         const quoteWithData = await loadQuoteData(this.get('quote'));
+        const previewWithData = await loadPreviewData(this.get('preview'));
 
+        const { wrap, sendOptions } = ConversationController.prepareForSend(
+          number
+        );
         const promise = textsecure.messaging.sendMessageToNumber(
           number,
           this.get('body'),
           attachmentsWithData,
           quoteWithData,
+          previewWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
-          profileKey
+          profileKey,
+          sendOptions
         );
 
-        this.send(promise);
+        this.send(wrap(promise));
       }
     },
     removeOutgoingErrors(number) {
@@ -807,7 +1063,13 @@
       return this.OUR_NUMBER;
     },
     getContact() {
-      return ConversationController.getOrCreate(this.getSource(), 'private');
+      const source = this.getSource();
+
+      if (!source) {
+        return null;
+      }
+
+      return ConversationController.getOrCreate(source, 'private');
     },
     isOutgoing() {
       return this.get('type') === 'outgoing';
@@ -832,7 +1094,28 @@
 
       return null;
     },
+    async setCalculatingPoW() {
+      if (this.calculatingPoW) return;
 
+      this.set({
+        calculatingPoW: true,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    async setIsP2p(isP2p) {
+      if (_.isEqual(this.get('isP2p'), isP2p)) return;
+
+      this.set({
+        isP2p: !!isP2p,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
     send(promise) {
       this.trigger('pending');
       return promise
@@ -849,11 +1132,13 @@
             sent_to: _.union(sentTo, result.successfulNumbers),
             sent: true,
             expirationStartTimestamp: Date.now(),
+            unidentifiedDeliveries: result.unidentifiedDeliveries,
           });
 
           await window.Signal.Data.saveMessage(this.attributes, {
             Message: Whisper.Message,
           });
+
           this.trigger('sent', this);
           this.sendSyncMessage();
         })
@@ -875,17 +1160,34 @@
               promises.push(c.getProfiles());
             }
           } else {
-            this.saveErrors(result.errors);
             if (result.successfulNumbers.length > 0) {
               const sentTo = this.get('sent_to') || [];
 
-              // Note: In a partially-successful group send, we do not start
-              //   the expiration timer.
+              // In groups, we don't treat unregistered users as a user-visible
+              //   error. The message will look successful, but the details
+              //   screen will show that we didn't send to these unregistered users.
+              const filteredErrors = _.reject(
+                result.errors,
+                error => error.name === 'UnregisteredUserError'
+              );
+
+              // We don't start the expiration timer if there are real errors
+              //   left after filtering out all of the unregistered user errors.
+              const expirationStartTimestamp = filteredErrors.length
+                ? null
+                : Date.now();
+
+              this.saveErrors(filteredErrors);
+
               this.set({
                 sent_to: _.union(sentTo, result.successfulNumbers),
                 sent: true,
+                expirationStartTimestamp,
+                unidentifiedDeliveries: result.unidentifiedDeliveries,
               });
               promises.push(this.sendSyncMessage());
+            } else {
+              this.saveErrors(result.errors);
             }
             promises = promises.concat(
               _.map(result.errors, error => {
@@ -923,28 +1225,37 @@
     },
 
     sendSyncMessage() {
+      const ourNumber = textsecure.storage.user.getNumber();
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        ourNumber,
+        { syncMessage: true }
+      );
+
       this.syncPromise = this.syncPromise || Promise.resolve();
       this.syncPromise = this.syncPromise.then(() => {
         const dataMessage = this.get('dataMessage');
         if (this.get('synced') || !dataMessage) {
           return Promise.resolve();
         }
-        return textsecure.messaging
-          .sendSyncMessage(
+        return wrap(
+          textsecure.messaging.sendSyncMessage(
             dataMessage,
             this.get('sent_at'),
             this.get('destination'),
-            this.get('expirationStartTimestamp')
+            this.get('expirationStartTimestamp'),
+            this.get('sent_to'),
+            this.get('unidentifiedDeliveries'),
+            sendOptions
           )
-          .then(() => {
-            this.set({
-              synced: true,
-              dataMessage: null,
-            });
-            return window.Signal.Data.saveMessage(this.attributes, {
-              Message: Whisper.Message,
-            });
+        ).then(() => {
+          this.set({
+            synced: true,
+            dataMessage: null,
           });
+          return window.Signal.Data.saveMessage(this.attributes, {
+            Message: Whisper.Message,
+          });
+        });
       });
     },
 
@@ -972,6 +1283,10 @@
         return e;
       });
       errors = errors.concat(this.get('errors') || []);
+
+      if (this.isEndSession) {
+        this.set({ endSessionType: 'failed' });
+      }
 
       this.set({ errors });
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -1008,28 +1323,43 @@
       return conversation.queueJob(async () => {
         try {
           const now = new Date().getTime();
-          let attributes = { type: 'private' };
+          let attributes = {
+            ...conversation.attributes,
+          };
           if (dataMessage.group) {
             let groupUpdate = null;
             attributes = {
+              ...attributes,
               type: 'group',
               groupId: dataMessage.group.id,
             };
             if (dataMessage.group.type === GROUP_TYPES.UPDATE) {
               attributes = {
-                type: 'group',
-                groupId: dataMessage.group.id,
+                ...attributes,
                 name: dataMessage.group.name,
-                avatar: dataMessage.group.avatar,
                 members: _.union(
                   dataMessage.group.members,
                   conversation.get('members')
                 ),
               };
+
+              // Update this group conversations's avatar on disk if it has changed.
+              if (dataMessage.group.avatar) {
+                attributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
+                  attributes,
+                  dataMessage.group.avatar.data,
+                  {
+                    writeNewAttachmentData,
+                    deleteAttachmentData,
+                  }
+                );
+              }
+
               groupUpdate =
                 conversation.changedAttributes(
                   _.pick(dataMessage.group, 'name', 'avatar')
                 ) || {};
+
               const difference = _.difference(
                 attributes.members,
                 conversation.get('members')
@@ -1058,6 +1388,22 @@
               message.set({ group_update: groupUpdate });
             }
           }
+
+          const urls = window.Signal.LinkPreviews.findLinks(dataMessage.body);
+          const incomingPreview = dataMessage.preview || [];
+          const preview = incomingPreview.filter(
+            item =>
+              (item.image || item.title) &&
+              urls.includes(item.url) &&
+              window.Signal.LinkPreviews.isLinkInWhitelist(item.url)
+          );
+          if (preview.length < incomingPreview.length) {
+            window.log.info(
+              `${message.idForLogging()}: Eliminated ${preview.length -
+                incomingPreview.length} previews with invalid urls'`
+            );
+          }
+
           message.set({
             attachments: dataMessage.attachments,
             body: dataMessage.body,
@@ -1070,16 +1416,24 @@
             hasFileAttachments: dataMessage.hasFileAttachments,
             hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
             quote: dataMessage.quote,
+            preview,
             schemaVersion: dataMessage.schemaVersion,
           });
+
+          // Update the previews if we need to
+          message.updatePreview();
+
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(
               conversation,
               message
             );
-            receipts.forEach(() =>
+            receipts.forEach(receipt =>
               message.set({
                 delivered: (message.get('delivered') || 0) + 1,
+                delivered_to: _.union(message.get('delivered_to') || [], [
+                  receipt.get('source'),
+                ]),
               })
             );
           }
@@ -1134,8 +1488,13 @@
                 message.get('received_at')
               );
             }
+          } else {
+            const endSessionType = conversation.isSessionResetReceived()
+              ? 'ongoing'
+              : 'done';
+            this.set({ endSessionType });
           }
-          if (type === 'incoming') {
+          if (type === 'incoming' || type === 'friend-request') {
             const readSync = Whisper.ReadSyncs.forMessage(message);
             if (readSync) {
               if (
@@ -1185,18 +1544,18 @@
             !conversationTimestamp ||
             message.get('sent_at') > conversationTimestamp
           ) {
+            conversation.lastMessage = message.getNotificationText();
             conversation.set({
-              lastMessage: message.getNotificationText(),
               timestamp: message.get('sent_at'),
             });
           }
 
           if (dataMessage.profileKey) {
-            const profileKey = dataMessage.profileKey.toArrayBuffer();
+            const profileKey = dataMessage.profileKey.toString('base64');
             if (source === textsecure.storage.user.getNumber()) {
               conversation.set({ profileSharing: true });
             } else if (conversation.isPrivate()) {
-              conversation.set({ profileKey });
+              conversation.setProfileKey(profileKey);
             } else {
               ConversationController.getOrCreateAndWait(source, 'private').then(
                 sender => {
@@ -1206,20 +1565,39 @@
             }
           }
 
+          let autoAccept = false;
+          if (message.get('type') === 'friend-request') {
+            if (conversation.hasSentFriendRequest()) {
+              // Automatically accept incoming friend requests if we have send one already
+              autoAccept = true;
+              message.set({ friendStatus: 'accepted' });
+              await conversation.onFriendRequestAccepted();
+              window.libloki.api.sendFriendRequestAccepted(
+                message.get('source')
+              );
+            } else if (!conversation.isFriend()) {
+              await conversation.onFriendRequestReceived();
+            }
+          } else {
+            await conversation.onFriendRequestAccepted();
+          }
           const id = await window.Signal.Data.saveMessage(message.attributes, {
             Message: Whisper.Message,
           });
           message.set({ id });
 
-          await wrapDeferred(conversation.save());
+          await window.Signal.Data.updateConversation(
+            conversationId,
+            conversation.attributes,
+            { Conversation: Whisper.Conversation }
+          );
 
           conversation.trigger('newmessage', message);
 
           try {
-            // We fetch() here because, between the message.save() above and
-            // the previous line's trigger() call, we might have marked all
-            // messages unread in the database. This message might already
-            // be read!
+            // We go to the database here because, between the message save above and
+            // the previous line's trigger() call, we might have marked all messages
+            // unread in the database. This message might already be read!
             const fetched = await window.Signal.Data.getMessageById(
               message.get('id'),
               {
@@ -1250,7 +1628,10 @@
           }
 
           if (message.get('unread')) {
-            await conversation.notify(message);
+            // Need to do this here because the conversation has already changed states
+            if (autoAccept)
+              await conversation.notifyFriendRequest(source, 'accepted');
+            else await conversation.notify(message);
           }
 
           confirm();
@@ -1333,9 +1714,6 @@
 
   Whisper.MessageCollection = Backbone.Collection.extend({
     model: Whisper.Message,
-    // Keeping this for legacy upgrade pre-migrate to SQLCipher
-    database: Whisper.Database,
-    storeName: 'messages',
     comparator(left, right) {
       if (left.get('received_at') === right.get('received_at')) {
         return (left.get('sent_at') || 0) - (right.get('sent_at') || 0);

@@ -50,6 +50,50 @@
     },
   });
 
+  const MessageTTLSettingView = Whisper.View.extend({
+    initialize(options) {
+      this.value = options.value;
+      this.setFn = options.setFn;
+      this.populate();
+    },
+    events: {
+      change: 'change',
+      input: 'input',
+    },
+    change(e) {
+      this.value = e.target.value;
+      this.setFn(this.value);
+      window.log.info('message-ttl-setting changed to', this.value);
+    },
+    input(e) {
+      this.value = e.target.value;
+      this.$('label').html(`${this.value} Hours`);
+    },
+    populate() {
+      this.$('input').val(this.value);
+      this.$('label').html(`${this.value} Hours`);
+    },
+  });
+
+  const ReadReceiptSettingView = Whisper.View.extend({
+    initialize(options) {
+      this.value = options.value;
+      this.setFn = options.setFn;
+      this.populate();
+    },
+    events: {
+      change: 'change',
+    },
+    change(e) {
+      this.value = e.target.checked;
+      this.setFn(this.value);
+      window.log.info('read-receipt-setting changed to', this.value);
+    },
+    populate() {
+      this.$('input').prop('checked', Boolean(this.value));
+    },
+  });
+
   const RadioButtonGroupView = Whisper.View.extend({
     initialize(options) {
       this.name = options.name;
@@ -112,11 +156,30 @@
         value: window.initialData.hideMenuBar,
         setFn: window.setHideMenuBar,
       });
+      new CheckboxView({
+        el: this.$('.link-preview-setting'),
+        name: 'link-preview-setting',
+        value: window.initialData.linkPreviewSetting,
+        setFn: window.setLinkPreviewSetting,
+      });
       new MediaPermissionsSettingView({
         el: this.$('.media-permissions'),
         value: window.initialData.mediaPermissions,
         setFn: window.setMediaPermissions,
       });
+      new ReadReceiptSettingView({
+        el: this.$('.read-receipt-setting'),
+        value: window.initialData.readReceiptSetting,
+        setFn: window.setReadReceiptSetting,
+      });
+      new MessageTTLSettingView({
+        el: this.$('.message-ttl-setting'),
+        value: window.initialData.messageTTL,
+        setFn: window.setMessageTTL,
+      });
+      const blockedNumberView = new Whisper.BlockedNumberView().render();
+      this.$('.blocked-user-setting').append(blockedNumberView.el);
+
       if (!window.initialData.isPrimary) {
         const syncView = new SyncView().render();
         this.$('.sync-setting').append(syncView.el);
@@ -148,8 +211,17 @@
         clearDataExplanation: i18n('clearDataExplanation'),
         permissions: i18n('permissions'),
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
+        generalHeader: i18n('general'),
+        readReceiptSettingDescription: i18n('readReceiptSettingDescription'),
+        messageTTL: i18n('messageTTL'),
+        messageTTLSettingDescription: i18n('messageTTLSettingDescription'),
+        messageTTLSettingWarning: i18n('messageTTLSettingWarning'),
         spellCheckHeader: i18n('spellCheck'),
         spellCheckDescription: i18n('spellCheckDescription'),
+        blockedHeader: 'Blocked Users',
+        linkPreviews: i18n('linkPreviews'),
+        linkPreviewsDescription: i18n('linkPreviewsDescription'),
+        linkPreviewsSettingDescription: i18n('linkPreviewsSettingDescription'),
       };
     },
     onClose() {

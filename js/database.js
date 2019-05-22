@@ -11,7 +11,7 @@
 
   window.Whisper = window.Whisper || {};
   window.Whisper.Database = window.Whisper.Database || {};
-  window.Whisper.Database.id = window.Whisper.Database.id || 'signal';
+  window.Whisper.Database.id = window.Whisper.Database.id || 'loki-messenger';
   window.Whisper.Database.nolog = true;
 
   Whisper.Database.handleDOMException = (prefix, error, reject) => {
@@ -97,12 +97,14 @@
 
   Whisper.Database.clear = async () => {
     const db = await Whisper.Database.open();
-    return clearStores(db);
+    await clearStores(db);
+    db.close();
   };
 
   Whisper.Database.clearStores = async storeNames => {
     const db = await Whisper.Database.open();
-    return clearStores(db, storeNames);
+    await clearStores(db, storeNames);
+    db.close();
   };
 
   Whisper.Database.close = () => window.wrapDeferred(Backbone.sync('closeall'));

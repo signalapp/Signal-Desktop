@@ -26,16 +26,17 @@ const createRandomMessage = ({ startTime, timeWindow } = {}) => props => {
     fileExtensions
   )}`;
   return {
-    id: _.random(now).toString(),
-    received_at: _.random(startTime, startTime + timeWindow),
-    attachments: [
-      {
-        data: null,
-        fileName,
-        size: _.random(1000, 1000 * 1000 * 50),
-        contentType: 'image/jpeg',
-      },
-    ],
+    contentType: 'image/jpeg',
+    message: {
+      id: _.random(now).toString(),
+      received_at: _.random(startTime, startTime + timeWindow),
+    },
+    attachment: {
+      data: null,
+      fileName,
+      size: _.random(1000, 1000 * 1000 * 50),
+      contentType: 'image/jpeg',
+    },
 
     thumbnailObjectUrl: `https://placekitten.com/${_.random(
       50,
@@ -81,17 +82,18 @@ const messages = _.sortBy(
 ## Media gallery with one document
 
 ```jsx
-const messages = [
+const mediaItems = [
   {
-    id: '1',
     thumbnailObjectUrl: 'https://placekitten.com/76/67',
-    attachments: [
-      {
-        fileName: 'foo.jpg',
-        contentType: 'image/jpeg',
-      },
-    ],
+    contentType: 'image/jpeg',
+    message: {
+      id: '1',
+    },
+    attachment: {
+      fileName: 'foo.jpg',
+      contentType: 'image/jpeg',
+    },
   },
 ];
-<MediaGallery i18n={util.i18n} media={messages} documents={messages} />;
+<MediaGallery i18n={util.i18n} media={mediaItems} documents={mediaItems} />;
 ```

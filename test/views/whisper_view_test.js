@@ -1,35 +1,37 @@
-describe('Whisper.View', function() {
-  it('renders a template with render_attributes', function() {
-    var viewClass = Whisper.View.extend({
+/* global Whisper */
+
+describe('Whisper.View', () => {
+  it('renders a template with render_attributes', () => {
+    const ViewClass = Whisper.View.extend({
       template: '<div>{{ variable }}</div>',
       render_attributes: {
         variable: 'value',
       },
     });
 
-    var view = new viewClass();
+    const view = new ViewClass();
     view.render();
     assert.strictEqual(view.$el.html(), '<div>value</div>');
   });
-  it('renders a template with no render_attributes', function() {
-    var viewClass = Whisper.View.extend({
+  it('renders a template with no render_attributes', () => {
+    const ViewClass = Whisper.View.extend({
       template: '<div>static text</div>',
     });
 
-    var view = new viewClass();
+    const view = new ViewClass();
     view.render();
     assert.strictEqual(view.$el.html(), '<div>static text</div>');
   });
-  it('renders a template function with render_attributes function', function() {
-    var viewClass = Whisper.View.extend({
-      template: function() {
+  it('renders a template function with render_attributes function', () => {
+    const ViewClass = Whisper.View.extend({
+      template() {
         return '<div>{{ variable }}</div>';
       },
-      render_attributes: function() {
+      render_attributes() {
         return { variable: 'value' };
       },
     });
-    var view = new viewClass();
+    const view = new ViewClass();
     view.render();
     assert.strictEqual(view.$el.html(), '<div>value</div>');
   });

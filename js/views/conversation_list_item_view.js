@@ -25,21 +25,24 @@
       Backbone.View.prototype.remove.call(this);
     },
 
+    getProps() {
+      return this.model.getPropsForListItem();
+    },
+
     render() {
       if (this.childView) {
         this.childView.remove();
         this.childView = null;
       }
 
-      const props = this.model.getPropsForListItem();
+      const props = this.getProps();
       this.childView = new Whisper.ReactWrapperView({
         className: 'list-item-wrapper',
         Component: Signal.Components.ConversationListItem,
         props,
       });
 
-      const update = () =>
-        this.childView.update(this.model.getPropsForListItem());
+      const update = () => this.childView.update(this.getProps());
 
       this.listenTo(this.model, 'change', update);
 
@@ -48,4 +51,19 @@
       return this;
     },
   });
+
+  // list of conversations, showing user/group and last message sent
+  Whisper.ConversationContactListItemView = Whisper.ConversationListItemView.extend(
+    {
+      getProps() {
+        // We don't want to show a timestamp or a message
+        const props = this.model.getPropsForListItem();
+        delete props.lastMessage;
+        delete props.lastUpdated;
+        delete props.isSelected;
+
+        return props;
+      },
+    }
+  );
 })();

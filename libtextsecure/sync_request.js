@@ -1,4 +1,4 @@
-/* global Event, textsecure, window */
+/* global Event, textsecure, window, ConversationController */
 
 /* eslint-disable more/no-then */
 
@@ -23,12 +23,20 @@
     this.ongroup = this.onGroupSyncComplete.bind(this);
     receiver.addEventListener('groupsync', this.ongroup);
 
-    window.log.info('SyncRequest created. Sending contact sync message...');
-    sender
-      .sendRequestContactSyncMessage()
+    const ourNumber = textsecure.storage.user.getNumber();
+    const { wrap, sendOptions } = ConversationController.prepareForSend(
+      ourNumber,
+      { syncMessage: true }
+    );
+
+    window.log.info('SyncRequest created. Sending config sync request...');
+    wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));
+
+    window.log.info('SyncRequest now sending contact sync message...');
+    wrap(sender.sendRequestContactSyncMessage(sendOptions))
       .then(() => {
         window.log.info('SyncRequest now sending group sync messsage...');
-        return sender.sendRequestGroupSyncMessage();
+        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));
       })
       .catch(error => {
         window.log.error(

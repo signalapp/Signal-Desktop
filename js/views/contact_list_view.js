@@ -25,9 +25,6 @@
           this.contactView = null;
         }
 
-        const avatar = this.model.getAvatar();
-        const avatarPath = avatar && avatar.url;
-        const color = avatar && avatar.color;
         const isMe = this.ourNumber === this.model.id;
 
         this.contactView = new Whisper.ReactWrapperView({
@@ -35,8 +32,8 @@
           Component: window.Signal.Components.ContactListItem,
           props: {
             isMe,
-            color,
-            avatarPath,
+            color: this.model.getColor(),
+            avatarPath: this.model.getAvatarPath(),
             phoneNumber: this.model.getNumber(),
             name: this.model.getName(),
             profileName: this.model.getProfileName(),

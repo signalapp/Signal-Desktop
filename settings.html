@@ -34,6 +34,12 @@
       </p>
     </div>
 </script>
+<script type='text/x-tmpl-mustache' id='blockedUserSettings'>
+  <h3>{{ blockedHeader }}</h3>
+  <div class='blocked-user-settings'>
+      <button class='grey unblock-button'>{{ unblockMessage }}</button>
+  </div>
+</script>
 <script type='text/x-tmpl-mustache' id='settings'>
   <div class='content'>
     <a class='x close' alt='close settings' href='#'></a>
@@ -87,20 +93,69 @@
     </div>
     {{ /isAudioNotificationSupported }}
     <hr>
-    <div class='spell-check-setting'>
-      <h3>{{ spellCheckHeader }}</h3>
-      <input type='checkbox' name='spell-check-setting' />
-      <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
-    </div>
+      <h3>{{ generalHeader }}</h3>
+      <div class='spell-check-setting'>
+        <input type='checkbox' name='spell-check-setting' id='spell-check-setting' />
+        <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
+      </div>
+
     <hr>
+    <h3>{{ linkPreviews }}</h3>
+    <div>{{ linkPreviewsDescription }}<div>
+    </br>
+    <div class='link-preview-setting'>
+      <input type='checkbox' name='link-preview-setting' id='link-preview-setting' />
+      <label for='link-preview-setting'>{{ linkPreviewsSettingDescription }}</label>
+    </div>
+  <hr>
     <div class='permissions-setting'>
       <h3>{{ permissions }}</h3>
       <div class='media-permissions'>
-        <input type='checkbox' name='media-permissions' />
+        <input type='checkbox' name='media-permissions' id='media-permissions' />
         <label for='media-permissions'>{{ mediaPermissionsDescription }}</label>
+      </div>
+      <div class='read-receipt-setting'>
+        <input type='checkbox' name='read-receipt-setting' id='read-receipt-setting' />
+        <label for='read-receipt-setting'>{{ readReceiptSettingDescription }}</label>
       </div>
     </div>
     <div class='sync-setting'></div>
+    <hr>
+    <div class='message-ttl-setting'>
+      <h3>{{ messageTTL }}</h3>
+      <div>{{ messageTTLSettingDescription }}</div>
+      <div id='warning'>{{ messageTTLSettingWarning }}</div>
+      <div class='inputs'>
+        <input
+          name='message-ttl-setting'
+          id='message-ttl-setting'
+          type='range'
+          list='tickmarks'
+          min='12'
+          max='96'
+          step='6'
+          value='24'
+        >
+        <label for='message-ttl-setting'>24 Hours</label>
+        <datalist id='tickmarks'>
+          <option value='12'>
+          <option value='18'>
+          <option value='24'>
+          <option value='30'>
+          <option value='36'>
+          <option value='42'>
+          <option value='48'>
+          <option value='54'>
+          <option value='60'>
+          <option value='66'>
+          <option value='72'>
+          <option value='78'>
+          <option value='84'>
+          <option value='90'>
+          <option value='96'>
+        </datalist>
+      </div>
+    </div>
     <hr>
     <div class='clear-data-settings'>
       <h3>{{ clearDataHeader }}</h3>
@@ -109,10 +164,19 @@
         <p>{{ clearDataExplanation }}</p>
       </div>
     </div>
+    <hr>
+    <div class='blocked-user-setting'>
+    </div>
   </div>
 </script>
+
 <script type='text/javascript' src='js/components.js'></script>
+<script type='text/javascript' src='js/storage.js'></script>
+<script type='text/javascript' src='js/models/blockedNumbers.js'></script>
+<script type='text/javascript' src='js/blocked_number_controller.js'></script>
 <script type='text/javascript' src='js/views/whisper_view.js'></script>
+<script type='text/javascript' src='js/views/list_view.js'></script>
+<script type='text/javascript' src='js/views/blocked_number_view.js'></script>
 <script type='text/javascript' src='js/views/settings_view.js'></script>
 <script type='text/javascript' src='js/settings_start.js'></script>
 </html>

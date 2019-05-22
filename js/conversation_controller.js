@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage, wrapDeferred */
+/* global _, Whisper, Backbone, storage, lokiP2pAPI, textsecure, libsignal */
 
 /* eslint-disable more/no-then */
 
@@ -15,6 +15,7 @@
 
       this.listenTo(conversations, 'add change:active_at', this.addActive);
       this.listenTo(conversations, 'reset', () => this.reset([]));
+      this.listenTo(conversations, 'remove', this.remove);
 
       this.on(
         'add remove change:unreadCount',
@@ -44,6 +45,7 @@
     addActive(model) {
       if (model.get('active_at')) {
         this.add(model);
+        model.updateLastMessage();
       } else {
         this.remove(model);
       }
@@ -77,7 +79,45 @@
 
   window.getInboxCollection = () => inboxCollection;
 
+  const contactCollection = new (Backbone.Collection.extend({
+    initialize() {
+      this.on(
+        'change:timestamp change:name change:number change:profileName',
+        this.sort
+      );
+
+      this.listenTo(
+        conversations,
+        'add change:active_at change:friendRequestStatus',
+        this.addActive
+      );
+      this.listenTo(conversations, 'remove', this.remove);
+      this.listenTo(conversations, 'reset', () => this.reset([]));
+
+      this.collator = new Intl.Collator();
+    },
+    comparator(m1, m2) {
+      const title1 = m1.getTitle().toLowerCase();
+      const title2 = m2.getTitle().toLowerCase();
+      return this.collator.compare(title1, title2);
+    },
+    addActive(model) {
+      // We only want models which we are friends with
+      if (model.isFriend() && !model.isMe()) {
+        this.add(model);
+        model.updateLastMessage();
+      } else {
+        this.remove(model);
+      }
+    },
+  }))();
+
+  window.getContactCollection = () => contactCollection;
+
   window.ConversationController = {
+    getCollection() {
+      return conversations;
+    },
     markAsSelected(toSelect) {
       conversations.each(conversation => {
         const current = conversation.isSelected || false;
@@ -131,8 +171,10 @@
       conversation = conversations.add({
         id,
         type,
+        version: 2,
       });
-      conversation.initialPromise = new Promise((resolve, reject) => {
+
+      const create = async () => {
         if (!conversation.isValid()) {
           const validationError = conversation.validationError || {};
           window.log.error(
@@ -141,21 +183,68 @@
             validationError.stack
           );
 
-          return resolve(conversation);
+          return conversation;
         }
 
-        const deferred = conversation.save();
-        if (!deferred) {
-          window.log.error('Conversation save failed! ', id, type);
-          return reject(new Error('getOrCreate: Conversation save failed'));
+        try {
+          await window.Signal.Data.saveConversation(conversation.attributes, {
+            Conversation: Whisper.Conversation,
+          });
+        } catch (error) {
+          window.log.error(
+            'Conversation save failed! ',
+            id,
+            type,
+            'Error:',
+            error && error.stack ? error.stack : error
+          );
+          throw error;
         }
 
-        return deferred.then(() => {
-          resolve(conversation);
-        }, reject);
+        return conversation;
+      };
+
+      conversation.initialPromise = create();
+      conversation.initialPromise.then(() => {
+        Promise.all([
+          conversation.updateProfileAvatar(),
+          window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id),
+        ]);
       });
 
       return conversation;
+    },
+    async deleteContact(id) {
+      if (typeof id !== 'string') {
+        throw new TypeError("'id' must be a string");
+      }
+
+      if (!this._initialFetchComplete) {
+        throw new Error(
+          'ConversationController.get() needs complete initial fetch'
+        );
+      }
+
+      const conversation = conversations.get(id);
+      if (!conversation) {
+        return;
+      }
+      await conversation.destroyMessages();
+      const deviceIds = await textsecure.storage.protocol.getDeviceIds(id);
+      await Promise.all(
+        deviceIds.map(deviceId => {
+          const address = new libsignal.SignalProtocolAddress(id, deviceId);
+          const sessionCipher = new libsignal.SessionCipher(
+            textsecure.storage.protocol,
+            address
+          );
+          return sessionCipher.deleteAllSessionsForDevice();
+        })
+      );
+      await window.Signal.Data.removeConversation(id, {
+        Conversation: Whisper.Conversation,
+      });
+      conversations.remove(conversation);
     },
     getOrCreateAndWait(id, type) {
       return this._initialPromise.then(() => {
@@ -170,11 +259,23 @@
         );
       });
     },
-    getAllGroupsInvolvingId(id) {
-      const groups = new Whisper.GroupCollection();
-      return groups
-        .fetchGroups(id)
-        .then(() => groups.map(group => conversations.add(group)));
+    prepareForSend(id, options) {
+      // id is either a group id or an individual user's id
+      const conversation = this.get(id);
+      const sendOptions = conversation
+        ? conversation.getSendOptions(options)
+        : null;
+      const wrap = conversation
+        ? conversation.wrapSend.bind(conversation)
+        : promise => promise;
+
+      return { wrap, sendOptions };
+    },
+    async getAllGroupsInvolvingId(id) {
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(id, {
+        ConversationCollection: Whisper.ConversationCollection,
+      });
+      return groups.map(group => conversations.add(group));
     },
     loadPromise() {
       return this._initialPromise;
@@ -187,17 +288,44 @@
     async load() {
       window.log.info('ConversationController: starting initial fetch');
 
+      // We setup online and offline listeners here because we want
+      //  to minimize the amount of listeners we have to avoid memory leaks
+      if (!this.p2pListenersSet) {
+        lokiP2pAPI.on('online', this._handleOnline.bind(this));
+        lokiP2pAPI.on('offline', this._handleOffline.bind(this));
+        this.p2pListenersSet = true;
+      }
+
       if (conversations.length) {
         throw new Error('ConversationController: Already loaded!');
       }
 
       const load = async () => {
         try {
-          await wrapDeferred(conversations.fetch());
+          const collection = await window.Signal.Data.getAllConversations({
+            ConversationCollection: Whisper.ConversationCollection,
+          });
+
+          conversations.add(collection.models);
+
           this._initialFetchComplete = true;
-          await Promise.all(
-            conversations.map(conversation => conversation.updateLastMessage())
+          const promises = [];
+          conversations.forEach(conversation => {
+            promises.concat([
+              conversation.updateLastMessage(),
+              conversation.updateProfile(),
+              conversation.updateProfileAvatar(),
+              conversation.resetPendingSend(),
+              conversation.setFriendRequestExpiryTimeout(),
+            ]);
+          });
+          await Promise.all(promises);
+
+          // Remove any unused images
+          window.profileImages.removeImagesNotInArray(
+            conversations.map(c => c.id)
           );
+
           window.log.info('ConversationController: done with initial fetch');
         } catch (error) {
           window.log.error(
@@ -211,6 +339,18 @@
       this._initialPromise = load();
 
       return this._initialPromise;
+    },
+    _handleOnline(pubKey) {
+      try {
+        const conversation = this.get(pubKey);
+        conversation.set({ isOnline: true });
+      } catch (e) {} // eslint-disable-line
+    },
+    _handleOffline(pubKey) {
+      try {
+        const conversation = this.get(pubKey);
+        conversation.set({ isOnline: false });
+      } catch (e) {} // eslint-disable-line
     },
   };
 })();

@@ -57,32 +57,43 @@
         avatar: this.model.getAvatar(),
       };
     },
-    send() {
-      return this.avatarInput.getThumbnail().then(avatarFile => {
-        const now = Date.now();
-        const attrs = {
-          timestamp: now,
-          active_at: now,
-          name: this.$('.name').val(),
-          members: _.union(
-            this.model.get('members'),
-            this.recipients_view.recipients.pluck('id')
-          ),
-        };
-        if (avatarFile) {
-          attrs.avatar = avatarFile;
-        }
-        this.model.set(attrs);
-        const groupUpdate = this.model.changed;
-        this.model.save();
+    async send() {
+      // When we turn this view on again, need to handle avatars in the new way
 
-        if (groupUpdate.avatar) {
-          this.model.trigger('change:avatar');
-        }
+      // const avatarFile = await this.avatarInput.getThumbnail();
+      const now = Date.now();
+      const attrs = {
+        timestamp: now,
+        active_at: now,
+        name: this.$('.name').val(),
+        members: _.union(
+          this.model.get('members'),
+          this.recipients_view.recipients.pluck('id')
+        ),
+      };
 
-        this.model.updateGroup(groupUpdate);
-        this.goBack();
-      });
+      // if (avatarFile) {
+      //   attrs.avatar = avatarFile;
+      // }
+
+      // Because we're no longer using Backbone-integrated saves, we need to manually
+      //   clear the changed fields here so model.changed is accurate.
+      this.model.changed = {};
+      this.model.set(attrs);
+      const groupUpdate = this.model.changed;
+
+      await window.Signal.Data.updateConversation(
+        this.model.id,
+        this.model.attributes,
+        { Conversation: Whisper.Conversation }
+      );
+
+      if (groupUpdate.avatar) {
+        this.model.trigger('change:avatar');
+      }
+
+      this.model.updateGroup(groupUpdate);
+      this.goBack();
     },
   });
 })();

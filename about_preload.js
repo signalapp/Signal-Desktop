@@ -10,6 +10,7 @@ const localeMessages = ipcRenderer.sendSync('locale-data');
 
 window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
+window.getCommitHash = () => config.commitHash;
 window.getAppInstance = () => config.appInstance;
 
 window.closeAbout = () => ipcRenderer.send('close-about');

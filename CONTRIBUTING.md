@@ -11,7 +11,7 @@ for it or creating a new one yourself. You can use also that issue as a place to
 your intentions and get feedback from the users most likely to appreciate your changes.
 
 You're most likely to have your pull request accepted easily if it addresses bugs already
-in the [Next Steps project](https://github.com/signalapp/Signal-Desktop/projects/1),
+in the [Next Steps project](https://github.com/loki-project/loki-messenger/projects/1),
 especially if they are near the top of the Backlog column. Those are what we'll be looking
 at next, so it would be great if you helped us out!
 
@@ -22,7 +22,7 @@ ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ou
 ## Developer Setup
 
 First, you'll need [Node.js](https://nodejs.org/) which matches our current version.
-You can check [`.nvmrc` in the `development` branch](https://github.com/signalapp/Signal-Desktop/blob/development/.nvmrc) to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
+You can check [`.nvmrc` in the `development` branch](https://github.com/loki-project/loki-messenger/blob/development/.nvmrc) to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
 you can just run `nvm use` in the project directory and it will switch to the project's
 desired Node.js version. [nvm for windows](https://github.com/coreybutler/nvm-windows) is
 still useful, but it doesn't support `.nvmrc` files.
@@ -49,20 +49,21 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 1.  Install `gcc`
 1.  Install `g++`
 1.  Install `make`
+1.  Depending on your distro, you might need to install `hunspell` and `hunspell-<lan>` (e.g. `hunspell-en-au`)
 
 ### All platforms
 
 Now, run these commands in your preferred terminal in a good directory for development:
 
 ```
-git clone https://github.com/signalapp/Signal-Desktop.git
-cd Signal-Desktop
+git clone https://github.com/loki-project/loki-messenger.git
+cd loki-messenger
 npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
 yarn grunt                     # Generate final JS and CSS assets
 yarn icon-gen                  # Generate full set of icons for Electron
 yarn test                      # A good idea to make sure tests run first
-yarn start                     # Start Signal!
+yarn start                     # Start Loki Messenger!
 ```
 
 You'll need to restart the application regularly to see your changes, as there
@@ -81,58 +82,29 @@ while you make changes:
 yarn grunt dev # runs until you stop it, re-generating built assets on file changes
 ```
 
-## Setting up standalone
-
-By default the application will connect to the **staging** servers, which means that you
-**will not** be able to link it with your primary mobile device.
-
-Fear not! You don't have to link the app with your phone. During setup in development
-mode, you'll be presented with a 'Standalone' button which goes through the registration
-process like you would on a phone. But you won't be linked to any other devices.
-
-## The staging environment
-
-Sadly, this default setup results in no contacts and no message history, an entirely
-empty application. But you can use the information from your production install of Signal
-Desktop to populate your testing application!
-
-First, find your application data:
-
-* macOS: `~/Library/Application Support/Signal`
-* Linux: `~/.config/Signal`
-* Windows 10: `C:\Users\<YourName>\AppData\Roaming\Signal`
-
-Now make a copy of this production data directory in the same place, and call it
-`Signal-development`. Now start up the development version of the app as normal,
-and you'll see all of your contacts and messages!
-
-You'll notice a prompt to re-link, because your production credentials won't work on
-staging. Click 'Relink', then 'Standalone', then verify the phone number and click
-'Send SMS.'
-
-Once you've entered the confirmation code sent to your phone, you are registered as a
-standalone staging device with your normal phone number, and a copy of your production
-message history and contact list.
-
-Here's the catch: you can't message any of these contacts, since they haven't done the
-same thing. Who can you message for testing?
-
 ## Additional storage profiles
 
-What you need for proper testing is additional phone numbers, to register additional
-standalone devices. You can get them via
-[Twilio ($1/mo. per number + $0.0075 per SMS)](https://www.twilio.com/), or via
-[Google Voice (one number per Google Account, free SMS)](https://voice.google.com/).
+Since there is no registration for Loki Messenger, you can create as many accounts as you
+can public keys. To test the P2P functionality on the same machine, however, requries
+that each client binds their message server to a different port.
 
-Once you have the additional numbers, you can setup additional storage profiles and switch
-between them using the `NODE_APP_INSTANCE` environment variable.
+You can use the following command to start a client bound to a different port.
+```
+yarn start-multi
+```
+
+
+For more than 2 clients, you can setup additional storage profiles and switch
+between them using the `NODE_APP_INSTANCE` environment variable and specifying a
+new localServerPort in the config.
 
 For example, to create an 'alice' profile, put a file called `local-alice.json` in the
 `config` directory:
 
 ```
 {
-  "storageProfile": "aliceProfile"
+  "storageProfile": "aliceProfile",
+  "localServerPort": "8082",
 }
 ```
 
@@ -143,7 +115,7 @@ NODE_APP_INSTANCE=alice yarn run start
 ```
 
 This changes the [userData](https://electron.atom.io/docs/all/#appgetpathname)
-directory from `%appData%/Signal` to `%appData%/Signal-aliceProfile`.
+directory from `%appData%/Loki-Messenger` to `%appData%/Loki-Messenger-aliceProfile`.
 
 # Making changes
 
@@ -172,14 +144,17 @@ the report with `yarn open-coverage`.
 
 So you wanna make a pull request? Please observe the following guidelines.
 
+<!-- TODO:
 * Please do not submit pull requests for translation fixes. Anyone can update
   the translations in
   [Transifex](https://www.transifex.com/projects/p/signal-desktop).
+-->
 * Never use plain strings right in the source code - pull them from `messages.json`!
   You **only** need to modify the default locale
-  [`_locales/en/messages.json`](_locales/en/messages.json). Other locales are generated
-  automatically based on that file and then periodically uploaded to Transifex for
-  translation.
+  [`_locales/en/messages.json`](_locales/en/messages.json).
+<!-- TODO:
+  Other locales are generated automatically based on that file and then periodically
+  uploaded to Transifex for translation. -->
 * [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
   changes on the latest `development` branch, resolving any conflicts.
   This ensures that your changes will merge cleanly when you open your PR.
@@ -209,48 +184,6 @@ Above all, spend some time with the repository. Follow the pull request template
 your pull request description automatically. Take a look at recent approved pull requests,
 see how they did things.
 
-## Linking to a staging mobile device
-
-Multiple standalone desktop devices are great for testing of a lot of scenarios. But a lot
-of the Signal experience requires a primary mobile device: contact management,
-synchronizing read and verification states among all linked devices, etc.
-
-This presents a problem - even if you had another phone, the production versions of the
-iOS and Android apps are locked to the production servers. To test all scenarios in
-staging, your best bet is to pull down the development version of the iOS or Android app,
-and register it with one of your extra phone numbers:
-
-First, build Signal for Android or iOS from source, and point its service URL to `textsecure-service-staging.whispersystems.org`:
-
-**on Android:** Replace the `SIGNAL_URL` value in [build.gradle](https://github.com/signalapp/Signal-Android/blob/master/build.gradle)
-
-**on iOS:** Replace the `textSecureServerURL` value in `TSConstants.h`(located in the SignalServiceKit pod)
-
-This task is 1% search and replace, 99% setting up your build environment. Instructions are available for both
-the [Android](https://github.com/signalapp/Signal-Android/blob/master/BUILDING.md)
-and [iOS](https://github.com/signalapp/Signal-iOS/blob/master/BUILDING.md) projects.
-
-Then you can set up your development build of Signal Desktop as normal. If you've already
-set up as a standalone install, you can switch by opening the DevTools (View -> Toggle
-Developer Tools) and entering this into the Console and pressing enter: `window.owsDesktopApp.appView.openInstaller();`
-
-## Changing to production
-
-If you're completely sure that your changes will have no impact to the production servers,
-you can connect your development build to the production server by putting a file called
-`local-development.json` in the `config` directory that looks like this:
-
-```
-{
-  "serverUrl": "https://textsecure-service.whispersystems.org",
-  "cdnUrl": "https://cdn.signal.org"
-}
-```
-
-**Beware:** Setting up standalone with your primary phone number when connected to the
-production servers will _unregister_ your mobile device! All messages from your contacts
-will go to your new development desktop app instead of your phone.
-
 ## Testing Production Builds
 
 To test changes to the build system, build a release using
@@ -262,6 +195,7 @@ yarn build-release
 
 Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
 
+<!-- TODO:
 ## Translations
 
 To pull the latest translations, follow these steps:
@@ -272,4 +206,4 @@ To pull the latest translations, follow these steps:
 3.  Generate API token: https://www.transifex.com/user/settings/api/
 4.  Create `~/.transifexrc` configuration:
     https://docs.transifex.com/client/client-configuration#-transifexrc
-5.  Run `yarn grunt tx`.
+5.  Run `yarn grunt tx`. -->

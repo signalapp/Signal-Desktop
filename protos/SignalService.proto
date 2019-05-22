@@ -9,17 +9,22 @@ message Envelope {
     UNKNOWN       = 0;
     CIPHERTEXT    = 1;
     KEY_EXCHANGE  = 2;
-    PREKEY_BUNDLE = 3;
+    PREKEY_BUNDLE = 3; //Used By Signal. DO NOT TOUCH! we don't use this at all.
     RECEIPT       = 5;
+    UNIDENTIFIED_SENDER = 6;
+    FRIEND_REQUEST = 101; // contains prekeys + message and is using simple encryption
   }
 
-  optional Type   type          = 1;
-  optional string source        = 2;
-  optional uint32 sourceDevice  = 7;
-  optional string relay         = 3;
-  optional uint64 timestamp     = 5;
-  optional bytes  legacyMessage = 6; // Contains an encrypted DataMessage
-  optional bytes  content       = 8; // Contains an encrypted Content
+  optional Type   type            = 1;
+  optional string source          = 2;
+  optional uint32 sourceDevice    = 7;
+  optional string relay           = 3;
+  optional uint64 timestamp       = 5;
+  optional bytes  legacyMessage   = 6; // Contains an encrypted DataMessage
+  optional bytes  content         = 8; // Contains an encrypted Content
+  optional string serverGuid      = 9;
+  optional uint64 serverTimestamp = 10;
+
 }
 
 message Content {
@@ -28,6 +33,24 @@ message Content {
   optional CallMessage    callMessage    = 3;
   optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
+  optional TypingMessage  typingMessage  = 6;
+  optional PreKeyBundleMessage preKeyBundleMessage = 101;
+  optional LokiAddressMessage lokiAddressMessage = 102;
+}
+
+message LokiAddressMessage {
+  optional string p2pAddress    = 1;
+  optional uint32 p2pPort       = 2;
+}
+
+message PreKeyBundleMessage {
+  optional bytes identityKey      = 1;
+  optional uint32 deviceId        = 2;
+  optional uint32 preKeyId        = 3;
+  optional uint32 signedKeyId     = 4;
+  optional bytes preKey           = 5;
+  optional bytes signedKey        = 6;
+  optional bytes signature        = 7;
 }
 
 message CallMessage {
@@ -151,6 +174,12 @@ message DataMessage {
     optional string            organization    = 7;
   }
 
+  message Preview {
+    optional string            url   = 1;
+    optional string            title = 2;
+    optional AttachmentPointer image = 3;
+  }
+
   optional string             body        = 1;
   repeated AttachmentPointer  attachments = 2;
   optional GroupContext       group       = 3;
@@ -160,6 +189,8 @@ message DataMessage {
   optional uint64             timestamp   = 7;
   optional Quote              quote       = 8;
   repeated Contact            contact     = 9;
+  repeated Preview            preview     = 10;
+  optional Contact            profile     = 101; // Loki: The profile of the current user
 }
 
 message NullMessage {
@@ -174,6 +205,17 @@ message ReceiptMessage {
 
   optional Type   type      = 1;
   repeated uint64 timestamp = 2;
+}
+
+message TypingMessage {
+    enum Action {
+        STARTED = 0;
+        STOPPED = 1;
+    }
+
+    optional uint64 timestamp = 1;
+    optional Action action    = 2;
+    optional bytes  groupId   = 3;
 }
 
 message Verified {
@@ -191,10 +233,16 @@ message Verified {
 
 message SyncMessage {
   message Sent {
-    optional string      destination              = 1;
-    optional uint64      timestamp                = 2;
-    optional DataMessage message                  = 3;
-    optional uint64      expirationStartTimestamp = 4;
+    message UnidentifiedDeliveryStatus {
+      optional string destination  = 1;
+      optional bool   unidentified = 2;
+    }
+
+    optional string                     destination              = 1;
+    optional uint64                     timestamp                = 2;
+    optional DataMessage                message                  = 3;
+    optional uint64                     expirationStartTimestamp = 4;
+    repeated UnidentifiedDeliveryStatus unidentifiedStatus       = 5;
   }
 
   message Contacts {
@@ -208,6 +256,7 @@ message SyncMessage {
 
   message Blocked {
     repeated string numbers = 1;
+    repeated bytes groupIds = 2;
   }
 
   message Request {
@@ -228,7 +277,10 @@ message SyncMessage {
   }
 
   message Configuration {
-    optional bool readReceipts = 1;
+    optional bool readReceipts                   = 1;
+    optional bool unidentifiedDeliveryIndicators = 2;
+    optional bool typingIndicators               = 3;
+    optional bool linkPreviews                   = 4;
   }
 
   optional Sent          sent          = 1;
@@ -257,6 +309,7 @@ message AttachmentPointer {
   optional uint32  flags       = 8;
   optional uint32  width       = 9;
   optional uint32  height      = 10;
+  optional string  caption     = 11;
 }
 
 message GroupContext {
@@ -303,4 +356,5 @@ message GroupDetails {
   optional bool   active      = 5 [default = true];
   optional uint32 expireTimer = 6;
   optional string color       = 7;
+  optional bool   blocked     = 8;
 }

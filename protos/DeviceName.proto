@@ -1,0 +1,7 @@
+package signalservice;
+
+message DeviceName {
+  optional bytes ephemeralPublic = 1;
+  optional bytes syntheticIv     = 2;
+  optional bytes ciphertext      = 3;
+}

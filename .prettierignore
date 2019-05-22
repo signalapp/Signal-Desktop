@@ -6,7 +6,9 @@ config/local-*.json
 config/local.json
 dist/**
 js/components.js
+js/util_worker.js
 js/libtextsecure.js
+js/libloki.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 stylesheets/*.css
@@ -15,8 +17,14 @@ ts/**/*.js
 ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
+ts/util/lint/exceptions.json
+
+# Libloki specific files
+libloki/test/test.js
+libloki/test/components.js
 
 # Third-party files
+node_modules/**
 components/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
@@ -24,6 +32,7 @@ js/libsignal-protocol-worker.js
 libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js
+mnemonic_languages/**
 
 # Test fixtures
 test/fixtures.js
@@ -41,3 +50,6 @@ _locales/**/*.json
 # Symlink into third-party `components`:
 stylesheets/_intlTelInput.scss
 
+# Coverage
+coverage/**
+.nyc_output/**

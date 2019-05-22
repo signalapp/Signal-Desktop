@@ -2,7 +2,7 @@
   {
     "submenu": [
       {
-        "label": "About Signal Desktop",
+        "label": "About Loki Messenger",
         "click": null
       },
       {
@@ -32,7 +32,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Signal",
+        "label": "Quit Loki Messenger",
         "role": "quit"
       }
     ]
@@ -185,10 +185,6 @@
       },
       {
         "type": "separator"
-      },
-      {
-        "label": "Go to Forums",
-        "click": null
       },
       {
         "label": "Go to Support Page",

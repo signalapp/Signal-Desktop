@@ -18,3 +18,9 @@ export type Color =
   | 'purple'
   | 'red'
   | 'teal';
+
+export enum Colors {
+  OFFLINE = '#3d3e44',
+  OFFLINE_LIGHT = '#cccece',
+  ONLINE = '#1c8260',
+}

@@ -1,0 +1,61 @@
+# TODO: Figure out a way to use nvm in the linux build
+linux:
+  image: node:10.13.0
+  tags:
+    - docker
+  script:
+    - whoami
+    - node -v
+    - yarn -v
+    - yarn install --frozen-lockfile
+    - export SIGNAL_ENV=production
+    - yarn generate
+    - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$CI_COMMIT_REF_SLUG' --publish=never --config.directories.output=release
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - release/
+
+osx:
+  tags:
+    - osx
+  script:
+    - nvm install
+    - npm install --global yarn
+    - yarn install --frozen-lockfile
+    - export SIGNAL_ENV=production
+    - yarn generate
+    - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$CI_COMMIT_REF_SLUG' --publish=never --config.directories.output=release
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - release/
+
+windows:
+  tags:
+    - windows-cmd
+  script:
+    # install
+    - set PATH=%PATH%;C:\Users\Administrator\AppData\Local\nvs\
+    - set SIGNAL_ENV=production
+    - set /p NVMRC_VER=<.nvmrc
+    - call nvs add %NVMRC_VER%
+    - call nvs use %NVMRC_VER%
+    - call "C:\\PROGRA~2\\MICROS~1\\2017\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"
+    - call yarn install --frozen-lockfile
+    # build
+    - call yarn generate
+    - call node build\grunt.js
+    - call yarn prepare-beta-build
+    - call node_modules\.bin\build --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never --config.directories.output=release
+    - call node build\grunt.js test-release:win
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - release/

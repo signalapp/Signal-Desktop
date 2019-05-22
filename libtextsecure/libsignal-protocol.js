@@ -22848,7 +22848,7 @@ function _memset(ptr, value, num) {
         }
       }
       while ((ptr|0) < (stop4|0)) {
-        HEAP32[ptr>>2]=value4;
+        HEAP32[((ptr)>>2)]=value4;
         ptr = (ptr+4)|0;
       }
     }
@@ -22904,7 +22904,7 @@ function _memcpy(dest, src, num) {
         num = (num-1)|0;
       }
       while ((num|0) >= 4) {
-        HEAP32[dest>>2]=((HEAP32[src>>2])|0);
+        HEAP32[((dest)>>2)]=((HEAP32[((src)>>2)])|0);
         dest = (dest+4)|0;
         src = (src+4)|0;
         num = (num-4)|0;
@@ -25294,13 +25294,20 @@ var origCurve25519 = Internal.curve25519_async;
 
 Internal.startWorker = function(url) {
     Internal.stopWorker(); // there can be only one
+
     Internal.curve25519_async = new Curve25519Worker(url);
+    Internal.Curve.async = Internal.wrapCurve25519(Internal.curve25519_async);
+    libsignal.Curve.async = Internal.wrapCurve(Internal.Curve.async);
 };
 
 Internal.stopWorker = function() {
     if (Internal.curve25519_async instanceof Curve25519Worker) {
         var worker = Internal.curve25519_async.worker;
+
         Internal.curve25519_async = origCurve25519;
+        Internal.Curve.async = Internal.wrapCurve25519(Internal.curve25519_async);
+        libsignal.Curve.async = Internal.wrapCurve(Internal.Curve.async);
+
         worker.terminate();
     }
 };
@@ -35093,7 +35100,6 @@ Curve25519Worker.prototype = {
         if (pubKey.byteLength == 33) {
             return pubKey.slice(1);
         } else {
-            console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
             return pubKey;
         }
     }
@@ -35159,6 +35165,7 @@ Curve25519Worker.prototype = {
         };
     }
 
+    Internal.wrapCurve25519 = wrapCurve25519;
     Internal.Curve       = wrapCurve25519(Internal.curve25519);
     Internal.Curve.async = wrapCurve25519(Internal.curve25519_async);
 
@@ -35179,10 +35186,14 @@ Curve25519Worker.prototype = {
             },
             calculateSignature: function(privKey, message) {
                 return curve.Ed25519Sign(privKey, message);
-            }
+            },
+            validatePubKeyFormat: function(buffer) {
+                return validatePubKeyFormat(buffer);
+            },
         };
     }
 
+    Internal.wrapCurve = wrapCurve;
     libsignal.Curve       = wrapCurve(Internal.Curve);
     libsignal.Curve.async = wrapCurve(Internal.Curve.async);
 
@@ -35272,10 +35283,6 @@ var Internal = Internal || {};
 
     // HKDF for TextSecure has a bit of additional handling - salts always end up being 32 bytes
     Internal.HKDF = function(input, salt, info) {
-        if (salt.byteLength != 32) {
-            throw new Error("Got salt of incorrect length");
-        }
-
         return Internal.crypto.HKDF(input, salt,  util.toArrayBuffer(info));
     };
 
@@ -35460,7 +35467,7 @@ Internal.protoText = function() {
 /* vim: ts=4:sw=4 */
 var Internal = Internal || {};
 
-Internal.protobuf = function() {
+Internal.protobuf = (function() {
     'use strict';
 
     function loadProtoBufs(filename) {
@@ -35473,7 +35480,7 @@ Internal.protobuf = function() {
         WhisperMessage            : protocolMessages.WhisperMessage,
         PreKeyWhisperMessage      : protocolMessages.PreKeyWhisperMessage
     };
-}();
+})();
 
 /*
  * vim: ts=4:sw=4
@@ -35839,7 +35846,7 @@ SessionBuilder.prototype = {
           record.updateSessionState(session);
           return Promise.all([
             this.storage.storeSession(address, record.serialize()),
-            this.storage.saveIdentity(this.remoteAddress.toString(), session.indexInfo.remoteIdentityKey)
+            this.storage.saveIdentity(this.remoteAddress.toString(), device.identityKey)
           ]);
         }.bind(this));
       }.bind(this));
@@ -35888,6 +35895,7 @@ SessionBuilder.prototype = {
         if (message.preKeyId && !preKeyPair) {
             console.log('Invalid prekey id', message.preKeyId);
         }
+
         return this.initSession(false, preKeyPair, signedPreKeyPair,
             message.identityKey.toArrayBuffer(),
             message.baseKey.toArrayBuffer(), undefined, message.registrationId
@@ -36028,6 +36036,7 @@ SessionCipher.prototype = {
           return Internal.SessionRecord.deserialize(serialized);
       });
   },
+  // encoding is an optional parameter - wrap() will only translate if one is provided
   encrypt: function(buffer, encoding) {
     buffer = dcodeIO.ByteBuffer.wrap(buffer, encoding).toArrayBuffer();
     return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
@@ -36080,9 +36089,12 @@ SessionCipher.prototype = {
               msg.ciphertext = ciphertext;
               var encodedMsg = msg.toArrayBuffer();
 
+              var ourIdentityKeyBuffer = util.toArrayBuffer(ourIdentityKey.pubKey);
+              var theirIdentityKey = util.toArrayBuffer(session.indexInfo.remoteIdentityKey);
               var macInput = new Uint8Array(encodedMsg.byteLength + 33*2 + 1);
-              macInput.set(new Uint8Array(util.toArrayBuffer(ourIdentityKey.pubKey)));
-              macInput.set(new Uint8Array(util.toArrayBuffer(session.indexInfo.remoteIdentityKey)), 33);
+
+              macInput.set(new Uint8Array(ourIdentityKeyBuffer));
+              macInput.set(new Uint8Array(theirIdentityKey), 33);
               macInput[33*2] = (3 << 4) | 3;
               macInput.set(new Uint8Array(encodedMsg), 33*2 + 1);
 
@@ -36093,13 +36105,13 @@ SessionCipher.prototype = {
                   result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
 
                   return this.storage.isTrustedIdentity(
-                      this.remoteAddress.getName(), util.toArrayBuffer(session.indexInfo.remoteIdentityKey), this.storage.Direction.SENDING
+                      this.remoteAddress.getName(), theirIdentityKey, this.storage.Direction.SENDING
                   ).then(function(trusted) {
                       if (!trusted) {
                           throw new Error('Identity key changed');
                       }
                   }).then(function() {
-                      return this.storage.saveIdentity(this.remoteAddress.toString(), session.indexInfo.remoteIdentityKey);
+                      return this.storage.saveIdentity(this.remoteAddress.toString(), theirIdentityKey);
                   }.bind(this)).then(function() {
                       record.updateSessionState(session);
                       return this.storage.storeSession(address, record.serialize()).then(function() {
@@ -36370,6 +36382,20 @@ SessionCipher.prototype = {
           });
       });
   },
+  getSessionVersion: function() {
+    return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
+      return this.getRecord(this.remoteAddress.toString()).then(function(record) {
+          if (record === undefined) {
+              return undefined;
+          }
+          var openSession = record.getOpenSession();
+          if (openSession === undefined || openSession.indexInfo === undefined) {
+              return null;
+          }
+          return openSession.indexInfo.baseKeyType;
+      });
+    }.bind(this));
+  },
   getRemoteRegistrationId: function() {
     return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
       return this.getRecord(this.remoteAddress.toString()).then(function(record) {
@@ -36428,6 +36454,7 @@ libsignal.SessionCipher = function(storage, remoteAddress) {
 
     // returns a Promise that resolves to a ciphertext object
     this.encrypt = cipher.encrypt.bind(cipher);
+    this.getRecord = cipher.getRecord.bind(cipher);
 
     // returns a Promise that inits a session if necessary and resolves
     // to a decrypted plaintext array buffer

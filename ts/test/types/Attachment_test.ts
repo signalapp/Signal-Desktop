@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import moment from 'moment';
 
 import * as Attachment from '../../types/Attachment';
 import * as MIME from '../../types/MIME';
@@ -44,12 +45,12 @@ describe('Attachment', () => {
           data: stringToArrayBuffer('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         };
-        const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
+        const timestamp = moment('2000-01-01').toDate();
         const actual = Attachment.getSuggestedFilename({
           attachment,
           timestamp,
         });
-        const expected = 'signal-attachment-1970-01-01-000000.mov';
+        const expected = 'signal-attachment-2000-01-01-000000.mov';
         assert.strictEqual(actual, expected);
       });
     });

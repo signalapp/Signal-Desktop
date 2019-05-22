@@ -1,8 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
 
-import { Emojify } from './Emojify';
-import { Localizer } from '../../types/Util';
+import { ContactName } from './ContactName';
+import { Avatar } from '../Avatar';
+import { Colors, Localizer } from '../../types/Util';
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -22,6 +22,7 @@ interface Trigger {
 interface Props {
   i18n: Localizer;
   isVerified: boolean;
+  isKeysPending: boolean;
   name?: string;
   id: string;
   phoneNumber: string;
@@ -29,24 +30,32 @@ interface Props {
   color: string;
 
   avatarPath?: string;
+  isBlocked: boolean;
   isMe: boolean;
   isGroup: boolean;
+  isOnline?: boolean;
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
+  hasNickname?: boolean;
 
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
+  onDeleteContact: () => void;
   onResetSession: () => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
   onGoBack: () => void;
-}
 
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
+  onBlockUser: () => void;
+  onUnblockUser: () => void;
+
+  onClearNickname: () => void;
+  onChangeNickname: () => void;
+
+  onCopyPublicKey: () => void;
 }
 
 export class ConversationHeader extends React.Component<Props> {
@@ -88,25 +97,16 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderTitle() {
-    const { name, phoneNumber, i18n, profileName, isVerified } = this.props;
+    const { phoneNumber, i18n, profileName, isKeysPending } = this.props;
 
     return (
       <div className="module-conversation-header__title">
-        {name ? <Emojify text={name} i18n={i18n} /> : null}
-        {name && phoneNumber ? ' · ' : null}
-        {phoneNumber ? phoneNumber : null}{' '}
-        {profileName && !name ? (
-          <span className="module-conversation-header__title__profile-name">
-            ~<Emojify text={profileName} i18n={i18n} />
-          </span>
-        ) : null}
-        {isVerified ? ' · ' : null}
-        {isVerified ? (
-          <span>
-            <span className="module-conversation-header__title__verified-icon" />
-            {i18n('verified')}
-          </span>
-        ) : null}
+        <ContactName
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          i18n={i18n}
+        />
+        {isKeysPending ? '(pending)' : null}
       </div>
     );
   }
@@ -116,37 +116,30 @@ export class ConversationHeader extends React.Component<Props> {
       avatarPath,
       color,
       i18n,
+      isGroup,
       name,
       phoneNumber,
       profileName,
+      isOnline,
     } = this.props;
 
-    if (!avatarPath) {
-      const initial = getInitial(name || '');
-
-      return (
-        <div
-          className={classNames(
-            'module-conversation-header___avatar',
-            'module-conversation-header___default-avatar',
-            `module-conversation-header___default-avatar--${color}`
-          )}
-        >
-          {initial}
-        </div>
-      );
-    }
-
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
+    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE_LIGHT;
 
     return (
-      <img
-        className="module-conversation-header___avatar"
-        alt={i18n('contactAvatarAlt', [title])}
-        src={avatarPath}
-      />
+      <span className="module-conversation-header__avatar">
+        <Avatar
+          avatarPath={avatarPath}
+          color={color}
+          conversationType={isGroup ? 'group' : 'direct'}
+          i18n={i18n}
+          name={name}
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          size={28}
+          borderColor={borderColor}
+          borderWidth={2}
+        />
+      </span>
     );
   }
 
@@ -189,18 +182,29 @@ export class ConversationHeader extends React.Component<Props> {
   public renderMenu(triggerId: string) {
     const {
       i18n,
+      isBlocked,
       isMe,
       isGroup,
       onDeleteMessages,
+      onDeleteContact,
       onResetSession,
       onSetDisappearingMessages,
       onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
       timerOptions,
+      onBlockUser,
+      onUnblockUser,
+      hasNickname,
+      onClearNickname,
+      onChangeNickname,
+      onCopyPublicKey,
     } = this.props;
 
     const disappearingTitle = i18n('disappearingMessages') as any;
+
+    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
+    const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
 
     return (
       <ContextMenu id={triggerId}>
@@ -230,7 +234,23 @@ export class ConversationHeader extends React.Component<Props> {
         {!isGroup ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
         ) : null}
+        {/* Only show the block on other conversations */}
+        {!isMe ? (
+          <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+        ) : null}
+        {!isMe ? (
+          <MenuItem onClick={onChangeNickname}>
+            {i18n('changeNickname')}
+          </MenuItem>
+        ) : null}
+        {!isMe && hasNickname ? (
+          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
+        ) : null}
+        <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        {!isMe ? (
+          <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+        ) : null}
       </ContextMenu>
     );
   }
@@ -238,6 +258,8 @@ export class ConversationHeader extends React.Component<Props> {
 
   public render() {
     const { id } = this.props;
+
+    const triggerId = `${id}-${Date.now()}`;
 
     return (
       <div className="module-conversation-header">
@@ -249,8 +271,8 @@ export class ConversationHeader extends React.Component<Props> {
           </div>
         </div>
         {this.renderExpirationLength()}
-        {this.renderGear(id)}
-        {this.renderMenu(id)}
+        {this.renderGear(triggerId)}
+        {this.renderMenu(triggerId)}
       </div>
     );
   }

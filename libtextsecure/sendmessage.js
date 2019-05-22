@@ -1,4 +1,4 @@
-/* global textsecure, WebAPI, libsignal, OutgoingMessage, window */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -18,6 +18,7 @@ function Message(options) {
   this.body = options.body;
   this.attachments = options.attachments || [];
   this.quote = options.quote;
+  this.preview = options.preview;
   this.group = options.group;
   this.flags = options.flags;
   this.recipients = options.recipients;
@@ -25,6 +26,7 @@ function Message(options) {
   this.needsSync = options.needsSync;
   this.expireTimer = options.expireTimer;
   this.profileKey = options.profileKey;
+  this.profile = options.profile;
 
   if (!(this.recipients instanceof Array) || this.recipients.length < 1) {
     throw new Error('Invalid recipient list');
@@ -102,6 +104,15 @@ Message.prototype = {
       proto.group.id = stringToArrayBuffer(this.group.id);
       proto.group.type = this.group.type;
     }
+    if (Array.isArray(this.preview)) {
+      proto.preview = this.preview.map(preview => {
+        const item = new textsecure.protobuf.DataMessage.Preview();
+        item.title = preview.title;
+        item.url = preview.url;
+        item.image = preview.image || null;
+        return item;
+      });
+    }
     if (this.quote) {
       const { QuotedAttachment } = textsecure.protobuf.DataMessage.Quote;
       const { Quote } = textsecure.protobuf.DataMessage;
@@ -130,6 +141,12 @@ Message.prototype = {
 
     if (this.profileKey) {
       proto.profileKey = this.profileKey;
+    }
+
+    if (this.profile && this.profile.name) {
+      const contact = new textsecure.protobuf.DataMessage.Contact();
+      contact.name = this.profile.name;
+      proto.profile = contact;
     }
 
     this.dataMessage = proto;
@@ -176,83 +193,29 @@ MessageSender.prototype = {
           proto.id = id;
           proto.contentType = attachment.contentType;
           proto.digest = result.digest;
-          if (attachment.fileName) {
-            proto.fileName = attachment.fileName;
-          }
+
           if (attachment.size) {
             proto.size = attachment.size;
+          }
+          if (attachment.fileName) {
+            proto.fileName = attachment.fileName;
           }
           if (attachment.flags) {
             proto.flags = attachment.flags;
           }
+          if (attachment.width) {
+            proto.width = attachment.width;
+          }
+          if (attachment.height) {
+            proto.height = attachment.height;
+          }
+          if (attachment.caption) {
+            proto.caption = attachment.caption;
+          }
+
           return proto;
         })
       );
-  },
-
-  retransmitMessage(number, jsonData, timestamp) {
-    const outgoing = new OutgoingMessage(this.server);
-    return outgoing.transmitMessage(number, jsonData, timestamp);
-  },
-
-  validateRetryContentMessage(content) {
-    // We want at least one field set, but not more than one
-    let count = 0;
-    count += content.syncMessage ? 1 : 0;
-    count += content.dataMessage ? 1 : 0;
-    count += content.callMessage ? 1 : 0;
-    count += content.nullMessage ? 1 : 0;
-    if (count !== 1) {
-      return false;
-    }
-
-    // It's most likely that dataMessage will be populated, so we look at it in detail
-    const data = content.dataMessage;
-    if (
-      data &&
-      !data.attachments.length &&
-      !data.body &&
-      !data.expireTimer &&
-      !data.flags &&
-      !data.group
-    ) {
-      return false;
-    }
-
-    return true;
-  },
-
-  getRetryProto(message, timestamp) {
-    // If message was sent before v0.41.3 was released on Aug 7, then it was most
-    //   certainly a DataMessage
-    //
-    // var d = new Date('2017-08-07T07:00:00.000Z');
-    // d.getTime();
-    const august7 = 1502089200000;
-    if (timestamp < august7) {
-      return textsecure.protobuf.DataMessage.decode(message);
-    }
-
-    // This is ugly. But we don't know what kind of proto we need to decode...
-    try {
-      // Simply decoding as a Content message may throw
-      const proto = textsecure.protobuf.Content.decode(message);
-
-      // But it might also result in an invalid object, so we try to detect that
-      if (this.validateRetryContentMessage(proto)) {
-        return proto;
-      }
-
-      return textsecure.protobuf.DataMessage.decode(message);
-    } catch (e) {
-      // If this call throws, something has really gone wrong, we'll fail to send
-      return textsecure.protobuf.DataMessage.decode(message);
-    }
-  },
-
-  tryMessageAgain(number, encodedMessage, timestamp) {
-    const proto = this.getRetryProto(encodedMessage, timestamp);
-    return this.sendIndividualProto(number, proto, timestamp);
   },
 
   queueJobForNumber(number, runJob) {
@@ -292,6 +255,25 @@ MessageSender.prototype = {
       });
   },
 
+  async uploadLinkPreviews(message) {
+    try {
+      const preview = await Promise.all(
+        (message.preview || []).map(async item => ({
+          ...item,
+          image: await this.makeAttachmentPointer(item.image),
+        }))
+      );
+      // eslint-disable-next-line no-param-reassign
+      message.preview = preview;
+    } catch (error) {
+      if (error instanceof Error && error.name === 'HTTPError') {
+        throw new textsecure.MessageError(message, error);
+      } else {
+        throw error;
+      }
+    }
+  },
+
   uploadThumbnails(message) {
     const makePointer = this.makeAttachmentPointer.bind(this);
     const { quote } = message;
@@ -321,11 +303,22 @@ MessageSender.prototype = {
     });
   },
 
-  sendMessage(attrs) {
+  sendMessage(attrs, options) {
     const message = new Message(attrs);
+    const silent = false;
+
+    // Remove this when we add support for attachments
+    message.attachments = [];
+    message.attachmentPointers = [];
+    message.preview = [];
+    if (message.quote) {
+      message.quote.attachments = [];
+    }
+
     return Promise.all([
       this.uploadAttachments(message),
       this.uploadThumbnails(message),
+      this.uploadLinkPreviews(message),
     ]).then(
       () =>
         new Promise((resolve, reject) => {
@@ -340,12 +333,21 @@ MessageSender.prototype = {
               } else {
                 resolve(res);
               }
-            }
+            },
+            silent,
+            options
           );
         })
     );
   },
-  sendMessageProto(timestamp, numbers, message, callback, silent) {
+  sendMessageProto(
+    timestamp,
+    numbers,
+    message,
+    callback,
+    silent,
+    options = {}
+  ) {
     const rejections = textsecure.storage.get('signedKeyRotationRejected', 0);
     if (rejections > 5) {
       throw new textsecure.SignedPreKeyRotationError(
@@ -361,7 +363,8 @@ MessageSender.prototype = {
       numbers,
       message,
       silent,
-      callback
+      callback,
+      options
     );
 
     numbers.forEach(number => {
@@ -369,29 +372,44 @@ MessageSender.prototype = {
     });
   },
 
-  retrySendMessageProto(numbers, encodedMessage, timestamp) {
-    const proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
+  sendMessageProtoAndWait(timestamp, numbers, message, silent, options = {}) {
     return new Promise((resolve, reject) => {
-      this.sendMessageProto(timestamp, numbers, proto, res => {
-        if (res.errors.length > 0) {
-          reject(res);
-        } else {
-          resolve(res);
+      const callback = result => {
+        if (result && result.errors && result.errors.length > 0) {
+          return reject(result);
         }
-      });
+
+        return resolve(result);
+      };
+
+      this.sendMessageProto(
+        timestamp,
+        numbers,
+        message,
+        callback,
+        silent,
+        options
+      );
     });
   },
 
-  sendIndividualProto(number, proto, timestamp, silent) {
+  sendIndividualProto(number, proto, timestamp, silent, options = {}) {
     return new Promise((resolve, reject) => {
       const callback = res => {
-        if (res.errors.length > 0) {
+        if (res && res.errors && res.errors.length > 0) {
           reject(res);
         } else {
           resolve(res);
         }
       };
-      this.sendMessageProto(timestamp, [number], proto, callback, silent);
+      this.sendMessageProto(
+        timestamp,
+        [number],
+        proto,
+        callback,
+        silent,
+        options
+      );
     });
   },
 
@@ -412,7 +430,10 @@ MessageSender.prototype = {
     encodedDataMessage,
     timestamp,
     destination,
-    expirationStartTimestamp
+    expirationStartTimestamp,
+    sentTo = [],
+    unidentifiedDeliveries = [],
+    options
   ) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -432,6 +453,27 @@ MessageSender.prototype = {
     if (expirationStartTimestamp) {
       sentMessage.expirationStartTimestamp = expirationStartTimestamp;
     }
+
+    const unidentifiedLookup = unidentifiedDeliveries.reduce(
+      (accumulator, item) => {
+        // eslint-disable-next-line no-param-reassign
+        accumulator[item] = true;
+        return accumulator;
+      },
+      Object.create(null)
+    );
+
+    // Though this field has 'unidenified' in the name, it should have entries for each
+    //   number we sent to.
+    if (sentTo && sentTo.length) {
+      sentMessage.unidentifiedStatus = sentTo.map(number => {
+        const status = new textsecure.protobuf.SyncMessage.Sent.UnidentifiedDeliveryStatus();
+        status.destination = number;
+        status.unidentified = Boolean(unidentifiedLookup[number]);
+        return status;
+      });
+    }
+
     const syncMessage = this.createSyncMessage();
     syncMessage.sent = sentMessage;
     const contentMessage = new textsecure.protobuf.Content();
@@ -442,18 +484,24 @@ MessageSender.prototype = {
       myNumber,
       contentMessage,
       Date.now(),
-      silent
+      silent,
+      options
     );
   },
 
-  getProfile(number) {
+  async getProfile(number, { accessKey } = {}) {
+    if (accessKey) {
+      return this.server.getProfileUnauth(number, { accessKey });
+    }
+
     return this.server.getProfile(number);
   },
+
   getAvatar(path) {
     return this.server.getAvatar(path);
   },
 
-  sendRequestConfigurationSyncMessage() {
+  sendRequestConfigurationSyncMessage(options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
     if (myDevice !== 1 && myDevice !== '1') {
@@ -469,13 +517,15 @@ MessageSender.prototype = {
         myNumber,
         contentMessage,
         Date.now(),
-        silent
+        silent,
+        options
       );
     }
 
     return Promise.resolve();
   },
-  sendRequestGroupSyncMessage() {
+
+  sendRequestGroupSyncMessage(options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
     if (myDevice !== 1 && myDevice !== '1') {
@@ -491,14 +541,15 @@ MessageSender.prototype = {
         myNumber,
         contentMessage,
         Date.now(),
-        silent
+        silent,
+        options
       );
     }
 
     return Promise.resolve();
   },
 
-  sendRequestContactSyncMessage() {
+  sendRequestContactSyncMessage(options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
     if (myDevice !== 1 && myDevice !== '1') {
@@ -514,13 +565,87 @@ MessageSender.prototype = {
         myNumber,
         contentMessage,
         Date.now(),
-        silent
+        silent,
+        options
       );
     }
 
     return Promise.resolve();
   },
-  sendReadReceipts(sender, timestamps) {
+
+  async sendTypingMessage(options = {}, sendOptions = {}) {
+    const ACTION_ENUM = textsecure.protobuf.TypingMessage.Action;
+    const { recipientId, groupId, isTyping, timestamp } = options;
+
+    // We don't want to send typing messages to our other devices, but we will
+    //   in the group case.
+    const myNumber = textsecure.storage.user.getNumber();
+    if (recipientId && myNumber === recipientId) {
+      return null;
+    }
+
+    if (!recipientId && !groupId) {
+      throw new Error('Need to provide either recipientId or groupId!');
+    }
+
+    const recipients = groupId
+      ? _.without(await textsecure.storage.groups.getNumbers(groupId), myNumber)
+      : [recipientId];
+    const groupIdBuffer = groupId
+      ? window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(groupId)
+      : null;
+
+    const action = isTyping ? ACTION_ENUM.STARTED : ACTION_ENUM.STOPPED;
+    const finalTimestamp = timestamp || Date.now();
+
+    const typingMessage = new textsecure.protobuf.TypingMessage();
+    typingMessage.groupId = groupIdBuffer;
+    typingMessage.action = action;
+    typingMessage.timestamp = finalTimestamp;
+
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.typingMessage = typingMessage;
+
+    const silent = true;
+    const online = true;
+
+    return this.sendMessageProtoAndWait(
+      finalTimestamp,
+      recipients,
+      contentMessage,
+      silent,
+      {
+        ...sendOptions,
+        online,
+      }
+    );
+  },
+
+  sendDeliveryReceipt(recipientId, timestamp, options) {
+    const myNumber = textsecure.storage.user.getNumber();
+    const myDevice = textsecure.storage.user.getDeviceId();
+    if (myNumber === recipientId && (myDevice === 1 || myDevice === '1')) {
+      return Promise.resolve();
+    }
+
+    const receiptMessage = new textsecure.protobuf.ReceiptMessage();
+    receiptMessage.type = textsecure.protobuf.ReceiptMessage.Type.DELIVERY;
+    receiptMessage.timestamp = [timestamp];
+
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.receiptMessage = receiptMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      recipientId,
+      contentMessage,
+      Date.now(),
+      silent,
+      options
+    );
+  },
+
+  sendReadReceipts(sender, timestamps, options) {
     const receiptMessage = new textsecure.protobuf.ReceiptMessage();
     receiptMessage.type = textsecure.protobuf.ReceiptMessage.Type.READ;
     receiptMessage.timestamp = timestamps;
@@ -529,9 +654,15 @@ MessageSender.prototype = {
     contentMessage.receiptMessage = receiptMessage;
 
     const silent = true;
-    return this.sendIndividualProto(sender, contentMessage, Date.now(), silent);
+    return this.sendIndividualProto(
+      sender,
+      contentMessage,
+      Date.now(),
+      silent,
+      options
+    );
   },
-  syncReadMessages(reads) {
+  syncReadMessages(reads, options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
     if (myDevice !== 1 && myDevice !== '1') {
@@ -551,13 +682,14 @@ MessageSender.prototype = {
         myNumber,
         contentMessage,
         Date.now(),
-        silent
+        silent,
+        options
       );
     }
 
     return Promise.resolve();
   },
-  syncVerification(destination, state, identityKey) {
+  syncVerification(destination, state, identityKey, options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
     const now = Date.now();
@@ -580,7 +712,14 @@ MessageSender.prototype = {
     contentMessage.nullMessage = nullMessage;
 
     // We want the NullMessage to look like a normal outgoing message; not silent
-    const promise = this.sendIndividualProto(destination, contentMessage, now);
+    const silent = false;
+    const promise = this.sendIndividualProto(
+      destination,
+      contentMessage,
+      now,
+      silent,
+      options
+    );
 
     return promise.then(() => {
       const verified = new textsecure.protobuf.Verified();
@@ -595,12 +734,18 @@ MessageSender.prototype = {
       const secondMessage = new textsecure.protobuf.Content();
       secondMessage.syncMessage = syncMessage;
 
-      const silent = true;
-      return this.sendIndividualProto(myNumber, secondMessage, now, silent);
+      const innerSilent = true;
+      return this.sendIndividualProto(
+        myNumber,
+        secondMessage,
+        now,
+        innerSilent,
+        options
+      );
     });
   },
 
-  sendGroupProto(providedNumbers, proto, timestamp = Date.now()) {
+  sendGroupProto(providedNumbers, proto, timestamp = Date.now(), options = {}) {
     const me = textsecure.storage.user.getNumber();
     const numbers = providedNumbers.filter(number => number !== me);
     if (numbers.length === 0) {
@@ -618,7 +763,14 @@ MessageSender.prototype = {
         }
       };
 
-      this.sendMessageProto(timestamp, numbers, proto, callback, silent);
+      this.sendMessageProto(
+        timestamp,
+        numbers,
+        proto,
+        callback,
+        silent,
+        options
+      );
     });
   },
 
@@ -627,24 +779,33 @@ MessageSender.prototype = {
     messageText,
     attachments,
     quote,
+    preview,
     timestamp,
     expireTimer,
-    profileKey
+    profileKey,
+    options
   ) {
-    return this.sendMessage({
-      recipients: [number],
-      body: messageText,
-      timestamp,
-      attachments,
-      quote,
-      needsSync: true,
-      expireTimer,
-      profileKey,
-    });
+    const profile = textsecure.storage.impl.getLocalProfile();
+    return this.sendMessage(
+      {
+        recipients: [number],
+        body: messageText,
+        timestamp,
+        attachments,
+        quote,
+        preview,
+        needsSync: true,
+        expireTimer,
+        profileKey,
+        profile,
+      },
+      options
+    );
   },
 
-  resetSession(number, timestamp) {
+  resetSession(number, timestamp, options) {
     window.log.info('resetting secure session');
+    const silent = false;
     const proto = new textsecure.protobuf.DataMessage();
     proto.body = 'TERMINATE';
     proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
@@ -653,6 +814,17 @@ MessageSender.prototype = {
       window.log.error(prefix, error && error.stack ? error.stack : error);
       throw error;
     };
+    // The actual deletion of the session now happens later
+    // as we need to ensure the other contact has successfully
+    // switch to a new session first.
+    return this.sendIndividualProto(
+      number,
+      proto,
+      timestamp,
+      silent,
+      options
+    ).catch(logError('resetSession/sendToContact error:'));
+    /*
     const deleteAllSessions = targetNumber =>
       textsecure.storage.protocol.getDeviceIds(targetNumber).then(deviceIds =>
         Promise.all(
@@ -677,9 +849,13 @@ MessageSender.prototype = {
         window.log.info(
           'finished closing local sessions, now sending to contact'
         );
-        return this.sendIndividualProto(number, proto, timestamp).catch(
-          logError('resetSession/sendToContact error:')
-        );
+        return this.sendIndividualProto(
+          number,
+          proto,
+          timestamp,
+          silent,
+          options
+        ).catch(logError('resetSession/sendToContact error:'));
       })
       .then(() =>
         deleteAllSessions(number).catch(
@@ -688,11 +864,18 @@ MessageSender.prototype = {
       );
 
     const buffer = proto.toArrayBuffer();
-    const sendSync = this.sendSyncMessage(buffer, timestamp, number).catch(
-      logError('resetSession/sendSync error:')
-    );
+    const sendSync = this.sendSyncMessage(
+      buffer,
+      timestamp,
+      number,
+      null,
+      [],
+      [],
+      options
+    ).catch(logError('resetSession/sendSync error:'));
 
     return Promise.all([sendToContact, sendSync]);
+    */
   },
 
   sendMessageToGroup(
@@ -700,9 +883,11 @@ MessageSender.prototype = {
     messageText,
     attachments,
     quote,
+    preview,
     timestamp,
     expireTimer,
-    profileKey
+    profileKey,
+    options
   ) {
     return textsecure.storage.groups.getNumbers(groupId).then(targetNumbers => {
       if (targetNumbers === undefined) {
@@ -715,24 +900,28 @@ MessageSender.prototype = {
         return Promise.reject(new Error('No other members in the group'));
       }
 
-      return this.sendMessage({
-        recipients: numbers,
-        body: messageText,
-        timestamp,
-        attachments,
-        quote,
-        needsSync: true,
-        expireTimer,
-        profileKey,
-        group: {
-          id: groupId,
-          type: textsecure.protobuf.GroupContext.Type.DELIVER,
+      return this.sendMessage(
+        {
+          recipients: numbers,
+          body: messageText,
+          timestamp,
+          attachments,
+          quote,
+          preview,
+          needsSync: true,
+          expireTimer,
+          profileKey,
+          group: {
+            id: groupId,
+            type: textsecure.protobuf.GroupContext.Type.DELIVER,
+          },
         },
-      });
+        options
+      );
     });
   },
 
-  createGroup(targetNumbers, name, avatar) {
+  createGroup(targetNumbers, name, avatar, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
 
@@ -748,12 +937,14 @@ MessageSender.prototype = {
 
         return this.makeAttachmentPointer(avatar).then(attachment => {
           proto.group.avatar = attachment;
-          return this.sendGroupProto(numbers, proto).then(() => proto.group.id);
+          return this.sendGroupProto(numbers, proto, Date.now(), options).then(
+            () => proto.group.id
+          );
         });
       });
   },
 
-  updateGroup(groupId, name, avatar, targetNumbers) {
+  updateGroup(groupId, name, avatar, targetNumbers, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
 
@@ -771,12 +962,14 @@ MessageSender.prototype = {
 
         return this.makeAttachmentPointer(avatar).then(attachment => {
           proto.group.avatar = attachment;
-          return this.sendGroupProto(numbers, proto).then(() => proto.group.id);
+          return this.sendGroupProto(numbers, proto, Date.now(), options).then(
+            () => proto.group.id
+          );
         });
       });
   },
 
-  addNumberToGroup(groupId, number) {
+  addNumberToGroup(groupId, number, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
     proto.group.id = stringToArrayBuffer(groupId);
@@ -789,11 +982,11 @@ MessageSender.prototype = {
           return Promise.reject(new Error('Unknown Group'));
         proto.group.members = numbers;
 
-        return this.sendGroupProto(numbers, proto);
+        return this.sendGroupProto(numbers, proto, Date.now(), options);
       });
   },
 
-  setGroupName(groupId, name) {
+  setGroupName(groupId, name, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
     proto.group.id = stringToArrayBuffer(groupId);
@@ -805,11 +998,11 @@ MessageSender.prototype = {
         return Promise.reject(new Error('Unknown Group'));
       proto.group.members = numbers;
 
-      return this.sendGroupProto(numbers, proto);
+      return this.sendGroupProto(numbers, proto, Date.now(), options);
     });
   },
 
-  setGroupAvatar(groupId, avatar) {
+  setGroupAvatar(groupId, avatar, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
     proto.group.id = stringToArrayBuffer(groupId);
@@ -822,12 +1015,12 @@ MessageSender.prototype = {
 
       return this.makeAttachmentPointer(avatar).then(attachment => {
         proto.group.avatar = attachment;
-        return this.sendGroupProto(numbers, proto);
+        return this.sendGroupProto(numbers, proto, Date.now(), options);
       });
     });
   },
 
-  leaveGroup(groupId) {
+  leaveGroup(groupId, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
     proto.group.id = stringToArrayBuffer(groupId);
@@ -838,14 +1031,15 @@ MessageSender.prototype = {
         return Promise.reject(new Error('Unknown Group'));
       return textsecure.storage.groups
         .deleteGroup(groupId)
-        .then(() => this.sendGroupProto(numbers, proto));
+        .then(() => this.sendGroupProto(numbers, proto, Date.now(), options));
     });
   },
   sendExpirationTimerUpdateToGroup(
     groupId,
     expireTimer,
     timestamp,
-    profileKey
+    profileKey,
+    options
   ) {
     return textsecure.storage.groups.getNumbers(groupId).then(targetNumbers => {
       if (targetNumbers === undefined)
@@ -856,34 +1050,47 @@ MessageSender.prototype = {
       if (numbers.length === 0) {
         return Promise.reject(new Error('No other members in the group'));
       }
-      return this.sendMessage({
-        recipients: numbers,
-        timestamp,
-        needsSync: true,
-        expireTimer,
-        profileKey,
-        flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-        group: {
-          id: groupId,
-          type: textsecure.protobuf.GroupContext.Type.DELIVER,
+      return this.sendMessage(
+        {
+          recipients: numbers,
+          timestamp,
+          needsSync: true,
+          expireTimer,
+          profileKey,
+          flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+          group: {
+            id: groupId,
+            type: textsecure.protobuf.GroupContext.Type.DELIVER,
+          },
         },
-      });
+        options
+      );
     });
   },
   sendExpirationTimerUpdateToNumber(
     number,
     expireTimer,
     timestamp,
-    profileKey
+    profileKey,
+    options
   ) {
-    return this.sendMessage({
-      recipients: [number],
-      timestamp,
-      needsSync: true,
-      expireTimer,
-      profileKey,
-      flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-    });
+    return this.sendMessage(
+      {
+        recipients: [number],
+        timestamp,
+        needsSync: true,
+        expireTimer,
+        profileKey,
+        flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+      },
+      options
+    );
+  },
+  makeProxiedRequest(url, options) {
+    return this.server.makeProxiedRequest(url, options);
+  },
+  getProxiedSize(url) {
+    return this.server.getProxiedSize(url);
   },
 };
 
@@ -916,6 +1123,7 @@ textsecure.MessageSender = function MessageSenderWrapper(
   this.sendMessage = sender.sendMessage.bind(sender);
   this.resetSession = sender.resetSession.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
+  this.sendTypingMessage = sender.sendTypingMessage.bind(sender);
   this.createGroup = sender.createGroup.bind(sender);
   this.updateGroup = sender.updateGroup.bind(sender);
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
@@ -927,7 +1135,10 @@ textsecure.MessageSender = function MessageSenderWrapper(
   this.getAvatar = sender.getAvatar.bind(sender);
   this.syncReadMessages = sender.syncReadMessages.bind(sender);
   this.syncVerification = sender.syncVerification.bind(sender);
+  this.sendDeliveryReceipt = sender.sendDeliveryReceipt.bind(sender);
   this.sendReadReceipts = sender.sendReadReceipts.bind(sender);
+  this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
+  this.getProxiedSize = sender.getProxiedSize.bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

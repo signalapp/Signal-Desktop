@@ -7,7 +7,6 @@ exports.createTemplate = (options, messages) => {
 
   const {
     includeSetup,
-    openForums,
     openNewBugForm,
     openReleaseNotes,
     openSupportPage,
@@ -135,10 +134,6 @@ exports.createTemplate = (options, messages) => {
         },
         {
           type: 'separator',
-        },
-        {
-          label: messages.goToForums.message,
-          click: openForums,
         },
         {
           label: messages.goToSupportPage.message,

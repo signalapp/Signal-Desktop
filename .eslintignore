@@ -2,18 +2,16 @@ build/**
 components/**
 coverage/**
 dist/**
-
-# these aren't ready yet, pulling files in one-by-one
-libtextsecure/test/*.js
-test/*.js
-test/models/*.js
-test/views/*.js
+mnemonic_languages/**
 
 # Generated files
 js/components.js
 js/libtextsecure.js
+js/libloki.js
+js/util_worker.js
 js/libsignal-protocol-worker.js
 libtextsecure/components.js
+libloki/test/test.js
 libtextsecure/test/test.js
 test/test.js
 
@@ -29,3 +27,7 @@ test/blanket_mocha.js
 # TypeScript generated files
 ts/**/*.js
 
+# Libloki specific files
+libloki/test/components.js
+libloki/modules/mnemonic.js
+libloki/modules/sc_reduce32.js

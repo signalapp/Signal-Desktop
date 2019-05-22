@@ -27,6 +27,7 @@
   const Request = function Request(options) {
     this.verb = options.verb || options.type;
     this.path = options.path || options.url;
+    this.headers = options.headers;
     this.body = options.body || options.data;
     this.success = options.success;
     this.error = options.error;
@@ -50,6 +51,7 @@
     this.verb = request.verb;
     this.path = request.path;
     this.body = request.body;
+    this.headers = request.headers;
 
     this.respond = (status, message) => {
       socket.send(
@@ -77,6 +79,7 @@
           verb: request.verb,
           path: request.path,
           body: request.body,
+          headers: request.headers,
           id: request.id,
         },
       })
@@ -105,6 +108,7 @@
               verb: message.request.verb,
               path: message.request.path,
               body: message.request.body,
+              headers: message.request.headers,
               id: message.request.id,
               socket,
             })

@@ -1,14 +1,15 @@
 /* global _: false */
 /* global Backbone: false */
-/* global dcodeIO: false */
-/* global libphonenumber: false */
-
+/* global BlockedNumberController: false */
 /* global ConversationController: false */
-/* global libsignal: false */
+/* global clipboard: false */
+/* global i18n: false */
+/* global profileImages: false */
 /* global storage: false */
 /* global textsecure: false */
 /* global Whisper: false */
-/* global wrapDeferred: false */
+/* global lokiP2pAPI: false */
+/* global JobQueue: false */
 
 /* eslint-disable more/no-then */
 
@@ -17,6 +18,13 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
+
+  const SEALED_SENDER = {
+    UNKNOWN: 0,
+    ENABLED: 1,
+    DISABLED: 2,
+    UNRESTRICTED: 3,
+  };
 
   const { Util } = window.Signal;
   const {
@@ -30,52 +38,49 @@
     upgradeMessageSchema,
     loadAttachmentData,
     getAbsoluteAttachmentPath,
+    // eslint-disable-next-line no-unused-vars
+    writeNewAttachmentData,
+    deleteAttachmentData,
   } = window.Signal.Migrations;
 
-  // TODO: Factor out private and group subclasses of Conversation
+  // Possible conversation friend states
+  const FriendRequestStatusEnum = window.friends.friendRequestStatusEnum;
+
+  // Possible session reset states
+  const SessionResetEnum = Object.freeze({
+    // No ongoing reset
+    none: 0,
+    // we initiated the session reset
+    initiated: 1,
+    // we received the session reset
+    request_received: 2,
+  });
 
   const COLORS = [
     'red',
+    'deep_orange',
+    'brown',
     'pink',
     'purple',
-    'deep_purple',
     'indigo',
     'blue',
-    'light_blue',
-    'cyan',
     'teal',
     'green',
     'light_green',
-    'orange',
-    'deep_orange',
-    'amber',
     'blue_grey',
   ];
 
-  function constantTimeEqualArrayBuffers(ab1, ab2) {
-    if (!(ab1 instanceof ArrayBuffer && ab2 instanceof ArrayBuffer)) {
-      return false;
-    }
-    if (ab1.byteLength !== ab2.byteLength) {
-      return false;
-    }
-    let result = 0;
-    const ta1 = new Uint8Array(ab1);
-    const ta2 = new Uint8Array(ab2);
-    for (let i = 0; i < ab1.byteLength; i += 1) {
-      // eslint-disable-next-line no-bitwise
-      result |= ta1[i] ^ ta2[i];
-    }
-    return result === 0;
-  }
-
   Whisper.Conversation = Backbone.Model.extend({
-    database: Whisper.Database,
     storeName: 'conversations',
     defaults() {
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        friendRequestStatus: FriendRequestStatusEnum.none,
+        unlockTimestamp: null, // Timestamp used for expiring friend requests.
+        sessionResetStatus: SessionResetEnum.none,
+        swarmNodes: [],
+        isOnline: false,
       };
     },
 
@@ -113,6 +118,7 @@
       this.messageCollection.on('change:errors', this.handleMessageError, this);
       this.messageCollection.on('send-error', this.onMessageError, this);
 
+      this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
       const debouncedUpdateLastMessage = _.debounce(
         this.updateLastMessage.bind(this),
         200
@@ -129,21 +135,148 @@
         this.updateLastMessage
       );
 
-      this.on('newmessage', this.updateLastMessage);
-      this.on('change:avatar', this.updateAvatarUrl);
-      this.on('change:profileAvatar', this.updateAvatarUrl);
+      this.on('newmessage', this.onNewMessage);
       this.on('change:profileKey', this.onChangeProfileKey);
-      this.on('destroy', this.revokeAvatarUrl);
 
       // Listening for out-of-band data updates
+      this.on('updateMessage', this.updateAndMerge);
       this.on('delivered', this.updateAndMerge);
       this.on('read', this.updateAndMerge);
       this.on('expiration-change', this.updateAndMerge);
       this.on('expired', this.onExpired);
+
+      const sealedSender = this.get('sealedSender');
+      if (sealedSender === undefined) {
+        this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
+      }
+      this.unset('unidentifiedDelivery');
+      this.unset('unidentifiedDeliveryUnrestricted');
+      this.unset('hasFetchedProfile');
+      this.unset('tokens');
+      this.unset('lastMessage');
+      this.unset('lastMessageStatus');
+
+      this.typingRefreshTimer = null;
+      this.typingPauseTimer = null;
+
+      // Online status handling
+      this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
+
+      this.messageSendQueue = new JobQueue();
+    },
+
+    isOnline() {
+      return this.isMe() || this.get('isOnline');
     },
 
     isMe() {
       return this.id === this.ourNumber;
+    },
+    isBlocked() {
+      return BlockedNumberController.isBlocked(this.id);
+    },
+    block() {
+      BlockedNumberController.block(this.id);
+      this.trigger('change');
+      this.messageCollection.forEach(m => m.trigger('change'));
+    },
+    unblock() {
+      BlockedNumberController.unblock(this.id);
+      this.trigger('change');
+      this.messageCollection.forEach(m => m.trigger('change'));
+    },
+
+    bumpTyping() {
+      // We don't send typing messages if the setting is disabled
+      if (!storage.get('typingIndicators')) {
+        return;
+      }
+
+      if (!this.typingRefreshTimer) {
+        const isTyping = true;
+        this.setTypingRefreshTimer();
+        this.sendTypingMessage(isTyping);
+      }
+
+      this.setTypingPauseTimer();
+    },
+
+    setTypingRefreshTimer() {
+      if (this.typingRefreshTimer) {
+        clearTimeout(this.typingRefreshTimer);
+      }
+      this.typingRefreshTimer = setTimeout(
+        this.onTypingRefreshTimeout.bind(this),
+        10 * 1000
+      );
+    },
+
+    onTypingRefreshTimeout() {
+      const isTyping = true;
+      this.sendTypingMessage(isTyping);
+
+      // This timer will continue to reset itself until the pause timer stops it
+      this.setTypingRefreshTimer();
+    },
+
+    setTypingPauseTimer() {
+      if (this.typingPauseTimer) {
+        clearTimeout(this.typingPauseTimer);
+      }
+      this.typingPauseTimer = setTimeout(
+        this.onTypingPauseTimeout.bind(this),
+        3 * 1000
+      );
+    },
+
+    onTypingPauseTimeout() {
+      const isTyping = false;
+      this.sendTypingMessage(isTyping);
+
+      this.clearTypingTimers();
+    },
+
+    clearTypingTimers() {
+      if (this.typingPauseTimer) {
+        clearTimeout(this.typingPauseTimer);
+        this.typingPauseTimer = null;
+      }
+      if (this.typingRefreshTimer) {
+        clearTimeout(this.typingRefreshTimer);
+        this.typingRefreshTimer = null;
+      }
+    },
+
+    sendTypingMessage(isTyping) {
+      const groupId = !this.isPrivate() ? this.id : null;
+      const recipientId = this.isPrivate() ? this.id : null;
+
+      const sendOptions = this.getSendOptions();
+      this.wrapSend(
+        textsecure.messaging.sendTypingMessage(
+          {
+            groupId,
+            isTyping,
+            recipientId,
+          },
+          sendOptions
+        )
+      );
+    },
+
+    async cleanup() {
+      await window.Signal.Types.Conversation.deleteExternalFiles(
+        this.attributes,
+        {
+          deleteAttachmentData,
+        }
+      );
+      profileImages.removeImage(this.id);
+    },
+
+    async updateProfileAvatar() {
+      const path = profileImages.getOrCreateImagePath(this.id);
+      await this.setProfileAvatar(path);
     },
 
     async updateAndMerge(message) {
@@ -166,15 +299,18 @@
       this.updateLastMessage();
 
       const removeMessage = () => {
-        const existing = this.messageCollection.get(message.id);
+        const { id } = message;
+        const existing = this.messageCollection.get(id);
         if (!existing) {
           return;
         }
 
         window.log.info('Remove expired message from collection', {
-          sentAt: message.get('sent_at'),
+          sentAt: existing.get('sent_at'),
         });
-        this.messageCollection.remove(message.id);
+
+        this.messageCollection.remove(id);
+        existing.trigger('expired');
       };
 
       // If a fetch is in progress, then we need to wait until that's complete to
@@ -185,17 +321,44 @@
       removeMessage();
     },
 
-    addSingleMessage(message) {
-      const model = this.messageCollection.add(message, { merge: true });
-      model.setToExpire();
-      return model;
+    // Get messages with the given timestamp
+    _getMessagesWithTimestamp(pubKey, timestamp) {
+      if (this.id !== pubKey) return [];
+
+      // Go through our messages and find the one that we need to update
+      return this.messageCollection.models.filter(
+        m => m.get('sent_at') === timestamp
+      );
     },
 
+    async onCalculatingPoW(pubKey, timestamp) {
+      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
+      await Promise.all(messages.map(m => m.setCalculatingPoW()));
+    },
+
+    async onP2pMessageSent(pubKey, timestamp) {
+      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
+      await Promise.all(messages.map(m => m.setIsP2p(true)));
+    },
+
+    async onNewMessage(message) {
+      await this.updateLastMessage();
+
+      // Clear typing indicator for a given contact if we receive a message from them
+      const identifier = message.get
+        ? `${message.get('source')}.${message.get('sourceDevice')}`
+        : `${message.source}.${message.sourceDevice}`;
+      this.clearContactTypingTimer(identifier);
+    },
+
+    addSingleMessage(message, setToExpire = true) {
+      const model = this.messageCollection.add(message, { merge: true });
+      if (setToExpire) model.setToExpire();
+      return model;
+    },
     format() {
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
-
-      const avatar = this.getAvatar();
       const color = this.getColor();
 
       return {
@@ -203,26 +366,67 @@
           ourRegionCode: regionCode,
         }),
         color,
-        avatarPath: avatar ? avatar.url : null,
+        avatarPath: this.getAvatarPath(),
         name: this.getName(),
         profileName: this.getProfileName(),
         title: this.getTitle(),
       };
     },
+    // This goes through all our message history and finds a friend request
+    async getFriendRequests(direction = null, status = ['pending']) {
+      // Theoretically all our messages could be friend requests,
+      // thus we have to unfortunately go through each one :(
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        {
+          type: 'friend-request',
+          MessageCollection: Whisper.MessageCollection,
+        }
+      );
+      if (typeof status === 'string') {
+        // eslint-disable-next-line no-param-reassign
+        status = [status];
+      }
+      // Get the pending friend requests that match the direction
+      // If no direction is supplied then return all pending friend requests
+      return messages.models.filter(m => {
+        if (!status.includes(m.get('friendStatus'))) return false;
+        return direction === null || m.get('direction') === direction;
+      });
+    },
+    async getPendingFriendRequests(direction = null) {
+      return this.getFriendRequests(direction, ['pending']);
+    },
     getPropsForListItem() {
+      const typingKeys = Object.keys(this.contactTypingTimers || {});
+
       const result = {
         ...this.format(),
+        conversationType: this.isPrivate() ? 'direct' : 'group',
 
         lastUpdated: this.get('timestamp'),
         unreadCount: this.get('unreadCount') || 0,
         isSelected: this.isSelected,
+        showFriendRequestIndicator: this.isPendingFriendRequest(),
+        isBlocked: this.isBlocked(),
 
+        isTyping: typingKeys.length > 0,
         lastMessage: {
           status: this.lastMessageStatus,
           text: this.lastMessage,
         },
+        isOnline: this.isOnline(),
+        isMe: this.isMe(),
+        hasNickname: !!this.getNickname(),
 
         onClick: () => this.trigger('select', this),
+        onBlockContact: () => this.block(),
+        onUnblockContact: () => this.unblock(),
+        onChangeNickname: () => this.changeNickname(),
+        onClearNickname: () => this.setNickname(null),
+        onCopyPublicKey: () => this.copyPublicKey(),
+        onDeleteContact: () => this.deleteContact(),
+        onDeleteMessages: () => this.deleteMessages(),
       };
 
       return result;
@@ -237,30 +441,31 @@
         () => textsecure.storage.protocol.VerifiedStatus.DEFAULT
       );
     },
-    updateVerified() {
+    async updateVerified() {
       if (this.isPrivate()) {
-        return Promise.all([this.safeGetVerified(), this.initialPromise]).then(
-          results => {
-            const trust = results[0];
-            // we don't return here because we don't need to wait for this to finish
-            this.save({ verified: trust });
-          }
-        );
-      }
-      const promise = this.fetchContacts();
+        await this.initialPromise;
+        const verified = await this.safeGetVerified();
 
-      return promise
-        .then(() =>
-          Promise.all(
-            this.contactCollection.map(contact => {
-              if (!contact.isMe()) {
-                return contact.updateVerified();
-              }
-              return Promise.resolve();
-            })
-          )
-        )
-        .then(this.onMemberVerifiedChange.bind(this));
+        this.set({ verified });
+
+        // we don't await here because we don't need to wait for this to finish
+        window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+
+        return;
+      }
+
+      await this.fetchContacts();
+      await Promise.all(
+        this.contactCollection.map(async contact => {
+          if (!contact.isMe()) {
+            await contact.updateVerified();
+          }
+        })
+      );
+
+      this.onMemberVerifiedChange();
     },
     setVerifiedDefault(options) {
       const { DEFAULT } = this.verifiedEnum;
@@ -274,7 +479,7 @@
       const { UNVERIFIED } = this.verifiedEnum;
       return this.queueJob(() => this._setVerified(UNVERIFIED, options));
     },
-    _setVerified(verified, providedOptions) {
+    async _setVerified(verified, providedOptions) {
       const options = providedOptions || {};
       _.defaults(options, {
         viaSyncMessage: false,
@@ -292,92 +497,65 @@
       }
 
       const beginningVerified = this.get('verified');
-      let promise;
+      let keyChange;
       if (options.viaSyncMessage) {
         // handle the incoming key from the sync messages - need different
         // behavior if that key doesn't match the current key
-        promise = textsecure.storage.protocol.processVerifiedMessage(
+        keyChange = await textsecure.storage.protocol.processVerifiedMessage(
           this.id,
           verified,
           options.key
         );
       } else {
-        promise = textsecure.storage.protocol.setVerified(this.id, verified);
+        keyChange = await textsecure.storage.protocol.setVerified(
+          this.id,
+          verified
+        );
       }
 
-      let keychange;
-      return promise
-        .then(updatedKey => {
-          keychange = updatedKey;
-          return new Promise(resolve =>
-            this.save({ verified }).always(resolve)
-          );
-        })
-        .then(() => {
-          // Three situations result in a verification notice in the conversation:
-          //   1) The message came from an explicit verification in another client (not
-          //      a contact sync)
-          //   2) The verification value received by the contact sync is different
-          //      from what we have on record (and it's not a transition to UNVERIFIED)
-          //   3) Our local verification status is VERIFIED and it hasn't changed,
-          //      but the key did change (Key1/VERIFIED to Key2/VERIFIED - but we don't
-          //      want to show DEFAULT->DEFAULT or UNVERIFIED->UNVERIFIED)
-          if (
-            !options.viaContactSync ||
-            (beginningVerified !== verified && verified !== UNVERIFIED) ||
-            (keychange && verified === VERIFIED)
-          ) {
-            this.addVerifiedChange(this.id, verified === VERIFIED, {
-              local: !options.viaSyncMessage,
-            });
-          }
-          if (!options.viaSyncMessage) {
-            return this.sendVerifySyncMessage(this.id, verified);
-          }
-          return Promise.resolve();
+      this.set({ verified });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+
+      // Three situations result in a verification notice in the conversation:
+      //   1) The message came from an explicit verification in another client (not
+      //      a contact sync)
+      //   2) The verification value received by the contact sync is different
+      //      from what we have on record (and it's not a transition to UNVERIFIED)
+      //   3) Our local verification status is VERIFIED and it hasn't changed,
+      //      but the key did change (Key1/VERIFIED to Key2/VERIFIED - but we don't
+      //      want to show DEFAULT->DEFAULT or UNVERIFIED->UNVERIFIED)
+      if (
+        !options.viaContactSync ||
+        (beginningVerified !== verified && verified !== UNVERIFIED) ||
+        (keyChange && verified === VERIFIED)
+      ) {
+        await this.addVerifiedChange(this.id, verified === VERIFIED, {
+          local: !options.viaSyncMessage,
         });
+      }
+      if (!options.viaSyncMessage) {
+        await this.sendVerifySyncMessage(this.id, verified);
+      }
     },
     sendVerifySyncMessage(number, state) {
+      // Because syncVerification sends a (null) message to the target of the verify and
+      //   a sync message to our own devices, we need to send the accessKeys down for both
+      //   contacts. So we merge their sendOptions.
+      const { sendOptions } = ConversationController.prepareForSend(
+        this.ourNumber,
+        { syncMessage: true }
+      );
+      const contactSendOptions = this.getSendOptions();
+      const options = Object.assign({}, sendOptions, contactSendOptions);
+
       const promise = textsecure.storage.protocol.loadIdentityKey(number);
       return promise.then(key =>
-        textsecure.messaging.syncVerification(number, state, key)
-      );
-    },
-    getIdentityKeys() {
-      const lookup = {};
-
-      if (this.isPrivate()) {
-        return textsecure.storage.protocol
-          .loadIdentityKey(this.id)
-          .then(key => {
-            lookup[this.id] = key;
-            return lookup;
-          })
-          .catch(error => {
-            window.log.error(
-              'getIdentityKeys error for conversation',
-              this.idForLogging(),
-              error && error.stack ? error.stack : error
-            );
-            return lookup;
-          });
-      }
-      const promises = this.contactCollection.map(contact =>
-        textsecure.storage.protocol.loadIdentityKey(contact.id).then(
-          key => {
-            lookup[contact.id] = key;
-          },
-          error => {
-            window.log.error(
-              'getIdentityKeys error for group member',
-              contact.idForLogging(),
-              error && error.stack ? error.stack : error
-            );
-          }
+        this.wrapSend(
+          textsecure.messaging.syncVerification(number, state, key, options)
         )
       );
-
-      return Promise.all(promises).then(() => lookup);
     },
     isVerified() {
       if (this.isPrivate()) {
@@ -393,6 +571,200 @@
         }
         return contact.isVerified();
       });
+    },
+    isFriendRequestStatusNone() {
+      return this.get('friendRequestStatus') === FriendRequestStatusEnum.none;
+    },
+    isPendingFriendRequest() {
+      const status = this.get('friendRequestStatus');
+      return (
+        status === FriendRequestStatusEnum.requestSent ||
+        status === FriendRequestStatusEnum.requestReceived ||
+        status === FriendRequestStatusEnum.pendingSend
+      );
+    },
+    hasSentFriendRequest() {
+      const status = this.get('friendRequestStatus');
+      return (
+        status === FriendRequestStatusEnum.requestSent ||
+        status === FriendRequestStatusEnum.requestExpired
+      );
+    },
+    hasReceivedFriendRequest() {
+      return (
+        this.get('friendRequestStatus') ===
+        FriendRequestStatusEnum.requestReceived
+      );
+    },
+    isFriend() {
+      return (
+        this.get('friendRequestStatus') === FriendRequestStatusEnum.friends
+      );
+    },
+    updateTextInputState() {
+      switch (this.get('friendRequestStatus')) {
+        case FriendRequestStatusEnum.none:
+        case FriendRequestStatusEnum.requestExpired:
+          this.trigger('disable:input', false);
+          this.trigger('change:placeholder', 'friend-request');
+          return;
+        case FriendRequestStatusEnum.pendingSend:
+        case FriendRequestStatusEnum.requestReceived:
+        case FriendRequestStatusEnum.requestSent:
+          this.trigger('disable:input', true);
+          this.trigger('change:placeholder', 'disabled');
+          return;
+        case FriendRequestStatusEnum.friends:
+          this.trigger('disable:input', false);
+          this.trigger('change:placeholder', 'chat');
+          return;
+        default:
+          throw new Error('Invalid friend request state');
+      }
+    },
+    async setFriendRequestStatus(newStatus) {
+      // Ensure that the new status is a valid FriendStatusEnum value
+      if (!(newStatus in Object.values(FriendRequestStatusEnum))) return;
+      if (this.get('friendRequestStatus') !== newStatus) {
+        this.set({ friendRequestStatus: newStatus });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+        this.updateTextInputState();
+      }
+    },
+    async respondToAllFriendRequests(options) {
+      const { response, status, direction = null } = options;
+      // Ignore if no response supplied
+      if (!response) return;
+      const pending = await this.getFriendRequests(direction, status);
+      await Promise.all(
+        pending.map(async request => {
+          if (request.hasErrors()) return;
+
+          request.set({ friendStatus: response });
+          await window.Signal.Data.saveMessage(request.attributes, {
+            Message: Whisper.Message,
+          });
+          this.trigger('updateMessage', request);
+        })
+      );
+    },
+    async respondToAllPendingFriendRequests(options) {
+      return this.respondToAllFriendRequests({
+        ...options,
+        status: 'pending',
+      });
+    },
+    async resetPendingSend() {
+      if (
+        this.get('friendRequestStatus') === FriendRequestStatusEnum.pendingSend
+      ) {
+        await this.setFriendRequestStatus(FriendRequestStatusEnum.none);
+      }
+    },
+    // We have declined an incoming friend request
+    async onDeclineFriendRequest() {
+      this.setFriendRequestStatus(FriendRequestStatusEnum.none);
+      await this.respondToAllPendingFriendRequests({
+        response: 'declined',
+        direction: 'incoming',
+      });
+      await window.libloki.storage.removeContactPreKeyBundle(this.id);
+    },
+    // We have accepted an incoming friend request
+    async onAcceptFriendRequest() {
+      if (this.unlockTimer) clearTimeout(this.unlockTimer);
+      if (this.hasReceivedFriendRequest()) {
+        this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
+        await this.respondToAllFriendRequests({
+          response: 'accepted',
+          direction: 'incoming',
+          status: ['pending', 'expired'],
+        });
+        window.libloki.api.sendFriendRequestAccepted(this.id);
+      }
+    },
+    // Our outgoing friend request has been accepted
+    async onFriendRequestAccepted() {
+      if (this.unlockTimer) clearTimeout(this.unlockTimer);
+      if (this.hasSentFriendRequest()) {
+        this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
+        await this.respondToAllFriendRequests({
+          response: 'accepted',
+          status: ['pending', 'expired'],
+        });
+        window.libloki.api.sendOnlineBroadcastMessage(this.id);
+        return true;
+      }
+      return false;
+    },
+    async onFriendRequestTimeout() {
+      // Unset the timer
+      if (this.unlockTimer) clearTimeout(this.unlockTimer);
+      this.unlockTimer = null;
+      if (this.isFriend()) return;
+
+      // Set the unlock timestamp to null
+      if (this.get('unlockTimestamp')) {
+        this.set({ unlockTimestamp: null });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+
+      // Change any pending outgoing friend requests to expired
+      await this.respondToAllPendingFriendRequests({
+        response: 'expired',
+        direction: 'outgoing',
+      });
+      await this.setFriendRequestStatus(FriendRequestStatusEnum.requestExpired);
+    },
+    async onFriendRequestReceived() {
+      if (this.isFriendRequestStatusNone()) {
+        this.setFriendRequestStatus(FriendRequestStatusEnum.requestReceived);
+      } else if (this.hasSentFriendRequest()) {
+        await Promise.all([
+          this.setFriendRequestStatus(FriendRequestStatusEnum.friends),
+          // Accept all outgoing FR
+          this.respondToAllPendingFriendRequests({
+            direction: 'outgoing',
+            response: 'accepted',
+          }),
+        ]);
+      }
+      // Delete stale incoming friend requests
+      const incoming = await this.getPendingFriendRequests('incoming');
+      await Promise.all(
+        incoming.map(request => this._removeMessage(request.id))
+      );
+      this.trigger('change');
+    },
+    async onFriendRequestSent() {
+      // Check if we need to set the friend request expiry
+      const unlockTimestamp = this.get('unlockTimestamp');
+      if (!this.isFriend() && !unlockTimestamp) {
+        // Expire the messages after 72 hours
+        const hourLockDuration = 72;
+        const ms = 60 * 60 * 1000 * hourLockDuration;
+
+        this.set({ unlockTimestamp: Date.now() + ms });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+        this.setFriendRequestExpiryTimeout();
+      }
+      await this.setFriendRequestStatus(FriendRequestStatusEnum.requestSent);
+    },
+    setFriendRequestExpiryTimeout() {
+      if (this.isFriend()) return;
+      const unlockTimestamp = this.get('unlockTimestamp');
+      if (unlockTimestamp && !this.unlockTimer) {
+        const delta = Math.max(unlockTimestamp - Date.now(), 0);
+        this.unlockTimer = setTimeout(() => {
+          this.onFriendRequestTimeout();
+        }, delta);
+      }
     },
     isUnverified() {
       if (this.isPrivate()) {
@@ -535,6 +907,15 @@
         })
       );
     },
+    // Remove the message locally from our conversation
+    async _removeMessage(id) {
+      await window.Signal.Data.removeMessage(id, { Message: Whisper.Message });
+      const existing = this.messageCollection.get(id);
+      if (existing) {
+        this.messageCollection.remove(id);
+        existing.trigger('destroy');
+      }
+    },
     async addVerifiedChange(verifiedChangeId, verified, providedOptions) {
       const options = providedOptions || {};
       _.defaults(options, { local: true });
@@ -580,9 +961,9 @@
       );
 
       if (this.isPrivate()) {
-        ConversationController.getAllGroupsInvolvingId(id).then(groups => {
+        ConversationController.getAllGroupsInvolvingId(this.id).then(groups => {
           _.forEach(groups, group => {
-            group.addVerifiedChange(id, verified, options);
+            group.addVerifiedChange(this.id, verified, options);
           });
         });
       }
@@ -638,47 +1019,24 @@
         return error;
       }
 
-      this.updateTokens();
-
       return null;
     },
 
     validateNumber() {
-      if (this.isPrivate()) {
-        const regionCode = storage.get('regionCode');
-        const number = libphonenumber.util.parseNumber(this.id, regionCode);
-        if (number.isValidNumber) {
-          this.set({ id: number.e164 });
-          return null;
-        }
+      if (!this.id) return 'Invalid ID';
+      if (!this.isPrivate()) return null;
 
-        return number.error || 'Invalid phone number';
-      }
+      // Check if it's hex
+      const isHex = this.id.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
+      if (!isHex) return 'Invalid Hex ID';
 
+      // Check if the pubkey length is 33 and leading with 05 or of length 32
+      const len = this.id.length;
+      if ((len !== 33 * 2 || !/^05/.test(this.id)) && len !== 32 * 2)
+        return 'Invalid Pubkey Format';
+
+      this.set({ id: this.id });
       return null;
-    },
-
-    updateTokens() {
-      let tokens = [];
-      const name = this.get('name');
-      if (typeof name === 'string') {
-        tokens.push(name.toLowerCase());
-        tokens = tokens.concat(
-          name
-            .trim()
-            .toLowerCase()
-            .split(/[\s\-_()+]+/)
-        );
-      }
-      if (this.isPrivate()) {
-        const regionCode = storage.get('regionCode');
-        const number = libphonenumber.util.parseNumber(this.id, regionCode);
-        tokens.push(
-          number.nationalNumber,
-          number.countryCode + number.nationalNumber
-        );
-      }
-      this.set({ tokens });
     },
 
     queueJob(callback) {
@@ -701,6 +1059,15 @@
       return current;
     },
 
+    queueMessageSend(callback) {
+      const taskWithTimeout = textsecure.createTaskWithTimeout(
+        callback,
+        `conversation ${this.idForLogging()}`
+      );
+
+      return this.messageSendQueue.add(taskWithTimeout);
+    },
+
     getRecipients() {
       if (this.isPrivate()) {
         return [this.id];
@@ -713,6 +1080,7 @@
       const { getName } = Contact;
       const contact = quotedMessage.getContact();
       const attachments = quotedMessage.get('attachments');
+      const preview = quotedMessage.get('preview');
 
       const body = quotedMessage.get('body');
       const embeddedContact = quotedMessage.get('contact');
@@ -721,32 +1089,52 @@
           ? getName(embeddedContact[0])
           : '';
 
+      const media =
+        attachments && attachments.length ? attachments : preview || [];
+
       return {
         author: contact.id,
         id: quotedMessage.get('sent_at'),
         text: body || embeddedContactName,
         attachments: await Promise.all(
-          (attachments || []).map(async attachment => {
-            const { contentType, fileName, thumbnail } = attachment;
+          media
+            .filter(
+              attachment =>
+                attachment &&
+                (attachment.image || (!attachment.pending && !attachment.error))
+            )
+            .slice(0, 1)
+            .map(async attachment => {
+              const { fileName } = attachment;
 
-            return {
-              contentType,
-              // Our protos library complains about this field being undefined, so we
-              //   force it to null
-              fileName: fileName || null,
-              thumbnail: thumbnail
-                ? {
-                    ...(await loadAttachmentData(thumbnail)),
-                    objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
-                  }
-                : null,
-            };
-          })
+              const thumbnail = attachment.thumbnail || attachment.image;
+              const contentType =
+                attachment.contentType ||
+                (attachment.image && attachment.image.contentType);
+
+              return {
+                contentType,
+                // Our protos library complains about this field being undefined, so we
+                //   force it to null
+                fileName: fileName || null,
+                thumbnail: thumbnail
+                  ? {
+                      ...(await loadAttachmentData(thumbnail)),
+                      objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
+                    }
+                  : null,
+              };
+            })
         ),
       };
     },
 
-    sendMessage(body, attachments, quote) {
+    async sendMessage(body, attachments, quote, preview) {
+      // Input should be blocked if there is a pending friend request
+      if (this.isPendingFriendRequest()) return;
+
+      this.clearTypingTimers();
+
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
@@ -766,25 +1154,67 @@
           now
         );
 
-        const messageWithSchema = await upgradeMessageSchema({
-          type: 'outgoing',
-          body,
-          conversationId: destination,
-          quote,
-          attachments,
-          sent_at: now,
-          received_at: now,
-          expireTimer,
-          recipients,
-        });
+        let messageWithSchema = null;
+
+        // If we are a friend then let the user send the message normally
+        if (this.isFriend()) {
+          messageWithSchema = await upgradeMessageSchema({
+            type: 'outgoing',
+            body,
+            conversationId: destination,
+            quote,
+            preview,
+            attachments,
+            sent_at: now,
+            received_at: now,
+            expireTimer,
+            recipients,
+          });
+        } else {
+          // Check if we have sent a friend request
+          const outgoingRequests = await this.getPendingFriendRequests(
+            'outgoing'
+          );
+          if (outgoingRequests.length > 0) {
+            // Check if the requests have errored, if so then remove them
+            // and send the new request if possible
+            let friendRequestSent = false;
+            const promises = [];
+            outgoingRequests.forEach(outgoing => {
+              if (outgoing.hasErrors()) {
+                promises.push(this._removeMessage(outgoing.id));
+              } else {
+                // No errors = we have sent over the friend request
+                friendRequestSent = true;
+              }
+            });
+            await Promise.all(promises);
+
+            // If the requests didn't error then don't add a new friend request
+            // because one of them was sent successfully
+            if (friendRequestSent) return null;
+          }
+          await this.setFriendRequestStatus(
+            FriendRequestStatusEnum.pendingSend
+          );
+
+          // Send the friend request!
+          messageWithSchema = await upgradeMessageSchema({
+            type: 'friend-request',
+            body,
+            conversationId: destination,
+            sent_at: now,
+            received_at: now,
+            expireTimer,
+            recipients,
+            direction: 'outgoing',
+            friendStatus: 'pending',
+          });
+        }
 
         const message = this.addSingleMessage(messageWithSchema);
-        this.save({
-          active_at: now,
-          timestamp: now,
-          lastMessage: message.getNotificationText(),
-          lastMessageStatus: 'sending',
-        });
+        this.lastMessage = message.getNotificationText();
+        this.lastMessageStatus = 'sending';
 
         if (this.isPrivate()) {
           message.set({ destination });
@@ -795,6 +1225,14 @@
         });
         message.set({ id });
 
+        this.set({
+          active_at: now,
+          timestamp: now,
+        });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+
         // We're offline!
         if (!textsecure.messaging) {
           const errors = this.contactCollection.map(contact => {
@@ -804,7 +1242,7 @@
             return error;
           });
           await message.saveErrors(errors);
-          return;
+          return null;
         }
 
         const conversationType = this.get('type');
@@ -824,20 +1262,199 @@
         const attachmentsWithData = await Promise.all(
           messageWithSchema.attachments.map(loadAttachmentData)
         );
-        message.send(
-          sendFunction(
-            destination,
-            body,
-            attachmentsWithData,
-            quote,
-            now,
-            expireTimer,
-            profileKey
-          )
-        );
+
+        const options = this.getSendOptions();
+        options.messageType = message.get('type');
+
+        // Add the message sending on another queue so that our UI doesn't get blocked
+        this.queueMessageSend(async () => {
+          message.send(
+            this.wrapSend(
+              sendFunction(
+                destination,
+                body,
+                attachmentsWithData,
+                quote,
+                preview,
+                now,
+                expireTimer,
+                profileKey,
+                options
+              )
+            )
+          );
+        });
+
+        return true;
       });
     },
+    wrapSend(promise) {
+      return promise.then(
+        async result => {
+          // success
+          if (result) {
+            await this.handleMessageSendResult({
+              ...result,
+              success: true,
+            });
+          }
+          return result;
+        },
+        async result => {
+          // failure
+          if (result) {
+            await this.handleMessageSendResult({
+              ...result,
+              success: false,
+            });
+          }
+          throw result;
+        }
+      );
+    },
 
+    async handleMessageSendResult({
+      failoverNumbers,
+      unidentifiedDeliveries,
+      messageType,
+      success,
+    }) {
+      if (success && messageType === 'friend-request')
+        await this.onFriendRequestSent();
+      await Promise.all(
+        (failoverNumbers || []).map(async number => {
+          const conversation = ConversationController.get(number);
+
+          if (
+            conversation &&
+            conversation.get('sealedSender') !== SEALED_SENDER.DISABLED
+          ) {
+            window.log.info(
+              `Setting sealedSender to DISABLED for conversation ${conversation.idForLogging()}`
+            );
+            conversation.set({
+              sealedSender: SEALED_SENDER.DISABLED,
+            });
+            await window.Signal.Data.updateConversation(
+              conversation.id,
+              conversation.attributes,
+              { Conversation: Whisper.Conversation }
+            );
+          }
+        })
+      );
+
+      await Promise.all(
+        (unidentifiedDeliveries || []).map(async number => {
+          const conversation = ConversationController.get(number);
+
+          if (
+            conversation &&
+            conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN
+          ) {
+            if (conversation.get('accessKey')) {
+              window.log.info(
+                `Setting sealedSender to ENABLED for conversation ${conversation.idForLogging()}`
+              );
+              conversation.set({
+                sealedSender: SEALED_SENDER.ENABLED,
+              });
+            } else {
+              window.log.info(
+                `Setting sealedSender to UNRESTRICTED for conversation ${conversation.idForLogging()}`
+              );
+              conversation.set({
+                sealedSender: SEALED_SENDER.UNRESTRICTED,
+              });
+            }
+            await window.Signal.Data.updateConversation(
+              conversation.id,
+              conversation.attributes,
+              { Conversation: Whisper.Conversation }
+            );
+          }
+        })
+      );
+    },
+
+    getSendOptions(options = {}) {
+      const senderCertificate = storage.get('senderCertificate');
+      const numberInfo = this.getNumberInfo(options);
+
+      return {
+        senderCertificate,
+        numberInfo,
+      };
+    },
+
+    getNumberInfo(options = {}) {
+      const { syncMessage, disableMeCheck } = options;
+
+      if (!this.ourNumber) {
+        return null;
+      }
+
+      // START: this code has an Expiration date of ~2018/11/21
+      // We don't want to enable unidentified delivery for send unless it is
+      //   also enabled for our own account.
+      const me = ConversationController.getOrCreate(this.ourNumber, 'private');
+      if (
+        !disableMeCheck &&
+        me.get('sealedSender') === SEALED_SENDER.DISABLED
+      ) {
+        return null;
+      }
+      // END
+
+      if (!this.isPrivate()) {
+        const infoArray = this.contactCollection.map(conversation =>
+          conversation.getNumberInfo(options)
+        );
+        return Object.assign({}, ...infoArray);
+      }
+
+      const accessKey = this.get('accessKey');
+      const sealedSender = this.get('sealedSender');
+
+      // We never send sync messages as sealed sender
+      if (syncMessage && this.id === this.ourNumber) {
+        return null;
+      }
+
+      // If we've never fetched user's profile, we default to what we have
+      if (sealedSender === SEALED_SENDER.UNKNOWN) {
+        return {
+          [this.id]: {
+            accessKey:
+              accessKey ||
+              window.Signal.Crypto.arrayBufferToBase64(
+                window.Signal.Crypto.getRandomBytes(16)
+              ),
+          },
+        };
+      }
+
+      if (sealedSender === SEALED_SENDER.DISABLED) {
+        return null;
+      }
+
+      return {
+        [this.id]: {
+          accessKey:
+            accessKey && sealedSender === SEALED_SENDER.ENABLED
+              ? accessKey
+              : window.Signal.Crypto.arrayBufferToBase64(
+                  window.Signal.Crypto.getRandomBytes(16)
+                ),
+        },
+      };
+    },
+    async updateSwarmNodes(swarmNodes) {
+      this.set({ swarmNodes });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+    },
     async updateLastMessage() {
       if (!this.id) {
         return;
@@ -867,8 +1484,8 @@
 
       let hasChanged = false;
       const { lastMessage, lastMessageStatus } = lastMessageUpdate;
-      lastMessageUpdate.lastMessage = null;
-      lastMessageUpdate.lastMessageStatus = null;
+      delete lastMessageUpdate.lastMessage;
+      delete lastMessageUpdate.lastMessageStatus;
 
       hasChanged = hasChanged || lastMessage !== this.lastMessage;
       this.lastMessage = lastMessage;
@@ -876,10 +1493,15 @@
       hasChanged = hasChanged || lastMessageStatus !== this.lastMessageStatus;
       this.lastMessageStatus = lastMessageStatus;
 
+      // Because we're no longer using Backbone-integrated saves, we need to manually
+      //   clear the changed fields here so our hasChanged() check below is useful.
+      this.changed = {};
       this.set(lastMessageUpdate);
 
       if (this.hasChanged()) {
-        this.save();
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
       } else if (hasChanged) {
         this.trigger('change');
       }
@@ -903,7 +1525,7 @@
         this.get('expireTimer') === expireTimer ||
         (!expireTimer && !this.get('expireTimer'))
       ) {
-        return Promise.resolve();
+        return null;
       }
 
       window.log.info("Update conversation 'expireTimer'", {
@@ -918,7 +1540,10 @@
       //   to be above the message that initiated that change, hence the subtraction.
       const timestamp = (receivedAt || Date.now()) - 1;
 
-      await wrapDeferred(this.save({ expireTimer }));
+      this.set({ expireTimer });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
 
       const message = this.messageCollection.add({
         // Even though this isn't reflected to the user, we want to place the last seen
@@ -963,41 +1588,113 @@
       if (this.get('profileSharing')) {
         profileKey = storage.get('profileKey');
       }
+
+      const sendOptions = this.getSendOptions();
       const promise = sendFunc(
         this.get('id'),
         this.get('expireTimer'),
         message.get('sent_at'),
-        profileKey
+        profileKey,
+        sendOptions
       );
 
-      await message.send(promise);
+      await message.send(this.wrapSend(promise));
 
       return message;
     },
 
     isSearchable() {
-      return !this.get('left') || !!this.get('lastMessage');
+      return !this.get('left');
+    },
+    async setSessionResetStatus(newStatus) {
+      // Ensure that the new status is a valid SessionResetEnum value
+      if (!(newStatus in Object.values(SessionResetEnum))) return;
+      if (this.get('sessionResetStatus') !== newStatus) {
+        this.set({ sessionResetStatus: newStatus });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+    async onSessionResetInitiated() {
+      await this.setSessionResetStatus(SessionResetEnum.initiated);
+    },
+    async onSessionResetReceived() {
+      await this.setSessionResetStatus(SessionResetEnum.request_received);
+      // send empty message, this will trigger the new session to propagate
+      // to the reset initiator.
+      await window.libloki.api.sendEmptyMessage(this.id);
+    },
+
+    isSessionResetReceived() {
+      return (
+        this.get('sessionResetStatus') === SessionResetEnum.request_received
+      );
+    },
+
+    isSessionResetOngoing() {
+      return this.get('sessionResetStatus') !== SessionResetEnum.none;
+    },
+
+    async createAndStoreEndSessionMessage(attributes) {
+      const now = Date.now();
+      const message = this.messageCollection.add({
+        conversationId: this.id,
+        type: 'outgoing',
+        sent_at: now,
+        received_at: now,
+        destination: this.id,
+        recipients: this.getRecipients(),
+        flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
+        ...attributes,
+      });
+
+      const id = await window.Signal.Data.saveMessage(message.attributes, {
+        Message: Whisper.Message,
+      });
+      message.set({ id });
+      return message;
+    },
+
+    async onNewSessionAdopted() {
+      if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
+        // send empty message to confirm that we have adopted the new session
+        await window.libloki.api.sendEmptyMessage(this.id);
+      }
+      await this.createAndStoreEndSessionMessage({
+        type: 'incoming',
+        endSessionType: 'done',
+      });
+      await this.setSessionResetStatus(SessionResetEnum.none);
     },
 
     async endSession() {
       if (this.isPrivate()) {
-        const now = Date.now();
-        const message = this.messageCollection.add({
-          conversationId: this.id,
-          type: 'outgoing',
-          sent_at: now,
-          received_at: now,
-          destination: this.id,
-          recipients: this.getRecipients(),
-          flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
-        });
-
-        const id = await window.Signal.Data.saveMessage(message.attributes, {
-          Message: Whisper.Message,
-        });
-        message.set({ id });
-
-        message.send(textsecure.messaging.resetSession(this.id, now));
+        // Only create a new message if *we* initiated the session reset.
+        // On the receiver side, the actual message containing the END_SESSION flag
+        // will ensure the "session reset" message will be added to their conversation.
+        if (
+          this.get('sessionResetStatus') !== SessionResetEnum.request_received
+        ) {
+          await this.onSessionResetInitiated();
+          const message = await this.createAndStoreEndSessionMessage({
+            type: 'outgoing',
+            endSessionType: 'ongoing',
+          });
+          const options = this.getSendOptions();
+          await message.send(
+            this.wrapSend(
+              textsecure.messaging.resetSession(
+                this.id,
+                message.get('sent_at'),
+                options
+              )
+            )
+          );
+          if (message.hasErrors()) {
+            await this.setSessionResetStatus(SessionResetEnum.none);
+          }
+        }
       }
     },
 
@@ -1024,12 +1721,16 @@
       });
       message.set({ id });
 
+      const options = this.getSendOptions();
       message.send(
-        textsecure.messaging.updateGroup(
-          this.id,
-          this.get('name'),
-          this.get('avatar'),
-          this.get('members')
+        this.wrapSend(
+          textsecure.messaging.updateGroup(
+            this.id,
+            this.get('name'),
+            this.get('avatar'),
+            this.get('members'),
+            options
+          )
         )
       );
     },
@@ -1037,7 +1738,11 @@
     async leaveGroup() {
       const now = Date.now();
       if (this.get('type') === 'group') {
-        this.save({ left: true });
+        this.set({ left: true });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+
         const message = this.messageCollection.add({
           group_update: { left: 'You' },
           conversationId: this.id,
@@ -1051,11 +1756,14 @@
         });
         message.set({ id });
 
-        message.send(textsecure.messaging.leaveGroup(this.id));
+        const options = this.getSendOptions();
+        message.send(
+          this.wrapSend(textsecure.messaging.leaveGroup(this.id, options))
+        );
       }
     },
 
-    markRead(newestUnreadDate, providedOptions) {
+    async markRead(newestUnreadDate, providedOptions) {
       const options = providedOptions || {};
       _.defaults(options, { sendReadReceipts: true });
 
@@ -1066,15 +1774,13 @@
         })
       );
 
-      return this.getUnread().then(providedUnreadMessages => {
-        let unreadMessages = providedUnreadMessages;
+      let unreadMessages = await this.getUnread();
+      const oldUnread = unreadMessages.filter(
+        message => message.get('received_at') <= newestUnreadDate
+      );
 
-        const promises = [];
-        const oldUnread = unreadMessages.filter(
-          message => message.get('received_at') <= newestUnreadDate
-        );
-
-        let read = _.map(oldUnread, providedM => {
+      let read = await Promise.all(
+        _.map(oldUnread, async providedM => {
           let m = providedM;
 
           if (this.messageCollection.get(m.id)) {
@@ -1085,49 +1791,105 @@
                 'it was not in messageCollection.'
             );
           }
-          promises.push(m.markRead(options.readAt));
+
+          await m.markRead(options.readAt);
           const errors = m.get('errors');
           return {
             sender: m.get('source'),
             timestamp: m.get('sent_at'),
             hasErrors: Boolean(errors && errors.length),
           };
-        });
+        })
+      );
 
-        // Some messages we're marking read are local notifications with no sender
-        read = _.filter(read, m => Boolean(m.sender));
-        unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
+      // Some messages we're marking read are local notifications with no sender
+      read = _.filter(read, m => Boolean(m.sender));
+      unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
 
-        const unreadCount = unreadMessages.length - read.length;
-        const promise = new Promise((resolve, reject) => {
-          this.save({ unreadCount }).then(resolve, reject);
-        });
-        promises.push(promise);
-
-        // If a message has errors, we don't want to send anything out about it.
-        //   read syncs - let's wait for a client that really understands the message
-        //      to mark it read. we'll mark our local error read locally, though.
-        //   read receipts - here we can run into infinite loops, where each time the
-        //      conversation is viewed, another error message shows up for the contact
-        read = read.filter(item => !item.hasErrors);
-
-        if (read.length && options.sendReadReceipts) {
-          window.log.info('Sending', read.length, 'read receipts');
-          promises.push(textsecure.messaging.syncReadMessages(read));
-
-          if (storage.get('read-receipt-setting')) {
-            _.each(_.groupBy(read, 'sender'), (receipts, sender) => {
-              const timestamps = _.map(receipts, 'timestamp');
-              promises.push(
-                textsecure.messaging.sendReadReceipts(sender, timestamps)
-              );
-            });
-          }
-        }
-
-        return Promise.all(promises);
+      const unreadCount = unreadMessages.length - read.length;
+      this.set({ unreadCount });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
       });
+
+      // If a message has errors, we don't want to send anything out about it.
+      //   read syncs - let's wait for a client that really understands the message
+      //      to mark it read. we'll mark our local error read locally, though.
+      //   read receipts - here we can run into infinite loops, where each time the
+      //      conversation is viewed, another error message shows up for the contact
+      read = read.filter(item => !item.hasErrors);
+
+      if (read.length && options.sendReadReceipts) {
+        window.log.info(`Sending ${read.length} read receipts`);
+        // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
+        //   to a contact, we need accessKeys for both.
+        const { sendOptions } = ConversationController.prepareForSend(
+          this.ourNumber,
+          { syncMessage: true }
+        );
+        await this.wrapSend(
+          textsecure.messaging.syncReadMessages(read, sendOptions)
+        );
+
+        if (storage.get('read-receipt-setting')) {
+          const convoSendOptions = this.getSendOptions();
+
+          await Promise.all(
+            _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
+              const timestamps = _.map(receipts, 'timestamp');
+              await this.wrapSend(
+                textsecure.messaging.sendReadReceipts(
+                  sender,
+                  timestamps,
+                  convoSendOptions
+                )
+              );
+            })
+          );
+        }
+      }
     },
+
+    // LOKI PROFILES
+
+    async setNickname(nickname) {
+      const trimmed = nickname && nickname.trim();
+      if (this.get('nickname') === trimmed) return;
+
+      this.set({ nickname: trimmed });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+
+      await this.updateProfile();
+    },
+    async setProfile(profile) {
+      if (!_.isEqual(this.get('profile'), profile)) {
+        this.set({ profile });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+
+      await this.updateProfile();
+    },
+    async updateProfile() {
+      // Prioritise nickname over the profile display name
+      const nickname = this.getNickname();
+      const profile = this.getLocalProfile();
+      const displayName = profile && profile.name && profile.name.displayName;
+
+      const profileName = nickname || displayName || null;
+      await this.setProfileName(profileName);
+    },
+    getLocalProfile() {
+      return this.get('profile');
+    },
+    getNickname() {
+      return this.get('nickname');
+    },
+
+    // SIGNAL PROFILES
 
     onChangeProfileKey() {
       if (this.isPrivate()) {
@@ -1146,128 +1908,71 @@
       return Promise.all(_.map(ids, this.getProfile));
     },
 
-    getProfile(id) {
-      if (!textsecure.messaging) {
-        const message =
-          'Conversation.getProfile: textsecure.messaging not available';
-        return Promise.reject(new Error(message));
-      }
+    // This function is wrongly named by signal
+    // This is basically an `update` function and thus we have overwritten it with such
+    async getProfile(id) {
+      const c = await ConversationController.getOrCreateAndWait(id, 'private');
 
-      return textsecure.messaging
-        .getProfile(id)
-        .then(profile => {
-          const identityKey = dcodeIO.ByteBuffer.wrap(
-            profile.identityKey,
-            'base64'
-          ).toArrayBuffer();
-
-          return textsecure.storage.protocol
-            .saveIdentity(`${id}.1`, identityKey, false)
-            .then(changed => {
-              if (changed) {
-                // save identity will close all sessions except for .1, so we
-                // must close that one manually.
-                const address = new libsignal.SignalProtocolAddress(id, 1);
-                window.log.info('closing session for', address.toString());
-                const sessionCipher = new libsignal.SessionCipher(
-                  textsecure.storage.protocol,
-                  address
-                );
-                return sessionCipher.closeOpenSessionForDevice();
-              }
-              return Promise.resolve();
-            })
-            .then(() => {
-              const c = ConversationController.get(id);
-              return Promise.all([
-                c.setProfileName(profile.name),
-                c.setProfileAvatar(profile.avatar),
-              ]).then(
-                // success
-                () =>
-                  new Promise((resolve, reject) => {
-                    c.save().then(resolve, reject);
-                  }),
-                // fail
-                e => {
-                  if (e.name === 'ProfileDecryptError') {
-                    // probably the profile key has changed.
-                    window.log.error(
-                      'decryptProfile error:',
-                      id,
-                      profile,
-                      e && e.stack ? e.stack : e
-                    );
-                  }
-                }
-              );
-            });
-        })
-        .catch(error => {
-          window.log.error(
-            'getProfile error:',
-            error && error.stack ? error.stack : error
-          );
+      // We only need to update the profile as they are all stored inside the conversation
+      await c.updateProfile();
+    },
+    async setProfileName(name) {
+      const profileName = this.get('profileName');
+      if (profileName !== name) {
+        this.set({ profileName: name });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
         });
-    },
-    setProfileName(encryptedName) {
-      const key = this.get('profileKey');
-      if (!key) {
-        return Promise.resolve();
-      }
-
-      try {
-        // decode
-        const data = dcodeIO.ByteBuffer.wrap(
-          encryptedName,
-          'base64'
-        ).toArrayBuffer();
-
-        // decrypt
-        return textsecure.crypto
-          .decryptProfileName(data, key)
-          .then(decrypted => {
-            // encode
-            const name = dcodeIO.ByteBuffer.wrap(decrypted).toString('utf8');
-
-            // set
-            this.set({ profileName: name });
-          });
-      } catch (e) {
-        return Promise.reject(e);
       }
     },
-    setProfileAvatar(avatarPath) {
-      if (!avatarPath) {
-        return Promise.resolve();
-      }
-
-      return textsecure.messaging.getAvatar(avatarPath).then(avatar => {
-        const key = this.get('profileKey');
-        if (!key) {
-          return Promise.resolve();
-        }
-        // decrypt
-        return textsecure.crypto.decryptProfile(avatar, key).then(decrypted => {
-          // set
-          this.set({
-            profileAvatar: {
-              data: decrypted,
-              contentType: 'image/jpeg',
-              size: decrypted.byteLength,
-            },
-          });
+    async setProfileAvatar(avatarPath) {
+      const profileAvatar = this.get('profileAvatar');
+      if (profileAvatar !== avatarPath) {
+        this.set({ profileAvatar: avatarPath });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
         });
-      });
+      }
     },
-    setProfileKey(key) {
-      return new Promise((resolve, reject) => {
-        if (!constantTimeEqualArrayBuffers(this.get('profileKey'), key)) {
-          this.save({ profileKey: key }).then(resolve, reject);
-        } else {
-          resolve();
-        }
-      });
+    async setProfileKey(profileKey) {
+      // profileKey is a string so we can compare it directly
+      if (this.get('profileKey') !== profileKey) {
+        window.log.info(
+          `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
+        );
+        this.set({
+          profileKey,
+          accessKey: null,
+          sealedSender: SEALED_SENDER.UNKNOWN,
+        });
+
+        await this.deriveAccessKeyIfNeeded();
+
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+
+    async deriveAccessKeyIfNeeded() {
+      const profileKey = this.get('profileKey');
+      if (!profileKey) {
+        return;
+      }
+      if (this.get('accessKey')) {
+        return;
+      }
+
+      const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
+        profileKey
+      );
+      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
+        profileKeyBuffer
+      );
+      const accessKey = window.Signal.Crypto.arrayBufferToBase64(
+        accessKeyBuffer
+      );
+      this.set({ accessKey });
     },
 
     async upgradeMessages(messages) {
@@ -1276,7 +1981,7 @@
         const { attributes } = message;
         const { schemaVersion } = attributes;
 
-        if (schemaVersion < Message.CURRENT_SCHEMA_VERSION) {
+        if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
           // Yep, we really do want to wait for each of these
           // eslint-disable-next-line no-await-in-loop
           const upgradedMessage = await upgradeMessageSchema(attributes);
@@ -1347,6 +2052,35 @@
       });
     },
 
+    copyPublicKey() {
+      clipboard.writeText(this.id);
+      window.Whisper.events.trigger('showToast', {
+        message: i18n('copiedPublicKey'),
+      });
+    },
+
+    changeNickname() {
+      window.Whisper.events.trigger('showNicknameDialog', {
+        pubKey: this.id,
+        nickname: this.getNickname(),
+        onOk: newName => this.setNickname(newName),
+      });
+    },
+
+    deleteContact() {
+      Whisper.events.trigger('showConfirmationDialog', {
+        message: i18n('deleteContactConfirmation'),
+        onOk: () => ConversationController.deleteContact(this.id),
+      });
+    },
+
+    deleteMessages() {
+      Whisper.events.trigger('showConfirmationDialog', {
+        message: i18n('deleteConversationConfirmation'),
+        onOk: () => this.destroyMessages(),
+      });
+    },
+
     async destroyMessages() {
       await window.Signal.Data.removeAllMessagesInConversation(this.id, {
         MessageCollection: Whisper.MessageCollection,
@@ -1354,10 +2088,19 @@
 
       this.messageCollection.reset([]);
 
-      this.save({
+      this.set({
         lastMessage: null,
         timestamp: null,
         active_at: null,
+      });
+
+      // Reset our friend status if we're not friends
+      if (!this.isFriend()) {
+        this.set({ friendRequestStatus: FriendRequestStatusEnum.none });
+      }
+
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
       });
     },
 
@@ -1370,7 +2113,10 @@
 
     getTitle() {
       if (this.isPrivate()) {
-        return this.get('name') || this.getNumber();
+        const profileName = this.getProfileName();
+        const number = this.getNumber();
+        const name = profileName ? `${profileName} (${number})` : number;
+        return this.get('name') || name;
       }
       return this.get('name') || 'Unknown group';
     },
@@ -1404,68 +2150,61 @@
       if (!this.isPrivate()) {
         return '';
       }
-      const number = this.id;
-      try {
-        const parsedNumber = libphonenumber.parse(number);
-        const regionCode = libphonenumber.getRegionCodeForNumber(parsedNumber);
-        if (regionCode === storage.get('regionCode')) {
-          return libphonenumber.format(
-            parsedNumber,
-            libphonenumber.PhoneNumberFormat.NATIONAL
-          );
-        }
-        return libphonenumber.format(
-          parsedNumber,
-          libphonenumber.PhoneNumberFormat.INTERNATIONAL
-        );
-      } catch (e) {
-        return number;
+      return this.id;
+    },
+
+    getInitials(name) {
+      if (!name) {
+        return null;
       }
+
+      const cleaned = name.replace(/[^A-Za-z\s]+/g, '').replace(/\s+/g, ' ');
+      const parts = cleaned.split(' ');
+      const initials = parts.map(part => part.trim()[0]);
+      if (!initials.length) {
+        return null;
+      }
+
+      return initials.slice(0, 2).join('');
     },
 
     isPrivate() {
       return this.get('type') === 'private';
     },
 
-    revokeAvatarUrl() {
-      if (this.avatarUrl) {
-        URL.revokeObjectURL(this.avatarUrl);
-        this.avatarUrl = null;
-      }
-    },
-
-    updateAvatarUrl(silent) {
-      this.revokeAvatarUrl();
-      const avatar = this.get('avatar') || this.get('profileAvatar');
-      if (avatar) {
-        this.avatarUrl = URL.createObjectURL(
-          new Blob([avatar.data], { type: avatar.contentType })
-        );
-      } else {
-        this.avatarUrl = null;
-      }
-      if (!silent) {
-        this.trigger('change');
-      }
-    },
     getColor() {
+      if (!this.isPrivate()) {
+        return 'signal-blue';
+      }
+
       const { migrateColor } = Util;
       return migrateColor(this.get('color'));
     },
-    getAvatar() {
-      if (this.avatarUrl === undefined) {
-        this.updateAvatarUrl(true);
+    getAvatarPath() {
+      const avatar = this.get('avatar') || this.get('profileAvatar');
+
+      if (avatar) {
+        if (avatar.path) return getAbsoluteAttachmentPath(avatar.path);
+        return avatar;
       }
 
+      return null;
+    },
+    getAvatar() {
       const title = this.get('name');
       const color = this.getColor();
+      const avatar = this.get('avatar') || this.get('profileAvatar');
 
-      if (this.avatarUrl) {
-        return { url: this.avatarUrl, color };
+      const url =
+        avatar && avatar.path ? getAbsoluteAttachmentPath(avatar.path) : avatar;
+
+      if (url) {
+        return { url, color };
       } else if (this.isPrivate()) {
+        const symbol = this.isValid() ? '#' : '!';
         return {
           color,
-          content: title ? title.trim()[0] : '#',
+          content: this.getInitials(title) || symbol,
         };
       }
       return { url: 'images/group_default.png', color };
@@ -1483,9 +2222,12 @@
     },
 
     notify(message) {
-      if (!message.isIncoming()) {
-        return Promise.resolve();
+      if (message.isFriendRequest()) {
+        if (this.hasSentFriendRequest())
+          return this.notifyFriendRequest(message.get('source'), 'accepted');
+        return this.notifyFriendRequest(message.get('source'), 'requested');
       }
+      if (!message.isIncoming()) return Promise.resolve();
       const conversationId = this.id;
 
       return ConversationController.getOrCreateAndWait(
@@ -1515,101 +2257,149 @@
         })
       );
     },
-    hashCode() {
-      if (this.hash === undefined) {
-        const string = this.getTitle() || '';
-        if (string.length === 0) {
-          return 0;
-        }
-        let hash = 0;
-        for (let i = 0; i < string.length; i += 1) {
-          // eslint-disable-next-line no-bitwise
-          hash = (hash << 5) - hash + string.charCodeAt(i);
-          // eslint-disable-next-line no-bitwise
-          hash &= hash; // Convert to 32bit integer
-        }
+    // Notification for friend request received
+    async notifyFriendRequest(source, type) {
+      // Data validation
+      if (!source) throw new Error('Invalid source');
+      if (!['accepted', 'requested'].includes(type))
+        throw new Error('Type must be accepted or requested.');
 
-        this.hash = hash;
+      // Call the notification on the right conversation
+      let conversation = this;
+      if (conversation.id !== source) {
+        try {
+          conversation = await ConversationController.getOrCreateAndWait(
+            source,
+            'private'
+          );
+          window.log.info(`Notify called on a different conversation.
+                           Expected: ${this.id}. Actual: ${conversation.id}`);
+        } catch (e) {
+          throw new Error('Failed to fetch conversation.');
+        }
       }
-      return this.hash;
+
+      const isTypeAccepted = type === 'accepted';
+      const title = isTypeAccepted
+        ? 'friendRequestAcceptedNotificationTitle'
+        : 'friendRequestNotificationTitle';
+      const message = isTypeAccepted
+        ? 'friendRequestAcceptedNotificationMessage'
+        : 'friendRequestNotificationMessage';
+
+      const iconUrl = await conversation.getNotificationIcon();
+      window.log.info('Add notification for friend request updated', {
+        conversationId: conversation.idForLogging(),
+      });
+      Whisper.Notifications.add({
+        conversationId: conversation.id,
+        iconUrl,
+        isExpiringMessage: false,
+        message: i18n(message, conversation.getTitle()),
+        messageSentAt: Date.now(),
+        title: i18n(title),
+        isFriendRequest: true,
+        friendRequestType: type,
+      });
+    },
+
+    notifyTyping(options = {}) {
+      const { isTyping, sender, senderDevice } = options;
+
+      // We don't do anything with typing messages from our other devices
+      if (sender === this.ourNumber) {
+        return;
+      }
+
+      const identifier = `${sender}.${senderDevice}`;
+
+      this.contactTypingTimers = this.contactTypingTimers || {};
+      const record = this.contactTypingTimers[identifier];
+
+      if (record) {
+        clearTimeout(record.timer);
+      }
+
+      // Note: We trigger two events because:
+      //   'typing-update' is a surgical update ConversationView does for in-convo bubble
+      //   'change' causes a re-render of this conversation's list item in the left pane
+
+      if (isTyping) {
+        this.contactTypingTimers[identifier] = this.contactTypingTimers[
+          identifier
+        ] || {
+          timestamp: Date.now(),
+          sender,
+          senderDevice,
+        };
+
+        this.contactTypingTimers[identifier].timer = setTimeout(
+          this.clearContactTypingTimer.bind(this, identifier),
+          15 * 1000
+        );
+        if (!record) {
+          // User was not previously typing before. State change!
+          this.trigger('typing-update');
+          this.trigger('change');
+        }
+      } else {
+        delete this.contactTypingTimers[identifier];
+        if (record) {
+          // User was previously typing, and is no longer. State change!
+          this.trigger('typing-update');
+          this.trigger('change');
+        }
+      }
+    },
+
+    clearContactTypingTimer(identifier) {
+      this.contactTypingTimers = this.contactTypingTimers || {};
+      const record = this.contactTypingTimers[identifier];
+
+      if (record) {
+        clearTimeout(record.timer);
+        delete this.contactTypingTimers[identifier];
+
+        // User was previously typing, but timed out or we received message. State change!
+        this.trigger('typing-update');
+        this.trigger('change');
+      }
     },
   });
 
   Whisper.ConversationCollection = Backbone.Collection.extend({
-    database: Whisper.Database,
-    storeName: 'conversations',
     model: Whisper.Conversation,
 
     comparator(m) {
       return -m.get('timestamp');
     },
 
-    destroyAll() {
-      return Promise.all(
-        this.models.map(conversation => wrapDeferred(conversation.destroy()))
+    async destroyAll() {
+      await Promise.all(
+        this.models.map(conversation =>
+          window.Signal.Data.removeConversation(conversation.id, {
+            Conversation: Whisper.Conversation,
+          })
+        )
       );
+      this.reset([]);
     },
 
-    search(providedQuery) {
+    async search(providedQuery) {
       let query = providedQuery.trim().toLowerCase();
-      if (query.length > 0) {
-        query = query.replace(/[-.()]*/g, '').replace(/^\+(\d*)$/, '$1');
-        const lastCharCode = query.charCodeAt(query.length - 1);
-        const nextChar = String.fromCharCode(lastCharCode + 1);
-        const upper = query.slice(0, -1) + nextChar;
-        return new Promise(resolve => {
-          this.fetch({
-            index: {
-              name: 'search', // 'search' index on tokens array
-              lower: query,
-              upper,
-              excludeUpper: true,
-            },
-          }).always(resolve);
-        });
+      query = query.replace(/[+-.()]*/g, '');
+
+      if (query.length === 0) {
+        return;
       }
-      return Promise.resolve();
-    },
 
-    fetchAlphabetical() {
-      return new Promise(resolve => {
-        this.fetch({
-          index: {
-            name: 'search', // 'search' index on tokens array
-          },
-          limit: 100,
-        }).always(resolve);
+      const collection = await window.Signal.Data.searchConversations(query, {
+        ConversationCollection: Whisper.ConversationCollection,
       });
-    },
 
-    fetchGroups(number) {
-      return new Promise(resolve => {
-        this.fetch({
-          index: {
-            name: 'group',
-            only: number,
-          },
-        }).always(resolve);
-      });
+      this.reset(collection.models);
     },
   });
 
   Whisper.Conversation.COLORS = COLORS.concat(['grey', 'default']).join(' ');
-
-  // Special collection for fetching all the groups a certain number appears in
-  Whisper.GroupCollection = Backbone.Collection.extend({
-    database: Whisper.Database,
-    storeName: 'conversations',
-    model: Whisper.Conversation,
-    fetchGroups(number) {
-      return new Promise(resolve => {
-        this.fetch({
-          index: {
-            name: 'group',
-            only: number,
-          },
-        }).always(resolve);
-      });
-    },
-  });
 })();

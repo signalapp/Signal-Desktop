@@ -28,14 +28,17 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -45,15 +48,18 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -80,17 +86,24 @@ const contact = {
   },
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li><Message
+<util.ConversationContext theme={util.theme}  ios={util.ios}>
+  <li>
+    <Message
     authorColor="green"
     direction="incoming"
     i18n={util.i18n}
-    contact={contact}/></li>
-  <li><Message
+    timestamp={Date.now()}
+    contact={contact}/>
+  </li>
+  <li>
+  <Message
+    authorColor="green"
     direction="outgoing"
     status="delivered"
     i18n={util.i18n}
-    contact={contact}/></li>
+    timestamp={Date.now()}
+    contact={contact}/>
+  </li>
 </util.ConversationContext>;
 ```
 
@@ -114,7 +127,7 @@ const contact = {
   },
   hasSignalAccount: true,
 };
-<util.ConversationContext theme={util.theme} ios={util.ios} type="group">
+<util.ConversationContext theme={util.theme} type="group" ios={util.ios}>
   <li>
     <Message
       authorColor="green"
@@ -123,6 +136,7 @@ const contact = {
       authorAvatarPath={util.gifObjectUrl}
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -134,16 +148,19 @@ const contact = {
       conversationType="group"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       conversationType="group"
       authorName="Mr. Fire"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -176,14 +193,17 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -193,15 +213,18 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -232,14 +255,17 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -249,15 +275,18 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -290,14 +319,17 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -307,15 +339,18 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -343,14 +378,17 @@ const contact = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -360,15 +398,18 @@ const contact = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -385,14 +426,17 @@ const contact = {};
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -402,15 +446,18 @@ const contact = {};
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
   <li>
     <Message
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contact}
     />
   </li>
@@ -461,15 +508,18 @@ const contactWithoutAccount = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithAccount}
     />
   </li>
   <li>
     <Message
       text="I want to introduce you to Someone..."
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithAccount}
     />
   </li>
@@ -479,15 +529,18 @@ const contactWithoutAccount = {
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithAccount}
     />
   </li>
   <li>
     <Message
       text="I want to introduce you to Someone..."
+      authorColor="green"
       direction="outgoing"
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithAccount}
     />
   </li>
@@ -498,16 +551,19 @@ const contactWithoutAccount = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
   </li>
   <li>
     <Message
       text="I want to introduce you to Someone..."
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
   </li>
@@ -518,16 +574,19 @@ const contactWithoutAccount = {
       direction="incoming"
       collapseMetadata
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
   </li>
   <li>
     <Message
       text="I want to introduce you to Someone..."
+      authorColor="green"
       direction="outgoing"
       collapseMetadata
       status="delivered"
       i18n={util.i18n}
+      timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
   </li>

@@ -8,7 +8,6 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
-  const { Database } = window.Whisper;
   const { Logs } = window.Signal;
 
   const CLEAR_DATA_STEPS = {
@@ -22,8 +21,9 @@
       'click .cancel': 'onCancel',
       'click .delete-all-data': 'onDeleteAllData',
     },
-    initialize() {
+    initialize(onClear = null) {
       this.step = CLEAR_DATA_STEPS.CHOICE;
+      this.onClear = onClear;
     },
     onCancel() {
       this.remove();
@@ -33,35 +33,28 @@
       this.step = CLEAR_DATA_STEPS.DELETING;
       this.render();
 
-      try {
-        await Database.close();
-        window.log.info('All database connections closed. Starting delete.');
-      } catch (error) {
-        window.log.error(
-          'Something went wrong closing all database connections.'
-        );
-      }
-
-      this.clearAllData();
+      await this.clearAllData();
     },
     async clearAllData() {
-      try {
-        await Promise.all([
-          Logs.deleteAll(),
-          Database.drop(),
-          window.Signal.Data.removeAll(),
-          window.Signal.Data.removeOtherData(),
-        ]);
+      if (this.onClear) {
+        this.onClear();
+      } else {
+        try {
+          await Logs.deleteAll();
 
-        await window.Signal.Data.close();
-        await window.Signal.Data.removeDB();
-      } catch (error) {
-        window.log.error(
-          'Something went wrong deleting all data:',
-          error && error.stack ? error.stack : error
-        );
+          await window.Signal.Data.removeAll();
+          await window.Signal.Data.close();
+          await window.Signal.Data.removeDB();
+
+          await window.Signal.Data.removeOtherData();
+        } catch (error) {
+          window.log.error(
+            'Something went wrong deleting all data:',
+            error && error.stack ? error.stack : error
+          );
+        }
+        window.restart();
       }
-      window.restart();
     },
     render_attributes() {
       return {

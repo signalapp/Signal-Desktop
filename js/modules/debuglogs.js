@@ -6,7 +6,7 @@ const got = require('got');
 
 const BASE_URL = 'https://debuglogs.org';
 const VERSION = window.getVersion();
-const USER_AGENT = `Signal Desktop ${VERSION}`;
+const USER_AGENT = `Loki Messenger ${VERSION}`;
 
 // Workaround: Submitting `FormData` using native `FormData::submit` procedure
 // as integration with `got` results in S3 error saying we haven’t set the
@@ -57,7 +57,7 @@ exports.upload = async content => {
   form.append('Content-Type', contentType);
   form.append('file', contentBuffer, {
     contentType,
-    filename: `signal-desktop-debug-log-${VERSION}.txt`,
+    filename: `loki-messenger-debug-log-${VERSION}.txt`,
   });
 
   // WORKAROUND: See comment on `submitFormData`:

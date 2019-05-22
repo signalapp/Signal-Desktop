@@ -103,12 +103,10 @@
       }
     },
     openStandalone() {
-      if (window.getEnvironment() !== 'production') {
-        window.addSetupMenuItems();
-        this.resetViews();
-        this.standaloneView = new Whisper.StandaloneRegistrationView();
-        this.openView(this.standaloneView);
-      }
+      window.addSetupMenuItems();
+      this.resetViews();
+      this.standaloneView = new Whisper.StandaloneRegistrationView();
+      this.openView(this.standaloneView);
     },
     closeStandalone() {
       if (this.standaloneView) {
@@ -177,6 +175,26 @@
           this.inboxView.openConversation(conversation);
         });
       }
+    },
+    showNicknameDialog({ pubKey, title, message, nickname, onOk, onCancel }) {
+      const _title = title || `Change nickname for ${pubKey}`;
+      const dialog = new Whisper.NicknameDialogView({
+        title: _title,
+        message,
+        name: nickname,
+        resolve: onOk,
+        reject: onCancel,
+      });
+      this.el.append(dialog.el);
+      dialog.focusInput();
+    },
+    showPasswordDialog({ type, resolve, reject }) {
+      const dialog = Whisper.getPasswordDialogView(type, resolve, reject);
+      this.el.append(dialog.el);
+    },
+    showSeedDialog(seed) {
+      const dialog = new Whisper.SeedDialogView({ seed });
+      this.el.append(dialog.el);
     },
   });
 })();

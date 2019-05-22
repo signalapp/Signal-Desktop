@@ -71,12 +71,12 @@ export class GroupNotification extends React.Component<Props> {
           />
         );
       case 'remove':
-        if (!contacts || !contacts.length) {
-          throw new Error('Group update is missing contacts');
-        }
-
         if (isMe) {
           return i18n('youLeftTheGroup');
+        }
+
+        if (!contacts || !contacts.length) {
+          throw new Error('Group update is missing contacts');
         }
 
         return (

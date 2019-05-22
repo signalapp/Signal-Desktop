@@ -1,22 +1,44 @@
 language: node_js
+cache:
+  yarn: true
+  directories:
+    - node_modules
 node_js:
-  - '8.9.3'
-os:
-  - linux
-dist: trusty
+  - '10.13.0'
 install:
-  - yarn install --frozen-lockfile
+  - travis_wait 30 yarn install --frozen-lockfile --network-timeout 1000000
 script:
   - yarn generate
-  - yarn lint
-  - yarn test-node
-  - yarn nsp check
-  - yarn prepare-beta-build
-  - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
-  - ./travis.sh
+  - yarn lint-windows
+  - yarn test
 env:
   global:
     - SIGNAL_ENV: production
 sudo: false
 notifications:
   email: false
+
+matrix:
+  include:
+    - name: 'Linux'
+      os: linux
+      dist: trusty
+      before_install:
+        - sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libxss1 libnss3 xvfb hunspell-en-us
+      before_script:
+        - Xvfb -ac -screen scrn 1280x2000x24 :9.0 &
+        - export DISPLAY=:9.0
+        - export LC_ALL=en_US
+    - name: 'OSX'
+      os: osx
+    - name: 'Windows'
+      os: windows
+      cache: false
+      env:
+        - YARN_GPG=no
+      before_install:
+        - cd ../..
+        - mv $TRAVIS_REPO_SLUG _old
+        - git config --global core.autocrlf false
+        - git clone --depth=50 _old $TRAVIS_REPO_SLUG
+        - cd $TRAVIS_REPO_SLUG

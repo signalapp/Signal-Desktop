@@ -127,6 +127,101 @@
   }
   inherit(Error, UnregisteredUserError);
 
+  function EmptySwarmError(number, message) {
+    // eslint-disable-next-line prefer-destructuring
+    this.number = number.split('.')[0];
+
+    ReplayableError.call(this, {
+      name: 'EmptySwarmError',
+      message,
+    });
+  }
+  inherit(ReplayableError, EmptySwarmError);
+
+  function PoWError(number, error) {
+    // eslint-disable-next-line prefer-destructuring
+    this.number = number.split('.')[0];
+
+    ReplayableError.call(this, {
+      name: 'PoWError',
+      message: 'Failed to calculate PoW',
+    });
+
+    if (error) {
+      appendStack(this, error);
+    }
+  }
+  inherit(ReplayableError, PoWError);
+
+  function DNSResolutionError(message) {
+    // eslint-disable-next-line prefer-destructuring
+
+    ReplayableError.call(this, {
+      name: 'DNSResolutionError',
+      message: `Error resolving url: ${message}`,
+    });
+  }
+  inherit(ReplayableError, DNSResolutionError);
+
+  function LokiIpError(message, resolutionError) {
+    this.name = 'LokiIpError';
+    this.message = message;
+    this.error = resolutionError;
+
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+
+    appendStack(this, resolutionError);
+  }
+
+  function NotFoundError(message, error) {
+    this.name = 'NotFoundError';
+    this.message = message;
+    this.error = error;
+
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+
+    appendStack(this, error);
+  }
+
+  function HTTPError(message, response) {
+    this.name = 'HTTPError';
+    this.message = `${response.status} Error: ${message}`;
+    this.response = response;
+
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+  }
+
+  function WrongSwarmError(newSwarm) {
+    this.name = 'WrongSwarmError';
+    this.newSwarm = newSwarm;
+
+    Error.call(this, this.name);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+  }
+
   window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
@@ -135,4 +230,11 @@
   window.textsecure.OutgoingMessageError = OutgoingMessageError;
   window.textsecure.MessageError = MessageError;
   window.textsecure.SignedPreKeyRotationError = SignedPreKeyRotationError;
+  window.textsecure.PoWError = PoWError;
+  window.textsecure.EmptySwarmError = EmptySwarmError;
+  window.textsecure.DNSResolutionError = DNSResolutionError;
+  window.textsecure.LokiIpError = LokiIpError;
+  window.textsecure.HTTPError = HTTPError;
+  window.textsecure.NotFoundError = NotFoundError;
+  window.textsecure.WrongSwarmError = WrongSwarmError;
 })();
